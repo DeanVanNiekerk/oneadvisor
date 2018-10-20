@@ -1,0 +1,11 @@
+{
+    "setupFiles": [
+        "<rootDir>/src/test-setup.js" 
+    ],
+    "moduleNameMapper": {
+        "^ui(.*)$": "<rootDir>/src/ui$1",
+        "^auth(.*)$": "<rootDir>/src/auth$1",
+        "^state(.*)$": "<rootDir>/src/state$1"
+    },
+    "testURL": "http://localhost"
+}

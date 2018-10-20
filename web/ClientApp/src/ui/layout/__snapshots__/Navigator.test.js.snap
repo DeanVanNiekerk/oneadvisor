@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navigator renders correctly 1`] = `
+<nav
+  className="mb-3 navbar navbar-expand-md navbar-dark bg-primary"
+>
+  <a
+    className="navbar-brand"
+    href="/"
+  >
+    React App
+  </a>
+  <button
+    className="navbar-toggler"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      className="navbar-toggler-icon"
+    />
+  </button>
+  <div
+    className="collapse navbar-collapse"
+    style={Object {}}
+  >
+    <ul
+      className="mr-auto navbar-nav"
+    >
+      <li
+        className="nav-item"
+      >
+        <a
+          className="nav-link"
+          href="/users"
+          onClick={[Function]}
+        >
+          Users
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+`;
