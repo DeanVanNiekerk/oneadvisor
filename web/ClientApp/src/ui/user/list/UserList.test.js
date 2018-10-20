@@ -1,5 +1,5 @@
 import React from 'react';
-import UserListPage from './UserListPage';
+import UserList from './UserList';
 import configureMockStore from 'redux-mock-store'
 import renderer from 'react-test-renderer';
 
@@ -22,7 +22,7 @@ describe('UserListPage', () => {
         store.dispatch = jest.fn();
 
         const tree = renderer
-            .create(<UserListPage store={store} />)
+            .create(<UserList store={store} />)
             .toJSON();
 
         expect(store.dispatch.mock.calls.length).toBe(1);

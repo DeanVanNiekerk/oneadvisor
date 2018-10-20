@@ -6,8 +6,10 @@ import {
     NavbarToggler,
     NavbarBrand,
     Nav,
-    NavItem
+    NavItem,
+    NavLink
 } from 'reactstrap';
+import userManager from "auth/userManager";
 
 class Navigator extends React.Component {
 
@@ -28,6 +30,10 @@ class Navigator extends React.Component {
         });
     }
 
+    signout() {
+        userManager.removeUser();
+    }
+
     render() {
 
         return (
@@ -40,6 +46,9 @@ class Navigator extends React.Component {
                     <Nav className="mr-auto" navbar>
                         <NavItem>
                             <Link className="nav-link" to="/users">Users</Link>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="#" onClick={() => this.signout()}>Signout</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>

@@ -1,17 +1,17 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { CallbackComponent } from "redux-oidc";
 import { push } from "react-router-redux";
 
 import userManager from "auth/userManager";
 
-class CallbackPage extends React.Component {
+class Callback extends Component {
   render() {
     // just redirect to '/' in both cases
     return (
       <CallbackComponent
         userManager={userManager}
-        successCallback={() => this.props.dispatch(push("/"))}
+        successCallback={() => this.props.dispatch(push("/users"))}
         errorCallback={error => {
           this.props.dispatch(push("/"));
           console.error(error);
@@ -23,4 +23,4 @@ class CallbackPage extends React.Component {
   }
 }
 
-export default connect()(CallbackPage);
+export default connect()(Callback);

@@ -2,21 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Table } from 'reactstrap';
 
-import userManager from "auth/userManager";
-
 import Loader from 'ui/common/Loader'
 import Error from 'ui/common/Error'
 import { fetchUsers } from 'state/users/list/actions'
 
-class UserListPage extends Component {
+class UserList extends Component {
 
   componentDidMount() {
     this.props.dispatch(fetchUsers());
-  }
-
-  onLoginButtonClick(event) {
-    event.preventDefault();
-    userManager.signinRedirect();
   }
 
   render() {
@@ -29,7 +22,6 @@ class UserListPage extends Component {
     return (
       <div>
         <h3>Users</h3>
-        <button onClick={this.onLoginButtonClick}>Login</button>
         <Table>
           <thead>
             <tr>
@@ -58,4 +50,4 @@ const mapStateToProps = state => ({
   error: state.users.list.error
 })
 
-export default connect(mapStateToProps)(UserListPage)
+export default connect(mapStateToProps)(UserList)
