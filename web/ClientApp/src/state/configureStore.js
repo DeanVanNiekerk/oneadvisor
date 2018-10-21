@@ -4,11 +4,13 @@ import { apiMiddleware } from 'redux-api-middleware';
 import { createBrowserHistory } from 'history';
 import thunk from 'redux-thunk';
 import rootReducer from './rootReducer';
+import httpAuthInjector from './middleware/httpAuthInjector'
 
 export const history = createBrowserHistory({ basename: '/' });
 
 const middleware = [
   thunk,
+  httpAuthInjector,
   apiMiddleware,
   routerMiddleware(history)
 ];

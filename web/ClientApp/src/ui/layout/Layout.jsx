@@ -3,6 +3,8 @@ import Navigator from 'ui/layout/Navigator';
 import { withAuth } from '@okta/okta-react';
 import { connect } from 'react-redux'
 
+import Loader from 'ui/common/Loader'
+
 import { recieveAuthentication, clearAuthentication } from 'state/auth/actions'
 
 class Layout extends React.Component {
@@ -50,6 +52,10 @@ class Layout extends React.Component {
   }
 
   render() {
+
+    if(!this.props.authenticated)
+      return <Loader />
+
     return (
       <div>
         <Navigator />
