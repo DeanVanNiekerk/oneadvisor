@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UserListPage renders error 1`] = `
+exports[`UserList renders error 1`] = `
 <div
   className="mt-5 mb-5"
 >
@@ -14,7 +14,7 @@ exports[`UserListPage renders error 1`] = `
 </div>
 `;
 
-exports[`UserListPage renders loader 1`] = `
+exports[`UserList renders loader 1`] = `
 <div
   className="mt-5 mb-5"
 >
@@ -26,16 +26,11 @@ exports[`UserListPage renders loader 1`] = `
 </div>
 `;
 
-exports[`UserListPage renders table 1`] = `
+exports[`UserList renders table 1`] = `
 <div>
   <h3>
     Users
   </h3>
-  <button
-    onClick={[Function]}
-  >
-    Login
-  </button>
   <table
     className="table"
   >

@@ -5,7 +5,7 @@ import renderer from 'react-test-renderer';
 
 const mockStore = configureMockStore()
 
-describe('UserListPage', () => {
+describe('UserList', () => {
 
     it('renders table', () => {
 
@@ -43,7 +43,7 @@ describe('UserListPage', () => {
         store.dispatch = jest.fn();
 
         const tree = renderer
-            .create(<UserListPage store={store} />)
+            .create(<UserList store={store} />)
             .toJSON();
 
         expect(store.dispatch.mock.calls.length).toBe(1);
@@ -64,7 +64,7 @@ describe('UserListPage', () => {
         store.dispatch = jest.fn();
 
         const tree = renderer
-            .create(<UserListPage store={store} />)
+            .create(<UserList store={store} />)
             .toJSON();
 
         expect(store.dispatch.mock.calls.length).toBe(1);

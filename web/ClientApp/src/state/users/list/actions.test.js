@@ -2,6 +2,7 @@ import configureMockStore from 'redux-mock-store'
 import { apiMiddleware } from 'redux-api-middleware'
 import thunk from 'redux-thunk'
 import fetchMock from 'fetch-mock'
+import config from 'config/config'
 
 import * as actions from './actions'
 
@@ -23,7 +24,7 @@ describe('user list actions', () => {
         { id: '1', firstName: 'Jack', lastName: 'Jones'}
     ]
 
-    fetchMock.getOnce(`api/users/index`, { body: body })
+    fetchMock.getOnce(`${config.directoryApi}/api/users/index`, { body: body })
 
     const expectedActions = [
       {type: actions.USERS_LIST_FETCHING},

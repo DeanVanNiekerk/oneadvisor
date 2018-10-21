@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {
     Collapse,
@@ -9,16 +9,15 @@ import {
     NavItem,
     NavLink
 } from 'reactstrap';
-import userManager from "auth/userManager";
 
-class Navigator extends React.Component {
+class Navigator extends Component {
 
     constructor(props) {
 
         super(props);
 
         this.state = {
-            isOpen: false
+            isOpen: false,
         };
 
         this.toggle = this.toggle.bind(this);
@@ -30,8 +29,8 @@ class Navigator extends React.Component {
         });
     }
 
-    signout() {
-        userManager.removeUser();
+    logout() {
+        alert('todo')
     }
 
     render() {
@@ -39,7 +38,7 @@ class Navigator extends React.Component {
         return (
             <Navbar className="mb-3" color="primary" dark expand="md">
                 <NavbarBrand href="/">
-                    React App
+                    One Advisor
                 </NavbarBrand>
                 <NavbarToggler onClick={this.toggle} />
                 <Collapse isOpen={this.state.isOpen} navbar>
@@ -48,7 +47,7 @@ class Navigator extends React.Component {
                             <Link className="nav-link" to="/users">Users</Link>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="#" onClick={() => this.signout()}>Signout</NavLink>
+                            <NavLink href="#" onClick={() => this.logout()}>Signout</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>

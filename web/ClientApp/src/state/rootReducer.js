@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import { reducer as oidcReducer } from 'redux-oidc';
 
 import users from './users/reducer';
+import auth from './auth/reducer';
 
 const reducers = {
+    auth,
     users,
-    oidc: oidcReducer,
 };
 
 const rootReducer = combineReducers(reducers);
