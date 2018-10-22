@@ -4,6 +4,8 @@ import { Table } from 'reactstrap';
 
 import Loader from 'ui/common/Loader'
 import Error from 'ui/common/Error'
+
+import { listSelector } from 'state/directory/users/list/selectors'
 import { fetchUsers } from 'state/directory/users/list/actions'
 
 class UserList extends Component {
@@ -45,9 +47,9 @@ class UserList extends Component {
 }
 
 const mapStateToProps = state => ({
-  users: state.directory.users.list.items || [],
-  fetching: state.directory.users.list.fetching,
-  error: state.directory.users.list.error
+  users: listSelector(state).items || [],
+  fetching: listSelector(state).fetching,
+  error: listSelector(state).error
 })
 
 export default connect(mapStateToProps)(UserList)
