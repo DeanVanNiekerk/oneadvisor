@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-import users from './users/reducer';
+import directory from './directory/reducer';
 import auth from './auth/reducer';
 
 const reducers = {
     auth,
-    users,
+    directory,
 };
 
 const rootReducer = combineReducers(reducers);

@@ -3,8 +3,11 @@ import { Switch, Route } from 'react-router';
 import { Security, ImplicitCallback, SecureRoute } from '@okta/okta-react';
 
 import config from 'config/config';
-import UserList from 'ui/user/list/UserList';
-import Layout from 'ui/layout/Layout';
+import Authentication from './Authentication';
+
+
+//Directory
+import UserList from 'ui/directory/user/UserList';
 
 export default () => (
   <Security
@@ -16,10 +19,13 @@ export default () => (
 
       <Route path="/implicit/callback" component={ImplicitCallback} />
 
-      <Layout>
+      <Authentication>
+    
         <SecureRoute exact path='/' component={UserList} />
-        <SecureRoute exact path='/users' component={UserLirst} />
-      </Layout>
+
+        <SecureRoute exact path='/directory/users' component={UserList} />
+
+      </Authentication>
 
     </Switch>
 

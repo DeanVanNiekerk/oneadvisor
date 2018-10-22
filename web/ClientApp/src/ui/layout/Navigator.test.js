@@ -9,7 +9,7 @@ describe('Navigator', () => {
     it('renders correctly', () => {
 
         const tree = renderer
-            .create(<Router><Navigator /></Router>)
+            .create(<Router><Navigator auth={{}} /></Router>)
             .toJSON();
 
         expect(tree).toMatchSnapshot();
@@ -17,7 +17,7 @@ describe('Navigator', () => {
 
     it('navvar toggles on click', () => {
 
-        const wrapper = mount(<Router><Navigator /></Router>).find(Navigator);
+        const wrapper = mount(<Router><Navigator auth={{}} /></Router>).find(Navigator);
         const instance = wrapper.instance();
 
         const navbarTogger = wrapper.find(".navbar-toggler");

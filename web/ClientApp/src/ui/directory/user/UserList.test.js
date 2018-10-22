@@ -9,12 +9,14 @@ describe('UserList', () => {
 
     it('renders table', () => {
 
-        const store = mockStore({ 
-            users: {
-                list: {
-                    items: [
-                        { id: 1, firstName: 'Jack', lastName: 'Johnson' }
-                    ]
+        const store = mockStore({
+            directory: {
+                users: {
+                    list: {
+                        items: [
+                            { id: 1, firstName: 'Jack', lastName: 'Johnson' }
+                        ]
+                    }
                 }
             }
         })
@@ -32,10 +34,12 @@ describe('UserList', () => {
 
     it('renders error', () => {
 
-        const store = mockStore({ 
-            users: {
-                list: {
-                    error: true
+        const store = mockStore({
+            directory: {
+                users: {
+                    list: {
+                        error: true
+                    }
                 }
             }
         })
@@ -53,10 +57,12 @@ describe('UserList', () => {
 
     it('renders loader', () => {
 
-        const store = mockStore({ 
-            users: {
-                list: {
-                    fetching: true
+        const store = mockStore({
+            directory: {
+                users: {
+                    list: {
+                        fetching: true
+                    }
                 }
             }
         })

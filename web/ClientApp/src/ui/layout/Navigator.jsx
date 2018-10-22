@@ -29,10 +29,6 @@ class Navigator extends Component {
         });
     }
 
-    logout() {
-        alert('todo')
-    }
-
     render() {
 
         return (
@@ -44,10 +40,10 @@ class Navigator extends Component {
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="mr-auto" navbar>
                         <NavItem>
-                            <Link className="nav-link" to="/users">Users</Link>
+                            <Link className="nav-link" to="/directory/users">Users</Link>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="#" onClick={() => this.logout()}>Signout</NavLink>
+                            <NavLink href="#" onClick={this.props.onLogout}>Signout</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>

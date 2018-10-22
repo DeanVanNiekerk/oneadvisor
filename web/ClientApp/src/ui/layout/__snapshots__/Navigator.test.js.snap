@@ -31,7 +31,7 @@ exports[`Navigator renders correctly 1`] = `
       >
         <a
           className="nav-link"
-          href="/users"
+          href="/directory/users"
           onClick={[Function]}
         >
           Users
