@@ -18,7 +18,7 @@ export default () => (
 
       <Layout>
         <SecureRoute exact path='/' component={UserList} />
-        <SecureRoute exact path='/users' component={UserList} />
+        <SecureRoute exact path='/users' component={UserLirst} />
       </Layout>
 
     </Switch>
