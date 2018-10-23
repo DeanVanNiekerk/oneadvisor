@@ -25,18 +25,20 @@ namespace api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
             var serviceSetup = new ServiceSetup(Configuration, services);
             serviceSetup.ConfigureCors();
             serviceSetup.ConfigureAuthentication();
             serviceSetup.ConfigureSettings();
             serviceSetup.ConfigureRepositories();
             serviceSetup.ConfigureServices();
+
+             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors("Policy");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -46,7 +48,7 @@ namespace api
                 app.UseHsts();
             }
 
-            app.UseCors("Policy");
+            app.UseMaintainCorsHeader();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
