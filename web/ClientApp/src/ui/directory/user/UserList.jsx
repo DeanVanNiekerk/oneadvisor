@@ -27,6 +27,7 @@ class UserList extends Component {
         <Table>
           <thead>
             <tr>
+              <th>Id</th>
               <th>First Name</th>
               <th>Last Name</th>
             </tr>
@@ -34,6 +35,7 @@ class UserList extends Component {
           <tbody>
                 {this.props.users.map(user =>
                     <tr key={user.id}>
+                        <td>{user.id}</td>
                         <td>{user.firstName}</td>
                         <td>{user.lastName}</td>
                     </tr>

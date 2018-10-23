@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Model.Directory.Interface.Service
 {
-    public class IUserService
+    public interface IUserService
     {
-        IEnumerable<User> GetUsers();
+        Task<IEnumerable<UserInfo>> GetUsers();
     }
 }

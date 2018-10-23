@@ -27,26 +27,12 @@ namespace api
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-             services.AddCors(options =>
-            {
-                options.AddPolicy("Policy", builder => builder
-                    .WithOrigins(Configuration.GetValue<string>("Auth:Cors:WithOrigins"))
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials()
-                );
-            });
-
-            services.AddAuthentication(sharedOptions =>
-            {
-                sharedOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                sharedOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.Authority = Configuration.GetValue<string>("Auth:Jwt:Authority");
-                options.Audience = Configuration.GetValue<string>("Auth:Jwt:Audience");
-            });
+            var serviceSetup = new ServiceSetup(Configuration, services);
+            serviceSetup.ConfigureCors();
+            serviceSetup.ConfigureAuthentication();
+            serviceSetup.ConfigureSettings();
+            serviceSetup.ConfigureRepositories();
+            serviceSetup.ConfigureServices();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

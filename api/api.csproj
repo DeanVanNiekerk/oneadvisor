@@ -13,4 +13,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OneAdvisor.Model\OneAdvisor.Model.csproj" />
+    <ProjectReference Include="..\OneAdvisor.Repository\OneAdvisor.Repository.csproj" />
+    <ProjectReference Include="..\OneAdvisor.Service\OneAdvisor.Service.csproj" />
+    <ProjectReference Include="..\OneAdvisor.Repository.Okta\OneAdvisor.Repository.Okta.csproj" />
+  </ItemGroup>
 </Project>
