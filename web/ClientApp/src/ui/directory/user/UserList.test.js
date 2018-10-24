@@ -13,6 +13,8 @@ describe('UserList', () => {
             directory: {
                 users: {
                     list: {
+                        error: false,
+                        fetching: false,
                         items: [
                             { id: 1, firstName: 'Jack', lastName: 'Johnson' }
                         ]
@@ -38,7 +40,9 @@ describe('UserList', () => {
             directory: {
                 users: {
                     list: {
-                        error: true
+                        error: true,
+                        fetching: false,
+                        items: []
                     }
                 }
             }
@@ -61,7 +65,9 @@ describe('UserList', () => {
             directory: {
                 users: {
                     list: {
-                        fetching: true
+                        error: false,
+                        fetching: true,
+                        items: []
                     }
                 }
             }

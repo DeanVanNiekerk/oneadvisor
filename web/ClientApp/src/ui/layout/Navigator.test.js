@@ -2,14 +2,13 @@ import React from 'react';
 import Navigator from './Navigator';
 import renderer from 'react-test-renderer';
 import { MemoryRouter as Router } from 'react-router-dom' 
-import { mount } from 'enzyme';
 
 describe('Navigator', () => {
 
     it('renders correctly', () => {
 
         const tree = renderer
-            .create(<Router><Navigator auth={{}} /></Router>)
+            .create(<Router><Navigator auth={{}} onLogout={() => {}} /></Router>)
             .toJSON();
 
         expect(tree).toMatchSnapshot();

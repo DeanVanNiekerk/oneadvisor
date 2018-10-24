@@ -20,4 +20,14 @@ describe('auth actions', () => {
     expect(actions.recieveAuthentication(userInfo, idToken, accessToken)).toEqual(expectedAction)
 
   })
+
+  it('should dispatch AUTH_RECIEVE_AUTHENTICATION_CLEAR when clearAuthentication is called', () => {
+
+    const expectedAction = {
+        type: actions.AUTH_RECIEVE_AUTHENTICATION_CLEAR
+    }
+
+    expect(actions.clearAuthentication()).toEqual(expectedAction)
+
+  })
 })
