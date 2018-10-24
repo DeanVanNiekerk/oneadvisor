@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SideMenu renders correctly 1`] = `
+<div
+  className="sc-bdVaJa bIsQlu"
+>
+  <div
+    className="bd-links"
+  >
+    <div
+      className="p-3"
+    >
+      MENU 1
+    </div>
+    <div
+      className="p-3"
+    >
+      MENU 1
+    </div>
+    <div
+      className="p-3"
+    >
+      MENU 1
+    </div>
+    <div
+      className="p-3"
+    >
+      MENU 1
+    </div>
+    <div
+      className="p-3"
+    >
+      MENU 1
+    </div>
+    <div
+      className="p-3"
+    >
+      MENU 1
+    </div>
+    <div
+      className="p-3"
+    >
+      MENU 1
+    </div>
+    <div
+      className="p-3"
+    >
+      MENU 1
+    </div>
+    <div
+      className="p-3"
+    >
+      MENU 1
+    </div>
+    <div
+      className="p-3"
+    >
+      MENU 1
+    </div>
+    <div
+      className="p-3"
+    >
+      MENU 1
+    </div>
+    <div
+      className="p-3"
+    >
+      MENU 1
+    </div>
+    <div
+      className="p-3"
+    >
+      MENU 1
+    </div>
+    <div
+      className="p-3"
+    >
+      MENU 1
+    </div>
+    <div
+      className="p-3"
+    >
+      MENU 1
+    </div>
+    <div
+      className="p-3"
+    >
+      MENU xxxxx
+    </div>
+  </div>
+</div>
+`;

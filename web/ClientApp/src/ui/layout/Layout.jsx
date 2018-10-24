@@ -1,5 +1,6 @@
 import React from 'react';
-import Navigator from 'ui/layout/Navigator';
+import Navigator from './Navigator';
+import SideMenu from './SideMenu'
 
 class Layout extends React.Component {
 
@@ -9,7 +10,12 @@ class Layout extends React.Component {
       <div>
         <Navigator onLogout={this.props.onLogout} />
         <div className="container-fluid">
-          {this.props.children}
+          <div className="row">
+            <SideMenu className="col-3 col-xl-2 bg-success"/>
+            <main className="col-9 col-xl-10">
+              {this.props.children}
+            </main>
+          </div>
         </div>
       </div>
     );

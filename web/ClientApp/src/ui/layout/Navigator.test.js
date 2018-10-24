@@ -2,7 +2,7 @@ import React from 'react';
 import Navigator from './Navigator';
 import renderer from 'react-test-renderer';
 import { MemoryRouter as Router } from 'react-router-dom' 
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 
 describe('Navigator', () => {
 
@@ -15,20 +15,20 @@ describe('Navigator', () => {
         expect(tree).toMatchSnapshot();
     });
 
-    it('navvar toggles on click', () => {
+    // it('navvar toggles on click', () => {
 
-        const wrapper = mount(<Router><Navigator auth={{}} /></Router>).find(Navigator);
-        const instance = wrapper.instance();
+    //     const wrapper = mount(<Router><Navigator auth={{}} /></Router>).find(Navigator);
+    //     const instance = wrapper.instance();
 
-        const navbarTogger = wrapper.find(".navbar-toggler");
+    //     const navbarTogger = wrapper.find(".navbar-toggler");
 
-        //nav is initially closed
-        expect(instance.state.isOpen).toBe(false);
+    //     //nav is initially closed
+    //     expect(instance.state.isOpen).toBe(false);
 
-        navbarTogger.simulate('click');
+    //     navbarTogger.simulate('click');
 
-        //nav should now be open
-        expect(instance.state.isOpen).toBe(true);
-    });
+    //     //nav should now be open
+    //     expect(instance.state.isOpen).toBe(true);
+    // });
 
 });

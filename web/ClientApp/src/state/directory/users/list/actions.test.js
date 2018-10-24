@@ -4,6 +4,7 @@ import thunk from 'redux-thunk'
 import fetchMock from 'fetch-mock'
 import config from 'config/config'
 
+import { usersApi } from 'config/directoryApi'
 import * as actions from './actions'
 
 const middlewares = [ thunk, apiMiddleware ]
@@ -24,7 +25,7 @@ describe('user list actions', () => {
         { id: '1', firstName: 'Jack', lastName: 'Jones'}
     ]
 
-    fetchMock.getOnce(`${config.directoryApi}/api/users/index`, { body: body })
+    fetchMock.getOnce(usersApi, { body: body })
 
     const expectedActions = [
       {type: actions.USERS_LIST_FETCHING},
