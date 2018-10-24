@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 
 const Error = ({ text = "An error has occured, please reload the application" }) => {
 
@@ -11,5 +12,9 @@ const Error = ({ text = "An error has occured, please reload the application" })
     )
 
 }
+
+Error.propTypes = {
+    text: PropTypes.string
+};
 
 export default Error

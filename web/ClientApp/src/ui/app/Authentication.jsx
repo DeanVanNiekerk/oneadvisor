@@ -1,5 +1,5 @@
-
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withAuth } from '@okta/okta-react';
 import { connect } from 'react-redux'
 
@@ -64,6 +64,13 @@ class Authentication extends React.Component {
 
   }
 }
+
+Authentication.propTypes = {
+  auth: PropTypes.object.isRequired,
+  authenticated: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  children: PropTypes.array.isRequired
+};
 
 const mapStateToProps = state => ({
   authenticated: state.auth.authenticated,

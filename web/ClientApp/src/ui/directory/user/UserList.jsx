@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { Table } from 'reactstrap';
 
@@ -47,6 +48,13 @@ class UserList extends Component {
 
   }
 }
+
+UserList.propTypes = {
+  error: PropTypes.bool.isRequired,
+  fetching: PropTypes.bool.isRequired,
+  users: PropTypes.array.isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
   users: listSelector(state).items || [],

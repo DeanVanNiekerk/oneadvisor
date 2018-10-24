@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
     Navbar,
@@ -25,6 +26,9 @@ const Navigator = ({ onLogout }) => (
     </Navbar>
 );
 
+Navigator.propTypes = {
+    onLogout: PropTypes.func.isRequired
+};
 
 export default Navigator;
 

@@ -9,8 +9,8 @@ import Authentication from './Authentication';
 //Directory
 import UserList from 'ui/directory/user/UserList';
 
-export default () => (
-  <Security
+const App = () => (
+  <Security 
     issuer={config.oidc.issuer}
     client_id={config.oidc.clientId}
     redirect_uri={config.oidc.redirectUri}>
@@ -31,3 +31,5 @@ export default () => (
 
   </Security>
 );
+
+export default App;

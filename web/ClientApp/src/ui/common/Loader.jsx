@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 
 const Loader = ({ text = "loading..." }) => {
 
@@ -11,5 +12,10 @@ const Loader = ({ text = "loading..." }) => {
     )
 
 }
+
+Loader.propTypes = {
+    text: PropTypes.string
+};
+
 
 export default Loader
