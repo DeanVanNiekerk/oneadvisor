@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import styled  from 'styled-components'
+import styled, { css }  from 'styled-components'
 import { connect } from 'react-redux'
 import {
     Navbar,
@@ -13,15 +13,12 @@ import {
 import { applicationsSelector } from "state/context/selectors";
 
 const NavItem = styled.li`
-  background-color: ${props => props.currentAppColor}
+  ${props => props.isCurrent && css`
+    background-color: ${props.color};
+  `}
 `;
 
-
 class Navigator extends Component {
-
-    //componentDidUpdate(newProps) {
-        //console.log(newProps);
-    //}
 
     render() {
 
@@ -32,7 +29,7 @@ class Navigator extends Component {
                 </NavbarBrand>
                 <Nav className="mr-auto" navbar>
                     {this.props.applications.map(app => (
-                        <NavItem key={app.id} className="nav-item">
+                        <NavItem key={app.id} className="nav-item" color={app.color} isCurrent={app.isCurrent}>
                             <Link className="nav-link active" to={app.relativePath}>{app.name}</Link>
                         </NavItem>
                     ))}

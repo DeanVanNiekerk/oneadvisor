@@ -17,7 +17,7 @@ describe('Navigator', () => {
             },
             router: {
                 location: {
-                    pathName: ""
+                    pathname: ""
                 }
             }
         })

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { DEFAULT_APPLICATION_ID } from 'config/application'
 
-const pathNameSelector = state => state.router.location.pathName
+const pathNameSelector = state => state.router.location.pathname
 const appsSelector = state => state.context.applications
 
 export const applicationsSelector = createSelector(
@@ -21,8 +21,11 @@ export const applicationsSelector = createSelector(
 
 const isCurrentApplication = (application, pathName) => {
 
-    if(!pathName && application.id === DEFAULT_APPLICATION_ID)
-        return true;
+    if(!pathName) {
+        if(application.id === DEFAULT_APPLICATION_ID)
+            return true;
+        return false;
+    }
 
     return (pathName.indexOf(application.relativePath) !== -1);
 

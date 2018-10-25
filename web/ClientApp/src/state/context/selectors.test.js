@@ -13,7 +13,7 @@ describe('context selectors', () => {
                 },
                 router: {
                     location: {
-                        pathName: pathName
+                        pathname: pathName
                     }
                 }
             }
@@ -25,7 +25,7 @@ describe('context selectors', () => {
             const state = setupState('');
             const actual = applicationsSelector(state)
 
-            expect(actual.length).toEqual(1);
+            expect(actual.length).toEqual(2);
             expect(actual[0]).toEqual({
                 id: "DIRECTORY",
                 name: "Directory",
@@ -40,12 +40,25 @@ describe('context selectors', () => {
             const state = setupState('/directory/users');
             const actual = applicationsSelector(state)
 
-            expect(actual.length).toEqual(1);
             expect(actual[0]).toEqual({
                 id: "DIRECTORY",
                 name: "Directory",
                 color: "#3949ab",
                 relativePath: "/directory",
+                isCurrent: true
+            })
+        })
+
+        it('member app', () => {
+
+            const state = setupState('/member/members');
+            const actual = applicationsSelector(state)
+
+            expect(actual[1]).toEqual({
+                id: "MEMBER",
+                name: "Member",
+                color: "#00897b",
+                relativePath: "/member",
                 isCurrent: true
             })
         })

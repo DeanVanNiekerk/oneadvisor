@@ -1,4 +1,4 @@
-import { DIRECTORY_ID } from 'config/application'
+import { DIRECTORY_ID, MEMBER_ID } from 'config/application'
 
 
 const createApplication = (id, name, color, relativePath) => ({
@@ -10,7 +10,8 @@ const createApplication = (id, name, color, relativePath) => ({
 
 export const defaultState = {
   applications: [
-    createApplication(DIRECTORY_ID, "Directory", "#3949ab", "/directory")
+    createApplication(DIRECTORY_ID, "Directory", "#3949ab", "/directory"),
+    createApplication(MEMBER_ID, "Member", "#00897b", "/member")
   ]
 }
 
