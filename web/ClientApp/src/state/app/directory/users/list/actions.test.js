@@ -2,7 +2,6 @@ import configureMockStore from 'redux-mock-store'
 import { apiMiddleware } from 'redux-api-middleware'
 import thunk from 'redux-thunk'
 import fetchMock from 'fetch-mock'
-import config from 'config/config'
 
 import { usersApi } from 'config/directoryApi'
 import * as actions from './actions'

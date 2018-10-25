@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
+import { Link } from 'react-router-dom';
+import { Nav, NavItem } from 'reactstrap';
 
 const Wrapper = styled.div`
     order: 0;
@@ -9,6 +11,7 @@ const Wrapper = styled.div`
     top: 3.5rem;
     z-index: 1000;
     height: calc(100vh - 3.5rem);
+    overflow-y: auto;
 `;
 
 class SideMenu extends React.Component {
@@ -17,24 +20,16 @@ class SideMenu extends React.Component {
 
         return (
             <Wrapper {...this.props}>
-                <div className="bd-links">
-                    <div className="p-3">MENU 1</div>
-                    <div className="p-3">MENU 1</div>
-                    <div className="p-3">MENU 1</div>
-                    <div className="p-3">MENU 1</div>
-                    <div className="p-3">MENU 1</div>
-                    <div className="p-3">MENU 1</div>
-                    <div className="p-3">MENU 1</div>
-                    <div className="p-3">MENU 1</div>
-                    <div className="p-3">MENU 1</div>
-                    <div className="p-3">MENU 1</div>
-                    <div className="p-3">MENU 1</div>
-                    <div className="p-3">MENU 1</div>
-                    <div className="p-3">MENU 1</div>
-                    <div className="p-3">MENU 1</div>
-                    <div className="p-3">MENU 1</div>
-                    <div className="p-3">MENU xxxxx</div>
-                </div>
+               
+                <Nav className="flex-column">
+                    <NavItem>
+                        <Link className="nav-link active" to="/directory/users">Users</Link>
+                    </NavItem>
+                    <NavItem>
+                        <Link className="nav-link active" to="/directory/users">Organisations</Link>
+                    </NavItem>
+                </Nav>
+
             </Wrapper>
         );
     }

@@ -5,10 +5,12 @@ describe('user list selectors', () => {
     it('listSelector', () => {
 
         const state = {
-            directory: {
-                users: {
-                    list: {
-                        property: '1'
+            app: {
+                directory: {
+                    users: {
+                        list: {
+                            property: '1'
+                        }
                     }
                 }
             }

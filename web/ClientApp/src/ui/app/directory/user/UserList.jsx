@@ -6,8 +6,8 @@ import { Table } from 'reactstrap';
 import Loader from 'ui/common/Loader'
 import Error from 'ui/common/Error'
 
-import { listSelector } from 'state/directory/users/list/selectors'
-import { fetchUsers } from 'state/directory/users/list/actions'
+import { listSelector } from 'state/app/directory/users/list/selectors'
+import { fetchUsers } from 'state/app/directory/users/list/actions'
 
 class UserList extends Component {
 

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 
-const rootSelector = state => state.directory.users.list
+const rootSelector = state => state.app.directory.users.list
 
 export const listSelector = createSelector(
     rootSelector,

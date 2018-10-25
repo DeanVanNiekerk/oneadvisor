@@ -7,7 +7,7 @@ import Authentication from './Authentication';
 
 
 //Directory
-import UserList from 'ui/directory/user/UserList';
+import UserList from 'ui/app/directory/user/UserList';
 
 const App = () => (
   <Security 
@@ -23,6 +23,7 @@ const App = () => (
     
         <SecureRoute exact path='/' component={UserList} />
 
+        <SecureRoute exact path='/directory' component={UserList} />
         <SecureRoute exact path='/directory/users' component={UserList} />
 
       </Authentication>

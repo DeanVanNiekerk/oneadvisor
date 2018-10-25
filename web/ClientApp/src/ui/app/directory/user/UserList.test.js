@@ -10,14 +10,16 @@ describe('UserList', () => {
     it('renders table', () => {
 
         const store = mockStore({
-            directory: {
-                users: {
-                    list: {
-                        error: false,
-                        fetching: false,
-                        items: [
-                            { id: 1, firstName: 'Jack', lastName: 'Johnson' }
-                        ]
+            app: {
+                directory: {
+                    users: {
+                        list: {
+                            error: false,
+                            fetching: false,
+                            items: [
+                                { id: 1, firstName: 'Jack', lastName: 'Johnson' }
+                            ]
+                        }
                     }
                 }
             }
@@ -37,12 +39,14 @@ describe('UserList', () => {
     it('renders error', () => {
 
         const store = mockStore({
-            directory: {
-                users: {
-                    list: {
-                        error: true,
-                        fetching: false,
-                        items: []
+            app: {
+                directory: {
+                    users: {
+                        list: {
+                            error: true,
+                            fetching: false,
+                            items: []
+                        }
                     }
                 }
             }
@@ -62,12 +66,14 @@ describe('UserList', () => {
     it('renders loader', () => {
 
         const store = mockStore({
-            directory: {
-                users: {
-                    list: {
-                        error: false,
-                        fetching: true,
-                        items: []
+            app: {
+                directory: {
+                    users: {
+                        list: {
+                            error: false,
+                            fetching: true,
+                            items: []
+                        }
                     }
                 }
             }

@@ -14,18 +14,22 @@ exports[`Navigator renders correctly 1`] = `
     className="mr-auto navbar-nav"
   >
     <li
-      className="nav-item"
+      className="nav-item sc-bdVaJa bWkJfu"
     >
       <a
-        className="nav-link"
-        href="/directory/users"
+        className="nav-link active"
+        href="/directory"
         onClick={[Function]}
       >
-        Users
+        Directory
       </a>
     </li>
+  </ul>
+  <ul
+    className="ml-auto navbar-nav"
+  >
     <li
-      className="nav-item"
+      className="sc-bdVaJa bWkJfu"
     >
       <a
         className="nav-link"

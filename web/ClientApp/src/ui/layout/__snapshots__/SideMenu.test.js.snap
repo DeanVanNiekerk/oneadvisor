@@ -2,91 +2,33 @@
 
 exports[`SideMenu renders correctly 1`] = `
 <div
-  className="sc-bdVaJa bIsQlu"
+  className="sc-bdVaJa eixjvS"
 >
-  <div
-    className="bd-links"
+  <ul
+    className="flex-column nav"
   >
-    <div
-      className="p-3"
+    <li
+      className="nav-item"
     >
-      MENU 1
-    </div>
-    <div
-      className="p-3"
+      <a
+        className="nav-link active"
+        href="/directory/users"
+        onClick={[Function]}
+      >
+        Users
+      </a>
+    </li>
+    <li
+      className="nav-item"
     >
-      MENU 1
-    </div>
-    <div
-      className="p-3"
-    >
-      MENU 1
-    </div>
-    <div
-      className="p-3"
-    >
-      MENU 1
-    </div>
-    <div
-      className="p-3"
-    >
-      MENU 1
-    </div>
-    <div
-      className="p-3"
-    >
-      MENU 1
-    </div>
-    <div
-      className="p-3"
-    >
-      MENU 1
-    </div>
-    <div
-      className="p-3"
-    >
-      MENU 1
-    </div>
-    <div
-      className="p-3"
-    >
-      MENU 1
-    </div>
-    <div
-      className="p-3"
-    >
-      MENU 1
-    </div>
-    <div
-      className="p-3"
-    >
-      MENU 1
-    </div>
-    <div
-      className="p-3"
-    >
-      MENU 1
-    </div>
-    <div
-      className="p-3"
-    >
-      MENU 1
-    </div>
-    <div
-      className="p-3"
-    >
-      MENU 1
-    </div>
-    <div
-      className="p-3"
-    >
-      MENU 1
-    </div>
-    <div
-      className="p-3"
-    >
-      MENU xxxxx
-    </div>
-  </div>
+      <a
+        className="nav-link active"
+        href="/directory/users"
+        onClick={[Function]}
+      >
+        Organisations
+      </a>
+    </li>
+  </ul>
 </div>
 `;

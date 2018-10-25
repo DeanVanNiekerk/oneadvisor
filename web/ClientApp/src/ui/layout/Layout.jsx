@@ -12,7 +12,7 @@ class Layout extends React.Component {
         <Navigator onLogout={this.props.onLogout} />
         <div className="container-fluid">
           <div className="row">
-            <SideMenu className="col-3 col-xl-2 bg-success"/>
+            <SideMenu className="col-3 col-xl-2"/>
             <main className="col-9 col-xl-10">
               {this.props.children}
             </main>
