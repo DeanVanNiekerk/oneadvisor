@@ -2,39 +2,71 @@
 
 exports[`Navigator renders correctly 1`] = `
 <nav
-  className="navbar navbar-expand-md navbar-dark bg-primary sticky-top"
+  appColor="#3949ab"
+  className="sc-bwzfXH dpBUHf navbar navbar-expand-md navbar-dark bg-primary sticky-top"
 >
   <a
-    className="navbar-brand"
+    className="sc-htpNat doUmXR navbar-brand"
     href="/"
   >
-    One Advisor
+    <span
+      className="font-weight-bold"
+    >
+      ONE
+    </span>
+    <span
+      className="font-weight-light"
+    >
+      ADVISOR
+    </span>
   </a>
   <ul
     className="mr-auto navbar-nav"
   >
     <li
-      className="nav-item sc-bdVaJa cmlwrX"
-      color="#3949ab"
+      appColor="#3949ab"
+      className="sc-bdVaJa ehMXNt nav-item"
+      isCurrent={true}
     >
+      <span
+        aria-hidden="true"
+        className="material-icons MuiIcon-root-1 float-left mt-2 text-light"
+      >
+        security
+      </span>
       <a
-        className="nav-link active"
+        className="float-left nav-link active"
         href="/directory"
         onClick={[Function]}
       >
-        Directory
+        <span
+          className="font-weight-light text-uppercase"
+        >
+          Directory
+        </span>
       </a>
     </li>
     <li
-      className="nav-item sc-bdVaJa ibTDPh"
-      color="#00897b"
+      appColor="#00897b"
+      className="sc-bdVaJa qoHoz nav-item"
+      isCurrent={false}
     >
+      <span
+        aria-hidden="true"
+        className="material-icons MuiIcon-root-1 float-left mt-2 text-light"
+      >
+        account_circle
+      </span>
       <a
-        className="nav-link active"
+        className="float-left nav-link active"
         href="/member"
         onClick={[Function]}
       >
-        Member
+        <span
+          className="font-weight-light text-uppercase"
+        >
+          Member
+        </span>
       </a>
     </li>
   </ul>
@@ -42,7 +74,7 @@ exports[`Navigator renders correctly 1`] = `
     className="ml-auto navbar-nav"
   >
     <li
-      className="sc-bdVaJa ibTDPh"
+      className="sc-bdVaJa qoHoz nav-item"
     >
       <a
         className="nav-link"

@@ -2,33 +2,56 @@
 
 exports[`SideMenu renders correctly 1`] = `
 <div
-  className="sc-bdVaJa eixjvS"
+  className="sc-bdVaJa dYuZhI"
 >
-  <ul
-    className="flex-column nav"
-  >
-    <li
-      className="nav-item"
+  <div>
+    <div
+      className="pl-2 pb-1 text-uppercase"
     >
-      <a
-        className="nav-link active"
-        href="/directory/users"
-        onClick={[Function]}
-      >
-        Users
-      </a>
-    </li>
-    <li
-      className="nav-item"
+      Management
+    </div>
+    <ul
+      className="flex-column nav"
     >
-      <a
-        className="nav-link active"
-        href="/directory/users"
-        onClick={[Function]}
+      <li
+        appColor="#3949ab"
+        className="pl-3 sc-bwzfXH kvaeoU nav-item"
+        isCurrent={true}
       >
-        Organisations
-      </a>
-    </li>
-  </ul>
+        <span
+          aria-hidden="true"
+          className="material-icons MuiIcon-root-1 float-left mt-2 text-dark"
+        >
+          people
+        </span>
+        <a
+          className="float-left nav-link text-dark pl-2"
+          href="/directory/users"
+          onClick={[Function]}
+        >
+          Users
+        </a>
+      </li>
+      <li
+        appColor="#3949ab"
+        className="pl-3 sc-bwzfXH hpXLxf nav-item"
+        isCurrent={false}
+      >
+        <span
+          aria-hidden="true"
+          className="material-icons MuiIcon-root-1 float-left mt-2 text-dark"
+        >
+          business
+        </span>
+        <a
+          className="float-left nav-link text-dark pl-2"
+          href="/directory/organisations"
+          onClick={[Function]}
+        >
+          Organisations
+        </a>
+      </li>
+    </ul>
+  </div>
 </div>
 `;

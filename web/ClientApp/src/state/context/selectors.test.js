@@ -1,38 +1,35 @@
-import { applicationsSelector } from './selectors'
-import { defaultState } from './reducer'
+import { applicationsSelector, currentApplicationSelector, currentMenuSelector } from './selectors'
+import { defaultState as defaultContextState } from './reducer'
+import { DEFAULT_APPLICATION_ID, MEMBER_ID, DIRECTORY_ID } from 'config/application'
+import { menus } from 'config/menu'
 
 describe('context selectors', () => {
 
-    describe('applicationsSelector()', () => {
+    const setupState = (pathName = '/', contextState = defaultContextState) => {
 
-        const setupState = (pathName) => {
-
-            return {
-                context: {
-                    ...defaultState
-                },
-                router: {
-                    location: {
-                        pathname: pathName
-                    }
+        return {
+            context: {
+                ...contextState
+            },
+            router: {
+                location: {
+                    pathname: pathName
                 }
             }
-
         }
+
+    }
+
+    describe('applicationsSelector()', () => {
+
 
         it('root path', () => {
 
-            const state = setupState('');
+            const state = setupState('/');
             const actual = applicationsSelector(state)
 
             expect(actual.length).toEqual(2);
-            expect(actual[0]).toEqual({
-                id: "DIRECTORY",
-                name: "Directory",
-                color: "#3949ab",
-                relativePath: "/directory",
-                isCurrent: true
-            })
+            expect(actual[0].id).toEqual(DEFAULT_APPLICATION_ID)
         })
 
         it('directory app', () => {
@@ -41,9 +38,10 @@ describe('context selectors', () => {
             const actual = applicationsSelector(state)
 
             expect(actual[0]).toEqual({
-                id: "DIRECTORY",
+                id: DIRECTORY_ID,
                 name: "Directory",
                 color: "#3949ab",
+                icon: "security",
                 relativePath: "/directory",
                 isCurrent: true
             })
@@ -55,13 +53,48 @@ describe('context selectors', () => {
             const actual = applicationsSelector(state)
 
             expect(actual[1]).toEqual({
-                id: "MEMBER",
+                id: MEMBER_ID,
                 name: "Member",
                 color: "#00897b",
+                icon: "account_circle",
                 relativePath: "/member",
                 isCurrent: true
             })
         })
     })
+
+    describe('currentApplicationSelector()', () => {
+
+        it('get current app - default', () => {
+
+            const state = setupState();
+            const actual = currentApplicationSelector(state)
+
+            expect(actual.id).toEqual(DEFAULT_APPLICATION_ID);
+        })
+
+        it('get current app - not default', () => {
+
+            const state = setupState('/member');
+            const actual = currentApplicationSelector(state)
+
+            expect(actual.id).toEqual(MEMBER_ID);
+        })
+
+      
+    })
+
+    describe('currentMenuSelector()', () => {
+
+        it('get current app menu - default app', () => {
+
+            const state = setupState();
+            const actual = currentMenuSelector(state)
+
+            expect(actual.relativePath).toEqual(menus[DEFAULT_APPLICATION_ID].relativePath);
+        })
+      
+    })
+
 
 })
