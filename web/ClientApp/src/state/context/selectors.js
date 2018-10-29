@@ -49,8 +49,17 @@ export const currentMenuSelector = createSelector(
 
             })
         }
+    }
+)
 
-       
+export const currentMenuLinkSelector = createSelector(
+    currentMenuSelector,
+    (menu) => {
+        const flattened = menu.groups.reduce((links, group) => {
+            links.push(...group.links)
+            return links;
+        }, [])
+        return flattened.filter(link => link.isCurrent)[0]
     }
 )
 

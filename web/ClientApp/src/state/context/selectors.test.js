@@ -1,4 +1,4 @@
-import { applicationsSelector, currentApplicationSelector, currentMenuSelector } from './selectors'
+import { applicationsSelector, currentApplicationSelector, currentMenuSelector, currentMenuLinkSelector } from './selectors'
 import { defaultState as defaultContextState } from './reducer'
 import { DEFAULT_APPLICATION_ID, MEMBER_ID, DIRECTORY_ID } from 'config/application'
 import { menus } from 'config/menu'
@@ -92,6 +92,19 @@ describe('context selectors', () => {
             const actual = currentMenuSelector(state)
 
             expect(actual.relativePath).toEqual(menus[DEFAULT_APPLICATION_ID].relativePath);
+        })
+      
+    })
+
+    describe('currentMenuLinkSelector()', () => {
+
+        it('get current app menu link - default app', () => {
+
+            const state = setupState();
+            const link = currentMenuLinkSelector(state)
+
+            //Bit of a guess, but whatevs
+            expect(link.name).toEqual(menus[DEFAULT_APPLICATION_ID].groups[0].links[0].name);
         })
       
     })

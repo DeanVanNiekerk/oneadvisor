@@ -15,7 +15,7 @@ const Wrapper = styled.div`
     position: sticky !important;
     top: 3.5rem;
     z-index: 1000;
-    height: calc(100vh - 3.5rem);
+    height: calc(100vh - 3.7rem);
     overflow-y: auto;
     padding-top: 1rem;
 
@@ -27,11 +27,11 @@ const Wrapper = styled.div`
 `;
 
 const NavItem = styled(NavItemBs)`
-    ${props => props.isCurrent && css`
+    ${props => props.link.isCurrent && css`
         background-color: #d4d4d4;
-        border-left: 6px solid ${props => props.appColor};
+        border-left: 6px solid ${props => props.application.color};
     `}
-    ${props => !props.isCurrent && css`
+    ${props => !props.link.isCurrent && css`
         border-left: 6px solid #f0f0f0;
     `}
 `;
@@ -51,7 +51,7 @@ class SideMenu extends React.Component {
 
                             {group.links.map(link => {
                                 return (
-                                    <NavItem key={link.relativePath} className="pl-3" isCurrent={link.isCurrent} appColor={this.props.application.color}>
+                                    <NavItem key={link.relativePath} className="pl-3" application={this.props.application} link={link}>
                                         <Icon className="float-left mt-2 text-dark">{link.icon}</Icon>
                                         <Link className="float-left nav-link text-dark pl-2" to={`${this.props.menu.relativePath}${link.relativePath}`}>
                                             {link.name}

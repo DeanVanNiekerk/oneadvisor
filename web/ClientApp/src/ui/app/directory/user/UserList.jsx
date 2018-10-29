@@ -24,7 +24,6 @@ class UserList extends Component {
 
     return (
       <div>
-        <h3>Users</h3>
         <Table>
           <thead>
             <tr>

@@ -2,7 +2,7 @@
 
 exports[`SideMenu renders correctly 1`] = `
 <div
-  className="sc-bdVaJa dYuZhI"
+  className="sc-bdVaJa eqEQhl"
 >
   <div>
     <div
@@ -14,9 +14,26 @@ exports[`SideMenu renders correctly 1`] = `
       className="flex-column nav"
     >
       <li
-        appColor="#3949ab"
+        application={
+          Object {
+            "color": "#3949ab",
+            "icon": "security",
+            "id": "DIRECTORY",
+            "isCurrent": true,
+            "name": "Directory",
+            "relativePath": "/directory",
+          }
+        }
         className="pl-3 sc-bwzfXH kvaeoU nav-item"
-        isCurrent={true}
+        link={
+          Object {
+            "icon": "people",
+            "isCurrent": true,
+            "isDefault": true,
+            "name": "Users",
+            "relativePath": "/users",
+          }
+        }
       >
         <span
           aria-hidden="true"
@@ -33,9 +50,26 @@ exports[`SideMenu renders correctly 1`] = `
         </a>
       </li>
       <li
-        appColor="#3949ab"
+        application={
+          Object {
+            "color": "#3949ab",
+            "icon": "security",
+            "id": "DIRECTORY",
+            "isCurrent": true,
+            "name": "Directory",
+            "relativePath": "/directory",
+          }
+        }
         className="pl-3 sc-bwzfXH hpXLxf nav-item"
-        isCurrent={false}
+        link={
+          Object {
+            "icon": "business",
+            "isCurrent": false,
+            "isDefault": false,
+            "name": "Organisations",
+            "relativePath": "/organisations",
+          }
+        }
       >
         <span
           aria-hidden="true"

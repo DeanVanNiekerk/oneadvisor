@@ -16,17 +16,17 @@ import { applicationsSelector, currentApplicationSelector } from "state/context/
 
 const NavItem = styled(NavItemBs)`
     padding: 0.4rem 1.5rem;
-    ${props => props.isCurrent && css`
-        background-color: ${props.appColor};
+    ${props => props.application.isCurrent && css`
+        background-color: ${props.application.color};
     `}
 `;
 
 const Navbar = styled(NavbarBs)`
-    border-bottom: 4px solid ${props => props.appColor};
+    border-bottom: 4px solid ${props => props.application.color};
 
-    -webkit-box-shadow: 0px 1px 12px 0px rgba(133,133,133,1);
-    -moz-box-shadow: 0px 1px 12px 0px rgba(133,133,133,1);
-    box-shadow: 0px 1px 12px 0px rgba(133,133,133,1);
+    -webkit-box-shadow: 0px 1px 8px 0px rgba(36,36,36,0.71);
+    -moz-box-shadow: 0px 1px 8px 0px rgba(36,36,36,0.71);
+    box-shadow: 0px 1px 8px 0px rgba(36,36,36,0.71);
 `
 
 const NavbarBrand = styled(NavbarBrandBs)`
@@ -39,13 +39,13 @@ class Navigator extends Component {
     render() {
 
         return (
-            <Navbar color="primary" dark expand="md" sticky="top" appColor={this.props.currentApplication.color}>
+            <Navbar color="primary" dark expand="md" sticky="top" application={this.props.currentApplication}>
                 <NavbarBrand href="/">
                     <span className="font-weight-bold">ONE</span><span className="font-weight-light">ADVISOR</span>
                 </NavbarBrand>
                 <Nav className="mr-auto" navbar>
                     {this.props.applications.map(app => (
-                        <NavItem key={app.id} appColor={app.color} isCurrent={app.isCurrent}>
+                        <NavItem key={app.id} application={app}>
                             <Icon className="float-left mt-2 text-light">{app.icon}</Icon>
                             <Link className="float-left nav-link active" to={app.relativePath}>
                                 <span className="font-weight-light text-uppercase">{app.name}</span>
@@ -54,9 +54,9 @@ class Navigator extends Component {
                     ))}
                 </Nav>
                 <Nav className="ml-auto" navbar>
-                    <NavItem>
+                    <NavItemBs>
                         <NavLink href="#" onClick={this.props.onLogout}>Signout</NavLink>
-                    </NavItem>
+                    </NavItemBs>
                 </Nav>
             </Navbar>
         )
@@ -72,7 +72,7 @@ Navigator.propTypes = {
 
 const mapStateToProps = state => ({
     applications: applicationsSelector(state),
-    currentApplication: currentApplicationSelector(state)
+    currentApplication: currentApplicationSelector(state) || {}
 })
 
 export default connect(mapStateToProps)(Navigator);
