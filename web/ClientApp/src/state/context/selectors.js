@@ -1,5 +1,7 @@
+// @flow
 import { createSelector } from 'reselect'
 import { DEFAULT_APPLICATION_ID } from 'config/application'
+import type { TApplication } from './types'
 
 const pathNameSelector = state => state.router.location.pathname
 const appsSelector = state => state.context.applications
@@ -8,7 +10,7 @@ const menusSelector = state => state.context.menus
 export const applicationsSelector = createSelector(
     pathNameSelector,
     appsSelector,
-    (pathName, applications) => {
+    (pathName, applications: TApplication[]): TApplication[] => {
 
         return applications.map(app => {
             return {
@@ -22,7 +24,7 @@ export const applicationsSelector = createSelector(
 
 export const currentApplicationSelector = createSelector(
     applicationsSelector,
-    (applications) => {
+    (applications: TApplication[]): TApplication => {
         return applications.filter(app => app.isCurrent)[0]
     }
 )

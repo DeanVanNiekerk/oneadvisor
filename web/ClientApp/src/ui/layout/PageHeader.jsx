@@ -5,15 +5,15 @@ import { connect } from 'react-redux';
 
 import { currentMenuLinkSelector, currentApplicationSelector } from "state/context/selectors";
 
-const Row = styled.div`
-    color: #ffffff;
-    background-color: ${props => props.application.color};
-    height: 2.8rem;
-`
+// const Row = styled.div`
+//     color: #ffffff;
+//     background-color: ${props => props.application.color};
+//     height: 2.8rem;
+// `
 
-const TitleColumn = styled.div`
+// const TitleColumn = styled.div`
     
-`
+// `
 
 
 class PageHeader extends React.Component {
@@ -21,11 +21,12 @@ class PageHeader extends React.Component {
     render() {
 
         return (
-           <Row application={this.props.application} className="row align-items-center">
-                <TitleColumn className="col-auto font-weight-light">
-                    <span>{this.props.link.name}</span>
-                </TitleColumn>
-           </Row>
+            <div>todo</div>
+        //    <Row application={this.props.application} className="row align-items-center">
+        //         <TitleColumn className="col-auto font-weight-light">
+        //             <span>{this.props.link.name}</span>
+        //         </TitleColumn>
+        //    </Row>
         );
     }
 }
