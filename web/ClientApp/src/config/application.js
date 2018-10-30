@@ -13,8 +13,8 @@ const createApplication = (id, name, color, relativePath, icon) => ({
 })
 
 export const applications = [
-    createApplication(DIRECTORY_ID, "Directory", "#3949ab", "/directory", "security"),
-    createApplication(MEMBER_ID, "Member", "#00897b", "/member", "account_circle")
+    createApplication(DIRECTORY_ID, "Directory", "#03a9f4", "/directory", "security"),
+    createApplication(MEMBER_ID, "Member", "#009688", "/member", "account_circle")
 ]
 
 

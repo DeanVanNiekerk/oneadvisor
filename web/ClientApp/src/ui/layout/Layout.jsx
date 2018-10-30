@@ -11,16 +11,14 @@ class Layout extends React.Component {
     return (
       <div>
         <Navigator onLogout={this.props.onLogout} />
-        <div className="container-fluid p-0">
-          <div className="row no-gutters">
-            <div style={{"flex": "250px 0"}} className="col">
-              <SideMenu />
-            </div>
-            <main className="col">
-              <PageHeader />
-              {this.props.children}
-            </main>
+        <div className="row no-gutters">
+          <div style={{ "flex": "250px 0" }} className="col">
+            <SideMenu />
           </div>
+          <main className="col">
+            <PageHeader />
+            {this.props.children}
+          </main>
         </div>
       </div>
     );

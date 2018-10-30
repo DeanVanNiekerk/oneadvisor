@@ -23,7 +23,7 @@ class PageHeader extends React.Component {
         return (
            <Row application={this.props.application} className="row align-items-center">
                 <TitleColumn className="col-auto font-weight-light">
-                    <span className="ml-3">{this.props.link.name}</span>
+                    <span>{this.props.link.name}</span>
                 </TitleColumn>
            </Row>
         );
