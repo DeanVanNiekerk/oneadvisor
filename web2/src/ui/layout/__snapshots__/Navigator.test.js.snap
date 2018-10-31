@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navigator renders correctly 1`] = `
+<nav
+  application={
+    Object {
+      "color": "#3949ab",
+      "icon": "security",
+      "id": "DIRECTORY",
+      "isCurrent": true,
+      "name": "Directory",
+      "relativePath": "/directory",
+    }
+  }
+  className="sc-bwzfXH dpBUHf navbar navbar-expand-md navbar-dark bg-primary sticky-top"
+>
+  <a
+    className="sc-htpNat doUmXR navbar-brand"
+    href="/"
+  >
+    <span
+      className="font-weight-bold"
+    >
+      ONE
+    </span>
+    <span
+      className="font-weight-light"
+    >
+      ADVISOR
+    </span>
+  </a>
+  <ul
+    className="mr-auto navbar-nav"
+  >
+    <li
+      application={
+        Object {
+          "color": "#3949ab",
+          "icon": "security",
+          "id": "DIRECTORY",
+          "isCurrent": true,
+          "name": "Directory",
+          "relativePath": "/directory",
+        }
+      }
+      className="sc-bdVaJa ehMXNt nav-item"
+    >
+      <span
+        aria-hidden="true"
+        className="material-icons MuiIcon-root-1 float-left mt-2 text-light"
+      >
+        security
+      </span>
+      <a
+        className="float-left nav-link active"
+        href="/directory"
+        onClick={[Function]}
+      >
+        <span
+          className="font-weight-light text-uppercase"
+        >
+          Directory
+        </span>
+      </a>
+    </li>
+    <li
+      application={
+        Object {
+          "color": "#00897b",
+          "icon": "account_circle",
+          "id": "MEMBER",
+          "isCurrent": false,
+          "name": "Member",
+          "relativePath": "/member",
+        }
+      }
+      className="sc-bdVaJa qoHoz nav-item"
+    >
+      <span
+        aria-hidden="true"
+        className="material-icons MuiIcon-root-1 float-left mt-2 text-light"
+      >
+        account_circle
+      </span>
+      <a
+        className="float-left nav-link active"
+        href="/member"
+        onClick={[Function]}
+      >
+        <span
+          className="font-weight-light text-uppercase"
+        >
+          Member
+        </span>
+      </a>
+    </li>
+  </ul>
+  <ul
+    className="ml-auto navbar-nav"
+  >
+    <li
+      className="nav-item"
+    >
+      <a
+        className="nav-link"
+        href="#"
+        onClick={[Function]}
+      >
+        Signout
+      </a>
+    </li>
+  </ul>
+</nav>
+`;

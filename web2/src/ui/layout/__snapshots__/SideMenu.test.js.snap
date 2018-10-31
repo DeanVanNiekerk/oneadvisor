@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SideMenu renders correctly 1`] = `
+<div
+  className="sc-bdVaJa eqEQhl"
+>
+  <div>
+    <div
+      className="pl-2 pb-1 text-uppercase"
+    >
+      Management
+    </div>
+    <ul
+      className="flex-column nav"
+    >
+      <li
+        application={
+          Object {
+            "color": "#3949ab",
+            "icon": "security",
+            "id": "DIRECTORY",
+            "isCurrent": true,
+            "name": "Directory",
+            "relativePath": "/directory",
+          }
+        }
+        className="pl-3 sc-bwzfXH kvaeoU nav-item"
+        link={
+          Object {
+            "icon": "people",
+            "isCurrent": true,
+            "isDefault": true,
+            "name": "Users",
+            "relativePath": "/users",
+          }
+        }
+      >
+        <span
+          aria-hidden="true"
+          className="material-icons MuiIcon-root-1 float-left mt-2 text-dark"
+        >
+          people
+        </span>
+        <a
+          className="float-left nav-link text-dark pl-2"
+          href="/directory/users"
+          onClick={[Function]}
+        >
+          Users
+        </a>
+      </li>
+      <li
+        application={
+          Object {
+            "color": "#3949ab",
+            "icon": "security",
+            "id": "DIRECTORY",
+            "isCurrent": true,
+            "name": "Directory",
+            "relativePath": "/directory",
+          }
+        }
+        className="pl-3 sc-bwzfXH hpXLxf nav-item"
+        link={
+          Object {
+            "icon": "business",
+            "isCurrent": false,
+            "isDefault": false,
+            "name": "Organisations",
+            "relativePath": "/organisations",
+          }
+        }
+      >
+        <span
+          aria-hidden="true"
+          className="material-icons MuiIcon-root-1 float-left mt-2 text-dark"
+        >
+          business
+        </span>
+        <a
+          className="float-left nav-link text-dark pl-2"
+          href="/directory/organisations"
+          onClick={[Function]}
+        >
+          Organisations
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+`;

@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Error renders correctly - with no text 1`] = `
+<div
+  className="mt-5 mb-5"
+>
+  <div
+    className="row justify-content-center text-danger"
+  >
+    <h5>
+      An error has occured, please reload the application
+    </h5>
+  </div>
+</div>
+`;
+
+exports[`Error renders correctly - with text 1`] = `
+<div
+  className="mt-5 mb-5"
+>
+  <div
+    className="row justify-content-center text-danger"
+  >
+    <h5>
+      Custom error message
+    </h5>
+  </div>
+</div>
+`;
