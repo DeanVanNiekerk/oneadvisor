@@ -1,16 +1,16 @@
 // @flow
 import { createSelector } from 'reselect'
 import { DEFAULT_APPLICATION_ID } from 'config/application'
-import type { TApplication } from './types'
+import type { Application, Menus, Menu, MenuLink } from './types'
 
-const pathNameSelector = state => state.router.location.pathname
-const appsSelector = state => state.context.applications
-const menusSelector = state => state.context.menus
+const pathNameSelector = (state): string => state.router.location.pathname
+const appsSelector = (state): Application[]  => state.context.applications
+const menusSelector = (state): Menus => state.context.menus
 
-export const applicationsSelector = createSelector(
+export const applicationsSelector: (state: any) => Application[] = createSelector(
     pathNameSelector,
     appsSelector,
-    (pathName, applications: TApplication[]): TApplication[] => {
+    (pathName, applications) => {
 
         return applications.map(app => {
             return {
@@ -22,14 +22,14 @@ export const applicationsSelector = createSelector(
     }
 )
 
-export const currentApplicationSelector = createSelector(
+export const currentApplicationSelector: (state: any) => Application = createSelector(
     applicationsSelector,
-    (applications: TApplication[]): TApplication => {
+    (applications) => {
         return applications.filter(app => app.isCurrent)[0]
     }
 )
 
-export const currentMenuSelector = createSelector(
+export const currentMenuSelector: (state: any) => Menu = createSelector(
     pathNameSelector,
     currentApplicationSelector,
     menusSelector,
@@ -54,7 +54,7 @@ export const currentMenuSelector = createSelector(
     }
 )
 
-export const currentMenuLinkSelector = createSelector(
+export const currentMenuLinkSelector: (state: any) => MenuLink = createSelector(
     currentMenuSelector,
     (menu) => {
         const flattened = menu.groups.reduce((links, group) => {

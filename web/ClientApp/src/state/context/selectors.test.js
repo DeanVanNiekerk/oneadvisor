@@ -1,3 +1,4 @@
+// @flow
 import { applicationsSelector, currentApplicationSelector, currentMenuSelector, currentMenuLinkSelector } from './selectors'
 import { defaultState as defaultContextState } from './reducer'
 import { DEFAULT_APPLICATION_ID, MEMBER_ID, DIRECTORY_ID } from 'config/application'
@@ -40,8 +41,6 @@ describe('context selectors', () => {
             expect(actual[0]).toEqual({
                 id: DIRECTORY_ID,
                 name: "Directory",
-                color: "#3949ab",
-                icon: "security",
                 relativePath: "/directory",
                 isCurrent: true
             })
@@ -55,8 +54,6 @@ describe('context selectors', () => {
             expect(actual[1]).toEqual({
                 id: MEMBER_ID,
                 name: "Member",
-                color: "#00897b",
-                icon: "account_circle",
                 relativePath: "/member",
                 isCurrent: true
             })

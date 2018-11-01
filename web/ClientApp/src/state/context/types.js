@@ -1,6 +1,6 @@
 // @flow
 
-export type TApplication = {
+export type Application = {
     id: string,
     name: string,
     color: string,

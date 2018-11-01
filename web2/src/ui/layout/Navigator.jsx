@@ -11,7 +11,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import type { TApplication } from 'state/context/types'
+import type { Application } from 'state/context/types'
 
 import { applicationsSelector, currentApplicationSelector } from "state/context/selectors";
 
@@ -42,8 +42,8 @@ const AppBar = styled(AppBarMUI)`
 
 type Props = {
     onLogout: any,
-    applications: TApplication[],
-    currentApplication: TApplication,
+    applications: Application[],
+    currentApplication: Application,
     theme: any
   };
 
@@ -85,7 +85,7 @@ class Navigator extends Component<Props> {
 
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     applications: applicationsSelector(state),
     currentApplication: currentApplicationSelector(state) || {}
 })

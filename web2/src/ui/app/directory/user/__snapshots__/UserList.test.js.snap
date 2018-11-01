@@ -28,34 +28,60 @@ exports[`UserList renders loader 1`] = `
 
 exports[`UserList renders table 1`] = `
 <div>
-  <h3>
-    Users
-  </h3>
   <table
-    className="table"
+    className="MuiTable-root-1"
   >
-    <thead>
-      <tr>
-        <th>
+    <thead
+      className="MuiTableHead-root-2"
+    >
+      <tr
+        className="MuiTableRow-root-3 MuiTableRow-head-6"
+      >
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-head-9"
+          scope="col"
+        >
           Id
         </th>
-        <th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-head-9"
+          scope="col"
+        >
           First Name
         </th>
-        <th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-head-9"
+          scope="col"
+        >
           Last Name
         </th>
       </tr>
     </thead>
-    <tbody>
-      <tr>
-        <td>
+    <tbody
+      className="MuiTableBody-root-16"
+    >
+      <tr
+        className="MuiTableRow-root-3"
+      >
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-body-10"
+        >
           1
         </td>
-        <td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-body-10"
+        >
           Jack
         </td>
-        <td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root-8 MuiTableCell-body-10"
+        >
           Johnson
         </td>
       </tr>

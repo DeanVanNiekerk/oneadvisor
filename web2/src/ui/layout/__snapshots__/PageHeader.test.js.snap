@@ -2,6 +2,6 @@
 
 exports[`PageHeader renders correctly 1`] = `
 <div>
-  Users
+  todo
 </div>
 `;

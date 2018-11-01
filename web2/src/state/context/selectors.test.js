@@ -37,14 +37,12 @@ describe('context selectors', () => {
             const state = setupState('/directory/users');
             const actual = applicationsSelector(state)
 
-            expect(actual[0]).toEqual({
-                id: DIRECTORY_ID,
-                name: "Directory",
-                color: "#3949ab",
-                icon: "security",
-                relativePath: "/directory",
-                isCurrent: true
-            })
+            const app = actual[0];
+            
+            expect(app.id).toEqual(DIRECTORY_ID);
+            expect(app.name).toEqual("Directory");
+            expect(app.relativePath).toEqual("/directory");
+            expect(app.isCurrent).toEqual(true);
         })
 
         it('member app', () => {
@@ -52,14 +50,12 @@ describe('context selectors', () => {
             const state = setupState('/member/members');
             const actual = applicationsSelector(state)
 
-            expect(actual[1]).toEqual({
-                id: MEMBER_ID,
-                name: "Member",
-                color: "#00897b",
-                icon: "account_circle",
-                relativePath: "/member",
-                isCurrent: true
-            })
+            const app = actual[1];
+
+            expect(app.id).toEqual(MEMBER_ID);
+            expect(app.name).toEqual("Member");
+            expect(app.relativePath).toEqual("/member");
+            expect(app.isCurrent).toEqual(true);
         })
     })
 

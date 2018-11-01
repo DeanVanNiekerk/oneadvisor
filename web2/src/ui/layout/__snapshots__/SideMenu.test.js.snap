@@ -2,21 +2,30 @@
 
 exports[`SideMenu renders correctly 1`] = `
 <div
-  className="sc-bdVaJa eqEQhl"
+  className="MuiDrawer-docked-2 sc-bdVaJa gIbXsu"
 >
-  <div>
-    <div
-      className="pl-2 pb-1 text-uppercase"
+  <div
+    className="MuiPaper-root-13 MuiPaper-elevation0-15 MuiDrawer-paper-3 SideMenu-drawerPaper-1 MuiDrawer-paperAnchorLeft-4 MuiDrawer-paperAnchorDockedLeft-8"
+  >
+    <header
+      className="MuiPaper-root-13 MuiPaper-elevation4-19 MuiAppBar-root-40 MuiAppBar-positionStatic-44 MuiAppBar-colorPrimary-47"
     >
-      Management
-    </div>
+      <div
+        className="MuiToolbar-root-49 MuiToolbar-regular-51 MuiToolbar-gutters-50"
+      />
+    </header>
     <ul
-      className="flex-column nav"
+      className="MuiList-root-53 MuiList-padding-54 MuiList-subheader-56"
     >
+      <li
+        className="MuiListSubheader-root-57 MuiListSubheader-sticky-62 MuiListSubheader-gutters-60"
+      >
+        Management
+      </li>
       <li
         application={
           Object {
-            "color": "#3949ab",
+            "color": "#03a9f4",
             "icon": "security",
             "id": "DIRECTORY",
             "isCurrent": true,
@@ -24,7 +33,8 @@ exports[`SideMenu renders correctly 1`] = `
             "relativePath": "/directory",
           }
         }
-        className="pl-3 sc-bwzfXH kvaeoU nav-item"
+        className="MuiListItem-root-63 MuiListItem-default-66 MuiListItem-gutters-70"
+        disabled={false}
         link={
           Object {
             "icon": "people",
@@ -35,24 +45,31 @@ exports[`SideMenu renders correctly 1`] = `
           }
         }
       >
-        <span
-          aria-hidden="true"
-          className="material-icons MuiIcon-root-1 float-left mt-2 text-dark"
+        <div
+          className="MuiListItemIcon-root-74"
         >
-          people
-        </span>
-        <a
-          className="float-left nav-link text-dark pl-2"
-          href="/directory/users"
-          onClick={[Function]}
+          <span
+            aria-hidden="true"
+            className="material-icons MuiIcon-root-75"
+          >
+            people
+          </span>
+        </div>
+        <div
+          className="MuiListItemText-root-84"
+          to="/directory/users"
         >
-          Users
-        </a>
+          <span
+            className="MuiTypography-root-90 MuiTypography-subheading-97 MuiListItemText-primary-87"
+          >
+            Users
+          </span>
+        </div>
       </li>
       <li
         application={
           Object {
-            "color": "#3949ab",
+            "color": "#03a9f4",
             "icon": "security",
             "id": "DIRECTORY",
             "isCurrent": true,
@@ -60,7 +77,8 @@ exports[`SideMenu renders correctly 1`] = `
             "relativePath": "/directory",
           }
         }
-        className="pl-3 sc-bwzfXH hpXLxf nav-item"
+        className="MuiListItem-root-63 MuiListItem-default-66 MuiListItem-gutters-70"
+        disabled={false}
         link={
           Object {
             "icon": "business",
@@ -71,19 +89,26 @@ exports[`SideMenu renders correctly 1`] = `
           }
         }
       >
-        <span
-          aria-hidden="true"
-          className="material-icons MuiIcon-root-1 float-left mt-2 text-dark"
+        <div
+          className="MuiListItemIcon-root-74"
         >
-          business
-        </span>
-        <a
-          className="float-left nav-link text-dark pl-2"
-          href="/directory/organisations"
-          onClick={[Function]}
+          <span
+            aria-hidden="true"
+            className="material-icons MuiIcon-root-75"
+          >
+            business
+          </span>
+        </div>
+        <div
+          className="MuiListItemText-root-84"
+          to="/directory/organisations"
         >
-          Organisations
-        </a>
+          <span
+            className="MuiTypography-root-90 MuiTypography-subheading-97 MuiListItemText-primary-87"
+          >
+            Organisations
+          </span>
+        </div>
       </li>
     </ul>
   </div>

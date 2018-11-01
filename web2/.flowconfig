@@ -1,8 +1,12 @@
+
 [ignore]
+.*/node_modules/.*/test/.*
+.*/node_modules/.*/tests/.*
 
 [include]
 
 [libs]
+flow-typed/npm
 
 [lints]
 
