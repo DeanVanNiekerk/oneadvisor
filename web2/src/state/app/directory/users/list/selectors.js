@@ -1,8 +1,12 @@
+// @flow
+
 import { createSelector } from 'reselect'
+import type { User } from './types'
+import type { State } from './reducer'
 
-const rootSelector = state => state.app.directory.users.list
+const rootSelector = (state): State => state.app.directory.users.list
 
-export const listSelector = createSelector(
+export const listSelector: (state: any) => State = createSelector(
     rootSelector,
     root => root
 )

@@ -1,3 +1,5 @@
+// @flow
+
 import configureMockStore from 'redux-mock-store'
 import { apiMiddleware } from 'redux-api-middleware'
 import thunk from 'redux-thunk'
@@ -27,8 +29,8 @@ describe('user list actions', () => {
     fetchMock.getOnce(usersApi, { body: body })
 
     const expectedActions = [
-      {type: actions.USERS_LIST_FETCHING},
-      {type: actions.USERS_LIST_RECEIVE, payload: body}
+      {type: "USERS_LIST_FETCHING"},
+      {type: "USERS_LIST_RECEIVE", payload: body}
     ]
 
     return store.dispatch(actions.fetchUsers()).then(() => {

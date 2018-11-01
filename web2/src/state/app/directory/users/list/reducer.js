@@ -1,15 +1,25 @@
-import * as types from './actions';
+// @flow
 
-export const defaultState = {
+import * as types from './actions';
+import type { User } from './types'
+import type { Action } from './actions'
+
+export type State = {
+  items: User[],
+  fetching: boolean,
+  error: boolean
+}
+
+export const defaultState: State = {
   items: [],
   fetching: false,
   error: false
 }
 
-export const reducer = (state = defaultState, action) => {
+export const reducer = (state: State = defaultState, action: Action) => {
 
   switch (action.type) {
-    case types.USERS_LIST_RECEIVE: {
+    case "USERS_LIST_RECEIVE": {
       return {
         ...state,
         items: action.payload,
@@ -17,13 +27,13 @@ export const reducer = (state = defaultState, action) => {
         error: false
       }
     }
-    case types.USERS_LIST_FETCHING: {
+    case "USERS_LIST_FETCHING": {
       return {
         ...state,
         fetching: true
       }
     }
-    case types.USERS_LIST_FETCHING_ERROR: {
+    case "USERS_LIST_FETCHING_ERROR": {
       return {
         ...state,
         items: [],

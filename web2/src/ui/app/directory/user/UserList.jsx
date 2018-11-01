@@ -1,5 +1,7 @@
+// @flow
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+
 import { connect } from 'react-redux'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,10 +12,19 @@ import TableRow from '@material-ui/core/TableRow';
 import Loader from 'ui/common/Loader'
 import Error from 'ui/common/Error'
 
+import type { Dispatch } from 'state/types';
 import { listSelector } from 'state/app/directory/users/list/selectors'
 import { fetchUsers } from 'state/app/directory/users/list/actions'
+import type { User } from 'state/app/directory/users/list/types'
 
-class UserList extends Component {
+type Props = {
+    users: User[],
+    fetching: boolean,
+    error: boolean,
+    dispatch: Dispatch
+  };
+
+class UserList extends Component<Props> {
 
   componentDidMount() {
     this.props.dispatch(fetchUsers());
@@ -51,13 +62,6 @@ class UserList extends Component {
 
   }
 }
-
-UserList.propTypes = {
-  error: PropTypes.bool.isRequired,
-  fetching: PropTypes.bool.isRequired,
-  users: PropTypes.array.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => ({
   users: listSelector(state).items || [],

@@ -1,3 +1,5 @@
+// @flow
+
 import { applicationsSelector, currentApplicationSelector, currentMenuSelector, currentMenuLinkSelector } from './selectors'
 import { defaultState as defaultContextState } from './reducer'
 import { DEFAULT_APPLICATION_ID, MEMBER_ID, DIRECTORY_ID } from 'config/application'
