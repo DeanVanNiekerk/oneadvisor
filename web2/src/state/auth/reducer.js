@@ -1,4 +1,15 @@
+// @flow
+
 import * as types from './actions';
+import type { UserInfo } from './types'
+import type { Action } from './actions'
+
+export type State = {
+  +authenticated: boolean,
+  +userInfo: ?UserInfo,
+  +idToken: ?string,
+  +accessToken: ?string
+}
 
 export const defaultState = {
   authenticated: false,
@@ -7,10 +18,10 @@ export const defaultState = {
   accessToken: null
 }
 
-export default (state = defaultState, action) => {
+export const reducer = (state: State = defaultState, action: Action) => {
 
   switch (action.type) {
-    case types.AUTH_RECIEVE_AUTHENTICATION: {
+    case "AUTH_RECIEVE_AUTHENTICATION": {
       return {
         ...state,
         authenticated: true,
@@ -19,7 +30,7 @@ export default (state = defaultState, action) => {
         accessToken: action.payload.accessToken
       }
     }
-    case types.AUTH_RECIEVE_AUTHENTICATION_CLEAR: {
+    case "AUTH_RECIEVE_AUTHENTICATION_CLEAR": {
       return {
         ...defaultState
       }

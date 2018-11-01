@@ -1,3 +1,5 @@
+// @flow
+
 import { listSelector } from './selectors'
 
 describe('user list selectors', () => {
@@ -20,6 +22,7 @@ describe('user list selectors', () => {
             property: '1'
         };
 
+        //$FlowFixMe
         const actual = listSelector(state)
 
         expect(actual).toEqual(expected);

@@ -1,13 +1,15 @@
 // @flow
+
 import { createSelector } from 'reselect'
 import { DEFAULT_APPLICATION_ID } from 'config/application'
+import type { State as RootState } from 'state/rootReducer'
 import type { Application, Menus, Menu, MenuLink } from './types'
 
-const pathNameSelector = (state): string => state.router.location.pathname
-const appsSelector = (state): Application[]  => state.context.applications
-const menusSelector = (state): Menus => state.context.menus
+const pathNameSelector = (state: RootState): string => (state.router ? state.router.location.pathname : "")
+const appsSelector = (state: RootState): Application[] => state.context.applications
+const menusSelector = (state: RootState): Menus => state.context.menus
 
-export const applicationsSelector: (state: any) => Application[] = createSelector(
+export const applicationsSelector: (state: RootState) => Application[] = createSelector(
     pathNameSelector,
     appsSelector,
     (pathName, applications) => {
@@ -22,14 +24,14 @@ export const applicationsSelector: (state: any) => Application[] = createSelecto
     }
 )
 
-export const currentApplicationSelector: (state: any) => Application = createSelector(
+export const currentApplicationSelector: (state: RootState) => Application = createSelector(
     applicationsSelector,
     (applications) => {
         return applications.filter(app => app.isCurrent)[0]
     }
 )
 
-export const currentMenuSelector: (state: any) => Menu = createSelector(
+export const currentMenuSelector: (state: RootState) => Menu = createSelector(
     pathNameSelector,
     currentApplicationSelector,
     menusSelector,
@@ -54,7 +56,7 @@ export const currentMenuSelector: (state: any) => Menu = createSelector(
     }
 )
 
-export const currentMenuLinkSelector: (state: any) => MenuLink = createSelector(
+export const currentMenuLinkSelector: (state: RootState) => MenuLink = createSelector(
     currentMenuSelector,
     (menu) => {
         const flattened = menu.groups.reduce((links, group) => {

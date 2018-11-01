@@ -28,6 +28,8 @@ describe('context selectors', () => {
         it('root path', () => {
 
             const state = setupState('/');
+
+            //$FlowFixMe
             const actual = applicationsSelector(state)
 
             expect(actual.length).toEqual(2);
@@ -37,6 +39,8 @@ describe('context selectors', () => {
         it('directory app', () => {
 
             const state = setupState('/directory/users');
+
+            //$FlowFixMe
             const actual = applicationsSelector(state)
 
             const app = actual[0];
@@ -50,6 +54,8 @@ describe('context selectors', () => {
         it('member app', () => {
 
             const state = setupState('/member/members');
+
+            //$FlowFixMe
             const actual = applicationsSelector(state)
 
             const app = actual[1];
@@ -66,6 +72,8 @@ describe('context selectors', () => {
         it('get current app - default', () => {
 
             const state = setupState();
+
+            //$FlowFixMe
             const actual = currentApplicationSelector(state)
 
             expect(actual.id).toEqual(DEFAULT_APPLICATION_ID);
@@ -74,6 +82,8 @@ describe('context selectors', () => {
         it('get current app - not default', () => {
 
             const state = setupState('/member');
+
+            //$FlowFixMe
             const actual = currentApplicationSelector(state)
 
             expect(actual.id).toEqual(MEMBER_ID);
@@ -87,6 +97,8 @@ describe('context selectors', () => {
         it('get current app menu - default app', () => {
 
             const state = setupState();
+
+            //$FlowFixMe
             const actual = currentMenuSelector(state)
 
             expect(actual.relativePath).toEqual(menus[DEFAULT_APPLICATION_ID].relativePath);
@@ -99,6 +111,8 @@ describe('context selectors', () => {
         it('get current app menu link - default app', () => {
 
             const state = setupState();
+
+            //$FlowFixMe
             const link = currentMenuLinkSelector(state)
 
             //Bit of a guess, but whatevs

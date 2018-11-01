@@ -13,6 +13,7 @@ import Loader from 'ui/common/Loader'
 import Error from 'ui/common/Error'
 
 import type { Dispatch } from 'state/types';
+import type { State as RootState } from 'state/rootReducer'
 import { listSelector } from 'state/app/directory/users/list/selectors'
 import { fetchUsers } from 'state/app/directory/users/list/actions'
 import type { User } from 'state/app/directory/users/list/types'
@@ -63,7 +64,7 @@ class UserList extends Component<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState) => ({
   users: listSelector(state).items || [],
   fetching: listSelector(state).fetching,
   error: listSelector(state).error

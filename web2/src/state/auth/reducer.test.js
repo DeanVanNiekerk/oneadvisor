@@ -1,22 +1,20 @@
-import reducer, { defaultState } from './reducer';
+// @flow
+
+import { reducer, defaultState } from './reducer';
 import * as types from './actions'
 
 describe('auth reducer', () => {
 
-    it('should return the default state', () => {
-        expect(reducer(undefined, {})).toEqual(defaultState);
-    })
-
     it('should handle AUTH_RECIEVE_AUTHENTICATION', () => {
 
         const payload = {
-            userInfo: { firstName: 'Dean' },
+            userInfo: { firstName: 'Dean', lastName: 'Jonny' },
             idToken: '1234134',
             accessToken: '431212',
         }
 
         const actualState = reducer(defaultState, {
-            type: types.AUTH_RECIEVE_AUTHENTICATION,
+            type: "AUTH_RECIEVE_AUTHENTICATION",
             payload: { ...payload }
         })
 
@@ -34,13 +32,13 @@ describe('auth reducer', () => {
         const initalState = {
             ...defaultState,
             authenticated: true,
-            userInfo: { firstName: 'Dean' },
+            userInfo: { firstName: 'Dean', lastName: 'Jonny' },
             idToken: '1234134',
             accessToken: '431212'
         }
 
         const actualState = reducer(initalState, {
-            type: types.AUTH_RECIEVE_AUTHENTICATION_CLEAR
+            type: "AUTH_RECIEVE_AUTHENTICATION_CLEAR"
         })
 
         const expectedState = {

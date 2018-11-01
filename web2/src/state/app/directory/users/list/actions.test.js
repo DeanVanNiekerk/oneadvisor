@@ -5,7 +5,7 @@ import { apiMiddleware } from 'redux-api-middleware'
 import thunk from 'redux-thunk'
 import fetchMock from 'fetch-mock'
 
-import { usersApi } from 'config/directoryApi'
+import { usersApi } from 'config/api/directory'
 import * as actions from './actions'
 
 const middlewares = [ thunk, apiMiddleware ]

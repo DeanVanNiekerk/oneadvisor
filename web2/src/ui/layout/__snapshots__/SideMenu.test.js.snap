@@ -2,7 +2,7 @@
 
 exports[`SideMenu renders correctly 1`] = `
 <div
-  className="MuiDrawer-docked-2 sc-bdVaJa gIbXsu"
+  className="MuiDrawer-docked-2 sc-bdVaJa psuTu"
 >
   <div
     className="MuiPaper-root-13 MuiPaper-elevation0-15 MuiDrawer-paper-3 SideMenu-drawerPaper-1 MuiDrawer-paperAnchorLeft-4 MuiDrawer-paperAnchorDockedLeft-8"

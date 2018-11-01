@@ -1,7 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types';
+// @flow
 
-const Error = ({ text = "An error has occured, please reload the application" }) => {
+import React from 'react'
+
+type Props = {
+  text?: string
+};
+
+const Error = ({ text = "An error has occured, please reload the application" }: Props) => {
 
     return (
         <div className="mt-5 mb-5">
@@ -12,9 +17,5 @@ const Error = ({ text = "An error has occured, please reload the application" })
     )
 
 }
-
-Error.propTypes = {
-    text: PropTypes.string
-};
 
 export default Error

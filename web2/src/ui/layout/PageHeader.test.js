@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PageHeader from './PageHeader';
 import renderer from 'react-test-renderer';

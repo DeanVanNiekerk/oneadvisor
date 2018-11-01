@@ -12,3 +12,6 @@ $ npm-check -u
 ## Flow Type Definitions
 $ npm i flow-typed -g
 flow-typed install reselect@4.0.0
+
+
+remove prop types

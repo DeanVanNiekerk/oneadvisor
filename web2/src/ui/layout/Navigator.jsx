@@ -1,24 +1,34 @@
 // @flow
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import styled, { css } from 'styled-components'
-import { connect } from 'react-redux'
-import Icon from '@material-ui/core/Icon';
-import { withTheme } from '@material-ui/core/styles';
 
-import AppBarMUI from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import styled, { css } from "styled-components";
+import { connect } from "react-redux";
+import Icon from "@material-ui/core/Icon";
+import { withTheme } from "@material-ui/core/styles";
 
-import type { Application } from 'state/context/types'
+import type { Theme } from "@material-ui/core/styles/createMuiTheme";
 
-import { applicationsSelector, currentApplicationSelector } from "state/context/selectors";
+import AppBarMUI from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+
+import type { State as RootState } from "state/rootReducer";
+import type { Application } from "state/context/types";
+
+import {
+  applicationsSelector,
+  currentApplicationSelector
+} from "state/context/selectors";
+
+type AppBarProps = {
+  theme: Theme
+};
 
 const AppBar = styled(AppBarMUI)`
-  z-index: ${props => props.theme.zIndex.drawer + 1} !important;
-`
-
+  z-index: ${(props: AppBarProps) => props.theme.zIndex.drawer + 1} !important;
+`;
 
 // const NavItem = styled(NavItemBs)`
 //     padding: 0.4rem 1.5rem;
@@ -41,56 +51,50 @@ const AppBar = styled(AppBarMUI)`
 // `
 
 type Props = {
-    onLogout: any,
-    applications: Application[],
-    currentApplication: Application,
-    theme: any
-  };
+  onLogout: Function,
+  applications: Application[],
+  currentApplication: Application,
+  theme: Theme
+};
 
 class Navigator extends Component<Props> {
-
-    render() {
-
-        return (
-            <AppBar position="fixed" theme={this.props.theme}>
-                    <Toolbar>
-                         <Typography variant="h6" color="inherit">
-                            ONEADVISOR
-                        </Typography>
-                        <Button color="inherit">Signout</Button>
-                    </Toolbar>
-                </AppBar>
-            // <Navbar color="primary" dark expand="md" sticky="top" application={this.props.currentApplication}>
-            //     <NavbarBrand href="/">
-            //         <span className="font-weight-bold">ONE</span><span className="font-weight-light">ADVISOR</span>
-            //     </NavbarBrand>
-            //     <Nav className="mr-auto" navbar>
-            //         {this.props.applications.map(app => (
-            //             <NavItem key={app.id} application={app}>
-            //                 <Icon className="float-left mt-2 text-light">{app.icon}</Icon>
-            //                 <Link className="float-left nav-link active" to={app.relativePath}>
-            //                     <span className="font-weight-light text-uppercase">{app.name}</span>
-            //                 </Link>
-            //             </NavItem>
-            //         ))}
-            //     </Nav>
-            //     <Nav className="ml-auto" navbar>
-            //         <NavItemBs>
-            //             <NavLink href="#" onClick={this.props.onLogout}>Signout</NavLink>
-            //         </NavItemBs>
-            //     </Nav>
-            // </Navbar>
-        )
-    }
-
+  render() {
+    return (
+      <AppBar position="fixed" theme={this.props.theme}>
+        <Toolbar>
+          <Typography variant="h6" color="inherit">
+            ONEADVISOR
+          </Typography>
+          <Button color="inherit">Signout</Button>
+        </Toolbar>
+      </AppBar>
+      // <Navbar color="primary" dark expand="md" sticky="top" application={this.props.currentApplication}>
+      //     <NavbarBrand href="/">
+      //         <span className="font-weight-bold">ONE</span><span className="font-weight-light">ADVISOR</span>
+      //     </NavbarBrand>
+      //     <Nav className="mr-auto" navbar>
+      //         {this.props.applications.map(app => (
+      //             <NavItem key={app.id} application={app}>
+      //                 <Icon className="float-left mt-2 text-light">{app.icon}</Icon>
+      //                 <Link className="float-left nav-link active" to={app.relativePath}>
+      //                     <span className="font-weight-light text-uppercase">{app.name}</span>
+      //                 </Link>
+      //             </NavItem>
+      //         ))}
+      //     </Nav>
+      //     <Nav className="ml-auto" navbar>
+      //         <NavItemBs>
+      //             <NavLink href="#" onClick={this.props.onLogout}>Signout</NavLink>
+      //         </NavItemBs>
+      //     </Nav>
+      // </Navbar>
+    );
+  }
 }
 
-const mapStateToProps = (state) => ({
-    applications: applicationsSelector(state),
-    currentApplication: currentApplicationSelector(state) || {}
-})
+const mapStateToProps = (state: RootState) => ({
+  applications: applicationsSelector(state),
+  currentApplication: currentApplicationSelector(state) || {}
+});
 
 export default connect(mapStateToProps)(withTheme()(Navigator));
-
-
-

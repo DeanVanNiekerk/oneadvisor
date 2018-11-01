@@ -1,7 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types';
+// @flow
 
-const Loader = ({ text = "loading..." }) => {
+import React from 'react'
+
+type Props = {
+  text?: string
+};
+
+const Loader = ({ text = "loading..." }: Props) => {
 
     return (
         <div className="mt-5 mb-5">
@@ -12,10 +17,5 @@ const Loader = ({ text = "loading..." }) => {
     )
 
 }
-
-Loader.propTypes = {
-    text: PropTypes.string
-};
-
 
 export default Loader

@@ -5,9 +5,9 @@ import type { User } from './types'
 import type { Action } from './actions'
 
 export type State = {
-  items: User[],
-  fetching: boolean,
-  error: boolean
+  +items: User[],
+  +fetching: boolean,
+  +error: boolean
 }
 
 export const defaultState: State = {

@@ -1,10 +1,11 @@
+// @flow
+
 import React from 'react';
 import { Switch, Route } from 'react-router';
 import { Security, ImplicitCallback, SecureRoute } from '@okta/okta-react';
 
 import config from 'config/config';
 import Authentication from './Authentication';
-
 
 //Directory
 import UserList from 'ui/app/directory/user/UserList';

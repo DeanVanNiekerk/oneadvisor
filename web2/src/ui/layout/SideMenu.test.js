@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import SideMenu from './SideMenu';
 import renderer from 'react-test-renderer';

@@ -1,19 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withAuth } from '@okta/okta-react';
-import { connect } from 'react-redux'
+// @flow
 
-import Layout from 'ui/layout/Layout';
-import Loader from 'ui/common/Loader'
+import React from "react";
+import PropTypes from "prop-types";
+import { withAuth } from "@okta/okta-react";
+import { connect } from "react-redux";
+import type { Dispatch } from "state/types";
+import type { State as RootState } from 'state/rootReducer'
 
-import { recieveAuthentication, clearAuthentication } from 'state/auth/actions'
+import Layout from "ui/layout/Layout";
+import Loader from "ui/common/Loader";
 
-class Authentication extends React.Component {
+import { recieveAuthentication, clearAuthentication } from "state/auth/actions";
 
+type Props = {
+  auth: Object,
+  authenticated: boolean,
+  dispatch: Dispatch,
+  children: any[]
+};
+
+class Authentication extends React.Component<Props> {
   constructor(props) {
-    super(props);
-    this.logout = this.logout.bind(this);
-    this.checkAuthentication = this.checkAuthentication.bind(this);
+      super(props);
   }
 
   async componentDidMount() {
@@ -24,8 +32,7 @@ class Authentication extends React.Component {
     this.checkAuthentication();
   }
 
-  async checkAuthentication() {
-
+  checkAuthentication = async () => {
     const authenticated = await this.props.auth.isAuthenticated();
 
     if (!authenticated) {
@@ -33,51 +40,39 @@ class Authentication extends React.Component {
       return;
     }
 
-    if (this.props.authenticated === authenticated)
-      return;
+    if (this.props.authenticated === authenticated) return;
 
     if (authenticated) {
       const userinfo = await this.props.auth.getUser();
       const idToken = await this.props.auth.getIdToken();
       const accessToken = await this.props.auth.getAccessToken();
-      this.props.dispatch(recieveAuthentication(userinfo, idToken, accessToken));
+      this.props.dispatch(
+        recieveAuthentication(userinfo, idToken, accessToken)
+      );
     } else {
-      this.props.dispatch(clearAuthentication(null));
+      this.props.dispatch(clearAuthentication());
     }
-
   }
 
-  logout() {
+  logout = () => {
     this.props.auth.logout();
   }
 
   render() {
-
     if (!this.props.authenticated)
-      return <div className="container-fluid"><Loader text="signing in..." /></div>
+      return (
+        <div className="container-fluid">
+          <Loader text="signing in..." />
+        </div>
+      );
 
-    return (
-      <Layout onLogout={this.logout}>
-        {this.props.children}
-      </Layout>
-    );
-
+    return <Layout onLogout={this.logout}>{this.props.children}</Layout>;
   }
 }
 
-Authentication.propTypes = {
-  auth: PropTypes.object.isRequired,
-  authenticated: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  children: PropTypes.array.isRequired
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState) => ({
   authenticated: state.auth.authenticated,
-  userInfo: state.auth.userInfo,
-})
+  userInfo: state.auth.userInfo
+});
 
-export default connect(mapStateToProps)(withAuth(Authentication))
-
-
-
+export default connect(mapStateToProps)(withAuth(Authentication));

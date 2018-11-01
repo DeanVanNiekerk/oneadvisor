@@ -1,4 +1,4 @@
-const defaultApi = "https://localhost:6001";
+// @flow
 
 export default {
   oidc: {
@@ -8,5 +8,5 @@ export default {
     redirectUri: `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ""}/implicit/callback`,
     scope: "openid profile email"
   },
-  directoryApi: defaultApi
+  baseApi: "https://localhost:6001"
 };

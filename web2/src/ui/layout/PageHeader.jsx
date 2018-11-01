@@ -1,9 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+// @flow
 
-import { currentMenuLinkSelector, currentApplicationSelector } from "state/context/selectors";
+import React, { Component } from "react";
+import styled from "styled-components";
+import { connect } from "react-redux";
+
+import type { State as RootState } from "state/rootReducer";
+import type { MenuLink, Application } from "state/context/types";
+import {
+  currentMenuLinkSelector,
+  currentApplicationSelector
+} from "state/context/selectors";
 
 // const Row = styled.div`
 //     color: #ffffff;
@@ -12,33 +18,30 @@ import { currentMenuLinkSelector, currentApplicationSelector } from "state/conte
 // `
 
 // const TitleColumn = styled.div`
-    
+
 // `
 
-
-class PageHeader extends React.Component {
-
-    render() {
-
-        return (
-            <div>todo</div>
-        //    <Row application={this.props.application} className="row align-items-center">
-        //         <TitleColumn className="col-auto font-weight-light">
-        //             <span>{this.props.link.name}</span>
-        //         </TitleColumn>
-        //    </Row>
-        );
-    }
-}
-
-PageHeader.propTypes = {
-    link: PropTypes.object.isRequired,
-    application: PropTypes.object.isRequired
+type Props = {
+  link: MenuLink,
+  application: Application
 };
 
-const mapStateToProps = state => ({
-    link: currentMenuLinkSelector(state),
-    application: currentApplicationSelector(state)
-})
+class PageHeader extends Component<Props> {
+  render() {
+    return (
+      <div>todo</div>
+      //    <Row application={this.props.application} className="row align-items-center">
+      //         <TitleColumn className="col-auto font-weight-light">
+      //             <span>{this.props.link.name}</span>
+      //         </TitleColumn>
+      //    </Row>
+    );
+  }
+}
 
-export default connect(mapStateToProps)(PageHeader)
+const mapStateToProps = (state: RootState) => ({
+  link: currentMenuLinkSelector(state),
+  application: currentApplicationSelector(state)
+});
+
+export default connect(mapStateToProps)(PageHeader);

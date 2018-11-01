@@ -4,13 +4,13 @@ import { menus } from 'config/menu'
 import { applications } from 'config/application'
 import type { Application, Menus } from './types'
 
-type Action = { 
+export type Action = { 
   type: string
 }
 
-type State = {
-  applications: Application[],
-  menus: Menus
+export type State = {
+  +applications: Application[],
+  +menus: Menus
 }
 
 export const defaultState: State = {
@@ -18,7 +18,7 @@ export const defaultState: State = {
   menus: menus
 }
 
-export default (state: State = defaultState, action: Action) => {
+export const reducer = (state: State = defaultState, action: Action) => {
 
   switch (action.type) {
     default: return state;

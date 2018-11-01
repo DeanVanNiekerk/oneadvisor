@@ -1,7 +1,7 @@
 // @flow
 
 import { RSAA } from 'redux-api-middleware';
-import { usersApi } from 'config/directoryApi'
+import { usersApi } from 'config/api/directory'
 import type { User } from './types'
 
 type UserListReceiveAction = { type: "USERS_LIST_RECEIVE", payload: User[] };
