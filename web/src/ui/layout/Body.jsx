@@ -1,30 +1,29 @@
 // @flow
 
-import React, { Component } from "react";
-import styled from "styled-components";
-import { withTheme } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
+import * as React from 'react';
+import styled from 'styled-components';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 
 const Main = styled.div`
-  flex-grow: 1 !important;
+    flex-grow: 1 !important;
 `;
 
 type Props = {
-  children: any[]
+    children: React.Node
 };
 
-class Body extends Component<Props> {
-  render() {
-    return (
-      <Main>
-        <AppBar position="static">
-          <Toolbar />
-        </AppBar>
-        {this.props.children}
-      </Main>
-    );
-  }
+class Body extends React.Component<Props> {
+    render() {
+        return (
+            <Main>
+                <AppBar position="static">
+                    <Toolbar />
+                </AppBar>
+                {this.props.children}
+            </Main>
+        );
+    }
 }
 
-export default withTheme()(Body);
+export default Body;

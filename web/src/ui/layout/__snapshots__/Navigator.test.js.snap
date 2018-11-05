@@ -2,7 +2,17 @@
 
 exports[`Navigator renders correctly 1`] = `
 <header
-  className="MuiPaper-root-10 MuiPaper-elevation4-16 MuiAppBar-root-1 MuiAppBar-positionFixed-2 MuiAppBar-colorPrimary-8 mui-fixed sc-bdVaJa iEebtZ"
+  application={
+    Object {
+      "color": "#03a9f4",
+      "icon": "security",
+      "id": "DIRECTORY",
+      "isCurrent": true,
+      "name": "Directory",
+      "relativePath": "/directory",
+    }
+  }
+  className="MuiPaper-root-10 MuiPaper-elevation4-16 MuiAppBar-root-1 MuiAppBar-positionFixed-2 MuiAppBar-colorPrimary-8 mui-fixed sc-bdVaJa dUoBuG"
   theme={
     Object {
       "breakpoints": Object {
@@ -367,38 +377,45 @@ exports[`Navigator renders correctly 1`] = `
   }
 >
   <div
-    className="MuiToolbar-root-37 MuiToolbar-regular-39 MuiToolbar-gutters-38"
+    className="MuiToolbar-root-37 MuiToolbar-regular-39 MuiToolbar-gutters-38 sc-bwzfXH bTHaXZ"
   >
-    <h6
-      className="MuiTypography-root-41 MuiTypography-h6-58 MuiTypography-colorInherit-70"
+    <div
+      className="sc-bxivhb iQPEAS"
     >
       ONEADVISOR
-    </h6>
-    <button
-      className="MuiButtonBase-root-102 MuiButton-root-76 MuiButton-text-78 MuiButton-flat-81 MuiButton-colorInherit-97"
-      disabled={false}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      tabIndex="0"
-      type="button"
+    </div>
+    <div
+      className="sc-ifAKCX bQgWGE"
+      onClick={[Function]}
     >
       <span
-        className="MuiButton-label-77"
+        aria-hidden="true"
+        className="material-icons MuiIcon-root-41"
       >
-        Signout
+        security
       </span>
       <span
-        className="MuiTouchRipple-root-105"
-      />
-    </button>
+        className="sc-EHOje wdkdE"
+      >
+        Directory
+      </span>
+    </div>
+    <div
+      className="sc-ifAKCX epUGyL"
+      onClick={[Function]}
+    >
+      <span
+        aria-hidden="true"
+        className="material-icons MuiIcon-root-41"
+      >
+        account_circle
+      </span>
+      <span
+        className="sc-EHOje wdkdE"
+      >
+        Member
+      </span>
+    </div>
   </div>
 </header>
 `;
