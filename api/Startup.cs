@@ -25,14 +25,17 @@ namespace api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var mapper = MappingSetup.ConfigureMappings();
+
             var serviceSetup = new ServiceSetup(Configuration, services);
             serviceSetup.ConfigureCors();
             serviceSetup.ConfigureAuthentication();
             serviceSetup.ConfigureSettings();
             serviceSetup.ConfigureRepositories();
             serviceSetup.ConfigureServices();
+            serviceSetup.ConfigureMapper(mapper);
 
-             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

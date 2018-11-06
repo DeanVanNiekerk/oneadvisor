@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -61,6 +62,11 @@ namespace api
         public void ConfigureServices()
         {
             Services.AddScoped<IUserService, UserService>();
+        }
+
+        public void ConfigureMapper(IMapper mapper)
+        {
+            Services.AddSingleton(typeof(IMapper), mapper);
         }
     }
 }

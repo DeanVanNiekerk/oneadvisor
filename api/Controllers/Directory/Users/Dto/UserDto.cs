@@ -1,8 +1,15 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OneAdvisor.Model.Directory.Interface.Service;
+using OneAdvisor.Model.Directory.Model.User;
 
-namespace OneAdvisor.Model.Directory.Model.User
+namespace api.Controllers.Directory.Users.Dto
 {
-    public class UserInfo
+    public class UserDto
     {
         public string Id { get; set; }
         public string FirstName { get; set; }

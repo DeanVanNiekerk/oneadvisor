@@ -36,8 +36,13 @@ namespace OneAdvisor.Repository.Okta.Repository
 
             return userInfoDtos.Select(u => new UserInfo() {
                 Id = u.id,
-                FirstName  = u.profile.firstName,
-                LastName  = u.profile.lastName,
+                FirstName = u.profile.firstName,
+                LastName = u.profile.lastName,
+                LastLogin = Utils.ParseDate(u.lastLogin),
+                LastUpdated = Utils.ParseDate(u.lastUpdated),
+                Status = u.status,
+                Activated = Utils.ParseDate(u.activated),
+                OrganisationId = Guid.Parse(u.profile.organization)
             });
         }
     }
