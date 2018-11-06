@@ -16,76 +16,107 @@ exports[`UserList renders error 1`] = `
 
 exports[`UserList renders loader 1`] = `
 <div
-  className="mt-5 mb-5"
+  className="MuiGrid-container-17 MuiGrid-direction-xs-column-20 MuiGrid-align-items-xs-center-25 MuiGrid-justify-xs-center-34 sc-bdVaJa cbLjyO"
 >
   <div
-    className="row justify-content-center"
+    className="MuiGrid-item-18"
   >
-    loading users...
+    <div
+      className="MuiCircularProgress-root-114 MuiCircularProgress-colorSecondary-118 MuiCircularProgress-indeterminate-116"
+      role="progressbar"
+      style={
+        Object {
+          "height": 40,
+          "width": 40,
+        }
+      }
+    >
+      <svg
+        className="MuiCircularProgress-svg-119"
+        viewBox="22 22 44 44"
+      >
+        <circle
+          className="MuiCircularProgress-circle-120 MuiCircularProgress-circleIndeterminate-122"
+          cx={44}
+          cy={44}
+          fill="none"
+          r={20.2}
+          strokeWidth={3.6}
+          style={Object {}}
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-item-18"
+  >
+    <p
+      className="MuiTypography-root-123 MuiTypography-body1-132 sc-bwzfXH kGFiPV"
+    >
+      loading users...
+    </p>
   </div>
 </div>
 `;
 
 exports[`UserList renders table 1`] = `
-<div>
-  <table
-    className="MuiTable-root-1"
+<table
+  className="MuiTable-root-1"
+>
+  <thead
+    className="MuiTableHead-root-2"
   >
-    <thead
-      className="MuiTableHead-root-2"
+    <tr
+      className="MuiTableRow-root-3 MuiTableRow-head-6"
     >
-      <tr
-        className="MuiTableRow-root-3 MuiTableRow-head-6"
+      <th
+        aria-sort={null}
+        className="MuiTableCell-root-8 MuiTableCell-head-9"
+        scope="col"
       >
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root-8 MuiTableCell-head-9"
-          scope="col"
-        >
-          Id
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root-8 MuiTableCell-head-9"
-          scope="col"
-        >
-          First Name
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root-8 MuiTableCell-head-9"
-          scope="col"
-        >
-          Last Name
-        </th>
-      </tr>
-    </thead>
-    <tbody
-      className="MuiTableBody-root-16"
+        Id
+      </th>
+      <th
+        aria-sort={null}
+        className="MuiTableCell-root-8 MuiTableCell-head-9"
+        scope="col"
+      >
+        First Name
+      </th>
+      <th
+        aria-sort={null}
+        className="MuiTableCell-root-8 MuiTableCell-head-9"
+        scope="col"
+      >
+        Last Name
+      </th>
+    </tr>
+  </thead>
+  <tbody
+    className="MuiTableBody-root-16"
+  >
+    <tr
+      className="MuiTableRow-root-3"
     >
-      <tr
-        className="MuiTableRow-root-3"
+      <td
+        aria-sort={null}
+        className="MuiTableCell-root-8 MuiTableCell-body-10"
       >
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root-8 MuiTableCell-body-10"
-        >
-          1
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root-8 MuiTableCell-body-10"
-        >
-          Jack
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root-8 MuiTableCell-body-10"
-        >
-          Johnson
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+        1
+      </td>
+      <td
+        aria-sort={null}
+        className="MuiTableCell-root-8 MuiTableCell-body-10"
+      >
+        Jack
+      </td>
+      <td
+        aria-sort={null}
+        className="MuiTableCell-root-8 MuiTableCell-body-10"
+      >
+        Johnson
+      </td>
+    </tr>
+  </tbody>
+</table>
 `;

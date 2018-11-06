@@ -39,8 +39,7 @@ class UserList extends Component<Props> {
       return <Loader text="loading users..." />
 
     return (
-      <div>
-        <Table>
+      <Table>
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
@@ -58,7 +57,6 @@ class UserList extends Component<Props> {
                 )}
             </TableBody>
         </Table>
-      </div>
     )
 
   }

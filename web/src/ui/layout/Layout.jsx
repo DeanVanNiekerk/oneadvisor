@@ -2,16 +2,14 @@
 
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { MuiThemeProvider } from '@material-ui/core/styles';
 
 import Navigator from './Navigator';
 import SideMenu from './SideMenu';
 import PageHeader from './PageHeader';
 import Body from './Body';
-import { theme } from 'ui/theme/theme';
 
 const Root = styled.div`
+    height: 100%;
     display: flex;
 `;
 
@@ -23,14 +21,11 @@ type Props = {
 class Layout extends Component<Props> {
     render() {
         return (
-            <MuiThemeProvider theme={theme}>
-                <Root>
-                    <CssBaseline />
-                    <Navigator onLogout={this.props.onLogout} />
-                    <SideMenu />
-                    <Body>{this.props.children}</Body>
-                </Root>
-            </MuiThemeProvider>
+            <Root>
+                <Navigator onLogout={this.props.onLogout} />
+                <SideMenu />
+                <Body>{this.props.children}</Body>
+            </Root>
         );
     }
 }

@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import Icon from '@material-ui/core/Icon';
 import DrawerMUI from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
+import ListMUI from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -33,6 +33,10 @@ const Drawer = styled(DrawerMUI)`
     & > div {
         width: ${drawerWidth}px !important;
     }
+`;
+
+const List = styled(ListMUI)`
+    margin-top:5px !important;
 `;
 
 type Props = {
@@ -79,7 +83,6 @@ const ListItemContext = styled.li`
     ${props =>
         props.link.isCurrent &&
         css`
-            background-color: #d4d4d4;
             border-left: 6px solid ${props => props.application.color};
         `} ${props =>
         !props.link.isCurrent &&

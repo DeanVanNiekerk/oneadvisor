@@ -4,7 +4,7 @@ exports[`Navigator renders correctly 1`] = `
 <header
   application={
     Object {
-      "color": "#03a9f4",
+      "color": "#607D8B",
       "icon": "security",
       "id": "DIRECTORY",
       "isCurrent": true,
@@ -12,7 +12,7 @@ exports[`Navigator renders correctly 1`] = `
       "relativePath": "/directory",
     }
   }
-  className="MuiPaper-root-10 MuiPaper-elevation4-16 MuiAppBar-root-1 MuiAppBar-positionFixed-2 MuiAppBar-colorPrimary-8 mui-fixed sc-bdVaJa dUoBuG"
+  className="MuiPaper-root-10 MuiPaper-elevation4-16 MuiAppBar-root-1 MuiAppBar-positionFixed-2 MuiAppBar-colorPrimary-8 mui-fixed sc-bdVaJa cwNkJv"
   theme={
     Object {
       "breakpoints": Object {
@@ -380,12 +380,21 @@ exports[`Navigator renders correctly 1`] = `
     className="MuiToolbar-root-37 MuiToolbar-regular-39 MuiToolbar-gutters-38 sc-bwzfXH bTHaXZ"
   >
     <div
-      className="sc-bxivhb iQPEAS"
+      className="sc-bxivhb fiXNRP"
     >
-      ONEADVISOR
+      <span
+        className="sc-EHOje icGfMx"
+      >
+        One
+      </span>
+      <span
+        className="sc-ifAKCX cmmCMQ"
+      >
+        Advisor
+      </span>
     </div>
     <div
-      className="sc-ifAKCX bQgWGE"
+      className="sc-bZQynM jqhrYF"
       onClick={[Function]}
     >
       <span
@@ -395,13 +404,13 @@ exports[`Navigator renders correctly 1`] = `
         security
       </span>
       <span
-        className="sc-EHOje wdkdE"
+        className="sc-gzVnrw iBnVMu"
       >
         Directory
       </span>
     </div>
     <div
-      className="sc-ifAKCX epUGyL"
+      className="sc-bZQynM fUYUpO"
       onClick={[Function]}
     >
       <span
@@ -411,7 +420,7 @@ exports[`Navigator renders correctly 1`] = `
         account_circle
       </span>
       <span
-        className="sc-EHOje wdkdE"
+        className="sc-gzVnrw iBnVMu"
       >
         Member
       </span>

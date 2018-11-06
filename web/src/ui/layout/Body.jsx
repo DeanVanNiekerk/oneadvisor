@@ -4,8 +4,11 @@ import * as React from 'react';
 import styled from 'styled-components';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
-const Main = styled.div`
+import PageHeader from './PageHeader';
+
+const Main = styled(Typography)`
     flex-grow: 1 !important;
 `;
 
@@ -16,10 +19,11 @@ type Props = {
 class Body extends React.Component<Props> {
     render() {
         return (
-            <Main>
+            <Main variant="body1" component="div">
                 <AppBar position="static">
                     <Toolbar />
                 </AppBar>
+                <PageHeader />
                 {this.props.children}
             </Main>
         );

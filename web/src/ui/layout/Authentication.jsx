@@ -60,11 +60,7 @@ class Authentication extends React.Component<Props> {
 
     render() {
         if (!this.props.authenticated)
-            return (
-                <div className="container-fluid">
-                    <Loader text="signing in..." />
-                </div>
-            );
+            return <Loader text="signing in..." />
 
         return <Layout onLogout={this.logout}>{this.props.children}</Layout>;
     }

@@ -2,24 +2,90 @@
 
 exports[`Loader renders correctly - with no text 1`] = `
 <div
-  className="mt-5 mb-5"
+  className="MuiGrid-container-1 MuiGrid-direction-xs-column-4 MuiGrid-align-items-xs-center-9 MuiGrid-justify-xs-center-18 sc-bdVaJa cbLjyO"
 >
   <div
-    className="row justify-content-center"
+    className="MuiGrid-item-2"
   >
-    loading...
+    <div
+      className="MuiCircularProgress-root-98 MuiCircularProgress-colorSecondary-102 MuiCircularProgress-indeterminate-100"
+      role="progressbar"
+      style={
+        Object {
+          "height": 40,
+          "width": 40,
+        }
+      }
+    >
+      <svg
+        className="MuiCircularProgress-svg-103"
+        viewBox="22 22 44 44"
+      >
+        <circle
+          className="MuiCircularProgress-circle-104 MuiCircularProgress-circleIndeterminate-106"
+          cx={44}
+          cy={44}
+          fill="none"
+          r={20.2}
+          strokeWidth={3.6}
+          style={Object {}}
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-item-2"
+  >
+    <p
+      className="MuiTypography-root-107 MuiTypography-body1-116 sc-bwzfXH kGFiPV"
+    >
+      loading...
+    </p>
   </div>
 </div>
 `;
 
 exports[`Loader renders correctly - with text 1`] = `
 <div
-  className="mt-5 mb-5"
+  className="MuiGrid-container-1 MuiGrid-direction-xs-column-4 MuiGrid-align-items-xs-center-9 MuiGrid-justify-xs-center-18 sc-bdVaJa cbLjyO"
 >
   <div
-    className="row justify-content-center"
+    className="MuiGrid-item-2"
   >
-    Custom loader message
+    <div
+      className="MuiCircularProgress-root-98 MuiCircularProgress-colorSecondary-102 MuiCircularProgress-indeterminate-100"
+      role="progressbar"
+      style={
+        Object {
+          "height": 40,
+          "width": 40,
+        }
+      }
+    >
+      <svg
+        className="MuiCircularProgress-svg-103"
+        viewBox="22 22 44 44"
+      >
+        <circle
+          className="MuiCircularProgress-circle-104 MuiCircularProgress-circleIndeterminate-106"
+          cx={44}
+          cy={44}
+          fill="none"
+          r={20.2}
+          strokeWidth={3.6}
+          style={Object {}}
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-item-2"
+  >
+    <p
+      className="MuiTypography-root-107 MuiTypography-body1-116 sc-bwzfXH kGFiPV"
+    >
+      Custom loader message
+    </p>
   </div>
 </div>
 `;

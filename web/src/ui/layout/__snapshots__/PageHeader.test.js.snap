@@ -1,7 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageHeader renders correctly 1`] = `
-<div>
-  todo
+<div
+  application={
+    Object {
+      "color": "#607D8B",
+      "icon": "security",
+      "id": "DIRECTORY",
+      "isCurrent": true,
+      "name": "Directory",
+      "relativePath": "/directory",
+    }
+  }
+  className="MuiGrid-container-1 MuiGrid-direction-xs-column-4 MuiGrid-justify-xs-center-18 sc-bdVaJa jbQtAp"
+>
+  <div
+    className="MuiGrid-item-2 sc-bwzfXH ckmyXx"
+  >
+    Users
+  </div>
 </div>
 `;

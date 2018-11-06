@@ -15,7 +15,7 @@ exports[`SideMenu renders correctly 1`] = `
       />
     </header>
     <ul
-      className="MuiList-root-52 MuiList-padding-53 MuiList-subheader-55"
+      className="MuiList-root-52 MuiList-padding-53 MuiList-subheader-55 sc-bwzfXH gjYcba"
     >
       <li
         className="MuiListSubheader-root-56 MuiListSubheader-sticky-61 MuiListSubheader-gutters-59"
@@ -23,7 +23,7 @@ exports[`SideMenu renders correctly 1`] = `
         Management
       </li>
       <li
-        className="sc-bwzfXH ckzgYG"
+        className="sc-htpNat cDxzgm"
       >
         <a
           className="MuiButtonBase-root-73 MuiListItem-root-62 MuiListItem-default-65 MuiListItem-gutters-69 MuiListItem-button-70 MuiListItem-selected-72"
@@ -67,7 +67,7 @@ exports[`SideMenu renders correctly 1`] = `
         </a>
       </li>
       <li
-        className="sc-bwzfXH kUAizP"
+        className="sc-htpNat ifuAHS"
       >
         <a
           className="MuiButtonBase-root-73 MuiListItem-root-62 MuiListItem-default-65 MuiListItem-gutters-69 MuiListItem-button-70"

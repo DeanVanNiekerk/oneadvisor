@@ -11,7 +11,6 @@ import type { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 import AppBarMUI from '@material-ui/core/AppBar';
 import ToolbarMUI from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import type { State as RootState } from 'state/rootReducer';
@@ -50,7 +49,15 @@ const ToolbarItem = styled.div`
 const Header = styled(ToolbarItem)`
     justify-content: left;
     width: 215px;
-    font-size: 1.3em;
+    font-size: 1.6rem;
+`;
+
+const Light = styled.span`
+    font-weight: 100;
+`;
+
+const Bold = styled.span`
+    font-weight: 800;
 `;
 
 const NavItem = styled(ToolbarItem)`
@@ -87,7 +94,10 @@ class Navigator extends Component<Props> {
                 theme={this.props.theme}
             >
                 <Toolbar>
-                    <Header theme={this.props.theme}>ONEADVISOR</Header>
+                    <Header theme={this.props.theme}>
+                        <Bold>One</Bold>
+                        <Light>Advisor</Light>
+                    </Header>
                     {this.props.applications.map(app => (
                         <NavItem
                             key={app.id}
