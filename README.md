@@ -3,14 +3,14 @@
 ## Setup
 
 1. Run ```dotnet restore``` in the root directory to restore dotnet packages
-1. Run ```npm install``` in the web/ClientApp directory to install node dependancies
+1. Run ```npm install``` in the web/ directory to install node dependancies
 
 ## Running the application
 
 > In order to run in development mode, set the ASPNETCORE_ENVIRONMENT environment variable to Development
 
 1. Start the api by running ```dotnet run``` in api/ directory
-1. Then run the website by running```dotnet run``` in web/ directory
+1. Then run the website by running```npm run start:dev``` in web/ directory
 
 ---
 
@@ -43,18 +43,6 @@
 
 ---
 
-## Entity Framework
-
-### Updating the Database Scheme
-- Check the connection string in the ```nzone.Data/DataContextFactory.cs``` file is pointing to the appropriate dev db
-- Update Entities in the nzone.Data project
-- ```cd``` into the ```nzone.Data``` directory and run ```dotnet ef migrations add {migrationDescription}```
-- For example ```dotnet ef migrations add addMiddleNameToClientTable```
-- A migration should now have been added to the Migrations folder, review the migration and make any nessisary changes
-- Now apply the migration to the database by running ```dotnet ef database update```
-- More info [here](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/) 
-
----
 
 ## Bugs
 

@@ -26,9 +26,9 @@ namespace api.Controllers.Directory.Users
         private IUserService UserService { get; }
 
         [HttpGet("[action]")]
-        public Task<IEnumerable<UserDto>> Index()
+        public IEnumerable<UserDto> Index()
         {
-            return Mapper.Map<UserDto>(UserService.GetUsers());
+            return UserService.GetUsers().Result.Select(u => Mapper.Map<UserDto>(u));
         }
     }
 
