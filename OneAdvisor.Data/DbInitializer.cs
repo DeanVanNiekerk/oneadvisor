@@ -18,9 +18,9 @@ namespace OneAdvisor.Data
         public async Task<int> Clean()
         {
             var total = 0;
-            total += await _context.Database.ExecuteSqlCommandAsync("TRUNCATE TABLE [dir_RoleToUseCase]");
-            total += await _context.Database.ExecuteSqlCommandAsync("TRUNCATE TABLE [dir_UseCase]");
-            total += await _context.Database.ExecuteSqlCommandAsync("TRUNCATE TABLE [dir_Role]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_RoleToUseCase]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_UseCase]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Role]");
 
             return total;
         }

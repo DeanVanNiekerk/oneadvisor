@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OneAdvisor.Data;
 
-namespace api
+namespace api.App.Setup
 {
     public class DatabaseSetup
     {

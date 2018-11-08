@@ -109,7 +109,7 @@ class Navigator extends Component<Props> {
                             <NavItemText>{app.name}</NavItemText>
                         </NavItem>
                     ))}
-                    {/* <Button color="inherit">Signout</Button> */}
+                    <Button color="inherit" onClick={() => this.props.onLogout()}>Signout</Button>
                 </Toolbar>
             </AppBar>
         );

@@ -1,8 +1,6 @@
-
-
 using AutoMapper;
 
-namespace api
+namespace api.App.Setup
 {
     public class MappingSetup
     {

@@ -8,10 +8,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Model.Directory.Interface.Service;
 using OneAdvisor.Model.Directory.Model.User;
+using api.App.Authorization;
 
 namespace api.Controllers.Directory.Users
 {
-    [Authorize]
+    
     [ApiController]
     [Route("api/directory/users")]
     public class UsersController : Controller
@@ -25,6 +26,7 @@ namespace api.Controllers.Directory.Users
         private IMapper Mapper { get; }
         private IUserService UserService { get; }
 
+        [UseCaseAuthorize("dir_view_users")]
         [HttpGet("[action]")]
         public IEnumerable<UserDto> Index()
         {
