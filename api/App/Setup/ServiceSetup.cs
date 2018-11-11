@@ -6,12 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
-using OneAdvisor.Model.Directory.Interface.Repository;
-using OneAdvisor.Model.Directory.Interface.Service;
-using OneAdvisor.Repository.Directory;
-using OneAdvisor.Repository.Okta;
-using OneAdvisor.Repository.Okta.Repository;
+using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Service.Directory;
+using OneAdvisor.Service.Okta;
+using OneAdvisor.Service.Okta.Service;
 
 namespace api.App.Setup
 {
@@ -73,12 +71,6 @@ namespace api.App.Setup
         public void ConfigureSettings()
         {
             Services.Configure<OktaSettings>(Configuration.GetSection("Auth:Okta"));
-        }
-
-        public void ConfigureRepositories()
-        {
-            Services.AddScoped<IUserRepository, UserRepository>();
-            Services.AddScoped<IRoleRepository, RoleRepository>();
         }
 
         public void ConfigureServices()

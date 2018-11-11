@@ -6,5 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OneAdvisor.Model\OneAdvisor.Model.csproj" />
+    <ProjectReference Include="..\OneAdvisor.Data\OneAdvisor.Data.csproj" />
   </ItemGroup>
+
 </Project>

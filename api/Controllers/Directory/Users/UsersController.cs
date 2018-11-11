@@ -6,7 +6,7 @@ using api.Controllers.Directory.Users.Dto;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OneAdvisor.Model.Directory.Interface.Service;
+using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.User;
 using api.App.Authorization;
 

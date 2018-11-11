@@ -41,7 +41,6 @@ namespace api
             serviceSetup.ConfigureCors();
             serviceSetup.ConfigureAuthentication();
             serviceSetup.ConfigureSettings();
-            serviceSetup.ConfigureRepositories();
             serviceSetup.ConfigureServices();
             serviceSetup.ConfigureMapper(mapper);
 

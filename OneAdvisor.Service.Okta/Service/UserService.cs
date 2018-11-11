@@ -6,15 +6,15 @@ using System.Net.Http.Headers;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using OneAdvisor.Model.Directory.Interface.Repository;
+using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.User;
-using OneAdvisor.Repository.Okta.Repository.Dto;
+using OneAdvisor.Service.Okta.Service.Dto;
 
-namespace OneAdvisor.Repository.Okta.Repository
+namespace OneAdvisor.Service.Okta.Service
 {
-    public class UserRepository : IUserRepository
+    public class UserService : IUserService
     {
-        public UserRepository(IOptions<OktaSettings> options)
+        public UserService(IOptions<OktaSettings> options)
         {
             Settings = options.Value;
         }

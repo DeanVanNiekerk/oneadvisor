@@ -1,6 +1,6 @@
 using System;
 
-namespace OneAdvisor.Repository.Okta.Repository.Dto
+namespace OneAdvisor.Service.Okta.Service.Dto
 {
     public class UserInfoDto
     {

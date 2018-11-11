@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OneAdvisor.Repository.Okta.Repository
+namespace OneAdvisor.Service.Okta.Service
 {
     public class Utils
     {

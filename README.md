@@ -44,6 +44,8 @@
 ---
 
 
-## Bugs
+## TODO
 
-- Api not settings cors if 500
+- Repo tests
+- !!!!!! API JWT - Must check audience !!!!!!
+- Api not settings cors if 500?

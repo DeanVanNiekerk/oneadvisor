@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OneAdvisor.Repository.Okta
+namespace OneAdvisor.Service.Okta
 {
     public class OktaSettings
     {

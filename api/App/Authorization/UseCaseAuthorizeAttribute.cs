@@ -3,7 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using OneAdvisor.Model.Directory.Interface.Service;
+using OneAdvisor.Model.Directory.Interface;
 
 namespace api.App.Authorization
 {

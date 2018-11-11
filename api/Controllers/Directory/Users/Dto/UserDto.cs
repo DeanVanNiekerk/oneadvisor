@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OneAdvisor.Model.Directory.Interface.Service;
 using OneAdvisor.Model.Directory.Model.User;
 
 namespace api.Controllers.Directory.Users.Dto

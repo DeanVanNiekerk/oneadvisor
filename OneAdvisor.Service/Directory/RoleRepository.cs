@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using OneAdvisor.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using OneAdvisor.Model.Directory.Interface.Repository;
+using OneAdvisor.Model.Directory.Interface;
 
-namespace OneAdvisor.Repository.Directory
+namespace OneAdvisor.Service.Directory
 {
-    public class RoleRepository : IRoleRepository
+    public class RoleService : IRoleService
     {
         private readonly DataContext _context;
 
-        public RoleRepository(DataContext context)
+        public RoleService(DataContext context)
         {
             _context = context;
         }
