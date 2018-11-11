@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OneAdvisor.Model\OneAdvisor.Model.csproj"/>
+    <ProjectReference Include="..\OneAdvisor.Service\OneAdvisor.Service.csproj"/>
+    <ProjectReference Include="..\OneAdvisor.Data\OneAdvisor.Data.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.3.2" />
     <PackageReference Include="MSTest.TestFramework" Version="1.3.2" />
