@@ -28,7 +28,8 @@ module.exports = {
         alias: {
             config: path.resolve(__dirname, 'src/config/'),
             state: path.resolve(__dirname, 'src/state/'),
-            ui: path.resolve(__dirname, 'src/ui/')
+            ui: path.resolve(__dirname, 'src/ui/'),
+            '@': path.resolve(__dirname, 'src/')
         },
         extensions: ['.js', '.jsx']
     },

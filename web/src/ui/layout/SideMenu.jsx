@@ -17,14 +17,15 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AppBar from '@material-ui/core/AppBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
-import type { State as RootState } from 'state/rootReducer';
-import type { Menu, MenuLink, Application } from 'state/context/types';
+import config from '@/config/config';
+import type { State as RootState } from '@/state/rootReducer';
+import type { Menu, MenuLink, Application } from '@/state/context/types';
 import {
     currentMenuSelector,
     currentApplicationSelector
-} from 'state/context/selectors';
+} from '@/state/context/selectors';
 
-const drawerWidth = 240;
+const drawerWidth = config.ui.sideBarWidth;
 
 const Drawer = styled(DrawerMUI)`
     width: ${drawerWidth}px !important;

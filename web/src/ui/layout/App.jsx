@@ -6,13 +6,15 @@ import { Security, ImplicitCallback, SecureRoute } from '@okta/okta-react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
-import config from 'config/config';
+import config from '@/config/config';
 import Authentication from './Authentication';
-import { theme } from 'ui/styles/theme';
-import base from 'ui/styles/base.css';
+import { theme } from '@/ui/styles/theme';
+import base from '@/ui/styles/base.css';
 
-//Directory
-import UserList from 'ui/app/directory/user/UserList';
+import UserList from '@/ui/app/directory/user/UserList';
+
+//Routes
+import DirectoryRoutes from './routes/DirectoryRoutes';
 
 const App = () => (
     <Security
@@ -29,12 +31,7 @@ const App = () => (
                 <Authentication>
                     <SecureRoute exact path="/" component={UserList} />
 
-                    <SecureRoute exact path="/directory" component={UserList} />
-                    <SecureRoute
-                        exact
-                        path="/directory/users"
-                        component={UserList}
-                    />
+                    <DirectoryRoutes />
                 </Authentication>
             </Switch>
         </MuiThemeProvider>

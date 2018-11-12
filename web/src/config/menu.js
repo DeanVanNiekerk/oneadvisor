@@ -1,5 +1,5 @@
 // @flow
-import type { Menus } from 'state/context/types'
+import type { Menus } from '@/state/context/types'
 import { DIRECTORY_ID, MEMBER_ID } from './application'
 
 

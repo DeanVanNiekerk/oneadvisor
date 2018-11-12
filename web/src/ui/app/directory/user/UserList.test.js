@@ -1,14 +1,13 @@
 import React from 'react';
 import UserList from './UserList';
-import configureMockStore from 'redux-mock-store'
+import configureMockStore from 'redux-mock-store';
 import renderer from 'react-test-renderer';
+import { MemoryRouter as Router } from 'react-router-dom';
 
-const mockStore = configureMockStore()
+const mockStore = configureMockStore();
 
 describe('UserList', () => {
-
     it('renders table', () => {
-
         const store = mockStore({
             app: {
                 directory: {
@@ -17,18 +16,26 @@ describe('UserList', () => {
                             error: false,
                             fetching: false,
                             items: [
-                                { id: 1, firstName: 'Jack', lastName: 'Johnson' }
+                                {
+                                    id: 1,
+                                    firstName: 'Jack',
+                                    lastName: 'Johnson'
+                                }
                             ]
                         }
                     }
                 }
             }
-        })
+        });
 
         store.dispatch = jest.fn();
 
         const tree = renderer
-            .create(<UserList store={store} />)
+            .create(
+                <Router>
+                    <UserList store={store} />
+                </Router>
+            )
             .toJSON();
 
         expect(store.dispatch.mock.calls.length).toBe(1);
@@ -37,7 +44,6 @@ describe('UserList', () => {
     });
 
     it('renders error', () => {
-
         const store = mockStore({
             app: {
                 directory: {
@@ -50,12 +56,16 @@ describe('UserList', () => {
                     }
                 }
             }
-        })
+        });
 
         store.dispatch = jest.fn();
 
         const tree = renderer
-            .create(<UserList store={store} />)
+            .create(
+                <Router>
+                    <UserList store={store} />
+                </Router>
+            )
             .toJSON();
 
         expect(store.dispatch.mock.calls.length).toBe(1);
@@ -64,7 +74,6 @@ describe('UserList', () => {
     });
 
     it('renders loader', () => {
-
         const store = mockStore({
             app: {
                 directory: {
@@ -77,17 +86,20 @@ describe('UserList', () => {
                     }
                 }
             }
-        })
+        });
 
         store.dispatch = jest.fn();
 
         const tree = renderer
-            .create(<UserList store={store} />)
+            .create(
+                <Router>
+                    <UserList store={store} />
+                </Router>
+            )
             .toJSON();
 
         expect(store.dispatch.mock.calls.length).toBe(1);
 
         expect(tree).toMatchSnapshot();
     });
-
 });

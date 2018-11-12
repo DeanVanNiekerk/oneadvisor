@@ -10,7 +10,8 @@ namespace api.Controllers.Directory
     {
         public static void Configure(IMapperConfigurationExpression config)
         {
-            config.CreateMap<UserInfo, UserDto>();
+            config.CreateMap<UserInfo, UserInfoDto>();
+            config.CreateMap<User, UserDto>();
         }
        
     }

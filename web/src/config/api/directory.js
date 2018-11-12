@@ -1,6 +1,6 @@
 // @flow
 
-import config from 'config/config'
+import config from '@/config/config'
 
 const directoryBaseApi = `${config.baseApi}/api/directory`
 

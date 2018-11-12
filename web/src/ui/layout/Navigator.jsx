@@ -13,13 +13,13 @@ import AppBarMUI from '@material-ui/core/AppBar';
 import ToolbarMUI from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 
-import type { State as RootState } from 'state/rootReducer';
-import type { Application } from 'state/context/types';
+import type { State as RootState } from '@/state/rootReducer';
+import type { Application } from '@/state/context/types';
 
 import {
     applicationsSelector,
     currentApplicationSelector
-} from 'state/context/selectors';
+} from '@/state/context/selectors';
 
 type ThemeProps = {
     theme: Theme

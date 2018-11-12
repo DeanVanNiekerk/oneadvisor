@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.User;
 using api.App.Authorization;
+using OneAdvisor.Model.Common;
 
 namespace api.Controllers.Directory.Users
 {
@@ -28,9 +29,25 @@ namespace api.Controllers.Directory.Users
 
         [UseCaseAuthorize("dir_view_users")]
         [HttpGet("[action]")]
-        public IEnumerable<UserDto> Index()
+        public IEnumerable<UserInfoDto> Index()
         {
-            return UserService.GetUsers().Result.Select(u => Mapper.Map<UserDto>(u));
+            return UserService.GetUsers().Result.Select(u => Mapper.Map<UserInfoDto>(u));
+        }
+
+        [UseCaseAuthorize("dir_view_users")]
+        [HttpGet("{userId:string}")]
+        public UserDto Get(string userId)
+        {
+            var model = UserService.GetUser(userId).Result;
+            return Mapper.Map<UserDto>(model);
+        }
+
+        [UseCaseAuthorize("dir_edit_users")]
+        [HttpPost("{userId:string}")]
+        public async Task<Result> Update(string userId, [FromBody] UserDto user)
+        {
+            var model = Mapper.Map<User>(user);
+            return await UserService.UpdateUser(model);
         }
     }
 

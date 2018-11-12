@@ -23,8 +23,7 @@ namespace OneAdvisor.Service.Test.Directory
             var useCase = new UseCaseEntity { Id = "usecase_1" };
 
             var roleToUseCase = new RoleToUseCaseEntity { RoleId = role2.Id, UseCaseId = useCase.Id };
-            
-
+          
             using (var context = new DataContext(options))
             {
                 context.Role.Add(role1);
@@ -46,6 +45,43 @@ namespace OneAdvisor.Service.Test.Directory
 
                 //Then
                 Assert.IsFalse(actual);
+            }
+        }
+
+        [TestMethod]
+        public async Task HasUseCase_DoesHave()
+        {
+            var options = TestHelper.GetDbContext("HasUseCase_DoesHave");
+
+            //Given
+            var role1 = new RoleEntity { Id = "role_1" };
+            var role2 = new RoleEntity { Id = "role_2" };
+
+            var useCase = new UseCaseEntity { Id = "usecase_1" };
+
+            var roleToUseCase = new RoleToUseCaseEntity { RoleId = role2.Id, UseCaseId = useCase.Id };
+          
+            using (var context = new DataContext(options))
+            {
+                context.Role.Add(role1);
+                context.Role.Add(role2);
+
+                context.UseCase.Add(useCase);
+
+                context.RoleToUseCase.Add(roleToUseCase);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new RoleService(context);
+
+                //When
+                var actual = await service.HasUseCase(new List<string>() { role2.Id }, useCase.Id);
+
+                //Then
+                Assert.IsTrue(actual);
             }
         }
     }

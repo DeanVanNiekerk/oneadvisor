@@ -425,6 +425,32 @@ exports[`Navigator renders correctly 1`] = `
         Member
       </span>
     </div>
+    <button
+      className="MuiButtonBase-root-76 MuiButton-root-50 MuiButton-text-52 MuiButton-flat-55 MuiButton-colorInherit-71"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex="0"
+      type="button"
+    >
+      <span
+        className="MuiButton-label-51"
+      >
+        Signout
+      </span>
+      <span
+        className="MuiTouchRipple-root-79"
+      />
+    </button>
   </div>
 </header>
 `;

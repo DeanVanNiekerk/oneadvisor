@@ -97,6 +97,7 @@ exports[`UserList renders table 1`] = `
   >
     <tr
       className="MuiTableRow-root-3"
+      onClick={[Function]}
     >
       <td
         aria-sort={null}

@@ -5,7 +5,7 @@ import PageHeader from './PageHeader';
 import renderer from 'react-test-renderer';
 import { MemoryRouter as Router } from 'react-router-dom' 
 import configureMockStore from 'redux-mock-store'
-import { defaultState as defaultConextState} from 'state/context/reducer'
+import { defaultState as defaultConextState} from '@/state/context/reducer'
 
 const mockStore = configureMockStore()
 

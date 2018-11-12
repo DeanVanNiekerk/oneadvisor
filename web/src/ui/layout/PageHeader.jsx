@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
-import type { State as RootState } from 'state/rootReducer';
-import type { MenuLink, Application } from 'state/context/types';
+import type { State as RootState } from '@/state/rootReducer';
+import type { MenuLink, Application } from '@/state/context/types';
 import {
     currentMenuLinkSelector,
     currentApplicationSelector
-} from 'state/context/selectors';
+} from '@/state/context/selectors';
 
 const Row = styled(Grid)`
     color: #ffffff !important;

@@ -4,13 +4,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withAuth } from '@okta/okta-react';
 import { connect } from 'react-redux';
-import type { Dispatch } from 'state/types';
-import type { State as RootState } from 'state/rootReducer';
+import type { Dispatch } from '@/state/types';
+import type { State as RootState } from '@/state/rootReducer';
 
-import Layout from 'ui/layout/Layout';
-import Loader from 'ui/common/Loader';
+import Layout from '@/ui/layout/Layout';
+import Loader from '@/ui/common/Loader';
 
-import { recieveAuthentication, clearAuthentication } from 'state/auth/actions';
+import { recieveAuthentication, clearAuthentication } from '@/state/auth/actions';
 
 type Props = {
     auth: Object,
