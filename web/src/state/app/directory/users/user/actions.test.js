@@ -11,25 +11,25 @@ import * as actions from './actions';
 const middlewares = [thunk, apiMiddleware];
 const mockStore = configureMockStore(middlewares);
 
-describe('user list actions', () => {
+describe('user actions', () => {
     afterEach(() => {
         fetchMock.reset();
         fetchMock.restore();
     });
 
-    it('should dispatch USERS_LIST_RECEIVE when fetchUsers is called', () => {
+    it('should dispatch USERS_USER_RECEIVE when fetchUser is called', () => {
         const store = mockStore({});
 
-        const body = [{ id: '1', firstName: 'Jack', lastName: 'Jones' }];
+        const body = [{ id: '99', firstName: 'Jack', lastName: 'Jones' }];
 
-        fetchMock.getOnce(usersApi, { body: body });
+        fetchMock.getOnce(`${usersApi}/99`, { body: body });
 
         const expectedActions = [
-            { type: 'USERS_LIST_FETCHING' },
-            { type: 'USERS_LIST_RECEIVE', payload: body }
+            { type: 'USERS_USER_FETCHING' },
+            { type: 'USERS_USER_RECEIVE', payload: body }
         ];
 
-        return store.dispatch(actions.fetchUsers()).then(() => {
+        return store.dispatch(actions.fetchUser('99')).then(() => {
             expect(store.getActions()).toEqual(expectedActions);
         });
     });

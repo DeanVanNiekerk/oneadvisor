@@ -12,19 +12,18 @@ import TableRow from '@material-ui/core/TableRow';
 import Loader from '@/ui/common/Loader';
 import Error from '@/ui/common/Error';
 
-import type { Dispatch } from '@/state/types';
+import type { RouterProps, ReduxProps } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
 import { listSelector } from '@/state/app/directory/users/list/selectors';
 import { fetchUsers } from '@/state/app/directory/users/list/actions';
 import type { User } from '@/state/app/directory/users/types';
 
-type Props = {
+type LocalProps = {
     users: User[],
     fetching: boolean,
     error: boolean,
-    dispatch: Dispatch,
-    history: Object
 };
+type Props = LocalProps & RouterProps & ReduxProps;
 
 class UserList extends Component<Props> {
     componentDidMount() {

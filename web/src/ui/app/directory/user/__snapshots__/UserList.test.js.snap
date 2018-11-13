@@ -51,7 +51,7 @@ exports[`UserList renders loader 1`] = `
     className="MuiGrid-item-18"
   >
     <p
-      className="MuiTypography-root-123 MuiTypography-body1-132 sc-bwzfXH kGFiPV"
+      className="MuiTypography-root-124 MuiTypography-body1-133 sc-bwzfXH kGFiPV"
     >
       loading users...
     </p>

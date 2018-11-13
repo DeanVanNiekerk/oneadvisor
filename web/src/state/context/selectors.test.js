@@ -4,7 +4,8 @@ import {
     applicationsSelector,
     currentApplicationSelector,
     currentMenuSelector,
-    currentMenuLinkSelector
+    currentMenuLinkSelector,
+    breadCrumbSelector
 } from './selectors';
 import { defaultState as defaultContextState } from './reducer';
 import {
@@ -122,6 +123,22 @@ describe('context selectors', () => {
 
             //Bit of a guess, but whatevs
             expect(link.name).toEqual('Users');
+        });
+    });
+
+    describe('breadCrumbSelector()', () => {
+        it('get breadcrum', () => {
+            const state = {
+                context: {
+                    breadCrumb: 'test'
+                }
+            };
+
+            //$FlowFixMe
+            const breadCrumb = breadCrumbSelector(state);
+
+            //Bit of a guess, but whatevs
+            expect(breadCrumb).toEqual('test');
         });
     });
 });

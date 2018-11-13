@@ -27,23 +27,23 @@ namespace api.Controllers.Directory.Users
         private IMapper Mapper { get; }
         private IUserService UserService { get; }
 
+        [HttpGet("")]
         [UseCaseAuthorize("dir_view_users")]
-        [HttpGet("[action]")]
         public IEnumerable<UserInfoDto> Index()
         {
             return UserService.GetUsers().Result.Select(u => Mapper.Map<UserInfoDto>(u));
         }
 
+        [HttpGet("{userId}")]
         [UseCaseAuthorize("dir_view_users")]
-        [HttpGet("{userId:string}")]
         public UserDto Get(string userId)
         {
             var model = UserService.GetUser(userId).Result;
             return Mapper.Map<UserDto>(model);
         }
 
+        [HttpPost("{userId}")]
         [UseCaseAuthorize("dir_edit_users")]
-        [HttpPost("{userId:string}")]
         public async Task<Result> Update(string userId, [FromBody] UserDto user)
         {
             var model = Mapper.Map<User>(user);

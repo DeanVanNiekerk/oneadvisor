@@ -10,8 +10,34 @@ import type { State as RootState } from '@/state/rootReducer';
 import type { MenuLink, Application } from '@/state/context/types';
 import {
     currentMenuLinkSelector,
-    currentApplicationSelector
+    currentApplicationSelector,
+    breadCrumbSelector
 } from '@/state/context/selectors';
+
+type Props = {
+    link: MenuLink,
+    application: Application,
+    breadCrumb: string
+};
+
+class PageHeader extends Component<Props> {
+    render() {
+        return (
+            <Row
+                container
+                direction="column"
+                justify="center"
+                alignItems="stretch"
+                application={this.props.application}
+            >
+                <Header item>
+                    {this.props.link.name}
+                    {this.props.breadCrumb && <Light> / {this.props.breadCrumb}</Light>}
+                </Header>
+            </Row>
+        );
+    }
+}
 
 const Row = styled(Grid)`
     color: #ffffff !important;
@@ -26,30 +52,15 @@ const Header = styled(Grid)`
     font-weight: 500;
 `;
 
-type Props = {
-    link: MenuLink,
-    application: Application
-};
-
-class PageHeader extends Component<Props> {
-    render() {
-        return (
-            <Row
-                container
-                direction="column"
-                justify="center"
-                alignItems="stretch"
-                application={this.props.application}
-            >
-                <Header item>{this.props.link.name}</Header>
-            </Row>
-        );
-    }
-}
+const Light = styled.span`
+    font-weight: 100;
+    font-size: 0.97rem;
+`;
 
 const mapStateToProps = (state: RootState) => ({
     link: currentMenuLinkSelector(state),
-    application: currentApplicationSelector(state)
+    application: currentApplicationSelector(state),
+    breadCrumb: breadCrumbSelector(state)
 });
 
 export default connect(mapStateToProps)(PageHeader);

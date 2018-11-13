@@ -43,7 +43,7 @@ namespace OneAdvisor.Service.Okta.Service
 
         public async Task<User> GetUser(string id)
         {
-            var serializer = new DataContractJsonSerializer(typeof(List<UserInfoDto>));
+            var serializer = new DataContractJsonSerializer(typeof(UserInfoDto));
 
             var streamTask = HttpClient.GetStreamAsync($"api/v1/users/{id}");
             var userInfoDto = serializer.ReadObject(await streamTask) as UserInfoDto;

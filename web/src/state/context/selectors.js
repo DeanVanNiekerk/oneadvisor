@@ -5,11 +5,13 @@ import { DEFAULT_APPLICATION_ID } from '@/config/application';
 import type { State as RootState } from '@/state/rootReducer';
 import type { Application, Menus, Menu, MenuLink } from './types';
 
-const pathNameSelector = (state: RootState): string =>
+export const pathNameSelector = (state: RootState): string =>
     state.router ? state.router.location.pathname : '';
-const appsSelector = (state: RootState): Application[] =>
+export const appsSelector = (state: RootState): Application[] =>
     state.context.applications;
-const menusSelector = (state: RootState): Menus => state.context.menus;
+export const menusSelector = (state: RootState): Menus => state.context.menus;
+export const breadCrumbSelector = (state: RootState): string =>
+    state.context.breadCrumb;
 
 export const applicationsSelector: (
     state: RootState

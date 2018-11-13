@@ -2,23 +2,23 @@
 
 exports[`SideMenu renders correctly 1`] = `
 <div
-  className="MuiDrawer-docked-1 sc-bdVaJa dZGPZP"
+  className="MuiDrawer-root-1 MuiDrawer-docked-2 sc-bdVaJa dZGPZP"
 >
   <div
-    className="MuiPaper-root-12 MuiPaper-elevation0-14 MuiDrawer-paper-2 MuiDrawer-paperAnchorLeft-3 MuiDrawer-paperAnchorDockedLeft-7"
+    className="MuiPaper-root-13 MuiPaper-elevation0-15 MuiDrawer-paper-3 MuiDrawer-paperAnchorLeft-4 MuiDrawer-paperAnchorDockedLeft-8"
   >
     <header
-      className="MuiPaper-root-12 MuiPaper-elevation4-18 MuiAppBar-root-39 MuiAppBar-positionStatic-43 MuiAppBar-colorPrimary-46"
+      className="MuiPaper-root-13 MuiPaper-elevation4-19 MuiAppBar-root-40 MuiAppBar-positionStatic-44 MuiAppBar-colorPrimary-47"
     >
       <div
-        className="MuiToolbar-root-48 MuiToolbar-regular-50 MuiToolbar-gutters-49"
+        className="MuiToolbar-root-49 MuiToolbar-regular-51 MuiToolbar-gutters-50"
       />
     </header>
     <ul
-      className="MuiList-root-52 MuiList-padding-53 MuiList-subheader-55 sc-bwzfXH gjYcba"
+      className="MuiList-root-53 MuiList-padding-54 MuiList-subheader-56 sc-bwzfXH gjYcba"
     >
       <li
-        className="MuiListSubheader-root-56 MuiListSubheader-sticky-61 MuiListSubheader-gutters-59"
+        className="MuiListSubheader-root-57 MuiListSubheader-sticky-62 MuiListSubheader-gutters-60"
       >
         Management
       </li>
@@ -26,7 +26,7 @@ exports[`SideMenu renders correctly 1`] = `
         className="sc-htpNat cDxzgm"
       >
         <a
-          className="MuiButtonBase-root-73 MuiListItem-root-62 MuiListItem-default-65 MuiListItem-gutters-69 MuiListItem-button-70 MuiListItem-selected-72"
+          className="MuiButtonBase-root-74 MuiListItem-root-63 MuiListItem-default-66 MuiListItem-gutters-70 MuiListItem-button-71 MuiListItem-selected-73"
           href="/directory/users"
           onBlur={[Function]}
           onClick={[Function]}
@@ -43,26 +43,26 @@ exports[`SideMenu renders correctly 1`] = `
           tabIndex="0"
         >
           <div
-            className="MuiListItemIcon-root-76"
+            className="MuiListItemIcon-root-77"
           >
             <span
               aria-hidden="true"
-              className="material-icons MuiIcon-root-77"
+              className="material-icons MuiIcon-root-78"
             >
               people
             </span>
           </div>
           <div
-            className="MuiListItemText-root-86"
+            className="MuiListItemText-root-87"
           >
             <span
-              className="MuiTypography-root-92 MuiTypography-subheading-99 MuiListItemText-primary-89"
+              className="MuiTypography-root-93 MuiTypography-subheading-100 MuiListItemText-primary-90"
             >
               Users
             </span>
           </div>
           <span
-            className="MuiTouchRipple-root-127"
+            className="MuiTouchRipple-root-128"
           />
         </a>
       </li>
@@ -70,7 +70,7 @@ exports[`SideMenu renders correctly 1`] = `
         className="sc-htpNat ifuAHS"
       >
         <a
-          className="MuiButtonBase-root-73 MuiListItem-root-62 MuiListItem-default-65 MuiListItem-gutters-69 MuiListItem-button-70"
+          className="MuiButtonBase-root-74 MuiListItem-root-63 MuiListItem-default-66 MuiListItem-gutters-70 MuiListItem-button-71"
           href="/directory/organisations"
           onBlur={[Function]}
           onClick={[Function]}
@@ -87,26 +87,26 @@ exports[`SideMenu renders correctly 1`] = `
           tabIndex="0"
         >
           <div
-            className="MuiListItemIcon-root-76"
+            className="MuiListItemIcon-root-77"
           >
             <span
               aria-hidden="true"
-              className="material-icons MuiIcon-root-77"
+              className="material-icons MuiIcon-root-78"
             >
               business
             </span>
           </div>
           <div
-            className="MuiListItemText-root-86"
+            className="MuiListItemText-root-87"
           >
             <span
-              className="MuiTypography-root-92 MuiTypography-subheading-99 MuiListItemText-primary-89"
+              className="MuiTypography-root-93 MuiTypography-subheading-100 MuiListItemText-primary-90"
             >
               Organisations
             </span>
           </div>
           <span
-            className="MuiTouchRipple-root-127"
+            className="MuiTouchRipple-root-128"
           />
         </a>
       </li>

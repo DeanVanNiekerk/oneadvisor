@@ -9,7 +9,7 @@
 
 > In order to run in development mode, set the ASPNETCORE_ENVIRONMENT environment variable to Development
 
-1. Start the api by running ```dotnet run``` in api/ directory
+1. Start the api by running ```dotnet watch run``` in api/ directory
 1. Then run the website by running```npm run start:dev``` in web/ directory
 
 ---
@@ -42,6 +42,18 @@
 - More info [here](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-add-package) 
 
 ---
+
+## Global dotnet core tools
+
+> dotnet tool install -g {package-name}
+
+### dotnet-outdated - update nuget packages
+- dotnet-outdated oneadvisor.sln
+- dotnet-outdated oneadvisor.sln -u   (will make updates)
+
+### dotnet-search - seach nuget packages
+- dotnet-search automapper
+
 
 
 ## TODO

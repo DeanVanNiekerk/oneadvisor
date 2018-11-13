@@ -62,6 +62,7 @@ namespace OneAdvisor.Data
 
                 //Directory Use Cases
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_users", Name = "View Users", ApplicationId = dirGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "dir_edit_users", Name = "Edit Users", ApplicationId = dirGuid });
             }
 
             var roleToUseCase = _context.RoleToUseCase.ToList();
@@ -69,6 +70,7 @@ namespace OneAdvisor.Data
 
                 //Directory Use Cases
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_view_users" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_edit_users" });
             }
 
             _context.SaveChanges();

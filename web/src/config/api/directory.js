@@ -1,7 +1,7 @@
 // @flow
 
-import config from '@/config/config'
+import config from '@/config/config';
 
-const directoryBaseApi = `${config.baseApi}/api/directory`
+const directoryBaseApi = `${config.baseApi}/api/directory`;
 
-export const usersApi = `${directoryBaseApi}/users/index`
+export const usersApi = `${directoryBaseApi}/users`;

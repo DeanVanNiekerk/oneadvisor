@@ -18,6 +18,7 @@ exports[`PageHeader renders correctly 1`] = `
     className="MuiGrid-item-2 sc-bwzfXH ckmyXx"
   >
     Users
+    
   </div>
 </div>
 `;

@@ -1,9 +1,9 @@
 import { createStore, compose, applyMiddleware } from 'redux';
-import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { routerMiddleware } from 'connected-react-router';
 import { apiMiddleware } from 'redux-api-middleware';
 import { createBrowserHistory } from 'history';
 import thunk from 'redux-thunk';
-import rootReducer from './rootReducer';
+import createRootReducer from './rootReducer';
 import httpAuthInjector from './middleware/httpAuthInjector';
 
 export const history = createBrowserHistory({ basename: '/' });
@@ -23,7 +23,7 @@ if (window.__REDUX_DEVTOOLS_EXTENSION__) {
 
 export const configureStore = () => {
     const store = createStore(
-        connectRouter(history)(rootReducer),
+        createRootReducer(history),
         undefined, // preloaded state
         compose(
             applyMiddleware(...middleware),
@@ -34,8 +34,8 @@ export const configureStore = () => {
     // Enable Webpack hot module replacement for reducers
     if (module.hot) {
         module.hot.accept('./rootReducer', () => {
-            const nextRootReducer = require('./rootReducer').default;
-            store.replaceReducer(nextRootReducer);
+            const nextCreateRootReducer = require('./rootReducer').default;
+            store.replaceReducer(nextCreateRootReducer(history));
         });
     }
 
