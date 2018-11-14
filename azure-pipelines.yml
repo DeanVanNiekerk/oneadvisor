@@ -16,9 +16,4 @@ jobs:
     displayName: 'dotnet build $(buildConfiguration)'
 - job: Web Build
   steps:
-  - script: |
-    cd web
-    npm install
-    npm run flow
-    npm test
-    npm run build
+  - script: npm install
