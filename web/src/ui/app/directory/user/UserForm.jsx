@@ -16,7 +16,8 @@ const Form = styled(Grid)`
 `
 
 type Props = {
-    user: User
+    user: User,
+    onChange: (user: User) => void
 };
 
 type State = {
@@ -42,6 +43,7 @@ class UserForm extends Component<Props, State> {
         this.setState({
             user: user
         });
+        this.props.onChange(user);
     };
 
     render() {

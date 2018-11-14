@@ -29,9 +29,9 @@ namespace api.Controllers.Directory.Users
 
         [HttpGet("")]
         [UseCaseAuthorize("dir_view_users")]
-        public IEnumerable<UserInfoDto> Index()
+        public IEnumerable<UserDto> Index()
         {
-            return UserService.GetUsers().Result.Select(u => Mapper.Map<UserInfoDto>(u));
+            return UserService.GetUsers().Result.Select(u => Mapper.Map<UserDto>(u));
         }
 
         [HttpGet("{userId}")]

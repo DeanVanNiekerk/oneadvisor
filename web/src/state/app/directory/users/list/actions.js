@@ -1,6 +1,6 @@
 // @flow
 
-import { RSAA } from 'redux-api-middleware';
+import type { ApiAction } from '@/state/types';
 import { usersApi } from '@/config/api/directory';
 import type { User } from '../types';
 
@@ -13,14 +13,8 @@ export type Action =
     | UserListFetchingAction
     | UserListFetchingErrorAction;
 
-export const fetchUsers = () => ({
-    [RSAA]: {
-        endpoint: usersApi,
-        method: 'GET',
-        types: [
-            'USERS_LIST_FETCHING',
-            'USERS_LIST_RECEIVE',
-            'USERS_LIST_FETCHING_ERROR'
-        ]
-    }
+export const fetchUsers = (): ApiAction => ({
+    type: 'API',
+    endpoint: usersApi,
+    dispatchPrefix: 'USERS_LIST'
 });

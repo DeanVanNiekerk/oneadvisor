@@ -3,14 +3,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import type { Dispatch } from '@/state/types';
+import type { ReduxProps } from '@/state/types';
 import { recieveBreadCrumb } from '@/state/context/actions';
 
-type Props = {
+type LocalProps = {
     children: React.Node,
     breadCrumb: string,
-    dispatch: Dispatch
 };
+type Props = LocalProps & ReduxProps;
 
 class ContentComponent extends React.Component<Props> {
     componentDidMount() {

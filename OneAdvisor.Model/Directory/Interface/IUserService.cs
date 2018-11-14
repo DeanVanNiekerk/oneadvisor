@@ -8,7 +8,7 @@ namespace OneAdvisor.Model.Directory.Interface
 {
     public interface IUserService
     {
-        Task<IEnumerable<UserInfo>> GetUsers();
+        Task<IEnumerable<User>> GetUsers();
         Task<User> GetUser(string id);
         Task<Result> UpdateUser(User user);
     }

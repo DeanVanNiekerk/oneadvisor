@@ -2,13 +2,14 @@ var path = require('path');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
 
 module.exports = {
     entry: {
         app: './src/index.jsx'
     },
 
-    devtool: 'inline-source-map',
+    devtool: 'eval',
 
     devServer: {
         https: true,
@@ -63,6 +64,7 @@ module.exports = {
             template: './public/index.html',
             filename: './index.html'
         }),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new ErrorOverlayPlugin()
     ]
 };

@@ -1,36 +1,37 @@
 // @flow
 
-import fetchMock from 'fetch-mock';
-import configureMockStore from 'redux-mock-store';
-import { apiMiddleware } from 'redux-api-middleware';
-import thunk from 'redux-thunk';
-
 import { usersApi } from '@/config/api/directory';
 import * as actions from './actions';
 
-const middlewares = [thunk, apiMiddleware];
-const mockStore = configureMockStore(middlewares);
-
 describe('user actions', () => {
-    afterEach(() => {
-        fetchMock.reset();
-        fetchMock.restore();
+    it('should dispatch API when fetchUser is called', () => {
+        const expectedAction = {
+            type: 'API',
+            endpoint: `${usersApi}/99`,
+            dispatchPrefix: 'USERS_USER'
+        };
+
+        expect(actions.fetchUser('99')).toEqual(expectedAction);
     });
 
-    it('should dispatch USERS_USER_RECEIVE when fetchUser is called', () => {
-        const store = mockStore({});
+    it('should dispatch API when updateUser is called', () => {
+        const user = {
+            id: '10',
+            firstName: 'Dean',
+            lastName: 'Jackson'
+        };
 
-        const body = [{ id: '99', firstName: 'Jack', lastName: 'Jones' }];
+        const onSuccess = () => {};
 
-        fetchMock.getOnce(`${usersApi}/99`, { body: body });
+        const expectedAction = {
+            type: 'API',
+            endpoint: `${usersApi}/10`,
+            method: 'POST',
+            payload: user,
+            onSuccess: onSuccess,
+            dispatchPrefix: 'USERS_USER_EDIT'
+        };
 
-        const expectedActions = [
-            { type: 'USERS_USER_FETCHING' },
-            { type: 'USERS_USER_RECEIVE', payload: body }
-        ];
-
-        return store.dispatch(actions.fetchUser('99')).then(() => {
-            expect(store.getActions()).toEqual(expectedActions);
-        });
+        expect(actions.updateUser(user, onSuccess)).toEqual(expectedAction);
     });
 });

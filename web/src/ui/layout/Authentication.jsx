@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withAuth } from '@okta/okta-react';
 import { connect } from 'react-redux';
-import type { Dispatch } from '@/state/types';
+import type { ReduxProps } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
 
 import Layout from '@/ui/layout/Layout';
@@ -12,12 +12,12 @@ import Loader from '@/ui/common/Loader';
 
 import { recieveAuthentication, clearAuthentication } from '@/state/auth/actions';
 
-type Props = {
+type LocalProps = {
     auth: Object,
     authenticated: boolean,
-    dispatch: Dispatch,
     children: any[]
 };
+type Props = LocalProps & ReduxProps;
 
 class Authentication extends React.Component<Props> {
     constructor(props) {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.Serialization.Json;
@@ -10,7 +11,7 @@ using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.User;
-using OneAdvisor.Service.Okta.Service.Dto;
+using OneAdvisor.Service.Okta.Dto;
 
 namespace OneAdvisor.Service.Okta.Service
 {
@@ -23,37 +24,24 @@ namespace OneAdvisor.Service.Okta.Service
 
         public HttpClient HttpClient { get; set; }
 
-        public async Task<IEnumerable<UserInfo>> GetUsers()
+        public async Task<IEnumerable<User>> GetUsers()
         {
-            var serializer = new DataContractJsonSerializer(typeof(List<UserInfoDto>));
+            var serializer = new DataContractJsonSerializer(typeof(List<UserDto>));
 
             var streamTask = HttpClient.GetStreamAsync("api/v1/users?limit=25");
-            var userInfoDtos = serializer.ReadObject(await streamTask) as List<UserInfoDto>;
+            var userDtos = serializer.ReadObject(await streamTask) as List<UserDto>;
 
-            return userInfoDtos.Select(dto => new UserInfo() {
-                Id = dto.id,
-                FirstName = dto.profile.firstName,
-                LastName = dto.profile.lastName,
-                LastLogin = Utils.ParseDate(dto.lastLogin),
-                LastUpdated = Utils.ParseDate(dto.lastUpdated),
-                Status = dto.status,
-                Activated = Utils.ParseDate(dto.activated),
-                OrganisationId = Guid.Parse(dto.profile.organization)
-            });
+            return userDtos.Select(dto => MapDtoToModel(dto));
         }
 
         public async Task<User> GetUser(string id)
         {
-            var serializer = new DataContractJsonSerializer(typeof(UserInfoDto));
+            var serializer = new DataContractJsonSerializer(typeof(UserDto));
 
             var streamTask = HttpClient.GetStreamAsync($"api/v1/users/{id}");
-            var userInfoDto = serializer.ReadObject(await streamTask) as UserInfoDto;
+            var userDto = serializer.ReadObject(await streamTask) as UserDto;
 
-            return new User() {
-                Id = userInfoDto.id,
-                FirstName = userInfoDto.profile.firstName,
-                LastName = userInfoDto.profile.lastName,
-            };
+            return MapDtoToModel(userDto);
         }
 
         public async Task<Result> UpdateUser(User user)
@@ -69,15 +57,38 @@ namespace OneAdvisor.Service.Okta.Service
             var json = Utils.FormatObject(dto);
 
             var response = await HttpClient.PostAsync($"api/v1/users/{user.Id}", json);
-            
+
+            if(!response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var inner = new Exception(content);
+                throw new Exception($"OKTA API ERROR: ResponseCode: {response.StatusCode}", inner);
+            }
+
             return result;
         }
 
-        private ProfileInfoDto MapModelToDto(User model)
+        private User MapDtoToModel(UserDto dto)
         {
-            return new ProfileInfoDto() {
-                firstName = model.FirstName,
-                lastName = model.LastName,
+            return new User() {
+                Id = dto.id,
+                FirstName = dto.profile.firstName,
+                LastName = dto.profile.lastName,
+                LastLogin = Utils.ParseDate(dto.lastLogin),
+                LastUpdated = Utils.ParseDate(dto.lastUpdated),
+                Status = dto.status,
+                Activated = Utils.ParseDate(dto.activated),
+                OrganisationId = Guid.Parse(dto.profile.organization)
+            };
+        }
+
+        private UserUpdateDto MapModelToDto(User model)
+        {
+            return new UserUpdateDto() {
+                profile = new ProfileUpdateDto() {
+                    firstName = model.FirstName,
+                    lastName = model.LastName
+                }
             };
         }
     }

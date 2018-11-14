@@ -1,8 +1,8 @@
 using System;
 
-namespace OneAdvisor.Service.Okta.Service.Dto
+namespace OneAdvisor.Service.Okta.Dto
 {
-    public class UserInfoDto
+    public class UserDto
     {
         public string id { get; set; }
         public string status { get; set; }
@@ -12,11 +12,11 @@ namespace OneAdvisor.Service.Okta.Service.Dto
         public string lastLogin { get; set; }
         public string lastUpdated { get; set; }
         public string passwordChanged { get; set; }
-        public ProfileInfoDto profile { get; set; }
+        public ProfileDto profile { get; set; }
 
     }
 
-    public class ProfileInfoDto
+    public class ProfileDto
     {
         public string firstName { get; set; }
         public string lastName { get; set; }

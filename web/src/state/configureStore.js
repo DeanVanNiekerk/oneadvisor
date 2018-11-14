@@ -1,19 +1,13 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import { routerMiddleware } from 'connected-react-router';
-import { apiMiddleware } from 'redux-api-middleware';
 import { createBrowserHistory } from 'history';
 import thunk from 'redux-thunk';
 import createRootReducer from './rootReducer';
-import httpAuthInjector from './middleware/httpAuthInjector';
+import apiMiddleware from './middleware/apiMiddleware';
 
 export const history = createBrowserHistory({ basename: '/' });
 
-const middleware = [
-    thunk,
-    httpAuthInjector,
-    apiMiddleware,
-    routerMiddleware(history)
-];
+const middleware = [thunk, apiMiddleware, routerMiddleware(history)];
 
 // enables Redux devtools extension if present
 const enhancers = [];

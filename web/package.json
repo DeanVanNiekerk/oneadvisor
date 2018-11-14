@@ -29,6 +29,7 @@
     "css-loader": "^1.0.1",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
+    "error-overlay-webpack-plugin": "^0.1.5",
     "fetch-mock": "^7.2.5",
     "flow-bin": "^0.86.0",
     "html-loader": "^0.5.5",
@@ -53,7 +54,6 @@
     "react-router-dom": "^4.3.1",
     "react-router-redux": "^4.0.8",
     "redux": "^4.0.1",
-    "redux-api-middleware": "^2.3.0",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "styled-components": "^4.1.1"
