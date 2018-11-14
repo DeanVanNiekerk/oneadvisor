@@ -53,7 +53,7 @@
 
 ### dotnet-search - seach nuget packages
 - dotnet-search automapper
-
+-> dotnet add package {packageName}
 
 
 ## TODO

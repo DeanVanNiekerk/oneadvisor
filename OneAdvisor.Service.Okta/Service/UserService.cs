@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.User;
@@ -57,9 +58,11 @@ namespace OneAdvisor.Service.Okta.Service
 
         public async Task<Result> UpdateUser(User user)
         {
-            var result = new Result();
+            var validator = new UserValidator();
+            var result = validator.Validate(user).GetResult();
 
-            //TODO: validation
+            if(!result.Success)
+                return result;
 
             var dto = MapModelToDto(user);
 
