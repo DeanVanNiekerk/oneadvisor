@@ -21,5 +21,8 @@ jobs:
     vmImage: 'Ubuntu 16.04'
   steps:
   - script: |
-    cd web
-    npm install
+      cd web
+      npm install
+      npm run flow
+      npm test
+      npm run build
