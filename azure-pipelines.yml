@@ -10,11 +10,11 @@ variables:
   buildConfiguration: 'Release'
 
 jobs:
-- Api Build
+- job: Api Build
   steps:
   - script: dotnet build --configuration $(buildConfiguration)
     displayName: 'dotnet build $(buildConfiguration)'
-- Web Build
+- job: Web Build
   steps:
   - script: |
     cd web
