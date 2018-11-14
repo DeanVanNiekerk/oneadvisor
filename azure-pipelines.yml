@@ -14,7 +14,9 @@ jobs:
   variables:
     buildConfiguration: 'Release'
   steps:
-  - script: dotnet build --configuration $(buildConfiguration)
+  - script: |
+      dotnet test
+      dotnet build --configuration $(buildConfiguration)
     displayName: 'dotnet build $(buildConfiguration)'
 - job: web_build
   pool:
