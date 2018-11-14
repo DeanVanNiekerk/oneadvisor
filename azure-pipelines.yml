@@ -9,6 +9,16 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+jobs:
+- Api Build
+  steps:
+  - script: dotnet build --configuration $(buildConfiguration)
+    displayName: 'dotnet build $(buildConfiguration)'
+- Web Build
+  steps:
+  - script: |
+    cd web
+    npm install
+    npm run flow
+    npm test
+    npm run build
