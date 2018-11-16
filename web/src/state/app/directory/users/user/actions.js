@@ -1,6 +1,6 @@
 // @flow
 
-import type { ApiAction, ApiOnSuccess } from '@/state/types';
+import type { ApiAction, ApiOnSuccess, ValidationResult } from '@/state/types';
 import { usersApi } from '@/config/api/directory';
 import type { User } from '../types';
 
@@ -11,7 +11,10 @@ type UserFetchingErrorAction = { type: 'USERS_USER_FETCHING_ERROR' };
 type UserUpdatedAction = { type: 'USERS_USER_EDIT_RECEIVE' };
 type UserUpdatingAction = { type: 'USERS_USER_EDIT_FETCHING' };
 type UserUpdatingErrorAction = { type: 'USERS_USER_EDIT_FETCHING_ERROR' };
-type UserValidationErrorAction = { type: 'USERS_USER_EDIT_VALIDATION_ERROR' };
+type UserValidationErrorAction = {
+    type: 'USERS_USER_EDIT_VALIDATION_ERROR',
+    payload: ValidationResult[]
+};
 
 export type Action =
     | UserReceiveAction

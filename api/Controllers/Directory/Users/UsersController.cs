@@ -36,18 +36,28 @@ namespace api.Controllers.Directory.Users
 
         [HttpGet("{userId}")]
         [UseCaseAuthorize("dir_view_users")]
-        public UserDto Get(string userId)
+        public ActionResult<UserDto> Get(string userId)
         {
             var model = UserService.GetUser(userId).Result;
-            return Mapper.Map<UserDto>(model);
+
+            if(model == null)
+                return NotFound();
+
+            return Ok(Mapper.Map<UserDto>(model));
         }
 
         [HttpPost("{userId}")]
         [UseCaseAuthorize("dir_edit_users")]
-        public async Task<Result> Update(string userId, [FromBody] UserDto user)
+        public async Task<ActionResult<Result>> Update(string userId, [FromBody] UserDto user)
         {
             var model = Mapper.Map<User>(user);
-            return await UserService.UpdateUser(model);
+
+            var result = await UserService.UpdateUser(model);
+
+            if(!result.Success)
+                return BadRequest(result.ValidationFailures);
+
+            return Ok(result);
         }
     }
 

@@ -35,3 +35,11 @@ export type ApiAction = {
     payload?: Object,
     onSuccess?: ApiOnSuccess
 };
+
+export type ValidationResult = {
+    propertyName: string,
+    errorMessage: string,
+    severity: number,
+    errorCode: string,
+    attemptedValue: string
+};

@@ -29,16 +29,28 @@ export default store => next => action => {
     //console.log(endpoint, fetchOptions);
 
     fetch(endpoint, fetchOptions)
-        .then(resp => resp.json())
-        .then(json => {
-            if (action.onSuccess) action.onSuccess(json);
-            return json;
-        })
-        .then(json => {
-            //Recieve
-            store.dispatch({
-                type: `${dispatchPrefix}_RECEIVE`,
-                payload: json
+        .then(resp => {
+            return resp.json().then(json => {
+                //Check for validation error
+                if (resp.status === 400) {
+                    //Validation
+                    store.dispatch({
+                        type: `${dispatchPrefix}_VALIDATION_ERROR`,
+                        payload: json
+                    });
+                    return;
+                }
+
+                //Call onSuccess
+                if (action.onSuccess) action.onSuccess(json);
+
+                //Recieve
+                store.dispatch({
+                    type: `${dispatchPrefix}_RECEIVE`,
+                    payload: json
+                });
+
+                return json;
             });
         })
         .catch(error => {

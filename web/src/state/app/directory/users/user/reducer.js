@@ -1,5 +1,6 @@
 // @flow
 
+import type { ValidationResult } from '@/state/types';
 import * as types from './actions';
 import type { User } from '../types';
 import type { Action } from './actions';
@@ -8,14 +9,16 @@ export type State = {
     +user: ?User,
     +fetching: boolean,
     +updating: boolean,
-    +error: boolean
+    +error: boolean,
+    +validationResults: ValidationResult[]
 };
 
 export const defaultState: State = {
     user: null,
     fetching: false,
     updating: false,
-    error: false
+    error: false,
+    validationResults: []
 };
 
 export const reducer = (state: State = defaultState, action: Action) => {
@@ -45,7 +48,8 @@ export const reducer = (state: State = defaultState, action: Action) => {
         case 'USERS_USER_EDIT_FETCHING': {
             return {
                 ...state,
-                updating: true
+                updating: true,
+                validationResults: []
             };
         }
         case 'USERS_USER_EDIT_RECEIVE': {
@@ -64,7 +68,8 @@ export const reducer = (state: State = defaultState, action: Action) => {
         case 'USERS_USER_EDIT_VALIDATION_ERROR': {
             return {
                 ...state,
-                updating: false
+                updating: false,
+                validationResults: action.payload
             };
         }
         default:
