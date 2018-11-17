@@ -10,7 +10,7 @@ import Error from '@/ui/common/Error';
 import { Content, Footer } from '@/ui/layout/main';
 import { Button } from '@/ui/common/controls';
 
-import type { ReduxProps, RouterProps } from '@/state/types';
+import type { ReduxProps, RouterProps, ValidationResult } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
 import type { User } from '@/state/app/directory/users/types';
 import { getCachedUser } from '@/state/app/directory/users/list/selectors';
@@ -21,7 +21,8 @@ type LocalProps = {
     user: User,
     fetching: boolean,
     updating: boolean,
-    error: boolean
+    error: boolean,
+    validationResults: ValidationResult[]
 };
 type Props = LocalProps & RouterProps & ReduxProps;
 
@@ -33,14 +34,23 @@ class EditUser extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
+        console.log('constructor', props.user);
+
         this.state = {
-            userEdited: null
+            userEdited: props.user
         };
     }
 
     componentDidMount() {
         if (!this.props.user)
             this.props.dispatch(fetchUser(this.props.match.params.userId));
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log('componentWillReceiveProps', nextProps.user);
+        this.setState({
+            userEdited: nextProps.user
+        });
     }
 
     back = () => {
@@ -53,6 +63,7 @@ class EditUser extends Component<Props, State> {
     };
 
     onChange = (user: User) => {
+        console.log('onChange', user);
         this.setState({
             userEdited: user
         })
@@ -60,12 +71,12 @@ class EditUser extends Component<Props, State> {
 
     render() {
         if (this.props.error) return <Error />;
-        if (this.props.fetching || this.props.updating || !this.props.user)
+        if (this.props.fetching || this.props.updating || !this.state.userEdited)
             return <Loader entity="user" fetching={this.props.fetching} updating={this.props.updating} />;
 
         return (
             <Content breadCrumb="Edit User">
-                <UserForm user={this.props.user} onChange={this.onChange} />
+                <UserForm user={this.state.userEdited} validationResults={this.props.validationResults} onChange={this.onChange} />
                 <Footer>
                     <Button color="default" onClick={this.back}>
                         Cancel
@@ -81,7 +92,8 @@ const mapStateToProps = (state: RootState, props: RouterProps) => ({
     user: getCachedUser(state, props) || userSelector(state).user,
     fetching: userSelector(state).fetching,
     updating: userSelector(state).updating,
-    error: userSelector(state).error
+    error: userSelector(state).error,
+    validationResults: userSelector(state).validationResults
 });
 
 export default withRouter(connect(mapStateToProps)(EditUser));

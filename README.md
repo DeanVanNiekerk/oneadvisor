@@ -1,9 +1,15 @@
 # OneAdvisor
 
+## Pre-requisits
+
+1. dotnet core SDK 2.1.5
+1. nodejs > 8
+
 ## Setup
 
 1. Run ```dotnet restore``` in the root directory to restore dotnet packages
 1. Run ```npm install``` in the web/ directory to install node dependancies
+1. Run ````dotnet ef database update``` in the OneAdvisor.Data/ directory to setup database (more info in OneAdvisor.Data/README.md)
 
 ## Running the application
 

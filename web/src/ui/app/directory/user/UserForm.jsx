@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import styled, { css } from 'styled-components';
 
-import type { User } from '@/state/app/directory/users/types';
+import type { User, ValidationResult } from '@/state/app/directory/users/types';
 import type { State as RootState } from '@/state/rootReducer';
 
 const Form = styled(Grid)`
@@ -17,19 +17,24 @@ const Form = styled(Grid)`
 
 type Props = {
     user: User,
+    validationResults: ValidationResult[],
     onChange: (user: User) => void
 };
 
 type State = {
-    user: User
+    user: User,
+    validationResults: ValidationResult[]
 };
 
 class UserForm extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
+        console.log('new user form: ', props.user);
+
         this.state = {
-            user: props.user
+            user: props.user,
+            validationResults: props.validationResults
         };
     }
 
@@ -56,6 +61,7 @@ class UserForm extends Component<Props, State> {
                         onChange={this.handleChange('firstName')}
                         fullWidth={true}
                     />
+                    {this.state.validationResults.length}
                 </Grid>
                  <Grid item xs={12}>
                     <TextField
