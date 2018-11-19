@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router'
 import { configureStore, history } from '@/state/configureStore';
+import { loadIcons } from '@/ui/styles/icons'
+import "@/ui/styles/theme";
+
+loadIcons();
 
 const store = configureStore();
 

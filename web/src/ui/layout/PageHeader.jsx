@@ -3,8 +3,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 
 import type { State as RootState } from '@/state/rootReducer';
 import type { MenuLink, Application } from '@/state/context/types';
@@ -24,10 +22,6 @@ class PageHeader extends Component<Props> {
     render() {
         return (
             <Row
-                container
-                direction="column"
-                justify="center"
-                alignItems="stretch"
                 application={this.props.application}
             >
                 <Header item>
@@ -39,17 +33,20 @@ class PageHeader extends Component<Props> {
     }
 }
 
-const Row = styled(Grid)`
+const Row = styled.div`
+    position: sticky;
+    top: 4rem;
+    z-index: 1061;
     color: #ffffff !important;
     background-color: ${props => props.application.color};
-    height: 53px;
-    padding-top: 5px;
+    height: 48px;
+    padding-top: 10px;
 `;
 
-const Header = styled(Grid)`
+const Header = styled.div`
     font-size: 1.2rem;
     padding-left: 15px;
-    font-weight: 500;
+    font-weight: 100;
 `;
 
 const Light = styled.span`

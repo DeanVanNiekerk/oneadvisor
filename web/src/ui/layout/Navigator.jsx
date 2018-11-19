@@ -4,15 +4,9 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
-import Icon from '@material-ui/core/Icon';
-import { withTheme } from '@material-ui/core/styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import type { Theme } from '@material-ui/core/styles/createMuiTheme';
-
-import AppBarMUI from '@material-ui/core/AppBar';
-import ToolbarMUI from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-
+import type { RouterProps } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
 import type { Application } from '@/state/context/types';
 
@@ -21,46 +15,25 @@ import {
     currentApplicationSelector
 } from '@/state/context/selectors';
 
-type ThemeProps = {
-    theme: Theme
-};
-
-const AppBar = styled(AppBarMUI)`
-    z-index: ${(props: ThemeProps) => props.theme.zIndex.drawer + 1} !important;
-    border-bottom: 4px solid ${props => props.application.color};
+const Container = styled.div`
+    position: sticky;
+    top: 0;
+    z-index: 1071;
 `;
 
-const Toolbar = styled(ToolbarMUI)`
-    align-items: normal !important;
-`;
-
-const ToolbarItem = styled.div`
+const Brand = styled.div`
+    padding-left: 14px !important;
+    align-self: stretch;
     display: flex;
-    min-height: 0px;
-    width: 145px;
     align-items: center;
-    justify-content: center;
-    font-family: ${(props: ThemeProps) => props.theme.typography.fontFamily};
-    font-weight: ${(props: ThemeProps) =>
-        props.theme.typography.fontWeightMedium};
-    text-transform: uppercase;
 `;
 
-const Header = styled(ToolbarItem)`
-    justify-content: left;
-    width: 215px;
-    font-size: 1.6rem;
-`;
-
-const Light = styled.span`
-    font-weight: 100;
-`;
-
-const Bold = styled.span`
-    font-weight: 800;
-`;
-
-const NavItem = styled(ToolbarItem)`
+const NavItem = styled.div`
+    flex: 0 0 9em;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    padding: 0px 14px;
     cursor: pointer;
     ${props =>
         props.application.isCurrent &&
@@ -70,16 +43,25 @@ const NavItem = styled(ToolbarItem)`
 `;
 
 const NavItemText = styled.span`
-    padding-left: 5px;
+    font-size: 1.1rem;
+    padding-left: 7px;
 `;
 
-type Props = {
+const NavBar = styled.div`
+    height: 4rem;
+    border-bottom: 5px solid ${props => props.application.color};
+
+    -webkit-box-shadow: 0px 1px 8px 0px rgba(36,36,36,0.71);
+    -moz-box-shadow: 0px 1px 8px 0px rgba(36,36,36,0.71);
+    box-shadow: 0px 1px 8px 0px rgba(36,36,36,0.71);
+`;
+
+type LocalProps = {
     onLogout: Function,
     applications: Application[],
     currentApplication: Application,
-    theme: Theme,
-    history: Object
 };
+type Props = LocalProps & RouterProps;
 
 class Navigator extends Component<Props> {
     navigate(to) {
@@ -88,30 +70,34 @@ class Navigator extends Component<Props> {
 
     render() {
         return (
-            <AppBar
-                position="fixed"
-                application={this.props.currentApplication}
-                theme={this.props.theme}
-            >
-                <Toolbar>
-                    <Header theme={this.props.theme}>
-                        <Bold>One</Bold>
-                        <Light>Advisor</Light>
-                    </Header>
-                    {this.props.applications.map(app => (
-                        <NavItem
-                            key={app.id}
-                            application={app}
-                            theme={this.props.theme}
-                            onClick={() => this.navigate(app.relativePath)}
-                        >
-                            <Icon>{app.icon}</Icon>
-                            <NavItemText>{app.name}</NavItemText>
-                        </NavItem>
-                    ))}
-                    <Button color="inherit" onClick={() => this.props.onLogout()}>Signout</Button>
-                </Toolbar>
-            </AppBar>
+            <Container className="container-fluid text-white bg-primary p-0">
+                <NavBar className="row flex-xl-nowrap no-gutters align-items-stretch" application={this.props.currentApplication}>
+                    <Brand className="col-3 h4 mb-0">
+                        <span className="font-weight-bold">ONE</span>
+                        <span className="font-weight-light">ADVISOR</span>
+                    </Brand>
+                    <div className="col-9">
+                        <div className="row flex-xl-nowrap h-100 no-gutters">
+                            {this.props.applications.map(app => (
+                                <NavItem
+                                    key={app.id}
+                                    application={app}
+                                    className="font-weight-light"
+                                    onClick={() =>
+                                        this.navigate(app.relativePath)
+                                    }
+                                >
+                                    <FontAwesomeIcon icon={app.icon} />
+                                    <NavItemText>{app.name}</NavItemText>
+                                </NavItem>
+                            ))}
+                        </div>
+                    </div>
+                </NavBar>
+            </Container>
+
+            //<Button color="inherit" onClick={() => this.props.onLogout()}>Signout</Button>
+
         );
     }
 }
@@ -121,4 +107,4 @@ const mapStateToProps = (state: RootState) => ({
     currentApplication: currentApplicationSelector(state) || {}
 });
 
-export default connect(mapStateToProps)(withTheme()(withRouter(Navigator)));
+export default connect(mapStateToProps)(withRouter(Navigator));

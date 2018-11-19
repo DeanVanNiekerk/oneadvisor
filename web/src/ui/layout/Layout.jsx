@@ -8,11 +8,6 @@ import SideMenu from './SideMenu';
 import PageHeader from './PageHeader';
 import Body from './Body';
 
-const Root = styled.div`
-    height: 100%;
-    display: flex;
-`;
-
 type Props = {
     onLogout: Function,
     children: any[]
@@ -21,11 +16,20 @@ type Props = {
 class Layout extends Component<Props> {
     render() {
         return (
-            <Root>
+            <>
                 <Navigator onLogout={this.props.onLogout} />
-                <SideMenu />
-                <Body>{this.props.children}</Body>
-            </Root>
+
+                <div className="container-fluid p-0">
+                    <div class="row flex-xl-nowrap no-gutters">
+                        <SideMenu />
+
+                        <main class="col-9 blue" role="main">
+                            <PageHeader />
+                            {this.props.children}
+                        </main>
+                    </div>
+                </div>
+            </>
         );
     }
 }
