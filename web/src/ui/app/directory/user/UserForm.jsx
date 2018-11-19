@@ -13,11 +13,9 @@ import { FormField } from '@/ui/common/controls';
 import { getValidationError } from '@/state/validation'; 
 
 const Form = styled(Grid)`
-    padding: 10px;
-    width: auto !important;
-    margin: 0px !important;
-`
 
+ 
+`
 type Props = {
     user: User,
     validationResults: ValidationResult[],
@@ -53,8 +51,10 @@ class UserForm extends Component<Props, State> {
         const { validationResults } = this.props;
 
         return (
-            <Form container spacing={24}>
-                <Grid item xs={12}>
+            <Form 
+                container
+                spacing={24}>
+                <Grid item xs={6}>
                     <FormField
                         fieldName="firstName"
                         label="First Name"
@@ -63,7 +63,7 @@ class UserForm extends Component<Props, State> {
                         validationResults={validationResults}
                     />
                 </Grid>
-                 <Grid item xs={12}>
+                 <Grid item xs={6}>
                     <FormField
                         fieldName="lastName"
                         label="Last Name"

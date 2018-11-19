@@ -19,7 +19,7 @@ type Props = {
 class Body extends React.Component<Props> {
     render() {
         return (
-            <Main variant="body1" component="div">
+            <Main variant="body1" component="main">
                 <AppBar position="static">
                     <Toolbar />
                 </AppBar>

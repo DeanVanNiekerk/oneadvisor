@@ -7,7 +7,7 @@ import { withRouter } from 'react-router';
 
 import Loader from '@/ui/common/Loader';
 import Error from '@/ui/common/Error';
-import { Content, Footer } from '@/ui/layout/main';
+import { Content, Footer, Section } from '@/ui/layout/main';
 import { Button } from '@/ui/common/controls';
 
 import type { ReduxProps, RouterProps, ValidationResult } from '@/state/types';
@@ -15,7 +15,10 @@ import type { State as RootState } from '@/state/rootReducer';
 import type { User } from '@/state/app/directory/users/types';
 import { getCachedUser } from '@/state/app/directory/users/list/selectors';
 import { userSelector } from '@/state/app/directory/users/user/selectors';
-import { fetchUser, updateUser } from '@/state/app/directory/users/user/actions';
+import {
+    fetchUser,
+    updateUser
+} from '@/state/app/directory/users/user/actions';
 
 type LocalProps = {
     user: User,
@@ -30,7 +33,6 @@ type State = {
     userEdited: ?User
 };
 class EditUser extends Component<Props, State> {
-
     constructor(props: Props) {
         super(props);
 
@@ -49,14 +51,14 @@ class EditUser extends Component<Props, State> {
     };
 
     save = () => {
-        if(this.state.userEdited)
+        if (this.state.userEdited)
             this.props.dispatch(updateUser(this.state.userEdited, this.back));
     };
 
     onChange = (user: User) => {
         this.setState({
             userEdited: user
-        })
+        });
     };
 
     canSave = () => {
@@ -69,15 +71,28 @@ class EditUser extends Component<Props, State> {
             return <Loader entity="user" fetching={this.props.fetching} />;
 
         return (
-            <Content breadCrumb="Edit User">
-                <UserForm user={this.props.user} validationResults={this.props.validationResults} onChange={this.onChange} />
+            <>
+                <Content breadCrumb="Edit User">
+                    <UserForm
+                        user={this.props.user}
+                        validationResults={this.props.validationResults}
+                        onChange={this.onChange}
+                    />
+                </Content>
+
                 <Footer>
                     <Button color="default" onClick={this.back}>
                         Cancel
                     </Button>
-                    <Button color="primary" onClick={this.save} disabled={!this.canSave()}>{this.props.updating ? "Saving..." : "Save"}</Button>
+                    <Button
+                        color="primary"
+                        onClick={this.save}
+                        disabled={!this.canSave()}
+                    >
+                        {this.props.updating ? 'Saving...' : 'Save'}
+                    </Button>
                 </Footer>
-            </Content>
+            </>
         );
     }
 }

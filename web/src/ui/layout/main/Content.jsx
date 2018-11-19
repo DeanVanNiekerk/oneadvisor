@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import type { ReduxProps } from '@/state/types';
 import { recieveBreadCrumb } from '@/state/context/actions';
+import config from '@/config/config';
 
 type LocalProps = {
     children: React.Node,
@@ -18,13 +19,17 @@ class ContentComponent extends React.Component<Props> {
     }
 
     render() {
-        return <ContentWrapper>{this.props.children}</ContentWrapper>;
+        return <Wrapper>{this.props.children}</Wrapper>;
     }
 }
 
-const ContentWrapper = styled.div`
-    height: calc(100% - 180px);
+const Wrapper = styled.div`
+    position: absolute;
+    height: calc(100% - 170px);
+    width: calc(100% - ${config.ui.sideBarWidth}px);
+    padding: 20px;
     overflow: auto;
+    background-color: #FFFFFF;
 `;
 
 export const Content = connect()(ContentComponent);
