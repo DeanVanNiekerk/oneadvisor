@@ -16,15 +16,9 @@ const Text = styled(Typography)`
 
 type Props = {
     text?: string,
-    entity?: string, 
-    fetching?: boolean, 
-    updating?: boolean
 };
 
-const Loader = ({ text = 'loading...', entity, fetching, updating }: Props) => {
-
-    if(entity)
-        text = `${fetching ? "loading" : "updating"} ${entity}...`;
+const Loader = ({ text = 'loading...' }: Props) => {
 
     return (
         <Wrapper container direction="column" justify="center" alignItems="center">

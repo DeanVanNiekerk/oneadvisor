@@ -34,23 +34,14 @@ class EditUser extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        console.log('constructor', props.user);
-
         this.state = {
-            userEdited: props.user
+            userEdited: null
         };
     }
 
     componentDidMount() {
         if (!this.props.user)
             this.props.dispatch(fetchUser(this.props.match.params.userId));
-    }
-
-    componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps', nextProps.user);
-        this.setState({
-            userEdited: nextProps.user
-        });
     }
 
     back = () => {
@@ -63,25 +54,28 @@ class EditUser extends Component<Props, State> {
     };
 
     onChange = (user: User) => {
-        console.log('onChange', user);
         this.setState({
             userEdited: user
         })
     };
 
+    canSave = () => {
+        return this.state.userEdited !== null && !this.props.updating;
+    };
+
     render() {
         if (this.props.error) return <Error />;
-        if (this.props.fetching || this.props.updating || !this.state.userEdited)
-            return <Loader entity="user" fetching={this.props.fetching} updating={this.props.updating} />;
+        if (this.props.fetching || !this.props.user)
+            return <Loader entity="user" fetching={this.props.fetching} />;
 
         return (
             <Content breadCrumb="Edit User">
-                <UserForm user={this.state.userEdited} validationResults={this.props.validationResults} onChange={this.onChange} />
+                <UserForm user={this.props.user} validationResults={this.props.validationResults} onChange={this.onChange} />
                 <Footer>
                     <Button color="default" onClick={this.back}>
                         Cancel
                     </Button>
-                    <Button color="primary" onClick={this.save} disabled={this.state.userEdited === null}>Save</Button>
+                    <Button color="primary" onClick={this.save} disabled={!this.canSave()}>{this.props.updating ? "Saving..." : "Save"}</Button>
                 </Footer>
             </Content>
         );

@@ -6,8 +6,11 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import styled, { css } from 'styled-components';
 
-import type { User, ValidationResult } from '@/state/app/directory/users/types';
+import type { ValidationResult } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
+import type { User } from '@/state/app/directory/users/types';
+import { FormField } from '@/ui/common/controls';
+import { getValidationError } from '@/state/validation'; 
 
 const Form = styled(Grid)`
     padding: 10px;
@@ -23,27 +26,21 @@ type Props = {
 
 type State = {
     user: User,
-    validationResults: ValidationResult[]
 };
 
 class UserForm extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        console.log('new user form: ', props.user);
-
         this.state = {
             user: props.user,
-            validationResults: props.validationResults
         };
     }
 
-    componentDidMount() {}
-
-    handleChange = name => event => {
+    handleChange = (fieldName: string, event: SyntheticInputEvent<any>) => {
         const user = {
             ...this.state.user,
-            [name]: event.target.value
+            [fieldName]: event.target.value
         };
         this.setState({
             user: user
@@ -52,23 +49,27 @@ class UserForm extends Component<Props, State> {
     };
 
     render() {
+
+        const { validationResults } = this.props;
+
         return (
             <Form container spacing={24}>
                 <Grid item xs={12}>
-                    <TextField
+                    <FormField
+                        fieldName="firstName"
                         label="First Name"
                         value={this.state.user.firstName}
-                        onChange={this.handleChange('firstName')}
-                        fullWidth={true}
+                        onChange={this.handleChange}
+                        validationResults={validationResults}
                     />
-                    {this.state.validationResults.length}
                 </Grid>
                  <Grid item xs={12}>
-                    <TextField
+                    <FormField
+                        fieldName="lastName"
                         label="Last Name"
                         value={this.state.user.lastName}
-                        onChange={this.handleChange('lastName')}
-                        fullWidth={true}
+                        onChange={this.handleChange}
+                        validationResults={validationResults}
                     />
                 </Grid>
             </Form>
