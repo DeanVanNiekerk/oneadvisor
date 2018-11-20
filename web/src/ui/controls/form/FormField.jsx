@@ -1,13 +1,10 @@
 // @flow
 
 import React, { Component } from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
+import { FormGroup, Label, Input, FormText, FormFeedback } from 'reactstrap';
 
 import type { ValidationResult } from '@/state/types';
-import { getValidationError } from '@/state/validation'; 
+import { getValidationError } from '@/state/validation';
 
 type Props = {
     fieldName: string,
@@ -15,12 +12,12 @@ type Props = {
     value: string | number,
     onChange: (fieldName: string, event: SyntheticInputEvent<any>) => void,
     errorText: string | null,
-    validationResults: ValidationResult[],
+    validationResults: ValidationResult[]
 };
 
 type State = {
     errorText: string | null,
-    validationResults: ValidationResult[],
+    validationResults: ValidationResult[]
 };
 
 class FormField extends Component<Props, State> {
@@ -28,16 +25,21 @@ class FormField extends Component<Props, State> {
         super(props);
 
         this.state = {
-            errorText: getValidationError(props.fieldName, props.validationResults),
+            errorText: getValidationError(
+                props.fieldName,
+                props.validationResults
+            ),
             validationResults: props.validationResults
         };
     }
 
     componentDidUpdate(nextProps: Props) {
-
-        if(nextProps.validationResults !== this.state.validationResults) {
+        if (nextProps.validationResults !== this.state.validationResults) {
             this.setState({
-                errorText: getValidationError(nextProps.fieldName, nextProps.validationResults),
+                errorText: getValidationError(
+                    nextProps.fieldName,
+                    nextProps.validationResults
+                ),
                 validationResults: nextProps.validationResults
             });
         }
@@ -45,7 +47,7 @@ class FormField extends Component<Props, State> {
 
     onChange = (event: SyntheticInputEvent<any>) => {
         this.props.onChange(this.props.fieldName, event);
-        
+
         //Clear the error when the value changes
         this.setState({
             errorText: null
@@ -53,19 +55,21 @@ class FormField extends Component<Props, State> {
     };
 
     render() {
-        
         const { errorText } = this.state;
         const { fieldName, label, value, onChange } = this.props;
 
         return (
-            <FormControl
-                error={errorText !== null}
-                fullWidth={true}
-            >
-                <InputLabel>{label}</InputLabel>
-                <Input value={value} onChange={this.onChange} />
-                <FormHelperText>{errorText}</FormHelperText>
-            </FormControl>
+            <FormGroup>
+                <Label>{label}</Label>
+                <Input
+                    name={fieldName}
+                    id={fieldName}
+                    value={value}
+                    onChange={this.onChange}
+                    invalid={errorText !== null}
+                />
+                <FormFeedback>{errorText}</FormFeedback>
+            </FormGroup>
         );
     }
 }

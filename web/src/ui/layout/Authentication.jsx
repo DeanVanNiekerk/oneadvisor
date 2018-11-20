@@ -8,7 +8,7 @@ import type { ReduxProps } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
 
 import Layout from '@/ui/layout/Layout';
-import Loader from '@/ui/common/Loader';
+import { Loader } from '@/ui/controls';
 
 import { recieveAuthentication, clearAuthentication } from '@/state/auth/actions';
 

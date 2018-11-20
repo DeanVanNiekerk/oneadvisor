@@ -5,8 +5,6 @@ import styled from 'styled-components';
 
 import Navigator from './Navigator';
 import SideMenu from './SideMenu';
-import PageHeader from './PageHeader';
-import Body from './Body';
 
 type Props = {
     onLogout: Function,
@@ -18,13 +16,10 @@ class Layout extends Component<Props> {
         return (
             <>
                 <Navigator onLogout={this.props.onLogout} />
-
                 <div className="container-fluid p-0">
-                    <div class="row flex-xl-nowrap no-gutters">
+                    <div className="row flex-xl-nowrap no-gutters">
                         <SideMenu />
-
-                        <main class="col-9 blue" role="main">
-                            <PageHeader />
+                        <main className="col-9" role="main">
                             {this.props.children}
                         </main>
                     </div>

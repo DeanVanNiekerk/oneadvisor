@@ -6,7 +6,6 @@ import { Security, ImplicitCallback, SecureRoute } from '@okta/okta-react';
 
 import config from '@/config/config';
 import Authentication from './Authentication';
-import base from '@/ui/styles/base.css';
 
 import UserList from '@/ui/app/directory/user/UserList';
 

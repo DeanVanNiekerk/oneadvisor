@@ -1,7 +1,18 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUser, faShieldAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+    faUser,
+    faShieldAlt,
+    faSync,
+    faExclamation,
+    faUsers,
+    faBuilding
+} from '@fortawesome/free-solid-svg-icons';
 
 export const loadIcons = () => {
     library.add(faUser);
     library.add(faShieldAlt);
+    library.add(faSync);
+    library.add(faExclamation);
+    library.add(faUsers);
+    library.add(faBuilding);
 };

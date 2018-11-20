@@ -4,11 +4,9 @@ import React, { Component } from 'react';
 import UserForm from './UserForm';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { Button } from 'reactstrap';
 
-import Loader from '@/ui/common/Loader';
-import Error from '@/ui/common/Error';
-import { Content, Footer, Section } from '@/ui/layout/main';
-import { Button } from '@/ui/common/controls';
+import { Loader, Error, Footer, Content, Header } from '@/ui/controls';
 
 import type { ReduxProps, RouterProps, ValidationResult } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
@@ -53,6 +51,7 @@ class EditUser extends Component<Props, State> {
     save = () => {
         if (this.state.userEdited)
             this.props.dispatch(updateUser(this.state.userEdited, this.back));
+        else this.back();
     };
 
     onChange = (user: User) => {
@@ -65,33 +64,47 @@ class EditUser extends Component<Props, State> {
         return this.state.userEdited !== null && !this.props.updating;
     };
 
+    isLoading = () => {
+        return this.props.fetching || !this.props.user;
+    };
+
     render() {
         if (this.props.error) return <Error />;
-        if (this.props.fetching || !this.props.user)
-            return <Loader entity="user" fetching={this.props.fetching} />;
 
         return (
             <>
-                <Content breadCrumb="Edit User">
-                    <UserForm
-                        user={this.props.user}
-                        validationResults={this.props.validationResults}
-                        onChange={this.onChange}
-                    />
-                </Content>
+                <Header breadCrumb="Edit User" />
 
-                <Footer>
-                    <Button color="default" onClick={this.back}>
-                        Cancel
-                    </Button>
-                    <Button
-                        color="primary"
-                        onClick={this.save}
-                        disabled={!this.canSave()}
-                    >
-                        {this.props.updating ? 'Saving...' : 'Save'}
-                    </Button>
-                </Footer>
+                {this.isLoading() && <Loader text="saving user..." />}
+
+                {!this.isLoading() && (
+                    <>
+                        <Content>
+                            <UserForm
+                                user={this.props.user}
+                                validationResults={this.props.validationResults}
+                                onChange={this.onChange}
+                            />
+                        </Content>
+
+                        <Footer>
+                            <Button
+                                color="secondary"
+                                className="mr-1"
+                                onClick={this.back}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                color="primary"
+                                onClick={this.save}
+                                disabled={this.props.updating}
+                            >
+                                {this.props.updating ? 'Saving...' : 'Save'}
+                            </Button>
+                        </Footer>
+                    </>
+                )}
             </>
         );
     }

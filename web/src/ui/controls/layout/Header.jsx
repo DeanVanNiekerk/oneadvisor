@@ -4,12 +4,12 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
+import config from '@/config/config';
 import type { State as RootState } from '@/state/rootReducer';
 import type { MenuLink, Application } from '@/state/context/types';
 import {
     currentMenuLinkSelector,
-    currentApplicationSelector,
-    breadCrumbSelector
+    currentApplicationSelector
 } from '@/state/context/selectors';
 
 type Props = {
@@ -18,35 +18,45 @@ type Props = {
     breadCrumb: string
 };
 
-class PageHeader extends Component<Props> {
+class HeaderComponent extends Component<Props> {
     render() {
         return (
-            <Row
+            <Wrapper
+                className="px-3"
                 application={this.props.application}
             >
-                <Header item>
+                <Title>
                     {this.props.link.name}
                     {this.props.breadCrumb && <Light> / {this.props.breadCrumb}</Light>}
-                </Header>
-            </Row>
+                </Title>
+                <Toolbar>
+                    Test
+                </Toolbar>
+            </Wrapper>
         );
     }
 }
 
-const Row = styled.div`
+const Wrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
     position: sticky;
     top: 4rem;
     z-index: 1061;
     color: #ffffff !important;
     background-color: ${props => props.application.color};
-    height: 48px;
-    padding-top: 10px;
+    height: ${config.ui.pageHeaderHeight}px;
 `;
 
-const Header = styled.div`
+const Title = styled.div`
     font-size: 1.2rem;
-    padding-left: 15px;
     font-weight: 100;
+`;
+
+const Toolbar = styled.div`
+   
 `;
 
 const Light = styled.span`
@@ -56,8 +66,8 @@ const Light = styled.span`
 
 const mapStateToProps = (state: RootState) => ({
     link: currentMenuLinkSelector(state),
-    application: currentApplicationSelector(state),
-    breadCrumb: breadCrumbSelector(state)
+    application: currentApplicationSelector(state)
 });
 
-export default connect(mapStateToProps)(PageHeader);
+const Header = connect(mapStateToProps)(HeaderComponent)
+export { Header };

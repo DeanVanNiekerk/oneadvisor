@@ -10,13 +10,12 @@ import type { State as AppState, Action as AppAction } from './app/reducer';
 
 import { reducer as context } from './context/reducer';
 import type { State as ContextState } from './context/reducer';
-import type { Action as ContextAction } from './context/actions';
 
 import { reducer as auth } from './auth/reducer';
 import type { State as AuthState } from './auth/reducer';
 import type { Action as AuthAction } from './auth/actions';
 
-export type Action = AppAction | ContextAction | AuthAction;
+export type Action = AppAction | AuthAction;
 
 export type State = {
     +app: AppState,

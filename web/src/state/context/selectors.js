@@ -10,8 +10,6 @@ export const pathNameSelector = (state: RootState): string =>
 export const appsSelector = (state: RootState): Application[] =>
     state.context.applications;
 export const menusSelector = (state: RootState): Menus => state.context.menus;
-export const breadCrumbSelector = (state: RootState): string =>
-    state.context.breadCrumb;
 
 export const applicationsSelector: (
     state: RootState

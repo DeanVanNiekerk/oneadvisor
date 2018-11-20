@@ -14,3 +14,8 @@ $ npm i flow-typed -g
 flow-typed install reselect@4.0.0
 
 
+
+
+???
+    "i": "^0.3.6",
+
