@@ -46,6 +46,20 @@ namespace api.Controllers.Directory.Users
             return Ok(Mapper.Map<UserDto>(model));
         }
 
+        [HttpPost]
+        [UseCaseAuthorize("dir_edit_users")]
+        public async Task<ActionResult<Result>> Insert([FromBody] UserDto user)
+        {
+            var model = Mapper.Map<User>(user);
+
+            var result = await UserService.InsertUser(model);
+
+            if(!result.Success)
+                return BadRequest(result.ValidationFailures);
+
+            return Ok(result);
+        }
+
         [HttpPost("{userId}")]
         [UseCaseAuthorize("dir_edit_users")]
         public async Task<ActionResult<Result>> Update(string userId, [FromBody] UserDto user)

@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Switch, Route } from 'react-router';
+import { Route } from 'react-router';
 import { Security, ImplicitCallback, SecureRoute } from '@okta/okta-react';
 
 import config from '@/config/config';
@@ -18,15 +18,12 @@ const App = () => (
         client_id={config.oidc.clientId}
         redirect_uri={config.oidc.redirectUri}
     >
-        <Switch>
-            <Route path="/implicit/callback" component={ImplicitCallback} />
+        <Route path="/implicit/callback" component={ImplicitCallback} />
 
-            <Authentication>
-                <SecureRoute exact path="/" component={UserList} />
-
-                <DirectoryRoutes />
-            </Authentication>
-        </Switch>
+        <Authentication>
+            <SecureRoute exact path="/" component={UserList} />
+            <DirectoryRoutes />
+        </Authentication>
     </Security>
 );
 

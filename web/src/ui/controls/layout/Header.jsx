@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import *  as React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
@@ -15,10 +15,11 @@ import {
 type Props = {
     link: MenuLink,
     application: Application,
-    breadCrumb: string
+    breadCrumb: string,
+    children: React.Node
 };
 
-class HeaderComponent extends Component<Props> {
+class HeaderComponent extends React.Component<Props> {
     render() {
         return (
             <Wrapper
@@ -30,7 +31,7 @@ class HeaderComponent extends Component<Props> {
                     {this.props.breadCrumb && <Light> / {this.props.breadCrumb}</Light>}
                 </Title>
                 <Toolbar>
-                    Test
+                    {this.props.children}
                 </Toolbar>
             </Wrapper>
         );

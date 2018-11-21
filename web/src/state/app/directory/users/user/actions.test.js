@@ -18,7 +18,14 @@ describe('user actions', () => {
         const user = {
             id: '10',
             firstName: 'Dean',
-            lastName: 'Jackson'
+            lastName: 'Jackson',
+            email: 'dean@gmail.com',
+            login: 'dean',
+            lastLogin: '',
+            lastUpdated: '',
+            lastUpdated: '',
+            status: 'ACTIVE',
+            organisationId: '12341234'
         };
 
         const onSuccess = () => {};

@@ -39,3 +39,12 @@ export const updateUser = (user: User, onSuccess: ApiOnSuccess): ApiAction => ({
     onSuccess: onSuccess,
     dispatchPrefix: 'USERS_USER_EDIT'
 });
+
+export const insertUser = (user: User, onSuccess: ApiOnSuccess): ApiAction => ({
+    type: 'API',
+    endpoint: `${usersApi}`,
+    method: 'POST',
+    payload: user,
+    onSuccess: onSuccess,
+    dispatchPrefix: 'USERS_USER_EDIT'
+});

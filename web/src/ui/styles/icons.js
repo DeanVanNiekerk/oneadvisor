@@ -5,7 +5,8 @@ import {
     faSync,
     faExclamation,
     faUsers,
-    faBuilding
+    faBuilding,
+    faSpinner
 } from '@fortawesome/free-solid-svg-icons';
 
 export const loadIcons = () => {
@@ -15,4 +16,5 @@ export const loadIcons = () => {
     library.add(faExclamation);
     library.add(faUsers);
     library.add(faBuilding);
+    library.add(faSpinner);
 };

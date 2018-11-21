@@ -46,7 +46,7 @@ namespace OneAdvisor.Service.Okta.Service
 
         public async Task<Result> UpdateUser(User user)
         {
-            var validator = new UserValidator();
+            var validator = new UserValidator(false);
             var result = validator.Validate(user).GetResult();
 
             if(!result.Success)
@@ -68,12 +68,38 @@ namespace OneAdvisor.Service.Okta.Service
             return result;
         }
 
+        public async Task<Result> InsertUser(User user)
+        {
+            var validator = new UserValidator(true);
+            var result = validator.Validate(user).GetResult();
+
+            if(!result.Success)
+                return result;
+
+            var dto = MapModelToDto(user);
+
+            var json = Utils.FormatObject(dto);
+
+            var response = await HttpClient.PostAsync($"api/v1/users", json);
+
+            if(!response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var inner = new Exception(content);
+                throw new Exception($"OKTA API ERROR: ResponseCode: {response.StatusCode}", inner);
+            }
+
+            return result;
+        }
+
         private User MapDtoToModel(UserDto dto)
         {
             return new User() {
                 Id = dto.id,
                 FirstName = dto.profile.firstName,
                 LastName = dto.profile.lastName,
+                Login = dto.profile.login,
+                Email = dto.profile.email,
                 LastLogin = Utils.ParseDate(dto.lastLogin),
                 LastUpdated = Utils.ParseDate(dto.lastUpdated),
                 Status = dto.status,
@@ -87,7 +113,10 @@ namespace OneAdvisor.Service.Okta.Service
             return new UserUpdateDto() {
                 profile = new ProfileUpdateDto() {
                     firstName = model.FirstName,
-                    lastName = model.LastName
+                    lastName = model.LastName,
+                    login = model.Login,
+                    email = model.Email,
+                    organization = model.OrganisationId
                 }
             };
         }

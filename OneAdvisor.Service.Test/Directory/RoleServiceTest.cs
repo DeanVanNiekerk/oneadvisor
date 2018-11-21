@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,7 +13,7 @@ namespace OneAdvisor.Service.Test.Directory
     [TestClass]
     public class RoleServiceTest
     {
-        [TestMethod]
+         [TestMethod]
         public async Task HasUseCase_DoesNotHave()
         {
             var options = TestHelper.GetDbContext("HasUseCase_DoesNotHave");
@@ -84,5 +86,6 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.IsTrue(actual);
             }
         }
+        
     }
 }

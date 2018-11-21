@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Col, Row } from 'reactstrap';
 
 import type { ValidationResult } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
@@ -44,20 +45,60 @@ class UserForm extends Component<Props, State> {
 
         return (
             <Form>
-                <FormField
-                    fieldName="firstName"
-                    label="First Name"
-                    value={this.state.user.firstName}
-                    onChange={this.handleChange}
-                    validationResults={validationResults}
-                />
-                <FormField
-                    fieldName="lastName"
-                    label="Last Name"
-                    value={this.state.user.lastName}
-                    onChange={this.handleChange}
-                    validationResults={validationResults}
-                />
+                <Row form>
+                    <Col md={6}>
+                        <FormField
+                            fieldName="firstName"
+                            label="First Name"
+                            value={this.state.user.firstName}
+                            onChange={this.handleChange}
+                            validationResults={validationResults}
+                        />
+                    </Col>
+                    <Col md={6}>
+                        <FormField
+                            fieldName="lastName"
+                            label="Last Name"
+                            value={this.state.user.lastName}
+                            onChange={this.handleChange}
+                            validationResults={validationResults}
+                        />
+                    </Col>
+                </Row>
+
+                <Row form>
+                    <Col md={6}>
+                        <FormField
+                            fieldName="login"
+                            label="Login"
+                            value={this.state.user.login}
+                            onChange={this.handleChange}
+                            validationResults={validationResults}
+                        />
+                    </Col>
+                    <Col md={6}>
+                        <FormField
+                            fieldName="email"
+                            label="Email"
+                            value={this.state.user.email}
+                            onChange={this.handleChange}
+                            validationResults={validationResults}
+                        />
+                    </Col>
+                </Row>
+
+                <Row form>
+                    <Col md={6}>
+                        <FormField
+                            fieldName="organisationId"
+                            label="Organisation"
+                            value={this.state.user.organisationId}
+                            onChange={this.handleChange}
+                            validationResults={validationResults}
+                        />
+                    </Col>
+                    <Col md={6} />
+                </Row>
             </Form>
         );
     }

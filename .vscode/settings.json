@@ -5,6 +5,9 @@
     "git.autofetch": true,
     "explorer.confirmDragAndDrop": false,
     "flow.useNPMPackagedFlow": true,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
     "javascript.validate.enable": false,
     "[javascript]": {
         "editor.formatOnSave": true
@@ -24,8 +27,6 @@
         "**/.DS_Store": true,
         "**/bin": true,
         "**/obj": true,
-        "**/node_modules": true,
-        "**/*.csproj": true,
         "**/*.sln.targets": true,
         "**/*.Build.targets": true,
       },

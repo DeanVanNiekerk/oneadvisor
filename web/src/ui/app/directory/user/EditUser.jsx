@@ -65,7 +65,8 @@ class EditUser extends Component<Props, State> {
     };
 
     isLoading = () => {
-        return this.props.fetching || !this.props.user;
+        return this.props.fetching 
+                || !this.props.user;
     };
 
     render() {
@@ -75,7 +76,7 @@ class EditUser extends Component<Props, State> {
             <>
                 <Header breadCrumb="Edit User" />
 
-                {this.isLoading() && <Loader text="saving user..." />}
+                {this.isLoading() && <Loader text="loading user..." />}
 
                 {!this.isLoading() && (
                     <>

@@ -11,6 +11,8 @@ namespace OneAdvisor.Model.Common
         }
         public bool Success { get; set; }
 
+        public object Tag { get; set; }
+
         public IList<ValidationFailure> ValidationFailures {get; set; }
 
         public void LoadValidationResults(ValidationResult result)

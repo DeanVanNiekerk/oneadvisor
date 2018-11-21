@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Pagination, PaginationItem, PaginationLink, Button } from 'reactstrap';
 
 import { Loader, Error, Content, Footer, Header } from '@/ui/controls';
 
@@ -29,12 +29,25 @@ class UserList extends Component<Props> {
         this.props.history.push(`/directory/users/${id}`);
     };
 
+    newUser = () => {
+        this.props.history.push(`/directory/users/new`);
+    };
+
     render() {
         if (this.props.error) return <Error />;
 
         return (
             <>
-                <Header />
+                <Header>
+                    <Button
+                        color="light"
+                        outline
+                        onClick={this.newUser}
+                        size="sm"
+                    >
+                        New User
+                    </Button>
+                </Header>
 
                 {this.props.fetching && <Loader text="loading users..." />}
 

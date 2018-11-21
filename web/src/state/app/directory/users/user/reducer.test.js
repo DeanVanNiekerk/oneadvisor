@@ -42,14 +42,27 @@ describe('user reducer', () => {
             fetching: true
         };
 
+        const user = {
+            id: '10',
+            firstName: 'Dean',
+            lastName: 'Jackson',
+            email: 'dean@gmail.com',
+            login: 'dean',
+            lastLogin: '',
+            lastUpdated: '',
+            lastUpdated: '',
+            status: 'ACTIVE',
+            organisationId: '12341234'
+        };
+
         const actualState = reducer(initalState, {
             type: 'USERS_USER_RECEIVE',
-            payload: { id: '123', firstName: 'Indie', lastName: 'Jones' }
+            payload: { ...user }
         });
 
         const expectedState = {
             ...defaultState,
-            user: { id: '123', firstName: 'Indie', lastName: 'Jones' },
+            user: { ...user },
             fetching: false
         };
 

@@ -13,7 +13,7 @@ const Loader = ({ text = 'loading...' }: Props) => {
             <div className="row justify-content-center mt-5">
                 <div className="col-auto text-primary">
                     <h2>
-                        <FontAwesomeIcon icon="sync" spin />
+                        <FontAwesomeIcon icon="spinner" spin />
                     </h2>
                 </div>
             </div>

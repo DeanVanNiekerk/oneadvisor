@@ -32,6 +32,19 @@ namespace OneAdvisor.Data.Migrations
                     b.ToTable("dir_Application");
                 });
 
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.OrganisationEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("dir_Organisation");
+                });
+
             modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.RoleEntity", b =>
                 {
                     b.Property<string>("Id")

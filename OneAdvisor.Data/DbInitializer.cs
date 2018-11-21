@@ -21,6 +21,7 @@ namespace OneAdvisor.Data
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_RoleToUseCase]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_UseCase]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Role]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Organisation]");
 
             return total;
         }
@@ -63,14 +64,25 @@ namespace OneAdvisor.Data
                 //Directory Use Cases
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_users", Name = "View Users", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_edit_users", Name = "Edit Users", ApplicationId = dirGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_organisations", Name = "View Organisations", ApplicationId = dirGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "dir_edit_organisations", Name = "Edit Organisations", ApplicationId = dirGuid });
             }
 
             var roleToUseCase = _context.RoleToUseCase.ToList();
             if(!roleToUseCase.Any()) {
 
-                //Directory Use Cases
+                //Directory Role to Use Case
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_view_users" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_edit_users" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_view_organisations" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_edit_organisations" });
+            }
+
+            var organisations = _context.Organisation.ToList();
+            if(!organisations.Any()) {
+
+                //Organisations
+                _context.Organisation.Add(new OrganisationEntity() { Id = Guid.Parse("9a46c5ae-3f6f-494c-b0de-d908f08507c3"), Name = "Smith and Bormann" });
             }
 
             _context.SaveChanges();

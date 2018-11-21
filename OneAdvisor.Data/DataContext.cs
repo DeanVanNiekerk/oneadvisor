@@ -13,6 +13,7 @@ namespace OneAdvisor.Data
 
         #region Directory
 
+        public DbSet<OrganisationEntity> Organisation { get; set; }
         public DbSet<ApplicationEntity> Application { get; set; }
         public DbSet<RoleEntity> Role { get; set; }
         public DbSet<UseCaseEntity> UseCase { get; set; }
@@ -24,6 +25,7 @@ namespace OneAdvisor.Data
         {
             #region Directory
 
+            modelBuilder.Entity<OrganisationEntity>().ToTable("dir_Organisation");
             modelBuilder.Entity<ApplicationEntity>().ToTable("dir_Application");
             modelBuilder.Entity<RoleEntity>().ToTable("dir_Role");
             modelBuilder.Entity<UseCaseEntity>().ToTable("dir_UseCase");
