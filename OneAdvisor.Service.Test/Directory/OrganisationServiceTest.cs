@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
+using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Organisation;
 using OneAdvisor.Service.Directory;
 
@@ -28,26 +29,37 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new OrganisationService(context);
 
                 //When
-                var actual = await service.GetOrganisations();
+                var queryOptions = new OrganisationQueryOptions(0, 0);
+                var actual = await service.GetOrganisations(queryOptions);
 
                 //Then
-                Assert.IsTrue(actual.Count() == 0);
+                Assert.AreEqual(actual.TotalItems, 0);
+                Assert.AreEqual(actual.Items.Count(), 0);
             }
         }
 
         [TestMethod]
-        public async Task GetOrganisations_Some()
+        public async Task GetOrganisations_SortAndPage()
         {
-            var options = TestHelper.GetDbContext("GetOrganisations_Some");
+            var options = TestHelper.GetDbContext("GetOrganisations_SortAndPage");
 
             //Given
-            var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 1" };
-            var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 2" };
+            var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "A Org 1" };
+            var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "B Org 2" };
+            var org3 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "C Org 3" };
+            var org4 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "D Org 4" };
+            var org5 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "E Org 5" };
+            var org6 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "F Org 6" };
 
             using (var context = new DataContext(options))
             {
+                //Jumbled order
                 context.Organisation.Add(org1);
                 context.Organisation.Add(org2);
+                context.Organisation.Add(org6);
+                context.Organisation.Add(org4);
+                context.Organisation.Add(org5);
+                context.Organisation.Add(org3);
 
                 context.SaveChanges();
             }
@@ -57,16 +69,25 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new OrganisationService(context);
 
                 //When
-                var actual = await service.GetOrganisations();
+                var queryOptions = new OrganisationQueryOptions(2, 2);
+                queryOptions.SortOptions.Column = "Name";
+                queryOptions.SortOptions.Direction = SortDirection.Descending;
+                var actual = await service.GetOrganisations(queryOptions);
 
                 //Then
-                Assert.IsTrue(actual.Count() == 2);
+                Assert.AreEqual(actual.TotalItems, 6);
 
-                var actual1 = actual.Single(o => o.Id == org1.Id);
-                Assert.AreEqual(org1.Name, actual1.Name);
+                var organisations = actual.Items.ToArray();
 
-                var actual2 = actual.Single(o => o.Id == org2.Id);
-                Assert.AreEqual(org2.Name, actual2.Name);
+                Assert.AreEqual(organisations.Count(), 2);
+
+                var actual1 = organisations[0];
+                Assert.AreEqual(org4.Id, actual1.Id);
+                Assert.AreEqual(org4.Name, actual1.Name);
+
+                var actual2 = organisations[1];
+                Assert.AreEqual(org3.Id, actual2.Id);
+                Assert.AreEqual(org3.Name, actual2.Name);
             }
         }
 

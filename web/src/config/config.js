@@ -13,6 +13,7 @@ export default {
     baseApi: 'https://localhost:6001',
     ui: {
         pageHeaderHeight: 48,
-        footerHeight: 50
+        footerHeight: 50,
+        pageSize: 10
     }
 };

@@ -64,6 +64,11 @@
 
 ## TODO
 
-- Repo tests
 - !!!!!! API JWT - Must check audience !!!!!!
-- Api not settings cors if 500?
+- Paging
+- Prompt on cancel with changes
+- Header, icon and close icon
+- Clear validation on new edit
+- Smart loading on list (only if changes not on every compoent did mount)
+- What the freak? Deprecate componentWillMount, componentWillUpdate, and componentWillReceiveProps, even outside strict mode.
+    - https://github.com/facebook/react/issues/12152

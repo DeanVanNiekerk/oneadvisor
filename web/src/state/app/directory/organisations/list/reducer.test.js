@@ -49,13 +49,40 @@ describe('organisation list reducer', () => {
 
         const actualState = reducer(initalState, {
             type: 'ORGANISATIONS_LIST_RECEIVE',
-            payload: [organisation]
+            payload: {
+                items: [organisation],
+                totalItems: 1
+            }
         });
 
         const expectedState = {
             ...defaultState,
+            totalItems: 1,
             items: [organisation],
             fetching: false
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it('should handle ORGANISATIONS_LIST_PAGE_NUMBER_RECEIVE', () => {
+        const initalState = {
+            ...defaultState
+        };
+
+        const pageNumber = 9;
+
+        const actualState = reducer(initalState, {
+            type: 'ORGANISATIONS_LIST_PAGE_NUMBER_RECEIVE',
+            payload: pageNumber
+        });
+
+        const expectedState = {
+            ...defaultState,
+            pageOptions: {
+                number: pageNumber,
+                size: initalState.pageOptions.size
+            }
         };
 
         expect(actualState).toEqual(expectedState);

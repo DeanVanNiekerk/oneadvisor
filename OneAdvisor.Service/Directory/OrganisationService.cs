@@ -21,9 +21,25 @@ namespace OneAdvisor.Service.Directory
             _context = context;
         }
 
-        public async Task<IEnumerable<Organisation>> GetOrganisations()
+        public async Task<PagedItems<Organisation>> GetOrganisations(OrganisationQueryOptions queryOptions)
         {
-            return await GetOrganisationQuery().ToListAsync();
+            var query = GetOrganisationQuery();
+
+            //Get total before applying filters
+            var pagedItems = new PagedItems<Organisation>();
+            pagedItems.TotalItems = await query.CountAsync();
+
+            //Apply filters ----------------------------------------------------------------------------------------
+           
+            //------------------------------------------------------------------------------------------------------
+
+            //Ordering
+            query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
+
+            //Paging
+            pagedItems.Items = await query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
+
+            return pagedItems;
         }
 
         public async Task<Organisation> GetOrganisation(Guid id)

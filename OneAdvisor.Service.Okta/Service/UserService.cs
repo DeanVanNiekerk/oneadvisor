@@ -24,14 +24,31 @@ namespace OneAdvisor.Service.Okta.Service
 
         public HttpClient HttpClient { get; set; }
 
-        public async Task<IEnumerable<User>> GetUsers()
+        public async Task<PagedItems<User>> GetUsers(UserQueryOptions queryOptions)
         {
             var serializer = new DataContractJsonSerializer(typeof(List<UserDto>));
 
-            var streamTask = HttpClient.GetStreamAsync("api/v1/users?limit=25");
+            //TODO: FIX PAGING/SORTING
+            var streamTask = HttpClient.GetStreamAsync("api/v1/users?limit=1000");
             var userDtos = serializer.ReadObject(await streamTask) as List<UserDto>;
 
-            return userDtos.Select(dto => MapDtoToModel(dto));
+            var query = userDtos.Select(dto => MapDtoToModel(dto)).AsQueryable();
+
+            //Get total before applying filters
+            var pagedItems = new PagedItems<User>();
+            pagedItems.TotalItems = query.Count();
+
+            //Apply filters ----------------------------------------------------------------------------------------
+           
+            //------------------------------------------------------------------------------------------------------
+
+            //Ordering
+            query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
+
+            //Paging
+            pagedItems.Items = query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToList();
+
+            return pagedItems;
         }
 
         public async Task<User> GetUser(string id)

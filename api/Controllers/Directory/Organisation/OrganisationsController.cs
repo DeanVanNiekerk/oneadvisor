@@ -10,6 +10,7 @@ using OneAdvisor.Model.Directory.Interface;
 using api.Controllers.Directory.Organisations.Dto;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Organisation;
+using api.App.Dtos;
 
 namespace api.Controllers.Directory.Organisations
 {
@@ -29,9 +30,12 @@ namespace api.Controllers.Directory.Organisations
 
         [HttpGet("")]
         [UseCaseAuthorize("dir_view_organisations")]
-        public IEnumerable<OrganisationDto> Index()
+        public async Task<PagedItemsDto<OrganisationDto>> Index(int pageSize = 0, int pageNumber = 0)
         {
-            return OrganisationService.GetOrganisations().Result.Select(u => Mapper.Map<OrganisationDto>(u));
+            var queryOptions = new OrganisationQueryOptions(pageSize, pageNumber);
+            var pagedItems = await OrganisationService.GetOrganisations(queryOptions);
+
+            return Mapper.MapToPageItemsDto<Organisation, OrganisationDto>(pagedItems);
         }
 
         [HttpGet("{organisationId}")]

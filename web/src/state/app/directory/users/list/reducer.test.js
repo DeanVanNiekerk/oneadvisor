@@ -57,11 +57,15 @@ describe('user list reducer', () => {
 
         const actualState = reducer(initalState, {
             type: 'USERS_LIST_RECEIVE',
-            payload: [user]
+            payload: {
+                totalItems: 1,
+                items: [user]
+            }
         });
 
         const expectedState = {
             ...defaultState,
+            totalItems: 1,
             items: [user],
             fetching: false
         };

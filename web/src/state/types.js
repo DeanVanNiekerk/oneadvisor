@@ -43,3 +43,13 @@ export type ValidationResult = {
     errorCode: string,
     attemptedValue: string
 };
+
+export type PagedItems<T> = {
+    totalItems: number,
+    items: Array<T>
+};
+
+export type PageOptions = {
+    number: number,
+    size: number
+};

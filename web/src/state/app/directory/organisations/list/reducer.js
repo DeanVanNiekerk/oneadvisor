@@ -1,27 +1,34 @@
 // @flow
+import type { PageOptions } from '@/state/types';
+import { defaultPageOptions } from '@/config/defaults';
 
 import * as types from './actions';
 import type { Organisation } from '../types';
 import type { Action } from './actions';
 
 export type State = {
+    +totalItems: number,
     +items: Organisation[],
     +fetching: boolean,
-    +error: boolean
+    +error: boolean,
+    +pageOptions: PageOptions
 };
 
 export const defaultState: State = {
+    totalItems: 0,
     items: [],
     fetching: false,
-    error: false
+    error: false,
+    pageOptions: defaultPageOptions()
 };
 
-export const reducer = (state: State = defaultState, action: Action) => {
+export const reducer = (state: State = defaultState, action: Action): State => {
     switch (action.type) {
         case 'ORGANISATIONS_LIST_RECEIVE': {
             return {
                 ...state,
-                items: action.payload,
+                totalItems: action.payload.totalItems,
+                items: action.payload.items,
                 fetching: false,
                 error: false
             };
@@ -38,6 +45,15 @@ export const reducer = (state: State = defaultState, action: Action) => {
                 items: [],
                 fetching: false,
                 error: true
+            };
+        }
+        case 'ORGANISATIONS_LIST_PAGE_NUMBER_RECEIVE': {
+            return {
+                ...state,
+                pageOptions: {
+                    ...state.pageOptions,
+                    number: action.payload
+                }
             };
         }
         default:

@@ -10,6 +10,7 @@ using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.User;
 using api.App.Authorization;
 using OneAdvisor.Model.Common;
+using api.App.Dtos;
 
 namespace api.Controllers.Directory.Users
 {
@@ -29,9 +30,12 @@ namespace api.Controllers.Directory.Users
 
         [HttpGet("")]
         [UseCaseAuthorize("dir_view_users")]
-        public IEnumerable<UserDto> Index()
+        public async Task<PagedItemsDto<UserDto>> Index(int pageNumber = 0, int pageSize = 0)
         {
-            return UserService.GetUsers().Result.Select(u => Mapper.Map<UserDto>(u));
+            var queryOptions = new UserQueryOptions(pageNumber, pageSize);
+            var pagedItems = await UserService.GetUsers(queryOptions);
+
+            return Mapper.MapToPageItemsDto<User, UserDto>(pagedItems);
         }
 
         [HttpGet("{userId}")]

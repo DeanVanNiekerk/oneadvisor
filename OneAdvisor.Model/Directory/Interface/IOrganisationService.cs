@@ -8,7 +8,7 @@ namespace OneAdvisor.Model.Directory.Interface
 {
     public interface IOrganisationService
     {
-        Task<IEnumerable<Organisation>> GetOrganisations();
+        Task<PagedItems<Organisation>> GetOrganisations(OrganisationQueryOptions queryOptions);
         Task<Organisation> GetOrganisation(Guid id);
         Task<Result> UpdateOrganisation(Organisation user);
         Task<Result> InsertOrganisation(Organisation user);
