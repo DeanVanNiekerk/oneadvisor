@@ -19,7 +19,7 @@ export const defaultState: State = {
     items: [],
     fetching: false,
     error: false,
-    pageOptions: defaultPageOptions()
+    pageOptions: { number: 0, size: 0 }
 };
 
 export const reducer = (state: State = defaultState, action: Action): State => {

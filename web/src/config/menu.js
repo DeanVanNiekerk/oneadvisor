@@ -11,14 +11,14 @@ export const menus: Menus = {
                 links: [
                     {
                         name: 'Users',
-                        icon: 'users',
+                        icon: 'team',
                         relativePath: '/users',
                         isDefault: true,
                         isCurrent: false
                     },
                     {
                         name: 'Organisations',
-                        icon: 'building',
+                        icon: 'bank',
                         relativePath: '/organisations',
                         isDefault: false,
                         isCurrent: false
@@ -36,7 +36,7 @@ export const menus: Menus = {
                 links: [
                     {
                         name: 'Members',
-                        icon: 'users',
+                        icon: 'user',
                         relativePath: '/members',
                         isDefault: true,
                         isCurrent: false

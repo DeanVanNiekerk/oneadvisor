@@ -1,32 +1,44 @@
 // @flow
 
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import { Layout } from 'antd';
 
 import Navigator from './Navigator';
 import SideMenu from './SideMenu';
+
+const { Content } = Layout;
 
 type Props = {
     onLogout: Function,
     children: any[]
 };
 
-class Layout extends Component<Props> {
+class LayoutContainer extends Component<Props> {
     render() {
         return (
-            <>
+            <Layout
+                style={{
+                    height: "100%"
+                }}>
                 <Navigator onLogout={this.props.onLogout} />
-                <div className="container-fluid p-0">
-                    <div className="row flex-xl-nowrap no-gutters">
-                        <SideMenu />
-                        <main className="col-9" role="main">
+                <Layout>
+                    <SideMenu />
+                    <Layout style={{ padding: '0 24px 24px' }}>
+                        <Content
+                            style={{
+                                background: '#fff',
+                                padding: 24,
+                                margin: 0,
+                                minHeight: 280
+                            }}
+                        >
                             {this.props.children}
-                        </main>
-                    </div>
-                </div>
-            </>
+                        </Content>
+                    </Layout>
+                </Layout>
+            </Layout>
         );
     }
 }
 
-export default Layout;
+export default LayoutContainer;

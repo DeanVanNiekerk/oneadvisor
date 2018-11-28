@@ -5,6 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 
 import type { RouterProps } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
@@ -15,51 +16,43 @@ import {
     currentApplicationSelector
 } from '@/state/context/selectors';
 
-const Container = styled.div`
-    position: sticky;
-    top: 0;
-    z-index: 1071;
-`;
+const { Header } = Layout;
+const { Item } = Menu;
 
-const Brand = styled.div`
-    padding-left: 14px !important;
-    align-self: stretch;
-    display: flex;
-    align-items: center;
-`;
-
-const NavItem = styled.div`
-    flex: 0 0 9em;
-    align-self: stretch;
-    display: flex;
-    align-items: center;
-    padding: 0px 14px;
-    cursor: pointer;
+const MenuItem = styled(Item)`
     ${props =>
         props.application.isCurrent &&
         css`
-            background-color: ${props.application.color};
+            background-color: ${props.application.color} !important;
         `};
 `;
 
-const NavItemText = styled.span`
-    font-size: 1.1rem;
-    padding-left: 7px;
+const Pinstripe = styled.div`
+    width: 100%;
+    height: 5px;
+    background-color: ${props => props.application.color};
 `;
 
-const NavBar = styled.div`
-    height: 4rem;
-    border-bottom: 5px solid ${props => props.application.color};
+const AppName = styled.div`
+    font-size: 20px;
+    width: 175px;
+    height: 31px;
+    float: left;
+    color: #FFFFFF;
+`;
 
-    -webkit-box-shadow: 0px 1px 8px 0px rgba(36,36,36,0.71);
-    -moz-box-shadow: 0px 1px 8px 0px rgba(36,36,36,0.71);
-    box-shadow: 0px 1px 8px 0px rgba(36,36,36,0.71);
+const Light = styled.span`
+    font-weight: 100;
+`;
+
+const Bold = styled.span`
+    font-weight: 600;
 `;
 
 type LocalProps = {
     onLogout: Function,
     applications: Application[],
-    currentApplication: Application,
+    currentApplication: Application
 };
 type Props = LocalProps & RouterProps;
 
@@ -70,34 +63,35 @@ class Navigator extends Component<Props> {
 
     render() {
         return (
-            <Container className="container-fluid text-white bg-primary p-0">
-                <NavBar className="row flex-xl-nowrap no-gutters align-items-stretch" application={this.props.currentApplication}>
-                    <Brand className="col-3 h4 mb-0">
-                        <span className="font-weight-bold">ONE</span>
-                        <span className="font-weight-light">ADVISOR</span>
-                    </Brand>
-                    <div className="col-9">
-                        <div className="row flex-xl-nowrap h-100 no-gutters">
-                            {this.props.applications.map(app => (
-                                <NavItem
-                                    key={app.id}
-                                    application={app}
-                                    className="font-weight-light"
-                                    onClick={() =>
-                                        this.navigate(app.relativePath)
-                                    }
-                                >
-                                    <FontAwesomeIcon icon={app.icon} />
-                                    <NavItemText>{app.name}</NavItemText>
-                                </NavItem>
-                            ))}
-                        </div>
-                    </div>
-                </NavBar>
-            </Container>
-
+            <>
+                <Header className="header">
+                    <AppName>
+                        <Light>ONE</Light><Bold>ADVISOR</Bold>
+                    </AppName>
+                    <Menu
+                        theme="dark"
+                        mode="horizontal"
+                        style={{ lineHeight: '64px' }}
+                    >
+                        {this.props.applications.map(app => (
+                            <MenuItem
+                                key={app.id}
+                                application={app}
+                                onClick={() => this.navigate(app.relativePath)}
+                            >
+                                <Icon
+                                    type={app.icon}
+                                    style={{ fontSize: '16px' }}
+                                />
+                                {app.name}
+                            </MenuItem>
+                        ))}
+                    </Menu>
+                </Header>
+                <Pinstripe application={this.props.currentApplication} />
+            </>
+   
             //<Button color="inherit" onClick={() => this.props.onLogout()}>Signout</Button>
-
         );
     }
 }

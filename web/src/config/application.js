@@ -27,7 +27,7 @@ export const applications: Application[] = [
         'Directory',
         '#607D8B',
         '/directory',
-        'shield-alt'
+        'safety'
     ),
     createApplication(MEMBER_ID, 'Member', '#2962FF', '/member', 'user')
 ];
