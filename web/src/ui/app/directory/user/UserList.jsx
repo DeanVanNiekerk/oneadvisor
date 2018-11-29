@@ -3,14 +3,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Pagination, PaginationItem, PaginationLink, Button } from 'reactstrap';
 
-import { Loader, Error, Content, Footer, Header } from '@/ui/controls';
+import { Table, Header, Button } from '@/ui/controls';
 
+import EditUser from './EditUser';
+
+import { getColumn } from '@/state/utils';
 import type { RouterProps, ReduxProps } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
 import { listSelector } from '@/state/app/directory/users/list/selectors';
 import { fetchUsers } from '@/state/app/directory/users/list/actions';
+import {
+    fetchUser,
+    receiveUser
+} from '@/state/app/directory/users/user/actions';
 import type { User } from '@/state/app/directory/users/types';
 
 type LocalProps = {
@@ -20,92 +26,92 @@ type LocalProps = {
 };
 type Props = LocalProps & RouterProps & ReduxProps;
 
-class UserList extends Component<Props> {
-    componentDidMount() {
-        this.props.dispatch(fetchUsers());
+type State = {
+    editVisible: boolean
+};
+
+class UserList extends Component<Props, State> {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            editVisible: false
+        };
     }
 
-    editUser = id => {
-        this.props.history.push(`/directory/users/${id}`);
+    componentDidMount() {
+        this.loadUsers();
+    }
+
+    loadUsers = () => {
+        this.props.dispatch(fetchUsers());
     };
 
-    newUser = () => {
-        this.props.history.push(`/directory/users/new`);
+    newUser = id => {
+        const user = {
+            id: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            login: '',
+            lastLogin: '',
+            lastUpdated: '',
+            lastUpdated: '',
+            status: '',
+            organisationId: ''
+        };
+        this.props.dispatch(receiveUser(user));
+        this.setState({
+            editVisible: true
+        });
+    };
+
+    editUser = id => {
+        this.props.dispatch(fetchUser(id));
+        this.setState({
+            editVisible: true
+        });
+    };
+
+    closeEditUser = (cancelled: boolean) => {
+        this.setState({
+            editVisible: false
+        });
+        if(!cancelled)
+            this.loadUsers();
+    };
+
+    getColumns = () => {
+        return [getColumn('id', 'Id'), getColumn('firstName', 'First Name')];
     };
 
     render() {
-        if (this.props.error) return <Error />;
-
         return (
             <>
-                <Header>
-                    <Button
-                        color="light"
-                        outline
-                        onClick={this.newUser}
-                        size="sm"
-                    >
-                        New User
-                    </Button>
+                <Header
+                    actions={
+                        <Button
+                            type="default"
+                            icon="plus"
+                            onClick={this.newUser}
+                        >
+                            New User
+                        </Button>
+                    }
+                >
+                    Users
                 </Header>
-
-                {this.props.fetching && <Loader text="loading users..." />}
-
-                {!this.props.fetching && (
-                    <>
-                        <Content>
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.props.users.map(user => (
-                                        <tr
-                                            key={user.id}
-                                            onClick={() =>
-                                                this.editUser(user.id)
-                                            }
-                                        >
-                                            <td>{user.id}</td>
-                                            <td>{user.firstName}</td>
-                                            <td>{user.lastName}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </Content>
-
-                        <Footer>
-                            <Pagination size="sm" listClassName="m-0">
-                                <PaginationItem disabled>
-                                    <PaginationLink previous href="#" />
-                                </PaginationItem>
-                                <PaginationItem active>
-                                    <PaginationLink href="#">1</PaginationLink>
-                                </PaginationItem>
-                                <PaginationItem>
-                                    <PaginationLink href="#">2</PaginationLink>
-                                </PaginationItem>
-                                <PaginationItem>
-                                    <PaginationLink href="#">3</PaginationLink>
-                                </PaginationItem>
-                                <PaginationItem>
-                                    <PaginationLink href="#">4</PaginationLink>
-                                </PaginationItem>
-                                <PaginationItem>
-                                    <PaginationLink href="#">5</PaginationLink>
-                                </PaginationItem>
-                                <PaginationItem>
-                                    <PaginationLink next href="#" />
-                                </PaginationItem>
-                            </Pagination>
-                        </Footer>
-                    </>
-                )}
+                <Table
+                    rowKey="id"
+                    columns={this.getColumns()}
+                    dataSource={this.props.users}
+                    loading={this.props.fetching}
+                    onRowClick={user => this.editUser(user.id)}
+                />
+                <EditUser
+                    visible={this.state.editVisible}
+                    onClose={this.closeEditUser}
+                />
             </>
         );
     }

@@ -1,12 +1,11 @@
 // @flow
 
 import React, { Component } from 'react';
-import UserForm from './UserForm';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Button } from 'reactstrap';
 
-import { Loader, Error, Footer, Content, Header } from '@/ui/controls';
+import UserForm from './UserForm';
+import { Drawer, DrawerFooter, Button, Loader } from '@/ui/controls';
 
 import type { ReduxProps, RouterProps, ValidationResult } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
@@ -15,10 +14,13 @@ import { getCachedUser } from '@/state/app/directory/users/list/selectors';
 import { userSelector } from '@/state/app/directory/users/user/selectors';
 import {
     fetchUser,
-    updateUser
+    updateUser,
+    insertUser
 } from '@/state/app/directory/users/user/actions';
 
 type LocalProps = {
+    visible: boolean,
+    onClose: (cancelled: boolean) => void,
     user: User,
     fetching: boolean,
     updating: boolean,
@@ -28,30 +30,42 @@ type LocalProps = {
 type Props = LocalProps & RouterProps & ReduxProps;
 
 type State = {
-    userEdited: ?User
+    userEdited: User
 };
 class EditUser extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            userEdited: null
+            userEdited: props.user
         };
     }
 
-    componentDidMount() {
-        if (!this.props.user)
-            this.props.dispatch(fetchUser(this.props.match.params.userId));
+    componentDidUpdate(prevProps) {
+        if (this.props.user != prevProps.user)
+            this.setState({
+                userEdited: this.props.user
+            });
     }
 
-    back = () => {
-        this.props.history.push(`/directory/users`);
+    close = () => {
+        this.props.onClose(false);
+    };
+
+    cancel = () => {
+        this.props.onClose(true);
     };
 
     save = () => {
-        if (this.state.userEdited)
-            this.props.dispatch(updateUser(this.state.userEdited, this.back));
-        else this.back();
+        if (this.state.userEdited.id) {
+            this.props.dispatch(
+                updateUser(this.state.userEdited, this.close)
+            );
+        } else {
+            this.props.dispatch(
+                insertUser(this.state.userEdited, this.close)
+            );
+        }
     };
 
     onChange = (user: User) => {
@@ -60,53 +74,43 @@ class EditUser extends Component<Props, State> {
         });
     };
 
-    canSave = () => {
-        return this.state.userEdited !== null && !this.props.updating;
-    };
-
     isLoading = () => {
-        return this.props.fetching 
-                || !this.props.user;
+        return this.props.fetching || this.props.updating;
     };
 
     render() {
-        if (this.props.error) return <Error />;
+        const {
+            user,
+            validationResults,
+            visible
+        } = this.props;
 
         return (
-            <>
-                <Header breadCrumb="Edit User" />
-
-                {this.isLoading() && <Loader text="loading user..." />}
-
-                {!this.isLoading() && (
-                    <>
-                        <Content>
-                            <UserForm
-                                user={this.props.user}
-                                validationResults={this.props.validationResults}
-                                onChange={this.onChange}
-                            />
-                        </Content>
-
-                        <Footer>
-                            <Button
-                                color="secondary"
-                                className="mr-1"
-                                onClick={this.back}
-                            >
-                                Cancel
-                            </Button>
-                            <Button
-                                color="primary"
-                                onClick={this.save}
-                                disabled={this.props.updating}
-                            >
-                                {this.props.updating ? 'Saving...' : 'Save'}
-                            </Button>
-                        </Footer>
-                    </>
-                )}
-            </>
+            <Drawer
+                title={`${user && user.id ? 'Edit' : 'New'} User`}
+                visible={visible}
+                onClose={this.cancel}
+            >
+                <Loader isLoading={this.isLoading()}>
+                    <UserForm
+                        user={user}
+                        validationResults={validationResults}
+                        onChange={this.onChange}
+                    />
+                </Loader>
+                <DrawerFooter>
+                    <Button onClick={this.cancel} disabled={this.isLoading()}>
+                        Cancel
+                    </Button>
+                    <Button
+                        onClick={this.save}
+                        type="primary"
+                        disabled={this.isLoading()}
+                    >
+                        Save
+                    </Button>
+                </DrawerFooter>
+            </Drawer>
         );
     }
 }

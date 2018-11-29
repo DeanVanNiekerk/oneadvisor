@@ -1,12 +1,11 @@
 // @flow
 
 import React, { Component } from 'react';
-import OrganisationForm from './OrganisationForm';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Button } from 'reactstrap';
 
-import { Loader, Error, Footer, Content, Header } from '@/ui/controls';
+import OrganisationForm from './OrganisationForm';
+import { Drawer, DrawerFooter, Button, Loader } from '@/ui/controls';
 
 import type { ReduxProps, RouterProps, ValidationResult } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
@@ -15,10 +14,13 @@ import { getCachedOrganisation } from '@/state/app/directory/organisations/list/
 import { organisationSelector } from '@/state/app/directory/organisations/organisation/selectors';
 import {
     fetchOrganisation,
-    updateOrganisation
+    updateOrganisation,
+    insertOrganisation
 } from '@/state/app/directory/organisations/organisation/actions';
 
 type LocalProps = {
+    visible: boolean,
+    onClose: (cancelled: boolean) => void,
     organisation: Organisation,
     fetching: boolean,
     updating: boolean,
@@ -28,30 +30,42 @@ type LocalProps = {
 type Props = LocalProps & RouterProps & ReduxProps;
 
 type State = {
-    organisationEdited: ?Organisation
+    organisationEdited: Organisation
 };
 class EditOrganisation extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            organisationEdited: null
+            organisationEdited: props.organisation
         };
     }
 
-    componentDidMount() {
-        if (!this.props.organisation)
-            this.props.dispatch(fetchOrganisation(this.props.match.params.organisationId));
+    componentDidUpdate(prevProps) {
+        if (this.props.organisation != prevProps.organisation)
+            this.setState({
+                organisationEdited: this.props.organisation
+            });
     }
 
-    back = () => {
-        this.props.history.push(`/directory/organisations`);
+    close = () => {
+        this.props.onClose(false);
+    };
+
+    cancel = () => {
+        this.props.onClose(true);
     };
 
     save = () => {
-        if (this.state.organisationEdited)
-            this.props.dispatch(updateOrganisation(this.state.organisationEdited, this.back));
-        else this.back();
+        if (this.state.organisationEdited.id) {
+            this.props.dispatch(
+                updateOrganisation(this.state.organisationEdited, this.close)
+            );
+        } else {
+            this.props.dispatch(
+                insertOrganisation(this.state.organisationEdited, this.close)
+            );
+        }
     };
 
     onChange = (organisation: Organisation) => {
@@ -60,59 +74,49 @@ class EditOrganisation extends Component<Props, State> {
         });
     };
 
-    canSave = () => {
-        return this.state.organisationEdited !== null && !this.props.updating;
-    };
-
     isLoading = () => {
-        return this.props.fetching 
-                || !this.props.organisation;
+        return this.props.fetching || this.props.updating;
     };
 
     render() {
-        if (this.props.error) return <Error />;
+        const {
+            organisation,
+            validationResults,
+            visible
+        } = this.props;
 
         return (
-            <>
-                <Header breadCrumb="Edit Organisation" />
-
-                {this.isLoading() && <Loader text="loading organisation..." />}
-
-                {!this.isLoading() && (
-                    <>
-                        <Content>
-                            <OrganisationForm
-                                organisation={this.props.organisation}
-                                validationResults={this.props.validationResults}
-                                onChange={this.onChange}
-                            />
-                        </Content>
-
-                        <Footer>
-                            <Button
-                                color="secondary"
-                                className="mr-1"
-                                onClick={this.back}
-                            >
-                                Cancel
-                            </Button>
-                            <Button
-                                color="primary"
-                                onClick={this.save}
-                                disabled={this.props.updating}
-                            >
-                                {this.props.updating ? 'Saving...' : 'Save'}
-                            </Button>
-                        </Footer>
-                    </>
-                )}
-            </>
+            <Drawer
+                title={`${organisation && organisation.id ? 'Edit' : 'New'} Organisation`}
+                visible={visible}
+                onClose={this.cancel}
+            >
+                <Loader isLoading={this.isLoading()}>
+                    <OrganisationForm
+                        organisation={organisation}
+                        validationResults={validationResults}
+                        onChange={this.onChange}
+                    />
+                </Loader>
+                <DrawerFooter>
+                    <Button onClick={this.cancel} disabled={this.isLoading()}>
+                        Cancel
+                    </Button>
+                    <Button
+                        onClick={this.save}
+                        type="primary"
+                        disabled={this.isLoading()}
+                    >
+                        Save
+                    </Button>
+                </DrawerFooter>
+            </Drawer>
         );
     }
 }
 
 const mapStateToProps = (state: RootState, props: RouterProps) => ({
-    organisation: getCachedOrganisation(state, props) || organisationSelector(state).organisation,
+    organisation: organisationSelector(state).organisation,
     fetching: organisationSelector(state).fetching,
     updating: organisationSelector(state).updating,
     error: organisationSelector(state).error,

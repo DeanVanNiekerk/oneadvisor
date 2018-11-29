@@ -2,16 +2,23 @@
 
 import { reducer, defaultState } from './reducer';
 import * as types from './actions';
+import { getValidationResult } from '@/state/testUtils';
 
 describe('user reducer', () => {
     it('should handle USERS_USER_FETCHING', () => {
-        const actualState = reducer(defaultState, {
+        const initalState = {
+            ...defaultState,
+            validationResults: [getValidationResult()]
+        };
+
+        const actualState = reducer(initalState, {
             type: 'USERS_USER_FETCHING'
         });
 
         const expectedState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
+            validationResults: []
         };
 
         expect(actualState).toEqual(expectedState);
@@ -39,7 +46,8 @@ describe('user reducer', () => {
     it('should handle USERS_USER_RECEIVE', () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
+            validationResults: [getValidationResult()]
         };
 
         const user = {
@@ -63,7 +71,8 @@ describe('user reducer', () => {
         const expectedState = {
             ...defaultState,
             user: { ...user },
-            fetching: false
+            fetching: false,
+            validationResults: []
         };
 
         expect(actualState).toEqual(expectedState);

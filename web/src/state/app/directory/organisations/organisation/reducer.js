@@ -27,6 +27,7 @@ export const reducer = (state: State = defaultState, action: Action): State => {
             return {
                 ...state,
                 organisation: action.payload,
+                validationResults: [],
                 fetching: false,
                 error: false
             };
@@ -34,6 +35,7 @@ export const reducer = (state: State = defaultState, action: Action): State => {
         case 'ORGANISATIONS_ORGANISATION_FETCHING': {
             return {
                 ...state,
+                validationResults: [],
                 fetching: true
             };
         }

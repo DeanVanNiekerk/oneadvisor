@@ -1,14 +1,14 @@
 // @flow
 
 import * as React from 'react';
-import { Form as FormBS } from 'reactstrap';
+import { Form as FormAD } from 'antd';
 
 type Props = {
     children: React.Node
 };
 
 const Form = (props: Props) => (
-    <FormBS className="p-3">{props.children}</FormBS>
+    <FormAD>{props.children}</FormAD>
 );
 
 export { Form };

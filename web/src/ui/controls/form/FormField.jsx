@@ -1,10 +1,13 @@
 // @flow
 
 import React, { Component } from 'react';
-import { FormGroup, Label, Input, FormText, FormFeedback } from 'reactstrap';
+//import { FormGroup, Label, Input, FormText, FormFeedback } from 'reactstrap';
+import { Form, Input } from 'antd';
 
 import type { ValidationResult } from '@/state/types';
 import { getValidationError } from '@/state/validation';
+
+const FormItem = Form.Item;
 
 type Props = {
     fieldName: string,
@@ -59,17 +62,18 @@ class FormField extends Component<Props, State> {
         const { fieldName, label, value, onChange } = this.props;
 
         return (
-            <FormGroup>
-                <Label>{label}</Label>
-                <Input
+            <FormItem
+                label={label}
+                validateStatus={errorText ? "error" : null}
+                help={errorText}
+            >
+                <Input 
                     name={fieldName}
                     id={fieldName}
                     value={value}
                     onChange={this.onChange}
-                    invalid={errorText !== null}
                 />
-                <FormFeedback>{errorText}</FormFeedback>
-            </FormGroup>
+            </FormItem>
         );
     }
 }

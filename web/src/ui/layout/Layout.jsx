@@ -23,11 +23,11 @@ class LayoutContainer extends Component<Props> {
                 <Navigator onLogout={this.props.onLogout} />
                 <Layout>
                     <SideMenu />
-                    <Layout style={{ padding: '0 24px 24px' }}>
+                    <Layout>
                         <Content
                             style={{
                                 background: '#fff',
-                                padding: 24,
+                                padding: 15,
                                 margin: 0,
                                 minHeight: 280
                             }}

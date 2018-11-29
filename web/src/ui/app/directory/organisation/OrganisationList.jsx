@@ -3,20 +3,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Button } from 'reactstrap';
 
-import {
-    Table
-} from '@/ui/controls';
+import { Table, Header, Button } from '@/ui/controls';
 
+import EditOrganisation from './EditOrganisation';
+
+import { getColumn } from '@/state/utils';
 import type { RouterProps, ReduxProps, PageOptions } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
-import { listSelector } from '@/state/app/directory/organisations/list/selectors';
-import {
-    fetchOrganisations,
-    receivePageNumber
-} from '@/state/app/directory/organisations/list/actions';
 import type { Organisation } from '@/state/app/directory/organisations/types';
+import { listSelector } from '@/state/app/directory/organisations/list/selectors';
+import { fetchOrganisations } from '@/state/app/directory/organisations/list/actions';
+import { fetchOrganisation, receiveOrganisation } from '@/state/app/directory/organisations/organisation/actions';
 
 type LocalProps = {
     total: number,
@@ -27,7 +25,18 @@ type LocalProps = {
 };
 type Props = LocalProps & RouterProps & ReduxProps;
 
-class OrganisationList extends Component<Props> {
+type State = {
+    editVisible: boolean
+};
+
+class OrganisationList extends Component<Props, State> {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            editVisible: false
+        };
+    }
 
     componentDidMount() {
         this.loadOrganisations();
@@ -37,105 +46,61 @@ class OrganisationList extends Component<Props> {
         this.props.dispatch(fetchOrganisations(this.props.pageOptions));
     };
 
-    editOrganisation = id => {
-        this.props.history.push(`/directory/organisations/${id}`);
-    };
-
-    newOrganisation = () => {
-        this.props.history.push(`/directory/organisations/new`);
-    };
-
-    // onPageChange = pageNumber => {
-    //     this.props.dispatch(receivePageNumber(pageNumber));
-    // };
-
-    componentDidUpdate(prevProps: LocalProps) {
-        //Page number has changed, reload
-        if (this.props.pageOptions != prevProps.pageOptions) {
-            this.loadOrganisations();
+    newOrganisation = id => {
+        const organisation = {
+            id: '',
+            name: ''
         }
-    }
+        this.props.dispatch(receiveOrganisation(organisation));
+        this.setState({
+            editVisible: true
+        });
+    };
+
+    editOrganisation = id => {
+        this.props.dispatch(fetchOrganisation(id));
+        this.setState({
+            editVisible: true
+        });
+    };
+
+    closeEditOrganisation = (cancelled: boolean) => {
+        console.log(cancelled);
+        this.setState({
+            editVisible: false
+        });
+        if(!cancelled)
+            this.loadOrganisations();
+    };
 
     getColumns = () => {
-        return [
-            {
-                title: 'Id',
-                dataIndex: 'id',
-                key: 'id',
-                sorter: true
-            },
-            {
-                title: 'Name',
-                dataIndex: 'name',
-                key: 'name',
-                sorter: true
-            }
-        ];
+        return [getColumn('id', 'Id'), getColumn('name', 'Name')];
     };
 
     render() {
-        //if (this.props.error) return <Error />;
-
         return (
-
-            <Table 
-                dataSource={this.props.organisations} 
-                columns={this.getColumns()} 
-                loading={this.props.fetching}
-            />
-
-            // <>
-                
-            //     <Header>
-            //         <Button
-            //             color="light"
-            //             outline
-            //             onClick={this.newOrganisation}
-            //             size="sm"
-            //         >
-            //             New Organisation
-            //         </Button>
-            //     </Header> 
-
-            //      {this.props.fetching && <Loader text="loading organisations..." />}
-
-            //     {!this.props.fetching && (
-            //         <>
-            //             <Content>
-            //                 <table className="table">
-            //                     <thead>
-            //                         <tr>
-            //                             <th>Id</th>
-            //                             <th>Name</th>
-            //                         </tr>
-            //                     </thead>
-            //                     <tbody>
-            //                         {this.props.organisations.map(organisation => (
-            //                             <tr
-            //                                 key={organisation.id}
-            //                                 onClick={() =>
-            //                                     this.editOrganisation(organisation.id)
-            //                                 }
-            //                             >
-            //                                 <td>{organisation.id}</td>
-            //                                 <td>{organisation.name}</td>
-            //                             </tr>
-            //                         ))}
-            //                     </tbody>
-            //                 </table>
-            //             </Content>
-
-            //             <Footer>
-            //                 <Pagination
-            //                     pageNumber={this.props.pageOptions.number}
-            //                     pageSize={this.props.pageOptions.size}
-            //                     totalItems={this.props.total}
-            //                     onChange={this.onPageChange}
-            //                  />
-            //             </Footer>
-            //         </>
-            //     )} 
-            // </>
+            <>
+                <Header
+                    actions={
+                        <Button type="default" icon="plus" onClick={this.newOrganisation}>
+                            New Organisation
+                        </Button>
+                    }
+                >
+                    Organisations
+                </Header>
+                <Table
+                    rowKey="id"
+                    columns={this.getColumns()}
+                    dataSource={this.props.organisations}
+                    loading={this.props.fetching}
+                    onRowClick={org => this.editOrganisation(org.id)}
+                />
+                <EditOrganisation
+                    visible={this.state.editVisible}
+                    onClose={this.closeEditOrganisation}
+                />
+            </>
         );
     }
 }

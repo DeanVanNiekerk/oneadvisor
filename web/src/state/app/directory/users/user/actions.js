@@ -25,6 +25,11 @@ export type Action =
     | UserUpdatingErrorAction
     | UserValidationErrorAction;
 
+export const receiveUser = (user: User): UserReceiveAction => ({
+    type: 'USERS_USER_RECEIVE',
+    payload: user
+});
+
 export const fetchUser = (userId: string): ApiAction => ({
     type: 'API',
     endpoint: `${usersApi}/${userId}`,

@@ -28,13 +28,15 @@ export const reducer = (state: State = defaultState, action: Action): State => {
                 ...state,
                 user: action.payload,
                 fetching: false,
-                error: false
+                error: false,
+                validationResults: []
             };
         }
         case 'USERS_USER_FETCHING': {
             return {
                 ...state,
-                fetching: true
+                fetching: true,
+                validationResults: []
             };
         }
         case 'USERS_USER_FETCHING_ERROR': {

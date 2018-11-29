@@ -38,6 +38,13 @@ export type Action =
     | OrganisationUpdatingErrorAction
     | OrganisationValidationErrorAction;
 
+export const receiveOrganisation = (
+    organisation: Organisation
+): OrganisationReceiveAction => ({
+    type: 'ORGANISATIONS_ORGANISATION_RECEIVE',
+    payload: organisation
+});
+
 export const fetchOrganisation = (organisationId: string): ApiAction => ({
     type: 'API',
     endpoint: `${organisationsApi}/${organisationId}`,

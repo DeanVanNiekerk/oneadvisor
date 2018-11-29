@@ -2,16 +2,23 @@
 
 import { reducer, defaultState } from './reducer';
 import * as types from './actions';
+import { getValidationResult } from '@/state/testUtils';
 
 describe('organisation reducer', () => {
     it('should handle ORGANISATIONS_ORGANISATION_FETCHING', () => {
-        const actualState = reducer(defaultState, {
+        const initalState = {
+            ...defaultState,
+            validationResults: [getValidationResult()]
+        };
+
+        const actualState = reducer(initalState, {
             type: 'ORGANISATIONS_ORGANISATION_FETCHING'
         });
 
         const expectedState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
+            validationResults: []
         };
 
         expect(actualState).toEqual(expectedState);
@@ -39,7 +46,8 @@ describe('organisation reducer', () => {
     it('should handle ORGANISATIONS_ORGANISATION_RECEIVE', () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
+            validationResults: [getValidationResult()]
         };
 
         const organisation = {
@@ -55,7 +63,8 @@ describe('organisation reducer', () => {
         const expectedState = {
             ...defaultState,
             organisation: { ...organisation },
-            fetching: false
+            fetching: false,
+            validationResults: []
         };
 
         expect(actualState).toEqual(expectedState);

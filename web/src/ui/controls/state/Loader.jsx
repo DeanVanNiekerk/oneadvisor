@@ -1,27 +1,15 @@
 // @flow
 
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import * as React from 'react';
+import { Spin } from 'antd';
 
 type Props = {
-    text?: string
+    isLoading: boolean,
+    children: React.Node
 };
 
-const Loader = ({ text = 'loading...' }: Props) => {
-    return (
-        <div className="container">
-            <div className="row justify-content-center mt-5">
-                <div className="col-auto text-primary">
-                    <h2>
-                        <FontAwesomeIcon icon="spinner" spin />
-                    </h2>
-                </div>
-            </div>
-            <div className="row justify-content-center mt-1">
-                <div className="col-auto">{text}</div>
-            </div>
-        </div>
-    );
-};
+const Loader = (props: Props) => (
+    <Spin spinning={props.isLoading}>{props.children}</Spin>
+);
 
 export { Loader };

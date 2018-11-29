@@ -1,8 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Col, Row } from 'reactstrap';
 
 import type { ValidationResult } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
@@ -29,6 +27,13 @@ class OrganisationForm extends Component<Props, State> {
         };
     }
 
+    componentDidUpdate(prevProps: Props) {
+        if (this.props.organisation != prevProps.organisation)
+            this.setState({
+                organisation: this.props.organisation
+            });
+    }
+
     handleChange = (fieldName: string, event: SyntheticInputEvent<any>) => {
         const organisation = {
             ...this.state.organisation,
@@ -42,25 +47,22 @@ class OrganisationForm extends Component<Props, State> {
 
     render() {
         const { validationResults } = this.props;
+        const { organisation } = this.state;
+
+        if (!organisation) return <></>;
 
         return (
             <Form>
-                <Row form>
-                    <Col md={6}>
-                        <FormField
-                            fieldName="name"
-                            label="Name"
-                            value={this.state.organisation.name}
-                            onChange={this.handleChange}
-                            validationResults={validationResults}
-                        />
-                    </Col>
-                </Row>
+                <FormField
+                    fieldName="name"
+                    label="Name"
+                    value={organisation.name}
+                    onChange={this.handleChange}
+                    validationResults={validationResults}
+                />
             </Form>
         );
     }
 }
 
-const mapStateToProps = (state: RootState) => ({});
-
-export default connect(mapStateToProps)(OrganisationForm);
+export default OrganisationForm;
