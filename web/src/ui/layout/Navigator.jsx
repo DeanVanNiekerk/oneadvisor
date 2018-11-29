@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 
 import type { RouterProps } from '@/state/types';

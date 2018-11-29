@@ -5,8 +5,6 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Nav, NavItem as NavItemBs } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Layout, Menu as MenuAD, Icon } from 'antd';
 
 import config from '@/config/config';
