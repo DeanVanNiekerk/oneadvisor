@@ -11,8 +11,8 @@ namespace OneAdvisor.Data
         {
             //This is the connection string used for local updates
             var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-            optionsBuilder.UseSqlServer("Server=127.0.0.1,1433;Database=OneAdvisor;User ID=sa;Password=2x&%bLn3c47Y!y&hv7");
-            //optionsBuilder.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=OneAdvisor;User ID=sa;Password=lead2gold");
+            //optionsBuilder.UseSqlServer("Server=127.0.0.1,1433;Database=OneAdvisor;User ID=sa;Password=2x&%bLn3c47Y!y&hv7");
+            optionsBuilder.UseSqlServer("Data Source=.\\SQLExpress;Initial Catalog=OneAdvisor;User ID=sa;Password=lead2gold");
 
             return new DataContext(optionsBuilder.Options);
         }

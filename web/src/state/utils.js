@@ -1,11 +1,45 @@
+import moment from 'moment';
+
 // @flow
 
-export const getColumn = (key: string, title: string) => ({
-    title: title,
-    dataIndex: key,
-    key: key,
-    sorter: (a: any, b: any) => sort(a, b, key)
-});
+type ColumnType = "string" | "date"
 
-export const sort = (item1: any, item2: any, property: string) =>
-    item1[property].localeCompare(item2[property]);
+type ColumnOptions = {
+    type?: ColumnType,
+    render?: (value: any) => any,
+    sorter?: (a: any, b: any) => any
+}
+
+const columnOptionDefaults: ColumnOptions = {
+    type: 'string',
+    render: (value) => value,
+    sorter: (a: any, b: any) => sort(a, b, key)
+}
+
+export const getColumn = (key: string, title: string, options: ColumnOptions = {}) => {
+
+    const data = {
+        title: title,
+        dataIndex: key,
+        key: key
+    }
+
+    options = {
+        ...columnOptionDefaults,
+        ...options
+    }
+
+    if (options.columnType === 'date')
+        data.render = value => (value ? moment(value).format('lll') : '');
+
+    return {
+        ...data,
+        ...options
+    };
+};
+
+export const sort = (item1: any, item2: any, property: string) => {
+    const val1 = item1[property] ? item1[property] : '';
+    const val2 = item2[property] ? item2[property] : '';
+    return val1.localeCompare(val2);
+}
