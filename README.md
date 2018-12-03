@@ -69,3 +69,8 @@
 - Api 401 -> reauth
 - Prompt on cancel with changes
 - Dont fetch on edit get from list
+
+## App Documentation
+
+### Users
+https://developer.okta.com/docs/api/resources/users#user-status

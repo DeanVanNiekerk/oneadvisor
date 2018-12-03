@@ -13,10 +13,16 @@ type Props = {
 
 const Table = (props: Props) => (
     <TableAD 
+        bordered
+        size="middle"
         columns={props.columns} 
         dataSource={props.dataSource} 
         rowKey={props.rowKey}
         loading={props.loading}
+        pagination={{
+            defaultPageSize: 10,
+            showSizeChanger: true
+        }}
         onRow={(record) => {
             return {
               onClick: () => {

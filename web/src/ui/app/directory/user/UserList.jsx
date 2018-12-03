@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { Tag } from 'antd';
 
 import { Table, Header, Button } from '@/ui/controls';
 
@@ -82,7 +83,33 @@ class UserList extends Component<Props, State> {
     };
 
     getColumns = () => {
-        return [getColumn('id', 'Id'), getColumn('firstName', 'First Name')];
+        return [
+            getColumn('id', 'Id'), 
+            getColumn('firstName', 'First Name'),
+            getColumn('lastName', 'Last Name'),
+            getColumn('email', 'Email'),
+            getColumn('login', 'Login'),
+            getColumn('lastLogin', 'Last Login', { type: 'date' }),
+            getColumn('status', 'Status', { 
+                render: (status: string) => {
+                    switch(status.toUpperCase()) {
+                        case 'STAGED':
+                            return <Tag color="cyan">{status}</Tag>
+                        case 'PROVISIONED':
+                            return <Tag color="blue">{status}</Tag>
+                        case 'ACTIVE':
+                            return <Tag color="green">{status}</Tag>
+                        case 'RECOVERY':
+                        case 'LOCKED_OUT':
+                        case 'PASSWORD_EXPIRED':
+                            return <Tag color="volcano">{status}</Tag>
+                        case 'DEPROVISIONED':
+                        case 'SUSPENDED':
+                            return <Tag color="red">{status}</Tag>
+                    }
+                } 
+            })
+        ];
     };
 
     render() {
@@ -102,6 +129,7 @@ class UserList extends Component<Props, State> {
                     Users
                 </Header>
                 <Table
+                   
                     rowKey="id"
                     columns={this.getColumns()}
                     dataSource={this.props.users}
