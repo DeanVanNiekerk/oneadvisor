@@ -16,7 +16,7 @@ describe('directory: organisations: list actions', () => {
             number: 2
         };
 
-        expect(actions.fetchOrganisations(pageOptions)).toEqual(expectedAction);
+        expect(actions.fetchOrganisations()).toEqual(expectedAction);
     });
 
     it('should dispatch ORGANISATIONS_LIST_PAGE_NUMBER_RECEIVE when clearAuthentication is called', () => {

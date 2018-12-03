@@ -13,16 +13,3 @@ export const listSelector: (state: RootState) => State = createSelector(
     rootSelector,
     root => root
 );
-
-const getCurrentUserId = (state: RootState, props: RouterProps) =>
-    props.match.params.userId;
-
-export const getCachedUser: (
-    state: RootState,
-    props: RouterProps
-) => ?User = createSelector(
-    [rootSelector, getCurrentUserId],
-    (root, userId) => {
-        return root.items.find(u => u.id === userId);
-    }
-);

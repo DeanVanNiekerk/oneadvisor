@@ -13,16 +13,3 @@ export const listSelector: (state: RootState) => State = createSelector(
     rootSelector,
     root => root
 );
-
-const getCurrentOrganisationId = (state: RootState, props: RouterProps) =>
-    props.match.params.organisationId;
-
-export const getCachedOrganisation: (
-    state: RootState,
-    props: RouterProps
-) => ?Organisation = createSelector(
-    [rootSelector, getCurrentOrganisationId],
-    (root, organisationId) => {
-        return root.items.find(u => u.id === organisationId);
-    }
-);

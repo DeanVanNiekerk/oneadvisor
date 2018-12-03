@@ -1,6 +1,6 @@
 // @flow
 
-import { listSelector, getCachedUser } from './selectors';
+import { listSelector } from './selectors';
 
 describe('user list selectors', () => {
     it('listSelector', () => {
@@ -22,38 +22,6 @@ describe('user list selectors', () => {
 
         //$FlowFixMe
         const actual = listSelector(state);
-
-        expect(actual).toEqual(expected);
-    });
-
-    it('getCachedUser', () => {
-        const state = {
-            app: {
-                directory: {
-                    users: {
-                        list: {
-                            items: [
-                                { id: '1', firstName: 'Dean' },
-                                { id: '2', firstName: 'John' }
-                            ]
-                        }
-                    }
-                }
-            }
-        };
-
-        const props = {
-            match: {
-                params: {
-                    userId: '2'
-                }
-            }
-        };
-
-        const expected = { id: '2', firstName: 'John' };
-
-        //$FlowFixMe
-        const actual = getCachedUser(state, props);
 
         expect(actual).toEqual(expected);
     });

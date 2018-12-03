@@ -9,8 +9,9 @@ import { Drawer, DrawerFooter, Button, Loader } from '@/ui/controls';
 
 import type { ReduxProps, RouterProps, ValidationResult } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
+
+import type { Organisation } from '@/state/app/directory/organisations/types';
 import type { User } from '@/state/app/directory/users/types';
-import { getCachedUser } from '@/state/app/directory/users/list/selectors';
 import { userSelector } from '@/state/app/directory/users/user/selectors';
 import {
     fetchUser,
@@ -22,6 +23,7 @@ type LocalProps = {
     visible: boolean,
     onClose: (cancelled: boolean) => void,
     user: User,
+    organisations: Organisation[],
     fetching: boolean,
     updating: boolean,
     error: boolean,
@@ -58,13 +60,9 @@ class EditUser extends Component<Props, State> {
 
     save = () => {
         if (this.state.userEdited.id) {
-            this.props.dispatch(
-                updateUser(this.state.userEdited, this.close)
-            );
+            this.props.dispatch(updateUser(this.state.userEdited, this.close));
         } else {
-            this.props.dispatch(
-                insertUser(this.state.userEdited, this.close)
-            );
+            this.props.dispatch(insertUser(this.state.userEdited, this.close));
         }
     };
 
@@ -79,11 +77,7 @@ class EditUser extends Component<Props, State> {
     };
 
     render() {
-        const {
-            user,
-            validationResults,
-            visible
-        } = this.props;
+        const { user, validationResults, visible } = this.props;
 
         return (
             <Drawer
@@ -96,6 +90,7 @@ class EditUser extends Component<Props, State> {
                         user={user}
                         validationResults={validationResults}
                         onChange={this.onChange}
+                        organisations={this.props.organisations}
                     />
                 </Loader>
                 <DrawerFooter>
@@ -115,12 +110,16 @@ class EditUser extends Component<Props, State> {
     }
 }
 
-const mapStateToProps = (state: RootState, props: RouterProps) => ({
-    user: getCachedUser(state, props) || userSelector(state).user,
-    fetching: userSelector(state).fetching,
-    updating: userSelector(state).updating,
-    error: userSelector(state).error,
-    validationResults: userSelector(state).validationResults
-});
+const mapStateToProps = (state: RootState, props: RouterProps) => {
+    const userState = userSelector(state);
+
+    return {
+        user: userState.user,
+        fetching: userState.fetching,
+        updating: userState.updating,
+        error: userState.error,
+        validationResults: userState.validationResults
+    };
+};
 
 export default withRouter(connect(mapStateToProps)(EditUser));

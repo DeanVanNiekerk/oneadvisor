@@ -1,25 +1,28 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Form, Input } from 'antd';
+import { Select } from 'antd';
 
 import { FormField } from './FormField';
 import type { ValidationResult } from '@/state/types';
 import { removeValidationError } from '@/state/validation';
 
-const FormItem = Form.Item;
+const Option = Select.Option;
 
 type Props = {
     fieldName: string,
     label: string,
     value: any,
+    options: any[],
+    optionsValue: string,
+    optionsText: string,
     onChange: (fieldName: string, value: any) => void,
     validationResults: ValidationResult[]
 };
 
-class FormInput extends Component<Props> {
-    onChange = (event: SyntheticInputEvent<any>) => {
-        this.props.onChange(this.props.fieldName, event.target.value);
+class FormSelect extends Component<Props> {
+    onChange = (value: any) => {
+        this.props.onChange(this.props.fieldName, value);
     };
 
     render() {
@@ -38,15 +41,17 @@ class FormInput extends Component<Props> {
                 validationResults={validationResults}
                 value={value}
             >
-                <Input
-                    name={fieldName}
-                    id={fieldName}
+                <Select
                     value={value}
                     onChange={this.onChange}
-                />
+                >
+                    {this.props.options.map(option => (
+                        <Option key={option[this.props.optionsValue]} value={option[this.props.optionsValue]}>{option[this.props.optionsText]}</Option>
+                    ))}
+                </Select>
             </FormField>
         );
     }
 }
 
-export { FormInput };
+export { FormSelect };

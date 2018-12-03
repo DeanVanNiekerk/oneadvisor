@@ -10,7 +10,6 @@ import { Drawer, DrawerFooter, Button, Loader } from '@/ui/controls';
 import type { ReduxProps, RouterProps, ValidationResult } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
 import type { Organisation } from '@/state/app/directory/organisations/types';
-import { getCachedOrganisation } from '@/state/app/directory/organisations/list/selectors';
 import { organisationSelector } from '@/state/app/directory/organisations/organisation/selectors';
 import {
     fetchOrganisation,
@@ -79,15 +78,13 @@ class EditOrganisation extends Component<Props, State> {
     };
 
     render() {
-        const {
-            organisation,
-            validationResults,
-            visible
-        } = this.props;
+        const { organisation, validationResults, visible } = this.props;
 
         return (
             <Drawer
-                title={`${organisation && organisation.id ? 'Edit' : 'New'} Organisation`}
+                title={`${
+                    organisation && organisation.id ? 'Edit' : 'New'
+                } Organisation`}
                 visible={visible}
                 onClose={this.cancel}
             >
@@ -115,12 +112,17 @@ class EditOrganisation extends Component<Props, State> {
     }
 }
 
-const mapStateToProps = (state: RootState, props: RouterProps) => ({
-    organisation: organisationSelector(state).organisation,
-    fetching: organisationSelector(state).fetching,
-    updating: organisationSelector(state).updating,
-    error: organisationSelector(state).error,
-    validationResults: organisationSelector(state).validationResults
-});
+const mapStateToProps = (state: RootState, props: RouterProps) => {
+
+    const organisationState = organisationSelector(state);
+
+    return {
+        organisation: organisationState.organisation,
+        fetching: organisationState.fetching,
+        updating: organisationState.updating,
+        error: organisationState.error,
+        validationResults: organisationState.validationResults
+    };
+};
 
 export default withRouter(connect(mapStateToProps)(EditOrganisation));

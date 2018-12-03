@@ -2,14 +2,13 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 import { Table, Header, Button } from '@/ui/controls';
 
 import EditOrganisation from './EditOrganisation';
 
 import { getColumn } from '@/state/utils';
-import type { RouterProps, ReduxProps, PageOptions } from '@/state/types';
+import type { ReduxProps, PageOptions } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
 import type { Organisation } from '@/state/app/directory/organisations/types';
 import { listSelector } from '@/state/app/directory/organisations/list/selectors';
@@ -23,7 +22,7 @@ type LocalProps = {
     error: boolean,
     pageOptions: PageOptions
 };
-type Props = LocalProps & RouterProps & ReduxProps;
+type Props = LocalProps & ReduxProps;
 
 type State = {
     editVisible: boolean
@@ -39,11 +38,12 @@ class OrganisationList extends Component<Props, State> {
     }
 
     componentDidMount() {
-        this.loadOrganisations();
+        if(this.props.organisations.length === 0)
+            this.loadOrganisations();
     }
 
     loadOrganisations = () => {
-        this.props.dispatch(fetchOrganisations(this.props.pageOptions));
+        this.props.dispatch(fetchOrganisations());
     };
 
     newOrganisation = id => {
@@ -51,21 +51,22 @@ class OrganisationList extends Component<Props, State> {
             id: '',
             name: ''
         }
+        this.showEditOrganisation(organisation);
+    };
+
+    editOrganisation = id => {
+        const organisation = this.props.organisations.find(u => u.id === id);
+        if(organisation) this.showEditOrganisation(organisation);
+    };
+
+    showEditOrganisation = (organisation: Organisation) => {
         this.props.dispatch(receiveOrganisation(organisation));
         this.setState({
             editVisible: true
         });
     };
 
-    editOrganisation = id => {
-        this.props.dispatch(fetchOrganisation(id));
-        this.setState({
-            editVisible: true
-        });
-    };
-
     closeEditOrganisation = (cancelled: boolean) => {
-        console.log(cancelled);
         this.setState({
             editVisible: false
         });
@@ -105,12 +106,14 @@ class OrganisationList extends Component<Props, State> {
     }
 }
 
-const mapStateToProps = (state: RootState) => ({
-    total: listSelector(state).totalItems,
-    organisations: listSelector(state).items,
-    fetching: listSelector(state).fetching,
-    error: listSelector(state).error,
-    pageOptions: listSelector(state).pageOptions
-});
+const mapStateToProps = (state: RootState) => {
+    
+    const organisationsState = listSelector(state);
 
-export default withRouter(connect(mapStateToProps)(OrganisationList));
+    return {
+        organisations: organisationsState.items,
+        fetching: organisationsState.fetching,
+        error: organisationsState.error
+    }};
+
+export default connect(mapStateToProps)(OrganisationList);

@@ -24,9 +24,9 @@ export type Action =
     | OrganisationListFetchingErrorAction
     | OrganisationListPageNumberReceiveAction;
 
-export const fetchOrganisations = (pageOptions: PageOptions): ApiAction => {
+export const fetchOrganisations = (): ApiAction => {
     let api = organisationsApi;
-    api = appendPageOptionQuery(api, pageOptions);
+    //api = appendPageOptionQuery(api, pageOptions);
     return {
         type: 'API',
         endpoint: api,

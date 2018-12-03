@@ -5,11 +5,13 @@ import React, { Component } from 'react';
 import type { ValidationResult } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
 import type { User } from '@/state/app/directory/users/types';
-import { Form, FormInput } from '@/ui/controls';
+import type { Organisation } from '@/state/app/directory/organisations/types';
+import { Form, FormInput, FormSelect } from '@/ui/controls';
 import { getValidationError } from '@/state/validation';
 
 type Props = {
     user: User,
+    organisations: Organisation[],
     validationResults: ValidationResult[],
     onChange: (user: User) => void
 };
@@ -34,10 +36,11 @@ class UserForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: string, event: SyntheticInputEvent<any>) => {
+    handleChange = (fieldName: string, value: any) => {
+
         const user = {
             ...this.state.user,
-            [fieldName]: event.target.value
+            [fieldName]: value
         };
         this.setState({
             user: user
@@ -81,12 +84,15 @@ class UserForm extends Component<Props, State> {
                     onChange={this.handleChange}
                     validationResults={validationResults}
                 />
-                <FormInput
+                <FormSelect
                     fieldName="organisationId"
                     label="Organisation"
                     value={user.organisationId}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    options={this.props.organisations}
+                    optionsValue="id"
+                    optionsText="name"
                 />
             </Form>
         );

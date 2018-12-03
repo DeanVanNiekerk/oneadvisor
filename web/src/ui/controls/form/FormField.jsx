@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import { Form, Input } from 'antd';
 
 import type { ValidationResult } from '@/state/types';
@@ -11,51 +11,35 @@ const FormItem = Form.Item;
 type Props = {
     fieldName: string,
     label: string,
+    value: any,
     validationResults: ValidationResult[],
     children: React.Node
 };
 
-type State = {
-    errorText: string | null,
-    validationResults: ValidationResult[]
-};
+class FormField extends React.Component<Props> {
+    getErrorText = (): ?string => {
+        const result = getValidationError(
+            this.props.fieldName,
+            this.props.validationResults
+        );
 
-class FormField extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
+        //There is no validation error
+        if (!result) return null;
 
-        this.state = {
-            errorText: getValidationError(
-                props.fieldName,
-                props.validationResults
-            ),
-            validationResults: props.validationResults
-        };
-    }
+        //If the value has changed then dont show message
+        if (result.attemptedValue != this.props.value) return null;
 
-    componentDidUpdate(nextProps: Props) {
-
-        console.log(nextProps);
-
-        if (nextProps.validationResults !== this.state.validationResults) {
-            this.setState({
-                errorText: getValidationError(
-                    nextProps.fieldName,
-                    nextProps.validationResults
-                ),
-                validationResults: nextProps.validationResults
-            });
-        }
-    }
+        return result.errorMessage;
+    };
 
     render() {
-        const { errorText } = this.state;
-        const { label, children } = this.props;
+        const errorText = this.getErrorText();
+        const { label, value, children } = this.props;
 
         return (
             <FormItem
                 label={label}
-                validateStatus={errorText ? "error" : null}
+                validateStatus={errorText ? 'error' : null}
                 help={errorText}
             >
                 {children}

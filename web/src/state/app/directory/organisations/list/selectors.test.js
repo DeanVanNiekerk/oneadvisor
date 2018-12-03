@@ -1,6 +1,6 @@
 // @flow
 
-import { listSelector, getCachedOrganisation } from './selectors';
+import { listSelector } from './selectors';
 
 describe('organisation list selectors', () => {
     it('listSelector', () => {
@@ -22,38 +22,6 @@ describe('organisation list selectors', () => {
 
         //$FlowFixMe
         const actual = listSelector(state);
-
-        expect(actual).toEqual(expected);
-    });
-
-    it('getCachedOrganisation', () => {
-        const state = {
-            app: {
-                directory: {
-                    organisations: {
-                        list: {
-                            items: [
-                                { id: '1', firstName: 'Dean' },
-                                { id: '2', firstName: 'John' }
-                            ]
-                        }
-                    }
-                }
-            }
-        };
-
-        const props = {
-            match: {
-                params: {
-                    organisationId: '2'
-                }
-            }
-        };
-
-        const expected = { id: '2', firstName: 'John' };
-
-        //$FlowFixMe
-        const actual = getCachedOrganisation(state, props);
 
         expect(actual).toEqual(expected);
     });

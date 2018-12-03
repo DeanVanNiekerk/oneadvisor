@@ -76,7 +76,12 @@ describe('validation', () => {
                 }
             ];
 
-            expect(getValidationError(fieldName, errors)).toEqual('Error 2');
+            const actual = getValidationError(fieldName, errors);
+
+            expect(actual).not.toBeNull();
+
+            //$FlowFixMe
+            expect(actual.errorMessage).toEqual('Error 2');
         });
     });
 
@@ -152,7 +157,7 @@ describe('validation', () => {
                 }
             ];
 
-            const expected = [errors[0], errors[2]]
+            const expected = [errors[0], errors[2]];
 
             expect(removeValidationError(fieldName, errors)).toEqual(expected);
         });

@@ -41,7 +41,7 @@ export type ValidationResult = {
     errorMessage: string,
     severity: number,
     errorCode: string,
-    attemptedValue: string
+    attemptedValue: any
 };
 
 export type PagedItems<T> = {

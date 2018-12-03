@@ -34,10 +34,10 @@ class OrganisationForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: string, event: SyntheticInputEvent<any>) => {
+    handleChange = (fieldName: string, value: any) => {
         const organisation = {
             ...this.state.organisation,
-            [fieldName]: event.target.value
+            [fieldName]: value
         };
         this.setState({
             organisation: organisation
