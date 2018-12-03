@@ -68,7 +68,7 @@
 - Error notification 
 - Api 401 -> reauth
 - Prompt on cancel with changes
-- Dont fetch on edit get from list
+- 400 if cant cast, must just show error message
 
 ## App Documentation
 

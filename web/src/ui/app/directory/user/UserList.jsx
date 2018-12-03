@@ -66,7 +66,7 @@ class UserList extends Component<Props, State> {
             lastUpdated: '',
             lastUpdated: '',
             status: '',
-            organisationId: ''
+            organisationId: this.props.organisations[0].id
         };
         this.showEditUser(user);
     };
@@ -139,6 +139,7 @@ class UserList extends Component<Props, State> {
                             type="default"
                             icon="plus"
                             onClick={this.newUser}
+                            disabled={this.props.fetching}
                         >
                             New User
                         </Button>

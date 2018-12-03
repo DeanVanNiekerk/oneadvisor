@@ -83,7 +83,12 @@ class OrganisationList extends Component<Props, State> {
             <>
                 <Header
                     actions={
-                        <Button type="default" icon="plus" onClick={this.newOrganisation}>
+                        <Button 
+                            type="default" 
+                            icon="plus" 
+                            onClick={this.newOrganisation}
+                            disabled={this.props.fetching}
+                        >
                             New Organisation
                         </Button>
                     }
