@@ -12,3 +12,17 @@ export const getValidationError = (
     if (!validationResult) return null;
     return validationResult.errorMessage;
 };
+
+export const removeValidationError = (
+    fieldName: string,
+    validationResults: ValidationResult[]
+): ValidationResult[] => {
+    if (!fieldName) return validationResults;
+    const index = validationResults.findIndex(
+        r => r.propertyName.toLowerCase() === fieldName.toLowerCase()
+    );
+    if (index === -1) return validationResults;
+    const results = [...validationResults];
+    results.splice(index, 1);
+    return results;
+};

@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import type { ValidationResult } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
 import type { Organisation } from '@/state/app/directory/organisations/types';
-import { Form, FormField } from '@/ui/controls';
+import { Form, FormInput } from '@/ui/controls';
 import { getValidationError } from '@/state/validation';
 
 type Props = {
@@ -53,7 +53,7 @@ class OrganisationForm extends Component<Props, State> {
 
         return (
             <Form>
-                <FormField
+                <FormInput
                     fieldName="name"
                     label="Name"
                     value={organisation.name}
