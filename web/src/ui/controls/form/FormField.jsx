@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-//import { FormGroup, Label, Input, FormText, FormFeedback } from 'reactstrap';
 import { Form, Input } from 'antd';
 
 import type { ValidationResult } from '@/state/types';
@@ -12,10 +11,8 @@ const FormItem = Form.Item;
 type Props = {
     fieldName: string,
     label: string,
-    value: string | number,
-    onChange: (fieldName: string, event: SyntheticInputEvent<any>) => void,
-    errorText: string | null,
-    validationResults: ValidationResult[]
+    validationResults: ValidationResult[],
+    children: React.Node
 };
 
 type State = {
@@ -37,6 +34,9 @@ class FormField extends Component<Props, State> {
     }
 
     componentDidUpdate(nextProps: Props) {
+
+        console.log(nextProps);
+
         if (nextProps.validationResults !== this.state.validationResults) {
             this.setState({
                 errorText: getValidationError(
@@ -48,18 +48,9 @@ class FormField extends Component<Props, State> {
         }
     }
 
-    onChange = (event: SyntheticInputEvent<any>) => {
-        this.props.onChange(this.props.fieldName, event);
-
-        //Clear the error when the value changes
-        this.setState({
-            errorText: null
-        });
-    };
-
     render() {
         const { errorText } = this.state;
-        const { fieldName, label, value, onChange } = this.props;
+        const { label, children } = this.props;
 
         return (
             <FormItem
@@ -67,12 +58,7 @@ class FormField extends Component<Props, State> {
                 validateStatus={errorText ? "error" : null}
                 help={errorText}
             >
-                <Input 
-                    name={fieldName}
-                    id={fieldName}
-                    value={value}
-                    onChange={this.onChange}
-                />
+                {children}
             </FormItem>
         );
     }

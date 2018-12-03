@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import type { ValidationResult } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
 import type { User } from '@/state/app/directory/users/types';
-import { Form, FormField } from '@/ui/controls';
+import { Form, FormInput } from '@/ui/controls';
 import { getValidationError } from '@/state/validation';
 
 type Props = {
@@ -53,35 +53,35 @@ class UserForm extends Component<Props, State> {
 
         return (
             <Form>
-                <FormField
+                <FormInput
                     fieldName="firstName"
                     label="First Name"
                     value={user.firstName}
                     onChange={this.handleChange}
                     validationResults={validationResults}
                 />
-                <FormField
+                <FormInput
                     fieldName="lastName"
                     label="Last Name"
                     value={user.lastName}
                     onChange={this.handleChange}
                     validationResults={validationResults}
                 />
-                <FormField
+                <FormInput
                     fieldName="login"
                     label="Login"
                     value={user.login}
                     onChange={this.handleChange}
                     validationResults={validationResults}
                 />
-                <FormField
+                <FormInput
                     fieldName="email"
                     label="Email"
                     value={user.email}
                     onChange={this.handleChange}
                     validationResults={validationResults}
                 />
-                <FormField
+                <FormInput
                     fieldName="organisationId"
                     label="Organisation"
                     value={user.organisationId}
