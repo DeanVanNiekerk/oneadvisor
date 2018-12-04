@@ -7,7 +7,7 @@ describe('directory: organisations: list actions', () => {
     it('should dispatch API when fetchOrganisations is called', () => {
         const expectedAction = {
             type: 'API',
-            endpoint: `${organisationsApi}?pageNumber=2&pageSize=10`,
+            endpoint: `${organisationsApi}`,
             dispatchPrefix: 'ORGANISATIONS_LIST'
         };
 
