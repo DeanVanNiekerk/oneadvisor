@@ -65,10 +65,6 @@
 ## TODO
 
 - !!!!!! API JWT - Must check audience !!!!!!
-- Error notification 
-- Api 401 -> reauth
-- Prompt on cancel with changes
-- 400 if cant cast, must just show error message
 
 ## App Documentation
 

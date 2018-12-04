@@ -23,8 +23,7 @@ import type { User } from '@/state/app/directory/users/types';
 type LocalProps = {
     users: User[],
     organisations: Organisation[],
-    fetching: boolean,
-    error: boolean
+    fetching: boolean
 };
 type Props = LocalProps & ReduxProps;
 
@@ -171,8 +170,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         users: usersState.items,
         organisations: organisationsState.items,
-        fetching: usersState.fetching || organisationsState.fetching,
-        error: usersState.error
+        fetching: usersState.fetching || organisationsState.fetching
     };
 };
 

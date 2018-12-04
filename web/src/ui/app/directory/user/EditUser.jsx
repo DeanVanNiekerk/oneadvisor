@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import { showConfirm } from '@/ui/feedback/modal/confirm';
+
 import UserForm from './UserForm';
 import { Drawer, DrawerFooter, Button, Loader } from '@/ui/controls';
 
@@ -26,7 +28,6 @@ type LocalProps = {
     organisations: Organisation[],
     fetching: boolean,
     updating: boolean,
-    error: boolean,
     validationResults: ValidationResult[]
 };
 type Props = LocalProps & RouterProps & ReduxProps;
@@ -52,6 +53,14 @@ class EditUser extends Component<Props, State> {
 
     close = () => {
         this.props.onClose(false);
+    };
+
+    confirmCancel = () => {
+
+        if(this.props.user != this.state.userEdited)
+            return showConfirm({ onOk: this.cancel })
+
+        this.cancel();
     };
 
     cancel = () => {
@@ -83,7 +92,7 @@ class EditUser extends Component<Props, State> {
             <Drawer
                 title={`${user && user.id ? 'Edit' : 'New'} User`}
                 visible={visible}
-                onClose={this.cancel}
+                onClose={this.confirmCancel}
             >
                 <Loader isLoading={this.isLoading()}>
                     <UserForm
@@ -94,7 +103,7 @@ class EditUser extends Component<Props, State> {
                     />
                 </Loader>
                 <DrawerFooter>
-                    <Button onClick={this.cancel} disabled={this.isLoading()}>
+                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Cancel
                     </Button>
                     <Button
@@ -117,7 +126,6 @@ const mapStateToProps = (state: RootState, props: RouterProps) => {
         user: userState.user,
         fetching: userState.fetching,
         updating: userState.updating,
-        error: userState.error,
         validationResults: userState.validationResults
     };
 };

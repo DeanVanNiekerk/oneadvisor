@@ -70,6 +70,8 @@ namespace api.Controllers.Directory.Organisations
         {
             var model = Mapper.Map<Organisation>(user);
 
+           throw new Exception("Trest");
+
             var result = await OrganisationService.UpdateOrganisation(model);
 
             if(!result.Success)

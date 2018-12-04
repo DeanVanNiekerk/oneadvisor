@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import { showConfirm } from '@/ui/feedback/modal/confirm';
 import OrganisationForm from './OrganisationForm';
 import { Drawer, DrawerFooter, Button, Loader } from '@/ui/controls';
 
@@ -23,7 +24,6 @@ type LocalProps = {
     organisation: Organisation,
     fetching: boolean,
     updating: boolean,
-    error: boolean,
     validationResults: ValidationResult[]
 };
 type Props = LocalProps & RouterProps & ReduxProps;
@@ -49,6 +49,14 @@ class EditOrganisation extends Component<Props, State> {
 
     close = () => {
         this.props.onClose(false);
+    };
+
+    confirmCancel = () => {
+
+        if(this.props.organisation != this.state.organisationEdited)
+            return showConfirm({ onOk: this.cancel })
+
+        this.cancel();
     };
 
     cancel = () => {
@@ -86,7 +94,7 @@ class EditOrganisation extends Component<Props, State> {
                     organisation && organisation.id ? 'Edit' : 'New'
                 } Organisation`}
                 visible={visible}
-                onClose={this.cancel}
+                onClose={this.confirmCancel}
             >
                 <Loader isLoading={this.isLoading()}>
                     <OrganisationForm
@@ -96,7 +104,7 @@ class EditOrganisation extends Component<Props, State> {
                     />
                 </Loader>
                 <DrawerFooter>
-                    <Button onClick={this.cancel} disabled={this.isLoading()}>
+                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Cancel
                     </Button>
                     <Button
@@ -120,7 +128,6 @@ const mapStateToProps = (state: RootState, props: RouterProps) => {
         organisation: organisationState.organisation,
         fetching: organisationState.fetching,
         updating: organisationState.updating,
-        error: organisationState.error,
         validationResults: organisationState.validationResults
     };
 };

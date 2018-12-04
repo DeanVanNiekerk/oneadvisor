@@ -1,3 +1,20 @@
+import { showNotification } from '@/ui/feedback/notifcation/notification';
+
+const handleError = (store: any, dispatchPrefix: string, error: string) => {
+    showNotification(
+        'error',
+        'Server Error',
+        'A server error occured please reload the page'
+    );
+    console.log(error);
+
+    //Fetching Error
+    store.dispatch({
+        type: `${dispatchPrefix}_FETCHING_ERROR`,
+        payload: error
+    });
+};
+
 export default store => next => action => {
     // Check if this is an api request
     if (action.type !== 'API') {
@@ -30,7 +47,20 @@ export default store => next => action => {
 
     fetch(endpoint, fetchOptions)
         .then(resp => {
+            //Check for server error
+            if (resp.status === 500) {
+                return resp.text().then(text => {
+                    handleError(store, dispatchPrefix, text);
+                });
+            }
+
             return resp.json().then(json => {
+                //Unauthorized, reload page
+                if (resp.status === 401) {
+                    window.location.reload();
+                    return;
+                }
+
                 //Check for validation error
                 if (resp.status === 400) {
                     //Validation
@@ -54,10 +84,6 @@ export default store => next => action => {
             });
         })
         .catch(error => {
-            //Fetching Error
-            store.dispatch({
-                type: `${dispatchPrefix}_FETCHING_ERROR`,
-                payload: error
-            });
+            handleError(store, dispatchPrefix, error);
         });
 };
