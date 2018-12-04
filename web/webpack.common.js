@@ -2,21 +2,10 @@ var path = require('path');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
 
 module.exports = {
     entry: {
         app: './src/index.jsx'
-    },
-
-    devtool: 'eval',
-
-    devServer: {
-        https: true,
-        port: 5001,
-        contentBase: './dist',
-        hot: true,
-        historyApiFallback: true
     },
 
     output: {
@@ -63,8 +52,6 @@ module.exports = {
         new HtmlWebPackPlugin({
             template: './public/index.html',
             filename: './index.html'
-        }),
-        new webpack.HotModuleReplacementPlugin(),
-        new ErrorOverlayPlugin()
+        })
     ]
 };
