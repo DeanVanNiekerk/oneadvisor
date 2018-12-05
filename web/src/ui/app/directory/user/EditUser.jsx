@@ -7,7 +7,7 @@ import { withRouter } from 'react-router';
 import { showConfirm } from '@/ui/feedback/modal/confirm';
 
 import UserForm from './UserForm';
-import { Drawer, DrawerFooter, Button, Loader } from '@/ui/controls';
+import { Drawer, DrawerFooter, Button, ContentLoader } from '@/ui/controls';
 
 import type { ReduxProps, RouterProps, ValidationResult } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
@@ -94,14 +94,14 @@ class EditUser extends Component<Props, State> {
                 visible={visible}
                 onClose={this.confirmCancel}
             >
-                <Loader isLoading={this.isLoading()}>
+                <ContentLoader isLoading={this.isLoading()}>
                     <UserForm
                         user={user}
                         validationResults={validationResults}
                         onChange={this.onChange}
                         organisations={this.props.organisations}
                     />
-                </Loader>
+                </ContentLoader>
                 <DrawerFooter>
                     <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Cancel

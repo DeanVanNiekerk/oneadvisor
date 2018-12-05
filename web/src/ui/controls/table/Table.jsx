@@ -14,7 +14,6 @@ type Props = {
 const Table = (props: Props) => (
     <TableAD 
         bordered
-        size="middle"
         columns={props.columns} 
         dataSource={props.dataSource} 
         rowKey={props.rowKey}
@@ -31,6 +30,8 @@ const Table = (props: Props) => (
               }
             };
         }}
+        size="small"
+        //scroll={{ y: 240 }}
     />
 );
 Table.defaultProps = {

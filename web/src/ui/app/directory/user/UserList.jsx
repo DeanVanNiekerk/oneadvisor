@@ -96,7 +96,6 @@ class UserList extends Component<Props, State> {
 
     getColumns = () => {
         return [
-            getColumn('id', 'Id'),
             getColumn('firstName', 'First Name'),
             getColumn('lastName', 'Last Name'),
             getColumn('email', 'Email'),

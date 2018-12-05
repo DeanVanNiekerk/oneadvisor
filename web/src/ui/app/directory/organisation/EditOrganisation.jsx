@@ -6,7 +6,7 @@ import { withRouter } from 'react-router';
 
 import { showConfirm } from '@/ui/feedback/modal/confirm';
 import OrganisationForm from './OrganisationForm';
-import { Drawer, DrawerFooter, Button, Loader } from '@/ui/controls';
+import { Drawer, DrawerFooter, Button, ContentLoader } from '@/ui/controls';
 
 import type { ReduxProps, RouterProps, ValidationResult } from '@/state/types';
 import type { State as RootState } from '@/state/rootReducer';
@@ -96,13 +96,13 @@ class EditOrganisation extends Component<Props, State> {
                 visible={visible}
                 onClose={this.confirmCancel}
             >
-                <Loader isLoading={this.isLoading()}>
+                <ContentLoader isLoading={this.isLoading()}>
                     <OrganisationForm
                         organisation={organisation}
                         validationResults={validationResults}
                         onChange={this.onChange}
                     />
-                </Loader>
+                </ContentLoader>
                 <DrawerFooter>
                     <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Cancel

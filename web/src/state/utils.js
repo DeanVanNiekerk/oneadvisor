@@ -32,8 +32,8 @@ export const getColumn = (
         ...options
     };
 
-    if (options.columnType === 'date')
-        data.render = value => (value ? moment(value).format('lll') : '');
+    if (options.type === 'date')
+        options.render = value => (value ? moment(value).format('lll') : '');
 
     return {
         ...data,

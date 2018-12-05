@@ -75,7 +75,7 @@ class OrganisationList extends Component<Props, State> {
     };
 
     getColumns = () => {
-        return [getColumn('id', 'Id'), getColumn('name', 'Name')];
+        return [getColumn('name', 'Name')];
     };
 
     render() {
