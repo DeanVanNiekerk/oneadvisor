@@ -65,6 +65,7 @@
 ## TODO
 
 - !!!!!! API JWT - Must check audience !!!!!!
+- https://www.styled-components.com/docs/tooling#babel-plugin 
 
 ## App Documentation
 

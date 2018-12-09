@@ -1,8 +1,5 @@
 {
     "verbose": false,
-    "setupFiles": [
-        "<rootDir>/src/test-setup.js" 
-    ],
     "moduleNameMapper": {
         "@/(.*)$": "<rootDir>/src/$1"
     },
