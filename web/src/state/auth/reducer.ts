@@ -1,7 +1,5 @@
-import * as types from './actions';
+import { Action } from './actions';
 import { UserInfo } from './types';
-
-
 
 export type State = {
   readonly authenticated: boolean,

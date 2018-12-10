@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.Extensions.Options;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
@@ -71,10 +72,10 @@ namespace OneAdvisor.Service.Okta.Service
         {
             var serializer = new DataContractJsonSerializer(typeof(List<GroupDto>));
 
-            var streamTask = HttpClient.GetStreamAsync($"api/v1/users/{id}/groups?filter=type eq \"OKTA_GROUP\"");
+            var streamTask = HttpClient.GetStreamAsync($"api/v1/users/{id}/groups");
             var groupDtos = serializer.ReadObject(await streamTask) as List<GroupDto>;
 
-            return groupDtos.Select(g => g.profile.name);
+            return groupDtos.Where(g => g.type == GroupDto.TYPE_OKTA).Select(g => g.profile.name);
         }
 
         public async Task<Result> UpdateUser(UserEdit user)
@@ -94,23 +95,32 @@ namespace OneAdvisor.Service.Okta.Service
             await HandleOktaResponse(response);
 
             //Update roles
+            await UpdateUserRoles(user);
+
+            return result;
+        }
+
+        private async Task UpdateUserRoles(UserEdit user)
+        {
+            
             var currentRoleIds = await GetUserRoleIds(user.Id);
+            var allGroups = await GetAllGroups();
 
             var roleIdsToAdd = user.RoleIds.Except(currentRoleIds);
             foreach(var roleId in roleIdsToAdd)
             {
-                response = await HttpClient.PutAsync($"api/v1/groups/{roleId}/users/{user.Id}", null);
+                var groupId = GetGroupId(allGroups, roleId);
+                var response = await HttpClient.PutAsync($"api/v1/groups/{groupId}/users/{user.Id}", null);
                 await HandleOktaResponse(response);
             }
 
             var rolesToRemove = currentRoleIds.Except(user.RoleIds);
             foreach(var roleId in rolesToRemove)
             {
-                await HttpClient.DeleteAsync($"api/v1/groups/{roleId}/users/{user.Id}");
+                var groupId = GetGroupId(allGroups, roleId);
+                var response = await HttpClient.DeleteAsync($"api/v1/groups/{groupId}/users/{user.Id}");
                 await HandleOktaResponse(response);
             }
-
-            return result;
         }
 
         public async Task HandleOktaResponse(HttpResponseMessage response) 
@@ -135,16 +145,29 @@ namespace OneAdvisor.Service.Okta.Service
 
             var json = Utils.FormatObject(dto);
 
+            //Insert user
             var response = await HttpClient.PostAsync($"api/v1/users", json);
+            await HandleOktaResponse(response);
 
-            if(!response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                var inner = new Exception(content);
-                throw new Exception($"OKTA API ERROR: ResponseCode: {response.StatusCode}", inner);
-            }
+            //Update roles
+            await UpdateUserRoles(user);
 
             return result;
+        }
+
+        private async Task<List<GroupDto>> GetAllGroups() 
+        {
+            var serializer = new DataContractJsonSerializer(typeof(List<GroupDto>));
+
+            var streamTask = HttpClient.GetStreamAsync($"api/v1/groups");
+            var groupDtos = serializer.ReadObject(await streamTask) as List<GroupDto>;
+
+            return groupDtos;
+        }
+
+        private string GetGroupId(List<GroupDto> groups, string roleId) 
+        {
+            return groups.FirstOrDefault(g => g.profile.name == roleId)?.id;
         }
 
         private User MapDtoToModel(UserDto dto)

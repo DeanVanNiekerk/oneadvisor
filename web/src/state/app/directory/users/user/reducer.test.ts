@@ -2,8 +2,6 @@ import { getValidationResult } from '@/state/testUtils';
 
 import { defaultState, reducer } from './reducer';
 
-
-
 describe('user reducer', () => {
     it('should handle USERS_USER_FETCHING', () => {
         const initalState = {
@@ -59,7 +57,8 @@ describe('user reducer', () => {
             lastLogin: '',
             lastUpdated: '',
             status: 'ACTIVE',
-            organisationId: '12341234'
+            organisationId: '12341234',
+            roles: ['role_1']
         };
 
         const actualState = reducer(initalState, {

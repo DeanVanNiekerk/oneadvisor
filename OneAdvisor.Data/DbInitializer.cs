@@ -67,7 +67,7 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_organisations", Name = "View Organisations", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_edit_organisations", Name = "Edit Organisations", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_roles", Name = "View Roles", ApplicationId = dirGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_application", Name = "View Applications", ApplicationId = dirGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_applications", Name = "View Applications", ApplicationId = dirGuid });
             }
 
             var roleToUseCase = _context.RoleToUseCase.ToList();
@@ -80,7 +80,7 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_view_organisations" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_edit_organisations" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_view_roles" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_view_application" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_view_applications" });
             }
 
             var organisations = _context.Organisation.ToList();

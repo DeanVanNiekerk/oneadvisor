@@ -2,11 +2,17 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { Organisation } from '@/state/app/directory/organisations/types';
-import { UserEdit } from '@/state/app/directory/users/types';
+import { fetchApplications } from '@/state/app/directory/applications/list/actions';
 import {
-    insertUser, updateUser
-} from '@/state/app/directory/users/user/actions';
+    listSelector as applicationsSelector
+} from '@/state/app/directory/applications/list/selectors';
+import { Application } from '@/state/app/directory/applications/types';
+import { Organisation } from '@/state/app/directory/organisations/types';
+import { fetchRoles } from '@/state/app/directory/roles/list/actions';
+import { listSelector as rolesSelector } from '@/state/app/directory/roles/list/selectors';
+import { Role } from '@/state/app/directory/roles/types';
+import { UserEdit } from '@/state/app/directory/users/types';
+import { insertUser, updateUser } from '@/state/app/directory/users/user/actions';
 import { userSelector } from '@/state/app/directory/users/user/selectors';
 import { RootState } from '@/state/rootReducer';
 import { ValidationResult } from '@/state/types';
@@ -19,6 +25,8 @@ type Props = {
     visible: boolean;
     onClose: (cancelled: boolean) => void;
     user: UserEdit | null;
+    applications: Application[];
+    roles: Role[];
     organisations: Organisation[];
     fetching: boolean;
     updating: boolean;
@@ -39,11 +47,28 @@ class EditUser extends Component<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.props.user != prevProps.user)
+        if (this.props.user != prevProps.user) {
             this.setState({
                 userEdited: this.props.user
             });
+        }
+        if (this.props.visible != prevProps.visible && this.props.visible)
+            this.loadLookupData();
     }
+
+    loadLookupData() {
+        if (this.props.roles.length === 0) this.loadRoles();
+
+        if (this.props.applications.length === 0) this.loadApplications();
+    }
+
+    loadApplications = () => {
+        this.props.dispatch(fetchApplications());
+    };
+
+    loadRoles = () => {
+        this.props.dispatch(fetchRoles());
+    };
 
     close = () => {
         this.props.onClose(false);
@@ -91,6 +116,7 @@ class EditUser extends Component<Props, State> {
                 title={`${user && user.id ? 'Edit' : 'New'} User`}
                 visible={visible}
                 onClose={this.confirmCancel}
+                hasTabs={true}
             >
                 <ContentLoader isLoading={this.isLoading()}>
                     {user && (
@@ -99,6 +125,8 @@ class EditUser extends Component<Props, State> {
                             validationResults={validationResults}
                             onChange={this.onChange}
                             organisations={this.props.organisations}
+                            roles={this.props.roles}
+                            applications={this.props.applications}
                         />
                     )}
                 </ContentLoader>
@@ -124,10 +152,17 @@ class EditUser extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const userState = userSelector(state);
+    const applicationsState = applicationsSelector(state);
+    const rolesState = rolesSelector(state);
 
     return {
         user: userState.user,
-        fetching: userState.fetching,
+        applications: applicationsState.items,
+        roles: rolesState.items,
+        fetching:
+            userState.fetching ||
+            applicationsState.fetching ||
+            rolesState.fetching,
         updating: userState.updating,
         validationResults: userState.validationResults
     };

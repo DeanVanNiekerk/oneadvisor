@@ -1,15 +1,14 @@
 import { Drawer as DrawerAD } from 'antd';
 import React, { ReactNode } from 'react';
 
-
-
 type Props = {
     title: string,
     children: ReactNode,
     visible: boolean,
     onClose: () => void,
     maskClosable?: boolean,
-    width?: number
+    width?: number,
+    hasTabs?: boolean
 };
 
 const Drawer = (props: Props) => (
@@ -22,7 +21,8 @@ const Drawer = (props: Props) => (
         style={{
             height: 'calc(100% - 55px)',
             overflow: 'auto',
-            paddingBottom: 53
+            paddingBottom: 53,
+            paddingTop: props.hasTabs ? 10 : 24
         }}
     >
         {props.children}
@@ -31,7 +31,8 @@ const Drawer = (props: Props) => (
 Drawer.defaultProps = {
     visible: false,
     width: 720,
-    maskClosable: false
+    maskClosable: false,
+    hasTabs: false
 }
 
 export { Drawer };

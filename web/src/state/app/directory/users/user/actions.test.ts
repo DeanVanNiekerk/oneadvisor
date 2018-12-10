@@ -2,8 +2,6 @@ import { usersApi } from '@/config/api/directory';
 
 import * as actions from './actions';
 
-
-
 describe('user actions', () => {
     it('should dispatch API when fetchUser is called', () => {
         const expectedAction = {
@@ -25,7 +23,8 @@ describe('user actions', () => {
             lastLogin: '',
             lastUpdated: '',
             status: 'ACTIVE',
-            organisationId: '12341234'
+            organisationId: '12341234',
+            roles: ['role_1']
         };
 
         const onSuccess = () => {};

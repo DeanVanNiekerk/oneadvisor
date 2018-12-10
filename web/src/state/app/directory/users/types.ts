@@ -19,5 +19,5 @@ export type UserEdit = {
     login: string,
     email: string,
     organisationId: string,
-    roles: string[]
+    roleIds: string[]
 };

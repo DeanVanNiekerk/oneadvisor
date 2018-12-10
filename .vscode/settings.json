@@ -26,6 +26,5 @@
     "**/*.sln.targets": true,
     "**/*.Build.targets": true
   },
-  "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 80,
   "importSorter.generalConfiguration.sortOnBeforeSave": true
 }

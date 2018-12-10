@@ -54,12 +54,13 @@ export default (store: any) => (next: any) => (action: any) => {
                 });
             }
 
+            //Unauthorized, reload page
+            // if (resp.status === 401) {
+            //     window.location.reload();
+            //     return;
+            // }
+
             return resp.json().then(json => {
-                //Unauthorized, reload page
-                if (resp.status === 401) {
-                    window.location.reload();
-                    return;
-                }
 
                 //Check for validation error
                 if (resp.status === 400) {
