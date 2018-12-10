@@ -3,8 +3,6 @@ import { ApiAction, ApiOnSuccess, ValidationResult } from '@/state/types';
 
 import { UserEdit } from '../types';
 
-
-
 type UserReceiveAction = { type: 'USERS_USER_RECEIVE', payload: UserEdit };
 type UserFetchingAction = { type: 'USERS_USER_FETCHING' };
 type UserFetchingErrorAction = { type: 'USERS_USER_FETCHING_ERROR' };

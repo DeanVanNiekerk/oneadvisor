@@ -2,10 +2,24 @@ import { getValidationResult } from '@/state/testUtils';
 
 import { defaultState, reducer } from './reducer';
 
+const defaultUser = {
+    id: '10',
+    firstName: 'Dean',
+    lastName: 'Jackson',
+    email: 'dean@gmail.com',
+    login: 'dean',
+    lastLogin: '',
+    lastUpdated: '',
+    status: 'ACTIVE',
+    organisationId: '12341234',
+    roleIds: ['role_1']
+}
+
 describe('user reducer', () => {
     it('should handle USERS_USER_FETCHING', () => {
         const initalState = {
             ...defaultState,
+            user: { ...defaultUser },
             validationResults: [getValidationResult()]
         };
 
@@ -16,6 +30,7 @@ describe('user reducer', () => {
         const expectedState = {
             ...defaultState,
             fetching: true,
+            user: null,
             validationResults: []
         };
 
@@ -48,27 +63,14 @@ describe('user reducer', () => {
             validationResults: [getValidationResult()]
         };
 
-        const user = {
-            id: '10',
-            firstName: 'Dean',
-            lastName: 'Jackson',
-            email: 'dean@gmail.com',
-            login: 'dean',
-            lastLogin: '',
-            lastUpdated: '',
-            status: 'ACTIVE',
-            organisationId: '12341234',
-            roles: ['role_1']
-        };
-
         const actualState = reducer(initalState, {
             type: 'USERS_USER_RECEIVE',
-            payload: { ...user }
+            payload: { ...defaultUser }
         });
 
         const expectedState = {
             ...defaultState,
-            user: { ...user },
+            user: { ...defaultUser },
             fetching: false,
             validationResults: []
         };

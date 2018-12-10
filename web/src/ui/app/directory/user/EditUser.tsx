@@ -113,7 +113,7 @@ class EditUser extends Component<Props, State> {
 
         return (
             <Drawer
-                title={`${user && user.id ? 'Edit' : 'New'} User`}
+                title={`${user && !user.id ? 'New' : 'Edit'} User`}
                 visible={visible}
                 onClose={this.confirmCancel}
                 hasTabs={true}

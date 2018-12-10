@@ -24,7 +24,7 @@ describe('user actions', () => {
             lastUpdated: '',
             status: 'ACTIVE',
             organisationId: '12341234',
-            roles: ['role_1']
+            roleIds: ['role_1']
         };
 
         const onSuccess = () => {};

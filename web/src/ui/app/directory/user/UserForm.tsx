@@ -10,6 +10,8 @@ import { Form, FormInput, FormSelect } from '@/ui/controls';
 
 const TabPane = Tabs.TabPane;
 
+type TabKey = 'details_tab' | 'roles_tab';
+
 type Props = {
     user: UserEdit;
     organisations: Organisation[];
@@ -21,6 +23,7 @@ type Props = {
 
 type State = {
     user: UserEdit;
+    activeTab: TabKey;
 };
 
 class UserForm extends Component<Props, State> {
@@ -28,14 +31,16 @@ class UserForm extends Component<Props, State> {
         super(props);
 
         this.state = {
-            user: props.user
+            user: props.user,
+            activeTab: 'details_tab',
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.user != prevProps.user)
             this.setState({
-                user: this.props.user
+                user: this.props.user,
+                activeTab: 'details_tab' //Reset the tab
             });
     }
 
@@ -65,15 +70,20 @@ class UserForm extends Component<Props, State> {
         this.handleChange("roleIds", roleIds);
     };
 
+    onTabChange = (activeTab: TabKey) => {
+        this.setState({ activeTab });
+    }
+
     render() {
         const { validationResults } = this.props;
         const { user } = this.state;
 
-        if (!user) return <div />;
-
         return (
-            <Tabs defaultActiveKey="1">
-                <TabPane tab="Details" key="1">
+            <Tabs 
+                onChange={this.onTabChange}
+                activeKey={this.state.activeTab}
+            >
+                <TabPane tab="Details" key="details_tab">
                     <Form>
                         <FormInput
                             fieldName="firstName"
@@ -115,12 +125,13 @@ class UserForm extends Component<Props, State> {
                         />
                     </Form>
                 </TabPane>
-                <TabPane tab="Roles" key="2">
+                <TabPane tab="Roles" key="roles_tab">
                     {this.props.applications.map(application => (
                         <List
                             key={application.id}
                             header={<h4 className="mb-0">{application.name}</h4>}
-                            bordered
+                            bordered={true}
+                            size="small"
                             dataSource={this.props.roles.filter(r => r.applicationId === application.id)}
                             renderItem={(role: Role) => <List.Item actions={[<Switch checked={this.isRoleSelected(role.id)} onChange={() => this.toggleRoleChange(role.id)} size="small" />]}>{role.name}</List.Item>}
                             className="mb-2"

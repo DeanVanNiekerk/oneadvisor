@@ -3,8 +3,6 @@ import { ValidationResult } from '@/state/types';
 import { UserEdit } from '../types';
 import { Action } from './actions';
 
-
-
 export type State = {
     readonly user: UserEdit | null,
     readonly fetching: boolean,
@@ -36,6 +34,7 @@ export const reducer = (state: State = defaultState, action: Action): State => {
             return {
                 ...state,
                 fetching: true,
+                user: null,
                 validationResults: []
             };
         }

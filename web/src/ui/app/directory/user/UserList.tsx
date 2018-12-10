@@ -2,19 +2,15 @@ import { Tag } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import {
-    fetchOrganisations
-} from '@/state/app/directory/organisations/list/actions';
+import { fetchOrganisations } from '@/state/app/directory/organisations/list/actions';
 import {
     listSelector as organisationsSelector
 } from '@/state/app/directory/organisations/list/selectors';
 import { Organisation } from '@/state/app/directory/organisations/types';
 import { fetchUsers } from '@/state/app/directory/users/list/actions';
-import {
-    listSelector as usersSelector
-} from '@/state/app/directory/users/list/selectors';
-import { User } from '@/state/app/directory/users/types';
-import { fetchUser } from '@/state/app/directory/users/user/actions';
+import { listSelector as usersSelector } from '@/state/app/directory/users/list/selectors';
+import { User, UserEdit } from '@/state/app/directory/users/types';
+import { fetchUser, receiveUser } from '@/state/app/directory/users/user/actions';
 import { RootState } from '@/state/rootReducer';
 import { getColumn } from '@/state/utils';
 import { Button, Header, Table } from '@/ui/controls';
@@ -64,14 +60,20 @@ class UserList extends Component<Props, State> {
             lastLogin: '',
             lastUpdated: '',
             status: '',
-            organisationId: this.props.organisations[0].id
+            organisationId: this.props.organisations[0].id,
+            roleIds: []
         };
-        this.showEditUser(user);
+
+        this.props.dispatch(receiveUser(user));
+        this.showEditUser();
     };
 
     editUser = (id: string) => {
         const user = this.props.users.find(u => u.id === id);
-        if (user) this.showEditUser(user);
+        if (user) {
+            this.props.dispatch(fetchUser(user.id));
+            this.showEditUser();
+        }
     };
 
     getOrganisationName = (id: string) => {
@@ -79,8 +81,7 @@ class UserList extends Component<Props, State> {
         if (organisation) return organisation.name;
     };
 
-    showEditUser = (user: User) => {
-        this.props.dispatch(fetchUser(user.id));
+    showEditUser = () => {
         this.setState({
             editVisible: true
         });

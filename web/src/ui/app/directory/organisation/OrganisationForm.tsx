@@ -4,8 +4,6 @@ import { Organisation } from '@/state/app/directory/organisations/types';
 import { ValidationResult } from '@/state/types';
 import { Form, FormInput } from '@/ui/controls';
 
-
-
 type Props = {
     organisation: Organisation,
     validationResults: ValidationResult[],
@@ -46,8 +44,6 @@ class OrganisationForm extends Component<Props, State> {
     render() {
         const { validationResults } = this.props;
         const { organisation } = this.state;
-
-        if (!organisation) return <></>;
 
         return (
             <Form>
