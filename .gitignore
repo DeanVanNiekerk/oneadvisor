@@ -331,3 +331,4 @@ ASALocalRun/
 
 # Webpack 
 dist/
+web/stats.json

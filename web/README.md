@@ -9,9 +9,9 @@ $ npm-check -u
 
 
 
-## Flow Type Definitions
-$ npm i flow-typed -g
-flow-typed install reselect@4.0.0
+## Webpack Bundle Analyzer
+- ```npm run build:stats```
+- ```npx webpack-bundle-analyzer stats.json```
 
 
 

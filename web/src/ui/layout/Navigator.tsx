@@ -18,7 +18,8 @@ const { Header } = Layout;
 const { Item } = Menu;
 
 type MenuItemProps = {
-    application: Application
+    application: Application,
+    onClick: () => void
 }
 
 const MenuItem = styled(Item)`
@@ -82,7 +83,7 @@ class Navigator extends Component<Props> {
                             <MenuItem
                                 key={app.id}
                                 application={app}
-                                //onClick={() => this.navigate(app.relativePath)}
+                                onClick={() => this.navigate(app.relativePath)}
                             >
                                 <Icon
                                     type={app.icon}
