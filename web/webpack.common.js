@@ -5,7 +5,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        app: './src/index.jsx'
+        app: './src/index.tsx'
     },
 
     output: {
@@ -16,18 +16,15 @@ module.exports = {
 
     resolve: {
         alias: {
-            config: path.resolve(__dirname, 'src/config/'),
-            state: path.resolve(__dirname, 'src/state/'),
-            ui: path.resolve(__dirname, 'src/ui/'),
             '@': path.resolve(__dirname, 'src/')
         },
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx', '.ts', '.tsx']
     },
 
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
+                test: /\.(js|jsx|ts|tsx)$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader'
@@ -42,8 +39,8 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(s*)css$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
             }
         ]
     },
