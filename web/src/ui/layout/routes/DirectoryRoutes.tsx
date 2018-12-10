@@ -1,11 +1,11 @@
-
-
 import React from 'react';
 import { Switch } from 'react-router';
+
+import OrganisationList from '@/ui/app/directory/organisation/OrganisationList';
+import UserList from '@/ui/app/directory/user/UserList';
 import { SecureRoute } from '@okta/okta-react';
 
-import UserList from '@/ui/app/directory/user/UserList';
-import OrganisationList from '@/ui/app/directory/organisation/OrganisationList';
+
 
 const DirectoryRoutes = () => (
     <Switch>

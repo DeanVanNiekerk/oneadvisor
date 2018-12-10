@@ -1,7 +1,8 @@
-
-
-import { reducer, defaultState } from './reducer';
 import { getValidationResult } from '@/state/testUtils';
+
+import { defaultState, reducer } from './reducer';
+
+
 
 describe('organisation reducer', () => {
     it('should handle ORGANISATIONS_ORGANISATION_FETCHING', () => {

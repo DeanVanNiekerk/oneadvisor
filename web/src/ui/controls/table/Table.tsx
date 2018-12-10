@@ -1,7 +1,7 @@
-
-
-import * as React from 'react';
 import { Table as TableAD } from 'antd';
+import * as React from 'react';
+
+
 
 type Props = {
     columns: any[],

@@ -1,18 +1,15 @@
-
-
 import {
-    applicationsSelector,
-    currentApplicationSelector,
-    currentMenuSelector,
-    currentMenuLinkSelector
-} from './selectors';
-import { defaultState as defaultContextState } from './reducer';
-import {
-    DEFAULT_APPLICATION_ID,
-    MEMBER_ID,
-    DIRECTORY_ID
+    DEFAULT_APPLICATION_ID, DIRECTORY_ID, MEMBER_ID
 } from '@/config/application';
 import { menus } from '@/config/menu';
+
+import { defaultState as defaultContextState } from './reducer';
+import {
+    applicationsSelector, currentApplicationSelector, currentMenuLinkSelector,
+    currentMenuSelector
+} from './selectors';
+
+
 
 describe('context selectors', () => {
     const setupState = (pathName = '/', contextState = defaultContextState) => {

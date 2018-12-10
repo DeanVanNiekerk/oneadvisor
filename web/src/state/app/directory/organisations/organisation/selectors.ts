@@ -1,8 +1,10 @@
-
-
 import { createSelector } from 'reselect';
-import { State as RootState } from '@/state/rootReducer';
+
+import { RootState } from '@/state/rootReducer';
+
 import { State } from './reducer';
+
+
 
 const rootSelector = (state: RootState): State =>
     state.app.directory.organisations.organisation;

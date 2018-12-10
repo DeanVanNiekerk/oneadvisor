@@ -1,8 +1,9 @@
-
-
-import { ApiAction, ApiOnSuccess, ValidationResult } from '@/state/types';
 import { organisationsApi } from '@/config/api/directory';
+import { ApiAction, ApiOnSuccess, ValidationResult } from '@/state/types';
+
 import { Organisation } from '../types';
+
+
 
 type OrganisationReceiveAction = {
     type: 'ORGANISATIONS_ORGANISATION_RECEIVE',

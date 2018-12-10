@@ -1,18 +1,16 @@
-
-
+import { Icon, Layout, Menu } from 'antd';
 import React, { Component } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
-import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
-import { Layout, Menu, Icon } from 'antd';
-
-import { State as RootState } from '@/state/rootReducer';
-import { Application } from '@/state/context/types';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import styled, { css } from 'styled-components';
 
 import {
-    applicationsSelector,
-    currentApplicationSelector
+    applicationsSelector, currentApplicationSelector
 } from '@/state/context/selectors';
+import { Application } from '@/state/context/types';
+import { RootState } from '@/state/rootReducer';
+
+
 
 const { Header } = Layout;
 const { Item } = Menu;

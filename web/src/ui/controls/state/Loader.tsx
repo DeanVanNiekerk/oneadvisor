@@ -1,8 +1,8 @@
-
-
-import * as React from 'react';
-import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Spin } from 'antd';
+import * as React from 'react';
+import { Col, Grid, Row } from 'react-flexbox-grid';
+
+
 
 type Props = {
     text?: string,

@@ -1,10 +1,10 @@
-
-
 import React, { Component } from 'react';
 
-import { ValidationResult } from '@/state/types';
 import { Organisation } from '@/state/app/directory/organisations/types';
+import { ValidationResult } from '@/state/types';
 import { Form, FormInput } from '@/ui/controls';
+
+
 
 type Props = {
     organisation: Organisation,

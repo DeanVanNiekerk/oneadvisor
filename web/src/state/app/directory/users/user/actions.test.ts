@@ -1,7 +1,8 @@
-
-
 import { usersApi } from '@/config/api/directory';
+
 import * as actions from './actions';
+
+
 
 describe('user actions', () => {
     it('should dispatch API when fetchUser is called', () => {

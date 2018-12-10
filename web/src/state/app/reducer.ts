@@ -1,9 +1,10 @@
-
-
 import { combineReducers } from 'redux';
 
-import { reducer as directory } from './directory/reducer';
-import { State as DirectoryState, Action as DirectoryAction } from './directory/reducer';
+import {
+    Action as DirectoryAction, reducer as directory, State as DirectoryState
+} from './directory/reducer';
+
+
 
 export type Action = 
   | DirectoryAction

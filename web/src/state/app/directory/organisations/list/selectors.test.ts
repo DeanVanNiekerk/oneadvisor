@@ -1,6 +1,7 @@
+import { RootState } from '@/state/rootReducer';
 
-import { State as RootState } from '@/state/rootReducer';
 import { listSelector } from './selectors';
+
 
 describe('organisation list selectors', () => {
     it('listSelector', () => {

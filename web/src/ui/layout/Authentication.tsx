@@ -1,15 +1,13 @@
 import React, { ReactNode } from 'react';
-import { withAuth } from '@okta/okta-react';
 import { connect, DispatchProp } from 'react-redux';
-import { State as RootState } from '@/state/rootReducer';
-
-import Layout from '@/ui/layout/Layout';
-import { Loader } from '@/ui/controls';
 
 import {
-    recieveAuthentication,
-    clearAuthentication
+    clearAuthentication, recieveAuthentication
 } from '@/state/auth/actions';
+import { RootState } from '@/state/rootReducer';
+import { Loader } from '@/ui/controls';
+import Layout from '@/ui/layout/Layout';
+import { withAuth } from '@okta/okta-react';
 
 type Props = {
     auth: any;

@@ -1,18 +1,23 @@
-
-
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { Table, Header, Button } from '@/ui/controls';
+import {
+    fetchOrganisations
+} from '@/state/app/directory/organisations/list/actions';
+import {
+    listSelector
+} from '@/state/app/directory/organisations/list/selectors';
+import {
+    receiveOrganisation
+} from '@/state/app/directory/organisations/organisation/actions';
+import { Organisation } from '@/state/app/directory/organisations/types';
+import { RootState } from '@/state/rootReducer';
+import { getColumn } from '@/state/utils';
+import { Button, Header, Table } from '@/ui/controls';
 
 import EditOrganisation from './EditOrganisation';
 
-import { getColumn } from '@/state/utils';
-import { State as RootState } from '@/state/rootReducer';
-import { Organisation } from '@/state/app/directory/organisations/types';
-import { listSelector } from '@/state/app/directory/organisations/list/selectors';
-import { fetchOrganisations } from '@/state/app/directory/organisations/list/actions';
-import { receiveOrganisation } from '@/state/app/directory/organisations/organisation/actions';
+
 
 type Props = {
     total: number,

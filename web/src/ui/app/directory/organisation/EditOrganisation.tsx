@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
-import { withRouter, RouteComponentProps } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 
-import { showConfirm } from '@/ui/feedback/modal/confirm';
-import OrganisationForm from './OrganisationForm';
-import { Drawer, DrawerFooter, Button, ContentLoader } from '@/ui/controls';
-
-import { ValidationResult } from '@/state/types';
-import { State as RootState } from '@/state/rootReducer';
-import { Organisation } from '@/state/app/directory/organisations/types';
-import { organisationSelector } from '@/state/app/directory/organisations/organisation/selectors';
 import {
-    updateOrganisation,
-    insertOrganisation
+    insertOrganisation, updateOrganisation
 } from '@/state/app/directory/organisations/organisation/actions';
+import {
+    organisationSelector
+} from '@/state/app/directory/organisations/organisation/selectors';
+import { Organisation } from '@/state/app/directory/organisations/types';
+import { RootState } from '@/state/rootReducer';
+import { ValidationResult } from '@/state/types';
+import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
+import { showConfirm } from '@/ui/feedback/modal/confirm';
+
+import OrganisationForm from './OrganisationForm';
 
 type Props = {
     visible: boolean;

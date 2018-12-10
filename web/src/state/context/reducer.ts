@@ -1,8 +1,9 @@
-
-
-import { menus } from '@/config/menu';
 import { applications } from '@/config/application';
+import { menus } from '@/config/menu';
+
 import { Application, Menus } from './types';
+
+
 
 type Action = { type: string };
 

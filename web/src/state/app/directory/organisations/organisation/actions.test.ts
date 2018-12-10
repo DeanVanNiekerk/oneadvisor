@@ -1,7 +1,8 @@
-
-
 import { organisationsApi } from '@/config/api/directory';
+
 import * as actions from './actions';
+
+
 
 describe('organisation actions', () => {
     it('should dispatch API when fetchOrganisation is called', () => {

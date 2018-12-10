@@ -1,9 +1,9 @@
-
-import { PageOptions } from '@/state/types';
 import { defaultPageOptions } from '@/config/defaults';
+import { PageOptions } from '@/state/types';
 
 import { User } from '../types';
 import { Action } from './actions';
+
 
 export type State = {
     readonly totalItems: number,

@@ -1,21 +1,25 @@
+import { Tag } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
-import { Tag } from 'antd';
 
-import { Table, Header, Button } from '@/ui/controls';
+import {
+    fetchOrganisations
+} from '@/state/app/directory/organisations/list/actions';
+import {
+    listSelector as organisationsSelector
+} from '@/state/app/directory/organisations/list/selectors';
+import { Organisation } from '@/state/app/directory/organisations/types';
+import { fetchUsers } from '@/state/app/directory/users/list/actions';
+import {
+    listSelector as usersSelector
+} from '@/state/app/directory/users/list/selectors';
+import { User } from '@/state/app/directory/users/types';
+import { fetchUser } from '@/state/app/directory/users/user/actions';
+import { RootState } from '@/state/rootReducer';
+import { getColumn } from '@/state/utils';
+import { Button, Header, Table } from '@/ui/controls';
 
 import EditUser from './EditUser';
-
-import { getColumn } from '@/state/utils';
-import { State as RootState } from '@/state/rootReducer';
-
-import { Organisation } from '@/state/app/directory/organisations/types';
-import { listSelector as organisationsSelector } from '@/state/app/directory/organisations/list/selectors';
-import { fetchOrganisations } from '@/state/app/directory/organisations/list/actions';
-import { listSelector as usersSelector } from '@/state/app/directory/users/list/selectors';
-import { fetchUsers } from '@/state/app/directory/users/list/actions';
-import { receiveUser } from '@/state/app/directory/users/user/actions';
-import { User } from '@/state/app/directory/users/types';
 
 type Props = {
     users: User[];
@@ -76,7 +80,7 @@ class UserList extends Component<Props, State> {
     };
 
     showEditUser = (user: User) => {
-        this.props.dispatch(receiveUser(user));
+        this.props.dispatch(fetchUser(user.id));
         this.setState({
             editVisible: true
         });

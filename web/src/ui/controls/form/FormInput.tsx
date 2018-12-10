@@ -1,10 +1,11 @@
-
-
-import React, { Component } from 'react';
 import { Form, Input } from 'antd';
+import React, { Component } from 'react';
+
+import { ValidationResult } from '@/state/types';
 
 import { FormField } from './FormField';
-import { ValidationResult } from '@/state/types';
+
+
 
 type Props = {
     fieldName: string,

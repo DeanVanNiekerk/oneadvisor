@@ -1,18 +1,14 @@
-
-
 import { combineReducers } from 'redux';
 
-import { reducer as users } from './users/reducer';
 import {
-    State as UsersState,
-    Action as UsersAction
+    Action as OrganisationsAction, reducer as organisations,
+    State as OrganisationsState
+} from './organisations/reducer';
+import {
+    Action as UsersAction, reducer as users, State as UsersState
 } from './users/reducer';
 
-import { reducer as organisations } from './organisations/reducer';
-import {
-    State as OrganisationsState,
-    Action as OrganisationsAction
-} from './organisations/reducer';
+
 
 export type Action = UsersAction | OrganisationsAction;
 

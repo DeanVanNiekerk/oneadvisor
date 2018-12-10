@@ -1,9 +1,11 @@
-
-
 import { createSelector } from 'reselect';
+
 import { DEFAULT_APPLICATION_ID } from '@/config/application';
-import { State as RootState } from '@/state/rootReducer';
-import { Application, Menus, Menu, MenuLink } from './types';
+import { RootState } from '@/state/rootReducer';
+
+import { Application, Menu, MenuLink, Menus } from './types';
+
+
 
 export const pathNameSelector = (state: RootState): string =>
     state.router ? state.router.location.pathname : '';

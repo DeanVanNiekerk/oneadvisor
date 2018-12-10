@@ -1,4 +1,4 @@
-import { reducer, defaultState } from './reducer';
+import { defaultState, reducer } from './reducer';
 
 describe('user list reducer', () => {
     it('should handle USERS_LIST_FETCHING', () => {

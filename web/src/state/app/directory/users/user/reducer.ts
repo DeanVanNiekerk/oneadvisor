@@ -1,11 +1,12 @@
-
-
 import { ValidationResult } from '@/state/types';
-import { User } from '../types';
+
+import { UserEdit } from '../types';
 import { Action } from './actions';
 
+
+
 export type State = {
-    readonly user: User | null,
+    readonly user: UserEdit | null,
     readonly fetching: boolean,
     readonly updating: boolean,
     readonly error: boolean,

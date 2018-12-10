@@ -1,8 +1,9 @@
-
-
-import { ApiAction, PagedItems } from '@/state/types';
 import { usersApi } from '@/config/api/directory';
+import { ApiAction, PagedItems } from '@/state/types';
+
 import { User } from '../types';
+
+
 
 type UserListReceiveAction = {
     type: 'USERS_LIST_RECEIVE',

@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 
-import { ValidationResult } from '@/state/types';
-import { User } from '@/state/app/directory/users/types';
 import { Organisation } from '@/state/app/directory/organisations/types';
+import { UserEdit } from '@/state/app/directory/users/types';
+import { ValidationResult } from '@/state/types';
 import { Form, FormInput, FormSelect } from '@/ui/controls';
 
 type Props = {
-    user: User;
+    user: UserEdit;
     organisations: Organisation[];
     validationResults: ValidationResult[];
-    onChange: (user: User) => void;
+    onChange: (user: UserEdit) => void;
 };
 
 type State = {
-    user: User;
+    user: UserEdit;
 };
 
 class UserForm extends Component<Props, State> {

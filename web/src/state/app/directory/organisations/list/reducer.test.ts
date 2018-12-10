@@ -1,4 +1,4 @@
-import { reducer, defaultState } from './reducer';
+import { defaultState, reducer } from './reducer';
 
 describe('organisation list reducer', () => {
     it('should handle ORGANISATIONS_LIST_FETCHING', () => {

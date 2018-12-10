@@ -1,35 +1,33 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
-import { withRouter, RouteComponentProps } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 
+import { Organisation } from '@/state/app/directory/organisations/types';
+import { UserEdit } from '@/state/app/directory/users/types';
+import {
+    insertUser, updateUser
+} from '@/state/app/directory/users/user/actions';
+import { userSelector } from '@/state/app/directory/users/user/selectors';
+import { RootState } from '@/state/rootReducer';
+import { ValidationResult } from '@/state/types';
+import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
 import { showConfirm } from '@/ui/feedback/modal/confirm';
 
 import UserForm from './UserForm';
-import { Drawer, DrawerFooter, Button, ContentLoader } from '@/ui/controls';
 
-import { ValidationResult } from '@/state/types';
-import { State as RootState } from '@/state/rootReducer';
-
-import { Organisation } from '@/state/app/directory/organisations/types';
-import { User } from '@/state/app/directory/users/types';
-import { userSelector } from '@/state/app/directory/users/user/selectors';
-import {
-    updateUser,
-    insertUser
-} from '@/state/app/directory/users/user/actions';
-
-type Props= {
+type Props = {
     visible: boolean;
     onClose: (cancelled: boolean) => void;
-    user: User | null;
+    user: UserEdit | null;
     organisations: Organisation[];
     fetching: boolean;
     updating: boolean;
     validationResults: ValidationResult[];
-} & RouteComponentProps & DispatchProp;
+} & RouteComponentProps &
+    DispatchProp;
 
 type State = {
-    userEdited: User | null;
+    userEdited: UserEdit | null;
 };
 class EditUser extends Component<Props, State> {
     constructor(props: Props) {
@@ -75,7 +73,7 @@ class EditUser extends Component<Props, State> {
         }
     };
 
-    onChange = (user: User) => {
+    onChange = (user: UserEdit) => {
         this.setState({
             userEdited: user
         });

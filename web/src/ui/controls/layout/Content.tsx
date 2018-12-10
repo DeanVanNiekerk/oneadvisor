@@ -1,8 +1,9 @@
-
-
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
+
 import config from '@/config/config';
+
+
 
 type Props = {
     children: ReactNode,

@@ -1,16 +1,15 @@
-
-
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { Security, ImplicitCallback, SecureRoute } from '@okta/okta-react';
 
 import config from '@/config/config';
-import Authentication from './Authentication';
-
 import UserList from '@/ui/app/directory/user/UserList';
+import { ImplicitCallback, SecureRoute, Security } from '@okta/okta-react';
 
+import Authentication from './Authentication';
 //Routes
 import DirectoryRoutes from './routes/DirectoryRoutes';
+
+
 
 const App = () => (
     <Security

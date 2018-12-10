@@ -1,7 +1,5 @@
 import moment from 'moment';
 
-
-
 type ColumnType = 'string' | 'date';
 
 type ColumnOptions = {

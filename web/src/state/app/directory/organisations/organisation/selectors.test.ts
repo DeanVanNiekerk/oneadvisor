@@ -1,6 +1,6 @@
-
-
 import { organisationSelector } from './selectors';
+
+
 
 describe('organisation selectors', () => {
     it('organisationSelector', () => {

@@ -1,17 +1,16 @@
-
-
+import { Icon, Layout, Menu as MenuAD } from 'antd';
 import React, { Component } from 'react';
-import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Layout, Menu as MenuAD, Icon } from 'antd';
+import styled, { css } from 'styled-components';
 
-import { State as RootState } from '@/state/rootReducer';
-import { Menu, MenuLink, Application } from '@/state/context/types';
 import {
-    currentMenuSelector,
-    currentApplicationSelector
+    currentApplicationSelector, currentMenuSelector
 } from '@/state/context/selectors';
+import { Application, Menu, MenuLink } from '@/state/context/types';
+import { RootState } from '@/state/rootReducer';
+
+
 
 const { SubMenu, Item } = MenuAD;
 const { Sider } = Layout;

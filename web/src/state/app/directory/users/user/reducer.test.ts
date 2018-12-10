@@ -1,7 +1,8 @@
-
-
-import { reducer, defaultState } from './reducer';
 import { getValidationResult } from '@/state/testUtils';
+
+import { defaultState, reducer } from './reducer';
+
+
 
 describe('user reducer', () => {
     it('should handle USERS_USER_FETCHING', () => {

@@ -1,8 +1,9 @@
-
-
 import { ValidationResult } from '@/state/types';
+
 import { Organisation } from '../types';
 import { Action } from './actions';
+
+
 
 export type State = {
     readonly organisation: Organisation | null,

@@ -1,7 +1,7 @@
-
-
-import React, { ReactNode } from 'react';
 import { Card as CardAD } from 'antd';
+import React, { ReactNode } from 'react';
+
+
 
 type Props = {
     children: ReactNode,

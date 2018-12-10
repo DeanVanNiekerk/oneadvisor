@@ -1,6 +1,6 @@
+import { UserInfo } from './types';
 
 
-import { UserInfo } from './types'
 
 type AuthReceiveAction = { type: "AUTH_RECIEVE_AUTHENTICATION", payload: { userInfo: UserInfo, idToken: string, accessToken: string } };
 type AuthClearAction = { type: "AUTH_RECIEVE_AUTHENTICATION_CLEAR" };

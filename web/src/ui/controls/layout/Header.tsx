@@ -1,7 +1,7 @@
-
-
 import React, { ReactNode } from 'react';
-import { Grid, Row, Col } from 'react-flexbox-grid';
+import { Col, Grid, Row } from 'react-flexbox-grid';
+
+
 
 type Props = {
     children: ReactNode,

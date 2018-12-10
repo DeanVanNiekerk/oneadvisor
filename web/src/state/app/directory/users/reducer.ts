@@ -1,14 +1,11 @@
-
-
 import { combineReducers } from 'redux';
 
-import { reducer as listReducer } from './list/reducer';
-import { State as ListState } from './list/reducer';
 import { Action as ListAction } from './list/actions';
-
-import { reducer as userReducer } from './user/reducer';
-import { State as UserState } from './user/reducer';
+import { reducer as listReducer, State as ListState } from './list/reducer';
 import { Action as UserAction } from './user/actions';
+import { reducer as userReducer, State as UserState } from './user/reducer';
+
+
 
 export type Action = ListAction | UserAction;
 

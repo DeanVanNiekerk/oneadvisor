@@ -4,14 +4,10 @@
     "git.confirmSync": false,
     "git.autofetch": true,
     "explorer.confirmDragAndDrop": false,
-    "flow.useNPMPackagedFlow": true,
     "editor.tabSize": 4,
     "editor.insertSpaces": true,
     "editor.detectIndentation": false,
-    "javascript.validate.enable": false,
-    "[javascript]": {
-        "editor.formatOnSave": true
-    },
+    "editor.formatOnSave": true,
     "mssql.connections": [
         {
             "connectionString": "Server=127.0.0.1,1433;Database=OneAdvisor;User ID=sa;Password=2x&%bLn3c47Y!y&hv7",
@@ -30,4 +26,6 @@
         "**/*.sln.targets": true,
         "**/*.Build.targets": true,
       },
+      "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 80,
+      "importSorter.generalConfiguration.sortOnBeforeSave": true
 }

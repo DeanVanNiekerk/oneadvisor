@@ -1,6 +1,6 @@
-
-
 import { ValidationResult } from './types';
+
+
 
 export const getValidationResult = (): ValidationResult => ({
     propertyName: 'string',

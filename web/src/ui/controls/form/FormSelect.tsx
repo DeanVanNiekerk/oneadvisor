@@ -1,11 +1,12 @@
-
-
-import React, { Component } from 'react';
 import { Select } from 'antd';
+import React, { Component } from 'react';
 
-import { FormField } from './FormField';
 import { ValidationResult } from '@/state/types';
 import { removeValidationError } from '@/state/validation';
+
+import { FormField } from './FormField';
+
+
 
 const Option = Select.Option;
 
