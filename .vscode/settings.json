@@ -1,31 +1,31 @@
 {
-    "window.zoomLevel": 0,
-    "git.enableSmartCommit": true,
-    "git.confirmSync": false,
-    "git.autofetch": true,
-    "explorer.confirmDragAndDrop": false,
-    "editor.tabSize": 4,
-    "editor.insertSpaces": true,
-    "editor.detectIndentation": false,
-    "editor.formatOnSave": true,
-    "mssql.connections": [
-        {
-            "connectionString": "Server=127.0.0.1,1433;Database=OneAdvisor;User ID=sa;Password=2x&%bLn3c47Y!y&hv7",
-            "profileName": "OneAdvisor Dev",
-            "password": ""
-        }
-    ],
-    "files.exclude": {
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "**/bin": true,
-        "**/obj": true,
-        "**/*.sln.targets": true,
-        "**/*.Build.targets": true,
-      },
-      "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 80,
-      "importSorter.generalConfiguration.sortOnBeforeSave": true
+  "window.zoomLevel": 0,
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "explorer.confirmDragAndDrop": false,
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.formatOnSave": false,
+  "mssql.connections": [
+    {
+      "connectionString": "Server=127.0.0.1,1433;Database=OneAdvisor;User ID=sa;Password=2x&%bLn3c47Y!y&hv7",
+      "profileName": "OneAdvisor Dev",
+      "password": ""
+    }
+  ],
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/bin": true,
+    "**/obj": true,
+    "**/*.sln.targets": true,
+    "**/*.Build.targets": true
+  },
+  "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 80,
+  "importSorter.generalConfiguration.sortOnBeforeSave": true
 }
