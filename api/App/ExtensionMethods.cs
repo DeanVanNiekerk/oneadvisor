@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using api.App.Dtos;
 using api.App.Middleware;
@@ -21,6 +22,11 @@ namespace api
                 TotalItems = pagedItems.TotalItems,
                 Items = pagedItems.Items.Select(u => Mapper.Map<T>(u))
             };
+        }
+
+        public static List<T> MapList<S, T>(this IMapper Mapper, List<S> s) 
+        {
+            return Mapper.Map<List<S>, List<T>>(s);
         }
     }
 }

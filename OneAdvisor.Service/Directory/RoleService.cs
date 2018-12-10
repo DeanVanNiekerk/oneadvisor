@@ -5,6 +5,7 @@ using OneAdvisor.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Directory.Model.Role;
 
 namespace OneAdvisor.Service.Directory
 {
@@ -15,6 +16,19 @@ namespace OneAdvisor.Service.Directory
         public RoleService(DataContext context)
         {
             _context = context;
+        }
+
+        public Task<List<Role>> GetRoles()
+        {
+            var query = from role in _context.Role
+                        select new Role() 
+                        {
+                            Id = role.Id,
+                            Name = role.Name,
+                            ApplicationId = role.ApplicationId
+                        };
+
+            return query.ToListAsync();
         }
 
         public async Task<bool> HasUseCase(IEnumerable<string> roleIds, string useCase)

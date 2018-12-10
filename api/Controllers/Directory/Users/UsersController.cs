@@ -14,7 +14,6 @@ using api.App.Dtos;
 
 namespace api.Controllers.Directory.Users
 {
-    
     [ApiController]
     [Route("api/directory/users")]
     public class UsersController : Controller
@@ -40,21 +39,21 @@ namespace api.Controllers.Directory.Users
 
         [HttpGet("{userId}")]
         [UseCaseAuthorize("dir_view_users")]
-        public ActionResult<UserDto> Get(string userId)
+        public ActionResult<UserEditDto> Get(string userId)
         {
             var model = UserService.GetUser(userId).Result;
 
             if(model == null)
                 return NotFound();
 
-            return Ok(Mapper.Map<UserDto>(model));
+            return Ok(Mapper.Map<UserEditDto>(model));
         }
 
         [HttpPost]
         [UseCaseAuthorize("dir_edit_users")]
-        public async Task<ActionResult<Result>> Insert([FromBody] UserDto user)
+        public async Task<ActionResult<Result>> Insert([FromBody] UserEditDto user)
         {
-            var model = Mapper.Map<User>(user);
+            var model = Mapper.Map<UserEdit>(user);
 
             var result = await UserService.InsertUser(model);
 
@@ -66,9 +65,9 @@ namespace api.Controllers.Directory.Users
 
         [HttpPost("{userId}")]
         [UseCaseAuthorize("dir_edit_users")]
-        public async Task<ActionResult<Result>> Update(string userId, [FromBody] UserDto user)
+        public async Task<ActionResult<Result>> Update(string userId, [FromBody] UserEditDto user)
         {
-            var model = Mapper.Map<User>(user);
+            var model = Mapper.Map<UserEdit>(user);
 
             var result = await UserService.UpdateUser(model);
 

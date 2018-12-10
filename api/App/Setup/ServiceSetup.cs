@@ -78,6 +78,7 @@ namespace api.App.Setup
             Services.AddScoped<IUserService, UserService>();
             Services.AddScoped<IRoleService, RoleService>();
             Services.AddScoped<IOrganisationService, OrganisationService>();
+            Services.AddScoped<IApplicationService, ApplicationService>();
         }
 
         public void ConfigureMapper(IMapper mapper)

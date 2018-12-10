@@ -2,11 +2,11 @@ using System;
 
 namespace OneAdvisor.Service.Okta.Dto
 {
-    public class UserUpdateDto
+    public class UserEditDto
     {
-        public ProfileUpdateDto profile { get; set; }
+        public UserEditProfileDto profile { get; set; }
     }
-    public class ProfileUpdateDto
+    public class UserEditProfileDto
     {
         public string firstName { get; set; }
         public string lastName { get; set; }

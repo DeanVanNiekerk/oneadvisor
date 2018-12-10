@@ -51,17 +51,33 @@ namespace OneAdvisor.Service.Okta.Service
             return pagedItems;
         }
 
-        public async Task<User> GetUser(string id)
+        public async Task<UserEdit> GetUser(string id)
         {
             var serializer = new DataContractJsonSerializer(typeof(UserDto));
 
             var streamTask = HttpClient.GetStreamAsync($"api/v1/users/{id}");
             var userDto = serializer.ReadObject(await streamTask) as UserDto;
 
-            return MapDtoToModel(userDto);
+            var user = MapDtoToEditModel(userDto);
+
+            var roleIds = await GetUserRoleIds(id);
+
+            user.RoleIds = roleIds;
+
+            return user;
         }
 
-        public async Task<Result> UpdateUser(User user)
+        public async Task<IEnumerable<string>> GetUserRoleIds(string id)
+        {
+            var serializer = new DataContractJsonSerializer(typeof(List<GroupDto>));
+
+            var streamTask = HttpClient.GetStreamAsync($"api/v1/users/{id}/groups");
+            var groupDtos = serializer.ReadObject(await streamTask) as List<GroupDto>;
+
+            return groupDtos.Select(g => g.profile.name);
+        }
+
+        public async Task<Result> UpdateUser(UserEdit user)
         {
             var validator = new UserValidator(false);
             var result = validator.Validate(user).GetResult();
@@ -85,7 +101,7 @@ namespace OneAdvisor.Service.Okta.Service
             return result;
         }
 
-        public async Task<Result> InsertUser(User user)
+        public async Task<Result> InsertUser(UserEdit user)
         {
             var validator = new UserValidator(true);
             var result = validator.Validate(user).GetResult();
@@ -125,10 +141,22 @@ namespace OneAdvisor.Service.Okta.Service
             };
         }
 
-        private UserUpdateDto MapModelToDto(User model)
+        private UserEdit MapDtoToEditModel(UserDto dto)
         {
-            return new UserUpdateDto() {
-                profile = new ProfileUpdateDto() {
+            return new UserEdit() {
+                Id = dto.id,
+                FirstName = dto.profile.firstName,
+                LastName = dto.profile.lastName,
+                Login = dto.profile.login,
+                Email = dto.profile.email,
+                OrganisationId = Guid.Parse(dto.profile.organization)
+            };
+        }
+
+        private UserEditDto MapModelToDto(UserEdit model)
+        {
+            return new UserEditDto() {
+                profile = new UserEditProfileDto() {
                     firstName = model.FirstName,
                     lastName = model.LastName,
                     login = model.Login,

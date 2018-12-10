@@ -6,6 +6,5 @@ namespace api.Controllers.Directory.Organisations.Dto
     {
         public Guid? Id { get; set; }
         public string Name { get; set; }
-
     }
 }

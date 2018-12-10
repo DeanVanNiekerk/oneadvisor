@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace OneAdvisor.Model.Directory.Model.User
 {
-    public class UserValidator: AbstractValidator<User>
+    public class UserValidator: AbstractValidator<UserEdit>
     {
         public UserValidator(bool isInsert)
         {
@@ -16,6 +16,13 @@ namespace OneAdvisor.Model.Directory.Model.User
             RuleFor(u => u.OrganisationId).NotEmpty();
             RuleFor(u => u.Login).NotEmpty();
             RuleFor(u => u.Email).NotEmpty().EmailAddress();
+
+
+            //Validation todo: 
+            //is valid role
+            //is valid organisation
+
+
             //RuleFor(u => u.Status).Must(BeAValidStatus).WithMessage("Must be a valid status");
         }
 

@@ -12,11 +12,11 @@ namespace OneAdvisor.Service.Okta.Dto
         public string lastLogin { get; set; }
         public string lastUpdated { get; set; }
         public string passwordChanged { get; set; }
-        public ProfileDto profile { get; set; }
+        public UserProfileDto profile { get; set; }
 
     }
 
-    public class ProfileDto
+    public class UserProfileDto
     {
         public string firstName { get; set; }
         public string lastName { get; set; }

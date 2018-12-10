@@ -13,7 +13,47 @@ namespace OneAdvisor.Service.Test.Directory
     [TestClass]
     public class RoleServiceTest
     {
-         [TestMethod]
+        [TestMethod]
+        public async Task GetRoles()
+        {
+            var options = TestHelper.GetDbContext("GetRoles");
+
+            //Given
+            var role1 = new RoleEntity { Id = "role_1", Name = "Role 1", ApplicationId = Guid.NewGuid() };
+            var role2 = new RoleEntity { Id = "role_2", Name = "Role 2", ApplicationId = Guid.NewGuid() };
+
+            using (var context = new DataContext(options))
+            {
+                context.Role.Add(role1);
+                context.Role.Add(role2);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new RoleService(context);
+
+                //When
+                var list = await service.GetRoles();
+
+                //Then
+                Assert.AreEqual(list.Count, 2);
+
+                var actual1 = list[0];
+                Assert.AreEqual(actual1.Id, role1.Id);
+                Assert.AreEqual(actual1.Name, role1.Name);
+                Assert.AreEqual(actual1.ApplicationId, role1.ApplicationId);
+
+                var actual2 = list[1];
+                Assert.AreEqual(actual2.Id, role2.Id);
+                Assert.AreEqual(actual2.Name, role2.Name);
+                Assert.AreEqual(actual2.ApplicationId, role2.ApplicationId);
+
+            }
+        }
+
+        [TestMethod]
         public async Task HasUseCase_DoesNotHave()
         {
             var options = TestHelper.GetDbContext("HasUseCase_DoesNotHave");

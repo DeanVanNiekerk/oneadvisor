@@ -11,3 +11,13 @@ export type User = {
     status: string,
     organisationId: string
 };
+
+export type UserEdit = {
+    id: string,
+    firstName: string,
+    lastName: string,
+    login: string,
+    email: string,
+    organisationId: string,
+    roles: string[]
+};
