@@ -21,7 +21,6 @@ jobs:
         displayName: "dotnet publish $(buildConfiguration)"
       - task: CopyFiles@2
         inputs:
-          artifactName: "api"
           sourceFolder: "api/bin/Release/netcoreapp2.1/publish"
           targetFolder: "$(Build.ArtifactStagingDirectory)/api"
   - job: web_build
@@ -47,6 +46,5 @@ jobs:
         workingDirectory: "web/server"
       - task: CopyFiles@2
         inputs:
-          artifactName: "web"
           sourceFolder: "web/server"
           targetFolder: "$(Build.ArtifactStagingDirectory)/web"
