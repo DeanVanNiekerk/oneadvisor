@@ -2,18 +2,10 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { fetchApplications } from '@/state/app/directory/applications/list/actions';
-import {
-    listSelector as applicationsSelector
-} from '@/state/app/directory/applications/list/selectors';
-import { Application } from '@/state/app/directory/applications/types';
-import { Organisation } from '@/state/app/directory/organisations/types';
-import { fetchRoles } from '@/state/app/directory/roles/list/actions';
-import { listSelector as rolesSelector } from '@/state/app/directory/roles/list/selectors';
-import { Role } from '@/state/app/directory/roles/types';
-import { UserEdit } from '@/state/app/directory/users/types';
-import { insertUser, updateUser } from '@/state/app/directory/users/user/actions';
-import { userSelector } from '@/state/app/directory/users/user/selectors';
+import { Application, applicationsSelector, fetchApplications } from '@/state/app/directory/applications';
+import { Organisation } from '@/state/app/directory/organisations';
+import { fetchRoles, Role, rolesSelector } from '@/state/app/directory/roles';
+import { insertUser, updateUser, UserEdit, userSelector } from '@/state/app/directory/users';
 import { RootState } from '@/state/rootReducer';
 import { ValidationResult } from '@/state/types';
 import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';

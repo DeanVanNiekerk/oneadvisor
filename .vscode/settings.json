@@ -7,7 +7,7 @@
   "editor.tabSize": 4,
   "editor.insertSpaces": true,
   "editor.detectIndentation": false,
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "mssql.connections": [
     {
       "connectionString": "Server=127.0.0.1,1433;Database=OneAdvisor;User ID=sa;Password=2x&%bLn3c47Y!y&hv7",
@@ -26,5 +26,7 @@
     "**/*.sln.targets": true,
     "**/*.Build.targets": true
   },
-  "importSorter.generalConfiguration.sortOnBeforeSave": true
+  "prettier.printWidth": 120,
+  "importSorter.generalConfiguration.sortOnBeforeSave": true,
+  "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 120
 }

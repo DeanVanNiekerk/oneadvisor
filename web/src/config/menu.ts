@@ -2,13 +2,12 @@ import { Menus } from '@/state/context/types';
 
 import { DIRECTORY_ID, MEMBER_ID } from './application';
 
-
 export const menus: Menus = {
     [DIRECTORY_ID]: {
         relativePath: '/directory',
         groups: [
             {
-                name: 'Management',
+                name: 'Organisation',
                 links: [
                     {
                         name: 'Users',
@@ -21,6 +20,18 @@ export const menus: Menus = {
                         name: 'Organisations',
                         icon: 'bank',
                         relativePath: '/organisations',
+                        isDefault: false,
+                        isCurrent: false
+                    }
+                ]
+            },
+            {
+                name: 'Security',
+                links: [
+                    {
+                        name: 'Roles',
+                        icon: 'bank',
+                        relativePath: '/roles',
                         isDefault: false,
                         isCurrent: false
                     }

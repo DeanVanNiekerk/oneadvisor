@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { fetchOrganisations } from '@/state/app/directory/organisations/list/actions';
-import { listSelector } from '@/state/app/directory/organisations/list/selectors';
-import { receiveOrganisation } from '@/state/app/directory/organisations/organisation/actions';
-import { Organisation } from '@/state/app/directory/organisations/types';
+import {
+    fetchOrganisations, Organisation, organisationsSelector, receiveOrganisation
+} from '@/state/app/directory/organisations';
 import { RootState } from '@/state/rootReducer';
 import { getColumn } from '@/state/utils';
 import { Button, Header, Table } from '@/ui/controls';
@@ -104,7 +103,7 @@ class OrganisationList extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const organisationsState = listSelector(state);
+    const organisationsState = organisationsSelector(state);
 
     return {
         organisations: organisationsState.items,

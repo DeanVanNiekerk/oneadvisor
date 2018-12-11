@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
         "strictNullChecks": true,
-        "isolatedModules": true,
         "esModuleInterop": true,
         "moduleResolution": "node",
         "noEmit": true,
@@ -12,11 +11,7 @@
         "paths": {
             "@/*": ["src/*"]
         },
-        "typeRoots": [
-            "node_modules/@types", 
-            "typings"
-        ]
-    
+        "typeRoots": ["node_modules/@types", "typings"]
     },
     "include": ["./src/"]
 }

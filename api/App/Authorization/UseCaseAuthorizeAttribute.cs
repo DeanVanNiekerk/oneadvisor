@@ -25,10 +25,13 @@ namespace api.App.Authorization
 
             //Token is good, check if role has acces to use case
             var roles = context.HttpContext.User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
+
+            //Super admins can do all
+            if(roles.Any(r => r == "super_administrator"))
+                return;
             
             if(!roleService.HasUseCase(roles, UseCase).GetAwaiter().GetResult())
                 context.Result = new UnauthorizedResult();
-
         }
     }
 

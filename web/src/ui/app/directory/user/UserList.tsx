@@ -2,15 +2,8 @@ import { Tag } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { fetchOrganisations } from '@/state/app/directory/organisations/list/actions';
-import {
-    listSelector as organisationsSelector
-} from '@/state/app/directory/organisations/list/selectors';
-import { Organisation } from '@/state/app/directory/organisations/types';
-import { fetchUsers } from '@/state/app/directory/users/list/actions';
-import { listSelector as usersSelector } from '@/state/app/directory/users/list/selectors';
-import { User, UserEdit } from '@/state/app/directory/users/types';
-import { fetchUser, receiveUser } from '@/state/app/directory/users/user/actions';
+import { fetchOrganisations, Organisation, organisationsSelector } from '@/state/app/directory/organisations';
+import { fetchUser, fetchUsers, receiveUser, User, usersSelector } from '@/state/app/directory/users';
 import { RootState } from '@/state/rootReducer';
 import { getColumn } from '@/state/utils';
 import { Button, Header, Table } from '@/ui/controls';
@@ -21,7 +14,7 @@ type Props = {
     users: User[];
     organisations: Organisation[];
     fetching: boolean;
-} & DispatchProp 
+} & DispatchProp;
 
 type State = {
     editVisible: boolean;
@@ -69,11 +62,8 @@ class UserList extends Component<Props, State> {
     };
 
     editUser = (id: string) => {
-        const user = this.props.users.find(u => u.id === id);
-        if (user) {
-            this.props.dispatch(fetchUser(user.id));
-            this.showEditUser();
-        }
+        this.props.dispatch(fetchUser(id));
+        this.showEditUser();
     };
 
     getOrganisationName = (id: string) => {

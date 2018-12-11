@@ -1,10 +1,10 @@
 import { List, Switch } from 'antd';
 import React, { Component } from 'react';
 
-import { Application } from '@/state/app/directory/applications/types';
-import { Organisation } from '@/state/app/directory/organisations/types';
-import { Role } from '@/state/app/directory/roles/types';
-import { UserEdit } from '@/state/app/directory/users/types';
+import { Application } from '@/state/app/directory/applications';
+import { Organisation } from '@/state/app/directory/organisations';
+import { Role } from '@/state/app/directory/roles';
+import { UserEdit } from '@/state/app/directory/users';
 import { ValidationResult } from '@/state/types';
 import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
 
@@ -30,7 +30,7 @@ class UserForm extends Component<Props, State> {
 
         this.state = {
             user: props.user,
-            activeTab: 'details_tab',
+            activeTab: 'details_tab'
         };
     }
 
@@ -60,27 +60,26 @@ class UserForm extends Component<Props, State> {
     toggleRoleChange = (roleId: string) => {
         let roleIds = [...this.state.user.roleIds];
 
-        if(this.isRoleSelected(roleId))
+        if (this.isRoleSelected(roleId))
             roleIds = this.state.user.roleIds.filter(r => r !== roleId);
-        else
-            roleIds.push(roleId);
+        else roleIds.push(roleId);
 
-        this.handleChange("roleIds", roleIds);
+        this.handleChange('roleIds', roleIds);
     };
 
     onTabChange = (activeTab: TabKey) => {
         this.setState({ activeTab });
-    }
+    };
 
     render() {
         const { validationResults } = this.props;
         const { user } = this.state;
 
         return (
-            <Tabs 
+            <Tabs
                 onChange={this.onTabChange}
                 activeKey={this.state.activeTab}
-                sticky={true}                
+                sticky={true}
             >
                 <TabPane tab="Details" key="details_tab">
                     <Form>
@@ -128,11 +127,31 @@ class UserForm extends Component<Props, State> {
                     {this.props.applications.map(application => (
                         <List
                             key={application.id}
-                            header={<h4 className="mb-0">{application.name}</h4>}
+                            header={
+                                <h4 className="mb-0">{application.name}</h4>
+                            }
                             bordered={true}
                             size="small"
-                            dataSource={this.props.roles.filter(r => r.applicationId === application.id)}
-                            renderItem={(role: Role) => <List.Item actions={[<Switch checked={this.isRoleSelected(role.id)} onChange={() => this.toggleRoleChange(role.id)} size="small" />]}>{role.name}</List.Item>}
+                            dataSource={this.props.roles.filter(
+                                r => r.applicationId === application.id
+                            )}
+                            renderItem={(role: Role) => (
+                                <List.Item
+                                    actions={[
+                                        <Switch
+                                            checked={this.isRoleSelected(
+                                                role.id
+                                            )}
+                                            onChange={() =>
+                                                this.toggleRoleChange(role.id)
+                                            }
+                                            size="small"
+                                        />
+                                    ]}
+                                >
+                                    {role.name}
+                                </List.Item>
+                            )}
                             className="mb-2"
                         />
                     ))}

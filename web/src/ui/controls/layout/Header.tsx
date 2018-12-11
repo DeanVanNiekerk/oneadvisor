@@ -2,18 +2,18 @@ import React, { ReactNode } from 'react';
 import { Col, Grid, Row } from 'react-flexbox-grid';
 
 type Props = {
-    children: ReactNode,
-    actions: ReactNode
+    children: ReactNode;
+    actions?: ReactNode;
 };
 
 const Header = (props: Props) => (
-    <Grid 
+    <Grid
         fluid
         style={{
-            position: "sticky",
+            position: 'sticky',
             top: 0,
             zIndex: 100,
-            backgroundColor: "#FFFFFF",
+            backgroundColor: '#FFFFFF',
             paddingTop: 15
         }}
     >
@@ -21,7 +21,7 @@ const Header = (props: Props) => (
             <Col>
                 <h2>{props.children}</h2>
             </Col>
-            <Col>{props.actions}</Col>
+            {props.actions && <Col>{props.actions}</Col>}
         </Row>
     </Grid>
 );

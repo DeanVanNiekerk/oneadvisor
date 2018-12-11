@@ -40,5 +40,19 @@ namespace OneAdvisor.Service.Directory
 
             return await query.AnyAsync();
         }
+
+        public Task<RoleEdit> GetRole(string id)
+        {
+            var query = from role in _context.Role
+                        select new RoleEdit() 
+                        {
+                            Id = role.Id,
+                            Name = role.Name,
+                            ApplicationId = role.ApplicationId,
+                            UseCaseIds = role.RoleToUseCases.Select(u => u.UseCaseId)
+                        };
+
+            return query.FirstOrDefaultAsync();
+        }
     }
 }

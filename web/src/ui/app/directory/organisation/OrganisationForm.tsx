@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 
-import { Organisation } from '@/state/app/directory/organisations/types';
+import { Organisation } from '@/state/app/directory/organisations';
 import { ValidationResult } from '@/state/types';
 import { Form, FormInput } from '@/ui/controls';
 
 type Props = {
-    organisation: Organisation,
-    validationResults: ValidationResult[],
-    onChange: (organisation: Organisation) => void
+    organisation: Organisation;
+    validationResults: ValidationResult[];
+    onChange: (organisation: Organisation) => void;
 };
 
 type State = {
-    organisation: Organisation
+    organisation: Organisation;
 };
 
 class OrganisationForm extends Component<Props, State> {

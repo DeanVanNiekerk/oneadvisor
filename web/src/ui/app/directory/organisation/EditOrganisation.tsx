@@ -3,12 +3,8 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import {
-    insertOrganisation, updateOrganisation
-} from '@/state/app/directory/organisations/organisation/actions';
-import {
-    organisationSelector
-} from '@/state/app/directory/organisations/organisation/selectors';
-import { Organisation } from '@/state/app/directory/organisations/types';
+    insertOrganisation, Organisation, organisationSelector, updateOrganisation
+} from '@/state/app/directory/organisations';
 import { RootState } from '@/state/rootReducer';
 import { ValidationResult } from '@/state/types';
 import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
@@ -23,7 +19,8 @@ type Props = {
     fetching: boolean;
     updating: boolean;
     validationResults: ValidationResult[];
-} & RouteComponentProps & DispatchProp
+} & RouteComponentProps &
+    DispatchProp;
 
 type State = {
     organisationEdited: Organisation | null;

@@ -54,6 +54,50 @@ namespace OneAdvisor.Service.Test.Directory
         }
 
         [TestMethod]
+        public async Task GetRole()
+        {
+            var options = TestHelper.GetDbContext("GetRole");
+
+            //Given
+            var role1 = new RoleEntity { Id = "role_1", Name = "Role 1", ApplicationId = Guid.NewGuid() };
+            var role2 = new RoleEntity { Id = "role_2", Name = "Role 2", ApplicationId = Guid.NewGuid() };
+
+            var roleToUseCase1 = new RoleToUseCaseEntity { RoleId = "role_1", UseCaseId = "uc1" };
+            var roleToUseCase2 = new RoleToUseCaseEntity { RoleId = "role_1", UseCaseId = "uc2" };
+
+            var roleToUseCase3 = new RoleToUseCaseEntity { RoleId = "role_2", UseCaseId = "uc3" };
+
+            using (var context = new DataContext(options))
+            {
+                context.Role.Add(role1);
+                context.Role.Add(role2);
+
+                context.RoleToUseCase.Add(roleToUseCase1);
+                context.RoleToUseCase.Add(roleToUseCase2);
+                context.RoleToUseCase.Add(roleToUseCase3);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new RoleService(context);
+
+                //When
+                var actual = await service.GetRole(role1.Id);
+
+                //Then
+                Assert.AreEqual(actual.Id, role1.Id);
+                Assert.AreEqual(actual.Name, role1.Name);
+                Assert.AreEqual(actual.ApplicationId, role1.ApplicationId);
+                Assert.AreEqual(actual.UseCaseIds.Count(), 2);
+                Assert.AreEqual(actual.UseCaseIds.ToArray()[0], "uc1");
+                Assert.AreEqual(actual.UseCaseIds.ToArray()[1], "uc2");
+
+            }
+        }
+
+        [TestMethod]
         public async Task HasUseCase_DoesNotHave()
         {
             var options = TestHelper.GetDbContext("HasUseCase_DoesNotHave");
