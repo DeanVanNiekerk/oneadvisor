@@ -19,7 +19,7 @@ jobs:
       - script: |
           dotnet publish --configuration $(buildConfiguration)
         displayName: "dotnet publish $(buildConfiguration)"
-      - task: PublishApiArtifact
+      - task: PublishApiArtifact@0
         inputs:
           artifactName: "api"
           targetPath: "api/bin/Release/netcoreapp2.1/publish"
@@ -44,7 +44,7 @@ jobs:
           npm install
         displayName: "npm install (server)"
         workingDirectory: "web/server"
-      - task: PublishWebArtifact
+      - task: PublishWebArtifact@0
         inputs:
           artifactName: "web"
           targetPath: "web/server"
