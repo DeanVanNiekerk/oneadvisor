@@ -19,10 +19,15 @@ jobs:
       - script: |
           dotnet publish --configuration $(buildConfiguration)
         displayName: "dotnet publish $(buildConfiguration)"
-      - task: PublishPipelineArtifact@0
+      - task: CopyFiles@2
         inputs:
-          targetPath: "api/bin/$(buildConfiguration)/netcoreapp2.1/publish"
-          artifactName: "api"
+          sourceFolder: "api/bin/$(buildConfiguration)/netcoreapp2.1/publish"
+          targetFolder: $(Build.ArtifactStagingDirectory)
+          cleanTargetFolder: true
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathtoPublish: $(Build.ArtifactStagingDirectory)
+          artifactName: api
   - job: web_build
     pool:
       vmImage: "Ubuntu 16.04"
@@ -44,7 +49,12 @@ jobs:
           npm install
         displayName: "npm install (server)"
         workingDirectory: "web/server"
-      - task: PublishPipelineArtifact@0
+      - task: CopyFiles@2
         inputs:
-          targetPath: "web/server"
-          artifactName: "web"
+          sourceFolder: "web/server"
+          targetFolder: $(Build.ArtifactStagingDirectory)
+          cleanTargetFolder: true
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathtoPublish: $(Build.ArtifactStagingDirectory)
+          artifactName: web
