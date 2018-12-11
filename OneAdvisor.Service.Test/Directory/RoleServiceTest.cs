@@ -61,6 +61,7 @@ namespace OneAdvisor.Service.Test.Directory
             //Given
             var role1 = new RoleEntity { Id = "role_1", Name = "Role 1", ApplicationId = Guid.NewGuid() };
             var role2 = new RoleEntity { Id = "role_2", Name = "Role 2", ApplicationId = Guid.NewGuid() };
+            var role3 = new RoleEntity { Id = "role_3", Name = "Role 3", ApplicationId = Guid.NewGuid() };
 
             var roleToUseCase1 = new RoleToUseCaseEntity { RoleId = "role_1", UseCaseId = "uc1" };
             var roleToUseCase2 = new RoleToUseCaseEntity { RoleId = "role_1", UseCaseId = "uc2" };
@@ -69,6 +70,7 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
+                context.Role.Add(role3);
                 context.Role.Add(role1);
                 context.Role.Add(role2);
 
@@ -109,7 +111,7 @@ namespace OneAdvisor.Service.Test.Directory
             var useCase = new UseCaseEntity { Id = "usecase_1" };
 
             var roleToUseCase = new RoleToUseCaseEntity { RoleId = role2.Id, UseCaseId = useCase.Id };
-          
+
             using (var context = new DataContext(options))
             {
                 context.Role.Add(role1);
@@ -146,7 +148,7 @@ namespace OneAdvisor.Service.Test.Directory
             var useCase = new UseCaseEntity { Id = "usecase_1" };
 
             var roleToUseCase = new RoleToUseCaseEntity { RoleId = role2.Id, UseCaseId = useCase.Id };
-          
+
             using (var context = new DataContext(options))
             {
                 context.Role.Add(role1);
@@ -170,6 +172,6 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.IsTrue(actual);
             }
         }
-        
+
     }
 }

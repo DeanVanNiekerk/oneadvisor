@@ -33,19 +33,20 @@ namespace OneAdvisor.Data
             var hpaGuid = Guid.Parse("2dc6f9ac-728b-4e19-9d72-0bad5fc84a03");
 
             var application = await _context.Application.FindAsync(dirGuid);
-            if(application == null)
+            if (application == null)
                 _context.Application.Add(new ApplicationEntity() { Id = dirGuid, Name = "Directory" });
 
             application = await _context.Application.FindAsync(memGuid);
-            if(application == null)
+            if (application == null)
                 _context.Application.Add(new ApplicationEntity() { Id = memGuid, Name = "Member" });
 
             application = await _context.Application.FindAsync(hpaGuid);
-            if(application == null)
+            if (application == null)
                 _context.Application.Add(new ApplicationEntity() { Id = hpaGuid, Name = "Health" });
 
             var roles = _context.Role.ToList();
-            if(!roles.Any()) {
+            if (!roles.Any())
+            {
 
                 //Directory Roles
                 _context.Role.Add(new RoleEntity() { Id = "dir_administrator", Name = "Administrator", ApplicationId = dirGuid });
@@ -59,7 +60,8 @@ namespace OneAdvisor.Data
             }
 
             var useCases = _context.UseCase.ToList();
-            if(!useCases.Any()) {
+            if (!useCases.Any())
+            {
 
                 //Directory Use Cases
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_users", Name = "View Users", ApplicationId = dirGuid });
@@ -68,10 +70,12 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_edit_organisations", Name = "Edit Organisations", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_roles", Name = "View Roles", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_applications", Name = "View Applications", ApplicationId = dirGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_usecases", Name = "View UseCases", ApplicationId = dirGuid });
             }
 
             var roleToUseCase = _context.RoleToUseCase.ToList();
-            if(!roleToUseCase.Any()) {
+            if (!roleToUseCase.Any())
+            {
 
                 //NB: Most prob want to give super admin access to all in handler in the api
                 //Directory Role to Use Case
@@ -81,10 +85,12 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_edit_organisations" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_roles" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_applications" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_usecases" });
             }
 
             var organisations = _context.Organisation.ToList();
-            if(!organisations.Any()) {
+            if (!organisations.Any())
+            {
 
                 //Organisations
                 _context.Organisation.Add(new OrganisationEntity() { Id = Guid.Parse("9a46c5ae-3f6f-494c-b0de-d908f08507c3"), Name = "Smith and Bormann" });

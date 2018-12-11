@@ -1,8 +1,12 @@
-#root, #root > div {
+#root,
+#root > div {
     height: 100%;
 }
 
 .ant-layout {
-    background-color: #FFFFFF !important;
+    background-color: #ffffff !important;
 }
 
+.ant-table-filter-dropdown-link {
+    position: relative;
+}

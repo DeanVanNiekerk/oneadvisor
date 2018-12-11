@@ -14,7 +14,7 @@ using OneAdvisor.Model.Directory.Model.Role;
 
 namespace api.Controllers.Directory.Roles
 {
-    
+
     [ApiController]
     [Route("api/directory/roles")]
     public class RolesController : Controller
@@ -35,6 +35,18 @@ namespace api.Controllers.Directory.Roles
             var roles = await RoleService.GetRoles();
 
             return Mapper.MapList<Role, RoleDto>(roles);
+        }
+
+        [HttpGet("{roleId}")]
+        [UseCaseAuthorize("dir_view_roles")]
+        public ActionResult<RoleEditDto> Get(string roleId)
+        {
+            var model = RoleService.GetRole(roleId).Result;
+
+            if (model == null)
+                return NotFound();
+
+            return Ok(Mapper.Map<RoleEditDto>(model));
         }
 
     }

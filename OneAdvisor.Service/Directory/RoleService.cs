@@ -21,7 +21,7 @@ namespace OneAdvisor.Service.Directory
         public Task<List<Role>> GetRoles()
         {
             var query = from role in _context.Role
-                        select new Role() 
+                        select new Role()
                         {
                             Id = role.Id,
                             Name = role.Name,
@@ -44,7 +44,8 @@ namespace OneAdvisor.Service.Directory
         public Task<RoleEdit> GetRole(string id)
         {
             var query = from role in _context.Role
-                        select new RoleEdit() 
+                        where role.Id == id
+                        select new RoleEdit()
                         {
                             Id = role.Id,
                             Name = role.Name,

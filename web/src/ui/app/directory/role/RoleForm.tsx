@@ -3,13 +3,15 @@ import React, { Component } from 'react';
 
 import { Application } from '@/state/app/directory/applications/types';
 import { RoleEdit } from '@/state/app/directory/roles';
-import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
+import { UseCase } from '@/state/app/directory/usecases';
+import { Form, FormText, TabPane, Tabs } from '@/ui/controls';
 
 type TabKey = 'details_tab' | 'usecases_tab';
 
 type Props = {
     role: RoleEdit;
     applications: Application[];
+    useCases: UseCase[];
 };
 
 type State = {
@@ -65,6 +67,14 @@ class UserForm extends Component<Props, State> {
         this.setState({ activeTab });
     };
 
+    getApplicationName = (applicationId: string) => {
+        const application = this.props.applications.find(
+            a => a.id === applicationId
+        );
+        if (application) return application.name;
+        return '';
+    };
+
     render() {
         const { role } = this.state;
 
@@ -76,38 +86,38 @@ class UserForm extends Component<Props, State> {
             >
                 <TabPane tab="Details" key="details_tab">
                     <Form>
-                        <FormInput
-                            fieldName="name"
-                            label="Name"
-                            value={role.name}
-                        />
-                        <FormSelect
-                            fieldName="applicationId"
+                        <FormText label="Name" value={role.name} />
+                        <FormText
                             label="Application"
-                            value={role.applicationId}
-                            options={this.props.applications}
-                            optionsValue="id"
-                            optionsText="name"
+                            value={this.getApplicationName(role.applicationId)}
                         />
                     </Form>
                 </TabPane>
                 <TabPane tab="Use Cases" key="roles_tab">
                     <List
+                        header={
+                            <h4 className="mb-0">
+                                {this.getApplicationName(role.applicationId)}{' '}
+                                Use Cases
+                            </h4>
+                        }
                         bordered={true}
                         size="small"
-                        dataSource={role.useCaseIds}
-                        renderItem={(useCaseId: string) => (
+                        dataSource={this.props.useCases.filter(
+                            u => u.applicationId === role.applicationId
+                        )}
+                        renderItem={(useCase: UseCase) => (
                             <List.Item
                                 actions={[
                                     <Switch
                                         checked={this.isUseCaseSelected(
-                                            useCaseId
+                                            useCase.id
                                         )}
                                         size="small"
                                     />
                                 ]}
                             >
-                                {useCaseId}
+                                {useCase.name}
                             </List.Item>
                         )}
                         className="mb-2"

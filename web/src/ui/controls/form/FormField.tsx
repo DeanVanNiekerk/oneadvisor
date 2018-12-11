@@ -4,21 +4,24 @@ import React, { ReactNode } from 'react';
 import { ValidationResult } from '@/state/types';
 import { getValidationError } from '@/state/validation';
 
+import { FormLayout } from './Form';
+
 const FormItem = Form.Item;
 
 type Props = {
-    fieldName: string;
     label: string;
-    value: any;
-    validationResults: ValidationResult[];
     children: ReactNode;
+    value?: any;
+    fieldName?: string;
+    validationResults?: ValidationResult[];
+    layout?: FormLayout;
 };
 
 class FormField extends React.Component<Props> {
     getErrorText = (): string | null => {
         const result = getValidationError(
-            this.props.fieldName,
-            this.props.validationResults
+            this.props.fieldName || '',
+            this.props.validationResults || []
         );
 
         //There is no validation error
@@ -32,13 +35,22 @@ class FormField extends React.Component<Props> {
 
     render() {
         const errorText = this.getErrorText();
-        const { label, children } = this.props;
+        const { label, children, layout } = this.props;
+
+        const formItemLayout =
+            layout === 'horizontal'
+                ? {
+                      labelCol: { span: 6 },
+                      wrapperCol: { span: 18 }
+                  }
+                : null;
 
         return (
             <FormItem
                 label={label}
                 validateStatus={errorText ? 'error' : undefined}
                 help={errorText}
+                {...formItemLayout}
             >
                 {children}
             </FormItem>

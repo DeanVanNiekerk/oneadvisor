@@ -3,14 +3,17 @@ import React, { Component } from 'react';
 
 import { ValidationResult } from '@/state/types';
 
+import { FormLayout } from './Form';
 import { FormField } from './FormField';
 
 type Props = {
     fieldName: string;
     label: string;
     value: any;
+    disabled?: boolean;
     onChange?: (fieldName: string, value: any) => void;
     validationResults?: ValidationResult[];
+    layout?: FormLayout;
 };
 
 class FormInput extends Component<Props> {
@@ -20,16 +23,25 @@ class FormInput extends Component<Props> {
     };
 
     render() {
-        const { fieldName, label, value, validationResults } = this.props;
+        const {
+            fieldName,
+            label,
+            value,
+            validationResults,
+            disabled = false,
+            layout
+        } = this.props;
 
         return (
             <FormField
                 label={label}
                 fieldName={fieldName}
-                validationResults={validationResults || []}
+                validationResults={validationResults}
                 value={value}
+                layout={layout}
             >
                 <Input
+                    disabled={disabled}
                     name={fieldName}
                     id={fieldName}
                     value={value}

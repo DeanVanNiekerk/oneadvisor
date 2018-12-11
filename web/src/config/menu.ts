@@ -30,7 +30,7 @@ export const menus: Menus = {
                 links: [
                     {
                         name: 'Roles',
-                        icon: 'bank',
+                        icon: 'safety-certificate',
                         relativePath: '/roles',
                         isDefault: false,
                         isCurrent: false

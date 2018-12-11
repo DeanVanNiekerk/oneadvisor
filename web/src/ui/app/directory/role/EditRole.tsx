@@ -4,6 +4,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 
 import { Application } from '@/state/app/directory/applications/types';
 import { RoleEdit, roleSelector } from '@/state/app/directory/roles';
+import { UseCase } from '@/state/app/directory/usecases';
 import { RootState } from '@/state/rootReducer';
 import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
 
@@ -14,6 +15,7 @@ type Props = {
     onClose: (cancelled: boolean) => void;
     role: RoleEdit | null;
     applications: Application[];
+    useCases: UseCase[];
     fetching: boolean;
 } & RouteComponentProps &
     DispatchProp;
@@ -42,6 +44,7 @@ class EditUser extends Component<Props> {
                         <RoleForm
                             role={role}
                             applications={this.props.applications}
+                            useCases={this.props.useCases}
                         />
                     )}
                 </ContentLoader>
