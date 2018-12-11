@@ -4,8 +4,6 @@ import React, { ReactNode } from 'react';
 import Navigator from './Navigator';
 import SideMenu from './SideMenu';
 
-
-
 const { Content } = Layout;
 
 type Props = {
@@ -16,6 +14,7 @@ type Props = {
 class LayoutContainer extends React.Component<Props> {
     render() {
         return (
+          
             <Layout
                 style={{
                     height: "100%"
@@ -23,19 +22,20 @@ class LayoutContainer extends React.Component<Props> {
                 <Navigator onLogout={this.props.onLogout} />
                 <Layout>
                     <SideMenu  />
-                    <Layout>
+                     <Layout>
                         <Content
                             style={{
                                 background: '#fff',
                                 padding: 15,
+                                paddingTop: 0,
                                 margin: 0,
                                 minHeight: 280
                             }}
                         >
                             {this.props.children}
                         </Content>
-                    </Layout>
-                </Layout>
+                    </Layout> 
+                </Layout> 
             </Layout>
         );
     }

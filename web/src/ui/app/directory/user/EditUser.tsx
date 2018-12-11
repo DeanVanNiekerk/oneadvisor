@@ -116,7 +116,7 @@ class EditUser extends Component<Props, State> {
                 title={`${user && !user.id ? 'New' : 'Edit'} User`}
                 visible={visible}
                 onClose={this.confirmCancel}
-                hasTabs={true}
+                noTopPadding={true}
             >
                 <ContentLoader isLoading={this.isLoading()}>
                     {user && (

@@ -1,8 +1,6 @@
 import { Table as TableAD } from 'antd';
 import * as React from 'react';
 
-
-
 type Props = {
     columns: any[],
     dataSource: any[],
@@ -31,7 +29,6 @@ const Table = (props: Props) => (
             };
         }}
         size="small"
-        //scroll={{ y: 240 }}
     />
 );
 Table.defaultProps = {

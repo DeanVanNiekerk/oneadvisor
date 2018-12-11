@@ -1,3 +1,5 @@
+--TO RUN: Shift + Cmd + E
+
 select * from dir_Application
 select * from dir_Role
 select * from dir_UseCase

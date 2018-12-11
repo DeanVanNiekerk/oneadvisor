@@ -1,19 +1,4 @@
-import { showNotification } from '@/ui/feedback/notifcation/notification';
-
-const handleError = (store: any, dispatchPrefix: string, error: string) => {
-    showNotification(
-        'error',
-        'Server Error',
-        'A server error occured please reload the page'
-    );
-    console.log(error);
-
-    //Fetching Error
-    store.dispatch({
-        type: `${dispatchPrefix}_FETCHING_ERROR`,
-        payload: error
-    });
-};
+import { showMessage, showNotification } from '@/ui/feedback/notifcation';
 
 export default (store: any) => (next: any) => (action: any) => {
     // Check if this is an api request
@@ -64,11 +49,7 @@ export default (store: any) => (next: any) => (action: any) => {
 
                 //Check for validation error
                 if (resp.status === 400) {
-                    //Validation
-                    store.dispatch({
-                        type: `${dispatchPrefix}_VALIDATION_ERROR`,
-                        payload: json
-                    });
+                    handleValidationError(store, dispatchPrefix, json);
                     return;
                 }
 
@@ -87,4 +68,34 @@ export default (store: any) => (next: any) => (action: any) => {
         .catch(error => {
             handleError(store, dispatchPrefix, error);
         });
+};
+
+const handleError = (store: any, dispatchPrefix: string, error: string) => {
+    showNotification(
+        'error',
+        'Server Error',
+        'A server error occured please reload the page',
+        10
+    );
+    console.log(error);
+
+    //Fetching Error
+    store.dispatch({
+        type: `${dispatchPrefix}_FETCHING_ERROR`,
+        payload: error
+    });
+};
+
+const handleValidationError = (store: any, dispatchPrefix: string, json: any) => {
+    showMessage(
+        'warning',
+        'Data not saved, check form for validation errors',
+        6.5
+    );
+
+    //Validation Error
+    store.dispatch({
+        type: `${dispatchPrefix}_VALIDATION_ERROR`,
+        payload: json
+    });
 };

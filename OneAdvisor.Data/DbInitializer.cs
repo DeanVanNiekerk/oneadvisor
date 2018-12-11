@@ -48,7 +48,7 @@ namespace OneAdvisor.Data
             if(!roles.Any()) {
 
                 //Directory Roles
-                _context.Role.Add(new RoleEntity() { Id = "dir_super_administrator", Name = "Super Administrator", ApplicationId = dirGuid });
+                _context.Role.Add(new RoleEntity() { Id = "dir_administrator", Name = "Administrator", ApplicationId = dirGuid });
 
 
                 //Health Plan Advisor Roles
@@ -75,12 +75,12 @@ namespace OneAdvisor.Data
 
                 //NB: Most prob want to give super admin access to all in handler in the api
                 //Directory Role to Use Case
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_view_users" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_edit_users" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_view_organisations" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_edit_organisations" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_view_roles" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_super_administrator", UseCaseId = "dir_view_applications" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_users" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_edit_users" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_organisations" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_edit_organisations" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_roles" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_applications" });
             }
 
             var organisations = _context.Organisation.ToList();

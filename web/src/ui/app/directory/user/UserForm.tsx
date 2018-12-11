@@ -1,4 +1,4 @@
-import { List, Switch, Tabs } from 'antd';
+import { List, Switch } from 'antd';
 import React, { Component } from 'react';
 
 import { Application } from '@/state/app/directory/applications/types';
@@ -6,9 +6,7 @@ import { Organisation } from '@/state/app/directory/organisations/types';
 import { Role } from '@/state/app/directory/roles/types';
 import { UserEdit } from '@/state/app/directory/users/types';
 import { ValidationResult } from '@/state/types';
-import { Form, FormInput, FormSelect } from '@/ui/controls';
-
-const TabPane = Tabs.TabPane;
+import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
 
 type TabKey = 'details_tab' | 'roles_tab';
 
@@ -82,6 +80,7 @@ class UserForm extends Component<Props, State> {
             <Tabs 
                 onChange={this.onTabChange}
                 activeKey={this.state.activeTab}
+                sticky={true}                
             >
                 <TabPane tab="Details" key="details_tab">
                     <Form>

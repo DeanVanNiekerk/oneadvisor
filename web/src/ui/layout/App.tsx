@@ -9,8 +9,6 @@ import Authentication from './Authentication';
 //Routes
 import DirectoryRoutes from './routes/DirectoryRoutes';
 
-
-
 const App = () => (
     <Security
         issuer={config.oidc.issuer}

@@ -8,7 +8,7 @@ type Props = {
     onClose: () => void,
     maskClosable?: boolean,
     width?: number,
-    hasTabs?: boolean
+    noTopPadding?: boolean
 };
 
 const Drawer = (props: Props) => (
@@ -22,7 +22,7 @@ const Drawer = (props: Props) => (
             height: 'calc(100% - 55px)',
             overflow: 'auto',
             paddingBottom: 53,
-            paddingTop: props.hasTabs ? 10 : 24
+            paddingTop: props.noTopPadding ? 0 : 24
         }}
     >
         {props.children}
@@ -32,7 +32,7 @@ Drawer.defaultProps = {
     visible: false,
     width: 720,
     maskClosable: false,
-    hasTabs: false
+    noTopPadding: false
 }
 
 export { Drawer };

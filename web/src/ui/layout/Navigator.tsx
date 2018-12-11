@@ -4,13 +4,9 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-import {
-    applicationsSelector, currentApplicationSelector
-} from '@/state/context/selectors';
+import { applicationsSelector, currentApplicationSelector } from '@/state/context/selectors';
 import { Application } from '@/state/context/types';
 import { RootState } from '@/state/rootReducer';
-
-
 
 const { Header } = Layout;
 const { Item } = Menu;
@@ -46,6 +42,15 @@ const AppName = styled.div`
     color: #FFFFFF;
 `;
 
+const Signout = styled.div`
+    font-size: 14px;
+    height: 31px;
+    float: right;
+    color: #FFFFFF;
+    z-index: 12;
+    cursor: pointer;
+`;
+
 const Light = styled.span`
     font-weight: 100;
 `;
@@ -72,6 +77,7 @@ class Navigator extends Component<Props> {
                     <AppName>
                         <Light>ONE</Light><Bold>ADVISOR</Bold>
                     </AppName>
+                    <Signout onClick={() => this.props.onLogout()}>Signout</Signout>
                     <Menu
                         theme="dark"
                         mode="horizontal"
@@ -91,11 +97,10 @@ class Navigator extends Component<Props> {
                             </MenuItem>
                         ))}
                     </Menu>
+                    
                 </Header>
                 <Pinstripe application={this.props.currentApplication} />
             </>
-   
-            //<Button color="inherit" onClick={() => this.props.onLogout()}>Signout</Button>
         );
     }
 }
