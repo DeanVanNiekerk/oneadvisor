@@ -47,8 +47,12 @@ namespace api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            //Run database migrations
+            var databaseMigrate = new DatabaseMigrate(app);
+            databaseMigrate.Migrate();
+
             app.UseCors("Policy");
 
             if (env.IsDevelopment())
