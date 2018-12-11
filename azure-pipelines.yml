@@ -21,8 +21,11 @@ jobs:
         displayName: "dotnet publish $(buildConfiguration)"
       - task: CopyFiles@2
         inputs:
-          sourceFolder: "api/bin/Release/netcoreapp2.1/publish"
-          targetFolder: "$(Build.ArtifactStagingDirectory)/api"
+          sourceFolder: "api/bin/$(buildConfiguration)/netcoreapp2.1/publish"
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathtoPublish: "$(Build.ArtifactStagingDirectory)"
+          artifactName: api
   - job: web_build
     pool:
       vmImage: "Ubuntu 16.04"
@@ -47,4 +50,7 @@ jobs:
       - task: CopyFiles@2
         inputs:
           sourceFolder: "web/server"
-          targetFolder: "$(Build.ArtifactStagingDirectory)/web"
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathtoPublish: "$(Build.ArtifactStagingDirectory)"
+          artifactName: web
