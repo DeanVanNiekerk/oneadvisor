@@ -42,7 +42,7 @@ describe('usecase list reducer', () => {
         const usecase = {
             id: '10',
             name: 'UseCase1',
-            usecaseId: 'app_1'
+            applicationId: 'app_1'
         };
 
         const actualState = reducer(initalState, {

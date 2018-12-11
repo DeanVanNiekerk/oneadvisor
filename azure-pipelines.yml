@@ -3,28 +3,26 @@
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
-
-
-
-
 jobs:
-- job: api_build
-  pool:
-    vmImage: 'Ubuntu 16.04'
-  variables:
-    buildConfiguration: 'Release'
-  steps:
-  - script: |
-      dotnet test
-      dotnet build --configuration $(buildConfiguration)
-    displayName: 'dotnet build $(buildConfiguration)'
-- job: web_build
-  pool:
-    vmImage: 'Ubuntu 16.04'
-  steps:
-  - script: |
-      cd web
-      npm install
-      npm run flow
-      npm test
-      npm run build
+  - job: api_build
+    pool:
+      vmImage: "Ubuntu 16.04"
+    variables:
+      buildConfiguration: "Release"
+    steps:
+      - script: |
+          dotnet test
+          dotnet build --configuration $(buildConfiguration)
+        displayName: "dotnet build $(buildConfiguration)"
+  - job: web_build
+    pool:
+      vmImage: "Ubuntu 16.04"
+    steps:
+      - script: |
+          cd web
+          npm install
+          npm run check-types
+          npm run test
+          npm run build
+          cd server
+          npm install
