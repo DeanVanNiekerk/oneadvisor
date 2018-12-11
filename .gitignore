@@ -330,5 +330,6 @@ ASALocalRun/
 .mfractor/
 
 # Webpack 
-dist/
 web/stats.json
+web/server/index.html
+web/server/dist/

@@ -10,7 +10,7 @@ module.exports = {
 
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'server', 'dist'),
         publicPath: '/'
     },
 
@@ -45,10 +45,10 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(['dist']),
+        new CleanWebpackPlugin(['server/dist']),
         new HtmlWebPackPlugin({
             template: './public/index.html',
-            filename: './index.html'
+            filename: '../index.html'
         })
     ]
 };
