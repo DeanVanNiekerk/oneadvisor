@@ -42,13 +42,13 @@ jobs:
         displayName: "npm test"
         workingDirectory: "web"
       - script: |
-          npm run build
-        displayName: "npm build"
-        workingDirectory: "web"
-      - script: |
           npm install
         displayName: "npm install (server)"
         workingDirectory: "web/server"
+      - script: |
+          npm run build:staging
+        displayName: "npm build staging"
+        workingDirectory: "web"
       - task: CopyFiles@2
         inputs:
           sourceFolder: "web/server"
@@ -57,4 +57,4 @@ jobs:
       - task: PublishBuildArtifacts@1
         inputs:
           pathtoPublish: $(Build.ArtifactStagingDirectory)
-          artifactName: web
+          artifactName: web.staging

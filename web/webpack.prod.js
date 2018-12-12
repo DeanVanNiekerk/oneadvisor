@@ -4,5 +4,22 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
-    plugins: [new UglifyJSPlugin()]
+    output: {
+        filename: 'dist/[name].[contenthash].js'
+    },
+
+    plugins: [new UglifyJSPlugin(), new webpack.HashedModuleIdsPlugin()],
+
+    optimization: {
+        runtimeChunk: 'single',
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all'
+                }
+            }
+        }
+    }
 });
