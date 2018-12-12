@@ -9,5 +9,10 @@
     "moduleNameMapper": {
         "@/(.*)$": "<rootDir>/src/$1"
     },
-    "testURL": "http://localhost"
+    "testURL": "http://localhost",
+    "globals": {
+        "__OIDC_CLIENT_ID__": "client-test",
+        "__OIDC_ISSUER__": "test-issuer",
+        "__OA_BASE_API__": "https://test.api.com"
+    }
 }
