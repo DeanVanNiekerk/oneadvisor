@@ -1,0 +1,12 @@
+
+.ant-layout {
+    background-color: #ffffff !important;
+}
+
+.ant-table-filter-dropdown-link {
+    position: relative;
+}
+
+.ant-menu-item-selected {
+    background-color: transparent !important;
+}

@@ -1,4 +1,7 @@
 
+/* 
+MARGIN
+*/
 .mb-0 {
     margin-bottom: 0 !important;
 }
@@ -7,8 +10,9 @@
     margin-bottom: 2rem !important;
 }
 
-
-
+/* 
+PADDING
+*/
 .pt-3 {
     padding-top: 3rem !important;
 }

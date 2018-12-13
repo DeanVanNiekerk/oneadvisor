@@ -2,13 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Directory.Mappings;
+using OneAdvisor.Data.Entities.Member;
 
 namespace OneAdvisor.Data
 {
-    public class DataContext: DbContext
+    public class DataContext : DbContext
     {
-        public DataContext (DbContextOptions<DataContext> options) 
-            : base(options) 
+        public DataContext(DbContextOptions<DataContext> options)
+            : base(options)
         { }
 
         #region Directory
@@ -18,6 +19,12 @@ namespace OneAdvisor.Data
         public DbSet<RoleEntity> Role { get; set; }
         public DbSet<UseCaseEntity> UseCase { get; set; }
         public DbSet<RoleToUseCaseEntity> RoleToUseCase { get; set; }
+
+        #endregion
+
+        #region Member
+
+        public DbSet<MemberEntity> Member { get; set; }
 
         #endregion
 
@@ -33,6 +40,12 @@ namespace OneAdvisor.Data
 
             //Custom mappsings
             RoleToUseCaseMap.Map(modelBuilder);
+
+            #endregion
+
+            #region Member
+
+            modelBuilder.Entity<MemberEntity>().ToTable("mem_Member");
 
             #endregion
 

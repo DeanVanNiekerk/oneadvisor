@@ -1,8 +1,8 @@
 using System;
 
-namespace OneAdvisor.Data.Entities.Member
+namespace OneAdvisor.Model.Member.Model.Member
 {
-    public class MemberEntity
+    public class MemberEdit
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }
