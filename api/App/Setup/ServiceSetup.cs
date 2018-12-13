@@ -7,7 +7,9 @@ using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Member.Interface;
 using OneAdvisor.Service.Directory;
+using OneAdvisor.Service.Member;
 using OneAdvisor.Service.Okta;
 using OneAdvisor.Service.Okta.Service;
 
@@ -80,6 +82,7 @@ namespace api.App.Setup
             Services.AddScoped<IOrganisationService, OrganisationService>();
             Services.AddScoped<IApplicationService, ApplicationService>();
             Services.AddScoped<IUseCaseService, UseCaseService>();
+            Services.AddScoped<IMemberService, MemberService>();
         }
 
         public void ConfigureMapper(IMapper mapper)

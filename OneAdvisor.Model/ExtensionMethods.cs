@@ -27,6 +27,10 @@ namespace OneAdvisor.Model
             // Get a reference to the type of the property being sorted.
             var property = type.GetProperty(sortColumn);
 
+            // If null we have an invalid property name 
+            if (property == null)
+                return source;
+
             // Get a reference to the properties access member ( Entity.OrderByField ).
             var propertyAccess = Expression.MakeMemberAccess(parameter, property);
 

@@ -4,11 +4,9 @@ namespace OneAdvisor.Model.Member.Model.Member
 {
     public class MemberQueryOptions : QueryOptionsBase
     {
-        public MemberQueryOptions(int pageSize, int pageNumber)
-         : base(pageSize, pageNumber)
+        public MemberQueryOptions(string sortColumn, string sortDirection, int pageSize, int pageNumber)
+         : base(sortColumn, sortDirection, pageSize, pageNumber)
         {
-            //Defaults
-            SortOptions.Column = "LastName";
         }
     }
 }

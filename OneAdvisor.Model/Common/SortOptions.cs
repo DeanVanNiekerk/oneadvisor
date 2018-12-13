@@ -1,6 +1,7 @@
 namespace OneAdvisor.Model.Common
 {
-    public enum SortDirection {
+    public enum SortDirection
+    {
         Ascending,
         Descending
     }
@@ -8,10 +9,15 @@ namespace OneAdvisor.Model.Common
     public class SortOptions
     {
         public SortOptions()
+            : this(string.Empty, "asc")
+        { }
+
+        public SortOptions(string column, string direction)
         {
-            //Defaults
-            Direction = SortDirection.Ascending;
-            Column = string.Empty;
+            direction = direction.ToLower();
+
+            Direction = direction == "desc" || direction == "descending" ? SortDirection.Ascending : SortDirection.Descending;
+            Column = column;
         }
 
         public SortDirection Direction { get; set; }

@@ -14,7 +14,7 @@ using api.App.Dtos;
 
 namespace api.Controllers.Directory.Organisations
 {
-    
+
     [ApiController]
     [Route("api/directory/organisations")]
     public class OrganisationsController : Controller
@@ -44,7 +44,7 @@ namespace api.Controllers.Directory.Organisations
         {
             var model = OrganisationService.GetOrganisation(organisationId).Result;
 
-            if(model == null)
+            if (model == null)
                 return NotFound();
 
             return Ok(Mapper.Map<OrganisationDto>(model));
@@ -52,13 +52,13 @@ namespace api.Controllers.Directory.Organisations
 
         [HttpPost]
         [UseCaseAuthorize("dir_edit_organisations")]
-        public async Task<ActionResult<Result>> Insert([FromBody] OrganisationDto user)
+        public async Task<ActionResult<Result>> Insert([FromBody] OrganisationDto organisation)
         {
-            var model = Mapper.Map<Organisation>(user);
+            var model = Mapper.Map<Organisation>(organisation);
 
             var result = await OrganisationService.InsertOrganisation(model);
 
-            if(!result.Success)
+            if (!result.Success)
                 return BadRequest(result.ValidationFailures);
 
             return Ok(result);
@@ -66,13 +66,15 @@ namespace api.Controllers.Directory.Organisations
 
         [HttpPost("{organisationId}")]
         [UseCaseAuthorize("dir_edit_organisations")]
-        public async Task<ActionResult<Result>> Update(string userId, [FromBody] OrganisationDto user)
+        public async Task<ActionResult<Result>> Update(Guid organisationId, [FromBody] OrganisationDto organisation)
         {
-            var model = Mapper.Map<Organisation>(user);
+            organisation.Id = organisationId;
+
+            var model = Mapper.Map<Organisation>(organisation);
 
             var result = await OrganisationService.UpdateOrganisation(model);
 
-            if(!result.Success)
+            if (!result.Success)
                 return BadRequest(result.ValidationFailures);
 
             return Ok(result);

@@ -1,5 +1,10 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using OneAdvisor.Data;
+using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Member.Interface;
 using OneAdvisor.Model.Member.Model.Member;
@@ -8,24 +13,107 @@ namespace OneAdvisor.Service.Member
 {
     public class MemberService : IMemberService
     {
+        private readonly DataContext _context;
+
+        public MemberService(DataContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<PagedItems<Model.Member.Model.Member.Member>> GetMembers(MemberQueryOptions queryOptions)
+        {
+            var query = from member in _context.Member
+                        select new Model.Member.Model.Member.Member()
+                        {
+                            Id = member.Id,
+                            FirstName = member.FirstName,
+                            LastName = member.LastName,
+                            MaidenName = member.MaidenName,
+                            IdNumber = member.IdNumber,
+                            Initials = member.Initials,
+                            PreferredName = member.PreferredName,
+                        };
+
+            //Get total before applying filters
+            var pagedItems = new PagedItems<Model.Member.Model.Member.Member>();
+            pagedItems.TotalItems = await query.CountAsync();
+
+            //Apply filters ----------------------------------------------------------------------------------------
+
+            //------------------------------------------------------------------------------------------------------
+
+            //Ordering
+            query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
+
+            //Paging
+            pagedItems.Items = await query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
+
+            return pagedItems;
+        }
+
         public Task<MemberEdit> GetMember(Guid id)
         {
-            throw new NotImplementedException();
+            var query = from member in _context.Member
+                        where member.Id == id
+                        select new MemberEdit()
+                        {
+                            Id = member.Id,
+                            FirstName = member.FirstName,
+                            LastName = member.LastName,
+                            MaidenName = member.MaidenName,
+                            IdNumber = member.IdNumber,
+                            Initials = member.Initials,
+                            PreferredName = member.PreferredName,
+                        };
+
+            return query.FirstOrDefaultAsync();
         }
 
-        public Task<PagedItems<Model.Member.Model.Member.Member>> GetMembers(MemberQueryOptions queryOptions)
+        public async Task<Result> InsertMember(MemberEdit member)
         {
-            throw new NotImplementedException();
+            var validator = new MemberValidator(true);
+            var result = validator.Validate(member).GetResult();
+
+            if (!result.Success)
+                return result;
+
+            var entity = MapModelToEntity(member);
+            await _context.Member.AddAsync(entity);
+            await _context.SaveChangesAsync();
+
+            member.Id = entity.Id;
+            result.Tag = member;
+
+            return result;
         }
 
-        public Task<Result> InsertMember(MemberEdit member)
+        public async Task<Result> UpdateMember(MemberEdit member)
         {
-            throw new NotImplementedException();
+            var validator = new MemberValidator(false);
+            var result = validator.Validate(member).GetResult();
+
+            if (!result.Success)
+                return result;
+
+            var entity = MapModelToEntity(member);
+            _context.Entry(entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return result;
         }
 
-        public Task<Result> UpdateMember(MemberEdit member)
+        private MemberEntity MapModelToEntity(MemberEdit model)
         {
-            throw new NotImplementedException();
+            return new MemberEntity()
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                MaidenName = model.MaidenName,
+                IdNumber = model.IdNumber,
+                Initials = model.Initials,
+                PreferredName = model.PreferredName
+            };
         }
     }
 }

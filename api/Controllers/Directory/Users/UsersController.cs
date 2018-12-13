@@ -43,7 +43,7 @@ namespace api.Controllers.Directory.Users
         {
             var model = UserService.GetUser(userId).Result;
 
-            if(model == null)
+            if (model == null)
                 return NotFound();
 
             return Ok(Mapper.Map<UserEditDto>(model));
@@ -57,7 +57,7 @@ namespace api.Controllers.Directory.Users
 
             var result = await UserService.InsertUser(model);
 
-            if(!result.Success)
+            if (!result.Success)
                 return BadRequest(result.ValidationFailures);
 
             return Ok(result);
@@ -67,11 +67,13 @@ namespace api.Controllers.Directory.Users
         [UseCaseAuthorize("dir_edit_users")]
         public async Task<ActionResult<Result>> Update(string userId, [FromBody] UserEditDto user)
         {
+            user.Id = userId;
+
             var model = Mapper.Map<UserEdit>(user);
 
             var result = await UserService.UpdateUser(model);
 
-            if(!result.Success)
+            if (!result.Success)
                 return BadRequest(result.ValidationFailures);
 
             return Ok(result);

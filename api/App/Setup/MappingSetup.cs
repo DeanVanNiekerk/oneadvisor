@@ -9,6 +9,7 @@ namespace api.App.Setup
             var mapperConfiguration = new MapperConfiguration(config =>
             {
                 Controllers.Directory.Mappings.Configure(config);
+                Controllers.Member.Mappings.Configure(config);
             });
 
             //Should possibly only do this in dev
@@ -16,6 +17,6 @@ namespace api.App.Setup
 
             return mapperConfiguration.CreateMapper();
         }
-       
+
     }
 }
