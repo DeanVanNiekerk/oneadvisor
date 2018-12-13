@@ -18,12 +18,14 @@ namespace OneAdvisor.Service.Okta.Service
 {
     public class UserService : IUserService
     {
-        public UserService(IOptions<OktaSettings> options)
+        public UserService(IOptions<OktaSettings> options, IRoleService roleService)
         {
+            RoleService = roleService;
             HttpClient = Utils.GetHttpClient(options.Value);
         }
 
-        public HttpClient HttpClient { get; set; }
+        public HttpClient HttpClient { get; private set; }
+        public IRoleService RoleService { get; private set; }
 
         public async Task<PagedItems<User>> GetUsers(UserQueryOptions queryOptions)
         {
@@ -40,7 +42,7 @@ namespace OneAdvisor.Service.Okta.Service
             pagedItems.TotalItems = query.Count();
 
             //Apply filters ----------------------------------------------------------------------------------------
-           
+
             //------------------------------------------------------------------------------------------------------
 
             //Ordering
@@ -83,7 +85,7 @@ namespace OneAdvisor.Service.Okta.Service
             var validator = new UserValidator(false);
             var result = validator.Validate(user).GetResult();
 
-            if(!result.Success)
+            if (!result.Success)
                 return result;
 
             var dto = MapModelToDto(user);
@@ -102,20 +104,41 @@ namespace OneAdvisor.Service.Okta.Service
 
         private async Task UpdateUserRoles(UserEdit user)
         {
-            
             var currentRoleIds = await GetUserRoleIds(user.Id);
             var allGroups = await GetAllGroups();
 
             var roleIdsToAdd = user.RoleIds.Except(currentRoleIds);
-            foreach(var roleId in roleIdsToAdd)
+            foreach (var roleId in roleIdsToAdd)
             {
                 var groupId = GetGroupId(allGroups, roleId);
+
+                //If the group doesnt exist in OKTA, then add it in
+                if (groupId == null)
+                {
+                    var role = await RoleService.GetRole(roleId);
+
+                    //Add group
+                    await InsertGroup(new GroupDto()
+                    {
+                        profile = new GroupProfileDto()
+                        {
+                            name = role.Id,
+                            description = role.Name
+                        }
+                    });
+
+                    //Reload list of all groups
+                    allGroups = await GetAllGroups();
+                    groupId = GetGroupId(allGroups, roleId);
+                }
+
+                //Add user to role
                 var response = await HttpClient.PutAsync($"api/v1/groups/{groupId}/users/{user.Id}", null);
                 await HandleOktaResponse(response);
             }
 
             var rolesToRemove = currentRoleIds.Except(user.RoleIds);
-            foreach(var roleId in rolesToRemove)
+            foreach (var roleId in rolesToRemove)
             {
                 var groupId = GetGroupId(allGroups, roleId);
                 var response = await HttpClient.DeleteAsync($"api/v1/groups/{groupId}/users/{user.Id}");
@@ -123,9 +146,9 @@ namespace OneAdvisor.Service.Okta.Service
             }
         }
 
-        public async Task HandleOktaResponse(HttpResponseMessage response) 
+        public async Task HandleOktaResponse(HttpResponseMessage response)
         {
-            if(!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
                 var inner = new Exception(content);
@@ -138,7 +161,7 @@ namespace OneAdvisor.Service.Okta.Service
             var validator = new UserValidator(true);
             var result = validator.Validate(user).GetResult();
 
-            if(!result.Success)
+            if (!result.Success)
                 return result;
 
             var dto = MapModelToDto(user);
@@ -155,7 +178,7 @@ namespace OneAdvisor.Service.Okta.Service
             return result;
         }
 
-        private async Task<List<GroupDto>> GetAllGroups() 
+        private async Task<List<GroupDto>> GetAllGroups()
         {
             var serializer = new DataContractJsonSerializer(typeof(List<GroupDto>));
 
@@ -165,14 +188,23 @@ namespace OneAdvisor.Service.Okta.Service
             return groupDtos;
         }
 
-        private string GetGroupId(List<GroupDto> groups, string roleId) 
+        private async Task InsertGroup(GroupDto group)
+        {
+            var json = Utils.FormatObject(group);
+
+            var response = await HttpClient.PostAsync($"api/v1/groups", json);
+            await HandleOktaResponse(response);
+        }
+
+        private string GetGroupId(List<GroupDto> groups, string roleId)
         {
             return groups.FirstOrDefault(g => g.profile.name == roleId)?.id;
         }
 
         private User MapDtoToModel(UserDto dto)
         {
-            return new User() {
+            return new User()
+            {
                 Id = dto.id,
                 FirstName = dto.profile.firstName,
                 LastName = dto.profile.lastName,
@@ -188,7 +220,8 @@ namespace OneAdvisor.Service.Okta.Service
 
         private UserEdit MapDtoToEditModel(UserDto dto)
         {
-            return new UserEdit() {
+            return new UserEdit()
+            {
                 Id = dto.id,
                 FirstName = dto.profile.firstName,
                 LastName = dto.profile.lastName,
@@ -200,8 +233,10 @@ namespace OneAdvisor.Service.Okta.Service
 
         private UserEditDto MapModelToDto(UserEdit model)
         {
-            return new UserEditDto() {
-                profile = new UserEditProfileDto() {
+            return new UserEditDto()
+            {
+                profile = new UserEditProfileDto()
+                {
                     firstName = model.FirstName,
                     lastName = model.LastName,
                     login = model.Login,
