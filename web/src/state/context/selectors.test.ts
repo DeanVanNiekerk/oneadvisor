@@ -1,15 +1,10 @@
-import {
-    DEFAULT_APPLICATION_ID, DIRECTORY_ID, MEMBER_ID
-} from '@/config/application';
+import { DEFAULT_APPLICATION_ID, DIRECTORY_ID, MEMBER_ID } from '@/config/application';
 import { menus } from '@/config/menu';
 
 import { defaultState as defaultContextState } from './reducer';
 import {
-    applicationsSelector, currentApplicationSelector, currentMenuLinkSelector,
-    currentMenuSelector
+    applicationsSelector, currentApplicationSelector, currentMenuLinkSelector, currentMenuSelector
 } from './selectors';
-
-
 
 describe('context selectors', () => {
     const setupState = (pathName = '/', contextState = defaultContextState) => {
@@ -26,14 +21,15 @@ describe('context selectors', () => {
     };
 
     describe('applicationsSelector()', () => {
-        it('root path', () => {
-            const state = setupState('/');
+        fit('root path', () => {
+            const state = setupState();
 
             //@ts-ignore
             const actual = applicationsSelector(state);
 
             expect(actual.length).toEqual(2);
-            expect(actual[0].id).toEqual(DEFAULT_APPLICATION_ID);
+            expect(actual[0].id).toEqual(DIRECTORY_ID);
+            expect(actual[1].id).toEqual(MEMBER_ID);
         });
 
         it('directory app', () => {

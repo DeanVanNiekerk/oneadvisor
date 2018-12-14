@@ -3,14 +3,12 @@ import { menus } from '@/config/menu';
 
 import { Application, Menus } from './types';
 
-
-
 type Action = { type: string };
 
 export type State = {
-    readonly applications: Application[],
-    readonly menus: Menus,
-    readonly breadCrumb: string
+    readonly applications: Application[];
+    readonly menus: Menus;
+    readonly breadCrumb: string;
 };
 
 export const defaultState: State = {
