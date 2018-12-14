@@ -32,6 +32,7 @@ namespace OneAdvisor.Service.Member
                             IdNumber = member.IdNumber,
                             Initials = member.Initials,
                             PreferredName = member.PreferredName,
+                            DateOfBirth = member.DateOfBirth
                         };
 
             //Get total before applying filters
@@ -64,6 +65,7 @@ namespace OneAdvisor.Service.Member
                             IdNumber = member.IdNumber,
                             Initials = member.Initials,
                             PreferredName = member.PreferredName,
+                            DateOfBirth = member.DateOfBirth
                         };
 
             return query.FirstOrDefaultAsync();
@@ -112,7 +114,8 @@ namespace OneAdvisor.Service.Member
                 MaidenName = model.MaidenName,
                 IdNumber = model.IdNumber,
                 Initials = model.Initials,
-                PreferredName = model.PreferredName
+                PreferredName = model.PreferredName,
+                DateOfBirth = model.DateOfBirth
             };
         }
     }

@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using FluentValidation.Results;
 using OneAdvisor.Model.Common;
 
@@ -68,6 +70,16 @@ namespace OneAdvisor.Model
             var result = new Result();
             result.LoadValidationResults(validationResult);
             return result;
+        }
+
+        public static async Task<IEnumerable<T1>> SelectManyAsync<T, T1>(this IEnumerable<T> enumeration, Func<T, Task<IEnumerable<T1>>> func)
+        {
+            return (await Task.WhenAll(enumeration.Select(func))).SelectMany(s => s);
+        }
+
+        public static async Task<IEnumerable<T1>> SelectManyAsync<T, T1>(this IQueryable<T> enumeration, Func<T, Task<IQueryable<T1>>> func)
+        {
+            return (await Task.WhenAll(enumeration.Select(func))).SelectMany(s => s);
         }
     }
 }

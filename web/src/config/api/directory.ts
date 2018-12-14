@@ -2,6 +2,7 @@ import config from '@/config/config';
 
 const directoryBaseApi = `${config.baseApi}/api/directory`;
 
+export const identityApi = `${directoryBaseApi}/identity`;
 export const usersApi = `${directoryBaseApi}/users`;
 export const organisationsApi = `${directoryBaseApi}/organisations`;
 export const rolesApi = `${directoryBaseApi}/roles`;

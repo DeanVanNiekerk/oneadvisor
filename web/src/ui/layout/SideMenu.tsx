@@ -4,33 +4,31 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-import {
-    currentApplicationSelector, currentMenuSelector
-} from '@/state/context/selectors';
+import { allGroupNames } from '@/config/menu';
+import { currentApplicationSelector, currentMenuSelector } from '@/state/context/selectors';
 import { Application, Menu, MenuLink } from '@/state/context/types';
 import { RootState } from '@/state/rootReducer';
-
-
 
 const { SubMenu, Item } = MenuAD;
 const { Sider } = Layout;
 
 type MenuItemProps = {
-    link: MenuLink,
-    application: Application
-}
+    link: MenuLink;
+    application: Application;
+};
 
 const MenuItem = styled(Item)`
     ${(props: MenuItemProps) =>
         props.link.isCurrent &&
         css`
-            background-color: ${(props: MenuItemProps) => props.application.color} !important;
+            background-color: ${(props: MenuItemProps) =>
+                props.application.color} !important;
         `}
 `;
 
 type Props = {
-    menu: Menu,
-    application: Application
+    menu: Menu;
+    application: Application;
 };
 
 class SideMenu extends Component<Props> {
@@ -40,7 +38,7 @@ class SideMenu extends Component<Props> {
                 <MenuAD
                     theme="dark"
                     mode="inline"
-                    defaultOpenKeys={this.props.menu.groups.map(g => g.name)}
+                    defaultOpenKeys={allGroupNames()}
                     style={{ height: '100%', borderRight: 0 }}
                 >
                     {this.props.menu.groups.map(group => (
@@ -55,7 +53,9 @@ class SideMenu extends Component<Props> {
                                     application={this.props.application}
                                 >
                                     <Link
-                                        to={`${this.props.menu.relativePath}${link.relativePath}`}
+                                        to={`${this.props.menu.relativePath}${
+                                            link.relativePath
+                                        }`}
                                     >
                                         <span>
                                             <Icon type={link.icon} />
@@ -68,7 +68,6 @@ class SideMenu extends Component<Props> {
                     ))}
                 </MenuAD>
             </Sider>
-          
         );
     }
 }

@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import {
     Action as ApplicationsAction, reducer as applications, State as ApplicationsState
 } from './applications/reducer';
+import { Action as IdentityAction, reducer as identity, State as IdentityState } from './identity/reducer';
 import {
     Action as OrganisationsAction, reducer as organisations, State as OrganisationsState
 } from './organisations/reducer';
@@ -15,7 +16,8 @@ export type Action =
     | OrganisationsAction
     | RolesAction
     | ApplicationsAction
-    | UseCasesAction;
+    | UseCasesAction
+    | IdentityAction;
 
 export type State = {
     users: UsersState;
@@ -23,6 +25,7 @@ export type State = {
     roles: RolesState;
     applications: ApplicationsState;
     useCases: UseCasesState;
+    identity: IdentityState;
 };
 
 export const reducer = combineReducers({
@@ -30,5 +33,6 @@ export const reducer = combineReducers({
     organisations: organisations,
     roles: roles,
     applications: applications,
-    useCases: useCases
+    useCases: useCases,
+    identity: identity
 });

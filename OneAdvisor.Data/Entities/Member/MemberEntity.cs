@@ -11,5 +11,6 @@ namespace OneAdvisor.Data.Entities.Member
         public string Initials { get; set; }
         public string PreferredName { get; set; }
         public string IdNumber { get; set; }
+        public DateTime? DateOfBirth { get; set; }
     }
 }

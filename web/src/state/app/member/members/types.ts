@@ -6,6 +6,7 @@ export type Member = {
     initials: string;
     preferredName: string;
     idNumber: string;
+    dateOfBirth: string;
 };
 
 export type MemberEdit = {
@@ -16,4 +17,5 @@ export type MemberEdit = {
     initials: string;
     preferredName: string;
     idNumber: string;
+    dateOfBirth: string;
 };

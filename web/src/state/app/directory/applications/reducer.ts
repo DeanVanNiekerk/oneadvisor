@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 
-import { Action as ListAction } from './list/actions';
+import { ApplicationListAction } from './list/actions';
 import { reducer as listReducer, State as ListState } from './list/reducer';
 
-export type Action = ListAction;
+export type Action = ApplicationListAction;
 
 export type State = {
-    list: ListState
+    list: ListState;
 };
 
 export const reducer = combineReducers({

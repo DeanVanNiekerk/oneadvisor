@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import { MemberEdit } from '@/state/app/member/members';
 import { ValidationResult } from '@/app/types';
-import { Form, FormInput, FormSelect } from '@/ui/controls';
+import { MemberEdit } from '@/state/app/member/members';
+import { Form, FormDate, FormInput } from '@/ui/controls';
 
 type TabKey = 'details_tab' | 'roles_tab';
 
@@ -88,6 +88,13 @@ class MemberForm extends Component<Props, State> {
                     fieldName="idNumber"
                     label="ID Number"
                     value={member.idNumber}
+                    onChange={this.handleChange}
+                    validationResults={validationResults}
+                />
+                <FormDate
+                    fieldName="dateOfBirth"
+                    label="Date of Birth"
+                    value={member.dateOfBirth}
                     onChange={this.handleChange}
                     validationResults={validationResults}
                 />

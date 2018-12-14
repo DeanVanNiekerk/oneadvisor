@@ -5,8 +5,6 @@ import { RootState } from '@/state/rootReducer';
 
 import { Application, Menu, MenuLink, Menus } from './types';
 
-
-
 export const pathNameSelector = (state: RootState): string =>
     state.router ? state.router.location.pathname : '';
 export const appsSelector = (state: RootState): Application[] =>
@@ -66,10 +64,13 @@ export const currentMenuLinkSelector: (
 ) => MenuLink = createSelector(
     currentMenuSelector,
     menu => {
-        const flattened = menu.groups.reduce((links, group) => {
-            links.push(...group.links);
-            return links;
-        }, [] as MenuLink[]);
+        const flattened = menu.groups.reduce(
+            (links, group) => {
+                links.push(...group.links);
+                return links;
+            },
+            [] as MenuLink[]
+        );
         return flattened.filter(link => link.isCurrent)[0];
     }
 );

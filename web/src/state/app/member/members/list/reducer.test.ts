@@ -48,7 +48,8 @@ describe('member list reducer', () => {
             maidenName: '',
             initials: 'DJ',
             preferredName: 'ripper',
-            idNumber: '12341234'
+            idNumber: '12341234',
+            dateOfBirth: '1982-10-03'
         };
 
         const actualState = reducer(initalState, {

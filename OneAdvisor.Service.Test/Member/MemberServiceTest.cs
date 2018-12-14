@@ -30,7 +30,8 @@ namespace OneAdvisor.Service.Test.Member
                 MaidenName = "MN 1",
                 Initials = "INI 1",
                 PreferredName = "PN 1",
-                IdNumber = "321654"
+                IdNumber = "321654",
+                DateOfBirth = new DateTime(1982, 10, 3)
             };
 
             using (var context = new DataContext(options))
@@ -60,6 +61,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(member.Initials, actual.Initials);
                 Assert.AreEqual(member.PreferredName, actual.PreferredName);
                 Assert.AreEqual(member.IdNumber, actual.IdNumber);
+                Assert.AreEqual(member.DateOfBirth, actual.DateOfBirth);
             }
         }
 
@@ -127,7 +129,8 @@ namespace OneAdvisor.Service.Test.Member
                 MaidenName = "MN 1",
                 Initials = "INI 1",
                 PreferredName = "PN 1",
-                IdNumber = "321654"
+                IdNumber = "321654",
+                DateOfBirth = new DateTime(1982, 10, 3)
             };
 
             using (var context = new DataContext(options))
@@ -153,6 +156,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(mem2.Initials, actual.Initials);
                 Assert.AreEqual(mem2.PreferredName, actual.PreferredName);
                 Assert.AreEqual(mem2.IdNumber, actual.IdNumber);
+                Assert.AreEqual(mem2.DateOfBirth, actual.DateOfBirth);
             }
         }
 
@@ -169,7 +173,8 @@ namespace OneAdvisor.Service.Test.Member
                 MaidenName = "MN 1",
                 Initials = "INI 1",
                 PreferredName = "PN 1",
-                IdNumber = "321654"
+                IdNumber = "321654",
+                DateOfBirth = new DateTime(1982, 10, 3)
             };
 
             using (var context = new DataContext(options))
@@ -190,6 +195,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(member.Initials, actual.Initials);
                 Assert.AreEqual(member.PreferredName, actual.PreferredName);
                 Assert.AreEqual(member.IdNumber, actual.IdNumber);
+                Assert.AreEqual(member.DateOfBirth, actual.DateOfBirth);
             }
         }
 
@@ -208,7 +214,8 @@ namespace OneAdvisor.Service.Test.Member
                 MaidenName = "MN 1",
                 Initials = "INI 1",
                 PreferredName = "PN 1",
-                IdNumber = "321654"
+                IdNumber = "321654",
+                DateOfBirth = new DateTime(1982, 10, 3)
             };
 
             using (var context = new DataContext(options))
@@ -227,7 +234,8 @@ namespace OneAdvisor.Service.Test.Member
                 MaidenName = "MN 1 updated",
                 Initials = "INI 1 updated",
                 PreferredName = "PN 1 updated",
-                IdNumber = "321654 updated"
+                IdNumber = "321654 updated",
+                DateOfBirth = new DateTime(1983, 10, 3)
             };
 
             using (var context = new DataContext(options))
@@ -248,6 +256,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(member.Initials, actual.Initials);
                 Assert.AreEqual(member.PreferredName, actual.PreferredName);
                 Assert.AreEqual(member.IdNumber, actual.IdNumber);
+                Assert.AreEqual(member.DateOfBirth, actual.DateOfBirth);
             }
         }
 

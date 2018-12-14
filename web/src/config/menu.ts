@@ -58,3 +58,11 @@ export const menus: Menus = {
         ]
     }
 };
+
+export const allGroupNames = (): string[] => {
+    let groupNames: string[] = [];
+    Object.keys(menus).forEach(appId => {
+        groupNames = groupNames.concat(menus[appId].groups.map(g => g.name));
+    });
+    return groupNames;
+};

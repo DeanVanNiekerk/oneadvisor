@@ -7,5 +7,6 @@ namespace OneAdvisor.Model.Directory.Interface
     public interface IUseCaseService
     {
         Task<List<UseCase>> GetUseCases();
+        Task<List<string>> GetUseCases(IEnumerable<string> roleIds);
     }
 }

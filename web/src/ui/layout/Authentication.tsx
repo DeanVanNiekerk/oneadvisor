@@ -1,13 +1,13 @@
 import React, { ReactNode } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import {
-    clearAuthentication, recieveAuthentication
-} from '@/state/auth/actions';
+import { clearAuthentication, recieveAuthentication } from '@/state/auth/actions';
 import { RootState } from '@/state/rootReducer';
 import { Loader } from '@/ui/controls';
 import Layout from '@/ui/layout/Layout';
 import { withAuth } from '@okta/okta-react';
+
+import Startup from './Startup';
 
 type Props = {
     auth: any;
@@ -53,7 +53,11 @@ class Authentication extends React.Component<Props> {
     render() {
         if (!this.props.authenticated) return <Loader text="signing in..." />;
 
-        return <Layout onLogout={this.logout}>{this.props.children}</Layout>;
+        return (
+            <Startup>
+                <Layout onLogout={this.logout}>{this.props.children}</Layout>
+            </Startup>
+        );
     }
 }
 
