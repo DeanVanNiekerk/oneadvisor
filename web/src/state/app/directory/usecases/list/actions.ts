@@ -1,5 +1,5 @@
+import { ApiAction } from '@/app/types';
 import { useCasesApi } from '@/config/api/directory';
-import { ApiAction } from '@/state/types';
 
 import { UseCase } from '../types';
 
@@ -10,7 +10,7 @@ type UseCaseListReceiveAction = {
 type UseCaseListFetchingAction = { type: 'USECASES_LIST_FETCHING' };
 type UseCaseListFetchingErrorAction = { type: 'USECASES_LIST_FETCHING_ERROR' };
 
-export type Action =
+export type UseCaseListAction =
     | UseCaseListReceiveAction
     | UseCaseListFetchingAction
     | UseCaseListFetchingErrorAction;

@@ -1,5 +1,4 @@
-import { ValidationResult } from './types';
-
+import { ValidationResult } from '../app/types';
 
 export const getValidationError = (
     fieldName: string,

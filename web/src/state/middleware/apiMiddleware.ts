@@ -1,3 +1,5 @@
+import { isArray } from 'util';
+
 import { showMessage, showNotification } from '@/ui/feedback/notifcation';
 
 export default (store: any) => (next: any) => (action: any) => {
@@ -46,7 +48,6 @@ export default (store: any) => (next: any) => (action: any) => {
             // }
 
             return resp.json().then(json => {
-
                 //Check for validation error
                 if (resp.status === 400) {
                     handleValidationError(store, dispatchPrefix, json);
@@ -73,7 +74,7 @@ export default (store: any) => (next: any) => (action: any) => {
 const handleError = (store: any, dispatchPrefix: string, error: string) => {
     showNotification(
         'error',
-        'Server Error',
+        'Server Error: Unhandled',
         'A server error occured please reload the page',
         10
     );
@@ -86,7 +87,23 @@ const handleError = (store: any, dispatchPrefix: string, error: string) => {
     });
 };
 
-const handleValidationError = (store: any, dispatchPrefix: string, json: any) => {
+const handleValidationError = (
+    store: any,
+    dispatchPrefix: string,
+    json: any
+) => {
+    //Check if this is one of our validation messages
+    if (!isArray(json)) {
+        let error = JSON.stringify(json);
+        showNotification('error', 'Server Error: Validation', error, 10);
+        console.log(error);
+        store.dispatch({
+            type: `${dispatchPrefix}_RECEIVE`,
+            payload: null
+        });
+        return;
+    }
+
     showMessage(
         'warning',
         'Data not saved, check form for validation errors',

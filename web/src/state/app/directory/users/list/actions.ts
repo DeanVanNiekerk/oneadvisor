@@ -1,18 +1,16 @@
+import { ApiAction, PagedItems } from '@/app/types';
 import { usersApi } from '@/config/api/directory';
-import { ApiAction, PagedItems } from '@/state/types';
 
 import { User } from '../types';
 
-
-
 type UserListReceiveAction = {
-    type: 'USERS_LIST_RECEIVE',
-    payload: PagedItems<User>
+    type: 'USERS_LIST_RECEIVE';
+    payload: PagedItems<User>;
 };
 type UserListFetchingAction = { type: 'USERS_LIST_FETCHING' };
 type UserListFetchingErrorAction = { type: 'USERS_LIST_FETCHING_ERROR' };
 
-export type Action =
+export type UserListAction =
     | UserListReceiveAction
     | UserListFetchingAction
     | UserListFetchingErrorAction;

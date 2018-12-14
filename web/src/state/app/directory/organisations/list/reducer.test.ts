@@ -61,27 +61,4 @@ describe('organisation list reducer', () => {
 
         expect(actualState).toEqual(expectedState);
     });
-
-    it('should handle ORGANISATIONS_LIST_PAGE_NUMBER_RECEIVE', () => {
-        const initalState = {
-            ...defaultState
-        };
-
-        const pageNumber = 9;
-
-        const actualState = reducer(initalState, {
-            type: 'ORGANISATIONS_LIST_PAGE_NUMBER_RECEIVE',
-            payload: pageNumber
-        });
-
-        const expectedState = {
-            ...defaultState,
-            pageOptions: {
-                number: pageNumber,
-                size: initalState.pageOptions.size
-            }
-        };
-
-        expect(actualState).toEqual(expectedState);
-    });
 });

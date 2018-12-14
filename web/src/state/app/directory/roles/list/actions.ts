@@ -1,16 +1,16 @@
+import { ApiAction } from '@/app/types';
 import { rolesApi } from '@/config/api/directory';
-import { ApiAction } from '@/state/types';
 
 import { Role } from '../types';
 
 type RoleListReceiveAction = {
-    type: 'ROLES_LIST_RECEIVE',
-    payload: Role[]
+    type: 'ROLES_LIST_RECEIVE';
+    payload: Role[];
 };
 type RoleListFetchingAction = { type: 'ROLES_LIST_FETCHING' };
 type RoleListFetchingErrorAction = { type: 'ROLES_LIST_FETCHING_ERROR' };
 
-export type Action =
+export type RoleListAction =
     | RoleListReceiveAction
     | RoleListFetchingAction
     | RoleListFetchingErrorAction;

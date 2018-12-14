@@ -9,7 +9,7 @@ export type Member = {
 };
 
 export type MemberEdit = {
-    id: string;
+    id: string | null;
     firstName: string;
     lastName: string;
     maidenName: string;

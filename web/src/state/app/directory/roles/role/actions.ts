@@ -1,34 +1,34 @@
+import { ApiAction, ApiOnSuccess, ValidationResult } from '@/app/types';
 import { rolesApi } from '@/config/api/directory';
-import { ApiAction, ApiOnSuccess, ValidationResult } from '@/state/types';
 
 import { RoleEdit } from '../types';
 
 type RoleReceiveAction = {
-    type: 'ROLES_ROLE_RECEIVE',
-    payload: RoleEdit
+    type: 'ROLES_ROLE_RECEIVE';
+    payload: RoleEdit;
 };
 type RoleFetchingAction = {
-    type: 'ROLES_ROLE_FETCHING'
+    type: 'ROLES_ROLE_FETCHING';
 };
 type RoleFetchingErrorAction = {
-    type: 'ROLES_ROLE_FETCHING_ERROR'
+    type: 'ROLES_ROLE_FETCHING_ERROR';
 };
 
 type RoleUpdatedAction = {
-    type: 'ROLES_ROLE_EDIT_RECEIVE'
+    type: 'ROLES_ROLE_EDIT_RECEIVE';
 };
 type RoleUpdatingAction = {
-    type: 'ROLES_ROLE_EDIT_FETCHING'
+    type: 'ROLES_ROLE_EDIT_FETCHING';
 };
 type RoleUpdatingErrorAction = {
-    type: 'ROLES_ROLE_EDIT_FETCHING_ERROR'
+    type: 'ROLES_ROLE_EDIT_FETCHING_ERROR';
 };
 type RoleValidationErrorAction = {
-    type: 'ROLES_ROLE_EDIT_VALIDATION_ERROR',
-    payload: ValidationResult[]
+    type: 'ROLES_ROLE_EDIT_VALIDATION_ERROR';
+    payload: ValidationResult[];
 };
 
-export type Action =
+export type RoleAction =
     | RoleReceiveAction
     | RoleFetchingAction
     | RoleFetchingErrorAction

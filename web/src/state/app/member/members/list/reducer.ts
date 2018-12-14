@@ -1,26 +1,31 @@
-import { defaultPageOptions } from '@/config/defaults';
-import { PageOptions } from '@/state/types';
+import { defaultPageOptions, defaultSortOptions } from '@/app/table/defaults';
+import { PageOptions, SortOptions } from '@/app/types';
 
 import { Member } from '../types';
-import { Action } from './actions';
+import { MemberListAction } from './actions';
 
 export type State = {
-    readonly totalItems: number;
     readonly items: Member[];
+    readonly totalItems: number;
     readonly fetching: boolean;
     readonly error: boolean;
     readonly pageOptions: PageOptions;
+    readonly sortOptions: SortOptions;
 };
 
 export const defaultState: State = {
-    totalItems: 0,
     items: [],
+    totalItems: 0,
     fetching: false,
     error: false,
-    pageOptions: defaultPageOptions()
+    pageOptions: defaultPageOptions(),
+    sortOptions: defaultSortOptions('lastName', 'desc')
 };
 
-export const reducer = (state: State = defaultState, action: Action): State => {
+export const reducer = (
+    state: State = defaultState,
+    action: MemberListAction
+): State => {
     switch (action.type) {
         case 'MEMBERS_LIST_RECEIVE': {
             return {
@@ -43,6 +48,22 @@ export const reducer = (state: State = defaultState, action: Action): State => {
                 items: [],
                 fetching: false,
                 error: true
+            };
+        }
+        case 'MEMBERS_LIST_PAGE_OPTIONS_RECEIVE': {
+            return {
+                ...state,
+                pageOptions: {
+                    ...action.payload
+                }
+            };
+        }
+        case 'MEMBERS_LIST_SORT_OPTIONS_RECEIVE': {
+            return {
+                ...state,
+                sortOptions: {
+                    ...action.payload
+                }
             };
         }
         default:

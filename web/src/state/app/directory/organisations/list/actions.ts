@@ -1,42 +1,26 @@
+import { ApiAction, PagedItems } from '@/app/types';
 import { organisationsApi } from '@/config/api/directory';
-import { ApiAction, PagedItems } from '@/state/types';
 
 import { Organisation } from '../types';
 
-
-
 type OrganisationListReceiveAction = {
-    type: 'ORGANISATIONS_LIST_RECEIVE',
-    payload: PagedItems<Organisation>
+    type: 'ORGANISATIONS_LIST_RECEIVE';
+    payload: PagedItems<Organisation>;
 };
 type OrganisationListFetchingAction = { type: 'ORGANISATIONS_LIST_FETCHING' };
 type OrganisationListFetchingErrorAction = {
-    type: 'ORGANISATIONS_LIST_FETCHING_ERROR'
-};
-type OrganisationListPageNumberReceiveAction = {
-    type: 'ORGANISATIONS_LIST_PAGE_NUMBER_RECEIVE',
-    payload: number
+    type: 'ORGANISATIONS_LIST_FETCHING_ERROR';
 };
 
-export type Action =
+export type OrganisationListAction =
     | OrganisationListReceiveAction
     | OrganisationListFetchingAction
-    | OrganisationListFetchingErrorAction
-    | OrganisationListPageNumberReceiveAction;
+    | OrganisationListFetchingErrorAction;
 
 export const fetchOrganisations = (): ApiAction => {
-    let api = organisationsApi;
-    //api = appendPageOptionQuery(api, pageOptions);
     return {
         type: 'API',
-        endpoint: api,
+        endpoint: organisationsApi,
         dispatchPrefix: 'ORGANISATIONS_LIST'
     };
 };
-
-export const receivePageNumber = (
-    pageNumber: number
-): OrganisationListPageNumberReceiveAction => ({
-    type: 'ORGANISATIONS_LIST_PAGE_NUMBER_RECEIVE',
-    payload: pageNumber
-});

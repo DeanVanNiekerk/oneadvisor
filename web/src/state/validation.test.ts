@@ -1,7 +1,5 @@
-import { ValidationResult } from './types';
+import { ValidationResult } from '../app/types';
 import { getValidationError, removeValidationError } from './validation';
-
-
 
 describe('validation', () => {
     describe('getValidationError', () => {
@@ -23,8 +21,7 @@ describe('validation', () => {
                 }
             ];
 
-            
-            expect(getValidationError("", errors)).toEqual(null);
+            expect(getValidationError('', errors)).toEqual(null);
         });
 
         it('errors - no result', () => {
@@ -79,8 +76,8 @@ describe('validation', () => {
 
             expect(actual).not.toBeNull();
 
-            const message = actual ? actual.errorMessage : "";
-            
+            const message = actual ? actual.errorMessage : '';
+
             expect(message).toEqual('Error 2');
         });
     });
@@ -94,7 +91,6 @@ describe('validation', () => {
         });
 
         it('errors - no fieldname, all results returned', () => {
-
             const errors: ValidationResult[] = [
                 {
                     propertyName: 'prop2',
@@ -104,8 +100,8 @@ describe('validation', () => {
                     attemptedValue: ''
                 }
             ];
-            
-            expect(removeValidationError("", errors)).toEqual(errors);
+
+            expect(removeValidationError('', errors)).toEqual(errors);
         });
 
         it('errors - no match, all results returned', () => {

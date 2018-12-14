@@ -1,14 +1,14 @@
-import { ValidationResult } from '@/state/types';
+import { ValidationResult } from '@/app/types';
 
 import { Role } from '../types';
-import { Action } from './actions';
+import { RoleAction } from './actions';
 
 export type State = {
-    readonly role: Role | null,
-    readonly fetching: boolean,
-    readonly updating: boolean,
-    readonly error: boolean,
-    readonly validationResults: ValidationResult[]
+    readonly role: Role | null;
+    readonly fetching: boolean;
+    readonly updating: boolean;
+    readonly error: boolean;
+    readonly validationResults: ValidationResult[];
 };
 
 export const defaultState: State = {
@@ -19,7 +19,10 @@ export const defaultState: State = {
     validationResults: []
 };
 
-export const reducer = (state: State = defaultState, action: Action): State => {
+export const reducer = (
+    state: State = defaultState,
+    action: RoleAction
+): State => {
     switch (action.type) {
         case 'ROLES_ROLE_RECEIVE': {
             return {

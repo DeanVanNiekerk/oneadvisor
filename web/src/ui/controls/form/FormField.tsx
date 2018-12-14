@@ -1,7 +1,7 @@
 import { Form } from 'antd';
 import React, { ReactNode } from 'react';
 
-import { ValidationResult } from '@/state/types';
+import { ValidationResult } from '@/app/types';
 import { getValidationError } from '@/state/validation';
 
 import { FormLayout } from './Form';

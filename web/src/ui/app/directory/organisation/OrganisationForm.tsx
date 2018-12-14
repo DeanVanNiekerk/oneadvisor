@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Organisation } from '@/state/app/directory/organisations';
-import { ValidationResult } from '@/state/types';
+import { ValidationResult } from '@/app/types';
 import { Form, FormInput } from '@/ui/controls';
 
 type Props = {

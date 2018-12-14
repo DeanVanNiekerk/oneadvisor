@@ -25,6 +25,7 @@ namespace OneAdvisor.Model
             var parameter = Expression.Parameter(type, PARAMETER_NAME);
 
             // Get a reference to the type of the property being sorted.
+            sortColumn = Char.ToUpperInvariant(sortColumn[0]) + sortColumn.Substring(1);
             var property = type.GetProperty(sortColumn);
 
             // If null we have an invalid property name 

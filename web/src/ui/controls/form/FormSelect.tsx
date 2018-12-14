@@ -1,7 +1,7 @@
 import { Select } from 'antd';
 import React, { Component } from 'react';
 
-import { ValidationResult } from '@/state/types';
+import { ValidationResult } from '@/app/types';
 
 import { FormLayout } from './Form';
 import { FormField } from './FormField';

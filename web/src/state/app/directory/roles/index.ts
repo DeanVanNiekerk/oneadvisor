@@ -1,7 +1,7 @@
-export { Role, RoleEdit } from './types';
+export * from './types';
 
-export { fetchRoles } from './list/actions';
+export * from './list/actions';
 export { listSelector as rolesSelector } from './list/selectors';
 
-export { fetchRole, insertRole, updateRole } from './role/actions';
-export { roleSelector } from './role/selectors';
+export * from './role/actions';
+export * from './role/selectors';

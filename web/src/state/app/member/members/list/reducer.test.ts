@@ -1,3 +1,5 @@
+import { SortOptions } from '@/app/types';
+
 import { defaultState, reducer } from './reducer';
 
 describe('member list reducer', () => {
@@ -59,9 +61,59 @@ describe('member list reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            totalItems: 1,
             items: [member],
+            totalItems: 1,
             fetching: false
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it('should handle MEMBERS_LIST_PAGE_OPTIONS_RECEIVE', () => {
+        const initalState = {
+            ...defaultState
+        };
+
+        const options = {
+            number: 9,
+            size: 20
+        };
+
+        const actualState = reducer(initalState, {
+            type: 'MEMBERS_LIST_PAGE_OPTIONS_RECEIVE',
+            payload: options
+        });
+
+        const expectedState = {
+            ...defaultState,
+            pageOptions: {
+                ...options
+            }
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it('should handle MEMBERS_LIST_SORT_OPTIONS_RECEIVE', () => {
+        const initalState = {
+            ...defaultState
+        };
+
+        const options: SortOptions = {
+            direction: 'asc',
+            column: 'colName'
+        };
+
+        const actualState = reducer(initalState, {
+            type: 'MEMBERS_LIST_SORT_OPTIONS_RECEIVE',
+            payload: options
+        });
+
+        const expectedState = {
+            ...defaultState,
+            sortOptions: {
+                ...options
+            }
         };
 
         expect(actualState).toEqual(expectedState);

@@ -15,6 +15,8 @@
       "password": ""
     }
   ],
+  "jest.pathToConfig": "web/jest.config.json",
+  "jest.pathToJest": "web/node_modules/.bin/jest",
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,

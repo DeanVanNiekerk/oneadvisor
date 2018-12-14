@@ -1,36 +1,34 @@
+import { ApiAction, ApiOnSuccess, ValidationResult } from '@/app/types';
 import { organisationsApi } from '@/config/api/directory';
-import { ApiAction, ApiOnSuccess, ValidationResult } from '@/state/types';
 
 import { Organisation } from '../types';
 
-
-
 type OrganisationReceiveAction = {
-    type: 'ORGANISATIONS_ORGANISATION_RECEIVE',
-    payload: Organisation
+    type: 'ORGANISATIONS_ORGANISATION_RECEIVE';
+    payload: Organisation;
 };
 type OrganisationFetchingAction = {
-    type: 'ORGANISATIONS_ORGANISATION_FETCHING'
+    type: 'ORGANISATIONS_ORGANISATION_FETCHING';
 };
 type OrganisationFetchingErrorAction = {
-    type: 'ORGANISATIONS_ORGANISATION_FETCHING_ERROR'
+    type: 'ORGANISATIONS_ORGANISATION_FETCHING_ERROR';
 };
 
 type OrganisationUpdatedAction = {
-    type: 'ORGANISATIONS_ORGANISATION_EDIT_RECEIVE'
+    type: 'ORGANISATIONS_ORGANISATION_EDIT_RECEIVE';
 };
 type OrganisationUpdatingAction = {
-    type: 'ORGANISATIONS_ORGANISATION_EDIT_FETCHING'
+    type: 'ORGANISATIONS_ORGANISATION_EDIT_FETCHING';
 };
 type OrganisationUpdatingErrorAction = {
-    type: 'ORGANISATIONS_ORGANISATION_EDIT_FETCHING_ERROR'
+    type: 'ORGANISATIONS_ORGANISATION_EDIT_FETCHING_ERROR';
 };
 type OrganisationValidationErrorAction = {
-    type: 'ORGANISATIONS_ORGANISATION_EDIT_VALIDATION_ERROR',
-    payload: ValidationResult[]
+    type: 'ORGANISATIONS_ORGANISATION_EDIT_VALIDATION_ERROR';
+    payload: ValidationResult[];
 };
 
-export type Action =
+export type OrganisationAction =
     | OrganisationReceiveAction
     | OrganisationFetchingAction
     | OrganisationFetchingErrorAction

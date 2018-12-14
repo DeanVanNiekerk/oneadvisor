@@ -1,5 +1,5 @@
 import { UseCase } from '../types';
-import { Action } from './actions';
+import { UseCaseListAction } from './actions';
 
 export type State = {
     readonly items: UseCase[];
@@ -13,7 +13,10 @@ export const defaultState: State = {
     error: false
 };
 
-export const reducer = (state: State = defaultState, action: Action): State => {
+export const reducer = (
+    state: State = defaultState,
+    action: UseCaseListAction
+): State => {
     switch (action.type) {
         case 'USECASES_LIST_RECEIVE': {
             return {

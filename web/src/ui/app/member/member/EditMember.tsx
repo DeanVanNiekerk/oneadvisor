@@ -2,9 +2,14 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { insertMember, MemberEdit, memberSelector, updateMember } from '@/state/app/member/members';
+import {
+    insertMember,
+    MemberEdit,
+    memberSelector,
+    updateMember
+} from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
-import { ValidationResult } from '@/state/types';
+import { ValidationResult } from '@/app/types';
 import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
 import { showConfirm } from '@/ui/feedback/modal/confirm';
 

@@ -1,5 +1,5 @@
+import { ApiAction, ApiOnSuccess, ValidationResult } from '@/app/types';
 import { membersApi } from '@/config/api/member';
-import { ApiAction, ApiOnSuccess, ValidationResult } from '@/state/types';
 
 import { MemberEdit } from '../types';
 
@@ -18,7 +18,7 @@ type MemberValidationErrorAction = {
     payload: ValidationResult[];
 };
 
-export type Action =
+export type MemberAction =
     | MemberReceiveAction
     | MemberFetchingAction
     | MemberFetchingErrorAction

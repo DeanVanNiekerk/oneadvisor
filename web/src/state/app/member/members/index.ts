@@ -1,12 +1,7 @@
-export { Member, MemberEdit } from './types';
+export * from './types';
 
-export { fetchMembers } from './list/actions';
+export * from './list/actions';
 export { listSelector as membersSelector } from './list/selectors';
 
-export {
-    fetchMember,
-    insertMember,
-    receiveMember,
-    updateMember
-} from './member/actions';
-export { memberSelector } from './member/selectors';
+export * from './member/actions';
+export * from './member/selectors';

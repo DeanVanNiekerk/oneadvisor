@@ -5,7 +5,7 @@ import { Application } from '@/state/app/directory/applications';
 import { Organisation } from '@/state/app/directory/organisations';
 import { Role } from '@/state/app/directory/roles';
 import { UserEdit } from '@/state/app/directory/users';
-import { ValidationResult } from '@/state/types';
+import { ValidationResult } from '@/app/types';
 import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
 
 type TabKey = 'details_tab' | 'roles_tab';

@@ -1,9 +1,10 @@
-import { Tag } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { PageOptions, SortOptions } from '@/app/types';
 import {
-    fetchMember, fetchMembers, Member, MemberEdit, membersSelector, receiveMember
+    fetchMember, fetchMembers, Member, MemberEdit, membersSelector, receiveMember, receivePageOptions,
+    receiveSortOptions
 } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
 import { getColumn } from '@/state/utils';
@@ -14,6 +15,9 @@ import EditMember from './EditMember';
 type Props = {
     members: Member[];
     fetching: boolean;
+    pageOptions: PageOptions;
+    sortOptions: SortOptions;
+    totalItems: number;
 } & DispatchProp;
 
 type State = {
@@ -33,13 +37,23 @@ class MemberList extends Component<Props, State> {
         if (this.props.members.length === 0) this.loadMembers();
     }
 
+    componentDidUpdate(prevProps: Props) {
+        if (
+            prevProps.pageOptions != this.props.pageOptions ||
+            prevProps.sortOptions != this.props.sortOptions
+        )
+            this.loadMembers();
+    }
+
     loadMembers = () => {
-        this.props.dispatch(fetchMembers());
+        this.props.dispatch(
+            fetchMembers(this.props.pageOptions, this.props.sortOptions)
+        );
     };
 
     newMember = () => {
         const member: MemberEdit = {
-            id: '',
+            id: null,
             firstName: '',
             lastName: '',
             maidenName: '',
@@ -77,6 +91,13 @@ class MemberList extends Component<Props, State> {
         ];
     };
 
+    onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions) => {
+        if (this.props.pageOptions != pageOptions)
+            this.props.dispatch(receivePageOptions(pageOptions));
+        if (this.props.sortOptions != sortOptions)
+            this.props.dispatch(receiveSortOptions(sortOptions));
+    };
+
     render() {
         return (
             <>
@@ -100,6 +121,10 @@ class MemberList extends Component<Props, State> {
                     dataSource={this.props.members}
                     loading={this.props.fetching}
                     onRowClick={member => this.editMember(member.id)}
+                    externalDataSource={true}
+                    pageOptions={this.props.pageOptions}
+                    totalRows={this.props.totalItems}
+                    onTableChange={this.onTableChange}
                 />
                 <EditMember
                     visible={this.state.editVisible}
@@ -115,7 +140,10 @@ const mapStateToProps = (state: RootState) => {
 
     return {
         members: membersState.items,
-        fetching: membersState.fetching
+        fetching: membersState.fetching,
+        pageOptions: membersState.pageOptions,
+        sortOptions: membersState.sortOptions,
+        totalItems: membersState.totalItems
     };
 };
 

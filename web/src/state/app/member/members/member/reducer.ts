@@ -1,7 +1,7 @@
-import { ValidationResult } from '@/state/types';
+import { ValidationResult } from '@/app/types';
 
 import { MemberEdit } from '../types';
-import { Action } from './actions';
+import { MemberAction } from './actions';
 
 export type State = {
     readonly member: MemberEdit | null;
@@ -19,7 +19,10 @@ export const defaultState: State = {
     validationResults: []
 };
 
-export const reducer = (state: State = defaultState, action: Action): State => {
+export const reducer = (
+    state: State = defaultState,
+    action: MemberAction
+): State => {
     switch (action.type) {
         case 'MEMBERS_MEMBER_RECEIVE': {
             return {

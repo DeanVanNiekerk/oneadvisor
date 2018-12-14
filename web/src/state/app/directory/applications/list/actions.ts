@@ -1,16 +1,18 @@
+import { ApiAction } from '@/app/types';
 import { applicationsApi } from '@/config/api/directory';
-import { ApiAction } from '@/state/types';
 
 import { Application } from '../types';
 
 type ApplicationListReceiveAction = {
-    type: 'APPLICATIONS_LIST_RECEIVE',
-    payload: Application[]
+    type: 'APPLICATIONS_LIST_RECEIVE';
+    payload: Application[];
 };
 type ApplicationListFetchingAction = { type: 'APPLICATIONS_LIST_FETCHING' };
-type ApplicationListFetchingErrorAction = { type: 'APPLICATIONS_LIST_FETCHING_ERROR' };
+type ApplicationListFetchingErrorAction = {
+    type: 'APPLICATIONS_LIST_FETCHING_ERROR';
+};
 
-export type Action =
+export type ApplicationListAction =
     | ApplicationListReceiveAction
     | ApplicationListFetchingAction
     | ApplicationListFetchingErrorAction;

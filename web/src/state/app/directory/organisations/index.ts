@@ -1,12 +1,7 @@
-export { Organisation } from './types';
+export * from './types';
 
-export { fetchOrganisations, receivePageNumber } from './list/actions';
+export * from './list/actions';
 export { listSelector as organisationsSelector } from './list/selectors';
 
-export {
-    fetchOrganisation,
-    insertOrganisation,
-    receiveOrganisation,
-    updateOrganisation
-} from './organisation/actions';
-export { organisationSelector } from './organisation/selectors';
+export * from './organisation/actions';
+export * from './organisation/selectors';

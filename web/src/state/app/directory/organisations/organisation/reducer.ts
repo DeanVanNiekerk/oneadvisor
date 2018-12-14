@@ -1,16 +1,14 @@
-import { ValidationResult } from '@/state/types';
+import { ValidationResult } from '@/app/types';
 
 import { Organisation } from '../types';
-import { Action } from './actions';
-
-
+import { OrganisationAction } from './actions';
 
 export type State = {
-    readonly organisation: Organisation | null,
-    readonly fetching: boolean,
-    readonly updating: boolean,
-    readonly error: boolean,
-    readonly validationResults: ValidationResult[]
+    readonly organisation: Organisation | null;
+    readonly fetching: boolean;
+    readonly updating: boolean;
+    readonly error: boolean;
+    readonly validationResults: ValidationResult[];
 };
 
 export const defaultState: State = {
@@ -21,7 +19,10 @@ export const defaultState: State = {
     validationResults: []
 };
 
-export const reducer = (state: State = defaultState, action: Action): State => {
+export const reducer = (
+    state: State = defaultState,
+    action: OrganisationAction
+): State => {
     switch (action.type) {
         case 'ORGANISATIONS_ORGANISATION_RECEIVE': {
             return {

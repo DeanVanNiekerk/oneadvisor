@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { MemberEdit } from '@/state/app/member/members';
-import { ValidationResult } from '@/state/types';
+import { ValidationResult } from '@/app/types';
 import { Form, FormInput, FormSelect } from '@/ui/controls';
 
 type TabKey = 'details_tab' | 'roles_tab';

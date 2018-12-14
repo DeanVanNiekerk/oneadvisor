@@ -1,10 +1,10 @@
 import { Application } from '../types';
-import { Action } from './actions';
+import { ApplicationListAction } from './actions';
 
 export type State = {
-    readonly items: Application[],
-    readonly fetching: boolean,
-    readonly error: boolean
+    readonly items: Application[];
+    readonly fetching: boolean;
+    readonly error: boolean;
 };
 
 export const defaultState: State = {
@@ -13,7 +13,10 @@ export const defaultState: State = {
     error: false
 };
 
-export const reducer = (state: State = defaultState, action: Action): State => {
+export const reducer = (
+    state: State = defaultState,
+    action: ApplicationListAction
+): State => {
     switch (action.type) {
         case 'APPLICATIONS_LIST_RECEIVE': {
             return {

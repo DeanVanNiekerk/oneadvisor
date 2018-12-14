@@ -6,7 +6,7 @@ import {
     insertOrganisation, Organisation, organisationSelector, updateOrganisation
 } from '@/state/app/directory/organisations';
 import { RootState } from '@/state/rootReducer';
-import { ValidationResult } from '@/state/types';
+import { ValidationResult } from '@/app/types';
 import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
 import { showConfirm } from '@/ui/feedback/modal/confirm';
 

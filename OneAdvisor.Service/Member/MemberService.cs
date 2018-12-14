@@ -106,7 +106,7 @@ namespace OneAdvisor.Service.Member
         {
             return new MemberEntity()
             {
-                Id = model.Id,
+                Id = model.Id.HasValue ? model.Id.Value : Guid.Empty,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 MaidenName = model.MaidenName,

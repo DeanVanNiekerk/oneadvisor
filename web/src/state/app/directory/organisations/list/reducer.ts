@@ -1,15 +1,14 @@
-import { PageOptions } from '@/state/types';
+import { PageOptions } from '@/app/types';
 
 import { Organisation } from '../types';
-import { Action } from './actions';
-
+import { OrganisationListAction } from './actions';
 
 export type State = {
-    readonly totalItems: number,
-    readonly items: Organisation[],
-    readonly fetching: boolean,
-    readonly error: boolean,
-    readonly pageOptions: PageOptions
+    readonly totalItems: number;
+    readonly items: Organisation[];
+    readonly fetching: boolean;
+    readonly error: boolean;
+    readonly pageOptions: PageOptions;
 };
 
 export const defaultState: State = {
@@ -20,7 +19,10 @@ export const defaultState: State = {
     pageOptions: { number: 0, size: 0 }
 };
 
-export const reducer = (state: State = defaultState, action: Action): State => {
+export const reducer = (
+    state: State = defaultState,
+    action: OrganisationListAction
+): State => {
     switch (action.type) {
         case 'ORGANISATIONS_LIST_RECEIVE': {
             return {
@@ -43,15 +45,6 @@ export const reducer = (state: State = defaultState, action: Action): State => {
                 items: [],
                 fetching: false,
                 error: true
-            };
-        }
-        case 'ORGANISATIONS_LIST_PAGE_NUMBER_RECEIVE': {
-            return {
-                ...state,
-                pageOptions: {
-                    ...state.pageOptions,
-                    number: action.payload
-                }
             };
         }
         default:

@@ -1,16 +1,15 @@
-import { defaultPageOptions } from '@/config/defaults';
-import { PageOptions } from '@/state/types';
+import { defaultPageOptions } from '@/app/table/defaults';
+import { PageOptions } from '@/app/types';
 
 import { User } from '../types';
-import { Action } from './actions';
-
+import { UserListAction } from './actions';
 
 export type State = {
-    readonly totalItems: number,
-    readonly items: User[],
-    readonly fetching: boolean,
-    readonly error: boolean,
-    readonly pageOptions: PageOptions
+    readonly totalItems: number;
+    readonly items: User[];
+    readonly fetching: boolean;
+    readonly error: boolean;
+    readonly pageOptions: PageOptions;
 };
 
 export const defaultState: State = {
@@ -21,7 +20,10 @@ export const defaultState: State = {
     pageOptions: defaultPageOptions()
 };
 
-export const reducer = (state: State = defaultState, action: Action): State => {
+export const reducer = (
+    state: State = defaultState,
+    action: UserListAction
+): State => {
     switch (action.type) {
         case 'USERS_LIST_RECEIVE': {
             return {
