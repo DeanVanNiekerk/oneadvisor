@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { getColumn } from '@/app/table';
 import { PageOptions, SortOptions } from '@/app/types';
 import {
     fetchMember, fetchMembers, Member, MemberEdit, membersSelector, receiveMember, receivePageOptions,
     receiveSortOptions
 } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
-import { getColumn } from '@/state/utils';
 import { Button, Header, Table } from '@/ui/controls';
 
 import EditMember from './EditMember';

@@ -1,19 +1,6 @@
 import moment from 'moment';
 
-type ColumnType = 'string' | 'date';
-
-type FilterOptions = {
-    text: string;
-    value: string;
-};
-
-type ColumnOptions = {
-    type?: ColumnType;
-    render?: (value: any) => any;
-    sorter?: (a: any, b: any) => any;
-    onFilter?: (value: string, record: any, property: string) => boolean;
-    filters?: FilterOptions[];
-};
+import { ColumnOptions } from '@/app/types';
 
 const columnOptionDefaults: ColumnOptions = {
     type: 'string',

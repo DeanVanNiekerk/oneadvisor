@@ -2,10 +2,10 @@ import { Tag } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { getColumn } from '@/app/table';
 import { fetchOrganisations, Organisation, organisationsSelector } from '@/state/app/directory/organisations';
 import { fetchUser, fetchUsers, receiveUser, User, usersSelector } from '@/state/app/directory/users';
 import { RootState } from '@/state/rootReducer';
-import { getColumn } from '@/state/utils';
 import { Button, Header, Table } from '@/ui/controls';
 
 import EditUser from './EditUser';

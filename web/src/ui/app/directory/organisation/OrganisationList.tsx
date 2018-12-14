@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { getColumn } from '@/app/table';
 import {
     fetchOrganisations, Organisation, organisationsSelector, receiveOrganisation
 } from '@/state/app/directory/organisations';
 import { RootState } from '@/state/rootReducer';
-import { getColumn } from '@/state/utils';
 import { Button, Header, Table } from '@/ui/controls';
 
 import EditOrganisation from './EditOrganisation';

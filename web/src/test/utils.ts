@@ -1,4 +1,4 @@
-import { ValidationResult } from '../app/types';
+import { ValidationResult } from '@/app/types';
 
 export const getValidationResult = (): ValidationResult => ({
     propertyName: 'string',

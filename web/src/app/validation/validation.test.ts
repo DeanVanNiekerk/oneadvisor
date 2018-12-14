@@ -1,4 +1,5 @@
-import { ValidationResult } from '../app/types';
+import { ValidationResult } from '@/app/types';
+
 import { getValidationError, removeValidationError } from './validation';
 
 describe('validation', () => {

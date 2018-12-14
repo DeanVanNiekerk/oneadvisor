@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { getColumn } from '@/app/table';
 import { Application, applicationsSelector, fetchApplications } from '@/state/app/directory/applications';
 import { fetchRole, fetchRoles, Role, rolesSelector } from '@/state/app/directory/roles';
 import { fetchUseCases, UseCase, useCasesSelector } from '@/state/app/directory/usecases';
 import { RootState } from '@/state/rootReducer';
-import { getColumn } from '@/state/utils';
 import { Header, Table } from '@/ui/controls';
 
 import EditRole from './EditRole';

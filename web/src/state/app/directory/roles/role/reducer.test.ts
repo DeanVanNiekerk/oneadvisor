@@ -1,4 +1,4 @@
-import { getValidationResult } from '@/state/testUtils';
+import { getValidationResult } from '@/test';
 
 import { defaultState, reducer } from './reducer';
 
