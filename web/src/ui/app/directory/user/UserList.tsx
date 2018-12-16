@@ -128,6 +128,7 @@ class UserList extends Component<Props, State> {
                             icon="plus"
                             onClick={this.newUser}
                             disabled={this.props.fetching}
+                            requiredUseCase="dir_edit_users"
                         >
                             New User
                         </Button>
@@ -141,6 +142,7 @@ class UserList extends Component<Props, State> {
                     dataSource={this.props.users}
                     loading={this.props.fetching}
                     onRowClick={user => this.editUser(user.id)}
+                    onRowClickRequiredUseCase="dir_edit_users"
                 />
                 <EditUser
                     visible={this.state.editVisible}

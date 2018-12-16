@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
+import { hasUseCases, hasUseCasesMenuGroup } from '@/app/identity';
 import { allGroupNames } from '@/config/menu';
+import { identitySelector } from '@/state/app/directory/identity';
 import { currentApplicationSelector, currentMenuSelector } from '@/state/context/selectors';
 import { Application, Menu, MenuLink } from '@/state/context/types';
 import { RootState } from '@/state/rootReducer';
@@ -29,6 +31,7 @@ const MenuItem = styled(Item)`
 type Props = {
     menu: Menu;
     application: Application;
+    useCases: string[];
 };
 
 class SideMenu extends Component<Props> {
@@ -41,40 +44,57 @@ class SideMenu extends Component<Props> {
                     defaultOpenKeys={allGroupNames()}
                     style={{ height: '100%', borderRight: 0 }}
                 >
-                    {this.props.menu.groups.map(group => (
-                        <SubMenu
-                            key={group.name}
-                            title={<span>{group.name}</span>}
-                        >
-                            {group.links.map(link => (
-                                <MenuItem
-                                    key={link.relativePath}
-                                    link={link}
-                                    application={this.props.application}
-                                >
-                                    <Link
-                                        to={`${this.props.menu.relativePath}${
-                                            link.relativePath
-                                        }`}
-                                    >
-                                        <span>
-                                            <Icon type={link.icon} />
-                                            <span>{link.name}</span>
-                                        </span>
-                                    </Link>
-                                </MenuItem>
-                            ))}
-                        </SubMenu>
-                    ))}
+                    {this.props.menu.groups
+                        .filter(group =>
+                            hasUseCasesMenuGroup(group, this.props.useCases)
+                        )
+                        .map(group => (
+                            <SubMenu
+                                key={group.name}
+                                title={<span>{group.name}</span>}
+                            >
+                                {group.links
+                                    .filter(link =>
+                                        hasUseCases(
+                                            link.useCases,
+                                            this.props.useCases
+                                        )
+                                    )
+                                    .map(link => (
+                                        <MenuItem
+                                            key={link.relativePath}
+                                            link={link}
+                                            application={this.props.application}
+                                        >
+                                            <Link
+                                                to={`${
+                                                    this.props.menu.relativePath
+                                                }${link.relativePath}`}
+                                            >
+                                                <span>
+                                                    <Icon type={link.icon} />
+                                                    <span>{link.name}</span>
+                                                </span>
+                                            </Link>
+                                        </MenuItem>
+                                    ))}
+                            </SubMenu>
+                        ))}
                 </MenuAD>
             </Sider>
         );
     }
 }
 
-const mapStateToProps = (state: RootState) => ({
-    menu: currentMenuSelector(state),
-    application: currentApplicationSelector(state)
-});
+const mapStateToProps = (state: RootState) => {
+    const identityState = identitySelector(state);
+    return {
+        menu: currentMenuSelector(state),
+        application: currentApplicationSelector(state),
+        useCases: identityState.identity
+            ? identityState.identity.useCaseIds
+            : []
+    };
+};
 
 export default connect(mapStateToProps)(SideMenu);

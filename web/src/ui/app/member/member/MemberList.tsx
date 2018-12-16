@@ -109,6 +109,7 @@ class MemberList extends Component<Props, State> {
                             icon="plus"
                             onClick={this.newMember}
                             disabled={this.props.fetching}
+                            requiredUseCase="mem_edit_members"
                         >
                             New Member
                         </Button>
@@ -122,6 +123,7 @@ class MemberList extends Component<Props, State> {
                     dataSource={this.props.members}
                     loading={this.props.fetching}
                     onRowClick={member => this.editMember(member.id)}
+                    onRowClickRequiredUseCase="mem_edit_members"
                     externalDataSource={true}
                     pageOptions={this.props.pageOptions}
                     totalRows={this.props.totalItems}

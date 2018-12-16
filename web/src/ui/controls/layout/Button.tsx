@@ -1,29 +1,58 @@
 import { Button as ButtonAD } from 'antd';
 import { ButtonType } from 'antd/lib/button';
 import React, { ReactNode } from 'react';
+import { connect } from 'react-redux';
 
-
+import { hasUseCase } from '@/app/identity';
+import { identitySelector } from '@/state/app/directory/identity';
+import { RootState } from '@/state/rootReducer';
 
 type Props = {
-    type?: ButtonType,
-    icon?: string,
-    disabled?: boolean,
-    onClick: () => void,
-    children: ReactNode
+    type?: ButtonType;
+    icon?: string;
+    disabled?: boolean;
+    onClick: () => void;
+    children: ReactNode;
+    requiredUseCase?: string;
+    useCases: string[];
 };
 
-const Button = (props: Props) => (
-    <ButtonAD
-        style={{
-            marginLeft: 8
-        }}
-        type={props.type}
-        icon={props.icon}
-        onClick={props.onClick}
-        disabled={props.disabled || false}
-    >
-        {props.children}
-    </ButtonAD>
-);
+class ButtonComponent extends React.Component<Props> {
+    render() {
+        let visible = hasUseCase(
+            this.props.requiredUseCase,
+            this.props.useCases
+        );
+        return (
+            <>
+                {visible && (
+                    <ButtonAD
+                        style={{
+                            marginLeft: 8
+                        }}
+                        type={this.props.type}
+                        icon={this.props.icon}
+                        onClick={this.props.onClick}
+                        disabled={this.props.disabled || false}
+                    >
+                        {this.props.children}
+                    </ButtonAD>
+                )}
+            </>
+        );
+    }
+}
+
+const mapStateToProps = (state: RootState) => {
+    const identityState = identitySelector(state);
+
+    return {
+        useCases: identityState.identity
+            ? identityState.identity.useCaseIds
+            : []
+    };
+};
+
+const Button = connect(mapStateToProps)(ButtonComponent);
 
 export { Button };

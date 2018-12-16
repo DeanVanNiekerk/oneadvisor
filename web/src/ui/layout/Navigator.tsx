@@ -4,17 +4,19 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-import { applicationsSelector, currentApplicationSelector } from '@/state/context/selectors';
-import { Application } from '@/state/context/types';
+import { hasUseCasesMenuGroups } from '@/app/identity';
+import { identitySelector } from '@/state/app/directory/identity';
+import { applicationsSelector, currentApplicationSelector, menusSelector } from '@/state/context/selectors';
+import { Application, Menus } from '@/state/context/types';
 import { RootState } from '@/state/rootReducer';
 
 const { Header } = Layout;
 const { Item } = Menu;
 
 type MenuItemProps = {
-    application: Application,
-    onClick: () => void
-}
+    application: Application;
+    onClick: () => void;
+};
 
 const MenuItem = styled(Item)`
     ${(props: MenuItemProps) =>
@@ -25,8 +27,8 @@ const MenuItem = styled(Item)`
 `;
 
 type PinstripeProps = {
-    application: Application
-}
+    application: Application;
+};
 
 const Pinstripe = styled.div`
     width: 100%;
@@ -39,14 +41,14 @@ const AppName = styled.div`
     width: 175px;
     height: 31px;
     float: left;
-    color: #FFFFFF;
+    color: #ffffff;
 `;
 
 const Signout = styled.div`
     font-size: 14px;
     height: 31px;
     float: right;
-    color: #FFFFFF;
+    color: #ffffff;
     z-index: 12;
     cursor: pointer;
 `;
@@ -60,12 +62,13 @@ const Bold = styled.span`
 `;
 
 type Props = {
-    onLogout: Function,
-    applications: Application[],
-    currentApplication: Application
+    menus: Menus;
+    onLogout: Function;
+    applications: Application[];
+    currentApplication: Application;
+    useCases: string[];
 } & RouteComponentProps;
 class Navigator extends Component<Props> {
-
     navigate(to: string) {
         this.props.history.push(to);
     }
@@ -75,29 +78,40 @@ class Navigator extends Component<Props> {
             <>
                 <Header className="header">
                     <AppName>
-                        <Light>ONE</Light><Bold>ADVISOR</Bold>
+                        <Light>ONE</Light>
+                        <Bold>ADVISOR</Bold>
                     </AppName>
-                    <Signout onClick={() => this.props.onLogout()}>Signout</Signout>
+                    <Signout onClick={() => this.props.onLogout()}>
+                        Signout
+                    </Signout>
                     <Menu
                         theme="dark"
                         mode="horizontal"
                         style={{ lineHeight: '64px' }}
                     >
-                        {this.props.applications.map(app => (
-                            <MenuItem
-                                key={app.id}
-                                application={app}
-                                onClick={() => this.navigate(app.relativePath)}
-                            >
-                                <Icon
-                                    type={app.icon}
-                                    style={{ fontSize: '16px' }}
-                                />
-                                {app.name}
-                            </MenuItem>
-                        ))}
+                        {this.props.applications
+                            .filter(app =>
+                                hasUseCasesMenuGroups(
+                                    this.props.menus[app.id].groups,
+                                    this.props.useCases
+                                )
+                            )
+                            .map(app => (
+                                <MenuItem
+                                    key={app.id}
+                                    application={app}
+                                    onClick={() =>
+                                        this.navigate(app.relativePath)
+                                    }
+                                >
+                                    <Icon
+                                        type={app.icon}
+                                        style={{ fontSize: '16px' }}
+                                    />
+                                    {app.name}
+                                </MenuItem>
+                            ))}
                     </Menu>
-                    
                 </Header>
                 <Pinstripe application={this.props.currentApplication} />
             </>
@@ -105,9 +119,16 @@ class Navigator extends Component<Props> {
     }
 }
 
-const mapStateToProps = (state: RootState) => ({
-    applications: applicationsSelector(state),
-    currentApplication: currentApplicationSelector(state) || {}
-});
+const mapStateToProps = (state: RootState) => {
+    const identityState = identitySelector(state);
+    return {
+        menus: menusSelector(state),
+        applications: applicationsSelector(state),
+        currentApplication: currentApplicationSelector(state) || {},
+        useCases: identityState.identity
+            ? identityState.identity.useCaseIds
+            : []
+    };
+};
 
 export default connect(mapStateToProps)(withRouter(Navigator));

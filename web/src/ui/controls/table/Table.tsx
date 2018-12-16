@@ -1,16 +1,23 @@
 import { Table as TableAD } from 'antd';
 import { PaginationConfig } from 'antd/lib/table';
 import * as React from 'react';
+import { connect } from 'react-redux';
 
+import { hasUseCase } from '@/app/identity';
 import { defaultPageOptions } from '@/app/table/defaults';
 import { PageOptions, SortOptions } from '@/app/types';
+import { identitySelector } from '@/state/app/directory/identity';
+import { RootState } from '@/state/rootReducer';
 
 type Props = {
     columns: any[];
     dataSource: any[];
     rowKey: string;
     loading?: boolean;
+    useCases: string[];
     onRowClick?: (record: any) => void;
+    onRowClickRequiredUseCase?: string;
+
     onChange?: (pagination: any, filters: any, sorter: any) => void;
 
     externalDataSource?: boolean;
@@ -26,7 +33,7 @@ type State = {
     defaultPageOptions: PageOptions;
 };
 
-class Table extends React.Component<Props, State> {
+class TableComponent extends React.Component<Props, State> {
     constructor(props) {
         super(props);
 
@@ -86,7 +93,13 @@ class Table extends React.Component<Props, State> {
                 onRow={record => {
                     return {
                         onClick: () => {
-                            if (this.props.onRowClick)
+                            if (
+                                this.props.onRowClick &&
+                                hasUseCase(
+                                    this.props.onRowClickRequiredUseCase,
+                                    this.props.useCases
+                                )
+                            )
                                 this.props.onRowClick(record);
                         }
                     };
@@ -96,5 +109,17 @@ class Table extends React.Component<Props, State> {
         );
     }
 }
+
+const mapStateToProps = (state: RootState) => {
+    const identityState = identitySelector(state);
+
+    return {
+        useCases: identityState.identity
+            ? identityState.identity.useCaseIds
+            : []
+    };
+};
+
+const Table = connect(mapStateToProps)(TableComponent);
 
 export { Table };

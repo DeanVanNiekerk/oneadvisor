@@ -79,6 +79,7 @@ class OrganisationList extends Component<Props, State> {
                             icon="plus"
                             onClick={this.newOrganisation}
                             disabled={this.props.fetching}
+                            requiredUseCase="dir_edit_organisations"
                         >
                             New Organisation
                         </Button>
@@ -92,6 +93,7 @@ class OrganisationList extends Component<Props, State> {
                     dataSource={this.props.organisations}
                     loading={this.props.fetching}
                     onRowClick={org => this.editOrganisation(org.id)}
+                    onRowClickRequiredUseCase="dir_edit_organisations"
                 />
                 <EditOrganisation
                     visible={this.state.editVisible}
