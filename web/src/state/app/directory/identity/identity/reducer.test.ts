@@ -4,6 +4,7 @@ const defaultIdentity = {
     id: '10',
     firstName: 'Dean',
     lastName: 'Jackson',
+    organisationName: 'Test',
     organisationId: '1234',
     useCaseIds: ['uc_1'],
     roleIds: ['role_1']

@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-import { Action as ListAction } from './list/actions';
+import { MemberListAction } from './list/actions';
 import { reducer as listReducer, State as ListState } from './list/reducer';
-import { Action as MemberAction } from './member/actions';
+import { MemberAction } from './member/actions';
 import { reducer as memberReducer, State as MemberState } from './member/reducer';
 
-export type Action = ListAction | MemberAction;
+export type Action = MemberListAction | MemberAction;
 
 export type State = {
     list: ListState;
