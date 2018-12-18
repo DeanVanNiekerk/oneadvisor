@@ -1,11 +1,11 @@
-import { Icon, Layout, Menu } from 'antd';
+import { Icon, Layout, Menu, Popover } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import { hasUseCasesMenuGroups } from '@/app/identity';
-import { identitySelector } from '@/state/app/directory/identity';
+import { Identity, identitySelector } from '@/state/app/directory/identity';
 import { applicationsSelector, currentApplicationSelector, menusSelector } from '@/state/context/selectors';
 import { Application, Menus } from '@/state/context/types';
 import { RootState } from '@/state/rootReducer';
@@ -66,6 +66,7 @@ type Props = {
     onLogout: Function;
     applications: Application[];
     currentApplication: Application;
+    identity: Identity;
     useCases: string[];
 } & RouteComponentProps;
 class Navigator extends Component<Props> {
@@ -74,12 +75,42 @@ class Navigator extends Component<Props> {
     }
 
     render() {
+        const { identity } = this.props;
+
+        const content = (
+            <div>
+                <div>
+                    <b>Name:</b>&nbsp;
+                    {identity.firstName} {identity.lastName}
+                </div>
+                <div>
+                    <b>Organisation:</b>&nbsp;
+                    {identity.organisationName}
+                </div>
+                <div>
+                    <b>Roles:</b>&nbsp;
+                    {identity.roleIds.join(', ')}
+                </div>
+                <div>
+                    <b>Id:</b>&nbsp;
+                    {identity.id}
+                </div>
+            </div>
+        );
+
         return (
             <>
                 <Header className="header">
                     <AppName>
-                        <Light>ONE</Light>
-                        <Bold>ADVISOR</Bold>
+                        <Popover
+                            placement="bottomRight"
+                            content={content}
+                            title="My Profile"
+                            mouseEnterDelay={1.5}
+                        >
+                            <Light>ONE</Light>
+                            <Bold>ADVISOR</Bold>
+                        </Popover>
                     </AppName>
                     <Signout onClick={() => this.props.onLogout()}>
                         Signout
@@ -125,6 +156,7 @@ const mapStateToProps = (state: RootState) => {
         menus: menusSelector(state),
         applications: applicationsSelector(state),
         currentApplication: currentApplicationSelector(state) || {},
+        identity: identityState.identity,
         useCases: identityState.identity
             ? identityState.identity.useCaseIds
             : []

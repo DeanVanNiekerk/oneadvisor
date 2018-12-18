@@ -18,27 +18,31 @@ namespace api.Controllers.Directory.Identity
     [Route("api/directory/identity")]
     public class IdentityController : Controller
     {
-        public IdentityController(IUseCaseService useCaseService)
+        public IdentityController(IUseCaseService useCaseService, IOrganisationService organisationService)
         {
             UseCaseService = useCaseService;
+            OrganisationService = organisationService;
         }
 
         private IMapper Mapper { get; }
         private IUseCaseService UseCaseService { get; }
+        private IOrganisationService OrganisationService { get; }
 
         [HttpGet("")]
         public async Task<IdentityDto> Index()
         {
             var identity = Context.GetIdentity(User);
             var useCaseIds = await UseCaseService.GetUseCases(identity.RoleIds);
+            var organisation = await OrganisationService.GetOrganisation(identity.OrganisationId);
 
             return new IdentityDto()
             {
                 Id = identity.Id,
                 FirstName = identity.FirstName,
                 LastName = identity.LastName,
+                OrganisationName = organisation.Name,
                 OrganisationId = identity.OrganisationId,
-                RoleIds = identity.RoleIds,
+                RoleIds = identity.RoleIds.Where(r => r != "Everyone"),
                 UseCaseIds = useCaseIds
             };
         }

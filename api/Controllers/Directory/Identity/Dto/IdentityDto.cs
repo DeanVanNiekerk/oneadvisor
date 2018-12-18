@@ -9,6 +9,7 @@ namespace api.Controllers.Directory.Identity.Dto
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Guid OrganisationId { get; set; }
+        public string OrganisationName { get; set; }
         public IEnumerable<string> RoleIds { get; set; }
         public IEnumerable<string> UseCaseIds { get; set; }
     }

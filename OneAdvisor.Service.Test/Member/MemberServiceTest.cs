@@ -54,8 +54,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var queryOptions = new MemberQueryOptions("", "", 0, 0);
-                queryOptions.OrganisationId = member.OrganisationId;
+                var queryOptions = new MemberQueryOptions(member.OrganisationId, "", "", 0, 0);
                 var members = await service.GetMembers(queryOptions);
 
                 //Then
@@ -106,8 +105,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var queryOptions = new MemberQueryOptions("LastName", "asc", 2, 2);
-                queryOptions.OrganisationId = orgId;
+                var queryOptions = new MemberQueryOptions(orgId, "LastName", "asc", 2, 2);
                 var actual = await service.GetMembers(queryOptions);
 
                 //Then
