@@ -172,6 +172,12 @@ namespace OneAdvisor.Service.Okta.Service
             var response = await HttpClient.PostAsync($"api/v1/users", json);
             await HandleOktaResponse(response);
 
+            var serializer = new DataContractJsonSerializer(typeof(UserDto));
+            var userInserted = serializer.ReadObject(await response.Content.ReadAsStreamAsync()) as UserDto;
+
+            //Update the id
+            user.Id = userInserted.id;
+
             //Update roles
             await UpdateUserRoles(user);
 
