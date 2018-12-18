@@ -13,8 +13,7 @@ namespace api.App.Authorization
             return new Identity()
             {
                 Id = TryGetClaimValue(principal, ClaimTypes.NameIdentifier),
-                FirstName = TryGetClaimValue(principal, ClaimTypes.GivenName),
-                LastName = TryGetClaimValue(principal, ClaimTypes.Surname),
+                Name = TryGetClaimValue(principal, ClaimTypes.Name),
                 OrganisationId = TryGetClaimValueAsGuid(principal, "organisation"),
                 RoleIds = GetRoleIds(principal)
             };

@@ -6,6 +6,8 @@ import styled, { css } from 'styled-components';
 
 import { hasUseCasesMenuGroups } from '@/app/identity';
 import { Identity, identitySelector } from '@/state/app/directory/identity';
+import { userInfoSelector } from '@/state/auth';
+import { UserInfo } from '@/state/auth/types';
 import { applicationsSelector, currentApplicationSelector, menusSelector } from '@/state/context/selectors';
 import { Application, Menus } from '@/state/context/types';
 import { RootState } from '@/state/rootReducer';
@@ -68,6 +70,7 @@ type Props = {
     currentApplication: Application;
     identity: Identity;
     useCases: string[];
+    userInfo: UserInfo;
 } & RouteComponentProps;
 class Navigator extends Component<Props> {
     navigate(to: string) {
@@ -75,13 +78,17 @@ class Navigator extends Component<Props> {
     }
 
     render() {
-        const { identity } = this.props;
+        const { identity, userInfo } = this.props;
 
         const content = (
             <div>
                 <div>
                     <b>Name:</b>&nbsp;
-                    {identity.firstName} {identity.lastName}
+                    {userInfo.name}
+                </div>
+                <div>
+                    <b>Email:</b>&nbsp;
+                    {userInfo.email}
                 </div>
                 <div>
                     <b>Organisation:</b>&nbsp;
@@ -152,11 +159,13 @@ class Navigator extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     const identityState = identitySelector(state);
+    const userInfo = userInfoSelector(state);
     return {
         menus: menusSelector(state),
         applications: applicationsSelector(state),
         currentApplication: currentApplicationSelector(state) || {},
         identity: identityState.identity,
+        userInfo: userInfo,
         useCases: identityState.identity
             ? identityState.identity.useCaseIds
             : []

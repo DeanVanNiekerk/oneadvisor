@@ -38,9 +38,8 @@ namespace api.Controllers.Directory.Identity
             return new IdentityDto()
             {
                 Id = identity.Id,
-                FirstName = identity.FirstName,
-                LastName = identity.LastName,
-                OrganisationName = organisation.Name,
+                Name = identity.Name,
+                OrganisationName = organisation != null ? organisation.Name : "NOT IN DB",
                 OrganisationId = identity.OrganisationId,
                 RoleIds = identity.RoleIds.Where(r => r != "Everyone"),
                 UseCaseIds = useCaseIds

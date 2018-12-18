@@ -1,7 +1,6 @@
 export type Identity = {
     id: string;
-    firstName: string;
-    lastName: string;
+    name: string;
     organisationId: string;
     organisationName: string;
     roleIds: string[];

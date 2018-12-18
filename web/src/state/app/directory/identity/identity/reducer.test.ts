@@ -2,8 +2,7 @@ import { defaultState, reducer } from './reducer';
 
 const defaultIdentity = {
     id: '10',
-    firstName: 'Dean',
-    lastName: 'Jackson',
+    name: 'Dean van Niekerk',
     organisationName: 'Test',
     organisationId: '1234',
     useCaseIds: ['uc_1'],

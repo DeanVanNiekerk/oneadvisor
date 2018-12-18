@@ -5,8 +5,6 @@ export default {
         redirectUri: `${window.location.protocol}//${window.location.hostname}${
             window.location.port ? `:${window.location.port}` : ''
         }/implicit/callback`
-        //audience: 'api://default',
-        //scope: 'openid profile email'
     },
     baseApi: __OA_BASE_API__,
     ui: {
