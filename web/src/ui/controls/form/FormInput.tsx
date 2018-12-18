@@ -14,6 +14,7 @@ type Props = {
     onChange?: (fieldName: string, value: any) => void;
     validationResults?: ValidationResult[];
     layout?: FormLayout;
+    addonAfter?: React.ReactNode;
 };
 
 class FormInput extends Component<Props> {
@@ -29,7 +30,8 @@ class FormInput extends Component<Props> {
             value,
             validationResults,
             disabled = false,
-            layout
+            layout,
+            addonAfter
         } = this.props;
 
         return (
@@ -46,6 +48,7 @@ class FormInput extends Component<Props> {
                     id={fieldName}
                     value={value}
                     onChange={this.onChange}
+                    addonAfter={addonAfter}
                 />
             </FormField>
         );

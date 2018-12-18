@@ -11,3 +11,7 @@ from dir_RoleToUseCase
 
 select *
 from mem_Member
+
+
+
+--delete from mem_Member

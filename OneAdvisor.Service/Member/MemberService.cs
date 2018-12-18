@@ -6,6 +6,7 @@ using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
+using OneAdvisor.Model.Exceptions;
 using OneAdvisor.Model.Member.Interface;
 using OneAdvisor.Model.Member.Model.Member;
 
@@ -23,6 +24,7 @@ namespace OneAdvisor.Service.Member
         public async Task<PagedItems<Model.Member.Model.Member.Member>> GetMembers(MemberQueryOptions queryOptions)
         {
             var query = from member in _context.Member
+                        where member.OrganisationId == queryOptions.OrganisationId
                         select new Model.Member.Model.Member.Member()
                         {
                             Id = member.Id,
@@ -52,10 +54,11 @@ namespace OneAdvisor.Service.Member
             return pagedItems;
         }
 
-        public Task<MemberEdit> GetMember(Guid id)
+        public Task<MemberEdit> GetMember(Guid organisationId, Guid id)
         {
             var query = from member in _context.Member
-                        where member.Id == id
+                        where member.OrganisationId == organisationId
+                        && member.Id == id
                         select new MemberEdit()
                         {
                             Id = member.Id,
@@ -71,7 +74,7 @@ namespace OneAdvisor.Service.Member
             return query.FirstOrDefaultAsync();
         }
 
-        public async Task<Result> InsertMember(MemberEdit member)
+        public async Task<Result> InsertMember(Guid organisationId, MemberEdit member)
         {
             var validator = new MemberValidator(true);
             var result = validator.Validate(member).GetResult();
@@ -80,6 +83,7 @@ namespace OneAdvisor.Service.Member
                 return result;
 
             var entity = MapModelToEntity(member);
+            entity.OrganisationId = organisationId;
             await _context.Member.AddAsync(entity);
             await _context.SaveChangesAsync();
 
@@ -89,7 +93,7 @@ namespace OneAdvisor.Service.Member
             return result;
         }
 
-        public async Task<Result> UpdateMember(MemberEdit member)
+        public async Task<Result> UpdateMember(Guid organisationId, MemberEdit member)
         {
             var validator = new MemberValidator(false);
             var result = validator.Validate(member).GetResult();
@@ -97,26 +101,33 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
-            var entity = MapModelToEntity(member);
-            _context.Entry(entity).State = EntityState.Modified;
+            var entity = await _context.Member.FindAsync(member.Id);
+
+            if (entity.OrganisationId != organisationId)
+                throw new IllegalAccessException(organisationId, entity.OrganisationId, member);
+
+            var memberEntity = MapModelToEntity(member, entity);
+
             await _context.SaveChangesAsync();
 
             return result;
         }
 
-        private MemberEntity MapModelToEntity(MemberEdit model)
+        private MemberEntity MapModelToEntity(MemberEdit model, MemberEntity entity = null)
         {
-            return new MemberEntity()
-            {
-                Id = model.Id.HasValue ? model.Id.Value : Guid.Empty,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                MaidenName = model.MaidenName,
-                IdNumber = model.IdNumber,
-                Initials = model.Initials,
-                PreferredName = model.PreferredName,
-                DateOfBirth = model.DateOfBirth
-            };
+            if (entity == null)
+                entity = new MemberEntity();
+
+            entity.Id = model.Id.HasValue ? model.Id.Value : Guid.Empty;
+            entity.FirstName = model.FirstName;
+            entity.LastName = model.LastName;
+            entity.MaidenName = model.MaidenName;
+            entity.IdNumber = model.IdNumber;
+            entity.Initials = model.Initials;
+            entity.PreferredName = model.PreferredName;
+            entity.DateOfBirth = model.DateOfBirth;
+
+            return entity;
         }
     }
 }

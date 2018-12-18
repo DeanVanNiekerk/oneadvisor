@@ -77,6 +77,8 @@ namespace api.App.Setup
 
         public void ConfigureServices()
         {
+            Services.AddHttpContextAccessor();
+
             Services.AddScoped<IUserService, UserService>();
             Services.AddScoped<IRoleService, RoleService>();
             Services.AddScoped<IOrganisationService, OrganisationService>();

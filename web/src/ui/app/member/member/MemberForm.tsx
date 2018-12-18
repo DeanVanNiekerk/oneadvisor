@@ -1,5 +1,7 @@
+import { Dropdown, Icon, Menu } from 'antd';
 import React, { Component } from 'react';
 
+import { parseIdNumber } from '@/app/parsers/id';
 import { ValidationResult } from '@/app/types';
 import { MemberEdit } from '@/state/app/member/members';
 import { Form, FormDate, FormInput } from '@/ui/controls';
@@ -32,15 +34,92 @@ class MemberForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: string, value: any) => {
+    handleChange = async (fieldName: string, value: any) => {
         const member = {
             ...this.state.member,
             [fieldName]: value
         };
-        this.setState({
-            member: member
+
+        await this.updateMember(member);
+
+        this.onFieldChanged(fieldName, value);
+    };
+
+    updateMember = (member: MemberEdit): Promise<void> => {
+        return new Promise(resolve => {
+            this.setState(
+                {
+                    member: member
+                },
+                resolve
+            );
+            this.props.onChange(member);
         });
-        this.props.onChange(member);
+    };
+
+    onFieldChanged = (fieldName: string, value: string) => {
+        switch (fieldName) {
+            case 'firstName':
+                this.onFirstNameChanged(value);
+                return;
+            case 'idNumber':
+                this.onIdNumberChanged(value);
+                return;
+        }
+    };
+
+    onFirstNameChanged = (value: string) => {
+        //Auto set the initials and preferred name
+        const firstNames = value.split(' ');
+        const initials = firstNames.reduce((p, c) => {
+            return `${p}${c.charAt(0).toUpperCase()}`;
+        }, '');
+
+        const member = {
+            ...this.state.member,
+            initials: initials,
+            preferredName: firstNames.length > 0 ? firstNames[0] : ''
+        };
+        this.updateMember(member);
+    };
+
+    onIdNumberChanged = (
+        value: string,
+        forceDateOfBirthUpdate: boolean = false
+    ) => {
+        const result = parseIdNumber(value);
+
+        if (result.dateOfBirth) {
+            //Only set the date of birth if it is empty
+            const member = {
+                ...this.state.member,
+                dateOfBirth:
+                    this.state.member.dateOfBirth && !forceDateOfBirthUpdate
+                        ? this.state.member.dateOfBirth
+                        : result.dateOfBirth
+            };
+
+            this.updateMember(member);
+        }
+    };
+
+    syncDateOfBirthToIdNumber = () => {
+        this.onIdNumberChanged(this.state.member.idNumber, true);
+    };
+
+    idNumberInputAddon = () => {
+        const menu = (
+            <Menu>
+                <Menu.Item key="1" onClick={this.syncDateOfBirthToIdNumber}>
+                    Sync Date of Birth
+                </Menu.Item>
+            </Menu>
+        );
+        return (
+            <Dropdown overlay={menu} trigger={['click']}>
+                <Icon type="setting" className="clickable" />
+            </Dropdown>
+        );
     };
 
     render() {
@@ -90,6 +169,7 @@ class MemberForm extends Component<Props, State> {
                     value={member.idNumber}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    addonAfter={this.idNumberInputAddon()}
                 />
                 <FormDate
                     fieldName="dateOfBirth"

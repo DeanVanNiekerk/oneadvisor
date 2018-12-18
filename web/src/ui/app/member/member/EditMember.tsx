@@ -2,14 +2,9 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import {
-    insertMember,
-    MemberEdit,
-    memberSelector,
-    updateMember
-} from '@/state/app/member/members';
-import { RootState } from '@/state/rootReducer';
 import { ValidationResult } from '@/app/types';
+import { insertMember, MemberEdit, memberSelector, updateMember } from '@/state/app/member/members';
+import { RootState } from '@/state/rootReducer';
 import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
 import { showConfirm } from '@/ui/feedback/modal/confirm';
 
@@ -95,7 +90,6 @@ class EditMember extends Component<Props, State> {
                 title={`${member && !member.id ? 'New' : 'Edit'} Member`}
                 visible={visible}
                 onClose={this.confirmCancel}
-                noTopPadding={true}
             >
                 <ContentLoader isLoading={this.isLoading()}>
                     {member && (

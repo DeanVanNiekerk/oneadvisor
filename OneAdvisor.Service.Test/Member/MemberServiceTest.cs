@@ -31,12 +31,20 @@ namespace OneAdvisor.Service.Test.Member
                 Initials = "INI 1",
                 PreferredName = "PN 1",
                 IdNumber = "321654",
-                DateOfBirth = new DateTime(1982, 10, 3)
+                DateOfBirth = new DateTime(1982, 10, 3),
+                OrganisationId = Guid.NewGuid()
+            };
+
+            var dummy = new MemberEntity
+            {
+                Id = Guid.NewGuid(),
+                OrganisationId = Guid.NewGuid()
             };
 
             using (var context = new DataContext(options))
             {
                 context.Member.Add(member);
+                context.Member.Add(dummy);
 
                 context.SaveChanges();
             }
@@ -47,6 +55,7 @@ namespace OneAdvisor.Service.Test.Member
 
                 //When
                 var queryOptions = new MemberQueryOptions("", "", 0, 0);
+                queryOptions.OrganisationId = member.OrganisationId;
                 var members = await service.GetMembers(queryOptions);
 
                 //Then
@@ -71,12 +80,13 @@ namespace OneAdvisor.Service.Test.Member
             var options = TestHelper.GetDbContext("GetMembers_SortAndPage");
 
             //Given
-            var mem1 = new MemberEntity { Id = Guid.NewGuid(), LastName = "A Name 1" };
-            var mem2 = new MemberEntity { Id = Guid.NewGuid(), LastName = "B Name 2" };
-            var mem3 = new MemberEntity { Id = Guid.NewGuid(), LastName = "C Name 3" };
-            var mem4 = new MemberEntity { Id = Guid.NewGuid(), LastName = "D Name 4" };
-            var mem5 = new MemberEntity { Id = Guid.NewGuid(), LastName = "E Name 5" };
-            var mem6 = new MemberEntity { Id = Guid.NewGuid(), LastName = "F Name 6" };
+            var orgId = Guid.NewGuid();
+            var mem1 = new MemberEntity { Id = Guid.NewGuid(), LastName = "A Name 1", OrganisationId = orgId };
+            var mem2 = new MemberEntity { Id = Guid.NewGuid(), LastName = "B Name 2", OrganisationId = orgId };
+            var mem3 = new MemberEntity { Id = Guid.NewGuid(), LastName = "C Name 3", OrganisationId = orgId };
+            var mem4 = new MemberEntity { Id = Guid.NewGuid(), LastName = "D Name 4", OrganisationId = orgId };
+            var mem5 = new MemberEntity { Id = Guid.NewGuid(), LastName = "E Name 5", OrganisationId = orgId };
+            var mem6 = new MemberEntity { Id = Guid.NewGuid(), LastName = "F Name 6", OrganisationId = orgId };
 
             using (var context = new DataContext(options))
             {
@@ -97,6 +107,7 @@ namespace OneAdvisor.Service.Test.Member
 
                 //When
                 var queryOptions = new MemberQueryOptions("LastName", "asc", 2, 2);
+                queryOptions.OrganisationId = orgId;
                 var actual = await service.GetMembers(queryOptions);
 
                 //Then
@@ -120,7 +131,12 @@ namespace OneAdvisor.Service.Test.Member
             var options = TestHelper.GetDbContext("GetMember");
 
             //Given
-            var mem1 = new MemberEntity { Id = Guid.NewGuid() };
+            var mem1 = new MemberEntity
+            {
+                Id = Guid.NewGuid(),
+                OrganisationId = Guid.NewGuid()
+            };
+
             var mem2 = new MemberEntity
             {
                 Id = Guid.NewGuid(),
@@ -130,7 +146,8 @@ namespace OneAdvisor.Service.Test.Member
                 Initials = "INI 1",
                 PreferredName = "PN 1",
                 IdNumber = "321654",
-                DateOfBirth = new DateTime(1982, 10, 3)
+                DateOfBirth = new DateTime(1982, 10, 3),
+                OrganisationId = Guid.NewGuid()
             };
 
             using (var context = new DataContext(options))
@@ -146,7 +163,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var actual = await service.GetMember(mem2.Id);
+                var actual = await service.GetMember(mem2.OrganisationId, mem2.Id);
 
                 //Then
                 Assert.AreEqual(mem2.Id, actual.Id);
@@ -166,6 +183,7 @@ namespace OneAdvisor.Service.Test.Member
             var options = TestHelper.GetDbContext("InsertMember");
 
             //Given
+            var orgId = Guid.NewGuid();
             var member = new MemberEdit()
             {
                 FirstName = "FN 1",
@@ -182,13 +200,14 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var result = await service.InsertMember(member);
+                var result = await service.InsertMember(orgId, member);
 
                 //Then
                 Assert.IsTrue(result.Success);
 
                 var actual = await context.Member.FindAsync(((MemberEdit)result.Tag).Id);
                 Assert.AreEqual(member.Id, actual.Id);
+                Assert.AreEqual(orgId, actual.OrganisationId);
                 Assert.AreEqual(member.FirstName, actual.FirstName);
                 Assert.AreEqual(member.LastName, actual.LastName);
                 Assert.AreEqual(member.MaidenName, actual.MaidenName);
@@ -205,7 +224,7 @@ namespace OneAdvisor.Service.Test.Member
             var options = TestHelper.GetDbContext("UpdateMember");
 
             //Given
-            var mem1 = new MemberEntity { Id = Guid.NewGuid(), FirstName = "FN 1", LastName = "LN 1" };
+            var mem1 = new MemberEntity { Id = Guid.NewGuid(), FirstName = "FN 1", LastName = "LN 1", OrganisationId = Guid.NewGuid() };
             var mem2 = new MemberEntity
             {
                 Id = Guid.NewGuid(),
@@ -215,7 +234,8 @@ namespace OneAdvisor.Service.Test.Member
                 Initials = "INI 1",
                 PreferredName = "PN 1",
                 IdNumber = "321654",
-                DateOfBirth = new DateTime(1982, 10, 3)
+                DateOfBirth = new DateTime(1982, 10, 3),
+                OrganisationId = Guid.NewGuid()
             };
 
             using (var context = new DataContext(options))
@@ -243,13 +263,14 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var result = await service.UpdateMember(member);
+                var result = await service.UpdateMember(mem2.OrganisationId, member);
 
                 //Then
                 Assert.IsTrue(result.Success);
 
                 var actual = await context.Member.FindAsync(member.Id);
                 Assert.AreEqual(member.Id, actual.Id);
+                Assert.AreEqual(mem2.OrganisationId, actual.OrganisationId);
                 Assert.AreEqual(member.FirstName, actual.FirstName);
                 Assert.AreEqual(member.LastName, actual.LastName);
                 Assert.AreEqual(member.MaidenName, actual.MaidenName);

@@ -11,15 +11,17 @@ using OneAdvisor.Model.Member.Interface;
 using api.App.Dtos;
 using api.Controllers.Directory.Members.Dto;
 using OneAdvisor.Model.Member.Model.Member;
+using Microsoft.AspNetCore.Http;
 
 namespace api.Controllers.Directory.Members
 {
 
     [ApiController]
     [Route("api/member/members")]
-    public class MembersController : Controller
+    public class MembersController : BaseController
     {
-        public MembersController(IMapper mapper, IMemberService memberService)
+        public MembersController(IHttpContextAccessor contextAccessor, IMapper mapper, IMemberService memberService)
+            : base(contextAccessor)
         {
             Mapper = mapper;
             MemberService = memberService;
@@ -32,7 +34,7 @@ namespace api.Controllers.Directory.Members
         [UseCaseAuthorize("mem_view_members")]
         public async Task<PagedItemsDto<MemberDto>> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0)
         {
-            var queryOptions = new MemberQueryOptions(sortColumn, sortDirection, pageSize, pageNumber);
+            var queryOptions = new MemberQueryOptions(OrganisationId, sortColumn, sortDirection, pageSize, pageNumber);
             var pagedItems = await MemberService.GetMembers(queryOptions);
 
             return Mapper.MapToPageItemsDto<OneAdvisor.Model.Member.Model.Member.Member, MemberDto>(pagedItems);
@@ -42,7 +44,7 @@ namespace api.Controllers.Directory.Members
         [UseCaseAuthorize("mem_view_members")]
         public ActionResult<MemberEditDto> Get(Guid memberId)
         {
-            var model = MemberService.GetMember(memberId).Result;
+            var model = MemberService.GetMember(OrganisationId, memberId).Result;
 
             if (model == null)
                 return NotFound();
@@ -56,7 +58,7 @@ namespace api.Controllers.Directory.Members
         {
             var model = Mapper.Map<MemberEdit>(member);
 
-            var result = await MemberService.InsertMember(model);
+            var result = await MemberService.InsertMember(OrganisationId, model);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
@@ -72,7 +74,7 @@ namespace api.Controllers.Directory.Members
 
             var model = Mapper.Map<MemberEdit>(member);
 
-            var result = await MemberService.UpdateMember(model);
+            var result = await MemberService.UpdateMember(OrganisationId, model);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
