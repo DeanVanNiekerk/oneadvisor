@@ -70,6 +70,7 @@
 ## TODO
 
 - Branches within Organisations
+- Member needs brokerId
 - Check for duplicate login/email when adding user in OKTA
 - Url encode query string and filter checks for = and ;
 - !!!!!! API JWT - Must check audience !!!!!!

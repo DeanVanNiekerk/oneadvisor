@@ -22,6 +22,9 @@ namespace OneAdvisor.Data
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_UseCase]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Role]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Organisation]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Branch]");
+
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_Member]");
 
             return total;
         }
@@ -70,6 +73,8 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_edit_users", Name = "Edit Users", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_organisations", Name = "View Organisations", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_edit_organisations", Name = "Edit Organisations", ApplicationId = dirGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_branches", Name = "View Branches", ApplicationId = dirGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "dir_edit_branches", Name = "Edit Branches", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_roles", Name = "View Roles", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_applications", Name = "View Applications", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_usecases", Name = "View UseCases", ApplicationId = dirGuid });
@@ -91,6 +96,8 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_edit_users" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_organisations" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_edit_organisations" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_branches" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_edit_branches" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_roles" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_applications" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_usecases" });
@@ -105,11 +112,22 @@ namespace OneAdvisor.Data
             }
 
             var organisations = _context.Organisation.ToList();
+            var sabOrgId = Guid.Parse("9a46c5ae-3f6f-494c-b0de-d908f08507c3");
+            var lifeOrgId = Guid.Parse("d44abb82-9eab-47a3-b20c-61b4ee93bf21");
             if (!organisations.Any())
             {
-
                 //Organisations
-                _context.Organisation.Add(new OrganisationEntity() { Id = Guid.Parse("9a46c5ae-3f6f-494c-b0de-d908f08507c3"), Name = "Smith and Bormann" });
+                _context.Organisation.Add(new OrganisationEntity() { Id = sabOrgId, Name = "Smith and Bormann" });
+                _context.Organisation.Add(new OrganisationEntity() { Id = lifeOrgId, Name = "Life Brokers" });
+            }
+
+            var branches = _context.Branch.ToList();
+            if (!branches.Any())
+            {
+                //Branches
+                _context.Branch.Add(new BranchEntity() { OrganisationId = sabOrgId, Name = "Port Shepstone" });
+                _context.Branch.Add(new BranchEntity() { OrganisationId = sabOrgId, Name = "Port Elizabeth" });
+                _context.Branch.Add(new BranchEntity() { OrganisationId = lifeOrgId, Name = "Durban" });
             }
 
             _context.SaveChanges();

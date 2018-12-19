@@ -20,7 +20,7 @@ namespace OneAdvisor.Model.Common
             Column = column;
         }
 
-        public SortDirection Direction { get; set; }
-        public string Column { get; set; }
+        public SortDirection Direction { get; private set; }
+        public string Column { get; private set; }
     }
 }

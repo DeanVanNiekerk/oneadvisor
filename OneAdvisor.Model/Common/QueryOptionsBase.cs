@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using OneAdvisor.Model.Common;
 
@@ -44,20 +45,24 @@ namespace OneAdvisor.Model.Common
             return filters;
         }
 
-        protected T GetFilterValue<T>(string fieldName)
+        protected FilterParseResult<T> GetFilterValue<T>(string fieldName)
         {
+            var result = new FilterParseResult<T>();
             var filter = Filters.FirstOrDefault(f => f.FieldName.ToLower() == fieldName.ToLower());
 
             if (filter == null)
-                return default(T);
+                return result;
 
             try
             {
-                return (T)Convert.ChangeType(filter.Value, typeof(T));
+                result.Value = (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(filter.Value);
+                result.Success = true;
+
+                return result;
             }
-            catch (InvalidCastException)
+            catch (NotSupportedException)
             {
-                return default(T);
+                return result;
             }
         }
 

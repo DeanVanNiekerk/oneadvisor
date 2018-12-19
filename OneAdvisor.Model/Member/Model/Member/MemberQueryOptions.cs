@@ -9,9 +9,19 @@ namespace OneAdvisor.Model.Member.Model.Member
          : base(sortColumn, sortDirection, pageSize, pageNumber, filters)
         {
             OrganisationId = organisationId;
-            FirstName = GetFilterValue<string>("FirstName");
-            LastName = GetFilterValue<string>("LastName");
-            IdNumber = GetFilterValue<string>("IdNumber");
+
+            var result = GetFilterValue<string>("FirstName");
+            if (result.Success)
+                FirstName = result.Value;
+
+            result = GetFilterValue<string>("LastName");
+            if (result.Success)
+                LastName = result.Value;
+
+            result = GetFilterValue<string>("IdNumber");
+            if (result.Success)
+                IdNumber = result.Value;
+
         }
 
         public Guid OrganisationId { get; set; }

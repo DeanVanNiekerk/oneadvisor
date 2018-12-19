@@ -15,7 +15,7 @@ namespace OneAdvisor.Service.Test.Directory
     [TestClass]
     public class OrganisationServiceTest
     {
-       
+
         [TestMethod]
         public async Task GetOrganisations_None()
         {
@@ -29,7 +29,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new OrganisationService(context);
 
                 //When
-                var queryOptions = new OrganisationQueryOptions(0, 0);
+                var queryOptions = new OrganisationQueryOptions();
                 var actual = await service.GetOrganisations(queryOptions);
 
                 //Then
@@ -39,9 +39,9 @@ namespace OneAdvisor.Service.Test.Directory
         }
 
         [TestMethod]
-        public async Task GetOrganisations_SortAndPage()
+        public async Task GetOrganisations_Sort()
         {
-            var options = TestHelper.GetDbContext("GetOrganisations_SortAndPage");
+            var options = TestHelper.GetDbContext("GetOrganisations_Sort");
 
             //Given
             var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "A Org 1" };
@@ -54,9 +54,9 @@ namespace OneAdvisor.Service.Test.Directory
             using (var context = new DataContext(options))
             {
                 //Jumbled order
+                context.Organisation.Add(org6);
                 context.Organisation.Add(org1);
                 context.Organisation.Add(org2);
-                context.Organisation.Add(org6);
                 context.Organisation.Add(org4);
                 context.Organisation.Add(org5);
                 context.Organisation.Add(org3);
@@ -69,9 +69,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new OrganisationService(context);
 
                 //When
-                var queryOptions = new OrganisationQueryOptions(2, 2);
-                queryOptions.SortOptions.Column = "Name";
-                queryOptions.SortOptions.Direction = SortDirection.Descending;
+                var queryOptions = new OrganisationQueryOptions();
                 var actual = await service.GetOrganisations(queryOptions);
 
                 //Then
@@ -79,15 +77,19 @@ namespace OneAdvisor.Service.Test.Directory
 
                 var organisations = actual.Items.ToArray();
 
-                Assert.AreEqual(organisations.Count(), 2);
+                Assert.AreEqual(organisations.Count(), 6);
 
                 var actual1 = organisations[0];
-                Assert.AreEqual(org4.Id, actual1.Id);
-                Assert.AreEqual(org4.Name, actual1.Name);
+                Assert.AreEqual(org1.Id, actual1.Id);
+                Assert.AreEqual(org1.Name, actual1.Name);
 
                 var actual2 = organisations[1];
-                Assert.AreEqual(org3.Id, actual2.Id);
-                Assert.AreEqual(org3.Name, actual2.Name);
+                Assert.AreEqual(org2.Id, actual2.Id);
+                Assert.AreEqual(org2.Name, actual2.Name);
+
+                var actual6 = organisations[5];
+                Assert.AreEqual(org6.Id, actual6.Id);
+                Assert.AreEqual(org6.Name, actual6.Name);
             }
         }
 

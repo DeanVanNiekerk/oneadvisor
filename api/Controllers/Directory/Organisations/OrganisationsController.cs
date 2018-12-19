@@ -30,9 +30,9 @@ namespace api.Controllers.Directory.Organisations
 
         [HttpGet("")]
         [UseCaseAuthorize("dir_view_organisations")]
-        public async Task<PagedItemsDto<OrganisationDto>> Index(int pageSize = 0, int pageNumber = 0)
+        public async Task<PagedItemsDto<OrganisationDto>> Index()
         {
-            var queryOptions = new OrganisationQueryOptions(pageSize, pageNumber);
+            var queryOptions = new OrganisationQueryOptions();
             var pagedItems = await OrganisationService.GetOrganisations(queryOptions);
 
             return Mapper.MapToPageItemsDto<Organisation, OrganisationDto>(pagedItems);

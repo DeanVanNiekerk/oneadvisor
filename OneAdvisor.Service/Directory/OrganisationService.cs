@@ -12,7 +12,7 @@ using OneAdvisor.Model;
 
 namespace OneAdvisor.Service.Directory
 {
-    public class OrganisationService: IOrganisationService
+    public class OrganisationService : IOrganisationService
     {
         private readonly DataContext _context;
 
@@ -28,10 +28,6 @@ namespace OneAdvisor.Service.Directory
             //Get total before applying filters
             var pagedItems = new PagedItems<Organisation>();
             pagedItems.TotalItems = await query.CountAsync();
-
-            //Apply filters ----------------------------------------------------------------------------------------
-           
-            //------------------------------------------------------------------------------------------------------
 
             //Ordering
             query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
@@ -55,7 +51,7 @@ namespace OneAdvisor.Service.Directory
             var validator = new OrganisationValidator(true);
             var result = validator.Validate(organisation).GetResult();
 
-            if(!result.Success)
+            if (!result.Success)
                 return result;
 
             var entity = MapModelToEntity(organisation);
@@ -73,7 +69,7 @@ namespace OneAdvisor.Service.Directory
             var validator = new OrganisationValidator(false);
             var result = validator.Validate(organisation).GetResult();
 
-            if(!result.Success)
+            if (!result.Success)
                 return result;
 
             var entity = MapModelToEntity(organisation);
@@ -86,7 +82,8 @@ namespace OneAdvisor.Service.Directory
         private IQueryable<Organisation> GetOrganisationQuery()
         {
             var query = from organisation in _context.Organisation
-                        select new Organisation() {
+                        select new Organisation()
+                        {
                             Id = organisation.Id,
                             Name = organisation.Name
                         };
@@ -94,9 +91,10 @@ namespace OneAdvisor.Service.Directory
             return query;
         }
 
-        private OrganisationEntity MapModelToEntity(Organisation model) 
+        private OrganisationEntity MapModelToEntity(Organisation model)
         {
-            return new OrganisationEntity() {
+            return new OrganisationEntity()
+            {
                 Id = model.Id,
                 Name = model.Name
             };
