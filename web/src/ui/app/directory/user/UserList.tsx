@@ -90,7 +90,7 @@ class UserList extends Component<Props, State> {
             getColumn('lastName', 'Last Name'),
             getColumn('email', 'Email'),
             getColumn('login', 'Login'),
-            getColumn('lastLogin', 'Last Login', { type: 'date' }),
+            getColumn('lastLogin', 'Last Login', { type: 'long-date' }),
             getColumn('organisationId', 'Organisation', {
                 render: (organisationId: string) => {
                     return this.getOrganisationName(organisationId);

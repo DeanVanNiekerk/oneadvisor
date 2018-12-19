@@ -1,4 +1,5 @@
-import { ApiAction, ApiOnSuccess, ValidationResult } from '@/app/types';
+import { ApiAction, ApiOnSuccess } from '@/app/types';
+import { ValidationResult } from '@/app/validation';
 import { usersApi } from '@/config/api/directory';
 
 import { UserEdit } from '../types';

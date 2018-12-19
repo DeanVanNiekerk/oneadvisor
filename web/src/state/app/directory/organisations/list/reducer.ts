@@ -1,4 +1,4 @@
-import { PageOptions } from '@/app/types';
+import { PageOptions } from '@/app/table';
 
 import { Organisation } from '../types';
 import { OrganisationListAction } from './actions';

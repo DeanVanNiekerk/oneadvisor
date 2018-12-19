@@ -279,5 +279,51 @@ namespace OneAdvisor.Service.Test.Member
             }
         }
 
+        [TestMethod]
+        public async Task GetMembers_Filter()
+        {
+            var options = TestHelper.GetDbContext("GetMembers_Filter");
+
+            //Given
+            var orgId = Guid.NewGuid();
+            var member1 = new MemberEntity
+            {
+                Id = Guid.NewGuid(),
+                LastName = "van Niekerk",
+                OrganisationId = orgId
+            };
+
+            var member2 = new MemberEntity
+            {
+                Id = Guid.NewGuid(),
+                LastName = "Jones",
+                OrganisationId = orgId
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Member.Add(member1);
+                context.Member.Add(member2);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new MemberService(context);
+
+                //When
+                var queryOptions = new MemberQueryOptions(orgId, "", "", 0, 0, "lastName=nie");
+                var members = await service.GetMembers(queryOptions);
+
+                //Then
+                Assert.AreEqual(2, members.TotalItems);
+                Assert.AreEqual(1, members.Items.Count());
+
+                var actual = members.Items.First();
+                Assert.AreEqual(member1.Id, actual.Id);
+            }
+        }
+
     }
 }

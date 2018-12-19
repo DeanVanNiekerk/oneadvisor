@@ -1,5 +1,6 @@
-import { appendPageOptionQuery, appendSortOptionQuery } from '@/app/query';
-import { ApiAction, PagedItems, PageOptions, SortOptions } from '@/app/types';
+import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from '@/app/query';
+import { Filters, PagedItems, PageOptions, SortOptions } from '@/app/table';
+import { ApiAction } from '@/app/types';
 import { membersApi } from '@/config/api/member';
 
 import { Member } from '../types';
@@ -18,21 +19,28 @@ type MemberListSortOptionsReceiveAction = {
     type: 'MEMBERS_LIST_SORT_OPTIONS_RECEIVE';
     payload: SortOptions;
 };
+type MemberListFiltersReceiveAction = {
+    type: 'MEMBERS_LIST_FILTERS_RECEIVE';
+    payload: Filters;
+};
 
 export type MemberListAction =
     | MemberListReceiveAction
     | MemberListFetchingAction
     | MemberListFetchingErrorAction
     | MemberListPageOptionsReceiveAction
-    | MemberListSortOptionsReceiveAction;
+    | MemberListSortOptionsReceiveAction
+    | MemberListFiltersReceiveAction;
 
 export const fetchMembers = (
     pageOptions: PageOptions,
-    sortOptions: SortOptions
+    sortOptions: SortOptions,
+    filters: Filters
 ): ApiAction => {
     let api = membersApi;
     api = appendPageOptionQuery(api, pageOptions);
     api = appendSortOptionQuery(api, sortOptions);
+    api = appendFiltersQuery(api, filters);
     return {
         type: 'API',
         endpoint: api,
@@ -52,4 +60,11 @@ export const receiveSortOptions = (
 ): MemberListSortOptionsReceiveAction => ({
     type: 'MEMBERS_LIST_SORT_OPTIONS_RECEIVE',
     payload: sortOptions
+});
+
+export const receiveFilters = (
+    filters: Filters
+): MemberListFiltersReceiveAction => ({
+    type: 'MEMBERS_LIST_FILTERS_RECEIVE',
+    payload: filters
 });

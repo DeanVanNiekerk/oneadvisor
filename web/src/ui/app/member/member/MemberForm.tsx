@@ -2,7 +2,7 @@ import { Dropdown, Icon, Menu } from 'antd';
 import React, { Component } from 'react';
 
 import { parseIdNumber } from '@/app/parsers/id';
-import { ValidationResult } from '@/app/types';
+import { ValidationResult } from '@/app/validation';
 import { MemberEdit } from '@/state/app/member/members';
 import { Form, FormDate, FormInput } from '@/ui/controls';
 

@@ -1,5 +1,6 @@
-import { PageOptions, SortDirection, SortOptions } from '@/app/types';
 import config from '@/config/config';
+
+import { PageOptions, SortDirection, SortOptions } from './types';
 
 export const defaultPageOptions = (): PageOptions => {
     return {

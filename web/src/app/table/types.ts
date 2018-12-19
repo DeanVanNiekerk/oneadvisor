@@ -1,4 +1,4 @@
-export type ColumnType = 'string' | 'date';
+export type ColumnType = 'string' | 'date' | 'long-date';
 
 export type FilterOptions = {
     text: string;
@@ -11,6 +11,7 @@ export type ColumnOptions = {
     sorter?: (a: any, b: any) => any;
     onFilter?: (value: string, record: any, property: string) => boolean;
     filters?: FilterOptions[];
+    isSearchFilter?: boolean;
 };
 
 export type PagedItems<T> = {
@@ -29,3 +30,5 @@ export type SortOptions = {
     direction: SortDirection;
     column: string;
 };
+
+export type Filters = Record<string, string[]>;

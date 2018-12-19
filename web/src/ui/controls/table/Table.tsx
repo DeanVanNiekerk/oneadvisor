@@ -4,8 +4,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
+import { Filters, PageOptions, SortOptions } from '@/app/table';
 import { defaultPageOptions } from '@/app/table/defaults';
-import { PageOptions, SortOptions } from '@/app/types';
 import { identitySelector } from '@/state/app/directory/identity';
 import { RootState } from '@/state/rootReducer';
 
@@ -18,14 +18,15 @@ type Props = {
     onRowClick?: (record: any) => void;
     onRowClickRequiredUseCase?: string;
 
-    onChange?: (pagination: any, filters: any, sorter: any) => void;
+    //onChange?: (pagination: any, filters: any, sorter: any) => void;
 
     externalDataSource?: boolean;
     pageOptions?: PageOptions;
     totalRows?: number;
     onTableChange?: (
         pageOptions: PageOptions,
-        sortOptions: SortOptions
+        sortOptions: SortOptions,
+        filters: Filters
     ) => void;
 };
 
@@ -42,7 +43,11 @@ class TableComponent extends React.Component<Props, State> {
         };
     }
 
-    handleTableChange = (pagination: PaginationConfig, filters, sorter) => {
+    handleTableChange = (
+        pagination: PaginationConfig,
+        filters: any,
+        sorter
+    ) => {
         //Check for table change
         if (this.props.onTableChange) {
             this.props.onTableChange(
@@ -57,7 +62,8 @@ class TableComponent extends React.Component<Props, State> {
                 {
                     column: sorter.field,
                     direction: sorter.order === 'ascend' ? 'asc' : 'desc'
-                }
+                },
+                filters
             );
         }
     };

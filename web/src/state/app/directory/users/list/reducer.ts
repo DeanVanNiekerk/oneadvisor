@@ -1,5 +1,5 @@
+import { PageOptions } from '@/app/table';
 import { defaultPageOptions } from '@/app/table/defaults';
-import { PageOptions } from '@/app/types';
 
 import { User } from '../types';
 import { UserListAction } from './actions';

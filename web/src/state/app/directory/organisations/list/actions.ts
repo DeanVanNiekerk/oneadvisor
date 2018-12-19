@@ -1,4 +1,5 @@
-import { ApiAction, PagedItems } from '@/app/types';
+import { PagedItems } from '@/app/table';
+import { ApiAction } from '@/app/types';
 import { organisationsApi } from '@/config/api/directory';
 
 import { Organisation } from '../types';

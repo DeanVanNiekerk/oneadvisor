@@ -1,4 +1,4 @@
-import { PageOptions, SortOptions } from '@/app/types';
+import { Filters, PageOptions, SortOptions } from '@/app/table';
 import { membersApi } from '@/config/api/member';
 
 import * as actions from './actions';
@@ -56,5 +56,18 @@ describe('member: members: list actions', () => {
         };
 
         expect(actions.receiveSortOptions(options)).toEqual(expectedAction);
+    });
+
+    it('should dispatch MEMBERS_LIST_FILTERS_RECEIVE when receiveFilters is called', () => {
+        const filters: Filters = {
+            firstName: ['sup']
+        };
+
+        const expectedAction = {
+            type: 'MEMBERS_LIST_FILTERS_RECEIVE',
+            payload: filters
+        };
+
+        expect(actions.receiveFilters(filters)).toEqual(expectedAction);
     });
 });

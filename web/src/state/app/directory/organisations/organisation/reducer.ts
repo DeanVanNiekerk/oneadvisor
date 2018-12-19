@@ -1,4 +1,4 @@
-import { ValidationResult } from '@/app/types';
+import { ValidationResult } from '@/app/validation';
 
 import { Organisation } from '../types';
 import { OrganisationAction } from './actions';

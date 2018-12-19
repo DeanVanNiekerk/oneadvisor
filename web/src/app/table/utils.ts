@@ -1,6 +1,7 @@
 import moment from 'moment';
 
-import { ColumnOptions } from '@/app/types';
+import { ColumnOptions } from '@/app/table';
+import { getColumnSearchProps } from '@/ui/controls';
 
 const columnOptionDefaults: ColumnOptions = {
     type: 'string',
@@ -26,7 +27,17 @@ export const getColumn = (
     };
 
     if (options.type === 'date')
+        options.render = value => (value ? moment(value).format('ll') : '');
+
+    if (options.type === 'long-date')
         options.render = value => (value ? moment(value).format('lll') : '');
+
+    if (options.isSearchFilter) {
+        options = {
+            ...options,
+            ...getColumnSearchProps(title)
+        };
+    }
 
     return {
         ...data,
@@ -41,7 +52,5 @@ export const sort = (item1: any, item2: any, property: string) => {
 };
 
 export const filter = (value: string, record: any, property: string) => {
-    //debugger;
-    console.log(value, record, property);
-    return record[property].indexOf(value) === 0;
+    return record[property].toLowerCase().indexOf(value.toLowerCase()) !== -1;
 };

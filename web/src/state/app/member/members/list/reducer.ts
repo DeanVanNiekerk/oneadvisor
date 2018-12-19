@@ -1,5 +1,5 @@
+import { Filters, PageOptions, SortOptions } from '@/app/table';
 import { defaultPageOptions, defaultSortOptions } from '@/app/table/defaults';
-import { PageOptions, SortOptions } from '@/app/types';
 
 import { Member } from '../types';
 import { MemberListAction } from './actions';
@@ -11,6 +11,7 @@ export type State = {
     readonly error: boolean;
     readonly pageOptions: PageOptions;
     readonly sortOptions: SortOptions;
+    readonly filters: Filters | null;
 };
 
 export const defaultState: State = {
@@ -19,7 +20,8 @@ export const defaultState: State = {
     fetching: false,
     error: false,
     pageOptions: defaultPageOptions(),
-    sortOptions: defaultSortOptions('lastName', 'desc')
+    sortOptions: defaultSortOptions('lastName', 'desc'),
+    filters: null
 };
 
 export const reducer = (
@@ -62,6 +64,14 @@ export const reducer = (
             return {
                 ...state,
                 sortOptions: {
+                    ...action.payload
+                }
+            };
+        }
+        case 'MEMBERS_LIST_FILTERS_RECEIVE': {
+            return {
+                ...state,
+                filters: {
                     ...action.payload
                 }
             };

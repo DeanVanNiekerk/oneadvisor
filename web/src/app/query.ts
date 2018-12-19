@@ -1,4 +1,6 @@
-import { PageOptions, SortOptions } from '@/app/types';
+import { string } from 'prop-types';
+
+import { filter, Filters, PageOptions, SortOptions } from '@/app/table';
 
 export const appendPageOptionQuery = (
     api: string,
@@ -30,6 +32,28 @@ export const appendSortOptionQuery = (
         {
             key: 'sortDirection',
             value: options.direction
+        }
+    ];
+
+    return appendQueryString(api, query);
+};
+
+export const appendFiltersQuery = (api: string, filters: Filters): string => {
+    if (!filters) return api;
+
+    let filtersValues: string[] = [];
+
+    Object.keys(filters).forEach(key => {
+        const values = filters[key];
+        if (values.length > 0) filtersValues.push(`${key}=${values[0]}`);
+    });
+
+    if (filtersValues.length === 0) return api;
+
+    const query: Param[] = [
+        {
+            key: 'filters',
+            value: filtersValues.join(';')
         }
     ];
 

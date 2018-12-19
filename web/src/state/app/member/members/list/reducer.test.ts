@@ -1,4 +1,4 @@
-import { SortOptions } from '@/app/types';
+import { Filters, SortOptions } from '@/app/table';
 
 import { defaultState, reducer } from './reducer';
 
@@ -114,6 +114,30 @@ describe('member list reducer', () => {
             ...defaultState,
             sortOptions: {
                 ...options
+            }
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it('should handle MEMBERS_LIST_FILTERS_RECEIVE', () => {
+        const initalState = {
+            ...defaultState
+        };
+
+        const filters: Filters = {
+            firstName: ['sup']
+        };
+
+        const actualState = reducer(initalState, {
+            type: 'MEMBERS_LIST_FILTERS_RECEIVE',
+            payload: filters
+        });
+
+        const expectedState = {
+            ...defaultState,
+            filters: {
+                ...filters
             }
         };
 

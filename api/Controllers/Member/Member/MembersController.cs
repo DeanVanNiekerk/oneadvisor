@@ -32,9 +32,9 @@ namespace api.Controllers.Directory.Members
 
         [HttpGet("")]
         [UseCaseAuthorize("mem_view_members")]
-        public async Task<PagedItemsDto<MemberDto>> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0)
+        public async Task<PagedItemsDto<MemberDto>> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
-            var queryOptions = new MemberQueryOptions(OrganisationId, sortColumn, sortDirection, pageSize, pageNumber);
+            var queryOptions = new MemberQueryOptions(OrganisationId, sortColumn, sortDirection, pageSize, pageNumber, filters);
             var pagedItems = await MemberService.GetMembers(queryOptions);
 
             return Mapper.MapToPageItemsDto<OneAdvisor.Model.Member.Model.Member.Member, MemberDto>(pagedItems);

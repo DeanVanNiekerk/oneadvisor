@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { getColumn } from '@/app/table';
-import { PageOptions, SortOptions } from '@/app/types';
+import { Filters, getColumn, PageOptions, SortOptions } from '@/app/table';
 import {
-    fetchMember, fetchMembers, Member, MemberEdit, membersSelector, receiveMember, receivePageOptions,
+    fetchMember, fetchMembers, Member, MemberEdit, membersSelector, receiveFilters, receiveMember, receivePageOptions,
     receiveSortOptions
 } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
@@ -18,6 +17,7 @@ type Props = {
     pageOptions: PageOptions;
     sortOptions: SortOptions;
     totalItems: number;
+    filters: Filters;
 } & DispatchProp;
 
 type State = {
@@ -40,14 +40,19 @@ class MemberList extends Component<Props, State> {
     componentDidUpdate(prevProps: Props) {
         if (
             prevProps.pageOptions != this.props.pageOptions ||
-            prevProps.sortOptions != this.props.sortOptions
+            prevProps.sortOptions != this.props.sortOptions ||
+            prevProps.filters != this.props.filters
         )
             this.loadMembers();
     }
 
     loadMembers = () => {
         this.props.dispatch(
-            fetchMembers(this.props.pageOptions, this.props.sortOptions)
+            fetchMembers(
+                this.props.pageOptions,
+                this.props.sortOptions,
+                this.props.filters
+            )
         );
     };
 
@@ -87,16 +92,24 @@ class MemberList extends Component<Props, State> {
 
     getColumns = () => {
         return [
-            getColumn('firstName', 'First Name'),
-            getColumn('lastName', 'Last Name')
+            getColumn('lastName', 'Last Name', { isSearchFilter: true }),
+            getColumn('firstName', 'First Name', { isSearchFilter: true }),
+            getColumn('idNumber', 'ID Number', { isSearchFilter: true }),
+            getColumn('dateOfBirth', 'Date of Birth', { type: 'date' })
         ];
     };
 
-    onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions) => {
+    onTableChange = (
+        pageOptions: PageOptions,
+        sortOptions: SortOptions,
+        filters: Filters
+    ) => {
         if (this.props.pageOptions != pageOptions)
             this.props.dispatch(receivePageOptions(pageOptions));
         if (this.props.sortOptions != sortOptions)
             this.props.dispatch(receiveSortOptions(sortOptions));
+        if (this.props.filters != filters)
+            this.props.dispatch(receiveFilters(filters));
     };
 
     render() {
@@ -146,7 +159,8 @@ const mapStateToProps = (state: RootState) => {
         fetching: membersState.fetching,
         pageOptions: membersState.pageOptions,
         sortOptions: membersState.sortOptions,
-        totalItems: membersState.totalItems
+        totalItems: membersState.totalItems,
+        filters: membersState.filters
     };
 };
 

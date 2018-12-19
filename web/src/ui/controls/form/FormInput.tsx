@@ -1,7 +1,7 @@
 import { Input } from 'antd';
 import React, { Component } from 'react';
 
-import { ValidationResult } from '@/app/types';
+import { ValidationResult } from '@/app/validation';
 
 import { FormLayout } from './Form';
 import { FormField } from './FormField';
