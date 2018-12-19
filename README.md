@@ -69,7 +69,9 @@
 
 ## TODO
 
+- Branches within Organisations
 - Check for duplicate login/email when adding user in OKTA
+- Url encode query string and filter checks for = and ;
 - !!!!!! API JWT - Must check audience !!!!!!
 
 - https://www.styled-components.com/docs/tooling#babel-plugin

@@ -9,7 +9,11 @@ type Props = {
     clearFilters: () => void;
 };
 
-class ColumnSearch extends React.Component<Props> {
+type State = {
+    searchText: string;
+};
+
+class ColumnSearch extends React.Component<Props, State> {
     constructor(props) {
         super(props);
 
@@ -49,7 +53,11 @@ class ColumnSearch extends React.Component<Props> {
                             this.props.confirm
                         )
                     }
-                    style={{ width: 188, marginBottom: 8, display: 'block' }}
+                    style={{
+                        width: 188,
+                        marginBottom: 8,
+                        display: 'block'
+                    }}
                 />
                 <Button
                     type="primary"
