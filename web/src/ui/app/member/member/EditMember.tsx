@@ -82,12 +82,23 @@ class EditMember extends Component<Props, State> {
         return this.props.fetching || this.props.updating;
     };
 
+    getTitle = () => {
+        if (this.props.fetching) return 'Loading Member';
+
+        const { member } = this.props;
+
+        if (member && member.id)
+            return `Edit Member: ${member.firstName} ${member.lastName}`;
+
+        return 'New Member';
+    };
+
     render() {
         const { member, validationResults, visible } = this.props;
 
         return (
             <Drawer
-                title={`${member && !member.id ? 'New' : 'Edit'} Member`}
+                title={this.getTitle()}
                 visible={visible}
                 onClose={this.confirmCancel}
             >

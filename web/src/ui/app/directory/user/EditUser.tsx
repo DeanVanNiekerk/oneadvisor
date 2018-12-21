@@ -100,12 +100,23 @@ class EditUser extends Component<Props, State> {
         return this.props.fetching || this.props.updating;
     };
 
+    getTitle = () => {
+        if (this.props.fetching) return 'Loading User';
+
+        const { user } = this.props;
+
+        if (user && user.id)
+            return `Edit User: ${user.firstName} ${user.lastName}`;
+
+        return 'New User';
+    };
+
     render() {
         const { user, validationResults, visible } = this.props;
 
         return (
             <Drawer
-                title={`${user && !user.id ? 'New' : 'Edit'} User`}
+                title={this.getTitle()}
                 visible={visible}
                 onClose={this.confirmCancel}
                 noTopPadding={true}

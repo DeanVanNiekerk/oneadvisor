@@ -93,14 +93,23 @@ class EditOrganisation extends Component<Props, State> {
         this.setState({ activeTab });
     };
 
+    getTitle = () => {
+        if (this.props.fetching) return 'Loading Organisation';
+
+        const { organisation } = this.props;
+
+        if (organisation && organisation.id)
+            return `Edit Organisation: ${organisation.name}`;
+
+        return 'New Organisation';
+    };
+
     render() {
         const { organisation, validationResults, visible } = this.props;
 
         return (
             <Drawer
-                title={`${
-                    organisation && organisation.id ? 'Edit' : 'New'
-                } Organisation`}
+                title={this.getTitle()}
                 visible={visible}
                 onClose={this.confirmCancel}
                 noTopPadding={true}

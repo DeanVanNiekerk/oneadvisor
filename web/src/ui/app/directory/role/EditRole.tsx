@@ -29,12 +29,22 @@ class EditUser extends Component<Props> {
         return this.props.fetching;
     };
 
+    getTitle = () => {
+        if (this.props.fetching) return 'Loading Role';
+
+        const { role } = this.props;
+
+        if (role && role.id) return `View Role: ${role.name}`;
+
+        return 'New Role';
+    };
+
     render() {
         const { role, visible } = this.props;
 
         return (
             <Drawer
-                title={`View Role`}
+                title={this.getTitle()}
                 visible={visible}
                 onClose={this.close}
                 noTopPadding={true}
