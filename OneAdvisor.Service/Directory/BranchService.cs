@@ -43,6 +43,14 @@ namespace OneAdvisor.Service.Directory
             return pagedItems;
         }
 
+        public async Task<Branch> GetBranch(Guid id)
+        {
+            var query = from branch in GetBranchQuery()
+                        where branch.Id == id
+                        select branch;
+            return await query.FirstOrDefaultAsync();
+        }
+
         public async Task<Result> InsertBranch(Branch branch)
         {
             var validator = new BranchValidator(true);

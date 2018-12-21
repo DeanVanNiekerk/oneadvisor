@@ -9,6 +9,7 @@ namespace OneAdvisor.Model.Directory.Interface
     public interface IBranchService
     {
         Task<PagedItems<Branch>> GetBranches(BranchQueryOptions queryOptions);
+        Task<Branch> GetBranch(Guid branchId);
         Task<Result> UpdateBranch(Branch branch);
         Task<Result> InsertBranch(Branch branch);
     }

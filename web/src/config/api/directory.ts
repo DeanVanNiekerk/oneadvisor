@@ -8,3 +8,4 @@ export const organisationsApi = `${directoryBaseApi}/organisations`;
 export const rolesApi = `${directoryBaseApi}/roles`;
 export const applicationsApi = `${directoryBaseApi}/applications`;
 export const useCasesApi = `${directoryBaseApi}/usecases`;
+export const branchesApi = `${directoryBaseApi}/branches`;

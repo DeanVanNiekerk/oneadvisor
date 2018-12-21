@@ -15,9 +15,13 @@ describe('member: members: list actions', () => {
             direction: 'desc'
         };
 
+        const filters: Filters = {
+            lastName: ['van']
+        };
+
         const api = `${membersApi}?pageNumber=${pageOptions.number}&pageSize=${
             pageOptions.size
-        }&sortColumn=firstName&sortDirection=desc`;
+        }&sortColumn=firstName&sortDirection=desc&filters=lastName%3Dvan`;
 
         const expectedAction = {
             type: 'API',
@@ -25,7 +29,7 @@ describe('member: members: list actions', () => {
             dispatchPrefix: 'MEMBERS_LIST'
         };
 
-        expect(actions.fetchMembers(pageOptions, sortOptions)).toEqual(
+        expect(actions.fetchMembers(pageOptions, sortOptions, filters)).toEqual(
             expectedAction
         );
     });

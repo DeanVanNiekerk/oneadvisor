@@ -6,8 +6,6 @@ import { ValidationResult } from '@/app/validation';
 import { MemberEdit } from '@/state/app/member/members';
 import { Form, FormDate, FormInput } from '@/ui/controls';
 
-type TabKey = 'details_tab' | 'roles_tab';
-
 type Props = {
     member: MemberEdit;
     validationResults: ValidationResult[];

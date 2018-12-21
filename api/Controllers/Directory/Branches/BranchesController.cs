@@ -30,12 +30,24 @@ namespace api.Controllers.Directory.Branches
 
         [HttpGet("")]
         [UseCaseAuthorize("dir_view_branches")]
-        public async Task<PagedItemsDto<BranchDto>> Index(string filter = null)
+        public async Task<PagedItemsDto<BranchDto>> Index(string filters = null)
         {
-            var queryOptions = new BranchQueryOptions(filter);
+            var queryOptions = new BranchQueryOptions(filters);
             var pagedItems = await BranchService.GetBranches(queryOptions);
 
             return Mapper.MapToPageItemsDto<Branch, BranchDto>(pagedItems);
+        }
+
+        [HttpGet("{branchId}")]
+        [UseCaseAuthorize("dir_view_branches")]
+        public ActionResult<BranchDto> Get(Guid branchId)
+        {
+            var model = BranchService.GetBranch(branchId).Result;
+
+            if (model == null)
+                return NotFound();
+
+            return Ok(Mapper.Map<BranchDto>(model));
         }
 
         [HttpPost]

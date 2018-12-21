@@ -5,6 +5,18 @@
 /* 
 MARGIN
 */
+.my-1 {
+    margin: 1rem 0 !important;
+}
+
+.mt-1 {
+    margin-top: 1rem !important;
+}
+
+.mt-2 {
+    margin-top: 2rem !important;
+}
+
 .mb-0 {
     margin-bottom: 0 !important;
 }

@@ -8,7 +8,7 @@ import { FormLayout } from './Form';
 const FormItem = Form.Item;
 
 type Props = {
-    label: string;
+    label?: string;
     children: ReactNode;
     value?: any;
     fieldName?: string;

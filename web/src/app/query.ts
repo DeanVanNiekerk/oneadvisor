@@ -107,7 +107,7 @@ const formatUrl = (input: Url): string => {
 
     if (input.params.length > 0) {
         const query = input.params.map(p => {
-            return `${p.key}=${p.value}`;
+            return `${p.key}=${encodeURIComponent(p.value)}`;
         });
         url = `${url}?${query.join('&')}`;
     }

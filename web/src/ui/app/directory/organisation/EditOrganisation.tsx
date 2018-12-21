@@ -7,10 +7,13 @@ import {
     insertOrganisation, Organisation, organisationSelector, updateOrganisation
 } from '@/state/app/directory/organisations';
 import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
+import { Button, ContentLoader, Drawer, DrawerFooter, TabPane, Tabs } from '@/ui/controls';
 import { showConfirm } from '@/ui/feedback/modal/confirm';
 
+import BranchList from './BranchList';
 import OrganisationForm from './OrganisationForm';
+
+type TabKey = 'details_tab' | 'branches_tab';
 
 type Props = {
     visible: boolean;
@@ -24,20 +27,23 @@ type Props = {
 
 type State = {
     organisationEdited: Organisation | null;
+    activeTab: TabKey;
 };
 class EditOrganisation extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            organisationEdited: props.organisation
+            organisationEdited: props.organisation,
+            activeTab: 'details_tab'
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.organisation != prevProps.organisation)
             this.setState({
-                organisationEdited: this.props.organisation
+                organisationEdited: this.props.organisation,
+                activeTab: 'details_tab'
             });
     }
 
@@ -83,6 +89,10 @@ class EditOrganisation extends Component<Props, State> {
         return this.props.fetching || this.props.updating;
     };
 
+    onTabChange = (activeTab: TabKey) => {
+        this.setState({ activeTab });
+    };
+
     render() {
         const { organisation, validationResults, visible } = this.props;
 
@@ -93,14 +103,26 @@ class EditOrganisation extends Component<Props, State> {
                 } Organisation`}
                 visible={visible}
                 onClose={this.confirmCancel}
+                noTopPadding={true}
             >
                 <ContentLoader isLoading={this.isLoading()}>
                     {organisation && (
-                        <OrganisationForm
-                            organisation={organisation}
-                            validationResults={validationResults}
-                            onChange={this.onChange}
-                        />
+                        <Tabs
+                            onChange={this.onTabChange}
+                            activeKey={this.state.activeTab}
+                            sticky={true}
+                        >
+                            <TabPane tab="Details" key="details_tab">
+                                <OrganisationForm
+                                    organisation={organisation}
+                                    validationResults={validationResults}
+                                    onChange={this.onChange}
+                                />
+                            </TabPane>
+                            <TabPane tab="Branches" key="branches_tab">
+                                <BranchList organisationId={organisation.id} />
+                            </TabPane>
+                        </Tabs>
                     )}
                 </ContentLoader>
                 <DrawerFooter>

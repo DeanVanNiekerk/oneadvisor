@@ -8,6 +8,8 @@ select *
 from dir_UseCase
 select *
 from dir_RoleToUseCase
+select *
+from dir_Organisation
 
 select *
 from mem_Member

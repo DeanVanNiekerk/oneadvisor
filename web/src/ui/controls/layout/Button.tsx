@@ -15,6 +15,8 @@ type Props = {
     children: ReactNode;
     requiredUseCase?: string;
     useCases: string[];
+    className?: string;
+    noLeftMargin?: boolean;
 };
 
 class ButtonComponent extends React.Component<Props> {
@@ -28,12 +30,13 @@ class ButtonComponent extends React.Component<Props> {
                 {visible && (
                     <ButtonAD
                         style={{
-                            marginLeft: 8
+                            marginLeft: this.props.noLeftMargin ? 0 : 8
                         }}
                         type={this.props.type}
                         icon={this.props.icon}
                         onClick={this.props.onClick}
                         disabled={this.props.disabled || false}
+                        className={this.props.className}
                     >
                         {this.props.children}
                     </ButtonAD>

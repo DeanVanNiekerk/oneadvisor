@@ -96,6 +96,38 @@ namespace OneAdvisor.Service.Test.Directory
         }
 
         [TestMethod]
+        public async Task GetBranch()
+        {
+            var options = TestHelper.GetDbContext("GetBranch");
+
+            //Given
+            var orgId1 = Guid.NewGuid();
+            var branch1 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = orgId1, Name = "Branch 1" };
+            var branch2 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = orgId1, Name = "Branch 2" };
+
+            using (var context = new DataContext(options))
+            {
+                context.Branch.Add(branch1);
+                context.Branch.Add(branch2);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new BranchService(context);
+
+                //When
+                var actual = await service.GetBranch(branch2.Id);
+
+                //Then
+                Assert.AreEqual(branch2.Id, actual.Id);
+                Assert.AreEqual(branch2.OrganisationId, actual.OrganisationId);
+                Assert.AreEqual(branch2.Name, actual.Name);
+            }
+        }
+
+        [TestMethod]
         public async Task InsertBranch()
         {
             var options = TestHelper.GetDbContext("InsertBranch");
