@@ -7,6 +7,6 @@ namespace OneAdvisor.Model.Directory.Interface
 {
     public interface IAuthService
     {
-        Task<Scope> GetScope(string userId, IEnumerable<string> roleIds, string branchUseCase, string organisationUseCase);
+        Task<Scope> GetScope(string userId, IEnumerable<string> roleIds, string branchUseCase = null, string organisationUseCase = null);
     }
 }

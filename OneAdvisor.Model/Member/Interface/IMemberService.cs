@@ -10,7 +10,7 @@ namespace OneAdvisor.Model.Member.Interface
     {
         Task<PagedItems<Model.Member.Member>> GetMembers(MemberQueryOptions queryOptions);
         Task<MemberEdit> GetMember(Scope scope, Guid id);
-        Task<Result> UpdateMember(string userId, MemberEdit member);
+        Task<Result> UpdateMember(Scope scope, MemberEdit member);
         Task<Result> InsertMember(string userId, MemberEdit member);
     }
 }

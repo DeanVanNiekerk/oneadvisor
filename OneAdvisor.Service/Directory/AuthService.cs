@@ -18,7 +18,7 @@ namespace OneAdvisor.Service.Directory
             _context = context;
         }
 
-        public async Task<Scope> GetScope(string userId, IEnumerable<string> roleIds, string branchUseCase, string organisationUseCase)
+        public async Task<Scope> GetScope(string userId, IEnumerable<string> roleIds, string branchUseCase = null, string organisationUseCase = null)
         {
             var scope = new Scope();
 

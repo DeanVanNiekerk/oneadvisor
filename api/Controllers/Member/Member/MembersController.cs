@@ -81,7 +81,9 @@ namespace api.Controllers.Directory.Members
 
             var model = Mapper.Map<MemberEdit>(member);
 
-            var result = await MemberService.UpdateMember(UserId, model);
+            var scope = await AuthService.GetScope(UserId, RoleIds);
+
+            var result = await MemberService.UpdateMember(scope, model);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);

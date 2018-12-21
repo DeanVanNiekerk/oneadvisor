@@ -81,6 +81,32 @@ namespace OneAdvisor.Service.Test.Directory
         }
 
         [TestMethod]
+        public async Task GetScope_BranchLevel_NoUseCase()
+        {
+            var options = TestHelper.GetDbContext("GetScope_BranchLevel_NoUseCase");
+
+            //Given
+            AddDefaultUseCases(options);
+
+            var user = TestHelper.InsertDefaultUserDetailed(options);
+
+            using (var context = new DataContext(options))
+            {
+                var service = new AuthService(context);
+
+                var roleIds = new List<string>() { "admin_branch" };
+
+                //When
+                var scope = await service.GetScope(user.User.Id, roleIds, "mem_view_members_branch");
+
+                Assert.AreEqual(null, scope.UserId);
+                Assert.AreEqual(user.Branch.Id, scope.BranchId);
+                Assert.AreEqual(null, scope.OrganisationId);
+
+            }
+        }
+
+        [TestMethod]
         public async Task GetScope_UserLevel()
         {
             var options = TestHelper.GetDbContext("GetScope_UserLevel");
@@ -98,6 +124,32 @@ namespace OneAdvisor.Service.Test.Directory
 
                 //When
                 var scope = await service.GetScope(user.User.Id, roleIds, "mem_view_members_branch", "mem_view_members_organisation");
+
+                Assert.AreEqual(user.User.Id, scope.UserId);
+                Assert.AreEqual(null, scope.BranchId);
+                Assert.AreEqual(null, scope.OrganisationId);
+
+            }
+        }
+
+        [TestMethod]
+        public async Task GetScope_UserLevel_NoUseCase()
+        {
+            var options = TestHelper.GetDbContext("GetScope_UserLevel_NoUseCase");
+
+            //Given
+            AddDefaultUseCases(options);
+
+            var user = TestHelper.InsertDefaultUserDetailed(options);
+
+            using (var context = new DataContext(options))
+            {
+                var service = new AuthService(context);
+
+                var roleIds = new List<string>() { "admin_user" };
+
+                //When
+                var scope = await service.GetScope(user.User.Id, roleIds);
 
                 Assert.AreEqual(user.User.Id, scope.UserId);
                 Assert.AreEqual(null, scope.BranchId);

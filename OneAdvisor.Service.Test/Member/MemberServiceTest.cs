@@ -568,7 +568,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var result = await service.UpdateMember(user2.Id, member);
+                var result = await service.UpdateMember(new Scope(), member);
 
                 //Then
                 Assert.IsTrue(result.Success);

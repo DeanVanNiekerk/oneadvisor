@@ -108,6 +108,70 @@ namespace OneAdvisor.Service.Member
             return queryMember.FirstOrDefaultAsync();
         }
 
+        public async Task<Result> InsertMember(string userId, MemberEdit member)
+        {
+            var validator = new MemberValidator(true);
+            var result = validator.Validate(member).GetResult();
+
+            if (!result.Success)
+                return result;
+
+            var entity = MapModelToEntity(member);
+            entity.UserId = userId;
+            await _context.Member.AddAsync(entity);
+            await _context.SaveChangesAsync();
+
+            member.Id = entity.Id;
+            result.Tag = member;
+
+            return result;
+        }
+
+        public async Task<Result> UpdateMember(Scope scope, MemberEdit member)
+        {
+            var validator = new MemberValidator(false);
+            var result = validator.Validate(member).GetResult();
+
+            if (!result.Success)
+                return result;
+
+            var query = from mem in _context.Member
+                        where mem.Id == member.Id
+                        select mem;
+
+            //Apply Scope ----------------------------------------------------------------------------------------
+            query = ApplyScope(query, scope);
+            //----------------------------------------------------------------------------------------------------
+
+            var entity = await query.FirstOrDefaultAsync();
+
+            if (entity == null)
+                return new Result();
+
+            var memberEntity = MapModelToEntity(member, entity);
+
+            await _context.SaveChangesAsync();
+
+            return result;
+        }
+
+        private MemberEntity MapModelToEntity(MemberEdit model, MemberEntity entity = null)
+        {
+            if (entity == null)
+                entity = new MemberEntity();
+
+            entity.Id = model.Id.HasValue ? model.Id.Value : Guid.Empty;
+            entity.FirstName = model.FirstName;
+            entity.LastName = model.LastName;
+            entity.MaidenName = model.MaidenName;
+            entity.IdNumber = model.IdNumber;
+            entity.Initials = model.Initials;
+            entity.PreferredName = model.PreferredName;
+            entity.DateOfBirth = model.DateOfBirth;
+
+            return entity;
+        }
+
         private IQueryable<MemberEntity> ApplyScope(IQueryable<MemberEntity> query, Scope scope)
         {
             if (scope.OrganisationId.HasValue)
@@ -132,62 +196,6 @@ namespace OneAdvisor.Service.Member
                         select member;
 
             return query;
-        }
-
-        public async Task<Result> InsertMember(string userId, MemberEdit member)
-        {
-            var validator = new MemberValidator(true);
-            var result = validator.Validate(member).GetResult();
-
-            if (!result.Success)
-                return result;
-
-            var entity = MapModelToEntity(member);
-            entity.UserId = userId;
-            await _context.Member.AddAsync(entity);
-            await _context.SaveChangesAsync();
-
-            member.Id = entity.Id;
-            result.Tag = member;
-
-            return result;
-        }
-
-        public async Task<Result> UpdateMember(string userId, MemberEdit member)
-        {
-            var validator = new MemberValidator(false);
-            var result = validator.Validate(member).GetResult();
-
-            if (!result.Success)
-                return result;
-
-            var entity = await _context.Member.FindAsync(member.Id);
-
-            if (entity.UserId != userId)
-                throw new IllegalAccessException($"userId:{userId}", $"userId:{entity.UserId}", member);
-
-            var memberEntity = MapModelToEntity(member, entity);
-
-            await _context.SaveChangesAsync();
-
-            return result;
-        }
-
-        private MemberEntity MapModelToEntity(MemberEdit model, MemberEntity entity = null)
-        {
-            if (entity == null)
-                entity = new MemberEntity();
-
-            entity.Id = model.Id.HasValue ? model.Id.Value : Guid.Empty;
-            entity.FirstName = model.FirstName;
-            entity.LastName = model.LastName;
-            entity.MaidenName = model.MaidenName;
-            entity.IdNumber = model.IdNumber;
-            entity.Initials = model.Initials;
-            entity.PreferredName = model.PreferredName;
-            entity.DateOfBirth = model.DateOfBirth;
-
-            return entity;
         }
     }
 }
