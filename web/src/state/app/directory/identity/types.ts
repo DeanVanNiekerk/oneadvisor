@@ -3,6 +3,8 @@ export type Identity = {
     name: string;
     organisationId: string;
     organisationName: string;
+    branchId: string;
+    branchName: string;
     roleIds: string[];
     useCaseIds: string[];
 };

@@ -5,6 +5,8 @@ const defaultIdentity = {
     name: 'Dean van Niekerk',
     organisationName: 'Test',
     organisationId: '1234',
+    branchName: 'B Test',
+    branchId: '1234567',
     useCaseIds: ['uc_1'],
     roleIds: ['role_1']
 };

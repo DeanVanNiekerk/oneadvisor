@@ -95,6 +95,10 @@ class Navigator extends Component<Props> {
                     {identity.organisationName}
                 </div>
                 <div>
+                    <b>Branch:</b>&nbsp;
+                    {identity.branchName}
+                </div>
+                <div>
                     <b>Roles:</b>&nbsp;
                     {identity.roleIds.join(', ')}
                 </div>

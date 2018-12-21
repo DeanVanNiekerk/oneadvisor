@@ -21,7 +21,7 @@ namespace OneAdvisor.Service.Okta.Dto
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string mobilePhone { get; set; }
-        public string organization { get; set; }
+        public string branchId { get; set; }
         public string secondEmail { get; set; }
         public string login { get; set; }
         public string email { get; set; }

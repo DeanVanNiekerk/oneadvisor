@@ -1,4 +1,4 @@
-export type ColumnType = 'string' | 'date' | 'long-date';
+export type ColumnType = 'string' | 'date' | 'long-date' | 'boolean';
 
 export type FilterOptions = {
     text: string;
@@ -7,7 +7,7 @@ export type FilterOptions = {
 
 export type ColumnOptions = {
     type?: ColumnType;
-    render?: (value: any) => any;
+    render?: (value: any, record: any, index: number) => any;
     sorter?: (a: any, b: any) => any;
     onFilter?: (value: string, record: any, property: string) => boolean;
     filters?: FilterOptions[];

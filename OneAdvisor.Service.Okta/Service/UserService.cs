@@ -7,7 +7,10 @@ using System.Net.Http.Headers;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using OneAdvisor.Data;
+using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
@@ -18,8 +21,11 @@ namespace OneAdvisor.Service.Okta.Service
 {
     public class UserService : IUserService
     {
-        public UserService(IOptions<OktaSettings> options, IRoleService roleService)
+        private readonly DataContext _context;
+
+        public UserService(DataContext context, IOptions<OktaSettings> options, IRoleService roleService)
         {
+            _context = context;
             RoleService = roleService;
             HttpClient = Utils.GetHttpClient(options.Value);
         }
@@ -27,6 +33,7 @@ namespace OneAdvisor.Service.Okta.Service
         public HttpClient HttpClient { get; private set; }
         public IRoleService RoleService { get; private set; }
 
+        //THIS ENTIRE FUNCTION COULD DO WITH SOME PERFORMANCE IMPROVEMENTS
         public async Task<PagedItems<User>> GetUsers(UserQueryOptions queryOptions)
         {
             var serializer = new DataContractJsonSerializer(typeof(List<UserDto>));
@@ -50,6 +57,20 @@ namespace OneAdvisor.Service.Okta.Service
 
             //Paging
             pagedItems.Items = query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToList();
+
+            //Check if users exist in our database
+            var localUserIds = await _context.User.Select(u => u.Id).ToListAsync();
+            var branches = await _context.Branch.ToListAsync();
+
+            foreach (var item in pagedItems.Items)
+            {
+                item.IsSynced = localUserIds.Any(id => item.Id == id);
+
+                var branch = branches.Find(b => b.Id == item.BranchId);
+
+                if (branch != null)
+                    item.OrganisationId = branch.OrganisationId;
+            }
 
             return pagedItems;
         }
@@ -98,6 +119,9 @@ namespace OneAdvisor.Service.Okta.Service
 
             //Update roles
             await UpdateUserRoles(user);
+
+            //Update local user
+            await SyncLocalUser(user);
 
             return result;
         }
@@ -181,7 +205,61 @@ namespace OneAdvisor.Service.Okta.Service
             //Update roles
             await UpdateUserRoles(user);
 
+            //Update local user
+            await SyncLocalUser(user);
+
             return result;
+        }
+
+        public async Task SyncUser(string userId)
+        {
+            await SyncLocalUserFromId(userId);
+        }
+
+        private async Task SyncLocalUser(UserEdit user)
+        {
+            //Make sure this user exists in our db
+            var localUser = _context.User.Find(user.Id);
+
+            if (localUser != null)
+            {
+                await UpdateLocalUser(user);
+                return;
+            }
+
+            await InsertLocalUser(user);
+        }
+
+        private async Task SyncLocalUserFromId(string userId)
+        {
+            var user = await GetUser(userId);
+
+            await SyncLocalUser(user);
+        }
+
+        private async Task InsertLocalUser(UserEdit user)
+        {
+            var entity = new UserEntity()
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                BranchId = user.BranchId
+            };
+
+            _context.User.Add(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task UpdateLocalUser(UserEdit user)
+        {
+            var entity = _context.User.Find(user.Id);
+
+            entity.FirstName = user.FirstName;
+            entity.LastName = user.LastName;
+            entity.BranchId = user.BranchId;
+
+            await _context.SaveChangesAsync();
         }
 
         private async Task<List<GroupDto>> GetAllGroups()
@@ -220,7 +298,7 @@ namespace OneAdvisor.Service.Okta.Service
                 LastUpdated = Utils.ParseDate(dto.lastUpdated),
                 Status = dto.status,
                 Activated = Utils.ParseDate(dto.activated),
-                OrganisationId = Guid.Parse(dto.profile.organization)
+                BranchId = Guid.Parse(dto.profile.branchId)
             };
         }
 
@@ -233,7 +311,7 @@ namespace OneAdvisor.Service.Okta.Service
                 LastName = dto.profile.lastName,
                 Login = dto.profile.login,
                 Email = dto.profile.email,
-                OrganisationId = Guid.Parse(dto.profile.organization)
+                BranchId = Guid.Parse(dto.profile.branchId)
             };
         }
 
@@ -247,9 +325,10 @@ namespace OneAdvisor.Service.Okta.Service
                     lastName = model.LastName,
                     login = model.Login,
                     email = model.Email,
-                    organization = model.OrganisationId
+                    branchId = model.BranchId
                 }
             };
         }
+
     }
 }

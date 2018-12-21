@@ -20,6 +20,7 @@ namespace OneAdvisor.Data
         public DbSet<UseCaseEntity> UseCase { get; set; }
         public DbSet<RoleToUseCaseEntity> RoleToUseCase { get; set; }
         public DbSet<BranchEntity> Branch { get; set; }
+        public DbSet<UserEntity> User { get; set; }
 
         #endregion
 
@@ -39,6 +40,7 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<UseCaseEntity>().ToTable("dir_UseCase");
             modelBuilder.Entity<RoleToUseCaseEntity>().ToTable("dir_RoleToUseCase");
             modelBuilder.Entity<BranchEntity>().ToTable("dir_Branch");
+            modelBuilder.Entity<UserEntity>().ToTable("dir_User");
 
             //Custom mappsings
             RoleToUseCaseMap.Map(modelBuilder);

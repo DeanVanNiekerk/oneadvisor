@@ -129,7 +129,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new RoleService(context);
 
                 //When
-                var actual = await service.HasUseCase(new List<string>() { role1.Id }, useCase.Id);
+                var actual = await service.HasUseCase(new List<string>() { role1.Id }, new List<string>() { useCase.Id });
 
                 //Then
                 Assert.IsFalse(actual);
@@ -166,7 +166,64 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new RoleService(context);
 
                 //When
-                var actual = await service.HasUseCase(new List<string>() { role2.Id }, useCase.Id);
+                var actual = await service.HasUseCase(new List<string>() { role2.Id }, new List<string>() { useCase.Id });
+
+                //Then
+                Assert.IsTrue(actual);
+            }
+        }
+
+        [TestMethod]
+        public async Task HasUseCase_DoesHave_List()
+        {
+            var options = TestHelper.GetDbContext("HasUseCase_DoesHave_List");
+
+            //Given
+            var role1 = new RoleEntity { Id = "role_1" };
+            var role2 = new RoleEntity { Id = "role_2" };
+            var role3 = new RoleEntity { Id = "role_3" };
+            var role4 = new RoleEntity { Id = "role_4" };
+
+            var useCase1 = new UseCaseEntity { Id = "usecase_1" };
+            var useCase2 = new UseCaseEntity { Id = "usecase_2" };
+            var useCase3 = new UseCaseEntity { Id = "usecase_3" };
+            var useCase4 = new UseCaseEntity { Id = "usecase_4" };
+            var useCase5 = new UseCaseEntity { Id = "usecase_5" };
+
+            var roleToUseCase1 = new RoleToUseCaseEntity { RoleId = role1.Id, UseCaseId = useCase1.Id };
+            var roleToUseCase2 = new RoleToUseCaseEntity { RoleId = role2.Id, UseCaseId = useCase2.Id };
+            var roleToUseCase3 = new RoleToUseCaseEntity { RoleId = role3.Id, UseCaseId = useCase3.Id };
+            var roleToUseCase4 = new RoleToUseCaseEntity { RoleId = role4.Id, UseCaseId = useCase4.Id };
+            var roleToUseCase5 = new RoleToUseCaseEntity { RoleId = role1.Id, UseCaseId = useCase5.Id };
+
+            using (var context = new DataContext(options))
+            {
+                context.Role.Add(role1);
+                context.Role.Add(role2);
+                context.Role.Add(role3);
+                context.Role.Add(role4);
+
+                context.UseCase.Add(useCase1);
+                context.UseCase.Add(useCase2);
+                context.UseCase.Add(useCase3);
+                context.UseCase.Add(useCase4);
+                context.UseCase.Add(useCase5);
+
+                context.RoleToUseCase.Add(roleToUseCase1);
+                context.RoleToUseCase.Add(roleToUseCase2);
+                context.RoleToUseCase.Add(roleToUseCase3);
+                context.RoleToUseCase.Add(roleToUseCase4);
+                context.RoleToUseCase.Add(roleToUseCase5);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new RoleService(context);
+
+                //When
+                var actual = await service.HasUseCase(new List<string>() { role1.Id, role2.Id }, new List<string>() { useCase1.Id, useCase5.Id });
 
                 //Then
                 Assert.IsTrue(actual);

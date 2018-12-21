@@ -40,4 +40,46 @@ describe('user actions', () => {
 
         expect(actions.updateUser(user, onSuccess)).toEqual(expectedAction);
     });
+
+    it('should dispatch API when insertUser is called', () => {
+        const user = {
+            id: '',
+            firstName: 'Dean',
+            lastName: 'Jackson',
+            email: 'dean@gmail.com',
+            login: 'dean',
+            lastLogin: '',
+            lastUpdated: '',
+            status: 'ACTIVE',
+            organisationId: '12341234',
+            roleIds: ['role_1']
+        };
+
+        const onSuccess = () => {};
+
+        const expectedAction = {
+            type: 'API',
+            endpoint: `${usersApi}`,
+            method: 'POST',
+            payload: user,
+            onSuccess: onSuccess,
+            dispatchPrefix: 'USERS_USER_EDIT'
+        };
+
+        expect(actions.insertUser(user, onSuccess)).toEqual(expectedAction);
+    });
+
+    it('should dispatch API when syncUser is called', () => {
+        const onSuccess = () => {};
+
+        const expectedAction = {
+            type: 'API',
+            endpoint: `${usersApi}/10/sync`,
+            method: 'POST',
+            onSuccess: onSuccess,
+            dispatchPrefix: 'USERS_USER_SYNC'
+        };
+
+        expect(actions.syncUser('10', onSuccess)).toEqual(expectedAction);
+    });
 });

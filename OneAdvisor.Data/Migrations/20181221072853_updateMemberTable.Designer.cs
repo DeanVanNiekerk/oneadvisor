@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OneAdvisor.Data;
 
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20181221072853_updateMemberTable")]
+    partial class updateMemberTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,26 +115,6 @@ namespace OneAdvisor.Data.Migrations
                     b.ToTable("dir_UseCase");
                 });
 
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.UserEntity", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("BranchId");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired();
-
-                    b.Property<string>("LastName")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BranchId");
-
-                    b.ToTable("dir_User");
-                });
-
             modelBuilder.Entity("OneAdvisor.Data.Entities.Member.MemberEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -152,14 +134,13 @@ namespace OneAdvisor.Data.Migrations
 
                     b.Property<string>("MaidenName");
 
-                    b.Property<string>("PreferredName");
+                    b.Property<Guid>("OrganisationId");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<string>("PreferredName");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("OrganisationId");
 
                     b.ToTable("mem_Member");
                 });
@@ -201,19 +182,11 @@ namespace OneAdvisor.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.UserEntity", b =>
-                {
-                    b.HasOne("OneAdvisor.Data.Entities.Directory.BranchEntity", "Branch")
-                        .WithMany()
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("OneAdvisor.Data.Entities.Member.MemberEntity", b =>
                 {
-                    b.HasOne("OneAdvisor.Data.Entities.Directory.UserEntity", "User")
+                    b.HasOne("OneAdvisor.Data.Entities.Directory.OrganisationEntity", "Organisation")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("OrganisationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

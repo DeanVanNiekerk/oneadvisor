@@ -39,9 +39,9 @@ namespace api.Controllers.Directory.Roles
 
         [HttpGet("{roleId}")]
         [UseCaseAuthorize("dir_view_roles")]
-        public ActionResult<RoleEditDto> Get(string roleId)
+        public async Task<ActionResult<RoleEditDto>> Get(string roleId)
         {
-            var model = RoleService.GetRole(roleId).Result;
+            var model = await RoleService.GetRole(roleId);
 
             if (model == null)
                 return NotFound();

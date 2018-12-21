@@ -79,12 +79,16 @@ namespace api.App.Setup
         {
             Services.AddHttpContextAccessor();
 
+            //DIRECTORY
             Services.AddScoped<IUserService, UserService>();
+            Services.AddScoped<IAuthService, AuthService>();
             Services.AddScoped<IRoleService, RoleService>();
             Services.AddScoped<IOrganisationService, OrganisationService>();
             Services.AddScoped<IBranchService, BranchService>();
             Services.AddScoped<IApplicationService, ApplicationService>();
             Services.AddScoped<IUseCaseService, UseCaseService>();
+
+            //MEMBER
             Services.AddScoped<IMemberService, MemberService>();
         }
 

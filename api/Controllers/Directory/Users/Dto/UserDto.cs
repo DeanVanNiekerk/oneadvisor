@@ -14,6 +14,8 @@ namespace api.Controllers.Directory.Users.Dto
         public DateTime? Activated { get; set; }
         public string Status { get; set; }
         public Guid OrganisationId { get; set; }
+        public Guid BranchId { get; set; }
+        public bool IsSynced { get; set; }
 
     }
 }

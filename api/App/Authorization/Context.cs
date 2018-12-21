@@ -12,16 +12,21 @@ namespace api.App.Authorization
         {
             return new Identity()
             {
-                Id = TryGetClaimValue(principal, ClaimTypes.NameIdentifier),
+                Id = GetUserId(principal),
                 Name = TryGetClaimValue(principal, ClaimTypes.Name),
-                OrganisationId = TryGetClaimValueAsGuid(principal, "organisation"),
+                BranchId = GetBranchId(principal),
                 RoleIds = GetRoleIds(principal)
             };
         }
 
-        public static Guid GetOrganisationId(ClaimsPrincipal principal)
+        public static Guid GetBranchId(ClaimsPrincipal principal)
         {
-            return TryGetClaimValueAsGuid(principal, "organisation");
+            return TryGetClaimValueAsGuid(principal, "branchid");
+        }
+
+        public static string GetUserId(ClaimsPrincipal principal)
+        {
+            return TryGetClaimValue(principal, ClaimTypes.NameIdentifier);
         }
 
         public static Guid TryGetClaimValueAsGuid(ClaimsPrincipal principal, string claimType)

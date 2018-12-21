@@ -10,6 +10,8 @@ select *
 from dir_RoleToUseCase
 select *
 from dir_Organisation
+select *
+from dir_Branch
 
 select *
 from mem_Member

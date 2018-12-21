@@ -1,8 +1,12 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using api.App.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OneAdvisor.Model.Directory.Model.Role;
 
 namespace api.Controllers
 {
@@ -10,10 +14,21 @@ namespace api.Controllers
     {
         public BaseController(IHttpContextAccessor contextAccessor)
         {
-            OrganisationId = Context.GetOrganisationId(contextAccessor.HttpContext.User);
+            UserId = Context.GetUserId(contextAccessor.HttpContext.User);
+            BranchId = Context.GetBranchId(contextAccessor.HttpContext.User);
+            RoleIds = Context.GetRoleIds(contextAccessor.HttpContext.User);
         }
 
-        public Guid OrganisationId { get; set; }
+        public string UserId { get; set; }
+
+        public Guid BranchId { get; set; }
+
+        public IEnumerable<string> RoleIds { get; set; }
+
+        public bool IsSuperAdmin()
+        {
+            return RoleIds.Any(r => r == Role.SUPER_ADMINISTRATOR_ROLE);
+        }
 
     }
 }

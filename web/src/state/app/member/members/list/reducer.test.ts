@@ -43,13 +43,16 @@ describe('member list reducer', () => {
 
         const member = {
             id: '10',
+            userId: '90',
             firstName: 'Dean',
             lastName: 'Jackson',
             maidenName: '',
             initials: 'DJ',
             preferredName: 'ripper',
             idNumber: '12341234',
-            dateOfBirth: '1982-10-03'
+            dateOfBirth: '1982-10-03',
+            userFirstName: 'Joe',
+            userLastName: 'Goat'
         };
 
         const actualState = reducer(initalState, {

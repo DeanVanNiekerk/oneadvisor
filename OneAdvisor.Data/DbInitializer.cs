@@ -80,8 +80,11 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_usecases", Name = "View UseCases", ApplicationId = dirGuid });
 
                 //Member Use Cases
-                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_view_members", Name = "View Members", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_edit_members", Name = "Edit Members", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_view_members_user", Name = "View Members - Broker Level", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_view_members_branch", Name = "View Members - Branch Level", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_view_members_organisation", Name = "View Members - Organisation Level", ApplicationId = memGuid });
+
+                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_edit_members_user", Name = "Edit Members - Broker Level", ApplicationId = memGuid });
             }
 
             var roleToUseCase = _context.RoleToUseCase.ToList();
@@ -106,8 +109,10 @@ namespace OneAdvisor.Data
                 //Member App
                 //==========
                 //Adminstrator 
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_view_members" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_edit_members" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_view_members_user" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_view_members_branch" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_view_members_organisation" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_edit_members_user" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
             }
 
@@ -125,9 +130,9 @@ namespace OneAdvisor.Data
             if (!branches.Any())
             {
                 //Branches
-                _context.Branch.Add(new BranchEntity() { OrganisationId = sabOrgId, Name = "Port Shepstone" });
-                _context.Branch.Add(new BranchEntity() { OrganisationId = sabOrgId, Name = "Port Elizabeth" });
-                _context.Branch.Add(new BranchEntity() { OrganisationId = lifeOrgId, Name = "Durban" });
+                _context.Branch.Add(new BranchEntity() { Id = Guid.Parse("cfaa7bf4-bff8-4c8c-b71e-f64bd8249750"), OrganisationId = sabOrgId, Name = "Port Shepstone" });
+                _context.Branch.Add(new BranchEntity() { Id = Guid.Parse("c036cf47-ae1c-4c25-be8f-110a59a5407a"), OrganisationId = sabOrgId, Name = "Port Elizabeth" });
+                _context.Branch.Add(new BranchEntity() { Id = Guid.Parse("7ab8bcd9-0544-4613-a82e-06b6de99d7ac"), OrganisationId = lifeOrgId, Name = "Durban" });
             }
 
             _context.SaveChanges();

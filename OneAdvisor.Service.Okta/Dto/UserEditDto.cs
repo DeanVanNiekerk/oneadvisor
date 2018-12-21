@@ -12,6 +12,6 @@ namespace OneAdvisor.Service.Okta.Dto
         public string lastName { get; set; }
         public string login { get; set; }
         public string email { get; set; }
-        public Guid organization { get; set; }
+        public Guid branchId { get; set; }
     }
 }

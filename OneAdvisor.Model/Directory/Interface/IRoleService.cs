@@ -6,8 +6,8 @@ namespace OneAdvisor.Model.Directory.Interface
 {
     public interface IRoleService
     {
-         Task<List<Role>> GetRoles();
-         Task<RoleEdit> GetRole(string id);
-         Task<bool> HasUseCase(IEnumerable<string> roleIds, string useCase);
+        Task<List<Role>> GetRoles();
+        Task<RoleEdit> GetRole(string id);
+        Task<bool> HasUseCase(IEnumerable<string> roleIds, IEnumerable<string> useCases);
     }
 }

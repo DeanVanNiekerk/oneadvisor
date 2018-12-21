@@ -4,15 +4,15 @@ namespace OneAdvisor.Model.Exceptions
 {
     public class IllegalAccessException : Exception
     {
-        public IllegalAccessException(Guid offendingOrganisation, Guid victimOrganisation, object targetData = null)
+        public IllegalAccessException(string offender, string victim, object targetData = null)
         {
-            OffendingOrganisation = offendingOrganisation;
-            VictimOrganisation = victimOrganisation;
+            Offender = offender;
+            Victim = victim;
             TargetData = targetData;
         }
 
-        public Guid OffendingOrganisation { get; private set; }
-        public Guid VictimOrganisation { get; private set; }
+        public string Offender { get; private set; }
+        public string Victim { get; private set; }
         public object TargetData { get; private set; }
     }
 }

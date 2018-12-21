@@ -39,9 +39,9 @@ namespace api.Controllers.Directory.Users
 
         [HttpGet("{userId}")]
         [UseCaseAuthorize("dir_view_users")]
-        public ActionResult<UserEditDto> Get(string userId)
+        public async Task<ActionResult<UserEditDto>> Get(string userId)
         {
-            var model = UserService.GetUser(userId).Result;
+            var model = await UserService.GetUser(userId);
 
             if (model == null)
                 return NotFound();
@@ -77,6 +77,15 @@ namespace api.Controllers.Directory.Users
                 return BadRequest(result.ValidationFailures);
 
             return Ok(result);
+        }
+
+        [HttpPost("{userId}/sync")]
+        [UseCaseAuthorize("dir_edit_users")]
+        public async Task<ActionResult<Result>> Sync(string userId)
+        {
+            await UserService.SyncUser(userId);
+
+            return Ok(new Result(true));
         }
     }
 

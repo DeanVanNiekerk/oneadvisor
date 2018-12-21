@@ -1,14 +1,15 @@
 using System;
 using OneAdvisor.Model.Common;
+using OneAdvisor.Model.Directory.Model.Auth;
 
 namespace OneAdvisor.Model.Member.Model.Member
 {
     public class MemberQueryOptions : QueryOptionsBase
     {
-        public MemberQueryOptions(Guid organisationId, string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
+        public MemberQueryOptions(Scope scope, string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
          : base(sortColumn, sortDirection, pageSize, pageNumber, filters)
         {
-            OrganisationId = organisationId;
+            Scope = scope;
 
             var result = GetFilterValue<string>("FirstName");
             if (result.Success)
@@ -24,7 +25,7 @@ namespace OneAdvisor.Model.Member.Model.Member
 
         }
 
-        public Guid OrganisationId { get; set; }
+        public Scope Scope { get; set; }
 
         public string FirstName { get; set; }
         public string LastName { get; set; }

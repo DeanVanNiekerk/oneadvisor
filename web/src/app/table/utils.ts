@@ -26,6 +26,9 @@ export const getColumn = (
         ...options
     };
 
+    if (options.type === 'boolean')
+        options.render = value => (value ? 'Yes' : 'No');
+
     if (options.type === 'date')
         options.render = value => (value ? moment(value).format('ll') : '');
 

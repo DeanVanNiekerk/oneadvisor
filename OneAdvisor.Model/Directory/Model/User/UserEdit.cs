@@ -10,7 +10,7 @@ namespace OneAdvisor.Model.Directory.Model.User
         public string LastName { get; set; }
         public string Login { get; set; }
         public string Email { get; set; }
-        public Guid OrganisationId { get; set; }
-        public IEnumerable<string> RoleIds {get; set; }
+        public Guid BranchId { get; set; }
+        public IEnumerable<string> RoleIds { get; set; }
     }
 }

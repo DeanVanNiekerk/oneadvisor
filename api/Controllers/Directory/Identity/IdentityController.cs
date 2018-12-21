@@ -10,6 +10,7 @@ using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Common;
 using api.App.Dtos;
 using api.Controllers.Directory.Identity.Dto;
+using OneAdvisor.Model.Directory.Model.Organisation;
 
 namespace api.Controllers.Directory.Identity
 {
@@ -18,29 +19,37 @@ namespace api.Controllers.Directory.Identity
     [Route("api/directory/identity")]
     public class IdentityController : Controller
     {
-        public IdentityController(IUseCaseService useCaseService, IOrganisationService organisationService)
+        public IdentityController(IUseCaseService useCaseService, IOrganisationService organisationService, IBranchService branchService)
         {
             UseCaseService = useCaseService;
             OrganisationService = organisationService;
+            BranchService = branchService;
         }
 
         private IMapper Mapper { get; }
         private IUseCaseService UseCaseService { get; }
         private IOrganisationService OrganisationService { get; }
+        private IBranchService BranchService { get; }
 
         [HttpGet("")]
         public async Task<IdentityDto> Index()
         {
             var identity = Context.GetIdentity(User);
             var useCaseIds = await UseCaseService.GetUseCases(identity.RoleIds);
-            var organisation = await OrganisationService.GetOrganisation(identity.OrganisationId);
+            var branch = await BranchService.GetBranch(identity.BranchId);
+
+            Organisation organisation = null;
+            if (branch != null)
+                organisation = await OrganisationService.GetOrganisation(branch.OrganisationId);
 
             return new IdentityDto()
             {
                 Id = identity.Id,
                 Name = identity.Name,
                 OrganisationName = organisation != null ? organisation.Name : "NOT IN DB",
-                OrganisationId = identity.OrganisationId,
+                OrganisationId = organisation.Id,
+                BranchName = branch != null ? branch.Name : "NOT IN DB",
+                BranchId = branch.Id,
                 RoleIds = identity.RoleIds.Where(r => r != "Everyone"),
                 UseCaseIds = useCaseIds
             };

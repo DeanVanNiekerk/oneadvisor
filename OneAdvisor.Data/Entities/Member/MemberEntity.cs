@@ -1,13 +1,18 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using OneAdvisor.Data.Entities.Directory;
 
 namespace OneAdvisor.Data.Entities.Member
 {
     public class MemberEntity
     {
+        [Key]
         public Guid Id { get; set; }
-        public Guid OrganisationId { get; set; }
+        [Required]
+        public string UserId { get; set; }
+        [Required]
         public string FirstName { get; set; }
+        [Required]
         public string LastName { get; set; }
         public string MaidenName { get; set; }
         public string Initials { get; set; }
@@ -15,6 +20,6 @@ namespace OneAdvisor.Data.Entities.Member
         public string IdNumber { get; set; }
         public DateTime? DateOfBirth { get; set; }
 
-        public virtual OrganisationEntity Organisation { get; set; }
+        public virtual UserEntity User { get; set; }
     }
 }

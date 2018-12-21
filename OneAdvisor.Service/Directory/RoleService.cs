@@ -31,10 +31,10 @@ namespace OneAdvisor.Service.Directory
             return query.ToListAsync();
         }
 
-        public async Task<bool> HasUseCase(IEnumerable<string> roleIds, string useCase)
+        public async Task<bool> HasUseCase(IEnumerable<string> roleIds, IEnumerable<string> useCases)
         {
             var query = from roleToUseCase in _context.RoleToUseCase
-                        where roleToUseCase.UseCaseId == useCase
+                        where useCases.Contains(roleToUseCase.UseCaseId)
                         && roleIds.Contains(roleToUseCase.RoleId)
                         select roleToUseCase;
 

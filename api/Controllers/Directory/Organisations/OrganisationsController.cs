@@ -40,9 +40,9 @@ namespace api.Controllers.Directory.Organisations
 
         [HttpGet("{organisationId}")]
         [UseCaseAuthorize("dir_view_organisations")]
-        public ActionResult<OrganisationDto> Get(Guid organisationId)
+        public async Task<ActionResult<OrganisationDto>> Get(Guid organisationId)
         {
-            var model = OrganisationService.GetOrganisation(organisationId).Result;
+            var model = await OrganisationService.GetOrganisation(organisationId);
 
             if (model == null)
                 return NotFound();

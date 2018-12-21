@@ -40,9 +40,9 @@ namespace api.Controllers.Directory.Branches
 
         [HttpGet("{branchId}")]
         [UseCaseAuthorize("dir_view_branches")]
-        public ActionResult<BranchDto> Get(Guid branchId)
+        public async Task<ActionResult<BranchDto>> Get(Guid branchId)
         {
-            var model = BranchService.GetBranch(branchId).Result;
+            var model = await BranchService.GetBranch(branchId);
 
             if (model == null)
                 return NotFound();
