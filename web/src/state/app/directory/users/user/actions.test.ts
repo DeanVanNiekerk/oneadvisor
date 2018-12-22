@@ -23,7 +23,7 @@ describe('user actions', () => {
             lastLogin: '',
             lastUpdated: '',
             status: 'ACTIVE',
-            organisationId: '12341234',
+            branchId: '12341234',
             roleIds: ['role_1']
         };
 
@@ -51,7 +51,7 @@ describe('user actions', () => {
             lastLogin: '',
             lastUpdated: '',
             status: 'ACTIVE',
-            organisationId: '12341234',
+            branchId: '12341234',
             roleIds: ['role_1']
         };
 

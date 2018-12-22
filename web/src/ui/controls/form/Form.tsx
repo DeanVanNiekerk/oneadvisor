@@ -12,7 +12,7 @@ const Form = (props: Props) => {
     const { children, layout = 'horizontal' } = props;
 
     const childrenWithProps = React.Children.map(children, child =>
-        React.cloneElement(child, { layout: layout })
+        child ? React.cloneElement(child, { layout: layout }) : null
     );
 
     return <FormAD layout={props.layout}>{childrenWithProps}</FormAD>;

@@ -3,13 +3,16 @@ import React, { Component } from 'react';
 
 import { parseIdNumber } from '@/app/parsers/id';
 import { ValidationResult } from '@/app/validation';
+import { UserSimple } from '@/state/app/directory/usersSimple';
 import { MemberEdit } from '@/state/app/member/members';
-import { Form, FormDate, FormInput } from '@/ui/controls';
+import { Form, FormDate, FormInput, FormText } from '@/ui/controls';
 
 type Props = {
     member: MemberEdit;
     validationResults: ValidationResult[];
     onChange: (member: MemberEdit) => void;
+    user: UserSimple | null;
+    enabled: boolean;
 };
 
 type State = {
@@ -121,17 +124,24 @@ class MemberForm extends Component<Props, State> {
     };
 
     render() {
-        const { validationResults } = this.props;
+        const { validationResults, user, enabled } = this.props;
         const { member } = this.state;
 
         return (
             <Form>
+                {user && (
+                    <FormText
+                        label="Broker"
+                        value={`${user.firstName} ${user.lastName}`}
+                    />
+                )}
                 <FormInput
                     fieldName="firstName"
                     label="First Name"
                     value={member.firstName}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    disabled={!enabled}
                 />
                 <FormInput
                     fieldName="lastName"
@@ -139,6 +149,7 @@ class MemberForm extends Component<Props, State> {
                     value={member.lastName}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    disabled={!enabled}
                 />
                 <FormInput
                     fieldName="initials"
@@ -146,6 +157,7 @@ class MemberForm extends Component<Props, State> {
                     value={member.initials}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    disabled={!enabled}
                 />
                 <FormInput
                     fieldName="maidenName"
@@ -153,6 +165,7 @@ class MemberForm extends Component<Props, State> {
                     value={member.maidenName}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    disabled={!enabled}
                 />
                 <FormInput
                     fieldName="preferredName"
@@ -160,6 +173,7 @@ class MemberForm extends Component<Props, State> {
                     value={member.preferredName}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    disabled={!enabled}
                 />
                 <FormInput
                     fieldName="idNumber"
@@ -168,6 +182,7 @@ class MemberForm extends Component<Props, State> {
                     onChange={this.handleChange}
                     validationResults={validationResults}
                     addonAfter={this.idNumberInputAddon()}
+                    disabled={!enabled}
                 />
                 <FormDate
                     fieldName="dateOfBirth"
@@ -175,6 +190,7 @@ class MemberForm extends Component<Props, State> {
                     value={member.dateOfBirth}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    disabled={!enabled}
                 />
             </Form>
         );

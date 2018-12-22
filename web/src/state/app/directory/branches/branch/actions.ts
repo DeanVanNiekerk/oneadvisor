@@ -45,7 +45,7 @@ export const receiveBranch = (branch: Branch | null): BranchReceiveAction => ({
 
 export const fetchBranch = (
     branchId: string,
-    onSuccess: ApiOnSuccess
+    onSuccess?: ApiOnSuccess
 ): ApiAction => ({
     type: 'API',
     endpoint: `${branchesApi}/${branchId}`,

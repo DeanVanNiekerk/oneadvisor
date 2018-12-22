@@ -16,6 +16,7 @@ describe('member actions', () => {
     it('should dispatch API when updateMember is called', () => {
         const member = {
             id: '10',
+            userId: '123',
             firstName: 'Dean',
             lastName: 'Jackson',
             maidenName: '',

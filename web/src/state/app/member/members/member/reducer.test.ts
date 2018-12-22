@@ -4,6 +4,7 @@ import { defaultState, reducer } from './reducer';
 
 const defaultMember = {
     id: '10',
+    userId: '123',
     firstName: 'Dean',
     lastName: 'Jackson',
     maidenName: '',

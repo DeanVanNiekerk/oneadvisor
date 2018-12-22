@@ -96,6 +96,7 @@ namespace OneAdvisor.Service.Member
                               select new MemberEdit()
                               {
                                   Id = member.Id,
+                                  UserId = member.UserId,
                                   FirstName = member.FirstName,
                                   LastName = member.LastName,
                                   MaidenName = member.MaidenName,

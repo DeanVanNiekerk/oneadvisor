@@ -5,6 +5,7 @@ namespace OneAdvisor.Model.Member.Model.Member
     public class MemberEdit
     {
         public Guid? Id { get; set; }
+        public string UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MaidenName { get; set; }

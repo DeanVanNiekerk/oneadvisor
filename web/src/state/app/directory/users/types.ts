@@ -9,7 +9,7 @@ export type User = {
     status: string;
     organisationId: string;
     branchId: string;
-    IsSynced: boolean;
+    isSynced: boolean;
 };
 
 export type UserEdit = {

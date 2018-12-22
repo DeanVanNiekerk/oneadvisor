@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { Filters, getColumn, PageOptions, SortOptions } from '@/app/table';
+import { Identity, identitySelector } from '@/state/app/directory/identity';
 import {
     fetchMember, fetchMembers, Member, MemberEdit, membersSelector, receiveFilters, receiveMember, receivePageOptions,
     receiveSortOptions
@@ -19,6 +20,7 @@ type Props = {
     sortOptions: SortOptions;
     totalItems: number;
     filters: Filters;
+    identity: Identity;
 } & DispatchProp;
 
 type State = {
@@ -60,6 +62,7 @@ class MemberList extends Component<Props, State> {
     newMember = () => {
         const member: MemberEdit = {
             id: null,
+            userId: this.props.identity.id,
             firstName: '',
             lastName: '',
             maidenName: '',
@@ -166,7 +169,8 @@ const mapStateToProps = (state: RootState) => {
         pageOptions: membersState.pageOptions,
         sortOptions: membersState.sortOptions,
         totalItems: membersState.totalItems,
-        filters: membersState.filters
+        filters: membersState.filters,
+        identity: identitySelector(state).identity
     };
 };
 

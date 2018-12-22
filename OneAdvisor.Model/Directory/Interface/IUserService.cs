@@ -13,5 +13,6 @@ namespace OneAdvisor.Model.Directory.Interface
         Task<Result> UpdateUser(UserEdit user);
         Task<Result> InsertUser(UserEdit user);
         Task SyncUser(string userId);
+        Task<UserSimple> GetUserSimple(string id);
     }
 }

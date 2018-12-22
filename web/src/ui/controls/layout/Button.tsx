@@ -17,14 +17,17 @@ type Props = {
     useCases: string[];
     className?: string;
     noLeftMargin?: boolean;
+    visible?: boolean;
 };
 
 class ButtonComponent extends React.Component<Props> {
     render() {
-        let visible = hasUseCase(
-            this.props.requiredUseCase,
-            this.props.useCases
-        );
+        let { visible = true } = this.props;
+
+        visible =
+            hasUseCase(this.props.requiredUseCase, this.props.useCases) &&
+            visible;
+
         return (
             <>
                 {visible && (

@@ -69,8 +69,7 @@
 
 ## TODO
 
-- User Form need Branch DropDown
-- Edit Member UI (enable/disable on usecase)
+- Get Simple User API: Scope
 - Check for duplicate login/email when adding user in OKTA
 - filter strip = and ;
 - !!!!!! API JWT - Must check audience !!!!!!

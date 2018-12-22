@@ -216,6 +216,20 @@ namespace OneAdvisor.Service.Okta.Service
             await SyncLocalUserFromId(userId);
         }
 
+        public Task<UserSimple> GetUserSimple(string id)
+        {
+            var query = from user in _context.User
+                        where user.Id == id
+                        select new UserSimple()
+                        {
+                            Id = user.Id,
+                            FirstName = user.FirstName,
+                            LastName = user.LastName
+                        };
+
+            return query.FirstOrDefaultAsync();
+        }
+
         private async Task SyncLocalUser(UserEdit user)
         {
             //Make sure this user exists in our db
@@ -329,6 +343,7 @@ namespace OneAdvisor.Service.Okta.Service
                 }
             };
         }
+
 
     }
 }

@@ -23,6 +23,7 @@ namespace api.Controllers.Directory
 
             config.CreateMap<User, UserDto>();
             config.CreateMap<UserEdit, UserEditDto>();
+            config.CreateMap<UserSimple, UserSimpleDto>();
 
             config.CreateMap<Role, RoleDto>();
             config.CreateMap<RoleEdit, RoleEditDto>();

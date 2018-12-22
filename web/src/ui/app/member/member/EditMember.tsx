@@ -3,6 +3,9 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { ValidationResult } from '@/app/validation';
+import {
+    fetchUserSimple, receiveUserSimple, UserSimple, userSimpleIsIdentity, userSimpleSelector
+} from '@/state/app/directory/usersSimple';
 import { insertMember, MemberEdit, memberSelector, updateMember } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
 import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
@@ -17,6 +20,8 @@ type Props = {
     fetching: boolean;
     updating: boolean;
     validationResults: ValidationResult[];
+    user: UserSimple | null;
+    enabled: boolean;
 } & RouteComponentProps &
     DispatchProp;
 
@@ -34,6 +39,9 @@ class EditMember extends Component<Props, State> {
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.member != prevProps.member) {
+            if (this.props.member)
+                this.props.dispatch(fetchUserSimple(this.props.member.userId));
+
             this.setState({
                 memberEdited: this.props.member
             });
@@ -108,6 +116,8 @@ class EditMember extends Component<Props, State> {
                             member={member}
                             validationResults={validationResults}
                             onChange={this.onChange}
+                            user={this.props.user}
+                            enabled={this.props.enabled}
                         />
                     )}
                 </ContentLoader>
@@ -122,6 +132,7 @@ class EditMember extends Component<Props, State> {
                         onClick={this.save}
                         type="primary"
                         disabled={this.isLoading()}
+                        visible={this.props.enabled}
                     >
                         Save
                     </Button>
@@ -133,12 +144,15 @@ class EditMember extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const memberState = memberSelector(state);
+    const userState = userSimpleSelector(state);
 
     return {
         member: memberState.member,
-        fetching: memberState.fetching,
+        fetching: memberState.fetching || userState.fetching,
         updating: memberState.updating,
-        validationResults: memberState.validationResults
+        validationResults: memberState.validationResults,
+        enabled: userSimpleIsIdentity(state),
+        user: userState.userSimple
     };
 };
 

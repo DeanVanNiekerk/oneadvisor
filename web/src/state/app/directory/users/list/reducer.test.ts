@@ -1,3 +1,4 @@
+import { User } from '../';
 import { defaultState, reducer } from './reducer';
 
 describe('user list reducer', () => {
@@ -39,7 +40,7 @@ describe('user list reducer', () => {
             fetching: true
         };
 
-        const user = {
+        const user: User = {
             id: '10',
             firstName: 'Dean',
             lastName: 'Jackson',
@@ -48,7 +49,9 @@ describe('user list reducer', () => {
             lastLogin: '',
             lastUpdated: '',
             status: 'ACTIVE',
-            organisationId: '12341234'
+            organisationId: '432221',
+            branchId: '12341234',
+            isSynced: false
         };
 
         const actualState = reducer(initalState, {

@@ -11,9 +11,11 @@ import {
 import { Action as RolesAction, reducer as roles, State as RolesState } from './roles/reducer';
 import { Action as UseCasesAction, reducer as useCases, State as UseCasesState } from './usecases/reducer';
 import { Action as UsersAction, reducer as users, State as UsersState } from './users/reducer';
+import { Action as UsersSimpleAction, reducer as usersSimple, State as UsersSimpleState } from './usersSimple/reducer';
 
 export type Action =
     | UsersAction
+    | UsersSimpleAction
     | OrganisationsAction
     | RolesAction
     | ApplicationsAction
@@ -23,6 +25,7 @@ export type Action =
 
 export type State = {
     users: UsersState;
+    usersSimple: UsersSimpleState;
     organisations: OrganisationsState;
     roles: RolesState;
     applications: ApplicationsState;
@@ -33,6 +36,7 @@ export type State = {
 
 export const reducer = combineReducers({
     users: users,
+    usersSimple: usersSimple,
     organisations: organisations,
     roles: roles,
     applications: applications,

@@ -87,6 +87,18 @@ namespace api.Controllers.Directory.Users
 
             return Ok(new Result(true));
         }
+
+        [HttpGet("simple/{userId}")]
+        [UseCaseAuthorize("mem_view_members_user", "mem_view_members_branch", "mem_view_members_organisation")]
+        public async Task<ActionResult<UserSimpleDto>> GetSimple(string userId)
+        {
+            var model = await UserService.GetUserSimple(userId);
+
+            if (model == null)
+                return NotFound();
+
+            return Ok(Mapper.Map<UserSimpleDto>(model));
+        }
     }
 
 }

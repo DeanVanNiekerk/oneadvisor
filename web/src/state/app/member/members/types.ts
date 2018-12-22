@@ -14,6 +14,7 @@ export type Member = {
 
 export type MemberEdit = {
     id: string | null;
+    userId: string;
     firstName: string;
     lastName: string;
     maidenName: string;

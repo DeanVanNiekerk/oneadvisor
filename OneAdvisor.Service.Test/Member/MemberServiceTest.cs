@@ -373,6 +373,7 @@ namespace OneAdvisor.Service.Test.Member
 
                 //Then
                 Assert.AreEqual(mem2.Id, actual.Id);
+                Assert.AreEqual(mem2.UserId, actual.UserId);
                 Assert.AreEqual(mem2.FirstName, actual.FirstName);
                 Assert.AreEqual(mem2.LastName, actual.LastName);
                 Assert.AreEqual(mem2.MaidenName, actual.MaidenName);
