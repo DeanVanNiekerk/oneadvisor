@@ -54,7 +54,7 @@ class UserList extends Component<Props, State> {
             lastLogin: '',
             lastUpdated: '',
             status: '',
-            organisationId: this.props.organisations[0].id,
+            branchId: '',
             roleIds: []
         };
 

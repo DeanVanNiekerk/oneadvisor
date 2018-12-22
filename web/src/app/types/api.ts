@@ -1,6 +1,6 @@
 type ApiActionType = 'API';
 type ApiMethods = 'GET' | 'POST';
-export type ApiOnSuccess = () => void;
+export type ApiOnSuccess = (data: any) => void;
 export type ApiAction = {
     type: ApiActionType;
     endpoint: string;

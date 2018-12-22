@@ -1,12 +1,17 @@
 import { List, Switch } from 'antd';
 import React, { Component } from 'react';
+import { connect, DispatchProp } from 'react-redux';
 
 import { ValidationResult } from '@/app/validation';
 import { Application } from '@/state/app/directory/applications';
+import { Branch, branchesSelector, branchSelector } from '@/state/app/directory/branches';
 import { Organisation } from '@/state/app/directory/organisations';
 import { Role } from '@/state/app/directory/roles';
 import { UserEdit } from '@/state/app/directory/users';
-import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
+import { RootState } from '@/state/rootReducer';
+import { Form, FormInput, TabPane, Tabs } from '@/ui/controls';
+
+import BranchSelect from './BranchSelect';
 
 type TabKey = 'details_tab' | 'roles_tab';
 
@@ -17,7 +22,7 @@ type Props = {
     roles: Role[];
     validationResults: ValidationResult[];
     onChange: (user: UserEdit) => void;
-};
+} & DispatchProp;
 
 type State = {
     user: UserEdit;
@@ -35,11 +40,12 @@ class UserForm extends Component<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.props.user != prevProps.user)
+        if (this.props.user != prevProps.user) {
             this.setState({
                 user: this.props.user,
                 activeTab: 'details_tab' //Reset the tab
             });
+        }
     }
 
     handleChange = (fieldName: string, value: any) => {
@@ -111,15 +117,13 @@ class UserForm extends Component<Props, State> {
                             onChange={this.handleChange}
                             validationResults={validationResults}
                         />
-                        <FormSelect
-                            fieldName="organisationId"
-                            label="Organisation"
-                            value={user.organisationId}
-                            onChange={this.handleChange}
+                        <BranchSelect
+                            branchId={user.branchId}
+                            organisations={this.props.organisations}
                             validationResults={validationResults}
-                            options={this.props.organisations}
-                            optionsValue="id"
-                            optionsText="name"
+                            onChange={(branchId: string) =>
+                                this.handleChange('branchId', branchId)
+                            }
                         />
                     </Form>
                 </TabPane>
@@ -161,4 +165,14 @@ class UserForm extends Component<Props, State> {
     }
 }
 
-export default UserForm;
+const mapStateToProps = (state: RootState) => {
+    const branchState = branchSelector(state);
+    const branchesState = branchesSelector(state);
+
+    return {
+        branch: branchState.branch,
+        branches: branchesState.items
+    };
+};
+
+export default connect(mapStateToProps)(UserForm);

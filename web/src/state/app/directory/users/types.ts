@@ -8,6 +8,7 @@ export type User = {
     lastUpdated: string;
     status: string;
     organisationId: string;
+    branchId: string;
     IsSynced: boolean;
 };
 
@@ -17,6 +18,6 @@ export type UserEdit = {
     lastName: string;
     login: string;
     email: string;
-    organisationId: string;
+    branchId: string;
     roleIds: string[];
 };

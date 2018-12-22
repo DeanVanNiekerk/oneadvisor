@@ -27,9 +27,18 @@ class FormField extends React.Component<Props> {
         if (!result) return null;
 
         //If the value has changed then dont show message
-        if (result.attemptedValue != this.props.value) return null;
+        if (
+            this.formatValue(result.attemptedValue) !==
+            this.formatValue(this.props.value)
+        )
+            return null;
 
         return result.errorMessage;
+    };
+
+    formatValue = (value: any) => {
+        if (value === undefined || value === null) return '';
+        return value.toString().toLowerCase();
     };
 
     render() {

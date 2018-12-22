@@ -244,7 +244,7 @@ namespace OneAdvisor.Service.Okta.Service
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                BranchId = user.BranchId
+                BranchId = user.BranchId.Value
             };
 
             _context.User.Add(entity);
@@ -257,7 +257,7 @@ namespace OneAdvisor.Service.Okta.Service
 
             entity.FirstName = user.FirstName;
             entity.LastName = user.LastName;
-            entity.BranchId = user.BranchId;
+            entity.BranchId = user.BranchId.Value;
 
             await _context.SaveChangesAsync();
         }
@@ -325,7 +325,7 @@ namespace OneAdvisor.Service.Okta.Service
                     lastName = model.LastName,
                     login = model.Login,
                     email = model.Email,
-                    branchId = model.BranchId
+                    branchId = model.BranchId.Value
                 }
             };
         }

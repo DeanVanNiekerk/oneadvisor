@@ -43,9 +43,13 @@ export const receiveBranch = (branch: Branch | null): BranchReceiveAction => ({
     payload: branch
 });
 
-export const fetchBranch = (branchId: string): ApiAction => ({
+export const fetchBranch = (
+    branchId: string,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
     type: 'API',
     endpoint: `${branchesApi}/${branchId}`,
+    onSuccess: onSuccess,
     dispatchPrefix: 'BRANCHES_BRANCH'
 });
 

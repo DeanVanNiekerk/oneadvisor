@@ -69,10 +69,10 @@
 
 ## TODO
 
-- Branches within Organisations
-- Member needs brokerId
+- User Form need Branch DropDown
+- Edit Member UI (enable/disable on usecase)
 - Check for duplicate login/email when adding user in OKTA
-- Url encode query string and filter checks for = and ;
+- filter strip = and ;
 - !!!!!! API JWT - Must check audience !!!!!!
 
 - https://www.styled-components.com/docs/tooling#babel-plugin

@@ -16,6 +16,7 @@ type Props = {
     optionsValue: string;
     optionsText: string;
     disabled?: boolean;
+    defaultActiveFirstOption?: boolean;
     onChange?: (fieldName: string, value: any) => void;
     validationResults?: ValidationResult[];
     layout?: FormLayout;
@@ -34,7 +35,8 @@ class FormSelect extends Component<Props> {
             value,
             disabled = false,
             validationResults,
-            layout
+            layout,
+            defaultActiveFirstOption = true
         } = this.props;
 
         return (
@@ -49,6 +51,7 @@ class FormSelect extends Component<Props> {
                     value={value}
                     onChange={this.onChange}
                     disabled={disabled}
+                    defaultActiveFirstOption={defaultActiveFirstOption}
                 >
                     {this.props.options.map(option => (
                         <Option
