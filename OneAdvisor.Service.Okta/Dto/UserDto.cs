@@ -25,5 +25,7 @@ namespace OneAdvisor.Service.Okta.Dto
         public string secondEmail { get; set; }
         public string login { get; set; }
         public string email { get; set; }
+        public string scope { get; set; }
+        public string assistantToUserId { get; set; }
     }
 }

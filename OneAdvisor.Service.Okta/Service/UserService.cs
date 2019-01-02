@@ -312,9 +312,13 @@ namespace OneAdvisor.Service.Okta.Service
                 LastUpdated = Utils.ParseDate(dto.lastUpdated),
                 Status = dto.status,
                 Activated = Utils.ParseDate(dto.activated),
-                BranchId = Guid.Parse(dto.profile.branchId)
+                BranchId = Guid.Parse(dto.profile.branchId),
+                AssistantToUserId = dto.profile.assistantToUserId,
+                Scope = ScopeParser.Parse(dto.profile.scope)
             };
         }
+
+
 
         private UserEdit MapDtoToEditModel(UserDto dto)
         {
@@ -325,7 +329,9 @@ namespace OneAdvisor.Service.Okta.Service
                 LastName = dto.profile.lastName,
                 Login = dto.profile.login,
                 Email = dto.profile.email,
-                BranchId = Guid.Parse(dto.profile.branchId)
+                BranchId = Guid.Parse(dto.profile.branchId),
+                AssistantToUserId = dto.profile.assistantToUserId,
+                Scope = ScopeParser.Parse(dto.profile.scope)
             };
         }
 
@@ -339,11 +345,11 @@ namespace OneAdvisor.Service.Okta.Service
                     lastName = model.LastName,
                     login = model.Login,
                     email = model.Email,
-                    branchId = model.BranchId.Value
+                    branchId = model.BranchId.Value,
+                    assistantToUserId = model.AssistantToUserId,
+                    scope = ScopeParser.Format(model.Scope)
                 }
             };
         }
-
-
     }
 }

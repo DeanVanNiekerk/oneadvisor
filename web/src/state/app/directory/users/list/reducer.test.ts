@@ -51,7 +51,9 @@ describe('user list reducer', () => {
             status: 'ACTIVE',
             organisationId: '432221',
             branchId: '12341234',
-            isSynced: false
+            isSynced: false,
+            scope: 1,
+            assistantToUserId: ''
         };
 
         const actualState = reducer(initalState, {

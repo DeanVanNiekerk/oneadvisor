@@ -24,7 +24,9 @@ describe('user actions', () => {
             lastUpdated: '',
             status: 'ACTIVE',
             branchId: '12341234',
-            roleIds: ['role_1']
+            roleIds: ['role_1'],
+            scope: 1,
+            assistantToUserId: ''
         };
 
         const onSuccess = () => {};
@@ -52,7 +54,9 @@ describe('user actions', () => {
             lastUpdated: '',
             status: 'ACTIVE',
             branchId: '12341234',
-            roleIds: ['role_1']
+            roleIds: ['role_1'],
+            scope: 1,
+            assistantToUserId: ''
         };
 
         const onSuccess = () => {};

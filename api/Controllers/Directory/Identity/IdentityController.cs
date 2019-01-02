@@ -11,6 +11,7 @@ using OneAdvisor.Model.Common;
 using api.App.Dtos;
 using api.Controllers.Directory.Identity.Dto;
 using OneAdvisor.Model.Directory.Model.Organisation;
+using OneAdvisor.Model.Directory.Model.User;
 
 namespace api.Controllers.Directory.Identity
 {
@@ -51,7 +52,9 @@ namespace api.Controllers.Directory.Identity
                 BranchName = branch != null ? branch.Name : "NOT IN DB",
                 BranchId = branch.Id,
                 RoleIds = identity.RoleIds.Where(r => r != "Everyone"),
-                UseCaseIds = useCaseIds
+                UseCaseIds = useCaseIds,
+                AssistantToUserId = identity.AssistantToUserId,
+                Scope = ScopeParser.Format(identity.Scope)
             };
         }
     }

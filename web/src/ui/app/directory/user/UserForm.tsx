@@ -3,13 +3,14 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { ValidationResult } from '@/app/validation';
+import { getScopes } from '@/config/scope';
 import { Application } from '@/state/app/directory/applications';
-import { Branch, branchesSelector, branchSelector } from '@/state/app/directory/branches';
+import { branchesSelector, branchSelector } from '@/state/app/directory/branches';
 import { Organisation } from '@/state/app/directory/organisations';
 import { Role } from '@/state/app/directory/roles';
 import { UserEdit } from '@/state/app/directory/users';
 import { RootState } from '@/state/rootReducer';
-import { Form, FormInput, TabPane, Tabs } from '@/ui/controls';
+import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
 
 import BranchSelect from './BranchSelect';
 
@@ -124,6 +125,23 @@ class UserForm extends Component<Props, State> {
                             onChange={(branchId: string) =>
                                 this.handleChange('branchId', branchId)
                             }
+                        />
+                        <FormSelect
+                            fieldName="scope"
+                            label="Scope"
+                            value={user.scope}
+                            onChange={this.handleChange}
+                            validationResults={validationResults}
+                            options={getScopes()}
+                            optionsValue="id"
+                            optionsText="name"
+                        />
+                        <FormInput
+                            fieldName="assistantToUserId"
+                            label="Assistant To"
+                            value={user.assistantToUserId}
+                            onChange={this.handleChange}
+                            validationResults={validationResults}
                         />
                     </Form>
                 </TabPane>

@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using OneAdvisor.Model.Directory.Model.Auth;
 using OneAdvisor.Model.Directory.Model.Role;
+using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Model.Directory.Interface
 {
     public interface IAuthService
     {
-        Task<Scope> GetScope(string userId, IEnumerable<string> roleIds, string branchUseCase = null, string organisationUseCase = null);
+        Task<ScopeOptions> GetScope(string userId, IEnumerable<string> roleIds, Scope scope);
     }
 }

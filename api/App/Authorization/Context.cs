@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using OneAdvisor.Model.Directory.Model.User;
 
 namespace api.App.Authorization
 {
@@ -15,13 +16,27 @@ namespace api.App.Authorization
                 Id = GetUserId(principal),
                 Name = TryGetClaimValue(principal, ClaimTypes.Name),
                 BranchId = GetBranchId(principal),
-                RoleIds = GetRoleIds(principal)
+                RoleIds = GetRoleIds(principal),
+                AssistantToUserId = GetAssistantToUserId(principal),
+                Scope = GetScope(principal)
             };
         }
 
         public static Guid GetBranchId(ClaimsPrincipal principal)
         {
             return TryGetClaimValueAsGuid(principal, "branchid");
+        }
+
+        public static Scope GetScope(ClaimsPrincipal principal)
+        {
+            var scope = TryGetClaimValue(principal, "scopelevel");
+
+            return ScopeParser.Parse(scope);
+        }
+
+        public static string GetAssistantToUserId(ClaimsPrincipal principal)
+        {
+            return TryGetClaimValue(principal, "assistantToUserId");
         }
 
         public static string GetUserId(ClaimsPrincipal principal)

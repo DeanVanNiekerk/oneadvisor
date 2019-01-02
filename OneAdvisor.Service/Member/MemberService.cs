@@ -82,7 +82,7 @@ namespace OneAdvisor.Service.Member
             return pagedItems;
         }
 
-        public Task<MemberEdit> GetMember(Scope scope, Guid id)
+        public Task<MemberEdit> GetMember(ScopeOptions scope, Guid id)
         {
             var baseQuery = from member in _context.Member
                             where member.Id == id
@@ -128,7 +128,7 @@ namespace OneAdvisor.Service.Member
             return result;
         }
 
-        public async Task<Result> UpdateMember(Scope scope, MemberEdit member)
+        public async Task<Result> UpdateMember(ScopeOptions scope, MemberEdit member)
         {
             var validator = new MemberValidator(false);
             var result = validator.Validate(member).GetResult();
@@ -173,7 +173,7 @@ namespace OneAdvisor.Service.Member
             return entity;
         }
 
-        private IQueryable<MemberEntity> ApplyScope(IQueryable<MemberEntity> query, Scope scope)
+        private IQueryable<MemberEntity> ApplyScope(IQueryable<MemberEntity> query, ScopeOptions scope)
         {
             if (scope.OrganisationId.HasValue)
                 query = from member in query

@@ -12,5 +12,7 @@ namespace OneAdvisor.Model.Directory.Model.User
         public string Email { get; set; }
         public Guid? BranchId { get; set; }
         public IEnumerable<string> RoleIds { get; set; }
+        public Scope Scope { get; set; }
+        public string AssistantToUserId { get; set; }
     }
 }

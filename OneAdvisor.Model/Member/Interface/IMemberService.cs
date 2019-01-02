@@ -9,8 +9,8 @@ namespace OneAdvisor.Model.Member.Interface
     public interface IMemberService
     {
         Task<PagedItems<Model.Member.Member>> GetMembers(MemberQueryOptions queryOptions);
-        Task<MemberEdit> GetMember(Scope scope, Guid id);
-        Task<Result> UpdateMember(Scope scope, MemberEdit member);
+        Task<MemberEdit> GetMember(ScopeOptions scope, Guid id);
+        Task<Result> UpdateMember(ScopeOptions scope, MemberEdit member);
         Task<Result> InsertMember(string userId, MemberEdit member);
     }
 }

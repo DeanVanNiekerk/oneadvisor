@@ -7,4 +7,6 @@ export type Identity = {
     branchName: string;
     roleIds: string[];
     useCaseIds: string[];
+    assistantToUserId: string;
+    scope: string;
 };

@@ -50,15 +50,11 @@ namespace OneAdvisor.Data
             var roles = _context.Role.ToList();
             if (!roles.Any())
             {
-
                 //Directory Roles
                 _context.Role.Add(new RoleEntity() { Id = "dir_administrator", Name = "Administrator", ApplicationId = dirGuid });
 
                 //Member Roles
-                _context.Role.Add(new RoleEntity() { Id = "mem_administrator_organisation", Name = "Organisation Administrator", ApplicationId = memGuid });
-                _context.Role.Add(new RoleEntity() { Id = "mem_administrator_branch", Name = "Branch Administrator", ApplicationId = memGuid });
-                _context.Role.Add(new RoleEntity() { Id = "mem_broker", Name = "Broker", ApplicationId = memGuid });
-
+                _context.Role.Add(new RoleEntity() { Id = "mem_administrator", Name = "Administrator", ApplicationId = memGuid });
 
                 //Health Plan Advisor Roles
                 _context.Role.Add(new RoleEntity() { Id = "hpa_administrator", Name = "Administrator", ApplicationId = hpaGuid });
@@ -82,11 +78,8 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_usecases", Name = "View UseCases", ApplicationId = dirGuid });
 
                 //Member Use Cases
-                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_view_members_user", Name = "View Members - Broker Level", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_view_members_branch", Name = "View Members - Branch Level", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_view_members_organisation", Name = "View Members - Organisation Level", ApplicationId = memGuid });
-
-                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_edit_members_user", Name = "Edit Members - Broker Level", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_view_members", Name = "View Members", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_edit_members", Name = "Edit Members", ApplicationId = memGuid });
             }
 
             var roleToUseCase = _context.RoleToUseCase.ToList();
@@ -110,17 +103,9 @@ namespace OneAdvisor.Data
 
                 //Member App
                 //==========
-                //Adminstrator - Organisation
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator_organisation", UseCaseId = "mem_view_members_organisation" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator_organisation", UseCaseId = "mem_edit_members_user" });
-
-                //Adminstrator - Branch
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator_branch", UseCaseId = "mem_view_members_branch" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator_branch", UseCaseId = "mem_edit_members_user" });
-
-                //Broker
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_broker", UseCaseId = "mem_view_members_user" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_broker", UseCaseId = "mem_edit_members_user" });
+                //Adminstrator
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_view_members" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_edit_members" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
             }
 

@@ -1,4 +1,5 @@
 using System;
+using OneAdvisor.Model.Directory.Model.User;
 
 namespace api.Controllers.Directory.Users.Dto
 {
@@ -16,6 +17,8 @@ namespace api.Controllers.Directory.Users.Dto
         public Guid OrganisationId { get; set; }
         public Guid BranchId { get; set; }
         public bool IsSynced { get; set; }
+        public Scope Scope { get; set; }
+        public string AssistantToUserId { get; set; }
 
     }
 }

@@ -55,11 +55,7 @@ export const menus: Menus = {
                         relativePath: '/members',
                         isDefault: true,
                         isCurrent: false,
-                        useCases: [
-                            'mem_view_members_user',
-                            'mem_view_members_branch',
-                            'mem_view_members_organisation'
-                        ]
+                        useCases: ['mem_view_members']
                     }
                 ]
             }

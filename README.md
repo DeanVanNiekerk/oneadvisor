@@ -69,7 +69,6 @@
 
 ## TODO
 
-- Get Simple User API: Scope
 - Check for duplicate login/email when adding user in OKTA
 - filter strip = and ;
 - !!!!!! API JWT - Must check audience !!!!!!

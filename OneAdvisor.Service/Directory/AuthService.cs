@@ -6,6 +6,7 @@ using OneAdvisor.Data;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Auth;
 using OneAdvisor.Model.Directory.Model.Role;
+using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Service.Directory
 {
@@ -18,12 +19,12 @@ namespace OneAdvisor.Service.Directory
             _context = context;
         }
 
-        public async Task<Scope> GetScope(string userId, IEnumerable<string> roleIds, string branchUseCase = null, string organisationUseCase = null)
+        public async Task<ScopeOptions> GetScope(string userId, IEnumerable<string> roleIds, Scope scope)
         {
-            var scope = new Scope();
+            var options = new ScopeOptions();
 
             if (roleIds.Any(r => r == Role.SUPER_ADMINISTRATOR_ROLE))
-                return scope;
+                return options;
 
             var userDetails = await (from user in _context.User
                                      join branch in _context.Branch
@@ -35,16 +36,14 @@ namespace OneAdvisor.Service.Directory
                                          OrganisationId = branch.OrganisationId
                                      }).FirstOrDefaultAsync();
 
-            var useCases = await _context.RoleToUseCase.Where(rc => roleIds.Contains(rc.RoleId)).Select(rc => rc.UseCaseId).ToListAsync();
-
-            if (useCases.Any(u => u == organisationUseCase))
-                scope.OrganisationId = userDetails.OrganisationId;
-            else if (useCases.Any(u => u == branchUseCase))
-                scope.BranchId = userDetails.BranchId;
+            if (scope == Scope.Organisation)
+                options.OrganisationId = userDetails.OrganisationId;
+            else if (scope == Scope.Branch)
+                options.BranchId = userDetails.BranchId;
             else
-                scope.UserId = userId;
+                options.UserId = userId;
 
-            return scope;
+            return options;
         }
     }
 }

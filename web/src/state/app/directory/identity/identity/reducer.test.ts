@@ -8,7 +8,9 @@ const defaultIdentity = {
     branchName: 'B Test',
     branchId: '1234567',
     useCaseIds: ['uc_1'],
-    roleIds: ['role_1']
+    roleIds: ['role_1'],
+    assistantToUserId: '',
+    scope: 2
 };
 
 describe('identity reducer', () => {

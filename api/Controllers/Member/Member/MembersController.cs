@@ -34,10 +34,10 @@ namespace api.Controllers.Directory.Members
         private IAuthService AuthService { get; }
 
         [HttpGet("")]
-        [UseCaseAuthorize("mem_view_members_user", "mem_view_members_branch", "mem_view_members_organisation")]
+        [UseCaseAuthorize("mem_view_members")]
         public async Task<PagedItemsDto<MemberDto>> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
-            var scope = await AuthService.GetScope(UserId, RoleIds, "mem_view_members_branch", "mem_view_members_organisation");
+            var scope = await AuthService.GetScope(UserId, RoleIds, Scope);
 
             var queryOptions = new MemberQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
             var pagedItems = await MemberService.GetMembers(queryOptions);
@@ -46,10 +46,10 @@ namespace api.Controllers.Directory.Members
         }
 
         [HttpGet("{memberId}")]
-        [UseCaseAuthorize("mem_view_members_user", "mem_view_members_branch", "mem_view_members_organisation")]
+        [UseCaseAuthorize("mem_view_members")]
         public async Task<ActionResult<MemberEditDto>> Get(Guid memberId)
         {
-            var scope = await AuthService.GetScope(UserId, RoleIds, "mem_view_members_branch", "mem_view_members_organisation");
+            var scope = await AuthService.GetScope(UserId, RoleIds, Scope);
 
             var model = MemberService.GetMember(scope, memberId).Result;
 
@@ -60,7 +60,7 @@ namespace api.Controllers.Directory.Members
         }
 
         [HttpPost]
-        [UseCaseAuthorize("mem_edit_members_user")]
+        [UseCaseAuthorize("mem_edit_members")]
         public async Task<ActionResult<Result>> Insert([FromBody] MemberEditDto member)
         {
             var model = Mapper.Map<MemberEdit>(member);
@@ -74,14 +74,14 @@ namespace api.Controllers.Directory.Members
         }
 
         [HttpPost("{memberId}")]
-        [UseCaseAuthorize("mem_edit_members_user")]
+        [UseCaseAuthorize("mem_edit_members")]
         public async Task<ActionResult<Result>> Update(Guid memberId, [FromBody] MemberEditDto member)
         {
             member.Id = memberId;
 
             var model = Mapper.Map<MemberEdit>(member);
 
-            var scope = await AuthService.GetScope(UserId, RoleIds);
+            var scope = await AuthService.GetScope(UserId, RoleIds, Scope);
 
             var result = await MemberService.UpdateMember(scope, model);
 

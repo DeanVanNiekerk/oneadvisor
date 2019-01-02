@@ -10,6 +10,8 @@ export type User = {
     organisationId: string;
     branchId: string;
     isSynced: boolean;
+    scope: number;
+    assistantToUserId: string;
 };
 
 export type UserEdit = {
@@ -20,4 +22,6 @@ export type UserEdit = {
     email: string;
     branchId: string;
     roleIds: string[];
+    scope: number;
+    assistantToUserId: string;
 };

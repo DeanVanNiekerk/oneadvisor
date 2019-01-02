@@ -74,7 +74,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var queryOptions = new MemberQueryOptions(new Scope(), "", "", 0, 0);
+                var queryOptions = new MemberQueryOptions(new ScopeOptions(), "", "", 0, 0);
                 var members = await service.GetMembers(queryOptions);
 
                 //Then
@@ -139,7 +139,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var scope = new Scope()
+                var scope = new ScopeOptions()
                 {
                     OrganisationId = org1.Id
                 };
@@ -200,7 +200,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var scope = new Scope()
+                var scope = new ScopeOptions()
                 {
                     BranchId = branch1.Id
                 };
@@ -257,7 +257,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var scope = new Scope()
+                var scope = new ScopeOptions()
                 {
                     UserId = user1.Id
                 };
@@ -310,7 +310,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var queryOptions = new MemberQueryOptions(new Scope(), "LastName", "asc", 2, 2);
+                var queryOptions = new MemberQueryOptions(new ScopeOptions(), "LastName", "asc", 2, 2);
                 var actual = await service.GetMembers(queryOptions);
 
                 //Then
@@ -369,7 +369,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var actual = await service.GetMember(new Scope(), mem2.Id);
+                var actual = await service.GetMember(new ScopeOptions(), mem2.Id);
 
                 //Then
                 Assert.AreEqual(mem2.Id, actual.Id);
@@ -433,47 +433,47 @@ namespace OneAdvisor.Service.Test.Member
                 //When
 
                 //In scope (org 1 -> member 1)
-                var scope = new Scope() { OrganisationId = org1.Id };
+                var scope = new ScopeOptions() { OrganisationId = org1.Id };
                 var member = await service.GetMember(scope, member1.Id);
                 Assert.AreEqual(member1.Id, member.Id);
 
                 //In scope (org 1 -> member 3)
-                scope = new Scope() { OrganisationId = org1.Id };
+                scope = new ScopeOptions() { OrganisationId = org1.Id };
                 member = await service.GetMember(scope, member3.Id);
                 Assert.AreEqual(member3.Id, member.Id);
 
                 //Out of scope (org 2 -> member 1)
-                scope = new Scope() { OrganisationId = org2.Id };
+                scope = new ScopeOptions() { OrganisationId = org2.Id };
                 member = await service.GetMember(scope, member1.Id);
                 Assert.IsNull(member);
 
                 //In scope (branch 1 -> member 1)
-                scope = new Scope() { BranchId = branch1.Id };
+                scope = new ScopeOptions() { BranchId = branch1.Id };
                 member = await service.GetMember(scope, member1.Id);
                 Assert.AreEqual(member1.Id, member.Id);
 
                 //In scope (branch 1 -> member 2)
-                scope = new Scope() { BranchId = branch1.Id };
+                scope = new ScopeOptions() { BranchId = branch1.Id };
                 member = await service.GetMember(scope, member2.Id);
                 Assert.AreEqual(member2.Id, member.Id);
 
                 //Out of scope (branch 2 -> member 1)
-                scope = new Scope() { BranchId = branch2.Id };
+                scope = new ScopeOptions() { BranchId = branch2.Id };
                 member = await service.GetMember(scope, member1.Id);
                 Assert.IsNull(member);
 
                 //Out of scope (branch 3 -> member 1)
-                scope = new Scope() { BranchId = branch3.Id };
+                scope = new ScopeOptions() { BranchId = branch3.Id };
                 member = await service.GetMember(scope, member1.Id);
                 Assert.IsNull(member);
 
                 //In scope (user 1 -> member 1)
-                scope = new Scope() { UserId = user1.Id };
+                scope = new ScopeOptions() { UserId = user1.Id };
                 member = await service.GetMember(scope, member1.Id);
                 Assert.AreEqual(member1.Id, member.Id);
 
                 //Out of scope (user 2 -> member 1)
-                scope = new Scope() { UserId = user2.Id };
+                scope = new ScopeOptions() { UserId = user2.Id };
                 member = await service.GetMember(scope, member1.Id);
                 Assert.IsNull(member);
             }
@@ -569,7 +569,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var result = await service.UpdateMember(new Scope(), member);
+                var result = await service.UpdateMember(new ScopeOptions(), member);
 
                 //Then
                 Assert.IsTrue(result.Success);
@@ -621,7 +621,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var queryOptions = new MemberQueryOptions(new Scope(), "", "", 0, 0, "lastName=nie");
+                var queryOptions = new MemberQueryOptions(new ScopeOptions(), "", "", 0, 0, "lastName=nie");
                 var members = await service.GetMembers(queryOptions);
 
                 //Then

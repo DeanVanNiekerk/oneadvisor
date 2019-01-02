@@ -83,6 +83,10 @@ class Navigator extends Component<Props> {
         const content = (
             <div>
                 <div>
+                    <b>Id:</b>&nbsp;
+                    {identity.id}
+                </div>
+                <div>
                     <b>Name:</b>&nbsp;
                     {userInfo.name}
                 </div>
@@ -99,12 +103,16 @@ class Navigator extends Component<Props> {
                     {identity.branchName}
                 </div>
                 <div>
+                    <b>Scope:</b>&nbsp;
+                    {identity.scope}
+                </div>
+                <div>
                     <b>Roles:</b>&nbsp;
                     {identity.roleIds.join(', ')}
                 </div>
                 <div>
-                    <b>Id:</b>&nbsp;
-                    {identity.id}
+                    <b>Assistant To:</b>&nbsp;
+                    {identity.assistantToUserId}
                 </div>
             </div>
         );
