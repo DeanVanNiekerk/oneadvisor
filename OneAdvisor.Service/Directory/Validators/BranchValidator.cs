@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
+using OneAdvisor.Model.Directory.Model.Branch;
 
-namespace OneAdvisor.Model.Directory.Model.Branch
+namespace OneAdvisor.Service.Directory.Validators
 {
     public class BranchValidator : AbstractValidator<Branch>
     {

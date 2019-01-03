@@ -4,7 +4,9 @@ import { connect, DispatchProp } from 'react-redux';
 
 import { getColumn } from '@/app/table';
 import { fetchOrganisations, Organisation, organisationsSelector } from '@/state/app/directory/organisations';
-import { fetchUser, fetchUsers, receiveUser, syncUser, User, usersSelector } from '@/state/app/directory/users';
+import {
+    fetchUser, fetchUsers, receiveUser, syncUser, User, UserEdit, usersSelector
+} from '@/state/app/directory/users';
 import { RootState } from '@/state/rootReducer';
 import { Button, Header, Table } from '@/ui/controls';
 import { showMessage } from '@/ui/feedback/notifcation';
@@ -45,17 +47,16 @@ class UserList extends Component<Props, State> {
     };
 
     newUser = () => {
-        const user = {
+        const user: UserEdit = {
             id: '',
             firstName: '',
             lastName: '',
             email: '',
             login: '',
-            lastLogin: '',
-            lastUpdated: '',
-            status: '',
             branchId: '',
-            roleIds: []
+            scope: 1,
+            roleIds: [],
+            assistantToUserId: ''
         };
 
         this.props.dispatch(receiveUser(user));

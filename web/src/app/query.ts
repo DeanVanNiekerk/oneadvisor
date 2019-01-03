@@ -44,7 +44,7 @@ export const appendFiltersQuery = (api: string, filters: Filters): string => {
     let filtersValues: string[] = [];
 
     Object.keys(filters).forEach(key => {
-        const values = filters[key];
+        const values = cleanValues(filters[key]);
         if (values.length > 0) filtersValues.push(`${key}=${values.join(',')}`);
     });
 
@@ -58,6 +58,17 @@ export const appendFiltersQuery = (api: string, filters: Filters): string => {
     ];
 
     return appendQueryString(api, query);
+};
+
+const cleanValues = (values: string[]): string[] => {
+    return values.map(v => cleanValue(v));
+};
+
+const cleanValue = (values: string): string => {
+    return values
+        .replace('=', '')
+        .replace(',', '')
+        .replace(';', '');
 };
 
 export const appendQueryString = (url: string, params: Param[]): string => {

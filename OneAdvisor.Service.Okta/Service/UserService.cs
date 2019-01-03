@@ -18,6 +18,7 @@ using OneAdvisor.Model.Directory.Model.Auth;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Okta.Dto;
+using OneAdvisor.Service.Okta.Service.Validators;
 
 namespace OneAdvisor.Service.Okta.Service
 {

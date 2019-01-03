@@ -69,9 +69,8 @@
 
 ## TODO
 
-- Filters triggering sort
+- Filters triggering sort (ant.d bug, being fixed...)
 - Check for duplicate login/email when adding user in OKTA
-- filter strip = and ; and ,
 - !!!!!! API JWT - Must check audience !!!!!!
 
 - https://www.styled-components.com/docs/tooling#babel-plugin

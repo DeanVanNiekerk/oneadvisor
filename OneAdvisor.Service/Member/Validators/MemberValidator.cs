@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
+using OneAdvisor.Model.Member.Model.Member;
 
-namespace OneAdvisor.Model.Member.Model.Member
+namespace OneAdvisor.Service.Member.Validators
 {
     public class MemberValidator : AbstractValidator<MemberEdit>
     {

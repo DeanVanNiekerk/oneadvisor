@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
+using OneAdvisor.Model.Directory.Model.User;
 
-namespace OneAdvisor.Model.Directory.Model.User
+namespace OneAdvisor.Service.Okta.Service.Validators
 {
     public class UserValidator : AbstractValidator<UserEdit>
     {

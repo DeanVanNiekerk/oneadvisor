@@ -9,6 +9,7 @@ using OneAdvisor.Model.Directory.Model.Organisation;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model;
+using OneAdvisor.Service.Directory.Validators;
 
 namespace OneAdvisor.Service.Directory
 {
