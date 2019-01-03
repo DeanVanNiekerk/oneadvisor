@@ -148,7 +148,7 @@ const mapStateToProps = (state: RootState) => {
 
     return {
         member: memberState.member,
-        fetching: memberState.fetching || userState.fetching,
+        fetching: memberState.fetching,
         updating: memberState.updating,
         validationResults: memberState.validationResults,
         enabled: userSimpleIsIdentity(state),

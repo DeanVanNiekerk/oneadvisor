@@ -129,12 +129,11 @@ class MemberForm extends Component<Props, State> {
 
         return (
             <Form>
-                {user && (
-                    <FormText
-                        label="Broker"
-                        value={`${user.firstName} ${user.lastName}`}
-                    />
-                )}
+                <FormText
+                    label="Broker"
+                    value={user ? `${user.firstName} ${user.lastName}` : ''}
+                    loading={!user}
+                />
                 <FormInput
                     fieldName="firstName"
                     label="First Name"

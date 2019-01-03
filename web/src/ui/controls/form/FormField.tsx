@@ -1,4 +1,4 @@
-import { Form } from 'antd';
+import { Form, Spin } from 'antd';
 import React, { ReactNode } from 'react';
 
 import { getValidationError, ValidationResult } from '@/app/validation';
@@ -14,6 +14,7 @@ type Props = {
     fieldName?: string;
     validationResults?: ValidationResult[];
     layout?: FormLayout;
+    loading?: boolean;
 };
 
 class FormField extends React.Component<Props> {
@@ -43,7 +44,7 @@ class FormField extends React.Component<Props> {
 
     render() {
         const errorText = this.getErrorText();
-        const { label, children, layout } = this.props;
+        const { label, children, layout, loading } = this.props;
 
         const formItemLayout =
             layout === 'horizontal'
@@ -60,7 +61,8 @@ class FormField extends React.Component<Props> {
                 help={errorText}
                 {...formItemLayout}
             >
-                {children}
+                {loading && <Spin spinning={true} size="small" />}
+                {!loading && children}
             </FormItem>
         );
     }

@@ -4,6 +4,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 
 import { ValidationResult } from '@/app/validation';
 import { Application, applicationsSelector, fetchApplications } from '@/state/app/directory/applications';
+import { branchesSelector } from '@/state/app/directory/branches';
 import { Organisation } from '@/state/app/directory/organisations';
 import { fetchRoles, Role, rolesSelector } from '@/state/app/directory/roles';
 import { insertUser, updateUser, UserEdit, userSelector } from '@/state/app/directory/users';
@@ -157,6 +158,7 @@ const mapStateToProps = (state: RootState) => {
     const userState = userSelector(state);
     const applicationsState = applicationsSelector(state);
     const rolesState = rolesSelector(state);
+    const branchesState = branchesSelector(state);
 
     return {
         user: userState.user,
@@ -165,7 +167,8 @@ const mapStateToProps = (state: RootState) => {
         fetching:
             userState.fetching ||
             applicationsState.fetching ||
-            rolesState.fetching,
+            rolesState.fetching ||
+            branchesState.fetching,
         updating: userState.updating,
         validationResults: userState.validationResults
     };
