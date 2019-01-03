@@ -10,7 +10,7 @@ const defaultIdentity = {
     useCaseIds: ['uc_1'],
     roleIds: ['role_1'],
     assistantToUserId: '',
-    scope: 2
+    scope: 'organisation'
 };
 
 describe('identity reducer', () => {

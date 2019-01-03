@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OneAdvisor.Model.Common;
+using OneAdvisor.Model.Directory.Model.Auth;
 using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Model.Directory.Interface
@@ -13,6 +14,7 @@ namespace OneAdvisor.Model.Directory.Interface
         Task<Result> UpdateUser(UserEdit user);
         Task<Result> InsertUser(UserEdit user);
         Task SyncUser(string userId);
-        Task<UserSimple> GetUserSimple(string id);
+        Task<UserSimple> GetUserSimple(ScopeOptions scope, string id);
+        Task<PagedItems<UserSimple>> GetUsersSimple(ScopeOptions scope);
     }
 }

@@ -45,7 +45,7 @@ export const appendFiltersQuery = (api: string, filters: Filters): string => {
 
     Object.keys(filters).forEach(key => {
         const values = filters[key];
-        if (values.length > 0) filtersValues.push(`${key}=${values[0]}`);
+        if (values.length > 0) filtersValues.push(`${key}=${values.join(',')}`);
     });
 
     if (filtersValues.length === 0) return api;

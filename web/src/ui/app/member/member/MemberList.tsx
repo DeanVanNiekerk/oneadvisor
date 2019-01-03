@@ -1,9 +1,9 @@
-import { string } from 'prop-types';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { Filters, getColumn, PageOptions, SortOptions } from '@/app/table';
 import { Identity, identitySelector } from '@/state/app/directory/identity';
+import { fetchUsersSimple, UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import {
     fetchMember, fetchMembers, Member, MemberEdit, membersSelector, receiveFilters, receiveMember, receivePageOptions,
     receiveSortOptions
@@ -15,6 +15,7 @@ import EditMember from './EditMember';
 
 type Props = {
     members: Member[];
+    users: UserSimple[];
     fetching: boolean;
     pageOptions: PageOptions;
     sortOptions: SortOptions;
@@ -38,6 +39,7 @@ class MemberList extends Component<Props, State> {
 
     componentDidMount() {
         if (this.props.members.length === 0) this.loadMembers();
+        if (this.props.users.length === 0) this.loadUsers();
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -57,6 +59,10 @@ class MemberList extends Component<Props, State> {
                 this.props.filters
             )
         );
+    };
+
+    loadUsers = () => {
+        this.props.dispatch(fetchUsersSimple());
     };
 
     newMember = () => {
@@ -100,10 +106,14 @@ class MemberList extends Component<Props, State> {
             getColumn('firstName', 'First Name', { isSearchFilter: true }),
             getColumn('idNumber', 'ID Number', { isSearchFilter: true }),
             getColumn('dateOfBirth', 'Date of Birth', { type: 'date' }),
-            getColumn('userFirstName', 'Broker', {
-                render: (userFirstName: string, member: Member) => {
+            getColumn('userId', 'Broker', {
+                render: (userId: string, member: Member) => {
                     return `${member.userFirstName} ${member.userLastName}`;
-                }
+                },
+                filters: this.props.users.map(user => ({
+                    text: `${user.firstName} ${user.lastName}`,
+                    value: user.id
+                }))
             })
         ];
     };
@@ -131,7 +141,7 @@ class MemberList extends Component<Props, State> {
                             icon="plus"
                             onClick={this.newMember}
                             disabled={this.props.fetching}
-                            requiredUseCase="mem_edit_members_user"
+                            requiredUseCase="mem_edit_members"
                         >
                             New Member
                         </Button>
@@ -145,7 +155,7 @@ class MemberList extends Component<Props, State> {
                     dataSource={this.props.members}
                     loading={this.props.fetching}
                     onRowClick={member => this.editMember(member.id)}
-                    onRowClickRequiredUseCase="mem_edit_members_user"
+                    onRowClickRequiredUseCase="mem_edit_members"
                     externalDataSource={true}
                     pageOptions={this.props.pageOptions}
                     totalRows={this.props.totalItems}
@@ -162,10 +172,12 @@ class MemberList extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const membersState = membersSelector(state);
+    const usersState = usersSimpleSelector(state);
 
     return {
         members: membersState.items,
-        fetching: membersState.fetching,
+        users: usersState.items,
+        fetching: membersState.fetching || usersState.fetching,
         pageOptions: membersState.pageOptions,
         sortOptions: membersState.sortOptions,
         totalItems: membersState.totalItems,

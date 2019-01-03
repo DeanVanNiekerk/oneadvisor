@@ -14,7 +14,9 @@ using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Directory.Model.Auth;
 using OneAdvisor.Model.Directory.Model.User;
+using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Okta.Dto;
 
 namespace OneAdvisor.Service.Okta.Service
@@ -216,18 +218,40 @@ namespace OneAdvisor.Service.Okta.Service
             await SyncLocalUserFromId(userId);
         }
 
-        public Task<UserSimple> GetUserSimple(string id)
+        public async Task<PagedItems<UserSimple>> GetUsersSimple(ScopeOptions scope)
         {
-            var query = from user in _context.User
+            var query = from user in GetSimpleUserQuery(scope)
+                        select user;
+
+            var pagedItems = new PagedItems<UserSimple>();
+            pagedItems.TotalItems = await query.CountAsync();
+
+            pagedItems.Items = await query.ToListAsync();
+
+            return pagedItems;
+        }
+
+        public Task<UserSimple> GetUserSimple(ScopeOptions scope, string id)
+        {
+            var query = from user in GetSimpleUserQuery(scope)
                         where user.Id == id
+                        select user;
+
+            return query.FirstOrDefaultAsync();
+        }
+
+        private IQueryable<UserSimple> GetSimpleUserQuery(ScopeOptions scope)
+        {
+            var userQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
+
+            var query = from user in userQuery
                         select new UserSimple()
                         {
                             Id = user.Id,
                             FirstName = user.FirstName,
                             LastName = user.LastName
                         };
-
-            return query.FirstOrDefaultAsync();
+            return query;
         }
 
         private async Task SyncLocalUser(UserEdit user)
@@ -318,8 +342,6 @@ namespace OneAdvisor.Service.Okta.Service
             };
         }
 
-
-
         private UserEdit MapDtoToEditModel(UserDto dto)
         {
             return new UserEdit()
@@ -351,5 +373,7 @@ namespace OneAdvisor.Service.Okta.Service
                 }
             };
         }
+
+
     }
 }

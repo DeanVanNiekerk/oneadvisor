@@ -569,7 +569,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var result = await service.UpdateMember(new ScopeOptions(), member);
+                var result = await service.UpdateMember(new ScopeOptions(user2.Id), member);
 
                 //Then
                 Assert.IsTrue(result.Success);
@@ -584,6 +584,12 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(member.PreferredName, actual.PreferredName);
                 Assert.AreEqual(member.IdNumber, actual.IdNumber);
                 Assert.AreEqual(member.DateOfBirth, actual.DateOfBirth);
+
+                //Scope check
+                result = await service.UpdateMember(new ScopeOptions(user1.Id), member);
+
+                //Then
+                Assert.IsFalse(result.Success);
             }
         }
 

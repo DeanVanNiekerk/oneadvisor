@@ -38,7 +38,7 @@ namespace OneAdvisor.Model.Common
                 filters.Add(new Filter()
                 {
                     FieldName = filterParts.First(),
-                    Value = filterParts.Last()
+                    Values = filterParts.Last().Split(',').ToList()
                 });
             }
 
@@ -47,7 +47,20 @@ namespace OneAdvisor.Model.Common
 
         protected FilterParseResult<T> GetFilterValue<T>(string fieldName)
         {
-            var result = new FilterParseResult<T>();
+            var filterValues = GetFilterValues<T>(fieldName);
+
+            return new FilterParseResult<T>()
+            {
+                Success = filterValues.Success,
+                Value = filterValues.Value.FirstOrDefault()
+            };
+        }
+
+        protected FilterParseResult<List<T>> GetFilterValues<T>(string fieldName)
+        {
+            var result = new FilterParseResult<List<T>>();
+            result.Value = new List<T>();
+
             var filter = Filters.FirstOrDefault(f => f.FieldName.ToLower() == fieldName.ToLower());
 
             if (filter == null)
@@ -55,7 +68,9 @@ namespace OneAdvisor.Model.Common
 
             try
             {
-                result.Value = (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(filter.Value);
+                foreach (var value in filter.Values)
+                    result.Value.Add((T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(value));
+
                 result.Success = true;
 
                 return result;

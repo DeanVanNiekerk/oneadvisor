@@ -136,13 +136,13 @@ class UserForm extends Component<Props, State> {
                             optionsValue="id"
                             optionsText="name"
                         />
-                        <FormInput
+                        {/* <FormInput
                             fieldName="assistantToUserId"
                             label="Assistant To"
                             value={user.assistantToUserId}
                             onChange={this.handleChange}
                             validationResults={validationResults}
-                        />
+                        /> */}
                     </Form>
                 </TabPane>
                 <TabPane tab="Roles" key="roles_tab">

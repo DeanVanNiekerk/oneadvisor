@@ -11,21 +11,25 @@ using OneAdvisor.Model.Directory.Model.User;
 using api.App.Authorization;
 using OneAdvisor.Model.Common;
 using api.App.Dtos;
+using Microsoft.AspNetCore.Http;
 
 namespace api.Controllers.Directory.Users
 {
     [ApiController]
     [Route("api/directory/users")]
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
-        public UsersController(IMapper mapper, IUserService userService)
+        public UsersController(IHttpContextAccessor contextAccessor, IMapper mapper, IUserService userService, IAuthService authService)
+         : base(contextAccessor)
         {
             Mapper = mapper;
             UserService = userService;
+            AuthService = authService;
         }
 
         private IMapper Mapper { get; }
         private IUserService UserService { get; }
+        private IAuthService AuthService { get; }
 
         [HttpGet("")]
         [UseCaseAuthorize("dir_view_users")]
@@ -88,11 +92,24 @@ namespace api.Controllers.Directory.Users
             return Ok(new Result(true));
         }
 
-        [HttpGet("simple/{userId}")]
-        [UseCaseAuthorize("mem_view_members_user", "mem_view_members_branch", "mem_view_members_organisation")]
-        public async Task<ActionResult<UserSimpleDto>> GetSimple(string userId)
+        [HttpGet("simple")]
+        [Authorize]
+        public async Task<PagedItemsDto<UserSimpleDto>> GetUsersSimple(string userId)
         {
-            var model = await UserService.GetUserSimple(userId);
+            var scope = await AuthService.GetScope(UserId, RoleIds, Scope);
+
+            var pagedItems = await UserService.GetUsersSimple(scope);
+
+            return Mapper.MapToPageItemsDto<UserSimple, UserSimpleDto>(pagedItems);
+        }
+
+        [HttpGet("simple/{userId}")]
+        [Authorize]
+        public async Task<ActionResult<UserSimpleDto>> GetUserSimple(string userId)
+        {
+            var scope = await AuthService.GetScope(UserId, RoleIds, Scope);
+
+            var model = await UserService.GetUserSimple(scope, userId);
 
             if (model == null)
                 return NotFound();

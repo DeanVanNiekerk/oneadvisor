@@ -1,5 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
@@ -13,6 +14,7 @@ namespace OneAdvisor.Service.Test
         {
             return new DbContextOptionsBuilder<DataContext>()
                .UseInMemoryDatabase(databaseName)
+               .ConfigureWarnings(w => w.Ignore(RelationalEventId.QueryClientEvaluationWarning))
                .Options;
         }
 
