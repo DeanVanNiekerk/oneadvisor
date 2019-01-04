@@ -1,4 +1,4 @@
-import { Dropdown, Icon, Menu } from 'antd';
+import { Dropdown, Icon, Input, Menu } from 'antd';
 import React, { Component } from 'react';
 
 import { parseIdNumber } from '@/app/parsers/id';
@@ -141,6 +141,7 @@ class MemberForm extends Component<Props, State> {
                     onChange={this.handleChange}
                     validationResults={validationResults}
                     disabled={!enabled}
+                    focus={true}
                 />
                 <FormInput
                     fieldName="lastName"

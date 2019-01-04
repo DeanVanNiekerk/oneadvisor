@@ -18,6 +18,7 @@ const Drawer = (props: Props) => (
         visible={props.visible}
         onClose={props.onClose}
         maskClosable={props.maskClosable}
+        destroyOnClose={true}
         style={{
             height: 'calc(100% - 55px)',
             overflow: 'auto',

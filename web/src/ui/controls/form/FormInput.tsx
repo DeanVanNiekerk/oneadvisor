@@ -1,5 +1,5 @@
 import { Input } from 'antd';
-import React, { Component } from 'react';
+import React, { Component, LegacyRef } from 'react';
 
 import { ValidationResult } from '@/app/validation';
 
@@ -15,9 +15,21 @@ type Props = {
     validationResults?: ValidationResult[];
     layout?: FormLayout;
     addonAfter?: React.ReactNode;
+    focus?: boolean;
 };
 
 class FormInput extends Component<Props> {
+    private firstNameInput: Input | null;
+
+    componentDidMount() {
+        if (this.firstNameInput) {
+            setTimeout(() => {
+                console.log('focus');
+                if (this.firstNameInput) this.firstNameInput.focus();
+            }, 100);
+        }
+    }
+
     onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (this.props.onChange)
             this.props.onChange(this.props.fieldName, event.target.value);
@@ -31,7 +43,8 @@ class FormInput extends Component<Props> {
             validationResults,
             disabled = false,
             layout,
-            addonAfter
+            addonAfter,
+            focus
         } = this.props;
 
         return (
@@ -43,6 +56,9 @@ class FormInput extends Component<Props> {
                 layout={layout}
             >
                 <Input
+                    ref={node => {
+                        if (focus) this.firstNameInput = node;
+                    }}
                     disabled={disabled}
                     name={fieldName}
                     id={fieldName}
