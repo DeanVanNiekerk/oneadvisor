@@ -11,6 +11,7 @@ type Props = {
     branchId: string;
     organisations: Organisation[];
     branches: Branch[];
+    fetching: boolean;
     validationResults: ValidationResult[];
     onChange: (branchId: string) => void;
 } & DispatchProp;
@@ -48,6 +49,11 @@ class BranchSelect extends Component<Props, State> {
         this.setState({
             branchId: branchId
         });
+
+        //Organisation already correct
+        const branch = this.props.branches.find(b => b.id === branchId);
+        if (branch && branch.organisationId === this.state.organisationId)
+            return;
 
         //If no branch, just set the first org id in the list
         if (!branchId) {
@@ -106,6 +112,7 @@ class BranchSelect extends Component<Props, State> {
                     optionsValue="id"
                     optionsText="name"
                     defaultActiveFirstOption={false}
+                    loading={this.props.fetching}
                 />
             </>
         );
@@ -116,7 +123,8 @@ const mapStateToProps = (state: RootState) => {
     const branchesState = branchesSelector(state);
 
     return {
-        branches: branchesState.items
+        branches: branchesState.items,
+        fetching: branchesState.fetching
     };
 };
 

@@ -20,6 +20,7 @@ type Props = {
     onChange?: (fieldName: string, value: any) => void;
     validationResults?: ValidationResult[];
     layout?: FormLayout;
+    loading?: boolean;
 };
 
 class FormSelect extends Component<Props> {
@@ -36,7 +37,8 @@ class FormSelect extends Component<Props> {
             disabled = false,
             validationResults,
             layout,
-            defaultActiveFirstOption = true
+            defaultActiveFirstOption = true,
+            loading = false
         } = this.props;
 
         return (
@@ -46,6 +48,7 @@ class FormSelect extends Component<Props> {
                 validationResults={validationResults}
                 value={value}
                 layout={layout}
+                loading={loading}
             >
                 <Select
                     value={value}
