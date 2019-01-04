@@ -1,6 +1,6 @@
 import { Menus } from '@/state/context/types';
 
-import { DIRECTORY_ID, MEMBER_ID } from './application';
+import { COMMISSION_ID, DIRECTORY_ID, MEMBER_ID } from './application';
 
 export const menus: Menus = {
     [DIRECTORY_ID]: {
@@ -56,6 +56,25 @@ export const menus: Menus = {
                         isDefault: true,
                         isCurrent: false,
                         useCases: ['mem_view_members']
+                    }
+                ]
+            }
+        ]
+    },
+
+    [COMMISSION_ID]: {
+        relativePath: '/commission',
+        groups: [
+            {
+                name: 'Management',
+                links: [
+                    {
+                        name: 'Upload',
+                        icon: 'upload',
+                        relativePath: '/upload',
+                        isDefault: true,
+                        isCurrent: false,
+                        useCases: ['com_upload_statement']
                     }
                 ]
             }

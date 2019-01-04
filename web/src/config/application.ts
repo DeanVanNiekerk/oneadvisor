@@ -2,6 +2,7 @@ import { Application } from '@/state/context/types';
 
 export const DIRECTORY_ID = 'DIRECTORY';
 export const MEMBER_ID = 'MEMBER';
+export const COMMISSION_ID = 'COMMISSION';
 
 export const DEFAULT_APPLICATION_ID = MEMBER_ID;
 
@@ -30,5 +31,12 @@ export const applications: Application[] = [
         '/directory',
         'safety'
     ),
-    createApplication(MEMBER_ID, 'Member', '#009ffd', '/member', 'user')
+    createApplication(MEMBER_ID, 'Member', '#009ffd', '/member', 'user'),
+    createApplication(
+        COMMISSION_ID,
+        'Commission',
+        '#2A2A72',
+        '/commission',
+        'dollar'
+    )
 ];
