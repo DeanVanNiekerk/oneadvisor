@@ -69,6 +69,8 @@
 
 ## TODO
 
+- User Form - branch selected reloads stuff
+- Focus first input of New and Edit
 - Filters triggering sort (ant.d bug, being fixed...)
 - Check for duplicate login/email when adding user in OKTA
 - !!!!!! API JWT - Must check audience !!!!!!

@@ -10,7 +10,7 @@ import { Organisation } from '@/state/app/directory/organisations';
 import { Role } from '@/state/app/directory/roles';
 import { UserEdit } from '@/state/app/directory/users';
 import { RootState } from '@/state/rootReducer';
-import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
+import { Form, FormErrors, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
 
 import BranchSelect from './BranchSelect';
 
@@ -83,102 +83,108 @@ class UserForm extends Component<Props, State> {
         const { user } = this.state;
 
         return (
-            <Tabs
-                onChange={this.onTabChange}
-                activeKey={this.state.activeTab}
-                sticky={true}
-            >
-                <TabPane tab="Details" key="details_tab">
-                    <Form>
-                        <FormInput
-                            fieldName="firstName"
-                            label="First Name"
-                            value={user.firstName}
-                            onChange={this.handleChange}
-                            validationResults={validationResults}
-                        />
-                        <FormInput
-                            fieldName="lastName"
-                            label="Last Name"
-                            value={user.lastName}
-                            onChange={this.handleChange}
-                            validationResults={validationResults}
-                        />
-                        <FormInput
-                            fieldName="login"
-                            label="Login"
-                            value={user.login}
-                            onChange={this.handleChange}
-                            validationResults={validationResults}
-                        />
-                        <FormInput
-                            fieldName="email"
-                            label="Email"
-                            value={user.email}
-                            onChange={this.handleChange}
-                            validationResults={validationResults}
-                        />
-                        <BranchSelect
-                            branchId={user.branchId}
-                            organisations={this.props.organisations}
-                            validationResults={validationResults}
-                            onChange={(branchId: string) =>
-                                this.handleChange('branchId', branchId)
-                            }
-                        />
-                        <FormSelect
-                            fieldName="scope"
-                            label="Scope"
-                            value={user.scope}
-                            onChange={this.handleChange}
-                            validationResults={validationResults}
-                            options={getScopes()}
-                            optionsValue="id"
-                            optionsText="name"
-                        />
-                        {/* <FormInput
+            <>
+                <FormErrors validationResults={validationResults} />
+
+                <Tabs
+                    onChange={this.onTabChange}
+                    activeKey={this.state.activeTab}
+                    sticky={true}
+                >
+                    <TabPane tab="Details" key="details_tab">
+                        <Form>
+                            <FormInput
+                                fieldName="firstName"
+                                label="First Name"
+                                value={user.firstName}
+                                onChange={this.handleChange}
+                                validationResults={validationResults}
+                            />
+                            <FormInput
+                                fieldName="lastName"
+                                label="Last Name"
+                                value={user.lastName}
+                                onChange={this.handleChange}
+                                validationResults={validationResults}
+                            />
+                            <FormInput
+                                fieldName="login"
+                                label="Login"
+                                value={user.login}
+                                onChange={this.handleChange}
+                                validationResults={validationResults}
+                            />
+                            <FormInput
+                                fieldName="email"
+                                label="Email"
+                                value={user.email}
+                                onChange={this.handleChange}
+                                validationResults={validationResults}
+                            />
+                            <BranchSelect
+                                branchId={user.branchId}
+                                organisations={this.props.organisations}
+                                validationResults={validationResults}
+                                onChange={(branchId: string) =>
+                                    this.handleChange('branchId', branchId)
+                                }
+                            />
+                            <FormSelect
+                                fieldName="scope"
+                                label="Scope"
+                                value={user.scope}
+                                onChange={this.handleChange}
+                                validationResults={validationResults}
+                                options={getScopes()}
+                                optionsValue="id"
+                                optionsText="name"
+                            />
+                            {/* <FormInput
                             fieldName="assistantToUserId"
                             label="Assistant To"
                             value={user.assistantToUserId}
                             onChange={this.handleChange}
                             validationResults={validationResults}
                         /> */}
-                    </Form>
-                </TabPane>
-                <TabPane tab="Roles" key="roles_tab">
-                    {this.props.applications.map(application => (
-                        <List
-                            key={application.id}
-                            header={
-                                <h4 className="mb-0">{application.name}</h4>
-                            }
-                            bordered={true}
-                            size="small"
-                            dataSource={this.props.roles.filter(
-                                r => r.applicationId === application.id
-                            )}
-                            renderItem={(role: Role) => (
-                                <List.Item
-                                    actions={[
-                                        <Switch
-                                            checked={this.isRoleSelected(
-                                                role.id
-                                            )}
-                                            onChange={() =>
-                                                this.toggleRoleChange(role.id)
-                                            }
-                                            size="small"
-                                        />
-                                    ]}
-                                >
-                                    {role.name}
-                                </List.Item>
-                            )}
-                            className="mb-2"
-                        />
-                    ))}
-                </TabPane>
-            </Tabs>
+                        </Form>
+                    </TabPane>
+                    <TabPane tab="Roles" key="roles_tab">
+                        {this.props.applications.map(application => (
+                            <List
+                                key={application.id}
+                                header={
+                                    <h4 className="mb-0">{application.name}</h4>
+                                }
+                                bordered={true}
+                                size="small"
+                                dataSource={this.props.roles.filter(
+                                    r => r.applicationId === application.id
+                                )}
+                                renderItem={(role: Role) => (
+                                    <List.Item
+                                        actions={[
+                                            <Switch
+                                                checked={this.isRoleSelected(
+                                                    role.id
+                                                )}
+                                                onChange={() =>
+                                                    this.toggleRoleChange(
+                                                        role.id
+                                                    )
+                                                }
+                                                size="small"
+                                            />
+                                        ]}
+                                    >
+                                        {role.name}
+                                    </List.Item>
+                                )}
+                                className="mb-2"
+                            />
+                        ))}
+                    </TabPane>
+                </Tabs>
+            </>
         );
     }
 }

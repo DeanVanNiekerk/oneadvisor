@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 using System.Web;
+using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using OneAdvisor.Data;
@@ -118,7 +119,8 @@ namespace OneAdvisor.Service.Okta.Service
 
             //Update user
             var response = await HttpClient.PostAsync($"api/v1/users/{user.Id}", json);
-            await HandleOktaResponse(response);
+            if (!response.IsSuccessStatusCode)
+                return await GetOktaFailureResult(response);
 
             //Update roles
             await UpdateUserRoles(user);
@@ -173,7 +175,22 @@ namespace OneAdvisor.Service.Okta.Service
             }
         }
 
-        public async Task HandleOktaResponse(HttpResponseMessage response)
+        private async Task<ErrorDto> GetOktaError(HttpResponseMessage response)
+        {
+            var serializer = new DataContractJsonSerializer(typeof(ErrorDto));
+            return serializer.ReadObject(await response.Content.ReadAsStreamAsync()) as ErrorDto;
+        }
+
+        private async Task<Result> GetOktaFailureResult(HttpResponseMessage response)
+        {
+            var result = new Result();
+            var error = await GetOktaError(response);
+            result.Success = false;
+            result.ValidationFailures.Add(new ValidationFailure("", error.GetAllErrorCauses()));
+            return result;
+        }
+
+        private async Task HandleOktaResponse(HttpResponseMessage response)
         {
             if (!response.IsSuccessStatusCode)
             {
@@ -197,7 +214,8 @@ namespace OneAdvisor.Service.Okta.Service
 
             //Insert user
             var response = await HttpClient.PostAsync($"api/v1/users", json);
-            await HandleOktaResponse(response);
+            if (!response.IsSuccessStatusCode)
+                return await GetOktaFailureResult(response);
 
             var serializer = new DataContractJsonSerializer(typeof(UserDto));
             var userInserted = serializer.ReadObject(await response.Content.ReadAsStreamAsync()) as UserDto;

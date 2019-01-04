@@ -92,7 +92,7 @@ const handleValidationError = (
     dispatchPrefix: string,
     json: any
 ) => {
-    //Check if this is one of our validation messages
+    //Check if this is one of dotnets parse erros
     if (!isArray(json)) {
         let error = JSON.stringify(json);
         showNotification('error', 'Server Error: Validation', error, 10);
@@ -105,7 +105,7 @@ const handleValidationError = (
     }
 
     showMessage(
-        'warning',
+        'error',
         'Data not saved, check form for validation errors',
         6.5
     );

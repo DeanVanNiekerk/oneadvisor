@@ -12,6 +12,7 @@ namespace OneAdvisor.Model.Common
         public Result(bool success)
         {
             Success = success;
+            ValidationFailures = new List<ValidationFailure>();
         }
 
         public bool Success { get; set; }
