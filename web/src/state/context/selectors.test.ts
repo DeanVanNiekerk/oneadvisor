@@ -1,4 +1,4 @@
-import { DEFAULT_APPLICATION_ID, DIRECTORY_ID, MEMBER_ID } from '@/config/application';
+import { COMMISSION_ID, DEFAULT_APPLICATION_ID, DIRECTORY_ID, MEMBER_ID } from '@/config/application';
 import { menus } from '@/config/menu';
 
 import { defaultState as defaultContextState } from './reducer';
@@ -27,9 +27,10 @@ describe('context selectors', () => {
             //@ts-ignore
             const actual = applicationsSelector(state);
 
-            expect(actual.length).toEqual(2);
+            expect(actual.length).toEqual(3);
             expect(actual[0].id).toEqual(DIRECTORY_ID);
             expect(actual[1].id).toEqual(MEMBER_ID);
+            expect(actual[2].id).toEqual(COMMISSION_ID);
         });
 
         it('directory app', () => {
@@ -57,6 +58,20 @@ describe('context selectors', () => {
             expect(app.id).toEqual(MEMBER_ID);
             expect(app.name).toEqual('Member');
             expect(app.relativePath).toEqual('/member');
+            expect(app.isCurrent).toEqual(true);
+        });
+
+        it('commission app', () => {
+            const state = setupState('/commission/upload');
+
+            //@ts-ignore
+            const actual = applicationsSelector(state);
+
+            const app = actual[1];
+
+            expect(app.id).toEqual(COMMISSION_ID);
+            expect(app.name).toEqual('Commission');
+            expect(app.relativePath).toEqual('/commission');
             expect(app.isCurrent).toEqual(true);
         });
     });
