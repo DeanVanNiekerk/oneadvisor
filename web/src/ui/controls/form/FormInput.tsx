@@ -26,7 +26,7 @@ class FormInput extends Component<Props> {
             setTimeout(() => {
                 console.log('focus');
                 if (this.firstNameInput) this.firstNameInput.focus();
-            }, 100);
+            }, 500);
         }
     }
 

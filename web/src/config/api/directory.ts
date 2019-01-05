@@ -9,3 +9,6 @@ export const rolesApi = `${directoryBaseApi}/roles`;
 export const applicationsApi = `${directoryBaseApi}/applications`;
 export const useCasesApi = `${directoryBaseApi}/usecases`;
 export const branchesApi = `${directoryBaseApi}/branches`;
+
+export const lookupsApi = `${directoryBaseApi}/lookups`;
+export const companiesApi = `${lookupsApi}/companies`;

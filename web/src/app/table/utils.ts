@@ -35,7 +35,7 @@ export const getColumn = (
     if (options.type === 'long-date')
         options.render = value => (value ? moment(value).format('lll') : '');
 
-    if (options.isSearchFilter) {
+    if (options.showSearchFilter) {
         options = {
             ...options,
             ...getColumnSearchProps(title)

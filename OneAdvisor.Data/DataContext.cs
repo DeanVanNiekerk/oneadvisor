@@ -1,8 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data.Entities.Directory;
+using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.Entities.Directory.Mappings;
 using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Data.Entities.Member.Mappings;
 
 namespace OneAdvisor.Data
 {
@@ -22,16 +24,29 @@ namespace OneAdvisor.Data
         public DbSet<BranchEntity> Branch { get; set; }
         public DbSet<UserEntity> User { get; set; }
 
+        #region Lookup
+
+        public DbSet<CompanyEntity> Company { get; set; }
+
+        #endregion
+
         #endregion
 
         #region Member
 
         public DbSet<MemberEntity> Member { get; set; }
+        public DbSet<MemberPolicyEntity> MemberPolicy { get; set; }
 
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region Lookup
+
+            modelBuilder.Entity<CompanyEntity>().ToTable("lkp_Company");
+
+            #endregion
+
             #region Directory
 
             modelBuilder.Entity<OrganisationEntity>().ToTable("dir_Organisation");
@@ -42,7 +57,7 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<BranchEntity>().ToTable("dir_Branch");
             modelBuilder.Entity<UserEntity>().ToTable("dir_User");
 
-            //Custom mappsings
+            //Custom mappings
             RoleToUseCaseMap.Map(modelBuilder);
 
             #endregion
@@ -50,6 +65,10 @@ namespace OneAdvisor.Data
             #region Member
 
             modelBuilder.Entity<MemberEntity>().ToTable("mem_Member");
+            modelBuilder.Entity<MemberPolicyEntity>().ToTable("mem_MemberPolicy");
+
+            //Custom mappings
+            MemberPolicyMap.Map(modelBuilder);
 
             #endregion
 

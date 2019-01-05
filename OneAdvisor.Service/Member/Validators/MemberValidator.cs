@@ -13,8 +13,8 @@ namespace OneAdvisor.Service.Member.Validators
             if (!isInsert)
                 RuleFor(o => o.Id).NotEmpty();
 
-            RuleFor(o => o.FirstName).NotEmpty();
-            RuleFor(o => o.LastName).NotEmpty();
+            RuleFor(o => o.FirstName).NotEmpty().MaximumLength(32);
+            RuleFor(o => o.LastName).NotEmpty().MaximumLength(32);
         }
     }
 }

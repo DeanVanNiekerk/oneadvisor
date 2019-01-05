@@ -11,7 +11,7 @@ export type ColumnOptions = {
     sorter?: (a: any, b: any) => any;
     onFilter?: (value: string, record: any, property: string) => boolean;
     filters?: FilterOptions[];
-    isSearchFilter?: boolean;
+    showSearchFilter?: boolean;
 };
 
 export type PagedItems<T> = {

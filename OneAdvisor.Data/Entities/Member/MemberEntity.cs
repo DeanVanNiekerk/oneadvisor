@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using OneAdvisor.Data.Entities.Directory;
 
@@ -21,5 +22,6 @@ namespace OneAdvisor.Data.Entities.Member
         public DateTime? DateOfBirth { get; set; }
 
         public virtual UserEntity User { get; set; }
+        public virtual ICollection<MemberPolicyEntity> MemberPolicies { get; set; }
     }
 }

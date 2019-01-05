@@ -14,7 +14,7 @@ namespace OneAdvisor.Service.Directory.Validators
                 RuleFor(o => o.Id).NotEmpty();
 
             RuleFor(o => o.OrganisationId).NotEmpty();
-            RuleFor(o => o.Name).NotEmpty();
+            RuleFor(o => o.Name).NotEmpty().MaximumLength(32); ;
         }
     }
 }

@@ -11,7 +11,6 @@ import { Button, Header, Table } from '@/ui/controls';
 import EditOrganisation from './EditOrganisation';
 
 type Props = {
-    total: number;
     organisations: Organisation[];
     fetching: boolean;
     error: boolean;

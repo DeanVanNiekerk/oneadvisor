@@ -39,6 +39,19 @@ export const menus: Menus = {
                         useCases: ['dir_view_roles']
                     }
                 ]
+            },
+            {
+                name: 'Lookups',
+                links: [
+                    {
+                        name: 'Companies',
+                        icon: 'bank',
+                        relativePath: '/lookups/companies',
+                        isDefault: false,
+                        isCurrent: false,
+                        useCases: ['dir_view_lookups']
+                    }
+                ]
             }
         ]
     },

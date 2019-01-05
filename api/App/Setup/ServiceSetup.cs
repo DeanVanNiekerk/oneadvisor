@@ -87,6 +87,7 @@ namespace api.App.Setup
             Services.AddScoped<IBranchService, BranchService>();
             Services.AddScoped<IApplicationService, ApplicationService>();
             Services.AddScoped<IUseCaseService, UseCaseService>();
+            Services.AddScoped<ILookupService, LookupService>();
 
             //MEMBER
             Services.AddScoped<IMemberService, MemberService>();

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data.Entities.Directory;
+using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.Entities.Member;
 
 namespace OneAdvisor.Data
@@ -20,6 +21,7 @@ namespace OneAdvisor.Data
         {
             var total = 0;
 
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_MemberPolicy]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_Member]");
 
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_User]");
@@ -28,6 +30,8 @@ namespace OneAdvisor.Data
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Role]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Organisation]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Branch]");
+
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_Company]");
 
             return total;
         }
@@ -88,6 +92,10 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_applications", Name = "View Applications", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_usecases", Name = "View UseCases", ApplicationId = dirGuid });
 
+                //Directory - Lookup Use Cases
+                _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_lookups", Name = "View Lookups", ApplicationId = dirGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "dir_edit_lookups", Name = "Edit Lookups", ApplicationId = dirGuid });
+
                 //Member Use Cases
                 _context.UseCase.Add(new UseCaseEntity() { Id = "mem_view_members", Name = "View Members", ApplicationId = memGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "mem_edit_members", Name = "Edit Members", ApplicationId = memGuid });
@@ -113,6 +121,8 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_roles" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_applications" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_usecases" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_lookups" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_edit_lookups" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
 
                 //Member App
@@ -129,26 +139,39 @@ namespace OneAdvisor.Data
                 //--------------------------------------------------------------------------------------------------------------------------------------------
             }
 
+            //Lookups - Companies
+            var companies = _context.Company.ToList();
+            var comp1Guid = Guid.NewGuid();
+            if (!companies.Any())
+            {
+                _context.Company.Add(new CompanyEntity() { Id = comp1Guid, Name = "Discovery" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Momentum" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Best Med" });
+            }
+
+            //Organisations
             var organisations = _context.Organisation.ToList();
             var sabOrgId = Guid.Parse("9a46c5ae-3f6f-494c-b0de-d908f08507c3");
             var lifeOrgId = Guid.Parse("d44abb82-9eab-47a3-b20c-61b4ee93bf21");
             if (!organisations.Any())
             {
-                //Organisations
+
                 _context.Organisation.Add(new OrganisationEntity() { Id = sabOrgId, Name = "Smith and Bormann" });
                 _context.Organisation.Add(new OrganisationEntity() { Id = lifeOrgId, Name = "Life Brokers" });
             }
 
+            //Branches
             var branches = _context.Branch.ToList();
             var peBranchId = Guid.Parse("c036cf47-ae1c-4c25-be8f-110a59a5407a");
             if (!branches.Any())
             {
-                //Branches
+
                 _context.Branch.Add(new BranchEntity() { Id = Guid.Parse("cfaa7bf4-bff8-4c8c-b71e-f64bd8249750"), OrganisationId = sabOrgId, Name = "Port Shepstone" });
                 _context.Branch.Add(new BranchEntity() { Id = peBranchId, OrganisationId = sabOrgId, Name = "Port Elizabeth" });
                 _context.Branch.Add(new BranchEntity() { Id = Guid.Parse("7ab8bcd9-0544-4613-a82e-06b6de99d7ac"), OrganisationId = lifeOrgId, Name = "Durban" });
             }
 
+            //Users
             var users = _context.User.ToList();
             var dvnUserId = "00ug3cqmzjmo9twEp0h7";
             if (!users.Any())
@@ -156,6 +179,7 @@ namespace OneAdvisor.Data
                 _context.User.Add(new UserEntity() { Id = dvnUserId, FirstName = "Dean", LastName = "van Niekerk", BranchId = peBranchId });
             }
 
+            //Members
             var members = _context.Member.ToList();
             if (!members.Any())
             {

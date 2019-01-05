@@ -102,9 +102,9 @@ class MemberList extends Component<Props, State> {
 
     getColumns = () => {
         return [
-            getColumn('lastName', 'Last Name', { isSearchFilter: true }),
-            getColumn('firstName', 'First Name', { isSearchFilter: true }),
-            getColumn('idNumber', 'ID Number', { isSearchFilter: true }),
+            getColumn('lastName', 'Last Name', { showSearchFilter: true }),
+            getColumn('firstName', 'First Name', { showSearchFilter: true }),
+            getColumn('idNumber', 'ID Number', { showSearchFilter: true }),
             getColumn('dateOfBirth', 'Date of Birth', { type: 'date' }),
             getColumn('userId', 'Broker', {
                 render: (userId: string, member: Member) => {
