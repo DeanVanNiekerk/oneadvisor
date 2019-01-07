@@ -14,15 +14,12 @@ export const menus: Menus = {
                         icon: 'team',
                         relativePath: '/users',
                         isDefault: true,
-                        isCurrent: false,
                         useCases: ['dir_view_users']
                     },
                     {
                         name: 'Organisations',
                         icon: 'bank',
                         relativePath: '/organisations',
-                        isDefault: false,
-                        isCurrent: false,
                         useCases: ['dir_view_organisations']
                     }
                 ]
@@ -34,8 +31,6 @@ export const menus: Menus = {
                         name: 'Roles',
                         icon: 'safety-certificate',
                         relativePath: '/roles',
-                        isDefault: false,
-                        isCurrent: false,
                         useCases: ['dir_view_roles']
                     }
                 ]
@@ -47,8 +42,6 @@ export const menus: Menus = {
                         name: 'Companies',
                         icon: 'bank',
                         relativePath: '/lookups/companies',
-                        isDefault: false,
-                        isCurrent: false,
                         useCases: ['dir_view_lookups']
                     }
                 ]
@@ -67,7 +60,17 @@ export const menus: Menus = {
                         icon: 'user',
                         relativePath: '/members',
                         isDefault: true,
-                        isCurrent: false,
+                        useCases: ['mem_view_members']
+                    }
+                ]
+            },
+            {
+                name: 'Bulk Actions',
+                links: [
+                    {
+                        name: 'import',
+                        icon: 'upload',
+                        relativePath: '/import',
                         useCases: ['mem_view_members']
                     }
                 ]
@@ -86,7 +89,6 @@ export const menus: Menus = {
                         icon: 'upload',
                         relativePath: '/upload',
                         isDefault: true,
-                        isCurrent: false,
                         useCases: ['com_upload_statement']
                     }
                 ]

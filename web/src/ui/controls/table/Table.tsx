@@ -17,11 +17,9 @@ type Props = {
     useCases: string[];
     onRowClick?: (record: any) => void;
     onRowClickRequiredUseCase?: string;
-
-    //onChange?: (pagination: any, filters: any, sorter: any) => void;
-
     externalDataSource?: boolean;
     pageOptions?: PageOptions;
+    hidePagination?: boolean;
     totalRows?: number;
     onTableChange?: (
         pageOptions: PageOptions,
@@ -69,7 +67,7 @@ class TableComponent extends React.Component<Props, State> {
     };
 
     render() {
-        let pagination: PaginationConfig = {
+        let pagination: PaginationConfig | false = {
             defaultPageSize: this.state.defaultPageOptions.size,
             showSizeChanger: true
         };
@@ -86,6 +84,8 @@ class TableComponent extends React.Component<Props, State> {
                 current: options.number
             };
         }
+
+        if (this.props.hidePagination) pagination = false;
 
         return (
             <TableAD

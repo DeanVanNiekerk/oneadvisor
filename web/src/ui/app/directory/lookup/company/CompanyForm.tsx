@@ -53,6 +53,7 @@ class CompanyForm extends Component<Props, State> {
                     value={company.name}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    focus={true}
                 />
             </Form>
         );

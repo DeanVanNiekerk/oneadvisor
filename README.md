@@ -69,7 +69,7 @@
 
 ## TODO
 
-- Focus first input of New and Edit
+- Readonly forms.. currently cant view forms
 - Filters triggering sort (ant.d bug, being fixed...)
 - !!!!!! API JWT - Must check audience !!!!!!
 

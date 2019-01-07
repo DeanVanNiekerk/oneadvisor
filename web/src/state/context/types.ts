@@ -25,7 +25,7 @@ export type MenuLink = {
     name: string;
     icon: string;
     relativePath: string;
-    isDefault: boolean;
-    isCurrent: boolean;
+    isDefault?: boolean;
+    isCurrent?: boolean;
     useCases?: string[];
 };

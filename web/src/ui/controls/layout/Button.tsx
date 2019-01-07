@@ -11,7 +11,7 @@ type Props = {
     type?: ButtonType;
     icon?: string;
     disabled?: boolean;
-    onClick: () => void;
+    onClick?: () => void;
     children: ReactNode;
     requiredUseCase?: string;
     useCases: string[];
