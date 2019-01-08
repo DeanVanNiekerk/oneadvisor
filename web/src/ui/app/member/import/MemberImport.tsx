@@ -1,18 +1,24 @@
 import { Col, Row, Steps } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
+import { v4 } from 'uuid';
 
-import { ImportData, memberImportSelector } from '@/state/app/member/import';
+import {
+    ImportData, ImportMember, ImportTableRow, memberImportSelector, memberImportTableRowsSelector,
+    receiveMemberImportMembers
+} from '@/state/app/member/import';
 import { RootState } from '@/state/rootReducer';
 import { Button, Header } from '@/ui/controls';
 
 import Configure from './steps/Configure';
 import Upload from './steps/Upload';
+import Verify from './steps/Verify';
 
 const Step = Steps.Step;
 
 type Props = {
     data: ImportData;
+    rows: ImportTableRow[];
 } & DispatchProp;
 
 type StepInfo = {
@@ -33,7 +39,7 @@ class MemberImport extends Component<Props, State> {
             current: 0,
             steps: [
                 {
-                    title: 'Upload',
+                    title: 'Select File',
                     content: <Upload onComplete={this.next} />
                 },
                 {
@@ -42,7 +48,7 @@ class MemberImport extends Component<Props, State> {
                 },
                 {
                     title: 'Verify',
-                    content: 'TODO'
+                    content: <Verify />
                 },
                 {
                     title: 'Import',
@@ -55,6 +61,17 @@ class MemberImport extends Component<Props, State> {
     next = () => {
         const current = this.state.current + 1;
         this.setState({ current });
+
+        if (current === 2) {
+            const members: ImportMember[] = this.props.rows.map(r => {
+                return {
+                    _id: v4(),
+                    idNumber: r.idNumber,
+                    ...r
+                };
+            });
+            this.props.dispatch(receiveMemberImportMembers(members));
+        }
     };
 
     previous = () => {
@@ -134,7 +151,8 @@ const mapStateToProps = (state: RootState) => {
     const importState = memberImportSelector(state);
 
     return {
-        data: importState.data
+        data: importState.data,
+        rows: memberImportTableRowsSelector(state)
     };
 };
 

@@ -1,13 +1,20 @@
+import update from 'immutability-helper';
+
+import { Company } from '../../directory/lookups/companies';
 import { ImportMemberAction } from './actions';
-import { ImportColumn, ImportData } from './types';
+import { ImportColumn, ImportData, ImportMember } from './types';
 
 export type State = {
     readonly data: ImportData;
     readonly columns: ImportColumn[];
+    readonly members: ImportMember[];
+    readonly companyId: string | null;
 };
 
 export const defaultState: State = {
     data: [],
+    members: [],
+    companyId: null,
     columns: [
         {
             id: 'idNumber',
@@ -39,6 +46,29 @@ export const reducer = (
             return {
                 ...state,
                 columns: [...action.payload]
+            };
+        }
+        case 'MEMBERS_IMPORT_MEMBERS_RECEIVE': {
+            return {
+                ...state,
+                members: [...action.payload]
+            };
+        }
+        case 'MEMBERS_IMPORT_MEMBERS_REMOVE': {
+            const members = state.members;
+            const index = members.findIndex(m => m._id === action.payload);
+
+            if (index == -1) return state;
+
+            return {
+                ...state,
+                members: update(members, { $splice: [[index, 1]] })
+            };
+        }
+        case 'MEMBERS_IMPORT_MEMBERS_POLICY_COMPANY_RECEIVE': {
+            return {
+                ...state,
+                companyId: action.payload
             };
         }
         default:
