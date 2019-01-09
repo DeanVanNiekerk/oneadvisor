@@ -6,6 +6,7 @@ import { ImportColumn, ImportData, ImportMember } from './types';
 
 export type State = {
     readonly data: ImportData;
+    readonly currentStepIndex: number;
     readonly columns: ImportColumn[];
     readonly members: ImportMember[];
     readonly companyId: string | null;
@@ -15,6 +16,7 @@ export const defaultState: State = {
     data: [],
     members: [],
     companyId: null,
+    currentStepIndex: 0,
     columns: [
         {
             id: 'idNumber',
@@ -69,6 +71,18 @@ export const reducer = (
             return {
                 ...state,
                 companyId: action.payload
+            };
+        }
+        case 'MEMBERS_IMPORT_MEMBERS_NEXT_STEP': {
+            return {
+                ...state,
+                currentStepIndex: state.currentStepIndex + 1
+            };
+        }
+        case 'MEMBERS_IMPORT_MEMBERS_PREVIOUS_STEP': {
+            return {
+                ...state,
+                currentStepIndex: state.currentStepIndex - 1
             };
         }
         default:

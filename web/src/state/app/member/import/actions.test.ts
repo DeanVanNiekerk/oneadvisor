@@ -70,4 +70,20 @@ describe('member: import: actions', () => {
             expectedAction
         );
     });
+
+    it('should dispatch MEMBERS_IMPORT_MEMBERS_NEXT_STEP when memberImportNextStep is called', () => {
+        const expectedAction = {
+            type: 'MEMBERS_IMPORT_MEMBERS_NEXT_STEP'
+        };
+
+        expect(actions.memberImportNextStep()).toEqual(expectedAction);
+    });
+
+    it('should dispatch MEMBERS_IMPORT_MEMBERS_PREVIOUS_STEP when memberImportPreviousStep is called', () => {
+        const expectedAction = {
+            type: 'MEMBERS_IMPORT_MEMBERS_PREVIOUS_STEP'
+        };
+
+        expect(actions.memberImportPreviousStep()).toEqual(expectedAction);
+    });
 });

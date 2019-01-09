@@ -25,12 +25,22 @@ type ImportMembersPolicyCompanyReceiveAction = {
     payload: string;
 };
 
+type ImportNextStepReceiveAction = {
+    type: 'MEMBERS_IMPORT_MEMBERS_NEXT_STEP';
+};
+
+type ImportPreviousStepReceiveAction = {
+    type: 'MEMBERS_IMPORT_MEMBERS_PREVIOUS_STEP';
+};
+
 export type ImportMemberAction =
     | ImportDataReceiveAction
     | ImportColumnsReceiveAction
     | ImportMembersReceiveAction
     | ImportMembersRemoveAction
-    | ImportMembersPolicyCompanyReceiveAction;
+    | ImportMembersPolicyCompanyReceiveAction
+    | ImportNextStepReceiveAction
+    | ImportPreviousStepReceiveAction;
 
 export const receiveMemberImportData = (
     data: ImportData
@@ -65,4 +75,12 @@ export const receiveMemberImportPolicyCompany = (
 ): ImportMembersPolicyCompanyReceiveAction => ({
     type: 'MEMBERS_IMPORT_MEMBERS_POLICY_COMPANY_RECEIVE',
     payload: companyId
+});
+
+export const memberImportNextStep = (): ImportNextStepReceiveAction => ({
+    type: 'MEMBERS_IMPORT_MEMBERS_NEXT_STEP'
+});
+
+export const memberImportPreviousStep = (): ImportPreviousStepReceiveAction => ({
+    type: 'MEMBERS_IMPORT_MEMBERS_PREVIOUS_STEP'
 });

@@ -2,13 +2,15 @@ import { Alert, Col, List, Row } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { arrayMove, SortableContainer, SortableElement, SortEnd } from 'react-sortable-hoc';
+import { v4 } from 'uuid';
 
 import { getColumn } from '@/app/table';
 import {
-    ImportColumn, ImportTableRow, memberImportSelector, memberImportTableRowsSelector, receiveMemberImportColumns
+    ImportColumn, ImportMember, ImportTableRow, memberImportNextStep, memberImportPreviousStep, memberImportSelector,
+    memberImportTableRowsSelector, receiveMemberImportColumns, receiveMemberImportMembers
 } from '@/state/app/member/import';
 import { RootState } from '@/state/rootReducer';
-import { Table } from '@/ui/controls';
+import { Button, Table } from '@/ui/controls';
 
 type SortableItemProps = { value: ImportColumn };
 const SortableItem = SortableElement((props: SortableItemProps) => (
@@ -44,6 +46,18 @@ class Configure extends Component<Props> {
             columns: props.columns
         };
     }
+
+    next = () => {
+        const members: ImportMember[] = this.props.rows.map(r => {
+            return {
+                _id: v4(),
+                idNumber: r.idNumber,
+                ...r
+            };
+        });
+        this.props.dispatch(receiveMemberImportMembers(members));
+        this.props.dispatch(memberImportNextStep());
+    };
 
     onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
         const columns = arrayMove(this.props.columns, oldIndex, newIndex);
@@ -81,9 +95,24 @@ class Configure extends Component<Props> {
                         <Table
                             rowKey="id"
                             columns={this.getColumns()}
-                            dataSource={this.props.rows}
+                            dataSource={this.props.rows.slice(0, 5)}
                             hidePagination={true}
                         />
+                    </Col>
+                </Row>
+
+                <Row type="flex" justify="end" className="mt-1">
+                    <Col>
+                        <Button
+                            onClick={() =>
+                                this.props.dispatch(memberImportPreviousStep())
+                            }
+                        >
+                            Previous
+                        </Button>
+                        <Button type="primary" onClick={this.next}>
+                            Next
+                        </Button>
                     </Col>
                 </Row>
             </>
@@ -96,7 +125,7 @@ const mapStateToProps = (state: RootState) => {
 
     return {
         columns: importState.columns,
-        rows: memberImportTableRowsSelector(state).slice(0, 5)
+        rows: memberImportTableRowsSelector(state)
     };
 };
 

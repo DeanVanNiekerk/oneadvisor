@@ -1,15 +1,18 @@
-import { Icon, Upload as UploadAD } from 'antd';
+import { Col, Icon, Row, Upload as UploadAD } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { read, utils } from 'xlsx';
 
-import { ImportData, receiveMemberImportData } from '@/state/app/member/import';
+import {
+    ImportData, memberImportNextStep, memberImportSelector, receiveMemberImportData
+} from '@/state/app/member/import';
 import { RootState } from '@/state/rootReducer';
+import { Button } from '@/ui/controls';
 
 const Dragger = UploadAD.Dragger;
 
 type Props = {
-    onComplete: () => void;
+    data: ImportData;
 } & DispatchProp;
 
 class Upload extends Component<Props> {
@@ -31,8 +34,6 @@ class Upload extends Component<Props> {
 
             this.props.dispatch(receiveMemberImportData(data));
 
-            this.props.onComplete();
-
             onSuccess('done', file);
         };
     };
@@ -52,9 +53,31 @@ class Upload extends Component<Props> {
                         Click or drag file to this area to upload
                     </p>
                 </Dragger>
+
+                <Row type="flex" justify="end" className="mt-1">
+                    <Col>
+                        <Button
+                            type="primary"
+                            disabled={!(this.props.data.length !== 0)}
+                            onClick={() =>
+                                this.props.dispatch(memberImportNextStep())
+                            }
+                        >
+                            Next
+                        </Button>
+                    </Col>
+                </Row>
             </>
         );
     }
 }
 
-export default connect()(Upload);
+const mapStateToProps = (state: RootState) => {
+    const importState = memberImportSelector(state);
+
+    return {
+        data: importState.data
+    };
+};
+
+export default connect(mapStateToProps)(Upload);

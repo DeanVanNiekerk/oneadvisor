@@ -163,7 +163,43 @@ describe('member import reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            company: '1'
+            companyId: '1'
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it('should handle MEMBERS_IMPORT_MEMBERS_NEXT_STEP', () => {
+        const initalState = {
+            ...defaultState,
+            currentStepIndex: 1
+        };
+
+        const actualState = reducer(initalState, {
+            type: 'MEMBERS_IMPORT_MEMBERS_NEXT_STEP'
+        });
+
+        const expectedState = {
+            ...defaultState,
+            currentStepIndex: 2
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it('should handle MEMBERS_IMPORT_MEMBERS_PREVIOUS_STEP', () => {
+        const initalState = {
+            ...defaultState,
+            currentStepIndex: 4
+        };
+
+        const actualState = reducer(initalState, {
+            type: 'MEMBERS_IMPORT_MEMBERS_PREVIOUS_STEP'
+        });
+
+        const expectedState = {
+            ...defaultState,
+            currentStepIndex: 3
         };
 
         expect(actualState).toEqual(expectedState);

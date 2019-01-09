@@ -1,4 +1,4 @@
-import { Col, Popconfirm, Row, Select } from 'antd';
+import { Col, Form, Popconfirm, Row, Select } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
@@ -6,11 +6,13 @@ import { filterOption } from '@/app/controls/select';
 import { getColumn } from '@/app/table';
 import { companiesSelector, Company, fetchCompanies } from '@/state/app/directory/lookups/companies';
 import {
-    ImportColumn, ImportMember, memberImportSelector, receiveMemberImportPolicyCompany, removeMemberImportMember
+    ImportColumn, ImportMember, memberImportNextStep, memberImportPreviousStep, memberImportSelector,
+    receiveMemberImportPolicyCompany, removeMemberImportMember
 } from '@/state/app/member/import';
 import { RootState } from '@/state/rootReducer';
-import { Table } from '@/ui/controls';
+import { Button, Table } from '@/ui/controls';
 
+const FormItem = Form.Item;
 const Option = Select.Option;
 
 type Props = {
@@ -71,6 +73,10 @@ class Configure extends Component<Props> {
         return columns;
     };
 
+    nextEnabled = () => {
+        return this.props.selectedCompanyId !== null;
+    };
+
     render() {
         return (
             <>
@@ -78,20 +84,34 @@ class Configure extends Component<Props> {
                     <Col span={6}>
                         <h4>Policy Company</h4>
 
-                        <Select
-                            loading={this.props.loading}
-                            showSearch={true}
-                            style={{ width: '100%' }}
-                            filterOption={filterOption}
-                            onChange={(value: string) =>
-                                this.selectCompany(value)
+                        <FormItem
+                            className="mb-0"
+                            validateStatus={
+                                this.props.selectedCompanyId === null
+                                    ? 'error'
+                                    : undefined
                             }
-                            value={this.props.selectedCompanyId}
+                            help={
+                                this.props.selectedCompanyId === null
+                                    ? 'Please select a policy company'
+                                    : ''
+                            }
                         >
-                            {this.props.companies.map(c => (
-                                <Option value={c.id}>{c.name}</Option>
-                            ))}
-                        </Select>
+                            <Select
+                                loading={this.props.loading}
+                                showSearch={true}
+                                style={{ width: '100%' }}
+                                filterOption={filterOption}
+                                onChange={(value: string) =>
+                                    this.selectCompany(value)
+                                }
+                                value={this.props.selectedCompanyId}
+                            >
+                                {this.props.companies.map(c => (
+                                    <Option value={c.id}>{c.name}</Option>
+                                ))}
+                            </Select>
+                        </FormItem>
                     </Col>
                 </Row>
 
@@ -102,6 +122,27 @@ class Configure extends Component<Props> {
                     columns={this.getColumns()}
                     dataSource={this.props.members}
                 />
+
+                <Row type="flex" justify="end" className="mt-1">
+                    <Col>
+                        <Button
+                            onClick={() =>
+                                this.props.dispatch(memberImportPreviousStep())
+                            }
+                        >
+                            Previous
+                        </Button>
+                        <Button
+                            type="primary"
+                            disabled={!this.nextEnabled()}
+                            onClick={() =>
+                                this.props.dispatch(memberImportNextStep())
+                            }
+                        >
+                            Next
+                        </Button>
+                    </Col>
+                </Row>
             </>
         );
     }
