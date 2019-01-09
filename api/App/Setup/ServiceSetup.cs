@@ -91,6 +91,8 @@ namespace api.App.Setup
 
             //MEMBER
             Services.AddScoped<IMemberService, MemberService>();
+            Services.AddScoped<IMemberImportService, MemberImportService>();
+            Services.AddScoped<IMemberPolicyService, MemberPolicyService>();
         }
 
         public void ConfigureMapper(IMapper mapper)

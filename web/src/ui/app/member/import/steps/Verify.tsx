@@ -7,7 +7,7 @@ import { getColumn } from '@/app/table';
 import { companiesSelector, Company, fetchCompanies } from '@/state/app/directory/lookups/companies';
 import {
     ImportColumn, ImportMember, memberImportNextStep, memberImportPreviousStep, memberImportSelector,
-    receiveMemberImportPolicyCompany, removeMemberImportMember
+    receiveMemberImportPolicyCompany, removeMemberImportMember, updateMemberImportPolicyCompanies
 } from '@/state/app/member/import';
 import { RootState } from '@/state/rootReducer';
 import { Button, Table } from '@/ui/controls';
@@ -23,7 +23,7 @@ type Props = {
     loading: boolean;
 } & DispatchProp;
 
-class Configure extends Component<Props> {
+class Verify extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = {
@@ -108,7 +108,9 @@ class Configure extends Component<Props> {
                                 value={this.props.selectedCompanyId}
                             >
                                 {this.props.companies.map(c => (
-                                    <Option value={c.id}>{c.name}</Option>
+                                    <Option key={c.id} value={c.id}>
+                                        {c.name}
+                                    </Option>
                                 ))}
                             </Select>
                         </FormItem>
@@ -118,7 +120,7 @@ class Configure extends Component<Props> {
                 <h4 className="mt-1">Member Data</h4>
 
                 <Table
-                    rowKey="id"
+                    rowKey="_id"
                     columns={this.getColumns()}
                     dataSource={this.props.members}
                 />
@@ -135,9 +137,12 @@ class Configure extends Component<Props> {
                         <Button
                             type="primary"
                             disabled={!this.nextEnabled()}
-                            onClick={() =>
-                                this.props.dispatch(memberImportNextStep())
-                            }
+                            onClick={() => {
+                                this.props.dispatch(
+                                    updateMemberImportPolicyCompanies()
+                                );
+                                this.props.dispatch(memberImportNextStep());
+                            }}
                         >
                             Next
                         </Button>
@@ -161,4 +166,4 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-export default connect(mapStateToProps)(Configure);
+export default connect(mapStateToProps)(Verify);

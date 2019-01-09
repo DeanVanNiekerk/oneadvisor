@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { v4 } from 'uuid';
 
 import { RootState } from '@/state/rootReducer';
 
@@ -18,7 +19,9 @@ export const memberImportTableRowsSelector: (
     rootSelector,
     root => {
         return root.data.map(d => {
-            const record = {};
+            const record = {
+                _id: v4()
+            };
 
             root.columns.forEach((value, index) => {
                 record[value.id] = d[index];

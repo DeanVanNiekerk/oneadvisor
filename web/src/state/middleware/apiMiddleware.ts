@@ -32,12 +32,19 @@ export default (store: any) => (next: any) => (action: any) => {
 
     //console.log(endpoint, fetchOptions);
 
+    const showNotifications =
+        action.hideNotifications === undefined ||
+        action.hideNotifications !== true;
+
     fetch(endpoint, fetchOptions)
         .then(resp => {
             //Check for server error
             if (resp.status === 500) {
                 return resp.text().then(text => {
-                    handleError(store, dispatchPrefix, text);
+                    //Call onFailure
+                    if (action.onFailure) action.onFailure(text);
+
+                    handleError(showNotifications, store, dispatchPrefix, text);
                 });
             }
 
@@ -50,7 +57,15 @@ export default (store: any) => (next: any) => (action: any) => {
             return resp.json().then(json => {
                 //Check for validation error
                 if (resp.status === 400) {
-                    handleValidationError(store, dispatchPrefix, json);
+                    //Call onFailure
+                    if (action.onFailure) action.onFailure(json);
+
+                    handleValidationError(
+                        showNotifications,
+                        store,
+                        dispatchPrefix,
+                        json
+                    );
                     return;
                 }
 
@@ -67,17 +82,27 @@ export default (store: any) => (next: any) => (action: any) => {
             });
         })
         .catch(error => {
-            handleError(store, dispatchPrefix, error);
+            //Call onFailure
+            if (action.onFailure) action.onFailure(error);
+
+            handleError(showNotifications, store, dispatchPrefix, error);
         });
 };
 
-const handleError = (store: any, dispatchPrefix: string, error: string) => {
-    showNotification(
-        'error',
-        'Server Error: Unhandled',
-        'A server error occured please reload the page',
-        10
-    );
+const handleError = (
+    showNotifications: boolean,
+    store: any,
+    dispatchPrefix: string,
+    error: string
+) => {
+    if (showNotifications) {
+        showNotification(
+            'error',
+            'Server Error: Unhandled',
+            'A server error occured please reload the page',
+            10
+        );
+    }
     console.log(error);
 
     //Fetching Error
@@ -88,6 +113,7 @@ const handleError = (store: any, dispatchPrefix: string, error: string) => {
 };
 
 const handleValidationError = (
+    showNotifications: boolean,
     store: any,
     dispatchPrefix: string,
     json: any
@@ -95,7 +121,9 @@ const handleValidationError = (
     //Check if this is one of dotnets parse erros
     if (!isArray(json)) {
         let error = JSON.stringify(json);
-        showNotification('error', 'Server Error: Validation', error, 10);
+        if (showNotifications) {
+            showNotification('error', 'Server Error: Validation', error, 10);
+        }
         console.log(error);
         store.dispatch({
             type: `${dispatchPrefix}_RECEIVE`,
@@ -104,11 +132,13 @@ const handleValidationError = (
         return;
     }
 
-    showMessage(
-        'error',
-        'Data not saved, check form for validation errors',
-        6.5
-    );
+    if (showNotifications) {
+        showMessage(
+            'error',
+            'Data not saved, check form for validation errors',
+            6.5
+        );
+    }
 
     //Validation Error
     store.dispatch({

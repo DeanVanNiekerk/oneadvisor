@@ -93,7 +93,7 @@ class Configure extends Component<Props> {
                         <h4 className="mt-1">Preview</h4>
 
                         <Table
-                            rowKey="id"
+                            rowKey="_id"
                             columns={this.getColumns()}
                             dataSource={this.props.rows.slice(0, 5)}
                             hidePagination={true}

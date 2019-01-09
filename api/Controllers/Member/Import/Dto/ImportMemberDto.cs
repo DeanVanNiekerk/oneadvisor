@@ -1,8 +1,8 @@
 using System;
 
-namespace OneAdvisor.Model.Member.Model.ImportMember
+namespace api.Controllers.Member.Import.Dto
 {
-    public class ImportMember
+    public class ImportMemberDto
     {
         public string IdNumber { get; set; }
 

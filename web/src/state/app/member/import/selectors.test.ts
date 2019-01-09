@@ -43,19 +43,13 @@ describe('member import selectors', () => {
             }
         };
 
-        const expected = [
-            {
-                idNumber: 'val1',
-                lastName: 'val2'
-            },
-            {
-                idNumber: 'val3',
-                lastName: 'val4'
-            }
-        ];
         //@ts-ignore
         const actual = memberImportTableRowsSelector(state);
 
-        expect(actual).toEqual(expected);
+        expect(actual[0].idNumber).toEqual('val1');
+        expect(actual[0].lastName).toEqual('val2');
+
+        expect(actual[1].idNumber).toEqual('val3');
+        expect(actual[1].lastName).toEqual('val4');
     });
 });

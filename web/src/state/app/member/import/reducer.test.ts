@@ -204,4 +204,133 @@ describe('member import reducer', () => {
 
         expect(actualState).toEqual(expectedState);
     });
+
+    it('should handle MEMBERS_IMPORT_MEMBER_SUCCESS', () => {
+        const member1 = {
+            _id: '1',
+            idNumber: '12345'
+        };
+
+        const member2 = {
+            _id: '2',
+            idNumber: '54321'
+        };
+
+        const initalState = {
+            ...defaultState,
+            resultsSuccess: [member1]
+        };
+
+        const actualState = reducer(initalState, {
+            type: 'MEMBERS_IMPORT_MEMBER_SUCCESS',
+            payload: member2
+        });
+
+        const expectedState = {
+            ...defaultState,
+            resultsSuccess: [member1, member2]
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it('should handle MEMBERS_IMPORT_MEMBER_FAILURE', () => {
+        const result1 = {
+            importMember: {
+                _id: '1',
+                idNumber: '12345'
+            },
+            error: 'error 1'
+        };
+
+        const result2 = {
+            importMember: {
+                _id: '2',
+                idNumber: '54321'
+            },
+            error: 'error 2'
+        };
+
+        const initalState = {
+            ...defaultState,
+            resultsFailure: [result1]
+        };
+
+        const actualState = reducer(initalState, {
+            type: 'MEMBERS_IMPORT_MEMBER_FAILURE',
+            payload: result2
+        });
+
+        const expectedState = {
+            ...defaultState,
+            resultsFailure: [result1, result2]
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it('should handle MEMBERS_IMPORT_MEMBER_FAILURE', () => {
+        const member1 = {
+            _id: '1',
+            idNumber: '12345'
+        };
+
+        const result1 = {
+            importMember: {
+                _id: '1',
+                idNumber: '12345'
+            },
+            error: 'error 1'
+        };
+
+        const initalState = {
+            ...defaultState,
+            resultsSuccess: [member1],
+            resultsFailure: [result1]
+        };
+
+        const actualState = reducer(initalState, {
+            type: 'MEMBERS_IMPORT_MEMBER_CLEAR_RESULTS'
+        });
+
+        const expectedState = {
+            ...defaultState,
+            resultsSuccess: [],
+            resultsFailure: []
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it('should handle MEMBERS_IMPORT_MEMBERS_UPDATE_POLICY_COMPANIES', () => {
+        const initalState = {
+            ...defaultState,
+            companyId: '2',
+            members: [
+                {
+                    _id: '123456',
+                    idNumber: '8210035032082',
+                    policyCompanyId: '1'
+                }
+            ]
+        };
+
+        const actualState = reducer(initalState, {
+            type: 'MEMBERS_IMPORT_MEMBERS_UPDATE_POLICY_COMPANIES'
+        });
+
+        const expectedState = {
+            ...defaultState,
+            companyId: '2',
+            members: [
+                {
+                    _id: '123456',
+                    idNumber: '8210035032082',
+                    policyCompanyId: '2'
+                }
+            ]
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
 });

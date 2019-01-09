@@ -1,6 +1,7 @@
 import { routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import { applyMiddleware, compose, createStore } from 'redux';
+import ReduxAsyncQueue from 'redux-async-queue';
 import thunk from 'redux-thunk';
 
 import apiMiddleware from './middleware/apiMiddleware';
@@ -8,7 +9,12 @@ import createRootReducer from './rootReducer';
 
 export const history = createBrowserHistory({ basename: '/' });
 
-const middleware = [thunk, apiMiddleware, routerMiddleware(history)];
+const middleware = [
+    thunk,
+    ReduxAsyncQueue,
+    apiMiddleware,
+    routerMiddleware(history)
+];
 
 // enables Redux devtools extension if present
 const enhancers = [] as any[];

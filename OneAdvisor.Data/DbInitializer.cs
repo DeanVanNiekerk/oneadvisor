@@ -99,6 +99,7 @@ namespace OneAdvisor.Data
                 //Member Use Cases
                 _context.UseCase.Add(new UseCaseEntity() { Id = "mem_view_members", Name = "View Members", ApplicationId = memGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "mem_edit_members", Name = "Edit Members", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_import_members", Name = "Import Members", ApplicationId = memGuid });
 
                 //Commission Use Cases
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_upload_statement", Name = "Upload Commission Statement", ApplicationId = comGuid });
@@ -130,6 +131,7 @@ namespace OneAdvisor.Data
                 //Adminstrator
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_view_members" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_edit_members" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_import_members" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
 
                 //Commission App

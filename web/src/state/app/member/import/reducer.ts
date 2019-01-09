@@ -1,8 +1,7 @@
 import update from 'immutability-helper';
 
-import { Company } from '../../directory/lookups/companies';
 import { ImportMemberAction } from './actions';
-import { ImportColumn, ImportData, ImportMember } from './types';
+import { ImportColumn, ImportData, ImportMember, ResultFailure } from './types';
 
 export type State = {
     readonly data: ImportData;
@@ -10,11 +9,15 @@ export type State = {
     readonly columns: ImportColumn[];
     readonly members: ImportMember[];
     readonly companyId: string | null;
+    readonly resultsSuccess: ImportMember[];
+    readonly resultsFailure: ResultFailure[];
 };
 
 export const defaultState: State = {
     data: [],
     members: [],
+    resultsSuccess: [],
+    resultsFailure: [],
     companyId: null,
     currentStepIndex: 0,
     columns: [
@@ -73,6 +76,17 @@ export const reducer = (
                 companyId: action.payload
             };
         }
+        case 'MEMBERS_IMPORT_MEMBERS_UPDATE_POLICY_COMPANIES': {
+            return {
+                ...state,
+                members: state.members.map(member => {
+                    return {
+                        ...member,
+                        policyCompanyId: state.companyId
+                    };
+                })
+            };
+        }
         case 'MEMBERS_IMPORT_MEMBERS_NEXT_STEP': {
             return {
                 ...state,
@@ -83,6 +97,29 @@ export const reducer = (
             return {
                 ...state,
                 currentStepIndex: state.currentStepIndex - 1
+            };
+        }
+        case 'MEMBERS_IMPORT_MEMBER_SUCCESS': {
+            return {
+                ...state,
+                resultsSuccess: update(state.resultsSuccess, {
+                    $push: [action.payload]
+                })
+            };
+        }
+        case 'MEMBERS_IMPORT_MEMBER_FAILURE': {
+            return {
+                ...state,
+                resultsFailure: update(state.resultsFailure, {
+                    $push: [action.payload]
+                })
+            };
+        }
+        case 'MEMBERS_IMPORT_MEMBER_CLEAR_RESULTS': {
+            return {
+                ...state,
+                resultsSuccess: [],
+                resultsFailure: []
             };
         }
         default:

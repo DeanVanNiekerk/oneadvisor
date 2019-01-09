@@ -18,5 +18,10 @@ namespace OneAdvisor.Model.Directory.Model.Auth
         public Guid OrganisationId { get; set; }
 
         public Scope Scope { get; set; }
+
+        public ScopeOptions Clone(Scope newScope)
+        {
+            return new ScopeOptions(OrganisationId, BranchId, UserId, newScope);
+        }
     }
 }

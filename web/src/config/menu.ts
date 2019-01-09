@@ -71,7 +71,7 @@ export const menus: Menus = {
                         name: 'import',
                         icon: 'upload',
                         relativePath: '/import',
-                        useCases: ['mem_view_members']
+                        useCases: ['mem_import_members']
                     }
                 ]
             }

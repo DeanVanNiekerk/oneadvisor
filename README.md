@@ -69,7 +69,7 @@
 
 ## TODO
 
-- Check for duplicate IdNumber in organisation
+- Check for duplicate IdNumber and PolicyNumber in organisation
 - Readonly forms.. currently cant view forms
 - Filters triggering sort (ant.d bug, being fixed...)
 - !!!!!! API JWT - Must check audience !!!!!!

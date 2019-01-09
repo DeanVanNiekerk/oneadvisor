@@ -7,6 +7,7 @@ import { RootState } from '@/state/rootReducer';
 import { Header } from '@/ui/controls';
 
 import Configure from './steps/Configure';
+import Import from './steps/Import';
 import Upload from './steps/Upload';
 import Verify from './steps/Verify';
 
@@ -45,7 +46,7 @@ class MemberImport extends Component<Props, State> {
                 },
                 {
                     title: 'Import',
-                    content: 'TODO'
+                    content: <Import />
                 }
             ]
         };

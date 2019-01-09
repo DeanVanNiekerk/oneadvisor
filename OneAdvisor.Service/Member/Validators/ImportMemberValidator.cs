@@ -11,7 +11,8 @@ namespace OneAdvisor.Service.Member.Validators
     {
         public ImportMemberValidator(bool isInsert)
         {
-            RuleFor(o => o.IdNumber).NotEmpty().MaximumLength(32);
+            RuleFor(m => m.IdNumber).NotEmpty();
+            RuleFor(m => m.PolicyCompanyId).NotEmpty().When(m => !string.IsNullOrEmpty(m.PolicyNumber));
         }
     }
 }

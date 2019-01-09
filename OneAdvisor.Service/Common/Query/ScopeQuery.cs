@@ -1,7 +1,10 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
+using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Auth;
 using OneAdvisor.Model.Directory.Model.User;
 
@@ -39,6 +42,35 @@ namespace OneAdvisor.Service.Common.Query
                        on user.BranchId equals branch.Id
                    where branch.OrganisationId == organisationId
                    select user;
+        }
+
+        public static async Task<bool> IsMemberInScope(DataContext context, ScopeOptions options, Guid memberId)
+        {
+            var userQuery = GetUserEntityQuery(context, options);
+
+            var query = from user in userQuery
+                        join member in context.Member
+                            on user.Id equals member.UserId
+                        where member.Id == memberId
+                        select member;
+
+            return await query.AnyAsync();
+        }
+
+        public static async Task<Result> IsMemberInScopeResult(DataContext context, ScopeOptions options, Guid memberId)
+        {
+            var result = new Result();
+
+            var inScope = await IsMemberInScope(context, options, memberId);
+
+            if (!inScope)
+            {
+                result.AddValidationFailure("MemberId", "Member exists but is out of scope");
+                return result;
+            }
+
+            result.Success = true;
+            return result;
         }
     }
 }
