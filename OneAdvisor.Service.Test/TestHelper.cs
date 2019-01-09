@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
+using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Test.Models;
 
 namespace OneAdvisor.Service.Test
@@ -44,5 +46,11 @@ namespace OneAdvisor.Service.Test
                 Organisation = org
             };
         }
+
+        public static ScopeOptions GetScopeOptions(DefaultUser user, Scope scope)
+        {
+            return new ScopeOptions(user.Organisation.Id, user.Branch.Id, user.User.Id, scope);
+        }
+
     }
 }

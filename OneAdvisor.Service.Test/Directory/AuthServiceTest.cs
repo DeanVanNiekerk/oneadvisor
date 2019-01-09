@@ -15,21 +15,6 @@ namespace OneAdvisor.Service.Test.Directory
     public class AuthServiceTest
     {
         [TestMethod]
-        public async Task GetScope_Global()
-        {
-            var service = new AuthService(null);
-
-            var roleIds = new List<string>() { "super_administrator" };
-
-            //When
-            var scope = await service.GetScope("", roleIds, Scope.User);
-
-            Assert.AreEqual(null, scope.UserId);
-            Assert.AreEqual(null, scope.BranchId);
-            Assert.AreEqual(null, scope.OrganisationId);
-        }
-
-        [TestMethod]
         public async Task GetScope_OrganisationLevel()
         {
             var options = TestHelper.GetDbContext("GetScope_OrganisationLevel");
@@ -40,15 +25,13 @@ namespace OneAdvisor.Service.Test.Directory
             {
                 var service = new AuthService(context);
 
-                var roleIds = new List<string>() { "admin" };
-
                 //When
-                var scope = await service.GetScope(user.User.Id, roleIds, Scope.Organisation);
+                var scope = await service.GetScope(user.User.Id, Scope.Organisation);
 
-                Assert.AreEqual(null, scope.UserId);
-                Assert.AreEqual(null, scope.BranchId);
+                Assert.AreEqual(user.User.Id, scope.UserId);
+                Assert.AreEqual(user.Branch.Id, scope.BranchId);
                 Assert.AreEqual(user.Organisation.Id, scope.OrganisationId);
-
+                Assert.AreEqual(Scope.Organisation, scope.Scope);
             }
         }
 
@@ -63,15 +46,13 @@ namespace OneAdvisor.Service.Test.Directory
             {
                 var service = new AuthService(context);
 
-                var roleIds = new List<string>() { "admin" };
-
                 //When
-                var scope = await service.GetScope(user.User.Id, roleIds, Scope.Branch);
+                var scope = await service.GetScope(user.User.Id, Scope.Branch);
 
-                Assert.AreEqual(null, scope.UserId);
+                Assert.AreEqual(user.User.Id, scope.UserId);
                 Assert.AreEqual(user.Branch.Id, scope.BranchId);
-                Assert.AreEqual(null, scope.OrganisationId);
-
+                Assert.AreEqual(user.Organisation.Id, scope.OrganisationId);
+                Assert.AreEqual(Scope.Branch, scope.Scope);
             }
         }
 
@@ -86,15 +67,13 @@ namespace OneAdvisor.Service.Test.Directory
             {
                 var service = new AuthService(context);
 
-                var roleIds = new List<string>() { "admin" };
-
                 //When
-                var scope = await service.GetScope(user.User.Id, roleIds, Scope.User);
+                var scope = await service.GetScope(user.User.Id, Scope.User);
 
                 Assert.AreEqual(user.User.Id, scope.UserId);
-                Assert.AreEqual(null, scope.BranchId);
-                Assert.AreEqual(null, scope.OrganisationId);
-
+                Assert.AreEqual(user.Branch.Id, scope.BranchId);
+                Assert.AreEqual(user.Organisation.Id, scope.OrganisationId);
+                Assert.AreEqual(Scope.User, scope.Scope);
             }
         }
 

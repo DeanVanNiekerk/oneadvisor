@@ -19,13 +19,8 @@ namespace OneAdvisor.Service.Directory
             _context = context;
         }
 
-        public async Task<ScopeOptions> GetScope(string userId, IEnumerable<string> roleIds, Scope scope)
+        public async Task<ScopeOptions> GetScope(string userId, Scope scope)
         {
-            var options = new ScopeOptions();
-
-            if (roleIds.Any(r => r == Role.SUPER_ADMINISTRATOR_ROLE))
-                return options;
-
             var userDetails = await (from user in _context.User
                                      join branch in _context.Branch
                                         on user.BranchId equals branch.Id
@@ -36,14 +31,7 @@ namespace OneAdvisor.Service.Directory
                                          OrganisationId = branch.OrganisationId
                                      }).FirstOrDefaultAsync();
 
-            if (scope == Scope.Organisation)
-                options.OrganisationId = userDetails.OrganisationId;
-            else if (scope == Scope.Branch)
-                options.BranchId = userDetails.BranchId;
-            else
-                options.UserId = userId;
-
-            return options;
+            return new ScopeOptions(userDetails.OrganisationId, userDetails.BranchId, userId, scope);
         }
     }
 }

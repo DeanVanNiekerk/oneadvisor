@@ -9,6 +9,7 @@ using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Member.Model.Member;
 using OneAdvisor.Service.Member;
 
@@ -24,10 +25,9 @@ namespace OneAdvisor.Service.Test.Member
             var options = TestHelper.GetDbContext("GetMembers");
 
             var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "A Org 1" };
-            var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "B Org 2" };
 
             var branch1 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = org1.Id, Name = "Branch 1" };
-            var branch2 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = org2.Id, Name = "Branch 2" };
+            var branch2 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = org1.Id, Name = "Branch 2" };
 
             var user1 = new UserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch1.Id };
             var user2 = new UserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch2.Id };
@@ -55,7 +55,6 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 context.Organisation.Add(org1);
-                context.Organisation.Add(org2);
 
                 context.Branch.Add(branch1);
                 context.Branch.Add(branch2);
@@ -74,7 +73,8 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var queryOptions = new MemberQueryOptions(new ScopeOptions(), "", "", 0, 0);
+                var scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Organisation);
+                var queryOptions = new MemberQueryOptions(scope, "", "", 0, 0);
                 var members = await service.GetMembers(queryOptions);
 
                 //Then
@@ -139,10 +139,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var scope = new ScopeOptions()
-                {
-                    OrganisationId = org1.Id
-                };
+                var scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Organisation);
                 var queryOptions = new MemberQueryOptions(scope, "", "", 0, 0);
                 var members = await service.GetMembers(queryOptions);
 
@@ -200,10 +197,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var scope = new ScopeOptions()
-                {
-                    BranchId = branch1.Id
-                };
+                var scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Branch);
                 var queryOptions = new MemberQueryOptions(scope, "", "", 0, 0);
                 var members = await service.GetMembers(queryOptions);
 
@@ -257,10 +251,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var scope = new ScopeOptions()
-                {
-                    UserId = user1.Id
-                };
+                var scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.User);
                 var queryOptions = new MemberQueryOptions(scope, "", "", 0, 0);
                 var members = await service.GetMembers(queryOptions);
 
@@ -283,14 +274,14 @@ namespace OneAdvisor.Service.Test.Member
             var options = TestHelper.GetDbContext("GetMembers_SortAndPage");
 
             //Given
-            var user1 = TestHelper.InsertDefaultUser(options);
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
 
-            var mem1 = new MemberEntity { Id = Guid.NewGuid(), LastName = "A Name 1", UserId = user1.Id };
-            var mem2 = new MemberEntity { Id = Guid.NewGuid(), LastName = "B Name 2", UserId = user1.Id };
-            var mem3 = new MemberEntity { Id = Guid.NewGuid(), LastName = "C Name 3", UserId = user1.Id };
-            var mem4 = new MemberEntity { Id = Guid.NewGuid(), LastName = "D Name 4", UserId = user1.Id };
-            var mem5 = new MemberEntity { Id = Guid.NewGuid(), LastName = "E Name 5", UserId = user1.Id };
-            var mem6 = new MemberEntity { Id = Guid.NewGuid(), LastName = "F Name 6", UserId = user1.Id };
+            var mem1 = new MemberEntity { Id = Guid.NewGuid(), LastName = "A Name 1", UserId = user1.User.Id };
+            var mem2 = new MemberEntity { Id = Guid.NewGuid(), LastName = "B Name 2", UserId = user1.User.Id };
+            var mem3 = new MemberEntity { Id = Guid.NewGuid(), LastName = "C Name 3", UserId = user1.User.Id };
+            var mem4 = new MemberEntity { Id = Guid.NewGuid(), LastName = "D Name 4", UserId = user1.User.Id };
+            var mem5 = new MemberEntity { Id = Guid.NewGuid(), LastName = "E Name 5", UserId = user1.User.Id };
+            var mem6 = new MemberEntity { Id = Guid.NewGuid(), LastName = "F Name 6", UserId = user1.User.Id };
 
             using (var context = new DataContext(options))
             {
@@ -310,7 +301,8 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var queryOptions = new MemberQueryOptions(new ScopeOptions(), "LastName", "asc", 2, 2);
+                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var queryOptions = new MemberQueryOptions(scopeOptions, "LastName", "asc", 2, 2);
                 var actual = await service.GetMembers(queryOptions);
 
                 //Then
@@ -333,14 +325,14 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("GetMember");
 
-            var user1 = TestHelper.InsertDefaultUser(options);
-            var user2 = TestHelper.InsertDefaultUser(options);
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertDefaultUserDetailed(options);
 
             //Given
             var mem1 = new MemberEntity
             {
                 Id = Guid.NewGuid(),
-                UserId = user1.Id
+                UserId = user1.User.Id
             };
 
             var mem2 = new MemberEntity
@@ -353,7 +345,7 @@ namespace OneAdvisor.Service.Test.Member
                 PreferredName = "PN 1",
                 IdNumber = "321654",
                 DateOfBirth = new DateTime(1982, 10, 3),
-                UserId = user2.Id
+                UserId = user2.User.Id
             };
 
             using (var context = new DataContext(options))
@@ -369,7 +361,8 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var actual = await service.GetMember(new ScopeOptions(), mem2.Id);
+                var scopeOptions = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                var actual = await service.GetMember(scopeOptions, mem2.Id);
 
                 //Then
                 Assert.AreEqual(mem2.Id, actual.Id);
@@ -433,47 +426,47 @@ namespace OneAdvisor.Service.Test.Member
                 //When
 
                 //In scope (org 1 -> member 1)
-                var scope = new ScopeOptions() { OrganisationId = org1.Id };
+                var scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Organisation);
                 var member = await service.GetMember(scope, member1.Id);
                 Assert.AreEqual(member1.Id, member.Id);
 
                 //In scope (org 1 -> member 3)
-                scope = new ScopeOptions() { OrganisationId = org1.Id };
+                scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Organisation);
                 member = await service.GetMember(scope, member3.Id);
                 Assert.AreEqual(member3.Id, member.Id);
 
                 //Out of scope (org 2 -> member 1)
-                scope = new ScopeOptions() { OrganisationId = org2.Id };
+                scope = new ScopeOptions(org2.Id, branch3.Id, user4.Id, Scope.Organisation);
                 member = await service.GetMember(scope, member1.Id);
                 Assert.IsNull(member);
 
                 //In scope (branch 1 -> member 1)
-                scope = new ScopeOptions() { BranchId = branch1.Id };
+                scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Branch);
                 member = await service.GetMember(scope, member1.Id);
                 Assert.AreEqual(member1.Id, member.Id);
 
                 //In scope (branch 1 -> member 2)
-                scope = new ScopeOptions() { BranchId = branch1.Id };
+                scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Branch);
                 member = await service.GetMember(scope, member2.Id);
                 Assert.AreEqual(member2.Id, member.Id);
 
                 //Out of scope (branch 2 -> member 1)
-                scope = new ScopeOptions() { BranchId = branch2.Id };
+                scope = new ScopeOptions(org1.Id, branch2.Id, user3.Id, Scope.Branch);
                 member = await service.GetMember(scope, member1.Id);
                 Assert.IsNull(member);
 
                 //Out of scope (branch 3 -> member 1)
-                scope = new ScopeOptions() { BranchId = branch3.Id };
+                scope = new ScopeOptions(org2.Id, branch3.Id, user4.Id, Scope.Branch);
                 member = await service.GetMember(scope, member1.Id);
                 Assert.IsNull(member);
 
                 //In scope (user 1 -> member 1)
-                scope = new ScopeOptions() { UserId = user1.Id };
+                scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.User);
                 member = await service.GetMember(scope, member1.Id);
                 Assert.AreEqual(member1.Id, member.Id);
 
                 //Out of scope (user 2 -> member 1)
-                scope = new ScopeOptions() { UserId = user2.Id };
+                scope = new ScopeOptions(org1.Id, branch1.Id, user2.Id, Scope.User);
                 member = await service.GetMember(scope, member1.Id);
                 Assert.IsNull(member);
             }
@@ -526,11 +519,11 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("UpdateMember");
 
-            var user1 = TestHelper.InsertDefaultUser(options);
-            var user2 = TestHelper.InsertDefaultUser(options);
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertDefaultUserDetailed(options);
 
             //Given
-            var mem1 = new MemberEntity { Id = Guid.NewGuid(), FirstName = "FN 1", LastName = "LN 1", UserId = user1.Id };
+            var mem1 = new MemberEntity { Id = Guid.NewGuid(), FirstName = "FN 1", LastName = "LN 1", UserId = user1.User.Id };
             var mem2 = new MemberEntity
             {
                 Id = Guid.NewGuid(),
@@ -541,7 +534,7 @@ namespace OneAdvisor.Service.Test.Member
                 PreferredName = "PN 1",
                 IdNumber = "321654",
                 DateOfBirth = new DateTime(1982, 10, 3),
-                UserId = user2.Id
+                UserId = user2.User.Id
             };
 
             using (var context = new DataContext(options))
@@ -569,7 +562,8 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var result = await service.UpdateMember(new ScopeOptions(user2.Id), member);
+                var scope = TestHelper.GetScopeOptions(user2, Scope.User);
+                var result = await service.UpdateMember(scope, member);
 
                 //Then
                 Assert.IsTrue(result.Success);
@@ -586,7 +580,8 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(member.DateOfBirth, actual.DateOfBirth);
 
                 //Scope check
-                result = await service.UpdateMember(new ScopeOptions(user1.Id), member);
+                scope = TestHelper.GetScopeOptions(user1, Scope.User);
+                result = await service.UpdateMember(scope, member);
 
                 //Then
                 Assert.IsFalse(result.Success);
@@ -599,19 +594,19 @@ namespace OneAdvisor.Service.Test.Member
             var options = TestHelper.GetDbContext("GetMembers_Filter");
 
             //Given
-            var user1 = TestHelper.InsertDefaultUser(options);
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
             var member1 = new MemberEntity
             {
                 Id = Guid.NewGuid(),
                 LastName = "van Niekerk",
-                UserId = user1.Id
+                UserId = user1.User.Id
             };
 
             var member2 = new MemberEntity
             {
                 Id = Guid.NewGuid(),
                 LastName = "Jones",
-                UserId = user1.Id
+                UserId = user1.User.Id
             };
 
             using (var context = new DataContext(options))
@@ -627,7 +622,8 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var queryOptions = new MemberQueryOptions(new ScopeOptions(), "", "", 0, 0, "lastName=nie");
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var queryOptions = new MemberQueryOptions(scope, "", "", 0, 0, "lastName=nie");
                 var members = await service.GetMembers(queryOptions);
 
                 //Then

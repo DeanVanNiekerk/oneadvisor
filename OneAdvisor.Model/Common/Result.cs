@@ -26,5 +26,10 @@ namespace OneAdvisor.Model.Common
             Success = result.IsValid;
             ValidationFailures = result.Errors;
         }
+
+        public void AddValidationFailure(string properyName, string errorMessage)
+        {
+            ValidationFailures.Add(new ValidationFailure(properyName, errorMessage));
+        }
     }
 }

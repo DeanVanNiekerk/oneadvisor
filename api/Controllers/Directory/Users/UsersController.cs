@@ -96,7 +96,7 @@ namespace api.Controllers.Directory.Users
         [Authorize]
         public async Task<PagedItemsDto<UserSimpleDto>> GetUsersSimple(string userId)
         {
-            var scope = await AuthService.GetScope(UserId, RoleIds, Scope);
+            var scope = await AuthService.GetScope(UserId, Scope);
 
             var pagedItems = await UserService.GetUsersSimple(scope);
 
@@ -107,7 +107,7 @@ namespace api.Controllers.Directory.Users
         [Authorize]
         public async Task<ActionResult<UserSimpleDto>> GetUserSimple(string userId)
         {
-            var scope = await AuthService.GetScope(UserId, RoleIds, Scope);
+            var scope = await AuthService.GetScope(UserId, Scope);
 
             var model = await UserService.GetUserSimple(scope, userId);
 

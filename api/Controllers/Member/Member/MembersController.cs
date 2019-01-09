@@ -37,7 +37,7 @@ namespace api.Controllers.Directory.Members
         [UseCaseAuthorize("mem_view_members")]
         public async Task<PagedItemsDto<MemberDto>> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
-            var scope = await AuthService.GetScope(UserId, RoleIds, Scope);
+            var scope = await AuthService.GetScope(UserId, Scope);
 
             var queryOptions = new MemberQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
             var pagedItems = await MemberService.GetMembers(queryOptions);
@@ -49,7 +49,7 @@ namespace api.Controllers.Directory.Members
         [UseCaseAuthorize("mem_view_members")]
         public async Task<ActionResult<MemberEditDto>> Get(Guid memberId)
         {
-            var scope = await AuthService.GetScope(UserId, RoleIds, Scope);
+            var scope = await AuthService.GetScope(UserId, Scope);
 
             var model = MemberService.GetMember(scope, memberId).Result;
 
@@ -81,7 +81,7 @@ namespace api.Controllers.Directory.Members
 
             var model = Mapper.Map<MemberEdit>(member);
 
-            var scope = await AuthService.GetScope(UserId, RoleIds, Scope);
+            var scope = await AuthService.GetScope(UserId, Scope);
 
             var result = await MemberService.UpdateMember(scope, model);
 

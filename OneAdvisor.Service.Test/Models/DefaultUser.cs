@@ -1,4 +1,5 @@
 using OneAdvisor.Data.Entities.Directory;
+using OneAdvisor.Model.Directory.Model.Auth;
 
 namespace OneAdvisor.Service.Test.Models
 {
