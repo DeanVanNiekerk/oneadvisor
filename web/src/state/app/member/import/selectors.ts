@@ -30,3 +30,16 @@ export const memberImportTableRowsSelector: (
         });
     }
 );
+
+export const memberImportProgressPercentSelector: (
+    state: RootState
+) => number = createSelector(
+    rootSelector,
+    root => {
+        return Math.round(
+            ((root.resultsSuccess.length + root.resultsFailure.length) /
+                root.members.length) *
+                100
+        );
+    }
+);

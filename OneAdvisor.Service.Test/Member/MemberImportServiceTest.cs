@@ -61,6 +61,7 @@ namespace OneAdvisor.Service.Test.Member
             var mem = new MemberEntity
             {
                 Id = Guid.NewGuid(),
+                FirstName = "FN 1",
                 LastName = "LN 1",
                 IdNumber = Guid.NewGuid().ToString(),
                 UserId = user1.User.Id

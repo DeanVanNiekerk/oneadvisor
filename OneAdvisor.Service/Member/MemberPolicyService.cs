@@ -113,10 +113,10 @@ namespace OneAdvisor.Service.Member
                 return result;
 
             var query = from pol in GetMemberPolicyEntityQuery(scope)
-                        where pol.Id == pol.Id
+                        where pol.Id == policy.Id
                         select pol;
 
-            var entity = await query.FirstOrDefaultAsync();
+            var entity = await query.SingleOrDefaultAsync();
 
             if (entity == null)
                 return new Result();
@@ -161,7 +161,6 @@ namespace OneAdvisor.Service.Member
             if (entity == null)
                 entity = new MemberPolicyEntity();
 
-            entity.Id = model.Id.HasValue ? model.Id.Value : Guid.Empty;
             entity.MemberId = model.MemberId;
             entity.Number = model.Number;
             entity.CompanyId = model.CompanyId;

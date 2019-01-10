@@ -128,7 +128,7 @@ namespace OneAdvisor.Service.Member
                         where mem.Id == member.Id
                         select mem;
 
-            var entity = await query.FirstOrDefaultAsync();
+            var entity = await query.SingleOrDefaultAsync();
 
             if (entity == null)
                 return new Result();
@@ -157,7 +157,6 @@ namespace OneAdvisor.Service.Member
             if (entity == null)
                 entity = new MemberEntity();
 
-            entity.Id = model.Id.HasValue ? model.Id.Value : Guid.Empty;
             entity.FirstName = model.FirstName;
             entity.LastName = model.LastName;
             entity.MaidenName = model.MaidenName;

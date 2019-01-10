@@ -1,4 +1,4 @@
-import { memberImportSelector, memberImportTableRowsSelector } from './selectors';
+import { memberImportProgressPercentSelector, memberImportSelector, memberImportTableRowsSelector } from './selectors';
 
 describe('member import selectors', () => {
     it('memberImportSelector', () => {
@@ -51,5 +51,37 @@ describe('member import selectors', () => {
 
         expect(actual[1].idNumber).toEqual('val3');
         expect(actual[1].lastName).toEqual('val4');
+    });
+
+    it('memberImportTableRowsSelector', () => {
+        const state = {
+            app: {
+                member: {
+                    import: {
+                        members: [
+                            {
+                                idNumber: '1'
+                            },
+                            {
+                                idNumber: '2'
+                            },
+                            {
+                                idNumber: '3'
+                            },
+                            {
+                                idNumber: '4'
+                            }
+                        ],
+                        resultsSuccess: ['val1'],
+                        resultsFailure: ['val1']
+                    }
+                }
+            }
+        };
+
+        //@ts-ignore
+        const percent = memberImportProgressPercentSelector(state);
+
+        expect(percent).toEqual(50);
     });
 });

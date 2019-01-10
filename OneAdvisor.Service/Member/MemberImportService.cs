@@ -64,6 +64,7 @@ namespace OneAdvisor.Service.Member
                     return result;
                 }
 
+
                 member.LastName = data.LastName != null ? data.LastName : member.LastName;
                 result = await _memberService.UpdateMember(scope, member);
 
