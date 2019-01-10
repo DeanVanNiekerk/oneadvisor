@@ -5,8 +5,8 @@ import { connect, DispatchProp } from 'react-redux';
 
 import { getColumn } from '@/app/table';
 import {
-    ImportMember, importMember, importMemberClearResults, memberImportPreviousStep, memberImportProgressPercentSelector,
-    memberImportSelector, ResultFailure
+    ImportMember, importMember, importMemberClearResults, importMemberReset, memberImportPreviousStep,
+    memberImportProgressPercentSelector, memberImportSelector, ResultFailure
 } from '@/state/app/member/import';
 import { RootState } from '@/state/rootReducer';
 import { Button, Table } from '@/ui/controls';
@@ -109,6 +109,10 @@ class Import extends Component<Props> {
         return columns;
     };
 
+    reset = () => {
+        this.props.dispatch(importMemberReset());
+    };
+
     render() {
         return (
             <>
@@ -128,10 +132,20 @@ class Import extends Component<Props> {
                     <Col>
                         <Button
                             type="primary"
+                            visible={this.props.progressPercent === 100}
+                            onClick={this.reset}
+                        >
+                            Import a New File
+                            <Icon type="sync" />
+                        </Button>
+                        <Button
+                            type="primary"
                             loading={this.isImporting()}
                             onClick={this.startImport}
                         >
-                            Start Import
+                            {this.props.progressPercent === 100
+                                ? 'Import Again'
+                                : 'Start Import'}
                             <Icon type="cloud-upload" />
                         </Button>
                     </Col>

@@ -122,6 +122,17 @@ export const reducer = (
                 resultsFailure: []
             };
         }
+        case 'MEMBERS_IMPORT_MEMBER_RESET': {
+            return {
+                ...state,
+                data: [],
+                members: [],
+                resultsSuccess: [],
+                resultsFailure: [],
+                companyId: null,
+                currentStepIndex: 0
+            };
+        }
         default:
             return state;
     }

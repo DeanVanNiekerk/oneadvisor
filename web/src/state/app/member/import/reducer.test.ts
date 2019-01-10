@@ -336,4 +336,52 @@ describe('member import reducer', () => {
 
         expect(actualState).toEqual(expectedState);
     });
+
+    it('should handle MEMBERS_IMPORT_MEMBER_RESET', () => {
+        const initalState = {
+            ...defaultState,
+            data: [['val1', 'val2'], ['val3', 'val4']],
+            currentStepIndex: 1,
+            companyId: '2',
+            members: [
+                {
+                    _id: '123456',
+                    idNumber: '8210035032082',
+                    policyCompanyId: '1'
+                }
+            ],
+            resultsSuccess: [
+                {
+                    _id: '1',
+                    idNumber: '12345'
+                }
+            ],
+            resultsFailure: [
+                {
+                    _id: '1',
+                    importMember: {
+                        _id: '1',
+                        idNumber: '12345'
+                    },
+                    error: 'error 1'
+                }
+            ]
+        };
+
+        const actualState = reducer(initalState, {
+            type: 'MEMBERS_IMPORT_MEMBER_RESET'
+        });
+
+        const expectedState = {
+            ...defaultState,
+            data: [],
+            members: [],
+            resultsSuccess: [],
+            resultsFailure: [],
+            companyId: null,
+            currentStepIndex: 0
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
 });

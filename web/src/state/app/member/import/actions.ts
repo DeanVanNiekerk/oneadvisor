@@ -56,6 +56,10 @@ type ImportMemberImportFailureAction = {
     payload: ResultFailure;
 };
 
+type ImportMemberImportResetAction = {
+    type: 'MEMBERS_IMPORT_MEMBER_RESET';
+};
+
 export type ImportMemberAction =
     | ImportDataReceiveAction
     | ImportColumnsReceiveAction
@@ -67,7 +71,8 @@ export type ImportMemberAction =
     | ImportMemberImportSuccessAction
     | ImportMemberImportFailureAction
     | ImportMemberImportClearResultsAction
-    | ImportMembersUpdatePolicyCompaniesAction;
+    | ImportMembersUpdatePolicyCompaniesAction
+    | ImportMemberImportResetAction;
 
 export const receiveMemberImportData = (
     data: ImportData
@@ -116,6 +121,10 @@ export const memberImportPreviousStep = (): ImportMemberAction => ({
 
 export const importMemberClearResults = (): ImportMemberAction => ({
     type: 'MEMBERS_IMPORT_MEMBER_CLEAR_RESULTS'
+});
+
+export const importMemberReset = (): ImportMemberAction => ({
+    type: 'MEMBERS_IMPORT_MEMBER_RESET'
 });
 
 export const importMemberSuccess = (
