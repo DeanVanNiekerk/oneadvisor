@@ -236,6 +236,7 @@ describe('member import reducer', () => {
 
     it('should handle MEMBERS_IMPORT_MEMBER_FAILURE', () => {
         const result1 = {
+            _id: '1',
             importMember: {
                 _id: '1',
                 idNumber: '12345'
@@ -244,6 +245,7 @@ describe('member import reducer', () => {
         };
 
         const result2 = {
+            _id: '2',
             importMember: {
                 _id: '2',
                 idNumber: '54321'
@@ -276,6 +278,7 @@ describe('member import reducer', () => {
         };
 
         const result1 = {
+            _id: '1',
             importMember: {
                 _id: '1',
                 idNumber: '12345'

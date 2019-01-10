@@ -12,12 +12,14 @@ type Props = {
     icon?: string;
     disabled?: boolean;
     onClick?: () => void;
-    children: ReactNode;
+    children?: ReactNode;
     requiredUseCase?: string;
     useCases: string[];
     className?: string;
     noLeftMargin?: boolean;
     visible?: boolean;
+    loading?: boolean;
+    shape?: 'circle';
 };
 
 class ButtonComponent extends React.Component<Props> {
@@ -40,6 +42,8 @@ class ButtonComponent extends React.Component<Props> {
                         onClick={this.props.onClick}
                         disabled={this.props.disabled || false}
                         className={this.props.className}
+                        loading={this.props.loading}
+                        shape={this.props.shape}
                     >
                         {this.props.children}
                     </ButtonAD>

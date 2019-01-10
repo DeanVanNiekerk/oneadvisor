@@ -1,7 +1,10 @@
+import { V4MAPPED } from 'dns';
+import { v4 } from 'uuid';
+
 import { ValidationResult } from '@/app/validation';
 import { membersImportApi } from '@/config/api/member';
 
-import { ImportColumn, ImportData, ImportMember } from './';
+import { ImportColumn, ImportData, ImportMember, ResultFailure } from './';
 
 type ImportDataReceiveAction = {
     type: 'MEMBERS_IMPORT_DATA_RECEIVE';
@@ -50,10 +53,7 @@ type ImportMemberImportSuccessAction = {
 };
 type ImportMemberImportFailureAction = {
     type: 'MEMBERS_IMPORT_MEMBER_FAILURE';
-    payload: {
-        importMember: ImportMember;
-        error: string;
-    };
+    payload: ResultFailure;
 };
 
 export type ImportMemberAction =
@@ -131,6 +131,7 @@ export const importMemberFailure = (
 ): ImportMemberAction => ({
     type: 'MEMBERS_IMPORT_MEMBER_FAILURE',
     payload: {
+        _id: v4(),
         importMember: importMember,
         error: error
     }
@@ -152,7 +153,10 @@ export const importMember = (member: ImportMember): any => {
                 },
                 onFailure: error => {
                     dispatch(
-                        importMemberFailure(member, JSON.stringify(error))
+                        importMemberFailure(
+                            member,
+                            JSON.stringify(error, null, 4)
+                        )
                     );
                     next();
                 }

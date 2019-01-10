@@ -36,7 +36,7 @@ export const memberImportProgressPercentSelector: (
 ) => number = createSelector(
     rootSelector,
     root => {
-        return Math.round(
+        return Math.floor(
             ((root.resultsSuccess.length + root.resultsFailure.length) /
                 root.members.length) *
                 100

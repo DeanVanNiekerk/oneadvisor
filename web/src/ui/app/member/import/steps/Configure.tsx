@@ -1,4 +1,4 @@
-import { Alert, Col, List, Row } from 'antd';
+import { Alert, Col, Icon, List, Row } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { arrayMove, SortableContainer, SortableElement, SortEnd } from 'react-sortable-hoc';
@@ -73,6 +73,26 @@ class Configure extends Component<Props> {
     render() {
         return (
             <>
+                <Row type="flex" justify="space-between" className="mb-1">
+                    <Col>
+                        <Button
+                            noLeftMargin={true}
+                            onClick={() =>
+                                this.props.dispatch(memberImportPreviousStep())
+                            }
+                        >
+                            <Icon type="left" />
+                            Previous
+                        </Button>
+                    </Col>
+                    <Col>
+                        <Button type="primary" onClick={this.next}>
+                            Next
+                            <Icon type="right" />
+                        </Button>
+                    </Col>
+                </Row>
+
                 <Alert
                     showIcon
                     message="Check the preview table to confirm that columns are in the correct order, if not re-order by dragging the columns below"
@@ -98,21 +118,6 @@ class Configure extends Component<Props> {
                             dataSource={this.props.rows.slice(0, 5)}
                             hidePagination={true}
                         />
-                    </Col>
-                </Row>
-
-                <Row type="flex" justify="end" className="mt-1">
-                    <Col>
-                        <Button
-                            onClick={() =>
-                                this.props.dispatch(memberImportPreviousStep())
-                            }
-                        >
-                            Previous
-                        </Button>
-                        <Button type="primary" onClick={this.next}>
-                            Next
-                        </Button>
                     </Col>
                 </Row>
             </>

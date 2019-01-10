@@ -17,6 +17,7 @@ export type ImportMember = {
 };
 
 export type ResultFailure = {
+    _id: string;
     importMember: ImportMember;
     error: string;
 };

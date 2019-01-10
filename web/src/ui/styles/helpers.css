@@ -47,3 +47,14 @@ PADDING
 .pt-3 {
     padding-top: 3rem !important;
 }
+
+/* 
+COLORS
+*/
+.text-success {
+    color: #52c41a !important;
+}
+
+.text-error {
+    color: #f5222d !important;
+}

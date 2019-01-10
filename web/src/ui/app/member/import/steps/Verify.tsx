@@ -1,4 +1,4 @@
-import { Col, Form, Popconfirm, Row, Select } from 'antd';
+import { Col, Form, Icon, Popconfirm, Row, Select } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
@@ -6,8 +6,8 @@ import { filterOption } from '@/app/controls/select';
 import { getColumn } from '@/app/table';
 import { companiesSelector, Company, fetchCompanies } from '@/state/app/directory/lookups/companies';
 import {
-    ImportColumn, ImportMember, memberImportNextStep, memberImportPreviousStep, memberImportSelector,
-    receiveMemberImportPolicyCompany, removeMemberImportMember, updateMemberImportPolicyCompanies
+    ImportColumn, ImportMember, importMemberClearResults, memberImportNextStep, memberImportPreviousStep,
+    memberImportSelector, receiveMemberImportPolicyCompany, removeMemberImportMember, updateMemberImportPolicyCompanies
 } from '@/state/app/member/import';
 import { RootState } from '@/state/rootReducer';
 import { Button, Table } from '@/ui/controls';
@@ -80,6 +80,36 @@ class Verify extends Component<Props> {
     render() {
         return (
             <>
+                <Row type="flex" justify="space-between" className="mb-1">
+                    <Col>
+                        <Button
+                            noLeftMargin={true}
+                            onClick={() =>
+                                this.props.dispatch(memberImportPreviousStep())
+                            }
+                        >
+                            <Icon type="left" />
+                            Previous
+                        </Button>
+                    </Col>
+                    <Col>
+                        <Button
+                            type="primary"
+                            disabled={!this.nextEnabled()}
+                            onClick={() => {
+                                this.props.dispatch(
+                                    updateMemberImportPolicyCompanies()
+                                );
+                                this.props.dispatch(importMemberClearResults());
+                                this.props.dispatch(memberImportNextStep());
+                            }}
+                        >
+                            Next
+                            <Icon type="right" />
+                        </Button>
+                    </Col>
+                </Row>
+
                 <Row>
                     <Col span={6}>
                         <h4>Policy Company</h4>
@@ -124,30 +154,6 @@ class Verify extends Component<Props> {
                     columns={this.getColumns()}
                     dataSource={this.props.members}
                 />
-
-                <Row type="flex" justify="end" className="mt-1">
-                    <Col>
-                        <Button
-                            onClick={() =>
-                                this.props.dispatch(memberImportPreviousStep())
-                            }
-                        >
-                            Previous
-                        </Button>
-                        <Button
-                            type="primary"
-                            disabled={!this.nextEnabled()}
-                            onClick={() => {
-                                this.props.dispatch(
-                                    updateMemberImportPolicyCompanies()
-                                );
-                                this.props.dispatch(memberImportNextStep());
-                            }}
-                        >
-                            Next
-                        </Button>
-                    </Col>
-                </Row>
             </>
         );
     }

@@ -68,7 +68,7 @@ class MemberImport extends Component<Props, State> {
                     ))}
                 </Steps>
 
-                <div className="mt-2" />
+                <div className="mt-1" />
 
                 <div>{steps[currentStepIndex].content}</div>
             </>

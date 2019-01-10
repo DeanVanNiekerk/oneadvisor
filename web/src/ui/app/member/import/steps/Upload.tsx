@@ -41,6 +41,21 @@ class Upload extends Component<Props> {
     render() {
         return (
             <>
+                <Row type="flex" justify="end" className="mb-1">
+                    <Col>
+                        <Button
+                            type="primary"
+                            disabled={!(this.props.data.length !== 0)}
+                            onClick={() =>
+                                this.props.dispatch(memberImportNextStep())
+                            }
+                        >
+                            Next
+                            <Icon type="right" />
+                        </Button>
+                    </Col>
+                </Row>
+
                 <Dragger
                     multiple={false}
                     accept=".xlsx"
@@ -53,20 +68,6 @@ class Upload extends Component<Props> {
                         Click or drag file to this area to upload
                     </p>
                 </Dragger>
-
-                <Row type="flex" justify="end" className="mt-1">
-                    <Col>
-                        <Button
-                            type="primary"
-                            disabled={!(this.props.data.length !== 0)}
-                            onClick={() =>
-                                this.props.dispatch(memberImportNextStep())
-                            }
-                        >
-                            Next
-                        </Button>
-                    </Col>
-                </Row>
             </>
         );
     }
