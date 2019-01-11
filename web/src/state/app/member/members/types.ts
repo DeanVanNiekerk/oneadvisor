@@ -23,3 +23,17 @@ export type MemberEdit = {
     idNumber: string;
     dateOfBirth: string;
 };
+
+export type MemberPreview = {
+    id: string;
+    userId: string;
+    firstName: string;
+    lastName: string;
+    idNumber: string;
+    dateOfBirth: string | null;
+
+    userFirstName: string;
+    userLastName: string;
+
+    policyCount: number;
+};

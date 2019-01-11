@@ -9,10 +9,10 @@ using api.App.Authorization;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Member.Interface;
 using api.App.Dtos;
-using api.Controllers.Directory.Members.Dto;
 using OneAdvisor.Model.Member.Model.Member;
 using Microsoft.AspNetCore.Http;
 using OneAdvisor.Model.Directory.Interface;
+using api.Controllers.Member.Member.Dto;
 
 namespace api.Controllers.Directory.Members
 {
@@ -57,6 +57,20 @@ namespace api.Controllers.Directory.Members
                 return NotFound();
 
             return Ok(Mapper.Map<MemberEditDto>(model));
+        }
+
+        [HttpGet("{memberId}/preview")]
+        [UseCaseAuthorize("mem_view_members")]
+        public async Task<ActionResult<MemberPreviewDto>> GetPreivew(Guid memberId)
+        {
+            var scope = await AuthService.GetScope(UserId, Scope);
+
+            var model = MemberService.GetMemberPreview(scope, memberId).Result;
+
+            if (model == null)
+                return NotFound();
+
+            return Ok(Mapper.Map<MemberPreviewDto>(model));
         }
 
         [HttpPost]

@@ -77,6 +77,28 @@ namespace OneAdvisor.Service.Member
             return pagedItems;
         }
 
+        public Task<MemberPreview> GetMemberPreview(ScopeOptions scope, Guid id)
+        {
+            var query = from member in GetMemberEntityQuery(scope)
+                        join user in _context.User
+                            on member.UserId equals user.Id
+                        where member.Id == id
+                        select new MemberPreview()
+                        {
+                            Id = member.Id,
+                            UserId = member.UserId,
+                            FirstName = member.FirstName,
+                            LastName = member.LastName,
+                            IdNumber = member.IdNumber,
+                            DateOfBirth = member.DateOfBirth,
+                            UserFirstName = user.FirstName,
+                            UserLastName = user.LastName,
+                            PolicyCount = member.MemberPolicies.Count()
+                        };
+
+            return query.FirstOrDefaultAsync();
+        }
+
         public Task<MemberEdit> GetMember(ScopeOptions scope, Guid id)
         {
             var query = from member in GetMemberEntityQuery(scope)

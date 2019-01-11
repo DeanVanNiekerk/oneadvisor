@@ -378,6 +378,77 @@ namespace OneAdvisor.Service.Test.Member
         }
 
         [TestMethod]
+        public async Task GetMemberPreview()
+        {
+            var options = TestHelper.GetDbContext("GetMemberPreview");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+
+            //Given
+            var mem1 = new MemberEntity
+            {
+                Id = Guid.NewGuid(),
+                UserId = user1.User.Id
+            };
+
+            var mem2 = new MemberEntity
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "FN 1",
+                LastName = "LN 1",
+                IdNumber = "321654",
+                DateOfBirth = new DateTime(1982, 10, 3),
+                UserId = user2.User.Id
+            };
+
+            var policy1 = new MemberPolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                MemberId = mem2.Id
+            };
+
+            var policy2 = new MemberPolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                MemberId = mem2.Id
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Member.Add(mem1);
+                context.Member.Add(mem2);
+
+                context.MemberPolicy.Add(policy1);
+                context.MemberPolicy.Add(policy2);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new MemberService(context);
+
+                //When
+                var scopeOptions = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                var actual = await service.GetMemberPreview(scopeOptions, mem2.Id);
+
+                //Then
+                Assert.AreEqual(mem2.Id, actual.Id);
+                Assert.AreEqual(mem2.UserId, actual.UserId);
+                Assert.AreEqual(mem2.FirstName, actual.FirstName);
+                Assert.AreEqual(mem2.LastName, actual.LastName);
+                Assert.AreEqual(mem2.IdNumber, actual.IdNumber);
+                Assert.AreEqual(mem2.DateOfBirth, actual.DateOfBirth);
+
+                Assert.AreEqual(user2.User.FirstName, actual.UserFirstName);
+                Assert.AreEqual(user2.User.LastName, actual.UserLastName);
+
+                Assert.AreEqual(2, actual.PolicyCount);
+            }
+        }
+
+        [TestMethod]
         public async Task GetMember_CheckScope()
         {
             var options = TestHelper.GetDbContext("GetMember_CheckScope");

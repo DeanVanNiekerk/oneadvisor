@@ -9,7 +9,6 @@ using api.App.Authorization;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Member.Interface;
 using api.App.Dtos;
-using api.Controllers.Directory.Members.Dto;
 using OneAdvisor.Model.Member.Model.Member;
 using Microsoft.AspNetCore.Http;
 using OneAdvisor.Model.Directory.Interface;

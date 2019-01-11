@@ -1,6 +1,6 @@
 using System;
 
-namespace api.Controllers.Directory.Members.Dto
+namespace api.Controllers.Member.Member.Dto
 {
     public class MemberEditDto
     {

@@ -4,9 +4,9 @@ import { RouteComponentProps, withRouter } from 'react-router';
 
 import { ValidationResult } from '@/app/validation';
 import {
-    fetchUserSimple, receiveUserSimple, UserSimple, userSimpleIsIdentity, userSimpleSelector
+    fetchUserSimple, UserSimple, userSimpleIsIdentity, userSimpleSelector
 } from '@/state/app/directory/usersSimple';
-import { insertMember, MemberEdit, memberSelector, updateMember } from '@/state/app/member/members';
+import { insertMember, MemberEdit, memberSelector, receiveMember, updateMember } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
 import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
 import { showConfirm } from '@/ui/feedback/modal/confirm';
@@ -14,7 +14,6 @@ import { showConfirm } from '@/ui/feedback/modal/confirm';
 import MemberForm from './MemberForm';
 
 type Props = {
-    visible: boolean;
     onClose: (cancelled: boolean) => void;
     member: MemberEdit | null;
     fetching: boolean;
@@ -48,8 +47,9 @@ class EditMember extends Component<Props, State> {
         }
     }
 
-    close = () => {
-        this.props.onClose(false);
+    close = (cancelled: boolean = false) => {
+        this.props.dispatch(receiveMember(null));
+        this.props.onClose(cancelled);
     };
 
     confirmCancel = () => {
@@ -60,7 +60,7 @@ class EditMember extends Component<Props, State> {
     };
 
     cancel = () => {
-        this.props.onClose(true);
+        this.close(true);
     };
 
     save = () => {
@@ -71,11 +71,11 @@ class EditMember extends Component<Props, State> {
 
         if (this.state.memberEdited.id) {
             this.props.dispatch(
-                updateMember(this.state.memberEdited, this.close)
+                updateMember(this.state.memberEdited, () => this.close())
             );
         } else {
             this.props.dispatch(
-                insertMember(this.state.memberEdited, this.close)
+                insertMember(this.state.memberEdited, () => this.close())
             );
         }
     };
@@ -102,12 +102,12 @@ class EditMember extends Component<Props, State> {
     };
 
     render() {
-        const { member, validationResults, visible } = this.props;
+        const { member, validationResults } = this.props;
 
         return (
             <Drawer
                 title={this.getTitle()}
-                visible={visible}
+                visible={!!member}
                 onClose={this.confirmCancel}
             >
                 <ContentLoader isLoading={this.isLoading()}>

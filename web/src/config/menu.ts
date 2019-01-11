@@ -68,7 +68,7 @@ export const menus: Menus = {
                 name: 'Bulk Actions',
                 links: [
                     {
-                        name: 'import',
+                        name: 'Import',
                         icon: 'upload',
                         relativePath: '/import',
                         useCases: ['mem_import_members']

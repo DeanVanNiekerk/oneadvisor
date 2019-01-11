@@ -3,6 +3,7 @@ import { Switch } from 'react-router';
 
 import MemberImport from '@/ui/app/member/import/MemberImport';
 import MemberList from '@/ui/app/member/member/MemberList';
+import MemberPreview from '@/ui/app/member/member/MemberPreview';
 import { SecureRoute } from '@okta/okta-react';
 
 const MemberRoutes = () => (
@@ -11,6 +12,11 @@ const MemberRoutes = () => (
 
         <SecureRoute exact path="/member/members" component={MemberList} />
         <SecureRoute exact path="/member/import" component={MemberImport} />
+        <SecureRoute
+            exact
+            path="/member/members/:memberId"
+            component={MemberPreview}
+        />
     </Switch>
 );
 

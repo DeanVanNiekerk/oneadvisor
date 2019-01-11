@@ -6,7 +6,7 @@ import { MemberEdit } from '../types';
 
 type MemberReceiveAction = {
     type: 'MEMBERS_MEMBER_RECEIVE';
-    payload: MemberEdit;
+    payload: MemberEdit | null;
 };
 type MemberFetchingAction = { type: 'MEMBERS_MEMBER_FETCHING' };
 type MemberFetchingErrorAction = { type: 'MEMBERS_MEMBER_FETCHING_ERROR' };
@@ -28,7 +28,9 @@ export type MemberAction =
     | MemberUpdatingErrorAction
     | MemberValidationErrorAction;
 
-export const receiveMember = (member: MemberEdit): MemberReceiveAction => ({
+export const receiveMember = (
+    member: MemberEdit | null
+): MemberReceiveAction => ({
     type: 'MEMBERS_MEMBER_RECEIVE',
     payload: member
 });

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
+import { RouteComponentProps } from 'react-router';
 
 import { Filters, getColumn, PageOptions, SortOptions } from '@/app/table';
 import { Identity, identitySelector } from '@/state/app/directory/identity';
 import { fetchUsersSimple, UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import {
-    fetchMember, fetchMembers, Member, MemberEdit, membersSelector, receiveFilters, receiveMember, receivePageOptions,
+    fetchMembers, Member, MemberEdit, membersSelector, receiveFilters, receiveMember, receivePageOptions,
     receiveSortOptions
 } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
@@ -22,21 +23,10 @@ type Props = {
     totalItems: number;
     filters: Filters;
     identity: Identity;
-} & DispatchProp;
+} & RouteComponentProps &
+    DispatchProp;
 
-type State = {
-    editVisible: boolean;
-};
-
-class MemberList extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            editVisible: false
-        };
-    }
-
+class MemberList extends Component<Props> {
     componentDidMount() {
         if (this.props.members.length === 0) this.loadMembers();
         if (this.props.users.length === 0) this.loadUsers();
@@ -65,6 +55,14 @@ class MemberList extends Component<Props, State> {
         this.props.dispatch(fetchUsersSimple());
     };
 
+    editMember = (id: string) => {
+        this.props.history.push(`/member/members/${id}`);
+    };
+
+    onFormClose = (cancelled: boolean) => {
+        if (!cancelled) this.loadMembers();
+    };
+
     newMember = () => {
         const member: MemberEdit = {
             id: null,
@@ -79,25 +77,6 @@ class MemberList extends Component<Props, State> {
         };
 
         this.props.dispatch(receiveMember(member));
-        this.showEditMember();
-    };
-
-    editMember = (id: string) => {
-        this.props.dispatch(fetchMember(id));
-        this.showEditMember();
-    };
-
-    showEditMember = () => {
-        this.setState({
-            editVisible: true
-        });
-    };
-
-    closeEditMember = (cancelled: boolean) => {
-        this.setState({
-            editVisible: false
-        });
-        if (!cancelled) this.loadMembers();
     };
 
     getColumns = () => {
@@ -136,15 +115,25 @@ class MemberList extends Component<Props, State> {
             <>
                 <Header
                     actions={
-                        <Button
-                            type="default"
-                            icon="plus"
-                            onClick={this.newMember}
-                            disabled={this.props.fetching}
-                            requiredUseCase="mem_edit_members"
-                        >
-                            New Member
-                        </Button>
+                        <>
+                            <Button
+                                type="default"
+                                icon="sync"
+                                onClick={this.loadMembers}
+                                disabled={this.props.fetching}
+                            >
+                                Reload
+                            </Button>
+                            <Button
+                                type="default"
+                                icon="plus"
+                                onClick={this.newMember}
+                                disabled={this.props.fetching}
+                                requiredUseCase="mem_edit_members"
+                            >
+                                New Member
+                            </Button>
+                        </>
                     }
                 >
                     Members
@@ -161,10 +150,7 @@ class MemberList extends Component<Props, State> {
                     totalRows={this.props.totalItems}
                     onTableChange={this.onTableChange}
                 />
-                <EditMember
-                    visible={this.state.editVisible}
-                    onClose={this.closeEditMember}
-                />
+                <EditMember onClose={this.onFormClose} />
             </>
         );
     }

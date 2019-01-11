@@ -13,3 +13,8 @@
 .ant-form-inline > .ant-form-item-with-help {
     margin-bottom: 0 !important;
 }
+
+.ant-skeleton-paragraph {
+    padding-left: 0 !important;
+    margin-bottom: 5px !important;
+}
