@@ -53,8 +53,10 @@ class MemberPreviewView extends Component<Props> {
 
         return (
             <>
-                <Header>{`${member && member.firstName} ${member &&
-                    member.lastName}`}</Header>
+                <Header loading={this.isLoading()}>
+                    {`${member && member.firstName} ${member &&
+                        member.lastName}`}
+                </Header>
 
                 <div style={{ background: '#ECECEC', padding: '30px' }}>
                     <Row gutter={16}>

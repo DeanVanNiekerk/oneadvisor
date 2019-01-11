@@ -1,29 +1,41 @@
+import { Col, Row, Skeleton } from 'antd';
 import React, { ReactNode } from 'react';
-import { Col, Grid, Row } from 'react-flexbox-grid';
 
 type Props = {
+    loading?: boolean;
     children: ReactNode;
     actions?: ReactNode;
 };
 
 const Header = (props: Props) => (
-    <Grid
-        fluid
+    <Row
+        type="flex"
         style={{
-            position: 'sticky',
-            top: 0,
-            zIndex: 100,
-            backgroundColor: '#FFFFFF',
+            //position: 'sticky',
+            //top: 0,
+            //zIndex: 100,
+            //backgroundColor: '#FFFFFF',
             paddingTop: 15
         }}
     >
-        <Row between="xs">
-            <Col>
+        <Col span={12} className="content-header">
+            <Skeleton
+                loading={props.loading}
+                title={false}
+                active
+                paragraph={{
+                    rows: 1
+                }}
+            >
                 <h2>{props.children}</h2>
+            </Skeleton>
+        </Col>
+        {props.actions && (
+            <Col span={12} className="text-right">
+                {props.actions}
             </Col>
-            {props.actions && <Col>{props.actions}</Col>}
-        </Row>
-    </Grid>
+        )}
+    </Row>
 );
 
 export { Header };

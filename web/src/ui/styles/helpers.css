@@ -58,3 +58,10 @@ COLORS
 .text-error {
     color: #f5222d !important;
 }
+
+/* 
+ALIGNMENT
+*/
+.text-right {
+    text-align: right;
+}

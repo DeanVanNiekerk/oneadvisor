@@ -18,3 +18,8 @@
     padding-left: 0 !important;
     margin-bottom: 5px !important;
 }
+
+.content-header .ant-skeleton-active {
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
