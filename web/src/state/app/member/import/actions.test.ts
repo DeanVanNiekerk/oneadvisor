@@ -1,4 +1,3 @@
-import { Company } from '../../directory/lookups/companies';
 import { ImportData } from './';
 import * as actions from './actions';
 import { ImportColumn, ImportMember } from './types';
@@ -29,6 +28,19 @@ describe('member: import: actions', () => {
         };
 
         expect(actions.receiveMemberImportColumns(columns)).toEqual(
+            expectedAction
+        );
+    });
+
+    it('should dispatch MEMBERS_IMPORT_SELECTED_COLUMNS_RECEIVE when receiveMemberImportSelectedColumns is called', () => {
+        const columns: string[] = ['idNumber'];
+
+        const expectedAction = {
+            type: 'MEMBERS_IMPORT_SELECTED_COLUMNS_RECEIVE',
+            payload: columns
+        };
+
+        expect(actions.receiveMemberImportSelectedColumns(columns)).toEqual(
             expectedAction
         );
     });

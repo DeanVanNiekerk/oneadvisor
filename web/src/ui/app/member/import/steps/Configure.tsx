@@ -1,4 +1,4 @@
-import { Alert, Col, Icon, List, Row } from 'antd';
+import { Alert, Col, Icon, List, Row, Select } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { arrayMove, SortableContainer, SortableElement, SortEnd } from 'react-sortable-hoc';
@@ -7,10 +7,13 @@ import { v4 } from 'uuid';
 import { getColumn } from '@/app/table';
 import {
     ImportColumn, ImportMember, ImportTableRow, memberImportNextStep, memberImportPreviousStep, memberImportSelector,
-    memberImportTableRowsSelector, receiveMemberImportColumns, receiveMemberImportMembers
+    memberImportTableRowsSelector, receiveMemberImportColumns, receiveMemberImportMembers,
+    receiveMemberImportSelectedColumns
 } from '@/state/app/member/import';
 import { RootState } from '@/state/rootReducer';
 import { Button, Table } from '@/ui/controls';
+
+const Option = Select.Option;
 
 type SortableItemProps = { value: ImportColumn };
 const SortableItem = SortableElement((props: SortableItemProps) => (
@@ -36,6 +39,7 @@ const SortableList = SortableContainer((props: SortableListProps) => {
 
 type Props = {
     columns: ImportColumn[];
+    selectedColumns: string[];
     rows: ImportTableRow[];
 } & DispatchProp;
 
@@ -60,14 +64,30 @@ class Configure extends Component<Props> {
     };
 
     onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
-        const columns = arrayMove(this.props.columns, oldIndex, newIndex);
-        this.props.dispatch(receiveMemberImportColumns(columns));
+        const columns = arrayMove(
+            this.props.selectedColumns,
+            oldIndex,
+            newIndex
+        );
+        //this.props.dispatch(receiveMemberImportColumns(columns));
+        this.props.dispatch(receiveMemberImportSelectedColumns(columns));
     };
 
     getColumns = () => {
-        return this.props.columns.map(c =>
+        return this.getSelectedColumns().map(c =>
             getColumn(c.id, c.name, { sorter: undefined })
         );
+    };
+
+    getSelectedColumns = () => {
+        return this.props.selectedColumns.map(sc => {
+            const column = this.props.columns.find(c => c.id === sc);
+            return column ? column : { id: '0', name: 'no match' };
+        });
+    };
+
+    onSelectedColumnChange = (columns: string[]) => {
+        this.props.dispatch(receiveMemberImportSelectedColumns(columns));
     };
 
     render() {
@@ -101,10 +121,24 @@ class Configure extends Component<Props> {
 
                 <Row gutter={24}>
                     <Col span={12}>
+                        <h4 className="mt-1">Column Selection</h4>
+
+                        <Select
+                            mode="multiple"
+                            style={{ width: '100%' }}
+                            placeholder="Please select"
+                            value={this.props.selectedColumns}
+                            onChange={this.onSelectedColumnChange}
+                        >
+                            {this.props.columns.map(c => {
+                                return <Option key={c.id}>{c.name}</Option>;
+                            })}
+                        </Select>
+
                         <h4 className="mt-1">Column Order</h4>
 
                         <SortableList
-                            items={this.props.columns}
+                            items={this.getSelectedColumns()}
                             onSortEnd={this.onSortEnd}
                         />
                     </Col>
@@ -130,6 +164,7 @@ const mapStateToProps = (state: RootState) => {
 
     return {
         columns: importState.columns,
+        selectedColumns: importState.selectedColumns,
         rows: memberImportTableRowsSelector(state)
     };
 };

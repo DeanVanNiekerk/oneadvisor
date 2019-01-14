@@ -151,7 +151,7 @@ const mapStateToProps = (state: RootState) => {
         fetching: memberState.fetching,
         updating: memberState.updating,
         validationResults: memberState.validationResults,
-        enabled: userSimpleIsIdentity(state),
+        enabled: true,
         user: userState.userSimple
     };
 };

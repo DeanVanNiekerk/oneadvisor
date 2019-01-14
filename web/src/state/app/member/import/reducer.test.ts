@@ -48,6 +48,27 @@ describe('member import reducer', () => {
         expect(actualState).toEqual(expectedState);
     });
 
+    it('should handle MEMBERS_IMPORT_SELECTED_COLUMNS_RECEIVE', () => {
+        const initalState = {
+            ...defaultState,
+            columns: []
+        };
+
+        const columns: string[] = ['idNumber'];
+
+        const actualState = reducer(initalState, {
+            type: 'MEMBERS_IMPORT_SELECTED_COLUMNS_RECEIVE',
+            payload: columns
+        });
+
+        const expectedState = {
+            ...defaultState,
+            columns: [...columns]
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
     it('should handle MEMBERS_IMPORT_MEMBERS_RECEIVE', () => {
         const initalState = {
             ...defaultState

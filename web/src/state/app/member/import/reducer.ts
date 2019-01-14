@@ -7,6 +7,7 @@ export type State = {
     readonly data: ImportData;
     readonly currentStepIndex: number;
     readonly columns: ImportColumn[];
+    readonly selectedColumns: string[];
     readonly members: ImportMember[];
     readonly companyId: string | null;
     readonly resultsSuccess: ImportMember[];
@@ -20,14 +21,23 @@ export const defaultState: State = {
     resultsFailure: [],
     companyId: null,
     currentStepIndex: 0,
+    selectedColumns: ['idNumber', 'lastName'],
     columns: [
         {
             id: 'idNumber',
             name: 'ID Number'
         },
         {
+            id: 'firstName',
+            name: 'First Name'
+        },
+        {
             id: 'lastName',
             name: 'Last Name'
+        },
+        {
+            id: 'userFullName',
+            name: 'Broker Full Name'
         },
         {
             id: 'policyNumber',
@@ -51,6 +61,12 @@ export const reducer = (
             return {
                 ...state,
                 columns: [...action.payload]
+            };
+        }
+        case 'MEMBERS_IMPORT_SELECTED_COLUMNS_RECEIVE': {
+            return {
+                ...state,
+                selectedColumns: [...action.payload]
             };
         }
         case 'MEMBERS_IMPORT_MEMBERS_RECEIVE': {

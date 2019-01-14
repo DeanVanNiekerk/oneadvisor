@@ -69,6 +69,7 @@
 
 ## TODO
 
+- import member error (500, 400, 401) - show nicely
 - member import dont add where no values
 - Readonly forms.. currently cant view forms
 - Filters triggering sort (ant.d bug, being fixed...)

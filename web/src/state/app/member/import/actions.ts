@@ -60,6 +60,11 @@ type ImportMemberImportResetAction = {
     type: 'MEMBERS_IMPORT_MEMBER_RESET';
 };
 
+type ImportMembersSelectedColumnsReceiveAction = {
+    type: 'MEMBERS_IMPORT_SELECTED_COLUMNS_RECEIVE';
+    payload: string[];
+};
+
 export type ImportMemberAction =
     | ImportDataReceiveAction
     | ImportColumnsReceiveAction
@@ -72,7 +77,8 @@ export type ImportMemberAction =
     | ImportMemberImportFailureAction
     | ImportMemberImportClearResultsAction
     | ImportMembersUpdatePolicyCompaniesAction
-    | ImportMemberImportResetAction;
+    | ImportMemberImportResetAction
+    | ImportMembersSelectedColumnsReceiveAction;
 
 export const receiveMemberImportData = (
     data: ImportData
@@ -85,6 +91,13 @@ export const receiveMemberImportColumns = (
     columns: ImportColumn[]
 ): ImportMemberAction => ({
     type: 'MEMBERS_IMPORT_COLUMNS_RECEIVE',
+    payload: columns
+});
+
+export const receiveMemberImportSelectedColumns = (
+    columns: string[]
+): ImportMemberAction => ({
+    type: 'MEMBERS_IMPORT_SELECTED_COLUMNS_RECEIVE',
     payload: columns
 });
 

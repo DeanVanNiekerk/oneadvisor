@@ -23,8 +23,8 @@ export const memberImportTableRowsSelector: (
                 _id: v4()
             };
 
-            root.columns.forEach((value, index) => {
-                record[value.id] = d[index];
+            root.selectedColumns.forEach((value, index) => {
+                record[value] = d[index];
             });
             return record;
         });

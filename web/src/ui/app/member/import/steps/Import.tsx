@@ -63,11 +63,22 @@ class Import extends Component<Props> {
         });
     };
 
-    showError = (error: string) => {
+    showError = (record: ResultFailure) => {
         Modal.error({
             title: 'Error Details',
             width: 720,
-            content: <pre>{error}</pre>
+            content: (
+                <div>
+                    <div>ID Number: {record.importMember.idNumber}</div>
+                    <div>First Name: {record.importMember.firstName}</div>
+                    <div>Last Name: {record.importMember.lastName}</div>
+                    <div>Policy Number: {record.importMember.policyNumber}</div>
+                    <div>
+                        Broker Full Name: {record.importMember.userFullName}
+                    </div>
+                    <pre>{record.error}</pre>
+                </div>
+            )
         });
     };
 
@@ -84,19 +95,13 @@ class Import extends Component<Props> {
         const actionColumn = getColumn('error', 'Detail', {
             sorter: undefined,
             render: (value: any, record: ResultFailure) => {
-                const content = (
-                    <div>
-                        <pre>{record.error}</pre>
-                    </div>
-                );
-
                 return (
                     <Button
                         shape="circle"
                         icon="exclamation"
                         type="danger"
                         onClick={() => {
-                            this.showError(record.error);
+                            this.showError(record);
                         }}
                     />
                 );
