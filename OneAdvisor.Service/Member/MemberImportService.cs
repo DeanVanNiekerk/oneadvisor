@@ -47,6 +47,7 @@ namespace OneAdvisor.Service.Member
                         join user in userQuery
                              on entity.UserId equals user.Id
                         where entity.IdNumber == data.IdNumber
+                        || entity.PassportNumber == data.IdNumber
                         select entity;
 
 
@@ -64,7 +65,6 @@ namespace OneAdvisor.Service.Member
                     return result;
                 }
 
-
                 member.LastName = data.LastName != null ? data.LastName : member.LastName;
                 result = await _memberService.UpdateMember(scope, member);
 
@@ -76,9 +76,14 @@ namespace OneAdvisor.Service.Member
                 member = new MemberEdit()
                 {
                     FirstName = string.Empty,
-                    LastName = data.LastName != null ? data.LastName : string.Empty,
-                    IdNumber = data.IdNumber
+                    LastName = data.LastName != null ? data.LastName : string.Empty
                 };
+
+                var id = new IdNumber(data.IdNumber);
+                if (id.IsValid)
+                    member.IdNumber = data.IdNumber;
+                else
+                    member.PassportNumber = data.IdNumber;
 
                 result = await _memberService.InsertMember(scope.UserId, member);
 
@@ -100,18 +105,19 @@ namespace OneAdvisor.Service.Member
             if (string.IsNullOrWhiteSpace(data.PolicyNumber))
                 return result;
 
-            var policy = await _memberPolicyService.GetPolicy(scope, data.PolicyNumber);
+            var policy = await _memberPolicyService.GetPolicy(scope, member.Id.Value, data.PolicyCompanyId.Value, data.PolicyNumber);
 
             //Policy exits, update
             if (policy != null)
             {
-                policy.CompanyId = data.PolicyCompanyId.Value;
-                policy.MemberId = member.Id.Value;
+                /* Nothing to update at the moment */
+                // policy.CompanyId = data.PolicyCompanyId.Value;
+                // policy.MemberId = member.Id.Value;
 
-                result = await _memberPolicyService.UpdatePolicy(scope, policy);
+                // result = await _memberPolicyService.UpdatePolicy(scope, policy);
 
-                if (!result.Success)
-                    return result;
+                // if (!result.Success)
+                //     return result;
             }
             else
             {

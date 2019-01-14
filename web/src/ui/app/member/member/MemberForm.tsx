@@ -184,6 +184,14 @@ class MemberForm extends Component<Props, State> {
                     addonAfter={this.idNumberInputAddon()}
                     disabled={!enabled}
                 />
+                <FormInput
+                    fieldName="passportNumber"
+                    label="Passport Number"
+                    value={member.passportNumber}
+                    onChange={this.handleChange}
+                    validationResults={validationResults}
+                    disabled={!enabled}
+                />
                 <FormDate
                     fieldName="dateOfBirth"
                     label="Date of Birth"

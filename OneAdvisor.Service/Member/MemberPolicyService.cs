@@ -67,10 +67,12 @@ namespace OneAdvisor.Service.Member
             return query.FirstOrDefaultAsync();
         }
 
-        public Task<MemberPolicyEdit> GetPolicy(ScopeOptions scope, string number)
+        public Task<MemberPolicyEdit> GetPolicy(ScopeOptions scope, Guid memberId, Guid companyId, string number)
         {
             var query = from policy in GetMemberPolicyEditQuery(scope)
                         where policy.Number == number
+                        && policy.MemberId == memberId
+                        && policy.CompanyId == companyId
                         select policy;
 
             return query.FirstOrDefaultAsync();

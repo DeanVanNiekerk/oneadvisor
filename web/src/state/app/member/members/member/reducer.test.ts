@@ -11,6 +11,7 @@ const defaultMember = {
     initials: 'DJ',
     preferredName: 'ripper',
     idNumber: '12341234',
+    passportNumber: '987987',
     dateOfBirth: '1982-10-03'
 };
 

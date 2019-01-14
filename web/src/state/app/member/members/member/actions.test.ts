@@ -22,6 +22,7 @@ describe('member actions', () => {
             maidenName: '',
             initials: 'DJ',
             preferredName: 'ripper',
+            passportNumber: '987987',
             idNumber: '12341234',
             dateOfBirth: '1982-10-03'
         };

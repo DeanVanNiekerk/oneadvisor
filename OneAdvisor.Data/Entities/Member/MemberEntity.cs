@@ -20,6 +20,7 @@ namespace OneAdvisor.Data.Entities.Member
         public string PreferredName { get; set; }
         public string IdNumber { get; set; }
         public DateTime? DateOfBirth { get; set; }
+        public string PassportNumber { get; set; }
 
         public virtual UserEntity User { get; set; }
         public virtual ICollection<MemberPolicyEntity> MemberPolicies { get; set; }

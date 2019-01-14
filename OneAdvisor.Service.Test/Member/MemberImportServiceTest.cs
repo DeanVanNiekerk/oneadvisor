@@ -177,54 +177,6 @@ namespace OneAdvisor.Service.Test.Member
             }
         }
 
-        [TestMethod]
-        public async Task ImportMember_UpdatePolicy()
-        {
-            var options = TestHelper.GetDbContext("ImportMember_UpdatePolicy");
-
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.User);
-
-            var policyEntity1 = new MemberPolicyEntity
-            {
-                Id = Guid.NewGuid(),
-                CompanyId = Guid.NewGuid(),
-                MemberId = member1.Member.Id,
-                Number = "123465"
-            };
-
-            using (var context = new DataContext(options))
-            {
-                context.MemberPolicy.Add(policyEntity1);
-                context.SaveChanges();
-            }
-
-            using (var context = new DataContext(options))
-            {
-                var memberService = new MemberService(context);
-                var memberPolicyService = new MemberPolicyService(context);
-                var service = new MemberImportService(context, memberService, memberPolicyService);
-
-                //When
-                var data = new ImportMember()
-                {
-                    IdNumber = member1.Member.IdNumber,
-                    LastName = "LN",
-                    PolicyNumber = "123465",
-                    PolicyCompanyId = Guid.NewGuid()
-                };
-
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
-
-                var result = await service.ImportMember(scope, data);
-
-                //Then
-                Assert.IsTrue(result.Success);
-
-                var actual = await context.MemberPolicy.FirstOrDefaultAsync(m => m.Number == data.PolicyNumber);
-                Assert.AreEqual(data.PolicyCompanyId, actual.CompanyId);
-            }
-        }
 
     }
 }

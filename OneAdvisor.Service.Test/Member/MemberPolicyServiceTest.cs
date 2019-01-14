@@ -160,7 +160,7 @@ namespace OneAdvisor.Service.Test.Member
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
-                var actual = await service.GetPolicy(scopeOptions, policy1.Number);
+                var actual = await service.GetPolicy(scopeOptions, member1.Member.Id, policy1.CompanyId, policy1.Number);
 
                 //Then
                 Assert.AreEqual(policy1.Id, actual.Id);

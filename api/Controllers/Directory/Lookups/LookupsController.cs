@@ -25,7 +25,6 @@ namespace api.Controllers.Directory.Lookups
         private ILookupService LookupService { get; }
 
         [HttpGet("companies")]
-        [UseCaseAuthorize("dir_view_lookups")]
         public async Task<List<CompanyDto>> Index()
         {
             var models = await LookupService.GetCompanies();

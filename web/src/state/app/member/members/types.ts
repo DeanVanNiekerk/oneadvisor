@@ -7,6 +7,7 @@ export type Member = {
     initials: string;
     preferredName: string;
     idNumber: string;
+    passportNumber: string;
     dateOfBirth: string;
     userFirstName: string;
     userLastName: string;
@@ -21,6 +22,7 @@ export type MemberEdit = {
     initials: string;
     preferredName: string;
     idNumber: string;
+    passportNumber: string;
     dateOfBirth: string;
 };
 

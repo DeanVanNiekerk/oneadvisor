@@ -12,6 +12,7 @@ namespace api.Controllers.Member.Member.Dto
         public string Initials { get; set; }
         public string PreferredName { get; set; }
         public string IdNumber { get; set; }
+        public string PassportNumber { get; set; }
         public DateTime? DateOfBirth { get; set; }
 
         public string UserFirstName { get; set; }

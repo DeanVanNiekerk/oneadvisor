@@ -13,6 +13,7 @@ namespace OneAdvisor.Model.Member.Model.Member
         public string PreferredName { get; set; }
         public string IdNumber { get; set; }
         public DateTime? DateOfBirth { get; set; }
+        public string PassportNumber { get; set; }
 
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }

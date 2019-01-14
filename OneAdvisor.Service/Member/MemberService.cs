@@ -41,6 +41,7 @@ namespace OneAdvisor.Service.Member
                             LastName = member.LastName,
                             MaidenName = member.MaidenName,
                             IdNumber = member.IdNumber,
+                            PassportNumber = member.PassportNumber,
                             Initials = member.Initials,
                             PreferredName = member.PreferredName,
                             DateOfBirth = member.DateOfBirth,
@@ -111,6 +112,7 @@ namespace OneAdvisor.Service.Member
                             LastName = member.LastName,
                             MaidenName = member.MaidenName,
                             IdNumber = member.IdNumber,
+                            PassportNumber = member.PassportNumber,
                             Initials = member.Initials,
                             PreferredName = member.PreferredName,
                             DateOfBirth = member.DateOfBirth
@@ -121,7 +123,7 @@ namespace OneAdvisor.Service.Member
 
         public async Task<Result> InsertMember(string userId, MemberEdit member)
         {
-            var validator = new MemberValidator(true);
+            var validator = new MemberValidator(_context, true);
             var result = validator.Validate(member).GetResult();
 
             if (!result.Success)
@@ -140,7 +142,7 @@ namespace OneAdvisor.Service.Member
 
         public async Task<Result> UpdateMember(ScopeOptions scope, MemberEdit member)
         {
-            var validator = new MemberValidator(false);
+            var validator = new MemberValidator(_context, false);
             var result = validator.Validate(member).GetResult();
 
             if (!result.Success)
@@ -183,9 +185,17 @@ namespace OneAdvisor.Service.Member
             entity.LastName = model.LastName;
             entity.MaidenName = model.MaidenName;
             entity.IdNumber = model.IdNumber;
+            entity.PassportNumber = model.PassportNumber;
             entity.Initials = model.Initials;
             entity.PreferredName = model.PreferredName;
             entity.DateOfBirth = model.DateOfBirth;
+
+            if (entity.DateOfBirth == null)
+            {
+                var id = new IdNumber(model.IdNumber);
+                if (id.IsValid)
+                    entity.DateOfBirth = id.DateOfBirth;
+            }
 
             return entity;
         }
