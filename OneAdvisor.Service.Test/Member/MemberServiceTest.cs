@@ -548,17 +548,18 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("InsertMember");
 
-            var user1 = TestHelper.InsertDefaultUser(options);
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
 
             //Given
             var member = new MemberEdit()
             {
                 FirstName = "FN 1",
                 LastName = "LN 1",
+                UserId = user1.User.Id,
                 MaidenName = "MN 1",
                 Initials = "INI 1",
                 PreferredName = "PN 1",
-                IdNumber = "321654",
+                IdNumber = "8210035032082",
                 DateOfBirth = new DateTime(1982, 10, 3)
             };
 
@@ -567,14 +568,15 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var result = await service.InsertMember(user1.Id, member);
+                var scope = TestHelper.GetScopeOptions(user1, Scope.User);
+                var result = await service.InsertMember(scope, member);
 
                 //Then
                 Assert.IsTrue(result.Success);
 
                 var actual = await context.Member.FindAsync(((MemberEdit)result.Tag).Id);
                 Assert.AreEqual(member.Id, actual.Id);
-                Assert.AreEqual(user1.Id, actual.UserId);
+                Assert.AreEqual(user1.User.Id, actual.UserId);
                 Assert.AreEqual(member.FirstName, actual.FirstName);
                 Assert.AreEqual(member.LastName, actual.LastName);
                 Assert.AreEqual(member.MaidenName, actual.MaidenName);
@@ -586,6 +588,38 @@ namespace OneAdvisor.Service.Test.Member
         }
 
         [TestMethod]
+        public async Task InsertMember_UserIdNotInScope()
+        {
+            var options = TestHelper.GetDbContext("InsertMember_UserIdNotInScope");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
+
+            //Given
+            var member = new MemberEdit()
+            {
+                FirstName = "FN 1",
+                LastName = "LN 1",
+                UserId = user2.User.Id,
+                IdNumber = "8210035032082",
+            };
+
+            using (var context = new DataContext(options))
+            {
+                var service = new MemberService(context);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1, Scope.User);
+                var result = await service.InsertMember(scope, member);
+
+                //Then
+                Assert.IsFalse(result.Success);
+
+                var error = result.ValidationFailures.Single();
+                Assert.AreEqual("User exists but is out of scope", error.ErrorMessage);
+            }
+        }
+
         public async Task UpdateMember()
         {
             var options = TestHelper.GetDbContext("UpdateMember");
@@ -603,7 +637,7 @@ namespace OneAdvisor.Service.Test.Member
                 MaidenName = "MN 1",
                 Initials = "INI 1",
                 PreferredName = "PN 1",
-                IdNumber = "321654",
+                IdNumber = "8210035032082",
                 DateOfBirth = new DateTime(1982, 10, 3),
                 UserId = user2.User.Id
             };
@@ -624,7 +658,8 @@ namespace OneAdvisor.Service.Test.Member
                 MaidenName = "MN 1 updated",
                 Initials = "INI 1 updated",
                 PreferredName = "PN 1 updated",
-                IdNumber = "321654 updated",
+                IdNumber = "8206090118089",
+                UserId = user2.User.Id,
                 DateOfBirth = new DateTime(1983, 10, 3)
             };
 
@@ -656,6 +691,56 @@ namespace OneAdvisor.Service.Test.Member
 
                 //Then
                 Assert.IsFalse(result.Success);
+            }
+        }
+
+        [TestMethod]
+        public async Task UpdateMember_UserIdNotInScope()
+        {
+            var options = TestHelper.GetDbContext("UpdateMember_UserIdNotInScope");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
+
+            //Given
+            var mem1 = new MemberEntity
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "FN 1",
+                LastName = "LN 1",
+                IdNumber = "8210035032082",
+                UserId = user1.User.Id
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Member.Add(mem1);
+
+                context.SaveChanges();
+            }
+
+            var member = new MemberEdit()
+            {
+                Id = mem1.Id,
+                FirstName = "FN 1",
+                LastName = "LN 1",
+                IdNumber = "8206090118089",
+                UserId = user2.User.Id
+            };
+
+            using (var context = new DataContext(options))
+            {
+                var service = new MemberService(context);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1, Scope.User);
+                var result = await service.UpdateMember(scope, member);
+
+                //Then
+                Assert.IsFalse(result.Success);
+
+                var error = result.ValidationFailures.Single();
+                Assert.AreEqual("User exists but is out of scope", error.ErrorMessage);
             }
         }
 

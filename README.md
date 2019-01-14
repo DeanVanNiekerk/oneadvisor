@@ -69,7 +69,6 @@
 
 ## TODO
 
-- import passport number
 - member import dont add where no values
 - Readonly forms.. currently cant view forms
 - Filters triggering sort (ant.d bug, being fixed...)

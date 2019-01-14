@@ -121,7 +121,7 @@ namespace OneAdvisor.Service.Member
             return query.FirstOrDefaultAsync();
         }
 
-        public async Task<Result> InsertMember(string userId, MemberEdit member)
+        public async Task<Result> InsertMember(ScopeOptions scope, MemberEdit member)
         {
             var validator = new MemberValidator(_context, true);
             var result = validator.Validate(member).GetResult();
@@ -129,8 +129,12 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
+            result = await ScopeQuery.IsUserInScopeResult(_context, scope, member.UserId);
+
+            if (!result.Success)
+                return result;
+
             var entity = MapModelToEntity(member);
-            entity.UserId = userId;
             await _context.Member.AddAsync(entity);
             await _context.SaveChangesAsync();
 
@@ -148,11 +152,18 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
-            var query = from mem in GetMemberEntityQuery(scope)
-                        where mem.Id == member.Id
-                        select mem;
+            result = await ScopeQuery.IsUserInScopeResult(_context, scope, member.UserId);
 
-            var entity = await query.SingleOrDefaultAsync();
+            if (!result.Success)
+                return result;
+
+            scope.UserId = member.UserId;
+            result = await ScopeQuery.IsMemberInScopeResult(_context, scope, member.Id.Value);
+
+            if (!result.Success)
+                return result;
+
+            var entity = await _context.Member.FindAsync(member.Id);
 
             if (entity == null)
                 return new Result();
@@ -181,6 +192,7 @@ namespace OneAdvisor.Service.Member
             if (entity == null)
                 entity = new MemberEntity();
 
+            entity.UserId = model.UserId;
             entity.FirstName = model.FirstName;
             entity.LastName = model.LastName;
             entity.MaidenName = model.MaidenName;

@@ -39,12 +39,42 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
+            var userEntityQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
+
+            //If a user is specified we, use it as the scope
+            if (!string.IsNullOrEmpty(data.UserFullName))
+            {
+                var parts = data.UserFullName.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+
+                if (parts.Length != 2)
+                {
+                    result.AddValidationFailure("UserFullName", "Broker Full Name requires a First and Last Name only");
+                    return result;
+                }
+
+                var userQuery = from entity in userEntityQuery
+                                where EF.Functions.Like(entity.FirstName, parts[0])
+                                && EF.Functions.Like(entity.LastName, parts[1])
+                                select entity;
+
+                var user = userQuery.FirstOrDefault();
+
+                if (user == null)
+                {
+                    result.AddValidationFailure("UserFullName", "Broker does not exist or is out of scope");
+                    return result;
+                }
+
+                //Update scope
+                scope.UserId = user.Id;
+            }
+
             //Check if the member exists in the organisation
             var organisationScope = scope.Clone(Scope.Organisation);
-            var userQuery = ScopeQuery.GetUserEntityQuery(_context, organisationScope);
+            userEntityQuery = ScopeQuery.GetUserEntityQuery(_context, organisationScope);
 
             var query = from entity in _context.Member
-                        join user in userQuery
+                        join user in userEntityQuery
                              on entity.UserId equals user.Id
                         where entity.IdNumber == data.IdNumber
                         || entity.PassportNumber == data.IdNumber
@@ -65,7 +95,9 @@ namespace OneAdvisor.Service.Member
                     return result;
                 }
 
+                member.FirstName = data.FirstName != null ? data.FirstName : member.FirstName;
                 member.LastName = data.LastName != null ? data.LastName : member.LastName;
+                member.UserId = !string.IsNullOrEmpty(data.UserFullName) ? scope.UserId : member.UserId; //Only update userId is specified in the import data
                 result = await _memberService.UpdateMember(scope, member);
 
                 if (!result.Success)
@@ -75,7 +107,8 @@ namespace OneAdvisor.Service.Member
             {
                 member = new MemberEdit()
                 {
-                    FirstName = string.Empty,
+                    UserId = scope.UserId,
+                    FirstName = data.FirstName != null ? data.FirstName : string.Empty,
                     LastName = data.LastName != null ? data.LastName : string.Empty
                 };
 
@@ -85,7 +118,7 @@ namespace OneAdvisor.Service.Member
                 else
                     member.PassportNumber = data.IdNumber;
 
-                result = await _memberService.InsertMember(scope.UserId, member);
+                result = await _memberService.InsertMember(scope, member);
 
                 if (!result.Success)
                     return result;

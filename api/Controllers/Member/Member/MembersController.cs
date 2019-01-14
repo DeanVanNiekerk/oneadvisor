@@ -77,9 +77,11 @@ namespace api.Controllers.Directory.Members
         [UseCaseAuthorize("mem_edit_members")]
         public async Task<ActionResult<Result>> Insert([FromBody] MemberEditDto member)
         {
+            var scope = await AuthService.GetScope(UserId, Scope);
+
             var model = Mapper.Map<MemberEdit>(member);
 
-            var result = await MemberService.InsertMember(UserId, model);
+            var result = await MemberService.InsertMember(scope, model);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);

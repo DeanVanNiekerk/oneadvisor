@@ -42,7 +42,7 @@ namespace OneAdvisor.Service.Test
         public static DefaultUser InsertDefaultUserDetailed(DbContextOptions<DataContext> options, OrganisationEntity organisation)
         {
             var branch = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = organisation.Id, Name = "Branch 1" };
-            var user = new UserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch.Id };
+            var user = new UserEntity { Id = Guid.NewGuid().ToString(), FirstName = Guid.NewGuid().ToString(), LastName = Guid.NewGuid().ToString(), BranchId = branch.Id };
 
             using (var context = new DataContext(options))
             {

@@ -72,5 +72,35 @@ namespace OneAdvisor.Service.Common.Query
             result.Success = true;
             return result;
         }
+
+        public static async Task<bool> IsUserInScope(DataContext context, ScopeOptions options, string userId)
+        {
+            if (options.UserId == userId)
+                return true;
+
+            var userQuery = GetUserEntityQuery(context, options);
+
+            var query = from user in userQuery
+                        where user.Id == userId
+                        select user;
+
+            return await query.AnyAsync();
+        }
+
+        public static async Task<Result> IsUserInScopeResult(DataContext context, ScopeOptions options, string userId)
+        {
+            var result = new Result();
+
+            var inScope = await IsUserInScope(context, options, userId);
+
+            if (!inScope)
+            {
+                result.AddValidationFailure("UserId", "User exists but is out of scope");
+                return result;
+            }
+
+            result.Success = true;
+            return result;
+        }
     }
 }
