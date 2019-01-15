@@ -59,14 +59,3 @@ export const insertUser = (
     onSuccess: onSuccess,
     dispatchPrefix: 'USERS_USER_EDIT'
 });
-
-export const syncUser = (
-    userId: string,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
-    type: 'API',
-    endpoint: `${usersApi}/${userId}/sync`,
-    method: 'POST',
-    onSuccess: onSuccess,
-    dispatchPrefix: 'USERS_USER_SYNC'
-});

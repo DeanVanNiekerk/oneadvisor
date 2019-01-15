@@ -15,7 +15,6 @@ namespace OneAdvisor.Model.Directory.Model.User
         public string Status { get; set; }
         public Guid OrganisationId { get; set; }
         public Guid BranchId { get; set; }
-        public bool IsSynced { get; set; }
         public Scope Scope { get; set; }
         public string AssistantToUserId { get; set; }
     }

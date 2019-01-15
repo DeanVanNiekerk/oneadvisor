@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Data;
+using OneAdvisor.Model.Directory.Interface;
 
 namespace api.Controllers.Database
 {
@@ -8,12 +9,14 @@ namespace api.Controllers.Database
     [Route("api/database")]
     public class DatabaseController : Controller
     {
-        public DatabaseController(IDefaultDbContextInitializer contextInitializer)
+        public DatabaseController(IDefaultDbContextInitializer contextInitializer, IUserService userService)
         {
             DbContextInitializer = contextInitializer;
+            UserService = userService;
         }
 
         private IDefaultDbContextInitializer DbContextInitializer { get; }
+        private IUserService UserService { get; }
 
 
         [HttpGet("[action]")]
@@ -28,6 +31,14 @@ namespace api.Controllers.Database
         {
             var total = await DbContextInitializer.Clean();
             return "Success. Rows nuked: " + total.ToString();
+        }
+
+        [HttpGet("[action]")]
+        public async Task<string> SyncAll()
+        {
+            await UserService.SyncAllUsers();
+
+            return "Success";
         }
     }
 }

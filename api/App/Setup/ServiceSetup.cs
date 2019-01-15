@@ -81,6 +81,7 @@ namespace api.App.Setup
 
             //DIRECTORY
             Services.AddScoped<IUserService, UserService>();
+            Services.AddScoped<IUserAliasService, UserAliasService>();
             Services.AddScoped<IAuthService, AuthService>();
             Services.AddScoped<IRoleService, RoleService>();
             Services.AddScoped<IOrganisationService, OrganisationService>();

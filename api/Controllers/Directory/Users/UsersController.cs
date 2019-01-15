@@ -35,7 +35,9 @@ namespace api.Controllers.Directory.Users
         [UseCaseAuthorize("dir_view_users")]
         public async Task<PagedItemsDto<UserDto>> Index(int pageNumber = 0, int pageSize = 0)
         {
-            var queryOptions = new UserQueryOptions(pageNumber, pageSize);
+            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin());
+
+            var queryOptions = new UserQueryOptions(scope, pageNumber, pageSize);
             var pagedItems = await UserService.GetUsers(queryOptions);
 
             return Mapper.MapToPageItemsDto<User, UserDto>(pagedItems);
@@ -45,7 +47,9 @@ namespace api.Controllers.Directory.Users
         [UseCaseAuthorize("dir_view_users")]
         public async Task<ActionResult<UserEditDto>> Get(string userId)
         {
-            var model = await UserService.GetUser(userId);
+            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin());
+
+            var model = await UserService.GetUser(scope, userId);
 
             if (model == null)
                 return NotFound();
@@ -57,9 +61,11 @@ namespace api.Controllers.Directory.Users
         [UseCaseAuthorize("dir_edit_users")]
         public async Task<ActionResult<Result>> Insert([FromBody] UserEditDto user)
         {
+            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin());
+
             var model = Mapper.Map<UserEdit>(user);
 
-            var result = await UserService.InsertUser(model);
+            var result = await UserService.InsertUser(scope, model);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
@@ -71,25 +77,18 @@ namespace api.Controllers.Directory.Users
         [UseCaseAuthorize("dir_edit_users")]
         public async Task<ActionResult<Result>> Update(string userId, [FromBody] UserEditDto user)
         {
+            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin());
+
             user.Id = userId;
 
             var model = Mapper.Map<UserEdit>(user);
 
-            var result = await UserService.UpdateUser(model);
+            var result = await UserService.UpdateUser(scope, model);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
 
             return Ok(result);
-        }
-
-        [HttpPost("{userId}/sync")]
-        [UseCaseAuthorize("dir_edit_users")]
-        public async Task<ActionResult<Result>> Sync(string userId)
-        {
-            await UserService.SyncUser(userId);
-
-            return Ok(new Result(true));
         }
 
         [HttpGet("simple")]

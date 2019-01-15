@@ -19,7 +19,7 @@ namespace OneAdvisor.Service.Directory
             _context = context;
         }
 
-        public async Task<ScopeOptions> GetScope(string userId, Scope scope)
+        public async Task<ScopeOptions> GetScope(string userId, Scope scope, bool ignoreScope = false)
         {
             var userDetails = await (from user in _context.User
                                      join branch in _context.Branch
@@ -31,7 +31,7 @@ namespace OneAdvisor.Service.Directory
                                          OrganisationId = branch.OrganisationId
                                      }).FirstOrDefaultAsync();
 
-            return new ScopeOptions(userDetails.OrganisationId, userDetails.BranchId, userId, scope);
+            return new ScopeOptions(userDetails.OrganisationId, userDetails.BranchId, userId, scope, ignoreScope);
         }
     }
 }

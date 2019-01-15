@@ -48,6 +48,11 @@ namespace OneAdvisor.Service.Okta.Service
 
             var query = userDtos.Select(dto => MapDtoToModel(dto)).AsQueryable();
 
+            var usersScoped = await ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope).Select(u => u.Id).ToListAsync();
+
+            //Apply scope
+            query = query.Where(u => usersScoped.Contains(u.Id));
+
             //Get total before applying filters
             var pagedItems = new PagedItems<User>();
             pagedItems.TotalItems = query.Count();
@@ -62,14 +67,10 @@ namespace OneAdvisor.Service.Okta.Service
             //Paging
             pagedItems.Items = query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToList();
 
-            //Check if users exist in our database
-            var localUserIds = await _context.User.Select(u => u.Id).ToListAsync();
+            //Set organisation id
             var branches = await _context.Branch.ToListAsync();
-
             foreach (var item in pagedItems.Items)
             {
-                item.IsSynced = localUserIds.Any(id => item.Id == id);
-
                 var branch = branches.Find(b => b.Id == item.BranchId);
 
                 if (branch != null)
@@ -79,8 +80,13 @@ namespace OneAdvisor.Service.Okta.Service
             return pagedItems;
         }
 
-        public async Task<UserEdit> GetUser(string id)
+        public async Task<UserEdit> GetUser(ScopeOptions scope, string id)
         {
+            var result = await ScopeQuery.IsUserInScopeResult(_context, scope, id);
+
+            if (!result.Success)
+                return null;
+
             var serializer = new DataContractJsonSerializer(typeof(UserDto));
 
             var streamTask = HttpClient.GetStreamAsync($"api/v1/users/{id}");
@@ -95,7 +101,7 @@ namespace OneAdvisor.Service.Okta.Service
             return user;
         }
 
-        public async Task<IEnumerable<string>> GetUserRoleIds(string id)
+        private async Task<IEnumerable<string>> GetUserRoleIds(string id)
         {
             var serializer = new DataContractJsonSerializer(typeof(List<GroupDto>));
 
@@ -105,13 +111,18 @@ namespace OneAdvisor.Service.Okta.Service
             return groupDtos.Where(g => g.type == GroupDto.TYPE_OKTA).Select(g => g.profile.name);
         }
 
-        public async Task<Result> UpdateUser(UserEdit user)
+        public async Task<Result> UpdateUser(ScopeOptions scope, UserEdit user)
         {
             var validator = new UserValidator(false);
             var result = validator.Validate(user).GetResult();
 
             if (!result.Success)
                 return result;
+
+            result = await ScopeQuery.IsUserInScopeResult(_context, scope, user.Id);
+
+            if (!result.Success)
+                return null;
 
             var dto = MapModelToDto(user);
 
@@ -200,7 +211,7 @@ namespace OneAdvisor.Service.Okta.Service
             }
         }
 
-        public async Task<Result> InsertUser(UserEdit user)
+        public async Task<Result> InsertUser(ScopeOptions scope, UserEdit user)
         {
             var validator = new UserValidator(true);
             var result = validator.Validate(user).GetResult();
@@ -232,9 +243,31 @@ namespace OneAdvisor.Service.Okta.Service
             return result;
         }
 
-        public async Task SyncUser(string userId)
+        public async Task SyncAllUsers()
         {
-            await SyncLocalUserFromId(userId);
+            var serializer = new DataContractJsonSerializer(typeof(List<UserDto>));
+
+            var streamTask = HttpClient.GetStreamAsync("api/v1/users?limit=1000");
+            var userDtos = serializer.ReadObject(await streamTask) as List<UserDto>;
+
+            foreach (var user in userDtos)
+            {
+                var localUser = _context.User.Find(user.id);
+
+                if (localUser != null)
+                    continue;
+
+                var entity = new UserEdit()
+                {
+                    Id = user.id,
+                    FirstName = user.profile.firstName,
+                    LastName = user.profile.lastName,
+                    BranchId = Guid.Parse(user.profile.branchId)
+                };
+
+                await SyncLocalUser(entity);
+            }
+
         }
 
         public async Task<PagedItems<UserSimple>> GetUsersSimple(ScopeOptions scope)
@@ -287,13 +320,6 @@ namespace OneAdvisor.Service.Okta.Service
             await InsertLocalUser(user);
         }
 
-        private async Task SyncLocalUserFromId(string userId)
-        {
-            var user = await GetUser(userId);
-
-            await SyncLocalUser(user);
-        }
-
         private async Task InsertLocalUser(UserEdit user)
         {
             var entity = new UserEntity()
@@ -307,7 +333,6 @@ namespace OneAdvisor.Service.Okta.Service
             _context.User.Add(entity);
             await _context.SaveChangesAsync();
         }
-
         private async Task UpdateLocalUser(UserEdit user)
         {
             var entity = _context.User.Find(user.Id);

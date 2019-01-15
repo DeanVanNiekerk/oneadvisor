@@ -12,6 +12,8 @@ select *
 from dir_Organisation
 select *
 from dir_Branch
+select *
+from dir_User
 
 select *
 from mem_Member

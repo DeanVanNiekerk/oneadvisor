@@ -8,6 +8,6 @@ namespace OneAdvisor.Model.Directory.Interface
 {
     public interface IAuthService
     {
-        Task<ScopeOptions> GetScope(string userId, Scope scope);
+        Task<ScopeOptions> GetScope(string userId, Scope scope, bool ignoreScope = false);
     }
 }

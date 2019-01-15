@@ -14,6 +14,12 @@ namespace OneAdvisor.Service.Common.Query
     {
         public static IQueryable<UserEntity> GetUserEntityQuery(DataContext context, ScopeOptions options)
         {
+            if (options.IgnoreScope)
+            {
+                return from user in context.User
+                       select user;
+            }
+
             if (options.Scope == Scope.User)
             {
                 return from user in context.User

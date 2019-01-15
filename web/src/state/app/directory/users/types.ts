@@ -9,7 +9,6 @@ export type User = {
     status: string;
     organisationId: string;
     branchId: string;
-    isSynced: boolean;
     scope: number;
     assistantToUserId: string;
 };

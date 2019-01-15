@@ -72,18 +72,4 @@ describe('user actions', () => {
 
         expect(actions.insertUser(user, onSuccess)).toEqual(expectedAction);
     });
-
-    it('should dispatch API when syncUser is called', () => {
-        const onSuccess = () => {};
-
-        const expectedAction = {
-            type: 'API',
-            endpoint: `${usersApi}/10/sync`,
-            method: 'POST',
-            onSuccess: onSuccess,
-            dispatchPrefix: 'USERS_USER_SYNC'
-        };
-
-        expect(actions.syncUser('10', onSuccess)).toEqual(expectedAction);
-    });
 });

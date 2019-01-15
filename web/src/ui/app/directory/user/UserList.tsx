@@ -4,9 +4,7 @@ import { connect, DispatchProp } from 'react-redux';
 
 import { getColumn } from '@/app/table';
 import { fetchOrganisations, Organisation, organisationsSelector } from '@/state/app/directory/organisations';
-import {
-    fetchUser, fetchUsers, receiveUser, syncUser, User, UserEdit, usersSelector
-} from '@/state/app/directory/users';
+import { fetchUser, fetchUsers, receiveUser, User, UserEdit, usersSelector } from '@/state/app/directory/users';
 import { RootState } from '@/state/rootReducer';
 import { Button, Header, Table } from '@/ui/controls';
 import { showMessage } from '@/ui/feedback/notifcation';
@@ -68,16 +66,6 @@ class UserList extends Component<Props, State> {
         this.showEditUser();
     };
 
-    syncUser = (id: string) => {
-        showMessage('info', 'Syncing user...', 1);
-        this.props.dispatch(
-            syncUser(id, () => {
-                showMessage('success', 'User synced');
-                this.loadUsers();
-            })
-        );
-    };
-
     getOrganisationName = (id: string) => {
         const organisation = this.props.organisations.find(u => u.id === id);
         if (organisation) return organisation.name;
@@ -106,27 +94,6 @@ class UserList extends Component<Props, State> {
             getColumn('organisationId', 'Organisation', {
                 render: (organisationId: string) => {
                     return this.getOrganisationName(organisationId);
-                }
-            }),
-            getColumn('isSynced', 'Synced', {
-                render: (isSynced: boolean, user: User) => {
-                    return (
-                        <span>
-                            {isSynced ? 'Yes' : 'No'}
-                            {isSynced ? (
-                                ''
-                            ) : (
-                                <Icon
-                                    type="sync"
-                                    className="ml-1 clickable"
-                                    onClick={event => {
-                                        this.syncUser(user.id);
-                                        event.stopPropagation();
-                                    }}
-                                />
-                            )}
-                        </span>
-                    );
                 }
             }),
             getColumn('status', 'Status', {
