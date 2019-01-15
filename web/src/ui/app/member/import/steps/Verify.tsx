@@ -7,7 +7,8 @@ import { getColumn } from '@/app/table';
 import { companiesSelector, Company, fetchCompanies } from '@/state/app/directory/lookups/companies';
 import {
     ImportColumn, ImportMember, importMemberClearResults, memberImportNextStep, memberImportPreviousStep,
-    memberImportSelector, receiveMemberImportPolicyCompany, removeMemberImportMember, updateMemberImportPolicyCompanies
+    memberImportSelectedColumnsSelector, memberImportSelector, receiveMemberImportPolicyCompany,
+    removeMemberImportMember, updateMemberImportPolicyCompanies
 } from '@/state/app/member/import';
 import { RootState } from '@/state/rootReducer';
 import { Button, Table } from '@/ui/controls';
@@ -164,7 +165,7 @@ const mapStateToProps = (state: RootState) => {
     const companiesState = companiesSelector(state);
 
     return {
-        columns: importState.columns,
+        columns: memberImportSelectedColumnsSelector(state),
         members: importState.members,
         companies: companiesState.items,
         selectedCompanyId: importState.companyId,

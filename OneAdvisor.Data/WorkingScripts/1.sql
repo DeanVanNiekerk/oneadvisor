@@ -15,6 +15,8 @@ from dir_Branch
 
 select *
 from mem_Member
+select *
+from mem_MemberPolicy
 
 
 

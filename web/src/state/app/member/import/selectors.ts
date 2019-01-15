@@ -5,6 +5,7 @@ import { RootState } from '@/state/rootReducer';
 
 import { ImportTableRow } from './';
 import { State } from './reducer';
+import { ImportColumn } from './types';
 
 const rootSelector = (state: RootState): State => state.app.member.import;
 
@@ -27,6 +28,18 @@ export const memberImportTableRowsSelector: (
                 record[value] = d[index];
             });
             return record;
+        });
+    }
+);
+
+export const memberImportSelectedColumnsSelector: (
+    state: RootState
+) => ImportColumn[] = createSelector(
+    rootSelector,
+    root => {
+        return root.selectedColumns.map(sc => {
+            const column = root.columns.find(c => c.id === sc);
+            return column ? column : { id: '0', name: 'no match' };
         });
     }
 );

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OneAdvisor.Data;
 
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190115070129_userAliasTable")]
+    partial class userAliasTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,14 +211,9 @@ namespace OneAdvisor.Data.Migrations
                     b.Property<string>("Number")
                         .IsRequired();
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
                     b.HasKey("Id");
 
                     b.HasIndex("MemberId");
-
-                    b.HasIndex("UserId");
 
                     b.HasIndex("CompanyId", "Number")
                         .IsUnique();
@@ -280,7 +277,7 @@ namespace OneAdvisor.Data.Migrations
             modelBuilder.Entity("OneAdvisor.Data.Entities.Member.MemberEntity", b =>
                 {
                     b.HasOne("OneAdvisor.Data.Entities.Directory.UserEntity", "User")
-                        .WithMany("Members")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -295,11 +292,6 @@ namespace OneAdvisor.Data.Migrations
                     b.HasOne("OneAdvisor.Data.Entities.Member.MemberEntity", "Member")
                         .WithMany("MemberPolicies")
                         .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("OneAdvisor.Data.Entities.Directory.UserEntity", "User")
-                        .WithMany("MemberPolicies")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

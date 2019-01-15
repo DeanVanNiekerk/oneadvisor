@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using OneAdvisor.Data.Entities.Member;
 
 namespace OneAdvisor.Data.Entities.Directory
 {
@@ -15,5 +17,8 @@ namespace OneAdvisor.Data.Entities.Directory
         public string LastName { get; set; }
 
         public virtual BranchEntity Branch { get; set; }
+        public virtual ICollection<UserAliasEntity> Aliases { get; set; }
+        public virtual ICollection<MemberEntity> Members { get; set; }
+        public virtual ICollection<MemberPolicyEntity> MemberPolicies { get; set; }
     }
 }

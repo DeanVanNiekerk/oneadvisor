@@ -1,4 +1,7 @@
-import { memberImportProgressPercentSelector, memberImportSelector, memberImportTableRowsSelector } from './selectors';
+import {
+    memberImportProgressPercentSelector, memberImportSelectedColumnsSelector, memberImportSelector,
+    memberImportTableRowsSelector
+} from './selectors';
 
 describe('member import selectors', () => {
     it('memberImportSelector', () => {
@@ -27,16 +30,7 @@ describe('member import selectors', () => {
             app: {
                 member: {
                     import: {
-                        columns: [
-                            {
-                                id: 'idNumber',
-                                name: 'ID Number'
-                            },
-                            {
-                                id: 'lastName',
-                                name: 'Last Name'
-                            }
-                        ],
+                        selectedColumns: ['idNumber', 'lastName'],
                         data: [['val1', 'val2'], ['val3', 'val4']]
                     }
                 }
@@ -46,6 +40,8 @@ describe('member import selectors', () => {
         //@ts-ignore
         const actual = memberImportTableRowsSelector(state);
 
+        expect(actual.length).toEqual(2);
+
         expect(actual[0].idNumber).toEqual('val1');
         expect(actual[0].lastName).toEqual('val2');
 
@@ -53,7 +49,45 @@ describe('member import selectors', () => {
         expect(actual[1].lastName).toEqual('val4');
     });
 
-    it('memberImportTableRowsSelector', () => {
+    it('memberImportSelectedColumnsSelector', () => {
+        const state = {
+            app: {
+                member: {
+                    import: {
+                        columns: [
+                            {
+                                id: 'policyNumber',
+                                name: 'Policy Number'
+                            },
+                            {
+                                id: 'lastName',
+                                name: 'Last Name'
+                            },
+                            {
+                                id: 'idNumber',
+                                name: 'ID Number'
+                            }
+                        ],
+                        selectedColumns: ['idNumber', 'lastName'],
+                        data: [['val1', 'val2'], ['val3', 'val4']]
+                    }
+                }
+            }
+        };
+
+        //@ts-ignore
+        const actual = memberImportSelectedColumnsSelector(state);
+
+        expect(actual.length).toEqual(2);
+
+        expect(actual[0].id).toEqual('idNumber');
+        expect(actual[0].name).toEqual('ID Number');
+
+        expect(actual[1].id).toEqual('lastName');
+        expect(actual[1].name).toEqual('Last Name');
+    });
+
+    it('memberImportProgressPercentSelector', () => {
         const state = {
             app: {
                 member: {

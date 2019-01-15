@@ -6,9 +6,9 @@ import { v4 } from 'uuid';
 
 import { getColumn } from '@/app/table';
 import {
-    ImportColumn, ImportMember, ImportTableRow, memberImportNextStep, memberImportPreviousStep, memberImportSelector,
-    memberImportTableRowsSelector, receiveMemberImportColumns, receiveMemberImportMembers,
-    receiveMemberImportSelectedColumns
+    ImportColumn, ImportMember, ImportTableRow, memberImportNextStep, memberImportPreviousStep,
+    memberImportSelectedColumnsSelector, memberImportSelector, memberImportTableRowsSelector,
+    receiveMemberImportMembers, receiveMemberImportSelectedColumns
 } from '@/state/app/member/import';
 import { RootState } from '@/state/rootReducer';
 import { Button, Table } from '@/ui/controls';
@@ -39,6 +39,7 @@ const SortableList = SortableContainer((props: SortableListProps) => {
 
 type Props = {
     columns: ImportColumn[];
+    selectedImportColumns: ImportColumn[];
     selectedColumns: string[];
     rows: ImportTableRow[];
 } & DispatchProp;
@@ -69,21 +70,13 @@ class Configure extends Component<Props> {
             oldIndex,
             newIndex
         );
-        //this.props.dispatch(receiveMemberImportColumns(columns));
         this.props.dispatch(receiveMemberImportSelectedColumns(columns));
     };
 
     getColumns = () => {
-        return this.getSelectedColumns().map(c =>
+        return this.props.selectedImportColumns.map(c =>
             getColumn(c.id, c.name, { sorter: undefined })
         );
-    };
-
-    getSelectedColumns = () => {
-        return this.props.selectedColumns.map(sc => {
-            const column = this.props.columns.find(c => c.id === sc);
-            return column ? column : { id: '0', name: 'no match' };
-        });
     };
 
     onSelectedColumnChange = (columns: string[]) => {
@@ -138,7 +131,7 @@ class Configure extends Component<Props> {
                         <h4 className="mt-1">Column Order</h4>
 
                         <SortableList
-                            items={this.getSelectedColumns()}
+                            items={this.props.selectedImportColumns}
                             onSortEnd={this.onSortEnd}
                         />
                     </Col>
@@ -165,6 +158,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         columns: importState.columns,
         selectedColumns: importState.selectedColumns,
+        selectedImportColumns: memberImportSelectedColumnsSelector(state),
         rows: memberImportTableRowsSelector(state)
     };
 };
