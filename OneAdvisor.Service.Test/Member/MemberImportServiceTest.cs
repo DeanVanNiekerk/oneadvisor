@@ -49,7 +49,7 @@ namespace OneAdvisor.Service.Test.Member
 
                 var actual = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == data.IdNumber);
                 Assert.AreEqual(null, actual.PassportNumber);
-                Assert.AreEqual(user1.User.Id, actual.UserId);
+                Assert.AreEqual(user1.Organisation.Id, actual.OrganisationId);
                 Assert.AreEqual(data.LastName, actual.LastName);
                 Assert.AreEqual(data.FirstName, actual.FirstName);
             }
@@ -85,37 +85,7 @@ namespace OneAdvisor.Service.Test.Member
             }
         }
 
-        [TestMethod]
-        public async Task ImportMember_Insert_WithUserFulllName()
-        {
-            var options = TestHelper.GetDbContext("ImportMember_Insert_WithUserFulllName");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
-
-            using (var context = new DataContext(options))
-            {
-                var memberService = new MemberService(context);
-                var service = new MemberImportService(context, memberService, null);
-
-                //When
-                var data = new ImportMember()
-                {
-                    IdNumber = "8210035032082",
-                    UserFullName = $"{user2.User.FirstName} {user2.User.LastName}"
-                };
-
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
-
-                var result = await service.ImportMember(scope, data);
-
-                //Then
-                Assert.IsTrue(result.Success);
-
-                var actual = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == data.IdNumber);
-                Assert.AreEqual(user2.User.Id, actual.UserId);
-            }
-        }
 
         [TestMethod]
         public async Task ImportMember_Update()
@@ -131,7 +101,7 @@ namespace OneAdvisor.Service.Test.Member
                 FirstName = "FN 1",
                 LastName = "LN 1",
                 IdNumber = "8210035032082",
-                UserId = user1.User.Id
+                OrganisationId = user1.Organisation.Id
             };
 
             using (var context = new DataContext(options))
@@ -151,8 +121,7 @@ namespace OneAdvisor.Service.Test.Member
                 {
                     IdNumber = mem.IdNumber,
                     FirstName = "FN updated",
-                    LastName = "LN updated",
-                    UserFullName = $"{user2.User.FirstName} {user2.User.LastName}"
+                    LastName = "LN updated"
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
@@ -163,11 +132,13 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.IsTrue(result.Success);
 
                 var actual = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == data.IdNumber);
-                Assert.AreEqual(user2.User.Id, actual.UserId);
+                Assert.AreEqual(user1.Organisation.Id, actual.OrganisationId);
                 Assert.AreEqual(data.FirstName, actual.FirstName);
                 Assert.AreEqual(data.LastName, actual.LastName);
             }
         }
+
+
 
         [TestMethod]
         public async Task ImportMember_Update_WithPassportNumber()
@@ -182,7 +153,7 @@ namespace OneAdvisor.Service.Test.Member
                 FirstName = "FN 1",
                 LastName = "LN 1",
                 PassportNumber = "123456",
-                UserId = user1.User.Id
+                OrganisationId = user1.Organisation.Id
             };
 
             using (var context = new DataContext(options))
@@ -217,51 +188,6 @@ namespace OneAdvisor.Service.Test.Member
         }
 
         [TestMethod]
-        public async Task ImportMember_Update_OutOfScope()
-        {
-            var options = TestHelper.GetDbContext("ImportMember_Update_OutOfScope");
-
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
-
-            var mem = new MemberEntity
-            {
-                Id = Guid.NewGuid(),
-                LastName = "LN 1",
-                IdNumber = Guid.NewGuid().ToString(),
-                UserId = user1.User.Id
-            };
-
-            using (var context = new DataContext(options))
-            {
-                context.Member.Add(mem);
-
-                context.SaveChanges();
-            }
-
-            using (var context = new DataContext(options))
-            {
-                var memberService = new MemberService(context);
-                var service = new MemberImportService(context, memberService, null);
-
-                //When
-                var data = new ImportMember()
-                {
-                    IdNumber = mem.IdNumber,
-                    LastName = "LN updated"
-                };
-
-                var scope = TestHelper.GetScopeOptions(user2, Scope.Branch);
-
-                var result = await service.ImportMember(scope, data);
-
-                //Then
-                Assert.IsFalse(result.Success);
-                Assert.AreEqual(result.ValidationFailures.Single().ErrorMessage, "Member exists but is out of scope");
-            }
-        }
-
-        [TestMethod]
         public async Task ImportMember_InsertPolicy()
         {
             var options = TestHelper.GetDbContext("ImportMember_InsertPolicy");
@@ -280,7 +206,8 @@ namespace OneAdvisor.Service.Test.Member
                     IdNumber = "12345",
                     LastName = "LN",
                     PolicyNumber = "987654",
-                    PolicyCompanyId = Guid.NewGuid()
+                    PolicyCompanyId = Guid.NewGuid(),
+                    PolicyUserFullName = $"{user1.User.FirstName} {user1.User.LastName}"
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
@@ -292,9 +219,65 @@ namespace OneAdvisor.Service.Test.Member
 
                 var actual = await context.MemberPolicy.FirstOrDefaultAsync(m => m.Number == data.PolicyNumber);
                 Assert.AreEqual(data.PolicyCompanyId, actual.CompanyId);
+                Assert.AreEqual(user1.User.Id, actual.UserId);
             }
         }
 
 
+        [TestMethod]
+        public async Task ImportMember_UpdatePolicy()
+        {
+            var options = TestHelper.GetDbContext("ImportMember_UpdatePolicy");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+
+            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
+
+            //Given
+            var policyEntity1 = new MemberPolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                MemberId = member1.Member.Id,
+                UserId = user2.User.Id,
+                Number = "123465"
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.MemberPolicy.Add(policyEntity1);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var memberService = new MemberService(context);
+                var memberPolicyService = new MemberPolicyService(context);
+                var service = new MemberImportService(context, memberService, memberPolicyService);
+
+                //When
+                var data = new ImportMember()
+                {
+                    IdNumber = member1.Member.IdNumber,
+                    LastName = "LN",
+                    PolicyNumber = policyEntity1.Number,
+                    PolicyCompanyId = policyEntity1.CompanyId,
+                    PolicyUserFullName = $"{user1.User.FirstName} {user1.User.LastName}"
+                };
+
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+
+                var result = await service.ImportMember(scope, data);
+
+                //Then
+                Assert.IsTrue(result.Success);
+
+                var actual = await context.MemberPolicy.FirstOrDefaultAsync(m => m.Number == data.PolicyNumber);
+                Assert.AreEqual(data.PolicyCompanyId, actual.CompanyId);
+                Assert.AreEqual(user1.User.Id, actual.UserId);
+            }
+        }
     }
 }

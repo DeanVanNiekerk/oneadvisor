@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
+using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Auth;
 using OneAdvisor.Model.Directory.Model.User;
@@ -12,6 +13,13 @@ namespace OneAdvisor.Service.Common.Query
 {
     public class ScopeQuery
     {
+        public static IQueryable<MemberEntity> GetMemberEntityQuery(DataContext context, ScopeOptions options)
+        {
+            return from member in context.Member
+                   where member.OrganisationId == options.OrganisationId
+                   select member;
+        }
+
         public static IQueryable<UserEntity> GetUserEntityQuery(DataContext context, ScopeOptions options)
         {
             if (options.IgnoreScope)
@@ -50,6 +58,23 @@ namespace OneAdvisor.Service.Common.Query
                    select user;
         }
 
+        public static async Task<Result> IsMemberInOrganisation(DataContext context, ScopeOptions options, Guid memberId)
+        {
+            var result = new Result();
+
+            var member = await context.Member.FindAsync(memberId);
+
+            if (member == null || member.OrganisationId != options.OrganisationId)
+            {
+                result.AddValidationFailure("MemberId", "Member does not exist");
+                return result;
+            }
+
+            result.Success = true;
+            return result;
+        }
+
+        /* 
         public static async Task<bool> IsMemberInScope(DataContext context, ScopeOptions options, Guid memberId)
         {
             var userQuery = GetUserEntityQuery(context, options);
@@ -77,6 +102,18 @@ namespace OneAdvisor.Service.Common.Query
 
             result.Success = true;
             return result;
+        }
+
+        */
+
+        public static async Task<Result> CheckScope(DataContext context, ScopeOptions scope, Guid memberId, string userId)
+        {
+            var result = await ScopeQuery.IsMemberInOrganisation(context, scope, memberId);
+
+            if (!result.Success)
+                return result;
+
+            return await ScopeQuery.IsUserInScopeResult(context, scope, userId);
         }
 
         public static async Task<bool> IsUserInScope(DataContext context, ScopeOptions options, string userId)

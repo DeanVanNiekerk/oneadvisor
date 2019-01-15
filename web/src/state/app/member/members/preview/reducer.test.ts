@@ -5,13 +5,10 @@ import { defaultState, reducer } from './reducer';
 
 const defaultMember: MemberPreview = {
     id: '10',
-    userId: '123',
     firstName: 'Dean',
     lastName: 'Jackson',
     idNumber: '12341234',
     dateOfBirth: '1982-10-03',
-    userFirstName: 'Louis',
-    userLastName: 'Snetler',
     policyCount: 2
 };
 

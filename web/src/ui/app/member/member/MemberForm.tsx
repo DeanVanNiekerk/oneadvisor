@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 
 import { parseIdNumber } from '@/app/parsers/id';
 import { ValidationResult } from '@/app/validation';
-import { UserSimple } from '@/state/app/directory/usersSimple';
 import { MemberEdit } from '@/state/app/member/members';
 import { Form, FormDate, FormInput, FormText } from '@/ui/controls';
 
@@ -11,7 +10,6 @@ type Props = {
     member: MemberEdit;
     validationResults: ValidationResult[];
     onChange: (member: MemberEdit) => void;
-    user: UserSimple | null;
     enabled: boolean;
 };
 
@@ -124,16 +122,11 @@ class MemberForm extends Component<Props, State> {
     };
 
     render() {
-        const { validationResults, user, enabled } = this.props;
+        const { validationResults, enabled } = this.props;
         const { member } = this.state;
 
         return (
             <Form>
-                <FormText
-                    label="Broker"
-                    value={user ? `${user.firstName} ${user.lastName}` : ''}
-                    loading={!user}
-                />
                 <FormInput
                     fieldName="firstName"
                     label="First Name"

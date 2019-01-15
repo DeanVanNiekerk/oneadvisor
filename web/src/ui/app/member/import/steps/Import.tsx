@@ -74,7 +74,7 @@ class Import extends Component<Props> {
                     <div>Last Name: {record.importMember.lastName}</div>
                     <div>Policy Number: {record.importMember.policyNumber}</div>
                     <div>
-                        Broker Full Name: {record.importMember.userFullName}
+                        Policy Broker: {record.importMember.policyUserFullName}
                     </div>
                     <pre>{record.error}</pre>
                 </div>

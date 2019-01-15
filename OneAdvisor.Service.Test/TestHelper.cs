@@ -26,7 +26,7 @@ namespace OneAdvisor.Service.Test
             return InsertDefaultUserDetailed(options).User;
         }
 
-        public static DefaultUser InsertDefaultUserDetailed(DbContextOptions<DataContext> options)
+        public static OrganisationEntity InsertDefaultOrganisation(DbContextOptions<DataContext> options)
         {
             var organisation = new OrganisationEntity { Id = Guid.NewGuid(), Name = "A Org 1" };
 
@@ -35,6 +35,13 @@ namespace OneAdvisor.Service.Test
                 context.Organisation.Add(organisation);
                 context.SaveChanges();
             }
+
+            return organisation;
+        }
+
+        public static DefaultUser InsertDefaultUserDetailed(DbContextOptions<DataContext> options)
+        {
+            var organisation = InsertDefaultOrganisation(options);
 
             return InsertDefaultUserDetailed(options, organisation);
         }
@@ -61,14 +68,14 @@ namespace OneAdvisor.Service.Test
 
         public static DefaultMember InsertDefaultMember(DbContextOptions<DataContext> options)
         {
-            var user = InsertDefaultUserDetailed(options);
+            var organisation = InsertDefaultOrganisation(options);
 
-            return InsertDefaultMember(options, user.User);
+            return InsertDefaultMember(options, organisation);
         }
 
-        public static DefaultMember InsertDefaultMember(DbContextOptions<DataContext> options, UserEntity user)
+        public static DefaultMember InsertDefaultMember(DbContextOptions<DataContext> options, OrganisationEntity organisation)
         {
-            var member = new MemberEntity { Id = Guid.NewGuid(), FirstName = "Dean", LastName = "van Niekerk", IdNumber = "8210035035082", UserId = user.Id };
+            var member = new MemberEntity { Id = Guid.NewGuid(), FirstName = "Dean", LastName = "van Niekerk", IdNumber = "8210035032082", OrganisationId = organisation.Id };
 
             using (var context = new DataContext(options))
             {
@@ -78,7 +85,7 @@ namespace OneAdvisor.Service.Test
 
             return new DefaultMember()
             {
-                User = user,
+                Organisation = organisation,
                 Member = member
             };
         }
@@ -86,6 +93,11 @@ namespace OneAdvisor.Service.Test
         public static ScopeOptions GetScopeOptions(DefaultUser user, Scope scope)
         {
             return new ScopeOptions(user.Organisation.Id, user.Branch.Id, user.User.Id, scope);
+        }
+
+        public static ScopeOptions GetScopeOptions(Guid organisationId)
+        {
+            return new ScopeOptions(organisationId, Guid.NewGuid(), "", Scope.User);
         }
 
     }

@@ -18,7 +18,6 @@ namespace OneAdvisor.Data.Entities.Directory
 
         public virtual BranchEntity Branch { get; set; }
         public virtual ICollection<UserAliasEntity> Aliases { get; set; }
-        public virtual ICollection<MemberEntity> Members { get; set; }
         public virtual ICollection<MemberPolicyEntity> MemberPolicies { get; set; }
     }
 }

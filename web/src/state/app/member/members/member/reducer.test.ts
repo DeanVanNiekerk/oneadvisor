@@ -1,10 +1,10 @@
 import { getValidationResult } from '@/test';
 
+import { MemberEdit } from '../';
 import { defaultState, reducer } from './reducer';
 
-const defaultMember = {
+const defaultMember: MemberEdit = {
     id: '10',
-    userId: '123',
     firstName: 'Dean',
     lastName: 'Jackson',
     maidenName: '',

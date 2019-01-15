@@ -16,7 +16,6 @@ import EditMember from './EditMember';
 
 type Props = {
     members: Member[];
-    users: UserSimple[];
     fetching: boolean;
     pageOptions: PageOptions;
     sortOptions: SortOptions;
@@ -29,7 +28,6 @@ type Props = {
 class MemberList extends Component<Props> {
     componentDidMount() {
         if (this.props.members.length === 0) this.loadMembers();
-        if (this.props.users.length === 0) this.loadUsers();
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -51,10 +49,6 @@ class MemberList extends Component<Props> {
         );
     };
 
-    loadUsers = () => {
-        this.props.dispatch(fetchUsersSimple());
-    };
-
     editMember = (id: string) => {
         this.props.history.push(`/member/members/${id}`);
     };
@@ -66,11 +60,11 @@ class MemberList extends Component<Props> {
     newMember = () => {
         const member: MemberEdit = {
             id: null,
-            userId: this.props.identity.id,
             firstName: '',
             lastName: '',
             maidenName: '',
             idNumber: '',
+            passportNumber: '',
             initials: '',
             preferredName: '',
             dateOfBirth: ''
@@ -84,16 +78,7 @@ class MemberList extends Component<Props> {
             getColumn('lastName', 'Last Name', { showSearchFilter: true }),
             getColumn('firstName', 'First Name', { showSearchFilter: true }),
             getColumn('idNumber', 'ID Number', { showSearchFilter: true }),
-            getColumn('dateOfBirth', 'Date of Birth', { type: 'date' }),
-            getColumn('userId', 'Broker', {
-                render: (userId: string, member: Member) => {
-                    return `${member.userFirstName} ${member.userLastName}`;
-                },
-                filters: this.props.users.map(user => ({
-                    text: `${user.firstName} ${user.lastName}`,
-                    value: user.id
-                }))
-            })
+            getColumn('dateOfBirth', 'Date of Birth', { type: 'date' })
         ];
     };
 
@@ -158,12 +143,10 @@ class MemberList extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     const membersState = membersSelector(state);
-    const usersState = usersSimpleSelector(state);
 
     return {
         members: membersState.items,
-        users: usersState.items,
-        fetching: membersState.fetching || usersState.fetching,
+        fetching: membersState.fetching,
         pageOptions: membersState.pageOptions,
         sortOptions: membersState.sortOptions,
         totalItems: membersState.totalItems,

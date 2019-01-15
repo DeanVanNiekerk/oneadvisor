@@ -36,8 +36,8 @@ export const defaultState: State = {
             name: 'Last Name'
         },
         {
-            id: 'userFullName',
-            name: 'Broker Full Name'
+            id: 'policyUserFullName',
+            name: 'Policy Broker'
         },
         {
             id: 'policyNumber',

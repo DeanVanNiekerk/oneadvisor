@@ -17,13 +17,10 @@ describe('member actions', () => {
     it('should dispatch MEMBERS_MEMBER_PREVIEW_RECEIVE when receiveMemberPreview is called', () => {
         const member: MemberPreview = {
             id: '10',
-            userId: '123',
             firstName: 'Dean',
             lastName: 'Jackson',
             idNumber: '12341234',
             dateOfBirth: '1982-10-03',
-            userFirstName: 'Louis',
-            userLastName: 'Snetler',
             policyCount: 2
         };
 

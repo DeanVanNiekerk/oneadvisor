@@ -3,7 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OneAdvisor.Data;
+using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Model.Directory.Model.Auth;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Member.Model.MemberPolicy;
 using OneAdvisor.Service.Member;
@@ -13,16 +15,19 @@ namespace OneAdvisor.Service.Test.Member
     [TestClass]
     public class MemberPolicyServiceTest
     {
+
         [TestMethod]
         public async Task GetPolicies()
         {
             var options = TestHelper.GetDbContext("GetPolicies");
 
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.User);
-            var member2 = TestHelper.InsertDefaultMember(options, user1.User);
+            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var member2 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
-            var member3 = TestHelper.InsertDefaultMember(options);
+            var user3 = TestHelper.InsertDefaultUserDetailed(options);
+            var member3 = TestHelper.InsertDefaultMember(options, user3.Organisation);
 
             //Given
             var policy1 = new MemberPolicyEntity
@@ -30,6 +35,7 @@ namespace OneAdvisor.Service.Test.Member
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 MemberId = member1.Member.Id,
+                UserId = user1.User.Id,
                 Number = "123465"
             };
 
@@ -38,15 +44,16 @@ namespace OneAdvisor.Service.Test.Member
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 MemberId = member2.Member.Id,
+                UserId = user2.User.Id,
                 Number = "654321"
             };
 
-            //Different organisation, should be out of scope
             var policy3 = new MemberPolicyEntity
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 MemberId = member3.Member.Id,
+                UserId = user3.User.Id,
                 Number = "987654"
             };
 
@@ -64,8 +71,8 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberPolicyService(context);
 
                 //When
-                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
-                var queryOptions = new MemberPolicyQueryOptions(scopeOptions, "", "", 0, 0);
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var queryOptions = new MemberPolicyQueryOptions(scope, "", "", 0, 0);
                 var policies = await service.GetPolicies(queryOptions);
 
                 //Then
@@ -80,6 +87,16 @@ namespace OneAdvisor.Service.Test.Member
 
                 actual = policies.Items.Last();
                 Assert.AreEqual(policy2.Id, actual.Id);
+
+                //Check scope
+                scope = TestHelper.GetScopeOptions(user1, Scope.User);
+                queryOptions = new MemberPolicyQueryOptions(scope, "", "", 0, 0);
+                policies = await service.GetPolicies(queryOptions);
+
+                Assert.AreEqual(1, policies.Items.Count());
+
+                actual = policies.Items.First();
+                Assert.AreEqual(policy1.Id, actual.Id);
             }
         }
 
@@ -89,9 +106,7 @@ namespace OneAdvisor.Service.Test.Member
             var options = TestHelper.GetDbContext("GetPolicy");
 
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.User);
-
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
             //Given
             var policy1 = new MemberPolicyEntity
@@ -99,12 +114,23 @@ namespace OneAdvisor.Service.Test.Member
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 MemberId = member1.Member.Id,
+                UserId = user1.User.Id,
                 Number = "123465"
+            };
+
+            var policy2 = new MemberPolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                MemberId = member1.Member.Id,
+                UserId = user1.User.Id,
+                Number = "654987"
             };
 
             using (var context = new DataContext(options))
             {
                 context.MemberPolicy.Add(policy1);
+                context.MemberPolicy.Add(policy2);
 
                 context.SaveChanges();
             }
@@ -115,18 +141,117 @@ namespace OneAdvisor.Service.Test.Member
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
-                var actual = await service.GetPolicy(scopeOptions, policy1.Id);
+                var actual = await service.GetPolicy(scopeOptions, policy2.Id);
 
                 //Then
-                Assert.AreEqual(policy1.Id, actual.Id);
-                Assert.AreEqual(policy1.MemberId, actual.MemberId);
-                Assert.AreEqual(policy1.CompanyId, actual.CompanyId);
-                Assert.AreEqual(policy1.Number, actual.Number);
+                Assert.AreEqual(policy2.Id, actual.Id);
+                Assert.AreEqual(policy2.MemberId, actual.MemberId);
+                Assert.AreEqual(policy2.CompanyId, actual.CompanyId);
+                Assert.AreEqual(policy2.UserId, actual.UserId);
+                Assert.AreEqual(policy2.Number, actual.Number);
+            }
+        }
 
-                //Out of scope 
-                scopeOptions = TestHelper.GetScopeOptions(user2, Scope.Organisation);
-                actual = await service.GetPolicy(scopeOptions, policy1.Id);
-                Assert.IsNull(actual);
+        [TestMethod]
+        public async Task GetPolicy_CheckScope()
+        {
+            var options = TestHelper.GetDbContext("GetPolicy_CheckScope");
+
+            var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 1" };
+            var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 2" };
+
+            var branch1 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = org1.Id, Name = "Branch 1" };
+            var branch2 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = org1.Id, Name = "Branch 2" };
+            var branch3 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = org2.Id, Name = "Branch 3" };
+
+            var user1 = new UserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch1.Id };
+            var user2 = new UserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch1.Id };
+            var user3 = new UserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch2.Id };
+            var user4 = new UserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch3.Id };
+
+            var member1 = new MemberEntity { Id = Guid.NewGuid(), OrganisationId = org1.Id };
+            var member2 = new MemberEntity { Id = Guid.NewGuid(), OrganisationId = org2.Id };
+
+            var policy1 = new MemberPolicyEntity { Id = Guid.NewGuid(), MemberId = member1.Id, UserId = user1.Id };
+            var policy2 = new MemberPolicyEntity { Id = Guid.NewGuid(), MemberId = member1.Id, UserId = user2.Id };
+            var policy3 = new MemberPolicyEntity { Id = Guid.NewGuid(), MemberId = member1.Id, UserId = user3.Id };
+            var policy4 = new MemberPolicyEntity { Id = Guid.NewGuid(), MemberId = member2.Id, UserId = user4.Id };
+            var policy5 = new MemberPolicyEntity { Id = Guid.NewGuid(), MemberId = member1.Id, UserId = user1.Id };
+
+
+            using (var context = new DataContext(options))
+            {
+                context.Organisation.Add(org1);
+
+                context.Branch.Add(branch1);
+                context.Branch.Add(branch2);
+
+                context.User.Add(user1);
+                context.User.Add(user2);
+                context.User.Add(user3);
+
+                context.Member.Add(member1);
+                context.Member.Add(member2);
+
+                context.MemberPolicy.Add(policy1);
+                context.MemberPolicy.Add(policy2);
+                context.MemberPolicy.Add(policy3);
+                context.MemberPolicy.Add(policy4);
+                context.MemberPolicy.Add(policy5);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new MemberPolicyService(context);
+
+                //When
+
+                //In scope (org 1 -> policy 1)
+                var scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Organisation);
+                var policy = await service.GetPolicy(scope, policy1.Id);
+                Assert.AreEqual(policy1.Id, policy.Id);
+
+                //In scope (org 1 -> policy 3)
+                scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Organisation);
+                policy = await service.GetPolicy(scope, policy3.Id);
+                Assert.AreEqual(policy3.Id, policy.Id);
+
+                //Out of scope (org 2 -> policy 1)
+                scope = new ScopeOptions(org2.Id, branch3.Id, user4.Id, Scope.Organisation);
+                policy = await service.GetPolicy(scope, policy1.Id);
+                Assert.IsNull(policy);
+
+                //In scope (branch 1 -> policy 1)
+                scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Branch);
+                policy = await service.GetPolicy(scope, policy1.Id);
+                Assert.AreEqual(policy1.Id, policy.Id);
+
+                //In scope (branch 1 -> policy 2)
+                scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Branch);
+                policy = await service.GetPolicy(scope, policy2.Id);
+                Assert.AreEqual(policy2.Id, policy.Id);
+
+                //Out of scope (branch 2 -> policy 1)
+                scope = new ScopeOptions(org1.Id, branch2.Id, user3.Id, Scope.Branch);
+                policy = await service.GetPolicy(scope, policy1.Id);
+                Assert.IsNull(policy);
+
+                //Out of scope (branch 3 -> policy 1)
+                scope = new ScopeOptions(org2.Id, branch3.Id, user4.Id, Scope.Branch);
+                policy = await service.GetPolicy(scope, policy1.Id);
+                Assert.IsNull(policy);
+
+                //In scope (user 1 -> policy 1)
+                scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.User);
+                policy = await service.GetPolicy(scope, policy1.Id);
+                Assert.AreEqual(policy1.Id, policy.Id);
+
+                //Out of scope (user 2 -> policy 1)
+                scope = new ScopeOptions(org1.Id, branch1.Id, user2.Id, Scope.User);
+                policy = await service.GetPolicy(scope, policy1.Id);
+                Assert.IsNull(policy);
             }
         }
 
@@ -136,7 +261,7 @@ namespace OneAdvisor.Service.Test.Member
             var options = TestHelper.GetDbContext("GetPolicy_ByNumber");
 
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.User);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
             //Given
             var policy1 = new MemberPolicyEntity
@@ -144,6 +269,7 @@ namespace OneAdvisor.Service.Test.Member
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 MemberId = member1.Member.Id,
+                UserId = user1.User.Id,
                 Number = "123465"
             };
 
@@ -167,13 +293,15 @@ namespace OneAdvisor.Service.Test.Member
             }
         }
 
+
+
         [TestMethod]
         public async Task InsertPolicy()
         {
             var options = TestHelper.GetDbContext("InsertPolicy");
 
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.User);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
             var user2 = TestHelper.InsertDefaultUserDetailed(options);
 
@@ -183,6 +311,7 @@ namespace OneAdvisor.Service.Test.Member
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 MemberId = member1.Member.Id,
+                UserId = user1.User.Id,
                 Number = "123465"
             };
 
@@ -207,7 +336,7 @@ namespace OneAdvisor.Service.Test.Member
                 scopeOptions = TestHelper.GetScopeOptions(user2, Scope.Organisation);
                 result = await service.InsertPolicy(scopeOptions, policy1);
                 Assert.IsFalse(result.Success);
-                Assert.AreEqual(result.ValidationFailures.Single().ErrorMessage, "Member exists but is out of scope");
+                Assert.AreEqual("Member does not exist", result.ValidationFailures.Single().ErrorMessage);
             }
         }
 
@@ -217,7 +346,7 @@ namespace OneAdvisor.Service.Test.Member
             var options = TestHelper.GetDbContext("UpdatePolicy");
 
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.User);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
             var user2 = TestHelper.InsertDefaultUserDetailed(options);
 
@@ -227,6 +356,7 @@ namespace OneAdvisor.Service.Test.Member
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 MemberId = member1.Member.Id,
+                UserId = user1.User.Id,
                 Number = "123465"
             };
 
@@ -242,6 +372,7 @@ namespace OneAdvisor.Service.Test.Member
                 Id = policyEntity1.Id,
                 CompanyId = Guid.NewGuid(),
                 MemberId = member1.Member.Id,
+                UserId = user1.User.Id,
                 Number = "528547"
             };
 
@@ -266,7 +397,7 @@ namespace OneAdvisor.Service.Test.Member
                 scopeOptions = TestHelper.GetScopeOptions(user2, Scope.Organisation);
                 result = await service.UpdatePolicy(scopeOptions, policy1);
                 Assert.IsFalse(result.Success);
-                Assert.AreEqual(result.ValidationFailures.Single().ErrorMessage, "Member exists but is out of scope");
+                Assert.AreEqual("Member does not exist", result.ValidationFailures.Single().ErrorMessage);
             }
         }
     }

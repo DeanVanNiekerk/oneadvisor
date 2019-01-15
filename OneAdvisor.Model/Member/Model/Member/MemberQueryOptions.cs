@@ -11,7 +11,6 @@ namespace OneAdvisor.Model.Member.Model.Member
          : base(sortColumn, sortDirection, pageSize, pageNumber, filters)
         {
             Scope = scope;
-            UserIds = new List<string>();
 
             var result = GetFilterValue<string>("FirstName");
             if (result.Success)
@@ -24,11 +23,6 @@ namespace OneAdvisor.Model.Member.Model.Member
             result = GetFilterValue<string>("IdNumber");
             if (result.Success)
                 IdNumber = result.Value;
-
-            UserIds = new List<string>();
-            var results = GetFilterValues<string>("UserId");
-            if (results.Success)
-                UserIds = results.Value;
         }
 
         public ScopeOptions Scope { get; set; }
@@ -36,6 +30,5 @@ namespace OneAdvisor.Model.Member.Model.Member
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string IdNumber { get; set; }
-        public List<string> UserIds { get; set; }
     }
 }

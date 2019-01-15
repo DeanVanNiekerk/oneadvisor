@@ -186,7 +186,7 @@ namespace OneAdvisor.Data
             if (!members.Any())
             {
                 var mem1Guid = Guid.NewGuid();
-                _context.Member.Add(new MemberEntity() { Id = mem1Guid, FirstName = "Andrew", LastName = "Blakeway", UserId = "00ug3cqmzjmo9twEp0h7" });
+                _context.Member.Add(new MemberEntity() { Id = mem1Guid, FirstName = "Andrew", LastName = "Blakeway" });
             }
 
             _context.SaveChanges();

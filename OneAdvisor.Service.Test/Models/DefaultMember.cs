@@ -6,7 +6,7 @@ namespace OneAdvisor.Service.Test.Models
 {
     public class DefaultMember
     {
-        public UserEntity User { get; set; }
+        public OrganisationEntity Organisation { get; set; }
         public MemberEntity Member { get; set; }
     }
 }

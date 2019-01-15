@@ -41,10 +41,12 @@ namespace OneAdvisor.Service.Member
 
             var userEntityQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
 
+            var userId = scope.UserId;
+
             //If a user is specified we, use it as the scope
-            if (!string.IsNullOrEmpty(data.UserFullName))
+            if (!string.IsNullOrEmpty(data.PolicyUserFullName))
             {
-                var parts = data.UserFullName.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+                var parts = data.PolicyUserFullName.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
 
                 if (parts.Length != 2)
                 {
@@ -65,17 +67,13 @@ namespace OneAdvisor.Service.Member
                     return result;
                 }
 
-                //Update scope
-                scope.UserId = user.Id;
+                userId = user.Id;
             }
 
             //Check if the member exists in the organisation
-            var organisationScope = scope.Clone(Scope.Organisation);
-            userEntityQuery = ScopeQuery.GetUserEntityQuery(_context, organisationScope);
+            var memberQuery = ScopeQuery.GetMemberEntityQuery(_context, scope);
 
-            var query = from entity in _context.Member
-                        join user in userEntityQuery
-                             on entity.UserId equals user.Id
+            var query = from entity in memberQuery
                         where entity.IdNumber == data.IdNumber
                         || entity.PassportNumber == data.IdNumber
                         select entity;
@@ -89,15 +87,8 @@ namespace OneAdvisor.Service.Member
             {
                 member = await _memberService.GetMember(scope, memberEntity.Id);
 
-                if (member == null)
-                {
-                    result.AddValidationFailure("IdNumber", "Member exists but is out of scope");
-                    return result;
-                }
-
                 member.FirstName = data.FirstName != null ? data.FirstName : member.FirstName;
                 member.LastName = data.LastName != null ? data.LastName : member.LastName;
-                member.UserId = !string.IsNullOrEmpty(data.UserFullName) ? scope.UserId : member.UserId; //Only update userId is specified in the import data
                 result = await _memberService.UpdateMember(scope, member);
 
                 if (!result.Success)
@@ -107,7 +98,6 @@ namespace OneAdvisor.Service.Member
             {
                 member = new MemberEdit()
                 {
-                    UserId = scope.UserId,
                     FirstName = data.FirstName != null ? data.FirstName : string.Empty,
                     LastName = data.LastName != null ? data.LastName : string.Empty
                 };
@@ -126,12 +116,12 @@ namespace OneAdvisor.Service.Member
                 member = (MemberEdit)result.Tag;
             }
 
-            result = await ImportMemberPolicy(scope, data, member);
+            result = await ImportMemberPolicy(scope, data, member, userId);
 
             return result;
         }
 
-        private async Task<Result> ImportMemberPolicy(ScopeOptions scope, ImportMember data, MemberEdit member)
+        private async Task<Result> ImportMemberPolicy(ScopeOptions scope, ImportMember data, MemberEdit member, string userId)
         {
             var result = new Result(true);
 
@@ -143,22 +133,21 @@ namespace OneAdvisor.Service.Member
             //Policy exits, update
             if (policy != null)
             {
-                /* Nothing to update at the moment */
-                // policy.CompanyId = data.PolicyCompanyId.Value;
-                // policy.MemberId = member.Id.Value;
+                policy.UserId = userId;
 
-                // result = await _memberPolicyService.UpdatePolicy(scope, policy);
+                result = await _memberPolicyService.UpdatePolicy(scope, policy);
 
-                // if (!result.Success)
-                //     return result;
+                if (!result.Success)
+                    return result;
             }
-            else
+            else //else insert
             {
                 policy = new MemberPolicyEdit()
                 {
                     MemberId = member.Id.Value,
                     CompanyId = data.PolicyCompanyId.Value,
-                    Number = data.PolicyNumber
+                    Number = data.PolicyNumber,
+                    UserId = userId
                 };
 
                 result = await _memberPolicyService.InsertPolicy(scope, policy);

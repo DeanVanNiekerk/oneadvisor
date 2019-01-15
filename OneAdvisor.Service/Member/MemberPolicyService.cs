@@ -28,16 +28,15 @@ namespace OneAdvisor.Service.Member
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
 
             var query = from user in userQuery
-                        join member in _context.Member
-                            on user.Id equals member.UserId
-                        join memberPolicy in _context.MemberPolicy
-                            on member.Id equals memberPolicy.MemberId
+                        join policy in _context.MemberPolicy
+                            on user.Id equals policy.UserId
                         select new MemberPolicy()
                         {
-                            Id = memberPolicy.Id,
-                            MemberId = memberPolicy.MemberId,
-                            Number = memberPolicy.Number,
-                            CompanyId = memberPolicy.CompanyId
+                            Id = policy.Id,
+                            MemberId = policy.MemberId,
+                            Number = policy.Number,
+                            CompanyId = policy.CompanyId,
+                            UserId = policy.UserId
                         };
 
             //Get total before applying filters
@@ -86,7 +85,7 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
-            result = await ScopeQuery.IsMemberInScopeResult(_context, scope, policy.MemberId);
+            result = await ScopeQuery.CheckScope(_context, scope, policy.MemberId, policy.UserId);
 
             if (!result.Success)
                 return result;
@@ -109,7 +108,7 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
-            result = await ScopeQuery.IsMemberInScopeResult(_context, scope, policy.MemberId);
+            result = await ScopeQuery.CheckScope(_context, scope, policy.MemberId, policy.UserId);
 
             if (!result.Success)
                 return result;
@@ -138,7 +137,8 @@ namespace OneAdvisor.Service.Member
                             Id = policy.Id,
                             MemberId = policy.MemberId,
                             Number = policy.Number,
-                            CompanyId = policy.CompanyId
+                            CompanyId = policy.CompanyId,
+                            UserId = policy.UserId
                         };
 
             return query;
@@ -149,10 +149,8 @@ namespace OneAdvisor.Service.Member
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
 
             var query = from user in userQuery
-                        join member in _context.Member
-                            on user.Id equals member.UserId
                         join memberPolicy in _context.MemberPolicy
-                            on member.Id equals memberPolicy.MemberId
+                            on user.Id equals memberPolicy.UserId
                         select memberPolicy;
 
             return query;
@@ -166,6 +164,7 @@ namespace OneAdvisor.Service.Member
             entity.MemberId = model.MemberId;
             entity.Number = model.Number;
             entity.CompanyId = model.CompanyId;
+            entity.UserId = model.UserId;
 
             return entity;
         }

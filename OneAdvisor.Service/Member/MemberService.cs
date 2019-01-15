@@ -26,17 +26,10 @@ namespace OneAdvisor.Service.Member
 
         public async Task<PagedItems<Model.Member.Model.Member.Member>> GetMembers(MemberQueryOptions queryOptions)
         {
-            var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
-
-            var query = from member in _context.Member
-                        join user in userQuery
-                            on member.UserId equals user.Id
-                        join branch in _context.Branch
-                            on user.BranchId equals branch.Id
+            var query = from member in GetMemberEntityQuery(queryOptions.Scope)
                         select new Model.Member.Model.Member.Member()
                         {
                             Id = member.Id,
-                            UserId = member.UserId,
                             FirstName = member.FirstName,
                             LastName = member.LastName,
                             MaidenName = member.MaidenName,
@@ -44,11 +37,7 @@ namespace OneAdvisor.Service.Member
                             PassportNumber = member.PassportNumber,
                             Initials = member.Initials,
                             PreferredName = member.PreferredName,
-                            DateOfBirth = member.DateOfBirth,
-                            UserFirstName = user.FirstName,
-                            UserLastName = user.LastName,
-                            BranchId = user.BranchId,
-                            OrganisationId = branch.OrganisationId
+                            DateOfBirth = member.DateOfBirth
                         };
 
             //Get total before applying filters
@@ -64,9 +53,6 @@ namespace OneAdvisor.Service.Member
 
             if (!string.IsNullOrWhiteSpace(queryOptions.IdNumber))
                 query = query.Where(m => EF.Functions.Like(m.IdNumber, $"%{queryOptions.IdNumber}%"));
-
-            if (queryOptions.UserIds.Any())
-                query = query.Where(m => queryOptions.UserIds.Contains(m.UserId));
             //------------------------------------------------------------------------------------------------------
 
             //Ordering
@@ -81,19 +67,14 @@ namespace OneAdvisor.Service.Member
         public Task<MemberPreview> GetMemberPreview(ScopeOptions scope, Guid id)
         {
             var query = from member in GetMemberEntityQuery(scope)
-                        join user in _context.User
-                            on member.UserId equals user.Id
                         where member.Id == id
                         select new MemberPreview()
                         {
                             Id = member.Id,
-                            UserId = member.UserId,
                             FirstName = member.FirstName,
                             LastName = member.LastName,
                             IdNumber = member.IdNumber,
                             DateOfBirth = member.DateOfBirth,
-                            UserFirstName = user.FirstName,
-                            UserLastName = user.LastName,
                             PolicyCount = member.MemberPolicies.Count()
                         };
 
@@ -107,7 +88,6 @@ namespace OneAdvisor.Service.Member
                         select new MemberEdit()
                         {
                             Id = member.Id,
-                            UserId = member.UserId,
                             FirstName = member.FirstName,
                             LastName = member.LastName,
                             MaidenName = member.MaidenName,
@@ -129,12 +109,8 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
-            result = await ScopeQuery.IsUserInScopeResult(_context, scope, member.UserId);
-
-            if (!result.Success)
-                return result;
-
             var entity = MapModelToEntity(member);
+            entity.OrganisationId = scope.OrganisationId;
             await _context.Member.AddAsync(entity);
             await _context.SaveChangesAsync();
 
@@ -148,17 +124,6 @@ namespace OneAdvisor.Service.Member
         {
             var validator = new MemberValidator(_context, false);
             var result = validator.Validate(member).GetResult();
-
-            if (!result.Success)
-                return result;
-
-            result = await ScopeQuery.IsUserInScopeResult(_context, scope, member.UserId);
-
-            if (!result.Success)
-                return result;
-
-            scope.UserId = member.UserId;
-            result = await ScopeQuery.IsMemberInScopeResult(_context, scope, member.Id.Value);
 
             if (!result.Success)
                 return result;
@@ -177,14 +142,7 @@ namespace OneAdvisor.Service.Member
 
         private IQueryable<MemberEntity> GetMemberEntityQuery(ScopeOptions scope)
         {
-            var userQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
-
-            var query = from member in _context.Member
-                        join user in userQuery
-                             on member.UserId equals user.Id
-                        select member;
-
-            return query;
+            return ScopeQuery.GetMemberEntityQuery(_context, scope);
         }
 
         private MemberEntity MapModelToEntity(MemberEdit model, MemberEntity entity = null)
@@ -192,7 +150,6 @@ namespace OneAdvisor.Service.Member
             if (entity == null)
                 entity = new MemberEntity();
 
-            entity.UserId = model.UserId;
             entity.FirstName = model.FirstName;
             entity.LastName = model.LastName;
             entity.MaidenName = model.MaidenName;

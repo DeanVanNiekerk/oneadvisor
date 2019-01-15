@@ -1,5 +1,6 @@
 import { membersApi } from '@/config/api/member';
 
+import { MemberEdit } from '../';
 import * as actions from './actions';
 
 describe('member actions', () => {
@@ -14,9 +15,8 @@ describe('member actions', () => {
     });
 
     it('should dispatch API when updateMember is called', () => {
-        const member = {
+        const member: MemberEdit = {
             id: '10',
-            userId: '123',
             firstName: 'Dean',
             lastName: 'Jackson',
             maidenName: '',

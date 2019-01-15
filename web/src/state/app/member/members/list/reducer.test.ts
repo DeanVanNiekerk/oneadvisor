@@ -1,5 +1,6 @@
 import { Filters, SortOptions } from '@/app/table';
 
+import { Member } from '../';
 import { defaultState, reducer } from './reducer';
 
 describe('member list reducer', () => {
@@ -41,9 +42,8 @@ describe('member list reducer', () => {
             fetching: true
         };
 
-        const member = {
+        const member: Member = {
             id: '10',
-            userId: '90',
             firstName: 'Dean',
             lastName: 'Jackson',
             maidenName: '',
@@ -51,9 +51,7 @@ describe('member list reducer', () => {
             preferredName: 'ripper',
             idNumber: '12341234',
             passportNumber: '987987',
-            dateOfBirth: '1982-10-03',
-            userFirstName: 'Joe',
-            userLastName: 'Goat'
+            dateOfBirth: '1982-10-03'
         };
 
         const actualState = reducer(initalState, {

@@ -15,7 +15,7 @@ export type ImportMember = {
     lastName?: string | null;
     policyNumber?: string | null;
     policyCompanyId?: string | null;
-    userFullName?: string | null;
+    policyUserFullName?: string | null;
 };
 
 export type ResultFailure = {
