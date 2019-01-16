@@ -29,9 +29,12 @@ namespace api.Controllers
 
         public IEnumerable<string> RoleIds { get; set; }
 
-        public bool IsSuperAdmin()
+        public bool IsSuperAdmin
         {
-            return RoleIds.Any(r => r == Role.SUPER_ADMINISTRATOR_ROLE);
+            get
+            {
+                return RoleIds.Any(r => r == Role.SUPER_ADMINISTRATOR_ROLE);
+            }
         }
 
     }

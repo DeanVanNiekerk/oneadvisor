@@ -13,6 +13,7 @@ using OneAdvisor.Service.Directory;
 using OneAdvisor.Service.Member;
 using OneAdvisor.Service.Okta;
 using OneAdvisor.Service.Okta.Service;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace api.App.Setup
 {
@@ -104,6 +105,15 @@ namespace api.App.Setup
         public void ConfigureLogging()
         {
             Services.AddLogging(builder => builder.AddConsole());
+        }
+
+        public void ConfigureSwagger()
+        {
+            //https://github.com/domaindrivendev/Swashbuckle.AspNetCore
+            Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "One Advisor", Version = "v1" });
+            });
         }
     }
 }

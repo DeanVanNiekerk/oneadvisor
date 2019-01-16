@@ -44,6 +44,7 @@ namespace api
             serviceSetup.ConfigureServices();
             serviceSetup.ConfigureMapper(mapper);
             serviceSetup.ConfigureLogging();
+            serviceSetup.ConfigureSwagger();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -68,6 +69,13 @@ namespace api
             app.UseMaintainCorsHeader();
             app.UseHttpsRedirection();
             app.UseAuthentication();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "One Advisor API");
+            });
+
             app.UseMvc();
         }
     }

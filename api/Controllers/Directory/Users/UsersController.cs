@@ -35,7 +35,7 @@ namespace api.Controllers.Directory.Users
         [UseCaseAuthorize("dir_view_users")]
         public async Task<PagedItemsDto<UserDto>> Index(int pageNumber = 0, int pageSize = 0)
         {
-            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin());
+            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin);
 
             var queryOptions = new UserQueryOptions(scope, pageNumber, pageSize);
             var pagedItems = await UserService.GetUsers(queryOptions);
@@ -47,7 +47,7 @@ namespace api.Controllers.Directory.Users
         [UseCaseAuthorize("dir_view_users")]
         public async Task<ActionResult<UserEditDto>> Get(string userId)
         {
-            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin());
+            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin);
 
             var model = await UserService.GetUser(scope, userId);
 
@@ -61,7 +61,7 @@ namespace api.Controllers.Directory.Users
         [UseCaseAuthorize("dir_edit_users")]
         public async Task<ActionResult<Result>> Insert([FromBody] UserEditDto user)
         {
-            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin());
+            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin);
 
             var model = Mapper.Map<UserEdit>(user);
 
@@ -77,7 +77,7 @@ namespace api.Controllers.Directory.Users
         [UseCaseAuthorize("dir_edit_users")]
         public async Task<ActionResult<Result>> Update(string userId, [FromBody] UserEditDto user)
         {
-            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin());
+            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin);
 
             user.Id = userId;
 
