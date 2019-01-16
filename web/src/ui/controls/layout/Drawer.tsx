@@ -7,31 +7,33 @@ type Props = {
     visible: boolean;
     onClose: () => void;
     maskClosable?: boolean;
-    width?: number;
+    width?: number | string;
     noTopPadding?: boolean;
 };
 
-const Drawer = (props: Props) => (
-    <DrawerAD
-        title={props.title}
-        width={props.width}
-        visible={props.visible}
-        onClose={props.onClose}
-        maskClosable={props.maskClosable}
-        destroyOnClose={true}
-        style={{
-            height: 'calc(100% - 55px)',
-            overflow: 'auto',
-            paddingBottom: 53,
-            paddingTop: props.noTopPadding ? 0 : 24
-        }}
-    >
-        {props.children}
-    </DrawerAD>
-);
+const Drawer = (props: Props) => {
+    return (
+        <DrawerAD
+            title={props.title}
+            width={props.width}
+            visible={props.visible}
+            onClose={props.onClose}
+            maskClosable={props.maskClosable}
+            destroyOnClose={true}
+            style={{
+                height: 'calc(100% - 55px)',
+                overflow: 'auto',
+                paddingBottom: 53,
+                paddingTop: props.noTopPadding ? 0 : 24
+            }}
+        >
+            {props.children}
+        </DrawerAD>
+    );
+};
 Drawer.defaultProps = {
     visible: false,
-    width: 720,
+    width: '45%',
     maskClosable: true,
     noTopPadding: false
 };

@@ -1,31 +1,30 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
 
 import { applyLike } from '@/app/query';
 import { Filters, getColumn, PageOptions, SortOptions } from '@/app/table';
+import { fetchUsersSimple, UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import {
-    fetchMembers, Member, MemberEdit, membersSelector, receiveFilters, receiveMember, receivePageOptions,
+    fetchPolicies, fetchPolicy, policiesSelector, Policy, PolicyEdit, receiveFilters, receivePageOptions, receivePolicy,
     receiveSortOptions
-} from '@/state/app/member/members';
+} from '@/state/app/member/policies';
 import { RootState } from '@/state/rootReducer';
 import { Button, Header, Table } from '@/ui/controls';
 
-import EditMember from './EditMember';
+import EditMember from './EditPolicy';
 
 type Props = {
-    members: Member[];
+    policies: Policy[];
     fetching: boolean;
     pageOptions: PageOptions;
     sortOptions: SortOptions;
     totalItems: number;
     filters: Filters;
-} & RouteComponentProps &
-    DispatchProp;
+} & DispatchProp;
 
-class MemberList extends Component<Props> {
+class PolicyList extends Component<Props> {
     componentDidMount() {
-        if (this.props.members.length === 0) this.loadMembers();
+        if (this.props.policies.length === 0) this.loadPolicies();
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -34,12 +33,12 @@ class MemberList extends Component<Props> {
             prevProps.sortOptions != this.props.sortOptions ||
             prevProps.filters != this.props.filters
         )
-            this.loadMembers();
+            this.loadPolicies();
     }
 
-    loadMembers = () => {
+    loadPolicies = () => {
         this.props.dispatch(
-            fetchMembers(
+            fetchPolicies(
                 this.props.pageOptions,
                 this.props.sortOptions,
                 this.props.filters
@@ -47,41 +46,36 @@ class MemberList extends Component<Props> {
         );
     };
 
-    editMember = (id: string) => {
-        this.props.history.push(`/member/members/${id}`);
+    editPolicy = (id: string) => {
+        this.props.dispatch(fetchPolicy(id));
     };
 
     onFormClose = (cancelled: boolean) => {
-        if (!cancelled) this.loadMembers();
+        if (!cancelled) this.loadPolicies();
     };
 
-    newMember = () => {
-        const member: MemberEdit = {
-            id: null,
-            firstName: '',
-            lastName: '',
-            maidenName: '',
-            idNumber: '',
-            passportNumber: '',
-            initials: '',
-            preferredName: '',
-            dateOfBirth: ''
+    newPolicy = () => {
+        const policy: PolicyEdit = {
+            id: '',
+            userId: '',
+            number: '',
+            companyId: '',
+            memberId: ''
         };
 
-        this.props.dispatch(receiveMember(member));
+        this.props.dispatch(receivePolicy(policy));
     };
 
     getColumns = () => {
         return [
-            getColumn('lastName', 'Last Name', { showSearchFilter: true }),
-            getColumn('firstName', 'First Name', { showSearchFilter: true }),
-            getColumn('idNumber', 'ID Number', { showSearchFilter: true }),
-            getColumn('dateOfBirth', 'Date of Birth', { type: 'date' })
+            getColumn('number', 'Number', { showSearchFilter: true }),
+            getColumn('userId', 'User Id'),
+            getColumn('companyId', 'Company Id')
         ];
     };
 
     updateFilters = (filters: Filters): Filters => {
-        return applyLike(filters, ['firstName', 'lastName', 'idNumber']);
+        return applyLike(filters, ['number']);
     };
 
     onTableChange = (
@@ -101,12 +95,13 @@ class MemberList extends Component<Props> {
         return (
             <>
                 <Header
+                    className="mb-1"
                     actions={
                         <>
                             <Button
                                 type="default"
                                 icon="sync"
-                                onClick={this.loadMembers}
+                                onClick={this.loadPolicies}
                                 disabled={this.props.fetching}
                             >
                                 Reload
@@ -114,24 +109,22 @@ class MemberList extends Component<Props> {
                             <Button
                                 type="default"
                                 icon="plus"
-                                onClick={this.newMember}
+                                onClick={this.newPolicy}
                                 disabled={this.props.fetching}
-                                requiredUseCase="mem_edit_members"
+                                requiredUseCase="mem_edit_policies"
                             >
-                                New Member
+                                New Policy
                             </Button>
                         </>
                     }
-                >
-                    Members
-                </Header>
+                />
                 <Table
                     rowKey="id"
                     columns={this.getColumns()}
-                    dataSource={this.props.members}
+                    dataSource={this.props.policies}
                     loading={this.props.fetching}
-                    onRowClick={member => this.editMember(member.id)}
-                    onRowClickRequiredUseCase="mem_edit_members"
+                    onRowClick={policy => this.editPolicy(policy.id)}
+                    onRowClickRequiredUseCase="mem_edit_policies"
                     externalDataSource={true}
                     pageOptions={this.props.pageOptions}
                     totalRows={this.props.totalItems}
@@ -144,16 +137,16 @@ class MemberList extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const membersState = membersSelector(state);
+    const policiesState = policiesSelector(state);
 
     return {
-        members: membersState.items,
-        fetching: membersState.fetching,
-        pageOptions: membersState.pageOptions,
-        sortOptions: membersState.sortOptions,
-        totalItems: membersState.totalItems,
-        filters: membersState.filters
+        policies: policiesState.items,
+        fetching: policiesState.fetching,
+        pageOptions: policiesState.pageOptions,
+        sortOptions: policiesState.sortOptions,
+        totalItems: policiesState.totalItems,
+        filters: policiesState.filters
     };
 };
 
-export default connect(mapStateToProps)(MemberList);
+export default connect(mapStateToProps)(PolicyList);

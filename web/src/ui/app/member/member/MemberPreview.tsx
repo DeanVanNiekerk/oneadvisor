@@ -5,8 +5,9 @@ import { RouteComponentProps, withRouter } from 'react-router';
 
 import { fetchMember, fetchMemberPreview, MemberPreview, memberPreviewSelector } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
-import { Age, Header } from '@/ui/controls';
+import { Age, Button, Drawer, DrawerFooter, Header } from '@/ui/controls';
 
+import PolicyList from '../policy/PolicyList';
 import EditMember from './EditMember';
 
 type Props = {
@@ -15,18 +16,28 @@ type Props = {
 } & RouteComponentProps<{ memberId: string }> &
     DispatchProp;
 
-class MemberPreviewView extends Component<Props> {
+type State = {
+    policyListVisible: boolean;
+};
+
+class MemberPreviewView extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            memberEdited: props.member
+            policyListVisible: true
         };
     }
 
     componentDidMount() {
         this.load();
     }
+
+    togglePolicyListVisible = () => {
+        this.setState({
+            policyListVisible: !this.state.policyListVisible
+        });
+    };
 
     getMemberId = () => {
         return this.props.match.params.memberId;
@@ -128,6 +139,20 @@ class MemberPreviewView extends Component<Props> {
                 </div>
 
                 <EditMember onClose={this.onFormClose} />
+
+                <Drawer
+                    title="Policies"
+                    noTopPadding={true}
+                    visible={this.state.policyListVisible}
+                    onClose={this.togglePolicyListVisible}
+                >
+                    <PolicyList />
+                    <DrawerFooter>
+                        <Button onClick={this.togglePolicyListVisible}>
+                            Close
+                        </Button>
+                    </DrawerFooter>
+                </Drawer>
             </>
         );
     }

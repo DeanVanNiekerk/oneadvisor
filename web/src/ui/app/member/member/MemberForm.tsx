@@ -1,10 +1,10 @@
-import { Dropdown, Icon, Input, Menu } from 'antd';
+import { Dropdown, Icon, Menu } from 'antd';
 import React, { Component } from 'react';
 
 import { parseIdNumber } from '@/app/parsers/id';
 import { ValidationResult } from '@/app/validation';
 import { MemberEdit } from '@/state/app/member/members';
-import { Form, FormDate, FormInput, FormText } from '@/ui/controls';
+import { Form, FormDate, FormInput } from '@/ui/controls';
 
 type Props = {
     member: MemberEdit;

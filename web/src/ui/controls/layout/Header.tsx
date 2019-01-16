@@ -3,8 +3,9 @@ import React, { ReactNode } from 'react';
 
 type Props = {
     loading?: boolean;
-    children: ReactNode;
+    children?: ReactNode;
     actions?: ReactNode;
+    className?: string;
 };
 
 const Header = (props: Props) => (
@@ -17,6 +18,7 @@ const Header = (props: Props) => (
             //backgroundColor: '#FFFFFF',
             paddingTop: 15
         }}
+        className={props.className}
     >
         <Col span={12} className="content-header">
             <Skeleton

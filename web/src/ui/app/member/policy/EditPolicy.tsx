@@ -3,50 +3,49 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { ValidationResult } from '@/app/validation';
-import { insertMember, MemberEdit, memberSelector, receiveMember, updateMember } from '@/state/app/member/members';
+import { insertPolicy, PolicyEdit, policySelector, receivePolicy, updatePolicy } from '@/state/app/member/policies';
 import { RootState } from '@/state/rootReducer';
 import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
 import { showConfirm } from '@/ui/feedback/modal/confirm';
 
-import MemberForm from './MemberForm';
+import PolicyForm from './PolicyForm';
 
 type Props = {
     onClose: (cancelled: boolean) => void;
-    member: MemberEdit | null;
+    policy: PolicyEdit | null;
     fetching: boolean;
     updating: boolean;
     validationResults: ValidationResult[];
-    enabled: boolean;
 } & RouteComponentProps &
     DispatchProp;
 
 type State = {
-    memberEdited: MemberEdit | null;
+    policyEdited: PolicyEdit | null;
 };
-class EditMember extends Component<Props, State> {
+class EditPolicy extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            memberEdited: props.member
+            policyEdited: props.policy
         };
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.props.member != prevProps.member) {
+        if (this.props.policy != prevProps.policy) {
             this.setState({
-                memberEdited: this.props.member
+                policyEdited: this.props.policy
             });
         }
     }
 
     close = (cancelled: boolean = false) => {
-        this.props.dispatch(receiveMember(null));
+        this.props.dispatch(receivePolicy(null));
         this.props.onClose(cancelled);
     };
 
     confirmCancel = () => {
-        if (this.props.member != this.state.memberEdited)
+        if (this.props.policy != this.state.policyEdited)
             return showConfirm({ onOk: this.cancel });
 
         this.cancel();
@@ -57,25 +56,25 @@ class EditMember extends Component<Props, State> {
     };
 
     save = () => {
-        if (!this.state.memberEdited) {
+        if (!this.state.policyEdited) {
             this.close();
             return;
         }
 
-        if (this.state.memberEdited.id) {
+        if (this.state.policyEdited.id) {
             this.props.dispatch(
-                updateMember(this.state.memberEdited, () => this.close())
+                updatePolicy(this.state.policyEdited, () => this.close())
             );
         } else {
             this.props.dispatch(
-                insertMember(this.state.memberEdited, () => this.close())
+                insertPolicy(this.state.policyEdited, () => this.close())
             );
         }
     };
 
-    onChange = (member: MemberEdit) => {
+    onChange = (policy: PolicyEdit) => {
         this.setState({
-            memberEdited: member
+            policyEdited: policy
         });
     };
 
@@ -84,32 +83,30 @@ class EditMember extends Component<Props, State> {
     };
 
     getTitle = () => {
-        if (this.props.fetching) return 'Loading Member';
+        if (this.props.fetching) return 'Loading Policy';
 
-        const { member } = this.props;
+        const { policy } = this.props;
 
-        if (member && member.id)
-            return `Edit Member: ${member.firstName} ${member.lastName}`;
+        if (policy && policy.id) return `Edit Policy: ${policy.number}`;
 
-        return 'New Member';
+        return 'New Policy';
     };
 
     render() {
-        const { member, fetching, validationResults } = this.props;
+        const { policy, fetching, validationResults } = this.props;
 
         return (
             <Drawer
                 title={this.getTitle()}
-                visible={!!member || fetching}
+                visible={!!policy || fetching}
                 onClose={this.confirmCancel}
             >
                 <ContentLoader isLoading={this.isLoading()}>
-                    {member && (
-                        <MemberForm
-                            member={member}
+                    {policy && (
+                        <PolicyForm
+                            policy={policy}
                             validationResults={validationResults}
                             onChange={this.onChange}
-                            enabled={this.props.enabled}
                         />
                     )}
                 </ContentLoader>
@@ -124,7 +121,6 @@ class EditMember extends Component<Props, State> {
                         onClick={this.save}
                         type="primary"
                         disabled={this.isLoading()}
-                        visible={this.props.enabled}
                     >
                         Save
                     </Button>
@@ -135,15 +131,14 @@ class EditMember extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const memberState = memberSelector(state);
+    const policyState = policySelector(state);
 
     return {
-        member: memberState.member,
-        fetching: memberState.fetching,
-        updating: memberState.updating,
-        validationResults: memberState.validationResults,
-        enabled: true
+        policy: policyState.policy,
+        fetching: policyState.fetching,
+        updating: policyState.updating,
+        validationResults: policyState.validationResults
     };
 };
 
-export default withRouter(connect(mapStateToProps)(EditMember));
+export default withRouter(connect(mapStateToProps)(EditPolicy));
