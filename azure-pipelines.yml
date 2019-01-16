@@ -21,7 +21,7 @@ jobs:
         displayName: "dotnet publish $(buildConfiguration)"
       - task: CopyFiles@2
         inputs:
-          sourceFolder: "api/bin/$(buildConfiguration)/netcoreapp2.1/publish"
+          sourceFolder: "api/bin/$(buildConfiguration)/netcoreapp2.2/publish"
           targetFolder: $(Build.ArtifactStagingDirectory)
           cleanTargetFolder: true
       - task: PublishBuildArtifacts@1

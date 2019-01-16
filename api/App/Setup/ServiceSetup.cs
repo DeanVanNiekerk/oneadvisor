@@ -3,6 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
@@ -98,6 +99,11 @@ namespace api.App.Setup
         public void ConfigureMapper(IMapper mapper)
         {
             Services.AddSingleton(typeof(IMapper), mapper);
+        }
+
+        public void ConfigureLogging()
+        {
+            Services.AddLogging(builder => builder.AddConsole());
         }
     }
 }

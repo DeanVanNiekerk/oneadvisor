@@ -43,8 +43,9 @@ namespace api
             serviceSetup.ConfigureSettings();
             serviceSetup.ConfigureServices();
             serviceSetup.ConfigureMapper(mapper);
+            serviceSetup.ConfigureLogging();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
