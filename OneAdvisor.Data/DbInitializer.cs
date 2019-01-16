@@ -21,7 +21,7 @@ namespace OneAdvisor.Data
         {
             var total = 0;
 
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_MemberPolicy]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_Policy]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_Member]");
 
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_User]");
@@ -99,6 +99,8 @@ namespace OneAdvisor.Data
                 //Member Use Cases
                 _context.UseCase.Add(new UseCaseEntity() { Id = "mem_view_members", Name = "View Members", ApplicationId = memGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "mem_edit_members", Name = "Edit Members", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_view_policies", Name = "View Policies", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_edit_policies", Name = "Edit Policies", ApplicationId = memGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "mem_import_members", Name = "Import Members", ApplicationId = memGuid });
 
                 //Commission Use Cases
@@ -132,6 +134,8 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_view_members" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_edit_members" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_import_members" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_view_policies" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_edit_policies" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
 
                 //Commission App
@@ -167,18 +171,9 @@ namespace OneAdvisor.Data
             var peBranchId = Guid.Parse("c036cf47-ae1c-4c25-be8f-110a59a5407a");
             if (!branches.Any())
             {
-
                 _context.Branch.Add(new BranchEntity() { Id = Guid.Parse("cfaa7bf4-bff8-4c8c-b71e-f64bd8249750"), OrganisationId = sabOrgId, Name = "Port Shepstone" });
                 _context.Branch.Add(new BranchEntity() { Id = peBranchId, OrganisationId = sabOrgId, Name = "Port Elizabeth" });
                 _context.Branch.Add(new BranchEntity() { Id = Guid.Parse("7ab8bcd9-0544-4613-a82e-06b6de99d7ac"), OrganisationId = lifeOrgId, Name = "Durban" });
-            }
-
-            //Users
-            var users = _context.User.ToList();
-            var dvnUserId = "00ug3cqmzjmo9twEp0h7";
-            if (!users.Any())
-            {
-                _context.User.Add(new UserEntity() { Id = dvnUserId, FirstName = "Dean", LastName = "van Niekerk", BranchId = peBranchId });
             }
 
             //Members
@@ -186,7 +181,7 @@ namespace OneAdvisor.Data
             if (!members.Any())
             {
                 var mem1Guid = Guid.NewGuid();
-                _context.Member.Add(new MemberEntity() { Id = mem1Guid, FirstName = "Andrew", LastName = "Blakeway" });
+                _context.Member.Add(new MemberEntity() { Id = mem1Guid, FirstName = "Andrew", LastName = "Blakeway", OrganisationId = sabOrgId });
             }
 
             _context.SaveChanges();

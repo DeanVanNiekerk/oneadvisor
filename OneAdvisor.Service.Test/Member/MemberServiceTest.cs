@@ -258,14 +258,14 @@ namespace OneAdvisor.Service.Test.Member
                 OrganisationId = user1.Organisation.Id
             };
 
-            var policy1 = new MemberPolicyEntity
+            var policy1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
                 MemberId = mem2.Id,
                 UserId = user1.User.Id
             };
 
-            var policy2 = new MemberPolicyEntity
+            var policy2 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
                 MemberId = mem2.Id,
@@ -277,8 +277,8 @@ namespace OneAdvisor.Service.Test.Member
                 context.Member.Add(mem1);
                 context.Member.Add(mem2);
 
-                context.MemberPolicy.Add(policy1);
-                context.MemberPolicy.Add(policy2);
+                context.Policy.Add(policy1);
+                context.Policy.Add(policy2);
 
                 context.SaveChanges();
             }

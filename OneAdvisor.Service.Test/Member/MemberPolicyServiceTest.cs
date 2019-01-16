@@ -7,13 +7,13 @@ using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model.Directory.Model.Auth;
 using OneAdvisor.Model.Directory.Model.User;
-using OneAdvisor.Model.Member.Model.MemberPolicy;
+using OneAdvisor.Model.Member.Model.Policy;
 using OneAdvisor.Service.Member;
 
 namespace OneAdvisor.Service.Test.Member
 {
     [TestClass]
-    public class MemberPolicyServiceTest
+    public class PolicyServiceTest
     {
 
         [TestMethod]
@@ -30,7 +30,7 @@ namespace OneAdvisor.Service.Test.Member
             var member3 = TestHelper.InsertDefaultMember(options, user3.Organisation);
 
             //Given
-            var policy1 = new MemberPolicyEntity
+            var policy1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
@@ -39,7 +39,7 @@ namespace OneAdvisor.Service.Test.Member
                 Number = "123465"
             };
 
-            var policy2 = new MemberPolicyEntity
+            var policy2 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
@@ -48,7 +48,7 @@ namespace OneAdvisor.Service.Test.Member
                 Number = "654321"
             };
 
-            var policy3 = new MemberPolicyEntity
+            var policy3 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
@@ -59,20 +59,20 @@ namespace OneAdvisor.Service.Test.Member
 
             using (var context = new DataContext(options))
             {
-                context.MemberPolicy.Add(policy1);
-                context.MemberPolicy.Add(policy2);
-                context.MemberPolicy.Add(policy3);
+                context.Policy.Add(policy1);
+                context.Policy.Add(policy2);
+                context.Policy.Add(policy3);
 
                 context.SaveChanges();
             }
 
             using (var context = new DataContext(options))
             {
-                var service = new MemberPolicyService(context);
+                var service = new PolicyService(context);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
-                var queryOptions = new MemberPolicyQueryOptions(scope, "", "", 0, 0);
+                var queryOptions = new PolicyQueryOptions(scope, "", "", 0, 0);
                 var policies = await service.GetPolicies(queryOptions);
 
                 //Then
@@ -90,7 +90,7 @@ namespace OneAdvisor.Service.Test.Member
 
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user1, Scope.User);
-                queryOptions = new MemberPolicyQueryOptions(scope, "", "", 0, 0);
+                queryOptions = new PolicyQueryOptions(scope, "", "", 0, 0);
                 policies = await service.GetPolicies(queryOptions);
 
                 Assert.AreEqual(1, policies.Items.Count());
@@ -109,7 +109,7 @@ namespace OneAdvisor.Service.Test.Member
             var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
             //Given
-            var policy1 = new MemberPolicyEntity
+            var policy1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
@@ -118,7 +118,7 @@ namespace OneAdvisor.Service.Test.Member
                 Number = "123465"
             };
 
-            var policy2 = new MemberPolicyEntity
+            var policy2 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
@@ -129,15 +129,15 @@ namespace OneAdvisor.Service.Test.Member
 
             using (var context = new DataContext(options))
             {
-                context.MemberPolicy.Add(policy1);
-                context.MemberPolicy.Add(policy2);
+                context.Policy.Add(policy1);
+                context.Policy.Add(policy2);
 
                 context.SaveChanges();
             }
 
             using (var context = new DataContext(options))
             {
-                var service = new MemberPolicyService(context);
+                var service = new PolicyService(context);
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
@@ -172,11 +172,11 @@ namespace OneAdvisor.Service.Test.Member
             var member1 = new MemberEntity { Id = Guid.NewGuid(), OrganisationId = org1.Id };
             var member2 = new MemberEntity { Id = Guid.NewGuid(), OrganisationId = org2.Id };
 
-            var policy1 = new MemberPolicyEntity { Id = Guid.NewGuid(), MemberId = member1.Id, UserId = user1.Id };
-            var policy2 = new MemberPolicyEntity { Id = Guid.NewGuid(), MemberId = member1.Id, UserId = user2.Id };
-            var policy3 = new MemberPolicyEntity { Id = Guid.NewGuid(), MemberId = member1.Id, UserId = user3.Id };
-            var policy4 = new MemberPolicyEntity { Id = Guid.NewGuid(), MemberId = member2.Id, UserId = user4.Id };
-            var policy5 = new MemberPolicyEntity { Id = Guid.NewGuid(), MemberId = member1.Id, UserId = user1.Id };
+            var policy1 = new PolicyEntity { Id = Guid.NewGuid(), MemberId = member1.Id, UserId = user1.Id };
+            var policy2 = new PolicyEntity { Id = Guid.NewGuid(), MemberId = member1.Id, UserId = user2.Id };
+            var policy3 = new PolicyEntity { Id = Guid.NewGuid(), MemberId = member1.Id, UserId = user3.Id };
+            var policy4 = new PolicyEntity { Id = Guid.NewGuid(), MemberId = member2.Id, UserId = user4.Id };
+            var policy5 = new PolicyEntity { Id = Guid.NewGuid(), MemberId = member1.Id, UserId = user1.Id };
 
 
             using (var context = new DataContext(options))
@@ -193,18 +193,18 @@ namespace OneAdvisor.Service.Test.Member
                 context.Member.Add(member1);
                 context.Member.Add(member2);
 
-                context.MemberPolicy.Add(policy1);
-                context.MemberPolicy.Add(policy2);
-                context.MemberPolicy.Add(policy3);
-                context.MemberPolicy.Add(policy4);
-                context.MemberPolicy.Add(policy5);
+                context.Policy.Add(policy1);
+                context.Policy.Add(policy2);
+                context.Policy.Add(policy3);
+                context.Policy.Add(policy4);
+                context.Policy.Add(policy5);
 
                 context.SaveChanges();
             }
 
             using (var context = new DataContext(options))
             {
-                var service = new MemberPolicyService(context);
+                var service = new PolicyService(context);
 
                 //When
 
@@ -264,7 +264,7 @@ namespace OneAdvisor.Service.Test.Member
             var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
             //Given
-            var policy1 = new MemberPolicyEntity
+            var policy1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
@@ -275,14 +275,14 @@ namespace OneAdvisor.Service.Test.Member
 
             using (var context = new DataContext(options))
             {
-                context.MemberPolicy.Add(policy1);
+                context.Policy.Add(policy1);
 
                 context.SaveChanges();
             }
 
             using (var context = new DataContext(options))
             {
-                var service = new MemberPolicyService(context);
+                var service = new PolicyService(context);
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
@@ -306,7 +306,7 @@ namespace OneAdvisor.Service.Test.Member
             var user2 = TestHelper.InsertDefaultUserDetailed(options);
 
             //Given
-            var policy1 = new MemberPolicyEdit
+            var policy1 = new PolicyEdit
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
@@ -317,7 +317,7 @@ namespace OneAdvisor.Service.Test.Member
 
             using (var context = new DataContext(options))
             {
-                var service = new MemberPolicyService(context);
+                var service = new PolicyService(context);
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
@@ -326,7 +326,7 @@ namespace OneAdvisor.Service.Test.Member
                 //Then
                 Assert.IsTrue(result.Success);
 
-                var actual = await context.MemberPolicy.FindAsync(((MemberPolicyEdit)result.Tag).Id);
+                var actual = await context.Policy.FindAsync(((PolicyEdit)result.Tag).Id);
                 Assert.AreEqual(policy1.Id, actual.Id);
                 Assert.AreEqual(policy1.MemberId, actual.MemberId);
                 Assert.AreEqual(policy1.CompanyId, actual.CompanyId);
@@ -351,7 +351,7 @@ namespace OneAdvisor.Service.Test.Member
             var user2 = TestHelper.InsertDefaultUserDetailed(options);
 
             //Given
-            var policyEntity1 = new MemberPolicyEntity
+            var policyEntity1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
@@ -362,12 +362,12 @@ namespace OneAdvisor.Service.Test.Member
 
             using (var context = new DataContext(options))
             {
-                context.MemberPolicy.Add(policyEntity1);
+                context.Policy.Add(policyEntity1);
 
                 context.SaveChanges();
             }
 
-            var policy1 = new MemberPolicyEdit
+            var policy1 = new PolicyEdit
             {
                 Id = policyEntity1.Id,
                 CompanyId = Guid.NewGuid(),
@@ -378,7 +378,7 @@ namespace OneAdvisor.Service.Test.Member
 
             using (var context = new DataContext(options))
             {
-                var service = new MemberPolicyService(context);
+                var service = new PolicyService(context);
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
@@ -387,7 +387,7 @@ namespace OneAdvisor.Service.Test.Member
                 //Then
                 Assert.IsTrue(result.Success);
 
-                var actual = await context.MemberPolicy.FindAsync(policyEntity1.Id);
+                var actual = await context.Policy.FindAsync(policyEntity1.Id);
                 Assert.AreEqual(policy1.Id, actual.Id);
                 Assert.AreEqual(policy1.MemberId, actual.MemberId);
                 Assert.AreEqual(policy1.CompanyId, actual.CompanyId);

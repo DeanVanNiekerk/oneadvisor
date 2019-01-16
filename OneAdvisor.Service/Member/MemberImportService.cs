@@ -11,7 +11,7 @@ using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Member.Interface;
 using OneAdvisor.Model.Member.Model.ImportMember;
 using OneAdvisor.Model.Member.Model.Member;
-using OneAdvisor.Model.Member.Model.MemberPolicy;
+using OneAdvisor.Model.Member.Model.Policy;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Member.Validators;
 
@@ -21,13 +21,13 @@ namespace OneAdvisor.Service.Member
     {
         private readonly DataContext _context;
         private readonly IMemberService _memberService;
-        private readonly IMemberPolicyService _memberPolicyService;
+        private readonly IPolicyService _policyService;
 
-        public MemberImportService(DataContext context, IMemberService memberService, IMemberPolicyService memberPolicyService)
+        public MemberImportService(DataContext context, IMemberService memberService, IPolicyService policyService)
         {
             _context = context;
             _memberService = memberService;
-            _memberPolicyService = memberPolicyService;
+            _policyService = policyService;
         }
 
         public async Task<Result> ImportMember(ScopeOptions scope, ImportMember data)
@@ -116,33 +116,33 @@ namespace OneAdvisor.Service.Member
                 member = (MemberEdit)result.Tag;
             }
 
-            result = await ImportMemberPolicy(scope, data, member, userId);
+            result = await ImportPolicy(scope, data, member, userId);
 
             return result;
         }
 
-        private async Task<Result> ImportMemberPolicy(ScopeOptions scope, ImportMember data, MemberEdit member, string userId)
+        private async Task<Result> ImportPolicy(ScopeOptions scope, ImportMember data, MemberEdit member, string userId)
         {
             var result = new Result(true);
 
             if (string.IsNullOrWhiteSpace(data.PolicyNumber))
                 return result;
 
-            var policy = await _memberPolicyService.GetPolicy(scope, member.Id.Value, data.PolicyCompanyId.Value, data.PolicyNumber);
+            var policy = await _policyService.GetPolicy(scope, member.Id.Value, data.PolicyCompanyId.Value, data.PolicyNumber);
 
             //Policy exits, update
             if (policy != null)
             {
                 policy.UserId = userId;
 
-                result = await _memberPolicyService.UpdatePolicy(scope, policy);
+                result = await _policyService.UpdatePolicy(scope, policy);
 
                 if (!result.Success)
                     return result;
             }
             else //else insert
             {
-                policy = new MemberPolicyEdit()
+                policy = new PolicyEdit()
                 {
                     MemberId = member.Id.Value,
                     CompanyId = data.PolicyCompanyId.Value,
@@ -150,7 +150,7 @@ namespace OneAdvisor.Service.Member
                     UserId = userId
                 };
 
-                result = await _memberPolicyService.InsertPolicy(scope, policy);
+                result = await _policyService.InsertPolicy(scope, policy);
 
                 if (!result.Success)
                     return result;

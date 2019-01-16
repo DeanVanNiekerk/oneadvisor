@@ -12,7 +12,7 @@ using api.App.Dtos;
 using OneAdvisor.Model.Member.Model.Member;
 using Microsoft.AspNetCore.Http;
 using OneAdvisor.Model.Directory.Interface;
-using api.Controllers.Member.Member.Dto;
+using api.Controllers.Member.Members.Dto;
 
 namespace api.Controllers.Directory.Members
 {

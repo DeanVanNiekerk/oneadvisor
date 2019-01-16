@@ -11,9 +11,7 @@ namespace OneAdvisor.Data.Entities.Member
         public Guid Id { get; set; }
         [Required]
         public Guid OrganisationId { get; set; }
-        [Required]
         public string FirstName { get; set; }
-        [Required]
         public string LastName { get; set; }
         public string MaidenName { get; set; }
         public string Initials { get; set; }
@@ -22,7 +20,7 @@ namespace OneAdvisor.Data.Entities.Member
         public DateTime? DateOfBirth { get; set; }
         public string PassportNumber { get; set; }
 
-        public virtual ICollection<MemberPolicyEntity> MemberPolicies { get; set; }
+        public virtual ICollection<PolicyEntity> MemberPolicies { get; set; }
         public virtual OrganisationEntity Organisation { get; set; }
     }
 }

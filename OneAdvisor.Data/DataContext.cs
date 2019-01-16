@@ -35,7 +35,7 @@ namespace OneAdvisor.Data
         #region Member
 
         public DbSet<MemberEntity> Member { get; set; }
-        public DbSet<MemberPolicyEntity> MemberPolicy { get; set; }
+        public DbSet<PolicyEntity> Policy { get; set; }
 
         #endregion
 
@@ -65,10 +65,10 @@ namespace OneAdvisor.Data
             #region Member
 
             modelBuilder.Entity<MemberEntity>().ToTable("mem_Member");
-            modelBuilder.Entity<MemberPolicyEntity>().ToTable("mem_MemberPolicy");
+            modelBuilder.Entity<PolicyEntity>().ToTable("mem_Policy");
 
             //Custom mappings
-            MemberPolicyMap.Map(modelBuilder);
+            PolicyMap.Map(modelBuilder);
 
             #endregion
 

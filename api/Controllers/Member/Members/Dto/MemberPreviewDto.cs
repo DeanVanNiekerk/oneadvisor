@@ -1,6 +1,6 @@
 using System;
 
-namespace api.Controllers.Member.Member.Dto
+namespace api.Controllers.Member.Members.Dto
 {
     public class MemberPreviewDto
     {

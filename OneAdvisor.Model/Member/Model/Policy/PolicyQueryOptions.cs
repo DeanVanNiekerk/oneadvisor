@@ -2,11 +2,11 @@ using System;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Auth;
 
-namespace OneAdvisor.Model.Member.Model.MemberPolicy
+namespace OneAdvisor.Model.Member.Model.Policy
 {
-    public class MemberPolicyQueryOptions : QueryOptionsBase
+    public class PolicyQueryOptions : QueryOptionsBase
     {
-        public MemberPolicyQueryOptions(ScopeOptions scope, string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
+        public PolicyQueryOptions(ScopeOptions scope, string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
         : base(sortColumn, sortDirection, pageSize, pageNumber, filters)
         {
             Scope = scope;

@@ -181,7 +181,7 @@ namespace OneAdvisor.Data.Migrations
                     b.ToTable("mem_Member");
                 });
 
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Member.MemberPolicyEntity", b =>
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Member.PolicyEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -205,7 +205,7 @@ namespace OneAdvisor.Data.Migrations
                     b.HasIndex("CompanyId", "Number")
                         .IsUnique();
 
-                    b.ToTable("mem_MemberPolicy");
+                    b.ToTable("mem_Policy");
                 });
 
             modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.BranchEntity", b =>
@@ -261,7 +261,7 @@ namespace OneAdvisor.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Member.MemberPolicyEntity", b =>
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Member.PolicyEntity", b =>
                 {
                     b.HasOne("OneAdvisor.Data.Entities.Directory.Lookup.CompanyEntity", "Company")
                         .WithMany("MemberPolicies")

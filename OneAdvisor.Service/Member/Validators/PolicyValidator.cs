@@ -1,11 +1,11 @@
 using FluentValidation;
-using OneAdvisor.Model.Member.Model.MemberPolicy;
+using OneAdvisor.Model.Member.Model.Policy;
 
 namespace OneAdvisor.Service.Member.Validators
 {
-    public class MemberPolicyValidator : AbstractValidator<MemberPolicyEdit>
+    public class PolicyValidator : AbstractValidator<PolicyEdit>
     {
-        public MemberPolicyValidator(bool isInsert)
+        public PolicyValidator(bool isInsert)
         {
             if (!isInsert)
                 RuleFor(p => p.Id).NotEmpty();

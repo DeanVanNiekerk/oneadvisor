@@ -12,7 +12,7 @@ import { RootState } from '@/state/rootReducer';
 import { Button, Table } from '@/ui/controls';
 
 /*
-InvalidOperationException: The property 'Id' on entity type 'MemberPolicyEntity' 
+InvalidOperationException: The property 'Id' on entity type 'PolicyEntity' 
 is part of a key and so cannot be modified or marked as modified. 
 To change the principal of an existing entity with an identifying foreign key first delete the dependent and invoke 'SaveChanges' 
 then associate the dependent with the new principal.

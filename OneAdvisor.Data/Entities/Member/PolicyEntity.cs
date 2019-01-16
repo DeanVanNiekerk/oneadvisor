@@ -5,7 +5,7 @@ using OneAdvisor.Data.Entities.Directory.Lookup;
 
 namespace OneAdvisor.Data.Entities.Member
 {
-    public class MemberPolicyEntity
+    public class PolicyEntity
     {
         [Key]
         public Guid Id { get; set; }

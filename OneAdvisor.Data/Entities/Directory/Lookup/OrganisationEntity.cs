@@ -12,6 +12,6 @@ namespace OneAdvisor.Data.Entities.Directory.Lookup
         [Required]
         public string Name { get; set; }
 
-        public virtual ICollection<MemberPolicyEntity> MemberPolicies { get; set; }
+        public virtual ICollection<PolicyEntity> MemberPolicies { get; set; }
     }
 }

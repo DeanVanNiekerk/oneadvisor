@@ -92,7 +92,7 @@ namespace api.App.Setup
             //MEMBER
             Services.AddScoped<IMemberService, MemberService>();
             Services.AddScoped<IMemberImportService, MemberImportService>();
-            Services.AddScoped<IMemberPolicyService, MemberPolicyService>();
+            Services.AddScoped<IPolicyService, PolicyService>();
         }
 
         public void ConfigureMapper(IMapper mapper)

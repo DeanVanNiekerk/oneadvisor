@@ -8,29 +8,29 @@ using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Auth;
 using OneAdvisor.Model.Member.Interface;
-using OneAdvisor.Model.Member.Model.MemberPolicy;
+using OneAdvisor.Model.Member.Model.Policy;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Member.Validators;
 
 namespace OneAdvisor.Service.Member
 {
-    public class MemberPolicyService : IMemberPolicyService
+    public class PolicyService : IPolicyService
     {
         private readonly DataContext _context;
 
-        public MemberPolicyService(DataContext context)
+        public PolicyService(DataContext context)
         {
             _context = context;
         }
 
-        public async Task<PagedItems<MemberPolicy>> GetPolicies(MemberPolicyQueryOptions queryOptions)
+        public async Task<PagedItems<Policy>> GetPolicies(PolicyQueryOptions queryOptions)
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
 
             var query = from user in userQuery
-                        join policy in _context.MemberPolicy
+                        join policy in _context.Policy
                             on user.Id equals policy.UserId
-                        select new MemberPolicy()
+                        select new Policy()
                         {
                             Id = policy.Id,
                             MemberId = policy.MemberId,
@@ -40,7 +40,7 @@ namespace OneAdvisor.Service.Member
                         };
 
             //Get total before applying filters
-            var pagedItems = new PagedItems<MemberPolicy>();
+            var pagedItems = new PagedItems<Policy>();
             pagedItems.TotalItems = await query.CountAsync();
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -57,18 +57,18 @@ namespace OneAdvisor.Service.Member
             return pagedItems;
         }
 
-        public Task<MemberPolicyEdit> GetPolicy(ScopeOptions scope, Guid id)
+        public Task<PolicyEdit> GetPolicy(ScopeOptions scope, Guid id)
         {
-            var query = from policy in GetMemberPolicyEditQuery(scope)
+            var query = from policy in GetPolicyEditQuery(scope)
                         where policy.Id == id
                         select policy;
 
             return query.FirstOrDefaultAsync();
         }
 
-        public Task<MemberPolicyEdit> GetPolicy(ScopeOptions scope, Guid memberId, Guid companyId, string number)
+        public Task<PolicyEdit> GetPolicy(ScopeOptions scope, Guid memberId, Guid companyId, string number)
         {
-            var query = from policy in GetMemberPolicyEditQuery(scope)
+            var query = from policy in GetPolicyEditQuery(scope)
                         where policy.Number == number
                         && policy.MemberId == memberId
                         && policy.CompanyId == companyId
@@ -77,9 +77,9 @@ namespace OneAdvisor.Service.Member
             return query.FirstOrDefaultAsync();
         }
 
-        public async Task<Result> InsertPolicy(ScopeOptions scope, MemberPolicyEdit policy)
+        public async Task<Result> InsertPolicy(ScopeOptions scope, PolicyEdit policy)
         {
-            var validator = new MemberPolicyValidator(true);
+            var validator = new PolicyValidator(true);
             var result = validator.Validate(policy).GetResult();
 
             if (!result.Success)
@@ -91,7 +91,7 @@ namespace OneAdvisor.Service.Member
                 return result;
 
             var entity = MapModelToEntity(policy);
-            await _context.MemberPolicy.AddAsync(entity);
+            await _context.Policy.AddAsync(entity);
             await _context.SaveChangesAsync();
 
             policy.Id = entity.Id;
@@ -100,9 +100,9 @@ namespace OneAdvisor.Service.Member
             return result;
         }
 
-        public async Task<Result> UpdatePolicy(ScopeOptions scope, MemberPolicyEdit policy)
+        public async Task<Result> UpdatePolicy(ScopeOptions scope, PolicyEdit policy)
         {
-            var validator = new MemberPolicyValidator(true);
+            var validator = new PolicyValidator(true);
             var result = validator.Validate(policy).GetResult();
 
             if (!result.Success)
@@ -113,7 +113,7 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
-            var query = from pol in GetMemberPolicyEntityQuery(scope)
+            var query = from pol in GetPolicyEntityQuery(scope)
                         where pol.Id == policy.Id
                         select pol;
 
@@ -129,10 +129,10 @@ namespace OneAdvisor.Service.Member
             return result;
         }
 
-        private IQueryable<MemberPolicyEdit> GetMemberPolicyEditQuery(ScopeOptions scope)
+        private IQueryable<PolicyEdit> GetPolicyEditQuery(ScopeOptions scope)
         {
-            var query = from policy in GetMemberPolicyEntityQuery(scope)
-                        select new MemberPolicyEdit()
+            var query = from policy in GetPolicyEntityQuery(scope)
+                        select new PolicyEdit()
                         {
                             Id = policy.Id,
                             MemberId = policy.MemberId,
@@ -144,22 +144,22 @@ namespace OneAdvisor.Service.Member
             return query;
         }
 
-        private IQueryable<MemberPolicyEntity> GetMemberPolicyEntityQuery(ScopeOptions scope)
+        private IQueryable<PolicyEntity> GetPolicyEntityQuery(ScopeOptions scope)
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
 
             var query = from user in userQuery
-                        join memberPolicy in _context.MemberPolicy
-                            on user.Id equals memberPolicy.UserId
-                        select memberPolicy;
+                        join policy in _context.Policy
+                            on user.Id equals policy.UserId
+                        select policy;
 
             return query;
         }
 
-        private MemberPolicyEntity MapModelToEntity(MemberPolicyEdit model, MemberPolicyEntity entity = null)
+        private PolicyEntity MapModelToEntity(PolicyEdit model, PolicyEntity entity = null)
         {
             if (entity == null)
-                entity = new MemberPolicyEntity();
+                entity = new PolicyEntity();
 
             entity.MemberId = model.MemberId;
             entity.Number = model.Number;

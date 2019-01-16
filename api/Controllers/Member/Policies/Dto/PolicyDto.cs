@@ -1,10 +1,10 @@
 using System;
 
-namespace OneAdvisor.Model.Member.Model.MemberPolicy
+namespace api.Controllers.Member.Policies.Dto
 {
-    public class MemberPolicyEdit
+    public class PolicyDto
     {
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
         public Guid MemberId { get; set; }
         public Guid CompanyId { get; set; }
         public string UserId { get; set; }

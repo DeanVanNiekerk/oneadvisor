@@ -1,10 +1,10 @@
 using System;
 
-namespace api.Controllers.Member.Member.Dto
+namespace api.Controllers.Member.Members.Dto
 {
-    public class MemberDto
+    public class MemberEditDto
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MaidenName { get; set; }

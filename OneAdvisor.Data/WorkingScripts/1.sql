@@ -18,7 +18,7 @@ from dir_User
 select *
 from mem_Member
 select *
-from mem_MemberPolicy
+from mem_Policy
 
 
 

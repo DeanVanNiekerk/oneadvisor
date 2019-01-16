@@ -3,3 +3,15 @@
 SELECT TABLE_NAME
 FROM INFORMATION_SCHEMA.TABLES
 WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='OneAdvisor'
+
+/*
+DROP TABLE mem_Member
+DROP TABLE dir_Application
+DROP TABLE dir_Role
+DROP TABLE dir_UseCase
+DROP TABLE dir_Organisation
+DROP TABLE dir_RoleToUseCase
+DROP TABLE dir_Branch
+DROP TABLE dir_User
+DROP TABLE lkp_Company
+*/

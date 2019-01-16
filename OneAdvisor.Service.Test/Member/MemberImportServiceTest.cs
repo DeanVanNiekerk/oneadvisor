@@ -197,8 +197,8 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
-                var memberPolicyService = new MemberPolicyService(context);
-                var service = new MemberImportService(context, memberService, memberPolicyService);
+                var policyService = new PolicyService(context);
+                var service = new MemberImportService(context, memberService, policyService);
 
                 //When
                 var data = new ImportMember()
@@ -217,7 +217,7 @@ namespace OneAdvisor.Service.Test.Member
                 //Then
                 Assert.IsTrue(result.Success);
 
-                var actual = await context.MemberPolicy.FirstOrDefaultAsync(m => m.Number == data.PolicyNumber);
+                var actual = await context.Policy.FirstOrDefaultAsync(m => m.Number == data.PolicyNumber);
                 Assert.AreEqual(data.PolicyCompanyId, actual.CompanyId);
                 Assert.AreEqual(user1.User.Id, actual.UserId);
             }
@@ -243,8 +243,8 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
-                var memberPolicyService = new MemberPolicyService(context);
-                var service = new MemberImportService(context, memberService, memberPolicyService);
+                var policyService = new PolicyService(context);
+                var service = new MemberImportService(context, memberService, policyService);
 
                 //When
                 var data = new ImportMember()
@@ -263,7 +263,7 @@ namespace OneAdvisor.Service.Test.Member
                 //Then
                 Assert.IsTrue(result.Success);
 
-                var actual = await context.MemberPolicy.FirstOrDefaultAsync(m => m.Number == data.PolicyNumber);
+                var actual = await context.Policy.FirstOrDefaultAsync(m => m.Number == data.PolicyNumber);
                 Assert.AreEqual(data.PolicyCompanyId, actual.CompanyId);
                 Assert.AreEqual(user1.User.Id, actual.UserId);
             }
@@ -281,7 +281,7 @@ namespace OneAdvisor.Service.Test.Member
             var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
 
             //Given
-            var policyEntity1 = new MemberPolicyEntity
+            var policyEntity1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
@@ -292,7 +292,7 @@ namespace OneAdvisor.Service.Test.Member
 
             using (var context = new DataContext(options))
             {
-                context.MemberPolicy.Add(policyEntity1);
+                context.Policy.Add(policyEntity1);
 
                 context.SaveChanges();
             }
@@ -300,8 +300,8 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
-                var memberPolicyService = new MemberPolicyService(context);
-                var service = new MemberImportService(context, memberService, memberPolicyService);
+                var policyService = new PolicyService(context);
+                var service = new MemberImportService(context, memberService, policyService);
 
                 //When
                 var data = new ImportMember()
@@ -320,7 +320,7 @@ namespace OneAdvisor.Service.Test.Member
                 //Then
                 Assert.IsTrue(result.Success);
 
-                var actual = await context.MemberPolicy.FirstOrDefaultAsync(m => m.Number == data.PolicyNumber);
+                var actual = await context.Policy.FirstOrDefaultAsync(m => m.Number == data.PolicyNumber);
                 Assert.AreEqual(data.PolicyCompanyId, actual.CompanyId);
                 Assert.AreEqual(user1.User.Id, actual.UserId);
             }
