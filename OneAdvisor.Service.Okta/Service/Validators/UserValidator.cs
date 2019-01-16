@@ -17,24 +17,7 @@ namespace OneAdvisor.Service.Okta.Service.Validators
             RuleFor(u => u.BranchId).NotEmpty();
             RuleFor(u => u.Login).NotEmpty();
             RuleFor(u => u.Email).NotEmpty().EmailAddress();
-
-
-            //Validation todo: 
-            //is valid role
-            //is valid organisation
-
-
-            //RuleFor(u => u.Status).Must(BeAValidStatus).WithMessage("Must be a valid status");
+            RuleForEach(x => x.Aliases).NotEmpty().MaximumLength(64);
         }
-
-        // private bool BeAValidStatus(string status) {
-        //     var statusList = new List<string>() {
-        //         "ACTIVE",
-        //         "STAGED",
-        //         "PROVISIONED",
-        //         "ACTIVE"
-        //     };
-        //     return statusList.Any(s => s == status);
-        // }
     }
 }

@@ -48,10 +48,11 @@ namespace OneAdvisor.Service.Okta.Service
 
             var query = userDtos.Select(dto => MapDtoToModel(dto)).AsQueryable();
 
-            var usersScoped = await ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope).Select(u => u.Id).ToListAsync();
+            var usersScoped = await ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope).ToListAsync();
+            var userIdsScoped = usersScoped.Select(u => u.Id);
 
             //Apply scope
-            query = query.Where(u => usersScoped.Contains(u.Id));
+            query = query.Where(u => userIdsScoped.Contains(u.Id));
 
             //Get total before applying filters
             var pagedItems = new PagedItems<User>();
@@ -67,12 +68,15 @@ namespace OneAdvisor.Service.Okta.Service
             //Paging
             pagedItems.Items = query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToList();
 
-            //Set organisation id
+            //Update properties
             var branches = await _context.Branch.ToListAsync();
             foreach (var item in pagedItems.Items)
             {
-                var branch = branches.Find(b => b.Id == item.BranchId);
+                var user = usersScoped.Find(u => u.Id == item.Id);
+                if (user != null)
+                    item.Aliases = user.Aliases;
 
+                var branch = branches.Find(b => b.Id == item.BranchId);
                 if (branch != null)
                     item.OrganisationId = branch.OrganisationId;
             }
@@ -82,9 +86,9 @@ namespace OneAdvisor.Service.Okta.Service
 
         public async Task<UserEdit> GetUser(ScopeOptions scope, string id)
         {
-            var result = await ScopeQuery.IsUserInScopeResult(_context, scope, id);
+            var userEntity = await ScopeQuery.GetUserEntityQuery(_context, scope).FirstOrDefaultAsync(u => u.Id == id);
 
-            if (!result.Success)
+            if (userEntity == null)
                 return null;
 
             var serializer = new DataContractJsonSerializer(typeof(UserDto));
@@ -97,6 +101,7 @@ namespace OneAdvisor.Service.Okta.Service
             var roleIds = await GetUserRoleIds(id);
 
             user.RoleIds = roleIds;
+            user.Aliases = userEntity.Aliases;
 
             return user;
         }
@@ -122,7 +127,7 @@ namespace OneAdvisor.Service.Okta.Service
             result = await ScopeQuery.IsUserInScopeResult(_context, scope, user.Id);
 
             if (!result.Success)
-                return null;
+                return result;
 
             var dto = MapModelToDto(user);
 
@@ -262,7 +267,8 @@ namespace OneAdvisor.Service.Okta.Service
                     Id = user.id,
                     FirstName = user.profile.firstName,
                     LastName = user.profile.lastName,
-                    BranchId = Guid.Parse(user.profile.branchId)
+                    BranchId = Guid.Parse(user.profile.branchId),
+                    Aliases = new List<string>()
                 };
 
                 await SyncLocalUser(entity);
@@ -322,13 +328,7 @@ namespace OneAdvisor.Service.Okta.Service
 
         private async Task InsertLocalUser(UserEdit user)
         {
-            var entity = new UserEntity()
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                BranchId = user.BranchId.Value
-            };
+            var entity = MapEditUserToEntity(user);
 
             _context.User.Add(entity);
             await _context.SaveChangesAsync();
@@ -337,11 +337,23 @@ namespace OneAdvisor.Service.Okta.Service
         {
             var entity = _context.User.Find(user.Id);
 
+            entity = MapEditUserToEntity(user, entity);
+
+            await _context.SaveChangesAsync();
+        }
+
+        private UserEntity MapEditUserToEntity(UserEdit user, UserEntity entity = null)
+        {
+            if (entity == null)
+                entity = new UserEntity();
+
+            entity.Id = user.Id;
             entity.FirstName = user.FirstName;
             entity.LastName = user.LastName;
             entity.BranchId = user.BranchId.Value;
+            entity.Aliases = user.Aliases.ToArray();
 
-            await _context.SaveChangesAsync();
+            return entity;
         }
 
         private async Task<List<GroupDto>> GetAllGroups()

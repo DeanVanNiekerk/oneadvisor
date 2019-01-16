@@ -54,7 +54,8 @@ class UserList extends Component<Props, State> {
             branchId: '',
             scope: 1,
             roleIds: [],
-            assistantToUserId: ''
+            assistantToUserId: '',
+            aliases: []
         };
 
         this.props.dispatch(receiveUser(user));

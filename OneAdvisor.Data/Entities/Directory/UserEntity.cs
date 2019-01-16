@@ -15,9 +15,10 @@ namespace OneAdvisor.Data.Entities.Directory
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
+        [Required]
+        public string[] Aliases { get; set; }
 
         public virtual BranchEntity Branch { get; set; }
-        public virtual ICollection<UserAliasEntity> Aliases { get; set; }
         public virtual ICollection<MemberPolicyEntity> MemberPolicies { get; set; }
     }
 }

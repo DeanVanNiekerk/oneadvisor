@@ -25,3 +25,8 @@ export const removeValidationError = (
     results.splice(index, 1);
     return results;
 };
+
+export const formatValue = (value: any): string => {
+    if (value === undefined || value === null) return '';
+    return value.toString().toLowerCase();
+};

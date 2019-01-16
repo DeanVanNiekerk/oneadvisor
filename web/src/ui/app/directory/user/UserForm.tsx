@@ -10,11 +10,11 @@ import { Organisation } from '@/state/app/directory/organisations';
 import { Role } from '@/state/app/directory/roles';
 import { UserEdit } from '@/state/app/directory/users';
 import { RootState } from '@/state/rootReducer';
-import { Form, FormErrors, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
+import { Form, FormErrors, FormInput, FormSelect, FormSimpleList, TabPane, Tabs } from '@/ui/controls';
 
 import BranchSelect from './BranchSelect';
 
-type TabKey = 'details_tab' | 'roles_tab';
+type TabKey = 'details_tab' | 'roles_tab' | 'aliases_tab';
 
 type Props = {
     user: UserEdit;
@@ -183,6 +183,17 @@ class UserForm extends Component<Props, State> {
                                 className="mb-2"
                             />
                         ))}
+                    </TabPane>
+                    <TabPane tab="Aliases" key="aliases_tab">
+                        <FormSimpleList
+                            fieldName="Aliases"
+                            displayName="Alias"
+                            values={user.aliases}
+                            onChange={(aliases: string[]) =>
+                                this.handleChange('aliases', aliases)
+                            }
+                            validationResults={validationResults}
+                        />
                     </TabPane>
                 </Tabs>
             </>

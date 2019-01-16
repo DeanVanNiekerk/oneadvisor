@@ -65,3 +65,10 @@ ALIGNMENT
 .text-right {
     text-align: right;
 }
+
+/* 
+TEXT WEIGHT
+*/
+.font-weight-normal {
+    font-weight: normal !important;
+}

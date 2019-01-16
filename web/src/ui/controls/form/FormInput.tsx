@@ -1,5 +1,5 @@
 import { Input } from 'antd';
-import React, { Component, LegacyRef } from 'react';
+import React, { Component } from 'react';
 
 import { ValidationResult } from '@/app/validation';
 
@@ -24,9 +24,8 @@ class FormInput extends Component<Props> {
     componentDidMount() {
         if (this.firstNameInput) {
             setTimeout(() => {
-                console.log('focus');
                 if (this.firstNameInput) this.firstNameInput.focus();
-            }, 500);
+            }, 100);
         }
     }
 

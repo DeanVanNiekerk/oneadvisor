@@ -1,20 +1,19 @@
 import { getValidationResult } from '@/test';
 
+import { UserEdit } from '../';
 import { defaultState, reducer } from './reducer';
 
-const defaultUser = {
+const defaultUser: UserEdit = {
     id: '10',
     firstName: 'Dean',
     lastName: 'Jackson',
     email: 'dean@gmail.com',
     login: 'dean',
-    lastLogin: '',
-    lastUpdated: '',
-    status: 'ACTIVE',
     branchId: '12341234',
     roleIds: ['role_1'],
     scope: 1,
-    assistantToUserId: ''
+    assistantToUserId: '',
+    aliases: ['DJ']
 };
 
 describe('user reducer', () => {

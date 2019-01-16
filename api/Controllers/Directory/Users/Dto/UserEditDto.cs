@@ -14,6 +14,7 @@ namespace api.Controllers.Directory.Users.Dto
         public Guid? BranchId { get; set; }
         public IEnumerable<string> RoleIds { get; set; }
         public Scope Scope { get; set; }
+        public IEnumerable<string> Aliases { get; set; }
         public string AssistantToUserId { get; set; }
     }
 }

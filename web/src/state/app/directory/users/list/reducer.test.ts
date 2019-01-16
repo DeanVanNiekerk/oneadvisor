@@ -52,7 +52,8 @@ describe('user list reducer', () => {
             organisationId: '432221',
             branchId: '12341234',
             scope: 1,
-            assistantToUserId: ''
+            assistantToUserId: '',
+            aliases: []
         };
 
         const actualState = reducer(initalState, {

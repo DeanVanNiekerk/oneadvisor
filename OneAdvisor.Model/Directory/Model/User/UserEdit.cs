@@ -5,6 +5,12 @@ namespace OneAdvisor.Model.Directory.Model.User
 {
     public class UserEdit
     {
+        public UserEdit()
+        {
+            RoleIds = new List<string>();
+            Aliases = new List<string>();
+        }
+
         public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -13,6 +19,7 @@ namespace OneAdvisor.Model.Directory.Model.User
         public Guid? BranchId { get; set; }
         public IEnumerable<string> RoleIds { get; set; }
         public Scope Scope { get; set; }
+        public IEnumerable<string> Aliases { get; set; }
         public string AssistantToUserId { get; set; }
     }
 }

@@ -7,7 +7,6 @@ using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Auth;
-using OneAdvisor.Model.Exceptions;
 using OneAdvisor.Model.Member.Interface;
 using OneAdvisor.Model.Member.Model.Member;
 using OneAdvisor.Service.Common.Query;

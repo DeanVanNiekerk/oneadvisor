@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using OneAdvisor.Model.Directory.Model.User;
 
 namespace api.Controllers.Directory.Users.Dto
@@ -17,6 +18,7 @@ namespace api.Controllers.Directory.Users.Dto
         public Guid OrganisationId { get; set; }
         public Guid BranchId { get; set; }
         public Scope Scope { get; set; }
+        public IEnumerable<string> Aliases { get; set; }
         public string AssistantToUserId { get; set; }
 
     }

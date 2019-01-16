@@ -1,7 +1,7 @@
 import { Form, Spin } from 'antd';
 import React, { ReactNode } from 'react';
 
-import { getValidationError, ValidationResult } from '@/app/validation';
+import { formatValue, getValidationError, ValidationResult } from '@/app/validation';
 
 import { FormLayout } from './Form';
 
@@ -29,17 +29,11 @@ class FormField extends React.Component<Props> {
 
         //If the value has changed then dont show message
         if (
-            this.formatValue(result.attemptedValue) !==
-            this.formatValue(this.props.value)
+            formatValue(result.attemptedValue) !== formatValue(this.props.value)
         )
             return null;
 
         return result.errorMessage;
-    };
-
-    formatValue = (value: any) => {
-        if (value === undefined || value === null) return '';
-        return value.toString().toLowerCase();
     };
 
     render() {

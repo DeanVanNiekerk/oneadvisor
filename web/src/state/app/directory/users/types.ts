@@ -9,6 +9,7 @@ export type User = {
     status: string;
     organisationId: string;
     branchId: string;
+    aliases: string[];
     scope: number;
     assistantToUserId: string;
 };
@@ -22,5 +23,6 @@ export type UserEdit = {
     branchId: string;
     roleIds: string[];
     scope: number;
+    aliases: string[];
     assistantToUserId: string;
 };
