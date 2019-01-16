@@ -1,6 +1,4 @@
-import { string } from 'prop-types';
-
-import { filter, Filters, PageOptions, SortOptions } from '@/app/table';
+import { Filters, PageOptions, SortOptions } from '@/app/table';
 
 export const appendPageOptionQuery = (
     api: string,
@@ -27,11 +25,11 @@ export const appendSortOptionQuery = (
     const query: Param[] = [
         {
             key: 'sortColumn',
-            value: options.column
+            value: options.column ? options.column : ''
         },
         {
             key: 'sortDirection',
-            value: options.direction
+            value: options.direction ? options.direction : ''
         }
     ];
 
@@ -75,6 +73,18 @@ export const appendQueryString = (url: string, params: Param[]): string => {
     const parsed = parseUrl(url);
     parsed.params = parsed.params.concat(params);
     return formatUrl(parsed);
+};
+
+export const applyLike = (filters: Filters, fieldNames: string[]): Filters => {
+    const newFilters: Filters = {};
+    Object.keys(filters).forEach(key => {
+        newFilters[key] = filters[key].map(f => {
+            if (fieldNames.indexOf(key) !== -1) return `%${f}%`;
+            return f;
+        });
+    });
+
+    return newFilters;
 };
 
 type Param = {

@@ -1,4 +1,4 @@
-import { appendQueryString } from './query';
+import { appendQueryString, applyLike } from './query';
 
 describe('query', () => {
     it('appendQueryString - no existing query string', () => {
@@ -29,5 +29,19 @@ describe('query', () => {
         ]);
 
         expect(actual).toBe('https://oneadvisor?paramx=yyy&param1=1&param2=2');
+    });
+
+    it('applyLike', () => {
+        const filters = {
+            field1: ['val1', 'val1'],
+            field2: ['val3', 'val4']
+        };
+
+        const actual = applyLike(filters, ['field1']);
+
+        expect(actual).toEqual({
+            field1: ['%val1%', '%val1%'],
+            field2: ['val3', 'val4']
+        });
     });
 });

@@ -11,13 +11,28 @@ namespace OneAdvisor.Model.Member.Model.Policy
         {
             Scope = scope;
 
-            var result = GetFilterValue<Guid>("MemberId");
+            var result = GetFilterValue<string>("Number");
             if (result.Success)
-                MemberId = result.Value;
+                Number = result.Value;
+
+            result = GetFilterValue<string>("UserId");
+            if (result.Success)
+                UserId = result.Value;
+
+            var resultGuid = GetFilterValue<Guid>("MemberId");
+            if (resultGuid.Success)
+                MemberId = resultGuid.Value;
+
+            resultGuid = GetFilterValue<Guid>("CompanyId");
+            if (resultGuid.Success)
+                CompanyId = resultGuid.Value;
         }
 
         public ScopeOptions Scope { get; set; }
 
         public Guid? MemberId { get; set; }
+        public Guid? CompanyId { get; set; }
+        public string Number { get; set; }
+        public string UserId { get; set; }
     }
 }

@@ -46,6 +46,15 @@ namespace OneAdvisor.Service.Member
             //Apply filters ----------------------------------------------------------------------------------------
             if (queryOptions.MemberId.HasValue)
                 query = query.Where(m => m.MemberId == queryOptions.MemberId.Value);
+
+            if (queryOptions.CompanyId.HasValue)
+                query = query.Where(m => m.CompanyId == queryOptions.CompanyId.Value);
+
+            if (!string.IsNullOrWhiteSpace(queryOptions.UserId))
+                query = query.Where(m => m.UserId == queryOptions.UserId);
+
+            if (!string.IsNullOrWhiteSpace(queryOptions.Number))
+                query = query.Where(m => EF.Functions.Like(m.Number, $"{queryOptions.Number}"));
             //------------------------------------------------------------------------------------------------------
 
             //Ordering
@@ -113,11 +122,7 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
-            var query = from pol in GetPolicyEntityQuery(scope)
-                        where pol.Id == policy.Id
-                        select pol;
-
-            var entity = await query.SingleOrDefaultAsync();
+            var entity = await _context.Policy.FindAsync(policy.Id);
 
             if (entity == null)
                 return new Result();

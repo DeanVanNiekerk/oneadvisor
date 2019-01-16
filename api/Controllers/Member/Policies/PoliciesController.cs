@@ -18,7 +18,7 @@ namespace api.Controllers.Directory.Members
 {
 
     [ApiController]
-    [Route("api/member/members")]
+    [Route("api/member/policies")]
     public class PoliciesController : BaseController
     {
         public PoliciesController(IHttpContextAccessor contextAccessor, IMapper mapper, IPolicyService policyService, IAuthService authService)

@@ -1,11 +1,11 @@
 import { Filters, PageOptions, SortOptions } from '@/app/table';
 import { defaultPageOptions, defaultSortOptions } from '@/app/table/defaults';
 
-import { Member } from '../types';
-import { MemberListAction } from './actions';
+import { Policy } from '../types';
+import { PolicyListAction } from './actions';
 
 export type State = {
-    readonly items: Member[];
+    readonly items: Policy[];
     readonly totalItems: number;
     readonly fetching: boolean;
     readonly error: boolean;
@@ -26,10 +26,10 @@ export const defaultState: State = {
 
 export const reducer = (
     state: State = defaultState,
-    action: MemberListAction
+    action: PolicyListAction
 ): State => {
     switch (action.type) {
-        case 'MEMBERS_LIST_RECEIVE': {
+        case 'POLICIES_LIST_RECEIVE': {
             return {
                 ...state,
                 totalItems: action.payload.totalItems,
@@ -38,13 +38,13 @@ export const reducer = (
                 error: false
             };
         }
-        case 'MEMBERS_LIST_FETCHING': {
+        case 'POLICIES_LIST_FETCHING': {
             return {
                 ...state,
                 fetching: true
             };
         }
-        case 'MEMBERS_LIST_FETCHING_ERROR': {
+        case 'POLICIES_LIST_FETCHING_ERROR': {
             return {
                 ...state,
                 items: [],
@@ -52,7 +52,7 @@ export const reducer = (
                 error: true
             };
         }
-        case 'MEMBERS_LIST_PAGE_OPTIONS_RECEIVE': {
+        case 'POLICIES_LIST_PAGE_OPTIONS_RECEIVE': {
             return {
                 ...state,
                 pageOptions: {
@@ -60,7 +60,7 @@ export const reducer = (
                 }
             };
         }
-        case 'MEMBERS_LIST_SORT_OPTIONS_RECEIVE': {
+        case 'POLICIES_LIST_SORT_OPTIONS_RECEIVE': {
             return {
                 ...state,
                 sortOptions: {
@@ -68,7 +68,7 @@ export const reducer = (
                 }
             };
         }
-        case 'MEMBERS_LIST_FILTERS_RECEIVE': {
+        case 'POLICIES_LIST_FILTERS_RECEIVE': {
             return {
                 ...state,
                 filters: {

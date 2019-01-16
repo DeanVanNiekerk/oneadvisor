@@ -45,13 +45,13 @@ namespace OneAdvisor.Service.Member
 
             //Apply filters ----------------------------------------------------------------------------------------
             if (!string.IsNullOrWhiteSpace(queryOptions.FirstName))
-                query = query.Where(m => EF.Functions.Like(m.FirstName, $"%{queryOptions.FirstName}%"));
+                query = query.Where(m => EF.Functions.Like(m.FirstName, $"{queryOptions.FirstName}"));
 
             if (!string.IsNullOrWhiteSpace(queryOptions.LastName))
-                query = query.Where(m => EF.Functions.Like(m.LastName, $"%{queryOptions.LastName}%"));
+                query = query.Where(m => EF.Functions.Like(m.LastName, $"{queryOptions.LastName}"));
 
             if (!string.IsNullOrWhiteSpace(queryOptions.IdNumber))
-                query = query.Where(m => EF.Functions.Like(m.IdNumber, $"%{queryOptions.IdNumber}%"));
+                query = query.Where(m => EF.Functions.Like(m.IdNumber, $"{queryOptions.IdNumber}"));
             //------------------------------------------------------------------------------------------------------
 
             //Ordering

@@ -453,7 +453,7 @@ namespace OneAdvisor.Service.Test.Member
 
                 //When
                 var scope = TestHelper.GetScopeOptions(orgId1);
-                var queryOptions = new MemberQueryOptions(scope, "", "", 0, 0, "lastName=nie");
+                var queryOptions = new MemberQueryOptions(scope, "", "", 0, 0, "lastName=%nie%");
                 var members = await service.GetMembers(queryOptions);
 
                 //Then

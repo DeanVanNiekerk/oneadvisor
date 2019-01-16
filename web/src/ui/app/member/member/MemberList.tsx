@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
-import { Filters, getColumn, PageOptions, SortOptions } from '@/app/table';
+import { applyLike } from '@/app/query';
+import { filter, Filters, getColumn, PageOptions, SortOptions } from '@/app/table';
 import { Identity, identitySelector } from '@/state/app/directory/identity';
 import { fetchUsersSimple, UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import {
@@ -82,6 +83,10 @@ class MemberList extends Component<Props> {
         ];
     };
 
+    updateFilters = (filters: Filters): Filters => {
+        return applyLike(filters, ['firstName', 'lastName', 'idNumber']);
+    };
+
     onTableChange = (
         pageOptions: PageOptions,
         sortOptions: SortOptions,
@@ -92,7 +97,7 @@ class MemberList extends Component<Props> {
         if (this.props.sortOptions != sortOptions)
             this.props.dispatch(receiveSortOptions(sortOptions));
         if (this.props.filters != filters)
-            this.props.dispatch(receiveFilters(filters));
+            this.props.dispatch(receiveFilters(this.updateFilters(filters)));
     };
 
     render() {
