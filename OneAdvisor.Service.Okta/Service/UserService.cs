@@ -74,7 +74,7 @@ namespace OneAdvisor.Service.Okta.Service
             {
                 var user = usersScoped.Find(u => u.Id == item.Id);
                 if (user != null)
-                    item.Aliases = user.Aliases;
+                    item.Aliases = UserAlias.Parse(user.Aliases);
 
                 var branch = branches.Find(b => b.Id == item.BranchId);
                 if (branch != null)
@@ -101,7 +101,7 @@ namespace OneAdvisor.Service.Okta.Service
             var roleIds = await GetUserRoleIds(id);
 
             user.RoleIds = roleIds;
-            user.Aliases = userEntity.Aliases;
+            user.Aliases = UserAlias.Parse(userEntity.Aliases);
 
             return user;
         }
@@ -351,7 +351,7 @@ namespace OneAdvisor.Service.Okta.Service
             entity.FirstName = user.FirstName;
             entity.LastName = user.LastName;
             entity.BranchId = user.BranchId.Value;
-            entity.Aliases = user.Aliases.ToArray();
+            entity.Aliases = UserAlias.Format(user.Aliases);
 
             return entity;
         }

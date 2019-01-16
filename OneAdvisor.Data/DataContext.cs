@@ -58,7 +58,6 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<UserEntity>().ToTable("dir_User");
 
             //Custom mappings
-            UserMap.Map(modelBuilder);
             RoleToUseCaseMap.Map(modelBuilder);
 
             #endregion

@@ -16,8 +16,15 @@ namespace OneAdvisor.Service.Okta.Service.Validators
             RuleFor(u => u.LastName).NotEmpty();
             RuleFor(u => u.BranchId).NotEmpty();
             RuleFor(u => u.Login).NotEmpty();
-            RuleFor(u => u.Email).NotEmpty().EmailAddress();
-            RuleForEach(x => x.Aliases).NotEmpty().MaximumLength(64);
+
+            RuleFor(u => u.Email)
+                .NotEmpty()
+                .EmailAddress();
+
+            RuleForEach(x => x.Aliases)
+                .NotEmpty()
+                .MaximumLength(64)
+                .Matches("^((?!;).)*$").WithMessage("Alias can not contain the ; character");
         }
     }
 }

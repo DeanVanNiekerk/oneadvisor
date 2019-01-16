@@ -223,6 +223,52 @@ namespace OneAdvisor.Service.Test.Member
             }
         }
 
+        [TestMethod]
+        public async Task ImportMember_InsertPolicy_CheckUserAlias()
+        {
+            var options = TestHelper.GetDbContext("ImportMember_InsertPolicy_CheckUserAlias");
+
+            var organisation = TestHelper.InsertDefaultOrganisation(options);
+
+            var user = new UserEdit
+            {
+                Id = Guid.NewGuid().ToString(),
+                FirstName = "Dean",
+                LastName = "van Niekerk",
+                Aliases = new List<string>() { "DJ VAN Niekerk" }
+            };
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options, organisation, user);
+
+            using (var context = new DataContext(options))
+            {
+                var memberService = new MemberService(context);
+                var memberPolicyService = new MemberPolicyService(context);
+                var service = new MemberImportService(context, memberService, memberPolicyService);
+
+                //When
+                var data = new ImportMember()
+                {
+                    IdNumber = "12345",
+                    LastName = "LN",
+                    PolicyNumber = "987654",
+                    PolicyCompanyId = Guid.NewGuid(),
+                    PolicyUserFullName = "Dj van Niekerk"
+                };
+
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+
+                var result = await service.ImportMember(scope, data);
+
+                //Then
+                Assert.IsTrue(result.Success);
+
+                var actual = await context.MemberPolicy.FirstOrDefaultAsync(m => m.Number == data.PolicyNumber);
+                Assert.AreEqual(data.PolicyCompanyId, actual.CompanyId);
+                Assert.AreEqual(user1.User.Id, actual.UserId);
+            }
+        }
+
 
         [TestMethod]
         public async Task ImportMember_UpdatePolicy()

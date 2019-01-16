@@ -13,6 +13,7 @@ namespace OneAdvisor.Service.Member.Validators
         {
             RuleFor(m => m.IdNumber).NotEmpty();
             RuleFor(m => m.PolicyCompanyId).NotEmpty().When(m => !string.IsNullOrEmpty(m.PolicyNumber));
+            RuleFor(m => m.PolicyUserFullName).NotEmpty().When(m => !string.IsNullOrEmpty(m.PolicyNumber));
         }
     }
 }

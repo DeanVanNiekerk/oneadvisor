@@ -54,8 +54,9 @@ namespace OneAdvisor.Service.Member
                 }
 
                 var userQuery = from entity in userEntityQuery
-                                where EF.Functions.Like(entity.FirstName, parts[0])
-                                && EF.Functions.Like(entity.LastName, parts[1])
+                                where (EF.Functions.Like(entity.FirstName, parts[0])
+                                && EF.Functions.Like(entity.LastName, parts[1]))
+                                || EF.Functions.Like(entity.Aliases, $"%{data.PolicyUserFullName}%")
                                 select entity;
 
                 var user = userQuery.FirstOrDefault();

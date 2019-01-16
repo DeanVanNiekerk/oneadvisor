@@ -16,7 +16,7 @@ namespace OneAdvisor.Data.Entities.Directory
         [Required]
         public string LastName { get; set; }
         [Required]
-        public string[] Aliases { get; set; }
+        public string Aliases { get; set; }
 
         public virtual BranchEntity Branch { get; set; }
         public virtual ICollection<MemberPolicyEntity> MemberPolicies { get; set; }

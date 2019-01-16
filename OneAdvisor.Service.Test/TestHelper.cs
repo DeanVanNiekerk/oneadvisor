@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -48,8 +49,22 @@ namespace OneAdvisor.Service.Test
 
         public static DefaultUser InsertDefaultUserDetailed(DbContextOptions<DataContext> options, OrganisationEntity organisation)
         {
+            var user = new UserEdit { Id = Guid.NewGuid().ToString(), FirstName = Guid.NewGuid().ToString(), LastName = Guid.NewGuid().ToString() };
+
+            return InsertDefaultUserDetailed(options, organisation, user);
+        }
+
+        public static DefaultUser InsertDefaultUserDetailed(DbContextOptions<DataContext> options, OrganisationEntity organisation, UserEdit sourceUser)
+        {
             var branch = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = organisation.Id, Name = "Branch 1" };
-            var user = new UserEntity { Id = Guid.NewGuid().ToString(), FirstName = Guid.NewGuid().ToString(), LastName = Guid.NewGuid().ToString(), BranchId = branch.Id };
+            var user = new UserEntity
+            {
+                Id = sourceUser.Id,
+                FirstName = sourceUser.FirstName,
+                LastName = sourceUser.LastName,
+                Aliases = UserAlias.Format(sourceUser.Aliases),
+                BranchId = branch.Id
+            };
 
             using (var context = new DataContext(options))
             {
