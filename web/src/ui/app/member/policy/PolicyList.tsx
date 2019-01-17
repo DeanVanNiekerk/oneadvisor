@@ -3,17 +3,17 @@ import { connect, DispatchProp } from 'react-redux';
 
 import { applyLike } from '@/app/query';
 import { Filters, getColumn, PageOptions, SortOptions } from '@/app/table';
-import { fetchUsersSimple, UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import {
-    fetchPolicies, fetchPolicy, policiesSelector, Policy, PolicyEdit, receiveFilters, receivePageOptions, receivePolicy,
+    fetchPolicies, fetchPolicy, newPolicy, policiesSelector, Policy, receiveFilters, receivePageOptions, receivePolicy,
     receiveSortOptions
 } from '@/state/app/member/policies';
 import { RootState } from '@/state/rootReducer';
-import { Button, Header, Table } from '@/ui/controls';
+import { Button, CompanyName, Header, Table, UserName } from '@/ui/controls';
 
-import EditMember from './EditPolicy';
+import EditPolicy from './EditPolicy';
 
 type Props = {
+    memberId: string;
     policies: Policy[];
     fetching: boolean;
     pageOptions: PageOptions;
@@ -24,7 +24,7 @@ type Props = {
 
 class PolicyList extends Component<Props> {
     componentDidMount() {
-        if (this.props.policies.length === 0) this.loadPolicies();
+        this.loadPolicies();
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -37,11 +37,15 @@ class PolicyList extends Component<Props> {
     }
 
     loadPolicies = () => {
+        const filters = { ...this.props.filters };
+
+        if (this.props.memberId) filters.memberId = [this.props.memberId];
+
         this.props.dispatch(
             fetchPolicies(
                 this.props.pageOptions,
                 this.props.sortOptions,
-                this.props.filters
+                filters
             )
         );
     };
@@ -55,22 +59,23 @@ class PolicyList extends Component<Props> {
     };
 
     newPolicy = () => {
-        const policy: PolicyEdit = {
-            id: '',
-            userId: '',
-            number: '',
-            companyId: '',
-            memberId: ''
-        };
-
+        const policy = newPolicy(this.props.memberId);
         this.props.dispatch(receivePolicy(policy));
     };
 
     getColumns = () => {
         return [
             getColumn('number', 'Number', { showSearchFilter: true }),
-            getColumn('userId', 'User Id'),
-            getColumn('companyId', 'Company Id')
+            getColumn('userId', 'Broker', {
+                render: (userId: string) => {
+                    return <UserName userId={userId} />;
+                }
+            }),
+            getColumn('companyId', 'Company', {
+                render: (companyId: string) => {
+                    return <CompanyName companyId={companyId} />;
+                }
+            })
         ];
     };
 
@@ -130,7 +135,7 @@ class PolicyList extends Component<Props> {
                     totalRows={this.props.totalItems}
                     onTableChange={this.onTableChange}
                 />
-                <EditMember onClose={this.onFormClose} />
+                <EditPolicy onClose={this.onFormClose} />
             </>
         );
     }

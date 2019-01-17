@@ -5,6 +5,7 @@ import { connect, DispatchProp } from 'react-redux';
 import { getColumn } from '@/app/table';
 import { fetchOrganisations, Organisation, organisationsSelector } from '@/state/app/directory/organisations';
 import { fetchUser, fetchUsers, receiveUser, User, UserEdit, usersSelector } from '@/state/app/directory/users';
+import { fetchUsersSimple } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
 import { Button, Header, Table } from '@/ui/controls';
 import { showMessage } from '@/ui/feedback/notifcation';
@@ -38,6 +39,7 @@ class UserList extends Component<Props, State> {
 
     loadUsers = () => {
         this.props.dispatch(fetchUsers());
+        this.props.dispatch(fetchUsersSimple());
     };
 
     loadOrganisations = () => {

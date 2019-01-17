@@ -26,14 +26,15 @@ namespace OneAdvisor.Service.Directory
         {
             var query = GetBranchQuery();
 
-            //Get total before applying filters
-            var pagedItems = new PagedItems<Branch>();
-            pagedItems.TotalItems = await query.CountAsync();
-
             //Apply filters ----------------------------------------------------------------------------------------
             if (queryOptions.OrganisationId.HasValue)
                 query = query.Where(b => b.OrganisationId == queryOptions.OrganisationId);
             //------------------------------------------------------------------------------------------------------
+
+            var pagedItems = new PagedItems<Branch>();
+
+            //Get total items
+            pagedItems.TotalItems = await query.CountAsync();
 
             //Ordering
             query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);

@@ -1,4 +1,6 @@
+using System;
 using FluentValidation;
+using FluentValidation.Results;
 using OneAdvisor.Model.Member.Model.Policy;
 
 namespace OneAdvisor.Service.Member.Validators
@@ -12,7 +14,16 @@ namespace OneAdvisor.Service.Member.Validators
 
             RuleFor(p => p.UserId).NotEmpty().MaximumLength(64);
             RuleFor(p => p.Number).NotEmpty().MaximumLength(32);
-            RuleFor(p => p.CompanyId).NotEmpty();
+
+            RuleFor(p => p.CompanyId).Custom((guid, context) =>
+            {
+                if (guid == default(Guid))
+                {
+                    var failure = new ValidationFailure("CompanyId", "'CompanyId' must not be empty.", "");
+                    context.AddFailure(failure);
+                }
+            });
         }
+
     }
 }

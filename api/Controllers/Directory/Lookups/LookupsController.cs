@@ -24,8 +24,17 @@ namespace api.Controllers.Directory.Lookups
         private IMapper Mapper { get; }
         private ILookupService LookupService { get; }
 
+        [HttpGet("all")]
+        public async Task<LookupsDto> All()
+        {
+            return new LookupsDto()
+            {
+                Companies = Mapper.MapList<Company, CompanyDto>(await LookupService.GetCompanies())
+            };
+        }
+
         [HttpGet("companies")]
-        public async Task<List<CompanyDto>> Index()
+        public async Task<List<CompanyDto>> Companies()
         {
             var models = await LookupService.GetCompanies();
 
@@ -34,7 +43,7 @@ namespace api.Controllers.Directory.Lookups
 
         [HttpPost("companies")]
         [UseCaseAuthorize("dir_edit_lookups")]
-        public async Task<ActionResult<Result>> Insert([FromBody] CompanyDto dto)
+        public async Task<ActionResult<Result>> InsertCompany([FromBody] CompanyDto dto)
         {
             var model = Mapper.Map<Company>(dto);
 
@@ -48,7 +57,7 @@ namespace api.Controllers.Directory.Lookups
 
         [HttpPost("companies/{companyId}")]
         [UseCaseAuthorize("dir_edit_lookups")]
-        public async Task<ActionResult<Result>> Update(Guid companyId, [FromBody] CompanyDto dto)
+        public async Task<ActionResult<Result>> UpdateCompany(Guid companyId, [FromBody] CompanyDto dto)
         {
             dto.Id = companyId;
 

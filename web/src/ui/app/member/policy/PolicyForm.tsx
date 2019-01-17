@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { ValidationResult } from '@/app/validation';
+import { companiesSelector, Company } from '@/state/app/directory/lookups';
+import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { PolicyEdit } from '@/state/app/member/policies';
-import { Form, FormInput } from '@/ui/controls';
+import { RootState } from '@/state/rootReducer';
+import { Form, FormInput, FormSelect } from '@/ui/controls';
 
 type Props = {
     policy: PolicyEdit;
     validationResults: ValidationResult[];
     onChange: (member: PolicyEdit) => void;
+    users: UserSimple[];
+    companies: Company[];
 };
 
 type State = {
@@ -55,23 +61,40 @@ class PolicyForm extends Component<Props, State> {
                     validationResults={validationResults}
                     focus={true}
                 />
-                <FormInput
+                <FormSelect
                     fieldName="companyId"
-                    label="CompanyId"
+                    label="Company"
                     value={policy.companyId}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    options={this.props.companies}
+                    optionsValue="id"
+                    optionsText="name"
                 />
-                <FormInput
+                <FormSelect
+                    defaultActiveFirstOption={true}
                     fieldName="userId"
-                    label="UserId"
+                    label="Broker"
                     value={policy.userId}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    options={this.props.users}
+                    optionsValue="id"
+                    optionsText="fullName"
                 />
             </Form>
         );
     }
 }
 
-export default PolicyForm;
+const mapStateToProps = (state: RootState) => {
+    const usersState = usersSimpleSelector(state);
+    const companiesState = companiesSelector(state);
+
+    return {
+        users: usersState.items,
+        companies: companiesState.items
+    };
+};
+
+export default connect(mapStateToProps)(PolicyForm);

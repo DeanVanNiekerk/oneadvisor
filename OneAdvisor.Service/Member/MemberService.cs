@@ -39,10 +39,6 @@ namespace OneAdvisor.Service.Member
                             DateOfBirth = member.DateOfBirth
                         };
 
-            //Get total before applying filters
-            var pagedItems = new PagedItems<Model.Member.Model.Member.Member>();
-            pagedItems.TotalItems = await query.CountAsync();
-
             //Apply filters ----------------------------------------------------------------------------------------
             if (!string.IsNullOrWhiteSpace(queryOptions.FirstName))
                 query = query.Where(m => EF.Functions.Like(m.FirstName, $"{queryOptions.FirstName}"));
@@ -53,6 +49,11 @@ namespace OneAdvisor.Service.Member
             if (!string.IsNullOrWhiteSpace(queryOptions.IdNumber))
                 query = query.Where(m => EF.Functions.Like(m.IdNumber, $"{queryOptions.IdNumber}"));
             //------------------------------------------------------------------------------------------------------
+
+            var pagedItems = new PagedItems<Model.Member.Model.Member.Member>();
+
+            //Get total items
+            pagedItems.TotalItems = await query.CountAsync();
 
             //Ordering
             query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);

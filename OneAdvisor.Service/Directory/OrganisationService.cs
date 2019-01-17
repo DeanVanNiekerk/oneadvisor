@@ -26,8 +26,9 @@ namespace OneAdvisor.Service.Directory
         {
             var query = GetOrganisationQuery();
 
-            //Get total before applying filters
             var pagedItems = new PagedItems<Organisation>();
+
+            //Get total items
             pagedItems.TotalItems = await query.CountAsync();
 
             //Ordering

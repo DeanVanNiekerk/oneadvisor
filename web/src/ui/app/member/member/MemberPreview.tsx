@@ -4,9 +4,11 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { fetchMember, fetchMemberPreview, MemberPreview, memberPreviewSelector } from '@/state/app/member/members';
+import { newPolicy, receivePolicy } from '@/state/app/member/policies';
 import { RootState } from '@/state/rootReducer';
 import { Age, Button, Drawer, DrawerFooter, Header } from '@/ui/controls';
 
+import EditPolicy from '../policy/EditPolicy';
 import PolicyList from '../policy/PolicyList';
 import EditMember from './EditMember';
 
@@ -25,7 +27,7 @@ class MemberPreviewView extends Component<Props, State> {
         super(props);
 
         this.state = {
-            policyListVisible: true
+            policyListVisible: false
         };
     }
 
@@ -37,6 +39,11 @@ class MemberPreviewView extends Component<Props, State> {
         this.setState({
             policyListVisible: !this.state.policyListVisible
         });
+    };
+
+    newPolicy = () => {
+        const policy = newPolicy(this.getMemberId());
+        this.props.dispatch(receivePolicy(policy));
     };
 
     getMemberId = () => {
@@ -115,9 +122,19 @@ class MemberPreviewView extends Component<Props, State> {
                                 hoverable={true}
                                 title="Policies"
                                 bordered={false}
+                                onClick={this.togglePolicyListVisible}
                                 actions={[
-                                    <Icon type="plus" />,
-                                    <Icon type="bars" />
+                                    <Icon
+                                        type="plus"
+                                        onClick={e => {
+                                            e.stopPropagation();
+                                            this.newPolicy();
+                                        }}
+                                    />,
+                                    <Icon
+                                        type="bars"
+                                        onClick={this.togglePolicyListVisible}
+                                    />
                                 ]}
                             >
                                 <Skeleton
@@ -139,6 +156,7 @@ class MemberPreviewView extends Component<Props, State> {
                 </div>
 
                 <EditMember onClose={this.onFormClose} />
+                <EditPolicy onClose={this.onFormClose} />
 
                 <Drawer
                     title="Policies"
@@ -146,7 +164,7 @@ class MemberPreviewView extends Component<Props, State> {
                     visible={this.state.policyListVisible}
                     onClose={this.togglePolicyListVisible}
                 >
-                    <PolicyList />
+                    <PolicyList memberId={this.getMemberId()} />
                     <DrawerFooter>
                         <Button onClick={this.togglePolicyListVisible}>
                             Close

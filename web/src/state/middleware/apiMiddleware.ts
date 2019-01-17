@@ -70,7 +70,7 @@ export default (store: any) => (next: any) => (action: any) => {
                 }
 
                 //Call onSuccess
-                if (action.onSuccess) action.onSuccess(json);
+                if (action.onSuccess) action.onSuccess(json, store.dispatch);
 
                 //Recieve
                 store.dispatch({

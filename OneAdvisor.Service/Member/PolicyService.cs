@@ -39,10 +39,6 @@ namespace OneAdvisor.Service.Member
                             UserId = policy.UserId
                         };
 
-            //Get total before applying filters
-            var pagedItems = new PagedItems<Policy>();
-            pagedItems.TotalItems = await query.CountAsync();
-
             //Apply filters ----------------------------------------------------------------------------------------
             if (queryOptions.MemberId.HasValue)
                 query = query.Where(m => m.MemberId == queryOptions.MemberId.Value);
@@ -56,6 +52,11 @@ namespace OneAdvisor.Service.Member
             if (!string.IsNullOrWhiteSpace(queryOptions.Number))
                 query = query.Where(m => EF.Functions.Like(m.Number, $"{queryOptions.Number}"));
             //------------------------------------------------------------------------------------------------------
+
+            var pagedItems = new PagedItems<Policy>();
+
+            //Get total items
+            pagedItems.TotalItems = await query.CountAsync();
 
             //Ordering
             query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);

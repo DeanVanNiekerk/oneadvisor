@@ -2,6 +2,8 @@ import React, { ReactNode } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { fetchIdentity, Identity, identitySelector } from '@/state/app/directory/identity';
+import { fetchAllLookups, lookupsSelector } from '@/state/app/directory/lookups';
+import { fetchUsersSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
 import { Loader } from '@/ui/controls';
 
@@ -15,6 +17,8 @@ class Startup extends React.Component<Props> {
     componentDidMount() {
         if (this.props.identity === null) {
             this.props.dispatch(fetchIdentity());
+            this.props.dispatch(fetchAllLookups());
+            this.props.dispatch(fetchUsersSimple());
         }
     }
 
@@ -28,10 +32,15 @@ class Startup extends React.Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     const identityState = identitySelector(state);
+    const lookupsState = lookupsSelector(state);
+    const usersState = usersSimpleSelector(state);
 
     return {
         identity: identityState.identity,
-        loading: identityState.fetching
+        loading:
+            identityState.fetching ||
+            lookupsState.fetching ||
+            usersState.fetching
     };
 };
 

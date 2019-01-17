@@ -1,6 +1,8 @@
+import { Dispatch } from 'redux';
+
 type ApiActionType = 'API';
 type ApiMethods = 'GET' | 'POST';
-export type ApiOnSuccess = (data: any) => void;
+export type ApiOnSuccess = (data: any, dispatch: Dispatch) => void;
 export type ApiAction = {
     type: ApiActionType;
     endpoint: string;

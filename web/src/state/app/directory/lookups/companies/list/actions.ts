@@ -18,6 +18,11 @@ export type CompanyListAction =
     | CompanyListFetchingAction
     | CompanyListFetchingErrorAction;
 
+export const receiveCompanies = (payload: Company[]): CompanyListAction => ({
+    type: 'COMPANIES_LIST_RECEIVE',
+    payload
+});
+
 export const fetchCompanies = (): ApiAction => {
     return {
         type: 'API',

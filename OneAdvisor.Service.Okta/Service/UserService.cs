@@ -54,13 +54,14 @@ namespace OneAdvisor.Service.Okta.Service
             //Apply scope
             query = query.Where(u => userIdsScoped.Contains(u.Id));
 
-            //Get total before applying filters
-            var pagedItems = new PagedItems<User>();
-            pagedItems.TotalItems = query.Count();
-
             //Apply filters ----------------------------------------------------------------------------------------
 
             //------------------------------------------------------------------------------------------------------
+
+            var pagedItems = new PagedItems<User>();
+
+            //Get total items
+            pagedItems.TotalItems = query.Count();
 
             //Ordering
             query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
