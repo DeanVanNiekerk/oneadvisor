@@ -74,7 +74,7 @@ class MemberPreviewView extends Component<Props, State> {
             <Icon type="bars" onClick={this.togglePolicyListVisible} />
         ];
 
-        if (hasUseCase('dir_edit_policies', this.props.useCases))
+        if (hasUseCase('mem_edit_policies', this.props.useCases))
             actions.unshift(
                 <Icon
                     type="plus"
