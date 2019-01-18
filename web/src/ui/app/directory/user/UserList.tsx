@@ -33,7 +33,6 @@ class UserList extends Component<Props, State> {
 
     componentDidMount() {
         if (this.props.users.length === 0) this.loadUsers();
-
         if (this.props.organisations.length === 0) this.loadOrganisations();
     }
 

@@ -33,14 +33,10 @@ class Startup extends React.Component<Props> {
 const mapStateToProps = (state: RootState) => {
     const identityState = identitySelector(state);
     const lookupsState = lookupsSelector(state);
-    const usersState = usersSimpleSelector(state);
 
     return {
         identity: identityState.identity,
-        loading:
-            identityState.fetching ||
-            lookupsState.fetching ||
-            usersState.fetching
+        loading: identityState.fetching || lookupsState.fetching
     };
 };
 
