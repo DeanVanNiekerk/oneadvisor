@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
+import { hasUseCase } from '@/app/identity';
+import { identitySelector } from '@/state/app/directory/identity';
 import { fetchMember, fetchMemberPreview, MemberPreview, memberPreviewSelector } from '@/state/app/member/members';
 import { newPolicy, receivePolicy } from '@/state/app/member/policies';
 import { RootState } from '@/state/rootReducer';
@@ -15,6 +17,7 @@ import EditMember from './EditMember';
 type Props = {
     member: MemberPreview | null;
     fetching: boolean;
+    useCases: string[];
 } & RouteComponentProps<{ memberId: string }> &
     DispatchProp;
 
@@ -64,6 +67,25 @@ class MemberPreviewView extends Component<Props, State> {
 
     isLoading = () => {
         return this.props.fetching;
+    };
+
+    getPolicyActions = () => {
+        const actions = [
+            <Icon type="bars" onClick={this.togglePolicyListVisible} />
+        ];
+
+        if (hasUseCase('dir_edit_policies', this.props.useCases))
+            actions.unshift(
+                <Icon
+                    type="plus"
+                    onClick={e => {
+                        e.stopPropagation();
+                        this.newPolicy();
+                    }}
+                />
+            );
+
+        return actions;
     };
 
     render() {
@@ -123,19 +145,7 @@ class MemberPreviewView extends Component<Props, State> {
                                 title="Policies"
                                 bordered={false}
                                 onClick={this.togglePolicyListVisible}
-                                actions={[
-                                    <Icon
-                                        type="plus"
-                                        onClick={e => {
-                                            e.stopPropagation();
-                                            this.newPolicy();
-                                        }}
-                                    />,
-                                    <Icon
-                                        type="bars"
-                                        onClick={this.togglePolicyListVisible}
-                                    />
-                                ]}
+                                actions={this.getPolicyActions()}
                             >
                                 <Skeleton
                                     loading={this.isLoading()}
@@ -178,10 +188,14 @@ class MemberPreviewView extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const memberState = memberPreviewSelector(state);
+    const identityState = identitySelector(state);
 
     return {
         member: memberState.member,
-        fetching: memberState.fetching
+        fetching: memberState.fetching,
+        useCases: identityState.identity
+            ? identityState.identity.useCaseIds
+            : []
     };
 };
 
