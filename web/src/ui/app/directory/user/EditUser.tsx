@@ -105,8 +105,7 @@ class EditUser extends Component<Props, State> {
 
         const { user } = this.props;
 
-        if (user && user.id)
-            return `Edit User: ${user.firstName} ${user.lastName}`;
+        if (user && user.id) return `User: ${user.firstName} ${user.lastName}`;
 
         return 'New User';
     };
@@ -144,6 +143,7 @@ class EditUser extends Component<Props, State> {
                         onClick={this.save}
                         type="primary"
                         disabled={this.isLoading()}
+                        requiredUseCase="dir_edit_users"
                     >
                         Save
                     </Button>

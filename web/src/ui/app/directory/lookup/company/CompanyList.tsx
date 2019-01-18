@@ -90,7 +90,6 @@ class CompanyList extends Component<Props, State> {
                     dataSource={this.props.companies}
                     loading={this.props.fetching}
                     onRowClick={org => this.editCompany(org.id)}
-                    onRowClickRequiredUseCase="dir_edit_lookups"
                 />
                 <EditCompany
                     visible={this.state.editVisible}

@@ -52,7 +52,7 @@ class PolicyForm extends Component<Props, State> {
         const { policy } = this.state;
 
         return (
-            <Form>
+            <Form editUseCase="mem_edit_policies">
                 <FormInput
                     fieldName="number"
                     label="Number"

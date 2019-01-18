@@ -99,7 +99,7 @@ class EditOrganisation extends Component<Props, State> {
         const { organisation } = this.props;
 
         if (organisation && organisation.id)
-            return `Edit Organisation: ${organisation.name}`;
+            return `Organisation: ${organisation.name}`;
 
         return 'New Organisation';
     };
@@ -145,6 +145,7 @@ class EditOrganisation extends Component<Props, State> {
                         onClick={this.save}
                         type="primary"
                         disabled={this.isLoading()}
+                        requiredUseCase="dir_edit_organisations"
                     >
                         Save
                     </Button>

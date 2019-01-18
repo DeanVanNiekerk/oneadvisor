@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import { ValidationResult } from '@/app/validation';
 
+import { FormText } from './';
 import { FormLayout } from './Form';
 import { FormField } from './FormField';
 
@@ -16,6 +17,7 @@ type Props = {
     layout?: FormLayout;
     addonAfter?: React.ReactNode;
     focus?: boolean;
+    readonly?: boolean;
 };
 
 class FormInput extends Component<Props> {
@@ -43,8 +45,12 @@ class FormInput extends Component<Props> {
             disabled = false,
             layout,
             addonAfter,
-            focus
+            focus,
+            readonly
         } = this.props;
+
+        if (readonly)
+            return <FormText label={label} value={value} layout={layout} />;
 
         return (
             <FormField

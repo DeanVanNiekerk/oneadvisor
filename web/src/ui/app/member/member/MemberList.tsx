@@ -131,7 +131,6 @@ class MemberList extends Component<Props> {
                     dataSource={this.props.members}
                     loading={this.props.fetching}
                     onRowClick={member => this.editMember(member.id)}
-                    onRowClickRequiredUseCase="mem_edit_members"
                     externalDataSource={true}
                     pageOptions={this.props.pageOptions}
                     totalRows={this.props.totalItems}

@@ -46,7 +46,7 @@ class CompanyForm extends Component<Props, State> {
         const { company } = this.state;
 
         return (
-            <Form>
+            <Form editUseCase="dir_edit_lookups">
                 <FormInput
                     fieldName="name"
                     label="Name"

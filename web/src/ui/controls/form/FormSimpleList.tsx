@@ -1,8 +1,12 @@
 import { List, Popconfirm } from 'antd';
 import update from 'immutability-helper';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
+import { hasUseCase } from '@/app/identity';
 import { formatValue, getValidationError, ValidationResult } from '@/app/validation';
+import { identitySelector } from '@/state/app/directory/identity';
+import { RootState } from '@/state/rootReducer';
 
 import { Button, FormInput } from '../';
 import { Form } from './Form';
@@ -14,6 +18,8 @@ type Props = {
     displayName: string;
     onChange: (values: string[]) => void;
     validationResults?: ValidationResult[];
+    editUseCase?: string;
+    useCases: string[];
 };
 
 type Mode = 'add' | 'edit';
@@ -26,7 +32,7 @@ type State = {
     mode: Mode;
 };
 
-class FormSimpleList extends Component<Props, State> {
+class FormSimpleListComponent extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
@@ -123,6 +129,26 @@ class FormSimpleList extends Component<Props, State> {
         return result.errorMessage;
     };
 
+    getActions = (value: string, index: number) => {
+        if (
+            this.props.editUseCase &&
+            !hasUseCase(this.props.editUseCase, this.props.useCases)
+        )
+            return [];
+
+        return [
+            <a onClick={() => this.edit(value, index)}>edit</a>,
+            <Popconfirm
+                title="Are you sure remove this record?"
+                onConfirm={() => this.remove(index)}
+                okText="Yes"
+                cancelText="No"
+            >
+                <a href="#">remove</a>
+            </Popconfirm>
+        ];
+    };
+
     render() {
         return (
             <>
@@ -134,6 +160,7 @@ class FormSimpleList extends Component<Props, State> {
                                 type="dashed"
                                 onClick={this.add}
                                 noLeftMargin={true}
+                                requiredUseCase={this.props.editUseCase}
                             >
                                 Add {this.props.displayName}
                             </Button>
@@ -176,21 +203,7 @@ class FormSimpleList extends Component<Props, State> {
                     className="mt-1"
                     dataSource={this.state.values}
                     renderItem={(value: string, index: any) => (
-                        <List.Item
-                            actions={[
-                                <a onClick={() => this.edit(value, index)}>
-                                    edit
-                                </a>,
-                                <Popconfirm
-                                    title="Are you sure remove this record?"
-                                    onConfirm={() => this.remove(index)}
-                                    okText="Yes"
-                                    cancelText="No"
-                                >
-                                    <a href="#">remove</a>
-                                </Popconfirm>
-                            ]}
-                        >
+                        <List.Item actions={this.getActions(value, index)}>
                             <List.Item.Meta
                                 title={
                                     <span className="font-weight-normal">
@@ -210,5 +223,17 @@ class FormSimpleList extends Component<Props, State> {
         );
     }
 }
+
+const mapStateToProps = (state: RootState) => {
+    const identityState = identitySelector(state);
+
+    return {
+        useCases: identityState.identity
+            ? identityState.identity.useCaseIds
+            : []
+    };
+};
+
+const FormSimpleList = connect(mapStateToProps)(FormSimpleListComponent);
 
 export { FormSimpleList };

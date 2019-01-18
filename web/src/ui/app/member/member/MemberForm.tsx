@@ -126,7 +126,7 @@ class MemberForm extends Component<Props, State> {
         const { member } = this.state;
 
         return (
-            <Form>
+            <Form editUseCase="mem_edit_members">
                 <FormInput
                     fieldName="firstName"
                     label="First Name"

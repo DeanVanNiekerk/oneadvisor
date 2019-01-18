@@ -89,7 +89,7 @@ class EditMember extends Component<Props, State> {
         const { member } = this.props;
 
         if (member && member.id)
-            return `Edit Member: ${member.firstName} ${member.lastName}`;
+            return `Member: ${member.firstName} ${member.lastName}`;
 
         return 'New Member';
     };
@@ -125,6 +125,7 @@ class EditMember extends Component<Props, State> {
                         type="primary"
                         disabled={this.isLoading()}
                         visible={this.props.enabled}
+                        requiredUseCase="mem_edit_members"
                     >
                         Save
                     </Button>

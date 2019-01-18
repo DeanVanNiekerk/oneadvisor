@@ -81,6 +81,7 @@ class EditBranch extends Component<Props, State> {
                                 type="dashed"
                                 onClick={this.newBranch}
                                 noLeftMargin={true}
+                                requiredUseCase="dir_edit_branches"
                             >
                                 Add Branch
                             </Button>

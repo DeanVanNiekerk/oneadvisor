@@ -87,7 +87,7 @@ class EditPolicy extends Component<Props, State> {
 
         const { policy } = this.props;
 
-        if (policy && policy.id) return `Edit Policy: ${policy.number}`;
+        if (policy && policy.id) return `Policy: ${policy.number}`;
 
         return 'New Policy';
     };
@@ -121,6 +121,7 @@ class EditPolicy extends Component<Props, State> {
                         onClick={this.save}
                         type="primary"
                         disabled={this.isLoading()}
+                        requiredUseCase="mem_edit_policies"
                     >
                         Save
                     </Button>

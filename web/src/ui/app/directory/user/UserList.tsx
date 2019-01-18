@@ -145,7 +145,6 @@ class UserList extends Component<Props, State> {
                     dataSource={this.props.users}
                     loading={this.props.fetching}
                     onRowClick={user => this.editUser(user.id)}
-                    onRowClickRequiredUseCase="dir_edit_users"
                 />
                 <EditUser
                     visible={this.state.editVisible}

@@ -2,10 +2,12 @@ import { List, Switch } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { hasUseCase } from '@/app/identity';
 import { ValidationResult } from '@/app/validation';
 import { getScopes } from '@/config/scope';
 import { Application } from '@/state/app/directory/applications';
 import { branchesSelector, branchSelector } from '@/state/app/directory/branches';
+import { identitySelector } from '@/state/app/directory/identity';
 import { Organisation } from '@/state/app/directory/organisations';
 import { Role } from '@/state/app/directory/roles';
 import { UserEdit } from '@/state/app/directory/users';
@@ -23,6 +25,7 @@ type Props = {
     roles: Role[];
     validationResults: ValidationResult[];
     onChange: (user: UserEdit) => void;
+    useCases: string[];
 } & DispatchProp;
 
 type State = {
@@ -92,14 +95,14 @@ class UserForm extends Component<Props, State> {
                     sticky={true}
                 >
                     <TabPane tab="Details" key="details_tab">
-                        <Form>
+                        <Form editUseCase="dir_edit_users">
                             <FormInput
                                 fieldName="firstName"
                                 label="First Name"
                                 value={user.firstName}
                                 onChange={this.handleChange}
                                 validationResults={validationResults}
-                                focus={true}
+                                //focus={true}
                             />
                             <FormInput
                                 fieldName="lastName"
@@ -140,13 +143,6 @@ class UserForm extends Component<Props, State> {
                                 optionsValue="id"
                                 optionsText="name"
                             />
-                            {/* <FormInput
-                            fieldName="assistantToUserId"
-                            label="Assistant To"
-                            value={user.assistantToUserId}
-                            onChange={this.handleChange}
-                            validationResults={validationResults}
-                        /> */}
                         </Form>
                     </TabPane>
                     <TabPane tab="Roles" key="roles_tab">
@@ -165,6 +161,12 @@ class UserForm extends Component<Props, State> {
                                     <List.Item
                                         actions={[
                                             <Switch
+                                                disabled={
+                                                    !hasUseCase(
+                                                        'dir_edit_users',
+                                                        this.props.useCases
+                                                    )
+                                                }
                                                 checked={this.isRoleSelected(
                                                     role.id
                                                 )}
@@ -186,6 +188,7 @@ class UserForm extends Component<Props, State> {
                     </TabPane>
                     <TabPane tab="Aliases" key="aliases_tab">
                         <FormSimpleList
+                            editUseCase="dir_edit_users"
                             fieldName="Aliases"
                             displayName="Alias"
                             values={user.aliases}
@@ -204,10 +207,14 @@ class UserForm extends Component<Props, State> {
 const mapStateToProps = (state: RootState) => {
     const branchState = branchSelector(state);
     const branchesState = branchesSelector(state);
+    const identityState = identitySelector(state);
 
     return {
         branch: branchState.branch,
-        branches: branchesState.items
+        branches: branchesState.items,
+        useCases: identityState.identity
+            ? identityState.identity.useCaseIds
+            : []
     };
 };
 

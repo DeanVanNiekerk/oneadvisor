@@ -46,7 +46,7 @@ class OrganisationForm extends Component<Props, State> {
         const { organisation } = this.state;
 
         return (
-            <Form>
+            <Form editUseCase="dir_edit_organisations">
                 <FormInput
                     fieldName="name"
                     label="Name"

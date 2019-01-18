@@ -64,12 +64,15 @@ namespace OneAdvisor.Data
             {
                 //Directory Roles
                 _context.Role.Add(new RoleEntity() { Id = "dir_administrator", Name = "Administrator", ApplicationId = dirGuid });
+                _context.Role.Add(new RoleEntity() { Id = "dir_readonly", Name = "Readonly", ApplicationId = dirGuid });
 
                 //Member Roles
                 _context.Role.Add(new RoleEntity() { Id = "mem_administrator", Name = "Administrator", ApplicationId = memGuid });
+                _context.Role.Add(new RoleEntity() { Id = "mem_readonly", Name = "Readonly", ApplicationId = memGuid });
 
                 //Commision Roles
                 _context.Role.Add(new RoleEntity() { Id = "com_administrator", Name = "Administrator", ApplicationId = comGuid });
+                _context.Role.Add(new RoleEntity() { Id = "com_readonly", Name = "Readonly", ApplicationId = comGuid });
 
                 //Health Plan Advisor Roles
                 _context.Role.Add(new RoleEntity() { Id = "hpa_administrator", Name = "Administrator", ApplicationId = hpaGuid });
@@ -126,6 +129,15 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_usecases" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_lookups" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_edit_lookups" });
+
+                //Readonly 
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_users" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_organisations" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_branches" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_roles" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_applications" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_usecases" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_lookups" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
 
                 //Member App
@@ -136,6 +148,10 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_import_members" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_view_policies" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_edit_policies" });
+
+                //Readonly
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_readonly", UseCaseId = "mem_view_members" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_readonly", UseCaseId = "mem_view_policies" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
 
                 //Commission App

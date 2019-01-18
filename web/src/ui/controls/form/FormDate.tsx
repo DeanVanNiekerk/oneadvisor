@@ -3,7 +3,9 @@ import moment from 'moment';
 import React, { Component } from 'react';
 
 import { ValidationResult } from '@/app/validation';
+import { DATE_FORMAT } from '@/config/date';
 
+import { FormText } from './';
 import { FormLayout } from './Form';
 import { FormField } from './FormField';
 
@@ -15,6 +17,7 @@ type Props = {
     onChange?: (fieldName: string, value: any) => void;
     validationResults?: ValidationResult[];
     layout?: FormLayout;
+    readonly?: boolean;
 };
 
 class FormDate extends Component<Props> {
@@ -30,8 +33,18 @@ class FormDate extends Component<Props> {
             value,
             validationResults,
             disabled = false,
-            layout
+            layout,
+            readonly
         } = this.props;
+
+        if (readonly)
+            return (
+                <FormText
+                    label={label}
+                    value={value ? moment(value).format(DATE_FORMAT) : ''}
+                    layout={layout}
+                />
+            );
 
         return (
             <FormField

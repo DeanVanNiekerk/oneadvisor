@@ -129,7 +129,6 @@ class PolicyList extends Component<Props> {
                     dataSource={this.props.policies}
                     loading={this.props.fetching}
                     onRowClick={policy => this.editPolicy(policy.id)}
-                    onRowClickRequiredUseCase="mem_edit_policies"
                     externalDataSource={true}
                     pageOptions={this.props.pageOptions}
                     totalRows={this.props.totalItems}

@@ -14,6 +14,7 @@ type Props = {
     fetching: boolean;
     validationResults: ValidationResult[];
     onChange: (branchId: string) => void;
+    readonly?: boolean;
 } & DispatchProp;
 
 type State = {
@@ -98,6 +99,7 @@ class BranchSelect extends Component<Props, State> {
                     options={this.props.organisations}
                     optionsValue="id"
                     optionsText="name"
+                    readonly={this.props.readonly}
                 />
                 <FormSelect
                     layout="horizontal"
@@ -113,6 +115,7 @@ class BranchSelect extends Component<Props, State> {
                     optionsText="name"
                     defaultActiveFirstOption={false}
                     loading={this.props.fetching}
+                    readonly={this.props.readonly}
                 />
             </>
         );

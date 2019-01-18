@@ -2,7 +2,9 @@ import { List } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { hasUseCase } from '@/app/identity';
 import { Branch, branchesSelector, fetchBranch, fetchBranches, receiveBranch } from '@/state/app/directory/branches';
+import { identitySelector } from '@/state/app/directory/identity';
 import { RootState } from '@/state/rootReducer';
 
 import EditBranch from './EditBranch';
@@ -12,6 +14,7 @@ type Props = {
     branches: Branch[];
     fetching: boolean;
     error: boolean;
+    useCases: string[];
 } & DispatchProp;
 
 class BranchList extends Component<Props> {
@@ -41,6 +44,12 @@ class BranchList extends Component<Props> {
         this.props.dispatch(fetchBranch(id));
     };
 
+    getActions = (branch: Branch) => {
+        if (!hasUseCase('dir_edit_branches', this.props.useCases)) return [];
+
+        return [<a onClick={() => this.editBranch(branch.id)}>edit</a>];
+    };
+
     render() {
         return (
             <>
@@ -54,13 +63,7 @@ class BranchList extends Component<Props> {
                     dataSource={this.props.branches}
                     loading={this.props.fetching}
                     renderItem={(branch: Branch) => (
-                        <List.Item
-                            actions={[
-                                <a onClick={() => this.editBranch(branch.id)}>
-                                    edit
-                                </a>
-                            ]}
-                        >
+                        <List.Item actions={this.getActions(branch)}>
                             {branch.name}
                         </List.Item>
                     )}
@@ -72,11 +75,15 @@ class BranchList extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     const branchesState = branchesSelector(state);
+    const identityState = identitySelector(state);
 
     return {
         branches: branchesState.items,
         fetching: branchesState.fetching,
-        error: branchesState.error
+        error: branchesState.error,
+        useCases: identityState.identity
+            ? identityState.identity.useCaseIds
+            : []
     };
 };
 

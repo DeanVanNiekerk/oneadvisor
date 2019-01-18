@@ -84,7 +84,7 @@ class EditCompany extends Component<Props, State> {
     getTitle = () => {
         const { company } = this.props;
 
-        if (company && company.id) return `Edit Company: ${company.name}`;
+        if (company && company.id) return `Company: ${company.name}`;
 
         return 'New Company';
     };
@@ -118,6 +118,7 @@ class EditCompany extends Component<Props, State> {
                         onClick={this.save}
                         type="primary"
                         disabled={this.isLoading()}
+                        requiredUseCase="dir_edit_lookups"
                     >
                         Save
                     </Button>
