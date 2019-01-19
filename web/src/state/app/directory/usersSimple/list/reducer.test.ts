@@ -43,7 +43,8 @@ describe('user list reducer', () => {
         const user: UserSimple = {
             id: '10',
             firstName: 'Dean',
-            lastName: 'Jackson'
+            lastName: 'Jackson',
+            fullName: 'DJ'
         };
 
         const actualState = reducer(initalState, {

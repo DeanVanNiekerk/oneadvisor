@@ -5,7 +5,8 @@ import { defaultState, reducer } from './reducer';
 const defaultUser = {
     id: '10',
     firstName: 'Dean',
-    lastName: 'Jackson'
+    lastName: 'Jackson',
+    fullName: 'DJ'
 };
 
 describe('user reducer', () => {

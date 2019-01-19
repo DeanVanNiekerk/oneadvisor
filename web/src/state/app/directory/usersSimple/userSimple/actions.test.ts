@@ -17,7 +17,8 @@ describe('user simple actions', () => {
         const user = {
             id: '123',
             firstName: 'dean',
-            lastName: 'van'
+            lastName: 'van',
+            fullName: 'DJ'
         };
 
         const expectedAction = {

@@ -51,7 +51,7 @@ describe('member import reducer', () => {
     it('should handle MEMBERS_IMPORT_SELECTED_COLUMNS_RECEIVE', () => {
         const initalState = {
             ...defaultState,
-            columns: []
+            selectedColumns: []
         };
 
         const columns: string[] = ['idNumber'];
@@ -63,7 +63,7 @@ describe('member import reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            columns: [...columns]
+            selectedColumns: [...columns]
         };
 
         expect(actualState).toEqual(expectedState);
@@ -135,7 +135,7 @@ describe('member import reducer', () => {
         expect(actualState).toEqual(expectedState);
     });
 
-    fit('should handle MEMBERS_IMPORT_MEMBERS_REMOVE, invalid id', () => {
+    it('should handle MEMBERS_IMPORT_MEMBERS_REMOVE, invalid id', () => {
         const initalState = {
             ...defaultState,
             members: [

@@ -21,7 +21,7 @@ describe('context selectors', () => {
     };
 
     describe('applicationsSelector()', () => {
-        fit('root path', () => {
+        it('root path', () => {
             const state = setupState();
 
             //@ts-ignore
@@ -67,7 +67,7 @@ describe('context selectors', () => {
             //@ts-ignore
             const actual = applicationsSelector(state);
 
-            const app = actual[1];
+            const app = actual[2];
 
             expect(app.id).toEqual(COMMISSION_ID);
             expect(app.name).toEqual('Commission');
