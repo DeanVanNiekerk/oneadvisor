@@ -89,7 +89,7 @@ namespace OneAdvisor.Service.Member
 
         public async Task<Result> InsertPolicy(ScopeOptions scope, PolicyEdit policy)
         {
-            var validator = new PolicyValidator(true);
+            var validator = new PolicyValidator(_context, scope, true);
             var result = validator.Validate(policy).GetResult();
 
             if (!result.Success)
@@ -112,7 +112,7 @@ namespace OneAdvisor.Service.Member
 
         public async Task<Result> UpdatePolicy(ScopeOptions scope, PolicyEdit policy)
         {
-            var validator = new PolicyValidator(true);
+            var validator = new PolicyValidator(_context, scope, true);
             var result = validator.Validate(policy).GetResult();
 
             if (!result.Success)
