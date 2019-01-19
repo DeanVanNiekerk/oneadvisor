@@ -71,6 +71,34 @@ namespace OneAdvisor.Service.Common.Query
                    select organisation;
         }
 
+        public static IQueryable<BranchEntity> GetBranchEntityQuery(DataContext context, ScopeOptions options)
+        {
+            if (options.IgnoreScope)
+            {
+                return from branch in context.Branch
+                       select branch;
+            }
+
+            if (options.Scope == Scope.User || options.Scope == Scope.Branch)
+            {
+                return from branch in context.Branch
+                       where branch.Id == options.BranchId
+                       select branch;
+            }
+
+            return from branch in context.Branch
+                   where branch.OrganisationId == options.OrganisationId
+                   select branch;
+        }
+
+        public static bool IsOrganisationInScope(ScopeOptions options, Guid organisationId)
+        {
+            if (options.IgnoreScope)
+                return true;
+
+            return options.OrganisationId == organisationId;
+        }
+
         public static async Task<Result> IsMemberInOrganisation(DataContext context, ScopeOptions options, Guid memberId)
         {
             var result = new Result();
@@ -86,38 +114,6 @@ namespace OneAdvisor.Service.Common.Query
             result.Success = true;
             return result;
         }
-
-        /* 
-        public static async Task<bool> IsMemberInScope(DataContext context, ScopeOptions options, Guid memberId)
-        {
-            var userQuery = GetUserEntityQuery(context, options);
-
-            var query = from user in userQuery
-                        join member in context.Member
-                            on user.Id equals member.UserId
-                        where member.Id == memberId
-                        select member;
-
-            return await query.AnyAsync();
-        }
-
-        public static async Task<Result> IsMemberInScopeResult(DataContext context, ScopeOptions options, Guid memberId)
-        {
-            var result = new Result();
-
-            var inScope = await IsMemberInScope(context, options, memberId);
-
-            if (!inScope)
-            {
-                result.AddValidationFailure("MemberId", "Member exists but is out of scope");
-                return result;
-            }
-
-            result.Success = true;
-            return result;
-        }
-
-        */
 
         public static async Task<Result> CheckScope(DataContext context, ScopeOptions scope, Guid memberId, string userId)
         {

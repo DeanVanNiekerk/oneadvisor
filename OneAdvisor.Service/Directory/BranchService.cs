@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model;
 using OneAdvisor.Service.Directory.Validators;
+using OneAdvisor.Service.Common.Query;
+using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Service.Directory
 {
@@ -24,7 +27,7 @@ namespace OneAdvisor.Service.Directory
 
         public async Task<PagedItems<Branch>> GetBranches(BranchQueryOptions queryOptions)
         {
-            var query = GetBranchQuery();
+            var query = GetBranchQuery(queryOptions.Scope);
 
             //Apply filters ----------------------------------------------------------------------------------------
             if (queryOptions.OrganisationId.HasValue)
@@ -45,21 +48,28 @@ namespace OneAdvisor.Service.Directory
             return pagedItems;
         }
 
-        public async Task<Branch> GetBranch(Guid id)
+        public async Task<Branch> GetBranch(ScopeOptions scope, Guid id)
         {
-            var query = from branch in GetBranchQuery()
+            var query = from branch in GetBranchQuery(scope)
                         where branch.Id == id
                         select branch;
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<Result> InsertBranch(Branch branch)
+        public async Task<Result> InsertBranch(ScopeOptions scope, Branch branch)
         {
             var validator = new BranchValidator(true);
             var result = validator.Validate(branch).GetResult();
 
             if (!result.Success)
                 return result;
+
+            //Only organisation scope
+            if (scope.Scope == Scope.Branch || scope.Scope == Scope.User)
+                return new Result();
+
+            if (!ScopeQuery.IsOrganisationInScope(scope, branch.OrganisationId))
+                return new Result();
 
             var entity = MapModelToEntity(branch);
             entity.OrganisationId = branch.OrganisationId;
@@ -72,7 +82,7 @@ namespace OneAdvisor.Service.Directory
             return result;
         }
 
-        public async Task<Result> UpdateBranch(Branch branch)
+        public async Task<Result> UpdateBranch(ScopeOptions scope, Branch branch)
         {
             var validator = new BranchValidator(false);
             var result = validator.Validate(branch).GetResult();
@@ -80,7 +90,13 @@ namespace OneAdvisor.Service.Directory
             if (!result.Success)
                 return result;
 
-            var entity = await _context.Branch.FindAsync(branch.Id);
+            if (scope.Scope == Scope.User)
+                return new Result();
+
+            var entity = await ScopeQuery.GetBranchEntityQuery(_context, scope).FirstOrDefaultAsync(b => b.Id == branch.Id);
+
+            if (entity == null)
+                return new Result();
 
             entity = MapModelToEntity(branch, entity);
             await _context.SaveChangesAsync();
@@ -88,9 +104,9 @@ namespace OneAdvisor.Service.Directory
             return result;
         }
 
-        private IQueryable<Branch> GetBranchQuery()
+        private IQueryable<Branch> GetBranchQuery(ScopeOptions scope)
         {
-            var query = from branch in _context.Branch
+            var query = from branch in ScopeQuery.GetBranchEntityQuery(_context, scope)
                         select new Branch()
                         {
                             Id = branch.Id,
@@ -106,7 +122,6 @@ namespace OneAdvisor.Service.Directory
             if (entity == null)
                 entity = new BranchEntity();
 
-            entity.Id = model.Id;
             entity.Name = model.Name;
 
             return entity;

@@ -27,6 +27,7 @@ namespace api.Controllers.Directory.Identity
             UseCaseService = useCaseService;
             OrganisationService = organisationService;
             BranchService = branchService;
+            AuthService = authService;
         }
 
         private IMapper Mapper { get; }
@@ -38,11 +39,11 @@ namespace api.Controllers.Directory.Identity
         [HttpGet("")]
         public async Task<IdentityDto> Index()
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin);
 
             var identity = Context.GetIdentity(User);
             var useCaseIds = await UseCaseService.GetUseCases(identity.RoleIds);
-            var branch = await BranchService.GetBranch(identity.BranchId);
+            var branch = await BranchService.GetBranch(scope, identity.BranchId);
 
             Organisation organisation = null;
             if (branch != null)

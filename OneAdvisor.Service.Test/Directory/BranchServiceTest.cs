@@ -8,6 +8,7 @@ using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Branch;
+using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Directory
@@ -15,33 +16,12 @@ namespace OneAdvisor.Service.Test.Directory
     [TestClass]
     public class BranchServiceTest
     {
-
-        [TestMethod]
-        public async Task GetBranches_None()
-        {
-            var options = TestHelper.GetDbContext("GetBranches_None");
-
-            //Given
-            //Nothing
-
-            using (var context = new DataContext(options))
-            {
-                var service = new BranchService(context);
-
-                //When
-                var queryOptions = new BranchQueryOptions();
-                var actual = await service.GetBranches(queryOptions);
-
-                //Then
-                Assert.AreEqual(actual.TotalItems, 0);
-                Assert.AreEqual(actual.Items.Count(), 0);
-            }
-        }
-
         [TestMethod]
         public async Task GetBranches_FilterAndSort()
         {
             var options = TestHelper.GetDbContext("GetBranches_FilterAndSort");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
 
             //Given
             var orgId1 = Guid.NewGuid();
@@ -71,11 +51,13 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new BranchService(context);
 
                 //When
-                var queryOptions = new BranchQueryOptions($"organisationId={orgId1.ToString()}");
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                scope.IgnoreScope = true;
+                var queryOptions = new BranchQueryOptions(scope, $"organisationId={orgId1.ToString()}");
                 var actual = await service.GetBranches(queryOptions);
 
                 //Then
-                Assert.AreEqual(actual.TotalItems, 6);
+                Assert.AreEqual(actual.TotalItems, 4);
 
                 var branches = actual.Items.ToArray();
 
@@ -100,10 +82,12 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("GetBranch");
 
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+
             //Given
-            var orgId1 = Guid.NewGuid();
-            var branch1 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = orgId1, Name = "Branch 1" };
-            var branch2 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = orgId1, Name = "Branch 2" };
+            var orgId2 = Guid.NewGuid();
+            var branch1 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = user1.Organisation.Id, Name = "Branch 1" };
+            var branch2 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = orgId2, Name = "Branch 2" };
 
             using (var context = new DataContext(options))
             {
@@ -118,12 +102,20 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new BranchService(context);
 
                 //When
-                var actual = await service.GetBranch(branch2.Id);
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var actual = await service.GetBranch(scope, branch1.Id);
 
                 //Then
-                Assert.AreEqual(branch2.Id, actual.Id);
-                Assert.AreEqual(branch2.OrganisationId, actual.OrganisationId);
-                Assert.AreEqual(branch2.Name, actual.Name);
+                Assert.AreEqual(branch1.Id, actual.Id);
+                Assert.AreEqual(branch1.OrganisationId, actual.OrganisationId);
+                Assert.AreEqual(branch1.Name, actual.Name);
+
+                //Scope check
+                scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                actual = await service.GetBranch(scope, branch2.Id);
+
+                //Then
+                Assert.IsNull(actual);
             }
         }
 
@@ -132,10 +124,12 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("InsertBranch");
 
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+
             //Given
             var branch = new Branch()
             {
-                OrganisationId = Guid.NewGuid(),
+                OrganisationId = user1.Organisation.Id,
                 Name = "Branch 1"
             };
 
@@ -144,7 +138,8 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new BranchService(context);
 
                 //When
-                var result = await service.InsertBranch(branch);
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var result = await service.InsertBranch(scope, branch);
 
                 //Then
                 Assert.IsTrue(result.Success);
@@ -152,6 +147,13 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await context.Branch.FindAsync(((Branch)result.Tag).Id);
                 Assert.AreEqual(branch.OrganisationId, actual.OrganisationId);
                 Assert.AreEqual(branch.Name, actual.Name);
+
+                //Scope check
+                scope = TestHelper.GetScopeOptions(user1, Scope.Branch);
+                result = await service.InsertBranch(scope, branch);
+
+                //Then
+                Assert.IsFalse(result.Success);
             }
         }
 
@@ -160,8 +162,10 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("UpdateBranch");
 
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+
             //Given
-            var branch1 = new BranchEntity { Id = Guid.NewGuid(), Name = "Branch 1", OrganisationId = Guid.NewGuid() };
+            var branch1 = new BranchEntity { Id = Guid.NewGuid(), Name = "Branch 1", OrganisationId = user1.Organisation.Id };
             var branch2 = new BranchEntity { Id = Guid.NewGuid(), Name = "Branch 2", OrganisationId = Guid.NewGuid() };
 
             using (var context = new DataContext(options))
@@ -174,8 +178,8 @@ namespace OneAdvisor.Service.Test.Directory
 
             var branch = new Branch()
             {
-                Id = branch2.Id,
-                OrganisationId = branch2.OrganisationId,
+                Id = branch1.Id,
+                OrganisationId = branch1.OrganisationId,
                 Name = "Branch 1 Updated"
             };
 
@@ -184,14 +188,24 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new BranchService(context);
 
                 //When
-                var result = await service.UpdateBranch(branch);
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var result = await service.UpdateBranch(scope, branch);
 
                 //Then
                 Assert.IsTrue(result.Success);
 
                 var actual = await context.Branch.FindAsync(branch.Id);
-                Assert.AreEqual(branch2.OrganisationId, actual.OrganisationId);
+                Assert.AreEqual(branch.OrganisationId, actual.OrganisationId);
                 Assert.AreEqual(branch.Name, actual.Name);
+
+                //Scope check
+                branch.Id = branch2.Id;
+                branch.OrganisationId = branch2.OrganisationId;
+                scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                result = await service.UpdateBranch(scope, branch);
+
+                //Then
+                Assert.IsFalse(result.Success);
             }
         }
 

@@ -12,6 +12,6 @@ namespace OneAdvisor.Model.Directory.Interface
         Task<PagedItems<Organisation>> GetOrganisations(OrganisationQueryOptions queryOptions);
         Task<Organisation> GetOrganisation(ScopeOptions scope, Guid id);
         Task<Result> UpdateOrganisation(ScopeOptions scope, Organisation user);
-        Task<Result> InsertOrganisation(Organisation user);
+        Task<Result> InsertOrganisation(ScopeOptions scope, Organisation user);
     }
 }

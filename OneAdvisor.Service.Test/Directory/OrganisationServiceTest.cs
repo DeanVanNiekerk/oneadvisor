@@ -8,6 +8,7 @@ using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Organisation;
+using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Directory
@@ -162,13 +163,21 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new OrganisationService(context);
 
                 //When
-                var result = await service.InsertOrganisation(organisation);
+                var scope = TestHelper.GetScopeOptions(Guid.NewGuid());
+                scope.IgnoreScope = true;
+                var result = await service.InsertOrganisation(scope, organisation);
 
                 //Then
                 Assert.IsTrue(result.Success);
 
                 var actual = await context.Organisation.FindAsync(((Organisation)result.Tag).Id);
                 Assert.AreEqual(organisation.Name, actual.Name);
+
+                //Scope check
+                scope = TestHelper.GetScopeOptions(Guid.NewGuid());
+                result = await service.InsertOrganisation(scope, organisation);
+
+                Assert.IsFalse(result.Success);
             }
         }
 
@@ -177,13 +186,13 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("UpdateOrganisation");
 
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+
             //Given
-            var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 1" };
             var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 2" };
 
             using (var context = new DataContext(options))
             {
-                context.Organisation.Add(org1);
                 context.Organisation.Add(org2);
 
                 context.SaveChanges();
@@ -191,8 +200,8 @@ namespace OneAdvisor.Service.Test.Directory
 
             var organisation = new Organisation()
             {
-                Id = org2.Id,
-                Name = "Organsation 1 Updated"
+                Id = user1.Organisation.Id,
+                Name = "Org 1 Updated"
             };
 
             using (var context = new DataContext(options))
@@ -200,7 +209,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new OrganisationService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(org2.Id);
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
                 var result = await service.UpdateOrganisation(scope, organisation);
 
                 //Then
@@ -210,7 +219,7 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.AreEqual(organisation.Name, actual.Name);
 
                 //Scope check
-                scope = TestHelper.GetScopeOptions(org1.Id);
+                organisation.Id = org2.Id;
                 result = await service.UpdateOrganisation(scope, organisation);
 
                 //Then

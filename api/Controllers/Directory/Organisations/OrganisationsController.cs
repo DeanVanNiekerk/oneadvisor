@@ -36,7 +36,7 @@ namespace api.Controllers.Directory.Organisations
         [UseCaseAuthorize("dir_view_organisations")]
         public async Task<PagedItemsDto<OrganisationDto>> Index()
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin);
 
             var queryOptions = new OrganisationQueryOptions(scope);
             var pagedItems = await OrganisationService.GetOrganisations(queryOptions);
@@ -48,7 +48,7 @@ namespace api.Controllers.Directory.Organisations
         [UseCaseAuthorize("dir_view_organisations")]
         public async Task<ActionResult<OrganisationDto>> Get(Guid organisationId)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin);
 
             var model = await OrganisationService.GetOrganisation(scope, organisationId);
 
@@ -62,9 +62,11 @@ namespace api.Controllers.Directory.Organisations
         [UseCaseAuthorize("dir_edit_organisations")]
         public async Task<ActionResult<Result>> Insert([FromBody] OrganisationDto organisation)
         {
+            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin);
+
             var model = Mapper.Map<Organisation>(organisation);
 
-            var result = await OrganisationService.InsertOrganisation(model);
+            var result = await OrganisationService.InsertOrganisation(scope, model);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
@@ -76,7 +78,7 @@ namespace api.Controllers.Directory.Organisations
         [UseCaseAuthorize("dir_edit_organisations")]
         public async Task<ActionResult<Result>> Update(Guid organisationId, [FromBody] OrganisationDto organisation)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin);
 
             organisation.Id = organisationId;
 

@@ -12,6 +12,7 @@ using OneAdvisor.Model;
 using OneAdvisor.Service.Directory.Validators;
 using OneAdvisor.Model.Directory.Model.Auth;
 using OneAdvisor.Service.Common.Query;
+using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Service.Directory
 {
@@ -50,13 +51,17 @@ namespace OneAdvisor.Service.Directory
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<Result> InsertOrganisation(Organisation organisation)
+        public async Task<Result> InsertOrganisation(ScopeOptions scope, Organisation organisation)
         {
             var validator = new OrganisationValidator(true);
             var result = validator.Validate(organisation).GetResult();
 
             if (!result.Success)
                 return result;
+
+            //Only for super admins
+            if (!scope.IgnoreScope)
+                return new Result();
 
             var entity = MapModelToEntity(organisation);
             await _context.Organisation.AddAsync(entity);
@@ -76,12 +81,16 @@ namespace OneAdvisor.Service.Directory
             if (!result.Success)
                 return result;
 
+            //Only organisation scope
+            if (scope.Scope == Scope.Branch || scope.Scope == Scope.User)
+                return new Result();
+
             var entity = await ScopeQuery
-                                .GetOrganisationEntityQuery(_context, scope)
-                                .FirstOrDefaultAsync(o => o.Id == organisation.Id);
+                            .GetOrganisationEntityQuery(_context, scope)
+                            .FirstOrDefaultAsync(o => o.Id == organisation.Id);
 
             if (entity == null)
-                return result;
+                return new Result();
 
             entity = MapModelToEntity(organisation, entity);
             _context.Entry(entity).State = EntityState.Modified;

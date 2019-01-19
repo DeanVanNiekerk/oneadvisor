@@ -457,7 +457,7 @@ namespace OneAdvisor.Service.Test.Member
                 var members = await service.GetMembers(queryOptions);
 
                 //Then
-                Assert.AreEqual(2, members.TotalItems);
+                Assert.AreEqual(1, members.TotalItems);
                 Assert.AreEqual(1, members.Items.Count());
 
                 var actual = members.Items.First();
