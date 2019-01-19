@@ -58,6 +58,19 @@ namespace OneAdvisor.Service.Common.Query
                    select user;
         }
 
+        public static IQueryable<OrganisationEntity> GetOrganisationEntityQuery(DataContext context, ScopeOptions options)
+        {
+            if (options.IgnoreScope)
+            {
+                return from organisation in context.Organisation
+                       select organisation;
+            }
+
+            return from organisation in context.Organisation
+                   where organisation.Id == options.OrganisationId
+                   select organisation;
+        }
+
         public static async Task<Result> IsMemberInOrganisation(DataContext context, ScopeOptions options, Guid memberId)
         {
             var result = new Result();

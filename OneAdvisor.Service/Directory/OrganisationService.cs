@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model;
 using OneAdvisor.Service.Directory.Validators;
+using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Service.Common.Query;
 
 namespace OneAdvisor.Service.Directory
 {
@@ -24,7 +26,7 @@ namespace OneAdvisor.Service.Directory
 
         public async Task<PagedItems<Organisation>> GetOrganisations(OrganisationQueryOptions queryOptions)
         {
-            var query = GetOrganisationQuery();
+            var query = GetOrganisationQuery(queryOptions.Scope);
 
             var pagedItems = new PagedItems<Organisation>();
 
@@ -40,9 +42,9 @@ namespace OneAdvisor.Service.Directory
             return pagedItems;
         }
 
-        public async Task<Organisation> GetOrganisation(Guid id)
+        public async Task<Organisation> GetOrganisation(ScopeOptions scope, Guid id)
         {
-            var query = from organisation in GetOrganisationQuery()
+            var query = from organisation in GetOrganisationQuery(scope)
                         where organisation.Id == id
                         select organisation;
             return await query.FirstOrDefaultAsync();
@@ -66,7 +68,7 @@ namespace OneAdvisor.Service.Directory
             return result;
         }
 
-        public async Task<Result> UpdateOrganisation(Organisation organisation)
+        public async Task<Result> UpdateOrganisation(ScopeOptions scope, Organisation organisation)
         {
             var validator = new OrganisationValidator(false);
             var result = validator.Validate(organisation).GetResult();
@@ -74,16 +76,23 @@ namespace OneAdvisor.Service.Directory
             if (!result.Success)
                 return result;
 
-            var entity = MapModelToEntity(organisation);
+            var entity = await ScopeQuery
+                                .GetOrganisationEntityQuery(_context, scope)
+                                .FirstOrDefaultAsync(o => o.Id == organisation.Id);
+
+            if (entity == null)
+                return result;
+
+            entity = MapModelToEntity(organisation, entity);
             _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return result;
         }
 
-        private IQueryable<Organisation> GetOrganisationQuery()
+        private IQueryable<Organisation> GetOrganisationQuery(ScopeOptions scope)
         {
-            var query = from organisation in _context.Organisation
+            var query = from organisation in ScopeQuery.GetOrganisationEntityQuery(_context, scope)
                         select new Organisation()
                         {
                             Id = organisation.Id,
@@ -93,13 +102,15 @@ namespace OneAdvisor.Service.Directory
             return query;
         }
 
-        private OrganisationEntity MapModelToEntity(Organisation model)
+        private OrganisationEntity MapModelToEntity(Organisation model, OrganisationEntity enity = null)
         {
-            return new OrganisationEntity()
-            {
-                Id = model.Id,
-                Name = model.Name
-            };
+            if (enity == null)
+                enity = new OrganisationEntity();
+
+            enity.Name = model.Name;
+
+            return enity;
+
         }
     }
 }

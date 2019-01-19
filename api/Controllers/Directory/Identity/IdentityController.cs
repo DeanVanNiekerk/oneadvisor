@@ -12,15 +12,17 @@ using api.App.Dtos;
 using api.Controllers.Directory.Identity.Dto;
 using OneAdvisor.Model.Directory.Model.Organisation;
 using OneAdvisor.Model.Directory.Model.User;
+using Microsoft.AspNetCore.Http;
 
 namespace api.Controllers.Directory.Identity
 {
     [Authorize]
     [ApiController]
     [Route("api/directory/identity")]
-    public class IdentityController : Controller
+    public class IdentityController : BaseController
     {
-        public IdentityController(IUseCaseService useCaseService, IOrganisationService organisationService, IBranchService branchService)
+        public IdentityController(IHttpContextAccessor contextAccessor, IAuthService authService, IUseCaseService useCaseService, IOrganisationService organisationService, IBranchService branchService)
+         : base(contextAccessor)
         {
             UseCaseService = useCaseService;
             OrganisationService = organisationService;
@@ -31,17 +33,20 @@ namespace api.Controllers.Directory.Identity
         private IUseCaseService UseCaseService { get; }
         private IOrganisationService OrganisationService { get; }
         private IBranchService BranchService { get; }
+        private IAuthService AuthService { get; }
 
         [HttpGet("")]
         public async Task<IdentityDto> Index()
         {
+            var scope = await AuthService.GetScope(UserId, Scope);
+
             var identity = Context.GetIdentity(User);
             var useCaseIds = await UseCaseService.GetUseCases(identity.RoleIds);
             var branch = await BranchService.GetBranch(identity.BranchId);
 
             Organisation organisation = null;
             if (branch != null)
-                organisation = await OrganisationService.GetOrganisation(branch.OrganisationId);
+                organisation = await OrganisationService.GetOrganisation(scope, branch.OrganisationId);
 
             return new IdentityDto()
             {

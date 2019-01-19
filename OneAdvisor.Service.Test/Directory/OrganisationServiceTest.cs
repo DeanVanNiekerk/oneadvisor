@@ -29,7 +29,8 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new OrganisationService(context);
 
                 //When
-                var queryOptions = new OrganisationQueryOptions();
+                var scope = TestHelper.GetScopeOptions(Guid.NewGuid());
+                var queryOptions = new OrganisationQueryOptions(scope);
                 var actual = await service.GetOrganisations(queryOptions);
 
                 //Then
@@ -69,7 +70,9 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new OrganisationService(context);
 
                 //When
-                var queryOptions = new OrganisationQueryOptions();
+                var scope = TestHelper.GetScopeOptions(Guid.NewGuid());
+                scope.IgnoreScope = true;
+                var queryOptions = new OrganisationQueryOptions(scope);
                 var actual = await service.GetOrganisations(queryOptions);
 
                 //Then
@@ -90,6 +93,19 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual6 = organisations[5];
                 Assert.AreEqual(org6.Id, actual6.Id);
                 Assert.AreEqual(org6.Name, actual6.Name);
+
+                //Scope check
+                scope = TestHelper.GetScopeOptions(org6.Id);
+                queryOptions = new OrganisationQueryOptions(scope);
+                actual = await service.GetOrganisations(queryOptions);
+
+                Assert.AreEqual(actual.TotalItems, 1);
+
+                organisations = actual.Items.ToArray();
+
+                actual1 = organisations[0];
+                Assert.AreEqual(org6.Id, actual1.Id);
+                Assert.AreEqual(org6.Name, actual1.Name);
             }
         }
 
@@ -115,11 +131,18 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new OrganisationService(context);
 
                 //When
-                var actual = await service.GetOrganisation(org2.Id);
+                var scope = TestHelper.GetScopeOptions(org2.Id);
+                var actual = await service.GetOrganisation(scope, org2.Id);
 
                 //Then
                 Assert.AreEqual(org2.Id, actual.Id);
                 Assert.AreEqual(org2.Name, actual.Name);
+
+                //Scope check
+                scope = TestHelper.GetScopeOptions(org1.Id);
+                actual = await service.GetOrganisation(scope, org2.Id);
+
+                Assert.IsNull(actual);
             }
         }
 
@@ -177,13 +200,22 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new OrganisationService(context);
 
                 //When
-                var result = await service.UpdateOrganisation(organisation);
+                var scope = TestHelper.GetScopeOptions(org2.Id);
+                var result = await service.UpdateOrganisation(scope, organisation);
 
                 //Then
                 Assert.IsTrue(result.Success);
 
                 var actual = await context.Organisation.FindAsync(organisation.Id);
                 Assert.AreEqual(organisation.Name, actual.Name);
+
+                //Scope check
+                scope = TestHelper.GetScopeOptions(org1.Id);
+                result = await service.UpdateOrganisation(scope, organisation);
+
+                //Then
+                Assert.IsFalse(result.Success);
+
             }
         }
 
