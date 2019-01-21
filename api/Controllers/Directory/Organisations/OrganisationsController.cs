@@ -12,6 +12,7 @@ using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Organisation;
 using api.App.Dtos;
 using Microsoft.AspNetCore.Http;
+using OneAdvisor.Model.Directory.Model.Role;
 
 namespace api.Controllers.Directory.Organisations
 {
@@ -59,6 +60,7 @@ namespace api.Controllers.Directory.Organisations
         }
 
         [HttpPost]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         [UseCaseAuthorize("dir_edit_organisations")]
         public async Task<ActionResult<Result>> Insert([FromBody] OrganisationDto organisation)
         {

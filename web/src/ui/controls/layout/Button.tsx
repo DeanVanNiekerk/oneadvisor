@@ -4,6 +4,7 @@ import React, { ReactNode } from 'react';
 import { connect } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
+import { hasRole } from '@/config/role';
 import { identitySelector } from '@/state/app/directory/identity';
 import { RootState } from '@/state/rootReducer';
 
@@ -14,7 +15,9 @@ type Props = {
     onClick?: () => void;
     children?: ReactNode;
     requiredUseCase?: string;
+    requiredRole?: string;
     useCases: string[];
+    roles: string[];
     className?: string;
     noLeftMargin?: boolean;
     visible?: boolean;
@@ -24,11 +27,14 @@ type Props = {
 
 class ButtonComponent extends React.Component<Props> {
     render() {
-        let { visible = true } = this.props;
+        let { requiredRole, requiredUseCase, visible = true } = this.props;
 
-        visible =
-            hasUseCase(this.props.requiredUseCase, this.props.useCases) &&
-            visible;
+        if (requiredUseCase)
+            visible =
+                hasUseCase(requiredUseCase, this.props.useCases) && visible;
+
+        if (requiredRole)
+            visible = hasRole(requiredRole, this.props.roles) && visible;
 
         return (
             <>
@@ -59,7 +65,8 @@ const mapStateToProps = (state: RootState) => {
     return {
         useCases: identityState.identity
             ? identityState.identity.useCaseIds
-            : []
+            : [],
+        roles: identityState.identity ? identityState.identity.roleIds : []
     };
 };
 

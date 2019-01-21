@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { getColumn } from '@/app/table';
+import { ROLE_SUPER_ADMIN } from '@/config/role';
 import {
     fetchOrganisations, Organisation, organisationsSelector, receiveOrganisation
 } from '@/state/app/directory/organisations';
@@ -79,6 +80,7 @@ class OrganisationList extends Component<Props, State> {
                             onClick={this.newOrganisation}
                             disabled={this.props.fetching}
                             requiredUseCase="dir_edit_organisations"
+                            requiredRole={ROLE_SUPER_ADMIN}
                         >
                             New Organisation
                         </Button>

@@ -1,5 +1,3 @@
-import { Identity } from '@/state/app/directory/identity';
-
 export type Scope = {
     id: number;
     name: string;
