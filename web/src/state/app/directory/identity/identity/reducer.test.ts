@@ -1,6 +1,7 @@
+import { Identity } from '../';
 import { defaultState, reducer } from './reducer';
 
-const defaultIdentity = {
+const defaultIdentity: Identity = {
     id: '10',
     name: 'Dean van Niekerk',
     organisationName: 'Test',
@@ -10,7 +11,7 @@ const defaultIdentity = {
     useCaseIds: ['uc_1'],
     roleIds: ['role_1'],
     assistantToUserId: '',
-    scope: 'organisation'
+    scope: 3
 };
 
 describe('identity reducer', () => {
