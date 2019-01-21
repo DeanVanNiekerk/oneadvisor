@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,14 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
+            //Load date of birth from IdNumber if possible
+            if (data.DateOfBirth == null)
+            {
+                var id = new IdNumber(data.IdNumber);
+                if (id.IsValid)
+                    data.DateOfBirth = id.DateOfBirth;
+            }
+
             var userEntityQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
 
             var userId = scope.UserId;
@@ -71,21 +80,24 @@ namespace OneAdvisor.Service.Member
             }
 
             //Check if the member exists in the organisation
-            var memberQuery = ScopeQuery.GetMemberEntityQuery(_context, scope);
+            var members = await FindMember(scope, data);
 
-            var query = from entity in memberQuery
-                        where entity.IdNumber == data.IdNumber
-                        || entity.PassportNumber == data.IdNumber
-                        select entity;
+            if (members.Count >= 2)
+            {
+                result.AddValidationFailure("", "There are multiple members matching this record, please increase specificity");
+                return result;
+            }
 
+            var memberEntity = members.FirstOrDefault();
 
             MemberEdit member = null;
-            var memberEntity = await query.FirstOrDefaultAsync();
 
             //Member exits, check member is in scope
             if (memberEntity != null)
             {
                 member = await _memberService.GetMember(scope, memberEntity.Id);
+
+                member = LoadMemberIdNumber(member, data);
 
                 member.FirstName = data.FirstName != null ? data.FirstName : member.FirstName;
                 member.LastName = data.LastName != null ? data.LastName : member.LastName;
@@ -102,11 +114,7 @@ namespace OneAdvisor.Service.Member
                     LastName = data.LastName != null ? data.LastName : string.Empty
                 };
 
-                var id = new IdNumber(data.IdNumber);
-                if (id.IsValid)
-                    member.IdNumber = data.IdNumber;
-                else
-                    member.PassportNumber = data.IdNumber;
+                member = LoadMemberIdNumber(member, data);
 
                 result = await _memberService.InsertMember(scope, member);
 
@@ -119,6 +127,51 @@ namespace OneAdvisor.Service.Member
             result = await ImportPolicy(scope, data, member, userId);
 
             return result;
+        }
+
+        private MemberEdit LoadMemberIdNumber(MemberEdit member, ImportMember data)
+        {
+            if (string.IsNullOrWhiteSpace(data.IdNumber))
+                return member;
+
+            var id = new IdNumber(data.IdNumber);
+            if (id.IsValid)
+                member.IdNumber = data.IdNumber;
+            else
+                member.PassportNumber = data.IdNumber;
+
+            return member;
+        }
+
+        private async Task<List<MemberEntity>> FindMember(ScopeOptions scope, ImportMember data)
+        {
+            //Check if the member exists in the organisation
+            var memberQuery = ScopeQuery.GetMemberEntityQuery(_context, scope);
+
+            IQueryable<MemberEntity> query;
+
+            if (!string.IsNullOrWhiteSpace(data.IdNumber))
+            {
+                //First try and match on IdNumber and PasswordNumber
+                query = from entity in memberQuery
+                        where entity.IdNumber == data.IdNumber
+                        || entity.PassportNumber == data.IdNumber
+                        select entity;
+
+                var matches = await query.ToListAsync();
+
+                if (matches.Any())
+                    return matches;
+            }
+
+            //If not matches, then try with DOB and LastName
+            query = from entity in memberQuery
+                    where EF.Functions.Like(entity.LastName, data.LastName)
+                    && entity.DateOfBirth == data.DateOfBirth
+                    select entity;
+
+            return await query.ToListAsync();
+
         }
 
         private async Task<Result> ImportPolicy(ScopeOptions scope, ImportMember data, MemberEdit member, string userId)

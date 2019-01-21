@@ -188,6 +188,62 @@ namespace OneAdvisor.Service.Test.Member
         }
 
         [TestMethod]
+        public async Task ImportMember_Update_LastNameAndDateOfBirth()
+        {
+            var options = TestHelper.GetDbContext("ImportMember_Update_LastNameAndDateOfBirth");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+
+            var mem1 = new MemberEntity
+            {
+                Id = Guid.NewGuid(),
+                OrganisationId = user1.Organisation.Id
+            };
+
+            var mem2 = new MemberEntity
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "FN 1",
+                LastName = "van Jones",
+                IdNumber = "8210035032082",
+                DateOfBirth = new DateTime(1982, 10, 3),
+                OrganisationId = user1.Organisation.Id
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Member.Add(mem1);
+                context.Member.Add(mem2);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var memberService = new MemberService(context);
+                var service = new MemberImportService(context, memberService, null);
+
+                //When
+                var data = new ImportMember()
+                {
+                    FirstName = "FN 1 Updated",
+                    LastName = mem2.LastName,
+                    DateOfBirth = mem2.DateOfBirth
+                };
+
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+
+                var result = await service.ImportMember(scope, data);
+
+                //Then
+                Assert.IsTrue(result.Success);
+
+                var actual = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == mem2.IdNumber);
+                Assert.AreEqual(data.FirstName, actual.FirstName);
+            }
+        }
+
+        [TestMethod]
         public async Task ImportMember_InsertPolicy()
         {
             var options = TestHelper.GetDbContext("ImportMember_InsertPolicy");

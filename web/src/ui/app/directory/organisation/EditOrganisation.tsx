@@ -93,13 +93,18 @@ class EditOrganisation extends Component<Props, State> {
         this.setState({ activeTab });
     };
 
+    isNew = () => {
+        const { organisation } = this.props;
+        return !(organisation && organisation.id);
+    };
+
     getTitle = () => {
         if (this.props.fetching) return 'Loading Organisation';
 
         const { organisation } = this.props;
 
-        if (organisation && organisation.id)
-            return `Organisation: ${organisation.name}`;
+        if (this.isNew())
+            return `Organisation: ${organisation && organisation.name}`;
 
         return 'New Organisation';
     };
@@ -128,9 +133,13 @@ class EditOrganisation extends Component<Props, State> {
                                     onChange={this.onChange}
                                 />
                             </TabPane>
-                            <TabPane tab="Branches" key="branches_tab">
-                                <BranchList organisationId={organisation.id} />
-                            </TabPane>
+                            {!this.isNew() && (
+                                <TabPane tab="Branches" key="branches_tab">
+                                    <BranchList
+                                        organisationId={organisation.id}
+                                    />
+                                </TabPane>
+                            )}
                         </Tabs>
                     )}
                 </ContentLoader>

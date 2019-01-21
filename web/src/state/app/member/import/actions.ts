@@ -1,7 +1,5 @@
-import { V4MAPPED } from 'dns';
 import { v4 } from 'uuid';
 
-import { ValidationResult } from '@/app/validation';
 import { membersImportApi } from '@/config/api/member';
 
 import { ImportColumn, ImportData, ImportMember, ResultFailure } from './';
@@ -162,7 +160,7 @@ export const importMemberFailure = (
 export const importMember = (member: ImportMember): any => {
     return {
         queue: 'MEMBERS_IMPORT_MEMBERS',
-        callback: (next, dispatch, getState) => {
+        callback: (next, dispatch) => {
             dispatch({
                 type: 'API',
                 endpoint: `${membersImportApi}`,

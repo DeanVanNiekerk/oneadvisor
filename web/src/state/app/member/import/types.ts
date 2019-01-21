@@ -13,6 +13,7 @@ export type ImportMember = {
     idNumber: string;
     firstName?: string | null;
     lastName?: string | null;
+    dateOfBirth?: string | null;
     policyNumber?: string | null;
     policyCompanyId?: string | null;
     policyUserFullName?: string | null;
