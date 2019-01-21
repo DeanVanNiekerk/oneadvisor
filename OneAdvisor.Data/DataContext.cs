@@ -27,6 +27,7 @@ namespace OneAdvisor.Data
         #region Lookup
 
         public DbSet<CompanyEntity> Company { get; set; }
+        public DbSet<CommissionTypeEntity> CommissionType { get; set; }
 
         #endregion
 
@@ -44,6 +45,7 @@ namespace OneAdvisor.Data
             #region Lookup
 
             modelBuilder.Entity<CompanyEntity>().ToTable("lkp_Company");
+            modelBuilder.Entity<CommissionTypeEntity>().ToTable("lkp_CommissionType");
 
             #endregion
 

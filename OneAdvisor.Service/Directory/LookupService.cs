@@ -22,6 +22,8 @@ namespace OneAdvisor.Service.Directory
             _context = context;
         }
 
+        #region Company
+
         public async Task<List<Company>> GetCompanies()
         {
             var query = from company in _context.Company
@@ -76,5 +78,66 @@ namespace OneAdvisor.Service.Directory
                 Name = model.Name
             };
         }
+
+        #endregion
+
+        #region Commission Type
+
+        public async Task<List<CommissionType>> GetCommissionTypes()
+        {
+            var query = from company in _context.CommissionType
+                        orderby company.Name
+                        select new CommissionType()
+                        {
+                            Id = company.Id,
+                            Name = company.Name
+                        };
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<Result> InsertCommissionType(CommissionType model)
+        {
+            var validator = new CommissionTypeValidator(true);
+            var result = validator.Validate(model).GetResult();
+
+            if (!result.Success)
+                return result;
+
+            var entity = MapCommissionTypeModelToEntity(model);
+            await _context.CommissionType.AddAsync(entity);
+            await _context.SaveChangesAsync();
+
+            model.Id = entity.Id;
+            result.Tag = model;
+
+            return result;
+        }
+
+        public async Task<Result> UpdateCommissionType(CommissionType model)
+        {
+            var validator = new CommissionTypeValidator(false);
+            var result = validator.Validate(model).GetResult();
+
+            if (!result.Success)
+                return result;
+
+            var entity = MapCommissionTypeModelToEntity(model);
+            _context.Entry(entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return result;
+        }
+
+        private CommissionTypeEntity MapCommissionTypeModelToEntity(CommissionType model)
+        {
+            return new CommissionTypeEntity()
+            {
+                Id = model.Id,
+                Name = model.Name
+            };
+        }
+
+        #endregion
     }
 }

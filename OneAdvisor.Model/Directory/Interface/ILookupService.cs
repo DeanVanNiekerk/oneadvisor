@@ -10,5 +10,9 @@ namespace OneAdvisor.Model.Directory.Interface
         Task<List<Company>> GetCompanies();
         Task<Result> UpdateCompany(Company model);
         Task<Result> InsertCompany(Company model);
+
+        Task<List<CommissionType>> GetCommissionTypes();
+        Task<Result> UpdateCommissionType(CommissionType model);
+        Task<Result> InsertCommissionType(CommissionType model);
     }
 }

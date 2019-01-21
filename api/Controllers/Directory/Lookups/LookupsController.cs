@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using api.App.Authorization;
 using api.Controllers.Directory.Lookups.Dto;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
@@ -12,6 +13,7 @@ using OneAdvisor.Model.Directory.Model.Lookup;
 namespace api.Controllers.Directory.Lookups
 {
     [ApiController]
+    [Authorize]
     [Route("api/directory/lookups")]
     public class LookupsController : Controller
     {
@@ -29,9 +31,12 @@ namespace api.Controllers.Directory.Lookups
         {
             return new LookupsDto()
             {
-                Companies = Mapper.MapList<Company, CompanyDto>(await LookupService.GetCompanies())
+                Companies = Mapper.MapList<Company, CompanyDto>(await LookupService.GetCompanies()),
+                CommissionTypes = Mapper.MapList<CommissionType, CommissionTypeDto>(await LookupService.GetCommissionTypes())
             };
         }
+
+        #region Company
 
         [HttpGet("companies")]
         public async Task<List<CompanyDto>> Companies()
@@ -70,6 +75,50 @@ namespace api.Controllers.Directory.Lookups
 
             return Ok(result);
         }
+
+        #endregion
+
+        #region Commission Types
+
+        [HttpGet("commissionTypes")]
+        public async Task<List<CommissionTypeDto>> CommissionTypes()
+        {
+            var models = await LookupService.GetCommissionTypes();
+
+            return Mapper.MapList<CommissionType, CommissionTypeDto>(models);
+        }
+
+        [HttpPost("commissionTypes")]
+        [UseCaseAuthorize("dir_edit_lookups")]
+        public async Task<ActionResult<Result>> InsertCommissionType([FromBody] CommissionTypeDto dto)
+        {
+            var model = Mapper.Map<CommissionType>(dto);
+
+            var result = await LookupService.InsertCommissionType(model);
+
+            if (!result.Success)
+                return BadRequest(result.ValidationFailures);
+
+            return Ok(result);
+        }
+
+        [HttpPost("commissionTypes/{commissionTypeId}")]
+        [UseCaseAuthorize("dir_edit_lookups")]
+        public async Task<ActionResult<Result>> UpdateCommissionType(Guid commissionTypeId, [FromBody] CommissionTypeDto dto)
+        {
+            dto.Id = commissionTypeId;
+
+            var model = Mapper.Map<CommissionType>(dto);
+
+            var result = await LookupService.UpdateCommissionType(model);
+
+            if (!result.Success)
+                return BadRequest(result.ValidationFailures);
+
+            return Ok(result);
+        }
+
+        #endregion
     }
 
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch } from 'react-router';
 
+import CommissionTypeList from '@/ui/app/directory/lookup/commissionType/CommissionTypeList';
 import CompanyList from '@/ui/app/directory/lookup/company/CompanyList';
 import OrganisationList from '@/ui/app/directory/organisation/OrganisationList';
 import RoleList from '@/ui/app/directory/role/RoleList';
@@ -23,6 +24,11 @@ const DirectoryRoutes = () => (
             exact
             path="/directory/lookups/companies"
             component={CompanyList}
+        />
+        <SecureRoute
+            exact
+            path="/directory/lookups/commTypes"
+            component={CommissionTypeList}
         />
     </Switch>
 );

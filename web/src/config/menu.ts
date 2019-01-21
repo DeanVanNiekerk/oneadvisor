@@ -43,6 +43,12 @@ export const menus: Menus = {
                         icon: 'bank',
                         relativePath: '/lookups/companies',
                         useCases: ['dir_view_lookups']
+                    },
+                    {
+                        name: 'Commission Types',
+                        icon: 'dollar',
+                        relativePath: '/lookups/commTypes',
+                        useCases: ['dir_view_lookups']
                     }
                 ]
             }

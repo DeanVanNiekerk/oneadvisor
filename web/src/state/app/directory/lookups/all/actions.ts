@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import { ApiAction } from '@/app/types';
 import { allLookupsApi } from '@/config/api/directory';
 
+import { receiveCommissionTypes } from '../commissionTypes';
 import { receiveCompanies } from '../companies';
 import { Lookups } from './types';
 
@@ -22,6 +23,7 @@ export const fetchAllLookups = (): ApiAction => ({
     endpoint: allLookupsApi,
     onSuccess: (payload: Lookups, dispatch: Dispatch) => {
         dispatch(receiveCompanies(payload.companies));
+        dispatch(receiveCommissionTypes(payload.commissionTypes));
     },
     dispatchPrefix: 'LOOKUPS'
 });

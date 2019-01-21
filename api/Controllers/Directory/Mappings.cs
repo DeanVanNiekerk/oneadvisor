@@ -33,6 +33,7 @@ namespace api.Controllers.Directory
             config.CreateMap<UseCase, UseCaseDto>();
 
             config.CreateMap<Company, CompanyDto>();
+            config.CreateMap<CommissionType, CommissionTypeDto>();
         }
 
     }

@@ -75,7 +75,13 @@ class Verify extends Component<Props> {
     };
 
     nextEnabled = () => {
-        return this.props.selectedCompanyId !== null;
+        if (this.policyCompanyRequired())
+            return this.props.selectedCompanyId !== null;
+        return true;
+    };
+
+    policyCompanyRequired = () => {
+        return this.props.columns.some(c => c.id === 'policyNumber');
     };
 
     render() {
@@ -111,43 +117,44 @@ class Verify extends Component<Props> {
                     </Col>
                 </Row>
 
-                <Row>
-                    <Col span={6}>
-                        <h4>Policy Company</h4>
+                {this.policyCompanyRequired() && (
+                    <Row>
+                        <Col span={6}>
+                            <h4>Policy Company</h4>
 
-                        <FormItem
-                            className="mb-0"
-                            validateStatus={
-                                this.props.selectedCompanyId === null
-                                    ? 'error'
-                                    : undefined
-                            }
-                            help={
-                                this.props.selectedCompanyId === null
-                                    ? 'Please select a policy company'
-                                    : ''
-                            }
-                        >
-                            <Select
-                                loading={this.props.loading}
-                                showSearch={true}
-                                style={{ width: '100%' }}
-                                filterOption={filterOption}
-                                onChange={(value: string) =>
-                                    this.selectCompany(value)
+                            <FormItem
+                                className="mb-0"
+                                validateStatus={
+                                    this.props.selectedCompanyId === null
+                                        ? 'error'
+                                        : undefined
                                 }
-                                value={this.props.selectedCompanyId}
+                                help={
+                                    this.props.selectedCompanyId === null
+                                        ? 'Please select a policy company'
+                                        : ''
+                                }
                             >
-                                {this.props.companies.map(c => (
-                                    <Option key={c.id} value={c.id}>
-                                        {c.name}
-                                    </Option>
-                                ))}
-                            </Select>
-                        </FormItem>
-                    </Col>
-                </Row>
-
+                                <Select
+                                    loading={this.props.loading}
+                                    showSearch={true}
+                                    style={{ width: '100%' }}
+                                    filterOption={filterOption}
+                                    onChange={(value: string) =>
+                                        this.selectCompany(value)
+                                    }
+                                    value={this.props.selectedCompanyId}
+                                >
+                                    {this.props.companies.map(c => (
+                                        <Option key={c.id} value={c.id}>
+                                            {c.name}
+                                        </Option>
+                                    ))}
+                                </Select>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                )}
                 <h4 className="mt-1">Member Data</h4>
 
                 <Table
