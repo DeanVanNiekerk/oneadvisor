@@ -8,5 +8,5 @@ export type Identity = {
     roleIds: string[];
     useCaseIds: string[];
     assistantToUserId: string;
-    scope: string;
+    scope: number;
 };

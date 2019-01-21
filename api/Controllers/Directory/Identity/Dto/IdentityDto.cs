@@ -14,7 +14,7 @@ namespace api.Controllers.Directory.Identity.Dto
         public string BranchName { get; set; }
         public IEnumerable<string> RoleIds { get; set; }
         public IEnumerable<string> UseCaseIds { get; set; }
-        public string Scope { get; set; }
+        public Scope Scope { get; set; }
         public string AssistantToUserId { get; set; }
     }
 }

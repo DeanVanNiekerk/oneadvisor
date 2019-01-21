@@ -5,6 +5,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import { hasUseCasesMenuGroups } from '@/app/identity';
+import { getScopeName } from '@/config/scope';
 import { Identity, identitySelector } from '@/state/app/directory/identity';
 import { userInfoSelector } from '@/state/auth';
 import { UserInfo } from '@/state/auth/types';
@@ -104,7 +105,7 @@ class Navigator extends Component<Props> {
                 </div>
                 <div>
                     <b>Scope:</b>&nbsp;
-                    {identity.scope}
+                    {getScopeName(identity.scope)}
                 </div>
                 <div>
                     <b>Roles:</b>&nbsp;

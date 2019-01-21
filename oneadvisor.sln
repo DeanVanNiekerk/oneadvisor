@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Data", "OneAdvis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Service.Test", "OneAdvisor.Service.Test\OneAdvisor.Service.Test.csproj", "{D9A4B16A-E0F0-40DC-ABA2-3BBF069B0F22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Service.Okta.Test", "OneAdvisor.Service.Okta.Test\OneAdvisor.Service.Okta.Test.csproj", "{57EFCF57-7AC4-4345-A550-140EB51A622D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,5 +102,17 @@ Global
 		{D9A4B16A-E0F0-40DC-ABA2-3BBF069B0F22}.Release|x64.Build.0 = Release|Any CPU
 		{D9A4B16A-E0F0-40DC-ABA2-3BBF069B0F22}.Release|x86.ActiveCfg = Release|Any CPU
 		{D9A4B16A-E0F0-40DC-ABA2-3BBF069B0F22}.Release|x86.Build.0 = Release|Any CPU
+		{57EFCF57-7AC4-4345-A550-140EB51A622D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57EFCF57-7AC4-4345-A550-140EB51A622D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57EFCF57-7AC4-4345-A550-140EB51A622D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{57EFCF57-7AC4-4345-A550-140EB51A622D}.Debug|x64.Build.0 = Debug|Any CPU
+		{57EFCF57-7AC4-4345-A550-140EB51A622D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{57EFCF57-7AC4-4345-A550-140EB51A622D}.Debug|x86.Build.0 = Debug|Any CPU
+		{57EFCF57-7AC4-4345-A550-140EB51A622D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57EFCF57-7AC4-4345-A550-140EB51A622D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57EFCF57-7AC4-4345-A550-140EB51A622D}.Release|x64.ActiveCfg = Release|Any CPU
+		{57EFCF57-7AC4-4345-A550-140EB51A622D}.Release|x64.Build.0 = Release|Any CPU
+		{57EFCF57-7AC4-4345-A550-140EB51A622D}.Release|x86.ActiveCfg = Release|Any CPU
+		{57EFCF57-7AC4-4345-A550-140EB51A622D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

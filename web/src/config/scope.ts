@@ -1,3 +1,5 @@
+import { Identity } from '@/state/app/directory/identity';
+
 export type Scope = {
     id: number;
     name: string;
@@ -18,4 +20,10 @@ export const getScopes = (): Scope[] => {
             name: 'User'
         }
     ];
+};
+
+export const getScopeName = (scope: number): string => {
+    const match = getScopes().find(s => s.id >= scope);
+    if (!match) return 'No mapping';
+    return match.name;
 };

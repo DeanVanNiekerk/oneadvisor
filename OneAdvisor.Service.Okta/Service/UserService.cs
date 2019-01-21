@@ -119,7 +119,7 @@ namespace OneAdvisor.Service.Okta.Service
 
         public async Task<Result> UpdateUser(ScopeOptions scope, UserEdit user)
         {
-            var validator = new UserValidator(false);
+            var validator = new UserValidator(scope, false);
             var result = validator.Validate(user).GetResult();
 
             if (!result.Success)
@@ -219,7 +219,7 @@ namespace OneAdvisor.Service.Okta.Service
 
         public async Task<Result> InsertUser(ScopeOptions scope, UserEdit user)
         {
-            var validator = new UserValidator(true);
+            var validator = new UserValidator(scope, true);
             var result = validator.Validate(user).GetResult();
 
             if (!result.Success)

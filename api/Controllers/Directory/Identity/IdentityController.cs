@@ -60,7 +60,7 @@ namespace api.Controllers.Directory.Identity
                 RoleIds = identity.RoleIds.Where(r => r != "Everyone"),
                 UseCaseIds = useCaseIds,
                 AssistantToUserId = identity.AssistantToUserId,
-                Scope = ScopeParser.Format(identity.Scope)
+                Scope = identity.Scope
             };
         }
     }

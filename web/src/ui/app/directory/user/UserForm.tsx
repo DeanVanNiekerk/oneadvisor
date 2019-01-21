@@ -7,7 +7,7 @@ import { ValidationResult } from '@/app/validation';
 import { getScopes } from '@/config/scope';
 import { Application } from '@/state/app/directory/applications';
 import { branchesSelector, branchSelector } from '@/state/app/directory/branches';
-import { identitySelector } from '@/state/app/directory/identity';
+import { Identity, identitySelector } from '@/state/app/directory/identity';
 import { Organisation } from '@/state/app/directory/organisations';
 import { Role } from '@/state/app/directory/roles';
 import { UserEdit } from '@/state/app/directory/users';
