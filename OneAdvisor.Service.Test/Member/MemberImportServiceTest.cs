@@ -35,7 +35,7 @@ namespace OneAdvisor.Service.Test.Member
                 //When
                 var data = new ImportMember()
                 {
-                    IdNumber = "8210035032082",
+                    IdNumber = "821003 5032 082",
                     FirstName = "FN",
                     LastName = "LN"
                 };
@@ -47,7 +47,7 @@ namespace OneAdvisor.Service.Test.Member
                 //Then
                 Assert.IsTrue(result.Success);
 
-                var actual = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == data.IdNumber);
+                var actual = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == "8210035032082");
                 Assert.AreEqual(null, actual.PassportNumber);
                 Assert.AreEqual(user1.Organisation.Id, actual.OrganisationId);
                 Assert.AreEqual(data.LastName, actual.LastName);

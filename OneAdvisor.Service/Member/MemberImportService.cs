@@ -39,6 +39,10 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
+            //Clean id number
+            if (!string.IsNullOrEmpty(data.IdNumber))
+                data.IdNumber = data.IdNumber.Replace(" ", "");
+
             //Load date of birth from IdNumber if possible
             if (data.DateOfBirth == null)
             {
