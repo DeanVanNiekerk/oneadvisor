@@ -148,7 +148,7 @@ class MemberForm extends Component<Props, State> {
                     value={member.firstName}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    focus={true}
+                    autoFocus={true}
                 />
                 <FormInput
                     fieldName="lastName"

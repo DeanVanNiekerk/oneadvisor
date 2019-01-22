@@ -6,7 +6,7 @@ import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { PolicyEdit } from '@/state/app/member/policies';
 import { RootState } from '@/state/rootReducer';
-import { Form, FormDate, FormInput, FormSelect } from '@/ui/controls';
+import { Form, FormDate, FormInput, FormInputNumber, FormSelect } from '@/ui/controls';
 
 type Props = {
     policy: PolicyEdit;
@@ -59,7 +59,7 @@ class PolicyForm extends Component<Props, State> {
                     value={policy.number}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    focus={true}
+                    autoFocus={true}
                 />
                 <FormSelect
                     fieldName="companyId"
@@ -82,12 +82,14 @@ class PolicyForm extends Component<Props, State> {
                     optionsValue="id"
                     optionsText="fullName"
                 />
-                <FormInput
+                <FormInputNumber
                     fieldName="premium"
                     label="Premium"
                     value={policy.premium}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    isCurrency={true}
+                    min={0}
                 />
                 <FormDate
                     fieldName="startDate"

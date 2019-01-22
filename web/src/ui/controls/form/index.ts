@@ -1,5 +1,6 @@
 export { Form } from './Form';
 export { FormInput } from './FormInput';
+export { FormInputNumber } from './FormInputNumber';
 export { FormSelect } from './FormSelect';
 export { FormText } from './FormText';
 export { FormDate } from './FormDate';

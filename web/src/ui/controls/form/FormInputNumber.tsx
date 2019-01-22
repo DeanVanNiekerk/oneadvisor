@@ -1,4 +1,4 @@
-import { Input } from 'antd';
+import { InputNumber } from 'antd';
 import React, { Component } from 'react';
 
 import { ValidationResult } from '@/app/validation';
@@ -15,15 +15,24 @@ type Props = {
     onChange?: (fieldName: string, value: any) => void;
     validationResults?: ValidationResult[];
     layout?: FormLayout;
-    addonAfter?: React.ReactNode;
-    autoFocus?: boolean;
     readonly?: boolean;
+    min?: number;
+    max?: number;
+    isCurrency?: boolean;
 };
 
-class FormInput extends Component<Props> {
-    onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+class FormInputNumber extends Component<Props> {
+    onChange = (value: number | string | undefined) => {
         if (this.props.onChange)
-            this.props.onChange(this.props.fieldName, event.target.value);
+            this.props.onChange(this.props.fieldName, value);
+    };
+
+    currencyFormatter = (value: number | string | undefined) => {
+        return `R ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    };
+
+    currencyParser = (value: string) => {
+        return value.replace(/\R\s?|(,*)/g, '');
     };
 
     render() {
@@ -34,13 +43,19 @@ class FormInput extends Component<Props> {
             validationResults,
             disabled = false,
             layout,
-            addonAfter,
-            autoFocus,
-            readonly
+            readonly,
+            isCurrency
         } = this.props;
 
         if (readonly)
             return <FormText label={label} value={value} layout={layout} />;
+
+        let formatter: any;
+        let parser: any;
+        if (isCurrency) {
+            formatter = this.currencyFormatter;
+            parser = this.currencyParser;
+        }
 
         return (
             <FormField
@@ -50,18 +65,22 @@ class FormInput extends Component<Props> {
                 value={value}
                 layout={layout}
             >
-                <Input
-                    autoFocus={autoFocus}
+                <InputNumber
                     disabled={disabled}
                     name={fieldName}
                     id={fieldName}
                     value={value}
                     onChange={this.onChange}
-                    addonAfter={addonAfter}
+                    formatter={formatter}
+                    parser={parser}
+                    //width="100%"
+                    style={{
+                        width: '100%'
+                    }}
                 />
             </FormField>
         );
     }
 }
 
-export { FormInput };
+export { FormInputNumber };

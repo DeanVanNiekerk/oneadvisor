@@ -53,7 +53,7 @@ class CommissionTypeForm extends Component<Props, State> {
                     value={commissionType.name}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    focus={true}
+                    autoFocus={true}
                 />
             </Form>
         );

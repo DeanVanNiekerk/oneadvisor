@@ -53,6 +53,7 @@ class BranchForm extends Component<Props, State> {
                     value={branch.name}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    autoFocus={true}
                 />
                 <FormField>
                     <Button onClick={() => this.props.onCancel()}>

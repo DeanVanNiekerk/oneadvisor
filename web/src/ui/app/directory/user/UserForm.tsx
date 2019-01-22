@@ -102,7 +102,7 @@ class UserForm extends Component<Props, State> {
                                 value={user.firstName}
                                 onChange={this.handleChange}
                                 validationResults={validationResults}
-                                //focus={true}
+                                autoFocus={true}
                             />
                             <FormInput
                                 fieldName="lastName"

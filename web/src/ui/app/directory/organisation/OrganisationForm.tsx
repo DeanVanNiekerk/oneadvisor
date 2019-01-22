@@ -53,7 +53,7 @@ class OrganisationForm extends Component<Props, State> {
                     value={organisation.name}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    focus={true}
+                    autoFocus={true}
                 />
             </Form>
         );
