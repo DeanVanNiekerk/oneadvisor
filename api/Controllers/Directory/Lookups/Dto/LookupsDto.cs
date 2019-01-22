@@ -6,5 +6,6 @@ namespace api.Controllers.Directory.Lookups.Dto
     {
         public List<CompanyDto> Companies { get; set; }
         public List<CommissionTypeDto> CommissionTypes { get; set; }
+        public List<MarritalStatusDto> MarritalStatus { get; set; }
     }
 }

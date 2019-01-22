@@ -20,7 +20,9 @@ describe('policy actions', () => {
             memberId: '12',
             companyId: '100',
             userId: '1',
-            number: '987654'
+            number: '987654',
+            premium: 500,
+            startDate: '1999-01-01'
         };
 
         const onSuccess = () => {};

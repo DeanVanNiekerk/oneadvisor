@@ -36,7 +36,9 @@ namespace OneAdvisor.Service.Member
                             MemberId = policy.MemberId,
                             Number = policy.Number,
                             CompanyId = policy.CompanyId,
-                            UserId = policy.UserId
+                            UserId = policy.UserId,
+                            Premium = policy.Premium,
+                            StartDate = policy.StartDate
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -144,7 +146,9 @@ namespace OneAdvisor.Service.Member
                             MemberId = policy.MemberId,
                             Number = policy.Number,
                             CompanyId = policy.CompanyId,
-                            UserId = policy.UserId
+                            UserId = policy.UserId,
+                            Premium = policy.Premium,
+                            StartDate = policy.StartDate
                         };
 
             return query;
@@ -171,6 +175,8 @@ namespace OneAdvisor.Service.Member
             entity.Number = model.Number;
             entity.CompanyId = model.CompanyId;
             entity.UserId = model.UserId;
+            entity.StartDate = model.StartDate;
+            entity.Premium = model.Premium;
 
             return entity;
         }

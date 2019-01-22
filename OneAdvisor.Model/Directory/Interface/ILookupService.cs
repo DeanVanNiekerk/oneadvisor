@@ -7,6 +7,8 @@ namespace OneAdvisor.Model.Directory.Interface
 {
     public interface ILookupService
     {
+        Task<List<MarritalStatus>> GetMarritalStatus();
+
         Task<List<Company>> GetCompanies();
         Task<Result> UpdateCompany(Company model);
         Task<Result> InsertCompany(Company model);

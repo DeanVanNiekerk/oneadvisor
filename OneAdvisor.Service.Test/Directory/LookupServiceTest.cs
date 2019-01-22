@@ -15,6 +15,51 @@ namespace OneAdvisor.Service.Test.Directory
     [TestClass]
     public class LookupServiceTest
     {
+        #region Marrial Status
+
+        [TestMethod]
+        public async Task GetMarrialStatus()
+        {
+            var options = TestHelper.GetDbContext("GetMarrialStatus");
+
+            //Given
+            var lkp1 = new MarritalStatusEntity { Id = Guid.NewGuid(), Name = "A" };
+            var lkp2 = new MarritalStatusEntity { Id = Guid.NewGuid(), Name = "B" };
+            var lkp3 = new MarritalStatusEntity { Id = Guid.NewGuid(), Name = "C" };
+
+            using (var context = new DataContext(options))
+            {
+                //Jumbled order
+                context.MarritalStatus.Add(lkp2);
+                context.MarritalStatus.Add(lkp1);
+                context.MarritalStatus.Add(lkp3);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new LookupService(context);
+
+                //When
+                var actual = await service.GetMarritalStatus();
+
+                //Then
+                Assert.AreEqual(actual.Count, 3);
+
+                var actual1 = actual[0];
+                Assert.AreEqual(lkp1.Id, actual1.Id);
+                Assert.AreEqual(lkp1.Name, actual1.Name);
+
+                var actual2 = actual[1];
+                Assert.AreEqual(lkp2.Id, actual2.Id);
+
+                var actual3 = actual[2];
+                Assert.AreEqual(lkp3.Id, actual3.Id);
+            }
+        }
+
+        #endregion
 
         #region Company
 

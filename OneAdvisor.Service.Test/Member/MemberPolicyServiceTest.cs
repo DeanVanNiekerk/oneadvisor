@@ -36,7 +36,10 @@ namespace OneAdvisor.Service.Test.Member
                 CompanyId = Guid.NewGuid(),
                 MemberId = member1.Member.Id,
                 UserId = user1.User.Id,
-                Number = "123465"
+                Number = "123465",
+                StartDate = DateTime.Now,
+                Premium = 500
+
             };
 
             var policy2 = new PolicyEntity
@@ -84,6 +87,8 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(policy1.MemberId, actual.MemberId);
                 Assert.AreEqual(policy1.CompanyId, actual.CompanyId);
                 Assert.AreEqual(policy1.Number, actual.Number);
+                Assert.AreEqual(policy1.StartDate, actual.StartDate);
+                Assert.AreEqual(policy1.Premium, actual.Premium);
 
                 actual = policies.Items.Last();
                 Assert.AreEqual(policy2.Id, actual.Id);
@@ -124,7 +129,9 @@ namespace OneAdvisor.Service.Test.Member
                 CompanyId = Guid.NewGuid(),
                 MemberId = member1.Member.Id,
                 UserId = user1.User.Id,
-                Number = "654987"
+                Number = "654987",
+                StartDate = DateTime.Now,
+                Premium = 500
             };
 
             using (var context = new DataContext(options))
@@ -149,6 +156,8 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(policy2.CompanyId, actual.CompanyId);
                 Assert.AreEqual(policy2.UserId, actual.UserId);
                 Assert.AreEqual(policy2.Number, actual.Number);
+                Assert.AreEqual(policy2.StartDate, actual.StartDate);
+                Assert.AreEqual(policy2.Premium, actual.Premium);
             }
         }
 
@@ -312,7 +321,9 @@ namespace OneAdvisor.Service.Test.Member
                 CompanyId = Guid.NewGuid(),
                 MemberId = member1.Member.Id,
                 UserId = user1.User.Id,
-                Number = "123465"
+                Number = "123465",
+                StartDate = DateTime.Now,
+                Premium = 500
             };
 
             using (var context = new DataContext(options))
@@ -331,6 +342,8 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(policy1.MemberId, actual.MemberId);
                 Assert.AreEqual(policy1.CompanyId, actual.CompanyId);
                 Assert.AreEqual(policy1.Number, actual.Number);
+                Assert.AreEqual(policy1.StartDate, actual.StartDate);
+                Assert.AreEqual(policy1.Premium, actual.Premium);
 
                 //Out of scope 
                 scopeOptions = TestHelper.GetScopeOptions(user2, Scope.Organisation);
@@ -357,7 +370,9 @@ namespace OneAdvisor.Service.Test.Member
                 CompanyId = Guid.NewGuid(),
                 MemberId = member1.Member.Id,
                 UserId = user1.User.Id,
-                Number = "123465"
+                Number = "123465",
+                StartDate = DateTime.Now,
+                Premium = 500
             };
 
             using (var context = new DataContext(options))
@@ -373,7 +388,9 @@ namespace OneAdvisor.Service.Test.Member
                 CompanyId = Guid.NewGuid(),
                 MemberId = member1.Member.Id,
                 UserId = user1.User.Id,
-                Number = "528547"
+                Number = "528547",
+                StartDate = DateTime.Now.AddDays(-10),
+                Premium = 600
             };
 
             using (var context = new DataContext(options))
@@ -392,6 +409,8 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(policy1.MemberId, actual.MemberId);
                 Assert.AreEqual(policy1.CompanyId, actual.CompanyId);
                 Assert.AreEqual(policy1.Number, actual.Number);
+                Assert.AreEqual(policy1.StartDate, actual.StartDate);
+                Assert.AreEqual(policy1.Premium, actual.Premium);
 
                 //Out of scope 
                 scopeOptions = TestHelper.GetScopeOptions(user2, Scope.Organisation);

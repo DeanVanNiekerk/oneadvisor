@@ -33,6 +33,7 @@ namespace OneAdvisor.Data
 
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_Company]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_CommissionType]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_MarritalStatus]");
 
             return total;
         }
@@ -170,6 +171,18 @@ namespace OneAdvisor.Data
                 _context.Company.Add(new CompanyEntity() { Id = comp1Guid, Name = "Discovery" });
                 _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Momentum" });
                 _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Best Med" });
+            }
+
+            //Lookups - Marrital Status
+            var marritalStatus = _context.MarritalStatus.ToList();
+            if (!marritalStatus.Any())
+            {
+                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("77fa3769-7775-4cdd-b5d4-8b526b2d894c"), Name = "Single" });
+                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("5f7a5d69-845c-4f8d-b108-7c70084f3f6a"), Name = "Married COP" });
+                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("b31331ec-73cb-4985-aa93-e60e04a48095"), Name = "Married ANC" });
+                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("b16cbd3b-cf50-4a74-8f38-a8ca6b1cb83f"), Name = "Married ANC (with Accrual)" });
+                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("e4f03497-5dbf-4bd0-bc14-660a3969f011"), Name = "Widowed" });
+                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("91ebd765-bd8b-4908-94dc-00f09fe37ca7"), Name = "Divorced" });
             }
 
             //Lookups - Companies

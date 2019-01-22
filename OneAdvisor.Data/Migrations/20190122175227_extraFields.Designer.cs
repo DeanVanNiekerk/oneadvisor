@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OneAdvisor.Data;
 
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190122175227_extraFields")]
+    partial class extraFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,7 +77,7 @@ namespace OneAdvisor.Data.Migrations
                     b.ToTable("lkp_Company");
                 });
 
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.Lookup.MarritalStatusEntity", b =>
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.Lookup.MarrialStatusEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -85,7 +87,7 @@ namespace OneAdvisor.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("lkp_MarritalStatus");
+                    b.ToTable("lkp_MarrialStatus");
                 });
 
             modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.OrganisationEntity", b =>
@@ -194,6 +196,8 @@ namespace OneAdvisor.Data.Migrations
 
                     b.Property<DateTime?>("MarriageDate");
 
+                    b.Property<Guid?>("MarrialStatusId");
+
                     b.Property<Guid?>("MarritalStatusId");
 
                     b.Property<Guid>("OrganisationId");
@@ -206,7 +210,7 @@ namespace OneAdvisor.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MarritalStatusId");
+                    b.HasIndex("MarrialStatusId");
 
                     b.HasIndex("OrganisationId");
 
@@ -291,9 +295,9 @@ namespace OneAdvisor.Data.Migrations
 
             modelBuilder.Entity("OneAdvisor.Data.Entities.Member.MemberEntity", b =>
                 {
-                    b.HasOne("OneAdvisor.Data.Entities.Directory.Lookup.MarritalStatusEntity", "MarritalStatus")
+                    b.HasOne("OneAdvisor.Data.Entities.Directory.Lookup.MarrialStatusEntity", "MarrialStatus")
                         .WithMany()
-                        .HasForeignKey("MarritalStatusId");
+                        .HasForeignKey("MarrialStatusId");
 
                     b.HasOne("OneAdvisor.Data.Entities.Directory.OrganisationEntity", "Organisation")
                         .WithMany("Members")

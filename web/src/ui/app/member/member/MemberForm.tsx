@@ -1,16 +1,19 @@
 import { Dropdown, Icon, Menu } from 'antd';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { parseIdNumber } from '@/app/parsers/id';
 import { ValidationResult } from '@/app/validation';
+import { MarritalStatus, marritalStatusSelector } from '@/state/app/directory/lookups/marritalStatus';
 import { MemberEdit } from '@/state/app/member/members';
-import { Form, FormDate, FormInput } from '@/ui/controls';
+import { RootState } from '@/state/rootReducer';
+import { Form, FormDate, FormInput, FormSelect } from '@/ui/controls';
 
 type Props = {
     member: MemberEdit;
     validationResults: ValidationResult[];
     onChange: (member: MemberEdit) => void;
-    enabled: boolean;
+    marritalStatus: MarritalStatus[];
 };
 
 type State = {
@@ -121,8 +124,20 @@ class MemberForm extends Component<Props, State> {
         );
     };
 
+    isMarried = () => {
+        const marriedStatus = [
+            '5f7a5d69-845c-4f8d-b108-7c70084f3f6a', //Married COP
+            'b31331ec-73cb-4985-aa93-e60e04a48095', //Married ANC
+            'b16cbd3b-cf50-4a74-8f38-a8ca6b1cb83f' //Married ANC (with Accrual)
+        ];
+
+        return marriedStatus.some(
+            id => this.state.member.marritalStatusId === id
+        );
+    };
+
     render() {
-        const { validationResults, enabled } = this.props;
+        const { validationResults } = this.props;
         const { member } = this.state;
 
         return (
@@ -133,7 +148,6 @@ class MemberForm extends Component<Props, State> {
                     value={member.firstName}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    disabled={!enabled}
                     focus={true}
                 />
                 <FormInput
@@ -142,7 +156,6 @@ class MemberForm extends Component<Props, State> {
                     value={member.lastName}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    disabled={!enabled}
                 />
                 <FormInput
                     fieldName="initials"
@@ -150,7 +163,6 @@ class MemberForm extends Component<Props, State> {
                     value={member.initials}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    disabled={!enabled}
                 />
                 <FormInput
                     fieldName="maidenName"
@@ -158,7 +170,6 @@ class MemberForm extends Component<Props, State> {
                     value={member.maidenName}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    disabled={!enabled}
                 />
                 <FormInput
                     fieldName="preferredName"
@@ -166,7 +177,6 @@ class MemberForm extends Component<Props, State> {
                     value={member.preferredName}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    disabled={!enabled}
                 />
                 <FormInput
                     fieldName="idNumber"
@@ -175,7 +185,6 @@ class MemberForm extends Component<Props, State> {
                     onChange={this.handleChange}
                     validationResults={validationResults}
                     addonAfter={this.idNumberInputAddon()}
-                    disabled={!enabled}
                 />
                 <FormInput
                     fieldName="passportNumber"
@@ -183,7 +192,6 @@ class MemberForm extends Component<Props, State> {
                     value={member.passportNumber}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    disabled={!enabled}
                 />
                 <FormDate
                     fieldName="dateOfBirth"
@@ -191,11 +199,44 @@ class MemberForm extends Component<Props, State> {
                     value={member.dateOfBirth}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    disabled={!enabled}
                 />
+                <FormInput
+                    fieldName="taxNumber"
+                    label="Tax Number"
+                    value={member.taxNumber}
+                    onChange={this.handleChange}
+                    validationResults={validationResults}
+                />
+                <FormSelect
+                    fieldName="marritalStatusId"
+                    label="Marrital Status"
+                    value={member.marritalStatusId}
+                    onChange={this.handleChange}
+                    validationResults={validationResults}
+                    options={this.props.marritalStatus}
+                    optionsValue="id"
+                    optionsText="name"
+                />
+                {this.isMarried() && (
+                    <FormDate
+                        fieldName="marriageDate"
+                        label="Marriage Date"
+                        value={member.marriageDate}
+                        onChange={this.handleChange}
+                        validationResults={validationResults}
+                    />
+                )}
             </Form>
         );
     }
 }
 
-export default MemberForm;
+const mapStateToProps = (state: RootState) => {
+    const marritalStatusState = marritalStatusSelector(state);
+
+    return {
+        marritalStatus: marritalStatusState.items
+    };
+};
+
+export default connect(mapStateToProps)(MemberForm);

@@ -37,7 +37,10 @@ namespace OneAdvisor.Service.Test.Member
                 PreferredName = "PN 1",
                 IdNumber = "321654",
                 DateOfBirth = new DateTime(1982, 10, 3),
-                OrganisationId = orgId1
+                OrganisationId = orgId1,
+                TaxNumber = "889977",
+                MarritalStatusId = Guid.NewGuid(),
+                MarriageDate = new DateTime(2009, 11, 13),
             };
 
             var member2 = new MemberEntity
@@ -76,6 +79,9 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(member1.PreferredName, actual.PreferredName);
                 Assert.AreEqual(member1.IdNumber, actual.IdNumber);
                 Assert.AreEqual(member1.DateOfBirth, actual.DateOfBirth);
+                Assert.AreEqual(member1.TaxNumber, actual.TaxNumber);
+                Assert.AreEqual(member1.MarritalStatusId, actual.MarritalStatusId);
+                Assert.AreEqual(member1.MarriageDate, actual.MarriageDate);
             }
         }
 
@@ -202,7 +208,10 @@ namespace OneAdvisor.Service.Test.Member
                 PreferredName = "PN 1",
                 IdNumber = "321654",
                 DateOfBirth = new DateTime(1982, 10, 3),
-                OrganisationId = orgId1
+                OrganisationId = orgId1,
+                TaxNumber = "889977",
+                MarritalStatusId = Guid.NewGuid(),
+                MarriageDate = new DateTime(2009, 11, 13)
             };
 
             using (var context = new DataContext(options))
@@ -230,6 +239,9 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(mem2.PreferredName, actual.PreferredName);
                 Assert.AreEqual(mem2.IdNumber, actual.IdNumber);
                 Assert.AreEqual(mem2.DateOfBirth, actual.DateOfBirth);
+                Assert.AreEqual(mem2.TaxNumber, actual.TaxNumber);
+                Assert.AreEqual(mem2.MarritalStatusId, actual.MarritalStatusId);
+                Assert.AreEqual(mem2.MarriageDate, actual.MarriageDate);
             }
         }
 
@@ -318,7 +330,10 @@ namespace OneAdvisor.Service.Test.Member
                 Initials = "INI 1",
                 PreferredName = "PN 1",
                 IdNumber = "8210035032082",
-                DateOfBirth = new DateTime(1982, 10, 3)
+                DateOfBirth = new DateTime(1982, 10, 3),
+                TaxNumber = "889977",
+                MarritalStatusId = Guid.NewGuid(),
+                MarriageDate = new DateTime(2009, 11, 13)
             };
 
             using (var context = new DataContext(options))
@@ -342,6 +357,9 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(member.PreferredName, actual.PreferredName);
                 Assert.AreEqual(member.IdNumber, actual.IdNumber);
                 Assert.AreEqual(member.DateOfBirth, actual.DateOfBirth);
+                Assert.AreEqual(member.TaxNumber, actual.TaxNumber);
+                Assert.AreEqual(member.MarritalStatusId, actual.MarritalStatusId);
+                Assert.AreEqual(member.MarriageDate, actual.MarriageDate);
             }
         }
 
@@ -364,7 +382,10 @@ namespace OneAdvisor.Service.Test.Member
                 PreferredName = "PN 1",
                 IdNumber = "8210035032082",
                 DateOfBirth = new DateTime(1982, 10, 3),
-                OrganisationId = orgId2
+                OrganisationId = orgId2,
+                TaxNumber = "889977",
+                MarritalStatusId = Guid.NewGuid(),
+                MarriageDate = new DateTime(2009, 11, 13)
             };
 
             using (var context = new DataContext(options))
@@ -384,7 +405,10 @@ namespace OneAdvisor.Service.Test.Member
                 Initials = "INI 1 updated",
                 PreferredName = "PN 1 updated",
                 IdNumber = "8206090118089",
-                DateOfBirth = new DateTime(1983, 10, 3)
+                DateOfBirth = new DateTime(1983, 10, 3),
+                TaxNumber = "445566",
+                MarritalStatusId = Guid.NewGuid(),
+                MarriageDate = new DateTime(2010, 11, 13)
             };
 
             using (var context = new DataContext(options))
@@ -408,6 +432,9 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(member.PreferredName, actual.PreferredName);
                 Assert.AreEqual(member.IdNumber, actual.IdNumber);
                 Assert.AreEqual(member.DateOfBirth, actual.DateOfBirth);
+                Assert.AreEqual(member.TaxNumber, actual.TaxNumber);
+                Assert.AreEqual(member.MarritalStatusId, actual.MarritalStatusId);
+                Assert.AreEqual(member.MarriageDate, actual.MarriageDate);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(orgId2);

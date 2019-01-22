@@ -65,7 +65,10 @@ class MemberList extends Component<Props> {
             passportNumber: '',
             initials: '',
             preferredName: '',
-            dateOfBirth: ''
+            dateOfBirth: '',
+            marriageDate: '',
+            marritalStatusId: '',
+            taxNumber: ''
         };
 
         this.props.dispatch(receiveMember(member));

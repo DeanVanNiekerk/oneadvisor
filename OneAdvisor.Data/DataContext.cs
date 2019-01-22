@@ -28,6 +28,7 @@ namespace OneAdvisor.Data
 
         public DbSet<CompanyEntity> Company { get; set; }
         public DbSet<CommissionTypeEntity> CommissionType { get; set; }
+        public DbSet<MarritalStatusEntity> MarritalStatus { get; set; }
 
         #endregion
 
@@ -46,6 +47,7 @@ namespace OneAdvisor.Data
 
             modelBuilder.Entity<CompanyEntity>().ToTable("lkp_Company");
             modelBuilder.Entity<CommissionTypeEntity>().ToTable("lkp_CommissionType");
+            modelBuilder.Entity<MarritalStatusEntity>().ToTable("lkp_MarritalStatus");
 
             #endregion
 

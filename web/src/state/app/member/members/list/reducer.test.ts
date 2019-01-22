@@ -51,7 +51,10 @@ describe('member list reducer', () => {
             preferredName: 'ripper',
             idNumber: '12341234',
             passportNumber: '987987',
-            dateOfBirth: '1982-10-03'
+            dateOfBirth: '1982-10-03',
+            marriageDate: '1982-10-02',
+            marritalStatusId: '987654',
+            taxNumber: 'AABB1212'
         };
 
         const actualState = reducer(initalState, {

@@ -32,9 +32,22 @@ namespace api.Controllers.Directory.Lookups
             return new LookupsDto()
             {
                 Companies = Mapper.MapList<Company, CompanyDto>(await LookupService.GetCompanies()),
-                CommissionTypes = Mapper.MapList<CommissionType, CommissionTypeDto>(await LookupService.GetCommissionTypes())
+                CommissionTypes = Mapper.MapList<CommissionType, CommissionTypeDto>(await LookupService.GetCommissionTypes()),
+                MarritalStatus = Mapper.MapList<MarritalStatus, MarritalStatusDto>(await LookupService.GetMarritalStatus())
             };
         }
+
+        #region Marrital Status
+
+        [HttpGet("marritalStatus")]
+        public async Task<List<MarritalStatusDto>> MarritalStatus()
+        {
+            var models = await LookupService.GetMarritalStatus();
+
+            return Mapper.MapList<MarritalStatus, MarritalStatusDto>(models);
+        }
+
+        #endregion
 
         #region Company
 

@@ -48,7 +48,9 @@ describe('policy list reducer', () => {
             companyId: '100',
             userId: '1',
             number: '987654',
-            userFullName: 'Dean van Niekerk'
+            userFullName: 'Dean van Niekerk',
+            premium: 500,
+            startDate: '1999-01-01'
         };
 
         const actualState = reducer(initalState, {

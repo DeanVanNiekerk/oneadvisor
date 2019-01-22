@@ -36,7 +36,10 @@ namespace OneAdvisor.Service.Member
                             PassportNumber = member.PassportNumber,
                             Initials = member.Initials,
                             PreferredName = member.PreferredName,
-                            DateOfBirth = member.DateOfBirth
+                            DateOfBirth = member.DateOfBirth,
+                            TaxNumber = member.TaxNumber,
+                            MarritalStatusId = member.MarritalStatusId,
+                            MarriageDate = member.MarriageDate
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -95,7 +98,10 @@ namespace OneAdvisor.Service.Member
                             PassportNumber = member.PassportNumber,
                             Initials = member.Initials,
                             PreferredName = member.PreferredName,
-                            DateOfBirth = member.DateOfBirth
+                            DateOfBirth = member.DateOfBirth,
+                            TaxNumber = member.TaxNumber,
+                            MarritalStatusId = member.MarritalStatusId,
+                            MarriageDate = member.MarriageDate
                         };
 
             return query.FirstOrDefaultAsync();
@@ -158,6 +164,9 @@ namespace OneAdvisor.Service.Member
             entity.Initials = model.Initials;
             entity.PreferredName = model.PreferredName;
             entity.DateOfBirth = model.DateOfBirth;
+            entity.TaxNumber = model.TaxNumber;
+            entity.MarritalStatusId = model.MarritalStatusId;
+            entity.MarriageDate = model.MarriageDate;
 
             if (entity.DateOfBirth == null)
             {

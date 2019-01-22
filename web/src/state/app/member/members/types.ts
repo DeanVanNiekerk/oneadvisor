@@ -8,6 +8,9 @@ export type Member = {
     idNumber: string;
     passportNumber: string;
     dateOfBirth: string;
+    taxNumber: string;
+    marritalStatusId: string;
+    marriageDate: string;
 };
 
 export type MemberEdit = {
@@ -20,6 +23,9 @@ export type MemberEdit = {
     idNumber: string;
     passportNumber: string;
     dateOfBirth: string;
+    taxNumber: string;
+    marritalStatusId: string;
+    marriageDate: string;
 };
 
 export type MemberPreview = {

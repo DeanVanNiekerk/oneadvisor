@@ -22,6 +22,23 @@ namespace OneAdvisor.Service.Directory
             _context = context;
         }
 
+        #region Marrial Status
+
+        public async Task<List<MarritalStatus>> GetMarritalStatus()
+        {
+            var query = from marrialStatus in _context.MarritalStatus
+                        orderby marrialStatus.Name
+                        select new MarritalStatus()
+                        {
+                            Id = marrialStatus.Id,
+                            Name = marrialStatus.Name
+                        };
+
+            return await query.ToListAsync();
+        }
+
+        #endregion
+
         #region Company
 
         public async Task<List<Company>> GetCompanies()

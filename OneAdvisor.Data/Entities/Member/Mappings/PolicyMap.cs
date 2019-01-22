@@ -7,8 +7,8 @@ namespace OneAdvisor.Data.Entities.Member.Mappings
         public static void Map(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PolicyEntity>()
-                .HasIndex(m => new { m.CompanyId, m.Number })
-                .IsUnique();
+                .Property(p => p.Premium)
+                .HasColumnType("Money");
         }
     }
 }

@@ -17,6 +17,8 @@ namespace OneAdvisor.Data.Entities.Member
         public string UserId { get; set; }
         [Required]
         public string Number { get; set; }
+        public DateTime? StartDate { get; set; }
+        public decimal? Premium { get; set; }
 
         public virtual MemberEntity Member { get; set; }
         public virtual CompanyEntity Company { get; set; }

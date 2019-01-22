@@ -13,5 +13,8 @@ namespace api.Controllers.Member.Members.Dto
         public string IdNumber { get; set; }
         public string PassportNumber { get; set; }
         public DateTime? DateOfBirth { get; set; }
+        public string TaxNumber { get; set; }
+        public Guid? MarritalStatusId { get; set; }
+        public DateTime? MarriageDate { get; set; }
     }
 }

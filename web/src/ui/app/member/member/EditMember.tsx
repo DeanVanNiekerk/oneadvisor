@@ -16,7 +16,6 @@ type Props = {
     fetching: boolean;
     updating: boolean;
     validationResults: ValidationResult[];
-    enabled: boolean;
 } & RouteComponentProps &
     DispatchProp;
 
@@ -109,7 +108,6 @@ class EditMember extends Component<Props, State> {
                             member={member}
                             validationResults={validationResults}
                             onChange={this.onChange}
-                            enabled={this.props.enabled}
                         />
                     )}
                 </ContentLoader>
@@ -124,7 +122,6 @@ class EditMember extends Component<Props, State> {
                         onClick={this.save}
                         type="primary"
                         disabled={this.isLoading()}
-                        visible={this.props.enabled}
                         requiredUseCase="mem_edit_members"
                     >
                         Save
@@ -142,8 +139,7 @@ const mapStateToProps = (state: RootState) => {
         member: memberState.member,
         fetching: memberState.fetching,
         updating: memberState.updating,
-        validationResults: memberState.validationResults,
-        enabled: true
+        validationResults: memberState.validationResults
     };
 };
 

@@ -20,8 +20,9 @@ namespace OneAdvisor.Service.Member.Validators
             if (!isInsert)
                 RuleFor(o => o.Id).NotEmpty();
 
-            RuleFor(m => m.FirstName).NotNull().MaximumLength(32);
-            RuleFor(m => m.LastName).NotNull().MaximumLength(32);
+            RuleFor(m => m.FirstName).NotNull().MaximumLength(128);
+            RuleFor(m => m.LastName).NotNull().MaximumLength(128);
+            RuleFor(m => m.TaxNumber).MaximumLength(128);
 
             When(m => !string.IsNullOrWhiteSpace(m.IdNumber), () =>
             {
@@ -31,7 +32,7 @@ namespace OneAdvisor.Service.Member.Validators
 
             When(m => !string.IsNullOrWhiteSpace(m.PassportNumber), () =>
             {
-                RuleFor(m => m.PassportNumber).MaximumLength(64);
+                RuleFor(m => m.PassportNumber).MaximumLength(128);
                 RuleFor(m => m).Custom(AvailablePassportNumberValidator);
             });
 
