@@ -30,8 +30,15 @@ describe('member import selectors', () => {
             app: {
                 member: {
                     import: {
-                        selectedColumns: ['idNumber', 'lastName'],
-                        data: [['val1', 'val2'], ['val3', 'val4']]
+                        selectedColumns: [
+                            'idNumber',
+                            'lastName',
+                            'dateOfBirth'
+                        ],
+                        data: [
+                            ['val1', 'val2', '28520'],
+                            ['val3', 'val4', '1982-10-03']
+                        ]
                     }
                 }
             }
@@ -44,9 +51,11 @@ describe('member import selectors', () => {
 
         expect(actual[0].idNumber).toEqual('val1');
         expect(actual[0].lastName).toEqual('val2');
+        expect(actual[0].dateOfBirth).toEqual('1978-01-30');
 
         expect(actual[1].idNumber).toEqual('val3');
         expect(actual[1].lastName).toEqual('val4');
+        expect(actual[1].dateOfBirth).toEqual('1982-10-03');
     });
 
     it('memberImportSelectedColumnsSelector', () => {

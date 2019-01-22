@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { v4 } from 'uuid';
 
+import { formatExcelDate } from '@/app/parsers';
 import { RootState } from '@/state/rootReducer';
 
 import { ImportTableRow } from './';
@@ -24,8 +25,13 @@ export const memberImportTableRowsSelector: (
                 _id: v4()
             };
 
-            root.selectedColumns.forEach((value, index) => {
-                record[value] = d[index];
+            root.selectedColumns.forEach((column, index) => {
+                let value = d[index];
+                if (column === 'dateOfBirth') {
+                    value = formatExcelDate(value);
+                }
+
+                record[column] = value;
             });
             return record;
         });

@@ -2,8 +2,8 @@ import { DatePicker } from 'antd';
 import moment from 'moment';
 import React, { Component } from 'react';
 
+import { DATE_FORMAT } from '@/app/parsers';
 import { ValidationResult } from '@/app/validation';
-import { DATE_FORMAT } from '@/config/date';
 
 import { FormText } from './';
 import { FormLayout } from './Form';
