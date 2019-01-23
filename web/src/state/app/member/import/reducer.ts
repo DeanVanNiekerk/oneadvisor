@@ -36,6 +36,10 @@ export const defaultState: State = {
             name: 'Last Name'
         },
         {
+            id: 'email',
+            name: 'Email'
+        },
+        {
             id: 'dateOfBirth',
             name: 'Date of Birth'
         },

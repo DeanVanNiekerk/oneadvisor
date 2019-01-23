@@ -48,9 +48,17 @@ class IdentityStatusComponent extends Component<Props> {
                     {identity.roleIds.join(', ')}
                 </div>
                 <div>
+                    <b>OKTA Signin:</b>&nbsp;
+                    <Date
+                        date={idTokenData.auth_time}
+                        includeTime={true}
+                        isUnixSeconds={true}
+                    />
+                </div>
+                <div>
                     <b>Token Issued:</b>&nbsp;
                     <Date
-                        date={idTokenData.auth_time * 1000}
+                        date={idTokenData.iat}
                         includeTime={true}
                         isUnixSeconds={true}
                     />
@@ -58,7 +66,7 @@ class IdentityStatusComponent extends Component<Props> {
                 <div>
                     <b>Token Expires:</b>&nbsp;
                     <Date
-                        date={idTokenData.exp * 1000}
+                        date={idTokenData.exp}
                         includeTime={true}
                         isUnixSeconds={true}
                     />

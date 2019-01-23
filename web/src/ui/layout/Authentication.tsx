@@ -1,3 +1,4 @@
+import { Modal } from 'antd';
 import React, { ReactNode } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
@@ -15,9 +16,45 @@ type Props = {
     children: ReactNode;
 } & DispatchProp;
 
-class Authentication extends React.Component<Props> {
+type State = {
+    redirecting: boolean;
+};
+
+class Authentication extends React.Component<Props, State> {
+    constructor(props) {
+        super(props);
+        this.state = {
+            redirecting: false
+        };
+    }
+
     async componentDidMount() {
         this.checkAuthentication();
+
+        // setInterval(async () => {
+        //     const authenticated = await this.props.auth.isAuthenticated();
+
+        //     if (!authenticated && this.state.redirecting === false) {
+        //         this.setState({
+        //             redirecting: true
+        //         });
+
+        //         Modal.info({
+        //             title: 'Session has Expired',
+        //             content: (
+        //                 <div>
+        //                     <p>
+        //                         Your session has expired, please click ok to
+        //                         sign in again
+        //                     </p>
+        //                 </div>
+        //             ),
+        //             onOk: () => {
+        //                 this.props.auth.redirect();
+        //             }
+        //         });
+        //     }
+        // }, 10000); //Every 10 secs
     }
 
     async componentDidUpdate() {

@@ -18,7 +18,7 @@ const Date = (props: Props) => {
     let inputDate = props.date;
     if (props.isUnixSeconds) inputDate = (inputDate as number) * 1000;
 
-    const date = moment(props.date);
+    const date = moment(inputDate);
 
     return <span>{date.format(format)}</span>;
 };

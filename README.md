@@ -67,16 +67,6 @@
 - dotnet-search automapper
   -> dotnet add package {packageName}
 
-## TODO
-
-- import member error (500, 400, 401) - show nicely
-- member import dont add where no values
-- Readonly forms.. currently cant view forms
-- Filters triggering sort (ant.d bug, being fixed...)
-- !!!!!! API JWT - Must check audience !!!!!!
-
-- https://www.styled-components.com/docs/tooling#babel-plugin
-
 ## App Documentation
 
 ### Users
