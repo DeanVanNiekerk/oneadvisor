@@ -27,6 +27,13 @@ namespace api.Controllers.Database
         }
 
         [HttpGet("[action]")]
+        public async Task<string> SeedLookups()
+        {
+            await DbContextInitializer.SeedLookups();
+            return "Success";
+        }
+
+        [HttpGet("[action]")]
         public async Task<string> Clean()
         {
             var total = await DbContextInitializer.Clean();

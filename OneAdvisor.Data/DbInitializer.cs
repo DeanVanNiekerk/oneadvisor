@@ -38,8 +38,59 @@ namespace OneAdvisor.Data
             return total;
         }
 
+        public async Task SeedLookups()
+        {
+            //Lookups - Companies
+            var companies = _context.Company.ToList();
+            var comp1Guid = Guid.NewGuid();
+            if (!companies.Any())
+            {
+                _context.Company.Add(new CompanyEntity() { Id = comp1Guid, Name = "Discovery" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Momentum" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Best Med" });
+            }
+
+            //Lookups - Marrital Status
+            var marritalStatus = await _context.MarritalStatus.ToListAsync();
+            if (!marritalStatus.Any())
+            {
+                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("77fa3769-7775-4cdd-b5d4-8b526b2d894c"), Name = "Single" });
+                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("5f7a5d69-845c-4f8d-b108-7c70084f3f6a"), Name = "Married COP" });
+                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("b31331ec-73cb-4985-aa93-e60e04a48095"), Name = "Married ANC" });
+                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("b16cbd3b-cf50-4a74-8f38-a8ca6b1cb83f"), Name = "Married ANC (with Accrual)" });
+                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("e4f03497-5dbf-4bd0-bc14-660a3969f011"), Name = "Widowed" });
+                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("91ebd765-bd8b-4908-94dc-00f09fe37ca7"), Name = "Divorced" });
+            }
+
+            //Lookups - Companies
+            var commissionTypes = await _context.CommissionType.ToListAsync();
+            if (!commissionTypes.Any())
+            {
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = comp1Guid, Name = "Gap Cover" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Health" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment Advice Fee" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment Advice Fee" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment Premium Fee" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment PUFF New" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment PUFF Old" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment Upfront" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Lapse" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Life 2nd Years" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Life New Business" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Life PUFF" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Premium Reduction" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Group Scheme (Annual)" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Group Scheme (Monthly)" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Rewards Program" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Short Term Insurance (Annual)" });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Short Term Insurance (Monthly)" });
+            }
+        }
+
         public async Task Seed()
         {
+            await SeedLookups();
+
             var dirGuid = Guid.Parse("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9");
             var memGuid = Guid.Parse("605ea52c-3627-48e2-8f7c-4819c5ea555b");
             var comGuid = Guid.Parse("2fca4500-9142-4940-aaf4-b18925c96d66");
@@ -61,7 +112,7 @@ namespace OneAdvisor.Data
             if (application == null)
                 _context.Application.Add(new ApplicationEntity() { Id = hpaGuid, Name = "Health" });
 
-            var roles = _context.Role.ToList();
+            var roles = await _context.Role.ToListAsync();
             if (!roles.Any())
             {
                 //Directory Roles
@@ -83,7 +134,7 @@ namespace OneAdvisor.Data
                 _context.Role.Add(new RoleEntity() { Id = "hpa_reportviewer", Name = "Report Viewer", ApplicationId = hpaGuid });
             }
 
-            var useCases = _context.UseCase.ToList();
+            var useCases = await _context.UseCase.ToListAsync();
             if (!useCases.Any())
             {
                 //Directory Use Cases
@@ -112,7 +163,7 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_upload_statement", Name = "Upload Commission Statement", ApplicationId = comGuid });
             }
 
-            var roleToUseCase = _context.RoleToUseCase.ToList();
+            var roleToUseCase = await _context.RoleToUseCase.ToListAsync();
             if (!roleToUseCase.Any())
             {
                 //Role to Use Case
@@ -163,54 +214,8 @@ namespace OneAdvisor.Data
                 //--------------------------------------------------------------------------------------------------------------------------------------------
             }
 
-            //Lookups - Companies
-            var companies = _context.Company.ToList();
-            var comp1Guid = Guid.NewGuid();
-            if (!companies.Any())
-            {
-                _context.Company.Add(new CompanyEntity() { Id = comp1Guid, Name = "Discovery" });
-                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Momentum" });
-                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Best Med" });
-            }
-
-            //Lookups - Marrital Status
-            var marritalStatus = _context.MarritalStatus.ToList();
-            if (!marritalStatus.Any())
-            {
-                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("77fa3769-7775-4cdd-b5d4-8b526b2d894c"), Name = "Single" });
-                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("5f7a5d69-845c-4f8d-b108-7c70084f3f6a"), Name = "Married COP" });
-                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("b31331ec-73cb-4985-aa93-e60e04a48095"), Name = "Married ANC" });
-                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("b16cbd3b-cf50-4a74-8f38-a8ca6b1cb83f"), Name = "Married ANC (with Accrual)" });
-                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("e4f03497-5dbf-4bd0-bc14-660a3969f011"), Name = "Widowed" });
-                _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("91ebd765-bd8b-4908-94dc-00f09fe37ca7"), Name = "Divorced" });
-            }
-
-            //Lookups - Companies
-            var commissionTypes = _context.CommissionType.ToList();
-            if (!commissionTypes.Any())
-            {
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = comp1Guid, Name = "Gap Cover" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Health" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment Advice Fee" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment Advice Fee" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment Premium Fee" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment PUFF New" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment PUFF Old" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment Upfront" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Lapse" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Life 2nd Years" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Life New Business" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Life PUFF" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Premium Reduction" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Group Scheme (Annual)" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Group Scheme (Monthly)" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Rewards Program" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Short Term Insurance (Annual)" });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Short Term Insurance (Monthly)" });
-            }
-
             //Organisations
-            var organisations = _context.Organisation.ToList();
+            var organisations = await _context.Organisation.ToListAsync();
             var sabOrgId = Guid.Parse("9a46c5ae-3f6f-494c-b0de-d908f08507c3");
             var lifeOrgId = Guid.Parse("d44abb82-9eab-47a3-b20c-61b4ee93bf21");
             if (!organisations.Any())
@@ -221,7 +226,7 @@ namespace OneAdvisor.Data
             }
 
             //Branches
-            var branches = _context.Branch.ToList();
+            var branches = await _context.Branch.ToListAsync();
             var peBranchId = Guid.Parse("c036cf47-ae1c-4c25-be8f-110a59a5407a");
             if (!branches.Any())
             {
@@ -231,7 +236,7 @@ namespace OneAdvisor.Data
             }
 
             //Members
-            var members = _context.Member.ToList();
+            var members = await _context.Member.ToListAsync();
             if (!members.Any())
             {
                 var mem1Guid = Guid.NewGuid();
@@ -245,6 +250,7 @@ namespace OneAdvisor.Data
     public interface IDefaultDbContextInitializer
     {
         Task Seed();
+        Task SeedLookups();
         Task<int> Clean();
     }
 
