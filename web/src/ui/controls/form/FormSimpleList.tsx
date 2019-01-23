@@ -177,7 +177,7 @@ class FormSimpleListComponent extends Component<Props, State> {
                             onChange={(fieldName: string, value: string) =>
                                 this.update(value)
                             }
-                            focus={true}
+                            autoFocus={true}
                         />
                         <FormField>
                             <Button onClick={() => this.cancel()}>
