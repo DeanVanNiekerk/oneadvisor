@@ -1,4 +1,4 @@
-import { Icon, Tag } from 'antd';
+import { Tag } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
@@ -8,7 +8,6 @@ import { fetchUser, fetchUsers, receiveUser, User, UserEdit, usersSelector } fro
 import { fetchUsersSimple } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
 import { Button, Header, Table } from '@/ui/controls';
-import { showMessage } from '@/ui/feedback/notifcation';
 
 import EditUser from './EditUser';
 

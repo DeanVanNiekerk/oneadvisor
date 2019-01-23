@@ -85,6 +85,8 @@ namespace OneAdvisor.Data
                 _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Short Term Insurance (Annual)" });
                 _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Short Term Insurance (Monthly)" });
             }
+
+            _context.SaveChanges();
         }
 
         public async Task Seed()
