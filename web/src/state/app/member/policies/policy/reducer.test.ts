@@ -10,7 +10,8 @@ const defaultPolicy: PolicyEdit = {
     userId: '1',
     number: '987654',
     premium: 500,
-    startDate: '1999-01-01'
+    startDate: '1999-01-01',
+    policyTypeId: '123321'
 };
 
 describe('policy reducer', () => {

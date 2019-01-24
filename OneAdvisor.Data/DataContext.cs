@@ -29,6 +29,8 @@ namespace OneAdvisor.Data
         public DbSet<CompanyEntity> Company { get; set; }
         public DbSet<CommissionTypeEntity> CommissionType { get; set; }
         public DbSet<MarritalStatusEntity> MarritalStatus { get; set; }
+        public DbSet<ContactTypeEntity> ContactType { get; set; }
+        public DbSet<PolicyTypeEntity> PolicyType { get; set; }
 
         #endregion
 
@@ -38,6 +40,7 @@ namespace OneAdvisor.Data
 
         public DbSet<MemberEntity> Member { get; set; }
         public DbSet<PolicyEntity> Policy { get; set; }
+        public DbSet<ContactEntity> Contact { get; set; }
 
         #endregion
 
@@ -48,6 +51,8 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<CompanyEntity>().ToTable("lkp_Company");
             modelBuilder.Entity<CommissionTypeEntity>().ToTable("lkp_CommissionType");
             modelBuilder.Entity<MarritalStatusEntity>().ToTable("lkp_MarritalStatus");
+            modelBuilder.Entity<ContactTypeEntity>().ToTable("lkp_ContactType");
+            modelBuilder.Entity<PolicyTypeEntity>().ToTable("lkp_PolicyType");
 
             #endregion
 
@@ -70,6 +75,7 @@ namespace OneAdvisor.Data
 
             modelBuilder.Entity<MemberEntity>().ToTable("mem_Member");
             modelBuilder.Entity<PolicyEntity>().ToTable("mem_Policy");
+            modelBuilder.Entity<ContactEntity>().ToTable("mem_Contact");
 
             //Custom mappings
             PolicyMap.Map(modelBuilder);

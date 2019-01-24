@@ -7,10 +7,16 @@ import {
 } from './commissionTypes/reducer';
 import { Action as CompaniesAction, reducer as companies, State as CompaniesState } from './companies/reducer';
 import {
+    Action as ContactTypesAction, reducer as contactTypes, State as ContactTypesState
+} from './contactTypes/reducer';
+import {
     Action as MarritalStatusAction, reducer as marritalStatus, State as MarritalStatusState
 } from './marritalStatus/reducer';
+import { Action as PolicyTypesAction, reducer as policyTypes, State as PolicyTypesState } from './policyTypes/reducer';
 
 export type Action =
+    | PolicyTypesAction
+    | ContactTypesAction
     | MarritalStatusAction
     | CompaniesAction
     | CommissionTypesAction
@@ -20,12 +26,16 @@ export type State = {
     all: LookupsState;
     companies: CompaniesState;
     commissionTypes: CommissionTypesState;
+    contactTypes: ContactTypesState;
     marritalStatus: MarritalStatusState;
+    policyTypes: PolicyTypesState;
 };
 
 export const reducer = combineReducers({
     all: all,
     companies: companies,
     commissionTypes: commissionTypes,
-    marritalStatus: marritalStatus
+    marritalStatus: marritalStatus,
+    contactTypes: contactTypes,
+    policyTypes: policyTypes
 });

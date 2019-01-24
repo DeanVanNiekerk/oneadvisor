@@ -33,6 +33,8 @@ namespace api.Controllers.Directory.Lookups
             {
                 Companies = Mapper.MapList<Company, CompanyDto>(await LookupService.GetCompanies()),
                 CommissionTypes = Mapper.MapList<CommissionType, CommissionTypeDto>(await LookupService.GetCommissionTypes()),
+                PolicyTypes = Mapper.MapList<PolicyType, PolicyTypeDto>(await LookupService.GetPolicyTypes()),
+                ContactTypes = Mapper.MapList<ContactType, ContactTypeDto>(await LookupService.GetContactTypes()),
                 MarritalStatus = Mapper.MapList<MarritalStatus, MarritalStatusDto>(await LookupService.GetMarritalStatus())
             };
         }

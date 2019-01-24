@@ -50,7 +50,8 @@ describe('policy list reducer', () => {
             number: '987654',
             userFullName: 'Dean van Niekerk',
             premium: 500,
-            startDate: '1999-01-01'
+            startDate: '1999-01-01',
+            policyTypeId: '123321'
         };
 
         const actualState = reducer(initalState, {

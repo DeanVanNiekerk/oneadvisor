@@ -7,6 +7,7 @@ export type Policy = {
     userFullName: string;
     startDate: string;
     premium: number | null;
+    policyTypeId: string | null;
 };
 
 export type PolicyEdit = {
@@ -17,4 +18,5 @@ export type PolicyEdit = {
     number: string;
     startDate: string;
     premium: number | null;
+    policyTypeId: string | null;
 };

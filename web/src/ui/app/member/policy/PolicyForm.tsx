@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { ValidationResult } from '@/app/validation';
-import { companiesSelector, Company } from '@/state/app/directory/lookups';
+import { companiesSelector, Company, PolicyType, policyTypesSelector } from '@/state/app/directory/lookups';
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { PolicyEdit } from '@/state/app/member/policies';
 import { RootState } from '@/state/rootReducer';
@@ -14,6 +14,7 @@ type Props = {
     onChange: (member: PolicyEdit) => void;
     users: UserSimple[];
     companies: Company[];
+    policyTypes: PolicyType[];
 };
 
 type State = {
@@ -53,6 +54,16 @@ class PolicyForm extends Component<Props, State> {
 
         return (
             <Form editUseCase="mem_edit_policies">
+                <FormSelect
+                    fieldName="policyTypeId"
+                    label="Type"
+                    value={policy.policyTypeId}
+                    onChange={this.handleChange}
+                    validationResults={validationResults}
+                    options={this.props.policyTypes}
+                    optionsValue="id"
+                    optionsText="name"
+                />
                 <FormInput
                     fieldName="number"
                     label="Number"
@@ -106,10 +117,12 @@ class PolicyForm extends Component<Props, State> {
 const mapStateToProps = (state: RootState) => {
     const usersState = usersSimpleSelector(state);
     const companiesState = companiesSelector(state);
+    const policyTypeState = policyTypesSelector(state);
 
     return {
         users: usersState.items,
-        companies: companiesState.items
+        companies: companiesState.items,
+        policyTypes: policyTypeState.items
     };
 };
 

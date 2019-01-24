@@ -5,7 +5,9 @@ import { allLookupsApi } from '@/config/api/directory';
 
 import { receiveCommissionTypes } from '../commissionTypes';
 import { receiveCompanies } from '../companies';
+import { receiveContactTypes } from '../contactTypes';
 import { receiveMarritalStatus } from '../marritalStatus';
+import { receivePolicyTypes } from '../policyTypes';
 import { Lookups } from './types';
 
 type LookupsReceiveAction = {
@@ -26,6 +28,8 @@ export const fetchAllLookups = (): ApiAction => ({
         dispatch(receiveCompanies(payload.companies));
         dispatch(receiveCommissionTypes(payload.commissionTypes));
         dispatch(receiveMarritalStatus(payload.marritalStatus));
+        dispatch(receiveContactTypes(payload.contactTypes));
+        dispatch(receivePolicyTypes(payload.policyTypes));
     },
     dispatchPrefix: 'LOOKUPS'
 });

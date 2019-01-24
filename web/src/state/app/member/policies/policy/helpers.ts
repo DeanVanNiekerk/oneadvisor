@@ -7,5 +7,6 @@ export const newPolicy = (memberId: string): PolicyEdit => ({
     companyId: '',
     memberId: memberId,
     premium: null,
-    startDate: ''
+    startDate: '',
+    policyTypeId: null
 });

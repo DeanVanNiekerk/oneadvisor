@@ -21,6 +21,7 @@ namespace OneAdvisor.Data
         {
             var total = 0;
 
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_Contact]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_Policy]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_Member]");
 
@@ -34,6 +35,8 @@ namespace OneAdvisor.Data
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_Company]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_CommissionType]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_MarritalStatus]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_PolicyType]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_ContactType]");
 
             return total;
         }
@@ -84,6 +87,24 @@ namespace OneAdvisor.Data
                 _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Rewards Program" });
                 _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Short Term Insurance (Annual)" });
                 _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Short Term Insurance (Monthly)" });
+            }
+
+            //Lookups - Policy Types
+            var policyTypes = await _context.PolicyType.ToListAsync();
+            if (!policyTypes.Any())
+            {
+                _context.PolicyType.Add(new PolicyTypeEntity() { Id = Guid.Parse("a98bb718-4acb-4fad-afe9-5fbba00203b9"), Name = "Investment" });
+                _context.PolicyType.Add(new PolicyTypeEntity() { Id = Guid.Parse("f3d877b4-1800-4711-8cc9-35169f8bd60b"), Name = "Life Insurance" });
+                _context.PolicyType.Add(new PolicyTypeEntity() { Id = Guid.Parse("a90a5869-4da5-4cce-8973-9a8194c2bdcb"), Name = "Short Term Insurance" });
+                _context.PolicyType.Add(new PolicyTypeEntity() { Id = Guid.Parse("023107f5-97a6-456d-9182-7bbda72ca82a"), Name = "Medical Cover" });
+            }
+
+            //Lookups - Contact Types
+            var contactTypes = await _context.ContactType.ToListAsync();
+            if (!contactTypes.Any())
+            {
+                _context.ContactType.Add(new ContactTypeEntity() { Id = Guid.Parse("d6349e22-3e27-404a-8584-58e420510834"), Name = "Cellphone Number" });
+                _context.ContactType.Add(new ContactTypeEntity() { Id = Guid.Parse("b3c261d0-4e1d-4dd8-b944-6d6afd1795e0"), Name = "Email Address" });
             }
 
             _context.SaveChanges();

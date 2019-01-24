@@ -15,6 +15,98 @@ namespace OneAdvisor.Service.Test.Directory
     [TestClass]
     public class LookupServiceTest
     {
+        #region Contact Type
+
+        [TestMethod]
+        public async Task GetContactTypes()
+        {
+            var options = TestHelper.GetDbContext("GetContactTypes");
+
+            //Given
+            var lkp1 = new ContactTypeEntity { Id = Guid.NewGuid(), Name = "A" };
+            var lkp2 = new ContactTypeEntity { Id = Guid.NewGuid(), Name = "B" };
+            var lkp3 = new ContactTypeEntity { Id = Guid.NewGuid(), Name = "C" };
+
+            using (var context = new DataContext(options))
+            {
+                //Jumbled order
+                context.ContactType.Add(lkp2);
+                context.ContactType.Add(lkp1);
+                context.ContactType.Add(lkp3);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new LookupService(context);
+
+                //When
+                var actual = await service.GetContactTypes();
+
+                //Then
+                Assert.AreEqual(actual.Count, 3);
+
+                var actual1 = actual[0];
+                Assert.AreEqual(lkp1.Id, actual1.Id);
+                Assert.AreEqual(lkp1.Name, actual1.Name);
+
+                var actual2 = actual[1];
+                Assert.AreEqual(lkp2.Id, actual2.Id);
+
+                var actual3 = actual[2];
+                Assert.AreEqual(lkp3.Id, actual3.Id);
+            }
+        }
+
+        #endregion
+
+        #region Policy Type
+
+        [TestMethod]
+        public async Task GetPolicyTypes()
+        {
+            var options = TestHelper.GetDbContext("GetPolicyTypes");
+
+            //Given
+            var lkp1 = new PolicyTypeEntity { Id = Guid.NewGuid(), Name = "A" };
+            var lkp2 = new PolicyTypeEntity { Id = Guid.NewGuid(), Name = "B" };
+            var lkp3 = new PolicyTypeEntity { Id = Guid.NewGuid(), Name = "C" };
+
+            using (var context = new DataContext(options))
+            {
+                //Jumbled order
+                context.PolicyType.Add(lkp2);
+                context.PolicyType.Add(lkp1);
+                context.PolicyType.Add(lkp3);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new LookupService(context);
+
+                //When
+                var actual = await service.GetPolicyTypes();
+
+                //Then
+                Assert.AreEqual(actual.Count, 3);
+
+                var actual1 = actual[0];
+                Assert.AreEqual(lkp1.Id, actual1.Id);
+                Assert.AreEqual(lkp1.Name, actual1.Name);
+
+                var actual2 = actual[1];
+                Assert.AreEqual(lkp2.Id, actual2.Id);
+
+                var actual3 = actual[2];
+                Assert.AreEqual(lkp3.Id, actual3.Id);
+            }
+        }
+
+        #endregion
+
         #region Marrial Status
 
         [TestMethod]

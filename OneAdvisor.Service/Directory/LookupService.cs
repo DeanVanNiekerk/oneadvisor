@@ -22,6 +22,40 @@ namespace OneAdvisor.Service.Directory
             _context = context;
         }
 
+        #region Contact Type
+
+        public async Task<List<ContactType>> GetContactTypes()
+        {
+            var query = from contactType in _context.ContactType
+                        orderby contactType.Name
+                        select new ContactType()
+                        {
+                            Id = contactType.Id,
+                            Name = contactType.Name
+                        };
+
+            return await query.ToListAsync();
+        }
+
+        #endregion
+
+        #region Policy Type
+
+        public async Task<List<PolicyType>> GetPolicyTypes()
+        {
+            var query = from policyType in _context.PolicyType
+                        orderby policyType.Name
+                        select new PolicyType()
+                        {
+                            Id = policyType.Id,
+                            Name = policyType.Name
+                        };
+
+            return await query.ToListAsync();
+        }
+
+        #endregion
+
         #region Marrial Status
 
         public async Task<List<MarritalStatus>> GetMarritalStatus()

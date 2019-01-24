@@ -11,5 +11,6 @@ namespace OneAdvisor.Model.Member.Model.Policy
         public string Number { get; set; }
         public DateTime? StartDate { get; set; }
         public decimal? Premium { get; set; }
+        public Guid? PolicyTypeId { get; set; }
     }
 }

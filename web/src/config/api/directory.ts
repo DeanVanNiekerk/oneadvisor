@@ -14,4 +14,3 @@ export const lookupsApi = `${directoryBaseApi}/lookups`;
 export const allLookupsApi = `${lookupsApi}/all`;
 export const companiesApi = `${lookupsApi}/companies`;
 export const commissionTypesApi = `${lookupsApi}/commissionTypes`;
-export const marritalStatusApi = `${lookupsApi}/marritalStatus`;

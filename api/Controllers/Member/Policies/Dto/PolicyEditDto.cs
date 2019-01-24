@@ -16,6 +16,7 @@ namespace api.Controllers.Member.Policies.Dto
         public string Number { get; set; }
         public DateTime? StartDate { get; set; }
         public decimal? Premium { get; set; }
+        public Guid? PolicyTypeId { get; set; }
     }
 
 }
