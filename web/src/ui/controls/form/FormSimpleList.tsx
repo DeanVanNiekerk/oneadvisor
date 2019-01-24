@@ -162,7 +162,7 @@ class FormSimpleListComponent extends Component<Props, State> {
                                 noLeftMargin={true}
                                 requiredUseCase={this.props.editUseCase}
                             >
-                                Add {this.props.displayName}
+                                {`Add ${this.props.displayName}`}
                             </Button>
                         </FormField>
                     </Form>

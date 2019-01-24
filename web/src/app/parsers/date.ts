@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
-export const DATE_TIME_FORMAT = 'YYYY-MM-DD hh:mm:ss';
+export const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
 export const formatExcelDate = (date: string): string => {
     if (!Number(date)) return moment(date).format(DATE_FORMAT);

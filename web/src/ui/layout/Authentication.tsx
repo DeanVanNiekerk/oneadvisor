@@ -1,7 +1,9 @@
 import { Modal } from 'antd';
+import moment from 'moment';
 import React, { ReactNode } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { IdTokenData, idTokenDataSelector } from '@/state/auth';
 import { clearAuthentication, recieveAuthentication } from '@/state/auth/actions';
 import { RootState } from '@/state/rootReducer';
 import { Loader } from '@/ui/controls';
@@ -14,6 +16,7 @@ type Props = {
     auth: any;
     authenticated: boolean;
     children: ReactNode;
+    idTokenData: IdTokenData;
 } & DispatchProp;
 
 type State = {
@@ -31,30 +34,31 @@ class Authentication extends React.Component<Props, State> {
     async componentDidMount() {
         this.checkAuthentication();
 
-        // setInterval(async () => {
-        //     const authenticated = await this.props.auth.isAuthenticated();
+        setInterval(async () => {
+            const expiryDate = moment.unix(this.props.idTokenData.exp);
+            const hasExpired = moment().isAfter(expiryDate);
 
-        //     if (!authenticated && this.state.redirecting === false) {
-        //         this.setState({
-        //             redirecting: true
-        //         });
+            if (hasExpired && this.state.redirecting === false) {
+                this.setState({
+                    redirecting: true
+                });
 
-        //         Modal.info({
-        //             title: 'Session has Expired',
-        //             content: (
-        //                 <div>
-        //                     <p>
-        //                         Your session has expired, please click ok to
-        //                         sign in again
-        //                     </p>
-        //                 </div>
-        //             ),
-        //             onOk: () => {
-        //                 this.props.auth.redirect();
-        //             }
-        //         });
-        //     }
-        // }, 10000); //Every 10 secs
+                Modal.info({
+                    title: 'Session has Expired',
+                    content: (
+                        <div>
+                            <p>
+                                Your session has expired, please click OK to
+                                sign in again
+                            </p>
+                        </div>
+                    ),
+                    onOk: () => {
+                        this.props.auth.redirect();
+                    }
+                });
+            }
+        }, 10000); //Every 10 secs
     }
 
     async componentDidUpdate() {
@@ -100,7 +104,8 @@ class Authentication extends React.Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => ({
     authenticated: state.auth.authenticated,
-    userInfo: state.auth.userInfo
+    userInfo: state.auth.userInfo,
+    idTokenData: idTokenDataSelector(state)
 });
 
 export default connect(mapStateToProps)(withAuth(Authentication));
