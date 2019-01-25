@@ -24,46 +24,43 @@ type State = {
 };
 
 class Authentication extends React.Component<Props, State> {
-    constructor(props) {
-        super(props);
-        this.state = {
-            redirecting: false
-        };
-    }
+    private _checkTokenExpiredInterval: NodeJS.Timeout;
 
     async componentDidMount() {
         this.checkAuthentication();
-
-        setInterval(async () => {
-            const expiryDate = moment.unix(this.props.idTokenData.exp);
-            const hasExpired = moment().isAfter(expiryDate);
-
-            if (hasExpired && this.state.redirecting === false) {
-                this.setState({
-                    redirecting: true
-                });
-
-                Modal.info({
-                    title: 'Session has Expired',
-                    content: (
-                        <div>
-                            <p>
-                                Your session has expired, please click OK to
-                                sign in again
-                            </p>
-                        </div>
-                    ),
-                    onOk: () => {
-                        this.props.auth.redirect();
-                    }
-                });
-            }
-        }, 10000); //Every 10 secs
+        this._checkTokenExpiredInterval = setInterval(
+            this.checkTokenExpired,
+            10000
+        ); //Every 10 secs
     }
 
     async componentDidUpdate() {
         this.checkAuthentication();
     }
+
+    checkTokenExpired = () => {
+        const expiryDate = moment.unix(this.props.idTokenData.exp);
+        const hasExpired = moment().isAfter(expiryDate);
+
+        if (hasExpired) {
+            Modal.info({
+                title: 'Session has Expired',
+                content: (
+                    <div>
+                        <p>
+                            Your session has expired, please click OK to sign in
+                            again
+                        </p>
+                    </div>
+                ),
+                onOk: () => {
+                    this.props.auth.redirect();
+                }
+            });
+
+            clearInterval(this._checkTokenExpiredInterval);
+        }
+    };
 
     checkAuthentication = async () => {
         const authenticated = await this.props.auth.isAuthenticated();

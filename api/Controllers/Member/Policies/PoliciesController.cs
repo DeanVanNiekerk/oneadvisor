@@ -14,7 +14,7 @@ using OneAdvisor.Model.Directory.Interface;
 using api.Controllers.Member.Policies.Dto;
 using OneAdvisor.Model.Member.Model.Policy;
 
-namespace api.Controllers.Directory.Members
+namespace api.Controllers.Member.Members
 {
 
     [ApiController]

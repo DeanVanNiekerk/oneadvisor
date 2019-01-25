@@ -10,6 +10,7 @@ import { newPolicy, receivePolicy } from '@/state/app/member/policies';
 import { RootState } from '@/state/rootReducer';
 import { Age, Button, Drawer, DrawerFooter, Header } from '@/ui/controls';
 
+import ContactList from '../contact/ContactList';
 import EditPolicy from '../policy/EditPolicy';
 import PolicyList from '../policy/PolicyList';
 import EditMember from './EditMember';
@@ -23,6 +24,7 @@ type Props = {
 
 type State = {
     policyListVisible: boolean;
+    contactListVisible: boolean;
 };
 
 class MemberPreviewView extends Component<Props, State> {
@@ -30,7 +32,8 @@ class MemberPreviewView extends Component<Props, State> {
         super(props);
 
         this.state = {
-            policyListVisible: false
+            policyListVisible: false,
+            contactListVisible: false
         };
     }
 
@@ -41,6 +44,12 @@ class MemberPreviewView extends Component<Props, State> {
     togglePolicyListVisible = () => {
         this.setState({
             policyListVisible: !this.state.policyListVisible
+        });
+    };
+
+    toggleContactListVisible = () => {
+        this.setState({
+            contactListVisible: !this.state.contactListVisible
         });
     };
 
@@ -162,6 +171,34 @@ class MemberPreviewView extends Component<Props, State> {
                                 </Skeleton>
                             </Card>
                         </Col>
+                        <Col span={4}>
+                            <Card
+                                hoverable={true}
+                                title="Contacts"
+                                bordered={false}
+                                onClick={this.toggleContactListVisible}
+                                actions={[
+                                    <Icon
+                                        type="bars"
+                                        onClick={this.toggleContactListVisible}
+                                    />
+                                ]}
+                            >
+                                <Skeleton
+                                    loading={this.isLoading()}
+                                    title={false}
+                                    active
+                                    paragraph={{
+                                        rows: 1
+                                    }}
+                                >
+                                    <span>
+                                        Total Contacts:{' '}
+                                        {member && member.policyCount}
+                                    </span>
+                                </Skeleton>
+                            </Card>
+                        </Col>
                     </Row>
                 </div>
 
@@ -177,6 +214,20 @@ class MemberPreviewView extends Component<Props, State> {
                     <PolicyList memberId={this.getMemberId()} />
                     <DrawerFooter>
                         <Button onClick={this.togglePolicyListVisible}>
+                            Close
+                        </Button>
+                    </DrawerFooter>
+                </Drawer>
+
+                <Drawer
+                    title="Contacts"
+                    noTopPadding={true}
+                    visible={this.state.contactListVisible}
+                    onClose={this.toggleContactListVisible}
+                >
+                    <ContactList memberId={this.getMemberId()} />
+                    <DrawerFooter>
+                        <Button onClick={this.toggleContactListVisible}>
                             Close
                         </Button>
                     </DrawerFooter>
