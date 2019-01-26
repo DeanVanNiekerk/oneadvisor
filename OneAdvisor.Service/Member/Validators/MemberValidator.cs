@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
@@ -6,6 +7,7 @@ using FluentValidation.Results;
 using FluentValidation.Validators;
 using OneAdvisor.Data;
 using OneAdvisor.Model.Member.Model.Member;
+using OneAdvisor.Service.Common;
 
 namespace OneAdvisor.Service.Member.Validators
 {
@@ -18,7 +20,7 @@ namespace OneAdvisor.Service.Member.Validators
             _context = dataContext;
 
             if (!isInsert)
-                RuleFor(o => o.Id).NotEmpty();
+                RuleFor(o => o.Id).Custom(Validation.GuidNotEmpty);
 
             RuleFor(m => m.FirstName).NotNull().MaximumLength(128);
             RuleFor(m => m.LastName).NotNull().MaximumLength(128);
@@ -64,7 +66,7 @@ namespace OneAdvisor.Service.Member.Validators
             if (entity == null)
                 return true;
 
-            if (!member.Id.HasValue)
+            if (member.Id == default(Guid))
                 return entity == null;
 
             return member.Id == entity.Id;
@@ -86,7 +88,7 @@ namespace OneAdvisor.Service.Member.Validators
             if (entity == null)
                 return true;
 
-            if (!member.Id.HasValue)
+            if (member.Id == default(Guid))
                 return entity == null;
 
             return member.Id == entity.Id;

@@ -31,7 +31,7 @@ class EditContact extends Component<Props> {
     };
 
     cancel = () => {
-        this.props.dispatch(receiveBranch(null));
+        this.props.dispatch(receiveContact(null));
     };
 
     newContact = () => {
@@ -63,7 +63,7 @@ class EditContact extends Component<Props> {
                     />
                 )}
                 {!contact && (
-                    <Form layout="inline">
+                    <Form className="my-1" layout="inline">
                         <FormField>
                             <Button
                                 icon="plus"

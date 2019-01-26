@@ -1,10 +1,13 @@
 using System;
+using api.App.Json;
+using Newtonsoft.Json;
 
 namespace api.Controllers.Member.Members.Dto
 {
     public class MemberEditDto
     {
-        public Guid? Id { get; set; }
+        [JsonConverter(typeof(EmptyToDefaultConverter<Guid>))]
+        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MaidenName { get; set; }

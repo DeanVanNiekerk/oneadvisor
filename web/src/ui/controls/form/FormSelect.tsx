@@ -73,6 +73,9 @@ class FormSelect extends Component<Props> {
                 loading={loading}
             >
                 <Select
+                    style={{
+                        minWidth: "180px"
+                    }}
                     value={value}
                     onChange={this.onChange}
                     disabled={disabled}

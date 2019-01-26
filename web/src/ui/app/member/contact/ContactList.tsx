@@ -4,11 +4,9 @@ import { connect, DispatchProp } from 'react-redux';
 import { getColumn } from '@/app/table';
 import { Contact, contactsSelector, fetchContact, fetchContacts, receiveContact } from '@/state/app/member/contacts';
 import { RootState } from '@/state/rootReducer';
-import { Button, Header, Table } from '@/ui/controls';
+import { Table, ContactTypeName } from '@/ui/controls';
 
 import EditContact from './EditContact';
-
-//import EditPolicy from './EditPolicy';
 
 type Props = {
     memberId: string;
@@ -22,6 +20,7 @@ class ContactList extends Component<Props> {
     }
 
     loadContacts = () => {
+        this.props.dispatch(receiveContact(null));
         const filters = {
             memberId: [this.props.memberId]
         };
@@ -35,7 +34,12 @@ class ContactList extends Component<Props> {
 
     getColumns = () => {
         return [
-            getColumn('contactTypeId', 'Type'),
+            getColumn('contactTypeId', 'Type', {
+                render: (contactTypeId: string) => {
+                    return <ContactTypeName contactTypeId={contactTypeId} />
+
+                }
+            }),
             getColumn('value', 'Value')
         ];
     };

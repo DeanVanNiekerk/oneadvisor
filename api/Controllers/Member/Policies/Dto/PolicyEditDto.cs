@@ -7,9 +7,10 @@ namespace api.Controllers.Member.Policies.Dto
 {
     public class PolicyEditDto
     {
-        public Guid? Id { get; set; }
+        [JsonConverter(typeof(EmptyToDefaultConverter<Guid>))]
+        public Guid Id { get; set; }
+        [JsonConverter(typeof(EmptyToDefaultConverter<Guid>))]
         public Guid MemberId { get; set; }
-
         [JsonConverter(typeof(EmptyToDefaultConverter<Guid>))]
         public Guid CompanyId { get; set; }
         public string UserId { get; set; }

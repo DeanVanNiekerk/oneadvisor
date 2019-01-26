@@ -15,6 +15,7 @@ type Props = {
     validationResults?: ValidationResult[];
     layout?: FormLayout;
     loading?: boolean;
+    className?: string;
 };
 
 class FormField extends React.Component<Props> {
@@ -43,9 +44,9 @@ class FormField extends React.Component<Props> {
         const formItemLayout =
             layout === 'horizontal'
                 ? {
-                      labelCol: { span: 6 },
-                      wrapperCol: { span: 18 }
-                  }
+                    labelCol: { span: 6 },
+                    wrapperCol: { span: 18 }
+                }
                 : null;
 
         return (
@@ -54,6 +55,7 @@ class FormField extends React.Component<Props> {
                 validateStatus={errorText ? 'error' : undefined}
                 help={errorText}
                 {...formItemLayout}
+                className={this.props.className}
             >
                 {loading && <Spin spinning={true} size="small" />}
                 {!loading && children}

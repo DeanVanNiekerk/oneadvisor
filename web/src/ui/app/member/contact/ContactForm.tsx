@@ -50,7 +50,7 @@ class ContactForm extends Component<Props, State> {
         const { contact } = this.state;
 
         return (
-            <Form layout="inline">
+            <Form className="my-1" layout="inline">
                 <FormInput
                     fieldName="value"
                     label="Value"
@@ -68,8 +68,11 @@ class ContactForm extends Component<Props, State> {
                     options={this.props.contactTypes}
                     optionsValue="id"
                     optionsText="name"
+
                 />
-                <FormField>
+                <FormField
+                    className="mr-0"
+                >
                     <Button onClick={() => this.props.onCancel()}>
                         Cancel
                     </Button>

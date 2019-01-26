@@ -7,6 +7,7 @@ using OneAdvisor.Data;
 using OneAdvisor.Model.Directory.Model.Auth;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Member.Model.Policy;
+using OneAdvisor.Service.Common;
 using OneAdvisor.Service.Common.Query;
 
 namespace OneAdvisor.Service.Member.Validators
@@ -22,21 +23,16 @@ namespace OneAdvisor.Service.Member.Validators
             _scope = scope;
 
             if (!isInsert)
-                RuleFor(p => p.Id).NotEmpty();
+                RuleFor(p => p.Id).Custom(Validation.GuidNotEmpty);
 
             RuleFor(p => p.UserId).NotEmpty().MaximumLength(64);
             RuleFor(p => p.Number).NotEmpty().MaximumLength(128);
             RuleFor(p => p.Premium).LessThanOrEqualTo(999999999);
             RuleFor(p => p).Custom(AvailablePolicyNumberValidator);
 
-            RuleFor(p => p.CompanyId).Custom((guid, context) =>
-            {
-                if (guid == default(Guid))
-                {
-                    var failure = new ValidationFailure("CompanyId", "'CompanyId' must not be empty.", "");
-                    context.AddFailure(failure);
-                }
-            });
+            RuleFor(p => p.CompanyId).Custom(Validation.GuidNotEmpty);
+
+            RuleFor(p => p.CompanyId).Custom(Validation.GuidNotEmpty);
         }
 
         private void AvailablePolicyNumberValidator(PolicyEdit policy, CustomContext context)
@@ -65,7 +61,7 @@ namespace OneAdvisor.Service.Member.Validators
             if (entity == null)
                 return true;
 
-            if (!policy.Id.HasValue)
+            if (policy.Id == default(Guid))
                 return entity == null;
 
             return policy.Id == entity.Id;

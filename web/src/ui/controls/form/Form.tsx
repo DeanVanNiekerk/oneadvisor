@@ -14,6 +14,7 @@ type Props = {
     readonly?: boolean;
     editUseCase?: string;
     useCases: string[];
+    className?: string;
 };
 
 class FormComponent extends React.Component<Props> {
@@ -28,13 +29,13 @@ class FormComponent extends React.Component<Props> {
         const childrenWithProps = React.Children.map(children, child =>
             child
                 ? React.cloneElement(child, {
-                      layout: layout,
-                      readonly: readonly
-                  })
+                    layout: layout,
+                    readonly: readonly
+                })
                 : null
         );
 
-        return <FormAD layout={this.props.layout}>{childrenWithProps}</FormAD>;
+        return <FormAD className={this.props.className} layout={this.props.layout}>{childrenWithProps}</FormAD>;
     }
 }
 

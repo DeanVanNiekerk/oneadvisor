@@ -185,7 +185,7 @@ namespace OneAdvisor.Service.Member
             if (string.IsNullOrWhiteSpace(data.PolicyNumber))
                 return result;
 
-            var policy = await _policyService.GetPolicy(scope, member.Id.Value, data.PolicyCompanyId.Value, data.PolicyNumber);
+            var policy = await _policyService.GetPolicy(scope, member.Id, data.PolicyCompanyId.Value, data.PolicyNumber);
 
             //Policy exits, update
             if (policy != null)
@@ -201,7 +201,7 @@ namespace OneAdvisor.Service.Member
             {
                 policy = new PolicyEdit()
                 {
-                    MemberId = member.Id.Value,
+                    MemberId = member.Id,
                     CompanyId = data.PolicyCompanyId.Value,
                     Number = data.PolicyNumber,
                     UserId = userId

@@ -179,7 +179,9 @@ class FormSimpleListComponent extends Component<Props, State> {
                             }
                             autoFocus={true}
                         />
-                        <FormField>
+                        <FormField
+                            className="mr-0"
+                        >
                             <Button onClick={() => this.cancel()}>
                                 Cancel
                             </Button>

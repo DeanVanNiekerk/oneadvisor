@@ -7,6 +7,7 @@ using OneAdvisor.Data;
 using OneAdvisor.Model.Directory.Model.Auth;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Member.Model.Contact;
+using OneAdvisor.Service.Common;
 using OneAdvisor.Service.Common.Query;
 
 namespace OneAdvisor.Service.Member.Validators
@@ -16,10 +17,10 @@ namespace OneAdvisor.Service.Member.Validators
         public ContactValidator(bool isInsert)
         {
             if (!isInsert)
-                RuleFor(c => c.Id).NotEmpty();
+                RuleFor(c => c.Id).Custom(Validation.GuidNotEmpty);
 
-            RuleFor(c => c.MemberId).NotEmpty();
-            RuleFor(c => c.ContactTypeId).NotEmpty();
+            RuleFor(c => c.MemberId).Custom(Validation.GuidNotEmpty);
+            RuleFor(c => c.ContactTypeId).Custom(Validation.GuidNotEmpty);
             RuleFor(c => c.Value).NotEmpty().MaximumLength(128);
         }
     }

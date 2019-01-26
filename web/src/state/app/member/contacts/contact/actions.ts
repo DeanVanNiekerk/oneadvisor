@@ -6,7 +6,7 @@ import { Contact } from '../types';
 
 type ContactReceiveAction = {
     type: 'CONTACTS_CONTACT_RECEIVE';
-    payload: Contact;
+    payload: Contact | null;
 };
 type ContactFetchingAction = {
     type: 'CONTACTS_CONTACT_FETCHING';
@@ -38,7 +38,7 @@ export type ContactAction =
     | ContactUpdatingErrorAction
     | ContactValidationErrorAction;
 
-export const receiveContact = (contact: Contact): ContactReceiveAction => ({
+export const receiveContact = (contact: Contact | null): ContactReceiveAction => ({
     type: 'CONTACTS_CONTACT_RECEIVE',
     payload: contact
 });

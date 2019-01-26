@@ -55,7 +55,9 @@ class BranchForm extends Component<Props, State> {
                     validationResults={validationResults}
                     autoFocus={true}
                 />
-                <FormField>
+                <FormField
+                    className="mr-0"
+                >
                     <Button onClick={() => this.props.onCancel()}>
                         Cancel
                     </Button>
