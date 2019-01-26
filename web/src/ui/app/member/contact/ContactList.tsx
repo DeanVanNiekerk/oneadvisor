@@ -6,6 +6,8 @@ import { Contact, contactsSelector, fetchContact, fetchContacts, receiveContact 
 import { RootState } from '@/state/rootReducer';
 import { Button, Header, Table } from '@/ui/controls';
 
+import EditContact from './EditContact';
+
 //import EditPolicy from './EditPolicy';
 
 type Props = {
@@ -31,20 +33,6 @@ class ContactList extends Component<Props> {
         this.props.dispatch(fetchContact(id));
     };
 
-    onFormClose = (cancelled: boolean) => {
-        if (!cancelled) this.loadContacts();
-    };
-
-    newContact = () => {
-        const contact: Contact = {
-            id: '',
-            memberId: this.props.memberId,
-            contactTypeId: '',
-            value: ''
-        };
-        this.props.dispatch(receiveContact(contact));
-    };
-
     getColumns = () => {
         return [
             getColumn('contactTypeId', 'Type'),
@@ -55,29 +43,9 @@ class ContactList extends Component<Props> {
     render() {
         return (
             <>
-                <Header
-                    className="mb-1"
-                    actions={
-                        <>
-                            <Button
-                                type="default"
-                                icon="sync"
-                                onClick={this.loadContacts}
-                                disabled={this.props.fetching}
-                            >
-                                Reload
-                            </Button>
-                            <Button
-                                type="default"
-                                icon="plus"
-                                onClick={this.newContact}
-                                disabled={this.props.fetching}
-                                requiredUseCase="mem_edit_contacts"
-                            >
-                                New Contact
-                            </Button>
-                        </>
-                    }
+                <EditContact
+                    memberId={this.props.memberId}
+                    onSave={this.loadContacts}
                 />
                 <Table
                     rowKey="id"
@@ -86,7 +54,6 @@ class ContactList extends Component<Props> {
                     loading={this.props.fetching}
                     onRowClick={contact => this.editContact(contact.id)}
                 />
-                {/* <EditPolicy onClose={this.onFormClose} /> */}
             </>
         );
     }

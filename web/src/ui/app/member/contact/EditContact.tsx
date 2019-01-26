@@ -1,30 +1,32 @@
+import { Col, Row } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { ValidationResult } from '@/app/validation';
 import { Branch, branchSelector, insertBranch, receiveBranch, updateBranch } from '@/state/app/directory/branches';
+import { Contact, contactSelector, insertContact, receiveContact, updateContact } from '@/state/app/member/contacts';
 import { RootState } from '@/state/rootReducer';
 import { Button, ContentLoader, Form, FormField } from '@/ui/controls';
 
-import BranchForm from './BranchForm';
+import ContactForm from './ContactForm';
 
 type Props = {
-    branch: Branch | null;
+    contact: Contact | null;
     fetching: boolean;
     updating: boolean;
     validationResults: ValidationResult[];
-    organisationId: string;
+    memberId: string;
     onSave: () => void;
 } & RouteComponentProps &
     DispatchProp;
 
-class EditBranch extends Component<Props> {
-    save = (branch: Branch) => {
-        if (branch.id) {
-            this.props.dispatch(updateBranch(branch, this.props.onSave));
+class EditContact extends Component<Props> {
+    save = (contact: Contact) => {
+        if (contact.id) {
+            this.props.dispatch(updateContact(contact, this.props.onSave));
         } else {
-            this.props.dispatch(insertBranch(branch, this.props.onSave));
+            this.props.dispatch(insertContact(contact, this.props.onSave));
         }
     };
 
@@ -32,12 +34,13 @@ class EditBranch extends Component<Props> {
         this.props.dispatch(receiveBranch(null));
     };
 
-    newBranch = () => {
+    newContact = () => {
         this.props.dispatch(
-            receiveBranch({
+            receiveContact({
                 id: '',
-                organisationId: this.props.organisationId,
-                name: ''
+                memberId: this.props.memberId,
+                contactTypeId: '',
+                value: ''
             })
         );
     };
@@ -47,29 +50,29 @@ class EditBranch extends Component<Props> {
     };
 
     render() {
-        const { branch, validationResults } = this.props;
+        const { contact, validationResults } = this.props;
 
         return (
             <ContentLoader isLoading={this.isLoading()}>
-                {branch && (
-                    <BranchForm
-                        branch={branch}
+                {contact && (
+                    <ContactForm
+                        contact={contact}
                         validationResults={validationResults}
                         onSave={this.save}
                         onCancel={this.cancel}
                     />
                 )}
-                {!branch && (
+                {!contact && (
                     <Form layout="inline">
                         <FormField>
                             <Button
                                 icon="plus"
                                 type="dashed"
-                                onClick={this.newBranch}
+                                onClick={this.newContact}
                                 noLeftMargin={true}
-                                requiredUseCase="dir_edit_branches"
+                                requiredUseCase="mem_edit_contacts"
                             >
-                                Add Branch
+                                Add Contact
                             </Button>
                         </FormField>
                     </Form>
@@ -80,14 +83,14 @@ class EditBranch extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const branchState = branchSelector(state);
+    const contactState = contactSelector(state);
 
     return {
-        branch: branchState.branch,
-        fetching: branchState.fetching,
-        updating: branchState.updating,
-        validationResults: branchState.validationResults
+        contact: contactState.contact,
+        fetching: contactState.fetching,
+        updating: contactState.updating,
+        validationResults: contactState.validationResults
     };
 };
 
-export default withRouter(connect(mapStateToProps)(EditBranch));
+export default withRouter(connect(mapStateToProps)(EditContact));
