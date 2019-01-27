@@ -27,7 +27,8 @@ export const memberImportTableRowsSelector: (
 
             root.selectedColumns.forEach((column, index) => {
                 let value = d[index];
-                if (column === 'dateOfBirth') {
+                if (column === 'dateOfBirth'
+                    || column === 'policyStartDate') {
                     value = formatExcelDate(value);
                 }
 
@@ -58,7 +59,7 @@ export const memberImportProgressPercentSelector: (
         return Math.floor(
             ((root.resultsSuccess.length + root.resultsFailure.length) /
                 root.members.length) *
-                100
+            100
         );
     }
 );

@@ -8,8 +8,10 @@ using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Member.Interface;
+using OneAdvisor.Model.Member.Model.Contact;
 using OneAdvisor.Model.Member.Model.ImportMember;
 using OneAdvisor.Model.Member.Model.Member;
 using OneAdvisor.Model.Member.Model.Policy;
@@ -23,12 +25,14 @@ namespace OneAdvisor.Service.Member
         private readonly DataContext _context;
         private readonly IMemberService _memberService;
         private readonly IPolicyService _policyService;
+        private readonly IContactService _contactService;
 
-        public MemberImportService(DataContext context, IMemberService memberService, IPolicyService policyService)
+        public MemberImportService(DataContext context, IMemberService memberService, IPolicyService policyService, IContactService contactService)
         {
             _context = context;
             _memberService = memberService;
             _policyService = policyService;
+            _contactService = contactService;
         }
 
         public async Task<Result> ImportMember(ScopeOptions scope, ImportMember data)
@@ -103,8 +107,8 @@ namespace OneAdvisor.Service.Member
 
                 member = LoadMemberIdNumber(member, data);
 
-                member.FirstName = data.FirstName != null ? data.FirstName : member.FirstName;
-                member.LastName = data.LastName != null ? data.LastName : member.LastName;
+                member = MapMemberProperties(member, data);
+
                 result = await _memberService.UpdateMember(scope, member);
 
                 if (!result.Success)
@@ -112,13 +116,9 @@ namespace OneAdvisor.Service.Member
             }
             else
             {
-                member = new MemberEdit()
-                {
-                    FirstName = data.FirstName != null ? data.FirstName : string.Empty,
-                    LastName = data.LastName != null ? data.LastName : string.Empty
-                };
-
+                member = new MemberEdit();
                 member = LoadMemberIdNumber(member, data);
+                member = MapMemberProperties(member, data);
 
                 result = await _memberService.InsertMember(scope, member);
 
@@ -129,8 +129,19 @@ namespace OneAdvisor.Service.Member
             }
 
             result = await ImportPolicy(scope, data, member, userId);
+            result = await ImportEmail(scope, data, member);
 
             return result;
+        }
+
+        private MemberEdit MapMemberProperties(MemberEdit member, ImportMember data)
+        {
+            member.FirstName = data.FirstName != null ? data.FirstName : member.FirstName;
+            member.LastName = data.LastName != null ? data.LastName : member.LastName;
+            member.TaxNumber = data.TaxNumber != null ? data.TaxNumber : member.TaxNumber;
+            member.DateOfBirth = data.DateOfBirth != null ? data.DateOfBirth : member.DateOfBirth;
+
+            return member;
         }
 
         private MemberEdit LoadMemberIdNumber(MemberEdit member, ImportMember data)
@@ -190,7 +201,7 @@ namespace OneAdvisor.Service.Member
             //Policy exits, update
             if (policy != null)
             {
-                policy.UserId = userId;
+                policy = MapPolicyProperties(policy, data, userId);
 
                 result = await _policyService.UpdatePolicy(scope, policy);
 
@@ -203,9 +214,10 @@ namespace OneAdvisor.Service.Member
                 {
                     MemberId = member.Id,
                     CompanyId = data.PolicyCompanyId.Value,
-                    Number = data.PolicyNumber,
-                    UserId = userId
+                    Number = data.PolicyNumber
                 };
+
+                policy = MapPolicyProperties(policy, data, userId);
 
                 result = await _policyService.InsertPolicy(scope, policy);
 
@@ -214,6 +226,58 @@ namespace OneAdvisor.Service.Member
             }
 
             return result;
+        }
+
+        private async Task<Result> ImportEmail(ScopeOptions scope, ImportMember data, MemberEdit member)
+        {
+            var result = new Result(true);
+
+            if (string.IsNullOrEmpty(data.Email))
+                return result;
+
+            //See if email exits
+            var email = _contactService.GetContact(scope, member.Id, data.Email);
+
+            if (email == null)
+            {
+                var contact = new Contact()
+                {
+                    MemberId = member.Id,
+                    Value = data.Email,
+                    ContactTypeId = ContactType.CONTACT_TYPE_EMAIL
+                };
+
+                result = await _contactService.InsertContact(scope, contact);
+            }
+
+            return result;
+        }
+
+        private PolicyEdit MapPolicyProperties(PolicyEdit policy, ImportMember data, string userId)
+        {
+            policy.UserId = userId;
+            policy.Premium = data.PolicyPremium != null ? data.PolicyPremium : policy.Premium;
+            policy.StartDate = data.PolicyStartDate != null ? data.PolicyStartDate : policy.StartDate;
+            policy.PolicyTypeId = GetPolicyTypeId(data.PolicyType);
+
+            return policy;
+        }
+
+        private Guid? GetPolicyTypeId(string policyType)
+        {
+            switch (policyType.ToLower())
+            {
+                case "investment":
+                    return PolicyType.POLICY_TYPE_INVESTMENT;
+                case "life_insurance":
+                    return PolicyType.POLICY_TYPE_LIFE_INSURANCE;
+                case "short_term":
+                    return PolicyType.POLICY_TYPE_SHORT_TERM;
+                case "medical_cover":
+                    return PolicyType.POLICY_TYPE_MEDICAL_COVER;
+            }
+
+            return null;
         }
     }
 }

@@ -55,6 +55,17 @@ namespace OneAdvisor.Service.Member
             return await query.FirstOrDefaultAsync();
         }
 
+        public async Task<Contact> GetContact(ScopeOptions scope, Guid memberId, string value)
+        {
+            var query = from contact in GetContactQuery(scope)
+                        join member in _context.Member
+                            on contact.MemberId equals member.Id
+                        where member.Id == memberId
+                        && EF.Functions.Like(contact.Value, $"{value}")
+                        select contact;
+            return await query.FirstOrDefaultAsync();
+        }
+
         public async Task<Result> InsertContact(ScopeOptions scope, Contact contact)
         {
             var validator = new ContactValidator(true);

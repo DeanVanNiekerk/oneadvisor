@@ -11,6 +11,7 @@ namespace OneAdvisor.Model.Member.Interface
     {
         Task<PagedItems<Contact>> GetContacts(ContactQueryOptions queryOptions);
         Task<Contact> GetContact(ScopeOptions scope, Guid contactId);
+        Task<Contact> GetContact(ScopeOptions scope, Guid memberId, string value);
         Task<Result> UpdateContact(ScopeOptions scope, Contact contact);
         Task<Result> InsertContact(ScopeOptions scope, Contact contact);
     }

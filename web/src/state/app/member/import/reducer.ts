@@ -44,12 +44,28 @@ export const defaultState: State = {
             name: 'Date of Birth'
         },
         {
-            id: 'policyUserFullName',
-            name: 'Policy Broker'
+            id: 'taxNumber',
+            name: 'Tax Number'
         },
         {
             id: 'policyNumber',
             name: 'Policy Number'
+        },
+        {
+            id: 'policyUserFullName',
+            name: 'Policy Broker'
+        },
+        {
+            id: 'policyPremium',
+            name: 'Policy Premium'
+        },
+        {
+            id: 'policyType',
+            name: 'Policy Type'
+        },
+        {
+            id: 'policyStartDate',
+            name: 'Policy Start Date'
         }
     ]
 };
