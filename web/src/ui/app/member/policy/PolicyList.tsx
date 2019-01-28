@@ -8,7 +8,7 @@ import {
     receiveSortOptions
 } from '@/state/app/member/policies';
 import { RootState } from '@/state/rootReducer';
-import { Button, CompanyName, Header, Table, UserName } from '@/ui/controls';
+import { Button, CompanyName, Header, PolicyTypeName, Table, UserName } from '@/ui/controls';
 
 import EditPolicy from './EditPolicy';
 
@@ -65,15 +65,20 @@ class PolicyList extends Component<Props> {
 
     getColumns = () => {
         return [
-            getColumn('number', 'Number', { showSearchFilter: true }),
-            getColumn('userId', 'Broker', {
-                render: (userId: string) => {
-                    return <UserName userId={userId} />;
+            getColumn('policyTypeId', 'Type', {
+                render: (policyTypeId: string) => {
+                    return <PolicyTypeName policyTypeId={policyTypeId} />;
                 }
             }),
+            getColumn('number', 'Number', { showSearchFilter: true }),
             getColumn('companyId', 'Company', {
                 render: (companyId: string) => {
                     return <CompanyName companyId={companyId} />;
+                }
+            }),
+            getColumn('userId', 'Broker', {
+                render: (userId: string) => {
+                    return <UserName userId={userId} />;
                 }
             })
         ];
