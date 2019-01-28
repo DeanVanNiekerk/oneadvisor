@@ -88,9 +88,16 @@ namespace OneAdvisor.Service.Test
             return InsertDefaultMember(options, organisation);
         }
 
-        public static DefaultMember InsertDefaultMember(DbContextOptions<DataContext> options, OrganisationEntity organisation)
+        public static DefaultMember InsertDefaultMember(DbContextOptions<DataContext> options, OrganisationEntity organisation, string idNumber = null)
         {
-            var member = new MemberEntity { Id = Guid.NewGuid(), FirstName = "Dean", LastName = "van Niekerk", IdNumber = "8210035032082", OrganisationId = organisation.Id };
+            var member = new MemberEntity
+            {
+                Id = Guid.NewGuid(),
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                IdNumber = idNumber != null ? idNumber : Guid.NewGuid().ToString(),
+                OrganisationId = organisation.Id
+            };
 
             using (var context = new DataContext(options))
             {

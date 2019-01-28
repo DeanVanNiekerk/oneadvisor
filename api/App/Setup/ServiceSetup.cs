@@ -94,6 +94,7 @@ namespace api.App.Setup
             //MEMBER
             Services.AddScoped<IMemberService, MemberService>();
             Services.AddScoped<IMemberImportService, MemberImportService>();
+            Services.AddScoped<IMemberExportService, MemberExportService>();
             Services.AddScoped<IPolicyService, PolicyService>();
             Services.AddScoped<IContactService, ContactService>();
         }

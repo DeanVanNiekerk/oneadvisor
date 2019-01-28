@@ -443,7 +443,7 @@ namespace OneAdvisor.Service.Test.Member
             var options = TestHelper.GetDbContext("ImportMember_UpdatePolicy");
 
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation, "8210035032082");
 
             var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
 

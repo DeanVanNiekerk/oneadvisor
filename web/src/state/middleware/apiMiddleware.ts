@@ -48,6 +48,14 @@ export default (store: any) => (next: any) => (action: any) => {
                 });
             }
 
+            //Call onSuccessBlob
+            if (action.onSuccessBlob) {
+                resp.blob().then(blob => {
+                    action.onSuccessBlob(blob, store.dispatch);
+                });
+                return;
+            }
+
             //Unauthorized, reload page
             // if (resp.status === 401) {
             //     window.location.reload();

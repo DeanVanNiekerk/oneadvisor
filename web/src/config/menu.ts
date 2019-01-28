@@ -71,13 +71,19 @@ export const menus: Menus = {
                 ]
             },
             {
-                name: 'Bulk Actions',
+                name: 'Data',
                 links: [
                     {
                         name: 'Import',
                         icon: 'upload',
                         relativePath: '/import',
                         useCases: ['mem_import_members']
+                    },
+                    {
+                        name: 'Export',
+                        icon: 'download',
+                        relativePath: '/export',
+                        useCases: ['mem_view_members']
                     }
                 ]
             }
