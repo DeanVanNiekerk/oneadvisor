@@ -22,8 +22,8 @@ namespace OneAdvisor.Service.Member.Validators
             if (!isInsert)
                 RuleFor(o => o.Id).GuidNotEmpty();
 
-            RuleFor(m => m.FirstName).NotNull().MaximumLength(128).WithName("First Name");
-            RuleFor(m => m.LastName).NotNull().MaximumLength(128).WithName("Last Name");
+            RuleFor(m => m.FirstName).MaximumLength(128).WithName("First Name");
+            RuleFor(m => m.LastName).MaximumLength(128).WithName("Last Name");
             RuleFor(m => m.TaxNumber).MaximumLength(128).WithName("Tax Number");
 
             When(m => !string.IsNullOrWhiteSpace(m.IdNumber), () =>

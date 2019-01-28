@@ -136,6 +136,52 @@ namespace OneAdvisor.Service.Test.Member
         }
 
         [TestMethod]
+        public async Task GetContactWithValue()
+        {
+            var options = TestHelper.GetDbContext("GetContactWithValue");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+
+            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+
+            //Given
+            var contactTypeId1 = Guid.NewGuid();
+            var contact1 = new ContactEntity { Id = Guid.NewGuid(), MemberId = member1.Member.Id, Value = "dean@gmail.com", ContactTypeId = contactTypeId1 };
+            var contact2 = new ContactEntity { Id = Guid.NewGuid(), MemberId = member1.Member.Id, Value = "deanvniekerk@gmail.com", ContactTypeId = contactTypeId1 };
+
+            using (var context = new DataContext(options))
+            {
+                context.Contact.Add(contact1);
+                context.Contact.Add(contact2);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new ContactService(context);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var actual = await service.GetContact(scope, member1.Member.Id, contact1.Value);
+
+                //Then
+                Assert.AreEqual(contact1.Id, actual.Id);
+                Assert.AreEqual(contact1.MemberId, actual.MemberId);
+                Assert.AreEqual(contact1.Value, actual.Value);
+                Assert.AreEqual(contact1.ContactTypeId, actual.ContactTypeId);
+
+                //Scope check
+                scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                actual = await service.GetContact(scope, contact1.Id);
+
+                //Then
+                Assert.IsNull(actual);
+            }
+        }
+
+        [TestMethod]
         public async Task InsertContact()
         {
             var options = TestHelper.GetDbContext("InsertContact");

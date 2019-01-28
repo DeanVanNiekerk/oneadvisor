@@ -128,8 +128,12 @@ namespace OneAdvisor.Service.Member
                 member = (MemberEdit)result.Tag;
             }
 
-            result = await ImportPolicy(scope, data, member, userId);
             result = await ImportEmail(scope, data, member);
+
+            if (!result.Success)
+                    return result;
+
+            result = await ImportPolicy(scope, data, member, userId);
 
             return result;
         }
@@ -236,7 +240,7 @@ namespace OneAdvisor.Service.Member
                 return result;
 
             //See if email exits
-            var email = _contactService.GetContact(scope, member.Id, data.Email);
+            var email = await _contactService.GetContact(scope, member.Id, data.Email);
 
             if (email == null)
             {
@@ -265,6 +269,9 @@ namespace OneAdvisor.Service.Member
 
         private Guid? GetPolicyTypeId(string policyType)
         {
+            if (string.IsNullOrWhiteSpace(policyType))
+                return null;
+
             switch (policyType.ToLower())
             {
                 case "investment":

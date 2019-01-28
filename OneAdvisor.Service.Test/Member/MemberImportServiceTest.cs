@@ -9,9 +9,11 @@ using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Member.Model.ImportMember;
 using OneAdvisor.Model.Member.Model.Member;
+using OneAdvisor.Model.Member.Model.Policy;
 using OneAdvisor.Service.Member;
 
 namespace OneAdvisor.Service.Test.Member
@@ -30,14 +32,16 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
-                var service = new MemberImportService(context, memberService, null);
+                var service = new MemberImportService(context, memberService, null, null);
 
                 //When
                 var data = new ImportMember()
                 {
                     IdNumber = "821003 5032 082",
                     FirstName = "FN",
-                    LastName = "LN"
+                    LastName = "LN",
+                    TaxNumber = "987654",
+                    DateOfBirth = DateTime.Now
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
@@ -52,6 +56,8 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(user1.Organisation.Id, actual.OrganisationId);
                 Assert.AreEqual(data.LastName, actual.LastName);
                 Assert.AreEqual(data.FirstName, actual.FirstName);
+                Assert.AreEqual(data.TaxNumber, actual.TaxNumber);
+                Assert.AreEqual(data.DateOfBirth, actual.DateOfBirth);
             }
         }
 
@@ -65,7 +71,7 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
-                var service = new MemberImportService(context, memberService, null);
+                var service = new MemberImportService(context, memberService, null, null);
 
                 //When
                 var data = new ImportMember()
@@ -85,6 +91,40 @@ namespace OneAdvisor.Service.Test.Member
             }
         }
 
+        [TestMethod]
+        public async Task ImportMember_Insert_WithEmail()
+        {
+            var options = TestHelper.GetDbContext("ImportMember_Insert_WithEmail");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+
+            using (var context = new DataContext(options))
+            {
+                var memberService = new MemberService(context);
+                var contactService = new ContactService(context);
+                var service = new MemberImportService(context, memberService, null, contactService);
+
+                //When
+                var data = new ImportMember()
+                {
+                    IdNumber = "8210035032082",
+                    Email = "dean@gmail.com"
+                };
+
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+
+                var result = await service.ImportMember(scope, data);
+
+                //Then
+                Assert.IsTrue(result.Success);
+
+                var member = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == data.IdNumber);
+                var actual = await context.Contact.SingleOrDefaultAsync(c => c.MemberId == member.Id);
+                Assert.AreEqual(data.Email, actual.Value);
+                Assert.AreEqual(ContactType.CONTACT_TYPE_EMAIL, actual.ContactTypeId);
+            }
+        }
+
 
 
         [TestMethod]
@@ -100,6 +140,8 @@ namespace OneAdvisor.Service.Test.Member
                 Id = Guid.NewGuid(),
                 FirstName = "FN 1",
                 LastName = "LN 1",
+                TaxNumber = "987654",
+                DateOfBirth = DateTime.Now,
                 IdNumber = "8210035032082",
                 OrganisationId = user1.Organisation.Id
             };
@@ -114,14 +156,16 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
-                var service = new MemberImportService(context, memberService, null);
+                var service = new MemberImportService(context, memberService, null, null);
 
                 //When
                 var data = new ImportMember()
                 {
                     IdNumber = mem.IdNumber,
                     FirstName = "FN updated",
-                    LastName = "LN updated"
+                    LastName = "LN updated",
+                    TaxNumber = "456789",
+                    DateOfBirth = DateTime.Now.AddDays(-20),
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
@@ -135,6 +179,67 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(user1.Organisation.Id, actual.OrganisationId);
                 Assert.AreEqual(data.FirstName, actual.FirstName);
                 Assert.AreEqual(data.LastName, actual.LastName);
+                Assert.AreEqual(data.TaxNumber, actual.TaxNumber);
+                Assert.AreEqual(data.DateOfBirth, actual.DateOfBirth);
+            }
+        }
+
+
+        [TestMethod]
+        public async Task ImportMember_Update_WithEmail()
+        {
+            var options = TestHelper.GetDbContext("ImportMember_Update_WithEmail");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+
+            var mem = new MemberEntity
+            {
+                Id = Guid.NewGuid(),
+                IdNumber = "8210035032082",
+                OrganisationId = user1.Organisation.Id
+            };
+
+            var contact = new ContactEntity
+            {
+                MemberId = mem.Id,
+                ContactTypeId = ContactType.CONTACT_TYPE_EMAIL,
+                Value = "dean@gmail.com"
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Member.Add(mem);
+                context.Contact.Add(contact);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var memberService = new MemberService(context);
+                var contactService = new ContactService(context);
+                var service = new MemberImportService(context, memberService, null, contactService);
+
+                //When
+                var data = new ImportMember()
+                {
+                    IdNumber = "8210035032082",
+                    Email = contact.Value
+                };
+
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+
+                var result = await service.ImportMember(scope, data);
+
+                //Then
+                Assert.IsTrue(result.Success);
+
+                var member = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == data.IdNumber);
+                var contacts = await context.Contact.Where(c => c.MemberId == member.Id).ToListAsync();
+                Assert.AreEqual(1, contacts.Count);
+                var actual = contacts.Single();
+                Assert.AreEqual(data.Email, actual.Value);
+                Assert.AreEqual(ContactType.CONTACT_TYPE_EMAIL, actual.ContactTypeId);
             }
         }
 
@@ -166,7 +271,7 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
-                var service = new MemberImportService(context, memberService, null);
+                var service = new MemberImportService(context, memberService, null, null);
 
                 //When
                 var data = new ImportMember()
@@ -221,7 +326,7 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
-                var service = new MemberImportService(context, memberService, null);
+                var service = new MemberImportService(context, memberService, null, null);
 
                 //When
                 var data = new ImportMember()
@@ -254,7 +359,7 @@ namespace OneAdvisor.Service.Test.Member
             {
                 var memberService = new MemberService(context);
                 var policyService = new PolicyService(context);
-                var service = new MemberImportService(context, memberService, policyService);
+                var service = new MemberImportService(context, memberService, policyService, null);
 
                 //When
                 var data = new ImportMember()
@@ -263,6 +368,9 @@ namespace OneAdvisor.Service.Test.Member
                     LastName = "LN",
                     PolicyNumber = "987654",
                     PolicyCompanyId = Guid.NewGuid(),
+                    PolicyType = "life_insurance",
+                    PolicyPremium = 5000,
+                    PolicyStartDate = DateTime.Now,
                     PolicyUserFullName = $"{user1.User.FirstName} {user1.User.LastName}"
                 };
 
@@ -276,6 +384,9 @@ namespace OneAdvisor.Service.Test.Member
                 var actual = await context.Policy.FirstOrDefaultAsync(m => m.Number == data.PolicyNumber);
                 Assert.AreEqual(data.PolicyCompanyId, actual.CompanyId);
                 Assert.AreEqual(user1.User.Id, actual.UserId);
+                Assert.AreEqual(data.PolicyPremium, actual.Premium);
+                Assert.AreEqual(data.PolicyStartDate, actual.StartDate);
+                Assert.AreEqual(PolicyType.POLICY_TYPE_LIFE_INSURANCE, actual.PolicyTypeId);
             }
         }
 
@@ -300,7 +411,7 @@ namespace OneAdvisor.Service.Test.Member
             {
                 var memberService = new MemberService(context);
                 var policyService = new PolicyService(context);
-                var service = new MemberImportService(context, memberService, policyService);
+                var service = new MemberImportService(context, memberService, policyService, null);
 
                 //When
                 var data = new ImportMember()
@@ -343,6 +454,9 @@ namespace OneAdvisor.Service.Test.Member
                 CompanyId = Guid.NewGuid(),
                 MemberId = member1.Member.Id,
                 UserId = user2.User.Id,
+                PolicyTypeId = PolicyType.POLICY_TYPE_INVESTMENT,
+                Premium = 2000,
+                StartDate = DateTime.Now,
                 Number = "123465"
             };
 
@@ -357,7 +471,7 @@ namespace OneAdvisor.Service.Test.Member
             {
                 var memberService = new MemberService(context);
                 var policyService = new PolicyService(context);
-                var service = new MemberImportService(context, memberService, policyService);
+                var service = new MemberImportService(context, memberService, policyService, null);
 
                 //When
                 var data = new ImportMember()
@@ -366,6 +480,9 @@ namespace OneAdvisor.Service.Test.Member
                     LastName = "LN",
                     PolicyNumber = policyEntity1.Number,
                     PolicyCompanyId = policyEntity1.CompanyId,
+                    PolicyType = "medical_cover",
+                    PolicyPremium = 6000,
+                    PolicyStartDate = DateTime.Now.AddDays(-100),
                     PolicyUserFullName = $"{user1.User.FirstName} {user1.User.LastName}"
                 };
 
@@ -379,6 +496,9 @@ namespace OneAdvisor.Service.Test.Member
                 var actual = await context.Policy.FirstOrDefaultAsync(m => m.Number == data.PolicyNumber);
                 Assert.AreEqual(data.PolicyCompanyId, actual.CompanyId);
                 Assert.AreEqual(user1.User.Id, actual.UserId);
+                Assert.AreEqual(data.PolicyPremium, actual.Premium);
+                Assert.AreEqual(data.PolicyStartDate, actual.StartDate);
+                Assert.AreEqual(PolicyType.POLICY_TYPE_MEDICAL_COVER, actual.PolicyTypeId);
             }
         }
     }
