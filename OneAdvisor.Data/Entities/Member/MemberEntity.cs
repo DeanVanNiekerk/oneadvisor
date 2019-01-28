@@ -25,6 +25,8 @@ namespace OneAdvisor.Data.Entities.Member
         public DateTime? MarriageDate { get; set; }
 
         public virtual ICollection<PolicyEntity> MemberPolicies { get; set; }
+        public virtual ICollection<ContactEntity> MemberContacts { get; set; }
+
         public virtual OrganisationEntity Organisation { get; set; }
         public virtual MarritalStatusEntity MarritalStatus { get; set; }
     }

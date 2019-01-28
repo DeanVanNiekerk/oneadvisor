@@ -11,5 +11,6 @@ namespace api.Controllers.Member.Members.Dto
         public DateTime? DateOfBirth { get; set; }
 
         public int PolicyCount { get; set; }
+        public int ContactCount { get; set; }
     }
 }

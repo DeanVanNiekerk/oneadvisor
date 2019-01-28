@@ -9,6 +9,7 @@ using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Member.Model.Member;
 using OneAdvisor.Service.Member;
@@ -284,6 +285,14 @@ namespace OneAdvisor.Service.Test.Member
                 UserId = user1.User.Id
             };
 
+            var contact1 = new ContactEntity
+            {
+                Id = Guid.NewGuid(),
+                MemberId = mem2.Id,
+                ContactTypeId = ContactType.CONTACT_TYPE_EMAIL,
+                Value = "dean@email.com"
+            };
+
             using (var context = new DataContext(options))
             {
                 context.Member.Add(mem1);
@@ -291,6 +300,8 @@ namespace OneAdvisor.Service.Test.Member
 
                 context.Policy.Add(policy1);
                 context.Policy.Add(policy2);
+
+                context.Contact.Add(contact1);
 
                 context.SaveChanges();
             }
@@ -311,6 +322,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(mem2.DateOfBirth, actual.DateOfBirth);
 
                 Assert.AreEqual(2, actual.PolicyCount);
+                Assert.AreEqual(1, actual.ContactCount);
             }
         }
 

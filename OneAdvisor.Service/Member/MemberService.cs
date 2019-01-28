@@ -78,7 +78,8 @@ namespace OneAdvisor.Service.Member
                             LastName = member.LastName,
                             IdNumber = member.IdNumber,
                             DateOfBirth = member.DateOfBirth,
-                            PolicyCount = member.MemberPolicies.Count()
+                            PolicyCount = member.MemberPolicies.Count(),
+                            ContactCount = member.MemberContacts.Count()
                         };
 
             return query.FirstOrDefaultAsync();

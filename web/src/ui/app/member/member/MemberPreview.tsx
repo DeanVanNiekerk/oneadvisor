@@ -194,7 +194,7 @@ class MemberPreviewView extends Component<Props, State> {
                                 >
                                     <span>
                                         Total Contacts:{' '}
-                                        {member && member.policyCount}
+                                        {member && member.contactCount}
                                     </span>
                                 </Skeleton>
                             </Card>
@@ -225,7 +225,10 @@ class MemberPreviewView extends Component<Props, State> {
                     visible={this.state.contactListVisible}
                     onClose={this.toggleContactListVisible}
                 >
-                    <ContactList memberId={this.getMemberId()} />
+                    <ContactList
+                        memberId={this.getMemberId()}
+                        onSave={this.load}
+                    />
                     <DrawerFooter>
                         <Button onClick={this.toggleContactListVisible}>
                             Close

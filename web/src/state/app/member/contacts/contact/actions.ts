@@ -38,7 +38,9 @@ export type ContactAction =
     | ContactUpdatingErrorAction
     | ContactValidationErrorAction;
 
-export const receiveContact = (contact: Contact | null): ContactReceiveAction => ({
+export const receiveContact = (
+    contact: Contact | null
+): ContactReceiveAction => ({
     type: 'CONTACTS_CONTACT_RECEIVE',
     payload: contact
 });
@@ -69,6 +71,17 @@ export const insertContact = (
     endpoint: `${contactsApi}`,
     method: 'POST',
     payload: contact,
+    onSuccess: onSuccess,
+    dispatchPrefix: 'CONTACTS_CONTACT_EDIT'
+});
+
+export const deleteContact = (
+    contactId: string,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
+    type: 'API',
+    endpoint: `${contactsApi}/${contactId}`,
+    method: 'DELETE',
     onSuccess: onSuccess,
     dispatchPrefix: 'CONTACTS_CONTACT_EDIT'
 });

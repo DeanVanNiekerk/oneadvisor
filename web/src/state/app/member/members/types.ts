@@ -36,4 +36,5 @@ export type MemberPreview = {
     dateOfBirth: string | null;
 
     policyCount: number;
+    contactCount: number;
 };

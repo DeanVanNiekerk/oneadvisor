@@ -282,5 +282,52 @@ namespace OneAdvisor.Service.Test.Member
             }
         }
 
+        [TestMethod]
+        public async Task DeleteContact()
+        {
+            var options = TestHelper.GetDbContext("DeleteContact");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+
+            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+
+            //Given
+            var contactTypeId1 = Guid.NewGuid();
+            var contactTypeId2 = Guid.NewGuid();
+            var contact1 = new ContactEntity { Id = Guid.NewGuid(), MemberId = member1.Member.Id, Value = "A Contact 1", ContactTypeId = contactTypeId1 };
+            var contact2 = new ContactEntity { Id = Guid.NewGuid(), MemberId = member1.Member.Id, Value = "B Contact 2", ContactTypeId = contactTypeId1 };
+
+            using (var context = new DataContext(options))
+            {
+                context.Contact.Add(contact2);
+                context.Contact.Add(contact1);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new ContactService(context);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var result = await service.DeleteContact(scope, contact1.Id);
+
+                //Then
+                Assert.IsTrue(result.Success);
+
+                var actual = await context.Contact.FindAsync(contact1.Id);
+                Assert.IsNull(actual);
+
+                //Scope check
+                scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                result = await service.DeleteContact(scope, contact1.Id);
+
+                //Then
+                Assert.IsFalse(result.Success);
+            }
+        }
+
     }
 }

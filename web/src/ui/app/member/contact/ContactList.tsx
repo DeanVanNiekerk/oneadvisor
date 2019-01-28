@@ -1,10 +1,13 @@
+import { Popconfirm } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { getColumn } from '@/app/table';
-import { Contact, contactsSelector, fetchContact, fetchContacts, receiveContact } from '@/state/app/member/contacts';
+import {
+    Contact, contactsSelector, deleteContact, fetchContact, fetchContacts, receiveContact
+} from '@/state/app/member/contacts';
 import { RootState } from '@/state/rootReducer';
-import { Table, ContactTypeName } from '@/ui/controls';
+import { ContactTypeName, StopPropagation, Table } from '@/ui/controls';
 
 import EditContact from './EditContact';
 
@@ -12,6 +15,7 @@ type Props = {
     memberId: string;
     contacts: Contact[];
     fetching: boolean;
+    onSave?: () => void;
 } & DispatchProp;
 
 class ContactList extends Component<Props> {
@@ -28,19 +32,43 @@ class ContactList extends Component<Props> {
         this.props.dispatch(fetchContacts(filters));
     };
 
+    onSave = () => {
+        this.loadContacts();
+        if (this.props.onSave) this.props.onSave();
+    };
+
     editContact = (id: string) => {
         this.props.dispatch(fetchContact(id));
+    };
+
+    deleteContact = (id: string) => {
+        this.props.dispatch(deleteContact(id, this.onSave));
     };
 
     getColumns = () => {
         return [
             getColumn('contactTypeId', 'Type', {
                 render: (contactTypeId: string) => {
-                    return <ContactTypeName contactTypeId={contactTypeId} />
-
+                    return <ContactTypeName contactTypeId={contactTypeId} />;
                 }
             }),
-            getColumn('value', 'Value')
+            getColumn('value', 'Value'),
+            getColumn('id', 'Actions', {
+                render: (id: string) => {
+                    return (
+                        <StopPropagation>
+                            <Popconfirm
+                                title="Are you sure remove this contact?"
+                                onConfirm={() => this.deleteContact(id)}
+                                okText="Yes"
+                                cancelText="No"
+                            >
+                                <a href="#">Remove</a>
+                            </Popconfirm>
+                        </StopPropagation>
+                    );
+                }
+            })
         ];
     };
 
@@ -49,7 +77,7 @@ class ContactList extends Component<Props> {
             <>
                 <EditContact
                     memberId={this.props.memberId}
-                    onSave={this.loadContacts}
+                    onSave={this.onSave}
                 />
                 <Table
                     rowKey="id"

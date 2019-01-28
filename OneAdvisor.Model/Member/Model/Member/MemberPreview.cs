@@ -11,5 +11,6 @@ namespace OneAdvisor.Model.Member.Model.Member
         public DateTime? DateOfBirth { get; set; }
 
         public int PolicyCount { get; set; }
+        public int ContactCount { get; set; }
     }
 }

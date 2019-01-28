@@ -108,6 +108,22 @@ namespace OneAdvisor.Service.Member
             return result;
         }
 
+        public async Task<Result> DeleteContact(ScopeOptions scope, Guid contactId)
+        {
+            var result = new Result();
+
+            var entity = await GetContactEntityQuery(scope).FirstOrDefaultAsync(b => b.Id == contactId);
+
+            if (entity == null)
+                return new Result();
+
+            _context.Contact.Remove(entity);
+
+            await _context.SaveChangesAsync();
+
+            return new Result(true);
+        }
+
         private IQueryable<ContactEntity> GetContactEntityQuery(ScopeOptions scope)
         {
             var query = from member in ScopeQuery.GetMemberEntityQuery(_context, scope)

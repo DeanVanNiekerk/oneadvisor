@@ -107,5 +107,4 @@ namespace api.Controllers.Directory.Members
             return Ok(result);
         }
     }
-
 }

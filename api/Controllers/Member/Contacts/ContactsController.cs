@@ -94,6 +94,20 @@ namespace api.Controllers.Member.Contacts
 
             return Ok(result);
         }
+
+        [HttpDelete("{contactId}")]
+        [UseCaseAuthorize("mem_edit_contacts")]
+        public async Task<ActionResult<Result>> Delete(Guid contactId)
+        {
+            var scope = await AuthService.GetScope(UserId, Scope);
+
+            var result = await ContactService.DeleteContact(scope, contactId);
+
+            if (!result.Success)
+                return BadRequest(result.ValidationFailures);
+
+            return Ok(result);
+        }
     }
 
 }

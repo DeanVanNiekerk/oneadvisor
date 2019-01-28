@@ -36,4 +36,18 @@ describe('contact actions', () => {
             expectedAction
         );
     });
+
+    it('should dispatch API when deleteContact is called', () => {
+        const onSuccess = () => {};
+
+        const expectedAction = {
+            type: 'API',
+            endpoint: `${contactsApi}/10`,
+            method: 'DELETE',
+            onSuccess: onSuccess,
+            dispatchPrefix: 'CONTACTS_CONTACT_EDIT'
+        };
+
+        expect(actions.deleteContact('10', onSuccess)).toEqual(expectedAction);
+    });
 });

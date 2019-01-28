@@ -9,7 +9,8 @@ const defaultMember: MemberPreview = {
     lastName: 'Jackson',
     idNumber: '12341234',
     dateOfBirth: '1982-10-03',
-    policyCount: 2
+    policyCount: 2,
+    contactCount: 3
 };
 
 describe('member preview reducer', () => {
