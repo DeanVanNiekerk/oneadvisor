@@ -23,16 +23,14 @@ namespace OneAdvisor.Service.Member.Validators
             _scope = scope;
 
             if (!isInsert)
-                RuleFor(p => p.Id).Custom(Validation.GuidNotEmpty);
+                RuleFor(p => p.Id).GuidNotEmpty();
 
-            RuleFor(p => p.UserId).NotEmpty().MaximumLength(64);
+            RuleFor(p => p.UserId).NotEmpty().MaximumLength(64).WithName("Broker");
             RuleFor(p => p.Number).NotEmpty().MaximumLength(128);
             RuleFor(p => p.Premium).LessThanOrEqualTo(999999999);
             RuleFor(p => p).Custom(AvailablePolicyNumberValidator);
 
-            RuleFor(p => p.CompanyId).Custom(Validation.GuidNotEmpty);
-
-            RuleFor(p => p.CompanyId).Custom(Validation.GuidNotEmpty);
+            RuleFor(p => p.CompanyId).GuidNotEmpty("Company");
         }
 
         private void AvailablePolicyNumberValidator(PolicyEdit policy, CustomContext context)

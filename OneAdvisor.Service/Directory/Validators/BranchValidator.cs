@@ -12,9 +12,9 @@ namespace OneAdvisor.Service.Directory.Validators
         public BranchValidator(bool isInsert)
         {
             if (!isInsert)
-                RuleFor(o => o.Id).Custom(Validation.GuidNotEmpty);
+                RuleFor(o => o.Id).GuidNotEmpty();
 
-            RuleFor(o => o.OrganisationId).Custom(Validation.GuidNotEmpty);
+            RuleFor(o => o.OrganisationId).GuidNotEmpty("Organisation");
             RuleFor(o => o.Name).NotEmpty().MaximumLength(32); ;
         }
     }

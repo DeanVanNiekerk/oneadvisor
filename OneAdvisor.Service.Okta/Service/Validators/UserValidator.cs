@@ -14,9 +14,9 @@ namespace OneAdvisor.Service.Okta.Service.Validators
             if (!isInsert)
                 RuleFor(u => u.Id).NotEmpty();
 
-            RuleFor(u => u.FirstName).NotEmpty();
-            RuleFor(u => u.LastName).NotEmpty();
-            RuleFor(u => u.BranchId).NotEmpty();
+            RuleFor(u => u.FirstName).NotEmpty().WithName("First Name");
+            RuleFor(u => u.LastName).NotEmpty().WithName("Last Name");
+            RuleFor(u => u.BranchId).NotEmpty().WithName("Branch");
             RuleFor(u => u.Login).NotEmpty();
             RuleFor(u => u.Scope).IsInEnum();
 

@@ -20,11 +20,11 @@ namespace OneAdvisor.Service.Member.Validators
             _context = dataContext;
 
             if (!isInsert)
-                RuleFor(o => o.Id).Custom(Validation.GuidNotEmpty);
+                RuleFor(o => o.Id).GuidNotEmpty();
 
-            RuleFor(m => m.FirstName).NotNull().MaximumLength(128);
-            RuleFor(m => m.LastName).NotNull().MaximumLength(128);
-            RuleFor(m => m.TaxNumber).MaximumLength(128);
+            RuleFor(m => m.FirstName).NotNull().MaximumLength(128).WithName("First Name");
+            RuleFor(m => m.LastName).NotNull().MaximumLength(128).WithName("Last Name");
+            RuleFor(m => m.TaxNumber).MaximumLength(128).WithName("Tax Number");
 
             When(m => !string.IsNullOrWhiteSpace(m.IdNumber), () =>
             {
@@ -34,7 +34,7 @@ namespace OneAdvisor.Service.Member.Validators
 
             When(m => !string.IsNullOrWhiteSpace(m.PassportNumber), () =>
             {
-                RuleFor(m => m.PassportNumber).MaximumLength(128);
+                RuleFor(m => m.PassportNumber).MaximumLength(128).WithName("Passport Number");
                 RuleFor(m => m).Custom(AvailablePassportNumberValidator);
             });
 
