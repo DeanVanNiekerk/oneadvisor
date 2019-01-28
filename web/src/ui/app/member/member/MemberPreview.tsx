@@ -14,6 +14,7 @@ import ContactList from '../contact/ContactList';
 import EditPolicy from '../policy/EditPolicy';
 import PolicyList from '../policy/PolicyList';
 import EditMember from './EditMember';
+import PreviewCard from './PreviewCard';
 
 type Props = {
     member: MemberPreview | null;
@@ -109,96 +110,52 @@ class MemberPreviewView extends Component<Props, State> {
 
                 <div style={{ background: '#ECECEC', padding: '30px' }}>
                     <Row gutter={16}>
-                        <Col span={4}>
-                            <Card
-                                hoverable={true}
-                                title="Details"
-                                bordered={false}
-                                onClick={this.editDetails}
-                                actions={[
-                                    <Icon
-                                        type="edit"
-                                        onClick={this.editDetails}
-                                    />
-                                ]}
-                            >
-                                <Skeleton
-                                    loading={this.isLoading()}
-                                    title={false}
-                                    active
-                                    paragraph={{
-                                        rows: 1
-                                    }}
-                                >
-                                    <div>
-                                        {`${member &&
-                                            member.firstName} ${member &&
-                                            member.lastName}`}
-                                        {member && member.dateOfBirth && (
-                                            <span>
-                                                <span>, </span>
-                                                <Age
-                                                    dateOfBirth={
-                                                        member.dateOfBirth
-                                                    }
-                                                />
-                                            </span>
-                                        )}
-                                    </div>
-                                </Skeleton>
-                            </Card>
-                        </Col>
-                        <Col span={4}>
-                            <Card
-                                hoverable={true}
-                                title="Policies"
-                                bordered={false}
-                                onClick={this.togglePolicyListVisible}
-                                actions={this.getPolicyActions()}
-                            >
-                                <Skeleton
-                                    loading={this.isLoading()}
-                                    title={false}
-                                    active
-                                    paragraph={{
-                                        rows: 1
-                                    }}
-                                >
+                        <PreviewCard
+                            title="Details"
+                            onClick={this.editDetails}
+                            isLoading={this.isLoading()}
+                            actions={[
+                                <Icon type="edit" onClick={this.editDetails} />
+                            ]}
+                        >
+                            <div>
+                                {`${member && member.firstName} ${member &&
+                                    member.lastName}`}
+                                {member && member.dateOfBirth && (
                                     <span>
-                                        Total Policies:{' '}
-                                        {member && member.policyCount}
+                                        <span>, </span>
+                                        <Age dateOfBirth={member.dateOfBirth} />
                                     </span>
-                                </Skeleton>
-                            </Card>
-                        </Col>
-                        <Col span={4}>
-                            <Card
-                                hoverable={true}
-                                title="Contacts"
-                                bordered={false}
-                                onClick={this.toggleContactListVisible}
-                                actions={[
-                                    <Icon
-                                        type="bars"
-                                        onClick={this.toggleContactListVisible}
-                                    />
-                                ]}
-                            >
-                                <Skeleton
-                                    loading={this.isLoading()}
-                                    title={false}
-                                    active
-                                    paragraph={{
-                                        rows: 1
-                                    }}
-                                >
-                                    <span>
-                                        Total Contacts:{' '}
-                                        {member && member.contactCount}
-                                    </span>
-                                </Skeleton>
-                            </Card>
-                        </Col>
+                                )}
+                            </div>
+                        </PreviewCard>
+                        <PreviewCard
+                            title="Policies"
+                            onClick={this.togglePolicyListVisible}
+                            isLoading={this.isLoading()}
+                            requiredUseCase="mem_view_policies"
+                            actions={this.getPolicyActions()}
+                        >
+                            <span>
+                                Total Policies: {member && member.policyCount}
+                            </span>
+                        </PreviewCard>
+                        <PreviewCard
+                            title="Contacts"
+                            onClick={this.toggleContactListVisible}
+                            isLoading={this.isLoading()}
+                            requiredUseCase="mem_view_contacts"
+                            actions={[
+                                <Icon
+                                    type="bars"
+                                    onClick={this.toggleContactListVisible}
+                                />
+                            ]}
+                        >
+                            <span>
+                                Total Contacts: {member && member.contactCount}
+                            </span>
+                        </PreviewCard>
                     </Row>
                 </div>
 
