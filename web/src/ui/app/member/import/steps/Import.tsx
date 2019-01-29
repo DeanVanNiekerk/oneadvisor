@@ -1,28 +1,24 @@
-import { Col, Icon, Modal, Popover, Progress, Row } from 'antd';
-import { ColumnProps } from 'antd/lib/table';
+import { Card, Col, Collapse, Icon, Modal, Progress, Row } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { getColumn } from '@/app/table';
+import { parseValidationErrors } from '@/app/validation';
 import {
-    ImportMember, importMember, importMemberClearResults, importMemberReset, memberImportPreviousStep,
-    memberImportProgressPercentSelector, memberImportSelector, ResultFailure
+    ImportColumn, ImportMember, importMember, importMemberClearResults, importMemberReset, memberImportPreviousStep,
+    memberImportProgressPercentSelector, memberImportSelectedColumnsSelector, memberImportSelector, ResultFailure
 } from '@/state/app/member/import';
 import { RootState } from '@/state/rootReducer';
 import { Button, Table } from '@/ui/controls';
 
-/*
-InvalidOperationException: The property 'Id' on entity type 'PolicyEntity' 
-is part of a key and so cannot be modified or marked as modified. 
-To change the principal of an existing entity with an identifying foreign key first delete the dependent and invoke 'SaveChanges' 
-then associate the dependent with the new principal.
-*/
+const Panel = Collapse.Panel;
 
 type Props = {
     members: ImportMember[];
     resultsSuccess: ImportMember[];
     resultsFailure: ResultFailure[];
     progressPercent: number;
+    columns: ImportColumn[];
 } & DispatchProp;
 
 class Import extends Component<Props> {
@@ -69,14 +65,34 @@ class Import extends Component<Props> {
             width: 720,
             content: (
                 <div>
-                    <div>ID Number: {record.importMember.idNumber}</div>
-                    <div>First Name: {record.importMember.firstName}</div>
-                    <div>Last Name: {record.importMember.lastName}</div>
-                    <div>Policy Number: {record.importMember.policyNumber}</div>
-                    <div>
-                        Policy Broker: {record.importMember.policyUserFullName}
-                    </div>
-                    <pre>{record.error}</pre>
+                    <Collapse defaultActiveKey={['1', '2']}>
+                        <Panel header="Error Messages" key="1">
+                            {parseValidationErrors(record.error).map(result => {
+                                return (
+                                    <div>
+                                        <b>{result.propertyName}: </b>
+                                        <span className="text-error">
+                                            {result.errorMessage}
+                                        </span>
+                                    </div>
+                                );
+                            })}
+                        </Panel>
+                        <Panel header="Record Data" key="2">
+                            {this.props.columns.map(column => {
+                                return (
+                                    <div>
+                                        <b>{column.name}: </b>
+                                        {record.importMember[column.id]}
+                                    </div>
+                                );
+                            })}
+                        </Panel>
+
+                        <Panel header="Raw Error Data" key="3">
+                            <pre>{record.error}</pre>
+                        </Panel>
+                    </Collapse>
                 </div>
             )
         });
@@ -85,14 +101,18 @@ class Import extends Component<Props> {
     getColumns = () => {
         const columns: any = [];
 
-        const idNumberColumn = getColumn('idNumber', 'ID Number', {
+        const idNumberColumn = getColumn('idNumber', 'Record', {
             sorter: undefined,
             render: (value: any, record: ResultFailure) => {
-                return record.importMember.idNumber;
+                {
+                    return this.props.columns.map(column => {
+                        return <span>{record.importMember[column.id]}; </span>;
+                    });
+                }
             }
         });
 
-        const actionColumn = getColumn('error', 'Detail', {
+        const actionColumn = getColumn('error', 'Error Detail', {
             sorter: undefined,
             render: (value: any, record: ResultFailure) => {
                 return (
@@ -156,44 +176,48 @@ class Import extends Component<Props> {
                     </Col>
                 </Row>
 
-                <Row>
+                <Row gutter={24}>
                     <Col span={4}>
-                        <h4 className="mt-1">Progress</h4>
-
-                        <Progress
-                            type="circle"
-                            percent={this.props.progressPercent}
-                        />
-                    </Col>
-                    <Col span={4}>
-                        <h4 className="mt-1">Results</h4>
-
-                        <div>
-                            <span>Successful imports: </span>
-                            <strong className="text-success">
-                                {this.props.resultsSuccess.length}
-                            </strong>
-                        </div>
-                        {this.props.resultsFailure.length > 0 && (
-                            <>
-                                <span>Import failures: </span>
-                                <strong className="text-error">
-                                    {this.props.resultsFailure.length}
-                                </strong>
-                            </>
-                        )}
-                    </Col>
-                    {this.props.resultsFailure.length > 0 && (
-                        <Col span={16}>
-                            <h4 className="mt-1 text-error">Errors</h4>
-
-                            <Table
-                                rowKey="_id"
-                                columns={this.getColumns()}
-                                dataSource={this.props.resultsFailure}
+                        <Card title="Progress" className="text-center">
+                            <Progress
+                                type="circle"
+                                percent={this.props.progressPercent}
                             />
-                        </Col>
-                    )}
+                        </Card>
+                    </Col>
+                    <Col span={6}>
+                        <Card title="Results">
+                            <p>
+                                <span>Successful imports: </span>
+                                <strong className="text-success">
+                                    {this.props.resultsSuccess.length}
+                                </strong>
+                            </p>
+                            {this.props.resultsFailure.length > 0 && (
+                                <p>
+                                    <span>Import failures: </span>
+                                    <strong className="text-error">
+                                        {this.props.resultsFailure.length}
+                                    </strong>
+                                </p>
+                            )}
+                        </Card>
+                    </Col>
+
+                    <Col span={14}>
+                        <Card title="Errors">
+                            {this.props.resultsFailure.length === 0 && (
+                                <p>No errors.</p>
+                            )}
+                            {this.props.resultsFailure.length > 0 && (
+                                <Table
+                                    rowKey="_id"
+                                    columns={this.getColumns()}
+                                    dataSource={this.props.resultsFailure}
+                                />
+                            )}
+                        </Card>
+                    </Col>
                 </Row>
             </>
         );
@@ -207,7 +231,8 @@ const mapStateToProps = (state: RootState) => {
         members: importState.members,
         resultsSuccess: importState.resultsSuccess,
         resultsFailure: importState.resultsFailure,
-        progressPercent: memberImportProgressPercentSelector(state)
+        progressPercent: memberImportProgressPercentSelector(state),
+        columns: memberImportSelectedColumnsSelector(state)
     };
 };
 

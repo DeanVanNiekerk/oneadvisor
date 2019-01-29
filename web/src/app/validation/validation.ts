@@ -1,3 +1,5 @@
+import { isArray } from 'util';
+
 import { ValidationResult } from './types';
 
 export const getValidationError = (
@@ -29,4 +31,17 @@ export const removeValidationError = (
 export const formatValue = (value: any): string => {
     if (value === undefined || value === null) return '';
     return value.toString().toLowerCase();
+};
+
+export const parseValidationErrors = (errors: string): ValidationResult[] => {
+    let validationResults = [];
+    try {
+        validationResults = JSON.parse(errors);
+    } catch (e) {
+        return validationResults;
+    }
+
+    if (isArray(validationResults)) return validationResults;
+
+    return [];
 };
