@@ -110,7 +110,7 @@ namespace OneAdvisor.Service.Member
 
         public async Task<Result> InsertMember(ScopeOptions scope, MemberEdit member)
         {
-            var validator = new MemberValidator(_context, true);
+            var validator = new MemberValidator(_context, scope, true);
             var result = validator.Validate(member).GetResult();
 
             if (!result.Success)
@@ -129,7 +129,7 @@ namespace OneAdvisor.Service.Member
 
         public async Task<Result> UpdateMember(ScopeOptions scope, MemberEdit member)
         {
-            var validator = new MemberValidator(_context, false);
+            var validator = new MemberValidator(_context, scope, false);
             var result = validator.Validate(member).GetResult();
 
             if (!result.Success)

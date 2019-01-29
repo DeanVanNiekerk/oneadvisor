@@ -6,18 +6,23 @@ using FluentValidation;
 using FluentValidation.Results;
 using FluentValidation.Validators;
 using OneAdvisor.Data;
+using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Model.Directory.Model.Auth;
 using OneAdvisor.Model.Member.Model.Member;
 using OneAdvisor.Service.Common;
+using OneAdvisor.Service.Common.Query;
 
 namespace OneAdvisor.Service.Member.Validators
 {
     public class MemberValidator : AbstractValidator<MemberEdit>
     {
         private readonly DataContext _context;
+        private readonly ScopeOptions _scope;
 
-        public MemberValidator(DataContext dataContext, bool isInsert)
+        public MemberValidator(DataContext dataContext, ScopeOptions scope, bool isInsert)
         {
             _context = dataContext;
+            _scope = scope;
 
             if (!isInsert)
                 RuleFor(o => o.Id).GuidNotEmpty();
@@ -61,7 +66,7 @@ namespace OneAdvisor.Service.Member.Validators
 
         private bool IsAvailableIdNumber(MemberEdit member)
         {
-            var entity = _context.Member.Where(m => m.IdNumber == member.IdNumber).FirstOrDefault();
+            var entity = GetMemberEntityQuery().Where(m => m.IdNumber == member.IdNumber).FirstOrDefault();
 
             if (entity == null)
                 return true;
@@ -83,7 +88,7 @@ namespace OneAdvisor.Service.Member.Validators
 
         private bool IsAvailablePassportNumber(MemberEdit member)
         {
-            var entity = _context.Member.Where(m => m.PassportNumber == member.PassportNumber).FirstOrDefault();
+            var entity = GetMemberEntityQuery().Where(m => m.PassportNumber == member.PassportNumber).FirstOrDefault();
 
             if (entity == null)
                 return true;
@@ -92,6 +97,11 @@ namespace OneAdvisor.Service.Member.Validators
                 return entity == null;
 
             return member.Id == entity.Id;
+        }
+
+        private IQueryable<MemberEntity> GetMemberEntityQuery()
+        {
+            return ScopeQuery.GetMemberEntityQuery(_context, _scope);
         }
     }
 }
