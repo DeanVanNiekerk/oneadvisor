@@ -23,3 +23,12 @@
     margin-top: 8px;
     margin-bottom: 12px;
 }
+
+.ant-drawer-header {
+    padding: 21px 24px !important;
+}
+
+.ant-drawer-close-x {
+    height: 65px !important;
+    line-height: 65px !important;
+}

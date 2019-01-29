@@ -13,10 +13,15 @@ export type ImportMember = {
     idNumber: string;
     firstName?: string | null;
     lastName?: string | null;
+    email?: string | null;
+    cellphone?: string | null;
     dateOfBirth?: string | null;
     policyNumber?: string | null;
     policyCompanyId?: string | null;
     policyUserFullName?: string | null;
+    policyPremium?: number | null;
+    policyType?: string | null;
+    policyStartDate?: string | null;
 };
 
 export type ResultFailure = {

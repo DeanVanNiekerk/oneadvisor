@@ -18,6 +18,14 @@ namespace api.Controllers.Database
         private IDefaultDbContextInitializer DbContextInitializer { get; }
         private IUserService UserService { get; }
 
+        [HttpGet("[action]")]
+        public async Task<string> Reset()
+        {
+            await DbContextInitializer.Clean();
+            await DbContextInitializer.Seed();
+            await UserService.SyncAllUsers();
+            return "Success";
+        }
 
         [HttpGet("[action]")]
         public async Task<string> Seed()

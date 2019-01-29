@@ -40,6 +40,10 @@ export const defaultState: State = {
             name: 'Email'
         },
         {
+            id: 'cellphone',
+            name: 'Cellphone'
+        },
+        {
             id: 'dateOfBirth',
             name: 'Date of Birth'
         },

@@ -132,6 +132,11 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
+            result = await ImportCellphone(scope, data, member);
+
+            if (!result.Success)
+                return result;
+
             result = await ImportPolicy(scope, data, member, userId);
 
             return result;
@@ -276,6 +281,31 @@ namespace OneAdvisor.Service.Member
                     MemberId = member.Id,
                     Value = data.Email,
                     ContactTypeId = ContactType.CONTACT_TYPE_EMAIL
+                };
+
+                result = await _contactService.InsertContact(scope, contact);
+            }
+
+            return result;
+        }
+
+        private async Task<Result> ImportCellphone(ScopeOptions scope, ImportMember data, MemberEdit member)
+        {
+            var result = new Result(true);
+
+            if (string.IsNullOrEmpty(data.Cellphone))
+                return result;
+
+            //See if email exits
+            var email = await _contactService.GetContact(scope, member.Id, data.Cellphone);
+
+            if (email == null)
+            {
+                var contact = new Contact()
+                {
+                    MemberId = member.Id,
+                    Value = data.Cellphone,
+                    ContactTypeId = ContactType.CONTACT_TYPE_CELLPHONE
                 };
 
                 result = await _contactService.InsertContact(scope, contact);

@@ -185,7 +185,39 @@ namespace OneAdvisor.Service.Test.Member
             }
         }
 
+        [TestMethod]
+        public async Task ImportMember_Insert_WithCellphone()
+        {
+            var options = TestHelper.GetDbContext("ImportMember_Insert_WithCellphone");
 
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+
+            using (var context = new DataContext(options))
+            {
+                var memberService = new MemberService(context);
+                var contactService = new ContactService(context);
+                var service = new MemberImportService(context, memberService, null, contactService);
+
+                //When
+                var data = new ImportMember()
+                {
+                    IdNumber = "8210035032082",
+                    Cellphone = "0825728997"
+                };
+
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+
+                var result = await service.ImportMember(scope, data);
+
+                //Then
+                Assert.IsTrue(result.Success);
+
+                var member = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == data.IdNumber);
+                var actual = await context.Contact.SingleOrDefaultAsync(c => c.MemberId == member.Id);
+                Assert.AreEqual(data.Cellphone, actual.Value);
+                Assert.AreEqual(ContactType.CONTACT_TYPE_CELLPHONE, actual.ContactTypeId);
+            }
+        }
 
         [TestMethod]
         public async Task ImportMember_Update()
