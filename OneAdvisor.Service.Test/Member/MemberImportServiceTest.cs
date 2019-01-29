@@ -62,6 +62,66 @@ namespace OneAdvisor.Service.Test.Member
         }
 
         [TestMethod]
+        public async Task ImportMember_Insert_WithMissingZeroOnIdNumber()
+        {
+            var options = TestHelper.GetDbContext("ImportMember_Insert_WithMissingZeroOnIdNumber");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+
+            using (var context = new DataContext(options))
+            {
+                var memberService = new MemberService(context);
+                var service = new MemberImportService(context, memberService, null, null);
+
+                //When
+                var data = new ImportMember()
+                {
+                    IdNumber = "501228318181" //missing leading zero
+                };
+
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+
+                var result = await service.ImportMember(scope, data);
+
+                //Then
+                Assert.IsTrue(result.Success);
+
+                var actual = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == "0501228318181");
+                Assert.IsNotNull(actual);
+            }
+        }
+
+        [TestMethod]
+        public async Task ImportMember_Insert_With3MissingZeroOnIdNumber()
+        {
+            var options = TestHelper.GetDbContext("ImportMember_Insert_With3MissingZeroOnIdNumber");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+
+            using (var context = new DataContext(options))
+            {
+                var memberService = new MemberService(context);
+                var service = new MemberImportService(context, memberService, null, null);
+
+                //When
+                var data = new ImportMember()
+                {
+                    IdNumber = "7287372085" //missing leading zero
+                };
+
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+
+                var result = await service.ImportMember(scope, data);
+
+                //Then
+                Assert.IsTrue(result.Success);
+
+                var actual = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == "0007287372085");
+                Assert.IsNotNull(actual);
+            }
+        }
+
+        [TestMethod]
         public async Task ImportMember_Insert_WithPassportNumber()
         {
             var options = TestHelper.GetDbContext("ImportMember_Insert_WithPassportNumber");

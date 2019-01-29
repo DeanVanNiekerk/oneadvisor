@@ -44,8 +44,7 @@ namespace OneAdvisor.Service.Member
                 return result;
 
             //Clean id number
-            if (!string.IsNullOrEmpty(data.IdNumber))
-                data.IdNumber = data.IdNumber.Replace(" ", "");
+            data.IdNumber = CleanIdNumber(data.IdNumber);
 
             //Load date of birth from IdNumber if possible
             if (data.DateOfBirth == null)
@@ -131,11 +130,39 @@ namespace OneAdvisor.Service.Member
             result = await ImportEmail(scope, data, member);
 
             if (!result.Success)
-                    return result;
+                return result;
 
             result = await ImportPolicy(scope, data, member, userId);
 
             return result;
+        }
+
+        private string CleanIdNumber(string idNumber)
+        {
+            if (string.IsNullOrEmpty(idNumber))
+                return idNumber;
+
+            //Remove emtpty spaces
+            idNumber = idNumber.Replace(" ", "");
+
+            //Check if missing leading zero
+            if (idNumber.Length == 12)
+            {
+                var id = new IdNumber($"0{idNumber}");
+                if (id.IsValid) idNumber = id.IdentityNumber;
+            }
+            else if (idNumber.Length == 11)
+            {
+                var id = new IdNumber($"00{idNumber}");
+                if (id.IsValid) idNumber = id.IdentityNumber;
+            }
+            else if (idNumber.Length == 10)
+            {
+                var id = new IdNumber($"000{idNumber}");
+                if (id.IsValid) idNumber = id.IdentityNumber;
+            }
+
+            return idNumber;
         }
 
         private MemberEdit MapMemberProperties(MemberEdit member, ImportMember data)
