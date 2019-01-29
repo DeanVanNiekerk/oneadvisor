@@ -43,4 +43,18 @@ describe('member actions', () => {
 
         expect(actions.updateMember(member, onSuccess)).toEqual(expectedAction);
     });
+
+    it('should dispatch API when deleteMember is called', () => {
+        const onSuccess = () => {};
+
+        const expectedAction = {
+            type: 'API',
+            endpoint: `${membersApi}/10`,
+            method: 'DELETE',
+            onSuccess: onSuccess,
+            dispatchPrefix: 'MEMBERS_MEMBER_EDIT'
+        };
+
+        expect(actions.deleteMember('10', onSuccess)).toEqual(expectedAction);
+    });
 });

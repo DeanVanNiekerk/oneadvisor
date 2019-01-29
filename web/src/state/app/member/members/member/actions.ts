@@ -64,3 +64,14 @@ export const insertMember = (
     onSuccess: onSuccess,
     dispatchPrefix: 'MEMBERS_MEMBER_EDIT'
 });
+
+export const deleteMember = (
+    memberId: string,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
+    type: 'API',
+    endpoint: `${membersApi}/${memberId}`,
+    method: 'DELETE',
+    onSuccess: onSuccess,
+    dispatchPrefix: 'MEMBERS_MEMBER_EDIT'
+});

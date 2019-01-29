@@ -1,3 +1,4 @@
+import { Popconfirm } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
@@ -5,11 +6,11 @@ import { RouteComponentProps } from 'react-router';
 import { applyLike } from '@/app/query';
 import { Filters, getColumn, PageOptions, SortOptions } from '@/app/table';
 import {
-    fetchMembers, Member, MemberEdit, membersSelector, receiveFilters, receiveMember, receivePageOptions,
+    deleteMember, fetchMembers, Member, MemberEdit, membersSelector, receiveFilters, receiveMember, receivePageOptions,
     receiveSortOptions
 } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
-import { Button, Header, Table } from '@/ui/controls';
+import { Button, Header, StopPropagation, Table } from '@/ui/controls';
 
 import EditMember from './EditMember';
 
@@ -51,6 +52,10 @@ class MemberList extends Component<Props> {
         this.props.history.push(`/member/members/${id}`);
     };
 
+    deleteMember = (id: string) => {
+        this.props.dispatch(deleteMember(id, this.loadMembers));
+    };
+
     onFormClose = (cancelled: boolean) => {
         if (!cancelled) this.loadMembers();
     };
@@ -79,7 +84,30 @@ class MemberList extends Component<Props> {
             getColumn('lastName', 'Last Name', { showSearchFilter: true }),
             getColumn('firstName', 'First Name', { showSearchFilter: true }),
             getColumn('idNumber', 'ID Number', { showSearchFilter: true }),
-            getColumn('dateOfBirth', 'Date of Birth', { type: 'date' })
+            getColumn('dateOfBirth', 'Date of Birth', { type: 'date' }),
+            getColumn('id', 'Actions', {
+                render: (id: string) => {
+                    return (
+                        <StopPropagation>
+                            <a
+                                href="#"
+                                className="mr-1"
+                                onClick={() => this.editMember(id)}
+                            >
+                                Edit
+                            </a>
+                            <Popconfirm
+                                title="Are you sure remove this member?"
+                                onConfirm={() => this.deleteMember(id)}
+                                okText="Yes"
+                                cancelText="No"
+                            >
+                                <a href="#">Remove</a>
+                            </Popconfirm>
+                        </StopPropagation>
+                    );
+                }
+            })
         ];
     };
 

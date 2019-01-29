@@ -57,6 +57,13 @@ class ContactList extends Component<Props> {
                 render: (id: string) => {
                     return (
                         <StopPropagation>
+                            <a
+                                href="#"
+                                className="mr-1"
+                                onClick={() => this.editContact(id)}
+                            >
+                                Edit
+                            </a>
                             <Popconfirm
                                 title="Are you sure remove this contact?"
                                 onConfirm={() => this.deleteContact(id)}
