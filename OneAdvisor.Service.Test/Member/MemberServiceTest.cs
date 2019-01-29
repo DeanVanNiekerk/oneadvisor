@@ -50,10 +50,18 @@ namespace OneAdvisor.Service.Test.Member
                 OrganisationId = orgId1
             };
 
+            var member3 = new MemberEntity
+            {
+                Id = Guid.NewGuid(),
+                IsDeleted = true,
+                OrganisationId = orgId1
+            };
+
             using (var context = new DataContext(options))
             {
                 context.Member.Add(member1);
                 context.Member.Add(member2);
+                context.Member.Add(member3);
 
                 context.SaveChanges();
             }
@@ -190,13 +198,14 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("GetMember");
 
-            var orgId1 = Guid.NewGuid();
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertDefaultUserDetailed(options);
 
             //Given
             var mem1 = new MemberEntity
             {
                 Id = Guid.NewGuid(),
-                OrganisationId = orgId1
+                OrganisationId = user1.Organisation.Id
             };
 
             var mem2 = new MemberEntity
@@ -209,7 +218,7 @@ namespace OneAdvisor.Service.Test.Member
                 PreferredName = "PN 1",
                 IdNumber = "321654",
                 DateOfBirth = new DateTime(1982, 10, 3),
-                OrganisationId = orgId1,
+                OrganisationId = user2.Organisation.Id,
                 TaxNumber = "889977",
                 MarritalStatusId = Guid.NewGuid(),
                 MarriageDate = new DateTime(2009, 11, 13)
@@ -228,7 +237,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(orgId1);
+                var scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
                 var actual = await service.GetMember(scope, mem2.Id);
 
                 //Then
@@ -243,6 +252,12 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(mem2.TaxNumber, actual.TaxNumber);
                 Assert.AreEqual(mem2.MarritalStatusId, actual.MarritalStatusId);
                 Assert.AreEqual(mem2.MarriageDate, actual.MarriageDate);
+
+                //Scope check
+                scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                actual = await service.GetMember(scope, mem2.Id);
+
+                Assert.IsNull(actual);
             }
         }
 
@@ -375,15 +390,16 @@ namespace OneAdvisor.Service.Test.Member
             }
         }
 
+        [TestMethod]
         public async Task UpdateMember()
         {
             var options = TestHelper.GetDbContext("UpdateMember");
 
-            var orgId1 = Guid.NewGuid();
-            var orgId2 = Guid.NewGuid();
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertDefaultUserDetailed(options);
 
             //Given
-            var mem1 = new MemberEntity { Id = Guid.NewGuid(), FirstName = "FN 1", LastName = "LN 1", OrganisationId = orgId1 };
+            var mem1 = new MemberEntity { Id = Guid.NewGuid(), FirstName = "FN 1", LastName = "LN 1", OrganisationId = user1.Organisation.Id };
             var mem2 = new MemberEntity
             {
                 Id = Guid.NewGuid(),
@@ -394,7 +410,7 @@ namespace OneAdvisor.Service.Test.Member
                 PreferredName = "PN 1",
                 IdNumber = "8210035032082",
                 DateOfBirth = new DateTime(1982, 10, 3),
-                OrganisationId = orgId2,
+                OrganisationId = user2.Organisation.Id,
                 TaxNumber = "889977",
                 MarritalStatusId = Guid.NewGuid(),
                 MarriageDate = new DateTime(2009, 11, 13)
@@ -428,7 +444,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(orgId1);
+                var scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
                 var result = await service.UpdateMember(scope, member);
 
                 //Then
@@ -436,7 +452,7 @@ namespace OneAdvisor.Service.Test.Member
 
                 var actual = await context.Member.FindAsync(member.Id);
                 Assert.AreEqual(member.Id, actual.Id);
-                Assert.AreEqual(orgId2, actual.OrganisationId);
+                Assert.AreEqual(user2.Organisation.Id, actual.OrganisationId);
                 Assert.AreEqual(member.FirstName, actual.FirstName);
                 Assert.AreEqual(member.LastName, actual.LastName);
                 Assert.AreEqual(member.MaidenName, actual.MaidenName);
@@ -449,8 +465,45 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(member.MarriageDate, actual.MarriageDate);
 
                 //Scope check
-                scope = TestHelper.GetScopeOptions(orgId2);
+                scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
                 result = await service.UpdateMember(scope, member);
+
+                //Then
+                Assert.IsFalse(result.Success);
+            }
+        }
+
+        [TestMethod]
+        public async Task DeleteMember()
+        {
+            var options = TestHelper.GetDbContext("DeleteMember");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var member2 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+
+            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+
+            using (var context = new DataContext(options))
+            {
+                var service = new MemberService(context);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var result = await service.DeleteMember(scope, member1.Member.Id);
+
+                //Then
+                Assert.IsTrue(result.Success);
+
+                var actual = await context.Member.FindAsync(member1.Member.Id);
+                Assert.AreEqual(true, actual.IsDeleted);
+
+                var member = await service.GetMember(scope, member1.Member.Id);
+                Assert.IsNull(member);
+
+                //Scope check
+                scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                result = await service.DeleteMember(scope, member2.Member.Id);
 
                 //Then
                 Assert.IsFalse(result.Success);

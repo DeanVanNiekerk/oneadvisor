@@ -17,6 +17,7 @@ namespace OneAdvisor.Service.Common.Query
         {
             return from member in context.Member
                    where member.OrganisationId == options.OrganisationId
+                   && member.IsDeleted == false
                    select member;
         }
 
@@ -105,7 +106,7 @@ namespace OneAdvisor.Service.Common.Query
 
             var member = await context.Member.FindAsync(memberId);
 
-            if (member == null || member.OrganisationId != options.OrganisationId)
+            if (member == null || member.IsDeleted || member.OrganisationId != options.OrganisationId)
             {
                 result.AddValidationFailure("MemberId", "Member does not exist");
                 return result;

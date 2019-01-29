@@ -106,5 +106,19 @@ namespace api.Controllers.Directory.Members
 
             return Ok(result);
         }
+
+        [HttpDelete("{memberId}")]
+        [UseCaseAuthorize("mem_edit_members")]
+        public async Task<ActionResult<Result>> Delete(Guid memberId)
+        {
+            var scope = await AuthService.GetScope(UserId, Scope);
+
+            var result = await MemberService.DeleteMember(scope, memberId);
+
+            if (!result.Success)
+                return BadRequest(result.ValidationFailures);
+
+            return Ok(result);
+        }
     }
 }

@@ -135,7 +135,7 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
-            var entity = await _context.Member.FindAsync(member.Id);
+            var entity = await GetMemberEntityQuery(scope).FirstOrDefaultAsync(m => m.Id == member.Id);
 
             if (entity == null)
                 return new Result();
@@ -145,6 +145,20 @@ namespace OneAdvisor.Service.Member
             await _context.SaveChangesAsync();
 
             return result;
+        }
+
+        public async Task<Result> DeleteMember(ScopeOptions scope, Guid memberId)
+        {
+            var entity = await GetMemberEntityQuery(scope).FirstOrDefaultAsync(m => m.Id == memberId);
+
+            if (entity == null)
+                return new Result();
+
+            entity.IsDeleted = true;
+
+            await _context.SaveChangesAsync();
+
+            return new Result(true);
         }
 
         private IQueryable<MemberEntity> GetMemberEntityQuery(ScopeOptions scope)

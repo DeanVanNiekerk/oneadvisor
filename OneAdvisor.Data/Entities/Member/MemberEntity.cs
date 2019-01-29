@@ -24,6 +24,9 @@ namespace OneAdvisor.Data.Entities.Member
         public Guid? MarritalStatusId { get; set; }
         public DateTime? MarriageDate { get; set; }
 
+        [Required]
+        public bool IsDeleted { get; set; }
+
         public virtual ICollection<PolicyEntity> MemberPolicies { get; set; }
         public virtual ICollection<ContactEntity> MemberContacts { get; set; }
 

@@ -11,6 +11,7 @@ namespace OneAdvisor.Model.Member.Interface
         Task<PagedItems<Model.Member.Member>> GetMembers(MemberQueryOptions queryOptions);
         Task<MemberEdit> GetMember(ScopeOptions scope, Guid id);
         Task<MemberPreview> GetMemberPreview(ScopeOptions scope, Guid id);
+        Task<Result> DeleteMember(ScopeOptions scope, Guid memberId);
         Task<Result> UpdateMember(ScopeOptions scope, MemberEdit member);
         Task<Result> InsertMember(ScopeOptions scope, MemberEdit member);
     }
