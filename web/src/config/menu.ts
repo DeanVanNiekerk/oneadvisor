@@ -75,7 +75,7 @@ export const menus: Menus = {
                 links: [
                     {
                         name: 'Import',
-                        icon: 'upload',
+                        icon: 'cloud-upload',
                         relativePath: '/import',
                         useCases: ['mem_import_members']
                     },
