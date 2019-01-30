@@ -14,11 +14,18 @@ select *
 from dir_Branch
 select *
 from dir_User
+select *
+from dir_AuditLog
 
 select *
 from mem_Member
 select *
 from mem_Policy
+
+select *
+from dir_AuditLog
+where JSON_VALUE(AuditData,'$.Table') = 'mem_Member'
+    and JSON_VALUE(AuditData,'$.PrimaryKey.Id') = 'd494d4d5-6ca2-4cf6-b335-5a7e54ff16b3'
 
 
 

@@ -29,7 +29,7 @@ namespace api.Controllers.Member.Export
         private IAuthService AuthService { get; }
 
         [HttpGet("")]
-        [UseCaseAuthorize("mem_view_members")]
+        [UseCaseAuthorize("mem_export_members")]
         public async Task Export()
         {
             var scope = await AuthService.GetScope(UserId, Scope);

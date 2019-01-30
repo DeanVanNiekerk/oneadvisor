@@ -83,7 +83,7 @@ export const menus: Menus = {
                         name: 'Export',
                         icon: 'download',
                         relativePath: '/export',
-                        useCases: ['mem_view_members']
+                        useCases: ['mem_export_members']
                     }
                 ]
             }

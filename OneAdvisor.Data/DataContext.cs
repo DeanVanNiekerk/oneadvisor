@@ -1,4 +1,5 @@
 ﻿using System;
+using Audit.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Directory.Lookup;
@@ -8,7 +9,7 @@ using OneAdvisor.Data.Entities.Member.Mappings;
 
 namespace OneAdvisor.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : AuditDbContext
     {
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)
@@ -23,6 +24,7 @@ namespace OneAdvisor.Data
         public DbSet<RoleToUseCaseEntity> RoleToUseCase { get; set; }
         public DbSet<BranchEntity> Branch { get; set; }
         public DbSet<UserEntity> User { get; set; }
+        public DbSet<AuditLogEntity> AuditLog { get; set; }
 
         #region Lookup
 
@@ -65,6 +67,7 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<RoleToUseCaseEntity>().ToTable("dir_RoleToUseCase");
             modelBuilder.Entity<BranchEntity>().ToTable("dir_Branch");
             modelBuilder.Entity<UserEntity>().ToTable("dir_User");
+            modelBuilder.Entity<AuditLogEntity>().ToTable("dir_AuditLog");
 
             //Custom mappings
             RoleToUseCaseMap.Map(modelBuilder);

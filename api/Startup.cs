@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.App.Authorization;
 using api.App.Setup;
+using Audit.Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OneAdvisor.Data;
+using OneAdvisor.Data.Entities.Directory;
 
 namespace api
 {
@@ -45,6 +49,9 @@ namespace api
             serviceSetup.ConfigureMapper(mapper);
             serviceSetup.ConfigureLogging();
             serviceSetup.ConfigureSwagger();
+
+            var auditSetup = new AuditSetup(services);
+            auditSetup.Setup();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

@@ -31,6 +31,7 @@ namespace OneAdvisor.Data
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Role]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Organisation]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Branch]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_AuditLog]");
 
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_Company]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_CommissionType]");
@@ -183,6 +184,7 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "mem_view_contacts", Name = "View Contacts", ApplicationId = memGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "mem_edit_contacts", Name = "Edit Contacts", ApplicationId = memGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "mem_import_members", Name = "Import Members", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_export_members", Name = "Export Members", ApplicationId = memGuid });
 
                 //Commission Use Cases
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_upload_statement", Name = "Upload Commission Statement", ApplicationId = comGuid });
@@ -228,6 +230,7 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_edit_policies" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_view_contacts" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_edit_contacts" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_export_members" });
 
                 //Readonly
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_readonly", UseCaseId = "mem_view_members" });
