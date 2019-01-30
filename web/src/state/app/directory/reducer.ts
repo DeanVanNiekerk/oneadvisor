@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import {
     Action as ApplicationsAction, reducer as applications, State as ApplicationsState
 } from './applications/reducer';
+import { Action as AuditAction, reducer as audit, State as AuditState } from './audit/reducer';
 import { Action as BranchesAction, reducer as branches, State as BranchesState } from './branches/reducer';
 import { Action as IdentityAction, reducer as identity, State as IdentityState } from './identity/reducer';
 import { Action as LookupsAction, reducer as lookups, State as LookupsState } from './lookups/reducer';
@@ -23,7 +24,8 @@ export type Action =
     | UseCasesAction
     | IdentityAction
     | BranchesAction
-    | LookupsAction;
+    | LookupsAction
+    | AuditAction;
 
 export type State = {
     users: UsersState;
@@ -35,6 +37,7 @@ export type State = {
     identity: IdentityState;
     branches: BranchesState;
     lookups: LookupsState;
+    audit: AuditState;
 };
 
 export const reducer = combineReducers({
@@ -46,5 +49,6 @@ export const reducer = combineReducers({
     useCases: useCases,
     identity: identity,
     branches: branches,
-    lookups: lookups
+    lookups: lookups,
+    audit: audit
 });

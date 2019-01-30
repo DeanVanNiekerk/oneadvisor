@@ -35,14 +35,14 @@ namespace OneAdvisor.Service.Directory
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
-            if (!string.IsNullOrEmpty(queryOptions.Action))
-                query = query.Where(b => b.Action == queryOptions.Action);
+            if (queryOptions.Action.Any())
+                query = query.Where(b => queryOptions.Action.Contains(b.Action));
+
+            if (queryOptions.UserId.Any())
+                query = query.Where(b => queryOptions.UserId.Contains(b.UserId));
 
             if (!string.IsNullOrEmpty(queryOptions.Entity))
-                query = query.Where(b => b.Entity == queryOptions.Entity);
-
-            if (!string.IsNullOrEmpty(queryOptions.UserId))
-                query = query.Where(b => b.UserId == queryOptions.UserId);
+                query = query.Where(m => EF.Functions.Like(m.Entity, $"{queryOptions.Entity}"));
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedItems<AuditLog>();

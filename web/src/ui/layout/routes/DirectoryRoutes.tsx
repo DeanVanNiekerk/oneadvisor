@@ -7,6 +7,7 @@ import OrganisationList from '@/ui/app/directory/organisation/OrganisationList';
 import RoleList from '@/ui/app/directory/role/RoleList';
 import UserList from '@/ui/app/directory/user/UserList';
 import { SecureRoute } from '@okta/okta-react';
+import AuditLogList from '@/ui/app/directory/audit/logs/AuditLogList';
 
 const DirectoryRoutes = () => (
     <Switch>
@@ -29,6 +30,11 @@ const DirectoryRoutes = () => (
             exact
             path="/directory/lookups/commTypes"
             component={CommissionTypeList}
+        />
+        <SecureRoute
+            exact
+            path="/directory/audit/logs"
+            component={AuditLogList}
         />
     </Switch>
 );

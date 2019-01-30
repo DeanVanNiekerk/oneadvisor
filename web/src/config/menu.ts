@@ -51,6 +51,17 @@ export const menus: Menus = {
                         useCases: ['dir_view_lookups']
                     }
                 ]
+            },
+            {
+                name: 'Audit',
+                links: [
+                    {
+                        name: 'Logs',
+                        icon: 'video-camera',
+                        relativePath: '/audit/logs',
+                        useCases: ['dir_view_audit_logs']
+                    }
+                ]
             }
         ]
     },

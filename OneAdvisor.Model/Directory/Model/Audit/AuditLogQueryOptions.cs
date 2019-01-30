@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Auth;
 
@@ -10,23 +11,26 @@ namespace OneAdvisor.Model.Directory.Model.Audit
          : base(sortColumn, sortDirection, pageSize, pageNumber, filters)
         {
             Scope = scope;
+            UserId = new List<string>();
+            Action = new List<string>();
 
-            var result = GetFilterValue<string>("UserId");
-            if (result.Success)
-                UserId = result.Value;
+            var results = GetFilterValues<string>("UserId");
+            if (results.Success)
+                UserId = results.Value;
 
-            result = GetFilterValue<string>("Entity");
+
+            results = GetFilterValues<string>("Action");
+            if (results.Success)
+                Action = results.Value;
+
+            var result = GetFilterValue<string>("Entity");
             if (result.Success)
                 Entity = result.Value;
-
-            result = GetFilterValue<string>("Action");
-            if (result.Success)
-                Action = result.Value;
         }
 
         public ScopeOptions Scope { get; set; }
-        public string UserId { get; set; }
+        public List<string> UserId { get; set; }
+        public List<string> Action { get; set; }
         public string Entity { get; set; }
-        public string Action { get; set; }
     }
 }
