@@ -7,6 +7,7 @@ type Props = {
     selectedKeys: string[];
     confirm: () => void;
     clearFilters: () => void;
+    visible: boolean;
 };
 
 type State = {
@@ -14,12 +15,22 @@ type State = {
 };
 
 class ColumnSearch extends React.Component<Props, State> {
+    private searchInput: Input | null;
+
     constructor(props) {
         super(props);
 
         this.state = {
             searchText: ''
         };
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (this.props.visible && !prevProps.visible) {
+            setTimeout(() => {
+                if (this.searchInput) this.searchInput.select();
+            });
+        }
     }
 
     handleSearch = (selectedKeys, confirm) => {
@@ -37,7 +48,6 @@ class ColumnSearch extends React.Component<Props, State> {
             <div className="custom-filter-dropdown">
                 <Input
                     ref={node => {
-                        //@ts-ignore
                         this.searchInput = node;
                     }}
                     placeholder={`Search ${this.props.fieldName}`}
@@ -58,6 +68,7 @@ class ColumnSearch extends React.Component<Props, State> {
                         marginBottom: 8,
                         display: 'block'
                     }}
+                    autoFocus={true}
                 />
                 <Button
                     type="primary"

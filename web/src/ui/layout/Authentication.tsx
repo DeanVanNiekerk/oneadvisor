@@ -27,15 +27,10 @@ type State = {
 class Authentication extends React.Component<Props, State> {
     constructor(props) {
         super(props);
-
         setInterval(this.checkTokenExpired, 10000); //Every 10 secs
     }
 
     async componentDidMount() {
-        this.checkAuthentication();
-    }
-
-    async componentDidUpdate() {
         this.checkAuthentication();
     }
 
