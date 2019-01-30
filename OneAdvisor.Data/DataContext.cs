@@ -1,6 +1,8 @@
 ﻿using System;
 using Audit.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using OneAdvisor.Data.Entities.Commission;
+using OneAdvisor.Data.Entities.Commission.Mappings;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.Entities.Directory.Mappings;
@@ -46,6 +48,12 @@ namespace OneAdvisor.Data
 
         #endregion
 
+        #region Commission
+
+        public DbSet<CommissionEntity> Commission { get; set; }
+
+        #endregion
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Lookup
@@ -82,6 +90,15 @@ namespace OneAdvisor.Data
 
             //Custom mappings
             PolicyMap.Map(modelBuilder);
+
+            #endregion
+
+            #region Commission
+
+            modelBuilder.Entity<CommissionEntity>().ToTable("com_Commission");
+
+            //Custom mappings
+            CommissionMap.Map(modelBuilder);
 
             #endregion
 

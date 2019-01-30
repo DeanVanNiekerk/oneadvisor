@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { ValidationResult } from '@/app/validation';
+import { PolicyType, policyTypesSelector } from '@/state/app/directory/lookups';
 import { CommissionType } from '@/state/app/directory/lookups/commissionTypes';
-import { Form, FormInput } from '@/ui/controls';
+import { RootState } from '@/state/rootReducer';
+import { Form, FormInput, FormSelect } from '@/ui/controls';
 
 type Props = {
     commissionType: CommissionType;
     validationResults: ValidationResult[];
     onChange: (commissionType: CommissionType) => void;
+    policyTypes: PolicyType[];
 };
 
 type State = {
@@ -55,9 +59,34 @@ class CommissionTypeForm extends Component<Props, State> {
                     validationResults={validationResults}
                     autoFocus={true}
                 />
+                <FormInput
+                    fieldName="code"
+                    label="Code"
+                    value={commissionType.code}
+                    onChange={this.handleChange}
+                    validationResults={validationResults}
+                />
+                <FormSelect
+                    fieldName="policyTypeId"
+                    label="Policy Type"
+                    value={commissionType.policyTypeId}
+                    onChange={this.handleChange}
+                    validationResults={validationResults}
+                    options={this.props.policyTypes}
+                    optionsValue="id"
+                    optionsText="name"
+                />
             </Form>
         );
     }
 }
 
-export default CommissionTypeForm;
+const mapStateToProps = (state: RootState) => {
+    const policyTypeState = policyTypesSelector(state);
+
+    return {
+        policyTypes: policyTypeState.items
+    };
+};
+
+export default connect(mapStateToProps)(CommissionTypeForm);

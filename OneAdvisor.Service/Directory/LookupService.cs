@@ -136,12 +136,14 @@ namespace OneAdvisor.Service.Directory
 
         public async Task<List<CommissionType>> GetCommissionTypes()
         {
-            var query = from company in _context.CommissionType
-                        orderby company.Name
+            var query = from commissionType in _context.CommissionType
+                        orderby commissionType.Name
                         select new CommissionType()
                         {
-                            Id = company.Id,
-                            Name = company.Name
+                            Id = commissionType.Id,
+                            Name = commissionType.Name,
+                            Code = commissionType.Code,
+                            PolicyTypeId = commissionType.PolicyTypeId
                         };
 
             return await query.ToListAsync();
@@ -185,7 +187,9 @@ namespace OneAdvisor.Service.Directory
             return new CommissionTypeEntity()
             {
                 Id = model.Id,
-                Name = model.Name
+                Name = model.Name,
+                Code = model.Code,
+                PolicyTypeId = model.PolicyTypeId
             };
         }
 

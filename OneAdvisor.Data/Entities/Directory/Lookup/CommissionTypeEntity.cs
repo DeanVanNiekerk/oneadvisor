@@ -10,6 +10,12 @@ namespace OneAdvisor.Data.Entities.Directory.Lookup
         [Key]
         public Guid Id { get; set; }
         [Required]
+        public Guid PolicyTypeId { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
+        public string Code { get; set; }
+
+        public virtual PolicyTypeEntity PolicyType { get; set; }
     }
 }

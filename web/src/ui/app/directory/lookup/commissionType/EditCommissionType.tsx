@@ -18,8 +18,7 @@ type Props = {
     commissionType: CommissionType | null;
     updating: boolean;
     validationResults: ValidationResult[];
-} & RouteComponentProps &
-    DispatchProp;
+} & DispatchProp;
 
 type State = {
     commissionTypeEdited: CommissionType | null;
@@ -147,4 +146,4 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-export default withRouter(connect(mapStateToProps)(EditCommissionType));
+export default connect(mapStateToProps)(EditCommissionType);

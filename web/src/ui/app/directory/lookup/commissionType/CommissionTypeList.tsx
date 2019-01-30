@@ -6,7 +6,7 @@ import {
     CommissionType, commissionTypesSelector, fetchCommissionTypes, receiveCommissionType
 } from '@/state/app/directory/lookups/commissionTypes';
 import { RootState } from '@/state/rootReducer';
-import { Button, Header, Table } from '@/ui/controls';
+import { Button, Header, PolicyTypeName, Table } from '@/ui/controls';
 
 import EditCommissionType from './EditCommissionType';
 
@@ -40,7 +40,9 @@ class CommissionTypeList extends Component<Props, State> {
     newCommissionType = () => {
         const commissionType = {
             id: '',
-            name: ''
+            policyTypeId: '',
+            name: '',
+            code: ''
         };
         this.showEditCommissionType(commissionType);
     };
@@ -67,7 +69,15 @@ class CommissionTypeList extends Component<Props, State> {
     };
 
     getColumns = () => {
-        return [getColumn('name', 'Name', { showSearchFilter: true })];
+        return [
+            getColumn('name', 'Name', { showSearchFilter: true }),
+            getColumn('code', 'Code', { showSearchFilter: true }),
+            getColumn('policyTypeId', 'Policy Type', {
+                render: (policyTypeId: string) => {
+                    return <PolicyTypeName policyTypeId={policyTypeId} />;
+                }
+            })
+        ];
     };
 
     render() {

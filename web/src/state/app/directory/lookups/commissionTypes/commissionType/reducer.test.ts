@@ -11,7 +11,9 @@ describe('commissionType reducer', () => {
 
         const commissionType = {
             id: '10',
-            name: 'Org1'
+            policyTypeId: '123',
+            name: 'Type 1',
+            code: 'type_1'
         };
 
         const actualState = reducer(initalState, {

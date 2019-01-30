@@ -11,7 +11,9 @@ namespace OneAdvisor.Service.Directory.Validators.Lookup
             if (!isInsert)
                 RuleFor(o => o.Id).GuidNotEmpty();
 
-            RuleFor(o => o.Name).NotEmpty().MaximumLength(32);
+            RuleFor(o => o.PolicyTypeId).GuidNotEmpty();
+            RuleFor(o => o.Name).NotEmpty().MaximumLength(128);
+            RuleFor(o => o.Code).NotEmpty().MaximumLength(128);
         }
     }
 }

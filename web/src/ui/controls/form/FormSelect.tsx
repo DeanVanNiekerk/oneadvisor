@@ -23,6 +23,7 @@ type Props = {
     layout?: FormLayout;
     loading?: boolean;
     readonly?: boolean;
+    autoFocus?: boolean;
 };
 
 class FormSelect extends Component<Props> {
@@ -51,7 +52,8 @@ class FormSelect extends Component<Props> {
             layout,
             defaultActiveFirstOption = true,
             loading = false,
-            readonly
+            readonly,
+            autoFocus = false
         } = this.props;
 
         if (readonly)
@@ -74,12 +76,13 @@ class FormSelect extends Component<Props> {
             >
                 <Select
                     style={{
-                        minWidth: "180px"
+                        minWidth: '180px'
                     }}
                     value={value}
                     onChange={this.onChange}
                     disabled={disabled}
                     defaultActiveFirstOption={defaultActiveFirstOption}
+                    autoFocus={autoFocus}
                 >
                     {this.props.options.map(option => (
                         <Option

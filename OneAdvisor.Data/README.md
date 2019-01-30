@@ -14,6 +14,11 @@
 
 - `dotnet ef database update {migrationName}`
 
+### Money Columns
+
+`CommissionTypeId = table.Column<Guid>(type: "Money", nullable: false),`
+namespace OneAdvisor.Data.Entities.Commission.Mappings
+
 ## Mac SQL Server Docker Setup
 
 1. Install Docker

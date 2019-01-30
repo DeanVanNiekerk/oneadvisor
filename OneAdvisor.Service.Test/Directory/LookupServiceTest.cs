@@ -270,9 +270,9 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("GetCommissionTypes");
 
             //Given
-            var lkp1 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "A" };
-            var lkp2 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "B" };
-            var lkp3 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "C" };
+            var lkp1 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "A", Code = "aa", PolicyTypeId = Guid.NewGuid() };
+            var lkp2 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "B", Code = "bb", PolicyTypeId = Guid.NewGuid() };
+            var lkp3 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "C", Code = "cc", PolicyTypeId = Guid.NewGuid() };
 
             using (var context = new DataContext(options))
             {
@@ -297,6 +297,8 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual1 = actual[0];
                 Assert.AreEqual(lkp1.Id, actual1.Id);
                 Assert.AreEqual(lkp1.Name, actual1.Name);
+                Assert.AreEqual(lkp1.Code, actual1.Code);
+                Assert.AreEqual(lkp1.PolicyTypeId, actual1.PolicyTypeId);
 
                 var actual2 = actual[1];
                 Assert.AreEqual(lkp2.Id, actual2.Id);
@@ -314,7 +316,9 @@ namespace OneAdvisor.Service.Test.Directory
             //Given
             var model = new CommissionType()
             {
-                Name = "1"
+                Name = "1",
+                Code = "one",
+                PolicyTypeId = Guid.NewGuid()
             };
 
             using (var context = new DataContext(options))
@@ -329,6 +333,8 @@ namespace OneAdvisor.Service.Test.Directory
 
                 var actual = await context.CommissionType.FindAsync(((CommissionType)result.Tag).Id);
                 Assert.AreEqual(model.Name, actual.Name);
+                Assert.AreEqual(model.Code, actual.Code);
+                Assert.AreEqual(model.PolicyTypeId, actual.PolicyTypeId);
             }
         }
 
@@ -338,7 +344,7 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("UpdateCommissionType");
 
             //Given
-            var lkp1 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "1" };
+            var lkp1 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "1", Code = "aa", PolicyTypeId = Guid.NewGuid() };
 
             using (var context = new DataContext(options))
             {
@@ -350,7 +356,9 @@ namespace OneAdvisor.Service.Test.Directory
             var model = new CommissionType()
             {
                 Id = lkp1.Id,
-                Name = "1 Updated"
+                Name = "1 Updated",
+                Code = "aa Updated",
+                PolicyTypeId = Guid.NewGuid()
             };
 
             using (var context = new DataContext(options))
@@ -365,6 +373,8 @@ namespace OneAdvisor.Service.Test.Directory
 
                 var actual = await context.CommissionType.FindAsync(model.Id);
                 Assert.AreEqual(model.Name, actual.Name);
+                Assert.AreEqual(model.Code, actual.Code);
+                Assert.AreEqual(model.PolicyTypeId, actual.PolicyTypeId);
             }
         }
 

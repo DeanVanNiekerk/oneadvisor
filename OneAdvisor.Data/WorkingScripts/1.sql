@@ -29,4 +29,4 @@ where JSON_VALUE(AuditData,'$.Table') = 'mem_Member'
 
 
 
---delete from mem_Member
+--delete from lkp_CommissionType

@@ -8,6 +8,9 @@ namespace api.Controllers.Directory.Lookups.Dto
     {
         [JsonConverter(typeof(EmptyToDefaultConverter<Guid>))]
         public Guid Id { get; set; }
+        [JsonConverter(typeof(EmptyToDefaultConverter<Guid>))]
+        public Guid PolicyTypeId { get; set; }
         public string Name { get; set; }
+        public string Code { get; set; }
     }
 }

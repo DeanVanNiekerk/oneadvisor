@@ -63,6 +63,7 @@ class PolicyForm extends Component<Props, State> {
                     options={this.props.policyTypes}
                     optionsValue="id"
                     optionsText="name"
+                    autoFocus={true}
                 />
                 <FormInput
                     fieldName="number"
@@ -70,7 +71,6 @@ class PolicyForm extends Component<Props, State> {
                     value={policy.number}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    autoFocus={true}
                 />
                 <FormSelect
                     fieldName="companyId"
