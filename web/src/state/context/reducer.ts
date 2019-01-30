@@ -8,13 +8,11 @@ type Action = { type: string };
 export type State = {
     readonly applications: Application[];
     readonly menus: Menus;
-    readonly breadCrumb: string;
 };
 
 export const defaultState: State = {
     applications: applications,
-    menus: menus,
-    breadCrumb: ''
+    menus: menus
 };
 
 export const reducer = (state: State = defaultState, action: Action) => {

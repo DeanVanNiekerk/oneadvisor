@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { IdTokenData, idTokenDataSelector } from '@/state/auth';
-import { clearAuthentication, recieveAuthentication } from '@/state/auth/actions';
+import { clearAuthentication, expiredModalShown, recieveAuthentication } from '@/state/auth/actions';
 import { RootState } from '@/state/rootReducer';
 import { Loader } from '@/ui/controls';
 import Layout from '@/ui/layout/Layout';
@@ -17,6 +17,7 @@ type Props = {
     authenticated: boolean;
     children: ReactNode;
     idTokenData: IdTokenData;
+    authExpiredModalShown: boolean;
 } & DispatchProp;
 
 type State = {
@@ -24,14 +25,14 @@ type State = {
 };
 
 class Authentication extends React.Component<Props, State> {
-    private _checkTokenExpiredInterval: NodeJS.Timeout;
+    constructor(props) {
+        super(props);
+
+        setInterval(this.checkTokenExpired, 10000); //Every 10 secs
+    }
 
     async componentDidMount() {
         this.checkAuthentication();
-        this._checkTokenExpiredInterval = setInterval(
-            this.checkTokenExpired,
-            10000
-        ); //Every 10 secs
     }
 
     async componentDidUpdate() {
@@ -42,7 +43,7 @@ class Authentication extends React.Component<Props, State> {
         const expiryDate = moment.unix(this.props.idTokenData.exp);
         const hasExpired = moment().isAfter(expiryDate);
 
-        if (hasExpired) {
+        if (hasExpired && !this.props.authExpiredModalShown) {
             Modal.info({
                 title: 'Session has Expired',
                 content: (
@@ -58,14 +59,14 @@ class Authentication extends React.Component<Props, State> {
                 }
             });
 
-            clearInterval(this._checkTokenExpiredInterval);
+            this.props.dispatch(expiredModalShown());
         }
     };
 
     checkAuthentication = async () => {
         const authenticated = await this.props.auth.isAuthenticated();
 
-        if (!authenticated) {
+        if (!authenticated && !this.props.authExpiredModalShown) {
             this.props.auth.redirect();
             return;
         }
@@ -102,7 +103,8 @@ class Authentication extends React.Component<Props, State> {
 const mapStateToProps = (state: RootState) => ({
     authenticated: state.auth.authenticated,
     userInfo: state.auth.userInfo,
-    idTokenData: idTokenDataSelector(state)
+    idTokenData: idTokenDataSelector(state),
+    authExpiredModalShown: state.auth.authExpiredModalShown
 });
 
 export default connect(mapStateToProps)(withAuth(Authentication));

@@ -53,4 +53,21 @@ describe('auth reducer', () => {
 
         expect(actualState).toEqual(expectedState);
     });
+
+    it('should handle AUTH_EXPIRED_MODAL_SHOWN', () => {
+        const initalState = {
+            ...defaultState
+        };
+
+        const actualState = reducer(initalState, {
+            type: 'AUTH_EXPIRED_MODAL_SHOWN'
+        });
+
+        const expectedState = {
+            ...defaultState,
+            authExpiredModalShown: true
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
 });
