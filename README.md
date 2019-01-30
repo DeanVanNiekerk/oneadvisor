@@ -67,6 +67,10 @@
 - dotnet-search automapper
   -> dotnet add package {packageName}
 
+### Dotnet Core Upgrade
+
+- update pipeline yaml -> ./azure-pipelines.yml
+
 ## App Documentation
 
 ### Users

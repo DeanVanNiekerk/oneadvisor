@@ -10,6 +10,10 @@ jobs:
     variables:
       buildConfiguration: "Release"
     steps:
+      - task: DotNetCoreInstaller@0
+        displayName: "Use .NET Core SDK Tool Installer"
+        inputs:
+          version: 2.2.100
       - script: |
           dotnet restore
         displayName: "dotnet restore"
