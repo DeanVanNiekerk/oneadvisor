@@ -1,11 +1,11 @@
 using System;
-using System.ComponentModel.DataAnnotations;
+using api.App.Json;
+using Newtonsoft.Json;
 
-namespace OneAdvisor.Data.Entities.Directory
+namespace api.Controllers.Directory.Audit.Dto
 {
-    public class AuditLogEntity
+    public class AuditLogDto
     {
-        [Key]
         public Guid Id { get; set; }
         public string Data { get; set; }
         public string Entity { get; set; }

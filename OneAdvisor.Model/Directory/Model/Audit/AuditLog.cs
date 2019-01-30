@@ -1,11 +1,9 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace OneAdvisor.Data.Entities.Directory
+namespace OneAdvisor.Model.Directory.Model.Audit
 {
-    public class AuditLogEntity
+    public class AuditLog
     {
-        [Key]
         public Guid Id { get; set; }
         public string Data { get; set; }
         public string Entity { get; set; }

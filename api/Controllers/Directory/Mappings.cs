@@ -1,5 +1,6 @@
 
 
+using api.Controllers.Directory.Audit.Dto;
 using api.Controllers.Directory.Branches.Dto;
 using api.Controllers.Directory.Lookups.Dto;
 using api.Controllers.Directory.Organisations.Dto;
@@ -7,6 +8,7 @@ using api.Controllers.Directory.Roles.Dto;
 using api.Controllers.Directory.UseCases.Dto;
 using api.Controllers.Directory.Users.Dto;
 using AutoMapper;
+using OneAdvisor.Model.Directory.Model.Audit;
 using OneAdvisor.Model.Directory.Model.Branch;
 using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Directory.Model.Organisation;
@@ -31,6 +33,8 @@ namespace api.Controllers.Directory
             config.CreateMap<RoleEdit, RoleEditDto>();
 
             config.CreateMap<UseCase, UseCaseDto>();
+
+            config.CreateMap<AuditLog, AuditLogDto>();
 
             config.CreateMap<Company, CompanyDto>();
             config.CreateMap<CommissionType, CommissionTypeDto>();

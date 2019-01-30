@@ -12,10 +12,11 @@ namespace OneAdvisor.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    AuditData = table.Column<string>(nullable: true),
-                    EntityType = table.Column<string>(nullable: true),
-                    AuditDate = table.Column<DateTime>(nullable: false),
-                    AuditUser = table.Column<string>(nullable: true)
+                    Data = table.Column<string>(nullable: true),
+                    Entity = table.Column<string>(nullable: true),
+                    Action = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

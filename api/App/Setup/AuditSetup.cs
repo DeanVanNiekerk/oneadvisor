@@ -25,10 +25,11 @@ namespace api.App.Setup
                    .AuditTypeMapper(t => typeof(AuditLogEntity))
                    .AuditEntityAction<AuditLogEntity>((ev, entry, entity) =>
                    {
-                       entity.AuditData = entry.ToJson();
-                       entity.EntityType = entry.EntityType.Name;
-                       entity.AuditDate = DateTime.Now;
-                       entity.AuditUser = Context.GetUserId(Services.BuildServiceProvider().GetService<IHttpContextAccessor>().HttpContext.User);
+                       entity.Data = entry.ToJson();
+                       entity.Entity = entry.EntityType.Name;
+                       entity.Action = entry.Action;
+                       entity.Date = DateTime.Now;
+                       entity.UserId = Context.GetUserId(Services.BuildServiceProvider().GetService<IHttpContextAccessor>().HttpContext.User);
                    })
                .IgnoreMatchedProperties(true));
         }

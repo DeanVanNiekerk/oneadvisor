@@ -10,7 +10,7 @@ using OneAdvisor.Data;
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190130070315_auditLog")]
+    [Migration("20190130081659_auditLog")]
     partial class auditLog
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,13 +39,15 @@ namespace OneAdvisor.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AuditData");
+                    b.Property<string>("Action");
 
-                    b.Property<DateTime>("AuditDate");
+                    b.Property<string>("Data");
 
-                    b.Property<string>("AuditUser");
+                    b.Property<DateTime>("Date");
 
-                    b.Property<string>("EntityType");
+                    b.Property<string>("Entity");
+
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 

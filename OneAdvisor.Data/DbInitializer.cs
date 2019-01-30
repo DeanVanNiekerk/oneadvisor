@@ -171,6 +171,7 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_roles", Name = "View Roles", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_applications", Name = "View Applications", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_usecases", Name = "View UseCases", ApplicationId = dirGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_audit_logs", Name = "View Audit Logs", ApplicationId = dirGuid });
 
                 //Directory - Lookup Use Cases
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_lookups", Name = "View Lookups", ApplicationId = dirGuid });
@@ -209,6 +210,7 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_usecases" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_lookups" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_edit_lookups" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_audit_logs" });
 
                 //Readonly 
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_users" });
@@ -218,6 +220,7 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_applications" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_usecases" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_lookups" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_audit_logs" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
 
                 //Member App
