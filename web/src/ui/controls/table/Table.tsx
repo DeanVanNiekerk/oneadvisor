@@ -26,6 +26,10 @@ type Props = {
         sortOptions: SortOptions,
         filters: Filters
     ) => void;
+    scroll?: {
+        x?: boolean | number | string;
+        y?: boolean | number | string;
+    };
 };
 
 type State = {
@@ -87,9 +91,16 @@ class TableComponent extends React.Component<Props, State> {
 
         if (this.props.hidePagination) pagination = false;
 
+        let { scroll } = this.props;
+        if (!scroll)
+            scroll = {
+                x: true
+            };
+
         return (
             <TableAD
                 bordered
+                scroll={scroll}
                 columns={this.props.columns}
                 dataSource={this.props.dataSource}
                 rowKey={this.props.rowKey}

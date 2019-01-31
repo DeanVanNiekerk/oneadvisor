@@ -32,3 +32,8 @@
     height: 65px !important;
     line-height: 65px !important;
 }
+
+.ant-table td,
+.ant-table th {
+    white-space: nowrap;
+}

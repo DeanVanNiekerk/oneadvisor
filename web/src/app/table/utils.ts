@@ -37,7 +37,7 @@ export const getColumn = (
 
     if (options.type === 'currency')
         options.render = value =>
-            isNaN(value)
+            !value
                 ? ''
                 : `R ${value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
 
