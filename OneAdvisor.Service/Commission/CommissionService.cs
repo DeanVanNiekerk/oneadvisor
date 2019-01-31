@@ -39,6 +39,7 @@ namespace OneAdvisor.Service.Commission
                             CommissionTypeId = commission.CommissionTypeId,
                             AmountIncludingVAT = commission.AmountIncludingVAT,
                             VAT = commission.VAT,
+                            Date = commission.Date,
                             UserId = policy.UserId
                         };
 
@@ -130,7 +131,8 @@ namespace OneAdvisor.Service.Commission
                             PolicyId = commission.PolicyId,
                             CommissionTypeId = commission.CommissionTypeId,
                             AmountIncludingVAT = commission.AmountIncludingVAT,
-                            VAT = commission.VAT
+                            VAT = commission.VAT,
+                            Date = commission.Date,
                         };
 
             return query;
@@ -158,6 +160,7 @@ namespace OneAdvisor.Service.Commission
             entity.CommissionTypeId = model.CommissionTypeId.Value;
             entity.AmountIncludingVAT = model.AmountIncludingVAT;
             entity.VAT = model.VAT;
+            entity.Date = model.Date.Value;
 
             return entity;
         }

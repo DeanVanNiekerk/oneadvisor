@@ -17,6 +17,8 @@ namespace OneAdvisor.Data.Entities.Commission
         public decimal AmountIncludingVAT { get; set; }
         [Required]
         public decimal VAT { get; set; }
+        [Required]
+        public DateTime Date { get; set; }
 
 
         public virtual PolicyEntity Policy { get; set; }

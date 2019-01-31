@@ -10,6 +10,7 @@ namespace api.App.Setup
             {
                 Controllers.Directory.Mappings.Configure(config);
                 Controllers.Member.Mappings.Configure(config);
+                Controllers.Commission.Mappings.Configure(config);
             });
 
             //Should possibly only do this in dev

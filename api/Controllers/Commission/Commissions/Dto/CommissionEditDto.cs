@@ -9,5 +9,6 @@ namespace api.Controllers.Commission.Commissions.Dto
         public Guid? CommissionTypeId { get; set; }
         public decimal AmountIncludingVAT { get; set; }
         public decimal VAT { get; set; }
+        public DateTime? Date { get; set; }
     }
 }

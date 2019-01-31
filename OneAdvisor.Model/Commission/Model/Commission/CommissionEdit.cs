@@ -9,5 +9,6 @@ namespace OneAdvisor.Model.Commission.Model.Commission
         public Guid? CommissionTypeId { get; set; }
         public decimal AmountIncludingVAT { get; set; }
         public decimal VAT { get; set; }
+        public DateTime? Date { get; set; }
     }
 }
