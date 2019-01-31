@@ -143,329 +143,213 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(commission1.Id, actual.Id);
             }
         }
-        /*
-                [TestMethod]
-                public async Task GetCommission()
-                {
-                    var options = TestHelper.GetDbContext("GetCommission");
 
-                    var user1 = TestHelper.InsertDefaultUserDetailed(options);
-                    var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+        [TestMethod]
+        public async Task GetCommission()
+        {
+            var options = TestHelper.GetDbContext("GetCommission");
 
-                    //Given
-                    var commission1 = new CommissionEntity
-                    {
-                        Id = Guid.NewGuid(),
-                        CompanyId = Guid.NewGuid(),
-                        MemberId = member1.Member.Id,
-                        UserId = user1.User.Id,
-                        Number = "123465"
-                    };
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
-                    var commission2 = new CommissionEntity
-                    {
-                        Id = Guid.NewGuid(),
-                        CompanyId = Guid.NewGuid(),
-                        MemberId = member1.Member.Id,
-                        UserId = user1.User.Id,
-                        Number = "654987",
-                        StartDate = DateTime.Now,
-                        Premium = 500,
-                        CommissionTypeId = Guid.NewGuid()
-                    };
+            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
 
-                    using (var context = new DataContext(options))
-                    {
-                        context.Commission.Add(commission1);
-                        context.Commission.Add(commission2);
+            var user3 = TestHelper.InsertDefaultUserDetailed(options);
 
-                        context.SaveChanges();
-                    }
-
-                    using (var context = new DataContext(options))
-                    {
-                        var service = new CommissionService(context);
-
-                        //When
-                        var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
-                        var actual = await service.GetCommission(scopeOptions, commission2.Id);
-
-                        //Then
-                        Assert.AreEqual(commission2.Id, actual.Id);
-                        Assert.AreEqual(commission2.MemberId, actual.MemberId);
-                        Assert.AreEqual(commission2.CompanyId, actual.CompanyId);
-                        Assert.AreEqual(commission2.UserId, actual.UserId);
-                        Assert.AreEqual(commission2.Number, actual.Number);
-                        Assert.AreEqual(commission2.StartDate, actual.StartDate);
-                        Assert.AreEqual(commission2.Premium, actual.Premium);
-                        Assert.AreEqual(commission2.CommissionTypeId, actual.CommissionTypeId);
-                    }
-                }
-
-                [TestMethod]
-                public async Task GetCommission_CheckScope()
-                {
-                    var options = TestHelper.GetDbContext("GetCommission_CheckScope");
-
-                    var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 1" };
-                    var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 2" };
-
-                    var branch1 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = org1.Id, Name = "Branch 1" };
-                    var branch2 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = org1.Id, Name = "Branch 2" };
-                    var branch3 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = org2.Id, Name = "Branch 3" };
-
-                    var user1 = new UserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch1.Id };
-                    var user2 = new UserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch1.Id };
-                    var user3 = new UserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch2.Id };
-                    var user4 = new UserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch3.Id };
-
-                    var member1 = new MemberEntity { Id = Guid.NewGuid(), OrganisationId = org1.Id };
-                    var member2 = new MemberEntity { Id = Guid.NewGuid(), OrganisationId = org2.Id };
-
-                    var commission1 = new CommissionEntity { Id = Guid.NewGuid(), MemberId = member1.Id, UserId = user1.Id };
-                    var commission2 = new CommissionEntity { Id = Guid.NewGuid(), MemberId = member1.Id, UserId = user2.Id };
-                    var commission3 = new CommissionEntity { Id = Guid.NewGuid(), MemberId = member1.Id, UserId = user3.Id };
-                    var commission4 = new CommissionEntity { Id = Guid.NewGuid(), MemberId = member2.Id, UserId = user4.Id };
-                    var commission5 = new CommissionEntity { Id = Guid.NewGuid(), MemberId = member1.Id, UserId = user1.Id };
+            var policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                MemberId = member1.Member.Id,
+                UserId = user1.User.Id
+            };
 
 
-                    using (var context = new DataContext(options))
-                    {
-                        context.Organisation.Add(org1);
+            var commission1 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = policy1.Id,
+                CommissionTypeId = Guid.NewGuid(),
+                AmountIncludingVAT = 99,
+                VAT = 14
+            };
 
-                        context.Branch.Add(branch1);
-                        context.Branch.Add(branch2);
+            using (var context = new DataContext(options))
+            {
+                context.Policy.Add(policy1);
 
-                        context.User.Add(user1);
-                        context.User.Add(user2);
-                        context.User.Add(user3);
+                context.Commission.Add(commission1);
 
-                        context.Member.Add(member1);
-                        context.Member.Add(member2);
+                context.SaveChanges();
+            }
 
-                        context.Commission.Add(commission1);
-                        context.Commission.Add(commission2);
-                        context.Commission.Add(commission3);
-                        context.Commission.Add(commission4);
-                        context.Commission.Add(commission5);
+            using (var context = new DataContext(options))
+            {
+                var service = new CommissionService(context);
 
-                        context.SaveChanges();
-                    }
+                //When
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var actual = await service.GetCommission(scope, commission1.Id);
 
-                    using (var context = new DataContext(options))
-                    {
-                        var service = new CommissionService(context);
+                //Then
+                Assert.AreEqual(commission1.Id, actual.Id);
+                Assert.AreEqual(commission1.PolicyId, actual.PolicyId);
+                Assert.AreEqual(commission1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.AreEqual(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
+                Assert.AreEqual(commission1.VAT, actual.VAT);
 
-                        //When
+                //Check scope
+                scope = TestHelper.GetScopeOptions(user2, Scope.User);
+                actual = await service.GetCommission(scope, commission1.Id);
+                Assert.IsNull(actual);
 
-                        //In scope (org 1 -> commission 1)
-                        var scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Organisation);
-                        var commission = await service.GetCommission(scope, commission1.Id);
-                        Assert.AreEqual(commission1.Id, commission.Id);
+                scope = TestHelper.GetScopeOptions(user3, Scope.Organisation);
+                actual = await service.GetCommission(scope, commission1.Id);
+                Assert.IsNull(actual);
+            }
+        }
 
-                        //In scope (org 1 -> commission 3)
-                        scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Organisation);
-                        commission = await service.GetCommission(scope, commission3.Id);
-                        Assert.AreEqual(commission3.Id, commission.Id);
+        [TestMethod]
+        public async Task InsertCommission()
+        {
+            var options = TestHelper.GetDbContext("InsertCommission");
 
-                        //Out of scope (org 2 -> commission 1)
-                        scope = new ScopeOptions(org2.Id, branch3.Id, user4.Id, Scope.Organisation);
-                        commission = await service.GetCommission(scope, commission1.Id);
-                        Assert.IsNull(commission);
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
-                        //In scope (branch 1 -> commission 1)
-                        scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Branch);
-                        commission = await service.GetCommission(scope, commission1.Id);
-                        Assert.AreEqual(commission1.Id, commission.Id);
+            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
 
-                        //In scope (branch 1 -> commission 2)
-                        scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Branch);
-                        commission = await service.GetCommission(scope, commission2.Id);
-                        Assert.AreEqual(commission2.Id, commission.Id);
+            var user3 = TestHelper.InsertDefaultUserDetailed(options);
 
-                        //Out of scope (branch 2 -> commission 1)
-                        scope = new ScopeOptions(org1.Id, branch2.Id, user3.Id, Scope.Branch);
-                        commission = await service.GetCommission(scope, commission1.Id);
-                        Assert.IsNull(commission);
+            var policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                MemberId = member1.Member.Id,
+                UserId = user1.User.Id
+            };
 
-                        //Out of scope (branch 3 -> commission 1)
-                        scope = new ScopeOptions(org2.Id, branch3.Id, user4.Id, Scope.Branch);
-                        commission = await service.GetCommission(scope, commission1.Id);
-                        Assert.IsNull(commission);
+            //Given
+            var commission1 = new CommissionEdit
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = policy1.Id,
+                CommissionTypeId = Guid.NewGuid(),
+                AmountIncludingVAT = 99,
+                VAT = 14
+            };
 
-                        //In scope (user 1 -> commission 1)
-                        scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.User);
-                        commission = await service.GetCommission(scope, commission1.Id);
-                        Assert.AreEqual(commission1.Id, commission.Id);
+            using (var context = new DataContext(options))
+            {
+                context.Policy.Add(policy1);
+                context.SaveChanges();
+            }
 
-                        //Out of scope (user 2 -> commission 1)
-                        scope = new ScopeOptions(org1.Id, branch1.Id, user2.Id, Scope.User);
-                        commission = await service.GetCommission(scope, commission1.Id);
-                        Assert.IsNull(commission);
-                    }
-                }
+            using (var context = new DataContext(options))
+            {
+                var service = new CommissionService(context);
 
-                [TestMethod]
-                public async Task GetCommission_ByNumber()
-                {
-                    var options = TestHelper.GetDbContext("GetCommission_ByNumber");
+                //When
+                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var result = await service.InsertCommission(scopeOptions, commission1);
 
-                    var user1 = TestHelper.InsertDefaultUserDetailed(options);
-                    var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+                //Then
+                Assert.IsTrue(result.Success);
 
-                    //Given
-                    var commission1 = new CommissionEntity
-                    {
-                        Id = Guid.NewGuid(),
-                        CompanyId = Guid.NewGuid(),
-                        MemberId = member1.Member.Id,
-                        UserId = user1.User.Id,
-                        Number = "123465"
-                    };
+                var actual = await context.Commission.FindAsync(((CommissionEdit)result.Tag).Id);
+                Assert.AreEqual(commission1.Id, actual.Id);
+                Assert.AreEqual(commission1.PolicyId, actual.PolicyId);
+                Assert.AreEqual(commission1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.AreEqual(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
+                Assert.AreEqual(commission1.VAT, actual.VAT);
 
-                    using (var context = new DataContext(options))
-                    {
-                        context.Commission.Add(commission1);
+                //Out of scope 
+                scopeOptions = TestHelper.GetScopeOptions(user2, Scope.User);
+                result = await service.InsertCommission(scopeOptions, commission1);
+                Assert.IsFalse(result.Success);
+                Assert.AreEqual("Out of scope", result.ValidationFailures.Single().ErrorMessage);
 
-                        context.SaveChanges();
-                    }
-
-                    using (var context = new DataContext(options))
-                    {
-                        var service = new CommissionService(context);
-
-                        //When
-                        var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
-                        var actual = await service.GetCommission(scopeOptions, member1.Member.Id, commission1.CompanyId, commission1.Number);
-
-                        //Then
-                        Assert.AreEqual(commission1.Id, actual.Id);
-                    }
-                }
+                scopeOptions = TestHelper.GetScopeOptions(user3, Scope.Organisation);
+                result = await service.InsertCommission(scopeOptions, commission1);
+                Assert.IsFalse(result.Success);
+            }
+        }
 
 
+        [TestMethod]
+        public async Task UpdateCommission()
+        {
+            var options = TestHelper.GetDbContext("UpdateCommission");
 
-                [TestMethod]
-                public async Task InsertCommission()
-                {
-                    var options = TestHelper.GetDbContext("InsertCommission");
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
-                    var user1 = TestHelper.InsertDefaultUserDetailed(options);
-                    var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
 
-                    var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user3 = TestHelper.InsertDefaultUserDetailed(options);
 
-                    //Given
-                    var commission1 = new CommissionEdit
-                    {
-                        Id = Guid.NewGuid(),
-                        CompanyId = Guid.NewGuid(),
-                        MemberId = member1.Member.Id,
-                        UserId = user1.User.Id,
-                        Number = "123465",
-                        StartDate = DateTime.Now,
-                        Premium = 500,
-                        CommissionTypeId = Guid.NewGuid()
-                    };
+            var policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                MemberId = member1.Member.Id,
+                UserId = user1.User.Id
+            };
 
-                    using (var context = new DataContext(options))
-                    {
-                        var service = new CommissionService(context);
+            var commission = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = policy1.Id,
+                CommissionTypeId = Guid.NewGuid(),
+                AmountIncludingVAT = 99,
+                VAT = 14
+            };
 
-                        //When
-                        var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
-                        var result = await service.InsertCommission(scopeOptions, commission1);
+            using (var context = new DataContext(options))
+            {
+                context.Policy.Add(policy1);
+                context.Commission.Add(commission);
 
-                        //Then
-                        Assert.IsTrue(result.Success);
+                context.SaveChanges();
+            }
 
-                        var actual = await context.Commission.FindAsync(((CommissionEdit)result.Tag).Id);
-                        Assert.AreEqual(commission1.Id, actual.Id);
-                        Assert.AreEqual(commission1.MemberId, actual.MemberId);
-                        Assert.AreEqual(commission1.CompanyId, actual.CompanyId);
-                        Assert.AreEqual(commission1.Number, actual.Number);
-                        Assert.AreEqual(commission1.StartDate, actual.StartDate);
-                        Assert.AreEqual(commission1.Premium, actual.Premium);
-                        Assert.AreEqual(commission1.CommissionTypeId, actual.CommissionTypeId);
+            var commission1 = new CommissionEdit
+            {
+                Id = commission.Id,
+                PolicyId = policy1.Id,
+                CommissionTypeId = Guid.NewGuid(),
+                AmountIncludingVAT = 109,
+                VAT = 15
+            };
 
-                        //Out of scope 
-                        scopeOptions = TestHelper.GetScopeOptions(user2, Scope.Organisation);
-                        result = await service.InsertCommission(scopeOptions, commission1);
-                        Assert.IsFalse(result.Success);
-                        Assert.AreEqual("Member does not exist", result.ValidationFailures.Single().ErrorMessage);
-                    }
-                }
+            using (var context = new DataContext(options))
+            {
+                var service = new CommissionService(context);
 
-                [TestMethod]
-                public async Task UpdateCommission()
-                {
-                    var options = TestHelper.GetDbContext("UpdateCommission");
+                //When
+                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var result = await service.UpdateCommission(scopeOptions, commission1);
 
-                    var user1 = TestHelper.InsertDefaultUserDetailed(options);
-                    var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+                //Then
+                Assert.IsTrue(result.Success);
 
-                    var user2 = TestHelper.InsertDefaultUserDetailed(options);
+                var actual = await context.Commission.FindAsync(commission.Id);
+                Assert.AreEqual(commission1.Id, actual.Id);
+                Assert.AreEqual(commission1.PolicyId, actual.PolicyId);
+                Assert.AreEqual(commission1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.AreEqual(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
+                Assert.AreEqual(commission1.VAT, actual.VAT);
 
-                    //Given
-                    var commissionEntity1 = new CommissionEntity
-                    {
-                        Id = Guid.NewGuid(),
-                        CompanyId = Guid.NewGuid(),
-                        MemberId = member1.Member.Id,
-                        UserId = user1.User.Id,
-                        Number = "123465",
-                        StartDate = DateTime.Now,
-                        Premium = 500,
-                        CommissionTypeId = Guid.NewGuid()
-                    };
+                //Out of scope 
+                scopeOptions = TestHelper.GetScopeOptions(user2, Scope.User);
+                result = await service.UpdateCommission(scopeOptions, commission1);
+                Assert.IsFalse(result.Success);
+                Assert.AreEqual("Out of scope", result.ValidationFailures.Single().ErrorMessage);
 
-                    using (var context = new DataContext(options))
-                    {
-                        context.Commission.Add(commissionEntity1);
-
-                        context.SaveChanges();
-                    }
-
-                    var commission1 = new CommissionEdit
-                    {
-                        Id = commissionEntity1.Id,
-                        CompanyId = Guid.NewGuid(),
-                        MemberId = member1.Member.Id,
-                        UserId = user1.User.Id,
-                        Number = "528547",
-                        StartDate = DateTime.Now.AddDays(-10),
-                        Premium = 600,
-                        CommissionTypeId = Guid.NewGuid()
-                    };
-
-                    using (var context = new DataContext(options))
-                    {
-                        var service = new CommissionService(context);
-
-                        //When
-                        var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
-                        var result = await service.UpdateCommission(scopeOptions, commission1);
-
-                        //Then
-                        Assert.IsTrue(result.Success);
-
-                        var actual = await context.Commission.FindAsync(commissionEntity1.Id);
-                        Assert.AreEqual(commission1.Id, actual.Id);
-                        Assert.AreEqual(commission1.MemberId, actual.MemberId);
-                        Assert.AreEqual(commission1.CompanyId, actual.CompanyId);
-                        Assert.AreEqual(commission1.Number, actual.Number);
-                        Assert.AreEqual(commission1.StartDate, actual.StartDate);
-                        Assert.AreEqual(commission1.Premium, actual.Premium);
-                        Assert.AreEqual(commission1.CommissionTypeId, actual.CommissionTypeId);
-
-                        //Out of scope 
-                        scopeOptions = TestHelper.GetScopeOptions(user2, Scope.Organisation);
-                        result = await service.UpdateCommission(scopeOptions, commission1);
-                        Assert.IsFalse(result.Success);
-                        Assert.AreEqual("Member does not exist", result.ValidationFailures.Single().ErrorMessage);
-                    }
-                }
-            
-             */
+                scopeOptions = TestHelper.GetScopeOptions(user3, Scope.Organisation);
+                result = await service.UpdateCommission(scopeOptions, commission1);
+                Assert.IsFalse(result.Success);
+            }
+        }
     }
 }

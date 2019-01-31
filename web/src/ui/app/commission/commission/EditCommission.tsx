@@ -1,50 +1,51 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
 
 import { ValidationResult } from '@/app/validation';
-import { insertPolicy, PolicyEdit, policySelector, receivePolicy, updatePolicy } from '@/state/app/member/policies';
+import {
+    CommissionEdit, commissionSelector, insertCommission, receiveCommission, updateCommission
+} from '@/state/app/commission/commissions';
 import { RootState } from '@/state/rootReducer';
 import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
 import { showConfirm } from '@/ui/feedback/modal/confirm';
 
-import PolicyForm from './PolicyForm';
+import CommissionForm from './CommissionForm';
 
 type Props = {
     onClose: (cancelled: boolean) => void;
-    policy: PolicyEdit | null;
+    commission: CommissionEdit | null;
     fetching: boolean;
     updating: boolean;
     validationResults: ValidationResult[];
 } & DispatchProp;
 
 type State = {
-    policyEdited: PolicyEdit | null;
+    commissionEdited: CommissionEdit | null;
 };
-class EditPolicy extends Component<Props, State> {
+class EditCommission extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            policyEdited: props.policy
+            commissionEdited: props.commission
         };
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.props.policy != prevProps.policy) {
+        if (this.props.commission != prevProps.commission) {
             this.setState({
-                policyEdited: this.props.policy
+                commissionEdited: this.props.commission
             });
         }
     }
 
     close = (cancelled: boolean = false) => {
-        this.props.dispatch(receivePolicy(null));
+        this.props.dispatch(receiveCommission(null));
         this.props.onClose(cancelled);
     };
 
     confirmCancel = () => {
-        if (this.props.policy != this.state.policyEdited)
+        if (this.props.commission != this.state.commissionEdited)
             return showConfirm({ onOk: this.cancel });
 
         this.cancel();
@@ -55,25 +56,29 @@ class EditPolicy extends Component<Props, State> {
     };
 
     save = () => {
-        if (!this.state.policyEdited) {
+        if (!this.state.commissionEdited) {
             this.close();
             return;
         }
 
-        if (this.state.policyEdited.id) {
+        if (this.state.commissionEdited.id) {
             this.props.dispatch(
-                updatePolicy(this.state.policyEdited, () => this.close())
+                updateCommission(this.state.commissionEdited, () =>
+                    this.close()
+                )
             );
         } else {
             this.props.dispatch(
-                insertPolicy(this.state.policyEdited, () => this.close())
+                insertCommission(this.state.commissionEdited, () =>
+                    this.close()
+                )
             );
         }
     };
 
-    onChange = (policy: PolicyEdit) => {
+    onChange = (commission: CommissionEdit) => {
         this.setState({
-            policyEdited: policy
+            commissionEdited: commission
         });
     };
 
@@ -82,28 +87,28 @@ class EditPolicy extends Component<Props, State> {
     };
 
     getTitle = () => {
-        if (this.props.fetching) return 'Loading Policy';
+        if (this.props.fetching) return 'Loading Commission';
 
-        const { policy } = this.props;
+        const { commission } = this.props;
 
-        if (policy && policy.id) return `Policy: ${policy.number}`;
+        if (commission && commission.id) return `Edit Commission`;
 
-        return 'New Policy';
+        return 'New Commission';
     };
 
     render() {
-        const { policy, fetching, validationResults } = this.props;
+        const { commission, fetching, validationResults } = this.props;
 
         return (
             <Drawer
                 title={this.getTitle()}
-                visible={!!policy || fetching}
+                visible={!!commission || fetching}
                 onClose={this.confirmCancel}
             >
                 <ContentLoader isLoading={this.isLoading()}>
-                    {policy && (
-                        <PolicyForm
-                            policy={policy}
+                    {commission && (
+                        <CommissionForm
+                            commission={commission}
                             validationResults={validationResults}
                             onChange={this.onChange}
                         />
@@ -120,7 +125,7 @@ class EditPolicy extends Component<Props, State> {
                         onClick={this.save}
                         type="primary"
                         disabled={this.isLoading()}
-                        requiredUseCase="mem_edit_policies"
+                        requiredUseCase="com_edit_commissions"
                     >
                         Save
                     </Button>
@@ -131,14 +136,14 @@ class EditPolicy extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const policyState = policySelector(state);
+    const commissionState = commissionSelector(state);
 
     return {
-        policy: policyState.policy,
-        fetching: policyState.fetching,
-        updating: policyState.updating,
-        validationResults: policyState.validationResults
+        commission: commissionState.commission,
+        fetching: commissionState.fetching,
+        updating: commissionState.updating,
+        validationResults: commissionState.validationResults
     };
 };
 
-export default connect(mapStateToProps)(EditPolicy);
+export default connect(mapStateToProps)(EditCommission);

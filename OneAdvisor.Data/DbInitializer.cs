@@ -194,7 +194,9 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "mem_export_members", Name = "Export Members", ApplicationId = memGuid });
 
                 //Commission Use Cases
-                _context.UseCase.Add(new UseCaseEntity() { Id = "com_upload_statement", Name = "Upload Commission Statement", ApplicationId = comGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "com_import_commissions", Name = "Import Commissions", ApplicationId = comGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "com_view_commissions", Name = "View Commissions", ApplicationId = comGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "com_edit_commissions", Name = "Edit Commissions", ApplicationId = comGuid });
             }
 
             var roleToUseCase = await _context.RoleToUseCase.ToListAsync();
@@ -250,7 +252,12 @@ namespace OneAdvisor.Data
                 //Commission App
                 //==============
                 //Adminstrator
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_administrator", UseCaseId = "com_upload_statement" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_administrator", UseCaseId = "com_import_commissions" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_administrator", UseCaseId = "com_view_commissions" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_administrator", UseCaseId = "com_edit_commissions" });
+
+                //Readonly
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_readonly", UseCaseId = "com_view_commissions" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
             }
 

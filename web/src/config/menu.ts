@@ -108,11 +108,22 @@ export const menus: Menus = {
                 name: 'Management',
                 links: [
                     {
-                        name: 'Upload',
-                        icon: 'upload',
-                        relativePath: '/upload',
+                        name: 'Commissions',
+                        icon: 'dollar',
+                        relativePath: '/commissions',
                         isDefault: true,
-                        useCases: ['com_upload_statement']
+                        useCases: ['com_view_commissions']
+                    }
+                ]
+            },
+            {
+                name: 'Data',
+                links: [
+                    {
+                        name: 'Import',
+                        icon: 'cloud-upload',
+                        relativePath: '/import',
+                        useCases: ['com_import_commissions']
                     }
                 ]
             }

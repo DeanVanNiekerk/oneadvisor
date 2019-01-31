@@ -7,8 +7,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Member.Interface;
+using OneAdvisor.Service.Commission;
 using OneAdvisor.Service.Directory;
 using OneAdvisor.Service.Member;
 using OneAdvisor.Service.Okta;
@@ -98,6 +100,9 @@ namespace api.App.Setup
             Services.AddScoped<IMemberExportService, MemberExportService>();
             Services.AddScoped<IPolicyService, PolicyService>();
             Services.AddScoped<IContactService, ContactService>();
+
+            //COMMISSION
+            Services.AddScoped<ICommissionService, CommissionService>();
         }
 
         public void ConfigureMapper(IMapper mapper)

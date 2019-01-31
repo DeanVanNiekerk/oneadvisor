@@ -1,8 +1,8 @@
 using System;
 
-namespace OneAdvisor.Model.Commission.Model.Commission
+namespace api.Controllers.Commission.Commissions.Dto
 {
-    public class CommissionEdit
+    public class CommissionEditDto
     {
         public Guid? Id { get; set; }
         public Guid? PolicyId { get; set; }

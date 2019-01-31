@@ -11,7 +11,7 @@ import { Form, FormDate, FormInput, FormInputNumber, FormSelect } from '@/ui/con
 type Props = {
     policy: PolicyEdit;
     validationResults: ValidationResult[];
-    onChange: (member: PolicyEdit) => void;
+    onChange: (policy: PolicyEdit) => void;
     users: UserSimple[];
     companies: Company[];
     policyTypes: PolicyType[];

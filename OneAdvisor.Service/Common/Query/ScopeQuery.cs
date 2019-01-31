@@ -148,7 +148,7 @@ namespace OneAdvisor.Service.Common.Query
 
             if (!inScope)
             {
-                result.AddValidationFailure("UserId", "User exists but is out of scope");
+                result.AddValidationFailure("UserId", "Out of scope");
                 return result;
             }
 

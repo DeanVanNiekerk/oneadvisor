@@ -6,6 +6,7 @@ import MemberList from '@/ui/app/member/member/MemberList';
 import { ImplicitCallback, SecureRoute, Security } from '@okta/okta-react';
 
 import Authentication from './Authentication';
+import CommissionRoutes from './routes/CommissionRoutes';
 //Routes
 import DirectoryRoutes from './routes/DirectoryRoutes';
 import MemberRoutes from './routes/MemberRoutes';
@@ -23,6 +24,7 @@ const App = () => (
                 <SecureRoute exact path="/" component={MemberList} />
                 <DirectoryRoutes />
                 <MemberRoutes />
+                <CommissionRoutes />
             </Authentication>
         </Switch>
     </Security>

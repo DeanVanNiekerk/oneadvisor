@@ -12,12 +12,12 @@ namespace OneAdvisor.Service.Commission.Validators
         public CommissionValidator(bool isInsert)
         {
             if (!isInsert)
-                RuleFor(o => o.Id).GuidNotEmpty();
+                RuleFor(o => o.Id).NotEmpty();
 
-            RuleFor(o => o.CommissionTypeId).GuidNotEmpty();
-            RuleFor(o => o.PolicyId).GuidNotEmpty();
-            RuleFor(o => o.AmountIncludingVAT).NotEmpty().LessThanOrEqualTo(999999999);
-            RuleFor(o => o.VAT).NotEmpty().LessThanOrEqualTo(999999999);
+            RuleFor(o => o.CommissionTypeId).NotEmpty().WithName("Type");
+            RuleFor(o => o.PolicyId).NotEmpty().WithName("Policy");
+            RuleFor(o => o.AmountIncludingVAT).InclusiveBetween(0, 999999999).WithName("Amount");
+            RuleFor(o => o.VAT).InclusiveBetween(0, 999999999).WithName("VAT");
         }
     }
 }
