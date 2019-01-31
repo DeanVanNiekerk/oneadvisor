@@ -24,6 +24,12 @@ type Props = {
     loading?: boolean;
     readonly?: boolean;
     autoFocus?: boolean;
+    notFoundContent?: React.ReactNode;
+    placeholder?: React.ReactNode;
+    showSearch?: boolean;
+    showArrow?: boolean;
+    filterOption?: boolean;
+    onSearch?: (value: string) => any;
 };
 
 class FormSelect extends Component<Props> {
@@ -75,6 +81,12 @@ class FormSelect extends Component<Props> {
                 loading={loading}
             >
                 <Select
+                    showSearch={this.props.showSearch}
+                    showArrow={this.props.showArrow}
+                    filterOption={this.props.filterOption}
+                    onSearch={this.props.onSearch}
+                    notFoundContent={this.props.notFoundContent}
+                    placeholder={this.props.placeholder}
                     style={{
                         minWidth: '180px'
                     }}

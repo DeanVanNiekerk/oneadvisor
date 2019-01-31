@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 
+import { applyLikeFormat } from '@/app/query';
+import { Filters } from '@/app/table';
 import { ValidationResult } from '@/app/validation';
 import { CommissionEdit } from '@/state/app/commission/commissions';
-import { CommissionType, commissionTypesSelector, companiesSelector } from '@/state/app/directory/lookups';
+import { CommissionType, commissionTypesSelector } from '@/state/app/directory/lookups';
+import { getPolicies, Policy } from '@/state/app/member/policies';
 import { RootState } from '@/state/rootReducer';
-import { Form, FormInput, FormInputNumber, FormSelect } from '@/ui/controls';
+import { Form, FormDate, FormInput, FormInputNumber, FormSelect } from '@/ui/controls';
 
 type Props = {
     commission: CommissionEdit;
     validationResults: ValidationResult[];
     onChange: (member: CommissionEdit) => void;
     commissionTypes: CommissionType[];
-};
+} & DispatchProp;
 
 type State = {
     commission: CommissionEdit;
+    policies: Policy[];
 };
 
 class CommissionForm extends Component<Props, State> {
@@ -23,15 +27,20 @@ class CommissionForm extends Component<Props, State> {
         super(props);
 
         this.state = {
-            commission: props.commission
+            commission: props.commission,
+            policies: []
         };
+
+        this.loadPolicy(this.props.commission.policyId);
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.props.commission != prevProps.commission)
+        if (this.props.commission != prevProps.commission) {
             this.setState({
                 commission: this.props.commission
             });
+            this.loadPolicy(this.props.commission.policyId);
+        }
     }
 
     handleChange = async (fieldName: string, value: any) => {
@@ -45,20 +54,59 @@ class CommissionForm extends Component<Props, State> {
         this.props.onChange(commission);
     };
 
+    loadPolicy = (policyId: string) => {
+        if (!policyId) return;
+
+        const filters = {
+            id: [policyId]
+        };
+        this.loadPolicies(filters);
+    };
+
+    loadPolicies = (filters: Filters) => {
+        this.props.dispatch(
+            getPolicies(filters, policies => {
+                this.setState({
+                    policies: policies
+                });
+            })
+        );
+    };
+
+    policySearch = (value: string) => {
+        if (value.length < 3) {
+            this.handleChange('policyId', '');
+            this.setState({
+                policies: []
+            });
+            return;
+        }
+        const filters = { number: [applyLikeFormat(value)] };
+        this.loadPolicies(filters);
+    };
+
     render() {
         const { validationResults } = this.props;
         const { commission } = this.state;
 
-        //8d8de9d4-1553-4732-d5ab-08d687963fe8
-
         return (
             <Form editUseCase="com_edit_commissions">
-                <FormInput
+                <FormSelect
+                    showSearch={true}
+                    showArrow={false}
+                    filterOption={false}
+                    defaultActiveFirstOption={false}
+                    placeholder={'Select Policy'}
+                    notFoundContent={null}
                     fieldName="policyId"
-                    label="Policy Id"
+                    onSearch={this.policySearch}
+                    label="Policy"
                     value={commission.policyId}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    options={this.state.policies}
+                    optionsValue="id"
+                    optionsText="number"
                     autoFocus={true}
                 />
                 <FormSelect
@@ -88,6 +136,13 @@ class CommissionForm extends Component<Props, State> {
                     validationResults={validationResults}
                     isCurrency={true}
                     min={0}
+                />
+                <FormDate
+                    fieldName="date"
+                    label="Date"
+                    value={commission.date}
+                    onChange={this.handleChange}
+                    validationResults={validationResults}
                 />
             </Form>
         );

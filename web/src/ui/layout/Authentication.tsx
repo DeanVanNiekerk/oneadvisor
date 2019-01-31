@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { IdTokenData, idTokenDataSelector } from '@/state/auth';
-import { clearAuthentication, expiredModalShown, recieveAuthentication } from '@/state/auth/actions';
+import { clearAuthentication, recieveAuthentication } from '@/state/auth/actions';
 import { RootState } from '@/state/rootReducer';
 import { Loader } from '@/ui/controls';
 import Layout from '@/ui/layout/Layout';
@@ -17,7 +17,6 @@ type Props = {
     authenticated: boolean;
     children: ReactNode;
     idTokenData: IdTokenData;
-    authExpiredModalShown: boolean;
 } & DispatchProp;
 
 type State = {
@@ -25,6 +24,8 @@ type State = {
 };
 
 class Authentication extends React.Component<Props, State> {
+    private modal: any = null;
+
     constructor(props) {
         super(props);
         setInterval(this.checkTokenExpired, 10000); //Every 10 secs
@@ -38,8 +39,8 @@ class Authentication extends React.Component<Props, State> {
         const expiryDate = moment.unix(this.props.idTokenData.exp);
         const hasExpired = moment().isAfter(expiryDate);
 
-        if (hasExpired && !this.props.authExpiredModalShown) {
-            Modal.info({
+        if (hasExpired && !this.modal) {
+            this.modal = Modal.info({
                 title: 'Session has Expired',
                 content: (
                     <div>
@@ -53,15 +54,13 @@ class Authentication extends React.Component<Props, State> {
                     this.props.auth.redirect();
                 }
             });
-
-            this.props.dispatch(expiredModalShown());
         }
     };
 
     checkAuthentication = async () => {
         const authenticated = await this.props.auth.isAuthenticated();
 
-        if (!authenticated && !this.props.authExpiredModalShown) {
+        if (!authenticated && this.modal === null) {
             this.props.auth.redirect();
             return;
         }
@@ -98,8 +97,7 @@ class Authentication extends React.Component<Props, State> {
 const mapStateToProps = (state: RootState) => ({
     authenticated: state.auth.authenticated,
     userInfo: state.auth.userInfo,
-    idTokenData: idTokenDataSelector(state),
-    authExpiredModalShown: state.auth.authExpiredModalShown
+    idTokenData: idTokenDataSelector(state)
 });
 
 export default connect(mapStateToProps)(withAuth(Authentication));

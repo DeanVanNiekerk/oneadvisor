@@ -86,7 +86,6 @@ namespace OneAdvisor.Service.Commission
                 return result;
 
             var entity = MapModelToEntity(commission);
-            entity.PolicyId = commission.PolicyId.Value;
             await _context.Commission.AddAsync(entity);
             await _context.SaveChangesAsync();
 
@@ -161,6 +160,7 @@ namespace OneAdvisor.Service.Commission
             entity.AmountIncludingVAT = model.AmountIncludingVAT;
             entity.VAT = model.VAT;
             entity.Date = model.Date.Value;
+            entity.PolicyId = model.PolicyId.Value;
 
             return entity;
         }

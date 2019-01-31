@@ -71,6 +71,7 @@ class PolicyList extends Component<Props> {
                 }
             }),
             getColumn('number', 'Number', { showSearchFilter: true }),
+            getColumn('premium', 'Premium', { type: 'currency' }),
             getColumn('companyId', 'Company', {
                 render: (companyId: string) => {
                     return <CompanyName companyId={companyId} />;

@@ -48,7 +48,8 @@ describe('commission list reducer', () => {
             commissionTypeId: '321',
             amountIncludingVAT: 100,
             vat: 14,
-            userId: '123321'
+            userId: '123321',
+            date: '2001-01-01'
         };
 
         const actualState = reducer(initalState, {

@@ -43,6 +43,9 @@ namespace OneAdvisor.Service.Member
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
+            if (queryOptions.Id.HasValue)
+                query = query.Where(m => m.Id == queryOptions.Id.Value);
+
             if (queryOptions.MemberId.HasValue)
                 query = query.Where(m => m.MemberId == queryOptions.MemberId.Value);
 

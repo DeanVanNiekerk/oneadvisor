@@ -26,12 +26,17 @@ namespace OneAdvisor.Model.Member.Model.Policy
             resultGuid = GetFilterValue<Guid>("CompanyId");
             if (resultGuid.Success)
                 CompanyId = resultGuid.Value;
+
+            resultGuid = GetFilterValue<Guid>("Id");
+            if (resultGuid.Success)
+                Id = resultGuid.Value;
         }
 
         public ScopeOptions Scope { get; set; }
 
         public Guid? MemberId { get; set; }
         public Guid? CompanyId { get; set; }
+        public Guid? Id { get; set; }
         public string Number { get; set; }
         public string UserId { get; set; }
     }

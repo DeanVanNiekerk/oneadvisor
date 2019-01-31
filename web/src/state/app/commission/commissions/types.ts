@@ -5,6 +5,7 @@ export type Commission = {
     amountIncludingVAT: number;
     vat: number;
     userId: string;
+    date: string;
 };
 
 export type CommissionEdit = {
@@ -13,4 +14,5 @@ export type CommissionEdit = {
     commissionTypeId: string;
     amountIncludingVAT: number;
     vat: number;
+    date: string;
 };

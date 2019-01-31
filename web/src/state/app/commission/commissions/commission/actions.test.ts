@@ -20,7 +20,8 @@ describe('commission actions', () => {
             policyId: '99',
             commissionTypeId: '321',
             amountIncludingVAT: 100,
-            vat: 14
+            vat: 14,
+            date: '2001-01-01'
         };
 
         const onSuccess = () => {};

@@ -68,3 +68,18 @@ export const receiveFilters = (
     type: 'POLICIES_LIST_FILTERS_RECEIVE',
     payload: filters
 });
+
+export const getPolicies = (
+    filters: Filters,
+    onSuccess: (policies: Policy[]) => void
+): ApiAction => {
+    let api = policiesApi;
+    api = appendFiltersQuery(api, filters);
+    return {
+        type: 'API',
+        endpoint: api,
+        onSuccess: (data: PagedItems<Policy>) => {
+            onSuccess(data.items);
+        }
+    };
+};

@@ -58,13 +58,15 @@ class CommissionList extends Component<Props> {
             amountIncludingVAT: 0,
             vat: 0,
             commissionTypeId: '',
-            policyId: ''
+            policyId: '',
+            date: ''
         };
         this.props.dispatch(receiveCommission(commission));
     };
 
     getColumns = () => {
         return [
+            getColumn('date', 'Date', { type: 'date' }),
             getColumn('commissionTypeId', 'Type', {
                 render: (commissionTypeId: string) => {
                     return (
@@ -74,8 +76,10 @@ class CommissionList extends Component<Props> {
                     );
                 }
             }),
-            getColumn('amountIncludingVAT', 'Amount (incl VAT)'),
-            getColumn('vat', 'VAT'),
+            getColumn('amountIncludingVAT', 'Amount (incl VAT)', {
+                type: 'currency'
+            }),
+            getColumn('vat', 'VAT', { type: 'currency' }),
             getColumn('userId', 'Broker', {
                 render: (userId: string) => {
                     return <UserName userId={userId} />;

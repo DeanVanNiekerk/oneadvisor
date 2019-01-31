@@ -1,4 +1,9 @@
-export type ColumnType = 'string' | 'date' | 'long-date' | 'boolean';
+export type ColumnType =
+    | 'string'
+    | 'date'
+    | 'long-date'
+    | 'boolean'
+    | 'currency';
 
 export type FilterOptions = {
     text: string;

@@ -79,12 +79,16 @@ export const applyLike = (filters: Filters, fieldNames: string[]): Filters => {
     const newFilters: Filters = {};
     Object.keys(filters).forEach(key => {
         newFilters[key] = filters[key].map(f => {
-            if (fieldNames.indexOf(key) !== -1) return `%${f}%`;
+            if (fieldNames.indexOf(key) !== -1) return applyLikeFormat(f);
             return f;
         });
     });
 
     return newFilters;
+};
+
+export const applyLikeFormat = (value: string): string => {
+    return `%${value}%`;
 };
 
 type Param = {

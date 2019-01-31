@@ -34,7 +34,7 @@ const Drawer = (props: Props) => {
 Drawer.defaultProps = {
     visible: false,
     //width: '45%',
-    width: '800px',
+    width: '900px',
     maskClosable: true,
     noTopPadding: false
 };
