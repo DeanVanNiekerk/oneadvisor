@@ -115,7 +115,7 @@ namespace OneAdvisor.Service.Member
 
         public async Task<Result> UpdatePolicy(ScopeOptions scope, PolicyEdit policy)
         {
-            var validator = new PolicyValidator(_context, scope, true);
+            var validator = new PolicyValidator(_context, scope, false);
             var result = validator.Validate(policy).GetResult();
 
             if (!result.Success)
