@@ -6,6 +6,6 @@ namespace OneAdvisor.Model.Directory.Model.UseCase
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public Guid ApplicationId { get; set; }
+        public Guid? ApplicationId { get; set; }
     }
 }

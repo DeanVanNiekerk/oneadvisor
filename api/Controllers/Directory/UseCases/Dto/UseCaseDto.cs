@@ -8,7 +8,6 @@ namespace api.Controllers.Directory.UseCases.Dto
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        [JsonConverter(typeof(EmptyToDefaultConverter<Guid>))]
-        public Guid ApplicationId { get; set; }
+        public Guid? ApplicationId { get; set; }
     }
 }

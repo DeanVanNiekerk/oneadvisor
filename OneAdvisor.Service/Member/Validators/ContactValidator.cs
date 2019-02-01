@@ -17,10 +17,10 @@ namespace OneAdvisor.Service.Member.Validators
         public ContactValidator(bool isInsert)
         {
             if (!isInsert)
-                RuleFor(c => c.Id).GuidNotEmpty();
+                RuleFor(c => c.Id).NotEmpty();
 
-            RuleFor(c => c.MemberId).GuidNotEmpty("Member");
-            RuleFor(c => c.ContactTypeId).GuidNotEmpty("Type");
+            RuleFor(c => c.MemberId).NotEmpty().WithName("Member");
+            RuleFor(c => c.ContactTypeId).NotEmpty().WithName("Contact Type");
             RuleFor(c => c.Value).NotEmpty().MaximumLength(128);
         }
     }

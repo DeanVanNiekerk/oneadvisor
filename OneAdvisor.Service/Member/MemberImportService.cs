@@ -232,7 +232,7 @@ namespace OneAdvisor.Service.Member
             if (string.IsNullOrWhiteSpace(data.PolicyNumber))
                 return result;
 
-            var policy = await _policyService.GetPolicy(scope, member.Id, data.PolicyCompanyId.Value, data.PolicyNumber);
+            var policy = await _policyService.GetPolicy(scope, member.Id.Value, data.PolicyCompanyId.Value, data.PolicyNumber);
 
             //Policy exits, update
             if (policy != null)
@@ -272,7 +272,7 @@ namespace OneAdvisor.Service.Member
                 return result;
 
             //See if email exits
-            var email = await _contactService.GetContact(scope, member.Id, data.Email);
+            var email = await _contactService.GetContact(scope, member.Id.Value, data.Email);
 
             if (email == null)
             {
@@ -297,7 +297,7 @@ namespace OneAdvisor.Service.Member
                 return result;
 
             //See if email exits
-            var email = await _contactService.GetContact(scope, member.Id, data.Cellphone);
+            var email = await _contactService.GetContact(scope, member.Id.Value, data.Cellphone);
 
             if (email == null)
             {

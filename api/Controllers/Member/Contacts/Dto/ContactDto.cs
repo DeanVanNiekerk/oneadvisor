@@ -6,11 +6,9 @@ namespace api.Controllers.Member.Contacts.Dto
 {
     public class ContactDto
     {
-        [JsonConverter(typeof(EmptyToDefaultConverter<Guid>))]
-        public Guid Id { get; set; }
-        public Guid MemberId { get; set; }
-        [JsonConverter(typeof(EmptyToDefaultConverter<Guid>))]
-        public Guid ContactTypeId { get; set; }
+        public Guid? Id { get; set; }
+        public Guid? MemberId { get; set; }
+        public Guid? ContactTypeId { get; set; }
         public string Value { get; set; }
     }
 }

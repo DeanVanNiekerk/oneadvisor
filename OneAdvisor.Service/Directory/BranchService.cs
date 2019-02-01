@@ -68,11 +68,11 @@ namespace OneAdvisor.Service.Directory
             if (scope.Scope == Scope.Branch || scope.Scope == Scope.User)
                 return new Result();
 
-            if (!ScopeQuery.IsOrganisationInScope(scope, branch.OrganisationId))
+            if (!ScopeQuery.IsOrganisationInScope(scope, branch.OrganisationId.Value))
                 return new Result();
 
             var entity = MapModelToEntity(branch);
-            entity.OrganisationId = branch.OrganisationId;
+            entity.OrganisationId = branch.OrganisationId.Value;
             await _context.Branch.AddAsync(entity);
             await _context.SaveChangesAsync();
 

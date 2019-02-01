@@ -9,8 +9,7 @@ namespace api.Controllers.Directory.Roles.Dto
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        [JsonConverter(typeof(EmptyToDefaultConverter<Guid>))]
-        public Guid ApplicationId { get; set; }
+        public Guid? ApplicationId { get; set; }
         public IEnumerable<string> UseCaseIds { get; set; }
     }
 }

@@ -47,16 +47,16 @@ namespace api.Controllers.Directory.Identity
 
             Organisation organisation = null;
             if (branch != null)
-                organisation = await OrganisationService.GetOrganisation(scope, branch.OrganisationId);
+                organisation = await OrganisationService.GetOrganisation(scope, branch.OrganisationId.Value);
 
             return new IdentityDto()
             {
                 Id = identity.Id,
                 Name = identity.Name,
                 OrganisationName = organisation != null ? organisation.Name : "NOT IN DB",
-                OrganisationId = organisation.Id,
+                OrganisationId = organisation.Id.Value,
                 BranchName = branch != null ? branch.Name : "NOT IN DB",
-                BranchId = branch.Id,
+                BranchId = branch.Id.Value,
                 RoleIds = identity.RoleIds.Where(r => r != "Everyone"),
                 UseCaseIds = useCaseIds,
                 AssistantToUserId = identity.AssistantToUserId,

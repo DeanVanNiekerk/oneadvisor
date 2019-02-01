@@ -8,7 +8,7 @@ namespace OneAdvisor.Service.Common
     public static class Validation
     {
         /*
-        public static void GuidNotEmpty(Guid guid, CustomContext context)
+        public static void NotEmpty(Guid guid, CustomContext context)
         {
             if (guid == default(Guid) || guid == null)
             {
@@ -16,9 +16,9 @@ namespace OneAdvisor.Service.Common
                 context.AddFailure(failure);
             }
         }
-        */
+      
 
-        public static IRuleBuilderOptions<T, Guid> GuidNotEmpty<T, Guid>(this IRuleBuilder<T, Guid> ruleBuilder, string propertyName = "")
+        public static IRuleBuilderOptions<T, Guid> NotEmpty<T, Guid>(this IRuleBuilder<T, Guid> ruleBuilder, string propertyName = "")
         {
             return ruleBuilder.Custom((value, context) =>
             {
@@ -30,6 +30,8 @@ namespace OneAdvisor.Service.Common
                 }
             }) as IRuleBuilderOptions<T, Guid>;
         }
+
+          */
 
         // public static IRuleBuilderOptions<T, IList<TElement>> ListMustContainFewerThan<T, TElement>(this IRuleBuilder<T, IList<TElement>> ruleBuilder, int num) {
 

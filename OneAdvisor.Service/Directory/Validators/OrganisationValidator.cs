@@ -12,7 +12,7 @@ namespace OneAdvisor.Service.Directory.Validators
         public OrganisationValidator(bool isInsert)
         {
             if (!isInsert)
-                RuleFor(o => o.Id).GuidNotEmpty();
+                RuleFor(o => o.Id).NotEmpty();
 
             RuleFor(o => o.Name).NotEmpty().MaximumLength(32);
         }

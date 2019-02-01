@@ -93,7 +93,6 @@ namespace OneAdvisor.Service.Directory
                 return new Result();
 
             entity = MapModelToEntity(organisation, entity);
-            _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return result;

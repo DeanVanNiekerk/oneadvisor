@@ -101,7 +101,7 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
-            result = await ScopeQuery.CheckScope(_context, scope, policy.MemberId, policy.UserId);
+            result = await ScopeQuery.CheckScope(_context, scope, policy.MemberId.Value, policy.UserId);
 
             if (!result.Success)
                 return result;
@@ -124,7 +124,7 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
-            result = await ScopeQuery.CheckScope(_context, scope, policy.MemberId, policy.UserId);
+            result = await ScopeQuery.CheckScope(_context, scope, policy.MemberId.Value, policy.UserId);
 
             if (!result.Success)
                 return result;
@@ -176,9 +176,9 @@ namespace OneAdvisor.Service.Member
             if (entity == null)
                 entity = new PolicyEntity();
 
-            entity.MemberId = model.MemberId;
+            entity.MemberId = model.MemberId.Value;
             entity.Number = model.Number;
-            entity.CompanyId = model.CompanyId;
+            entity.CompanyId = model.CompanyId.Value;
             entity.UserId = model.UserId;
             entity.StartDate = model.StartDate;
             entity.Premium = model.Premium;

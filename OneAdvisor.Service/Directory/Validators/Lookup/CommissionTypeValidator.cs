@@ -9,9 +9,9 @@ namespace OneAdvisor.Service.Directory.Validators.Lookup
         public CommissionTypeValidator(bool isInsert)
         {
             if (!isInsert)
-                RuleFor(o => o.Id).GuidNotEmpty();
+                RuleFor(o => o.Id).NotEmpty();
 
-            RuleFor(o => o.PolicyTypeId).GuidNotEmpty();
+            RuleFor(o => o.PolicyTypeId).NotEmpty().WithName("Policy Type");
             RuleFor(o => o.Name).NotEmpty().MaximumLength(128);
             RuleFor(o => o.Code).NotEmpty().MaximumLength(128);
         }

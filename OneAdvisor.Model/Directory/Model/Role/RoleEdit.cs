@@ -7,7 +7,7 @@ namespace OneAdvisor.Model.Directory.Model.Role
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public Guid ApplicationId { get; set; }
-        public IEnumerable<string> UseCaseIds {get; set; }
+        public Guid? ApplicationId { get; set; }
+        public IEnumerable<string> UseCaseIds { get; set; }
     }
 }

@@ -9,9 +9,9 @@ namespace OneAdvisor.Service.Directory.Validators.Lookup
         public CompanyValidator(bool isInsert)
         {
             if (!isInsert)
-                RuleFor(o => o.Id).GuidNotEmpty();
+                RuleFor(o => o.Id).NotEmpty();
 
-            RuleFor(o => o.Name).NotEmpty().MaximumLength(32);
+            RuleFor(o => o.Name).NotEmpty().MaximumLength(128);
         }
     }
 }

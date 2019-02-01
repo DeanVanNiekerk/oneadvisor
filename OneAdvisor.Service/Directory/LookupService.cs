@@ -114,20 +114,25 @@ namespace OneAdvisor.Service.Directory
             if (!result.Success)
                 return result;
 
-            var entity = MapCompanyModelToEntity(model);
-            _context.Entry(entity).State = EntityState.Modified;
+            var entity = await _context.Company.FindAsync(model.Id);
+
+            if (entity == null)
+                return new Result();
+
+            entity = MapCompanyModelToEntity(model, entity);
             await _context.SaveChangesAsync();
 
             return result;
         }
 
-        private CompanyEntity MapCompanyModelToEntity(Company model)
+        private CompanyEntity MapCompanyModelToEntity(Company model, CompanyEntity entity = null)
         {
-            return new CompanyEntity()
-            {
-                Id = model.Id,
-                Name = model.Name
-            };
+            if (entity == null)
+                entity = new CompanyEntity();
+
+            entity.Name = model.Name;
+
+            return entity;
         }
 
         #endregion
@@ -175,22 +180,27 @@ namespace OneAdvisor.Service.Directory
             if (!result.Success)
                 return result;
 
-            var entity = MapCommissionTypeModelToEntity(model);
-            _context.Entry(entity).State = EntityState.Modified;
+            var entity = await _context.CommissionType.FindAsync(model.Id);
+
+            if (entity == null)
+                return new Result();
+
+            entity = MapCommissionTypeModelToEntity(model, entity);
             await _context.SaveChangesAsync();
 
             return result;
         }
 
-        private CommissionTypeEntity MapCommissionTypeModelToEntity(CommissionType model)
+        private CommissionTypeEntity MapCommissionTypeModelToEntity(CommissionType model, CommissionTypeEntity entity = null)
         {
-            return new CommissionTypeEntity()
-            {
-                Id = model.Id,
-                Name = model.Name,
-                Code = model.Code,
-                PolicyTypeId = model.PolicyTypeId
-            };
+            if (entity == null)
+                entity = new CommissionTypeEntity();
+
+            entity.Name = model.Name;
+            entity.Code = model.Code;
+            entity.PolicyTypeId = model.PolicyTypeId.Value;
+
+            return entity;
         }
 
         #endregion

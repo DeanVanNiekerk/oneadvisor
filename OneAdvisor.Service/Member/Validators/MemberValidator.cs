@@ -25,7 +25,7 @@ namespace OneAdvisor.Service.Member.Validators
             _scope = scope;
 
             if (!isInsert)
-                RuleFor(o => o.Id).GuidNotEmpty();
+                RuleFor(o => o.Id).NotEmpty();
 
             RuleFor(m => m.FirstName).MaximumLength(128).WithName("First Name");
             RuleFor(m => m.LastName).MaximumLength(128).WithName("Last Name");

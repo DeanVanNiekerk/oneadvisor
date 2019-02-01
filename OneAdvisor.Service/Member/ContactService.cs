@@ -74,7 +74,7 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
-            result = await ScopeQuery.IsMemberInOrganisation(_context, scope, contact.MemberId);
+            result = await ScopeQuery.IsMemberInOrganisation(_context, scope, contact.MemberId.Value);
 
             if (!result.Success)
                 return result;
@@ -153,8 +153,8 @@ namespace OneAdvisor.Service.Member
             if (entity == null)
                 entity = new ContactEntity();
 
-            entity.ContactTypeId = model.ContactTypeId;
-            entity.MemberId = model.MemberId;
+            entity.ContactTypeId = model.ContactTypeId.Value;
+            entity.MemberId = model.MemberId.Value;
             entity.Value = model.Value;
 
             return entity;
