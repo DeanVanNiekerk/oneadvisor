@@ -56,7 +56,7 @@ namespace OneAdvisor.Service.Member
                 query = query.Where(m => m.UserId == queryOptions.UserId);
 
             if (!string.IsNullOrWhiteSpace(queryOptions.Number))
-                query = query.Where(m => EF.Functions.Like(m.Number, $"{queryOptions.Number}"));
+                query = query.Where(m => EF.Functions.Like(m.Number, queryOptions.Number));
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedItems<Policy>();
@@ -82,10 +82,19 @@ namespace OneAdvisor.Service.Member
             return query.FirstOrDefaultAsync();
         }
 
+        public Task<PolicyEdit> GetPolicy(ScopeOptions scope, string number)
+        {
+            var query = from policy in GetPolicyEditQuery(scope)
+                        where EF.Functions.Like(policy.Number, number)
+                        select policy;
+
+            return query.FirstOrDefaultAsync();
+        }
+
         public Task<PolicyEdit> GetPolicy(ScopeOptions scope, Guid memberId, Guid companyId, string number)
         {
             var query = from policy in GetPolicyEditQuery(scope)
-                        where policy.Number == number
+                        where EF.Functions.Like(policy.Number, number)
                         && policy.MemberId == memberId
                         && policy.CompanyId == companyId
                         select policy;

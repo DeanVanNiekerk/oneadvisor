@@ -10,6 +10,7 @@ namespace OneAdvisor.Model.Member.Interface
     {
         Task<PagedItems<Policy>> GetPolicies(PolicyQueryOptions queryOptions);
         Task<PolicyEdit> GetPolicy(ScopeOptions scope, Guid id);
+        Task<PolicyEdit> GetPolicy(ScopeOptions scope, string number);
         Task<PolicyEdit> GetPolicy(ScopeOptions scope, Guid memberId, Guid companyId, string number);
         Task<Result> UpdatePolicy(ScopeOptions scope, PolicyEdit policy);
         Task<Result> InsertPolicy(ScopeOptions scope, PolicyEdit policy);

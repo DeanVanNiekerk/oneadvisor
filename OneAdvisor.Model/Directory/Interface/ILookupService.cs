@@ -16,6 +16,7 @@ namespace OneAdvisor.Model.Directory.Interface
         Task<Result> InsertCompany(Company model);
 
         Task<List<CommissionType>> GetCommissionTypes();
+        Task<CommissionType> GetCommissionType(string code);
         Task<Result> UpdateCommissionType(CommissionType model);
         Task<Result> InsertCommissionType(CommissionType model);
     }

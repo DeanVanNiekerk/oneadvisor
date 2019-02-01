@@ -141,17 +141,20 @@ namespace OneAdvisor.Service.Directory
 
         public async Task<List<CommissionType>> GetCommissionTypes()
         {
-            var query = from commissionType in _context.CommissionType
+            var query = from commissionType in GetCommissionTypeQuery()
                         orderby commissionType.Name
-                        select new CommissionType()
-                        {
-                            Id = commissionType.Id,
-                            Name = commissionType.Name,
-                            Code = commissionType.Code,
-                            PolicyTypeId = commissionType.PolicyTypeId
-                        };
+                        select commissionType;
 
             return await query.ToListAsync();
+        }
+
+        public async Task<CommissionType> GetCommissionType(string code)
+        {
+            var query = from commissionType in GetCommissionTypeQuery()
+                        where EF.Functions.Like(commissionType.Code, code)
+                        select commissionType;
+
+            return await query.FirstOrDefaultAsync();
         }
 
         public async Task<Result> InsertCommissionType(CommissionType model)
@@ -201,6 +204,20 @@ namespace OneAdvisor.Service.Directory
             entity.PolicyTypeId = model.PolicyTypeId.Value;
 
             return entity;
+        }
+
+        public IQueryable<CommissionType> GetCommissionTypeQuery()
+        {
+            var query = from commissionType in _context.CommissionType
+                        select new CommissionType()
+                        {
+                            Id = commissionType.Id,
+                            Name = commissionType.Name,
+                            Code = commissionType.Code,
+                            PolicyTypeId = commissionType.PolicyTypeId
+                        };
+
+            return query;
         }
 
         #endregion

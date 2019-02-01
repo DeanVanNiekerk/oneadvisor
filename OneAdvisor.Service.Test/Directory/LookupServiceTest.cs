@@ -309,6 +309,40 @@ namespace OneAdvisor.Service.Test.Directory
         }
 
         [TestMethod]
+        public async Task GetCommissionType()
+        {
+            var options = TestHelper.GetDbContext("GetCommissionType");
+
+            //Given
+            var lkp1 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "A", Code = "aa", PolicyTypeId = Guid.NewGuid() };
+            var lkp2 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "B", Code = "bb", PolicyTypeId = Guid.NewGuid() };
+
+            using (var context = new DataContext(options))
+            {
+                //Jumbled order
+                context.CommissionType.Add(lkp2);
+                context.CommissionType.Add(lkp1);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new LookupService(context);
+
+                //When
+                var actual = await service.GetCommissionType("Aa");
+
+                //Then
+                Assert.IsNotNull(actual);
+                Assert.AreEqual(lkp1.Id, actual.Id);
+                Assert.AreEqual(lkp1.Name, actual.Name);
+                Assert.AreEqual(lkp1.Code, actual.Code);
+                Assert.AreEqual(lkp1.PolicyTypeId, actual.PolicyTypeId);
+            }
+        }
+
+        [TestMethod]
         public async Task InsertCommissionType()
         {
             var options = TestHelper.GetDbContext("InsertCommissionType");

@@ -15,6 +15,12 @@ namespace OneAdvisor.Model.Common
             ValidationFailures = new List<ValidationFailure>();
         }
 
+        public Result(string properyName, string errorMessage)
+            : this()
+        {
+            AddValidationFailure(properyName, errorMessage);
+        }
+
         public bool Success { get; set; }
 
         public object Tag { get; set; }
