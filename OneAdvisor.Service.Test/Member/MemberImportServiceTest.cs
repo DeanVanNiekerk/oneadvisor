@@ -276,6 +276,54 @@ namespace OneAdvisor.Service.Test.Member
             }
         }
 
+        [TestMethod]
+        public async Task ImportMember_Update_MatchOnShortIdNumber()
+        {
+            var options = TestHelper.GetDbContext("ImportMember_Update_MatchOnShortIdNumber");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
+
+            var mem = new MemberEntity
+            {
+                Id = Guid.NewGuid(),
+                LastName = "LN 1",
+                IdNumber = "8201015800184",
+                OrganisationId = user1.Organisation.Id
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Member.Add(mem);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var memberService = new MemberService(context);
+                var service = new MemberImportService(context, memberService, null, null);
+
+                //When
+                var data = new ImportMember()
+                {
+                    IdNumber = "8201015800085",
+                    LastName = "LN updated",
+                };
+
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+
+                var result = await service.ImportMember(scope, data);
+
+                //Then
+                Assert.IsTrue(result.Success);
+
+                var actual = await context.Member.FirstOrDefaultAsync(m => m.Id == mem.Id);
+                Assert.AreEqual(user1.Organisation.Id, actual.OrganisationId);
+                Assert.AreEqual(data.LastName, actual.LastName);
+            }
+        }
+
 
         [TestMethod]
         public async Task ImportMember_Update_WithEmail()

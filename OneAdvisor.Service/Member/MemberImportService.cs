@@ -203,7 +203,7 @@ namespace OneAdvisor.Service.Member
 
             if (!string.IsNullOrWhiteSpace(data.IdNumber))
             {
-                //First try and match on IdNumber and PasswordNumber
+                //First try and match on IdNumber and PassportNumber
                 query = from entity in memberQuery
                         where entity.IdNumber == data.IdNumber
                         || entity.PassportNumber == data.IdNumber
@@ -213,6 +213,19 @@ namespace OneAdvisor.Service.Member
 
                 if (matches.Any())
                     return matches;
+
+                //If no match try with first 10 chars of Id number
+                if (data.IdNumber.Count() >= 10)
+                {
+                    query = from entity in memberQuery
+                            where EF.Functions.Like(entity.IdNumber, $"{data.IdNumber.Substring(0, 10)}%")
+                            select entity;
+
+                    matches = await query.ToListAsync();
+
+                    if (matches.Any())
+                        return matches;
+                }
             }
 
             //If not matches, then try with DOB and LastName
