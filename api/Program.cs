@@ -19,6 +19,7 @@ namespace api
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseApplicationInsights()
                 .UseUrls("https://localhost:6001") 
                 .UseStartup<Startup>();
     }
