@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using api.App.Json;
 using Newtonsoft.Json;
 
 namespace api.Controllers.Directory.Roles.Dto

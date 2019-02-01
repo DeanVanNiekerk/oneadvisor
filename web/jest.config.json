@@ -1,5 +1,6 @@
 {
     "verbose": false,
+    "testEnvironment": "node",
     "roots": ["<rootDir>/src"],
     "transform": {
         "^.+\\.tsx?$": "ts-jest"
@@ -13,6 +14,9 @@
     "globals": {
         "__OIDC_CLIENT_ID__": "client-test",
         "__OIDC_ISSUER__": "test-issuer",
-        "__OA_BASE_API__": "https://test.api.com"
+        "__OA_BASE_API__": "https://test.api.com",
+        "window": {
+            "location": {}
+        }
     }
 }

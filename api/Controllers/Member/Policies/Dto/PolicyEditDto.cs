@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using api.App.Json;
-using Newtonsoft.Json;
 
 namespace api.Controllers.Member.Policies.Dto
 {

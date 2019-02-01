@@ -1,5 +1,4 @@
 using System;
-using api.App.Json;
 using Newtonsoft.Json;
 
 namespace api.Controllers.Directory.UseCases.Dto
