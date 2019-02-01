@@ -71,7 +71,7 @@ class Import extends Component<Props> {
                         <Panel header="Error Messages" key="1">
                             {validationErrors.map(result => {
                                 return (
-                                    <div>
+                                    <div key={result.propertyName}>
                                         <b>{result.propertyName}: </b>
                                         <span className="text-error">
                                             {result.errorMessage}
@@ -88,7 +88,7 @@ class Import extends Component<Props> {
                         <Panel header="Record Data" key="2">
                             {this.props.columns.map(column => {
                                 return (
-                                    <div>
+                                    <div key={column.id}>
                                         <b>{column.name}: </b>
                                         {record.importMember[column.id]}
                                     </div>
@@ -113,7 +113,11 @@ class Import extends Component<Props> {
             render: (value: any, record: ResultFailure) => {
                 {
                     return this.props.columns.map(column => {
-                        return <span>{record.importMember[column.id]}; </span>;
+                        return (
+                            <span key={column.id}>
+                                {record.importMember[column.id]};{' '}
+                            </span>
+                        );
                     });
                 }
             }
