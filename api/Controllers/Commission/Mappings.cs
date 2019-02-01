@@ -1,6 +1,8 @@
 using api.Controllers.Commission.Commissions.Dto;
+using api.Controllers.Commission.Import.Dto;
 using AutoMapper;
 using OneAdvisor.Model.Commission.Model.Commission;
+using OneAdvisor.Model.Commission.Model.ImportCommission;
 
 namespace api.Controllers.Commission
 {
@@ -10,6 +12,8 @@ namespace api.Controllers.Commission
         {
             config.CreateMap<OneAdvisor.Model.Commission.Model.Commission.Commission, CommissionDto>();
             config.CreateMap<CommissionEdit, CommissionEditDto>();
+
+            config.CreateMap<ImportCommission, ImportCommissionDto>();
         }
     }
 }

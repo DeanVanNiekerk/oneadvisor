@@ -15,7 +15,7 @@ using OneAdvisor.Model.Directory.Interface;
 using api.Controllers.Member.Import.Dto;
 using OneAdvisor.Model.Member.Model.ImportMember;
 
-namespace api.Controllers.Directory.Members
+namespace api.Controllers.Directory.Import
 {
 
     [ApiController]
