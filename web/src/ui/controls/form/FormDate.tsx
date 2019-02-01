@@ -21,7 +21,7 @@ type Props = {
 };
 
 class FormDate extends Component<Props> {
-    onChange = (date: any, dateString: string) => {
+    onChange = (date: moment.Moment, dateString: string) => {
         if (this.props.onChange)
             this.props.onChange(this.props.fieldName, dateString);
     };

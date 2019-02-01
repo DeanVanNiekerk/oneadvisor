@@ -120,7 +120,7 @@ export const receiveCommissionImportDate = (
     payload: date
 });
 
-export const updateCommissionImportPolicyCompanies = (): ImportCommissionsUpdateDateAction => ({
+export const updateCommissionImportDate = (): ImportCommissionsUpdateDateAction => ({
     type: 'COMMISSIONS_IMPORT_COMMISSIONS_UPDATE_DATE'
 });
 

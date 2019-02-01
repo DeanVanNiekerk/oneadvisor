@@ -10,11 +10,11 @@ export type ImportTableRow = { _id: string; [key: string]: string };
 
 export type ImportCommission = {
     _id: string;
-    policyNumber: string;
-    amountIncludingVAT: number;
-    vat: number;
-    commissionTypeCode: string;
-    date: string;
+    policyNumber?: string;
+    amountIncludingVAT?: number;
+    vat?: number;
+    commissionTypeCode?: string;
+    date?: string;
 };
 
 export type ResultFailure = {
