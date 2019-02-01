@@ -40,6 +40,8 @@ namespace api.Controllers.Directory.Members
         {
             var model = Mapper.Map<ImportMember>(member);
 
+            throw new Exception("i died");
+
             var scope = await AuthService.GetScope(UserId, Scope);
 
             var result = await MemberImportService.ImportMember(scope, model);

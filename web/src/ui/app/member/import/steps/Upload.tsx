@@ -28,9 +28,11 @@ class Upload extends Component<Props> {
             const sheetName1 = workbook.SheetNames[0];
             const sheet1 = workbook.Sheets[sheetName1];
 
-            const data = utils.sheet_to_json(sheet1, {
+            let data = utils.sheet_to_json(sheet1, {
                 header: 1
             }) as ImportData;
+
+            data = data.filter(d => d.some(value => !!value));
 
             this.props.dispatch(receiveMemberImportData(data));
 

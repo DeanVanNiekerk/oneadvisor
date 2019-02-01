@@ -60,6 +60,8 @@ class Import extends Component<Props> {
     };
 
     showError = (record: ResultFailure) => {
+        const validationErrors = parseValidationErrors(record.error);
+
         Modal.error({
             title: 'Error Details',
             width: 720,
@@ -67,7 +69,7 @@ class Import extends Component<Props> {
                 <div>
                     <Collapse defaultActiveKey={['1', '2']}>
                         <Panel header="Error Messages" key="1">
-                            {parseValidationErrors(record.error).map(result => {
+                            {validationErrors.map(result => {
                                 return (
                                     <div>
                                         <b>{result.propertyName}: </b>
@@ -77,6 +79,11 @@ class Import extends Component<Props> {
                                     </div>
                                 );
                             })}
+                            {validationErrors.length === 0 && (
+                                <span className="text-error">
+                                    Unhandled Server Error
+                                </span>
+                            )}
                         </Panel>
                         <Panel header="Record Data" key="2">
                             {this.props.columns.map(column => {
