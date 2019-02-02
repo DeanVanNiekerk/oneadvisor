@@ -35,14 +35,14 @@ namespace api.Controllers.Commission.Commissions
 
         [HttpGet("")]
         [UseCaseAuthorize("com_view_commissions")]
-        public async Task<PagedItemsDto<CommissionDto>> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
+        public async Task<PagedCommissionsDto> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
             var scope = await AuthService.GetScope(UserId, Scope);
 
             var queryOptions = new CommissionQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
             var pagedItems = await CommissionService.GetCommissions(queryOptions);
 
-            return Mapper.MapToPageItemsDto<OneAdvisor.Model.Commission.Model.Commission.Commission, CommissionDto>(pagedItems);
+            return Mapper.Map<PagedCommissions, PagedCommissionsDto>(pagedItems);
         }
 
         [HttpGet("{commissionId}")]

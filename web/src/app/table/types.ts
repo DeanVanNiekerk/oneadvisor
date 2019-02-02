@@ -19,7 +19,7 @@ export type ColumnOptions = {
     showSearchFilter?: boolean;
 };
 
-export type PagedItems<T> = {
+export interface PagedItems<T> {
     totalItems: number;
     items: Array<T>;
 };

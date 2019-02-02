@@ -56,6 +56,10 @@ describe('commission list reducer', () => {
             type: 'COMMISSIONS_LIST_RECEIVE',
             payload: {
                 totalItems: 1,
+                sumAmountIncludingVAT: 2,
+                sumVAT: 3,
+                averageAmountIncludingVAT: 4,
+                averageVAT: 5,
                 items: [commission]
             }
         });
@@ -64,6 +68,10 @@ describe('commission list reducer', () => {
             ...defaultState,
             items: [commission],
             totalItems: 1,
+            sumAmountIncludingVAT: 2,
+            sumVAT: 3,
+            averageAmountIncludingVAT: 4,
+            averageVAT: 5,
             fetching: false
         };
 

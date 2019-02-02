@@ -71,9 +71,11 @@ export const receiveFilters = (
 
 export const getPolicies = (
     filters: Filters,
+    pageOptions: PageOptions,
     onSuccess: (policies: Policy[]) => void
 ): ApiAction => {
     let api = policiesApi;
+    api = appendPageOptionQuery(api, pageOptions);
     api = appendFiltersQuery(api, filters);
     return {
         type: 'API',

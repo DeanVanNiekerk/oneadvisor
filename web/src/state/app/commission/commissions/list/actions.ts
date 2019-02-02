@@ -1,13 +1,13 @@
 import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from '@/app/query';
-import { Filters, PagedItems, PageOptions, SortOptions } from '@/app/table';
+import { Filters, PageOptions, SortOptions } from '@/app/table';
 import { ApiAction } from '@/app/types';
 import { commissionsApi } from '@/config/api/commission';
 
-import { Commission } from '../types';
+import { PagedCommissions } from '../types';
 
 type CommissionListReceiveAction = {
     type: 'COMMISSIONS_LIST_RECEIVE';
-    payload: PagedItems<Commission>;
+    payload: PagedCommissions;
 };
 type CommissionListFetchingAction = { type: 'COMMISSIONS_LIST_FETCHING' };
 type CommissionListFetchingErrorAction = {

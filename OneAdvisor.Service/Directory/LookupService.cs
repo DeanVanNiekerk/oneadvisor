@@ -159,7 +159,7 @@ namespace OneAdvisor.Service.Directory
 
         public async Task<Result> InsertCommissionType(CommissionType model)
         {
-            var validator = new CommissionTypeValidator(true);
+            var validator = new CommissionTypeValidator(_context, true);
             var result = validator.Validate(model).GetResult();
 
             if (!result.Success)
@@ -177,7 +177,7 @@ namespace OneAdvisor.Service.Directory
 
         public async Task<Result> UpdateCommissionType(CommissionType model)
         {
-            var validator = new CommissionTypeValidator(false);
+            var validator = new CommissionTypeValidator(_context, false);
             var result = validator.Validate(model).GetResult();
 
             if (!result.Success)

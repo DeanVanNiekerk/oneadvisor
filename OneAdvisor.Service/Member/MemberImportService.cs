@@ -309,6 +309,9 @@ namespace OneAdvisor.Service.Member
             if (string.IsNullOrEmpty(data.Cellphone))
                 return result;
 
+            //Clean
+            data.Cellphone = data.Cellphone.Replace(" ", "").Replace("-", "");
+
             //See if email exits
             var email = await _contactService.GetContact(scope, member.Id.Value, data.Cellphone);
 

@@ -7,6 +7,10 @@ import { CommissionListAction } from './actions';
 export type State = {
     readonly items: Commission[];
     readonly totalItems: number;
+    readonly sumAmountIncludingVAT: number;
+    readonly sumVAT: number;
+    readonly averageAmountIncludingVAT: number;
+    readonly averageVAT: number;
     readonly fetching: boolean;
     readonly error: boolean;
     readonly pageOptions: PageOptions;
@@ -17,6 +21,10 @@ export type State = {
 export const defaultState: State = {
     items: [],
     totalItems: 0,
+    sumAmountIncludingVAT: 0,
+    sumVAT: 0,
+    averageAmountIncludingVAT: 0,
+    averageVAT: 0,
     fetching: false,
     error: false,
     pageOptions: defaultPageOptions(),
@@ -33,6 +41,10 @@ export const reducer = (
             return {
                 ...state,
                 totalItems: action.payload.totalItems,
+                sumAmountIncludingVAT: action.payload.sumAmountIncludingVAT,
+                sumVAT: action.payload.sumVAT,
+                averageAmountIncludingVAT: action.payload.averageAmountIncludingVAT,
+                averageVAT: action.payload.averageVAT,
                 items: action.payload.items,
                 fetching: false,
                 error: false

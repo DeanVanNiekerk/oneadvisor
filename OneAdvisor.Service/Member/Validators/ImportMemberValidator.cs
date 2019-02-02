@@ -14,7 +14,8 @@ namespace OneAdvisor.Service.Member.Validators
             "investment",
             "life_insurance",
             "short_term",
-            "medical_cover"
+            "medical_cover",
+            "rewards"
         };
 
         public ImportMemberValidator(bool isInsert)

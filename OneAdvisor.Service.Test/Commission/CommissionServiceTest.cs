@@ -60,8 +60,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
                 CommissionTypeId = Guid.NewGuid(),
-                AmountIncludingVAT = 99,
-                VAT = 14,
+                AmountIncludingVAT = 100,
+                VAT = 10,
                 Date = DateTime.Now
             };
 
@@ -70,8 +70,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = policy2.Id,
                 CommissionTypeId = Guid.NewGuid(),
-                AmountIncludingVAT = 88,
-                VAT = 15,
+                AmountIncludingVAT = 200,
+                VAT = 20,
                 Date = DateTime.Now.AddDays(1)
             };
 
@@ -80,8 +80,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = policy2.Id,
                 CommissionTypeId = Guid.NewGuid(),
-                AmountIncludingVAT = 77,
-                VAT = 16,
+                AmountIncludingVAT = 300,
+                VAT = 30,
                 Date = DateTime.Now.AddDays(2)
             };
 
@@ -90,8 +90,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = policy3.Id,
                 CommissionTypeId = Guid.NewGuid(),
-                AmountIncludingVAT = 66,
-                VAT = 17,
+                AmountIncludingVAT = 40,
+                VAT = 400,
                 Date = DateTime.Now.AddDays(3)
             };
 
@@ -121,6 +121,11 @@ namespace OneAdvisor.Service.Test.Commission
                 //Then
                 Assert.AreEqual(3, commissions.TotalItems);
                 Assert.AreEqual(3, commissions.Items.Count());
+
+                Assert.AreEqual(200, commissions.AverageAmountIncludingVAT);
+                Assert.AreEqual(20, commissions.AverageVAT);
+                Assert.AreEqual(600, commissions.SumAmountIncludingVAT);
+                Assert.AreEqual(60, commissions.SumVAT);
 
                 var items = commissions.Items.ToList();
                 var actual = items[0];

@@ -79,6 +79,7 @@ namespace OneAdvisor.Data
 
             //Custom mappings
             RoleToUseCaseMap.Map(modelBuilder);
+            CommissionTypeMap.Map(modelBuilder);
 
             #endregion
 

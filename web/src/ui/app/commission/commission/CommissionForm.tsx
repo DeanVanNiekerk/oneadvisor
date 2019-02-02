@@ -64,8 +64,12 @@ class CommissionForm extends Component<Props, State> {
     };
 
     loadPolicies = (filters: Filters) => {
+        const pageOptions = {
+            number: 1,
+            size: 20 //Limit to 20 records
+        }
         this.props.dispatch(
-            getPolicies(filters, policies => {
+            getPolicies(filters, pageOptions, policies => {
                 this.setState({
                     policies: policies
                 });

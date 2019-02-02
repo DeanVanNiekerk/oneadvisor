@@ -58,7 +58,7 @@ namespace OneAdvisor.Service.Member.Validators
             if (entity == null)
                 return true;
 
-            if (policy.Id == default(Guid))
+            if (!policy.Id.HasValue)
                 return entity == null;
 
             return policy.Id == entity.Id;

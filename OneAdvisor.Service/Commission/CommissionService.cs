@@ -23,7 +23,7 @@ namespace OneAdvisor.Service.Commission
             _context = context;
         }
 
-        public async Task<PagedItems<OneAdvisor.Model.Commission.Model.Commission.Commission>> GetCommissions(CommissionQueryOptions queryOptions)
+        public async Task<PagedCommissions> GetCommissions(CommissionQueryOptions queryOptions)
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
 
@@ -48,10 +48,26 @@ namespace OneAdvisor.Service.Commission
                 query = query.Where(c => queryOptions.UserId.Contains(c.UserId));
             //------------------------------------------------------------------------------------------------------
 
-            var pagedItems = new PagedItems<OneAdvisor.Model.Commission.Model.Commission.Commission>();
+            var pagedItems = new PagedCommissions();
 
             //Get total items
             pagedItems.TotalItems = await query.CountAsync();
+
+            //Aggregations
+            var aggQuery = from commission in query
+                           select new
+                           {
+                               SumAmountIncludingVAT = query.Select(c => (decimal?)c.AmountIncludingVAT).Sum(),
+                               SumVAT = query.Select(c => (decimal?)c.VAT).Sum(),
+                               AverageAmountIncludingVAT = query.Select(c => (decimal?)c.AmountIncludingVAT).Average(),
+                               AverageVAT = query.Select(c => (decimal?)c.VAT).Average()
+                           };
+
+            var aggregates = aggQuery.First();
+            pagedItems.SumAmountIncludingVAT = aggregates.SumAmountIncludingVAT.Value;
+            pagedItems.SumVAT = aggregates.SumVAT.Value;
+            pagedItems.AverageAmountIncludingVAT = aggregates.AverageAmountIncludingVAT.Value;
+            pagedItems.AverageVAT = aggregates.AverageVAT.Value;
 
             //Ordering
             query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);

@@ -202,7 +202,7 @@ namespace OneAdvisor.Service.Test.Member
                 var data = new ImportMember()
                 {
                     IdNumber = "8210035032082",
-                    Cellphone = "0825728997"
+                    Cellphone = "082-572 8997"
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
@@ -214,7 +214,7 @@ namespace OneAdvisor.Service.Test.Member
 
                 var member = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == data.IdNumber);
                 var actual = await context.Contact.SingleOrDefaultAsync(c => c.MemberId == member.Id);
-                Assert.AreEqual(data.Cellphone, actual.Value);
+                Assert.AreEqual("0825728997", actual.Value);
                 Assert.AreEqual(ContactType.CONTACT_TYPE_CELLPHONE, actual.ContactTypeId);
             }
         }
@@ -326,9 +326,9 @@ namespace OneAdvisor.Service.Test.Member
 
 
         [TestMethod]
-        public async Task ImportMember_Update_WithEmail()
+        public async Task ImportMember_Update_WithContacts()
         {
-            var options = TestHelper.GetDbContext("ImportMember_Update_WithEmail");
+            var options = TestHelper.GetDbContext("ImportMember_Update_WithContacts");
 
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
 
@@ -339,17 +339,25 @@ namespace OneAdvisor.Service.Test.Member
                 OrganisationId = user1.Organisation.Id
             };
 
-            var contact = new ContactEntity
+            var contact1 = new ContactEntity
             {
                 MemberId = mem.Id,
                 ContactTypeId = ContactType.CONTACT_TYPE_EMAIL,
                 Value = "dean@gmail.com"
             };
 
+            var contact2 = new ContactEntity
+            {
+                MemberId = mem.Id,
+                ContactTypeId = ContactType.CONTACT_TYPE_CELLPHONE,
+                Value = "0825728997"
+            };
+
             using (var context = new DataContext(options))
             {
                 context.Member.Add(mem);
-                context.Contact.Add(contact);
+                context.Contact.Add(contact1);
+                context.Contact.Add(contact2);
 
                 context.SaveChanges();
             }
@@ -364,7 +372,8 @@ namespace OneAdvisor.Service.Test.Member
                 var data = new ImportMember()
                 {
                     IdNumber = "8210035032082",
-                    Email = contact.Value
+                    Email = contact1.Value,
+                    Cellphone = "082 572-8997"
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
@@ -376,10 +385,14 @@ namespace OneAdvisor.Service.Test.Member
 
                 var member = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == data.IdNumber);
                 var contacts = await context.Contact.Where(c => c.MemberId == member.Id).ToListAsync();
-                Assert.AreEqual(1, contacts.Count);
-                var actual = contacts.Single();
+                Assert.AreEqual(2, contacts.Count);
+                var actual = contacts.First();
                 Assert.AreEqual(data.Email, actual.Value);
                 Assert.AreEqual(ContactType.CONTACT_TYPE_EMAIL, actual.ContactTypeId);
+
+                actual = contacts.Last();
+                Assert.AreEqual(contact2.Value, actual.Value);
+                Assert.AreEqual(ContactType.CONTACT_TYPE_CELLPHONE, actual.ContactTypeId);
             }
         }
 
