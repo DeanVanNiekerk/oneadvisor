@@ -10,6 +10,7 @@ import { RootState } from '@/state/rootReducer';
 import { Button, CommissionTypeName, Header, Table, UserName } from '@/ui/controls';
 
 import EditCommission from './EditCommission';
+import { Statistic, Row, Col } from 'antd';
 
 type Props = {
     commissions: Commission[];
@@ -17,6 +18,10 @@ type Props = {
     pageOptions: PageOptions;
     sortOptions: SortOptions;
     totalItems: number;
+    sumAmountIncludingVAT: number;
+    sumVAT: number;
+    averageAmountIncludingVAT: number;
+    averageVAT: number;
     filters: Filters;
 } & DispatchProp;
 
@@ -128,6 +133,20 @@ class CommissionList extends Component<Props> {
                         </>
                     }
                 />
+                <Row type="flex" justify="space-around" className="mb-1">
+                    <Col>
+                        <Statistic title="Total Amount" prefix="R" value={this.props.sumAmountIncludingVAT} />
+                    </Col>
+                    <Col>
+                        <Statistic title="Average Amount" prefix="R" value={this.props.averageAmountIncludingVAT} />
+                    </Col>
+                    <Col>
+                        <Statistic title="Total VAT" prefix="R" value={this.props.sumVAT} />
+                    </Col>
+                    <Col>
+                        <Statistic title="Average VAR" prefix="R" value={this.props.averageVAT} />
+                    </Col>
+                </Row>
                 <Table
                     rowKey="id"
                     columns={this.getColumns()}
@@ -156,6 +175,10 @@ const mapStateToProps = (state: RootState) => {
         pageOptions: commissionsState.pageOptions,
         sortOptions: commissionsState.sortOptions,
         totalItems: commissionsState.totalItems,
+        sumAmountIncludingVAT: commissionsState.sumAmountIncludingVAT,
+        sumVAT: commissionsState.sumVAT,
+        averageAmountIncludingVAT: commissionsState.averageAmountIncludingVAT,
+        averageVAT: commissionsState.averageVAT,
         filters: commissionsState.filters
     };
 };
