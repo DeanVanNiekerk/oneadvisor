@@ -11,6 +11,8 @@ import { Button, CommissionTypeName, Header, Table, UserName } from '@/ui/contro
 
 import EditCommission from './EditCommission';
 import { Statistic, Row, Col } from 'antd';
+import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
+import { CommissionType, commissionTypesSelector } from '@/state/app/directory/lookups';
 
 type Props = {
     commissions: Commission[];
@@ -23,6 +25,8 @@ type Props = {
     averageAmountIncludingVAT: number;
     averageVAT: number;
     filters: Filters;
+    users: UserSimple[];
+    commissionTypes: CommissionType[];
 } & DispatchProp;
 
 class CommissionList extends Component<Props> {
@@ -79,7 +83,11 @@ class CommissionList extends Component<Props> {
                             commissionTypeId={commissionTypeId}
                         />
                     );
-                }
+                },
+                filters: this.props.commissionTypes.map(type => ({
+                    text: type.name,
+                    value: type.id
+                }))
             }),
             getColumn('amountIncludingVAT', 'Amount (incl VAT)', {
                 type: 'currency'
@@ -88,7 +96,11 @@ class CommissionList extends Component<Props> {
             getColumn('userId', 'Broker', {
                 render: (userId: string) => {
                     return <UserName userId={userId} />;
-                }
+                },
+                filters: this.props.users.map(user => ({
+                    text: user.fullName,
+                    value: user.id
+                }))
             })
         ];
     };
@@ -144,7 +156,7 @@ class CommissionList extends Component<Props> {
                         <Statistic title="Total VAT" prefix="R" value={this.props.sumVAT} />
                     </Col>
                     <Col>
-                        <Statistic title="Average VAR" prefix="R" value={this.props.averageVAT} />
+                        <Statistic title="Average VAT" prefix="R" value={this.props.averageVAT} />
                     </Col>
                 </Row>
                 <Table
@@ -168,6 +180,8 @@ class CommissionList extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     const commissionsState = commissionsSelector(state);
+    const usersState = usersSimpleSelector(state);
+    const commissionTypesState = commissionTypesSelector(state);
 
     return {
         commissions: commissionsState.items,
@@ -179,7 +193,9 @@ const mapStateToProps = (state: RootState) => {
         sumVAT: commissionsState.sumVAT,
         averageAmountIncludingVAT: commissionsState.averageAmountIncludingVAT,
         averageVAT: commissionsState.averageVAT,
-        filters: commissionsState.filters
+        filters: commissionsState.filters,
+        users: usersState.items,
+        commissionTypes: commissionTypesState.items
     };
 };
 
