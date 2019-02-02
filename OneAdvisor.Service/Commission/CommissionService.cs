@@ -46,6 +46,9 @@ namespace OneAdvisor.Service.Commission
             //Apply filters ----------------------------------------------------------------------------------------
             if (queryOptions.UserId.Any())
                 query = query.Where(c => queryOptions.UserId.Contains(c.UserId));
+
+            if (queryOptions.CommissionTypeId.Any())
+                query = query.Where(c => queryOptions.CommissionTypeId.Contains(c.CommissionTypeId));
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedCommissions();
