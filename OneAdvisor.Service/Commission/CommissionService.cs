@@ -35,15 +35,18 @@ namespace OneAdvisor.Service.Commission
                         select new OneAdvisor.Model.Commission.Model.Commission.Commission()
                         {
                             Id = commission.Id,
+                            CommissionStatementId = commission.CommissionStatementId,
                             PolicyId = commission.PolicyId,
                             CommissionTypeId = commission.CommissionTypeId,
                             AmountIncludingVAT = commission.AmountIncludingVAT,
                             VAT = commission.VAT,
-                            Date = commission.Date,
                             UserId = policy.UserId
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
+            if (queryOptions.CommissionStatementId.HasValue)
+                query = query.Where(c => c.CommissionStatementId == queryOptions.CommissionStatementId);
+
             if (queryOptions.UserId.Any())
                 query = query.Where(c => queryOptions.UserId.Contains(c.UserId));
 
@@ -105,6 +108,7 @@ namespace OneAdvisor.Service.Commission
                 return result;
 
             var entity = MapModelToEntity(commission);
+            entity.CommissionStatementId = commission.CommissionStatementId.Value;
             await _context.Commission.AddAsync(entity);
             await _context.SaveChangesAsync();
 
@@ -146,11 +150,11 @@ namespace OneAdvisor.Service.Commission
                         select new CommissionEdit()
                         {
                             Id = commission.Id,
+                            CommissionStatementId = commission.CommissionStatementId,
                             PolicyId = commission.PolicyId,
                             CommissionTypeId = commission.CommissionTypeId,
                             AmountIncludingVAT = commission.AmountIncludingVAT,
                             VAT = commission.VAT,
-                            Date = commission.Date,
                         };
 
             return query;
@@ -178,7 +182,6 @@ namespace OneAdvisor.Service.Commission
             entity.CommissionTypeId = model.CommissionTypeId.Value;
             entity.AmountIncludingVAT = model.AmountIncludingVAT;
             entity.VAT = model.VAT;
-            entity.Date = model.Date.Value;
             entity.PolicyId = model.PolicyId.Value;
 
             return entity;

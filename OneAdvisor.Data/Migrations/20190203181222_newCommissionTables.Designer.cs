@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OneAdvisor.Data;
 
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190203181222_newCommissionTables")]
+    partial class newCommissionTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,8 +40,6 @@ namespace OneAdvisor.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommissionStatementId");
-
                     b.HasIndex("CommissionTypeId");
 
                     b.HasIndex("PolicyId");
@@ -63,12 +63,6 @@ namespace OneAdvisor.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommissionStatementId");
-
-                    b.HasIndex("MemberId");
-
-                    b.HasIndex("PolicyId");
-
                     b.ToTable("com_CommissionError");
                 });
 
@@ -79,17 +73,11 @@ namespace OneAdvisor.Data.Migrations
 
                     b.Property<decimal>("AmountIncludingVAT");
 
-                    b.Property<Guid>("CompanyId");
-
                     b.Property<DateTime>("Date");
-
-                    b.Property<bool>("Processed");
 
                     b.Property<decimal>("VAT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
 
                     b.ToTable("com_CommissionStatement");
                 });
@@ -404,11 +392,6 @@ namespace OneAdvisor.Data.Migrations
 
             modelBuilder.Entity("OneAdvisor.Data.Entities.Commission.CommissionEntity", b =>
                 {
-                    b.HasOne("OneAdvisor.Data.Entities.Commission.CommissionStatementEntity", "CommissionStatement")
-                        .WithMany()
-                        .HasForeignKey("CommissionStatementId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("OneAdvisor.Data.Entities.Directory.Lookup.CommissionTypeEntity", "CommissionType")
                         .WithMany()
                         .HasForeignKey("CommissionTypeId")
@@ -417,30 +400,6 @@ namespace OneAdvisor.Data.Migrations
                     b.HasOne("OneAdvisor.Data.Entities.Member.PolicyEntity", "Policy")
                         .WithMany()
                         .HasForeignKey("PolicyId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Commission.CommissionErrorEntity", b =>
-                {
-                    b.HasOne("OneAdvisor.Data.Entities.Commission.CommissionStatementEntity", "CommissionStatement")
-                        .WithMany()
-                        .HasForeignKey("CommissionStatementId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("OneAdvisor.Data.Entities.Member.MemberEntity", "Member")
-                        .WithMany()
-                        .HasForeignKey("MemberId");
-
-                    b.HasOne("OneAdvisor.Data.Entities.Member.PolicyEntity", "Policy")
-                        .WithMany()
-                        .HasForeignKey("PolicyId");
-                });
-
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Commission.CommissionStatementEntity", b =>
-                {
-                    b.HasOne("OneAdvisor.Data.Entities.Directory.Lookup.CompanyEntity", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

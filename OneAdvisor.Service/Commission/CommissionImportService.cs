@@ -53,7 +53,6 @@ namespace OneAdvisor.Service.Commission
                 PolicyId = policy.Id,
                 AmountIncludingVAT = data.AmountIncludingVAT,
                 VAT = data.VAT,
-                Date = data.Date,
                 CommissionTypeId = commissionType.Id
             };
 

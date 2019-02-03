@@ -14,11 +14,11 @@ namespace OneAdvisor.Service.Commission.Validators
             if (!isInsert)
                 RuleFor(o => o.Id).NotEmpty();
 
+            RuleFor(o => o.CommissionStatementId).NotEmpty().WithName("Commission Statement");
             RuleFor(o => o.CommissionTypeId).NotEmpty().WithName("Type");
             RuleFor(o => o.PolicyId).NotEmpty().WithName("Policy");
             RuleFor(o => o.AmountIncludingVAT).InclusiveBetween(0, 999999999).WithName("Amount");
             RuleFor(o => o.VAT).InclusiveBetween(0, 999999999).WithName("VAT");
-            RuleFor(o => o.Date).NotEmpty();
         }
     }
 }

@@ -51,6 +51,8 @@ namespace OneAdvisor.Data
         #region Commission
 
         public DbSet<CommissionEntity> Commission { get; set; }
+        public DbSet<CommissionErrorEntity> CommissionError { get; set; }
+        public DbSet<CommissionStatementEntity> CommissionStatement { get; set; }
 
         #endregion
 
@@ -97,6 +99,8 @@ namespace OneAdvisor.Data
             #region Commission
 
             modelBuilder.Entity<CommissionEntity>().ToTable("com_Commission");
+            modelBuilder.Entity<CommissionErrorEntity>().ToTable("com_CommissionError");
+            modelBuilder.Entity<CommissionStatementEntity>().ToTable("com_CommissionStatement");
 
             //Custom mappings
             CommissionMap.Map(modelBuilder);

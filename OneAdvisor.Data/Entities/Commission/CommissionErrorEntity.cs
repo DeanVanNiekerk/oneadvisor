@@ -5,23 +5,20 @@ using OneAdvisor.Data.Entities.Member;
 
 namespace OneAdvisor.Data.Entities.Commission
 {
-    public class CommissionEntity
+    public class CommissionErrorEntity
     {
         [Key]
         public Guid Id { get; set; }
         [Required]
         public Guid CommissionStatementId { get; set; }
+        public Guid? PolicyId { get; set; }
+        public Guid? MemberId { get; set; }
         [Required]
-        public Guid PolicyId { get; set; }
-        [Required]
-        public Guid CommissionTypeId { get; set; }
-        [Required]
-        public decimal AmountIncludingVAT { get; set; }
-        [Required]
-        public decimal VAT { get; set; }
+        public string Data { get; set; }
 
         public virtual CommissionStatementEntity CommissionStatement { get; set; }
         public virtual PolicyEntity Policy { get; set; }
-        public virtual CommissionTypeEntity CommissionType { get; set; }
+        public virtual MemberEntity Member { get; set; }
+
     }
 }

@@ -22,6 +22,8 @@ namespace OneAdvisor.Data
             var total = 0;
 
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [com_Commission]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [com_CommissionError]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [com_CommissionStatement]");
 
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_Contact]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_Policy]");

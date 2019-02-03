@@ -55,6 +55,7 @@ namespace OneAdvisor.Service.Test.Commission
             };
 
             //Given
+            var csId = Guid.NewGuid();
             var commission1 = new CommissionEntity
             {
                 Id = Guid.NewGuid(),
@@ -62,7 +63,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 100,
                 VAT = 10,
-                Date = DateTime.Now
+                CommissionStatementId = csId
             };
 
             var commission2 = new CommissionEntity
@@ -72,7 +73,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 200,
                 VAT = 20,
-                Date = DateTime.Now.AddDays(1)
+                CommissionStatementId = csId
             };
 
             var commission3 = new CommissionEntity
@@ -82,7 +83,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 300,
                 VAT = 30,
-                Date = DateTime.Now.AddDays(2)
+                CommissionStatementId = csId
             };
 
             var commission4 = new CommissionEntity
@@ -92,7 +93,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 40,
                 VAT = 400,
-                Date = DateTime.Now.AddDays(3)
+                CommissionStatementId = Guid.NewGuid()
             };
 
             using (var context = new DataContext(options))
@@ -134,7 +135,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(commission1.CommissionTypeId, actual.CommissionTypeId);
                 Assert.AreEqual(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
                 Assert.AreEqual(commission1.VAT, actual.VAT);
-                Assert.AreEqual(commission1.Date, actual.Date);
+                Assert.AreEqual(commission1.CommissionStatementId, actual.CommissionStatementId);
 
                 actual = items[1];
                 Assert.AreEqual(commission2.Id, actual.Id);
@@ -182,7 +183,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 99,
                 VAT = 14,
-                Date = DateTime.Now.AddDays(3)
+                CommissionStatementId = Guid.NewGuid()
             };
 
             using (var context = new DataContext(options))
@@ -208,7 +209,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(commission1.CommissionTypeId, actual.CommissionTypeId);
                 Assert.AreEqual(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
                 Assert.AreEqual(commission1.VAT, actual.VAT);
-                Assert.AreEqual(commission1.Date, actual.Date);
+                Assert.AreEqual(commission1.CommissionStatementId, actual.CommissionStatementId);
 
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user2, Scope.User);
@@ -249,7 +250,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 99,
                 VAT = 14,
-                Date = DateTime.Now.AddDays(1)
+                CommissionStatementId = Guid.NewGuid()
             };
 
             using (var context = new DataContext(options))
@@ -275,7 +276,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(commission1.CommissionTypeId, actual.CommissionTypeId);
                 Assert.AreEqual(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
                 Assert.AreEqual(commission1.VAT, actual.VAT);
-                Assert.AreEqual(commission1.Date, actual.Date);
+                Assert.AreEqual(commission1.CommissionStatementId, actual.CommissionStatementId);
 
                 //Out of scope 
                 scopeOptions = TestHelper.GetScopeOptions(user2, Scope.User);
@@ -317,7 +318,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 99,
                 VAT = 14,
-                Date = DateTime.Now.AddDays(1)
+                CommissionStatementId = Guid.NewGuid()
             };
 
             using (var context = new DataContext(options))
@@ -335,7 +336,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 109,
                 VAT = 15,
-                Date = DateTime.Now.AddDays(2)
+                CommissionStatementId = commission.CommissionStatementId
             };
 
             using (var context = new DataContext(options))
@@ -355,7 +356,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(commission1.CommissionTypeId, actual.CommissionTypeId);
                 Assert.AreEqual(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
                 Assert.AreEqual(commission1.VAT, actual.VAT);
-                Assert.AreEqual(commission1.Date, actual.Date);
+                Assert.AreEqual(commission1.CommissionStatementId, actual.CommissionStatementId);
 
                 //Out of scope 
                 scopeOptions = TestHelper.GetScopeOptions(user2, Scope.User);
