@@ -4,7 +4,7 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
 import { applyLike } from '@/app/query';
-import { Filters, getColumn, PageOptions, SortOptions } from '@/app/table';
+import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
 import {
     deleteMember, fetchMembers, Member, MemberEdit, membersSelector, receiveFilters, receiveMember, receivePageOptions,
     receiveSortOptions
@@ -81,11 +81,11 @@ class MemberList extends Component<Props> {
 
     getColumns = () => {
         return [
-            getColumn('lastName', 'Last Name', { showSearchFilter: true }),
-            getColumn('firstName', 'First Name', { showSearchFilter: true }),
-            getColumn('idNumber', 'ID Number', { showSearchFilter: true }),
-            getColumn('dateOfBirth', 'Date of Birth', { type: 'date' }),
-            getColumn('id', 'Actions', {
+            getColumnEDS('lastName', 'Last Name', { showSearchFilter: true }),
+            getColumnEDS('firstName', 'First Name', { showSearchFilter: true }),
+            getColumnEDS('idNumber', 'ID Number', { showSearchFilter: true }),
+            getColumnEDS('dateOfBirth', 'Date of Birth', { type: 'date' }),
+            getColumnEDS('id', 'Actions', {
                 render: (id: string) => {
                     return (
                         <StopPropagation>

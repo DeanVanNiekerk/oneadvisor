@@ -22,6 +22,10 @@ from mem_Member
 select *
 from mem_Policy
 
+
+select *
+from com_CommissionStatement
+
 select *
 from dir_AuditLog
 where JSON_VALUE(AuditData,'$.Table') = 'mem_Member'

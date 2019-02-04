@@ -174,7 +174,7 @@ namespace OneAdvisor.Service.Test.Member
 
                 //When
                 var scope = TestHelper.GetScopeOptions(orgId1);
-                var queryOptions = new MemberQueryOptions(scope, "LastName", "asc", 2, 2);
+                var queryOptions = new MemberQueryOptions(scope, "LastName", "desc", 2, 2);
                 var actual = await service.GetMembers(queryOptions);
 
                 //Then

@@ -7,7 +7,7 @@ namespace OneAdvisor.Model.Member.Model.Contact
     public class ContactQueryOptions : QueryOptionsBase
     {
         public ContactQueryOptions(ScopeOptions scope, string filters = null)
-         : base("Value", "desc", 0, 0, filters)
+         : base("Value", "asc", 0, 0, filters)
         {
             Scope = scope;
 

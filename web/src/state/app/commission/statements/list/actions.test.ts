@@ -1,0 +1,79 @@
+import { Filters, PageOptions, SortOptions } from '@/app/table';
+import { statementsApi } from '@/config/api/commission';
+
+import * as actions from './actions';
+
+describe('statement: statements: list actions', () => {
+    it('should dispatch API when fetchStatements is called', () => {
+        const pageOptions: PageOptions = {
+            number: 2,
+            size: 10
+        };
+
+        const sortOptions: SortOptions = {
+            column: 'number',
+            direction: 'desc'
+        };
+
+        const filters: Filters = {
+            number: ['123']
+        };
+
+        const api = `${statementsApi}?pageNumber=${
+            pageOptions.number
+        }&pageSize=${
+            pageOptions.size
+        }&sortColumn=number&sortDirection=desc&filters=number%3D123`;
+
+        const expectedAction = {
+            type: 'API',
+            endpoint: api,
+            dispatchPrefix: 'STATEMENTS_LIST'
+        };
+
+        expect(
+            actions.fetchStatements(pageOptions, sortOptions, filters)
+        ).toEqual(expectedAction);
+    });
+
+    it('should dispatch STATEMENTS_LIST_PAGE_OPTIONS_RECEIVE when receivePageOptions is called', () => {
+        const options = {
+            number: 10,
+            size: 20
+        };
+
+        const expectedAction = {
+            type: 'STATEMENTS_LIST_PAGE_OPTIONS_RECEIVE',
+            payload: options
+        };
+
+        expect(actions.receivePageOptions(options)).toEqual(expectedAction);
+    });
+
+    it('should dispatch STATEMENTS_LIST_PAGE_OPTIONS_RECEIVE when receivePageOptions is called', () => {
+        const options: SortOptions = {
+            direction: 'desc',
+            column: 'firstName'
+        };
+
+        const expectedAction = {
+            type: 'STATEMENTS_LIST_SORT_OPTIONS_RECEIVE',
+            payload: options
+        };
+
+        expect(actions.receiveSortOptions(options)).toEqual(expectedAction);
+    });
+
+    it('should dispatch STATEMENTS_LIST_FILTERS_RECEIVE when receiveFilters is called', () => {
+        const filters: Filters = {
+            firstName: ['sup']
+        };
+
+        const expectedAction = {
+            type: 'STATEMENTS_LIST_FILTERS_RECEIVE',
+            payload: filters
+        };
+
+        expect(actions.receiveFilters(filters)).toEqual(expectedAction);
+    });
+});

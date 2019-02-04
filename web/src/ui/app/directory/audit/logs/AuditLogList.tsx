@@ -2,7 +2,7 @@ import { Tag } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { Filters, getColumn, PageOptions, SortOptions } from '@/app/table';
+import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
 import {
     AuditLog, auditLogsSelector, fetchAuditLogs, receiveFilters, receivePageOptions, receiveSortOptions
 } from '@/state/app/directory/audit';
@@ -72,14 +72,14 @@ class AuditLogList extends Component<Props, State> {
 
     getColumns = () => {
         return [
-            getColumn('date', 'Date', { type: 'long-date' }),
-            getColumn('entity', 'Entity', {
+            getColumnEDS('date', 'Date', { type: 'long-date' }),
+            getColumnEDS('entity', 'Entity', {
                 render: (entity: string) => {
                     return entity.replace('Entity', '');
                 },
                 showSearchFilter: true
             }),
-            getColumn('action', 'Action', {
+            getColumnEDS('action', 'Action', {
                 render: (action: string) => {
                     action = action.toUpperCase();
                     switch (action) {
@@ -106,7 +106,7 @@ class AuditLogList extends Component<Props, State> {
                     }
                 ]
             }),
-            getColumn('userId', 'Broker', {
+            getColumnEDS('userId', 'Broker', {
                 render: (userId: string) => {
                     return <UserName userId={userId} />;
                 },

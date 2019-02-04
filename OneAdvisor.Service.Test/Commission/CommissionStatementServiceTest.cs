@@ -29,8 +29,8 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
-                AmountIncludingVAT = 100,
-                VAT = 10,
+                AmountIncludingVAT = 111,
+                VAT = 11,
                 Date = DateTime.Now,
                 Processed = true,
                 OrganisationId = user1.Organisation.Id
@@ -40,8 +40,8 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
-                AmountIncludingVAT = 200,
-                VAT = 20,
+                AmountIncludingVAT = 222,
+                VAT = 22,
                 Date = DateTime.Now.AddDays(-1),
                 Processed = false,
                 OrganisationId = user1.Organisation.Id
@@ -51,8 +51,8 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
-                AmountIncludingVAT = 300,
-                VAT = 30,
+                AmountIncludingVAT = 333,
+                VAT = 33,
                 Date = DateTime.Now.AddDays(-2),
                 Processed = false,
                 OrganisationId = user1.Organisation.Id
@@ -62,11 +62,51 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
-                AmountIncludingVAT = 10,
-                VAT = 4,
+                AmountIncludingVAT = 444,
+                VAT = 44,
                 Date = DateTime.Now.AddDays(-2),
                 Processed = false,
                 OrganisationId = user2.Organisation.Id
+            };
+
+            var commission1 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
+                AmountIncludingVAT = 100,
+                VAT = 10,
+                CommissionStatementId = cs1.Id
+            };
+
+            var commission2 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
+                AmountIncludingVAT = 200,
+                VAT = 20,
+                CommissionStatementId = cs2.Id
+            };
+
+            var commission3 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
+                AmountIncludingVAT = 300,
+                VAT = 30,
+                CommissionStatementId = cs3.Id
+            };
+
+            var commission4 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
+                AmountIncludingVAT = 40,
+                VAT = 400,
+                CommissionStatementId = cs4.Id
             };
 
             using (var context = new DataContext(options))
@@ -75,6 +115,11 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionStatement.Add(cs2);
                 context.CommissionStatement.Add(cs3);
                 context.CommissionStatement.Add(cs4);
+
+                context.Commission.Add(commission1);
+                context.Commission.Add(commission2);
+                context.Commission.Add(commission3);
+                context.Commission.Add(commission4);
 
                 context.SaveChanges();
             }
@@ -122,6 +167,90 @@ namespace OneAdvisor.Service.Test.Commission
 
                 actual = statements.Items.First();
                 Assert.AreEqual(cs4.Id, actual.Id);
+            }
+        }
+
+        [TestMethod]
+        public async Task GetCommissionStatements_DateFilter()
+        {
+            var options = TestHelper.GetDbContext("GetCommissionStatements_DateFilter");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+
+            var cs1 = new CommissionStatementEntity
+            {
+                Id = Guid.NewGuid(),
+                Date = new DateTime(2000, 1, 1),
+                OrganisationId = user1.Organisation.Id
+            };
+
+            var cs2 = new CommissionStatementEntity
+            {
+                Id = Guid.NewGuid(),
+                Date = new DateTime(2000, 1, 20),
+                OrganisationId = user1.Organisation.Id
+            };
+
+            var cs3 = new CommissionStatementEntity
+            {
+                Id = Guid.NewGuid(),
+                Date = new DateTime(2000, 1, 31),
+                OrganisationId = user1.Organisation.Id
+            };
+
+            var cs4 = new CommissionStatementEntity
+            {
+                Id = Guid.NewGuid(),
+                Date = new DateTime(2000, 2, 1),
+                OrganisationId = user1.Organisation.Id
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.CommissionStatement.Add(cs1);
+                context.CommissionStatement.Add(cs2);
+                context.CommissionStatement.Add(cs3);
+                context.CommissionStatement.Add(cs4);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new CommissionStatementService(context);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var filters = "startDate=1999-12-01;endDate=1999-12-31";
+                var queryOptions = new CommissionStatementQueryOptions(scope, "", "", 0, 0, filters);
+                var statements = await service.GetCommissionStatements(queryOptions);
+
+                Assert.AreEqual(0, statements.TotalItems);
+                Assert.AreEqual(0, statements.Items.Count());
+
+                filters = "startDate=2000-01-01;endDate=2000-01-21";
+                queryOptions = new CommissionStatementQueryOptions(scope, "", "", 0, 0, filters);
+                statements = await service.GetCommissionStatements(queryOptions);
+
+                //Then
+                Assert.AreEqual(2, statements.TotalItems);
+
+                var items = statements.Items.ToList();
+                Assert.AreEqual(cs2.Id, items[0].Id);
+                Assert.AreEqual(cs1.Id, items[1].Id);
+
+                filters = "startDate=2000-01-01;endDate=2000-01-31";
+                queryOptions = new CommissionStatementQueryOptions(scope, "", "", 0, 0, filters);
+                statements = await service.GetCommissionStatements(queryOptions);
+
+                //Then
+                Assert.AreEqual(3, statements.TotalItems);
+                Assert.AreEqual(3, statements.Items.Count());
+
+                items = statements.Items.ToList();
+                Assert.AreEqual(cs3.Id, items[0].Id);
+                Assert.AreEqual(cs2.Id, items[1].Id);
+                Assert.AreEqual(cs1.Id, items[2].Id);
             }
         }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { applyLike } from '@/app/query';
-import { Filters, getColumn, PageOptions, SortOptions } from '@/app/table';
+import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
 import {
     fetchPolicies, fetchPolicy, newPolicy, policiesSelector, Policy, receiveFilters, receivePageOptions, receivePolicy,
     receiveSortOptions
@@ -65,19 +65,19 @@ class PolicyList extends Component<Props> {
 
     getColumns = () => {
         return [
-            getColumn('policyTypeId', 'Type', {
+            getColumnEDS('policyTypeId', 'Type', {
                 render: (policyTypeId: string) => {
                     return <PolicyTypeName policyTypeId={policyTypeId} />;
                 }
             }),
-            getColumn('number', 'Number', { showSearchFilter: true }),
-            getColumn('premium', 'Premium', { type: 'currency' }),
-            getColumn('companyId', 'Company', {
+            getColumnEDS('number', 'Number', { showSearchFilter: true }),
+            getColumnEDS('premium', 'Premium', { type: 'currency' }),
+            getColumnEDS('companyId', 'Company', {
                 render: (companyId: string) => {
                     return <CompanyName companyId={companyId} />;
                 }
             }),
-            getColumn('userId', 'Broker', {
+            getColumnEDS('userId', 'Broker', {
                 render: (userId: string) => {
                     return <UserName userId={userId} />;
                 }

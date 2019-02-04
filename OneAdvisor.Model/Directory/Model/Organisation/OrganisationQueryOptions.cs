@@ -6,7 +6,7 @@ namespace OneAdvisor.Model.Directory.Model.Organisation
     public class OrganisationQueryOptions : QueryOptionsBase
     {
         public OrganisationQueryOptions(ScopeOptions scope)
-         : base("Name", "desc", 0, 0)
+         : base("Name", "asc", 0, 0)
         {
             Scope = scope;
         }

@@ -13,7 +13,7 @@ using OneAdvisor.Model.Directory.Interface;
 namespace api.Controllers.Commission.CommissionStatements
 {
     [ApiController]
-    [Route("api/commission/commissionStatements")]
+    [Route("api/commission/statements")]
     public class CommissionStatementsController : BaseController
     {
         public CommissionStatementsController(IHttpContextAccessor contextAccessor, IMapper mapper, ICommissionStatementService commissionStatementService, IAuthService authService)
@@ -40,7 +40,7 @@ namespace api.Controllers.Commission.CommissionStatements
             return Mapper.Map<PagedCommissionStatements, PagedCommissionStatementsDto>(pagedItems);
         }
 
-        [HttpGet("{commissionId}")]
+        [HttpGet("{commissionStatementId}")]
         [UseCaseAuthorize("com_view_commission_statements")]
         public async Task<ActionResult<CommissionStatementEditDto>> Get(Guid commissionStatementId)
         {
@@ -70,7 +70,7 @@ namespace api.Controllers.Commission.CommissionStatements
             return Ok(result);
         }
 
-        [HttpPost("{commissionId}")]
+        [HttpPost("{commissionStatementId}")]
         [UseCaseAuthorize("com_edit_commission_statements")]
         public async Task<ActionResult<Result>> Update(Guid commissionStatementId, [FromBody] CommissionStatementEditDto commissionStatement)
         {

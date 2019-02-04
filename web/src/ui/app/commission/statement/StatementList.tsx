@@ -1,21 +1,20 @@
-import { Col, Row, Statistic } from 'antd';
+import { Tag } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
 import {
-    Commission, CommissionEdit, commissionsSelector, fetchCommission, fetchCommissions, receiveCommission,
-    receiveFilters, receivePageOptions, receiveSortOptions
-} from '@/state/app/commission/commissions';
-import { CommissionType, commissionTypesSelector } from '@/state/app/directory/lookups';
-import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
+    fetchStatement, fetchStatements, receiveFilters, receivePageOptions, receiveSortOptions, receiveStatement,
+    Statement, StatementEdit, statementsSelector
+} from '@/state/app/commission/statements';
+import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
-import { Button, CommissionTypeName, Header, Table, UserName } from '@/ui/controls';
+import { Button, CompanyName, Header, Table } from '@/ui/controls';
 
-import EditCommission from './EditCommission';
+import EditStatement from './EditStatement';
 
 type Props = {
-    commissions: Commission[];
+    statements: Statement[];
     fetching: boolean;
     pageOptions: PageOptions;
     sortOptions: SortOptions;
@@ -25,13 +24,12 @@ type Props = {
     averageAmountIncludingVAT: number;
     averageVAT: number;
     filters: Filters;
-    users: UserSimple[];
-    commissionTypes: CommissionType[];
+    companies: Company[];
 } & DispatchProp;
 
-class CommissionList extends Component<Props> {
+class StatementList extends Component<Props> {
     componentDidMount() {
-        this.loadCommissions();
+        this.loadStatements();
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -40,12 +38,12 @@ class CommissionList extends Component<Props> {
             prevProps.sortOptions != this.props.sortOptions ||
             prevProps.filters != this.props.filters
         )
-            this.loadCommissions();
+            this.loadStatements();
     }
 
-    loadCommissions = () => {
+    loadStatements = () => {
         this.props.dispatch(
-            fetchCommissions(
+            fetchStatements(
                 this.props.pageOptions,
                 this.props.sortOptions,
                 this.props.filters
@@ -53,54 +51,58 @@ class CommissionList extends Component<Props> {
         );
     };
 
-    editCommission = (id: string) => {
-        this.props.dispatch(fetchCommission(id));
+    editStatement = (id: string) => {
+        this.props.dispatch(fetchStatement(id));
     };
 
     onFormClose = (cancelled: boolean) => {
-        if (!cancelled) this.loadCommissions();
+        if (!cancelled) this.loadStatements();
     };
 
-    newCommission = () => {
-        const commission: CommissionEdit = {
+    newStatement = () => {
+        const statement: StatementEdit = {
             id: '',
             amountIncludingVAT: 0,
             vat: 0,
-            commissionTypeId: '',
-            policyId: '',
+            companyId: '',
+            processed: false,
             date: ''
         };
-        this.props.dispatch(receiveCommission(commission));
+        this.props.dispatch(receiveStatement(statement));
     };
 
     getColumns = () => {
         return [
-            getColumnEDS('date', 'Date', { type: 'date' }),
-            getColumnEDS('commissionTypeId', 'Type', {
-                render: (commissionTypeId: string) => {
-                    return (
-                        <CommissionTypeName
-                            commissionTypeId={commissionTypeId}
-                        />
-                    );
+            getColumnEDS('companyId', 'Company', {
+                render: (companyId: string) => {
+                    return <CompanyName companyId={companyId} />;
                 },
-                filters: this.props.commissionTypes.map(type => ({
+                filters: this.props.companies.map(type => ({
                     text: type.name,
                     value: type.id
                 }))
             }),
+            getColumnEDS('date', 'Date', { type: 'date' }),
             getColumnEDS('amountIncludingVAT', 'Amount (incl VAT)', {
                 type: 'currency'
             }),
             getColumnEDS('vat', 'VAT', { type: 'currency' }),
-            getColumnEDS('userId', 'Broker', {
-                render: (userId: string) => {
-                    return <UserName userId={userId} />;
+            getColumnEDS('processed', 'Status', {
+                render: (processed: boolean) => {
+                    if (processed) return <Tag color="green">Processed</Tag>;
+
+                    return <Tag color="purple">Processing</Tag>;
                 },
-                filters: this.props.users.map(user => ({
-                    text: user.fullName,
-                    value: user.id
-                }))
+                filters: [
+                    {
+                        text: 'Processed',
+                        value: 'true'
+                    },
+                    {
+                        text: 'Processing',
+                        value: 'false'
+                    }
+                ]
             })
         ];
     };
@@ -127,25 +129,17 @@ class CommissionList extends Component<Props> {
                         <>
                             <Button
                                 type="default"
-                                icon="sync"
-                                onClick={this.loadCommissions}
-                                disabled={this.props.fetching}
-                            >
-                                Reload
-                            </Button>
-                            <Button
-                                type="default"
                                 icon="plus"
-                                onClick={this.newCommission}
+                                onClick={this.newStatement}
                                 disabled={this.props.fetching}
-                                requiredUseCase="com_edit_commissions"
+                                requiredUseCase="com_edit_commission_statements"
                             >
-                                New Commission
+                                Add Statement
                             </Button>
                         </>
                     }
                 />
-                <Row type="flex" justify="space-around" className="mb-1">
+                {/* <Row type="flex" justify="space-around" className="mb-1">
                     <Col>
                         <Statistic
                             title="Total Amount"
@@ -174,45 +168,41 @@ class CommissionList extends Component<Props> {
                             value={this.props.averageVAT}
                         />
                     </Col>
-                </Row>
+                </Row> */}
                 <Table
                     rowKey="id"
                     columns={this.getColumns()}
-                    dataSource={this.props.commissions}
+                    dataSource={this.props.statements}
                     loading={this.props.fetching}
-                    onRowClick={commission =>
-                        this.editCommission(commission.id)
-                    }
+                    onRowClick={statement => this.editStatement(statement.id)}
                     externalDataSource={true}
                     pageOptions={this.props.pageOptions}
                     totalRows={this.props.totalItems}
                     onTableChange={this.onTableChange}
                 />
-                <EditCommission onClose={this.onFormClose} />
+                <EditStatement onClose={this.onFormClose} />
             </>
         );
     }
 }
 
 const mapStateToProps = (state: RootState) => {
-    const commissionsState = commissionsSelector(state);
-    const usersState = usersSimpleSelector(state);
-    const commissionTypesState = commissionTypesSelector(state);
+    const statementsState = statementsSelector(state);
+    const companiesState = companiesSelector(state);
 
     return {
-        commissions: commissionsState.items,
-        fetching: commissionsState.fetching,
-        pageOptions: commissionsState.pageOptions,
-        sortOptions: commissionsState.sortOptions,
-        totalItems: commissionsState.totalItems,
-        sumAmountIncludingVAT: commissionsState.sumAmountIncludingVAT,
-        sumVAT: commissionsState.sumVAT,
-        averageAmountIncludingVAT: commissionsState.averageAmountIncludingVAT,
-        averageVAT: commissionsState.averageVAT,
-        filters: commissionsState.filters,
-        users: usersState.items,
-        commissionTypes: commissionTypesState.items
+        statements: statementsState.items,
+        fetching: statementsState.fetching,
+        pageOptions: statementsState.pageOptions,
+        sortOptions: statementsState.sortOptions,
+        totalItems: statementsState.totalItems,
+        sumAmountIncludingVAT: statementsState.sumAmountIncludingVAT,
+        sumVAT: statementsState.sumVAT,
+        averageAmountIncludingVAT: statementsState.averageAmountIncludingVAT,
+        averageVAT: statementsState.averageVAT,
+        filters: statementsState.filters,
+        companies: companiesState.items
     };
 };
 
-export default connect(mapStateToProps)(CommissionList);
+export default connect(mapStateToProps)(StatementList);

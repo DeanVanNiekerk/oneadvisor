@@ -104,6 +104,7 @@ namespace OneAdvisor.Data
 
             //Custom mappings
             CommissionMap.Map(modelBuilder);
+            CommissionStatementMap.Map(modelBuilder);
 
             #endregion
 

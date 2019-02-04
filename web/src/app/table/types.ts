@@ -13,16 +13,17 @@ export type FilterOptions = {
 export type ColumnOptions = {
     type?: ColumnType;
     render?: (value: any, record: any, index: number) => any;
-    sorter?: (a: any, b: any) => any;
+    sorter?: (a: any, b: any) => any | boolean;
     onFilter?: (value: string, record: any, property: string) => boolean;
     filters?: FilterOptions[];
     showSearchFilter?: boolean;
+    externalDataSource?: boolean;
 };
 
 export interface PagedItems<T> {
     totalItems: number;
     items: Array<T>;
-};
+}
 
 export type PageOptions = {
     number: number;

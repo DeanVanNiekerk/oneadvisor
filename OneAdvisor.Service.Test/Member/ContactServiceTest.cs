@@ -61,21 +61,21 @@ namespace OneAdvisor.Service.Test.Member
                 //Then
                 Assert.AreEqual(actual.TotalItems, 4);
 
-                var contactes = actual.Items.ToArray();
+                var contacts = actual.Items.ToArray();
 
-                Assert.AreEqual(contactes.Count(), 4);
+                Assert.AreEqual(contacts.Count(), 4);
 
-                var actual1 = contactes[0];
+                var actual1 = contacts[0];
                 Assert.AreEqual(contact1.Id, actual1.Id);
                 Assert.AreEqual(contact1.Value, actual1.Value);
                 Assert.AreEqual(contact1.MemberId, actual1.MemberId);
                 Assert.AreEqual(contact1.ContactTypeId, actual1.ContactTypeId);
 
-                var actual2 = contactes[1];
+                var actual2 = contacts[1];
                 Assert.AreEqual(contact3.Id, actual2.Id);
                 Assert.AreEqual(contact3.Value, actual2.Value);
 
-                var actual6 = contactes[3];
+                var actual6 = contacts[3];
                 Assert.AreEqual(contact6.Id, actual6.Id);
                 Assert.AreEqual(contact6.Value, actual6.Value);
 

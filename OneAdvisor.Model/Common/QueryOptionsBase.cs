@@ -30,7 +30,7 @@ namespace OneAdvisor.Model.Common
 
             foreach (var part in parts)
             {
-                var filterParts = rawData.Split('=');
+                var filterParts = part.Split('=');
 
                 if (filterParts.Length != 2)
                     continue;

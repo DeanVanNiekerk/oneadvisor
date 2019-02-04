@@ -31,25 +31,17 @@ namespace OneAdvisor.Service.Commission
             var query = from organisation in organisationQuery
                         join commissionStatement in _context.CommissionStatement
                             on organisation.Id equals commissionStatement.OrganisationId
-                        select new CommissionStatement()
-                        {
-                            Id = commissionStatement.Id,
-                            CompanyId = commissionStatement.CompanyId,
-                            AmountIncludingVAT = commissionStatement.AmountIncludingVAT,
-                            VAT = commissionStatement.VAT,
-                            Date = commissionStatement.Date,
-                            Processed = commissionStatement.Processed
-                        };
+                        select commissionStatement;
 
             //Apply filters ----------------------------------------------------------------------------------------
-            // if (queryOptions.CommissionStatementId.HasValue)
-            //     query = query.Where(c => c.CommissionStatementId == queryOptions.CommissionStatementId);
+            if (queryOptions.Processed.HasValue)
+                query = query.Where(c => c.Processed == queryOptions.Processed);
 
-            // if (queryOptions.UserId.Any())
-            //     query = query.Where(c => queryOptions.UserId.Contains(c.UserId));
+            if (queryOptions.StartDate.HasValue)
+                query = query.Where(c => c.Date >= queryOptions.StartDate.Value.Date);
 
-            // if (queryOptions.CommissionTypeId.Any())
-            //     query = query.Where(c => queryOptions.CommissionTypeId.Contains(c.CommissionTypeId));
+            if (queryOptions.EndDate.HasValue)
+                query = query.Where(c => c.Date <= queryOptions.EndDate.Value.Date);
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedCommissionStatements();
@@ -58,26 +50,45 @@ namespace OneAdvisor.Service.Commission
             pagedItems.TotalItems = await query.CountAsync();
 
             //Aggregations
-            var aggQuery = from commission in query
+            var commissionQuery = from commission in _context.Commission
+                                  join statement in query
+                                       on commission.CommissionStatementId equals statement.Id
+                                  select commission;
+
+            var aggQuery = from commission in commissionQuery
                            select new
                            {
-                               SumAmountIncludingVAT = query.Select(c => (decimal?)c.AmountIncludingVAT).Sum(),
-                               SumVAT = query.Select(c => (decimal?)c.VAT).Sum(),
-                               AverageAmountIncludingVAT = query.Select(c => (decimal?)c.AmountIncludingVAT).Average(),
-                               AverageVAT = query.Select(c => (decimal?)c.VAT).Average()
+                               SumAmountIncludingVAT = commissionQuery.Select(c => (decimal?)c.AmountIncludingVAT).Sum(),
+                               SumVAT = commissionQuery.Select(c => (decimal?)c.VAT).Sum(),
+                               AverageAmountIncludingVAT = commissionQuery.Select(c => (decimal?)c.AmountIncludingVAT).Average(),
+                               AverageVAT = commissionQuery.Select(c => (decimal?)c.VAT).Average()
                            };
 
-            var aggregates = aggQuery.First();
-            pagedItems.SumAmountIncludingVAT = aggregates.SumAmountIncludingVAT.Value;
-            pagedItems.SumVAT = aggregates.SumVAT.Value;
-            pagedItems.AverageAmountIncludingVAT = aggregates.AverageAmountIncludingVAT.Value;
-            pagedItems.AverageVAT = aggregates.AverageVAT.Value;
+            var aggregates = await aggQuery.FirstOrDefaultAsync();
+            if (aggregates != null)
+            {
+                pagedItems.SumAmountIncludingVAT = aggregates.SumAmountIncludingVAT.Value;
+                pagedItems.SumVAT = aggregates.SumVAT.Value;
+                pagedItems.AverageAmountIncludingVAT = aggregates.AverageAmountIncludingVAT.Value;
+                pagedItems.AverageVAT = aggregates.AverageVAT.Value;
+            }
 
             //Ordering
             query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
 
             //Paging
-            pagedItems.Items = await query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
+            var items = await query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
+
+            //Map to model
+            pagedItems.Items = items.Select(cs => new CommissionStatement()
+            {
+                Id = cs.Id,
+                CompanyId = cs.CompanyId,
+                AmountIncludingVAT = cs.AmountIncludingVAT,
+                VAT = cs.VAT,
+                Date = cs.Date,
+                Processed = cs.Processed
+            });
 
             return pagedItems;
         }

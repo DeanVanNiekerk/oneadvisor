@@ -8,6 +8,17 @@ const columnOptionDefaults: ColumnOptions = {
     render: value => value
 };
 
+export const getColumnEDS = (
+    key: string,
+    title: string,
+    options: ColumnOptions = {}
+) => {
+    return getColumn(key, title, {
+        ...options,
+        externalDataSource: true
+    });
+};
+
 export const getColumn = (
     key: string,
     title: string,
@@ -26,6 +37,11 @@ export const getColumn = (
         ...options
     };
 
+    if (options.externalDataSource) {
+        options.sorter = () => {};
+        options.onFilter = undefined;
+    }
+
     if (options.type === 'boolean')
         options.render = value => (value ? 'Yes' : 'No');
 
@@ -37,7 +53,7 @@ export const getColumn = (
 
     if (options.type === 'currency')
         options.render = value =>
-            !value
+            typeof value !== 'number'
                 ? ''
                 : `R ${value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
 

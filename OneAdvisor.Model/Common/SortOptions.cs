@@ -16,7 +16,7 @@ namespace OneAdvisor.Model.Common
         {
             direction = string.IsNullOrWhiteSpace(direction) ? "asc" : direction.ToLower();
 
-            Direction = direction == "desc" || direction == "descending" ? SortDirection.Ascending : SortDirection.Descending;
+            Direction = direction == "desc" || direction == "descending" ? SortDirection.Descending : SortDirection.Ascending;
             Column = column;
         }
 

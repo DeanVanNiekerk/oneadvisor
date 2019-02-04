@@ -108,25 +108,25 @@ export const menus: Menus = {
                 name: 'Management',
                 links: [
                     {
-                        name: 'Commissions',
-                        icon: 'dollar',
-                        relativePath: '/commissions',
+                        name: 'Statements',
+                        icon: 'table',
+                        relativePath: '/statements',
                         isDefault: true,
-                        useCases: ['com_view_commissions']
-                    }
-                ]
-            },
-            {
-                name: 'Data',
-                links: [
-                    {
-                        name: 'Import',
-                        icon: 'cloud-upload',
-                        relativePath: '/import',
-                        useCases: ['com_import_commissions']
+                        useCases: ['com_view_commission_statements']
                     }
                 ]
             }
+            // {
+            //     name: 'Data',
+            //     links: [
+            //         {
+            //             name: 'Import',
+            //             icon: 'cloud-upload',
+            //             relativePath: '/import',
+            //             useCases: ['com_import_commissions']
+            //         }
+            //     ]
+            // }
         ]
     }
 };

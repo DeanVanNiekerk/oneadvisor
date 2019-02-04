@@ -7,3 +7,4 @@ export { FormDate } from './FormDate';
 export { FormField } from './FormField';
 export { FormErrors } from './FormErrors';
 export { FormSimpleList } from './FormSimpleList';
+export { FormSwitch } from './FormSwitch';

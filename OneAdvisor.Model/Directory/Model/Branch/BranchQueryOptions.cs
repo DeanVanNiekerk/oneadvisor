@@ -7,7 +7,7 @@ namespace OneAdvisor.Model.Directory.Model.Branch
     public class BranchQueryOptions : QueryOptionsBase
     {
         public BranchQueryOptions(ScopeOptions scope, string filters = null)
-         : base("Name", "desc", 0, 0, filters)
+         : base("Name", "asc", 0, 0, filters)
         {
             Scope = scope;
 
