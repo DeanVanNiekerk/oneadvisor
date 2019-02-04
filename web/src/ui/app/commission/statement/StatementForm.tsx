@@ -38,6 +38,17 @@ class StatementForm extends Component<Props, State> {
         this.props.onChange(statement);
     };
 
+    handleAmountExclVATChange = async (fieldName: string, value: number) => {
+        const statement = {
+            ...this.state.statement,
+            amountIncludingVAT: value + this.state.statement.vat
+        };
+        this.setState({
+            statement: statement
+        });
+        this.props.onChange(statement);
+    };
+
     render() {
         const { validationResults } = this.props;
         const { statement } = this.state;
@@ -69,6 +80,14 @@ class StatementForm extends Component<Props, State> {
                     value={statement.vat}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    isCurrency={true}
+                    min={0}
+                />
+                <FormInputNumber
+                    fieldName=""
+                    label="Amount (excl VAT)"
+                    value={statement.amountIncludingVAT - statement.vat}
+                    onChange={this.handleAmountExclVATChange}
                     isCurrency={true}
                     min={0}
                 />

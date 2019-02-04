@@ -22,3 +22,19 @@ const getJsDateFromExcel = (excelDate: number) => {
     const parsed = delta * missingLeapYearDay;
     return new Date(parsed);
 };
+
+type TDateRange = {
+    start: string;
+    end: string;
+};
+
+export const getMonthDateRange = (month: number, year: number): TDateRange => {
+    var date = moment();
+    date = date.month(month - 1);
+    date = date.year(year);
+
+    return {
+        start: date.startOf('month').format(DATE_FORMAT),
+        end: date.endOf('month').format(DATE_FORMAT)
+    };
+};

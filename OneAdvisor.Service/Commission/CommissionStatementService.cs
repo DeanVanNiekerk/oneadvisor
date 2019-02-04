@@ -73,22 +73,24 @@ namespace OneAdvisor.Service.Commission
                 pagedItems.AverageVAT = aggregates.AverageVAT.Value;
             }
 
+            var modelQuery = from commissionStatement in query
+                             select new CommissionStatement()
+                             {
+                                 Id = commissionStatement.Id,
+                                 CompanyId = commissionStatement.CompanyId,
+                                 AmountIncludingVAT = commissionStatement.AmountIncludingVAT,
+                                 VAT = commissionStatement.VAT,
+                                 Date = commissionStatement.Date,
+                                 Processed = commissionStatement.Processed,
+                                 ActualAmountIncludingVAT = commissionStatement.Commissions.Select(c => c.AmountIncludingVAT).Sum(),
+                                 ActualVAT = commissionStatement.Commissions.Select(c => c.VAT).Sum()
+                             };
+
             //Ordering
-            query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
+            modelQuery = modelQuery.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
 
             //Paging
-            var items = await query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
-
-            //Map to model
-            pagedItems.Items = items.Select(cs => new CommissionStatement()
-            {
-                Id = cs.Id,
-                CompanyId = cs.CompanyId,
-                AmountIncludingVAT = cs.AmountIncludingVAT,
-                VAT = cs.VAT,
-                Date = cs.Date,
-                Processed = cs.Processed
-            });
+            pagedItems.Items = await modelQuery.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync(); ;
 
             return pagedItems;
         }

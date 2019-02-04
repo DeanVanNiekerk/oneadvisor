@@ -144,6 +144,9 @@ class Configure extends Component<Props> {
                             columns={this.getColumns()}
                             dataSource={this.props.rows.slice(0, 5)}
                             hidePagination={true}
+                            scroll={{
+                                x: true
+                            }}
                         />
                     </Col>
                 </Row>

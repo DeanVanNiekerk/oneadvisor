@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
+import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
 import {
     insertOrganisation, Organisation, organisationSelector, updateOrganisation
@@ -52,7 +53,7 @@ class EditOrganisation extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (this.props.organisation != this.state.organisationEdited)
+        if (!areEqual(this.props.organisation, this.state.organisationEdited))
             return showConfirm({ onOk: this.cancel });
 
         this.cancel();

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
+import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
 import {
     CommissionType, commissionTypeSelector, insertCommissionType, updateCommissionType
@@ -45,7 +46,12 @@ class EditCommissionType extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (this.props.commissionType != this.state.commissionTypeEdited)
+        if (
+            !areEqual(
+                this.props.commissionType,
+                this.state.commissionTypeEdited
+            )
+        )
             return showConfirm({ onOk: this.cancel });
 
         this.cancel();

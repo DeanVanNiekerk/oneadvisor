@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
+import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
 import { insertMember, MemberEdit, memberSelector, receiveMember, updateMember } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
@@ -45,7 +46,7 @@ class EditMember extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (this.props.member != this.state.memberEdited)
+        if (!areEqual(this.props.member, this.state.memberEdited))
             return showConfirm({ onOk: this.cancel });
 
         this.cancel();

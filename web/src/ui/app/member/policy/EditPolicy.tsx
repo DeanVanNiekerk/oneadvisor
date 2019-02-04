@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
+import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
 import { insertPolicy, PolicyEdit, policySelector, receivePolicy, updatePolicy } from '@/state/app/member/policies';
 import { RootState } from '@/state/rootReducer';
@@ -44,7 +45,7 @@ class EditPolicy extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (this.props.policy != this.state.policyEdited)
+        if (!areEqual(this.props.policy, this.state.policyEdited))
             return showConfirm({ onOk: this.cancel });
 
         this.cancel();

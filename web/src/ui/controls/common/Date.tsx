@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React from 'react';
 
-import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/app/parsers';
+import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/app/utils';
 
 type Props = {
     date: string | number | null;

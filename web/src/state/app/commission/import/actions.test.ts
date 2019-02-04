@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { v4 } from 'uuid';
 
-import { DATE_FORMAT } from '@/app/parsers';
+import { DATE_FORMAT } from '@/app/utils';
 
 import { ImportData } from './';
 import * as actions from './actions';

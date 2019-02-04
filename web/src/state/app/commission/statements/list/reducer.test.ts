@@ -50,7 +50,9 @@ describe('statement list reducer', () => {
             vat: 14,
             date: '2001-01-01',
             formatErrorCount: 1,
-            mappingErrorCount: 2
+            mappingErrorCount: 2,
+            actualAmountIncludingVAT: 200,
+            actualVAT: 16
         };
 
         const actualState = reducer(initalState, {
@@ -148,6 +150,48 @@ describe('statement list reducer', () => {
             filters: {
                 ...filters
             }
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it('should handle STATEMENTS_LIST_FILTERS_YEAR_RECEIVE', () => {
+        const initalState = {
+            ...defaultState,
+            filterYear: 2000
+        };
+
+        const year = 2012;
+
+        const actualState = reducer(initalState, {
+            type: 'STATEMENTS_LIST_FILTERS_YEAR_RECEIVE',
+            payload: year
+        });
+
+        const expectedState = {
+            ...defaultState,
+            filterYear: 2012
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it('should handle STATEMENTS_LIST_FILTERS_MONTH_RECEIVE', () => {
+        const initalState = {
+            ...defaultState,
+            filterMonth: 2
+        };
+
+        const month = 12;
+
+        const actualState = reducer(initalState, {
+            type: 'STATEMENTS_LIST_FILTERS_MONTH_RECEIVE',
+            payload: month
+        });
+
+        const expectedState = {
+            ...defaultState,
+            filterMonth: 12
         };
 
         expect(actualState).toEqual(expectedState);

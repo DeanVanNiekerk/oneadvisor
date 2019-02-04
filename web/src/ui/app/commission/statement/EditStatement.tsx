@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
 import {
     insertStatement, receiveStatement, StatementEdit, statementSelector, updateStatement
@@ -45,7 +46,7 @@ class EditStatement extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (this.props.statement != this.state.statementEdited)
+        if (!areEqual(this.props.statement, this.state.statementEdited))
             return showConfirm({ onOk: this.cancel });
 
         this.cancel();

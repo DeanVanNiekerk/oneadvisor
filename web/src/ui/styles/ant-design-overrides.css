@@ -37,3 +37,8 @@
 .ant-table th {
     white-space: nowrap;
 }
+
+.ant-table-footer {
+    padding: 12px 12px !important;
+    font-size: 0.9em;
+}

@@ -25,6 +25,14 @@ type StatementListFiltersReceiveAction = {
     type: 'STATEMENTS_LIST_FILTERS_RECEIVE';
     payload: Filters;
 };
+type StatementListFiltersMonthReceiveAction = {
+    type: 'STATEMENTS_LIST_FILTERS_MONTH_RECEIVE';
+    payload: number;
+};
+type StatementListFiltersYearReceiveAction = {
+    type: 'STATEMENTS_LIST_FILTERS_YEAR_RECEIVE';
+    payload: number;
+};
 
 export type StatementListAction =
     | StatementListReceiveAction
@@ -32,7 +40,9 @@ export type StatementListAction =
     | StatementListFetchingErrorAction
     | StatementListPageOptionsReceiveAction
     | StatementListSortOptionsReceiveAction
-    | StatementListFiltersReceiveAction;
+    | StatementListFiltersReceiveAction
+    | StatementListFiltersMonthReceiveAction
+    | StatementListFiltersYearReceiveAction;
 
 export const fetchStatements = (
     pageOptions: PageOptions,
@@ -69,4 +79,18 @@ export const receiveFilters = (
 ): StatementListFiltersReceiveAction => ({
     type: 'STATEMENTS_LIST_FILTERS_RECEIVE',
     payload: filters
+});
+
+export const receiveFilterMonth = (
+    month: number
+): StatementListFiltersMonthReceiveAction => ({
+    type: 'STATEMENTS_LIST_FILTERS_MONTH_RECEIVE',
+    payload: month
+});
+
+export const receiveFilterYear = (
+    year: number
+): StatementListFiltersYearReceiveAction => ({
+    type: 'STATEMENTS_LIST_FILTERS_YEAR_RECEIVE',
+    payload: year
 });

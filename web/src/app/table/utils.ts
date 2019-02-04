@@ -3,6 +3,8 @@ import moment from 'moment';
 import { ColumnOptions } from '@/app/table';
 import { getColumnSearchProps } from '@/ui/controls';
 
+import { formatCurrency } from '../utils';
+
 const columnOptionDefaults: ColumnOptions = {
     type: 'string',
     render: value => value
@@ -52,10 +54,7 @@ export const getColumn = (
         options.render = value => (value ? moment(value).format('lll') : '');
 
     if (options.type === 'currency')
-        options.render = value =>
-            typeof value !== 'number'
-                ? ''
-                : `R ${value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+        options.render = value => formatCurrency(value);
 
     if (options.showSearchFilter) {
         options = {

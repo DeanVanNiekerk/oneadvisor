@@ -1,8 +1,8 @@
 import moment from 'moment';
 
 import { saveFile } from '@/app/file';
-import { DATE_FORMAT } from '@/app/parsers';
 import { ApiAction } from '@/app/types';
+import { DATE_FORMAT } from '@/app/utils';
 import { membersExportApi } from '@/config/api/member';
 
 type TOnComplete = () => void;

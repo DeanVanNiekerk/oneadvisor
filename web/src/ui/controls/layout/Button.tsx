@@ -1,5 +1,5 @@
 import { Button as ButtonAD } from 'antd';
-import { ButtonType } from 'antd/lib/button';
+import { ButtonSize, ButtonType } from 'antd/lib/button';
 import React, { ReactNode } from 'react';
 import { connect } from 'react-redux';
 
@@ -23,6 +23,7 @@ type Props = {
     visible?: boolean;
     loading?: boolean;
     shape?: 'circle';
+    size?: ButtonSize;
 };
 
 class ButtonComponent extends React.Component<Props> {
@@ -50,6 +51,7 @@ class ButtonComponent extends React.Component<Props> {
                         className={this.props.className}
                         loading={this.props.loading}
                         shape={this.props.shape}
+                        size={this.props.size}
                     >
                         {this.props.children}
                     </ButtonAD>

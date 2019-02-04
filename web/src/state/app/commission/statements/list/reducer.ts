@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import { Filters, PageOptions, SortOptions } from '@/app/table';
 import { defaultPageOptions, defaultSortOptions } from '@/app/table/defaults';
 
@@ -15,6 +17,8 @@ export type State = {
     readonly error: boolean;
     readonly pageOptions: PageOptions;
     readonly sortOptions: SortOptions;
+    readonly filterMonth: number;
+    readonly filterYear: number;
     readonly filters: Filters | null;
 };
 
@@ -29,6 +33,8 @@ export const defaultState: State = {
     error: false,
     pageOptions: defaultPageOptions(),
     sortOptions: defaultSortOptions('', 'desc'),
+    filterMonth: moment().month(),
+    filterYear: moment().year(),
     filters: null
 };
 
@@ -87,6 +93,18 @@ export const reducer = (
                 filters: {
                     ...action.payload
                 }
+            };
+        }
+        case 'STATEMENTS_LIST_FILTERS_MONTH_RECEIVE': {
+            return {
+                ...state,
+                filterMonth: action.payload
+            };
+        }
+        case 'STATEMENTS_LIST_FILTERS_YEAR_RECEIVE': {
+            return {
+                ...state,
+                filterYear: action.payload
             };
         }
         default:

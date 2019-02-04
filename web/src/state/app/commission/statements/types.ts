@@ -10,6 +10,9 @@ export type Statement = {
 
     formatErrorCount: number;
     mappingErrorCount: number;
+
+    actualAmountIncludingVAT: number;
+    actualVAT: number;
 };
 
 export type StatementEdit = {

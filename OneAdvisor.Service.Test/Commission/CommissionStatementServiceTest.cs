@@ -69,13 +69,23 @@ namespace OneAdvisor.Service.Test.Commission
                 OrganisationId = user2.Organisation.Id
             };
 
-            var commission1 = new CommissionEntity
+            var commission1a = new CommissionEntity
             {
                 Id = Guid.NewGuid(),
                 PolicyId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
-                AmountIncludingVAT = 100,
-                VAT = 10,
+                AmountIncludingVAT = 50,
+                VAT = 5,
+                CommissionStatementId = cs1.Id
+            };
+
+            var commission1b = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
+                AmountIncludingVAT = 50,
+                VAT = 5,
                 CommissionStatementId = cs1.Id
             };
 
@@ -116,7 +126,8 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionStatement.Add(cs3);
                 context.CommissionStatement.Add(cs4);
 
-                context.Commission.Add(commission1);
+                context.Commission.Add(commission1a);
+                context.Commission.Add(commission1b);
                 context.Commission.Add(commission2);
                 context.Commission.Add(commission3);
                 context.Commission.Add(commission4);
@@ -137,8 +148,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(3, statements.TotalItems);
                 Assert.AreEqual(3, statements.Items.Count());
 
-                Assert.AreEqual(200, statements.AverageAmountIncludingVAT);
-                Assert.AreEqual(20, statements.AverageVAT);
+                Assert.AreEqual(150, statements.AverageAmountIncludingVAT);
+                Assert.AreEqual(15, statements.AverageVAT);
                 Assert.AreEqual(600, statements.SumAmountIncludingVAT);
                 Assert.AreEqual(60, statements.SumVAT);
 
@@ -151,6 +162,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(cs1.VAT, actual.VAT);
                 Assert.AreEqual(cs1.Processed, actual.Processed);
                 Assert.AreEqual(cs1.OrganisationId, user1.Organisation.Id);
+                Assert.AreEqual(100, actual.ActualAmountIncludingVAT);
+                Assert.AreEqual(10, actual.ActualVAT);
 
                 actual = items[1];
                 Assert.AreEqual(cs2.Id, actual.Id);

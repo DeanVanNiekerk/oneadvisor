@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { v4 } from 'uuid';
 
-import { DATE_FORMAT } from '@/app/parsers';
+import { DATE_FORMAT } from '@/app/utils';
 
 import { ImportColumn, ImportCommission, ImportData } from './';
 import { defaultState, reducer } from './reducer';

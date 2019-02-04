@@ -30,6 +30,7 @@ type Props = {
         x?: boolean | number | string;
         y?: boolean | number | string;
     };
+    footer?: (currentPageData: Object[]) => React.ReactNode;
 };
 
 type State = {
@@ -91,22 +92,17 @@ class TableComponent extends React.Component<Props, State> {
 
         if (this.props.hidePagination) pagination = false;
 
-        let { scroll } = this.props;
-        if (!scroll)
-            scroll = {
-                x: true
-            };
-
         return (
             <TableAD
                 bordered
-                scroll={scroll}
+                scroll={this.props.scroll}
                 columns={this.props.columns}
                 dataSource={this.props.dataSource}
                 rowKey={this.props.rowKey}
                 loading={this.props.loading}
                 onChange={this.handleTableChange}
                 pagination={pagination}
+                footer={this.props.footer}
                 onRow={record => {
                     return {
                         onClick: () => {

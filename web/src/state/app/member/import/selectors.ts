@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { v4 } from 'uuid';
 
-import { formatExcelDate } from '@/app/parsers';
+import { formatExcelDate } from '@/app/utils';
 import { RootState } from '@/state/rootReducer';
 
 import { ImportTableRow } from './';
@@ -27,8 +27,7 @@ export const memberImportTableRowsSelector: (
 
             root.selectedColumns.forEach((column, index) => {
                 let value = d[index];
-                if (column === 'dateOfBirth'
-                    || column === 'policyStartDate') {
+                if (column === 'dateOfBirth' || column === 'policyStartDate') {
                     value = formatExcelDate(value);
                 }
 
@@ -59,7 +58,7 @@ export const memberImportProgressPercentSelector: (
         return Math.floor(
             ((root.resultsSuccess.length + root.resultsFailure.length) /
                 root.members.length) *
-            100
+                100
         );
     }
 );

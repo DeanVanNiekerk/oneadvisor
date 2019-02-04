@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
+import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
 import { Company, companySelector, insertCompany, updateCompany } from '@/state/app/directory/lookups/companies';
 import { RootState } from '@/state/rootReducer';
@@ -44,7 +45,7 @@ class EditCompany extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (this.props.company != this.state.companyEdited)
+        if (!areEqual(this.props.company, this.state.companyEdited))
             return showConfirm({ onOk: this.cancel });
 
         this.cancel();

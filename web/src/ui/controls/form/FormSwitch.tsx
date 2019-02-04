@@ -1,11 +1,8 @@
-import { DatePicker, Switch } from 'antd';
-import moment from 'moment';
+import { Switch } from 'antd';
 import React, { Component } from 'react';
 
-import { DATE_FORMAT } from '@/app/parsers';
 import { ValidationResult } from '@/app/validation';
 
-import { FormText } from './';
 import { FormLayout } from './Form';
 import { FormField } from './FormField';
 

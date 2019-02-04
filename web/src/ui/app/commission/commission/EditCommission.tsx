@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
 import {
     CommissionEdit, commissionSelector, insertCommission, receiveCommission, updateCommission
@@ -45,7 +46,7 @@ class EditCommission extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (this.props.commission != this.state.commissionEdited)
+        if (!areEqual(this.props.commission, this.state.commissionEdited))
             return showConfirm({ onOk: this.cancel });
 
         this.cancel();

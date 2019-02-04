@@ -36,6 +36,8 @@ class Authentication extends React.Component<Props, State> {
     }
 
     checkTokenExpired = () => {
+        if (!this.props.idTokenData) return;
+
         const expiryDate = moment.unix(this.props.idTokenData.exp);
         const hasExpired = moment().isAfter(expiryDate);
 
