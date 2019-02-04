@@ -146,7 +146,13 @@ namespace OneAdvisor.Service.Commission
 
         private IQueryable<CommissionEdit> GetCommissionEditQuery(ScopeOptions scope)
         {
-            var query = from commission in GetCommissionEntityQuery(scope)
+            var userQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
+
+            var query = from user in userQuery
+                        join policy in _context.Policy
+                            on user.Id equals policy.UserId
+                        join commission in _context.Commission
+                            on policy.Id equals commission.PolicyId
                         select new CommissionEdit()
                         {
                             Id = commission.Id,
@@ -160,28 +166,14 @@ namespace OneAdvisor.Service.Commission
             return query;
         }
 
-        private IQueryable<CommissionEntity> GetCommissionEntityQuery(ScopeOptions scope)
-        {
-            var userQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
-
-            var query = from user in userQuery
-                        join policy in _context.Policy
-                            on user.Id equals policy.UserId
-                        join commission in _context.Commission
-                            on policy.Id equals commission.PolicyId
-                        select commission;
-
-            return query;
-        }
-
         private CommissionEntity MapModelToEntity(CommissionEdit model, CommissionEntity entity = null)
         {
             if (entity == null)
                 entity = new CommissionEntity();
 
             entity.CommissionTypeId = model.CommissionTypeId.Value;
-            entity.AmountIncludingVAT = model.AmountIncludingVAT;
-            entity.VAT = model.VAT;
+            entity.AmountIncludingVAT = model.AmountIncludingVAT.Value;
+            entity.VAT = model.VAT.Value;
             entity.PolicyId = model.PolicyId.Value;
 
             return entity;

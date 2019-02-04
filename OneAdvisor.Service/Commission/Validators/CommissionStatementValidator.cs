@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
-using OneAdvisor.Model.Commission.Model.Commission;
+using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using OneAdvisor.Service.Common;
 
 namespace OneAdvisor.Service.Commission.Validators
 {
-    public class CommissionValidator : AbstractValidator<CommissionEdit>
+    public class CommissionStatementValidator : AbstractValidator<CommissionStatementEdit>
     {
-        public CommissionValidator(bool isInsert)
+        public CommissionStatementValidator(bool isInsert)
         {
             if (!isInsert)
                 RuleFor(o => o.Id).NotEmpty();
 
-            RuleFor(o => o.CommissionStatementId).NotEmpty().WithName("Commission Statement");
-            RuleFor(o => o.CommissionTypeId).NotEmpty().WithName("Type");
-            RuleFor(o => o.PolicyId).NotEmpty().WithName("Policy");
+            RuleFor(o => o.CompanyId).NotEmpty().WithName("Company");
             RuleFor(o => o.AmountIncludingVAT).NotEmpty().InclusiveBetween(0, 999999999).WithName("Amount");
             RuleFor(o => o.VAT).NotEmpty().InclusiveBetween(0, 999999999).WithName("VAT");
+            RuleFor(o => o.Date).NotEmpty().WithName("Date");
+            RuleFor(o => o.Processed).NotEmpty().WithName("Processed");
         }
     }
 }

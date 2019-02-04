@@ -201,6 +201,8 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_import_commissions", Name = "Import Commissions", ApplicationId = comGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_view_commissions", Name = "View Commissions", ApplicationId = comGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_edit_commissions", Name = "Edit Commissions", ApplicationId = comGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "com_view_commission_statements", Name = "View Commission Statements", ApplicationId = comGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "com_edit_commission_statements", Name = "Edit Commission Statements", ApplicationId = comGuid });
             }
 
             var roleToUseCase = await _context.RoleToUseCase.ToListAsync();
@@ -259,9 +261,12 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_administrator", UseCaseId = "com_import_commissions" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_administrator", UseCaseId = "com_view_commissions" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_administrator", UseCaseId = "com_edit_commissions" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_administrator", UseCaseId = "com_view_commission_statements" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_administrator", UseCaseId = "com_edit_commission_statements" });
 
                 //Readonly
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_readonly", UseCaseId = "com_view_commissions" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_readonly", UseCaseId = "com_view_commission_statements" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
             }
 
