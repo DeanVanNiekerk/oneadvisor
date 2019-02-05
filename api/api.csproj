@@ -23,6 +23,7 @@
     <ProjectReference Include="..\OneAdvisor.Service.Okta\OneAdvisor.Service.Okta.csproj" />
     <ProjectReference Include="..\OneAdvisor.Data\OneAdvisor.Data.csproj" />
     <ProjectReference Include="..\OneAdvisor.Export.Csv\OneAdvisor.Export.Csv.csproj" />
+    <ProjectReference Include="..\OneAdvisor.Import.Excel\OneAdvisor.Import.Excel.csproj" />
   </ItemGroup>
 
 </Project>

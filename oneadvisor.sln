@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Service.Okta.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Export.Csv", "OneAdvisor.Export.Csv\OneAdvisor.Export.Csv.csproj", "{49B13AD8-F180-402A-A7B4-F5F236AA895D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Import.Excel", "OneAdvisor.Import.Excel\OneAdvisor.Import.Excel.csproj", "{725602C7-E9FC-40CE-B568-49F1ECFF3312}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,5 +130,17 @@ Global
 		{49B13AD8-F180-402A-A7B4-F5F236AA895D}.Release|x64.Build.0 = Release|Any CPU
 		{49B13AD8-F180-402A-A7B4-F5F236AA895D}.Release|x86.ActiveCfg = Release|Any CPU
 		{49B13AD8-F180-402A-A7B4-F5F236AA895D}.Release|x86.Build.0 = Release|Any CPU
+		{725602C7-E9FC-40CE-B568-49F1ECFF3312}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{725602C7-E9FC-40CE-B568-49F1ECFF3312}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{725602C7-E9FC-40CE-B568-49F1ECFF3312}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{725602C7-E9FC-40CE-B568-49F1ECFF3312}.Debug|x64.Build.0 = Debug|Any CPU
+		{725602C7-E9FC-40CE-B568-49F1ECFF3312}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{725602C7-E9FC-40CE-B568-49F1ECFF3312}.Debug|x86.Build.0 = Debug|Any CPU
+		{725602C7-E9FC-40CE-B568-49F1ECFF3312}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{725602C7-E9FC-40CE-B568-49F1ECFF3312}.Release|Any CPU.Build.0 = Release|Any CPU
+		{725602C7-E9FC-40CE-B568-49F1ECFF3312}.Release|x64.ActiveCfg = Release|Any CPU
+		{725602C7-E9FC-40CE-B568-49F1ECFF3312}.Release|x64.Build.0 = Release|Any CPU
+		{725602C7-E9FC-40CE-B568-49F1ECFF3312}.Release|x86.ActiveCfg = Release|Any CPU
+		{725602C7-E9FC-40CE-B568-49F1ECFF3312}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

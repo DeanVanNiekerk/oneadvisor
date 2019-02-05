@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Model.Common;
@@ -8,6 +9,6 @@ namespace OneAdvisor.Model.Commission.Interface
 {
     public interface ICommissionImportService
     {
-        Task<Result> ImportCommission(ScopeOptions scope, ImportCommission data);
+        Task ImportCommission(ScopeOptions scope, Guid commissionStatementId, IEnumerable<ImportCommission> importData);
     }
 }

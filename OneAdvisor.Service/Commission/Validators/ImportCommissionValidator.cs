@@ -13,9 +13,14 @@ namespace OneAdvisor.Service.Commission.Validators
         {
             RuleFor(o => o.PolicyNumber).NotEmpty().WithName("Policy Number");
             RuleFor(o => o.CommissionTypeCode).NotEmpty().WithName("Commission Type Code");
-            RuleFor(o => o.Date).NotEmpty();
-            RuleFor(o => o.AmountIncludingVAT).InclusiveBetween(0, 999999999).WithName("Amount");
-            RuleFor(o => o.VAT).InclusiveBetween(0, 999999999).WithName("VAT");
+            RuleFor(o => o.AmountIncludingVAT).NotEmpty().WithName("Amount").Must(BeDecimal).WithMessage("{PropertyName} must be a number");
+            RuleFor(o => o.VAT).NotEmpty().WithName("VAT").Must(BeDecimal).WithMessage("{PropertyName} must be a number");
+        }
+
+        public bool BeDecimal(string value)
+        {
+            decimal output;
+            return decimal.TryParse(value, out output);
         }
     }
 }

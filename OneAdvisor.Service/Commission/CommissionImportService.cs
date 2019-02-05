@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using OneAdvisor.Data;
+using OneAdvisor.Data.Entities.Commission;
 using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.Commission;
+using OneAdvisor.Model.Commission.Model.CommissionError;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
@@ -30,35 +33,79 @@ namespace OneAdvisor.Service.Commission
             _commissionService = commissionService;
         }
 
-        public async Task<Result> ImportCommission(ScopeOptions scope, ImportCommission data)
+        public async Task ImportCommission(ScopeOptions scope, Guid commissionStatementId, IEnumerable<ImportCommission> importData)
         {
-            var validator = new ImportCommissionValidator();
-            var result = validator.Validate(data).GetResult();
+            //TODO: 
+            //1. validate statement ownership!!!!!!!!!!!!!!!!!
+            //2. Check for existing, dont always insert commission
 
-            if (!result.Success)
-                return result;
-
-            var policy = await _policyService.GetPolicy(scope, data.PolicyNumber);
-
-            if (policy == null)
-                return new Result("PolicyNumber", "No matching policy number");
-
-            var commissionType = await _lookupService.GetCommissionType(data.CommissionTypeCode);
-
-            if (commissionType == null)
-                return new Result("CommissionTypeCode", "No matching commission type");
-
-            var commission = new CommissionEdit()
+            foreach (var data in importData)
             {
-                PolicyId = policy.Id,
-                AmountIncludingVAT = data.AmountIncludingVAT,
-                VAT = data.VAT,
-                CommissionTypeId = commissionType.Id
-            };
+                var validator = new ImportCommissionValidator();
+                var result = validator.Validate(data).GetResult();
 
-            result = await _commissionService.InsertCommission(scope, commission);
+                var error = new CommissionError()
+                {
+                    CommissionStatementId = commissionStatementId,
+                    Data = JsonConvert.SerializeObject(data),
+                    IsFormatValue = true
+                };
 
-            return result;
+                if (!result.Success)
+                {
+                    error.IsFormatValue = false;
+                    await InsertCommissionError(error);
+                    continue;
+                }
+
+                var policy = await _policyService.GetPolicy(scope, data.PolicyNumber);
+                if (policy != null)
+                {
+                    error.MemberId = policy.MemberId;
+                    error.PolicyId = policy.Id;
+                }
+
+                var commissionType = await _lookupService.GetCommissionType(data.CommissionTypeCode);
+                if (commissionType != null)
+                    error.CommissionTypeId = commissionType.Id;
+
+                if (!error.IsValid())
+                {
+                    await InsertCommissionError(error);
+                    continue;
+                }
+
+                var commission = new CommissionEdit()
+                {
+                    PolicyId = policy.Id,
+                    CommissionStatementId = commissionStatementId,
+                    CommissionTypeId = commissionType.Id,
+                    AmountIncludingVAT = Convert.ToDecimal(data.AmountIncludingVAT),
+                    VAT = Convert.ToDecimal(data.VAT)
+                };
+
+                result = await _commissionService.InsertCommission(scope, commission);
+            }
+        }
+
+        private async Task InsertCommissionError(CommissionError error)
+        {
+            var entity = MapModelToEntity(error);
+            await _context.CommissionError.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        private CommissionErrorEntity MapModelToEntity(CommissionError model, CommissionErrorEntity entity = null)
+        {
+            if (entity == null)
+                entity = new CommissionErrorEntity();
+
+            entity.CommissionStatementId = model.CommissionStatementId;
+            entity.PolicyId = model.PolicyId;
+            entity.MemberId = model.MemberId;
+            entity.Data = model.Data;
+
+            return entity;
         }
     }
 }

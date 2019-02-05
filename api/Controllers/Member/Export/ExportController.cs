@@ -28,7 +28,7 @@ namespace api.Controllers.Member.Export
         private IMemberExportService MemberExportService { get; }
         private IAuthService AuthService { get; }
 
-        [HttpGet("")]
+        [HttpGet("csv")]
         [UseCaseAuthorize("mem_export_members")]
         public async Task Export()
         {

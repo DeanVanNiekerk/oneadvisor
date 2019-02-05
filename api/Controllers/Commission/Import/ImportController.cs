@@ -11,8 +11,8 @@ using api.App.Dtos;
 using Microsoft.AspNetCore.Http;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Commission.Interface;
-using api.Controllers.Commission.Import.Dto;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
+using OneAdvisor.Import.Excel.Readers;
 
 namespace api.Controllers.Commission.Import
 {
@@ -33,22 +33,23 @@ namespace api.Controllers.Commission.Import
         private ICommissionImportService CommissionImportService { get; }
         private IAuthService AuthService { get; }
 
-        [HttpPost("")]
+        [HttpPost("excel/{commissionStatementId")]
         [UseCaseAuthorize("com_import_commissions")]
-        public async Task<ActionResult<Result>> Import([FromBody] ImportCommissionDto commission)
+        public async Task<IActionResult> Import(Guid commissionStatementId, List<IFormFile> files)
         {
-            var model = Mapper.Map<ImportCommission>(commission);
-
             var scope = await AuthService.GetScope(UserId, Scope);
 
-            var result = await CommissionImportService.ImportCommission(scope, model);
+            var file = files.FirstOrDefault();
 
-            result.Tag = null;
+            if (file == null)
+                return BadRequest();
 
-            if (!result.Success)
-                return BadRequest(result.ValidationFailures);
+            var reader = new CommissionImportExcelReader();
+            var items = reader.Read(file.OpenReadStream());
 
-            return Ok(result);
+            await CommissionImportService.ImportCommission(scope, commissionStatementId, items);
+
+            return Ok();
         }
     }
 }
