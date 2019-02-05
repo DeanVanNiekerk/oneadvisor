@@ -2,12 +2,13 @@ import { Col, Row, Select, Tag } from 'antd';
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router';
 
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
 import { formatCurrency, getMonthDateRange } from '@/app/utils';
 import {
-    fetchStatement, fetchStatements, receiveFilterMonth, receiveFilters, receiveFilterYear, receivePageOptions,
-    receiveSortOptions, receiveStatement, Statement, StatementEdit, statementsSelector
+    fetchStatements, receiveFilterMonth, receiveFilters, receiveFilterYear, receivePageOptions, receiveSortOptions,
+    receiveStatement, Statement, StatementEdit, statementsSelector
 } from '@/state/app/commission/statements';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
@@ -31,7 +32,8 @@ type Props = {
     filterMonth: number;
     filterYear: number;
     companies: Company[];
-} & DispatchProp;
+} & RouteComponentProps &
+    DispatchProp;
 
 class StatementList extends Component<Props> {
     componentDidMount() {
@@ -65,7 +67,7 @@ class StatementList extends Component<Props> {
     };
 
     editStatement = (id: string) => {
-        this.props.dispatch(fetchStatement(id));
+        this.props.history.push(`/commission/statements/${id}`);
     };
 
     onFormClose = (cancelled: boolean) => {
@@ -319,4 +321,4 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-export default connect(mapStateToProps)(StatementList);
+export default withRouter(connect(mapStateToProps)(StatementList));

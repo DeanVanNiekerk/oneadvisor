@@ -16,7 +16,7 @@ type Props = {
     requiredUseCase?: string;
 };
 
-class PreviewCard extends Component<Props> {
+class PreviewCardComponent extends Component<Props> {
     render() {
         const {
             title,
@@ -68,4 +68,6 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-export default connect(mapStateToProps)(PreviewCard);
+const PreviewCard = connect(mapStateToProps)(PreviewCardComponent);
+
+export { PreviewCard };

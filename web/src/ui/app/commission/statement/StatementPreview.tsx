@@ -4,36 +4,34 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { hasUseCase } from '@/app/identity';
+import {
+    fetchStatement, fetchStatementPreview, Statement, statementPreviewSelector
+} from '@/state/app/commission/statements';
 import { identitySelector } from '@/state/app/directory/identity';
-import { fetchMember, fetchMemberPreview, MemberPreview, memberPreviewSelector } from '@/state/app/member/members';
-import { newPolicy, receivePolicy } from '@/state/app/member/policies';
 import { RootState } from '@/state/rootReducer';
-import { Age, Button, Drawer, DrawerFooter, Header, PreviewCard, PreviewCardContainer } from '@/ui/controls';
+import { Drawer, DrawerFooter, Header, PreviewCard, PreviewCardContainer } from '@/ui/controls';
 
-import ContactList from '../contact/ContactList';
-import EditPolicy from '../policy/EditPolicy';
-import PolicyList from '../policy/PolicyList';
-import EditMember from './EditMember';
+import EditStatement from './EditStatement';
 
 type Props = {
-    member: MemberPreview | null;
+    statement: Statement | null;
     fetching: boolean;
     useCases: string[];
-} & RouteComponentProps<{ memberId: string }> &
+} & RouteComponentProps<{ commissionStatementId: string }> &
     DispatchProp;
 
 type State = {
-    policyListVisible: boolean;
-    contactListVisible: boolean;
+    // policyListVisible: boolean;
+    // contactListVisible: boolean;
 };
 
-class MemberPreviewComponent extends Component<Props, State> {
+class StatementPreviewComponent extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            policyListVisible: false,
-            contactListVisible: false
+            // policyListVisible: false,
+            // contactListVisible: false
         };
     }
 
@@ -41,29 +39,31 @@ class MemberPreviewComponent extends Component<Props, State> {
         this.load();
     }
 
-    togglePolicyListVisible = () => {
-        this.setState({
-            policyListVisible: !this.state.policyListVisible
-        });
-    };
+    // togglePolicyListVisible = () => {
+    //     this.setState({
+    //         policyListVisible: !this.state.policyListVisible
+    //     });
+    // };
 
-    toggleContactListVisible = () => {
-        this.setState({
-            contactListVisible: !this.state.contactListVisible
-        });
-    };
+    // toggleContactListVisible = () => {
+    //     this.setState({
+    //         contactListVisible: !this.state.contactListVisible
+    //     });
+    // };
 
-    newPolicy = () => {
-        const policy = newPolicy(this.getMemberId());
-        this.props.dispatch(receivePolicy(policy));
-    };
+    // newPolicy = () => {
+    //     const policy = newPolicy(this.getMemberId());
+    //     this.props.dispatch(receivePolicy(policy));
+    // };
 
-    getMemberId = () => {
-        return this.props.match.params.memberId;
+    getCommissionStatementId = () => {
+        return this.props.match.params.commissionStatementId;
     };
 
     load = () => {
-        this.props.dispatch(fetchMemberPreview(this.getMemberId()));
+        this.props.dispatch(
+            fetchStatementPreview(this.getCommissionStatementId())
+        );
     };
 
     onFormClose = (cancelled: boolean) => {
@@ -71,40 +71,39 @@ class MemberPreviewComponent extends Component<Props, State> {
     };
 
     editDetails = () => {
-        this.props.dispatch(fetchMember(this.getMemberId()));
+        this.props.dispatch(fetchStatement(this.getCommissionStatementId()));
     };
 
     isLoading = () => {
         return this.props.fetching;
     };
 
-    getPolicyActions = () => {
-        const actions = [
-            <Icon type="bars" onClick={this.togglePolicyListVisible} />
-        ];
+    // getPolicyActions = () => {
+    //     const actions = [
+    //         <Icon type="bars" onClick={this.togglePolicyListVisible} />
+    //     ];
 
-        if (hasUseCase('mem_edit_policies', this.props.useCases))
-            actions.unshift(
-                <Icon
-                    type="plus"
-                    onClick={e => {
-                        e.stopPropagation();
-                        this.newPolicy();
-                    }}
-                />
-            );
+    //     if (hasUseCase('mem_edit_policies', this.props.useCases))
+    //         actions.unshift(
+    //             <Icon
+    //                 type="plus"
+    //                 onClick={e => {
+    //                     e.stopPropagation();
+    //                     this.newPolicy();
+    //                 }}
+    //             />
+    //         );
 
-        return actions;
-    };
+    //     return actions;
+    // };
 
     render() {
-        let { member } = this.props;
+        let { statement } = this.props;
 
         return (
             <>
                 <Header loading={this.isLoading()}>
-                    {`${member && member.firstName} ${member &&
-                        member.lastName}`}
+                    {statement && statement.date}
                 </Header>
 
                 <PreviewCardContainer>
@@ -117,18 +116,9 @@ class MemberPreviewComponent extends Component<Props, State> {
                                 <Icon type="edit" onClick={this.editDetails} />
                             ]}
                         >
-                            <div>
-                                {`${member && member.firstName} ${member &&
-                                    member.lastName}`}
-                                {member && member.dateOfBirth && (
-                                    <span>
-                                        <span>, </span>
-                                        <Age dateOfBirth={member.dateOfBirth} />
-                                    </span>
-                                )}
-                            </div>
+                            <div>{statement && statement.date}</div>
                         </PreviewCard>
-                        <PreviewCard
+                        {/* <PreviewCard
                             title="Policies"
                             onClick={this.togglePolicyListVisible}
                             isLoading={this.isLoading()}
@@ -154,14 +144,13 @@ class MemberPreviewComponent extends Component<Props, State> {
                             <span>
                                 Total Contacts: {member && member.contactCount}
                             </span>
-                        </PreviewCard>
+                        </PreviewCard> */}
                     </Row>
                 </PreviewCardContainer>
 
-                <EditMember onClose={this.onFormClose} />
-                <EditPolicy onClose={this.onFormClose} />
+                <EditStatement onClose={this.onFormClose} />
 
-                <Drawer
+                {/* <Drawer
                     title="Policies"
                     noTopPadding={true}
                     visible={this.state.policyListVisible}
@@ -190,23 +179,23 @@ class MemberPreviewComponent extends Component<Props, State> {
                             Close
                         </Button>
                     </DrawerFooter>
-                </Drawer>
+                </Drawer> */}
             </>
         );
     }
 }
 
 const mapStateToProps = (state: RootState) => {
-    const memberState = memberPreviewSelector(state);
+    const statementState = statementPreviewSelector(state);
     const identityState = identitySelector(state);
 
     return {
-        member: memberState.member,
-        fetching: memberState.fetching,
+        statement: statementState.statement,
+        fetching: statementState.fetching,
         useCases: identityState.identity
             ? identityState.identity.useCaseIds
             : []
     };
 };
 
-export default withRouter(connect(mapStateToProps)(MemberPreviewComponent));
+export default withRouter(connect(mapStateToProps)(StatementPreviewComponent));

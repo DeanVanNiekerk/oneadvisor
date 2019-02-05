@@ -34,6 +34,9 @@ namespace OneAdvisor.Service.Commission
                         select commissionStatement;
 
             //Apply filters ----------------------------------------------------------------------------------------
+            if (queryOptions.CommissionStatementId.HasValue)
+                query = query.Where(c => c.Id == queryOptions.CommissionStatementId);
+
             if (queryOptions.Processed.HasValue)
                 query = query.Where(c => c.Processed == queryOptions.Processed);
 
