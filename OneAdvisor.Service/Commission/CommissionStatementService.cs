@@ -37,6 +37,9 @@ namespace OneAdvisor.Service.Commission
             if (queryOptions.CommissionStatementId.HasValue)
                 query = query.Where(c => c.Id == queryOptions.CommissionStatementId);
 
+            if (queryOptions.CompanyId.Any())
+                query = query.Where(c => queryOptions.CompanyId.Contains(c.CompanyId));
+
             if (queryOptions.Processed.HasValue)
                 query = query.Where(c => c.Processed == queryOptions.Processed);
 
@@ -87,7 +90,8 @@ namespace OneAdvisor.Service.Commission
                                  Processed = commissionStatement.Processed,
                                  ActualAmountIncludingVAT = commissionStatement.Commissions.Select(c => c.AmountIncludingVAT).Sum(),
                                  ActualVAT = commissionStatement.Commissions.Select(c => c.VAT).Sum(),
-                                 CommissionCount = commissionStatement.Commissions.Count()
+                                 CommissionCount = commissionStatement.Commissions.Count(),
+                                 FormatErrorCount = commissionStatement.CommissionErrors.Count()
                              };
 
             //Ordering

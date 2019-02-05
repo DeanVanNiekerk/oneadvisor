@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -15,6 +16,7 @@ using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Auth;
 using OneAdvisor.Model.Member.Interface;
 using OneAdvisor.Service.Commission.Validators;
+using Microsoft.EntityFrameworkCore;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -37,16 +39,20 @@ namespace OneAdvisor.Service.Commission
         {
             //TODO: 
             //1. validate statement ownership!!!!!!!!!!!!!!!!!
-            //2. Check for existing, dont always insert commission
 
             foreach (var data in importData)
             {
+                //Check if commission has already been import
+                if (await _commissionService.CommissionExists(scope, commissionStatementId, data.PolicyNumber))
+                    continue;
+
                 var validator = new ImportCommissionValidator();
                 var result = validator.Validate(data).GetResult();
 
                 var error = new CommissionError()
                 {
                     CommissionStatementId = commissionStatementId,
+                    PolicyNumber = data.PolicyNumber,
                     Data = JsonConvert.SerializeObject(data),
                     IsFormatValue = true
                 };
@@ -90,9 +96,22 @@ namespace OneAdvisor.Service.Commission
 
         private async Task InsertCommissionError(CommissionError error)
         {
+            if (await CommissionErrorExists(error))
+                return;
+
             var entity = MapModelToEntity(error);
             await _context.CommissionError.AddAsync(entity);
             await _context.SaveChangesAsync();
+        }
+
+        private async Task<bool> CommissionErrorExists(CommissionError error)
+        {
+            var query = from entity in _context.CommissionError
+                        where entity.CommissionStatementId == error.CommissionStatementId
+                        && EF.Functions.Like(entity.PolicyNumber, error.PolicyNumber)
+                        select entity;
+
+            return await query.AnyAsync();
         }
 
         private CommissionErrorEntity MapModelToEntity(CommissionError model, CommissionErrorEntity entity = null)
@@ -102,6 +121,7 @@ namespace OneAdvisor.Service.Commission
 
             entity.CommissionStatementId = model.CommissionStatementId;
             entity.PolicyId = model.PolicyId;
+            entity.PolicyNumber = model.PolicyNumber;
             entity.MemberId = model.MemberId;
             entity.Data = model.Data;
 

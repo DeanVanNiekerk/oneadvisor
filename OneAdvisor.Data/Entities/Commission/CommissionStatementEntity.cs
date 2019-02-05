@@ -27,5 +27,6 @@ namespace OneAdvisor.Data.Entities.Commission
         public virtual CompanyEntity Company { get; set; }
         public virtual OrganisationEntity Organisation { get; set; }
         public virtual ICollection<CommissionEntity> Commissions { get; set; }
+        public virtual ICollection<CommissionErrorEntity> CommissionErrors { get; set; }
     }
 }

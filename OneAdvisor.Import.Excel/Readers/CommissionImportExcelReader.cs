@@ -18,10 +18,10 @@ namespace OneAdvisor.Import.Excel.Readers
                     {
                         var commission = new ImportCommission();
 
-                        commission.PolicyNumber = reader.GetString(0);
-                        commission.CommissionTypeCode = reader.GetString(1);
-                        commission.AmountIncludingVAT = reader.GetString(2);
-                        commission.VAT = reader.GetString(3);
+                        commission.PolicyNumber = reader.GetValue(0).ToString();
+                        commission.AmountIncludingVAT = reader.GetValue(1).ToString();
+                        commission.VAT = reader.GetValue(2).ToString();
+                        commission.CommissionTypeCode = reader.GetValue(3).ToString();
 
                         yield return commission;
                     }

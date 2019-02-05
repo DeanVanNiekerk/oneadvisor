@@ -16,6 +16,7 @@ import {
 import CommissionList from '../commission/CommissionList';
 import EditStatement from './EditStatement';
 import { Processed } from './Processed';
+import UploadStatement from './UploadStatement';
 
 type Props = {
     statement: Statement | null;
@@ -71,6 +72,7 @@ class StatementPreviewComponent extends Component<Props, State> {
 
     render() {
         let { statement } = this.props;
+        const minCardHeight = '230px';
 
         return (
             <>
@@ -93,6 +95,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                             <Icon type="edit" onClick={this.editDetails} />
                         ]}
                         rows={3}
+                        minHeight={minCardHeight}
                     >
                         {statement && (
                             <>
@@ -132,6 +135,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                             />
                         ]}
                         rows={3}
+                        minHeight={minCardHeight}
                     >
                         {statement && (
                             <>
@@ -159,6 +163,27 @@ class StatementPreviewComponent extends Component<Props, State> {
                                 />
                             </>
                         )}
+                    </PreviewCard>
+                    <PreviewCard
+                        title="Upload Statement"
+                        isLoading={this.isLoading()}
+                        rows={3}
+                        minHeight={minCardHeight}
+                    >
+                        {statement && (
+                            <UploadStatement
+                                commissionStatementId={statement.id}
+                                onSuccess={this.load}
+                            />
+                        )}
+                    </PreviewCard>
+                    <PreviewCard
+                        title="Errors"
+                        isLoading={this.isLoading()}
+                        rows={3}
+                        minHeight={minCardHeight}
+                    >
+                        {statement && <h2>{statement.formatErrorCount}</h2>}
                     </PreviewCard>
                 </PreviewCardContainer>
 

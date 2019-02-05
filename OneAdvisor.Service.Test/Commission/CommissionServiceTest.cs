@@ -223,6 +223,64 @@ namespace OneAdvisor.Service.Test.Commission
         }
 
         [TestMethod]
+        public async Task CommissionExists()
+        {
+            var options = TestHelper.GetDbContext("CommissionExists");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+
+            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+
+            var policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                Number = Guid.NewGuid().ToString(),
+                CompanyId = Guid.NewGuid(),
+                MemberId = member1.Member.Id,
+                UserId = user1.User.Id
+            };
+
+
+            var commission1 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = policy1.Id,
+                CommissionTypeId = Guid.NewGuid(),
+                AmountIncludingVAT = 99,
+                VAT = 14,
+                CommissionStatementId = Guid.NewGuid()
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Policy.Add(policy1);
+
+                context.Commission.Add(commission1);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new CommissionService(context);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var actual = await service.CommissionExists(scope, commission1.CommissionStatementId, policy1.Number);
+                Assert.IsTrue(actual);
+
+                actual = await service.CommissionExists(scope, commission1.CommissionStatementId, "POL-1212");
+                Assert.IsFalse(actual);
+
+                //Check scope
+                scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                actual = await service.CommissionExists(scope, commission1.CommissionStatementId, policy1.Number);
+                Assert.IsFalse(actual);
+            }
+        }
+
+        [TestMethod]
         public async Task InsertCommission()
         {
             var options = TestHelper.GetDbContext("InsertCommission");

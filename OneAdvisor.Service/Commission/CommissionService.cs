@@ -87,13 +87,25 @@ namespace OneAdvisor.Service.Commission
             return pagedItems;
         }
 
-        public Task<CommissionEdit> GetCommission(ScopeOptions scope, Guid id)
+        public async Task<CommissionEdit> GetCommission(ScopeOptions scope, Guid id)
         {
             var query = from commission in GetCommissionEditQuery(scope)
                         where commission.Id == id
                         select commission;
 
-            return query.FirstOrDefaultAsync();
+            return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> CommissionExists(ScopeOptions scope, Guid commissionStatementId, string policyNumber)
+        {
+            var query = from commission in GetCommissionEntityQuery(scope)
+                        join policy in _context.Policy
+                            on commission.PolicyId equals policy.Id
+                        where commission.CommissionStatementId == commissionStatementId
+                        && EF.Functions.Like(policy.Number, policyNumber)
+                        select commission;
+
+            return await query.AnyAsync();
         }
 
         public async Task<Result> InsertCommission(ScopeOptions scope, CommissionEdit commission)
@@ -147,7 +159,7 @@ namespace OneAdvisor.Service.Commission
             return result;
         }
 
-        private IQueryable<CommissionEdit> GetCommissionEditQuery(ScopeOptions scope)
+        private IQueryable<CommissionEntity> GetCommissionEntityQuery(ScopeOptions scope)
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
 
@@ -156,6 +168,14 @@ namespace OneAdvisor.Service.Commission
                             on user.Id equals policy.UserId
                         join commission in _context.Commission
                             on policy.Id equals commission.PolicyId
+                        select commission;
+
+            return query;
+        }
+
+        private IQueryable<CommissionEdit> GetCommissionEditQuery(ScopeOptions scope)
+        {
+            var query = from commission in GetCommissionEntityQuery(scope)
                         select new CommissionEdit()
                         {
                             Id = commission.Id,

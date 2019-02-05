@@ -33,13 +33,13 @@ namespace api.Controllers.Commission.Import
         private ICommissionImportService CommissionImportService { get; }
         private IAuthService AuthService { get; }
 
-        [HttpPost("excel/{commissionStatementId")]
+        [HttpPost("excel/{commissionStatementId}")]
         [UseCaseAuthorize("com_import_commissions")]
-        public async Task<IActionResult> Import(Guid commissionStatementId, List<IFormFile> files)
+        public async Task<IActionResult> Import(Guid commissionStatementId)
         {
             var scope = await AuthService.GetScope(UserId, Scope);
 
-            var file = files.FirstOrDefault();
+            var file = Request.Form.Files.FirstOrDefault();
 
             if (file == null)
                 return BadRequest();

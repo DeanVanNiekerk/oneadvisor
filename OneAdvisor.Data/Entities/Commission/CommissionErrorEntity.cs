@@ -11,6 +11,7 @@ namespace OneAdvisor.Data.Entities.Commission
         public Guid Id { get; set; }
         [Required]
         public Guid CommissionStatementId { get; set; }
+        public string PolicyNumber { get; set; }
         public Guid? PolicyId { get; set; }
         public Guid? MemberId { get; set; }
         public Guid? CommissionTypeId { get; set; }

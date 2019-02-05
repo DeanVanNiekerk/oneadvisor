@@ -25,12 +25,15 @@ from mem_Policy
 
 select *
 from com_CommissionStatement
+select *
+from com_CommissionError
 
+/*
 select *
 from dir_AuditLog
 where JSON_VALUE(AuditData,'$.Table') = 'mem_Member'
     and JSON_VALUE(AuditData,'$.PrimaryKey.Id') = 'd494d4d5-6ca2-4cf6-b335-5a7e54ff16b3'
+*/
 
 
-
---delete from lkp_CommissionType
+--delete from com_CommissionError

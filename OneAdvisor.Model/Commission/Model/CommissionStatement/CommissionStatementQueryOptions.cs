@@ -20,6 +20,10 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatement
             if (resultGuid.Success)
                 CommissionStatementId = resultGuid.Value;
 
+            var resultGuids = GetFilterValues<Guid>("CompanyId");
+            if (resultGuids.Success)
+                CompanyId = resultGuids.Value;
+
             var resultDate = GetFilterValue<DateTime>("StartDate");
             if (resultDate.Success)
                 StartDate = resultDate.Value;
@@ -35,6 +39,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatement
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public Guid? CommissionStatementId { get; set; }
+        public List<Guid> CompanyId { get; set; }
 
     }
 }

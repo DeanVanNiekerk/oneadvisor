@@ -8,13 +8,14 @@ import { RootState } from '@/state/rootReducer';
 
 type Props = {
     title: string;
-    onClick: () => void;
+    onClick?: () => void;
     isLoading: boolean;
     actions?: React.ReactNode[];
     children: React.ReactNode;
     useCases: string[];
     requiredUseCase?: string;
     rows?: number;
+    minHeight?: string;
 };
 
 class PreviewCardComponent extends Component<Props> {
@@ -25,7 +26,8 @@ class PreviewCardComponent extends Component<Props> {
             actions,
             isLoading,
             requiredUseCase,
-            rows = 1
+            rows = 1,
+            minHeight
         } = this.props;
 
         let visible = true;
@@ -35,6 +37,9 @@ class PreviewCardComponent extends Component<Props> {
 
         if (!visible) return <></>;
 
+        let style: any = {};
+        if (minHeight) style.minHeight = minHeight;
+
         return (
             <Col sm={24} md={12} lg={8} xl={6}>
                 <Card
@@ -43,6 +48,7 @@ class PreviewCardComponent extends Component<Props> {
                     bordered={false}
                     onClick={onClick}
                     actions={actions}
+                    style={style}
                 >
                     <Skeleton
                         loading={isLoading}
