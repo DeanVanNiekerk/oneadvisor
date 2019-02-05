@@ -14,6 +14,7 @@ type Props = {
     children: React.ReactNode;
     useCases: string[];
     requiredUseCase?: string;
+    rows?: number;
 };
 
 class PreviewCardComponent extends Component<Props> {
@@ -23,7 +24,8 @@ class PreviewCardComponent extends Component<Props> {
             onClick,
             actions,
             isLoading,
-            requiredUseCase
+            requiredUseCase,
+            rows = 1
         } = this.props;
 
         let visible = true;
@@ -34,7 +36,7 @@ class PreviewCardComponent extends Component<Props> {
         if (!visible) return <></>;
 
         return (
-            <Col span={4}>
+            <Col sm={24} md={12} lg={8} xl={6}>
                 <Card
                     hoverable={true}
                     title={title}
@@ -47,7 +49,7 @@ class PreviewCardComponent extends Component<Props> {
                         title={false}
                         active
                         paragraph={{
-                            rows: 1
+                            rows: rows
                         }}
                     >
                         {this.props.children}

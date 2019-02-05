@@ -37,9 +37,10 @@ class PolicyList extends Component<Props> {
     }
 
     loadPolicies = () => {
-        const filters = { ...this.props.filters };
-
-        if (this.props.memberId) filters.memberId = [this.props.memberId];
+        const filters = {
+            ...this.props.filters,
+            memberId: [this.props.memberId]
+        };
 
         this.props.dispatch(
             fetchPolicies(

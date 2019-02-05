@@ -6,3 +6,4 @@ export { Button } from './Button';
 export { Drawer } from './Drawer';
 export { PreviewCard } from './PreviewCard';
 export { PreviewCardContainer } from './PreviewCardContainer';
+export { PreviewCardRow } from './PreviewCardRow';

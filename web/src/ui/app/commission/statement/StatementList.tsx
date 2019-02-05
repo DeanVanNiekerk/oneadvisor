@@ -15,6 +15,7 @@ import { RootState } from '@/state/rootReducer';
 import { Button, CompanyName, Header, Table } from '@/ui/controls';
 
 import EditStatement from './EditStatement';
+import { Processed } from './Processed';
 
 const Option = Select.Option;
 
@@ -111,9 +112,7 @@ class StatementList extends Component<Props> {
             getColumnEDS('actualVAT', 'VAT', { type: 'currency' }),
             getColumnEDS('processed', 'Status', {
                 render: (processed: boolean) => {
-                    if (processed) return <Tag color="green">Processed</Tag>;
-
-                    return <Tag color="purple">Processing</Tag>;
+                    return <Processed processed={processed} />
                 },
                 filters: [
                     {

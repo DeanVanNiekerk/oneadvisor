@@ -20,11 +20,11 @@ namespace OneAdvisor.Model.Commission.Model.Commission
                 UserId = results.Value;
 
             var resultGuid = GetFilterValue<Guid>("CommissionStatementId");
-            if (results.Success)
+            if (resultGuid.Success)
                 CommissionStatementId = resultGuid.Value;
 
             var resultGuids = GetFilterValues<Guid>("CommissionTypeId");
-            if (results.Success)
+            if (resultGuids.Success)
                 CommissionTypeId = resultGuids.Value;
         }
 

@@ -9,7 +9,7 @@ const defaultCommission: CommissionEdit = {
     commissionTypeId: '321',
     amountIncludingVAT: 100,
     vat: 14,
-    date: '2001-01-01'
+    commissionStatementId: '998877'
 };
 
 describe('commission reducer', () => {

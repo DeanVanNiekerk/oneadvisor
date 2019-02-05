@@ -15,6 +15,7 @@ import { Button, CommissionTypeName, Header, Table, UserName } from '@/ui/contro
 import EditCommission from './EditCommission';
 
 type Props = {
+    commissionStatementId: string;
     commissions: Commission[];
     fetching: boolean;
     pageOptions: PageOptions;
@@ -27,6 +28,7 @@ type Props = {
     filters: Filters;
     users: UserSimple[];
     commissionTypes: CommissionType[];
+    onCommissionsUpdate: () => void;
 } & DispatchProp;
 
 class CommissionList extends Component<Props> {
@@ -44,11 +46,15 @@ class CommissionList extends Component<Props> {
     }
 
     loadCommissions = () => {
+        const filters = {
+            ...this.props.filters,
+            commissionStatementId: [this.props.commissionStatementId]
+        };
         this.props.dispatch(
             fetchCommissions(
                 this.props.pageOptions,
                 this.props.sortOptions,
-                this.props.filters
+                filters
             )
         );
     };
@@ -58,24 +64,26 @@ class CommissionList extends Component<Props> {
     };
 
     onFormClose = (cancelled: boolean) => {
-        if (!cancelled) this.loadCommissions();
+        if (!cancelled) {
+            this.loadCommissions();
+            this.props.onCommissionsUpdate();
+        }
     };
 
     newCommission = () => {
         const commission: CommissionEdit = {
             id: '',
+            commissionStatementId: this.props.commissionStatementId,
             amountIncludingVAT: 0,
             vat: 0,
             commissionTypeId: '',
-            policyId: '',
-            date: ''
+            policyId: ''
         };
         this.props.dispatch(receiveCommission(commission));
     };
 
     getColumns = () => {
         return [
-            getColumnEDS('date', 'Date', { type: 'date' }),
             getColumnEDS('commissionTypeId', 'Type', {
                 render: (commissionTypeId: string) => {
                     return (
@@ -127,14 +135,6 @@ class CommissionList extends Component<Props> {
                         <>
                             <Button
                                 type="default"
-                                icon="sync"
-                                onClick={this.loadCommissions}
-                                disabled={this.props.fetching}
-                            >
-                                Reload
-                            </Button>
-                            <Button
-                                type="default"
                                 icon="plus"
                                 onClick={this.newCommission}
                                 disabled={this.props.fetching}
@@ -145,7 +145,7 @@ class CommissionList extends Component<Props> {
                         </>
                     }
                 />
-                <Row type="flex" justify="space-around" className="mb-1">
+                {/* <Row type="flex" justify="space-around" className="mb-1">
                     <Col>
                         <Statistic
                             title="Total Amount"
@@ -174,7 +174,7 @@ class CommissionList extends Component<Props> {
                             value={this.props.averageVAT}
                         />
                     </Col>
-                </Row>
+                </Row> */}
                 <Table
                     rowKey="id"
                     columns={this.getColumns()}

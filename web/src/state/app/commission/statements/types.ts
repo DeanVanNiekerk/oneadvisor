@@ -10,6 +10,7 @@ export type Statement = {
 
     formatErrorCount: number;
     mappingErrorCount: number;
+    commissionCount: number;
 
     actualAmountIncludingVAT: number;
     actualVAT: number;

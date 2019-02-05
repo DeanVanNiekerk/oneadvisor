@@ -164,6 +164,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(cs1.OrganisationId, user1.Organisation.Id);
                 Assert.AreEqual(100, actual.ActualAmountIncludingVAT);
                 Assert.AreEqual(10, actual.ActualVAT);
+                Assert.AreEqual(2, actual.CommissionCount);
 
                 actual = items[1];
                 Assert.AreEqual(cs2.Id, actual.Id);

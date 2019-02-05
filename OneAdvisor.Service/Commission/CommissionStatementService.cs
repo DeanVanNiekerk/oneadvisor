@@ -86,7 +86,8 @@ namespace OneAdvisor.Service.Commission
                                  Date = commissionStatement.Date,
                                  Processed = commissionStatement.Processed,
                                  ActualAmountIncludingVAT = commissionStatement.Commissions.Select(c => c.AmountIncludingVAT).Sum(),
-                                 ActualVAT = commissionStatement.Commissions.Select(c => c.VAT).Sum()
+                                 ActualVAT = commissionStatement.Commissions.Select(c => c.VAT).Sum(),
+                                 CommissionCount = commissionStatement.Commissions.Count()
                              };
 
             //Ordering

@@ -8,7 +8,9 @@ import { identitySelector } from '@/state/app/directory/identity';
 import { fetchMember, fetchMemberPreview, MemberPreview, memberPreviewSelector } from '@/state/app/member/members';
 import { newPolicy, receivePolicy } from '@/state/app/member/policies';
 import { RootState } from '@/state/rootReducer';
-import { Age, Button, Drawer, DrawerFooter, Header, PreviewCard, PreviewCardContainer } from '@/ui/controls';
+import {
+    Age, Button, Drawer, DrawerFooter, Header, PreviewCard, PreviewCardContainer, PreviewCardRow
+} from '@/ui/controls';
 
 import ContactList from '../contact/ContactList';
 import EditPolicy from '../policy/EditPolicy';
@@ -108,54 +110,77 @@ class MemberPreviewComponent extends Component<Props, State> {
                 </Header>
 
                 <PreviewCardContainer>
-                    <Row gutter={16}>
-                        <PreviewCard
-                            title="Details"
-                            onClick={this.editDetails}
-                            isLoading={this.isLoading()}
-                            actions={[
-                                <Icon type="edit" onClick={this.editDetails} />
-                            ]}
-                        >
-                            <div>
-                                {`${member && member.firstName} ${member &&
-                                    member.lastName}`}
-                                {member && member.dateOfBirth && (
-                                    <span>
-                                        <span>, </span>
-                                        <Age dateOfBirth={member.dateOfBirth} />
-                                    </span>
-                                )}
-                            </div>
-                        </PreviewCard>
-                        <PreviewCard
-                            title="Policies"
-                            onClick={this.togglePolicyListVisible}
-                            isLoading={this.isLoading()}
-                            requiredUseCase="mem_view_policies"
-                            actions={this.getPolicyActions()}
-                        >
-                            <span>
-                                Total Policies: {member && member.policyCount}
-                            </span>
-                        </PreviewCard>
-                        <PreviewCard
-                            title="Contacts"
-                            onClick={this.toggleContactListVisible}
-                            isLoading={this.isLoading()}
-                            requiredUseCase="mem_view_contacts"
-                            actions={[
-                                <Icon
-                                    type="bars"
-                                    onClick={this.toggleContactListVisible}
+                    <PreviewCard
+                        title="Details"
+                        onClick={this.editDetails}
+                        isLoading={this.isLoading()}
+                        actions={[
+                            <Icon type="edit" onClick={this.editDetails} />
+                        ]}
+                        rows={2}
+                    >
+                        {member && (
+                            <>
+                                <PreviewCardRow
+                                    label="Id"
+                                    value={`${
+                                        member.idNumber ? member.idNumber : ''
+                                    }`}
                                 />
-                            ]}
-                        >
-                            <span>
-                                Total Contacts: {member && member.contactCount}
-                            </span>
-                        </PreviewCard>
-                    </Row>
+                                <PreviewCardRow
+                                    label="Age"
+                                    value={
+                                        <Age dateOfBirth={member.dateOfBirth} />
+                                    }
+                                />
+                            </>
+                        )}
+                    </PreviewCard>
+                    <PreviewCard
+                        title="Policies"
+                        onClick={this.togglePolicyListVisible}
+                        isLoading={this.isLoading()}
+                        requiredUseCase="mem_view_policies"
+                        actions={this.getPolicyActions()}
+                    >
+                        {member && (
+                            <>
+                                <PreviewCardRow
+                                    label="Policies"
+                                    value={`${member.policyCount}`}
+                                />
+                                <PreviewCardRow
+                                    label=""
+                                    value={<span>&nbsp;</span>}
+                                />
+                            </>
+                        )}
+                    </PreviewCard>
+                    <PreviewCard
+                        title="Contacts"
+                        onClick={this.toggleContactListVisible}
+                        isLoading={this.isLoading()}
+                        requiredUseCase="mem_view_contacts"
+                        actions={[
+                            <Icon
+                                type="bars"
+                                onClick={this.toggleContactListVisible}
+                            />
+                        ]}
+                    >
+                        {member && (
+                            <>
+                                <PreviewCardRow
+                                    label="Contacts"
+                                    value={`${member.contactCount}`}
+                                />
+                                <PreviewCardRow
+                                    label=""
+                                    value={<span>&nbsp;</span>}
+                                />
+                            </>
+                        )}
+                    </PreviewCard>
                 </PreviewCardContainer>
 
                 <EditMember onClose={this.onFormClose} />

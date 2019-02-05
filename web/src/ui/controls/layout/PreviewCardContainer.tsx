@@ -1,3 +1,4 @@
+import { Row } from 'antd';
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
@@ -6,7 +7,9 @@ type Props = {
 };
 
 const PreviewCardContainer = (props: Props) => (
-    <Wrapper>{props.children}</Wrapper>
+    <Wrapper>
+        <Row gutter={16}>{props.children}</Row>
+    </Wrapper>
 );
 
 const Wrapper = styled.div`

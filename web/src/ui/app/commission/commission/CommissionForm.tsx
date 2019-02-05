@@ -67,7 +67,7 @@ class CommissionForm extends Component<Props, State> {
         const pageOptions = {
             number: 1,
             size: 20 //Limit to 20 records
-        }
+        };
         this.props.dispatch(
             getPolicies(filters, pageOptions, policies => {
                 this.setState({
@@ -140,13 +140,6 @@ class CommissionForm extends Component<Props, State> {
                     validationResults={validationResults}
                     isCurrency={true}
                     min={0}
-                />
-                <FormDate
-                    fieldName="date"
-                    label="Date"
-                    value={commission.date}
-                    onChange={this.handleChange}
-                    validationResults={validationResults}
                 />
             </Form>
         );

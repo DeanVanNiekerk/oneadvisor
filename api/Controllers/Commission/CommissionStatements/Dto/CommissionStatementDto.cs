@@ -13,6 +13,7 @@ namespace api.Controllers.Commission.CommissionStatements.Dto
 
         public int FormatErrorCount { get; set; }
         public int MappingErrorCount { get; set; }
+        public int CommissionCount { get; set; }
 
         public decimal ActualAmountIncludingVAT { get; set; }
         public decimal ActualVAT { get; set; }

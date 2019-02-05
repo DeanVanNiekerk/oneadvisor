@@ -9,9 +9,13 @@ import {
 } from '@/state/app/commission/statements';
 import { identitySelector } from '@/state/app/directory/identity';
 import { RootState } from '@/state/rootReducer';
-import { Drawer, DrawerFooter, Header, PreviewCard, PreviewCardContainer } from '@/ui/controls';
+import {
+    Button, CompanyName, Currency, Date, Drawer, DrawerFooter, Header, PreviewCard, PreviewCardContainer, PreviewCardRow
+} from '@/ui/controls';
 
+import CommissionList from '../commission/CommissionList';
 import EditStatement from './EditStatement';
+import { Processed } from './Processed';
 
 type Props = {
     statement: Statement | null;
@@ -21,8 +25,7 @@ type Props = {
     DispatchProp;
 
 type State = {
-    // policyListVisible: boolean;
-    // contactListVisible: boolean;
+    commissionListVisible: boolean;
 };
 
 class StatementPreviewComponent extends Component<Props, State> {
@@ -30,8 +33,7 @@ class StatementPreviewComponent extends Component<Props, State> {
         super(props);
 
         this.state = {
-            // policyListVisible: false,
-            // contactListVisible: false
+            commissionListVisible: false
         };
     }
 
@@ -39,22 +41,11 @@ class StatementPreviewComponent extends Component<Props, State> {
         this.load();
     }
 
-    // togglePolicyListVisible = () => {
-    //     this.setState({
-    //         policyListVisible: !this.state.policyListVisible
-    //     });
-    // };
-
-    // toggleContactListVisible = () => {
-    //     this.setState({
-    //         contactListVisible: !this.state.contactListVisible
-    //     });
-    // };
-
-    // newPolicy = () => {
-    //     const policy = newPolicy(this.getMemberId());
-    //     this.props.dispatch(receivePolicy(policy));
-    // };
+    toggleCommissionListVisible = () => {
+        this.setState({
+            commissionListVisible: !this.state.commissionListVisible
+        });
+    };
 
     getCommissionStatementId = () => {
         return this.props.match.params.commissionStatementId;
@@ -78,108 +69,117 @@ class StatementPreviewComponent extends Component<Props, State> {
         return this.props.fetching;
     };
 
-    // getPolicyActions = () => {
-    //     const actions = [
-    //         <Icon type="bars" onClick={this.togglePolicyListVisible} />
-    //     ];
-
-    //     if (hasUseCase('mem_edit_policies', this.props.useCases))
-    //         actions.unshift(
-    //             <Icon
-    //                 type="plus"
-    //                 onClick={e => {
-    //                     e.stopPropagation();
-    //                     this.newPolicy();
-    //                 }}
-    //             />
-    //         );
-
-    //     return actions;
-    // };
-
     render() {
         let { statement } = this.props;
 
         return (
             <>
                 <Header loading={this.isLoading()}>
-                    {statement && statement.date}
+                    {statement && (
+                        <span>
+                            <CompanyName companyId={statement.companyId} />
+                            {': '}
+                            <Date date={statement.date} />
+                        </span>
+                    )}
                 </Header>
 
                 <PreviewCardContainer>
-                    <Row gutter={16}>
-                        <PreviewCard
-                            title="Details"
-                            onClick={this.editDetails}
-                            isLoading={this.isLoading()}
-                            actions={[
-                                <Icon type="edit" onClick={this.editDetails} />
-                            ]}
-                        >
-                            <div>{statement && statement.date}</div>
-                        </PreviewCard>
-                        {/* <PreviewCard
-                            title="Policies"
-                            onClick={this.togglePolicyListVisible}
-                            isLoading={this.isLoading()}
-                            requiredUseCase="mem_view_policies"
-                            actions={this.getPolicyActions()}
-                        >
-                            <span>
-                                Total Policies: {member && member.policyCount}
-                            </span>
-                        </PreviewCard>
-                        <PreviewCard
-                            title="Contacts"
-                            onClick={this.toggleContactListVisible}
-                            isLoading={this.isLoading()}
-                            requiredUseCase="mem_view_contacts"
-                            actions={[
-                                <Icon
-                                    type="bars"
-                                    onClick={this.toggleContactListVisible}
+                    <PreviewCard
+                        title="Details"
+                        onClick={this.editDetails}
+                        isLoading={this.isLoading()}
+                        actions={[
+                            <Icon type="edit" onClick={this.editDetails} />
+                        ]}
+                        rows={3}
+                    >
+                        {statement && (
+                            <>
+                                <PreviewCardRow
+                                    label="Status"
+                                    value={
+                                        <Processed
+                                            processed={statement.processed}
+                                        />
+                                    }
                                 />
-                            ]}
-                        >
-                            <span>
-                                Total Contacts: {member && member.contactCount}
-                            </span>
-                        </PreviewCard> */}
-                    </Row>
+                                <PreviewCardRow
+                                    label="Amount (incl VAT)"
+                                    value={
+                                        <Currency
+                                            amount={
+                                                statement.amountIncludingVAT
+                                            }
+                                        />
+                                    }
+                                />
+                                <PreviewCardRow
+                                    label="VAT"
+                                    value={<Currency amount={statement.vat} />}
+                                />
+                            </>
+                        )}
+                    </PreviewCard>
+                    <PreviewCard
+                        title="Commission Entries"
+                        onClick={this.toggleCommissionListVisible}
+                        isLoading={this.isLoading()}
+                        actions={[
+                            <Icon
+                                type="bars"
+                                onClick={this.toggleCommissionListVisible}
+                            />
+                        ]}
+                        rows={3}
+                    >
+                        {statement && (
+                            <>
+                                <PreviewCardRow
+                                    label="Total Entries"
+                                    value={statement.commissionCount}
+                                />
+                                <PreviewCardRow
+                                    label="Amount (incl VAT)"
+                                    value={
+                                        <Currency
+                                            amount={
+                                                statement.actualAmountIncludingVAT
+                                            }
+                                        />
+                                    }
+                                />
+                                <PreviewCardRow
+                                    label="VAT"
+                                    value={
+                                        <Currency
+                                            amount={statement.actualVAT}
+                                        />
+                                    }
+                                />
+                            </>
+                        )}
+                    </PreviewCard>
                 </PreviewCardContainer>
 
                 <EditStatement onClose={this.onFormClose} />
 
-                {/* <Drawer
-                    title="Policies"
+                <Drawer
+                    title="Commission Entries"
                     noTopPadding={true}
-                    visible={this.state.policyListVisible}
-                    onClose={this.togglePolicyListVisible}
+                    visible={this.state.commissionListVisible}
+                    onClose={this.toggleCommissionListVisible}
                 >
-                    <PolicyList memberId={this.getMemberId()} />
+                    <CommissionList
+                        commissionStatementId={this.getCommissionStatementId()}
+                        onCommissionsUpdate={this.load}
+                    />
                     <DrawerFooter>
-                        <Button onClick={this.togglePolicyListVisible}>
+                        <Button onClick={this.toggleCommissionListVisible}>
                             Close
                         </Button>
                     </DrawerFooter>
                 </Drawer>
-
-                <Drawer
-                    title="Contacts"
-                    noTopPadding={true}
-                    visible={this.state.contactListVisible}
-                    onClose={this.toggleContactListVisible}
-                >
-                    <ContactList
-                        memberId={this.getMemberId()}
-                        onSave={this.load}
-                    />
-                    <DrawerFooter>
-                        <Button onClick={this.toggleContactListVisible}>
-                            Close
-                        </Button>
-                    </DrawerFooter>
-                </Drawer> */}
             </>
         );
     }
