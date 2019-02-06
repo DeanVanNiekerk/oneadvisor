@@ -8,13 +8,15 @@ type Props = {
 
 const PreviewCardContainer = (props: Props) => (
     <Wrapper>
-        <Row gutter={16}>{props.children}</Row>
+        <Row type="flex" gutter={16}>
+            {props.children}
+        </Row>
     </Wrapper>
 );
 
 const Wrapper = styled.div`
     background-color: #ececec;
-    padding: 30px;
+    padding: 20px;
 `;
 
 export { PreviewCardContainer };

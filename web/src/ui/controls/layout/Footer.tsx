@@ -3,13 +3,13 @@ import styled from 'styled-components';
 
 import config from '@/config/config';
 
-
-
 type Props = {
-    children: ReactNode
+    children: ReactNode;
 };
 
-const Footer = (props: Props) => (<Wrapper className="px-3">{props.children}</Wrapper>);
+const Footer = (props: Props) => (
+    <Wrapper className="px-3">{props.children}</Wrapper>
+);
 
 const Wrapper = styled.footer`
     display: flex;
@@ -19,8 +19,8 @@ const Wrapper = styled.footer`
     position: sticky;
     bottom: 0;
     z-index: 1061;
-    background-color: #C9C9C9;
-    border-top: 1px solid #B5B5B5;
+    background-color: #c9c9c9;
+    border-top: 1px solid #b5b5b5;
     height: ${config.ui.footerHeight}px;
 `;
 

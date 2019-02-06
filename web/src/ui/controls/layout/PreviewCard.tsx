@@ -37,7 +37,9 @@ class PreviewCardComponent extends Component<Props> {
 
         if (!visible) return <></>;
 
-        let style: any = {};
+        let style: any = {
+            margin: '10px'
+        };
         if (minHeight) style.minHeight = minHeight;
 
         return (

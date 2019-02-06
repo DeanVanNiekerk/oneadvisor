@@ -16,6 +16,7 @@ import {
 import CommissionList from '../commission/CommissionList';
 import EditStatement from './EditStatement';
 import { Processed } from './Processed';
+import { StatementPreviewErrorCount } from './StatementPreviewErrorCount';
 import UploadStatement from './UploadStatement';
 
 type Props = {
@@ -67,7 +68,7 @@ class StatementPreviewComponent extends Component<Props, State> {
     };
 
     isLoading = () => {
-        return this.props.fetching;
+        return this.props.fetching && this.props.statement === null;
     };
 
     render() {
@@ -132,6 +133,13 @@ class StatementPreviewComponent extends Component<Props, State> {
                             <Icon
                                 type="bars"
                                 onClick={this.toggleCommissionListVisible}
+                            />,
+                            <Icon
+                                type="delete"
+                                onClick={event => {
+                                    alert('TODO');
+                                    event.stopPropagation();
+                                }}
                             />
                         ]}
                         rows={3}
@@ -178,12 +186,38 @@ class StatementPreviewComponent extends Component<Props, State> {
                         )}
                     </PreviewCard>
                     <PreviewCard
-                        title="Errors"
+                        title="Format Errors"
                         isLoading={this.isLoading()}
                         rows={3}
-                        minHeight={minCardHeight}
+                        actions={[
+                            <Icon
+                                type="tool"
+                                onClick={this.toggleCommissionListVisible}
+                            />
+                        ]}
                     >
-                        {statement && <h2>{statement.formatErrorCount}</h2>}
+                        {statement && (
+                            <StatementPreviewErrorCount
+                                count={statement.formatErrorCount}
+                            />
+                        )}
+                    </PreviewCard>
+                    <PreviewCard
+                        title="Mapping Errors"
+                        isLoading={this.isLoading()}
+                        rows={3}
+                        actions={[
+                            <Icon
+                                type="tool"
+                                onClick={this.toggleCommissionListVisible}
+                            />
+                        ]}
+                    >
+                        {statement && (
+                            <StatementPreviewErrorCount
+                                count={statement.mappingErrorCount}
+                            />
+                        )}
                     </PreviewCard>
                 </PreviewCardContainer>
 
