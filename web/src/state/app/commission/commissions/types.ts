@@ -8,6 +8,7 @@ export type Commission = {
     amountIncludingVAT: number;
     vat: number;
     userId: string;
+    policyNumber: string;
 };
 
 export type CommissionEdit = {

@@ -12,5 +12,6 @@ namespace api.Controllers.Commission.Commissions.Dto
         public decimal VAT { get; set; }
 
         public string UserId { get; set; }
+        public string PolicyNumber { get; set; }
     }
 }

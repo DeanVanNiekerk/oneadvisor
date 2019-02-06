@@ -11,6 +11,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatement
         : base(!string.IsNullOrWhiteSpace(sortColumn) ? sortColumn : "Date", !string.IsNullOrWhiteSpace(sortDirection) ? sortDirection : "desc", pageSize, pageNumber, filters)
         {
             Scope = scope;
+            CompanyId = new List<Guid>();
 
             var result = GetFilterValue<bool>("Processed");
             if (result.Success)

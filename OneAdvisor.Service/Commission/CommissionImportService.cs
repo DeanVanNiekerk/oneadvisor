@@ -42,10 +42,6 @@ namespace OneAdvisor.Service.Commission
 
             foreach (var data in importData)
             {
-                //Check if commission has already been import
-                if (await _commissionService.CommissionExists(scope, commissionStatementId, data.PolicyNumber))
-                    continue;
-
                 var validator = new ImportCommissionValidator();
                 var result = validator.Validate(data).GetResult();
 
@@ -53,6 +49,7 @@ namespace OneAdvisor.Service.Commission
                 {
                     CommissionStatementId = commissionStatementId,
                     PolicyNumber = data.PolicyNumber,
+                    CommissionTypeCode = data.CommissionTypeCode,
                     Data = JsonConvert.SerializeObject(data),
                     IsFormatValue = true
                 };
@@ -64,6 +61,10 @@ namespace OneAdvisor.Service.Commission
                     continue;
                 }
 
+                var commissionType = await _lookupService.GetCommissionType(data.CommissionTypeCode);
+                if (commissionType != null)
+                    error.CommissionTypeId = commissionType.Id;
+
                 var policy = await _policyService.GetPolicy(scope, data.PolicyNumber);
                 if (policy != null)
                 {
@@ -71,15 +72,15 @@ namespace OneAdvisor.Service.Commission
                     error.PolicyId = policy.Id;
                 }
 
-                var commissionType = await _lookupService.GetCommissionType(data.CommissionTypeCode);
-                if (commissionType != null)
-                    error.CommissionTypeId = commissionType.Id;
-
                 if (!error.IsValid())
                 {
                     await InsertCommissionError(error);
                     continue;
                 }
+
+                //Check if commission has already been import
+                if (await _commissionService.CommissionExists(scope, commissionStatementId, commissionType.Id.Value, data.PolicyNumber))
+                    continue;
 
                 var commission = new CommissionEdit()
                 {
@@ -109,6 +110,7 @@ namespace OneAdvisor.Service.Commission
             var query = from entity in _context.CommissionError
                         where entity.CommissionStatementId == error.CommissionStatementId
                         && EF.Functions.Like(entity.PolicyNumber, error.PolicyNumber)
+                        && EF.Functions.Like(entity.CommissionTypeCode, error.CommissionTypeCode)
                         select entity;
 
             return await query.AnyAsync();
@@ -122,6 +124,7 @@ namespace OneAdvisor.Service.Commission
             entity.CommissionStatementId = model.CommissionStatementId;
             entity.PolicyId = model.PolicyId;
             entity.PolicyNumber = model.PolicyNumber;
+            entity.CommissionTypeCode = model.CommissionTypeCode;
             entity.MemberId = model.MemberId;
             entity.Data = model.Data;
 

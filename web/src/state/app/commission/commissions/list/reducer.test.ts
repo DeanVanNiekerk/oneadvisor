@@ -49,7 +49,8 @@ describe('commission list reducer', () => {
             amountIncludingVAT: 100,
             vat: 14,
             userId: '123321',
-            commissionStatementId: '998877'
+            commissionStatementId: '998877',
+            policyNumber: 'POL-9877'
         };
 
         const actualState = reducer(initalState, {

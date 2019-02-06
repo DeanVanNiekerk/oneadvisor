@@ -26,6 +26,10 @@ namespace OneAdvisor.Model.Commission.Model.Commission
             var resultGuids = GetFilterValues<Guid>("CommissionTypeId");
             if (resultGuids.Success)
                 CommissionTypeId = resultGuids.Value;
+
+            var result = GetFilterValue<string>("PolicyNumber");
+            if (result.Success)
+                PolicyNumber = result.Value;
         }
 
         public ScopeOptions Scope { get; set; }
@@ -33,5 +37,7 @@ namespace OneAdvisor.Model.Commission.Model.Commission
         public Guid? CommissionStatementId { get; set; }
         public List<string> UserId { get; set; }
         public List<Guid> CommissionTypeId { get; set; }
+        public string PolicyNumber { get; set; }
+
     }
 }

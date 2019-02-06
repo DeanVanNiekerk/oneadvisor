@@ -2,6 +2,7 @@ import { Col, Row, Statistic } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { applyLike } from '@/app/query';
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
 import {
     Commission, CommissionEdit, commissionsSelector, fetchCommission, fetchCommissions, receiveCommission,
@@ -84,6 +85,9 @@ class CommissionList extends Component<Props> {
 
     getColumns = () => {
         return [
+            getColumnEDS('policyNumber', 'Policy Number', {
+                showSearchFilter: true
+            }),
             getColumnEDS('commissionTypeId', 'Type', {
                 render: (commissionTypeId: string) => {
                     return (
@@ -113,6 +117,10 @@ class CommissionList extends Component<Props> {
         ];
     };
 
+    updateFilters = (filters: Filters): Filters => {
+        return applyLike(filters, ['policyNumber']);
+    };
+
     onTableChange = (
         pageOptions: PageOptions,
         sortOptions: SortOptions,
@@ -123,7 +131,7 @@ class CommissionList extends Component<Props> {
         if (this.props.sortOptions != sortOptions)
             this.props.dispatch(receiveSortOptions(sortOptions));
         if (this.props.filters != filters)
-            this.props.dispatch(receiveFilters(filters));
+            this.props.dispatch(receiveFilters(this.updateFilters(filters)));
     };
 
     render() {

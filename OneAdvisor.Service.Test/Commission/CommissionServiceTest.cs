@@ -33,6 +33,7 @@ namespace OneAdvisor.Service.Test.Commission
             var policy1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
+                Number = Guid.NewGuid().ToString(),
                 CompanyId = Guid.NewGuid(),
                 MemberId = member1.Member.Id,
                 UserId = user1.User.Id
@@ -136,6 +137,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
                 Assert.AreEqual(commission1.VAT, actual.VAT);
                 Assert.AreEqual(commission1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.AreEqual(policy1.Number, actual.PolicyNumber);
 
                 actual = items[1];
                 Assert.AreEqual(commission2.Id, actual.Id);
@@ -267,15 +269,18 @@ namespace OneAdvisor.Service.Test.Commission
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
-                var actual = await service.CommissionExists(scope, commission1.CommissionStatementId, policy1.Number);
+                var actual = await service.CommissionExists(scope, commission1.CommissionStatementId, commission1.CommissionTypeId, policy1.Number);
                 Assert.IsTrue(actual);
 
-                actual = await service.CommissionExists(scope, commission1.CommissionStatementId, "POL-1212");
+                actual = await service.CommissionExists(scope, commission1.CommissionStatementId, commission1.CommissionTypeId, "POL-1212");
+                Assert.IsFalse(actual);
+
+                actual = await service.CommissionExists(scope, commission1.CommissionStatementId, Guid.NewGuid(), policy1.Number);
                 Assert.IsFalse(actual);
 
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
-                actual = await service.CommissionExists(scope, commission1.CommissionStatementId, policy1.Number);
+                actual = await service.CommissionExists(scope, commission1.CommissionStatementId, commission1.CommissionTypeId, policy1.Number);
                 Assert.IsFalse(actual);
             }
         }

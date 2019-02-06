@@ -40,7 +40,8 @@ namespace OneAdvisor.Service.Commission
                             CommissionTypeId = commission.CommissionTypeId,
                             AmountIncludingVAT = commission.AmountIncludingVAT,
                             VAT = commission.VAT,
-                            UserId = policy.UserId
+                            UserId = policy.UserId,
+                            PolicyNumber = policy.Number
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -52,6 +53,9 @@ namespace OneAdvisor.Service.Commission
 
             if (queryOptions.CommissionTypeId.Any())
                 query = query.Where(c => queryOptions.CommissionTypeId.Contains(c.CommissionTypeId));
+
+            if (!string.IsNullOrWhiteSpace(queryOptions.PolicyNumber))
+                query = query.Where(m => EF.Functions.Like(m.PolicyNumber, queryOptions.PolicyNumber));
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedCommissions();
@@ -96,12 +100,13 @@ namespace OneAdvisor.Service.Commission
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<bool> CommissionExists(ScopeOptions scope, Guid commissionStatementId, string policyNumber)
+        public async Task<bool> CommissionExists(ScopeOptions scope, Guid commissionStatementId, Guid commissionTypeId, string policyNumber)
         {
             var query = from commission in GetCommissionEntityQuery(scope)
                         join policy in _context.Policy
                             on commission.PolicyId equals policy.Id
                         where commission.CommissionStatementId == commissionStatementId
+                        && commission.CommissionTypeId == commissionTypeId
                         && EF.Functions.Like(policy.Number, policyNumber)
                         select commission;
 
