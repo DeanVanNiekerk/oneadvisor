@@ -123,6 +123,7 @@ class UserList extends Component<Props, State> {
         return (
             <>
                 <Header
+                    icon="team"
                     actions={
                         <Button
                             type="default"

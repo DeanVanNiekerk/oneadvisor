@@ -112,6 +112,7 @@ class MemberPreviewComponent extends Component<Props, State> {
                 <PreviewCardContainer>
                     <PreviewCard
                         title="Details"
+                        icon="profile"
                         onClick={this.editDetails}
                         isLoading={this.isLoading()}
                         actions={[
@@ -138,6 +139,7 @@ class MemberPreviewComponent extends Component<Props, State> {
                     </PreviewCard>
                     <PreviewCard
                         title="Policies"
+                        icon="file-text"
                         onClick={this.togglePolicyListVisible}
                         isLoading={this.isLoading()}
                         requiredUseCase="mem_view_policies"
@@ -158,6 +160,7 @@ class MemberPreviewComponent extends Component<Props, State> {
                     </PreviewCard>
                     <PreviewCard
                         title="Contacts"
+                        icon="phone"
                         onClick={this.toggleContactListVisible}
                         isLoading={this.isLoading()}
                         requiredUseCase="mem_view_contacts"

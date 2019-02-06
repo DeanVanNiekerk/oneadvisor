@@ -1,7 +1,8 @@
-import { Col, Row, Skeleton } from 'antd';
+import { Col, Icon, Row, Skeleton } from 'antd';
 import React, { ReactNode } from 'react';
 
 type Props = {
+    icon?: string;
     loading?: boolean;
     children?: ReactNode;
     actions?: ReactNode;
@@ -29,7 +30,15 @@ const Header = (props: Props) => (
                     rows: 1
                 }}
             >
-                <h2>{props.children}</h2>
+                <h2>
+                    {props.icon && (
+                        <Icon
+                            type={props.icon}
+                            style={{ marginRight: '8px' }}
+                        />
+                    )}
+                    {props.children}
+                </h2>
             </Skeleton>
         </Col>
         {props.actions && (

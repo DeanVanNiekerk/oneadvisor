@@ -40,7 +40,7 @@ export const menus: Menus = {
                 links: [
                     {
                         name: 'Companies',
-                        icon: 'bank',
+                        icon: 'copyright',
                         relativePath: '/lookups/companies',
                         useCases: ['dir_view_lookups']
                     },
@@ -86,7 +86,7 @@ export const menus: Menus = {
                 links: [
                     {
                         name: 'Import',
-                        icon: 'cloud-upload',
+                        icon: 'upload',
                         relativePath: '/import',
                         useCases: ['mem_import_members']
                     },

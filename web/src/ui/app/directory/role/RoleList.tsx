@@ -88,7 +88,7 @@ class RoleList extends Component<Props, State> {
     render() {
         return (
             <>
-                <Header>Roles</Header>
+                <Header icon="safety-certificate">Roles</Header>
                 <Table
                     rowKey="id"
                     columns={this.getColumns()}

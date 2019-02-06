@@ -70,6 +70,7 @@ class CompanyList extends Component<Props, State> {
         return (
             <>
                 <Header
+                    icon="copyright"
                     actions={
                         <Button
                             type="default"

@@ -58,7 +58,7 @@ class MemberImport extends Component<Props, State> {
 
         return (
             <>
-                <Header>Import Member Data</Header>
+                <Header icon="upload">Import Member Data</Header>
 
                 <div className="mt-1" />
 

@@ -135,6 +135,7 @@ class AuditLogList extends Component<Props, State> {
         return (
             <>
                 <Header
+                    icon="video-camera"
                     actions={
                         <>
                             <Button

@@ -84,6 +84,7 @@ class CommissionTypeList extends Component<Props, State> {
         return (
             <>
                 <Header
+                    icon="dollar"
                     actions={
                         <Button
                             type="default"

@@ -33,7 +33,7 @@ class MemberExport extends Component<DispatchProp, State> {
     render() {
         return (
             <>
-                <Header>Export Member Data</Header>
+                <Header icon="download">Export Member Data</Header>
 
                 <div className="mt-1" />
 

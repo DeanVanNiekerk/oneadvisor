@@ -77,7 +77,7 @@ class StatementPreviewComponent extends Component<Props, State> {
 
         return (
             <>
-                <Header loading={this.isLoading()}>
+                <Header icon="table" loading={this.isLoading()}>
                     {statement && (
                         <span>
                             <CompanyName companyId={statement.companyId} />
@@ -90,6 +90,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                 <PreviewCardContainer>
                     <PreviewCard
                         title="Details"
+                        icon="profile"
                         onClick={this.editDetails}
                         isLoading={this.isLoading()}
                         actions={[
@@ -127,6 +128,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                     </PreviewCard>
                     <PreviewCard
                         title="Commission Entries"
+                        icon="dollar"
                         onClick={this.toggleCommissionListVisible}
                         isLoading={this.isLoading()}
                         actions={[
@@ -174,6 +176,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                     </PreviewCard>
                     <PreviewCard
                         title="Upload Statement"
+                        icon="upload"
                         isLoading={this.isLoading()}
                         rows={3}
                         minHeight={minCardHeight}
@@ -187,6 +190,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                     </PreviewCard>
                     <PreviewCard
                         title="Format Errors"
+                        icon="file-exclamation"
                         isLoading={this.isLoading()}
                         rows={3}
                         actions={[
@@ -204,6 +208,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                     </PreviewCard>
                     <PreviewCard
                         title="Mapping Errors"
+                        icon="file-exclamation"
                         isLoading={this.isLoading()}
                         rows={3}
                         actions={[

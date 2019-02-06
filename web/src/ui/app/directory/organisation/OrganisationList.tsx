@@ -73,6 +73,7 @@ class OrganisationList extends Component<Props, State> {
         return (
             <>
                 <Header
+                    icon="bank"
                     actions={
                         <Button
                             type="default"

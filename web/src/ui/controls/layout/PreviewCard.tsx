@@ -1,4 +1,4 @@
-import { Card, Col, Skeleton } from 'antd';
+import { Card, Col, Icon, Skeleton } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -8,6 +8,7 @@ import { RootState } from '@/state/rootReducer';
 
 type Props = {
     title: string;
+    icon: string;
     onClick?: () => void;
     isLoading: boolean;
     actions?: React.ReactNode[];
@@ -27,7 +28,8 @@ class PreviewCardComponent extends Component<Props> {
             isLoading,
             requiredUseCase,
             rows = 1,
-            minHeight
+            minHeight,
+            icon
         } = this.props;
 
         let visible = true;
@@ -46,7 +48,12 @@ class PreviewCardComponent extends Component<Props> {
             <Col sm={24} md={12} lg={8} xl={6}>
                 <Card
                     hoverable={true}
-                    title={title}
+                    title={
+                        <span>
+                            <Icon type={icon} style={{ marginRight: '6px' }} />
+                            {title}
+                        </span>
+                    }
                     bordered={false}
                     onClick={onClick}
                     actions={actions}

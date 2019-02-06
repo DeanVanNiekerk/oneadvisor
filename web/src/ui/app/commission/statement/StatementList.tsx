@@ -112,7 +112,7 @@ class StatementList extends Component<Props> {
             getColumnEDS('actualVAT', 'VAT', { type: 'currency' }),
             getColumnEDS('processed', 'Status', {
                 render: (processed: boolean) => {
-                    return <Processed processed={processed} />
+                    return <Processed processed={processed} />;
                 },
                 filters: [
                     {
@@ -212,6 +212,7 @@ class StatementList extends Component<Props> {
         return (
             <>
                 <Header
+                    icon="table"
                     actions={
                         <Button
                             type="default"

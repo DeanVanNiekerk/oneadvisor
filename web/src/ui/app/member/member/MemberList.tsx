@@ -132,6 +132,7 @@ class MemberList extends Component<Props> {
         return (
             <>
                 <Header
+                    icon="user"
                     actions={
                         <>
                             <Button
