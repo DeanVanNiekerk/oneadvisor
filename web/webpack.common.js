@@ -3,6 +3,7 @@ var config = require('config');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const oidcConfig = config.get('oidc');
 const oaBaseApi = config.get('baseApi');
@@ -59,9 +60,15 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(['server/dist']),
         new HtmlWebPackPlugin({
-            template: path.resolve(__dirname, 'template', 'index.html'),
+            template: path.resolve(__dirname, 'template/index.html'),
             filename: 'index.html'
         }),
+        new CopyWebpackPlugin([
+            {
+                from: path.resolve(__dirname, 'template/favicon.png'),
+                to: path.resolve(__dirname, 'server/dist')
+            }
+        ]),
         new webpack.DefinePlugin({
             __OIDC_CLIENT_ID__: JSON.stringify(oidcConfig.clientId),
             __OIDC_ISSUER__: JSON.stringify(oidcConfig.issuer),
