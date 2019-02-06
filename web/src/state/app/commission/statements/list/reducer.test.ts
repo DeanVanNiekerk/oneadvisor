@@ -52,7 +52,8 @@ describe('statement list reducer', () => {
             formatErrorCount: 1,
             mappingErrorCount: 2,
             actualAmountIncludingVAT: 200,
-            actualVAT: 16
+            actualVAT: 16,
+            commissionCount: 10
         };
 
         const actualState = reducer(initalState, {
