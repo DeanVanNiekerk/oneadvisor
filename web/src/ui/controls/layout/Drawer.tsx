@@ -1,8 +1,9 @@
-import { Drawer as DrawerAD } from 'antd';
+import { Drawer as DrawerAD, Icon } from 'antd';
 import React, { ReactNode } from 'react';
 
 type Props = {
     title: string;
+    icon?: string;
     children: ReactNode;
     visible: boolean;
     onClose: () => void;
@@ -14,7 +15,17 @@ type Props = {
 const Drawer = (props: Props) => {
     return (
         <DrawerAD
-            title={props.title}
+            title={
+                <span>
+                    {props.icon && (
+                        <Icon
+                            type={props.icon}
+                            style={{ marginRight: '8px' }}
+                        />
+                    )}
+                    {props.title}
+                </span>
+            }
             width={props.width}
             visible={props.visible}
             onClose={props.onClose}

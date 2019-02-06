@@ -191,6 +191,7 @@ class MemberPreviewComponent extends Component<Props, State> {
 
                 <Drawer
                     title="Policies"
+                    icon="file-text"
                     noTopPadding={true}
                     visible={this.state.policyListVisible}
                     onClose={this.togglePolicyListVisible}
@@ -205,6 +206,7 @@ class MemberPreviewComponent extends Component<Props, State> {
 
                 <Drawer
                     title="Contacts"
+                    icon="phone"
                     noTopPadding={true}
                     visible={this.state.contactListVisible}
                     onClose={this.toggleContactListVisible}

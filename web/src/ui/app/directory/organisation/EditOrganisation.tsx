@@ -116,6 +116,7 @@ class EditOrganisation extends Component<Props, State> {
         return (
             <Drawer
                 title={this.getTitle()}
+                icon="bank"
                 visible={visible}
                 onClose={this.confirmCancel}
                 noTopPadding={true}

@@ -45,6 +45,7 @@ class EditUser extends Component<Props> {
         return (
             <Drawer
                 title={this.getTitle()}
+                icon="safety-certificate"
                 visible={visible}
                 onClose={this.close}
                 noTopPadding={true}

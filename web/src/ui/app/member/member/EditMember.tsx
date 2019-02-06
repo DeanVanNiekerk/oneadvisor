@@ -100,6 +100,7 @@ class EditMember extends Component<Props, State> {
         return (
             <Drawer
                 title={this.getTitle()}
+                icon="profile"
                 visible={!!member || fetching}
                 onClose={this.confirmCancel}
             >

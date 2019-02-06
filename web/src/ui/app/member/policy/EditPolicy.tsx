@@ -98,6 +98,7 @@ class EditPolicy extends Component<Props, State> {
         return (
             <Drawer
                 title={this.getTitle()}
+                icon="file-text"
                 visible={!!policy || fetching}
                 onClose={this.confirmCancel}
             >

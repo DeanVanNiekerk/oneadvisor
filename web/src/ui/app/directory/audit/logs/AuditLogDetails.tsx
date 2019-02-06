@@ -17,6 +17,7 @@ class AuditLogDetails extends Component<Props> {
         return (
             <Drawer
                 title="Audit Log Detail"
+                icon="video-camera"
                 visible={visible}
                 onClose={onClose}
             >

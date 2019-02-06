@@ -230,6 +230,7 @@ class StatementPreviewComponent extends Component<Props, State> {
 
                 <Drawer
                     title="Commission Entries"
+                    icon="dollar"
                     noTopPadding={true}
                     visible={this.state.commissionListVisible}
                     onClose={this.toggleCommissionListVisible}
