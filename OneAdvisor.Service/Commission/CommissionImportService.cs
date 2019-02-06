@@ -51,12 +51,12 @@ namespace OneAdvisor.Service.Commission
                     PolicyNumber = data.PolicyNumber,
                     CommissionTypeCode = data.CommissionTypeCode,
                     Data = JsonConvert.SerializeObject(data),
-                    IsFormatValue = true
+                    IsFormatValid = true
                 };
 
                 if (!result.Success)
                 {
-                    error.IsFormatValue = false;
+                    error.IsFormatValid = false;
                     await InsertCommissionError(error);
                     continue;
                 }

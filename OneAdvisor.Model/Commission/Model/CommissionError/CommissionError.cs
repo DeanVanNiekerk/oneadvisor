@@ -13,7 +13,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionError
         public Guid? MemberId { get; set; }
         public Guid? CommissionTypeId { get; set; }
         public string Data { get; set; }
-        public bool IsFormatValue { get; set; }
+        public bool IsFormatValid { get; set; }
 
         public bool IsValid()
         {
