@@ -4,6 +4,7 @@ import { connect, DispatchProp } from 'react-redux';
 
 import { applyLike } from '@/app/query';
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
+import { formatCurrency } from '@/app/utils';
 import {
     Commission, CommissionEdit, commissionsSelector, fetchCommission, fetchCommissions, receiveCommission,
     receiveFilters, receivePageOptions, receiveSortOptions
@@ -134,6 +135,29 @@ class CommissionList extends Component<Props> {
             this.props.dispatch(receiveFilters(this.updateFilters(filters)));
     };
 
+    tableFooter = () => {
+        return (
+            <Row type="flex" justify="space-between">
+                <Col>
+                    <b>Total Amount (incl VAT): </b>
+                    {formatCurrency(this.props.sumAmountIncludingVAT)}
+                </Col>
+                <Col>
+                    <b>Total VAT: </b>
+                    {formatCurrency(this.props.sumVAT)}
+                </Col>
+                <Col>
+                    <b>Average Amount (incl VAT): </b>
+                    {formatCurrency(this.props.averageAmountIncludingVAT)}
+                </Col>
+                <Col>
+                    <b>Average VAT: </b>
+                    {formatCurrency(this.props.averageVAT)}
+                </Col>
+            </Row>
+        );
+    };
+
     render() {
         return (
             <>
@@ -153,36 +177,6 @@ class CommissionList extends Component<Props> {
                         </>
                     }
                 />
-                {/* <Row type="flex" justify="space-around" className="mb-1">
-                    <Col>
-                        <Statistic
-                            title="Total Amount"
-                            prefix="R"
-                            value={this.props.sumAmountIncludingVAT}
-                        />
-                    </Col>
-                    <Col>
-                        <Statistic
-                            title="Average Amount"
-                            prefix="R"
-                            value={this.props.averageAmountIncludingVAT}
-                        />
-                    </Col>
-                    <Col>
-                        <Statistic
-                            title="Total VAT"
-                            prefix="R"
-                            value={this.props.sumVAT}
-                        />
-                    </Col>
-                    <Col>
-                        <Statistic
-                            title="Average VAT"
-                            prefix="R"
-                            value={this.props.averageVAT}
-                        />
-                    </Col>
-                </Row> */}
                 <Table
                     rowKey="id"
                     columns={this.getColumns()}
@@ -195,6 +189,7 @@ class CommissionList extends Component<Props> {
                     pageOptions={this.props.pageOptions}
                     totalRows={this.props.totalItems}
                     onTableChange={this.onTableChange}
+                    footer={this.tableFooter}
                 />
                 <EditCommission onClose={this.onFormClose} />
             </>
