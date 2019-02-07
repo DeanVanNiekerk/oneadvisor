@@ -33,7 +33,7 @@ export const defaultState: State = {
     error: false,
     pageOptions: defaultPageOptions(),
     sortOptions: defaultSortOptions('', 'desc'),
-    filterMonth: moment().month(),
+    filterMonth: moment().month() + 1,
     filterYear: moment().year(),
     filters: null
 };

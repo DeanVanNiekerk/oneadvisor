@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OneAdvisor.Data;
+using OneAdvisor.Data.Entities.Commission;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.Entities.Member;
@@ -130,6 +131,19 @@ namespace OneAdvisor.Service.Test
             };
 
             return type;
+        }
+
+        public static CommissionStatementEntity InsertDefaultCommissionStatement(DbContextOptions<DataContext> options)
+        {
+            var statement = new CommissionStatementEntity { Id = Guid.NewGuid() };
+
+            using (var context = new DataContext(options))
+            {
+                context.CommissionStatement.Add(statement);
+                context.SaveChanges();
+            }
+
+            return statement;
         }
 
         public static ScopeOptions GetScopeOptions(DefaultUser user, Scope scope)

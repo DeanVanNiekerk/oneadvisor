@@ -47,7 +47,7 @@ namespace api.Controllers.Commission.Import
             var reader = new CommissionImportExcelReader();
             var items = reader.Read(file.OpenReadStream());
 
-            await CommissionImportService.ImportCommission(scope, commissionStatementId, items);
+            await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
 
             return Ok();
         }
