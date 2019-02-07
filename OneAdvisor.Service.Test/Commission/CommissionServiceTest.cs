@@ -10,6 +10,7 @@ using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Commission;
 using OneAdvisor.Data.Entities.Member;
+using Microsoft.EntityFrameworkCore;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -436,6 +437,106 @@ namespace OneAdvisor.Service.Test.Commission
                 scopeOptions = TestHelper.GetScopeOptions(user3, Scope.Organisation);
                 result = await service.UpdateCommission(scopeOptions, commission1);
                 Assert.IsFalse(result.Success);
+            }
+        }
+
+        [TestMethod]
+        public async Task DeleteCommissions()
+        {
+            var options = TestHelper.GetDbContext("DeleteCommissions");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var statement1 = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
+
+            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var statement2 = TestHelper.InsertDefaultCommissionStatement(options, user2.Organisation);
+
+            var commission1 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
+                AmountIncludingVAT = 99,
+                VAT = 14,
+                CommissionStatementId = statement1.Id
+            };
+
+            var commission2 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
+                AmountIncludingVAT = 99,
+                VAT = 14,
+                CommissionStatementId = statement1.Id
+            };
+
+            var error1 = new CommissionErrorEntity
+            {
+                PolicyNumber = "123456",
+                CommissionTypeCode = "gap_cover",
+                CommissionStatementId = statement1.Id
+            };
+
+            var error2 = new CommissionErrorEntity
+            {
+                PolicyNumber = "654321",
+                CommissionTypeCode = "gap_cover",
+                CommissionStatementId = statement1.Id
+            };
+
+            var commission3 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
+                AmountIncludingVAT = 99,
+                VAT = 14,
+                CommissionStatementId = statement2.Id
+            };
+
+            var error3 = new CommissionErrorEntity
+            {
+                PolicyNumber = "987654",
+                CommissionTypeCode = "gap_cover",
+                CommissionStatementId = statement2.Id
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Commission.Add(commission1);
+                context.Commission.Add(commission2);
+                context.Commission.Add(commission3);
+
+                context.CommissionError.Add(error1);
+                context.CommissionError.Add(error2);
+                context.CommissionError.Add(error3);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new CommissionService(context);
+
+                //When
+                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                await service.DeleteCommissions(scopeOptions, statement1.Id);
+
+                //Then
+                var actual = await context.Commission.SingleAsync();
+                Assert.AreEqual(commission3.Id, actual.Id);
+
+                var actualError = await context.CommissionError.SingleAsync();
+                Assert.AreEqual(error3.Id, actualError.Id);
+
+                //Out of scope 
+                await service.DeleteCommissions(scopeOptions, statement2.Id);
+                actual = await context.Commission.SingleAsync();
+                Assert.AreEqual(commission3.Id, actual.Id);
+
+                actualError = await context.CommissionError.SingleAsync();
+                Assert.AreEqual(error3.Id, actualError.Id);
             }
         }
     }

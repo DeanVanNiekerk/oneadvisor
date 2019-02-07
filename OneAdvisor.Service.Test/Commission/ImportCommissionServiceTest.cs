@@ -28,7 +28,7 @@ namespace OneAdvisor.Service.Test.Commission
             var options = TestHelper.GetDbContext("ImportCommission_BadFormat_InsertError");
 
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var statement = TestHelper.InsertDefaultCommissionStatement(options);
+            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
 
             using (var context = new DataContext(options))
             {
@@ -76,7 +76,7 @@ namespace OneAdvisor.Service.Test.Commission
             var options = TestHelper.GetDbContext("ImportCommission_BadFormat_UpdateError");
 
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var statement = TestHelper.InsertDefaultCommissionStatement(options);
+            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
 
             var ic1 = new ImportCommission
             {
@@ -145,7 +145,7 @@ namespace OneAdvisor.Service.Test.Commission
             var options = TestHelper.GetDbContext("ImportCommission_SetCommisionType");
 
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var statement = TestHelper.InsertDefaultCommissionStatement(options);
+            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
 
             var commissionType = new CommissionTypeEntity
             {
@@ -207,7 +207,7 @@ namespace OneAdvisor.Service.Test.Commission
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
             var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
-            var statement = TestHelper.InsertDefaultCommissionStatement(options);
+            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
 
             var policy1 = new PolicyEntity
             {
@@ -272,7 +272,7 @@ namespace OneAdvisor.Service.Test.Commission
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
             var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
-            var statement = TestHelper.InsertDefaultCommissionStatement(options);
+            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
 
             var commissionType = new CommissionTypeEntity
             {
@@ -341,7 +341,7 @@ namespace OneAdvisor.Service.Test.Commission
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
             var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
-            var statement = TestHelper.InsertDefaultCommissionStatement(options);
+            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
 
             var commissionType = new CommissionTypeEntity
             {

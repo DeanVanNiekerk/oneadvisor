@@ -39,4 +39,19 @@ describe('statement actions', () => {
             expectedAction
         );
     });
+
+    it('should dispatch API when deleteContact is called', () => {
+        const onSuccess = () => {};
+
+        const expectedAction = {
+            type: 'API',
+            endpoint: `${statementsApi}/10/commissions`,
+            method: 'DELETE',
+            onSuccess: onSuccess
+        };
+
+        expect(actions.deleteCommissions('10', onSuccess)).toEqual(
+            expectedAction
+        );
+    });
 });

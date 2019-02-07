@@ -82,6 +82,5 @@ export const deleteContact = (
     type: 'API',
     endpoint: `${contactsApi}/${contactId}`,
     method: 'DELETE',
-    onSuccess: onSuccess,
-    dispatchPrefix: 'CONTACTS_CONTACT_EDIT'
+    onSuccess: onSuccess
 });

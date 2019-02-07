@@ -44,8 +44,7 @@ describe('contact actions', () => {
             type: 'API',
             endpoint: `${contactsApi}/10`,
             method: 'DELETE',
-            onSuccess: onSuccess,
-            dispatchPrefix: 'CONTACTS_CONTACT_EDIT'
+            onSuccess: onSuccess
         };
 
         expect(actions.deleteContact('10', onSuccess)).toEqual(expectedAction);

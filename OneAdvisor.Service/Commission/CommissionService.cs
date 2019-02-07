@@ -164,6 +164,30 @@ namespace OneAdvisor.Service.Commission
             return result;
         }
 
+        public async Task DeleteCommissions(ScopeOptions scope, Guid commissionStatementId)
+        {
+            var organisationQuery = ScopeQuery.GetOrganisationEntityQuery(_context, scope);
+
+            var query = from organisation in organisationQuery
+                        join commissionStatement in _context.CommissionStatement
+                            on organisation.Id equals commissionStatement.OrganisationId
+                        where commissionStatement.Id == commissionStatementId
+                        select commissionStatement;
+
+            var statement = await query
+                        .Include(s => s.Commissions)
+                        .Include(s => s.CommissionErrors)
+                        .FirstOrDefaultAsync();
+
+            if (statement == null)
+                return;
+
+            statement.Commissions.Clear();
+            statement.CommissionErrors.Clear();
+
+            await _context.SaveChangesAsync();
+        }
+
         private IQueryable<CommissionEntity> GetCommissionEntityQuery(ScopeOptions scope)
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, scope);

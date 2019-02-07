@@ -70,3 +70,13 @@ export const insertStatement = (
     onSuccess: onSuccess,
     dispatchPrefix: 'STATEMENTS_STATEMENT_EDIT'
 });
+
+export const deleteCommissions = (
+    commissionStatementId: string,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
+    type: 'API',
+    endpoint: `${statementsApi}/${commissionStatementId}/commissions`,
+    method: 'DELETE',
+    onSuccess: onSuccess
+});

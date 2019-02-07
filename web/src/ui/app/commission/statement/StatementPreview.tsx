@@ -1,23 +1,26 @@
-import { Card, Col, Icon, Row, Skeleton } from 'antd';
+import { Icon, Modal } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { hasUseCase } from '@/app/identity';
 import {
-    fetchStatement, fetchStatementPreview, Statement, statementPreviewSelector
+    deleteCommissions, fetchStatement, fetchStatementPreview, Statement, statementPreviewSelector
 } from '@/state/app/commission/statements';
 import { identitySelector } from '@/state/app/directory/identity';
 import { RootState } from '@/state/rootReducer';
 import {
     Button, CompanyName, Currency, Date, Drawer, DrawerFooter, Header, PreviewCard, PreviewCardContainer, PreviewCardRow
 } from '@/ui/controls';
+import { showMessage } from '@/ui/feedback/notifcation';
 
 import CommissionList from '../commission/CommissionList';
 import EditStatement from './EditStatement';
 import { Processed } from './Processed';
 import { StatementPreviewErrorCount } from './StatementPreviewErrorCount';
 import UploadStatement from './UploadStatement';
+
+const confirm = Modal.confirm;
 
 type Props = {
     statement: Statement | null;
@@ -65,6 +68,26 @@ class StatementPreviewComponent extends Component<Props, State> {
 
     editDetails = () => {
         this.props.dispatch(fetchStatement(this.getCommissionStatementId()));
+    };
+
+    deleteCommissions = () => {
+        confirm({
+            title: 'Are you sure you want to delete all commission entries?',
+            content:
+                'All commission entries including any errors will be permanenty deleted, are you sure you wish to continue?',
+            onOk: () => {
+                this.props.dispatch(
+                    deleteCommissions(this.getCommissionStatementId(), () => {
+                        showMessage(
+                            'success',
+                            'Commission entries successfully deleted',
+                            5
+                        );
+                        this.load();
+                    })
+                );
+            }
+        });
     };
 
     isLoading = () => {
@@ -139,7 +162,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                             <Icon
                                 type="delete"
                                 onClick={event => {
-                                    alert('TODO');
+                                    this.deleteCommissions();
                                     event.stopPropagation();
                                 }}
                             />

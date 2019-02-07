@@ -16,16 +16,19 @@ namespace api.Controllers.Commission.CommissionStatements
     [Route("api/commission/statements")]
     public class CommissionStatementsController : BaseController
     {
-        public CommissionStatementsController(IHttpContextAccessor contextAccessor, IMapper mapper, ICommissionStatementService commissionStatementService, IAuthService authService)
+        public CommissionStatementsController(IHttpContextAccessor contextAccessor, IMapper mapper, ICommissionStatementService commissionStatementService, ICommissionService commissionService, IAuthService authService)
             : base(contextAccessor)
         {
             Mapper = mapper;
             CommissionStatementService = commissionStatementService;
+            CommissionService = commissionService;
             AuthService = authService;
         }
 
         private IMapper Mapper { get; }
         private ICommissionStatementService CommissionStatementService { get; }
+        private ICommissionService CommissionService { get; }
+
         private IAuthService AuthService { get; }
 
         [HttpGet("")]
@@ -86,6 +89,17 @@ namespace api.Controllers.Commission.CommissionStatements
                 return BadRequest(result.ValidationFailures);
 
             return Ok(result);
+        }
+
+        [HttpDelete("{commissionStatementId}/commissions")]
+        [UseCaseAuthorize("com_edit_commission_statements")]
+        public async Task<ActionResult<Result>> DeleteCommissions(Guid commissionStatementId)
+        {
+            var scope = await AuthService.GetScope(UserId, Scope);
+
+            await CommissionService.DeleteCommissions(scope, commissionStatementId);
+
+            return Ok(new { Success = true });
         }
     }
 

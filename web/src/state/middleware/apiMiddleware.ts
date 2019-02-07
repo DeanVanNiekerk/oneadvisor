@@ -26,9 +26,11 @@ export default (store: any) => (next: any) => (action: any) => {
     if (payload) fetchOptions.body = JSON.stringify(payload);
 
     //Fetching
-    store.dispatch({
-        type: `${dispatchPrefix}_FETCHING`
-    });
+    if (dispatchPrefix) {
+        store.dispatch({
+            type: `${dispatchPrefix}_FETCHING`
+        });
+    }
 
     //console.log(endpoint, fetchOptions);
 
@@ -81,10 +83,12 @@ export default (store: any) => (next: any) => (action: any) => {
                 if (action.onSuccess) action.onSuccess(json, store.dispatch);
 
                 //Recieve
-                store.dispatch({
-                    type: `${dispatchPrefix}_RECEIVE`,
-                    payload: json
-                });
+                if (dispatchPrefix) {
+                    store.dispatch({
+                        type: `${dispatchPrefix}_RECEIVE`,
+                        payload: json
+                    });
+                }
 
                 return json;
             });
@@ -114,10 +118,12 @@ const handleError = (
     console.log(error);
 
     //Fetching Error
-    store.dispatch({
-        type: `${dispatchPrefix}_FETCHING_ERROR`,
-        payload: error
-    });
+    if (dispatchPrefix) {
+        store.dispatch({
+            type: `${dispatchPrefix}_FETCHING_ERROR`,
+            payload: error
+        });
+    }
 };
 
 const handleValidationError = (
@@ -133,10 +139,13 @@ const handleValidationError = (
             showNotification('error', 'Server Error: Validation', error, 10);
         }
         console.log(error);
-        store.dispatch({
-            type: `${dispatchPrefix}_RECEIVE`,
-            payload: null
-        });
+
+        if (dispatchPrefix) {
+            store.dispatch({
+                type: `${dispatchPrefix}_RECEIVE`,
+                payload: null
+            });
+        }
         return;
     }
 
@@ -149,8 +158,10 @@ const handleValidationError = (
     }
 
     //Validation Error
-    store.dispatch({
-        type: `${dispatchPrefix}_VALIDATION_ERROR`,
-        payload: json
-    });
+    if (dispatchPrefix) {
+        store.dispatch({
+            type: `${dispatchPrefix}_VALIDATION_ERROR`,
+            payload: json
+        });
+    }
 };
