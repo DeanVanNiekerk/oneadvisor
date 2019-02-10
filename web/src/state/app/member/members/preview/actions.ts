@@ -5,7 +5,7 @@ import { MemberPreview } from '../types';
 
 type MemberPreviewReceiveAction = {
     type: 'MEMBERS_MEMBER_PREVIEW_RECEIVE';
-    payload: MemberPreview;
+    payload: MemberPreview | null;
 };
 type MemberPreviewFetchingAction = { type: 'MEMBERS_MEMBER_PREVIEW_FETCHING' };
 type MemberPreviewFetchingErrorAction = {
@@ -18,7 +18,7 @@ export type MemberPreviewAction =
     | MemberPreviewFetchingErrorAction;
 
 export const receiveMemberPreview = (
-    member: MemberPreview
+    member: MemberPreview | null
 ): MemberPreviewReceiveAction => ({
     type: 'MEMBERS_MEMBER_PREVIEW_RECEIVE',
     payload: member

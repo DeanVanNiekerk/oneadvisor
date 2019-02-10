@@ -2,7 +2,7 @@ import { appendFiltersQuery } from '@/app/query';
 import { ApiAction } from '@/app/types';
 import { statementsApi } from '@/config/api/commission';
 
-import { PagedStatements } from '../types';
+import { PagedStatements, Statement } from '../types';
 
 type StatementPreviewReceiveAction = {
     type: 'STATEMENTS_STATEMENT_PREVIEW_RECEIVE';
@@ -14,11 +14,15 @@ type StatementPreviewFetchingAction = {
 type StatementPreviewFetchingErrorAction = {
     type: 'STATEMENTS_STATEMENT_PREVIEW_FETCHING_ERROR';
 };
+type StatementPreviewClearAction = {
+    type: 'STATEMENTS_STATEMENT_PREVIEW_CLEAR';
+};
 
 export type StatementPreviewAction =
     | StatementPreviewReceiveAction
     | StatementPreviewFetchingAction
-    | StatementPreviewFetchingErrorAction;
+    | StatementPreviewFetchingErrorAction
+    | StatementPreviewClearAction;
 
 export const fetchStatementPreview = (statementId: string): ApiAction => {
     let api = statementsApi;
@@ -31,3 +35,7 @@ export const fetchStatementPreview = (statementId: string): ApiAction => {
         dispatchPrefix: 'STATEMENTS_STATEMENT_PREVIEW'
     };
 };
+
+export const clearStatementPreview = (): StatementPreviewClearAction => ({
+    type: 'STATEMENTS_STATEMENT_PREVIEW_CLEAR'
+});

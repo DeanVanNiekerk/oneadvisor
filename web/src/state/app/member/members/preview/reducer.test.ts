@@ -16,8 +16,7 @@ const defaultMember: MemberPreview = {
 describe('member preview reducer', () => {
     it('should handle MEMBERS_MEMBER_PREVIEW_FETCHING', () => {
         const initalState = {
-            ...defaultState,
-            member: { ...defaultMember }
+            ...defaultState
         };
 
         const actualState = reducer(initalState, {
@@ -26,8 +25,7 @@ describe('member preview reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            fetching: true,
-            member: null
+            fetching: true
         };
 
         expect(actualState).toEqual(expectedState);

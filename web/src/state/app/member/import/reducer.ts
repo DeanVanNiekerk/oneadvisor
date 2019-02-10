@@ -21,7 +21,20 @@ export const defaultState: State = {
     resultsFailure: [],
     companyId: null,
     currentStepIndex: 0,
-    selectedColumns: ['idNumber', 'lastName'],
+    selectedColumns: [
+        'idNumber',
+        'firstName',
+        'lastName',
+        'email',
+        'cellphone',
+        'dateOfBirth',
+        'taxNumber',
+        'policyNumber',
+        'policyUserFullName',
+        'policyPremium',
+        'policyType',
+        'policyStartDate'
+    ],
     columns: [
         {
             id: 'idNumber',

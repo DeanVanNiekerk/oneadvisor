@@ -24,6 +24,8 @@ from mem_Policy
 
 
 select *
+from com_Commission
+select *
 from com_CommissionStatement
 select *
 from com_CommissionError

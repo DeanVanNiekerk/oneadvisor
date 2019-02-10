@@ -355,6 +355,8 @@ namespace OneAdvisor.Service.Member
                     return PolicyType.POLICY_TYPE_SHORT_TERM;
                 case "medical_cover":
                     return PolicyType.POLICY_TYPE_MEDICAL_COVER;
+                case "rewards":
+                    return PolicyType.POLICY_TYPE_REWARDS;
             }
 
             return null;

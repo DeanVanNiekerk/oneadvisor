@@ -216,12 +216,8 @@ class StatementPreviewComponent extends Component<Props, State> {
                         icon="file-exclamation"
                         isLoading={this.isLoading()}
                         rows={3}
-                        actions={[
-                            <Icon
-                                type="tool"
-                                onClick={this.toggleCommissionListVisible}
-                            />
-                        ]}
+                        onClick={() => alert('TODO')}
+                        actions={[<Icon type="tool" />]}
                     >
                         {statement && (
                             <StatementPreviewErrorCount
@@ -234,12 +230,8 @@ class StatementPreviewComponent extends Component<Props, State> {
                         icon="file-exclamation"
                         isLoading={this.isLoading()}
                         rows={3}
-                        actions={[
-                            <Icon
-                                type="tool"
-                                onClick={this.toggleCommissionListVisible}
-                            />
-                        ]}
+                        onClick={() => alert('TODO')}
+                        actions={[<Icon type="tool" />]}
                     >
                         {statement && (
                             <StatementPreviewErrorCount

@@ -18,15 +18,24 @@ namespace OneAdvisor.Import.Excel.Readers
                     {
                         var commission = new ImportCommission();
 
-                        commission.PolicyNumber = reader.GetValue(0).ToString();
-                        commission.AmountIncludingVAT = reader.GetValue(1).ToString();
-                        commission.VAT = reader.GetValue(2).ToString();
-                        commission.CommissionTypeCode = reader.GetValue(3).ToString();
+                        commission.PolicyNumber = GetValue(reader, 0);
+                        commission.AmountIncludingVAT = GetValue(reader, 1);
+                        commission.VAT = GetValue(reader, 2);
+                        commission.CommissionTypeCode = GetValue(reader, 3);
+
+                        if (string.IsNullOrWhiteSpace(commission.PolicyNumber))
+                            continue;
 
                         yield return commission;
                     }
                 } while (reader.NextResult());
             }
+        }
+
+        private string GetValue(IExcelDataReader reader, int index)
+        {
+            var value = reader.GetValue(index);
+            return value != null ? value.ToString() : null;
         }
     }
 }

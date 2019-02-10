@@ -29,8 +29,7 @@ export const reducer = (
         case 'STATEMENTS_STATEMENT_PREVIEW_FETCHING': {
             return {
                 ...state,
-                fetching: true,
-                statement: null
+                fetching: true
             };
         }
         case 'STATEMENTS_STATEMENT_PREVIEW_FETCHING_ERROR': {
@@ -39,6 +38,12 @@ export const reducer = (
                 statement: null,
                 fetching: false,
                 error: true
+            };
+        }
+        case 'STATEMENTS_STATEMENT_PREVIEW_CLEAR': {
+            return {
+                ...state,
+                statement: null
             };
         }
         default:

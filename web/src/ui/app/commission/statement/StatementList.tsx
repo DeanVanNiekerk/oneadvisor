@@ -7,8 +7,8 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
 import { formatCurrency, getMonthDateRange } from '@/app/utils';
 import {
-    fetchStatements, receiveFilterMonth, receiveFilters, receiveFilterYear, receivePageOptions, receiveSortOptions,
-    receiveStatement, Statement, StatementEdit, statementsSelector
+    clearStatementPreview, fetchStatements, receiveFilterMonth, receiveFilters, receiveFilterYear, receivePageOptions,
+    receiveSortOptions, receiveStatement, Statement, StatementEdit, statementsSelector
 } from '@/state/app/commission/statements';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
@@ -68,6 +68,7 @@ class StatementList extends Component<Props> {
     };
 
     editStatement = (id: string) => {
+        this.props.dispatch(clearStatementPreview());
         this.props.history.push(`/commission/statements/${id}`);
     };
 

@@ -6,8 +6,8 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { applyLike } from '@/app/query';
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
 import {
-    deleteMember, fetchMembers, Member, MemberEdit, membersSelector, receiveFilters, receiveMember, receivePageOptions,
-    receiveSortOptions
+    deleteMember, fetchMembers, Member, MemberEdit, membersSelector, receiveFilters, receiveMember,
+    receiveMemberPreview, receivePageOptions, receiveSortOptions
 } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
 import { Button, Header, StopPropagation, Table } from '@/ui/controls';
@@ -49,6 +49,7 @@ class MemberList extends Component<Props> {
     };
 
     editMember = (id: string) => {
+        this.props.dispatch(receiveMemberPreview(null));
         this.props.history.push(`/member/members/${id}`);
     };
 

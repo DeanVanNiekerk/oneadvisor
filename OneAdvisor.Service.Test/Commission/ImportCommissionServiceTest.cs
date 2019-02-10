@@ -194,7 +194,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 Assert.AreEqual(statement.Id, actual.CommissionStatementId);
 
-                Assert.AreEqual(false, actual.IsFormatValid);
+                Assert.AreEqual(true, actual.IsFormatValid);
                 Assert.AreEqual(JsonConvert.SerializeObject(import1), actual.Data);
             }
         }
@@ -259,7 +259,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 Assert.AreEqual(statement.Id, actual.CommissionStatementId);
 
-                Assert.AreEqual(false, actual.IsFormatValid);
+                Assert.AreEqual(true, actual.IsFormatValid);
                 Assert.AreEqual(JsonConvert.SerializeObject(import1), actual.Data);
             }
         }

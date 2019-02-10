@@ -77,7 +77,7 @@ class MemberPreviewComponent extends Component<Props, State> {
     };
 
     isLoading = () => {
-        return this.props.fetching;
+        return this.props.fetching && this.props.member === null;
     };
 
     getPolicyActions = () => {

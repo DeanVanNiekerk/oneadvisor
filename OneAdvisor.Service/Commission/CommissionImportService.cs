@@ -156,6 +156,7 @@ namespace OneAdvisor.Service.Commission
             entity.CommissionTypeId = model.CommissionTypeId;
             entity.CommissionTypeCode = model.CommissionTypeCode;
             entity.MemberId = model.MemberId;
+            entity.IsFormatValid = model.IsFormatValid;
             entity.Data = model.Data;
 
             return entity;

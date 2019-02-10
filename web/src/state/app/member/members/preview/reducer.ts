@@ -29,8 +29,7 @@ export const reducer = (
         case 'MEMBERS_MEMBER_PREVIEW_FETCHING': {
             return {
                 ...state,
-                fetching: true,
-                member: null
+                fetching: true
             };
         }
         case 'MEMBERS_MEMBER_PREVIEW_FETCHING_ERROR': {

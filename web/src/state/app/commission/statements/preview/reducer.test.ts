@@ -18,8 +18,7 @@ const defaultStatement: Statement = {
 describe('statement preview reducer', () => {
     it('should handle STATEMENTS_STATEMENT_PREVIEW_FETCHING', () => {
         const initalState = {
-            ...defaultState,
-            statement: { ...defaultStatement }
+            ...defaultState
         };
 
         const actualState = reducer(initalState, {
@@ -28,7 +27,26 @@ describe('statement preview reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            fetching: true,
+            fetching: true
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it('should handle STATEMENTS_STATEMENT_PREVIEW_CLEAR', () => {
+        const initalState = {
+            ...defaultState,
+            statement: {
+                ...defaultStatement
+            }
+        };
+
+        const actualState = reducer(initalState, {
+            type: 'STATEMENTS_STATEMENT_PREVIEW_CLEAR'
+        });
+
+        const expectedState = {
+            ...defaultState,
             statement: null
         };
 
