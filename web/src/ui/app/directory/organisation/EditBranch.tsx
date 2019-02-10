@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
 
 import { ValidationResult } from '@/app/validation';
 import { Branch, branchSelector, insertBranch, receiveBranch, updateBranch } from '@/state/app/directory/branches';
@@ -16,8 +15,7 @@ type Props = {
     validationResults: ValidationResult[];
     organisationId: string;
     onSave: () => void;
-} & RouteComponentProps &
-    DispatchProp;
+} & DispatchProp;
 
 class EditBranch extends Component<Props> {
     save = (branch: Branch) => {
@@ -90,4 +88,4 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-export default withRouter(connect(mapStateToProps)(EditBranch));
+export default connect(mapStateToProps)(EditBranch);

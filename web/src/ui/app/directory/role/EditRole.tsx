@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
 
 import { Application } from '@/state/app/directory/applications/types';
 import { RoleEdit, roleSelector } from '@/state/app/directory/roles';
@@ -17,10 +16,9 @@ type Props = {
     applications: Application[];
     useCases: UseCase[];
     fetching: boolean;
-} & RouteComponentProps &
-    DispatchProp;
+} & DispatchProp;
 
-class EditUser extends Component<Props> {
+class EditRole extends Component<Props> {
     close = () => {
         this.props.onClose(false);
     };
@@ -78,4 +76,4 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-export default withRouter(connect(mapStateToProps)(EditUser));
+export default connect(mapStateToProps)(EditRole);

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
 
 import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
@@ -24,8 +23,7 @@ type Props = {
     fetching: boolean;
     updating: boolean;
     validationResults: ValidationResult[];
-} & RouteComponentProps &
-    DispatchProp;
+} & DispatchProp;
 
 type State = {
     userEdited: UserEdit | null;
@@ -173,4 +171,4 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-export default withRouter(connect(mapStateToProps)(EditUser));
+export default connect(mapStateToProps)(EditUser);

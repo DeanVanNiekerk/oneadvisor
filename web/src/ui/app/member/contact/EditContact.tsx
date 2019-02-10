@@ -1,10 +1,7 @@
-import { Col, Row } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
 
 import { ValidationResult } from '@/app/validation';
-import { Branch, branchSelector, insertBranch, receiveBranch, updateBranch } from '@/state/app/directory/branches';
 import { Contact, contactSelector, insertContact, receiveContact, updateContact } from '@/state/app/member/contacts';
 import { RootState } from '@/state/rootReducer';
 import { Button, ContentLoader, Form, FormField } from '@/ui/controls';
@@ -18,8 +15,7 @@ type Props = {
     validationResults: ValidationResult[];
     memberId: string;
     onSave: () => void;
-} & RouteComponentProps &
-    DispatchProp;
+} & DispatchProp;
 
 class EditContact extends Component<Props> {
     save = (contact: Contact) => {
@@ -93,4 +89,4 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-export default withRouter(connect(mapStateToProps)(EditContact));
+export default connect(mapStateToProps)(EditContact);

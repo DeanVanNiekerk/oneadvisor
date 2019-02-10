@@ -1,4 +1,4 @@
-import { Col, Row, Select, Tag } from 'antd';
+import { Col, Row, Select } from 'antd';
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';

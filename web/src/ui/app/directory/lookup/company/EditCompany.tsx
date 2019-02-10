@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
 
 import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
@@ -17,8 +16,7 @@ type Props = {
     company: Company | null;
     updating: boolean;
     validationResults: ValidationResult[];
-} & RouteComponentProps &
-    DispatchProp;
+} & DispatchProp;
 
 type State = {
     companyEdited: Company | null;
@@ -140,4 +138,4 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-export default withRouter(connect(mapStateToProps)(EditCompany));
+export default connect(mapStateToProps)(EditCompany);
