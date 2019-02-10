@@ -13,6 +13,8 @@ import {
 import { RootState } from '@/state/rootReducer';
 import { Button, Table } from '@/ui/controls';
 
+import StepProgress from '../StepProgress';
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -55,6 +57,7 @@ class Verify extends Component<Props> {
 
         const actionsColumn = getColumn('actions', 'Actions', {
             sorter: undefined,
+            fixed: 'right',
             render: (value: any, record: ImportMember) => {
                 return (
                     <Popconfirm
@@ -87,35 +90,19 @@ class Verify extends Component<Props> {
     render() {
         return (
             <>
-                <Row type="flex" justify="space-between" className="mb-1">
-                    <Col>
-                        <Button
-                            noLeftMargin={true}
-                            onClick={() =>
-                                this.props.dispatch(memberImportPreviousStep())
-                            }
-                        >
-                            <Icon type="left" />
-                            Previous
-                        </Button>
-                    </Col>
-                    <Col>
-                        <Button
-                            type="primary"
-                            disabled={!this.nextEnabled()}
-                            onClick={() => {
-                                this.props.dispatch(
-                                    updateMemberImportPolicyCompanies()
-                                );
-                                this.props.dispatch(importMemberClearResults());
-                                this.props.dispatch(memberImportNextStep());
-                            }}
-                        >
-                            Next
-                            <Icon type="right" />
-                        </Button>
-                    </Col>
-                </Row>
+                <StepProgress
+                    onPrevious={() =>
+                        this.props.dispatch(memberImportPreviousStep())
+                    }
+                    nextDisabled={!this.nextEnabled()}
+                    onNext={() => {
+                        this.props.dispatch(
+                            updateMemberImportPolicyCompanies()
+                        );
+                        this.props.dispatch(importMemberClearResults());
+                        this.props.dispatch(memberImportNextStep());
+                    }}
+                />
 
                 {this.policyCompanyRequired() && (
                     <Row>
@@ -161,6 +148,9 @@ class Verify extends Component<Props> {
                     rowKey="_id"
                     columns={this.getColumns()}
                     dataSource={this.props.members}
+                    scroll={{
+                        x: true
+                    }}
                 />
             </>
         );

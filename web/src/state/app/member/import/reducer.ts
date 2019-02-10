@@ -6,6 +6,7 @@ import { ImportColumn, ImportData, ImportMember, ResultFailure } from './types';
 export type State = {
     readonly data: ImportData;
     readonly currentStepIndex: number;
+    readonly steps: string[];
     readonly columns: ImportColumn[];
     readonly selectedColumns: string[];
     readonly members: ImportMember[];
@@ -21,6 +22,7 @@ export const defaultState: State = {
     resultsFailure: [],
     companyId: null,
     currentStepIndex: 0,
+    steps: ['Select File', 'Configure', 'Verify', 'Import'],
     selectedColumns: [
         'idNumber',
         'firstName',

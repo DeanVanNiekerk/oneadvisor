@@ -18,6 +18,7 @@ export type ColumnOptions = {
     filters?: FilterOptions[];
     showSearchFilter?: boolean;
     externalDataSource?: boolean;
+    fixed?: 'left' | 'right';
 };
 
 export interface PagedItems<T> {

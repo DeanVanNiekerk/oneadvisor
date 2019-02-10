@@ -11,6 +11,8 @@ import {
 import { RootState } from '@/state/rootReducer';
 import { Button, Table } from '@/ui/controls';
 
+import StepProgress from '../StepProgress';
+
 const Panel = Collapse.Panel;
 
 type Props = {
@@ -125,6 +127,7 @@ class Import extends Component<Props> {
 
         const actionColumn = getColumn('error', 'Error Detail', {
             sorter: undefined,
+            fixed: 'right',
             render: (value: any, record: ResultFailure) => {
                 return (
                     <Button
@@ -152,40 +155,20 @@ class Import extends Component<Props> {
     render() {
         return (
             <>
-                <Row type="flex" justify="space-between" className="mb-1">
-                    <Col>
-                        <Button
-                            disabled={this.isImporting()}
-                            noLeftMargin={true}
-                            onClick={() =>
-                                this.props.dispatch(memberImportPreviousStep())
-                            }
-                        >
-                            <Icon type="left" />
-                            Previous
-                        </Button>
-                    </Col>
-                    <Col>
-                        <Button
-                            type="primary"
-                            visible={this.props.progressPercent === 100}
-                            onClick={this.reset}
-                        >
-                            Import a New File
-                            <Icon type="sync" />
-                        </Button>
-                        <Button
-                            type="primary"
-                            loading={this.isImporting()}
-                            onClick={this.startImport}
-                        >
-                            {this.props.progressPercent === 100
-                                ? 'Import Again'
-                                : 'Start Import'}
-                            <Icon type="cloud-upload" />
-                        </Button>
-                    </Col>
-                </Row>
+                <StepProgress
+                    previousDisabled={this.isImporting()}
+                    onPrevious={() =>
+                        this.props.dispatch(memberImportPreviousStep())
+                    }
+                    onNext={this.startImport}
+                    nextLoading={this.isImporting()}
+                    nextText={
+                        this.props.progressPercent === 100
+                            ? 'Import Again'
+                            : 'Start Import'
+                    }
+                    nextIcon="cloud-upload"
+                />
 
                 <Row gutter={24}>
                     <Col span={4}>
@@ -213,6 +196,16 @@ class Import extends Component<Props> {
                                 </p>
                             )}
                         </Card>
+                        <Button
+                            type="primary"
+                            visible={this.props.progressPercent === 100}
+                            onClick={this.reset}
+                            noLeftMargin={true}
+                            className="mt-1"
+                        >
+                            Import a New File
+                            <Icon type="sync" />
+                        </Button>
                     </Col>
 
                     <Col span={14}>
@@ -225,6 +218,9 @@ class Import extends Component<Props> {
                                     rowKey="_id"
                                     columns={this.getColumns()}
                                     dataSource={this.props.resultsFailure}
+                                    scroll={{
+                                        x: true
+                                    }}
                                 />
                             )}
                         </Card>

@@ -13,6 +13,8 @@ import {
 import { RootState } from '@/state/rootReducer';
 import { Button, Table } from '@/ui/controls';
 
+import StepProgress from '../StepProgress';
+
 const Option = Select.Option;
 
 type SortableItemProps = { value: ImportColumn };
@@ -86,35 +88,16 @@ class Configure extends Component<Props> {
     render() {
         return (
             <>
-                <Row type="flex" justify="space-between" className="mb-1">
-                    <Col>
-                        <Button
-                            noLeftMargin={true}
-                            onClick={() =>
-                                this.props.dispatch(memberImportPreviousStep())
-                            }
-                        >
-                            <Icon type="left" />
-                            Previous
-                        </Button>
-                    </Col>
-                    <Col>
-                        <Button type="primary" onClick={this.next}>
-                            Next
-                            <Icon type="right" />
-                        </Button>
-                    </Col>
-                </Row>
-
-                <Alert
-                    showIcon
-                    message="Check the preview table to confirm that columns are in the correct order, if not re-order by dragging the columns below"
-                    type="info"
+                <StepProgress
+                    onPrevious={() =>
+                        this.props.dispatch(memberImportPreviousStep())
+                    }
+                    onNext={this.next}
                 />
 
-                <Row gutter={24}>
-                    <Col span={12}>
-                        <h4 className="mt-1">Column Selection</h4>
+                <Row>
+                    <Col span={24}>
+                        <h4>Column Selection</h4>
 
                         <Select
                             mode="multiple"
@@ -127,7 +110,11 @@ class Configure extends Component<Props> {
                                 return <Option key={c.id}>{c.name}</Option>;
                             })}
                         </Select>
+                    </Col>
+                </Row>
 
+                <Row gutter={24}>
+                    <Col span={8}>
                         <h4 className="mt-1">Column Order</h4>
 
                         <SortableList
@@ -136,7 +123,7 @@ class Configure extends Component<Props> {
                         />
                     </Col>
 
-                    <Col span={12}>
+                    <Col span={16}>
                         <h4 className="mt-1">Preview</h4>
 
                         <Table
@@ -162,7 +149,8 @@ const mapStateToProps = (state: RootState) => {
         columns: importState.columns,
         selectedColumns: importState.selectedColumns,
         selectedImportColumns: memberImportSelectedColumnsSelector(state),
-        rows: memberImportTableRowsSelector(state)
+        rows: memberImportTableRowsSelector(state),
+        currentStepIndex: importState.currentStepIndex
     };
 };
 

@@ -9,6 +9,8 @@ import {
 import { RootState } from '@/state/rootReducer';
 import { Button } from '@/ui/controls';
 
+import StepProgress from '../StepProgress';
+
 const Dragger = UploadAD.Dragger;
 
 type Props = {
@@ -43,20 +45,9 @@ class Upload extends Component<Props> {
     render() {
         return (
             <>
-                <Row type="flex" justify="end" className="mb-1">
-                    <Col>
-                        <Button
-                            type="primary"
-                            disabled={!(this.props.data.length !== 0)}
-                            onClick={() =>
-                                this.props.dispatch(memberImportNextStep())
-                            }
-                        >
-                            Next
-                            <Icon type="right" />
-                        </Button>
-                    </Col>
-                </Row>
+                <StepProgress
+                    onNext={() => this.props.dispatch(memberImportNextStep())}
+                />
 
                 <Dragger
                     multiple={false}
