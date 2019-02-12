@@ -28,22 +28,33 @@ namespace OneAdvisor.Service.Commission
         private readonly IPolicyService _policyService;
         private readonly ILookupService _lookupService;
         private readonly ICommissionService _commissionService;
+        private readonly ICommissionStatementService _commissionStatementService;
 
-        public CommissionImportService(DataContext context, ICommissionService commissionService, IPolicyService policyService, ILookupService lookupService)
+        public CommissionImportService(DataContext context, ICommissionStatementService commissionStatementService, ICommissionService commissionService, IPolicyService policyService, ILookupService lookupService)
         {
             _context = context;
             _policyService = policyService;
             _lookupService = lookupService;
             _commissionService = commissionService;
+            _commissionStatementService = commissionStatementService;
         }
 
-        public async Task ImportCommissions(ScopeOptions scope, Guid commissionStatementId, IEnumerable<ImportCommission> importData)
+        public async Task<List<Result>> ImportCommissions(ScopeOptions scope, Guid commissionStatementId, IEnumerable<ImportCommission> importData)
         {
-            //TODO: 
-            //1. validate statement ownership!!!!!!!!!!!!!!!!!
+            var results = new List<Result>();
+
+            //Scope check
+            var statement = await _commissionStatementService.GetCommissionStatement(scope, commissionStatementId);
+            if (statement == null)
+                return results;
 
             foreach (var data in importData)
-                await ImportCommission(scope, commissionStatementId, data);
+            {
+                var result = await ImportCommission(scope, commissionStatementId, data);
+                results.Add(result);
+            }
+
+            return results;
         }
 
         public async Task<Result> ImportCommission(ScopeOptions scope, Guid commissionStatementId, ImportCommission importCommission)
@@ -63,7 +74,7 @@ namespace OneAdvisor.Service.Commission
             if (!result.Success)
             {
                 error.IsFormatValid = false;
-                await UpdateCommissionError(error);
+                await InsertCommissionError(error);
                 return result;
             }
 
@@ -80,46 +91,20 @@ namespace OneAdvisor.Service.Commission
 
             if (!error.IsValid())
             {
-                await UpdateCommissionError(error);
+                await InsertCommissionError(error);
                 return new Result();
             }
 
             //Import data is valid, try and get an existing commission entry
-            var commission = await _commissionService.GetCommission(scope, commissionStatementId, commissionType.Id.Value, importCommission.PolicyNumber);
+            var commission = LoadCommissionModel(commissionStatementId, policy, commissionType, importCommission);
 
-            //Check if commission has already been imported
-            if (commission == null)
-            {
-                commission = LoadCommissionModel(commissionStatementId, policy, commissionType, importCommission);
-                result = await _commissionService.InsertCommission(scope, commission);
-            }
-            else
-            {
-                commission = LoadCommissionModel(commissionStatementId, policy, commissionType, importCommission, commission);
-                result = await _commissionService.UpdateCommission(scope, commission);
-            }
-
-            //Insert/Update of the commission entry successfull, delete error record
-            if (result.Success)
-                await DeleteCommissionError(error);
-
-            return result;
+            return await _commissionService.InsertCommission(scope, commission);
         }
 
-        private async Task UpdateCommissionError(CommissionError error)
+        private async Task InsertCommissionError(CommissionError error)
         {
-            var entity = await GetCommissionError(error);
-
-            if (entity == null)
-            {
-                entity = MapModelToEntity(error);
-                await _context.CommissionError.AddAsync(entity);
-            }
-            else
-            {
-                entity = MapModelToEntity(error, entity);
-            }
-
+            var entity = MapModelToEntity(error);
+            await _context.CommissionError.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
@@ -138,8 +123,7 @@ namespace OneAdvisor.Service.Commission
         {
             var query = from entity in _context.CommissionError
                         where entity.CommissionStatementId == error.CommissionStatementId
-                        && EF.Functions.Like(entity.PolicyNumber, error.PolicyNumber)
-                        && EF.Functions.Like(entity.CommissionTypeCode, error.CommissionTypeCode)
+                        && entity.Id == error.Id
                         select entity;
 
             return await query.FirstOrDefaultAsync();

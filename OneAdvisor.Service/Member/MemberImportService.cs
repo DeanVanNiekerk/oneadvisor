@@ -345,6 +345,7 @@ namespace OneAdvisor.Service.Member
             if (string.IsNullOrWhiteSpace(policyType))
                 return null;
 
+            //NB: when updating checking, ImportMemberValidator.cs
             switch (policyType.ToLower())
             {
                 case "investment":

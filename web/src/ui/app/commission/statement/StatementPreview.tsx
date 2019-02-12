@@ -211,34 +211,38 @@ class StatementPreviewComponent extends Component<Props, State> {
                             />
                         )}
                     </PreviewCard>
-                    <PreviewCard
-                        title="Format Errors"
-                        icon="file-exclamation"
-                        isLoading={this.isLoading()}
-                        rows={3}
-                        onClick={() => alert('TODO')}
-                        actions={[<Icon type="tool" />]}
-                    >
-                        {statement && (
-                            <StatementPreviewErrorCount
-                                count={statement.formatErrorCount}
-                            />
-                        )}
-                    </PreviewCard>
-                    <PreviewCard
-                        title="Mapping Errors"
-                        icon="file-exclamation"
-                        isLoading={this.isLoading()}
-                        rows={3}
-                        onClick={() => alert('TODO')}
-                        actions={[<Icon type="tool" />]}
-                    >
-                        {statement && (
-                            <StatementPreviewErrorCount
-                                count={statement.mappingErrorCount}
-                            />
-                        )}
-                    </PreviewCard>
+                    {statement && statement.formatErrorCount > 0 && (
+                        <PreviewCard
+                            title="Format Errors"
+                            icon="file-exclamation"
+                            isLoading={this.isLoading()}
+                            rows={3}
+                            onClick={() => alert('TODO')}
+                            actions={[<Icon type="tool" />]}
+                        >
+                            {statement && (
+                                <StatementPreviewErrorCount
+                                    count={statement.formatErrorCount}
+                                />
+                            )}
+                        </PreviewCard>
+                    )}
+                    {statement && statement.mappingErrorCount > 0 && (
+                        <PreviewCard
+                            title="Mapping Errors"
+                            icon="file-exclamation"
+                            isLoading={this.isLoading()}
+                            rows={3}
+                            onClick={() => alert('TODO')}
+                            actions={[<Icon type="tool" />]}
+                        >
+                            {statement && (
+                                <StatementPreviewErrorCount
+                                    count={statement.mappingErrorCount}
+                                />
+                            )}
+                        </PreviewCard>
+                    )}
                 </PreviewCardContainer>
 
                 <EditStatement onClose={this.onFormClose} />

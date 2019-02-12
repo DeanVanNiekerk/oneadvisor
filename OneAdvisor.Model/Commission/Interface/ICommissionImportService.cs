@@ -9,7 +9,7 @@ namespace OneAdvisor.Model.Commission.Interface
 {
     public interface ICommissionImportService
     {
-        Task ImportCommissions(ScopeOptions scope, Guid commissionStatementId, IEnumerable<ImportCommission> importData);
+        Task<List<Result>> ImportCommissions(ScopeOptions scope, Guid commissionStatementId, IEnumerable<ImportCommission> importData);
         Task<Result> ImportCommission(ScopeOptions scope, Guid commissionStatementId, ImportCommission importCommission);
     }
 }
