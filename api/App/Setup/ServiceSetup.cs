@@ -105,6 +105,7 @@ namespace api.App.Setup
             Services.AddScoped<ICommissionService, CommissionService>();
             Services.AddScoped<ICommissionImportService, CommissionImportService>();
             Services.AddScoped<ICommissionStatementService, CommissionStatementService>();
+            Services.AddScoped<ICommissionErrorService, CommissionErrorService>();
         }
 
         public void ConfigureMapper(IMapper mapper)
