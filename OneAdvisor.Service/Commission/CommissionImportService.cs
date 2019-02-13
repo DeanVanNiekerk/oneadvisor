@@ -108,17 +108,6 @@ namespace OneAdvisor.Service.Commission
             await _context.SaveChangesAsync();
         }
 
-        private async Task DeleteCommissionError(CommissionError error)
-        {
-            var entity = await GetCommissionError(error);
-
-            if (entity != null)
-            {
-                _context.CommissionError.Remove(entity);
-                await _context.SaveChangesAsync();
-            }
-        }
-
         private async Task<CommissionErrorEntity> GetCommissionError(CommissionError error)
         {
             var query = from entity in _context.CommissionError
