@@ -86,7 +86,9 @@ class StatementForm extends Component<Props, State> {
                 <FormInputNumber
                     fieldName=""
                     label="Amount (excl VAT)"
-                    value={statement.amountIncludingVAT - statement.vat}
+                    value={(
+                        statement.amountIncludingVAT - statement.vat
+                    ).toFixed(2)}
                     onChange={this.handleAmountExclVATChange}
                     isCurrency={true}
                     min={0}

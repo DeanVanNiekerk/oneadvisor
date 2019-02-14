@@ -1,4 +1,9 @@
-export const formatCurrency = (value: number, decimals: number = 2): string => {
+export const formatCurrency = (
+    value: number | string | undefined,
+    decimals: number = 2
+): string => {
+    if (value === undefined || value === '') return '';
+
     return `R ${parseFloat(value.toString())
         .toFixed(decimals)
         .replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;

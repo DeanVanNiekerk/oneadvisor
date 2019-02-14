@@ -29,12 +29,11 @@ class FormInputNumber extends Component<Props> {
     };
 
     currencyFormatter = (value: number) => {
-        console.log(formatCurrency(value));
-        return formatCurrency(value);
+        return `R ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     };
 
     currencyParser = (value: string) => {
-        return parseCurrency(value);
+        return value.replace(/\R\s?|(,*)/g, '');
     };
 
     render() {
