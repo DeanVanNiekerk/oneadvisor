@@ -28,6 +28,14 @@ namespace api.Controllers.Database
         }
 
         [HttpGet("[action]")]
+        public async Task<string> ResetRolesAndUseCase()
+        {
+            await DbContextInitializer.CleanRolesAndUseCase();
+            await DbContextInitializer.SeedRolesAndUseCase();
+            return "Success";
+        }
+
+        [HttpGet("[action]")]
         public async Task<string> Seed()
         {
             await DbContextInitializer.Seed();

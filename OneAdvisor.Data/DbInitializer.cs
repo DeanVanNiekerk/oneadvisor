@@ -12,6 +12,11 @@ namespace OneAdvisor.Data
     {
         private readonly DataContext _context;
 
+        private readonly Guid dirGuid = Guid.Parse("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9");
+        private readonly Guid memGuid = Guid.Parse("605ea52c-3627-48e2-8f7c-4819c5ea555b");
+        private readonly Guid comGuid = Guid.Parse("2fca4500-9142-4940-aaf4-b18925c96d66");
+        private readonly Guid hpaGuid = Guid.Parse("2dc6f9ac-728b-4e19-9d72-0bad5fc84a03");
+
         public DbInitializer(DataContext context)
         {
             _context = context;
@@ -30,9 +35,7 @@ namespace OneAdvisor.Data
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_Member]");
 
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_User]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_RoleToUseCase]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_UseCase]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Role]");
+            total += await CleanRolesAndUseCase();
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Organisation]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Branch]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_AuditLog]");
@@ -43,6 +46,17 @@ namespace OneAdvisor.Data
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_MarritalStatus]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_PolicyType]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_ContactType]");
+
+            return total;
+        }
+
+        public async Task<int> CleanRolesAndUseCase()
+        {
+            var total = 0;
+
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_RoleToUseCase]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_UseCase]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Role]");
 
             return total;
         }
@@ -121,31 +135,8 @@ namespace OneAdvisor.Data
             _context.SaveChanges();
         }
 
-        public async Task Seed()
+        public async Task SeedRolesAndUseCase()
         {
-            await SeedLookups();
-
-            var dirGuid = Guid.Parse("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9");
-            var memGuid = Guid.Parse("605ea52c-3627-48e2-8f7c-4819c5ea555b");
-            var comGuid = Guid.Parse("2fca4500-9142-4940-aaf4-b18925c96d66");
-            var hpaGuid = Guid.Parse("2dc6f9ac-728b-4e19-9d72-0bad5fc84a03");
-
-            var application = await _context.Application.FindAsync(dirGuid);
-            if (application == null)
-                _context.Application.Add(new ApplicationEntity() { Id = dirGuid, Name = "Directory" });
-
-            application = await _context.Application.FindAsync(memGuid);
-            if (application == null)
-                _context.Application.Add(new ApplicationEntity() { Id = memGuid, Name = "Member" });
-
-            application = await _context.Application.FindAsync(comGuid);
-            if (application == null)
-                _context.Application.Add(new ApplicationEntity() { Id = comGuid, Name = "Commission" });
-
-            application = await _context.Application.FindAsync(hpaGuid);
-            if (application == null)
-                _context.Application.Add(new ApplicationEntity() { Id = hpaGuid, Name = "Health" });
-
             var roles = await _context.Role.ToListAsync();
             if (!roles.Any())
             {
@@ -269,6 +260,29 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_readonly", UseCaseId = "com_view_commission_statements" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
             }
+        }
+
+        public async Task Seed()
+        {
+            await SeedLookups();
+
+            var application = await _context.Application.FindAsync(dirGuid);
+            if (application == null)
+                _context.Application.Add(new ApplicationEntity() { Id = dirGuid, Name = "Directory" });
+
+            application = await _context.Application.FindAsync(memGuid);
+            if (application == null)
+                _context.Application.Add(new ApplicationEntity() { Id = memGuid, Name = "Member" });
+
+            application = await _context.Application.FindAsync(comGuid);
+            if (application == null)
+                _context.Application.Add(new ApplicationEntity() { Id = comGuid, Name = "Commission" });
+
+            application = await _context.Application.FindAsync(hpaGuid);
+            if (application == null)
+                _context.Application.Add(new ApplicationEntity() { Id = hpaGuid, Name = "Health" });
+
+            await SeedRolesAndUseCase();
 
             //Organisations
             var organisations = await _context.Organisation.ToListAsync();
@@ -307,7 +321,9 @@ namespace OneAdvisor.Data
     {
         Task Seed();
         Task SeedLookups();
+        Task SeedRolesAndUseCase();
         Task<int> Clean();
+        Task<int> CleanRolesAndUseCase();
     }
 
 }
