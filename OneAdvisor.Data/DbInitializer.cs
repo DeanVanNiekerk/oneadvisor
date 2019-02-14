@@ -260,6 +260,8 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_readonly", UseCaseId = "com_view_commission_statements" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
             }
+
+            _context.SaveChanges();
         }
 
         public async Task Seed()
