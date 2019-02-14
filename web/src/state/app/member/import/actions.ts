@@ -4,6 +4,11 @@ import { membersImportApi } from '@/config/api/member';
 
 import { ImportColumn, ImportData, ImportMember, ResultFailure } from './';
 
+type ImportFileNameReceiveAction = {
+    type: 'MEMBERS_IMPORT_FILE_NAME_RECEIVE';
+    payload: string;
+};
+
 type ImportDataReceiveAction = {
     type: 'MEMBERS_IMPORT_DATA_RECEIVE';
     payload: ImportData;
@@ -64,6 +69,7 @@ type ImportMembersSelectedColumnsReceiveAction = {
 };
 
 export type ImportMemberAction =
+    | ImportFileNameReceiveAction
     | ImportDataReceiveAction
     | ImportColumnsReceiveAction
     | ImportMembersReceiveAction
@@ -77,6 +83,13 @@ export type ImportMemberAction =
     | ImportMembersUpdatePolicyCompaniesAction
     | ImportMemberImportResetAction
     | ImportMembersSelectedColumnsReceiveAction;
+
+export const receiveMemberImportFileName = (
+    fileName: string
+): ImportMemberAction => ({
+    type: 'MEMBERS_IMPORT_FILE_NAME_RECEIVE',
+    payload: fileName
+});
 
 export const receiveMemberImportData = (
     data: ImportData

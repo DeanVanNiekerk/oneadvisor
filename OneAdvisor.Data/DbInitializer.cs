@@ -302,17 +302,9 @@ namespace OneAdvisor.Data
             var peBranchId = Guid.Parse("c036cf47-ae1c-4c25-be8f-110a59a5407a");
             if (!branches.Any())
             {
-                _context.Branch.Add(new BranchEntity() { Id = Guid.Parse("cfaa7bf4-bff8-4c8c-b71e-f64bd8249750"), OrganisationId = sabOrgId, Name = "Port Shepstone" });
+                _context.Branch.Add(new BranchEntity() { Id = Guid.Parse("cfaa7bf4-bff8-4c8c-b71e-f64bd8249750"), OrganisationId = sabOrgId, Name = "Shelly Beach" });
                 _context.Branch.Add(new BranchEntity() { Id = peBranchId, OrganisationId = sabOrgId, Name = "Port Elizabeth" });
                 _context.Branch.Add(new BranchEntity() { Id = Guid.Parse("7ab8bcd9-0544-4613-a82e-06b6de99d7ac"), OrganisationId = lifeOrgId, Name = "Durban" });
-            }
-
-            //Members
-            var members = await _context.Member.ToListAsync();
-            if (!members.Any())
-            {
-                var mem1Guid = Guid.NewGuid();
-                _context.Member.Add(new MemberEntity() { Id = mem1Guid, FirstName = "Andrew", LastName = "Blakeway", OrganisationId = sabOrgId });
             }
 
             _context.SaveChanges();

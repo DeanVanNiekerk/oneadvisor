@@ -22,7 +22,7 @@ type Props = {
     noLeftMargin?: boolean;
     visible?: boolean;
     loading?: boolean;
-    shape?: 'circle';
+    shape?: 'circle' | 'round';
     size?: ButtonSize;
 };
 

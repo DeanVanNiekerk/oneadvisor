@@ -1,6 +1,7 @@
-import { Card, Col, Collapse, Icon, Modal, Progress, Row } from 'antd';
+import { Card, Col, Collapse, Icon, Modal, Progress, Row, Tooltip } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
+import { utils, write, writeFile } from 'xlsx';
 
 import { getColumn } from '@/app/table';
 import { parseValidationErrors } from '@/app/validation';
@@ -16,6 +17,7 @@ import StepProgress from '../StepProgress';
 const Panel = Collapse.Panel;
 
 type Props = {
+    fileName: string;
     members: ImportMember[];
     resultsSuccess: ImportMember[];
     resultsFailure: ResultFailure[];
@@ -152,6 +154,34 @@ class Import extends Component<Props> {
         this.props.dispatch(importMemberReset());
     };
 
+    saveErrors = () => {
+        const errorIds = this.props.resultsFailure.map(
+            result => result.importMember._id
+        );
+
+        const errorRows = this.props.members.filter(m => {
+            return errorIds.indexOf(m._id) !== -1;
+        });
+
+        const data = errorRows.map(e => {
+            delete e._id;
+            delete e.policyCompanyId;
+            return e;
+        });
+
+        const workbook = utils.book_new();
+        const sheet = utils.json_to_sheet(data);
+        utils.book_append_sheet(workbook, sheet);
+
+        const fileName = this.props.fileName;
+        const index = fileName.lastIndexOf('.');
+
+        const errorFileName =
+            fileName.slice(0, index) + '_Errors' + fileName.slice(index);
+
+        writeFile(workbook, errorFileName);
+    };
+
     render() {
         return (
             <>
@@ -209,7 +239,22 @@ class Import extends Component<Props> {
                     </Col>
 
                     <Col span={14}>
-                        <Card title="Errors">
+                        <Card
+                            title="Errors"
+                            extra={
+                                this.props.resultsFailure.length > 0 && (
+                                    <Button
+                                        type="danger"
+                                        shape="round"
+                                        icon="download"
+                                        size="small"
+                                        onClick={this.saveErrors}
+                                    >
+                                        Download
+                                    </Button>
+                                )
+                            }
+                        >
                             {this.props.resultsFailure.length === 0 && (
                                 <p>No errors.</p>
                             )}
@@ -235,6 +280,7 @@ const mapStateToProps = (state: RootState) => {
     const importState = memberImportSelector(state);
 
     return {
+        fileName: importState.fileName,
         members: importState.members,
         resultsSuccess: importState.resultsSuccess,
         resultsFailure: importState.resultsFailure,

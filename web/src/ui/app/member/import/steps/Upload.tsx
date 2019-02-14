@@ -1,13 +1,12 @@
-import { Col, Icon, Row, Upload as UploadAD } from 'antd';
+import { Icon, Upload as UploadAD } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { read, utils } from 'xlsx';
 
 import {
-    ImportData, memberImportNextStep, memberImportSelector, receiveMemberImportData
+    ImportData, memberImportNextStep, memberImportSelector, receiveMemberImportData, receiveMemberImportFileName
 } from '@/state/app/member/import';
 import { RootState } from '@/state/rootReducer';
-import { Button } from '@/ui/controls';
 
 import StepProgress from '../StepProgress';
 
@@ -22,6 +21,8 @@ class Upload extends Component<Props> {
         var reader = new FileReader();
 
         reader.readAsArrayBuffer(file);
+
+        this.props.dispatch(receiveMemberImportFileName(file.name));
 
         reader.onload = () => {
             const fileContents = reader.result;
@@ -46,6 +47,7 @@ class Upload extends Component<Props> {
         return (
             <>
                 <StepProgress
+                    nextDisabled={!(this.props.data.length !== 0)}
                     onNext={() => this.props.dispatch(memberImportNextStep())}
                 />
 

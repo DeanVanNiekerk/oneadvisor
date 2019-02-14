@@ -4,6 +4,7 @@ import { ImportMemberAction } from './actions';
 import { ImportColumn, ImportData, ImportMember, ResultFailure } from './types';
 
 export type State = {
+    readonly fileName: string;
     readonly data: ImportData;
     readonly currentStepIndex: number;
     readonly steps: string[];
@@ -16,6 +17,7 @@ export type State = {
 };
 
 export const defaultState: State = {
+    fileName: '',
     data: [],
     members: [],
     resultsSuccess: [],
@@ -94,6 +96,12 @@ export const reducer = (
     action: ImportMemberAction
 ): State => {
     switch (action.type) {
+        case 'MEMBERS_IMPORT_FILE_NAME_RECEIVE': {
+            return {
+                ...state,
+                fileName: action.payload
+            };
+        }
         case 'MEMBERS_IMPORT_DATA_RECEIVE': {
             return {
                 ...state,

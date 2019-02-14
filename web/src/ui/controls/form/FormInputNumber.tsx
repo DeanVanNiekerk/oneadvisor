@@ -1,6 +1,7 @@
 import { InputNumber } from 'antd';
 import React, { Component } from 'react';
 
+import { formatCurrency, parseCurrency } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
 
 import { FormText } from './';
@@ -27,12 +28,13 @@ class FormInputNumber extends Component<Props> {
             this.props.onChange(this.props.fieldName, value);
     };
 
-    currencyFormatter = (value: number | string | undefined) => {
-        return `R ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    currencyFormatter = (value: number) => {
+        console.log(formatCurrency(value));
+        return formatCurrency(value);
     };
 
     currencyParser = (value: string) => {
-        return value.replace(/\R\s?|(,*)/g, '');
+        return parseCurrency(value);
     };
 
     render() {
