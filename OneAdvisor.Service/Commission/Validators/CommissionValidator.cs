@@ -17,8 +17,8 @@ namespace OneAdvisor.Service.Commission.Validators
             RuleFor(o => o.CommissionStatementId).NotEmpty().WithName("Commission Statement");
             RuleFor(o => o.CommissionTypeId).NotEmpty().WithName("Type");
             RuleFor(o => o.PolicyId).NotEmpty().WithName("Policy");
-            RuleFor(o => o.AmountIncludingVAT).NotEmpty().InclusiveBetween(0, 999999999).WithName("Amount");
-            RuleFor(o => o.VAT).NotEmpty().InclusiveBetween(0, 999999999).WithName("VAT");
+            RuleFor(o => o.AmountIncludingVAT).NotEmpty().WithName("Amount");
+            RuleFor(o => o.VAT).NotEmpty().WithName("VAT");
         }
     }
 }

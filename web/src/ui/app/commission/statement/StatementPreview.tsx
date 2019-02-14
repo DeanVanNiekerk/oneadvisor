@@ -94,6 +94,25 @@ class StatementPreviewComponent extends Component<Props, State> {
         return this.props.fetching && this.props.statement === null;
     };
 
+    getCommissionEntriesActions = () => {
+        const actions = [
+            <Icon type="bars" onClick={this.toggleCommissionListVisible} />
+        ];
+
+        if (hasUseCase('com_edit_commission_statements', this.props.useCases))
+            actions.unshift(
+                <Icon
+                    type="delete"
+                    onClick={event => {
+                        this.deleteCommissions();
+                        event.stopPropagation();
+                    }}
+                />
+            );
+
+        return actions;
+    };
+
     render() {
         let { statement } = this.props;
         const minCardHeight = '230px';
@@ -154,19 +173,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                         icon="dollar"
                         onClick={this.toggleCommissionListVisible}
                         isLoading={this.isLoading()}
-                        actions={[
-                            <Icon
-                                type="bars"
-                                onClick={this.toggleCommissionListVisible}
-                            />,
-                            <Icon
-                                type="delete"
-                                onClick={event => {
-                                    this.deleteCommissions();
-                                    event.stopPropagation();
-                                }}
-                            />
-                        ]}
+                        actions={this.getCommissionEntriesActions()}
                         rows={3}
                         minHeight={minCardHeight}
                     >
@@ -203,6 +210,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                         isLoading={this.isLoading()}
                         rows={3}
                         minHeight={minCardHeight}
+                        requiredUseCase="com_import_commissions"
                     >
                         {statement && (
                             <UploadStatement

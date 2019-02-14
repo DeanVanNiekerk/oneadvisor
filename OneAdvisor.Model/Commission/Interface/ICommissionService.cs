@@ -10,7 +10,6 @@ namespace OneAdvisor.Model.Commission.Interface
     {
         Task<PagedCommissions> GetCommissions(CommissionQueryOptions queryOptions);
         Task<CommissionEdit> GetCommission(ScopeOptions scope, Guid id);
-        Task<CommissionEdit> GetCommission(ScopeOptions scope, Guid commissionStatementId, Guid commissionTypeId, string policyNumber);
         Task<Result> UpdateCommission(ScopeOptions scope, CommissionEdit commission);
         Task<Result> InsertCommission(ScopeOptions scope, CommissionEdit commission);
         Task DeleteCommissions(ScopeOptions scope, Guid commissionStatementId);

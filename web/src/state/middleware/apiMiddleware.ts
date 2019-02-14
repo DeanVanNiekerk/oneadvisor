@@ -59,10 +59,15 @@ export default (store: any) => (next: any) => (action: any) => {
             }
 
             //Unauthorized, reload page
-            // if (resp.status === 401) {
-            //     window.location.reload();
-            //     return;
-            // }
+            if (resp.status === 401) {
+                showNotification(
+                    'error',
+                    'Unauthorized',
+                    `Unauthorized Api call to '${endpoint}'`,
+                    20
+                );
+                return;
+            }
 
             return resp.json().then(json => {
                 //Check for validation error

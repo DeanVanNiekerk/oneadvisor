@@ -19,6 +19,7 @@ using OneAdvisor.Service.Commission.Validators;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Model.Member.Model.Policy;
 using OneAdvisor.Model.Directory.Model.Lookup;
+using OneAdvisor.Model.Commission.Model.CommissionStatement;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -44,27 +45,28 @@ namespace OneAdvisor.Service.Commission
             var results = new List<Result>();
 
             //Scope check
-            var statement = await _commissionStatementService.GetCommissionStatement(scope, commissionStatementId);
-            if (statement == null)
+            var queryOptions = new CommissionStatementQueryOptions(scope, "", "", 0, 0, $"commissionStatementId={commissionStatementId}");
+            var statements = await _commissionStatementService.GetCommissionStatements(queryOptions);
+            if (!statements.Items.Any())
                 return results;
 
             foreach (var data in importData)
             {
-                var result = await ImportCommission(scope, commissionStatementId, data);
+                var result = await ImportCommission(scope, statements.Items.Single(), data);
                 results.Add(result);
             }
 
             return results;
         }
 
-        public async Task<Result> ImportCommission(ScopeOptions scope, Guid commissionStatementId, ImportCommission importCommission)
+        public async Task<Result> ImportCommission(ScopeOptions scope, CommissionStatement commissionStatement, ImportCommission importCommission)
         {
             var validator = new ImportCommissionValidator();
             var result = validator.Validate(importCommission).GetResult();
 
             var error = new CommissionError()
             {
-                CommissionStatementId = commissionStatementId,
+                CommissionStatementId = commissionStatement.Id,
                 PolicyNumber = importCommission.PolicyNumber,
                 CommissionTypeCode = importCommission.CommissionTypeCode,
                 Data = JsonConvert.SerializeObject(importCommission),
@@ -82,7 +84,7 @@ namespace OneAdvisor.Service.Commission
             if (commissionType != null)
                 error.CommissionTypeId = commissionType.Id;
 
-            var policy = await _policyService.GetPolicy(scope, importCommission.PolicyNumber);
+            var policy = await _policyService.GetPolicy(scope, commissionStatement.CompanyId, importCommission.PolicyNumber);
             if (policy != null)
             {
                 error.MemberId = policy.MemberId;
@@ -96,7 +98,7 @@ namespace OneAdvisor.Service.Commission
             }
 
             //Import data is valid, try and get an existing commission entry
-            var commission = LoadCommissionModel(commissionStatementId, policy, commissionType, importCommission);
+            var commission = LoadCommissionModel(commissionStatement.Id, policy, commissionType, importCommission);
 
             return await _commissionService.InsertCommission(scope, commission);
         }

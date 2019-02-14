@@ -100,19 +100,6 @@ namespace OneAdvisor.Service.Commission
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<CommissionEdit> GetCommission(ScopeOptions scope, Guid commissionStatementId, Guid commissionTypeId, string policyNumber)
-        {
-            var query = from commission in GetCommissionEntityQuery(scope)
-                        join policy in _context.Policy
-                            on commission.PolicyId equals policy.Id
-                        where commission.CommissionStatementId == commissionStatementId
-                        && commission.CommissionTypeId == commissionTypeId
-                        && EF.Functions.Like(policy.Number, policyNumber)
-                        select commission;
-
-            return await query.Select(c => MapEntityToModel(c)).FirstOrDefaultAsync();
-        }
-
         public async Task<Result> InsertCommission(ScopeOptions scope, CommissionEdit commission)
         {
             var validator = new CommissionValidator(true);
@@ -204,7 +191,16 @@ namespace OneAdvisor.Service.Commission
 
         private IQueryable<CommissionEdit> GetCommissionEditQuery(ScopeOptions scope)
         {
-            return GetCommissionEntityQuery(scope).Select(c => MapEntityToModel(c));
+            return GetCommissionEntityQuery(scope)
+                .Select(entity => new CommissionEdit()
+                {
+                    Id = entity.Id,
+                    CommissionTypeId = entity.CommissionTypeId,
+                    CommissionStatementId = entity.CommissionStatementId,
+                    AmountIncludingVAT = entity.AmountIncludingVAT,
+                    VAT = entity.VAT,
+                    PolicyId = entity.PolicyId,
+                });
         }
 
         private CommissionEntity MapModelToEntity(CommissionEdit model, CommissionEntity entity = null)
@@ -222,15 +218,15 @@ namespace OneAdvisor.Service.Commission
 
         private CommissionEdit MapEntityToModel(CommissionEntity entity)
         {
-            var model = new CommissionEdit();
-            model.Id = entity.Id;
-            model.CommissionTypeId = entity.CommissionTypeId;
-            model.CommissionStatementId = entity.CommissionStatementId;
-            model.AmountIncludingVAT = entity.AmountIncludingVAT;
-            model.VAT = entity.VAT;
-            model.PolicyId = entity.PolicyId;
-
-            return model;
+            return new CommissionEdit()
+            {
+                Id = entity.Id,
+                CommissionTypeId = entity.CommissionTypeId,
+                CommissionStatementId = entity.CommissionStatementId,
+                AmountIncludingVAT = entity.AmountIncludingVAT,
+                VAT = entity.VAT,
+                PolicyId = entity.PolicyId,
+            };
         }
     }
 }

@@ -88,8 +88,7 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
-
-                var result = await service.ImportCommission(scope, statement.Id, import1);
+                var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
 
                 //Then
                 Assert.IsFalse(result.Success);
@@ -152,8 +151,7 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
-
-                var result = await service.ImportCommission(scope, statement.Id, import1);
+                var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
 
                 //Then
                 Assert.IsFalse(result.Success);
@@ -184,13 +182,14 @@ namespace OneAdvisor.Service.Test.Commission
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
             var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
-            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
+            var companyId = Guid.NewGuid();
+            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation, companyId);
 
             var policy1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
-                CompanyId = Guid.NewGuid(),
+                CompanyId = companyId,
                 MemberId = member1.Member.Id,
                 UserId = user1.User.Id
             };
@@ -218,8 +217,7 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
-
-                var result = await service.ImportCommission(scope, statement.Id, import1);
+                var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
 
                 //Then
                 Assert.IsFalse(result.Success);
@@ -250,7 +248,8 @@ namespace OneAdvisor.Service.Test.Commission
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
             var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
-            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
+            var companyId = Guid.NewGuid();
+            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation, companyId);
 
             var commissionType = new CommissionTypeEntity
             {
@@ -262,7 +261,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
-                CompanyId = Guid.NewGuid(),
+                CompanyId = companyId,
                 MemberId = member1.Member.Id,
                 UserId = user1.User.Id
             };
@@ -292,8 +291,7 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
-
-                var result = await service.ImportCommission(scope, statement.Id, import1);
+                var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
 
                 //Then
                 Assert.IsTrue(result.Success);
@@ -308,6 +306,76 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(commissionType.Id, actual.CommissionTypeId);
                 Assert.AreEqual(100, actual.AmountIncludingVAT);
                 Assert.AreEqual(14, actual.VAT);
+                Assert.AreEqual(statement.Id, actual.CommissionStatementId);
+            }
+        }
+
+        [TestMethod]
+        public async Task ImportCommission_InsertCommission_NegitiveAmmount()
+        {
+            var options = TestHelper.GetDbContext("ImportCommission_InsertCommission_NegitiveAmmount");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+
+            var companyId = Guid.NewGuid();
+            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation, companyId);
+
+            var commissionType = new CommissionTypeEntity
+            {
+                Id = Guid.NewGuid(),
+                Code = "gap_cover"
+            };
+
+            var policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                Number = Guid.NewGuid().ToString(),
+                CompanyId = companyId,
+                MemberId = member1.Member.Id,
+                UserId = user1.User.Id
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.CommissionType.Add(commissionType);
+                context.Policy.Add(policy1);
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var statementService = new CommissionStatementService(context);
+                var lookupService = new LookupService(context);
+                var policyService = new PolicyService(context);
+                var commissionService = new CommissionService(context);
+                var service = new CommissionImportService(context, statementService, commissionService, policyService, lookupService);
+
+                //When
+                var import1 = new ImportCommission
+                {
+                    PolicyNumber = policy1.Number,
+                    CommissionTypeCode = commissionType.Code,
+                    AmountIncludingVAT = "-100",
+                    VAT = "-14"
+                };
+
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
+
+                //Then
+                Assert.IsTrue(result.Success);
+
+                //Check error record
+                var anyErrors = await context.CommissionError.AnyAsync();
+
+                Assert.IsFalse(anyErrors);
+
+                var actual = await context.Commission.FindAsync(((CommissionEdit)result.Tag).Id);
+                Assert.AreEqual(policy1.Id, actual.PolicyId);
+                Assert.AreEqual(commissionType.Id, actual.CommissionTypeId);
+                Assert.AreEqual(-100, actual.AmountIncludingVAT);
+                Assert.AreEqual(-14, actual.VAT);
                 Assert.AreEqual(statement.Id, actual.CommissionStatementId);
             }
         }

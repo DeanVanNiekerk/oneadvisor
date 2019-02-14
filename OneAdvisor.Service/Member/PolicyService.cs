@@ -91,6 +91,16 @@ namespace OneAdvisor.Service.Member
             return query.FirstOrDefaultAsync();
         }
 
+        public Task<PolicyEdit> GetPolicy(ScopeOptions scope, Guid companyId, string number)
+        {
+            var query = from policy in GetPolicyEditQuery(scope)
+                        where EF.Functions.Like(policy.Number, number)
+                        && policy.CompanyId == companyId
+                        select policy;
+
+            return query.FirstOrDefaultAsync();
+        }
+
         public Task<PolicyEdit> GetPolicy(ScopeOptions scope, Guid memberId, Guid companyId, string number)
         {
             var query = from policy in GetPolicyEditQuery(scope)

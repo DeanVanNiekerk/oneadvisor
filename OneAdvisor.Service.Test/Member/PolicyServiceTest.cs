@@ -307,6 +307,44 @@ namespace OneAdvisor.Service.Test.Member
         }
 
         [TestMethod]
+        public async Task GetPolicy_ByCompany_Number()
+        {
+            var options = TestHelper.GetDbContext("GetPolicy_ByCompany_Number");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+
+            //Given
+            var policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                MemberId = member1.Member.Id,
+                UserId = user1.User.Id,
+                Number = "123465"
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Policy.Add(policy1);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new PolicyService(context);
+
+                //When
+                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var actual = await service.GetPolicy(scopeOptions, policy1.CompanyId, policy1.Number);
+
+                //Then
+                Assert.AreEqual(policy1.Id, actual.Id);
+            }
+        }
+
+        [TestMethod]
         public async Task GetPolicy_ByNumber()
         {
             var options = TestHelper.GetDbContext("GetPolicy_ByNumber");

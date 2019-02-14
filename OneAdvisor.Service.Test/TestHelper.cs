@@ -133,9 +133,10 @@ namespace OneAdvisor.Service.Test
             return type;
         }
 
-        public static CommissionStatementEntity InsertDefaultCommissionStatement(DbContextOptions<DataContext> options, OrganisationEntity organisation)
+        public static CommissionStatementEntity InsertDefaultCommissionStatement(DbContextOptions<DataContext> options, OrganisationEntity organisation, Guid? companyId = null)
         {
-            var statement = new CommissionStatementEntity { Id = Guid.NewGuid(), OrganisationId = organisation.Id };
+            companyId = companyId.HasValue ? companyId : Guid.NewGuid();
+            var statement = new CommissionStatementEntity { Id = Guid.NewGuid(), OrganisationId = organisation.Id, CompanyId = companyId.Value };
 
             using (var context = new DataContext(options))
             {
