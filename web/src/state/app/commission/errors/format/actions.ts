@@ -8,8 +8,35 @@ type CommissionErrorReceiveAction = {
     type: 'COMMISSIONS_ERROR_FORMAT_RECEIVE';
     payload: CommissionError | null;
 };
+type CommissionErrorFetchingAction = {
+    type: 'COMMISSIONS_ERROR_FORMAT_FETCHING';
+};
+type CommissionErrorFetchingErrorAction = {
+    type: 'COMMISSIONS_ERROR_FORMAT_FETCHING_ERROR';
+};
 
-export type StatementAction = CommissionErrorReceiveAction;
+type CommissionErrorUpdatedAction = {
+    type: 'COMMISSIONS_ERROR_FORMAT_EDIT_RECEIVE';
+};
+type CommissionErrorUpdatingAction = {
+    type: 'COMMISSIONS_ERROR_FORMAT_EDIT_FETCHING';
+};
+type CommissionErrorUpdatingErrorAction = {
+    type: 'COMMISSIONS_ERROR_FORMAT_EDIT_FETCHING_ERROR';
+};
+type CommissionErrorValidationErrorAction = {
+    type: 'COMMISSIONS_ERROR_FORMAT_EDIT_VALIDATION_ERROR';
+    payload: ValidationResult[];
+};
+
+export type CommissionErrorAction =
+    | CommissionErrorReceiveAction
+    | CommissionErrorFetchingAction
+    | CommissionErrorFetchingErrorAction
+    | CommissionErrorUpdatingAction
+    | CommissionErrorUpdatingErrorAction
+    | CommissionErrorValidationErrorAction
+    | CommissionErrorUpdatedAction;
 
 export const fetchNextFormatError = (statementId: string): ApiAction => ({
     type: 'API',
@@ -17,14 +44,22 @@ export const fetchNextFormatError = (statementId: string): ApiAction => ({
     dispatchPrefix: 'COMMISSIONS_ERROR_FORMAT'
 });
 
-// export const updateStatement = (
-//     statement: StatementEdit,
-//     onSuccess: ApiOnSuccess
-// ): ApiAction => ({
-//     type: 'API',
-//     endpoint: `${statementsApi}/${statement.id}`,
-//     method: 'POST',
-//     payload: statement,
-//     onSuccess: onSuccess,
-//     dispatchPrefix: 'STATEMENTS_STATEMENT_EDIT'
-// });
+export const receiveFormatError = (
+    error: CommissionError | null
+): CommissionErrorReceiveAction => ({
+    type: 'COMMISSIONS_ERROR_FORMAT_RECEIVE',
+    payload: error
+});
+
+export const resolveFormatError = (
+    statementId: string,
+    error: CommissionError,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
+    type: 'API',
+    endpoint: `${statementsApi}/${statementId}/errors/resolve/format`,
+    method: 'POST',
+    payload: error,
+    onSuccess: onSuccess,
+    dispatchPrefix: 'COMMISSIONS_ERROR_FORMAT_EDIT'
+});

@@ -69,6 +69,17 @@ export default (store: any) => (next: any) => (action: any) => {
                 return;
             }
 
+            if (resp.status === 404) {
+                //Recieve
+                if (dispatchPrefix) {
+                    store.dispatch({
+                        type: `${dispatchPrefix}_RECEIVE`,
+                        payload: null
+                    });
+                }
+                return;
+            }
+
             return resp.json().then(json => {
                 //Check for validation error
                 if (resp.status === 400) {

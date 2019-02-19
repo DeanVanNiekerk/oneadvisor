@@ -30,13 +30,16 @@ namespace api.Controllers.Commission.CommissionError
 
         [HttpGet("errors/next")]
         [UseCaseAuthorize("com_edit_commission_statements")]
-        public async Task<CommissionErrorDto> Index(Guid commissionStatementId, bool hasValidFormat)
+        public async Task<ActionResult<CommissionErrorDto>> Index(Guid commissionStatementId, bool hasValidFormat)
         {
             var scope = await AuthService.GetScope(UserId, Scope);
 
             var error = await CommissionErrorService.GetNextError(scope, commissionStatementId, hasValidFormat);
 
-            return Mapper.Map<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError, CommissionErrorDto>(error);
+            if (error == null)
+                return NotFound();
+
+            return Ok(Mapper.Map<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError, CommissionErrorDto>(error));
         }
 
         [HttpPost("errors/resolve/format")]

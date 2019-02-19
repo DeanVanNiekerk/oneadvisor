@@ -7,3 +7,7 @@ export type CommissionError = {
     data: string;
     isFormatValid: boolean;
 };
+
+export type CommissionErrorData = {
+    [key: string]: string;
+};

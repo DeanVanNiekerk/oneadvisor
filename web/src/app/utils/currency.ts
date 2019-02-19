@@ -2,7 +2,7 @@ export const formatCurrency = (
     value: number | string | undefined,
     decimals: number = 2
 ): string => {
-    if (value === undefined || value === '') return '';
+    if (value === undefined || value === '' || value === null) return '';
 
     return `R ${parseFloat(value.toString())
         .toFixed(decimals)
