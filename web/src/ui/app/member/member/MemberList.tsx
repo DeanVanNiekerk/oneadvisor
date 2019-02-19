@@ -6,7 +6,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { applyLike } from '@/app/query';
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
 import {
-    deleteMember, fetchMembers, Member, MemberEdit, membersSelector, receiveFilters, receiveMember,
+    deleteMember, fetchMembers, Member, MemberEdit, membersSelector, newMember, receiveFilters, receiveMember,
     receiveMemberPreview, receivePageOptions, receiveSortOptions
 } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
@@ -62,21 +62,7 @@ class MemberList extends Component<Props> {
     };
 
     newMember = () => {
-        const member: MemberEdit = {
-            id: null,
-            firstName: '',
-            lastName: '',
-            maidenName: '',
-            idNumber: '',
-            passportNumber: '',
-            initials: '',
-            preferredName: '',
-            dateOfBirth: '',
-            marriageDate: '',
-            marritalStatusId: '',
-            taxNumber: ''
-        };
-
+        const member: MemberEdit = newMember();
         this.props.dispatch(receiveMember(member));
     };
 

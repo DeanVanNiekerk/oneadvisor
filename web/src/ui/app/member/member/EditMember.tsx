@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { Result } from '@/app/types';
 import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
 import { insertMember, MemberEdit, memberSelector, receiveMember, updateMember } from '@/state/app/member/members';
@@ -11,7 +12,8 @@ import { showConfirm } from '@/ui/feedback/modal/confirm';
 import MemberForm from './MemberForm';
 
 type Props = {
-    onClose: (cancelled: boolean) => void;
+    onClose?: (cancelled: boolean) => void;
+    onMemberInserted?: (member: MemberEdit) => void;
     member: MemberEdit | null;
     fetching: boolean;
     updating: boolean;
@@ -40,7 +42,7 @@ class EditMember extends Component<Props, State> {
 
     close = (cancelled: boolean = false) => {
         this.props.dispatch(receiveMember(null));
-        this.props.onClose(cancelled);
+        if (this.props.onClose) this.props.onClose(cancelled);
     };
 
     confirmCancel = () => {
@@ -66,7 +68,11 @@ class EditMember extends Component<Props, State> {
             );
         } else {
             this.props.dispatch(
-                insertMember(this.state.memberEdited, () => this.close())
+                insertMember(this.state.memberEdited, (result: Result) => {
+                    if (this.props.onMemberInserted)
+                        this.props.onMemberInserted(result.tag as MemberEdit);
+                    this.close();
+                })
             );
         }
     };

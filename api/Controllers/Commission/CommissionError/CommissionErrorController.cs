@@ -30,7 +30,7 @@ namespace api.Controllers.Commission.CommissionError
 
         [HttpGet("errors/next")]
         [UseCaseAuthorize("com_edit_commission_statements")]
-        public async Task<ActionResult<CommissionErrorDto>> Index(Guid commissionStatementId, bool hasValidFormat)
+        public async Task<ActionResult<CommissionErrorDto>> Index(Guid commissionStatementId, [FromQuery] bool hasValidFormat)
         {
             var scope = await AuthService.GetScope(UserId, Scope);
 

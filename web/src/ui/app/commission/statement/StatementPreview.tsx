@@ -4,7 +4,7 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { hasUseCase } from '@/app/identity';
-import { fetchNextFormatError } from '@/state/app/commission/errors';
+import { fetchNextFormatError, fetchNextMappingError } from '@/state/app/commission/errors';
 import {
     deleteCommissions, fetchStatement, fetchStatementPreview, Statement, statementPreviewSelector
 } from '@/state/app/commission/statements';
@@ -17,6 +17,7 @@ import { showMessage } from '@/ui/feedback/notifcation';
 
 import CommissionList from '../commission/CommissionList';
 import EditFormatError from '../error/format/EditFormatError';
+import EditMappingError from '../error/mapping/EditMappingError';
 import EditStatement from './EditStatement';
 import { Processed } from './Processed';
 import { StatementPreviewErrorCount } from './StatementPreviewErrorCount';
@@ -119,6 +120,12 @@ class StatementPreviewComponent extends Component<Props, State> {
         if (this.props.statement === null) return;
 
         this.props.dispatch(fetchNextFormatError(this.props.statement.id));
+    };
+
+    getNextMappingError = () => {
+        if (this.props.statement === null) return;
+
+        this.props.dispatch(fetchNextMappingError(this.props.statement.id));
     };
 
     render() {
@@ -249,7 +256,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                             icon="file-exclamation"
                             isLoading={this.isLoading()}
                             rows={3}
-                            onClick={() => alert('TODO')}
+                            onClick={this.getNextMappingError}
                             actions={[<Icon type="tool" />]}
                         >
                             {statement && (
@@ -269,6 +276,17 @@ class StatementPreviewComponent extends Component<Props, State> {
                     remainingErrors={
                         this.props.statement
                             ? this.props.statement.formatErrorCount
+                            : 0
+                    }
+                    onUpdate={this.load}
+                />
+                <EditMappingError
+                    statementId={
+                        this.props.statement ? this.props.statement.id : ''
+                    }
+                    remainingErrors={
+                        this.props.statement
+                            ? this.props.statement.mappingErrorCount
                             : 0
                     }
                     onUpdate={this.load}

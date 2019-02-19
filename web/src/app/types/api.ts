@@ -2,7 +2,7 @@ import { Dispatch } from 'redux';
 
 type ApiActionType = 'API';
 type ApiMethods = 'GET' | 'POST' | 'DELETE';
-export type ApiOnSuccess = (data: any, dispatch: Dispatch) => void;
+export type ApiOnSuccess = (result: any, dispatch: Dispatch) => void;
 export type ApiOnSuccessBlob = (blob: Blob, dispatch: Dispatch) => void;
 export type ApiAction = {
     type: ApiActionType;
@@ -12,4 +12,9 @@ export type ApiAction = {
     payload?: Object;
     onSuccess?: ApiOnSuccess;
     onSuccessBlob?: ApiOnSuccessBlob;
+};
+
+export type Result = {
+    success: boolean;
+    tag: object;
 };

@@ -96,8 +96,6 @@ class EditFormatError extends Component<Props, State> {
     getTitle = () => {
         if (this.props.fetching) return 'Loading Format Error';
 
-        //const { error } = this.props;
-
         return `Resolve Format Error - ${this.props.remainingErrors} remaining`;
     };
 
