@@ -9,5 +9,8 @@ export type CommissionError = {
 };
 
 export type CommissionErrorData = {
-    [key: string]: string;
+    PolicyNumber: string;
+    CommissionTypeCode: string;
+    AmountIncludingVAT: string;
+    VAT: string;
 };

@@ -280,17 +280,17 @@ class StatementPreviewComponent extends Component<Props, State> {
                     }
                     onUpdate={this.load}
                 />
-                <EditMappingError
-                    statementId={
-                        this.props.statement ? this.props.statement.id : ''
-                    }
-                    remainingErrors={
-                        this.props.statement
-                            ? this.props.statement.mappingErrorCount
-                            : 0
-                    }
-                    onUpdate={this.load}
-                />
+                {this.props.statement && (
+                    <EditMappingError
+                        statement={this.props.statement}
+                        remainingErrors={
+                            this.props.statement
+                                ? this.props.statement.mappingErrorCount
+                                : 0
+                        }
+                        onUpdate={this.load}
+                    />
+                )}
 
                 <Drawer
                     title="Commission Entries"

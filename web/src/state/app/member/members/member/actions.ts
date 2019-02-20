@@ -35,6 +35,15 @@ export const receiveMember = (
     payload: member
 });
 
+export const getMember = (
+    memberId: string,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
+    type: 'API',
+    endpoint: `${membersApi}/${memberId}`,
+    onSuccess: onSuccess
+});
+
 export const fetchMember = (memberId: string): ApiAction => ({
     type: 'API',
     endpoint: `${membersApi}/${memberId}`,

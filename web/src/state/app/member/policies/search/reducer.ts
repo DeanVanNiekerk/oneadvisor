@@ -1,8 +1,8 @@
-import { Member } from '../types';
-import { MemberSearchAction } from './actions';
+import { Policy } from '../types';
+import { PolicySearchAction } from './actions';
 
 export type State = {
-    readonly items: Member[];
+    readonly items: Policy[];
     readonly fetching: boolean;
     readonly error: boolean;
 };
@@ -15,10 +15,10 @@ export const defaultState: State = {
 
 export const reducer = (
     state: State = defaultState,
-    action: MemberSearchAction
+    action: PolicySearchAction
 ): State => {
     switch (action.type) {
-        case 'MEMBERS_SEARCH_RECEIVE': {
+        case 'POLICIES_SEARCH_RECEIVE': {
             return {
                 ...state,
                 items: action.payload.items,
@@ -26,13 +26,13 @@ export const reducer = (
                 error: false
             };
         }
-        case 'MEMBERS_SEARCH_FETCHING': {
+        case 'POLICIES_SEARCH_FETCHING': {
             return {
                 ...state,
                 fetching: true
             };
         }
-        case 'MEMBERS_SEARCH_FETCHING_ERROR': {
+        case 'POLICIES_SEARCH_FETCHING_ERROR': {
             return {
                 ...state,
                 items: [],

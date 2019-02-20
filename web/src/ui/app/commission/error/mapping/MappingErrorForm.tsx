@@ -3,13 +3,20 @@ import JSONPretty from 'react-json-pretty';
 import { connect, DispatchProp } from 'react-redux';
 
 import { ValidationResult } from '@/app/validation';
-import { CommissionError } from '@/state/app/commission/errors';
+import { CommissionError, CommissionErrorData } from '@/state/app/commission/errors';
+import { Statement } from '@/state/app/commission/statements';
 import { MemberEdit, newMember, receiveMember } from '@/state/app/member/members';
+import { newPolicy, PolicyEdit, receivePolicy } from '@/state/app/member/policies';
 import EditMember from '@/ui/app/member/member/EditMember';
 import MemberSearch from '@/ui/app/member/member/MemberSearch';
-import { Button, Drawer, DrawerFooter, Form, FormText } from '@/ui/controls';
+import EditPolicy from '@/ui/app/member/policy/EditPolicy';
+import PolicySearch from '@/ui/app/member/policy/PolicySearch';
+import {
+    Button, CommissionTypeName, Drawer, DrawerFooter, Form, FormText, MemberName, PolicyName, TabPane, Tabs
+} from '@/ui/controls';
 
 type Props = {
+    statement: Statement;
     error: CommissionError;
     validationResults: ValidationResult[];
     onChange: (error: CommissionError) => void;
@@ -17,8 +24,13 @@ type Props = {
 
 type State = {
     error: CommissionError;
+    errorData: CommissionErrorData;
     searchMemberVisible: boolean;
+    searchPolicyVisible: boolean;
+    activeTab: TabKey;
 };
+
+type TabKey = 'form_tab' | 'data_tab';
 
 class MappingErrorForm extends Component<Props, State> {
     constructor(props: Props) {
@@ -26,14 +38,19 @@ class MappingErrorForm extends Component<Props, State> {
 
         this.state = {
             error: props.error,
-            searchMemberVisible: false
+            errorData: JSON.parse(props.error.data),
+            searchMemberVisible: false,
+            searchPolicyVisible: false,
+            activeTab: 'form_tab'
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.error != prevProps.error) {
             this.setState({
-                error: this.props.error
+                error: this.props.error,
+                errorData: JSON.parse(this.props.error.data),
+                activeTab: 'form_tab'
             });
         }
     }
@@ -54,12 +71,31 @@ class MappingErrorForm extends Component<Props, State> {
         this.props.dispatch(receiveMember(member));
     };
 
+    newPolicy = () => {
+        if (!this.state.error.memberId) return;
+
+        const policy = newPolicy(
+            this.state.error.memberId,
+            this.props.statement.companyId,
+            this.state.errorData.PolicyNumber
+        );
+        this.props.dispatch(receivePolicy(policy));
+    };
+
     memberInserted = (member: MemberEdit) => {
-        this.selectMember(member.id || '');
+        this.selectMember(member.id);
+    };
+
+    policyInserted = (policy: PolicyEdit) => {
+        this.selectPolicy(policy.id);
     };
 
     selectMember = (memberId: string) => {
         this.handleChange('memberId', memberId);
+    };
+
+    selectPolicy = (policyId: string) => {
+        this.handleChange('policyId', policyId);
     };
 
     toggleSearchMemberVisible = () => {
@@ -68,47 +104,125 @@ class MappingErrorForm extends Component<Props, State> {
         });
     };
 
+    toggleSearchPolicyVisible = () => {
+        this.setState({
+            searchPolicyVisible: !this.state.searchPolicyVisible
+        });
+    };
+
+    onTabChange = (activeTab: TabKey) => {
+        this.setState({ activeTab });
+    };
+
     render() {
         const { validationResults } = this.props;
         const { error } = this.state;
 
         return (
             <>
-                <Form editUseCase="com_edit_commission_statements">
-                    <FormText
-                        fieldName="memberId"
-                        label="Member"
-                        value={error.memberId || 'No Mapped Member'}
-                        validationResults={validationResults}
-                        extra={
-                            <>
-                                <Button
-                                    size="small"
-                                    icon="search"
-                                    onClick={this.toggleSearchMemberVisible}
-                                >
-                                    Find Member
-                                </Button>
-                                <Button
-                                    size="small"
-                                    icon="plus"
-                                    onClick={this.newMember}
-                                >
-                                    New Member
-                                </Button>
-                            </>
-                        }
-                    />
-                    <FormText
-                        fieldName="policyId"
-                        label="Policy"
-                        value={error.policyId || ''}
-                        validationResults={validationResults}
-                    />
-                </Form>
-                <h4>Raw Data</h4>
-                <JSONPretty json={JSON.parse(error.data)} />
+                <Tabs
+                    onChange={this.onTabChange}
+                    activeKey={this.state.activeTab}
+                    sticky={true}
+                >
+                    <TabPane tab="Mapping" key="form_tab">
+                        <Form editUseCase="com_edit_commission_statements">
+                            <FormText
+                                fieldName="memberId"
+                                label="Member"
+                                value={
+                                    error.memberId ? (
+                                        <MemberName memberId={error.memberId} />
+                                    ) : (
+                                        'No Mapped Member'
+                                    )
+                                }
+                                validationResults={validationResults}
+                                extra={
+                                    <>
+                                        <Button
+                                            size="small"
+                                            icon="search"
+                                            onClick={
+                                                this.toggleSearchMemberVisible
+                                            }
+                                        >
+                                            Find Member
+                                        </Button>
+                                        <Button
+                                            size="small"
+                                            icon="plus"
+                                            onClick={this.newMember}
+                                        >
+                                            New Member
+                                        </Button>
+                                    </>
+                                }
+                            />
+                            <FormText
+                                fieldName="policyId"
+                                label="Policy"
+                                value={
+                                    error.policyId ? (
+                                        <PolicyName policyId={error.policyId} />
+                                    ) : (
+                                        'No Mapped Policy'
+                                    )
+                                }
+                                validationResults={validationResults}
+                                extra={
+                                    <>
+                                        <Button
+                                            size="small"
+                                            icon="search"
+                                            onClick={
+                                                this.toggleSearchPolicyVisible
+                                            }
+                                            disabled={
+                                                !this.state.error.memberId
+                                            }
+                                        >
+                                            Find Policy
+                                        </Button>
+                                        <Button
+                                            size="small"
+                                            icon="plus"
+                                            onClick={this.newPolicy}
+                                            disabled={
+                                                !this.state.error.memberId
+                                            }
+                                        >
+                                            New Policy
+                                        </Button>
+                                    </>
+                                }
+                            />
+                            <FormText
+                                fieldName="commissionTypeId"
+                                label="Commission Type"
+                                value={
+                                    error.commissionTypeId ? (
+                                        <CommissionTypeName
+                                            commissionTypeId={
+                                                error.commissionTypeId
+                                            }
+                                        />
+                                    ) : (
+                                        'No Mapped Commission Type'
+                                    )
+                                }
+                                validationResults={validationResults}
+                            />
+                        </Form>
+                    </TabPane>
+
+                    <TabPane tab="Excel Data" key="data_tab">
+                        <JSONPretty json={JSON.parse(error.data)} />
+                    </TabPane>
+                </Tabs>
+
                 <EditMember onMemberInserted={this.memberInserted} />
+                <EditPolicy onPolicyInserted={this.policyInserted} />
 
                 <Drawer
                     title="Member Search"
@@ -123,6 +237,26 @@ class MappingErrorForm extends Component<Props, State> {
                     />
                     <DrawerFooter>
                         <Button onClick={this.toggleSearchMemberVisible}>
+                            Close
+                        </Button>
+                    </DrawerFooter>
+                </Drawer>
+
+                <Drawer
+                    title="Policy Search"
+                    visible={this.state.searchPolicyVisible}
+                    onClose={this.toggleSearchPolicyVisible}
+                >
+                    <PolicySearch
+                        onSelect={(policyId: string) => {
+                            this.selectPolicy(policyId);
+                            this.toggleSearchPolicyVisible();
+                        }}
+                        memberId={this.state.error.memberId}
+                        companyId={this.props.statement.companyId}
+                    />
+                    <DrawerFooter>
+                        <Button onClick={this.toggleSearchPolicyVisible}>
                             Close
                         </Button>
                     </DrawerFooter>

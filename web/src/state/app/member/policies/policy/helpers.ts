@@ -1,10 +1,14 @@
 import { PolicyEdit } from '../';
 
-export const newPolicy = (memberId: string): PolicyEdit => ({
+export const newPolicy = (
+    memberId: string,
+    companyId: string = '',
+    number: string = ''
+): PolicyEdit => ({
     id: '',
     userId: '',
-    number: '',
-    companyId: '',
+    number: number,
+    companyId: companyId,
     memberId: memberId,
     premium: null,
     startDate: '',

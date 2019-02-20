@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { Result } from '@/app/types';
 import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
 import { insertPolicy, PolicyEdit, policySelector, receivePolicy, updatePolicy } from '@/state/app/member/policies';
@@ -11,7 +12,8 @@ import { showConfirm } from '@/ui/feedback/modal/confirm';
 import PolicyForm from './PolicyForm';
 
 type Props = {
-    onClose: (cancelled: boolean) => void;
+    onClose?: (cancelled: boolean) => void;
+    onPolicyInserted?: (member: PolicyEdit) => void;
     policy: PolicyEdit | null;
     fetching: boolean;
     updating: boolean;
@@ -40,7 +42,7 @@ class EditPolicy extends Component<Props, State> {
 
     close = (cancelled: boolean = false) => {
         this.props.dispatch(receivePolicy(null));
-        this.props.onClose(cancelled);
+        if (this.props.onClose) this.props.onClose(cancelled);
     };
 
     confirmCancel = () => {
@@ -66,7 +68,11 @@ class EditPolicy extends Component<Props, State> {
             );
         } else {
             this.props.dispatch(
-                insertPolicy(this.state.policyEdited, () => this.close())
+                insertPolicy(this.state.policyEdited, (result: Result) => {
+                    if (this.props.onPolicyInserted)
+                        this.props.onPolicyInserted(result.tag as PolicyEdit);
+                    this.close();
+                })
             );
         }
     };

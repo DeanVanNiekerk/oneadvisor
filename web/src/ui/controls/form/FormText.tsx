@@ -7,7 +7,7 @@ import { FormField } from './FormField';
 
 type Props = {
     label: string;
-    value: string;
+    value: string | React.ReactNode;
     fieldName?: string;
     layout?: FormLayout;
     loading?: boolean;

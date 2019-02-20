@@ -1,11 +1,12 @@
-import { Icon, Input, List } from 'antd';
+import { Icon, Input } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { applyLike } from '@/app/query';
-import { debounce } from '@/app/utils';
+import { getColumn } from '@/app/table';
 import { Member, memberSearchSelector, searchMembers } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
+import { Table } from '@/ui/controls';
 
 type Props = {
     members: Member[];
@@ -45,6 +46,18 @@ class MemberSearch extends Component<Props, State> {
         this.setState({ searchText: e.target.value }, this.loadMembers);
     };
 
+    getColumns = () => {
+        return [
+            getColumn('lastName', 'Last Name', { sorter: false }),
+            getColumn('firstName', 'First Name', { sorter: false }),
+            getColumn('idNumber', 'ID Number', { sorter: false }),
+            getColumn('dateOfBirth', 'Date of Birth', {
+                type: 'date',
+                sorter: false
+            })
+        ];
+    };
+
     render() {
         const { searchText } = this.state;
 
@@ -60,18 +73,13 @@ class MemberSearch extends Component<Props, State> {
                     onChange={this.onSearchChange}
                     className="mb-1"
                 />
-                <List
-                    loading={this.props.fetching}
-                    size="small"
-                    bordered
+                <Table
+                    rowKey="id"
+                    columns={this.getColumns()}
                     dataSource={this.props.members}
-                    renderItem={(member: Member) => (
-                        <List.Item
-                            className="clickable"
-                            onClick={() => this.selectMember(member.id)}
-                        >{`${member.firstName || ''} ${member.lastName ||
-                            ''}`}</List.Item>
-                    )}
+                    loading={this.props.fetching}
+                    onRowClick={member => this.selectMember(member.id)}
+                    hidePagination={true}
                 />
             </>
         );

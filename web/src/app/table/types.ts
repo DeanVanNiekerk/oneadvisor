@@ -13,7 +13,7 @@ export type FilterOptions = {
 export type ColumnOptions = {
     type?: ColumnType;
     render?: (value: any, record: any, index: number) => any;
-    sorter?: (a: any, b: any) => any | boolean;
+    sorter?: ((a: any, b: any) => any) | boolean;
     onFilter?: (value: string, record: any, property: string) => boolean;
     filters?: FilterOptions[];
     showSearchFilter?: boolean;

@@ -7,6 +7,7 @@ import { ValidationResult } from '@/app/validation';
 import {
     CommissionError, fetchNextMappingError, mappingErrorSelector, receiveMappingError, resolveMappingError
 } from '@/state/app/commission/errors';
+import { Statement } from '@/state/app/commission/statements';
 import { RootState } from '@/state/rootReducer';
 import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
 import { showConfirm } from '@/ui/feedback/modal/confirm';
@@ -14,7 +15,7 @@ import { showConfirm } from '@/ui/feedback/modal/confirm';
 import MappingErrorForm from './MappingErrorForm';
 
 type Props = {
-    statementId: string;
+    statement: Statement;
     remainingErrors: number;
     onUpdate: () => void;
     error: CommissionError | null;
@@ -63,13 +64,13 @@ class EditMappingError extends Component<Props, State> {
 
         this.props.dispatch(
             resolveMappingError(
-                this.props.statementId,
+                this.props.statement.id,
                 this.state.errorEdited,
                 //on success
                 () => {
                     this.props.onUpdate();
                     this.props.dispatch(
-                        fetchNextMappingError(this.props.statementId)
+                        fetchNextMappingError(this.props.statement.id)
                     );
                 }
             )
@@ -95,7 +96,7 @@ class EditMappingError extends Component<Props, State> {
     };
 
     render() {
-        const { error, fetching, validationResults } = this.props;
+        const { error, fetching, validationResults, statement } = this.props;
 
         return (
             <>
@@ -103,10 +104,12 @@ class EditMappingError extends Component<Props, State> {
                     title={this.getTitle()}
                     visible={!!error || fetching}
                     onClose={this.confirmCancel}
+                    noTopPadding={true}
                 >
                     <ContentLoader isLoading={this.isLoading()}>
                         {error && (
                             <MappingErrorForm
+                                statement={statement}
                                 error={error}
                                 validationResults={validationResults}
                                 onChange={this.onChange}

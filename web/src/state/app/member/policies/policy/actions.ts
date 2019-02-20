@@ -37,6 +37,15 @@ export const receivePolicy = (
     payload: policy
 });
 
+export const getPolicy = (
+    policyId: string,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
+    type: 'API',
+    endpoint: `${policiesApi}/${policyId}`,
+    onSuccess: onSuccess
+});
+
 export const fetchPolicy = (policyId: string): ApiAction => ({
     type: 'API',
     endpoint: `${policiesApi}/${policyId}`,
