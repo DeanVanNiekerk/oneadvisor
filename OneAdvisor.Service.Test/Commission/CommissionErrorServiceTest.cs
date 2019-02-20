@@ -246,7 +246,7 @@ namespace OneAdvisor.Service.Test.Commission
                 //Then
                 Assert.IsFalse(result.Success);
 
-                Assert.AreEqual(2, result.ValidationFailures.Count);
+                Assert.AreEqual(3, result.ValidationFailures.Count);
                 Assert.AreEqual("'Policy' must not be empty.", result.ValidationFailures[0].ErrorMessage);
             }
         }
@@ -317,6 +317,7 @@ namespace OneAdvisor.Service.Test.Commission
                     CommissionStatementId = statement.Id,
                     IsFormatValid = true,
                     PolicyId = policy1.Id,
+                    MemberId = policy1.MemberId,
                     CommissionTypeId = Guid.NewGuid(),
                     Data = JsonConvert.SerializeObject(ic1)
                 };
@@ -409,6 +410,7 @@ namespace OneAdvisor.Service.Test.Commission
                     CommissionStatementId = statement.Id,
                     IsFormatValid = true,
                     PolicyId = policy1.Id,
+                    MemberId = policy1.MemberId,
                     CommissionTypeId = Guid.NewGuid(),
                     Data = JsonConvert.SerializeObject(ic2)
                 };
