@@ -23,6 +23,12 @@ namespace OneAdvisor.Import.Excel.Readers
                         commission.VAT = GetValue(reader, 2);
                         commission.CommissionTypeCode = GetValue(reader, 3);
 
+                        commission.LastName = GetValue(reader, 4);
+                        commission.DateOfBirth = GetDate(reader, 5);
+                        commission.FirstName = GetValue(reader, 6);
+                        commission.IdNumber = GetValue(reader, 7);
+                        commission.Initials = GetValue(reader, 8);
+
                         if (string.IsNullOrWhiteSpace(commission.PolicyNumber))
                             continue;
 
@@ -36,6 +42,19 @@ namespace OneAdvisor.Import.Excel.Readers
         {
             var value = reader.GetValue(index);
             return value != null ? value.ToString() : null;
+        }
+
+        private string GetDate(IExcelDataReader reader, int index)
+        {
+            try
+            {
+                var value = reader.GetDateTime(index);
+                return value != null ? value.ToString("yyyy-MM-dd") : null;
+            }
+            catch
+            {
+                return GetValue(reader, index);
+            }
         }
     }
 }

@@ -128,6 +128,39 @@ class StatementPreviewComponent extends Component<Props, State> {
         this.props.dispatch(fetchNextMappingError(this.props.statement.id));
     };
 
+    showCommissionUploadInfo = () => {
+        Modal.info({
+            title: 'Excel Column Order',
+            content: (
+                <div>
+                    <ol>
+                        <li>
+                            <b className="text-primary">Policy Number</b>
+                            <span className="pull-right">(Required)</span>
+                        </li>
+                        <li>
+                            <b className="text-primary">AmountIncludingVAT</b>
+                            <span className="pull-right">(Required)</span>
+                        </li>
+                        <li>
+                            <b className="text-primary">VAT</b>
+                            <span className="pull-right">(Required)</span>
+                        </li>
+                        <li>
+                            <b className="text-primary">CommissionTypeCode</b>
+                            <span className="pull-right">(Required)</span>
+                        </li>
+                        <li>LastName</li>
+                        <li>DateOfBirth (YYYY-MM-DD)</li>
+                        <li>FirstName</li>
+                        <li>IdNumber</li>
+                        <li>Initials</li>
+                    </ol>
+                </div>
+            )
+        });
+    };
+
     render() {
         let { statement } = this.props;
         const minCardHeight = '230px';
@@ -221,6 +254,13 @@ class StatementPreviewComponent extends Component<Props, State> {
                     </PreviewCard>
                     <PreviewCard
                         title="Upload Statement"
+                        titleExtra={
+                            <Icon
+                                type="info-circle"
+                                className="text-primary"
+                                onClick={this.showCommissionUploadInfo}
+                            />
+                        }
                         icon="upload"
                         isLoading={this.isLoading()}
                         rows={3}

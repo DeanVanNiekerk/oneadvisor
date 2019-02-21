@@ -67,6 +67,10 @@ COLORS
     color: #f5222d !important;
 }
 
+.text-primary {
+    color: #40a9ff !important;
+}
+
 /* 
 ALIGNMENT
 */
@@ -83,4 +87,11 @@ TEXT WEIGHT
 */
 .font-weight-normal {
     font-weight: normal !important;
+}
+
+/* 
+FLOATS
+*/
+.pull-right {
+    float: right;
 }

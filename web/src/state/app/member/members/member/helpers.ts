@@ -1,6 +1,6 @@
 import { MemberEdit } from '../';
 
-export const newMember = (): MemberEdit => ({
+export const newMember = (member: Partial<MemberEdit> = {}): MemberEdit => ({
     id: '',
     firstName: '',
     lastName: '',
@@ -12,5 +12,6 @@ export const newMember = (): MemberEdit => ({
     dateOfBirth: '',
     marriageDate: '',
     marritalStatusId: '',
-    taxNumber: ''
+    taxNumber: '',
+    ...member
 });

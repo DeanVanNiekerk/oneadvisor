@@ -13,17 +13,21 @@ type Props = {
     loading?: boolean;
     validationResults?: ValidationResult[];
     extra?: React.ReactNode;
+    emptyValueText?: string;
 };
 
 const FormText = (props: Props) => (
     <FormField
         label={props.label}
+        value={props.value}
         layout={props.layout}
         loading={props.loading}
         fieldName={props.fieldName}
         validationResults={props.validationResults}
     >
-        <span className="ant-form-text">{props.value}</span>
+        <span className="ant-form-text">
+            {!props.value ? props.emptyValueText : props.value}
+        </span>
         <span style={{ float: 'right' }}>{props.extra}</span>
     </FormField>
 );

@@ -67,18 +67,26 @@ class MappingErrorForm extends Component<Props, State> {
     };
 
     newMember = () => {
-        const member = newMember();
+        const { errorData } = this.state;
+
+        const member = newMember({
+            firstName: errorData.FirstName,
+            lastName: errorData.LastName,
+            dateOfBirth: errorData.DateOfBirth,
+            idNumber: errorData.IdNumber,
+            initials: errorData.Initials
+        });
         this.props.dispatch(receiveMember(member));
     };
 
     newPolicy = () => {
         if (!this.state.error.memberId) return;
 
-        const policy = newPolicy(
-            this.state.error.memberId,
-            this.props.statement.companyId,
-            this.state.errorData.PolicyNumber
-        );
+        const policy = newPolicy({
+            memberId: this.state.error.memberId,
+            companyId: this.props.statement.companyId,
+            number: this.state.errorData.PolicyNumber
+        });
         this.props.dispatch(receivePolicy(policy));
     };
 
@@ -136,10 +144,9 @@ class MappingErrorForm extends Component<Props, State> {
                                 value={
                                     error.memberId ? (
                                         <MemberName memberId={error.memberId} />
-                                    ) : (
-                                        'No Mapped Member'
-                                    )
+                                    ) : null
                                 }
+                                emptyValueText="No Mapped Member"
                                 validationResults={validationResults}
                                 extra={
                                     <>
@@ -168,10 +175,9 @@ class MappingErrorForm extends Component<Props, State> {
                                 value={
                                     error.policyId ? (
                                         <PolicyName policyId={error.policyId} />
-                                    ) : (
-                                        'No Mapped Policy'
-                                    )
+                                    ) : null
                                 }
+                                emptyValueText="No Mapped Policy"
                                 validationResults={validationResults}
                                 extra={
                                     <>
@@ -233,6 +239,7 @@ class MappingErrorForm extends Component<Props, State> {
                     onClose={this.toggleSearchMemberVisible}
                 >
                     <MemberSearch
+                        defaultSearchText={this.state.errorData.LastName || ''}
                         onSelect={(memberId: string) => {
                             this.selectMember(memberId);
                             this.toggleSearchMemberVisible();

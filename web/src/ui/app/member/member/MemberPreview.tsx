@@ -1,4 +1,4 @@
-import { Card, Col, Icon, Row, Skeleton } from 'antd';
+import { Icon } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -56,7 +56,9 @@ class MemberPreviewComponent extends Component<Props, State> {
     };
 
     newPolicy = () => {
-        const policy = newPolicy(this.getMemberId());
+        const policy = newPolicy({
+            memberId: this.getMemberId()
+        });
         this.props.dispatch(receivePolicy(policy));
     };
 
@@ -105,8 +107,9 @@ class MemberPreviewComponent extends Component<Props, State> {
         return (
             <>
                 <Header loading={this.isLoading()}>
-                    {`${member && member.firstName} ${member &&
-                        member.lastName}`}
+                    {`${member && member.lastName}${
+                        member && member.firstName ? ', ' : ''
+                    } ${member && (member.firstName || '')}`}
                 </Header>
 
                 <PreviewCardContainer>

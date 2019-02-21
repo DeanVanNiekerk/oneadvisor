@@ -44,9 +44,9 @@ class FormField extends React.Component<Props> {
         const formItemLayout =
             layout === 'horizontal'
                 ? {
-                    labelCol: { span: 6 },
-                    wrapperCol: { span: 18 }
-                }
+                      labelCol: { span: 6 },
+                      wrapperCol: { span: 18 }
+                  }
                 : null;
 
         return (

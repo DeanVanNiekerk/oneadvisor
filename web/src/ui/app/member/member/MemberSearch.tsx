@@ -12,6 +12,7 @@ type Props = {
     members: Member[];
     fetching: boolean;
     onSelect: (memberId: string) => void;
+    defaultSearchText?: string;
 } & DispatchProp;
 
 type State = {
@@ -22,7 +23,7 @@ class MemberSearch extends Component<Props, State> {
     constructor(props) {
         super(props);
         this.state = {
-            searchText: ''
+            searchText: props.defaultSearchText || ''
         };
     }
 

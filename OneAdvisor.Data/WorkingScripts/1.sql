@@ -38,4 +38,4 @@ where JSON_VALUE(AuditData,'$.Table') = 'mem_Member'
 */
 
 
---delete from com_CommissionError
+--delete from mem_Policy

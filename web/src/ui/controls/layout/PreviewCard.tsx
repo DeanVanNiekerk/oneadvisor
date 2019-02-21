@@ -8,6 +8,7 @@ import { RootState } from '@/state/rootReducer';
 
 type Props = {
     title: string;
+    titleExtra?: React.ReactNode;
     icon: string;
     onClick?: () => void;
     isLoading: boolean;
@@ -23,6 +24,7 @@ class PreviewCardComponent extends Component<Props> {
     render() {
         const {
             title,
+            titleExtra,
             onClick,
             actions,
             isLoading,
@@ -49,10 +51,18 @@ class PreviewCardComponent extends Component<Props> {
                 <Card
                     hoverable={true}
                     title={
-                        <span>
-                            <Icon type={icon} style={{ marginRight: '6px' }} />
-                            {title}
-                        </span>
+                        <>
+                            <span>
+                                <Icon
+                                    type={icon}
+                                    style={{ marginRight: '6px' }}
+                                />
+                                {title}
+                            </span>
+                            {titleExtra && (
+                                <span className="pull-right">{titleExtra}</span>
+                            )}
+                        </>
                     }
                     bordered={false}
                     onClick={onClick}
