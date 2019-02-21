@@ -101,10 +101,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 Assert.AreEqual(null, actual.MemberId);
                 Assert.AreEqual(null, actual.PolicyId);
-                Assert.AreEqual(import1.PolicyNumber, actual.PolicyNumber);
-
                 Assert.AreEqual(null, actual.CommissionTypeId);
-                Assert.AreEqual(import1.CommissionTypeCode, actual.CommissionTypeCode);
 
                 Assert.AreEqual(statement.Id, actual.CommissionStatementId);
 
@@ -162,10 +159,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 Assert.AreEqual(null, actual.MemberId);
                 Assert.AreEqual(null, actual.PolicyId);
-                Assert.AreEqual(import1.PolicyNumber, actual.PolicyNumber);
-
                 Assert.AreEqual(commissionType.Id, actual.CommissionTypeId);
-                Assert.AreEqual(import1.CommissionTypeCode, actual.CommissionTypeCode);
 
                 Assert.AreEqual(statement.Id, actual.CommissionStatementId);
 
@@ -228,10 +222,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 Assert.AreEqual(policy1.MemberId, actual.MemberId);
                 Assert.AreEqual(policy1.Id, actual.PolicyId);
-                Assert.AreEqual(import1.PolicyNumber, actual.PolicyNumber);
-
                 Assert.AreEqual(null, actual.CommissionTypeId);
-                Assert.AreEqual(import1.CommissionTypeCode, actual.CommissionTypeCode);
 
                 Assert.AreEqual(statement.Id, actual.CommissionStatementId);
 

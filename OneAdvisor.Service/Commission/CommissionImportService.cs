@@ -67,8 +67,6 @@ namespace OneAdvisor.Service.Commission
             var error = new CommissionError()
             {
                 CommissionStatementId = commissionStatement.Id,
-                PolicyNumber = importCommission.PolicyNumber,
-                CommissionTypeCode = importCommission.CommissionTypeCode,
                 Data = JsonConvert.SerializeObject(importCommission),
                 IsFormatValid = true
             };
@@ -127,9 +125,7 @@ namespace OneAdvisor.Service.Commission
 
             entity.CommissionStatementId = model.CommissionStatementId;
             entity.PolicyId = model.PolicyId;
-            entity.PolicyNumber = model.PolicyNumber;
             entity.CommissionTypeId = model.CommissionTypeId;
-            entity.CommissionTypeCode = model.CommissionTypeCode;
             entity.MemberId = model.MemberId;
             entity.IsFormatValid = model.IsFormatValid;
             entity.Data = model.Data;

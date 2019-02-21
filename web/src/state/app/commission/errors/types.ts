@@ -13,4 +13,10 @@ export type CommissionErrorData = {
     CommissionTypeCode: string;
     AmountIncludingVAT: string;
     VAT: string;
+
+    FirstName: string;
+    LastName: string;
+    Initials: string;
+    DateOfBirth: string;
+    IdNumber: string;
 };

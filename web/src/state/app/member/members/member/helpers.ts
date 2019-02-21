@@ -1,7 +1,7 @@
 import { MemberEdit } from '../';
 
 export const newMember = (): MemberEdit => ({
-    id: null,
+    id: '',
     firstName: '',
     lastName: '',
     maidenName: '',

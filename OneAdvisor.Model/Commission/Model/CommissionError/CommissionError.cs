@@ -6,8 +6,6 @@ namespace OneAdvisor.Model.Commission.Model.CommissionError
     {
         public Guid Id { get; set; }
         public Guid CommissionStatementId { get; set; }
-        public string PolicyNumber { get; set; }
-        public string CommissionTypeCode { get; set; }
 
         public Guid? PolicyId { get; set; }
         public Guid? MemberId { get; set; }

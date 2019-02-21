@@ -406,15 +406,11 @@ namespace OneAdvisor.Service.Test.Commission
 
             var error1 = new CommissionErrorEntity
             {
-                PolicyNumber = "123456",
-                CommissionTypeCode = "gap_cover",
                 CommissionStatementId = statement1.Id
             };
 
             var error2 = new CommissionErrorEntity
             {
-                PolicyNumber = "654321",
-                CommissionTypeCode = "gap_cover",
                 CommissionStatementId = statement1.Id
             };
 
@@ -430,8 +426,6 @@ namespace OneAdvisor.Service.Test.Commission
 
             var error3 = new CommissionErrorEntity
             {
-                PolicyNumber = "987654",
-                CommissionTypeCode = "gap_cover",
                 CommissionStatementId = statement2.Id
             };
 

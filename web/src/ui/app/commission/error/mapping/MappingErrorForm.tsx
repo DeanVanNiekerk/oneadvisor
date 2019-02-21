@@ -91,10 +91,13 @@ class MappingErrorForm extends Component<Props, State> {
     };
 
     selectMember = (memberId: string) => {
+        //If the member changes clear the policy
+        if (memberId != this.state.error.memberId) this.selectPolicy(null);
+
         this.handleChange('memberId', memberId);
     };
 
-    selectPolicy = (policyId: string) => {
+    selectPolicy = (policyId: string | null) => {
         this.handleChange('policyId', policyId);
     };
 

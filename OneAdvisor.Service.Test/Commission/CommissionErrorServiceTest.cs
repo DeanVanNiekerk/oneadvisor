@@ -26,8 +26,6 @@ namespace OneAdvisor.Service.Test.Commission
 
             var error1 = new CommissionErrorEntity
             {
-                PolicyNumber = "123456",
-                CommissionTypeCode = "gap_cover",
                 CommissionStatementId = statement.Id,
                 IsFormatValid = true,
                 PolicyId = Guid.NewGuid(),
@@ -38,7 +36,6 @@ namespace OneAdvisor.Service.Test.Commission
 
             var error2 = new CommissionErrorEntity
             {
-                PolicyNumber = "654321",
                 IsFormatValid = false
             };
 
@@ -58,8 +55,6 @@ namespace OneAdvisor.Service.Test.Commission
                 var actual = await service.GetNextError(scope, statement.Id, true);
 
                 //Then
-                Assert.AreEqual(error1.PolicyNumber, actual.PolicyNumber);
-                Assert.AreEqual(error1.CommissionTypeCode, actual.CommissionTypeCode);
                 Assert.AreEqual(error1.CommissionStatementId, actual.CommissionStatementId);
                 Assert.AreEqual(error1.IsFormatValid, actual.IsFormatValid);
                 Assert.AreEqual(error1.PolicyId, actual.PolicyId);
@@ -79,14 +74,14 @@ namespace OneAdvisor.Service.Test.Commission
 
             var error1 = new CommissionErrorEntity
             {
-                PolicyNumber = "123456",
+                Id = Guid.NewGuid(),
                 CommissionStatementId = statement.Id,
                 IsFormatValid = true,
             };
 
             var error2 = new CommissionErrorEntity
             {
-                PolicyNumber = "654321",
+                Id = Guid.NewGuid(),
                 CommissionStatementId = statement.Id,
                 IsFormatValid = false
             };
@@ -107,7 +102,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var actual = await service.GetNextError(scope, statement.Id, false);
 
                 //Then
-                Assert.AreEqual(error2.PolicyNumber, actual.PolicyNumber);
+                Assert.AreEqual(error2.Id, actual.Id);
             }
         }
 
@@ -129,8 +124,6 @@ namespace OneAdvisor.Service.Test.Commission
 
             var error1 = new CommissionError
             {
-                PolicyNumber = "123456",
-                CommissionTypeCode = "gap_cover",
                 CommissionStatementId = statement.Id,
                 IsFormatValid = true,
                 PolicyId = Guid.NewGuid(),
@@ -166,8 +159,6 @@ namespace OneAdvisor.Service.Test.Commission
             var err = new CommissionErrorEntity
             {
                 Id = Guid.NewGuid(),
-                PolicyNumber = "123456",
-                CommissionTypeCode = "gap_cover",
                 CommissionStatementId = statement.Id,
                 IsFormatValid = false,
                 Data = "Data"
@@ -192,8 +183,6 @@ namespace OneAdvisor.Service.Test.Commission
                 var error1 = new CommissionError
                 {
                     Id = err.Id,
-                    PolicyNumber = "123456",
-                    CommissionTypeCode = "gap_cover",
                     CommissionStatementId = statement.Id,
                     IsFormatValid = false,
                     Data = JsonConvert.SerializeObject(ic1)
@@ -229,8 +218,6 @@ namespace OneAdvisor.Service.Test.Commission
                 var error1 = new CommissionError
                 {
                     Id = Guid.NewGuid(),
-                    PolicyNumber = "123456",
-                    CommissionTypeCode = "gap_cover",
                     CommissionStatementId = statement.Id,
                     IsFormatValid = true,
                     Data = "Data"
@@ -280,8 +267,6 @@ namespace OneAdvisor.Service.Test.Commission
             var err1 = new CommissionErrorEntity
             {
                 Id = Guid.NewGuid(),
-                PolicyNumber = "123456",
-                CommissionTypeCode = "gap_cover",
                 CommissionStatementId = statement.Id,
                 IsFormatValid = true,
                 Data = JsonConvert.SerializeObject(ic1)
@@ -290,8 +275,6 @@ namespace OneAdvisor.Service.Test.Commission
             var err2 = new CommissionErrorEntity
             {
                 Id = Guid.NewGuid(),
-                PolicyNumber = "11111",
-                CommissionTypeCode = "gap_cover",
                 CommissionStatementId = statement.Id,
                 IsFormatValid = false,
                 Data = "Data"
@@ -312,8 +295,6 @@ namespace OneAdvisor.Service.Test.Commission
                 var error1 = new CommissionError
                 {
                     Id = err1.Id,
-                    PolicyNumber = "123456",
-                    CommissionTypeCode = "gap_cover",
                     CommissionStatementId = statement.Id,
                     IsFormatValid = true,
                     PolicyId = policy1.Id,
@@ -376,8 +357,6 @@ namespace OneAdvisor.Service.Test.Commission
             var err1 = new CommissionErrorEntity
             {
                 Id = Guid.NewGuid(),
-                PolicyNumber = "123456",
-                CommissionTypeCode = "gap_cover",
                 CommissionStatementId = statement.Id,
                 IsFormatValid = true,
                 Data = JsonConvert.SerializeObject(ic1)
@@ -405,8 +384,6 @@ namespace OneAdvisor.Service.Test.Commission
                 var error1 = new CommissionError
                 {
                     Id = err1.Id,
-                    PolicyNumber = "123456",
-                    CommissionTypeCode = "gap_cover",
                     CommissionStatementId = statement.Id,
                     IsFormatValid = true,
                     PolicyId = policy1.Id,

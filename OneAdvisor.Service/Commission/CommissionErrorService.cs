@@ -40,12 +40,10 @@ namespace OneAdvisor.Service.Commission
                         {
                             Id = commissionError.Id,
                             CommissionStatementId = commissionError.CommissionStatementId,
-                            CommissionTypeCode = commissionError.CommissionTypeCode,
                             CommissionTypeId = commissionError.CommissionTypeId,
                             Data = commissionError.Data,
                             MemberId = commissionError.MemberId,
                             PolicyId = commissionError.PolicyId,
-                            PolicyNumber = commissionError.PolicyNumber,
                             IsFormatValid = commissionError.IsFormatValid
                         };
 
