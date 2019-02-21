@@ -38,4 +38,4 @@ where JSON_VALUE(AuditData,'$.Table') = 'mem_Member'
 */
 
 
---delete from mem_Policy
+--delete from mem_Member where IdNumber = '8210035032082'

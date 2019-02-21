@@ -71,13 +71,6 @@ namespace OneAdvisor.Service.Commission
                 IsFormatValid = true
             };
 
-            if (!result.Success)
-            {
-                error.IsFormatValid = false;
-                await InsertCommissionError(error);
-                return result;
-            }
-
             var commissionType = await _lookupService.GetCommissionType(importCommission.CommissionTypeCode);
             if (commissionType != null)
                 error.CommissionTypeId = commissionType.Id;
@@ -87,6 +80,13 @@ namespace OneAdvisor.Service.Commission
             {
                 error.MemberId = policy.MemberId;
                 error.PolicyId = policy.Id;
+            }
+
+            if (!result.Success)
+            {
+                error.IsFormatValid = false;
+                await InsertCommissionError(error);
+                return result;
             }
 
             if (!error.IsValid())

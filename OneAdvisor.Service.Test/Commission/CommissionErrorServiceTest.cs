@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Commission;
+using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model.Commission.Model.CommissionError;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
@@ -156,6 +157,14 @@ namespace OneAdvisor.Service.Test.Commission
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
             var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
 
+            var ic1 = new ImportCommission
+            {
+                PolicyNumber = "123456",
+                CommissionTypeCode = "gap_cover",
+                AmountIncludingVAT = "bad",
+                VAT = "33"
+            };
+
             var err = new CommissionErrorEntity
             {
                 Id = Guid.NewGuid(),
@@ -172,13 +181,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var ic1 = new ImportCommission
-                {
-                    PolicyNumber = "123456",
-                    CommissionTypeCode = "gap_cover",
-                    AmountIncludingVAT = "22",
-                    VAT = "33"
-                };
+                ic1.AmountIncludingVAT = "22"; //Fixed
 
                 var error1 = new CommissionError
                 {
@@ -412,6 +415,172 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
                 Assert.AreEqual(55, actual.AmountIncludingVAT);
                 Assert.AreEqual(33, actual.VAT);
+
+            }
+        }
+
+
+        [TestMethod]
+        public async Task AutoResolveMappingErrors_4Entries_AutoResolve3()
+        {
+            var options = TestHelper.GetDbContext("AutoResolveMappingErrors_4Entries_AutoResolve3");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+
+            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
+
+            var commissionTypeId = Guid.NewGuid();
+
+            var policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                Number = "123456",
+                CompanyId = Guid.NewGuid(),
+                MemberId = member1.Member.Id,
+                UserId = user1.User.Id
+            };
+
+            // ENTRY 1: POLICY 1 -----------------------
+            var ic1a = new ImportCommission
+            {
+                PolicyNumber = policy1.Number,
+                CommissionTypeCode = "gap_cover",
+                AmountIncludingVAT = "11",
+                VAT = "22"
+            };
+
+            var err1a = new CommissionErrorEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionStatementId = statement.Id,
+                CommissionTypeId = commissionTypeId,
+                IsFormatValid = true,
+                Data = JsonConvert.SerializeObject(ic1a)
+            };
+            //------------------------------------------
+
+
+            // ENTRY 2: POLICY 1 -----------------------
+            var ic1b = new ImportCommission
+            {
+                PolicyNumber = policy1.Number,
+                CommissionTypeCode = "gap_cover",
+                AmountIncludingVAT = "33",
+                VAT = "44"
+            };
+
+            var err1b = new CommissionErrorEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionStatementId = statement.Id,
+                CommissionTypeId = commissionTypeId,
+                IsFormatValid = true,
+                Data = JsonConvert.SerializeObject(ic1b)
+            };
+            //------------------------------------------
+
+
+            // ENTRY 3: POLICY ? -----------------------
+            var ic2 = new ImportCommission
+            {
+                PolicyNumber = "654321",
+                CommissionTypeCode = "gap_cover",
+                AmountIncludingVAT = "55",
+                VAT = "66"
+            };
+
+            var err2 = new CommissionErrorEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionStatementId = statement.Id,
+                CommissionTypeId = commissionTypeId,
+                IsFormatValid = false,
+                Data = JsonConvert.SerializeObject(ic2)
+            };
+            //------------------------------------------
+
+
+            // ENTRY 4: POLICY 1 -----------------------
+            var ic1c = new ImportCommission
+            {
+                PolicyNumber = policy1.Number,
+                CommissionTypeCode = "gap_cover",
+                AmountIncludingVAT = "77",
+                VAT = "88"
+            };
+            var err1c = new CommissionErrorEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionStatementId = statement.Id,
+                CommissionTypeId = commissionTypeId,
+                IsFormatValid = true,
+                Data = JsonConvert.SerializeObject(ic1c)
+            };
+            //------------------------------------------
+
+
+            using (var context = new DataContext(options))
+            {
+                context.CommissionError.Add(err1a);
+                context.CommissionError.Add(err2);
+                context.CommissionError.Add(err1b);
+                context.CommissionError.Add(err1c);
+
+                context.Policy.Add(policy1);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var error1 = new CommissionError
+                {
+                    Id = err1a.Id,
+                    CommissionStatementId = statement.Id,
+                    IsFormatValid = true,
+                    PolicyId = policy1.Id,
+                    MemberId = policy1.MemberId,
+                    CommissionTypeId = err1a.CommissionTypeId,
+                    Data = JsonConvert.SerializeObject(ic1a)
+                };
+
+                var commissionService = new CommissionService(context);
+                var service = new CommissionErrorService(context, commissionService);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                await service.AutoResolveMappingErrors(scope, statement.Id, policy1.Id);
+
+                //Then
+                var actualErrors = context.CommissionError.ToList();
+
+                Assert.AreEqual(1, actualErrors.Count);
+                Assert.AreEqual(err2.Id, actualErrors[0].Id);
+
+                var commissions = context.Commission.ToList();
+
+                Assert.AreEqual(3, commissions.Count);
+                var actual = commissions[0];
+                Assert.AreEqual(error1.PolicyId, actual.PolicyId);
+                Assert.AreEqual(error1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.AreEqual(11, actual.AmountIncludingVAT);
+                Assert.AreEqual(22, actual.VAT);
+
+                actual = commissions[1];
+                Assert.AreEqual(error1.PolicyId, actual.PolicyId);
+                Assert.AreEqual(error1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.AreEqual(33, actual.AmountIncludingVAT);
+                Assert.AreEqual(44, actual.VAT);
+
+                actual = commissions[2];
+                Assert.AreEqual(error1.PolicyId, actual.PolicyId);
+                Assert.AreEqual(error1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.AreEqual(77, actual.AmountIncludingVAT);
+                Assert.AreEqual(88, actual.VAT);
 
             }
         }

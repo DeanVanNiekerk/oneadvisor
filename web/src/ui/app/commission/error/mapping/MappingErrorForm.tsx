@@ -216,10 +216,9 @@ class MappingErrorForm extends Component<Props, State> {
                                                 error.commissionTypeId
                                             }
                                         />
-                                    ) : (
-                                        'No Mapped Commission Type'
-                                    )
+                                    ) : null
                                 }
+                                emptyValueText="No Mapped Commission Type"
                                 validationResults={validationResults}
                             />
                         </Form>

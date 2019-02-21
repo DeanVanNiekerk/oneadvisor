@@ -11,6 +11,7 @@ using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Model.Commission.Model.CommissionError;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Model.Common;
+using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Auth;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Commission.Validators;
@@ -36,16 +37,7 @@ namespace OneAdvisor.Service.Commission
             var query = from commissionError in GetCommissionErrorEntityQuery(scope)
                         where commissionError.CommissionStatementId == commissionStatementId
                         && commissionError.IsFormatValid == hasValidFormat
-                        select new CommissionError()
-                        {
-                            Id = commissionError.Id,
-                            CommissionStatementId = commissionError.CommissionStatementId,
-                            CommissionTypeId = commissionError.CommissionTypeId,
-                            Data = commissionError.Data,
-                            MemberId = commissionError.MemberId,
-                            PolicyId = commissionError.PolicyId,
-                            IsFormatValid = commissionError.IsFormatValid
-                        };
+                        select MapEntityToModel(commissionError);
 
             return await query.FirstOrDefaultAsync();
         }
@@ -97,7 +89,30 @@ namespace OneAdvisor.Service.Commission
 
             await DeleteCommissionError(scope, error);
 
+            result.Tag = commission;
+
             return result;
+        }
+
+        public async Task AutoResolveMappingErrors(ScopeOptions scope, Guid commissionStatementId, Guid policyId)
+        {
+            var policy = await _context.Policy.FindAsync(policyId);
+
+            var organisationQuery = ScopeQuery.GetOrganisationEntityQuery(_context, scope);
+
+            var query = from commissionError in GetCommissionErrorEntityQuery(scope)
+                        where commissionError.CommissionStatementId == commissionStatementId
+                        && commissionError.IsFormatValid == true
+                        && EF.Functions.Like(commissionError.Data, $"%\"PolicyNumber\":\"{policy.Number}\"%")
+                        select commissionError;
+
+            foreach (var error in query)
+            {
+                var model = MapEntityToModel(error);
+                model.MemberId = policy.MemberId;
+                model.PolicyId = policyId;
+                await ResolveMappingError(scope, model);
+            }
         }
 
         private async Task DeleteCommissionError(ScopeOptions scope, CommissionError error)
@@ -123,6 +138,20 @@ namespace OneAdvisor.Service.Commission
                         select commissionError;
 
             return query;
+        }
+
+        private CommissionError MapEntityToModel(CommissionErrorEntity entity)
+        {
+            return new CommissionError()
+            {
+                Id = entity.Id,
+                CommissionStatementId = entity.CommissionStatementId,
+                CommissionTypeId = entity.CommissionTypeId,
+                Data = entity.Data,
+                MemberId = entity.MemberId,
+                PolicyId = entity.PolicyId,
+                IsFormatValid = entity.IsFormatValid
+            };
         }
     }
 }

@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Model.Commission.Interface;
+using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
 
@@ -70,6 +71,9 @@ namespace api.Controllers.Commission.CommissionError
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
+
+            var commission = result.Tag as CommissionEdit;
+            await CommissionErrorService.AutoResolveMappingErrors(scope, commission.CommissionStatementId.Value, commission.PolicyId.Value);
 
             return Ok(result);
         }

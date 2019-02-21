@@ -21,7 +21,7 @@ using System.Collections.Generic;
 namespace OneAdvisor.Service.Test.Commission
 {
     [TestClass]
-    public class ImportCommissionServiceTest
+    public class CommissionImportServiceTest
     {
         [TestMethod]
         public async Task ImportCommissions_ScopeCheck()
@@ -35,8 +35,10 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
+                var lookupService = new LookupService(context);
+                var policyService = new PolicyService(context);
                 var statementService = new CommissionStatementService(context);
-                var service = new CommissionImportService(context, statementService, null, null, null);
+                var service = new CommissionImportService(context, statementService, null, policyService, lookupService);
 
                 //When
                 var import1 = new ImportCommission
@@ -75,8 +77,10 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
+                var lookupService = new LookupService(context);
+                var policyService = new PolicyService(context);
                 var statementService = new CommissionStatementService(context);
-                var service = new CommissionImportService(context, statementService, null, null, null);
+                var service = new CommissionImportService(context, statementService, null, policyService, lookupService);
 
                 //When
                 var import1 = new ImportCommission
