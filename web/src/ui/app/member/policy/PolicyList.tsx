@@ -60,7 +60,9 @@ class PolicyList extends Component<Props> {
     };
 
     newPolicy = () => {
-        const policy = newPolicy(this.props.memberId);
+        const policy = newPolicy({
+            memberId: this.props.memberId
+        });
         this.props.dispatch(receivePolicy(policy));
     };
 
