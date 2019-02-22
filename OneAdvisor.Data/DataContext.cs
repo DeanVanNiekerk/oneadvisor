@@ -1,5 +1,6 @@
 ﻿using System;
 using Audit.EntityFramework;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data.Entities.Commission;
@@ -12,7 +13,7 @@ using OneAdvisor.Data.Entities.Member.Mappings;
 
 namespace OneAdvisor.Data
 {
-    public class DataContext : IdentityDbContext<UserEntity>
+    public class DataContext : IdentityDbContext<UserEntity, RoleEntity, Guid>
     {
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)
@@ -20,10 +21,8 @@ namespace OneAdvisor.Data
 
         #region Directory
 
-        public DbSet<UserEntity> User { get; set; }
         public DbSet<OrganisationEntity> Organisation { get; set; }
         public DbSet<ApplicationEntity> Application { get; set; }
-        public DbSet<RoleEntity> Role { get; set; }
         public DbSet<UseCaseEntity> UseCase { get; set; }
         public DbSet<RoleToUseCaseEntity> RoleToUseCase { get; set; }
         public DbSet<BranchEntity> Branch { get; set; }
@@ -59,6 +58,18 @@ namespace OneAdvisor.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region Identity
+
+            modelBuilder.Entity<UserEntity>().ToTable("idnty_User");
+            modelBuilder.Entity<IdentityRole>().ToTable("idnty_Role");
+            modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("idnty_UserClaim");
+            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("idnty_UserRole");
+            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("idnty_UserLogin");
+            modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("idnty_RoleClaim");
+            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("idnty_UserToken");
+
+            #endregion
+
             #region Lookup
 
             modelBuilder.Entity<CompanyEntity>().ToTable("lkp_Company");
@@ -73,7 +84,6 @@ namespace OneAdvisor.Data
 
             modelBuilder.Entity<OrganisationEntity>().ToTable("dir_Organisation");
             modelBuilder.Entity<ApplicationEntity>().ToTable("dir_Application");
-            modelBuilder.Entity<RoleEntity>().ToTable("dir_Role");
             modelBuilder.Entity<UseCaseEntity>().ToTable("dir_UseCase");
             modelBuilder.Entity<RoleToUseCaseEntity>().ToTable("dir_RoleToUseCase");
             modelBuilder.Entity<BranchEntity>().ToTable("dir_Branch");

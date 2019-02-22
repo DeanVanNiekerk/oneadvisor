@@ -28,9 +28,9 @@ namespace OneAdvisor.Service.Directory
             _userManager = userManager;
         }
 
-        public async Task<ScopeOptions> GetScope(string userId, bool ignoreScope = false)
+        public async Task<ScopeOptions> GetScope(Guid userId, bool ignoreScope = false)
         {
-            var userDetails = await (from user in _context.User
+            var userDetails = await (from user in _context.Users
                                      join branch in _context.Branch
                                         on user.BranchId equals branch.Id
                                      where user.Id == userId
@@ -64,7 +64,7 @@ namespace OneAdvisor.Service.Directory
 
             //Generate and issue a JWT token
             var claims = new List<Claim>() {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

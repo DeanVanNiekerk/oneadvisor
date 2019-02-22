@@ -27,8 +27,9 @@ namespace OneAdvisor.Service.Directory
             _userManager = userManager;
         }
 
-        public Task<UserEdit> GetUser(ScopeOptions scope, string id)
+        public Task<UserEdit> GetUser(ScopeOptions scope, Guid id)
         {
+            //TODO: fix
             throw new System.NotImplementedException();
         }
 
@@ -80,7 +81,7 @@ namespace OneAdvisor.Service.Directory
             //NB: Most probably need to validate branch here...
 
             var entity = MapModelToEntity(user);
-            await _context.User.AddAsync(entity);
+            await _context.Users.AddAsync(entity);
             await _context.SaveChangesAsync();
 
             await UpdateRoles(entity, user.Roles);

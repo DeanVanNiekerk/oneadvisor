@@ -9,6 +9,6 @@ namespace api.Controllers.Directory.Audit.Dto
         public string Entity { get; set; }
         public string Action { get; set; }
         public DateTime Date { get; set; }
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

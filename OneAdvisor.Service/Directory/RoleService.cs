@@ -20,7 +20,7 @@ namespace OneAdvisor.Service.Directory
 
         public Task<List<Role>> GetRoles()
         {
-            var query = from role in _context.Role
+            var query = from role in _context.Roles
                         select new Role()
                         {
                             Id = role.Id,
@@ -31,20 +31,22 @@ namespace OneAdvisor.Service.Directory
             return query.ToListAsync();
         }
 
-        public async Task<bool> HasUseCase(IEnumerable<string> roleIds, IEnumerable<string> useCases)
+        public async Task<bool> HasUseCase(IEnumerable<string> roles, IEnumerable<string> useCases)
         {
             var query = from roleToUseCase in _context.RoleToUseCase
+                        join role in _context.Roles
+                            on roleToUseCase.RoleId equals role.Id
                         where useCases.Contains(roleToUseCase.UseCaseId)
-                        && roleIds.Contains(roleToUseCase.RoleId)
+                        && roles.Contains(role.Name)
                         select roleToUseCase;
 
             return await query.AnyAsync();
         }
 
-        public Task<RoleEdit> GetRole(string id)
+        public Task<RoleEdit> GetRole(string name)
         {
-            var query = from role in _context.Role
-                        where role.Id == id
+            var query = from role in _context.Roles
+                        where role.Name == name
                         select new RoleEdit()
                         {
                             Id = role.Id,

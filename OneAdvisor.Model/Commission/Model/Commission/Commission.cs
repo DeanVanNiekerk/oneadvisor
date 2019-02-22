@@ -11,7 +11,7 @@ namespace OneAdvisor.Model.Commission.Model.Commission
         public decimal AmountIncludingVAT { get; set; }
         public decimal VAT { get; set; }
 
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
         public string PolicyNumber { get; set; }
     }
 }

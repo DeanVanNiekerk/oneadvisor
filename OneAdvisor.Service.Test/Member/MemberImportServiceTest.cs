@@ -552,7 +552,7 @@ namespace OneAdvisor.Service.Test.Member
 
             var user = new UserEdit
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid(),
                 FirstName = "Dean",
                 LastName = "van Niekerk",
                 Aliases = new List<string>() { "DJ VAN Niekerk" }

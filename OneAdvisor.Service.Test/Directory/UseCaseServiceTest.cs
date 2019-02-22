@@ -64,24 +64,32 @@ namespace OneAdvisor.Service.Test.Directory
             var uc3 = new UseCaseEntity { Id = "uc_3", Name = "UseCase 3", ApplicationId = Guid.NewGuid() };
             var uc4 = new UseCaseEntity { Id = "uc_4", Name = "UseCase 4", ApplicationId = Guid.NewGuid() };
 
-            var rtuc1 = new RoleToUseCaseEntity { UseCaseId = "uc_1", RoleId = "role_1" };
-            var rtuc2 = new RoleToUseCaseEntity { UseCaseId = "uc_2", RoleId = "role_2" };
-            var rtuc3 = new RoleToUseCaseEntity { UseCaseId = "uc_3", RoleId = "role_3" };
-            var rtuc4 = new RoleToUseCaseEntity { UseCaseId = "uc_1", RoleId = "role_3" };
-            var rtuc5 = new RoleToUseCaseEntity { UseCaseId = "uc_4", RoleId = "role_2" };
+            var role1 = new RoleEntity { Id = Guid.NewGuid(), Name = "role_1", Description = "Role 1", ApplicationId = Guid.NewGuid() };
+            var role2 = new RoleEntity { Id = Guid.NewGuid(), Name = "role_2", Description = "Role 2", ApplicationId = Guid.NewGuid() };
+            var role3 = new RoleEntity { Id = Guid.NewGuid(), Name = "role_3", Description = "Role 3", ApplicationId = Guid.NewGuid() };
+
+            var rtuc1 = new RoleToUseCaseEntity { UseCaseId = "uc_1", RoleId = role1.Id };
+            var rtuc2 = new RoleToUseCaseEntity { UseCaseId = "uc_2", RoleId = role2.Id };
+            var rtuc3 = new RoleToUseCaseEntity { UseCaseId = "uc_3", RoleId = role3.Id };
+            var rtuc4 = new RoleToUseCaseEntity { UseCaseId = "uc_1", RoleId = role3.Id };
+            var rtuc5 = new RoleToUseCaseEntity { UseCaseId = "uc_4", RoleId = role2.Id };
 
             using (var context = new DataContext(options))
             {
                 context.UseCase.Add(uc1);
-                context.UseCase.Add(uc2);
                 context.UseCase.Add(uc3);
+                context.UseCase.Add(uc2);
                 context.UseCase.Add(uc4);
 
+                context.Roles.Add(role1);
+                context.Roles.Add(role3);
+                context.Roles.Add(role2);
+
                 context.RoleToUseCase.Add(rtuc1);
-                context.RoleToUseCase.Add(rtuc2);
                 context.RoleToUseCase.Add(rtuc3);
-                context.RoleToUseCase.Add(rtuc4);
+                context.RoleToUseCase.Add(rtuc2);
                 context.RoleToUseCase.Add(rtuc5);
+                context.RoleToUseCase.Add(rtuc4);
 
                 context.SaveChanges();
             }
@@ -94,13 +102,13 @@ namespace OneAdvisor.Service.Test.Directory
                 var list = await service.GetUseCases(new List<string>() { "role_1", "role_3" });
 
                 //Then
-                Assert.AreEqual(list.Count, 2);
+                Assert.AreEqual(2, list.Count);
 
                 var actual1 = list[0];
-                Assert.AreEqual(actual1, uc1.Id);
+                Assert.AreEqual(uc1.Id, actual1);
 
                 var actual2 = list[1];
-                Assert.AreEqual(actual2, uc3.Id);
+                Assert.AreEqual(uc3.Id, actual2);
 
             }
         }

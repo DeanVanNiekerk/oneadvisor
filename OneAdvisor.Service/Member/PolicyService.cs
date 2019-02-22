@@ -52,8 +52,8 @@ namespace OneAdvisor.Service.Member
             if (queryOptions.CompanyId.HasValue)
                 query = query.Where(m => m.CompanyId == queryOptions.CompanyId.Value);
 
-            if (!string.IsNullOrWhiteSpace(queryOptions.UserId))
-                query = query.Where(m => m.UserId == queryOptions.UserId);
+            if (queryOptions.UserId.HasValue)
+                query = query.Where(m => m.UserId == queryOptions.UserId.Value);
 
             if (!string.IsNullOrWhiteSpace(queryOptions.Number))
                 query = query.Where(m => EF.Functions.Like(m.Number, queryOptions.Number));

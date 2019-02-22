@@ -19,13 +19,13 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("GetRoles");
 
             //Given
-            var role1 = new RoleEntity { Id = "role_1", Name = "Role 1", ApplicationId = Guid.NewGuid() };
-            var role2 = new RoleEntity { Id = "role_2", Name = "Role 2", ApplicationId = Guid.NewGuid() };
+            var role1 = new RoleEntity { Id = Guid.NewGuid(), Name = "role_1", Description = "Role 1", ApplicationId = Guid.NewGuid() };
+            var role2 = new RoleEntity { Id = Guid.NewGuid(), Name = "role_2", Description = "Role 2", ApplicationId = Guid.NewGuid() };
 
             using (var context = new DataContext(options))
             {
-                context.Role.Add(role1);
-                context.Role.Add(role2);
+                context.Roles.Add(role1);
+                context.Roles.Add(role2);
 
                 context.SaveChanges();
             }
@@ -59,20 +59,20 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("GetRole");
 
             //Given
-            var role1 = new RoleEntity { Id = "role_1", Name = "Role 1", ApplicationId = Guid.NewGuid() };
-            var role2 = new RoleEntity { Id = "role_2", Name = "Role 2", ApplicationId = Guid.NewGuid() };
-            var role3 = new RoleEntity { Id = "role_3", Name = "Role 3", ApplicationId = Guid.NewGuid() };
+            var role1 = new RoleEntity { Id = Guid.NewGuid(), Name = "role_1", Description = "Role 1", ApplicationId = Guid.NewGuid() };
+            var role2 = new RoleEntity { Id = Guid.NewGuid(), Name = "role_2", Description = "Role 2", ApplicationId = Guid.NewGuid() };
+            var role3 = new RoleEntity { Id = Guid.NewGuid(), Name = "role_3", Description = "Role 3", ApplicationId = Guid.NewGuid() };
 
-            var roleToUseCase1 = new RoleToUseCaseEntity { RoleId = "role_1", UseCaseId = "uc1" };
-            var roleToUseCase2 = new RoleToUseCaseEntity { RoleId = "role_1", UseCaseId = "uc2" };
+            var roleToUseCase1 = new RoleToUseCaseEntity { RoleId = role1.Id, UseCaseId = "uc1" };
+            var roleToUseCase2 = new RoleToUseCaseEntity { RoleId = role1.Id, UseCaseId = "uc2" };
 
-            var roleToUseCase3 = new RoleToUseCaseEntity { RoleId = "role_2", UseCaseId = "uc3" };
+            var roleToUseCase3 = new RoleToUseCaseEntity { RoleId = role2.Id, UseCaseId = "uc3" };
 
             using (var context = new DataContext(options))
             {
-                context.Role.Add(role3);
-                context.Role.Add(role1);
-                context.Role.Add(role2);
+                context.Roles.Add(role3);
+                context.Roles.Add(role1);
+                context.Roles.Add(role2);
 
                 context.RoleToUseCase.Add(roleToUseCase1);
                 context.RoleToUseCase.Add(roleToUseCase2);
@@ -86,7 +86,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new RoleService(context);
 
                 //When
-                var actual = await service.GetRole(role1.Id);
+                var actual = await service.GetRole(role1.Name);
 
                 //Then
                 Assert.AreEqual(actual.Id, role1.Id);
@@ -105,8 +105,8 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("HasUseCase_DoesNotHave");
 
             //Given
-            var role1 = new RoleEntity { Id = "role_1" };
-            var role2 = new RoleEntity { Id = "role_2" };
+            var role1 = new RoleEntity { Id = Guid.NewGuid(), Name = "role_1" };
+            var role2 = new RoleEntity { Id = Guid.NewGuid(), Name = "role_2" };
 
             var useCase = new UseCaseEntity { Id = "usecase_1" };
 
@@ -114,8 +114,8 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                context.Role.Add(role1);
-                context.Role.Add(role2);
+                context.Roles.Add(role1);
+                context.Roles.Add(role2);
 
                 context.UseCase.Add(useCase);
 
@@ -129,7 +129,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new RoleService(context);
 
                 //When
-                var actual = await service.HasUseCase(new List<string>() { role1.Id }, new List<string>() { useCase.Id });
+                var actual = await service.HasUseCase(new List<string>() { role1.Name }, new List<string>() { useCase.Id });
 
                 //Then
                 Assert.IsFalse(actual);
@@ -142,8 +142,8 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("HasUseCase_DoesHave");
 
             //Given
-            var role1 = new RoleEntity { Id = "role_1" };
-            var role2 = new RoleEntity { Id = "role_2" };
+            var role1 = new RoleEntity { Name = "role_1" };
+            var role2 = new RoleEntity { Name = "role_2" };
 
             var useCase = new UseCaseEntity { Id = "usecase_1" };
 
@@ -151,8 +151,8 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                context.Role.Add(role1);
-                context.Role.Add(role2);
+                context.Roles.Add(role1);
+                context.Roles.Add(role2);
 
                 context.UseCase.Add(useCase);
 
@@ -166,7 +166,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new RoleService(context);
 
                 //When
-                var actual = await service.HasUseCase(new List<string>() { role2.Id }, new List<string>() { useCase.Id });
+                var actual = await service.HasUseCase(new List<string>() { role2.Name }, new List<string>() { useCase.Id });
 
                 //Then
                 Assert.IsTrue(actual);
@@ -179,10 +179,10 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("HasUseCase_DoesHave_List");
 
             //Given
-            var role1 = new RoleEntity { Id = "role_1" };
-            var role2 = new RoleEntity { Id = "role_2" };
-            var role3 = new RoleEntity { Id = "role_3" };
-            var role4 = new RoleEntity { Id = "role_4" };
+            var role1 = new RoleEntity { Id = Guid.NewGuid(), Name = "role_1" };
+            var role2 = new RoleEntity { Id = Guid.NewGuid(), Name = "role_2" };
+            var role3 = new RoleEntity { Id = Guid.NewGuid(), Name = "role_3" };
+            var role4 = new RoleEntity { Id = Guid.NewGuid(), Name = "role_4" };
 
             var useCase1 = new UseCaseEntity { Id = "usecase_1" };
             var useCase2 = new UseCaseEntity { Id = "usecase_2" };
@@ -198,10 +198,10 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                context.Role.Add(role1);
-                context.Role.Add(role2);
-                context.Role.Add(role3);
-                context.Role.Add(role4);
+                context.Roles.Add(role1);
+                context.Roles.Add(role2);
+                context.Roles.Add(role3);
+                context.Roles.Add(role4);
 
                 context.UseCase.Add(useCase1);
                 context.UseCase.Add(useCase2);
@@ -223,7 +223,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new RoleService(context);
 
                 //When
-                var actual = await service.HasUseCase(new List<string>() { role1.Id, role2.Id }, new List<string>() { useCase1.Id, useCase5.Id });
+                var actual = await service.HasUseCase(new List<string>() { role1.Name, role2.Name }, new List<string>() { useCase1.Id, useCase5.Id });
 
                 //Then
                 Assert.IsTrue(actual);

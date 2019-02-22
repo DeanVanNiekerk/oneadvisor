@@ -1,5 +1,7 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace OneAdvisor.Data.Entities.Directory
 {
@@ -7,7 +9,7 @@ namespace OneAdvisor.Data.Entities.Directory
     {
         //Composite key: RoleId/UseCaseId -> setup in RoleToUseCaseMap
         [StringLength(32)]
-        public string RoleId { get; set; }
+        public Guid RoleId { get; set; }
         [StringLength(32)]
         public string UseCaseId { get; set; }
 

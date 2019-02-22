@@ -29,7 +29,7 @@ namespace api.App.Setup
                        entity.Entity = entry.EntityType.Name;
                        entity.Action = entry.Action;
                        entity.Date = DateTime.Now;
-                       entity.UserId = Services.BuildServiceProvider().GetService<IHttpContextAccessor>().HttpContext.User.Identity.Name;
+                       entity.UserId = Guid.Parse(Services.BuildServiceProvider().GetService<IHttpContextAccessor>().HttpContext.User.Identity.Name);
                    })
                .IgnoreMatchedProperties(true));
         }

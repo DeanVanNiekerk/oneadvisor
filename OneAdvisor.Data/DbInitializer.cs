@@ -137,26 +137,28 @@ namespace OneAdvisor.Data
 
         public async Task SeedRolesAndUseCase()
         {
-            var roles = await _context.Role.ToListAsync();
+            var roles = await _context.Roles.ToListAsync();
+
+            //Directory Roles
+            var dirRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "dir_administrator", Description = "Administrator", ApplicationId = dirGuid };
+            var dirRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "dir_readonly", Description = "Readonly", ApplicationId = dirGuid };
+
+            //Member Roles
+            var memRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "mem_administrator", Description = "Administrator", ApplicationId = memGuid };
+            var memRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "mem_readonly", Description = "Readonly", ApplicationId = memGuid };
+
+            //Commision Roles
+            var comRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "com_administrator", Description = "Administrator", ApplicationId = comGuid };
+            var comRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "com_readonly", Description = "Readonly", ApplicationId = comGuid };
+
             if (!roles.Any())
             {
-                //Directory Roles
-                _context.Role.Add(new RoleEntity() { Id = "dir_administrator", Name = "Administrator", ApplicationId = dirGuid });
-                _context.Role.Add(new RoleEntity() { Id = "dir_readonly", Name = "Readonly", ApplicationId = dirGuid });
-
-                //Member Roles
-                _context.Role.Add(new RoleEntity() { Id = "mem_administrator", Name = "Administrator", ApplicationId = memGuid });
-                _context.Role.Add(new RoleEntity() { Id = "mem_readonly", Name = "Readonly", ApplicationId = memGuid });
-
-                //Commision Roles
-                _context.Role.Add(new RoleEntity() { Id = "com_administrator", Name = "Administrator", ApplicationId = comGuid });
-                _context.Role.Add(new RoleEntity() { Id = "com_readonly", Name = "Readonly", ApplicationId = comGuid });
-
-                //Health Plan Advisor Roles
-                _context.Role.Add(new RoleEntity() { Id = "hpa_administrator", Name = "Administrator", ApplicationId = hpaGuid });
-                _context.Role.Add(new RoleEntity() { Id = "hpa_broker", Name = "Broker", ApplicationId = hpaGuid });
-                _context.Role.Add(new RoleEntity() { Id = "hpa_membermanager", Name = "Member Manager", ApplicationId = hpaGuid });
-                _context.Role.Add(new RoleEntity() { Id = "hpa_reportviewer", Name = "Report Viewer", ApplicationId = hpaGuid });
+                _context.Roles.Add(dirRole1);
+                _context.Roles.Add(dirRole2);
+                _context.Roles.Add(memRole1);
+                _context.Roles.Add(memRole2);
+                _context.Roles.Add(comRole1);
+                _context.Roles.Add(comRole2);
             }
 
             var useCases = await _context.UseCase.ToListAsync();
@@ -204,60 +206,60 @@ namespace OneAdvisor.Data
                 //Directory App
                 //=============
                 //Adminstrator 
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_users" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_edit_users" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_organisations" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_edit_organisations" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_branches" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_edit_branches" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_roles" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_applications" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_usecases" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_lookups" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_edit_lookups" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_administrator", UseCaseId = "dir_view_audit_logs" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_view_users" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_edit_users" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_view_organisations" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_edit_organisations" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_view_branches" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_edit_branches" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_view_roles" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_view_applications" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_view_usecases" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_view_lookups" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_edit_lookups" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_view_audit_logs" });
 
                 //Readonly 
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_users" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_organisations" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_branches" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_roles" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_applications" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_usecases" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_lookups" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "dir_readonly", UseCaseId = "dir_view_audit_logs" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole2.Id, UseCaseId = "dir_view_users" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole2.Id, UseCaseId = "dir_view_organisations" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole2.Id, UseCaseId = "dir_view_branches" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole2.Id, UseCaseId = "dir_view_roles" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole2.Id, UseCaseId = "dir_view_applications" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole2.Id, UseCaseId = "dir_view_usecases" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole2.Id, UseCaseId = "dir_view_lookups" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole2.Id, UseCaseId = "dir_view_audit_logs" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
 
                 //Member App
                 //==========
                 //Adminstrator
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_view_members" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_edit_members" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_import_members" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_view_policies" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_edit_policies" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_view_contacts" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_edit_contacts" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_administrator", UseCaseId = "mem_export_members" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "mem_view_members" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "mem_edit_members" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "mem_import_members" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "mem_view_policies" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "mem_edit_policies" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "mem_view_contacts" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "mem_edit_contacts" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "mem_export_members" });
 
                 //Readonly
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_readonly", UseCaseId = "mem_view_members" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_readonly", UseCaseId = "mem_view_policies" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "mem_readonly", UseCaseId = "mem_view_contacts" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole2.Id, UseCaseId = "mem_view_members" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole2.Id, UseCaseId = "mem_view_policies" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole2.Id, UseCaseId = "mem_view_contacts" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
 
                 //Commission App
                 //==============
                 //Adminstrator
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_administrator", UseCaseId = "com_import_commissions" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_administrator", UseCaseId = "com_view_commissions" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_administrator", UseCaseId = "com_edit_commissions" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_administrator", UseCaseId = "com_view_commission_statements" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_administrator", UseCaseId = "com_edit_commission_statements" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_import_commissions" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_view_commissions" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_edit_commissions" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_view_commission_statements" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_edit_commission_statements" });
 
                 //Readonly
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_readonly", UseCaseId = "com_view_commissions" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = "com_readonly", UseCaseId = "com_view_commission_statements" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole2.Id, UseCaseId = "com_view_commissions" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole2.Id, UseCaseId = "com_view_commission_statements" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
             }
 

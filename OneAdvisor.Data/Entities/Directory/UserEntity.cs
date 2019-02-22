@@ -6,7 +6,7 @@ using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Data.Entities.Directory
 {
-    public class UserEntity : IdentityUser
+    public class UserEntity : IdentityUser<Guid>
     {
         [Required]
         public Guid BranchId { get; set; }
@@ -18,5 +18,6 @@ namespace OneAdvisor.Data.Entities.Directory
         public IEnumerable<string> Aliases { get; set; }
         [Required]
         public Scope Scope { get; set; }
+
     }
 }

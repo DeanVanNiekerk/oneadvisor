@@ -6,7 +6,7 @@ namespace api.Controllers.Directory.Identity.Dto
 {
     public class IdentityDto
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string UserName { get; set; }
         public Guid OrganisationId { get; set; }
         public string OrganisationName { get; set; }

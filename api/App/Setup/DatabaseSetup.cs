@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OneAdvisor.Data;
+using OneAdvisor.Data.Entities.Directory;
 
 namespace api.App.Setup
 {
@@ -27,6 +28,9 @@ namespace api.App.Setup
             );
 
             Services.AddDbContext<AuditDbContext>();
+
+            Services.AddIdentity<UserEntity, RoleEntity>()
+                .AddEntityFrameworkStores<DataContext>();
 
             //Configure Entity Framework Initializer for seeding
             Services.AddTransient<IDefaultDbContextInitializer, DbInitializer>();

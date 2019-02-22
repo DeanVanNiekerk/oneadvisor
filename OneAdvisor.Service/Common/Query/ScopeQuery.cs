@@ -25,20 +25,20 @@ namespace OneAdvisor.Service.Common.Query
         {
             if (options.IgnoreScope)
             {
-                return from user in context.User
+                return from user in context.Users
                        select user;
             }
 
             if (options.Scope == Scope.User)
             {
-                return from user in context.User
+                return from user in context.Users
                        where user.Id == options.UserId
                        select user;
             }
 
             if (options.Scope == Scope.Branch)
             {
-                return from user in context.User
+                return from user in context.Users
                        join branch in context.Branch
                            //on new { Key1 = user.BranchId, Key2 = options.BranchId.Value } equals new { Key1 = branch.Id, Key2 = branch.Id }
                            on user.BranchId equals branch.Id
@@ -51,7 +51,7 @@ namespace OneAdvisor.Service.Common.Query
 
         public static IQueryable<UserEntity> GetUserEntityQuery(DataContext context, Guid organisationId)
         {
-            return from user in context.User
+            return from user in context.Users
                    join branch in context.Branch
                        //on new { Key1 = user.BranchId, Key2 = options.OrganisationId.Value } equals new { Key1 = branch.Id, Key2 = branch.OrganisationId }
                        on user.BranchId equals branch.Id
@@ -116,7 +116,7 @@ namespace OneAdvisor.Service.Common.Query
             return result;
         }
 
-        public static async Task<Result> CheckScope(DataContext context, ScopeOptions scope, Guid memberId, string userId)
+        public static async Task<Result> CheckScope(DataContext context, ScopeOptions scope, Guid memberId, Guid userId)
         {
             var result = await ScopeQuery.IsMemberInOrganisation(context, scope, memberId);
 
@@ -126,7 +126,7 @@ namespace OneAdvisor.Service.Common.Query
             return await ScopeQuery.IsUserInScopeResult(context, scope, userId);
         }
 
-        public static async Task<bool> IsUserInScope(DataContext context, ScopeOptions options, string userId)
+        public static async Task<bool> IsUserInScope(DataContext context, ScopeOptions options, Guid userId)
         {
             if (options.UserId == userId)
                 return true;
@@ -140,7 +140,7 @@ namespace OneAdvisor.Service.Common.Query
             return await query.AnyAsync();
         }
 
-        public static async Task<Result> IsUserInScopeResult(DataContext context, ScopeOptions options, string userId)
+        public static async Task<Result> IsUserInScopeResult(DataContext context, ScopeOptions options, Guid userId)
         {
             var result = new Result();
 

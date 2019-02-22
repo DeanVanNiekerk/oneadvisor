@@ -16,11 +16,11 @@ namespace api.Controllers
     {
         public BaseController(IHttpContextAccessor contextAccessor)
         {
-            UserId = contextAccessor.HttpContext.User.Identity.Name;
+            UserId = Guid.Parse(contextAccessor.HttpContext.User.Identity.Name);
             Roles = contextAccessor.HttpContext.User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
         }
 
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
 
         public IEnumerable<string> Roles { get; set; }
 

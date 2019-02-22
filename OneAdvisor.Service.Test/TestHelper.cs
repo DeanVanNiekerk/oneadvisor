@@ -54,7 +54,7 @@ namespace OneAdvisor.Service.Test
         {
             var user = new UserEdit
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid(),
                 FirstName = Guid.NewGuid().ToString(),
                 LastName = Guid.NewGuid().ToString(),
                 Scope = scope,
@@ -81,7 +81,7 @@ namespace OneAdvisor.Service.Test
             using (var context = new DataContext(options))
             {
                 context.Branch.Add(branch);
-                context.User.Add(user);
+                context.Users.Add(user);
                 context.SaveChanges();
             }
 
@@ -167,7 +167,7 @@ namespace OneAdvisor.Service.Test
 
         public static ScopeOptions GetScopeOptions(Guid organisationId)
         {
-            return new ScopeOptions(organisationId, Guid.NewGuid(), "", Scope.User);
+            return new ScopeOptions(organisationId, Guid.NewGuid(), Guid.NewGuid(), Scope.User);
         }
 
     }

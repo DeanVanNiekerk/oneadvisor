@@ -239,7 +239,7 @@ namespace OneAdvisor.Service.Member
 
         }
 
-        private async Task<Result> ImportPolicy(ScopeOptions scope, ImportMember data, MemberEdit member, string userId)
+        private async Task<Result> ImportPolicy(ScopeOptions scope, ImportMember data, MemberEdit member, Guid userId)
         {
             var result = new Result(true);
 
@@ -331,7 +331,7 @@ namespace OneAdvisor.Service.Member
             return result;
         }
 
-        private PolicyEdit MapPolicyProperties(PolicyEdit policy, ImportMember data, string userId)
+        private PolicyEdit MapPolicyProperties(PolicyEdit policy, ImportMember data, Guid userId)
         {
             policy.UserId = userId;
             policy.Premium = data.PolicyPremium != null ? data.PolicyPremium : policy.Premium;

@@ -25,7 +25,7 @@ namespace OneAdvisor.Service.Member.Validators
             if (!isInsert)
                 RuleFor(p => p.Id).NotEmpty();
 
-            RuleFor(p => p.UserId).NotEmpty().MaximumLength(64).WithName("Broker");
+            RuleFor(p => p.UserId).NotEmpty().WithName("Broker");
             RuleFor(p => p.Number).NotEmpty().MaximumLength(128);
             RuleFor(p => p.Premium).InclusiveBetween(0, 999999999);
             RuleFor(p => p.CompanyId).NotEmpty().WithName("Company");

@@ -11,15 +11,14 @@ namespace OneAdvisor.Model.Directory.Model.Audit
          : base(sortColumn, sortDirection, pageSize, pageNumber, filters)
         {
             Scope = scope;
-            UserId = new List<string>();
+            UserId = new List<Guid>();
             Action = new List<string>();
 
-            var results = GetFilterValues<string>("UserId");
-            if (results.Success)
-                UserId = results.Value;
+            var resultGuids = GetFilterValues<Guid>("UserId");
+            if (resultGuids.Success)
+                UserId = resultGuids.Value;
 
-
-            results = GetFilterValues<string>("Action");
+            var results = GetFilterValues<string>("Action");
             if (results.Success)
                 Action = results.Value;
 
@@ -29,7 +28,7 @@ namespace OneAdvisor.Model.Directory.Model.Audit
         }
 
         public ScopeOptions Scope { get; set; }
-        public List<string> UserId { get; set; }
+        public List<Guid> UserId { get; set; }
         public List<string> Action { get; set; }
         public string Entity { get; set; }
     }

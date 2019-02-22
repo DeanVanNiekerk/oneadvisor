@@ -28,12 +28,14 @@ namespace OneAdvisor.Service.Directory
             return query.ToListAsync();
         }
 
-        public async Task<List<string>> GetUseCases(IEnumerable<string> roleIds)
+        public async Task<List<string>> GetUseCases(IEnumerable<string> roles)
         {
             var query = from useCase in GetUseCaseQuery()
                         join roleToUseCase in _context.RoleToUseCase
                             on useCase.Id equals roleToUseCase.UseCaseId
-                        where roleIds.Contains(roleToUseCase.RoleId)
+                        join role in _context.Roles
+                            on roleToUseCase.RoleId equals role.Id
+                        where roles.Contains(role.Name)
                         select useCase;
 
             //Group by not be properly translated to sql

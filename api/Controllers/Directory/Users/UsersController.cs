@@ -45,7 +45,7 @@ namespace api.Controllers.Directory.Users
 
         [HttpGet("{userId}")]
         [UseCaseAuthorize("dir_view_users")]
-        public async Task<ActionResult<UserEditDto>> Get(string userId)
+        public async Task<ActionResult<UserEditDto>> Get(Guid userId)
         {
             var scope = await AuthenticationService.GetScope(UserId, IsSuperAdmin);
 

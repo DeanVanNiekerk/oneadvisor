@@ -5,7 +5,7 @@ namespace OneAdvisor.Model.Directory.Model.Authentication
 {
     public class ScopeOptions
     {
-        public ScopeOptions(Guid organisationId, Guid branchId, string userId, Scope scope, bool ignoreScope = false)
+        public ScopeOptions(Guid organisationId, Guid branchId, Guid userId, Scope scope, bool ignoreScope = false)
         {
             UserId = userId;
             BranchId = branchId;
@@ -15,7 +15,7 @@ namespace OneAdvisor.Model.Directory.Model.Authentication
             IgnoreScope = ignoreScope;
         }
 
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
         public Guid BranchId { get; set; }
         public Guid OrganisationId { get; set; }
         public bool IgnoreScope { get; set; }

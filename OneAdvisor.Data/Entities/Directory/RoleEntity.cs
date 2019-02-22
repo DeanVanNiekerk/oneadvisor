@@ -1,20 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
+using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Data.Entities.Directory
 {
-    public class RoleEntity
+    public class RoleEntity : IdentityRole<Guid>
     {
-        [Key, StringLength(32)]
-        public string Id { get; set; }
-        [Required]
-        public string Name { get; set; }
         [Required]
         public Guid ApplicationId { get; set; }
+        [Required]
+        public string Description { get; set; }
 
         public virtual ApplicationEntity Application { get; set; }
         public virtual ICollection<RoleToUseCaseEntity> RoleToUseCases { get; set; }
-
     }
 }

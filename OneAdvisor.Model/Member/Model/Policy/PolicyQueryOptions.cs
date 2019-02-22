@@ -15,11 +15,11 @@ namespace OneAdvisor.Model.Member.Model.Policy
             if (result.Success)
                 Number = result.Value;
 
-            result = GetFilterValue<string>("UserId");
-            if (result.Success)
-                UserId = result.Value;
+            var resultGuid = GetFilterValue<Guid>("UserId");
+            if (resultGuid.Success)
+                UserId = resultGuid.Value;
 
-            var resultGuid = GetFilterValue<Guid>("MemberId");
+            resultGuid = GetFilterValue<Guid>("MemberId");
             if (resultGuid.Success)
                 MemberId = resultGuid.Value;
 
@@ -38,6 +38,6 @@ namespace OneAdvisor.Model.Member.Model.Policy
         public Guid? CompanyId { get; set; }
         public Guid? Id { get; set; }
         public string Number { get; set; }
-        public string UserId { get; set; }
+        public Guid? UserId { get; set; }
     }
 }

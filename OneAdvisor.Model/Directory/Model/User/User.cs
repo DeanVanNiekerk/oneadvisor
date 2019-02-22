@@ -8,9 +8,10 @@ namespace OneAdvisor.Model.Directory.Model.User
         public User()
         {
             Aliases = new List<string>();
+            Roles = new List<string>();
         }
 
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Login { get; set; }
@@ -19,6 +20,6 @@ namespace OneAdvisor.Model.Directory.Model.User
         public Guid BranchId { get; set; }
         public Scope Scope { get; set; }
         public IEnumerable<string> Aliases { get; set; }
-        public IEnumerable<string> RoleIds { get; set; }
+        public IEnumerable<string> Roles { get; set; }
     }
 }
