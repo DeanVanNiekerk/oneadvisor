@@ -37,16 +37,13 @@ namespace api
             var databaseSetup = new DatabaseSetup(Configuration, services);
             databaseSetup.Configure();
 
-            //Configure mappings
-            var mapper = MappingSetup.ConfigureMappings();
-
             //Confirgure services (DI)
             var serviceSetup = new ServiceSetup(Configuration, services);
             serviceSetup.ConfigureCors();
             serviceSetup.ConfigureAuthentication();
             serviceSetup.ConfigureSettings();
             serviceSetup.ConfigureServices();
-            serviceSetup.ConfigureMapper(mapper);
+            serviceSetup.ConfigureMapper();
             serviceSetup.ConfigureLogging();
             serviceSetup.ConfigureSwagger();
 

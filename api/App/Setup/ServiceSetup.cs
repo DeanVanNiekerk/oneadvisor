@@ -108,9 +108,9 @@ namespace api.App.Setup
             Services.AddScoped<ICommissionErrorService, CommissionErrorService>();
         }
 
-        public void ConfigureMapper(IMapper mapper)
+        public void ConfigureMapper()
         {
-            Services.AddSingleton(typeof(IMapper), mapper);
+            Services.AddAutoMapper();
         }
 
         public void ConfigureLogging()
