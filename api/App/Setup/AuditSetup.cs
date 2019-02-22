@@ -20,18 +20,18 @@ namespace api.App.Setup
         {
             //https://github.com/thepirat000/Audit.NET/tree/master/src/Audit.EntityFramework
 
-            Audit.Core.Configuration.Setup()
-               .UseEntityFramework(_ => _
-                   .AuditTypeMapper(t => typeof(AuditLogEntity))
-                   .AuditEntityAction<AuditLogEntity>((ev, entry, entity) =>
-                   {
-                       entity.Data = entry.ToJson();
-                       entity.Entity = entry.EntityType.Name;
-                       entity.Action = entry.Action;
-                       entity.Date = DateTime.Now;
-                       entity.UserId = Guid.Parse(Services.BuildServiceProvider().GetService<IHttpContextAccessor>().HttpContext.User.Identity.Name);
-                   })
-               .IgnoreMatchedProperties(true));
+            // Audit.Core.Configuration.Setup()
+            //    .UseEntityFramework(_ => _
+            //        .AuditTypeMapper(t => typeof(AuditLogEntity))
+            //        .AuditEntityAction<AuditLogEntity>((ev, entry, entity) =>
+            //        {
+            //            entity.Data = entry.ToJson();
+            //            entity.Entity = entry.EntityType.Name;
+            //            entity.Action = entry.Action;
+            //            entity.Date = DateTime.Now;
+            //            entity.UserId = Guid.Parse(Services.BuildServiceProvider().GetService<IHttpContextAccessor>().HttpContext.User.Identity.Name);
+            //        })
+            //    .IgnoreMatchedProperties(true));
         }
     }
 }

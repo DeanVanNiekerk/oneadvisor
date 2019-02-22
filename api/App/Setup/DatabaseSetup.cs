@@ -1,4 +1,6 @@
+using System;
 using Audit.EntityFramework;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -27,10 +29,11 @@ namespace api.App.Setup
                     .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning))
             );
 
-            Services.AddDbContext<AuditDbContext>();
+            //Services.AddDbContext<AuditDbContext>();
 
             Services.AddIdentity<UserEntity, RoleEntity>()
-                .AddEntityFrameworkStores<DataContext>();
+                .AddEntityFrameworkStores<DataContext>()
+                .AddDefaultTokenProviders();
 
             //Configure Entity Framework Initializer for seeding
             Services.AddTransient<IDefaultDbContextInitializer, DbInitializer>();

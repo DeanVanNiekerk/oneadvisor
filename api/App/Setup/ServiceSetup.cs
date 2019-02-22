@@ -50,10 +50,6 @@ namespace api.App.Setup
 
         public void ConfigureAuthentication()
         {
-            Services.AddIdentity<UserEntity, IdentityRole>()
-                .AddEntityFrameworkStores<DataContext>()
-                .AddDefaultTokenProviders();
-
             Services
                 .AddAuthentication(options =>
                 {

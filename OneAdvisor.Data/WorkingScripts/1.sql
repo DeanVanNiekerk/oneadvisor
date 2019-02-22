@@ -1,9 +1,12 @@
 --TO RUN: Shift + Cmd + E
 
 select *
-from dir_Application
+from AspNetUsers
 select *
-from dir_Role
+from AspNetRoles
+
+select *
+from dir_Application
 select *
 from dir_UseCase
 select *
@@ -13,8 +16,7 @@ from dir_Organisation
 select *
 from dir_Branch
 select *
-from dir_User
-select *
+
 from dir_AuditLog
 
 select *

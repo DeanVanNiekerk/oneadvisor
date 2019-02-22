@@ -58,17 +58,17 @@ namespace OneAdvisor.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            #region Identity
+            // #region Identity
 
-            modelBuilder.Entity<UserEntity>().ToTable("idnty_User");
-            modelBuilder.Entity<IdentityRole>().ToTable("idnty_Role");
-            modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("idnty_UserClaim");
-            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("idnty_UserRole");
-            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("idnty_UserLogin");
-            modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("idnty_RoleClaim");
-            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("idnty_UserToken");
+            // modelBuilder.Entity<UserEntity>().ToTable("idnty_User");
+            // modelBuilder.Entity<RoleEntity>().ToTable("idnty_Role");
+            // modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("idnty_UserClaim");
+            // modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("idnty_UserRole");
+            // modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("idnty_UserLogin");
+            // modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("idnty_RoleClaim");
+            // modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("idnty_UserToken");
 
-            #endregion
+            // #endregion
 
             #region Lookup
 

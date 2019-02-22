@@ -34,12 +34,15 @@ namespace OneAdvisor.Data
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_Policy]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_Member]");
 
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_User]");
             total += await CleanRolesAndUseCase();
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Organisation]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Branch]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_AuditLog]");
 
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetUserTokens]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetUserClaims]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetUserLogins]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetUsers]");
 
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_Company]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_CommissionType]");
@@ -56,7 +59,10 @@ namespace OneAdvisor.Data
 
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_RoleToUseCase]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_UseCase]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Role]");
+
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetUserRoles]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetRoleClaims]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetRoles]");
 
             return total;
         }
@@ -140,16 +146,16 @@ namespace OneAdvisor.Data
             var roles = await _context.Roles.ToListAsync();
 
             //Directory Roles
-            var dirRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "dir_administrator", Description = "Administrator", ApplicationId = dirGuid };
-            var dirRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "dir_readonly", Description = "Readonly", ApplicationId = dirGuid };
+            var dirRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "dir_administrator", NormalizedName = "dir_administrator", Description = "Administrator", ApplicationId = dirGuid };
+            var dirRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "dir_readonly", NormalizedName = "dir_readonly", Description = "Readonly", ApplicationId = dirGuid };
 
             //Member Roles
-            var memRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "mem_administrator", Description = "Administrator", ApplicationId = memGuid };
-            var memRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "mem_readonly", Description = "Readonly", ApplicationId = memGuid };
+            var memRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "mem_administrator", NormalizedName = "mem_administrator", Description = "Administrator", ApplicationId = memGuid };
+            var memRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "mem_readonly", NormalizedName = "mem_readonly", Description = "Readonly", ApplicationId = memGuid };
 
             //Commision Roles
-            var comRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "com_administrator", Description = "Administrator", ApplicationId = comGuid };
-            var comRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "com_readonly", Description = "Readonly", ApplicationId = comGuid };
+            var comRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "com_administrator", NormalizedName = "com_administrator", Description = "Administrator", ApplicationId = comGuid };
+            var comRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "com_readonly", NormalizedName = "com_readonly", Description = "Readonly", ApplicationId = comGuid };
 
             if (!roles.Any())
             {
