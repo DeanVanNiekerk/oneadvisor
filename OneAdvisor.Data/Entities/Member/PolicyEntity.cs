@@ -23,7 +23,7 @@ namespace OneAdvisor.Data.Entities.Member
 
         public virtual MemberEntity Member { get; set; }
         public virtual CompanyEntity Company { get; set; }
-        public virtual OktaUserEntity User { get; set; }
+        public virtual UserEntity User { get; set; }
         public virtual PolicyTypeEntity PolicyType { get; set; }
     }
 }

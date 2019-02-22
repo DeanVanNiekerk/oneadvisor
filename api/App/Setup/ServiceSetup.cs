@@ -1,20 +1,24 @@
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using OneAdvisor.Data;
+using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Model.Member.Interface;
 using OneAdvisor.Service.Commission;
 using OneAdvisor.Service.Directory;
 using OneAdvisor.Service.Member;
-using OneAdvisor.Service.Okta;
-using OneAdvisor.Service.Okta.Service;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace api.App.Setup
@@ -46,37 +50,32 @@ namespace api.App.Setup
 
         public void ConfigureAuthentication()
         {
-            var okta = Configuration.GetValue<string>("Auth:Jwt:Authority");
+            Services.AddIdentity<UserEntity, IdentityRole>()
+                .AddEntityFrameworkStores<DataContext>()
+                .AddDefaultTokenProviders();
 
-            var configurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(
-                okta + "/.well-known/openid-configuration",
-                new OpenIdConnectConfigurationRetriever(),
-                new HttpDocumentRetriever());
+            Services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(config =>
+                {
+                    config.RequireHttpsMetadata = false;
+                    config.SaveToken = true;
 
-            Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+                    config.TokenValidationParameters = new TokenValidationParameters()
                     {
-                        options.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            ValidateIssuer = true,
-                            ValidateAudience = false, //TODO: Fix
-                            ValidateLifetime = true,
-                            ValidateIssuerSigningKey = true,
-                            ValidIssuer = Configuration.GetValue<string>("Auth:Jwt:Authority"),
-                            //ValidAudience = Configuration.GetValue<string>("Auth:Jwt:Audience"),
-                            IssuerSigningKeyResolver = (token, securityToken, identifier, parameters) =>
-                                {
-                                    var discoveryDocument = Task.Run(() => configurationManager.GetConfigurationAsync()).GetAwaiter().GetResult();
-                                    return discoveryDocument.SigningKeys;
-                                }
-                        };
-                    });
+                        ValidIssuer = Configuration["Auth:Jwt:Issuer"],
+                        //ValidAudience = Configuration["Auth:Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Auth:Jwt:Key"])),
+                        RoleClaimType = ClaimTypes.Role
+                    };
+                });
 
-        }
-
-        public void ConfigureSettings()
-        {
-            Services.Configure<OktaSettings>(Configuration.GetSection("Auth:Okta"));
+            Services.Configure<JwtOptions>(Configuration.GetSection("Auth:Jwt"));
+            Services.Configure<IdentityOptions>(options => options.ClaimsIdentity.RoleClaimType = ClaimTypes.Role);
         }
 
         public void ConfigureServices()
@@ -84,7 +83,6 @@ namespace api.App.Setup
             Services.AddHttpContextAccessor();
 
             //DIRECTORY
-            Services.AddScoped<IUserServiceOkta, UserServiceOkta>();
             Services.AddScoped<IAuthenticationService, AuthenticationService>();
             Services.AddScoped<IRoleService, RoleService>();
             Services.AddScoped<IOrganisationService, OrganisationService>();

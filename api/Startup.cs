@@ -41,7 +41,6 @@ namespace api
             var serviceSetup = new ServiceSetup(Configuration, services);
             serviceSetup.ConfigureCors();
             serviceSetup.ConfigureAuthentication();
-            serviceSetup.ConfigureSettings();
             serviceSetup.ConfigureServices();
             serviceSetup.ConfigureMapper();
             serviceSetup.ConfigureLogging();

@@ -59,44 +59,6 @@ namespace OneAdvisor.Service.Common.Query
                    select user;
         }
 
-        public static IQueryable<OktaUserEntity> GetOktaUserEntityQuery(DataContext context, ScopeOptions options)
-        {
-            if (options.IgnoreScope)
-            {
-                return from user in context.OktaUser
-                       select user;
-            }
-
-            if (options.Scope == Scope.User)
-            {
-                return from user in context.OktaUser
-                       where user.Id == options.UserId
-                       select user;
-            }
-
-            if (options.Scope == Scope.Branch)
-            {
-                return from user in context.OktaUser
-                       join branch in context.Branch
-                           //on new { Key1 = user.BranchId, Key2 = options.BranchId.Value } equals new { Key1 = branch.Id, Key2 = branch.Id }
-                           on user.BranchId equals branch.Id
-                       where branch.Id == options.BranchId
-                       select user;
-            }
-
-            return GetOktaUserEntityQuery(context, options.OrganisationId);
-        }
-
-        public static IQueryable<OktaUserEntity> GetOktaUserEntityQuery(DataContext context, Guid organisationId)
-        {
-            return from user in context.OktaUser
-                   join branch in context.Branch
-                       //on new { Key1 = user.BranchId, Key2 = options.OrganisationId.Value } equals new { Key1 = branch.Id, Key2 = branch.OrganisationId }
-                       on user.BranchId equals branch.Id
-                   where branch.OrganisationId == organisationId
-                   select user;
-        }
-
         public static IQueryable<OrganisationEntity> GetOrganisationEntityQuery(DataContext context, ScopeOptions options)
         {
             if (options.IgnoreScope)
@@ -169,7 +131,7 @@ namespace OneAdvisor.Service.Common.Query
             if (options.UserId == userId)
                 return true;
 
-            var userQuery = GetOktaUserEntityQuery(context, options);
+            var userQuery = GetUserEntityQuery(context, options);
 
             var query = from user in userQuery
                         where user.Id == userId

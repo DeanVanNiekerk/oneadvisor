@@ -21,13 +21,14 @@ namespace api.Controllers.Directory.Identity
     [Route("api/directory/identity")]
     public class IdentityController : BaseController
     {
-        public IdentityController(IHttpContextAccessor contextAccessor, IAuthenticationService authenticationService, IUseCaseService useCaseService, IOrganisationService organisationService, IBranchService branchService)
+        public IdentityController(IHttpContextAccessor contextAccessor, IAuthenticationService authenticationService, IUseCaseService useCaseService, IOrganisationService organisationService, IBranchService branchService, IUserService userService)
          : base(contextAccessor)
         {
             UseCaseService = useCaseService;
             OrganisationService = organisationService;
             BranchService = branchService;
             AuthenticationService = authenticationService;
+            UserService = userService;
         }
 
         private IMapper Mapper { get; }
@@ -35,32 +36,29 @@ namespace api.Controllers.Directory.Identity
         private IOrganisationService OrganisationService { get; }
         private IBranchService BranchService { get; }
         private IAuthenticationService AuthenticationService { get; }
+        private IUserService UserService { get; }
 
         [HttpGet("")]
         public async Task<IdentityDto> Index()
         {
             var scope = await AuthenticationService.GetScope(UserId, IsSuperAdmin);
 
-            var identity = Context.GetIdentity(User);
-            var useCaseIds = await UseCaseService.GetUseCases(identity.RoleIds);
-            var branch = await BranchService.GetBranch(scope, identity.BranchId);
-
-            Organisation organisation = null;
-            if (branch != null)
-                organisation = await OrganisationService.GetOrganisation(scope, branch.OrganisationId.Value);
+            var user = await UserService.GetUser(scope, UserId);
+            var useCaseIds = await UseCaseService.GetUseCases(Roles);
+            var branch = await BranchService.GetBranch(scope, user.BranchId.Value);
+            var organisation = await OrganisationService.GetOrganisation(scope, branch.OrganisationId.Value);
 
             return new IdentityDto()
             {
-                Id = identity.Id,
-                Name = identity.Name,
-                OrganisationName = organisation != null ? organisation.Name : "NOT IN DB",
+                Id = user.Id,
+                UserName = user.UserName,
+                OrganisationName = organisation.Name,
                 OrganisationId = organisation.Id.Value,
-                BranchName = branch != null ? branch.Name : "NOT IN DB",
+                BranchName = branch.Name,
                 BranchId = branch.Id.Value,
-                RoleIds = identity.RoleIds.Where(r => r != "Everyone"),
+                Roles = Roles,
                 UseCaseIds = useCaseIds,
-                AssistantToUserId = identity.AssistantToUserId,
-                Scope = identity.Scope
+                Scope = user.Scope
             };
         }
     }

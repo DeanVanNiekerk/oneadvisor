@@ -177,10 +177,10 @@ namespace OneAdvisor.Service.Test.Member
             var branch2 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = org1.Id, Name = "Branch 2" };
             var branch3 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = org2.Id, Name = "Branch 3" };
 
-            var user1 = new OktaUserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch1.Id };
-            var user2 = new OktaUserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch1.Id };
-            var user3 = new OktaUserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch2.Id };
-            var user4 = new OktaUserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch3.Id };
+            var user1 = new UserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch1.Id };
+            var user2 = new UserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch1.Id };
+            var user3 = new UserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch2.Id };
+            var user4 = new UserEntity { Id = Guid.NewGuid().ToString(), BranchId = branch3.Id };
 
             var member1 = new MemberEntity { Id = Guid.NewGuid(), OrganisationId = org1.Id };
             var member2 = new MemberEntity { Id = Guid.NewGuid(), OrganisationId = org2.Id };
@@ -199,10 +199,10 @@ namespace OneAdvisor.Service.Test.Member
                 context.Branch.Add(branch1);
                 context.Branch.Add(branch2);
 
-                context.OktaUser.Add(user1);
-                context.OktaUser.Add(user2);
-                context.OktaUser.Add(user3);
-                context.OktaUser.Add(user4);
+                context.User.Add(user1);
+                context.User.Add(user2);
+                context.User.Add(user3);
+                context.User.Add(user4);
 
                 context.Member.Add(member1);
                 context.Member.Add(member2);

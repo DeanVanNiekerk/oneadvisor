@@ -130,7 +130,7 @@ namespace OneAdvisor.Service.Directory
             entity.LastName = model.LastName;
             entity.Email = model.Email;
             entity.BranchId = model.BranchId.Value;
-            entity.UserName = model.Login;
+            entity.UserName = model.UserName;
             entity.Scope = model.Scope;
             entity.Aliases = model.Aliases;
 

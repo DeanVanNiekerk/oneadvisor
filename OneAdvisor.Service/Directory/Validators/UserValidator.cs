@@ -15,7 +15,7 @@ namespace OneAdvisor.Service.Directory.Validators
             RuleFor(u => u.FirstName).NotEmpty().WithName("First Name");
             RuleFor(u => u.LastName).NotEmpty().WithName("Last Name");
             RuleFor(u => u.BranchId).NotEmpty().WithName("Branch");
-            RuleFor(u => u.Login).NotEmpty();
+            RuleFor(u => u.UserName).NotEmpty();
             RuleFor(u => u.Scope).IsInEnum();
 
             RuleFor(u => u.Scope).Must(s => Convert.ToInt32(s) >= Convert.ToInt32(scope.Scope)).WithMessage("Scope must be equal or to less than yours");

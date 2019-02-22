@@ -74,10 +74,6 @@
 
 ## App Documentation
 
-### Users
-
-https://developer.okta.com/docs/api/resources/users#user-status
-
 ## Azure Pipelines
 
 - Tasks: https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/?view=vsts

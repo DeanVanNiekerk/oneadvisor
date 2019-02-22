@@ -54,7 +54,7 @@ namespace OneAdvisor.Service.Member
                     data.DateOfBirth = id.DateOfBirth;
             }
 
-            var userEntityQuery = ScopeQuery.GetOktaUserEntityQuery(_context, scope);
+            var userEntityQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
 
             var userId = scope.UserId;
 
@@ -72,7 +72,8 @@ namespace OneAdvisor.Service.Member
                 var userQuery = from entity in userEntityQuery
                                 where (EF.Functions.Like(entity.FirstName, parts[0])
                                 && EF.Functions.Like(entity.LastName, parts[1]))
-                                || EF.Functions.Like(entity.Aliases, $"%{data.PolicyUserFullName}%")
+                                //TODO: fix
+                                //|| EF.Functions.Like(entity.Aliases, $"%{data.PolicyUserFullName}%")
                                 select entity;
 
                 var user = userQuery.FirstOrDefault();

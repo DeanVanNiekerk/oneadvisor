@@ -19,7 +19,7 @@ namespace api.Controllers.Directory.Users
     [Route("api/directory/users")]
     public class UsersController : BaseController
     {
-        public UsersController(IHttpContextAccessor contextAccessor, IMapper mapper, IUserServiceOkta userService, IAuthenticationService authenticationService)
+        public UsersController(IHttpContextAccessor contextAccessor, IMapper mapper, IUserService userService, IAuthenticationService authenticationService)
          : base(contextAccessor)
         {
             Mapper = mapper;
@@ -28,7 +28,7 @@ namespace api.Controllers.Directory.Users
         }
 
         private IMapper Mapper { get; }
-        private IUserServiceOkta UserService { get; }
+        private IUserService UserService { get; }
         private IAuthenticationService AuthenticationService { get; }
 
         [HttpGet("")]
@@ -90,31 +90,5 @@ namespace api.Controllers.Directory.Users
 
             return Ok(result);
         }
-
-        [HttpGet("simple")]
-        [Authorize]
-        public async Task<PagedItemsDto<UserSimpleDto>> GetUsersSimple(string userId)
-        {
-            var scope = await AuthenticationService.GetScope(UserId);
-
-            var pagedItems = await UserService.GetUsersSimple(scope);
-
-            return Mapper.MapToPageItemsDto<UserSimple, UserSimpleDto>(pagedItems);
-        }
-
-        [HttpGet("simple/{userId}")]
-        [Authorize]
-        public async Task<ActionResult<UserSimpleDto>> GetUserSimple(string userId)
-        {
-            var scope = await AuthenticationService.GetScope(UserId);
-
-            var model = await UserService.GetUserSimple(scope, userId);
-
-            if (model == null)
-                return NotFound();
-
-            return Ok(Mapper.Map<UserSimpleDto>(model));
-        }
     }
-
 }

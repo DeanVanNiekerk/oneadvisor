@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using api.App.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -15,25 +16,19 @@ namespace api.Controllers
     {
         public BaseController(IHttpContextAccessor contextAccessor)
         {
-            UserId = Context.GetUserId(contextAccessor.HttpContext.User);
-            BranchId = Context.GetBranchId(contextAccessor.HttpContext.User);
-            RoleIds = Context.GetRoleIds(contextAccessor.HttpContext.User);
-            Scope = Context.GetScope(contextAccessor.HttpContext.User);
+            UserId = contextAccessor.HttpContext.User.Identity.Name;
+            Roles = contextAccessor.HttpContext.User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
         }
 
         public string UserId { get; set; }
 
-        public Guid BranchId { get; set; }
-
-        public Scope Scope { get; set; }
-
-        public IEnumerable<string> RoleIds { get; set; }
+        public IEnumerable<string> Roles { get; set; }
 
         public bool IsSuperAdmin
         {
             get
             {
-                return RoleIds.Any(r => r == Role.SUPER_ADMINISTRATOR_ROLE);
+                return Roles.Any(r => r == Role.SUPER_ADMINISTRATOR_ROLE);
             }
         }
 

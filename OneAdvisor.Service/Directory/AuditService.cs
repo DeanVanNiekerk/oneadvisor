@@ -21,7 +21,7 @@ namespace OneAdvisor.Service.Directory
 
         public async Task<PagedItems<AuditLog>> GetAuditLogs(AuditLogQueryOptions queryOptions)
         {
-            var query = from user in ScopeQuery.GetOktaUserEntityQuery(_context, queryOptions.Scope)
+            var query = from user in ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope)
                         join auditLog in _context.AuditLog
                             on user.Id equals auditLog.UserId
                         select new AuditLog()

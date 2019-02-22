@@ -7,14 +7,13 @@ namespace api.Controllers.Directory.Identity.Dto
     public class IdentityDto
     {
         public string Id { get; set; }
-        public string Name { get; set; }
+        public string UserName { get; set; }
         public Guid OrganisationId { get; set; }
         public string OrganisationName { get; set; }
         public Guid BranchId { get; set; }
         public string BranchName { get; set; }
-        public IEnumerable<string> RoleIds { get; set; }
+        public IEnumerable<string> Roles { get; set; }
         public IEnumerable<string> UseCaseIds { get; set; }
         public Scope Scope { get; set; }
-        public string AssistantToUserId { get; set; }
     }
 }

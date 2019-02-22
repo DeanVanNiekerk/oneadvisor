@@ -9,13 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Model", "OneAdvi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Service", "OneAdvisor.Service\OneAdvisor.Service.csproj", "{B729D31F-6D43-4708-B7AA-4CA0EC643689}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Service.Okta", "OneAdvisor.Service.Okta\OneAdvisor.Service.Okta.csproj", "{5681C6F6-3087-444F-8BD5-E2674A5ACA6B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Data", "OneAdvisor.Data\OneAdvisor.Data.csproj", "{BF9150E9-8FED-4C5D-8C83-63DF03A85513}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Service.Test", "OneAdvisor.Service.Test\OneAdvisor.Service.Test.csproj", "{D9A4B16A-E0F0-40DC-ABA2-3BBF069B0F22}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Service.Okta.Test", "OneAdvisor.Service.Okta.Test\OneAdvisor.Service.Okta.Test.csproj", "{57EFCF57-7AC4-4345-A550-140EB51A622D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Export.Csv", "OneAdvisor.Export.Csv\OneAdvisor.Export.Csv.csproj", "{49B13AD8-F180-402A-A7B4-F5F236AA895D}"
 EndProject

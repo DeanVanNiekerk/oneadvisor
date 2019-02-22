@@ -58,7 +58,7 @@ namespace OneAdvisor.Service.Directory
             return result;
         }
 
-        public async Task<JwtSecurityToken> GenerateToken(string userName, JwtOptions options)
+        public async Task<string> GenerateToken(string userName, JwtOptions options)
         {
             var user = await _userManager.FindByNameAsync(userName);
 
@@ -82,7 +82,7 @@ namespace OneAdvisor.Service.Directory
               expires: DateTime.Now.AddDays(30),
               signingCredentials: creds);
 
-            return token;
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
