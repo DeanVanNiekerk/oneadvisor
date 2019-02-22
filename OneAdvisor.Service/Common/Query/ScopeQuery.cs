@@ -21,24 +21,24 @@ namespace OneAdvisor.Service.Common.Query
                    select member;
         }
 
-        public static IQueryable<UserEntity> GetUserEntityQuery(DataContext context, ScopeOptions options)
+        public static IQueryable<OktaUserEntity> GetUserEntityQuery(DataContext context, ScopeOptions options)
         {
             if (options.IgnoreScope)
             {
-                return from user in context.User
+                return from user in context.OktaUser
                        select user;
             }
 
             if (options.Scope == Scope.User)
             {
-                return from user in context.User
+                return from user in context.OktaUser
                        where user.Id == options.UserId
                        select user;
             }
 
             if (options.Scope == Scope.Branch)
             {
-                return from user in context.User
+                return from user in context.OktaUser
                        join branch in context.Branch
                            //on new { Key1 = user.BranchId, Key2 = options.BranchId.Value } equals new { Key1 = branch.Id, Key2 = branch.Id }
                            on user.BranchId equals branch.Id
@@ -49,9 +49,9 @@ namespace OneAdvisor.Service.Common.Query
             return GetUserEntityQuery(context, options.OrganisationId);
         }
 
-        public static IQueryable<UserEntity> GetUserEntityQuery(DataContext context, Guid organisationId)
+        public static IQueryable<OktaUserEntity> GetUserEntityQuery(DataContext context, Guid organisationId)
         {
-            return from user in context.User
+            return from user in context.OktaUser
                    join branch in context.Branch
                        //on new { Key1 = user.BranchId, Key2 = options.OrganisationId.Value } equals new { Key1 = branch.Id, Key2 = branch.OrganisationId }
                        on user.BranchId equals branch.Id

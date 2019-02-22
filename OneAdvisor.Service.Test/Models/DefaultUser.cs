@@ -5,7 +5,7 @@ namespace OneAdvisor.Service.Test.Models
 {
     public class DefaultUser
     {
-        public UserEntity User { get; set; }
+        public OktaUserEntity User { get; set; }
         public OrganisationEntity Organisation { get; set; }
         public BranchEntity Branch { get; set; }
     }

@@ -5,7 +5,7 @@ using OneAdvisor.Data.Entities.Member;
 
 namespace OneAdvisor.Data.Entities.Directory
 {
-    public class UserEntity
+    public class OktaUserEntity
     {
         [Key]
         public string Id { get; set; }
@@ -19,6 +19,5 @@ namespace OneAdvisor.Data.Entities.Directory
         public string Aliases { get; set; }
 
         public virtual BranchEntity Branch { get; set; }
-        public virtual ICollection<PolicyEntity> MemberPolicies { get; set; }
     }
 }

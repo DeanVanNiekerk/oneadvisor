@@ -258,7 +258,7 @@ namespace OneAdvisor.Service.Okta.Service
 
             foreach (var user in userDtos)
             {
-                var localUser = _context.User.Find(user.id);
+                var localUser = _context.OktaUser.Find(user.id);
 
                 if (localUser != null)
                     continue;
@@ -316,7 +316,7 @@ namespace OneAdvisor.Service.Okta.Service
         private async Task SyncLocalUser(UserEdit user)
         {
             //Make sure this user exists in our db
-            var localUser = _context.User.Find(user.Id);
+            var localUser = _context.OktaUser.Find(user.Id);
 
             if (localUser != null)
             {
@@ -331,22 +331,22 @@ namespace OneAdvisor.Service.Okta.Service
         {
             var entity = MapEditUserToEntity(user);
 
-            _context.User.Add(entity);
+            _context.OktaUser.Add(entity);
             await _context.SaveChangesAsync();
         }
         private async Task UpdateLocalUser(UserEdit user)
         {
-            var entity = _context.User.Find(user.Id);
+            var entity = _context.OktaUser.Find(user.Id);
 
             entity = MapEditUserToEntity(user, entity);
 
             await _context.SaveChangesAsync();
         }
 
-        private UserEntity MapEditUserToEntity(UserEdit user, UserEntity entity = null)
+        private OktaUserEntity MapEditUserToEntity(UserEdit user, OktaUserEntity entity = null)
         {
             if (entity == null)
-                entity = new UserEntity();
+                entity = new OktaUserEntity();
 
             entity.Id = user.Id;
             entity.FirstName = user.FirstName;

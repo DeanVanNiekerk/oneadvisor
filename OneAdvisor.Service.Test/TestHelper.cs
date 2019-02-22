@@ -24,7 +24,7 @@ namespace OneAdvisor.Service.Test
                .Options;
         }
 
-        public static UserEntity InsertDefaultUser(DbContextOptions<DataContext> options)
+        public static OktaUserEntity InsertDefaultUser(DbContextOptions<DataContext> options)
         {
             return InsertDefaultUserDetailed(options).User;
         }
@@ -59,7 +59,7 @@ namespace OneAdvisor.Service.Test
         public static DefaultUser InsertDefaultUserDetailed(DbContextOptions<DataContext> options, OrganisationEntity organisation, UserEdit sourceUser)
         {
             var branch = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = organisation.Id, Name = "Branch 1" };
-            var user = new UserEntity
+            var user = new OktaUserEntity
             {
                 Id = sourceUser.Id,
                 FirstName = sourceUser.FirstName,
@@ -71,7 +71,7 @@ namespace OneAdvisor.Service.Test
             using (var context = new DataContext(options))
             {
                 context.Branch.Add(branch);
-                context.User.Add(user);
+                context.OktaUser.Add(user);
                 context.SaveChanges();
             }
 

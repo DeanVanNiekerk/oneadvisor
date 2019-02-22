@@ -21,7 +21,7 @@ namespace OneAdvisor.Service.Directory
 
         public async Task<ScopeOptions> GetScope(string userId, Scope scope, bool ignoreScope = false)
         {
-            var userDetails = await (from user in _context.User
+            var userDetails = await (from user in _context.OktaUser
                                      join branch in _context.Branch
                                         on user.BranchId equals branch.Id
                                      where user.Id == userId
