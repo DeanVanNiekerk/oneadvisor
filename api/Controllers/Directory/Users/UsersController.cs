@@ -19,7 +19,7 @@ namespace api.Controllers.Directory.Users
     [Route("api/directory/users")]
     public class UsersController : BaseController
     {
-        public UsersController(IHttpContextAccessor contextAccessor, IMapper mapper, IUserService userService, IAuthService authService)
+        public UsersController(IHttpContextAccessor contextAccessor, IMapper mapper, IUserServiceOkta userService, IAuthService authService)
          : base(contextAccessor)
         {
             Mapper = mapper;
@@ -28,7 +28,7 @@ namespace api.Controllers.Directory.Users
         }
 
         private IMapper Mapper { get; }
-        private IUserService UserService { get; }
+        private IUserServiceOkta UserService { get; }
         private IAuthService AuthService { get; }
 
         [HttpGet("")]

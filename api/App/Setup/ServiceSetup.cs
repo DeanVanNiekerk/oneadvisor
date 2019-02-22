@@ -84,7 +84,7 @@ namespace api.App.Setup
             Services.AddHttpContextAccessor();
 
             //DIRECTORY
-            Services.AddScoped<IUserService, UserService>();
+            Services.AddScoped<IUserServiceOkta, UserServiceOkta>();
             Services.AddScoped<IAuthService, AuthService>();
             Services.AddScoped<IRoleService, RoleService>();
             Services.AddScoped<IOrganisationService, OrganisationService>();

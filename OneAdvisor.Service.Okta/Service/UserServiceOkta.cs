@@ -23,11 +23,11 @@ using OneAdvisor.Service.Okta.Service.Validators;
 
 namespace OneAdvisor.Service.Okta.Service
 {
-    public class UserService : IUserService
+    public class UserServiceOkta : IUserServiceOkta
     {
         private readonly DataContext _context;
 
-        public UserService(DataContext context, IOptions<OktaSettings> options, IRoleService roleService)
+        public UserServiceOkta(DataContext context, IOptions<OktaSettings> options, IRoleService roleService)
         {
             _context = context;
             RoleService = roleService;

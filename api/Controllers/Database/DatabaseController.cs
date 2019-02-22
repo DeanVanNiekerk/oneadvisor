@@ -9,14 +9,14 @@ namespace api.Controllers.Database
     [Route("api/database")]
     public class DatabaseController : Controller
     {
-        public DatabaseController(IDefaultDbContextInitializer contextInitializer, IUserService userService)
+        public DatabaseController(IDefaultDbContextInitializer contextInitializer, IUserServiceOkta userService)
         {
             DbContextInitializer = contextInitializer;
             UserService = userService;
         }
 
         private IDefaultDbContextInitializer DbContextInitializer { get; }
-        private IUserService UserService { get; }
+        private IUserServiceOkta UserService { get; }
 
         [HttpGet("[action]")]
         public async Task<string> Reset()
