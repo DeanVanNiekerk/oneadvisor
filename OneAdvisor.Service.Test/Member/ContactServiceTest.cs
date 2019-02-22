@@ -54,7 +54,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new ContactService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var queryOptions = new ContactQueryOptions(scope, $"memberId={member1.Member.Id.ToString()}");
                 var actual = await service.GetContacts(queryOptions);
 
@@ -80,7 +80,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(contact6.Value, actual6.Value);
 
                 //Scope check
-                scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                scope = TestHelper.GetScopeOptions(user2);
                 queryOptions = new ContactQueryOptions(scope, $"memberId={member1.Member.Id.ToString()}");
                 actual = await service.GetContacts(queryOptions);
 
@@ -117,7 +117,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new ContactService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var actual = await service.GetContact(scope, contact1.Id);
 
                 //Then
@@ -127,7 +127,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(contact1.ContactTypeId, actual.ContactTypeId);
 
                 //Scope check
-                scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                scope = TestHelper.GetScopeOptions(user2);
                 actual = await service.GetContact(scope, contact1.Id);
 
                 //Then
@@ -163,7 +163,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new ContactService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var actual = await service.GetContact(scope, member1.Member.Id, contact1.Value);
 
                 //Then
@@ -173,7 +173,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(contact1.ContactTypeId, actual.ContactTypeId);
 
                 //Scope check
-                scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                scope = TestHelper.GetScopeOptions(user2);
                 actual = await service.GetContact(scope, contact1.Id);
 
                 //Then
@@ -205,7 +205,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new ContactService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = await service.InsertContact(scope, contact);
 
                 //Then
@@ -217,7 +217,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(contact.Value, actual.Value);
 
                 //Scope check
-                scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                scope = TestHelper.GetScopeOptions(user2);
                 result = await service.InsertContact(scope, contact);
 
                 //Then
@@ -262,7 +262,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new ContactService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = await service.UpdateContact(scope, contact);
 
                 //Then
@@ -274,7 +274,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(contact.Value, actual.Value);
 
                 //Scope check
-                scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                scope = TestHelper.GetScopeOptions(user2);
                 result = await service.UpdateContact(scope, contact);
 
                 //Then
@@ -311,7 +311,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new ContactService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = await service.DeleteContact(scope, contact1.Id);
 
                 //Then
@@ -321,7 +321,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.IsNull(actual);
 
                 //Scope check
-                scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                scope = TestHelper.GetScopeOptions(user2);
                 result = await service.DeleteContact(scope, contact1.Id);
 
                 //Then

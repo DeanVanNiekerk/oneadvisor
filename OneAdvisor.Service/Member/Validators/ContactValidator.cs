@@ -4,7 +4,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using FluentValidation.Validators;
 using OneAdvisor.Data;
-using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Member.Model.Contact;
 using OneAdvisor.Service.Common;

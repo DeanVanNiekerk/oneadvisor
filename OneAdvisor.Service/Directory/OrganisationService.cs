@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model;
 using OneAdvisor.Service.Directory.Validators;
-using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Model.Directory.Model.User;
 

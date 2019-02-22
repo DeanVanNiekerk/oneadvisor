@@ -8,7 +8,7 @@ using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Member.Model.ImportMember;
@@ -44,7 +44,7 @@ namespace OneAdvisor.Service.Test.Member
                     DateOfBirth = DateTime.Now
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
 
                 var result = await service.ImportMember(scope, data);
 
@@ -79,7 +79,7 @@ namespace OneAdvisor.Service.Test.Member
                     IdNumber = "501228318181" //missing leading zero
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
 
                 var result = await service.ImportMember(scope, data);
 
@@ -109,7 +109,7 @@ namespace OneAdvisor.Service.Test.Member
                     IdNumber = "7287372085" //missing leading zero
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
 
                 var result = await service.ImportMember(scope, data);
 
@@ -139,7 +139,7 @@ namespace OneAdvisor.Service.Test.Member
                     IdNumber = "123456" //Not a valid id number so should be treated as a passport number
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
 
                 var result = await service.ImportMember(scope, data);
 
@@ -171,7 +171,7 @@ namespace OneAdvisor.Service.Test.Member
                     Email = "dean@gmail.com"
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
 
                 var result = await service.ImportMember(scope, data);
 
@@ -205,7 +205,7 @@ namespace OneAdvisor.Service.Test.Member
                     Cellphone = "082-572 8997"
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
 
                 var result = await service.ImportMember(scope, data);
 
@@ -260,7 +260,7 @@ namespace OneAdvisor.Service.Test.Member
                     DateOfBirth = DateTime.Now.AddDays(-20),
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
 
                 var result = await service.ImportMember(scope, data);
 
@@ -311,7 +311,7 @@ namespace OneAdvisor.Service.Test.Member
                     LastName = "LN updated",
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
 
                 var result = await service.ImportMember(scope, data);
 
@@ -376,7 +376,7 @@ namespace OneAdvisor.Service.Test.Member
                     Cellphone = "082 572-8997"
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
 
                 var result = await service.ImportMember(scope, data);
 
@@ -433,7 +433,7 @@ namespace OneAdvisor.Service.Test.Member
                     LastName = "LN updated"
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
 
                 var result = await service.ImportMember(scope, data);
 
@@ -489,7 +489,7 @@ namespace OneAdvisor.Service.Test.Member
                     DateOfBirth = mem2.DateOfBirth
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
 
                 var result = await service.ImportMember(scope, data);
 
@@ -527,7 +527,7 @@ namespace OneAdvisor.Service.Test.Member
                     PolicyUserFullName = $"{user1.User.FirstName} {user1.User.LastName}"
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
 
                 var result = await service.ImportMember(scope, data);
 
@@ -576,7 +576,7 @@ namespace OneAdvisor.Service.Test.Member
                     PolicyUserFullName = "Dj van Niekerk"
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
 
                 var result = await service.ImportMember(scope, data);
 
@@ -639,7 +639,7 @@ namespace OneAdvisor.Service.Test.Member
                     PolicyUserFullName = $"{user1.User.FirstName} {user1.User.LastName}"
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
 
                 var result = await service.ImportMember(scope, data);
 

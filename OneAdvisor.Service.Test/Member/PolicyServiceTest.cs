@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Member;
-using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Member.Model.Policy;
 using OneAdvisor.Service.Member;
@@ -75,7 +75,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new PolicyService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var queryOptions = new PolicyQueryOptions(scope, "", "", 0, 0);
                 var policies = await service.GetPolicies(queryOptions);
 
@@ -150,7 +150,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new PolicyService(context);
 
                 //When
-                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scopeOptions = TestHelper.GetScopeOptions(user1);
                 var actual = await service.GetPolicy(scopeOptions, policy2.Id);
 
                 //Then
@@ -299,7 +299,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new PolicyService(context);
 
                 //When
-                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scopeOptions = TestHelper.GetScopeOptions(user1);
                 var actual = await service.GetPolicy(scopeOptions, member1.Member.Id, policy1.CompanyId, policy1.Number);
 
                 //Then
@@ -337,7 +337,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new PolicyService(context);
 
                 //When
-                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scopeOptions = TestHelper.GetScopeOptions(user1);
                 var actual = await service.GetPolicy(scopeOptions, policy1.CompanyId, policy1.Number);
 
                 //Then
@@ -375,7 +375,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new PolicyService(context);
 
                 //When
-                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scopeOptions = TestHelper.GetScopeOptions(user1);
                 var actual = await service.GetPolicy(scopeOptions, "aabbcc"); //Shouldnt be case sensitive
 
                 //Then
@@ -413,7 +413,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new PolicyService(context);
 
                 //When
-                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scopeOptions = TestHelper.GetScopeOptions(user1);
                 var result = await service.InsertPolicy(scopeOptions, policy1);
 
                 //Then
@@ -429,7 +429,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(policy1.PolicyTypeId, actual.PolicyTypeId);
 
                 //Out of scope 
-                scopeOptions = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                scopeOptions = TestHelper.GetScopeOptions(user2);
                 result = await service.InsertPolicy(scopeOptions, policy1);
                 Assert.IsFalse(result.Success);
                 Assert.AreEqual("Member does not exist", result.ValidationFailures.Single().ErrorMessage);
@@ -483,7 +483,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new PolicyService(context);
 
                 //When
-                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scopeOptions = TestHelper.GetScopeOptions(user1);
                 var result = await service.UpdatePolicy(scopeOptions, policy1);
 
                 //Then
@@ -499,7 +499,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(policy1.PolicyTypeId, actual.PolicyTypeId);
 
                 //Out of scope 
-                scopeOptions = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                scopeOptions = TestHelper.GetScopeOptions(user2);
                 result = await service.UpdatePolicy(scopeOptions, policy1);
                 Assert.IsFalse(result.Success);
                 Assert.AreEqual("Member does not exist", result.ValidationFailures.Single().ErrorMessage);

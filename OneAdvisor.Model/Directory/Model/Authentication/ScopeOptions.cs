@@ -1,7 +1,7 @@
 using System;
 using OneAdvisor.Model.Directory.Model.User;
 
-namespace OneAdvisor.Model.Directory.Model.Auth
+namespace OneAdvisor.Model.Directory.Model.Authentication
 {
     public class ScopeOptions
     {

@@ -6,7 +6,7 @@ using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Model.Member.Interface;
 using OneAdvisor.Model.Member.Model.Policy;
 using OneAdvisor.Service.Common.Query;
@@ -25,7 +25,7 @@ namespace OneAdvisor.Service.Member
 
         public async Task<PagedItems<Policy>> GetPolicies(PolicyQueryOptions queryOptions)
         {
-            var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
+            var userQuery = ScopeQuery.GetOktaUserEntityQuery(_context, queryOptions.Scope);
 
             var query = from user in userQuery
                         join policy in _context.Policy
@@ -180,7 +180,7 @@ namespace OneAdvisor.Service.Member
 
         private IQueryable<PolicyEntity> GetPolicyEntityQuery(ScopeOptions scope)
         {
-            var userQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
+            var userQuery = ScopeQuery.GetOktaUserEntityQuery(_context, scope);
 
             var query = from user in userQuery
                         join policy in _context.Policy

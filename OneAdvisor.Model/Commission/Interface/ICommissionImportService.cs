@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Authentication;
 
 namespace OneAdvisor.Model.Commission.Interface
 {

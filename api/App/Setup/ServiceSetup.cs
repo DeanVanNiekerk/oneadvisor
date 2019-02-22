@@ -85,7 +85,7 @@ namespace api.App.Setup
 
             //DIRECTORY
             Services.AddScoped<IUserServiceOkta, UserServiceOkta>();
-            Services.AddScoped<IAuthService, AuthService>();
+            Services.AddScoped<IAuthenticationService, AuthenticationService>();
             Services.AddScoped<IRoleService, RoleService>();
             Services.AddScoped<IOrganisationService, OrganisationService>();
             Services.AddScoped<IBranchService, BranchService>();

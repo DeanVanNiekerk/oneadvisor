@@ -1,3 +1,4 @@
+using Audit.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -22,8 +23,10 @@ namespace api.App.Setup
             //Db Context (Entity Framework)
             Services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("OneAdvisorDb"))
-                    .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning))  
+                    .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning))
             );
+
+            Services.AddDbContext<AuditDbContext>();
 
             //Configure Entity Framework Initializer for seeding
             Services.AddTransient<IDefaultDbContextInitializer, DbInitializer>();

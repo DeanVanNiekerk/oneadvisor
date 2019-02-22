@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Commission;
-using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Commission;
@@ -51,13 +51,13 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var imports = new List<ImportCommission>() { import1 };
 
-                var scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user2);
                 var results = await service.ImportCommissions(scope, statement.Id, imports);
 
                 //Then
                 Assert.AreEqual(0, results.Count);
 
-                scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                scope = TestHelper.GetScopeOptions(user1);
                 results = await service.ImportCommissions(scope, statement.Id, imports);
 
                 //Then
@@ -91,7 +91,7 @@ namespace OneAdvisor.Service.Test.Commission
                     VAT = "zzz" //Bad format
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
 
                 //Then
@@ -151,7 +151,7 @@ namespace OneAdvisor.Service.Test.Commission
                     VAT = "14"
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
 
                 //Then
@@ -214,7 +214,7 @@ namespace OneAdvisor.Service.Test.Commission
                     VAT = "14"
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
 
                 //Then
@@ -285,7 +285,7 @@ namespace OneAdvisor.Service.Test.Commission
                     VAT = "14"
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
 
                 //Then
@@ -355,7 +355,7 @@ namespace OneAdvisor.Service.Test.Commission
                     VAT = "-14"
                 };
 
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
 
                 //Then

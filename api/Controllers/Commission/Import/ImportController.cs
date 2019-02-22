@@ -21,23 +21,23 @@ namespace api.Controllers.Commission.Import
     [Route("api/commission/import")]
     public class ImportController : BaseController
     {
-        public ImportController(IHttpContextAccessor contextAccessor, IMapper mapper, ICommissionImportService commissionImportService, IAuthService authService)
+        public ImportController(IHttpContextAccessor contextAccessor, IMapper mapper, ICommissionImportService commissionImportService, IAuthenticationService authenticationService)
             : base(contextAccessor)
         {
             Mapper = mapper;
             CommissionImportService = commissionImportService;
-            AuthService = authService;
+            AuthenticationService = authenticationService;
         }
 
         private IMapper Mapper { get; }
         private ICommissionImportService CommissionImportService { get; }
-        private IAuthService AuthService { get; }
+        private IAuthenticationService AuthenticationService { get; }
 
         [HttpPost("excel/{commissionStatementId}")]
         [UseCaseAuthorize("com_import_commissions")]
         public async Task<IActionResult> Import(Guid commissionStatementId)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var file = Request.Form.Files.FirstOrDefault();
 

@@ -50,7 +50,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new AuditService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var queryOptions = new AuditLogQueryOptions(scope, "Date", "desc", 0, 0, $"action=Insert");
                 var actual = await service.GetAuditLogs(queryOptions);
 

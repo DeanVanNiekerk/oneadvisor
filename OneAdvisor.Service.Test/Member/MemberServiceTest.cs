@@ -8,7 +8,7 @@ using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Member.Model.Member;
@@ -237,7 +237,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user2);
                 var actual = await service.GetMember(scope, mem2.Id);
 
                 //Then
@@ -254,7 +254,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(mem2.MarriageDate, actual.MarriageDate);
 
                 //Scope check
-                scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                scope = TestHelper.GetScopeOptions(user1);
                 actual = await service.GetMember(scope, mem2.Id);
 
                 Assert.IsNull(actual);
@@ -326,7 +326,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scopeOptions = TestHelper.GetScopeOptions(user1);
                 var actual = await service.GetMemberPreview(scopeOptions, mem2.Id);
 
                 //Then
@@ -444,7 +444,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user2);
                 var result = await service.UpdateMember(scope, member);
 
                 //Then
@@ -465,7 +465,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.AreEqual(member.MarriageDate, actual.MarriageDate);
 
                 //Scope check
-                scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                scope = TestHelper.GetScopeOptions(user1);
                 result = await service.UpdateMember(scope, member);
 
                 //Then
@@ -489,7 +489,7 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = await service.DeleteMember(scope, member1.Member.Id);
 
                 //Then
@@ -502,7 +502,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.IsNull(member);
 
                 //Scope check
-                scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                scope = TestHelper.GetScopeOptions(user2);
                 result = await service.DeleteMember(scope, member2.Member.Id);
 
                 //Then

@@ -20,23 +20,23 @@ namespace api.Controllers.Directory.Branches
     [Route("api/directory/branches")]
     public class BranchesController : BaseController
     {
-        public BranchesController(IHttpContextAccessor contextAccessor, IMapper mapper, IAuthService authService, IBranchService branchService)
+        public BranchesController(IHttpContextAccessor contextAccessor, IMapper mapper, IAuthenticationService authenticationService, IBranchService branchService)
             : base(contextAccessor)
         {
             Mapper = mapper;
             BranchService = branchService;
-            AuthService = authService;
+            AuthenticationService = authenticationService;
         }
 
         private IMapper Mapper { get; }
         private IBranchService BranchService { get; }
-        private IAuthService AuthService { get; }
+        private IAuthenticationService AuthenticationService { get; }
 
         [HttpGet("")]
         [UseCaseAuthorize("dir_view_branches")]
         public async Task<PagedItemsDto<BranchDto>> Index(string filters = null)
         {
-            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin);
+            var scope = await AuthenticationService.GetScope(UserId, IsSuperAdmin);
 
             var queryOptions = new BranchQueryOptions(scope, filters);
             var pagedItems = await BranchService.GetBranches(queryOptions);
@@ -48,7 +48,7 @@ namespace api.Controllers.Directory.Branches
         [UseCaseAuthorize("dir_view_branches")]
         public async Task<ActionResult<BranchDto>> Get(Guid branchId)
         {
-            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin);
+            var scope = await AuthenticationService.GetScope(UserId, IsSuperAdmin);
 
             var model = await BranchService.GetBranch(scope, branchId);
 
@@ -62,7 +62,7 @@ namespace api.Controllers.Directory.Branches
         [UseCaseAuthorize("dir_edit_branches")]
         public async Task<ActionResult<Result>> Insert([FromBody] BranchDto branch)
         {
-            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin);
+            var scope = await AuthenticationService.GetScope(UserId, IsSuperAdmin);
 
             var model = Mapper.Map<Branch>(branch);
 
@@ -78,7 +78,7 @@ namespace api.Controllers.Directory.Branches
         [UseCaseAuthorize("dir_edit_branches")]
         public async Task<ActionResult<Result>> Update(Guid branchId, [FromBody] BranchDto branch)
         {
-            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin);
+            var scope = await AuthenticationService.GetScope(UserId, IsSuperAdmin);
 
             branch.Id = branchId;
 

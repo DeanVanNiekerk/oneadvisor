@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Commission;
-using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Commission;
@@ -140,7 +140,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionStatementService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var queryOptions = new CommissionStatementQueryOptions(scope, "", "", 0, 0);
                 var statements = await service.GetCommissionStatements(queryOptions);
 
@@ -173,7 +173,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(cs3.Id, actual.Id);
 
                 //Check scope
-                scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                scope = TestHelper.GetScopeOptions(user2);
                 queryOptions = new CommissionStatementQueryOptions(scope, "", "", 0, 0);
                 statements = await service.GetCommissionStatements(queryOptions);
 
@@ -234,7 +234,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionStatementService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var filters = "startDate=1999-12-01;endDate=1999-12-31";
                 var queryOptions = new CommissionStatementQueryOptions(scope, "", "", 0, 0, filters);
                 var statements = await service.GetCommissionStatements(queryOptions);
@@ -311,7 +311,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionStatementService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var actual = await service.GetCommissionStatement(scope, cs2.Id);
 
                 //Then
@@ -324,7 +324,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(cs2.Processed, actual.Processed);
 
                 //Check scope
-                scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
+                scope = TestHelper.GetScopeOptions(user2);
                 actual = await service.GetCommissionStatement(scope, cs2.Id);
                 Assert.IsNull(actual);
             }
@@ -354,7 +354,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionStatementService(context);
 
                 //When
-                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scopeOptions = TestHelper.GetScopeOptions(user1);
                 var result = await service.InsertCommissionStatement(scopeOptions, cs1);
 
                 //Then
@@ -426,7 +426,7 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 //When
-                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scopeOptions = TestHelper.GetScopeOptions(user1);
                 var result = await service.UpdateCommissionStatement(scopeOptions, model);
 
                 //Then

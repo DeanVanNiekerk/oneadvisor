@@ -7,14 +7,11 @@ using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Model.Directory.Interface
 {
-    public interface IUserServiceOkta
+    public interface IUserService
     {
         Task<PagedItems<User>> GetUsers(UserQueryOptions queryOptions);
         Task<UserEdit> GetUser(ScopeOptions scope, string id);
         Task<Result> UpdateUser(ScopeOptions scope, UserEdit user);
         Task<Result> InsertUser(ScopeOptions scope, UserEdit user);
-        Task SyncAllUsers();
-        Task<UserSimple> GetUserSimple(ScopeOptions scope, string id);
-        Task<PagedItems<UserSimple>> GetUsersSimple(ScopeOptions scope);
     }
 }

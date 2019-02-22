@@ -48,7 +48,7 @@ namespace OneAdvisor.Service.Test.Member
 
                 //When
                 var renderer = new MockMemberExportRenderer();
-                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scopeOptions = TestHelper.GetScopeOptions(user1);
                 var queryOptions = new ExportMemberQueryOptions(scopeOptions, new List<string>());
                 await service.Export(renderer, new MemoryStream(), queryOptions);
 

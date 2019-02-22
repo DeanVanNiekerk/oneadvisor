@@ -15,7 +15,7 @@ using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
-using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Okta.Dto;
@@ -48,7 +48,7 @@ namespace OneAdvisor.Service.Okta.Service
 
             var query = userDtos.Select(dto => MapDtoToModel(dto)).AsQueryable();
 
-            var usersScoped = await ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope).ToListAsync();
+            var usersScoped = await ScopeQuery.GetOktaUserEntityQuery(_context, queryOptions.Scope).ToListAsync();
             var userIdsScoped = usersScoped.Select(u => u.Id);
 
             //Apply scope
@@ -87,7 +87,7 @@ namespace OneAdvisor.Service.Okta.Service
 
         public async Task<UserEdit> GetUser(ScopeOptions scope, string id)
         {
-            var userEntity = await ScopeQuery.GetUserEntityQuery(_context, scope).FirstOrDefaultAsync(u => u.Id == id);
+            var userEntity = await ScopeQuery.GetOktaUserEntityQuery(_context, scope).FirstOrDefaultAsync(u => u.Id == id);
 
             if (userEntity == null)
                 return null;
@@ -101,7 +101,7 @@ namespace OneAdvisor.Service.Okta.Service
 
             var roleIds = await GetUserRoleIds(id);
 
-            user.RoleIds = roleIds;
+            user.Roles = roleIds;
             user.Aliases = UserAlias.Parse(userEntity.Aliases);
 
             return user;
@@ -153,7 +153,7 @@ namespace OneAdvisor.Service.Okta.Service
             var currentRoleIds = await GetUserRoleIds(user.Id);
             var allGroups = await GetAllGroups();
 
-            var roleIdsToAdd = user.RoleIds.Except(currentRoleIds);
+            var roleIdsToAdd = user.Roles.Except(currentRoleIds);
             foreach (var roleId in roleIdsToAdd)
             {
                 var groupId = GetGroupId(allGroups, roleId);
@@ -183,7 +183,7 @@ namespace OneAdvisor.Service.Okta.Service
                 await HandleOktaResponse(response);
             }
 
-            var rolesToRemove = currentRoleIds.Except(user.RoleIds);
+            var rolesToRemove = currentRoleIds.Except(user.Roles);
             foreach (var roleId in rolesToRemove)
             {
                 var groupId = GetGroupId(allGroups, roleId);
@@ -301,7 +301,7 @@ namespace OneAdvisor.Service.Okta.Service
 
         private IQueryable<UserSimple> GetSimpleUserQuery(ScopeOptions scope)
         {
-            var userQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
+            var userQuery = ScopeQuery.GetOktaUserEntityQuery(_context, scope);
 
             var query = from user in userQuery
                         select new UserSimple()
@@ -389,12 +389,7 @@ namespace OneAdvisor.Service.Okta.Service
                 LastName = dto.profile.lastName,
                 Login = dto.profile.login,
                 Email = dto.profile.email,
-                LastLogin = Utils.ParseDate(dto.lastLogin),
-                LastUpdated = Utils.ParseDate(dto.lastUpdated),
-                Status = dto.status,
-                Activated = Utils.ParseDate(dto.activated),
                 BranchId = Guid.Parse(dto.profile.branchId),
-                AssistantToUserId = dto.profile.assistantToUserId,
                 Scope = ScopeParser.Parse(dto.profile.scope)
             };
         }
@@ -409,7 +404,6 @@ namespace OneAdvisor.Service.Okta.Service
                 Login = dto.profile.login,
                 Email = dto.profile.email,
                 BranchId = Guid.Parse(dto.profile.branchId),
-                AssistantToUserId = dto.profile.assistantToUserId,
                 Scope = ScopeParser.Parse(dto.profile.scope)
             };
         }
@@ -425,7 +419,6 @@ namespace OneAdvisor.Service.Okta.Service
                     login = model.Login,
                     email = model.Email,
                     branchId = model.BranchId.Value,
-                    assistantToUserId = model.AssistantToUserId,
                     scope = ScopeParser.Format(model.Scope)
                 }
             };

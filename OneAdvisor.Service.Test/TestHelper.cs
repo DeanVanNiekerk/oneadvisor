@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -8,7 +9,7 @@ using OneAdvisor.Data.Entities.Commission;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.Entities.Member;
-using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Test.Models;
 
@@ -24,7 +25,7 @@ namespace OneAdvisor.Service.Test
                .Options;
         }
 
-        public static OktaUserEntity InsertDefaultUser(DbContextOptions<DataContext> options)
+        public static UserEntity InsertDefaultUser(DbContextOptions<DataContext> options)
         {
             return InsertDefaultUserDetailed(options).User;
         }
@@ -42,16 +43,24 @@ namespace OneAdvisor.Service.Test
             return organisation;
         }
 
-        public static DefaultUser InsertDefaultUserDetailed(DbContextOptions<DataContext> options)
+        public static DefaultUser InsertDefaultUserDetailed(DbContextOptions<DataContext> options, Scope scope = Scope.Organisation)
         {
             var organisation = InsertDefaultOrganisation(options);
 
-            return InsertDefaultUserDetailed(options, organisation);
+            return InsertDefaultUserDetailed(options, organisation, scope);
         }
 
-        public static DefaultUser InsertDefaultUserDetailed(DbContextOptions<DataContext> options, OrganisationEntity organisation)
+        public static DefaultUser InsertDefaultUserDetailed(DbContextOptions<DataContext> options, OrganisationEntity organisation, Scope scope = Scope.Organisation)
         {
-            var user = new UserEdit { Id = Guid.NewGuid().ToString(), FirstName = Guid.NewGuid().ToString(), LastName = Guid.NewGuid().ToString() };
+            var user = new UserEdit
+            {
+                Id = Guid.NewGuid().ToString(),
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                Scope = scope,
+                Roles = new List<string>(),
+                Aliases = new List<string>()
+            };
 
             return InsertDefaultUserDetailed(options, organisation, user);
         }
@@ -59,19 +68,20 @@ namespace OneAdvisor.Service.Test
         public static DefaultUser InsertDefaultUserDetailed(DbContextOptions<DataContext> options, OrganisationEntity organisation, UserEdit sourceUser)
         {
             var branch = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = organisation.Id, Name = "Branch 1" };
-            var user = new OktaUserEntity
+            var user = new UserEntity
             {
                 Id = sourceUser.Id,
                 FirstName = sourceUser.FirstName,
                 LastName = sourceUser.LastName,
-                Aliases = UserAlias.Format(sourceUser.Aliases),
-                BranchId = branch.Id
+                Aliases = sourceUser.Aliases,
+                BranchId = branch.Id,
+                Scope = sourceUser.Scope
             };
 
             using (var context = new DataContext(options))
             {
                 context.Branch.Add(branch);
-                context.OktaUser.Add(user);
+                context.User.Add(user);
                 context.SaveChanges();
             }
 
@@ -147,9 +157,12 @@ namespace OneAdvisor.Service.Test
             return statement;
         }
 
-        public static ScopeOptions GetScopeOptions(DefaultUser user, Scope scope)
+        public static ScopeOptions GetScopeOptions(DefaultUser user, Scope? scope = null)
         {
-            return new ScopeOptions(user.Organisation.Id, user.Branch.Id, user.User.Id, scope);
+            if (scope == null)
+                scope = user.User.Scope;
+
+            return new ScopeOptions(user.Organisation.Id, user.Branch.Id, user.User.Id, scope.Value);
         }
 
         public static ScopeOptions GetScopeOptions(Guid organisationId)

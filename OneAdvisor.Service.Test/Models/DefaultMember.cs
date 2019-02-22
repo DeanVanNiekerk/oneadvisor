@@ -1,6 +1,6 @@
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Member;
-using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Authentication;
 
 namespace OneAdvisor.Service.Test.Models
 {

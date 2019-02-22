@@ -1,5 +1,6 @@
 ﻿using System;
 using Audit.EntityFramework;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data.Entities.Commission;
 using OneAdvisor.Data.Entities.Commission.Mappings;
@@ -11,7 +12,7 @@ using OneAdvisor.Data.Entities.Member.Mappings;
 
 namespace OneAdvisor.Data
 {
-    public class DataContext : AuditDbContext
+    public class DataContext : IdentityDbContext<UserEntity>
     {
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)
@@ -19,6 +20,7 @@ namespace OneAdvisor.Data
 
         #region Directory
 
+        public DbSet<UserEntity> User { get; set; }
         public DbSet<OrganisationEntity> Organisation { get; set; }
         public DbSet<ApplicationEntity> Application { get; set; }
         public DbSet<RoleEntity> Role { get; set; }
@@ -80,6 +82,7 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<AuditLogEntity>().ToTable("dir_AuditLog");
 
             //Custom mappings
+            UserMap.Map(modelBuilder);
             RoleToUseCaseMap.Map(modelBuilder);
             CommissionTypeMap.Map(modelBuilder);
 

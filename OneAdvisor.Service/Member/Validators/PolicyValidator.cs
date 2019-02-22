@@ -4,7 +4,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using FluentValidation.Validators;
 using OneAdvisor.Data;
-using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Member.Model.Policy;
 using OneAdvisor.Service.Common;
@@ -46,7 +46,7 @@ namespace OneAdvisor.Service.Member.Validators
             if (string.IsNullOrEmpty(policy.Number))
                 return true;
 
-            var query = from user in ScopeQuery.GetUserEntityQuery(_context, _scope)
+            var query = from user in ScopeQuery.GetOktaUserEntityQuery(_context, _scope)
                         join policyEntity in _context.Policy
                             on user.Id equals policyEntity.UserId
                         where policyEntity.Number == policy.Number

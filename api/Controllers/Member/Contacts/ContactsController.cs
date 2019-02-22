@@ -23,23 +23,23 @@ namespace api.Controllers.Member.Contacts
     [Route("api/member/contacts")]
     public class ContactsController : BaseController
     {
-        public ContactsController(IHttpContextAccessor contextAccessor, IMapper mapper, IContactService contactService, IAuthService authService)
+        public ContactsController(IHttpContextAccessor contextAccessor, IMapper mapper, IContactService contactService, IAuthenticationService authenticationService)
             : base(contextAccessor)
         {
             Mapper = mapper;
             ContactService = contactService;
-            AuthService = authService;
+            AuthenticationService = authenticationService;
         }
 
         private IMapper Mapper { get; }
         private IContactService ContactService { get; }
-        private IAuthService AuthService { get; }
+        private IAuthenticationService AuthenticationService { get; }
 
         [HttpGet("")]
         [UseCaseAuthorize("mem_view_contacts")]
         public async Task<PagedItemsDto<ContactDto>> Index(string filters = null)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var queryOptions = new ContactQueryOptions(scope, filters);
             var pagedItems = await ContactService.GetContacts(queryOptions);
@@ -51,7 +51,7 @@ namespace api.Controllers.Member.Contacts
         [UseCaseAuthorize("mem_view_contacts")]
         public async Task<ActionResult<ContactDto>> Get(Guid contactId)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var model = ContactService.GetContact(scope, contactId).Result;
 
@@ -65,7 +65,7 @@ namespace api.Controllers.Member.Contacts
         [UseCaseAuthorize("mem_edit_contacts")]
         public async Task<ActionResult<Result>> Insert([FromBody] ContactDto contact)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var model = Mapper.Map<Contact>(contact);
 
@@ -85,7 +85,7 @@ namespace api.Controllers.Member.Contacts
 
             var model = Mapper.Map<Contact>(contact);
 
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var result = await ContactService.UpdateContact(scope, model);
 
@@ -99,7 +99,7 @@ namespace api.Controllers.Member.Contacts
         [UseCaseAuthorize("mem_edit_contacts")]
         public async Task<ActionResult<Result>> Delete(Guid contactId)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var result = await ContactService.DeleteContact(scope, contactId);
 

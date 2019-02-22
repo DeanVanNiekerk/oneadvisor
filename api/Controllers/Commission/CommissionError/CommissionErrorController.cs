@@ -16,24 +16,24 @@ namespace api.Controllers.Commission.CommissionError
     [Route("api/commission/statements/{commissionStatementId}")]
     public class CommissionErrorController : BaseController
     {
-        public CommissionErrorController(IHttpContextAccessor contextAccessor, IMapper mapper, ICommissionErrorService commissionErrorService, IAuthService authService)
+        public CommissionErrorController(IHttpContextAccessor contextAccessor, IMapper mapper, ICommissionErrorService commissionErrorService, IAuthenticationService authenticationService)
             : base(contextAccessor)
         {
             Mapper = mapper;
             CommissionErrorService = commissionErrorService;
-            AuthService = authService;
+            AuthenticationService = authenticationService;
         }
 
         private IMapper Mapper { get; }
         private ICommissionErrorService CommissionErrorService { get; }
-        private IAuthService AuthService { get; }
+        private IAuthenticationService AuthenticationService { get; }
 
 
         [HttpGet("errors/next")]
         [UseCaseAuthorize("com_edit_commission_statements")]
         public async Task<ActionResult<CommissionErrorDto>> Index(Guid commissionStatementId, [FromQuery] bool hasValidFormat)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var error = await CommissionErrorService.GetNextError(scope, commissionStatementId, hasValidFormat);
 
@@ -47,7 +47,7 @@ namespace api.Controllers.Commission.CommissionError
         [UseCaseAuthorize("com_edit_commission_statements")]
         public async Task<ActionResult<Result>> ResolveFormatError([FromBody] CommissionErrorDto commissionError)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var model = Mapper.Map<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>(commissionError);
 
@@ -63,7 +63,7 @@ namespace api.Controllers.Commission.CommissionError
         [UseCaseAuthorize("com_edit_commission_statements")]
         public async Task<ActionResult<Result>> ResolveMappingError([FromBody] CommissionErrorDto commissionError)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var model = Mapper.Map<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>(commissionError);
 

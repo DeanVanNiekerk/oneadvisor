@@ -52,7 +52,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionErrorService(context, null);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var actual = await service.GetNextError(scope, statement.Id, true);
 
                 //Then
@@ -99,7 +99,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionErrorService(context, null);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var actual = await service.GetNextError(scope, statement.Id, false);
 
                 //Then
@@ -138,7 +138,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionErrorService(context, null);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = await service.ResolveFormatError(scope, error1);
 
                 //Then
@@ -195,7 +195,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionErrorService(context, commissionService);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = await service.ResolveFormatError(scope, error1);
 
                 //Then
@@ -230,7 +230,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionErrorService(context, commissionService);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = await service.ResolveMappingError(scope, error1);
 
                 //Then
@@ -310,7 +310,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionErrorService(context, commissionService);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = await service.ResolveMappingError(scope, error1);
 
                 //Then
@@ -399,7 +399,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionErrorService(context, commissionService);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = await service.ResolveFormatError(scope, error1);
 
                 //Then
@@ -549,7 +549,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionErrorService(context, commissionService);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 await service.AutoResolveMappingErrors(scope, statement.Id, policy1.Id);
 
                 //Then

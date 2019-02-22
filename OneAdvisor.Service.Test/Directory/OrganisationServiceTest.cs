@@ -209,7 +209,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new OrganisationService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = await service.UpdateOrganisation(scope, organisation);
 
                 //Then

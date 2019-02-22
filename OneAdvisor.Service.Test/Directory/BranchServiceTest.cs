@@ -51,7 +51,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new BranchService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 scope.IgnoreScope = true;
                 var queryOptions = new BranchQueryOptions(scope, $"organisationId={orgId1.ToString()}");
                 var actual = await service.GetBranches(queryOptions);
@@ -102,7 +102,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new BranchService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var actual = await service.GetBranch(scope, branch1.Id);
 
                 //Then
@@ -111,7 +111,7 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.AreEqual(branch1.Name, actual.Name);
 
                 //Scope check
-                scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                scope = TestHelper.GetScopeOptions(user1);
                 actual = await service.GetBranch(scope, branch2.Id);
 
                 //Then
@@ -138,7 +138,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new BranchService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = await service.InsertBranch(scope, branch);
 
                 //Then
@@ -188,7 +188,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new BranchService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var result = await service.UpdateBranch(scope, branch);
 
                 //Then
@@ -201,7 +201,7 @@ namespace OneAdvisor.Service.Test.Directory
                 //Scope check
                 branch.Id = branch2.Id;
                 branch.OrganisationId = branch2.OrganisationId;
-                scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                scope = TestHelper.GetScopeOptions(user1);
                 result = await service.UpdateBranch(scope, branch);
 
                 //Then

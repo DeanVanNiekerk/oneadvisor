@@ -20,23 +20,23 @@ namespace api.Controllers.Directory.Audit
     [Route("api/directory/audit")]
     public class AuditController : BaseController
     {
-        public AuditController(IHttpContextAccessor contextAccessor, IMapper mapper, IAuthService authService, IAuditService auditService)
+        public AuditController(IHttpContextAccessor contextAccessor, IMapper mapper, IAuthenticationService authenticationService, IAuditService auditService)
             : base(contextAccessor)
         {
             Mapper = mapper;
             AuditService = auditService;
-            AuthService = authService;
+            AuthenticationService = authenticationService;
         }
 
         private IMapper Mapper { get; }
         private IAuditService AuditService { get; }
-        private IAuthService AuthService { get; }
+        private IAuthenticationService AuthenticationService { get; }
 
         [HttpGet("logs")]
         [UseCaseAuthorize("dir_view_audit_logs")]
         public async Task<PagedItemsDto<AuditLogDto>> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
-            var scope = await AuthService.GetScope(UserId, Scope, IsSuperAdmin);
+            var scope = await AuthenticationService.GetScope(UserId, IsSuperAdmin);
 
             var queryOptions = new AuditLogQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
             var pagedItems = await AuditService.GetAuditLogs(queryOptions);

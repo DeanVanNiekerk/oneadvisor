@@ -21,23 +21,23 @@ namespace api.Controllers.Directory.Members
     [Route("api/member/members")]
     public class MembersController : BaseController
     {
-        public MembersController(IHttpContextAccessor contextAccessor, IMapper mapper, IMemberService memberService, IAuthService authService)
+        public MembersController(IHttpContextAccessor contextAccessor, IMapper mapper, IMemberService memberService, IAuthenticationService authenticationService)
             : base(contextAccessor)
         {
             Mapper = mapper;
             MemberService = memberService;
-            AuthService = authService;
+            AuthenticationService = authenticationService;
         }
 
         private IMapper Mapper { get; }
         private IMemberService MemberService { get; }
-        private IAuthService AuthService { get; }
+        private IAuthenticationService AuthenticationService { get; }
 
         [HttpGet("")]
         [UseCaseAuthorize("mem_view_members")]
         public async Task<PagedItemsDto<MemberDto>> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var queryOptions = new MemberQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
             var pagedItems = await MemberService.GetMembers(queryOptions);
@@ -49,7 +49,7 @@ namespace api.Controllers.Directory.Members
         [UseCaseAuthorize("mem_view_members")]
         public async Task<ActionResult<MemberEditDto>> Get(Guid memberId)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var model = MemberService.GetMember(scope, memberId).Result;
 
@@ -63,7 +63,7 @@ namespace api.Controllers.Directory.Members
         [UseCaseAuthorize("mem_view_members")]
         public async Task<ActionResult<MemberPreviewDto>> GetPreivew(Guid memberId)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var model = MemberService.GetMemberPreview(scope, memberId).Result;
 
@@ -77,7 +77,7 @@ namespace api.Controllers.Directory.Members
         [UseCaseAuthorize("mem_edit_members")]
         public async Task<ActionResult<Result>> Insert([FromBody] MemberEditDto member)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var model = Mapper.Map<MemberEdit>(member);
 
@@ -97,7 +97,7 @@ namespace api.Controllers.Directory.Members
 
             var model = Mapper.Map<MemberEdit>(member);
 
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var result = await MemberService.UpdateMember(scope, model);
 
@@ -111,7 +111,7 @@ namespace api.Controllers.Directory.Members
         [UseCaseAuthorize("mem_edit_members")]
         public async Task<ActionResult<Result>> Delete(Guid memberId)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var result = await MemberService.DeleteMember(scope, memberId);
 

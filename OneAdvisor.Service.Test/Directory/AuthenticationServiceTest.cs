@@ -12,21 +12,21 @@ using OneAdvisor.Service.Directory;
 namespace OneAdvisor.Service.Test.Directory
 {
     [TestClass]
-    public class AuthServiceTest
+    public class AuthenticationServiceTest
     {
         [TestMethod]
         public async Task GetScope_OrganisationLevel()
         {
             var options = TestHelper.GetDbContext("GetScope_OrganisationLevel");
 
-            var user = TestHelper.InsertDefaultUserDetailed(options);
+            var user = TestHelper.InsertDefaultUserDetailed(options, Scope.Organisation);
 
             using (var context = new DataContext(options))
             {
-                var service = new AuthService(context);
+                var service = new AuthenticationService(context, null);
 
                 //When
-                var scope = await service.GetScope(user.User.Id, Scope.Organisation);
+                var scope = await service.GetScope(user.User.Id);
 
                 Assert.AreEqual(user.User.Id, scope.UserId);
                 Assert.AreEqual(user.Branch.Id, scope.BranchId);
@@ -40,14 +40,14 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("GetScope_BranchLevel");
 
-            var user = TestHelper.InsertDefaultUserDetailed(options);
+            var user = TestHelper.InsertDefaultUserDetailed(options, Scope.Branch);
 
             using (var context = new DataContext(options))
             {
-                var service = new AuthService(context);
+                var service = new AuthenticationService(context, null);
 
                 //When
-                var scope = await service.GetScope(user.User.Id, Scope.Branch);
+                var scope = await service.GetScope(user.User.Id);
 
                 Assert.AreEqual(user.User.Id, scope.UserId);
                 Assert.AreEqual(user.Branch.Id, scope.BranchId);
@@ -61,14 +61,14 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("GetScope_UserLevel");
 
-            var user = TestHelper.InsertDefaultUserDetailed(options);
+            var user = TestHelper.InsertDefaultUserDetailed(options, Scope.User);
 
             using (var context = new DataContext(options))
             {
-                var service = new AuthService(context);
+                var service = new AuthenticationService(context, null);
 
                 //When
-                var scope = await service.GetScope(user.User.Id, Scope.User);
+                var scope = await service.GetScope(user.User.Id);
 
                 Assert.AreEqual(user.User.Id, scope.UserId);
                 Assert.AreEqual(user.Branch.Id, scope.BranchId);

@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Commission;
-using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Commission;
@@ -117,7 +117,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var queryOptions = new CommissionQueryOptions(scope, "", "", 0, 0);
                 var commissions = await service.GetCommissions(queryOptions);
 
@@ -203,7 +203,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionService(context);
 
                 //When
-                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scope = TestHelper.GetScopeOptions(user1);
                 var actual = await service.GetCommission(scope, commission1.Id);
 
                 //Then
@@ -267,7 +267,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionService(context);
 
                 //When
-                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scopeOptions = TestHelper.GetScopeOptions(user1);
                 var result = await service.InsertCommission(scopeOptions, commission1);
 
                 //Then
@@ -347,7 +347,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionService(context);
 
                 //When
-                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scopeOptions = TestHelper.GetScopeOptions(user1);
                 var result = await service.UpdateCommission(scopeOptions, commission1);
 
                 //Then
@@ -447,7 +447,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionService(context);
 
                 //When
-                var scopeOptions = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var scopeOptions = TestHelper.GetScopeOptions(user1);
                 await service.DeleteCommissions(scopeOptions, statement1.Id);
 
                 //Then

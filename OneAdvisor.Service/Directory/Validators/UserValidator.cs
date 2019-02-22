@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using FluentValidation;
 using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 
-namespace OneAdvisor.Service.Okta.Service.Validators
+namespace OneAdvisor.Service.Directory.Validators
 {
     public class UserValidator : AbstractValidator<UserEdit>
     {
@@ -26,10 +24,9 @@ namespace OneAdvisor.Service.Okta.Service.Validators
                 .NotEmpty()
                 .EmailAddress();
 
-            RuleForEach(x => x.Aliases)
+            RuleForEach(x => x.Roles)
                 .NotEmpty()
-                .MaximumLength(64)
-                .Matches("^((?!;).)*$").WithMessage("Alias can not contain the ; character");
+                .WithName("Roles");
         }
     }
 }

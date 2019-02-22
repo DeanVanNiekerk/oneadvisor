@@ -18,21 +18,21 @@ namespace api.Controllers.Member.Export
 
     public class ExportController : BaseController
     {
-        public ExportController(IHttpContextAccessor contextAccessor, IMemberExportService memberExportService, IAuthService authService)
+        public ExportController(IHttpContextAccessor contextAccessor, IMemberExportService memberExportService, IAuthenticationService authenticationService)
             : base(contextAccessor)
         {
             MemberExportService = memberExportService;
-            AuthService = authService;
+            AuthenticationService = authenticationService;
         }
 
         private IMemberExportService MemberExportService { get; }
-        private IAuthService AuthService { get; }
+        private IAuthenticationService AuthenticationService { get; }
 
         [HttpGet("csv")]
         [UseCaseAuthorize("mem_export_members")]
         public async Task Export()
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var csvRenderer = new MemberExportCsvRenderer();
             var queryOptions = new ExportMemberQueryOptions(scope, new List<string>());

@@ -21,23 +21,23 @@ namespace api.Controllers.Member.Members
     [Route("api/member/policies")]
     public class PoliciesController : BaseController
     {
-        public PoliciesController(IHttpContextAccessor contextAccessor, IMapper mapper, IPolicyService policyService, IAuthService authService)
+        public PoliciesController(IHttpContextAccessor contextAccessor, IMapper mapper, IPolicyService policyService, IAuthenticationService authenticationService)
             : base(contextAccessor)
         {
             Mapper = mapper;
             PolicyService = policyService;
-            AuthService = authService;
+            AuthenticationService = authenticationService;
         }
 
         private IMapper Mapper { get; }
         private IPolicyService PolicyService { get; }
-        private IAuthService AuthService { get; }
+        private IAuthenticationService AuthenticationService { get; }
 
         [HttpGet("")]
         [UseCaseAuthorize("mem_view_policies")]
         public async Task<PagedItemsDto<PolicyDto>> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var queryOptions = new PolicyQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
             var pagedItems = await PolicyService.GetPolicies(queryOptions);
@@ -49,7 +49,7 @@ namespace api.Controllers.Member.Members
         [UseCaseAuthorize("mem_view_policies")]
         public async Task<ActionResult<PolicyEditDto>> Get(Guid policyId)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var model = PolicyService.GetPolicy(scope, policyId).Result;
 
@@ -63,7 +63,7 @@ namespace api.Controllers.Member.Members
         [UseCaseAuthorize("mem_edit_policies")]
         public async Task<ActionResult<Result>> Insert([FromBody] PolicyEditDto policy)
         {
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var model = Mapper.Map<PolicyEdit>(policy);
 
@@ -83,7 +83,7 @@ namespace api.Controllers.Member.Members
 
             var model = Mapper.Map<PolicyEdit>(policy);
 
-            var scope = await AuthService.GetScope(UserId, Scope);
+            var scope = await AuthenticationService.GetScope(UserId);
 
             var result = await PolicyService.UpdatePolicy(scope, model);
 

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Directory.Model.Auth;
+using OneAdvisor.Model.Directory.Model.Authentication;
 
 namespace OneAdvisor.Model.Member.Model.ExportMember
 {
