@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
-import { identitySelector } from '@/state/app/directory/identity';
+import { authSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 
 export type FormLayout = 'horizontal' | 'vertical' | 'inline';
@@ -29,18 +29,22 @@ class FormComponent extends React.Component<Props> {
         const childrenWithProps = React.Children.map(children, child =>
             child
                 ? React.cloneElement(child, {
-                    layout: layout,
-                    readonly: readonly
-                })
+                      layout: layout,
+                      readonly: readonly
+                  })
                 : null
         );
 
-        return <FormAD className={this.props.className} layout={this.props.layout}>{childrenWithProps}</FormAD>;
+        return (
+            <FormAD className={this.props.className} layout={this.props.layout}>
+                {childrenWithProps}
+            </FormAD>
+        );
     }
 }
 
 const mapStateToProps = (state: RootState) => {
-    const identityState = identitySelector(state);
+    const identityState = authSelector(state);
 
     return {
         useCases: identityState.identity

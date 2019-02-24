@@ -4,9 +4,9 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { hasUseCase } from '@/app/identity';
-import { identitySelector } from '@/state/app/directory/identity';
 import { fetchMember, fetchMemberPreview, MemberPreview, memberPreviewSelector } from '@/state/app/member/members';
 import { newPolicy, receivePolicy } from '@/state/app/member/policies';
+import { authSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import {
     Age, Button, Drawer, DrawerFooter, Header, PreviewCard, PreviewCardContainer, PreviewCardRow
@@ -231,7 +231,7 @@ class MemberPreviewComponent extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const memberState = memberPreviewSelector(state);
-    const identityState = identitySelector(state);
+    const identityState = authSelector(state);
 
     return {
         member: memberState.member,

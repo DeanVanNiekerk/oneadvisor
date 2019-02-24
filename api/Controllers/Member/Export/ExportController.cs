@@ -16,10 +16,9 @@ namespace api.Controllers.Member.Export
     [ApiController]
     [Route("api/member/export")]
 
-    public class ExportController : BaseController
+    public class ExportController : Controller
     {
-        public ExportController(IHttpContextAccessor contextAccessor, IMemberExportService memberExportService, IAuthenticationService authenticationService)
-            : base(contextAccessor)
+        public ExportController(IMemberExportService memberExportService, IAuthenticationService authenticationService)
         {
             MemberExportService = memberExportService;
             AuthenticationService = authenticationService;
@@ -32,7 +31,7 @@ namespace api.Controllers.Member.Export
         [UseCaseAuthorize("mem_export_members")]
         public async Task Export()
         {
-            var scope = await AuthenticationService.GetScope(UserId);
+            var scope = AuthenticationService.GetScope(User);
 
             var csvRenderer = new MemberExportCsvRenderer();
             var queryOptions = new ExportMemberQueryOptions(scope, new List<string>());

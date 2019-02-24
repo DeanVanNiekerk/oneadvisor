@@ -14,10 +14,9 @@ namespace api.Controllers.Commission.CommissionStatements
 {
     [ApiController]
     [Route("api/commission/statements")]
-    public class CommissionStatementsController : BaseController
+    public class CommissionStatementsController : Controller
     {
-        public CommissionStatementsController(IHttpContextAccessor contextAccessor, IMapper mapper, ICommissionStatementService commissionStatementService, ICommissionService commissionService, IAuthenticationService authenticationService)
-            : base(contextAccessor)
+        public CommissionStatementsController(IMapper mapper, ICommissionStatementService commissionStatementService, ICommissionService commissionService, IAuthenticationService authenticationService)
         {
             Mapper = mapper;
             CommissionStatementService = commissionStatementService;
@@ -28,14 +27,14 @@ namespace api.Controllers.Commission.CommissionStatements
         private IMapper Mapper { get; }
         private ICommissionStatementService CommissionStatementService { get; }
         private ICommissionService CommissionService { get; }
-
         private IAuthenticationService AuthenticationService { get; }
+
 
         [HttpGet("")]
         [UseCaseAuthorize("com_view_commission_statements")]
         public async Task<PagedCommissionStatementsDto> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
-            var scope = await AuthenticationService.GetScope(UserId);
+            var scope = AuthenticationService.GetScope(User);
 
             var queryOptions = new CommissionStatementQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
             var pagedItems = await CommissionStatementService.GetCommissionStatements(queryOptions);
@@ -47,9 +46,9 @@ namespace api.Controllers.Commission.CommissionStatements
         [UseCaseAuthorize("com_view_commission_statements")]
         public async Task<ActionResult<CommissionStatementEditDto>> Get(Guid commissionStatementId)
         {
-            var scope = await AuthenticationService.GetScope(UserId);
+            var scope = AuthenticationService.GetScope(User);
 
-            var model = CommissionStatementService.GetCommissionStatement(scope, commissionStatementId).Result;
+            var model = await CommissionStatementService.GetCommissionStatement(scope, commissionStatementId);
 
             if (model == null)
                 return NotFound();
@@ -61,7 +60,7 @@ namespace api.Controllers.Commission.CommissionStatements
         [UseCaseAuthorize("com_edit_commission_statements")]
         public async Task<ActionResult<Result>> Insert([FromBody] CommissionStatementEditDto commissionStatement)
         {
-            var scope = await AuthenticationService.GetScope(UserId);
+            var scope = AuthenticationService.GetScope(User);
 
             var model = Mapper.Map<CommissionStatementEdit>(commissionStatement);
 
@@ -81,7 +80,7 @@ namespace api.Controllers.Commission.CommissionStatements
 
             var model = Mapper.Map<CommissionStatementEdit>(commissionStatement);
 
-            var scope = await AuthenticationService.GetScope(UserId);
+            var scope = AuthenticationService.GetScope(User);
 
             var result = await CommissionStatementService.UpdateCommissionStatement(scope, model);
 
@@ -95,7 +94,7 @@ namespace api.Controllers.Commission.CommissionStatements
         [UseCaseAuthorize("com_edit_commission_statements")]
         public async Task<ActionResult<Result>> DeleteCommissions(Guid commissionStatementId)
         {
-            var scope = await AuthenticationService.GetScope(UserId);
+            var scope = AuthenticationService.GetScope(User);
 
             await CommissionService.DeleteCommissions(scope, commissionStatementId);
 

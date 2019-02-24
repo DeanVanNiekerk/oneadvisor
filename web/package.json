@@ -16,7 +16,6 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@okta/okta-react": "1.1.4",
         "antd": "3.13.2",
         "connected-react-router": "6.2.2",
         "history": "4.7.2",

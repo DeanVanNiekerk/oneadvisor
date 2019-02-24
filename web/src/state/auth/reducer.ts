@@ -1,42 +1,65 @@
+import { ValidationResult } from '@/app/validation';
+
+import { getIdentity, getToken } from '../storage';
+import { Identity } from './';
 import { Action } from './actions';
-import { UserInfo } from './types';
 
 export type State = {
     readonly authenticated: boolean;
-    readonly userInfo: UserInfo | null;
-    readonly idToken: string | null;
-    readonly accessToken: string | null;
-    readonly authExpiredModalShown: boolean;
+    readonly token: string | null;
+    readonly fetching: boolean;
+    readonly error: boolean;
+    readonly validationResults: ValidationResult[];
+    readonly signInFailed: boolean;
+    readonly identity: Identity | null;
 };
 
 export const defaultState = {
     authenticated: false,
-    userInfo: null,
-    idToken: null,
-    accessToken: null,
-    authExpiredModalShown: false
+    token: getToken(),
+    fetching: false,
+    error: false,
+    validationResults: [],
+    signInFailed: false,
+    identity: getIdentity()
 };
 
 export const reducer = (state: State = defaultState, action: Action) => {
     switch (action.type) {
-        case 'AUTH_RECIEVE_AUTHENTICATION': {
+        case 'AUTH_SIGNIN_FETCHING': {
             return {
                 ...state,
-                authenticated: true,
-                userInfo: action.payload.userInfo,
-                idToken: action.payload.idToken,
-                accessToken: action.payload.accessToken
+                fetching: true,
+                validationResults: [],
+                signInFailed: false
             };
         }
-        case 'AUTH_RECIEVE_AUTHENTICATION_CLEAR': {
-            return {
-                ...defaultState
-            };
-        }
-        case 'AUTH_EXPIRED_MODAL_SHOWN': {
+        case 'AUTH_SIGNIN_RECEIVE': {
             return {
                 ...state,
-                authExpiredModalShown: true
+                fetching: false,
+                token: action.payload.token
+            };
+        }
+        case 'AUTH_SIGNIN_FETCHING_ERROR': {
+            return {
+                ...state,
+                fetching: false,
+                error: true
+            };
+        }
+        case 'AUTH_SIGNIN_VALIDATION_ERROR': {
+            return {
+                ...state,
+                fetching: false,
+                validationResults: action.payload
+            };
+        }
+        case 'AUTH_SIGNIN_FAILED': {
+            return {
+                ...state,
+                fetching: false,
+                signInFailed: true
             };
         }
         default:

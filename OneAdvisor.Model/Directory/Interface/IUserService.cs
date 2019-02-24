@@ -12,6 +12,6 @@ namespace OneAdvisor.Model.Directory.Interface
         Task<PagedItems<User>> GetUsers(UserQueryOptions queryOptions);
         Task<UserEdit> GetUser(ScopeOptions scope, Guid id);
         Task<Result> UpdateUser(ScopeOptions scope, UserEdit user);
-        Task<Result> InsertUser(ScopeOptions scope, UserEdit user);
+        Task<Result> InsertUser(ScopeOptions scope, UserEdit user, string password);
     }
 }

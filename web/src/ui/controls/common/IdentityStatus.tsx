@@ -2,34 +2,31 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { getScopeName } from '@/config/scope';
-import { Identity, identitySelector } from '@/state/app/directory/identity';
-import { IdTokenData, idTokenDataSelector, UserInfo, userInfoSelector } from '@/state/auth';
+import { authSelector, Identity } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import { Date } from '@/ui/controls';
 
 type Props = {
     identity: Identity;
-    userInfo: UserInfo;
-    idTokenData: IdTokenData;
 };
 
 class IdentityStatusComponent extends Component<Props> {
     render() {
-        const { identity, userInfo, idTokenData } = this.props;
+        const { identity } = this.props;
 
         return (
             <div>
                 <div>
                     <b>Id:</b>&nbsp;
-                    {identity.id}
+                    {identity.userId}
                 </div>
                 <div>
                     <b>Name:</b>&nbsp;
-                    {userInfo.name}
+                    {`${identity.firstName} ${identity.lastName}`}
                 </div>
                 <div>
                     <b>Email:</b>&nbsp;
-                    {userInfo.email}
+                    {identity.email}
                 </div>
                 <div>
                     <b>Organisation:</b>&nbsp;
@@ -45,44 +42,26 @@ class IdentityStatusComponent extends Component<Props> {
                 </div>
                 <div>
                     <b>Roles:</b>&nbsp;
-                    {identity.roleIds.join(', ')}
+                    {identity.roles.join(', ')}
                 </div>
-                <div>
-                    <b>OKTA Signin:</b>&nbsp;
-                    <Date
-                        date={idTokenData.auth_time}
-                        includeTime={true}
-                        isUnixSeconds={true}
-                    />
-                </div>
-                <div>
-                    <b>Token Issued:</b>&nbsp;
-                    <Date
-                        date={idTokenData.iat}
-                        includeTime={true}
-                        isUnixSeconds={true}
-                    />
-                </div>
-                <div>
+                {/* <div>
                     <b>Token Expires:</b>&nbsp;
                     <Date
                         date={idTokenData.exp}
                         includeTime={true}
                         isUnixSeconds={true}
                     />
-                </div>
+                </div> */}
             </div>
         );
     }
 }
 
 const mapStateToProps = (state: RootState) => {
-    const identityState = identitySelector(state);
+    const identityState = authSelector(state);
 
     return {
-        identity: identityState.identity,
-        userInfo: userInfoSelector(state),
-        idTokenData: idTokenDataSelector(state)
+        identity: identityState.identity
     };
 };
 

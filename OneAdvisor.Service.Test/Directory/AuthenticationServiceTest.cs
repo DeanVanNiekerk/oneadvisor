@@ -11,71 +11,71 @@ using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Directory
 {
-    [TestClass]
-    public class AuthenticationServiceTest
-    {
-        [TestMethod]
-        public async Task GetScope_OrganisationLevel()
-        {
-            var options = TestHelper.GetDbContext("GetScope_OrganisationLevel");
+    // [TestClass]
+    // public class AuthenticationServiceTest
+    // {
+    //     [TestMethod]
+    //     public async Task GetScope_OrganisationLevel()
+    //     {
+    //         var options = TestHelper.GetDbContext("GetScope_OrganisationLevel");
 
-            var user = TestHelper.InsertDefaultUserDetailed(options, Scope.Organisation);
+    //         var user = TestHelper.InsertDefaultUserDetailed(options, Scope.Organisation);
 
-            using (var context = new DataContext(options))
-            {
-                var service = new AuthenticationService(context, null);
+    //         using (var context = new DataContext(options))
+    //         {
+    //             var service = new AuthenticationService(context, null);
 
-                //When
-                var scope = await service.GetScope(user.User.Id);
+    //             //When
+    //             var scope = await service.GetScope(user.User.Id);
 
-                Assert.AreEqual(user.User.Id, scope.UserId);
-                Assert.AreEqual(user.Branch.Id, scope.BranchId);
-                Assert.AreEqual(user.Organisation.Id, scope.OrganisationId);
-                Assert.AreEqual(Scope.Organisation, scope.Scope);
-            }
-        }
+    //             Assert.AreEqual(user.User.Id, scope.UserId);
+    //             Assert.AreEqual(user.Branch.Id, scope.BranchId);
+    //             Assert.AreEqual(user.Organisation.Id, scope.OrganisationId);
+    //             Assert.AreEqual(Scope.Organisation, scope.Scope);
+    //         }
+    //     }
 
-        [TestMethod]
-        public async Task GetScope_BranchLevel()
-        {
-            var options = TestHelper.GetDbContext("GetScope_BranchLevel");
+    //     [TestMethod]
+    //     public async Task GetScope_BranchLevel()
+    //     {
+    //         var options = TestHelper.GetDbContext("GetScope_BranchLevel");
 
-            var user = TestHelper.InsertDefaultUserDetailed(options, Scope.Branch);
+    //         var user = TestHelper.InsertDefaultUserDetailed(options, Scope.Branch);
 
-            using (var context = new DataContext(options))
-            {
-                var service = new AuthenticationService(context, null);
+    //         using (var context = new DataContext(options))
+    //         {
+    //             var service = new AuthenticationService(context, null);
 
-                //When
-                var scope = await service.GetScope(user.User.Id);
+    //             //When
+    //             var scope = await service.GetScope(user.User.Id);
 
-                Assert.AreEqual(user.User.Id, scope.UserId);
-                Assert.AreEqual(user.Branch.Id, scope.BranchId);
-                Assert.AreEqual(user.Organisation.Id, scope.OrganisationId);
-                Assert.AreEqual(Scope.Branch, scope.Scope);
-            }
-        }
+    //             Assert.AreEqual(user.User.Id, scope.UserId);
+    //             Assert.AreEqual(user.Branch.Id, scope.BranchId);
+    //             Assert.AreEqual(user.Organisation.Id, scope.OrganisationId);
+    //             Assert.AreEqual(Scope.Branch, scope.Scope);
+    //         }
+    //     }
 
-        [TestMethod]
-        public async Task GetScope_UserLevel()
-        {
-            var options = TestHelper.GetDbContext("GetScope_UserLevel");
+    //     [TestMethod]
+    //     public async Task GetScope_UserLevel()
+    //     {
+    //         var options = TestHelper.GetDbContext("GetScope_UserLevel");
 
-            var user = TestHelper.InsertDefaultUserDetailed(options, Scope.User);
+    //         var user = TestHelper.InsertDefaultUserDetailed(options, Scope.User);
 
-            using (var context = new DataContext(options))
-            {
-                var service = new AuthenticationService(context, null);
+    //         using (var context = new DataContext(options))
+    //         {
+    //             var service = new AuthenticationService(context, null);
 
-                //When
-                var scope = await service.GetScope(user.User.Id);
+    //             //When
+    //             var scope = await service.GetScope(user.User.Id);
 
-                Assert.AreEqual(user.User.Id, scope.UserId);
-                Assert.AreEqual(user.Branch.Id, scope.BranchId);
-                Assert.AreEqual(user.Organisation.Id, scope.OrganisationId);
-                Assert.AreEqual(Scope.User, scope.Scope);
-            }
-        }
+    //             Assert.AreEqual(user.User.Id, scope.UserId);
+    //             Assert.AreEqual(user.Branch.Id, scope.BranchId);
+    //             Assert.AreEqual(user.Organisation.Id, scope.OrganisationId);
+    //             Assert.AreEqual(Scope.User, scope.Scope);
+    //         }
+    //     }
 
-    }
+    // }
 }

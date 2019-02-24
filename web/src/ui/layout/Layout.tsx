@@ -7,7 +7,6 @@ import SideMenu from './SideMenu';
 const { Content } = Layout;
 
 type Props = {
-    onLogout: Function;
     children: ReactNode;
 };
 
@@ -19,7 +18,7 @@ class LayoutContainer extends React.Component<Props> {
                     height: '100%'
                 }}
             >
-                <Navigator onLogout={this.props.onLogout} />
+                <Navigator />
                 <Layout>
                     <SideMenu />
                     <Layout>

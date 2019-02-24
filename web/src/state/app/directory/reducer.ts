@@ -5,7 +5,6 @@ import {
 } from './applications/reducer';
 import { Action as AuditAction, reducer as audit, State as AuditState } from './audit/reducer';
 import { Action as BranchesAction, reducer as branches, State as BranchesState } from './branches/reducer';
-import { Action as IdentityAction, reducer as identity, State as IdentityState } from './identity/reducer';
 import { Action as LookupsAction, reducer as lookups, State as LookupsState } from './lookups/reducer';
 import {
     Action as OrganisationsAction, reducer as organisations, State as OrganisationsState
@@ -22,7 +21,6 @@ export type Action =
     | RolesAction
     | ApplicationsAction
     | UseCasesAction
-    | IdentityAction
     | BranchesAction
     | LookupsAction
     | AuditAction;
@@ -34,7 +32,6 @@ export type State = {
     roles: RolesState;
     applications: ApplicationsState;
     useCases: UseCasesState;
-    identity: IdentityState;
     branches: BranchesState;
     lookups: LookupsState;
     audit: AuditState;
@@ -47,7 +44,6 @@ export const reducer = combineReducers({
     roles: roles,
     applications: applications,
     useCases: useCases,
-    identity: identity,
     branches: branches,
     lookups: lookups,
     audit: audit

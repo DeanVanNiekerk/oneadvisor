@@ -16,6 +16,7 @@ type Props = {
     layout?: FormLayout;
     loading?: boolean;
     className?: string;
+    style?: React.CSSProperties;
 };
 
 class FormField extends React.Component<Props> {
@@ -56,6 +57,7 @@ class FormField extends React.Component<Props> {
                 help={errorText}
                 {...formItemLayout}
                 className={this.props.className}
+                style={this.props.style}
             >
                 {loading && <Spin spinning={true} size="small" />}
                 {!loading && children}

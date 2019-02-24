@@ -1,30 +1,57 @@
-import { UserInfo } from './types';
+import { Dispatch } from 'redux';
 
-type AuthReceiveAction = {
-    type: 'AUTH_RECIEVE_AUTHENTICATION';
-    payload: { userInfo: UserInfo; idToken: string; accessToken: string };
+import { ApiAction, ApiOnSuccess } from '@/app/types';
+import { ValidationResult } from '@/app/validation';
+import { signInApi } from '@/config/api/account';
+
+import { setIdentity, setToken } from '../storage';
+import { Credentials, Identity } from './types';
+
+type SignInAction = {
+    type: 'AUTH_SIGNIN_RECEIVE';
+    payload: { token: string | null; identity: Identity | null };
 };
-type AuthClearAction = { type: 'AUTH_RECIEVE_AUTHENTICATION_CLEAR' };
-type AuthExpiredModalShownAction = { type: 'AUTH_EXPIRED_MODAL_SHOWN' };
+type SigningInAction = {
+    type: 'AUTH_SIGNIN_FETCHING';
+};
+type SigningInErrorAction = {
+    type: 'AUTH_SIGNIN_FETCHING_ERROR';
+};
+type SignInValidationErrorAction = {
+    type: 'AUTH_SIGNIN_VALIDATION_ERROR';
+    payload: ValidationResult[];
+};
+type SignInFailedAction = {
+    type: 'AUTH_SIGNIN_FAILED';
+};
 
 export type Action =
-    | AuthReceiveAction
-    | AuthClearAction
-    | AuthExpiredModalShownAction;
+    | SignInAction
+    | SigningInAction
+    | SigningInErrorAction
+    | SignInValidationErrorAction
+    | SignInFailedAction;
 
-export const recieveAuthentication = (
-    userInfo: UserInfo,
-    idToken: string,
-    accessToken: string
-): AuthReceiveAction => ({
-    type: 'AUTH_RECIEVE_AUTHENTICATION',
-    payload: { userInfo, idToken, accessToken }
+export const signIn = (
+    credentials: Credentials,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
+    type: 'API',
+    endpoint: `${signInApi}`,
+    method: 'POST',
+    payload: credentials,
+    dispatchPrefix: 'AUTH_SIGNIN',
+    onSuccess: (result: any, dispatch: Dispatch) => {
+        setToken(result.token);
+        setIdentity(result.identity);
+        onSuccess(result, dispatch);
+    }
 });
 
-export const clearAuthentication = (): AuthClearAction => ({
-    type: 'AUTH_RECIEVE_AUTHENTICATION_CLEAR'
-});
-
-export const expiredModalShown = (): AuthExpiredModalShownAction => ({
-    type: 'AUTH_EXPIRED_MODAL_SHOWN'
+export const signOut = (): Action => ({
+    type: 'AUTH_SIGNIN_RECEIVE',
+    payload: {
+        token: null,
+        identity: null
+    }
 });

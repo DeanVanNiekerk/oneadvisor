@@ -19,10 +19,9 @@ namespace api.Controllers.Commission.Import
 
     [ApiController]
     [Route("api/commission/import")]
-    public class ImportController : BaseController
+    public class ImportController : Controller
     {
-        public ImportController(IHttpContextAccessor contextAccessor, IMapper mapper, ICommissionImportService commissionImportService, IAuthenticationService authenticationService)
-            : base(contextAccessor)
+        public ImportController(IMapper mapper, ICommissionImportService commissionImportService, IAuthenticationService authenticationService)
         {
             Mapper = mapper;
             CommissionImportService = commissionImportService;
@@ -37,7 +36,7 @@ namespace api.Controllers.Commission.Import
         [UseCaseAuthorize("com_import_commissions")]
         public async Task<IActionResult> Import(Guid commissionStatementId)
         {
-            var scope = await AuthenticationService.GetScope(UserId);
+            var scope = AuthenticationService.GetScope(User);
 
             var file = Request.Form.Files.FirstOrDefault();
 

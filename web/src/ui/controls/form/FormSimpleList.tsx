@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
 import { formatValue, getValidationError, ValidationResult } from '@/app/validation';
-import { identitySelector } from '@/state/app/directory/identity';
+import { authSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 
 import { Button, FormInput } from '../';
@@ -179,9 +179,7 @@ class FormSimpleListComponent extends Component<Props, State> {
                             }
                             autoFocus={true}
                         />
-                        <FormField
-                            className="mr-0"
-                        >
+                        <FormField className="mr-0">
                             <Button onClick={() => this.cancel()}>
                                 Cancel
                             </Button>
@@ -227,7 +225,7 @@ class FormSimpleListComponent extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const identityState = identitySelector(state);
+    const identityState = authSelector(state);
 
     return {
         useCases: identityState.identity

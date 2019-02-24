@@ -21,27 +21,33 @@ namespace OneAdvisor.Service.Directory
     {
         private readonly DataContext _context;
         private readonly UserManager<UserEntity> _userManager;
+        private readonly IUseCaseService _useCaseService;
 
-        public AuthenticationService(DataContext context, UserManager<UserEntity> userManager)
+        private readonly string _organisationIdClaimName = "organisationId";
+        private readonly string _branchIdClaimName = "branchId";
+        private readonly string _scopeClaimName = "scope";
+
+        public AuthenticationService(DataContext context, UserManager<UserEntity> userManager, IUseCaseService useCaseService)
         {
             _context = context;
             _userManager = userManager;
+            _useCaseService = useCaseService;
         }
 
-        public async Task<ScopeOptions> GetScope(Guid userId, bool ignoreScope = false)
+        public ScopeOptions GetScope(ClaimsPrincipal principle, bool ignoreScope = false)
         {
-            var userDetails = await (from user in _context.Users
-                                     join branch in _context.Branch
-                                        on user.BranchId equals branch.Id
-                                     where user.Id == userId
-                                     select new
-                                     {
-                                         Scope = user.Scope,
-                                         BranchId = user.BranchId,
-                                         OrganisationId = branch.OrganisationId
-                                     }).FirstOrDefaultAsync();
+            var userId = Guid.Parse(principle.Identity.Name);
+            var organisationId = Guid.Parse(principle.Claims.Single(c => c.Type == _organisationIdClaimName).Value);
+            var branchId = Guid.Parse(principle.Claims.Single(c => c.Type == _organisationIdClaimName).Value);
+            var scope = Enum.Parse<Scope>(principle.Claims.Single(c => c.Type == _scopeClaimName).Value);
 
-            return new ScopeOptions(userDetails.OrganisationId, userDetails.BranchId, userId, userDetails.Scope, ignoreScope);
+            if (ignoreScope)
+            {
+                var roles = principle.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
+                ignoreScope = roles.Any(r => r == Role.SUPER_ADMINISTRATOR_ROLE);
+            }
+
+            return new ScopeOptions(organisationId, branchId, userId, scope, ignoreScope);
         }
 
         public async Task<AuthenticationResult> Authenticate(string userName, string password)
@@ -55,6 +61,30 @@ namespace OneAdvisor.Service.Directory
 
             result.Success = await _userManager.CheckPasswordAsync(user, password ?? "");
 
+            if (result.Success)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                var branch = await _context.Branch.FindAsync(user.BranchId);
+                var organisation = await _context.Organisation.FindAsync(branch.OrganisationId);
+
+                var identity = new Identity()
+                {
+                    UserId = user.Id,
+                    BranchId = user.BranchId,
+                    Email = user.Email,
+                    Scope = user.Scope,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Roles = roles,
+                    UseCaseIds = await _useCaseService.GetUseCases(roles),
+                    BranchName = branch.Name,
+                    OrganisationId = organisation.Id,
+                    OrganisationName = organisation.Name
+
+                };
+                result.Identity = identity;
+            }
+
             return result;
         }
 
@@ -62,22 +92,34 @@ namespace OneAdvisor.Service.Directory
         {
             var user = await _userManager.FindByNameAsync(userName);
 
+            var userDetails = await (from entity in _context.Users
+                                     join branch in _context.Branch
+                                        on entity.BranchId equals branch.Id
+                                     where entity.Id == user.Id
+                                     select new
+                                     {
+                                         Scope = entity.Scope,
+                                         BranchId = entity.BranchId,
+                                         OrganisationId = branch.OrganisationId
+                                     }).FirstOrDefaultAsync();
+
             //Generate and issue a JWT token
             var claims = new List<Claim>() {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(_organisationIdClaimName, userDetails.OrganisationId.ToString()),
+                new Claim(_branchIdClaimName, userDetails.BranchId.ToString()),
+                new Claim(_scopeClaimName, Enum.GetName(typeof(Scope), userDetails.Scope))
             };
 
             var roles = await _userManager.GetRolesAsync(user);
             foreach (var role in roles)
                 claims.Add(new Claim(ClaimTypes.Role, role));
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Key));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Secret));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-              issuer: options.Issuer,
-              audience: options.Audience,
+
               claims: claims,
               expires: DateTime.Now.AddDays(30),
               signingCredentials: creds);

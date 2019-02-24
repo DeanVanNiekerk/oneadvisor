@@ -1,11 +1,11 @@
 import { Icon, Layout, Menu, Popover } from 'antd';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import { hasUseCasesMenuGroups } from '@/app/identity';
-import { identitySelector } from '@/state/app/directory/identity';
+import { authSelector, signOut } from '@/state/auth';
 import { applicationsSelector, currentApplicationSelector, menusSelector } from '@/state/context/selectors';
 import { Application, Menus } from '@/state/context/types';
 import { RootState } from '@/state/rootReducer';
@@ -65,15 +65,19 @@ const Bold = styled.span`
 
 type Props = {
     menus: Menus;
-    onLogout: Function;
     applications: Application[];
     currentApplication: Application;
     useCases: string[];
-} & RouteComponentProps;
+} & RouteComponentProps &
+    DispatchProp;
 class Navigator extends Component<Props> {
     navigate(to: string) {
         this.props.history.push(to);
     }
+
+    signOut = () => {
+        this.props.dispatch(signOut());
+    };
 
     render() {
         return (
@@ -90,9 +94,7 @@ class Navigator extends Component<Props> {
                             <Bold>ADVISOR</Bold>
                         </Popover>
                     </AppName>
-                    <Signout onClick={() => this.props.onLogout()}>
-                        Signout
-                    </Signout>
+                    <Signout onClick={this.signOut}>Signout</Signout>
                     <Menu
                         theme="dark"
                         mode="horizontal"
@@ -129,15 +131,13 @@ class Navigator extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const identityState = identitySelector(state);
+    const authState = authSelector(state);
 
     return {
         menus: menusSelector(state),
         applications: applicationsSelector(state),
         currentApplication: currentApplicationSelector(state) || {},
-        useCases: identityState.identity
-            ? identityState.identity.useCaseIds
-            : []
+        useCases: authState.identity ? authState.identity.useCaseIds : []
     };
 };
 

@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components';
 
 import { hasUseCases, hasUseCasesMenuGroup } from '@/app/identity';
 import { allGroupNames } from '@/config/menu';
-import { identitySelector } from '@/state/app/directory/identity';
+import { authSelector } from '@/state/auth';
 import { currentApplicationSelector, currentMenuSelector } from '@/state/context/selectors';
 import { Application, Menu, MenuLink } from '@/state/context/types';
 import { RootState } from '@/state/rootReducer';
@@ -87,7 +87,7 @@ class SideMenu extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const identityState = identitySelector(state);
+    const identityState = authSelector(state);
     return {
         menu: currentMenuSelector(state),
         application: currentApplicationSelector(state),

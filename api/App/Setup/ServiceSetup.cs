@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,10 +64,11 @@ namespace api.App.Setup
 
                     config.TokenValidationParameters = new TokenValidationParameters()
                     {
-                        ValidIssuer = Configuration["Auth:Jwt:Issuer"],
-                        //ValidAudience = Configuration["Auth:Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Auth:Jwt:Key"])),
-                        RoleClaimType = ClaimTypes.Role
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Auth:Jwt:Secret"])),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        RoleClaimType = ClaimTypes.Role,
+                        NameClaimType = ClaimTypes.NameIdentifier
                     };
                 });
 
@@ -78,8 +80,11 @@ namespace api.App.Setup
         {
             Services.AddHttpContextAccessor();
 
-            //DIRECTORY
+            //ACCOUNT
             Services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+            //DIRECTORY
+            Services.AddScoped<IUserService, UserService>();
             Services.AddScoped<IRoleService, RoleService>();
             Services.AddScoped<IOrganisationService, OrganisationService>();
             Services.AddScoped<IBranchService, BranchService>();

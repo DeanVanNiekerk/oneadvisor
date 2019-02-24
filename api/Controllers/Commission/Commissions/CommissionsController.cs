@@ -19,10 +19,9 @@ namespace api.Controllers.Commission.Commissions
 
     [ApiController]
     [Route("api/commission/commissions")]
-    public class CommissionsController : BaseController
+    public class CommissionsController : Controller
     {
-        public CommissionsController(IHttpContextAccessor contextAccessor, IMapper mapper, ICommissionService commissionService, IAuthenticationService authenticationService)
-            : base(contextAccessor)
+        public CommissionsController(IMapper mapper, ICommissionService commissionService, IAuthenticationService authenticationService)
         {
             Mapper = mapper;
             CommissionService = commissionService;
@@ -37,7 +36,7 @@ namespace api.Controllers.Commission.Commissions
         [UseCaseAuthorize("com_view_commissions")]
         public async Task<PagedCommissionsDto> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
-            var scope = await AuthenticationService.GetScope(UserId);
+            var scope = AuthenticationService.GetScope(User);
 
             var queryOptions = new CommissionQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
             var pagedItems = await CommissionService.GetCommissions(queryOptions);
@@ -49,9 +48,9 @@ namespace api.Controllers.Commission.Commissions
         [UseCaseAuthorize("com_view_commissions")]
         public async Task<ActionResult<CommissionEditDto>> Get(Guid commissionId)
         {
-            var scope = await AuthenticationService.GetScope(UserId);
+            var scope = AuthenticationService.GetScope(User);
 
-            var model = CommissionService.GetCommission(scope, commissionId).Result;
+            var model = await CommissionService.GetCommission(scope, commissionId);
 
             if (model == null)
                 return NotFound();
@@ -63,7 +62,7 @@ namespace api.Controllers.Commission.Commissions
         [UseCaseAuthorize("com_edit_commissions")]
         public async Task<ActionResult<Result>> Insert([FromBody] CommissionEditDto commission)
         {
-            var scope = await AuthenticationService.GetScope(UserId);
+            var scope = AuthenticationService.GetScope(User);
 
             var model = Mapper.Map<CommissionEdit>(commission);
 
@@ -83,7 +82,7 @@ namespace api.Controllers.Commission.Commissions
 
             var model = Mapper.Map<CommissionEdit>(commission);
 
-            var scope = await AuthenticationService.GetScope(UserId);
+            var scope = AuthenticationService.GetScope(User);
 
             var result = await CommissionService.UpdateCommission(scope, model);
 

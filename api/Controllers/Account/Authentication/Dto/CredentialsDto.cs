@@ -1,4 +1,4 @@
-namespace api.Controllers.Directory.Authentication.Dto
+namespace api.Controllers.Account.Authentication.Dto
 {
     public class CredentialsDto
     {

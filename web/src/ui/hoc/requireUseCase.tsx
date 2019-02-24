@@ -2,7 +2,7 @@ import React, { ComponentType } from 'react';
 import { connect } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
-import { identitySelector } from '@/state/app/directory/identity';
+import { authSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 
 export const withUseCase = (
@@ -21,7 +21,7 @@ export const withUseCase = (
     }
 
     const mapStateToProps = (state: RootState) => {
-        const identityState = identitySelector(state);
+        const identityState = authSelector(state);
 
         return {
             useCases: identityState.identity

@@ -13,7 +13,6 @@ using OneAdvisor.Model.Directory.Model.Lookup;
 namespace api.Controllers.Directory.Lookups
 {
     [ApiController]
-    [Authorize]
     [Route("api/directory/lookups")]
     public class LookupsController : Controller
     {

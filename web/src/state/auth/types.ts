@@ -1,44 +1,18 @@
-export type UserInfo = {
-    sub: string;
-    name: string;
-    given_name: string;
-    family_name: string;
-    email: string;
+export type Credentials = {
+    userName: string;
+    password: string;
 };
 
-export type AccessTokenData = {
-    aud: string;
-    branchid: string;
-    cid: string;
-    exp: number;
-    iat: number;
-    iss: string;
-    jti: string;
-    scopelevel: string;
-    scp: string[];
-    sub: string;
-    uid: string;
-    ver: number;
-};
-
-export type IdTokenData = {
-    amr: string[];
-    at_hash: string;
-    aud: string;
-    auth_time: number;
-    branchid: string;
+export type Identity = {
+    userId: string;
+    firstName: string;
+    lastName: string;
     email: string;
-    exp: number;
-    iat: number;
-    idp: string;
-    iss: string;
-    jti: string;
-    name: string;
-    nonce: string;
-    organisation: string;
-    preferred_username: string;
+    organisationId: string;
+    organisationName: string;
+    branchId: string;
+    branchName: string;
     roles: string[];
-    scopelevel: string;
-    sub: string;
-    ver: number;
+    useCaseIds: string[];
+    scope: number;
 };

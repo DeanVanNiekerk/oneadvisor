@@ -20,10 +20,9 @@ namespace api.Controllers.Directory.Import
 
     [ApiController]
     [Route("api/member/import")]
-    public class ImportController : BaseController
+    public class ImportController : Controller
     {
-        public ImportController(IHttpContextAccessor contextAccessor, IMapper mapper, IMemberImportService memberImportService, IAuthenticationService authenticationService)
-            : base(contextAccessor)
+        public ImportController(IMapper mapper, IMemberImportService memberImportService, IAuthenticationService authenticationService)
         {
             Mapper = mapper;
             MemberImportService = memberImportService;
@@ -40,7 +39,7 @@ namespace api.Controllers.Directory.Import
         {
             var model = Mapper.Map<ImportMember>(member);
 
-            var scope = await AuthenticationService.GetScope(UserId);
+            var scope = AuthenticationService.GetScope(User);
 
             var result = await MemberImportService.ImportMember(scope, model);
 

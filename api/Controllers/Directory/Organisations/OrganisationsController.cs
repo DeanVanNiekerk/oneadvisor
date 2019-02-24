@@ -19,10 +19,9 @@ namespace api.Controllers.Directory.Organisations
 
     [ApiController]
     [Route("api/directory/organisations")]
-    public class OrganisationsController : BaseController
+    public class OrganisationsController : Controller
     {
-        public OrganisationsController(IHttpContextAccessor contextAccessor, IMapper mapper, IAuthenticationService authenticationService, IOrganisationService organisationService)
-             : base(contextAccessor)
+        public OrganisationsController(IMapper mapper, IAuthenticationService authenticationService, IOrganisationService organisationService)
         {
             Mapper = mapper;
             OrganisationService = organisationService;
@@ -30,14 +29,14 @@ namespace api.Controllers.Directory.Organisations
         }
 
         private IMapper Mapper { get; }
-        private IAuthenticationService AuthenticationService { get; }
         private IOrganisationService OrganisationService { get; }
+        private IAuthenticationService AuthenticationService { get; }
 
         [HttpGet("")]
         [UseCaseAuthorize("dir_view_organisations")]
         public async Task<PagedItemsDto<OrganisationDto>> Index()
         {
-            var scope = await AuthenticationService.GetScope(UserId, IsSuperAdmin);
+            var scope = AuthenticationService.GetScope(User, true);
 
             var queryOptions = new OrganisationQueryOptions(scope);
             var pagedItems = await OrganisationService.GetOrganisations(queryOptions);
@@ -49,7 +48,7 @@ namespace api.Controllers.Directory.Organisations
         [UseCaseAuthorize("dir_view_organisations")]
         public async Task<ActionResult<OrganisationDto>> Get(Guid organisationId)
         {
-            var scope = await AuthenticationService.GetScope(UserId, IsSuperAdmin);
+            var scope = AuthenticationService.GetScope(User, true);
 
             var model = await OrganisationService.GetOrganisation(scope, organisationId);
 
@@ -64,7 +63,7 @@ namespace api.Controllers.Directory.Organisations
         [UseCaseAuthorize("dir_edit_organisations")]
         public async Task<ActionResult<Result>> Insert([FromBody] OrganisationDto organisation)
         {
-            var scope = await AuthenticationService.GetScope(UserId, IsSuperAdmin);
+            var scope = AuthenticationService.GetScope(User, true);
 
             var model = Mapper.Map<Organisation>(organisation);
 
@@ -80,7 +79,7 @@ namespace api.Controllers.Directory.Organisations
         [UseCaseAuthorize("dir_edit_organisations")]
         public async Task<ActionResult<Result>> Update(Guid organisationId, [FromBody] OrganisationDto organisation)
         {
-            var scope = await AuthenticationService.GetScope(UserId, IsSuperAdmin);
+            var scope = AuthenticationService.GetScope(User, true);
 
             organisation.Id = organisationId;
 

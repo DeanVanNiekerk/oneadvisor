@@ -70,7 +70,7 @@ namespace OneAdvisor.Service.Directory
             return pagedItems;
         }
 
-        public async Task<Result> InsertUser(ScopeOptions scope, UserEdit user)
+        public async Task<Result> InsertUser(ScopeOptions scope, UserEdit user, string password)
         {
             var validator = new UserValidator(scope, true);
             var result = validator.Validate(user).GetResult();
@@ -78,11 +78,21 @@ namespace OneAdvisor.Service.Directory
             if (!result.Success)
                 return result;
 
-            //NB: Most probably need to validate branch here...
+            //TODO: CHECK SCOPE
 
             var entity = MapModelToEntity(user);
-            await _context.Users.AddAsync(entity);
-            await _context.SaveChangesAsync();
+
+            entity.EmailConfirmed = true;
+
+            var createResult = await _userManager.CreateAsync(entity, password);
+
+            result.Success = createResult.Succeeded;
+
+            if (!result.Success)
+            {
+                //TODO: Map errors
+                return result;
+            }
 
             await UpdateRoles(entity, user.Roles);
 
@@ -115,7 +125,15 @@ namespace OneAdvisor.Service.Directory
 
             var userEntity = MapModelToEntity(user, entity);
 
-            await _context.SaveChangesAsync();
+            var updateResult = await _userManager.UpdateAsync(entity);
+
+            result.Success = updateResult.Succeeded;
+
+            if (!result.Success)
+            {
+                //TODO: Map errors
+                return result;
+            }
 
             await UpdateRoles(entity, user.Roles);
 

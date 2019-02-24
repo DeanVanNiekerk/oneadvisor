@@ -17,10 +17,9 @@ namespace api.Controllers.Directory.Users
 {
     [ApiController]
     [Route("api/directory/users")]
-    public class UsersController : BaseController
+    public class UsersController : Controller
     {
-        public UsersController(IHttpContextAccessor contextAccessor, IMapper mapper, IUserService userService, IAuthenticationService authenticationService)
-         : base(contextAccessor)
+        public UsersController(IMapper mapper, IUserService userService, IAuthenticationService authenticationService)
         {
             Mapper = mapper;
             UserService = userService;
@@ -35,7 +34,7 @@ namespace api.Controllers.Directory.Users
         [UseCaseAuthorize("dir_view_users")]
         public async Task<PagedItemsDto<UserDto>> Index(int pageNumber = 0, int pageSize = 0)
         {
-            var scope = await AuthenticationService.GetScope(UserId, IsSuperAdmin);
+            var scope = AuthenticationService.GetScope(User, true);
 
             var queryOptions = new UserQueryOptions(scope, pageNumber, pageSize);
             var pagedItems = await UserService.GetUsers(queryOptions);
@@ -47,7 +46,7 @@ namespace api.Controllers.Directory.Users
         [UseCaseAuthorize("dir_view_users")]
         public async Task<ActionResult<UserEditDto>> Get(Guid userId)
         {
-            var scope = await AuthenticationService.GetScope(UserId, IsSuperAdmin);
+            var scope = AuthenticationService.GetScope(User, true);
 
             var model = await UserService.GetUser(scope, userId);
 
@@ -61,11 +60,11 @@ namespace api.Controllers.Directory.Users
         [UseCaseAuthorize("dir_edit_users")]
         public async Task<ActionResult<Result>> Insert([FromBody] UserEditDto user)
         {
-            var scope = await AuthenticationService.GetScope(UserId, IsSuperAdmin);
+            var scope = AuthenticationService.GetScope(User, true);
 
             var model = Mapper.Map<UserEdit>(user);
 
-            var result = await UserService.InsertUser(scope, model);
+            var result = await UserService.InsertUser(scope, model, "Test123!");
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
@@ -77,7 +76,7 @@ namespace api.Controllers.Directory.Users
         [UseCaseAuthorize("dir_edit_users")]
         public async Task<ActionResult<Result>> Update(string userId, [FromBody] UserEditDto user)
         {
-            var scope = await AuthenticationService.GetScope(UserId, IsSuperAdmin);
+            var scope = AuthenticationService.GetScope(User, true);
 
             user.Id = userId;
 

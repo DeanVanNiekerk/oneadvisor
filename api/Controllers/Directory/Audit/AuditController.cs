@@ -18,10 +18,9 @@ namespace api.Controllers.Directory.Audit
 
     [ApiController]
     [Route("api/directory/audit")]
-    public class AuditController : BaseController
+    public class AuditController : Controller
     {
-        public AuditController(IHttpContextAccessor contextAccessor, IMapper mapper, IAuthenticationService authenticationService, IAuditService auditService)
-            : base(contextAccessor)
+        public AuditController(IMapper mapper, IAuthenticationService authenticationService, IAuditService auditService)
         {
             Mapper = mapper;
             AuditService = auditService;
@@ -36,7 +35,7 @@ namespace api.Controllers.Directory.Audit
         [UseCaseAuthorize("dir_view_audit_logs")]
         public async Task<PagedItemsDto<AuditLogDto>> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
-            var scope = await AuthenticationService.GetScope(UserId, IsSuperAdmin);
+            var scope = AuthenticationService.GetScope(User, true);
 
             var queryOptions = new AuditLogQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
             var pagedItems = await AuditService.GetAuditLogs(queryOptions);

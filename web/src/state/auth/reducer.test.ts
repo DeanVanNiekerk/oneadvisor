@@ -1,71 +1,71 @@
 import { defaultState, reducer } from './reducer';
 
 describe('auth reducer', () => {
-    it('should handle AUTH_RECIEVE_AUTHENTICATION', () => {
-        const payload = {
-            userInfo: {
-                given_name: 'Dean',
-                family_name: 'Jonny',
-                email: '',
-                name: '',
-                sub: '1'
-            },
-            idToken: '1234134',
-            accessToken: '431212'
-        };
-
+    it('should handle AUTH_SIGNIN_FETCHING', () => {
         const actualState = reducer(defaultState, {
-            type: 'AUTH_RECIEVE_AUTHENTICATION',
-            payload: { ...payload }
+            type: 'AUTH_SIGNIN_FETCHING'
         });
 
         const expectedState = {
             ...defaultState,
-            ...payload,
-            authenticated: true
+            fetching: true
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle AUTH_RECIEVE_AUTHENTICATION_CLEAR', () => {
+    it('should handle AUTH_SIGNIN_FETCHING_ERROR', () => {
         const initalState = {
             ...defaultState,
-            authenticated: true,
-            userInfo: {
-                given_name: 'Dean',
-                family_name: 'Jonny',
-                email: '',
-                name: '',
-                sub: '1'
-            },
-            idToken: '1234134',
-            accessToken: '431212'
+            fetching: true
         };
 
         const actualState = reducer(initalState, {
-            type: 'AUTH_RECIEVE_AUTHENTICATION_CLEAR'
+            type: 'AUTH_SIGNIN_FETCHING_ERROR'
         });
 
         const expectedState = {
-            ...defaultState
+            ...defaultState,
+            error: true,
+            fetching: false
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle AUTH_EXPIRED_MODAL_SHOWN', () => {
+    it('should handle AUTH_SIGNIN_RECEIVE', () => {
         const initalState = {
-            ...defaultState
+            ...defaultState,
+            fetching: true
+        };
+
+        const identity = {
+            branchId: '1',
+            branchName: 'b1',
+            email: 'dean@gmail.com',
+            firstName: 'Dean',
+            lastName: 'van Niekerk',
+            organisationId: '2',
+            organisationName: 'o2',
+            roles: ['admin'],
+            scope: 1,
+            useCaseIds: ['1'],
+            userId: '12345'
         };
 
         const actualState = reducer(initalState, {
-            type: 'AUTH_EXPIRED_MODAL_SHOWN'
+            type: 'AUTH_SIGNIN_RECEIVE',
+            payload: {
+                token: '12323',
+                identity: identity
+            }
         });
 
         const expectedState = {
             ...defaultState,
-            authExpiredModalShown: true
+            fetching: false,
+            token: '12323',
+            identity: { ...identity }
         };
 
         expect(actualState).toEqual(expectedState);

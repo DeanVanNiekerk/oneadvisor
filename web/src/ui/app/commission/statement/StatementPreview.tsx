@@ -8,7 +8,7 @@ import { fetchNextFormatError, fetchNextMappingError } from '@/state/app/commiss
 import {
     deleteCommissions, fetchStatement, fetchStatementPreview, Statement, statementPreviewSelector
 } from '@/state/app/commission/statements';
-import { identitySelector } from '@/state/app/directory/identity';
+import { authSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import {
     Button, CompanyName, Currency, Date, Drawer, DrawerFooter, Header, PreviewCard, PreviewCardContainer, PreviewCardRow
@@ -356,7 +356,7 @@ class StatementPreviewComponent extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const statementState = statementPreviewSelector(state);
-    const identityState = identitySelector(state);
+    const identityState = authSelector(state);
 
     return {
         statement: statementState.statement,

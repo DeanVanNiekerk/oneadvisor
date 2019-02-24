@@ -7,10 +7,10 @@ import { ValidationResult } from '@/app/validation';
 import { getScopes } from '@/config/scope';
 import { Application } from '@/state/app/directory/applications';
 import { branchesSelector, branchSelector } from '@/state/app/directory/branches';
-import { identitySelector } from '@/state/app/directory/identity';
 import { Organisation } from '@/state/app/directory/organisations';
 import { Role } from '@/state/app/directory/roles';
 import { UserEdit } from '@/state/app/directory/users';
+import { authSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormErrors, FormInput, FormSelect, FormSimpleList, TabPane, Tabs } from '@/ui/controls';
 
@@ -207,7 +207,7 @@ class UserForm extends Component<Props, State> {
 const mapStateToProps = (state: RootState) => {
     const branchState = branchSelector(state);
     const branchesState = branchesSelector(state);
-    const identityState = identitySelector(state);
+    const identityState = authSelector(state);
 
     return {
         branch: branchState.branch,

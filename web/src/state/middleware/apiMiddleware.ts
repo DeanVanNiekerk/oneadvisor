@@ -13,7 +13,7 @@ export default (store: any) => (next: any) => (action: any) => {
     const defaultOptions = {
         method: method ? method : 'GET',
         headers: {
-            Authorization: 'Bearer ' + store.getState().auth.idToken,
+            Authorization: 'Bearer ' + store.getState().auth.token,
             'Content-Type': 'application/json; charset=utf-8'
         }
     };
@@ -55,6 +55,15 @@ export default (store: any) => (next: any) => (action: any) => {
                 resp.blob().then(blob => {
                     action.onSuccessBlob(blob, store.dispatch);
                 });
+                return;
+            }
+
+            if (resp.status === 400) {
+                if (dispatchPrefix) {
+                    store.dispatch({
+                        type: `${dispatchPrefix}_FAILED`
+                    });
+                }
                 return;
             }
 

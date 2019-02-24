@@ -9,7 +9,7 @@ import { Button } from '@/ui/controls';
 import { showMessage } from '@/ui/feedback/notifcation';
 
 type Props = {
-    idToken: string;
+    token: string;
     onSuccess: () => void;
     commissionStatementId: string;
 };
@@ -53,7 +53,7 @@ class UploadStatement extends Component<Props, State> {
                     this.props.commissionStatementId
                 }`}
                 headers={{
-                    Authorization: 'Bearer ' + this.props.idToken
+                    Authorization: 'Bearer ' + this.props.token
                 }}
             >
                 <Button>
@@ -68,7 +68,7 @@ const mapStateToProps = (state: RootState) => {
     const authState = authSelector(state);
 
     return {
-        idToken: authState.idToken
+        token: authState.token
     };
 };
 
