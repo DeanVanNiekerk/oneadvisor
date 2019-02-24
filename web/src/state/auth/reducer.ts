@@ -38,7 +38,8 @@ export const reducer = (state: State = defaultState, action: Action) => {
             return {
                 ...state,
                 fetching: false,
-                token: action.payload.token
+                token: action.payload.token,
+                identity: action.payload.identity
             };
         }
         case 'AUTH_SIGNIN_FETCHING_ERROR': {

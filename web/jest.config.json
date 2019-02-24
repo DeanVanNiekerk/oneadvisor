@@ -5,6 +5,7 @@
     "transform": {
         "^.+\\.tsx?$": "ts-jest"
     },
+    "setupFiles": ["<rootDir>/src/test/setupTests.js"],
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
     "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
     "moduleNameMapper": {
@@ -15,7 +16,6 @@
         "__OIDC_CLIENT_ID__": "client-test",
         "__OIDC_ISSUER__": "test-issuer",
         "__OA_BASE_API__": "https://test.api.com",
-        "localStorage": {},
         "window": {
             "location": {}
         }
