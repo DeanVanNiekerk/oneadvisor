@@ -88,7 +88,7 @@ namespace api.Controllers.Database
             {
                 FirstName = "Joanne",
                 LastName = "Bormann",
-                Email = "marc@smithbormann.co.za",
+                Email = "advice@smithbormann.co.za",
                 Scope = Scope.Organisation,
                 Roles = new List<string>() { "mem_administrator", "com_administrator" },
                 BranchId = shellyBeachBranchId,
@@ -102,7 +102,7 @@ namespace api.Controllers.Database
                 Email = "gavin@lifeplanbrokers.co.za",
                 Scope = Scope.Organisation,
                 Roles = new List<string>() { "mem_administrator", "com_administrator" },
-                BranchId = lifeBranchId,
+                BranchId = shellyBeachBranchId,
             };
             await UserService.InsertUser(options, user, "Test123!");
 

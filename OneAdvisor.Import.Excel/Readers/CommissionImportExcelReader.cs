@@ -40,12 +40,18 @@ namespace OneAdvisor.Import.Excel.Readers
 
         private string GetValue(IExcelDataReader reader, int index)
         {
+            if (index >= reader.FieldCount)
+                return "";
+
             var value = reader.GetValue(index);
             return value != null ? value.ToString() : null;
         }
 
         private string GetDate(IExcelDataReader reader, int index)
         {
+            if (index >= reader.FieldCount)
+                return "";
+
             try
             {
                 var value = reader.GetDateTime(index);

@@ -54,8 +54,6 @@ namespace OneAdvisor.Service.Member
                     data.DateOfBirth = id.DateOfBirth;
             }
 
-            var userEntityQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
-
             var userId = scope.UserId;
 
             //If a user is specified we, use it as the scope
@@ -69,11 +67,14 @@ namespace OneAdvisor.Service.Member
                     return result;
                 }
 
-                var userQuery = from entity in userEntityQuery
-                                where (EF.Functions.Like(entity.FirstName, parts[0])
-                                && EF.Functions.Like(entity.LastName, parts[1]))
-                                //TODO: fix
-                                //|| EF.Functions.Like(entity.Aliases, $"%{data.PolicyUserFullName}%")
+                var userEntityQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
+                var users = await userEntityQuery.ToListAsync();
+
+                var userQuery = from entity in users
+                                where (String.Equals(entity.FirstName, parts[0], StringComparison.OrdinalIgnoreCase)
+                                && String.Equals(entity.LastName, parts[1], StringComparison.OrdinalIgnoreCase))
+                                // Cant get this translated to sql currently (thats why client side)
+                                || entity.Aliases.Any(alias => String.Equals(alias, data.PolicyUserFullName, StringComparison.OrdinalIgnoreCase))
                                 select entity;
 
                 var user = userQuery.FirstOrDefault();

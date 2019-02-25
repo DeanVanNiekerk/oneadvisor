@@ -50,16 +50,18 @@ namespace OneAdvisor.Service.Commission
             if (!statements.Items.Any())
                 return results;
 
+            var commissionTypes = await _lookupService.GetCommissionTypes();
+
             foreach (var data in importData)
             {
-                var result = await ImportCommission(scope, statements.Items.Single(), data);
+                var result = await ImportCommission(scope, statements.Items.Single(), data, commissionTypes);
                 results.Add(result);
             }
 
             return results;
         }
 
-        public async Task<Result> ImportCommission(ScopeOptions scope, CommissionStatement commissionStatement, ImportCommission importCommission)
+        public async Task<Result> ImportCommission(ScopeOptions scope, CommissionStatement commissionStatement, ImportCommission importCommission, List<CommissionType> commissionTypes)
         {
             var validator = new ImportCommissionValidator();
             var result = validator.Validate(importCommission).GetResult();
@@ -71,7 +73,7 @@ namespace OneAdvisor.Service.Commission
                 IsFormatValid = true
             };
 
-            var commissionType = await _lookupService.GetCommissionType(importCommission.CommissionTypeCode);
+            var commissionType = commissionTypes.FirstOrDefault(c => c.Code.ToLower() == importCommission.CommissionTypeCode.ToLower());
             if (commissionType != null)
                 error.CommissionTypeId = commissionType.Id;
 
