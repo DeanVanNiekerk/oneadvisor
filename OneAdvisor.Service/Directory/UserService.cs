@@ -27,17 +27,13 @@ namespace OneAdvisor.Service.Directory
             _userManager = userManager;
         }
 
-        public Task<UserEdit> GetUser(ScopeOptions scope, Guid id)
-        {
-            //TODO: fix
-            throw new System.NotImplementedException();
-        }
-
         public async Task<PagedItems<User>> GetUsers(UserQueryOptions queryOptions)
         {
             var query = from user in ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope)
                         join branch in _context.Branch
                             on user.BranchId equals branch.Id
+                        join organisation in _context.Organisation
+                            on branch.OrganisationId equals organisation.Id
                         select new User()
                         {
                             Id = user.Id,
@@ -45,10 +41,10 @@ namespace OneAdvisor.Service.Directory
                             LastName = user.LastName,
                             Email = user.Email,
                             BranchId = user.BranchId,
-                            Login = user.UserName,
-                            OrganisationId = branch.Id,
-                            Scope = user.Scope,
-                            Aliases = user.Aliases
+                            BranchName = branch.Name,
+                            OrganisationId = organisation.Id,
+                            OrganisationName = organisation.Name,
+                            Scope = user.Scope
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -68,6 +64,23 @@ namespace OneAdvisor.Service.Directory
             pagedItems.Items = await query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
 
             return pagedItems;
+        }
+
+        public async Task<UserEdit> GetUser(ScopeOptions scope, Guid id)
+        {
+            var query = from entity in ScopeQuery.GetUserEntityQuery(_context, scope)
+                        where entity.Id == id
+                        select entity;
+
+            var user = await query.FirstOrDefaultAsync();
+
+            if (user == null)
+                return null;
+
+            var model = MapEntityToModel(user);
+            model.Roles = await _userManager.GetRolesAsync(user);
+
+            return model;
         }
 
         public async Task<Result> InsertUser(ScopeOptions scope, UserEdit user, string password)
@@ -149,11 +162,26 @@ namespace OneAdvisor.Service.Directory
             entity.LastName = model.LastName;
             entity.Email = model.Email;
             entity.BranchId = model.BranchId.Value;
-            entity.UserName = model.UserName;
+            entity.UserName = model.Email;
             entity.Scope = model.Scope;
             entity.Aliases = model.Aliases;
 
             return entity;
+        }
+
+        private UserEdit MapEntityToModel(UserEntity entity)
+        {
+            var model = new UserEdit();
+
+            model.FirstName = entity.FirstName;
+            model.FirstName = entity.FirstName;
+            model.LastName = entity.LastName;
+            model.Email = entity.Email;
+            model.BranchId = entity.BranchId;
+            model.Scope = entity.Scope;
+            model.Aliases = entity.Aliases;
+
+            return model;
         }
 
         public async Task<PagedItems<UserSimple>> GetUsersSimple(ScopeOptions scope)

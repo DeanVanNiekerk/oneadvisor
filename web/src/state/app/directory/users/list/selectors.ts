@@ -4,8 +4,6 @@ import { RootState } from '@/state/rootReducer';
 
 import { State } from './reducer';
 
-
-
 const rootSelector = (state: RootState): State =>
     state.app.directory.users.list;
 

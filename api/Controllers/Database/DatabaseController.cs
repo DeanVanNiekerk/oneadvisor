@@ -65,7 +65,6 @@ namespace api.Controllers.Database
             {
                 FirstName = "Dean",
                 LastName = "van Niekerk",
-                UserName = "deanvniekerk@gmail.com",
                 Email = "deanvniekerk@gmail.com",
                 Scope = Scope.Organisation,
                 Roles = new List<string>() { "dir_administrator", "mem_administrator", "com_administrator", Role.SUPER_ADMINISTRATOR_ROLE },
@@ -78,7 +77,6 @@ namespace api.Controllers.Database
             {
                 FirstName = "Marc",
                 LastName = "Bormann",
-                UserName = "marc@smithbormann.co.za",
                 Email = "marc@smithbormann.co.za",
                 Scope = Scope.Organisation,
                 Roles = new List<string>() { "dir_administrator", "mem_administrator", "com_administrator", Role.SUPER_ADMINISTRATOR_ROLE },

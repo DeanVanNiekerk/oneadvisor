@@ -43,11 +43,13 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual1 = list[0];
                 Assert.AreEqual(actual1.Id, role1.Id);
                 Assert.AreEqual(actual1.Name, role1.Name);
+                Assert.AreEqual(actual1.Description, role1.Description);
                 Assert.AreEqual(actual1.ApplicationId, role1.ApplicationId);
 
                 var actual2 = list[1];
                 Assert.AreEqual(actual2.Id, role2.Id);
                 Assert.AreEqual(actual2.Name, role2.Name);
+                Assert.AreEqual(actual2.Description, role2.Description);
                 Assert.AreEqual(actual2.ApplicationId, role2.ApplicationId);
 
             }
@@ -86,11 +88,12 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new RoleService(context);
 
                 //When
-                var actual = await service.GetRole(role1.Name);
+                var actual = await service.GetRole(role1.Id);
 
                 //Then
                 Assert.AreEqual(actual.Id, role1.Id);
                 Assert.AreEqual(actual.Name, role1.Name);
+                Assert.AreEqual(actual.Description, role1.Description);
                 Assert.AreEqual(actual.ApplicationId, role1.ApplicationId);
                 Assert.AreEqual(actual.UseCaseIds.Count(), 2);
                 Assert.AreEqual(actual.UseCaseIds.ToArray()[0], "uc1");

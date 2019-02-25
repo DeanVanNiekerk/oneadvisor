@@ -88,6 +88,10 @@ class UserForm extends Component<Props, State> {
                     <Form>
                         <FormText label="Name" value={role.name} />
                         <FormText
+                            label="Description"
+                            value={role.description}
+                        />
+                        <FormText
                             label="Application"
                             value={this.getApplicationName(role.applicationId)}
                         />

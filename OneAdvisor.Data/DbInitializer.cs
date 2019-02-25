@@ -16,7 +16,6 @@ namespace OneAdvisor.Data
         private readonly Guid dirGuid = Guid.Parse("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9");
         private readonly Guid memGuid = Guid.Parse("605ea52c-3627-48e2-8f7c-4819c5ea555b");
         private readonly Guid comGuid = Guid.Parse("2fca4500-9142-4940-aaf4-b18925c96d66");
-        private readonly Guid hpaGuid = Guid.Parse("2dc6f9ac-728b-4e19-9d72-0bad5fc84a03");
 
         public DbInitializer(DataContext context)
         {
@@ -288,10 +287,6 @@ namespace OneAdvisor.Data
             application = await _context.Application.FindAsync(comGuid);
             if (application == null)
                 _context.Application.Add(new ApplicationEntity() { Id = comGuid, Name = "Commission" });
-
-            application = await _context.Application.FindAsync(hpaGuid);
-            if (application == null)
-                _context.Application.Add(new ApplicationEntity() { Id = hpaGuid, Name = "Health" });
 
             await SeedRolesAndUseCase();
 

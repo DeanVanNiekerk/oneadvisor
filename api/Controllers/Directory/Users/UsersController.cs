@@ -74,7 +74,7 @@ namespace api.Controllers.Directory.Users
 
         [HttpPost("{userId}")]
         [UseCaseAuthorize("dir_edit_users")]
-        public async Task<ActionResult<Result>> Update(string userId, [FromBody] UserEditDto user)
+        public async Task<ActionResult<Result>> Update(Guid userId, [FromBody] UserEditDto user)
         {
             var scope = AuthenticationService.GetScope(User, true);
 

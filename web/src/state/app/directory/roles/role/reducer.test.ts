@@ -50,9 +50,10 @@ describe('role reducer', () => {
 
         const role = {
             id: '10',
-            name: 'Org1',
-            applicationId: "app_1",
-            useCaseIds: ["uc1"]
+            name: 'Role1',
+            description: 'Role1 Desc',
+            applicationId: 'app_1',
+            useCaseIds: ['uc1']
         };
 
         const actualState = reducer(initalState, {

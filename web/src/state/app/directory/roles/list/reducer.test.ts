@@ -42,7 +42,8 @@ describe('role list reducer', () => {
         const role = {
             id: '10',
             name: 'Role1',
-            applicationId: 'app_1',
+            description: 'Role1 Desc',
+            applicationId: 'app_1'
         };
 
         const actualState = reducer(initalState, {

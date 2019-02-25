@@ -45,15 +45,11 @@ describe('user list reducer', () => {
             firstName: 'Dean',
             lastName: 'Jackson',
             email: 'dean@gmail.com',
-            login: 'dean',
-            lastLogin: '',
-            lastUpdated: '',
-            status: 'ACTIVE',
             organisationId: '432221',
+            organisationName: 'Org1',
             branchId: '12341234',
-            scope: 1,
-            assistantToUserId: '',
-            aliases: []
+            branchName: 'Branch1',
+            scope: 1
         };
 
         const actualState = reducer(initalState, {

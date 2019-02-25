@@ -1,16 +1,14 @@
-
-
 export type Role = {
-    id: string,
-    name: string,
-    applicationId: string
+    id: string;
+    name: string;
+    description: string;
+    applicationId: string;
 };
-
 
 export type RoleEdit = {
-    id: string,
-    name: string,
-    applicationId: string,
-    useCaseIds: string[]
+    id: string;
+    name: string;
+    description: string;
+    applicationId: string;
+    useCaseIds: string[];
 };
-

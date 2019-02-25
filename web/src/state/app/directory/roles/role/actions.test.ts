@@ -16,9 +16,10 @@ describe('role actions', () => {
     it('should dispatch API when updateRole is called', () => {
         const role = {
             id: '10',
-            name: 'Org1',
-            applicationId: "app_1",
-            useCaseIds: ["uc1"]
+            name: 'Role1',
+            description: 'Role1 Desc',
+            applicationId: 'app_1',
+            useCaseIds: ['uc1']
         };
 
         const onSuccess = () => {};
@@ -32,8 +33,6 @@ describe('role actions', () => {
             dispatchPrefix: 'ROLES_ROLE_EDIT'
         };
 
-        expect(actions.updateRole(role, onSuccess)).toEqual(
-            expectedAction
-        );
+        expect(actions.updateRole(role, onSuccess)).toEqual(expectedAction);
     });
 });

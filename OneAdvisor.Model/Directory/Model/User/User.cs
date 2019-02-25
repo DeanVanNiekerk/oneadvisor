@@ -5,21 +5,14 @@ namespace OneAdvisor.Model.Directory.Model.User
 {
     public class User
     {
-        public User()
-        {
-            Aliases = new List<string>();
-            Roles = new List<string>();
-        }
-
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Login { get; set; }
         public string Email { get; set; }
         public Guid OrganisationId { get; set; }
+        public string OrganisationName { get; set; }
         public Guid BranchId { get; set; }
+        public string BranchName { get; set; }
         public Scope Scope { get; set; }
-        public IEnumerable<string> Aliases { get; set; }
-        public IEnumerable<string> Roles { get; set; }
     }
 }

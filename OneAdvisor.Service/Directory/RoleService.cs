@@ -25,6 +25,7 @@ namespace OneAdvisor.Service.Directory
                         {
                             Id = role.Id,
                             Name = role.Name,
+                            Description = role.Description,
                             ApplicationId = role.ApplicationId
                         };
 
@@ -43,14 +44,15 @@ namespace OneAdvisor.Service.Directory
             return await query.AnyAsync();
         }
 
-        public Task<RoleEdit> GetRole(string name)
+        public Task<RoleEdit> GetRole(Guid id)
         {
             var query = from role in _context.Roles
-                        where role.Name == name
+                        where role.Id == id
                         select new RoleEdit()
                         {
                             Id = role.Id,
                             Name = role.Name,
+                            Description = role.Description,
                             ApplicationId = role.ApplicationId,
                             UseCaseIds = role.RoleToUseCases.Select(u => u.UseCaseId)
                         };

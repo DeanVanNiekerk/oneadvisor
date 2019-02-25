@@ -73,6 +73,7 @@ class RoleList extends Component<Props, State> {
     getColumns = () => {
         return [
             getColumn('name', 'Name'),
+            getColumn('description', 'Description'),
             getColumn('applicationId', 'Application', {
                 render: (applicationId: string) => {
                     return this.getApplicationName(applicationId);

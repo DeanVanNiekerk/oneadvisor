@@ -8,11 +8,9 @@ const defaultUser: UserEdit = {
     firstName: 'Dean',
     lastName: 'Jackson',
     email: 'dean@gmail.com',
-    login: 'dean',
     branchId: '12341234',
-    roleIds: ['role_1'],
+    roles: ['role_1'],
     scope: 1,
-    assistantToUserId: '',
     aliases: ['DJ']
 };
 

@@ -63,18 +63,18 @@ class UserForm extends Component<Props, State> {
         this.props.onChange(user);
     };
 
-    isRoleSelected = (roleId: string) => {
-        return this.state.user.roleIds.some(r => r === roleId);
+    isRoleSelected = (roleName: string) => {
+        return this.state.user.roles.some(r => r === roleName);
     };
 
-    toggleRoleChange = (roleId: string) => {
-        let roleIds = [...this.state.user.roleIds];
+    toggleRoleChange = (roleName: string) => {
+        let roles = [...this.state.user.roles];
 
-        if (this.isRoleSelected(roleId))
-            roleIds = this.state.user.roleIds.filter(r => r !== roleId);
-        else roleIds.push(roleId);
+        if (this.isRoleSelected(roleName))
+            roles = this.state.user.roles.filter(r => r !== roleName);
+        else roles.push(roleName);
 
-        this.handleChange('roleIds', roleIds);
+        this.handleChange('roles', roles);
     };
 
     onTabChange = (activeTab: TabKey) => {
@@ -108,13 +108,6 @@ class UserForm extends Component<Props, State> {
                                 fieldName="lastName"
                                 label="Last Name"
                                 value={user.lastName}
-                                onChange={this.handleChange}
-                                validationResults={validationResults}
-                            />
-                            <FormInput
-                                fieldName="login"
-                                label="Login"
-                                value={user.login}
                                 onChange={this.handleChange}
                                 validationResults={validationResults}
                             />
@@ -168,18 +161,18 @@ class UserForm extends Component<Props, State> {
                                                     )
                                                 }
                                                 checked={this.isRoleSelected(
-                                                    role.id
+                                                    role.name
                                                 )}
                                                 onChange={() =>
                                                     this.toggleRoleChange(
-                                                        role.id
+                                                        role.name
                                                     )
                                                 }
                                                 size="small"
                                             />
                                         ]}
                                     >
-                                        {role.name}
+                                        {role.description}
                                     </List.Item>
                                 )}
                                 className="mb-2"

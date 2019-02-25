@@ -1,7 +1,5 @@
 import { userSelector } from './selectors';
 
-
-
 describe('user selectors', () => {
     it('userSelector', () => {
         const state = {

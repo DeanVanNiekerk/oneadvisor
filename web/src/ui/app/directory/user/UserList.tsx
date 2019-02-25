@@ -50,11 +50,9 @@ class UserList extends Component<Props, State> {
             firstName: '',
             lastName: '',
             email: '',
-            login: '',
             branchId: '',
             scope: 1,
-            roleIds: [],
-            assistantToUserId: '',
+            roles: [],
             aliases: []
         };
 
@@ -87,32 +85,20 @@ class UserList extends Component<Props, State> {
 
     getColumns = () => {
         return [
-            getColumn('firstName', 'First Name'),
             getColumn('lastName', 'Last Name'),
+            getColumn('firstName', 'First Name'),
             getColumn('email', 'Email'),
-            getColumn('login', 'Login'),
-            getColumn('lastLogin', 'Last Login', { type: 'long-date' }),
-            getColumn('organisationId', 'Organisation', {
-                render: (organisationId: string) => {
-                    return this.getOrganisationName(organisationId);
-                }
-            }),
-            getColumn('status', 'Status', {
-                render: (status: string) => {
-                    switch (status.toUpperCase()) {
-                        case 'STAGED':
-                            return <Tag color="cyan">{status}</Tag>;
-                        case 'PROVISIONED':
-                            return <Tag color="blue">{status}</Tag>;
-                        case 'ACTIVE':
-                            return <Tag color="green">{status}</Tag>;
-                        case 'RECOVERY':
-                        case 'LOCKED_OUT':
-                        case 'PASSWORD_EXPIRED':
-                            return <Tag color="volcano">{status}</Tag>;
-                        case 'DEPROVISIONED':
-                        case 'SUSPENDED':
-                            return <Tag color="red">{status}</Tag>;
+            getColumn('organisationName', 'Organisation'),
+            getColumn('branchName', 'Branch'),
+            getColumn('scope', 'Scope', {
+                render: (scope: number) => {
+                    switch (scope) {
+                        case 1:
+                            return <Tag color="volcano">Organisation</Tag>;
+                        case 2:
+                            return <Tag color="blue">Branch</Tag>;
+                        case 3:
+                            return <Tag color="green">User</Tag>;
                     }
                 }
             })
