@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using OneAdvisor.Model.Directory.Interface;
 using api.Controllers.Member.Import.Dto;
 using OneAdvisor.Model.Member.Model.ImportMember;
+using OneAdvisor.Model.Account.Interface;
 
 namespace api.Controllers.Directory.Import
 {

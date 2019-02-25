@@ -13,7 +13,7 @@ using OneAdvisor.Model.Commission.Model.CommissionError;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
-using OneAdvisor.Model.Directory.Model.Authentication;
+using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Member.Interface;
 using OneAdvisor.Service.Commission.Validators;
 using Microsoft.EntityFrameworkCore;

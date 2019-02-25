@@ -10,7 +10,7 @@ using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Model.Member.Interface;
 using OneAdvisor.Model.Member.Model.Contact;
 using OneAdvisor.Service.Member.Validators;
-using OneAdvisor.Model.Directory.Model.Authentication;
+using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Data.Entities.Member;
 
 namespace OneAdvisor.Service.Member

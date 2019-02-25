@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Directory.Model.Authentication;
+using OneAdvisor.Model.Account.Model.Authentication;
 
 namespace OneAdvisor.Model.Commission.Interface
 {

@@ -12,6 +12,7 @@ using api.App.Dtos;
 using Microsoft.AspNetCore.Http;
 using api.Controllers.Directory.Audit.Dto;
 using OneAdvisor.Model.Directory.Model.Audit;
+using OneAdvisor.Model.Account.Interface;
 
 namespace api.Controllers.Directory.Audit
 {

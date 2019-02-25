@@ -13,6 +13,7 @@ using OneAdvisor.Model.Directory.Model.Organisation;
 using api.App.Dtos;
 using Microsoft.AspNetCore.Http;
 using OneAdvisor.Model.Directory.Model.Role;
+using OneAdvisor.Model.Account.Interface;
 
 namespace api.Controllers.Directory.Organisations
 {

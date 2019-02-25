@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Data;
+using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Interface;
-using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.Role;
 using OneAdvisor.Model.Directory.Model.User;
 

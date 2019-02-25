@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Directory.Model.Authentication;
+using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Member.Model.Policy;
 
 namespace OneAdvisor.Model.Member.Interface

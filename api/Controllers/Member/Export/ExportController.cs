@@ -10,6 +10,7 @@ using OneAdvisor.Model.Member.Model.ExportMember;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using OneAdvisor.Model.Account.Interface;
 
 namespace api.Controllers.Member.Export
 {

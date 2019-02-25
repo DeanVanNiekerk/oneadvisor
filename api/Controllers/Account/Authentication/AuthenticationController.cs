@@ -4,9 +4,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using OneAdvisor.Model.Account.Interface;
+using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
-using OneAdvisor.Model.Directory.Model.Authentication;
 
 namespace api.Controllers.Account.Authentication
 {

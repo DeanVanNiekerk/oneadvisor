@@ -15,6 +15,7 @@ using api.Controllers.Member.Policies.Dto;
 using OneAdvisor.Model.Member.Model.Policy;
 using OneAdvisor.Model.Member.Model.Contact;
 using api.Controllers.Member.Contacts.Dto;
+using OneAdvisor.Model.Account.Interface;
 
 namespace api.Controllers.Member.Contacts
 {

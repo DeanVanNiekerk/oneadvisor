@@ -11,7 +11,7 @@ using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model;
 using OneAdvisor.Service.Directory.Validators;
 using OneAdvisor.Service.Common.Query;
-using OneAdvisor.Model.Directory.Model.Authentication;
+using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Service.Directory

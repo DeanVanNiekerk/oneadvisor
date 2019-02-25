@@ -1,15 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Commission;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.Entities.Member;
-using OneAdvisor.Model.Directory.Model.Authentication;
+using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Test.Models;
 
@@ -70,7 +72,7 @@ namespace OneAdvisor.Service.Test
             var branch = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = organisation.Id, Name = "Branch 1" };
             var user = new UserEntity
             {
-                Id = sourceUser.Id,
+                Id = sourceUser.Id.Value,
                 FirstName = sourceUser.FirstName,
                 LastName = sourceUser.LastName,
                 Aliases = sourceUser.Aliases,
@@ -170,5 +172,15 @@ namespace OneAdvisor.Service.Test
             return new ScopeOptions(organisationId, Guid.NewGuid(), Guid.NewGuid(), Scope.User);
         }
 
+        //https://stackoverflow.com/questions/49165810/how-to-mock-usermanager-in-net-core-testing
+        public static Mock<UserManager<UserEntity>> MockUserManager(List<UserEntity> ls)
+        {
+            var store = new Mock<IUserStore<UserEntity>>();
+            var mgr = new Mock<UserManager<UserEntity>>(store.Object, null, null, null, null, null, null, null, null);
+            mgr.Object.UserValidators.Add(new UserValidator<UserEntity>());
+            mgr.Object.PasswordValidators.Add(new PasswordValidator<UserEntity>());
+
+            return mgr;
+        }
     }
 }

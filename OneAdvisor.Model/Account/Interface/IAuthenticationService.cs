@@ -2,11 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using OneAdvisor.Model.Directory.Model.Authentication;
-using OneAdvisor.Model.Directory.Model.Role;
-using OneAdvisor.Model.Directory.Model.User;
+using OneAdvisor.Model.Account.Model.Authentication;
 
-namespace OneAdvisor.Model.Directory.Interface
+namespace OneAdvisor.Model.Account.Interface
 {
     public interface IAuthenticationService
     {

@@ -9,7 +9,7 @@ using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Directory;
 
-namespace OneAdvisor.Service.Test.Directory
+namespace OneAdvisor.Service.Test.Account
 {
     // [TestClass]
     // public class AuthenticationServiceTest

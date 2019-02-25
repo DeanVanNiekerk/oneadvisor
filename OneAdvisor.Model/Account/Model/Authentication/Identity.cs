@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using OneAdvisor.Model.Directory.Model.User;
 
-namespace OneAdvisor.Model.Directory.Model.Authentication
+namespace OneAdvisor.Model.Account.Model.Authentication
 {
     public class Identity
     {

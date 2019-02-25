@@ -1,6 +1,6 @@
 using System;
 
-namespace OneAdvisor.Model.Directory.Model.Authentication
+namespace OneAdvisor.Model.Account.Model.Authentication
 {
     public class ScopeInfo
     {

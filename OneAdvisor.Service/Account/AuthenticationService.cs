@@ -10,12 +10,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
+using OneAdvisor.Model.Account.Interface;
+using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Interface;
-using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.Role;
 using OneAdvisor.Model.Directory.Model.User;
 
-namespace OneAdvisor.Service.Directory
+namespace OneAdvisor.Service.Account
 {
     public class AuthenticationService : IAuthenticationService
     {

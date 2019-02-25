@@ -1,5 +1,5 @@
 using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Directory.Model.Authentication;
+using OneAdvisor.Model.Account.Model.Authentication;
 
 namespace OneAdvisor.Model.Directory.Model.Organisation
 {

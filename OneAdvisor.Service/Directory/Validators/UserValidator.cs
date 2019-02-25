@@ -1,6 +1,6 @@
 using System;
 using FluentValidation;
-using OneAdvisor.Model.Directory.Model.Authentication;
+using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Service.Directory.Validators

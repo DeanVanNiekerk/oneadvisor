@@ -5,6 +5,7 @@ using api.Controllers.Commission.CommissionError.Dto;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Model.Common;

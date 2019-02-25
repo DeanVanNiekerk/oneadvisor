@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Commission.Model.CommissionError;
 using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Directory.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Model.Commission.Interface

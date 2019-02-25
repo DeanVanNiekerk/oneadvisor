@@ -6,7 +6,7 @@ using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Directory.Model.Authentication;
+using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Member.Interface;
 using OneAdvisor.Model.Member.Model.Policy;
 using OneAdvisor.Service.Common.Query;

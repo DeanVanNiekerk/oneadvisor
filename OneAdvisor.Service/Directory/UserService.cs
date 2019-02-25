@@ -7,12 +7,13 @@ using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
-using OneAdvisor.Model.Directory.Model.Authentication;
+using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Model;
 using OneAdvisor.Service.Directory.Validators;
 using System.Collections.Generic;
+using FluentValidation.Results;
 
 namespace OneAdvisor.Service.Directory
 {
@@ -92,7 +93,7 @@ namespace OneAdvisor.Service.Directory
                 return result;
 
             //Check scope
-            var branch = ScopeQuery.GetBranchEntityQuery(_context, scope).FirstOrDefaultAsync(b => b.Id == user.BranchId);
+            var branch = await ScopeQuery.GetBranchEntityQuery(_context, scope).FirstOrDefaultAsync(b => b.Id == user.BranchId);
             if (scope.Scope == Scope.User || branch == null)
                 return new Result();
 
@@ -101,19 +102,15 @@ namespace OneAdvisor.Service.Directory
             entity.EmailConfirmed = true;
 
             var createResult = await _userManager.CreateAsync(entity, password);
-
             result.Success = createResult.Succeeded;
 
             if (!result.Success)
             {
-                //TODO: Map errors
+                result.ValidationFailures = createResult.Errors.Select(e => new ValidationFailure("", e.Description)).ToList();
                 return result;
             }
 
             await UpdateRoles(entity, user.Roles);
-
-            user.Id = entity.Id;
-            result.Tag = user;
 
             return result;
         }
@@ -139,7 +136,7 @@ namespace OneAdvisor.Service.Directory
 
             if (!result.Success)
             {
-                //TODO: Map errors
+                result.ValidationFailures = updateResult.Errors.Select(e => new ValidationFailure("", e.Description)).ToList();
                 return result;
             }
 
@@ -176,7 +173,7 @@ namespace OneAdvisor.Service.Directory
         {
             var model = new UserEdit();
 
-            model.FirstName = entity.FirstName;
+            model.Id = entity.Id;
             model.FirstName = entity.FirstName;
             model.LastName = entity.LastName;
             model.Email = entity.Email;
