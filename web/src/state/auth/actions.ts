@@ -32,19 +32,15 @@ export type Action =
     | SignInValidationErrorAction
     | SignInFailedAction;
 
-export const signIn = (
-    credentials: Credentials,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
+export const signIn = (credentials: Credentials): ApiAction => ({
     type: 'API',
     endpoint: `${signInApi}`,
     method: 'POST',
     payload: credentials,
     dispatchPrefix: 'AUTH_SIGNIN',
-    onSuccess: (result: any, dispatch: Dispatch) => {
+    onSuccess: (result: any) => {
         setToken(result.token);
         setIdentity(result.identity);
-        onSuccess(result, dispatch);
     }
 });
 

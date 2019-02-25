@@ -142,8 +142,8 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("HasUseCase_DoesHave");
 
             //Given
-            var role1 = new RoleEntity { Name = "role_1" };
-            var role2 = new RoleEntity { Name = "role_2" };
+            var role1 = new RoleEntity { Id = Guid.NewGuid(), Name = "role_1" };
+            var role2 = new RoleEntity { Id = Guid.NewGuid(), Name = "role_2" };
 
             var useCase = new UseCaseEntity { Id = "usecase_1" };
 

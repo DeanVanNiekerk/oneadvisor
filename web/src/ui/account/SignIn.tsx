@@ -1,6 +1,5 @@
 import { Col, Form, Icon, Row } from 'antd';
-import { string } from 'prop-types';
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import styled from 'styled-components';
@@ -8,7 +7,7 @@ import styled from 'styled-components';
 import { ValidationResult } from '@/app/validation';
 import { authSelector, Credentials, signIn } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
-import { Button, FormField, FormInput, Loader } from '@/ui/controls';
+import { Button, ContentLoader, FormField, FormInput } from '@/ui/controls';
 
 const Header = styled.div`
     font-size: 32px;
@@ -27,6 +26,7 @@ type Props = {
     fetching: boolean;
     failed: boolean;
     validationResults: ValidationResult[];
+    token: string;
 } & DispatchProp &
     RouteComponentProps;
 
@@ -43,6 +43,11 @@ class SignIn extends React.Component<Props, State> {
             userName: '',
             password: ''
         };
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (this.props.token !== null && prevProps.token === null)
+            this.props.history.push('/');
     }
 
     handleUserNameChange = (fieldName: string, value: any) => {
@@ -62,11 +67,7 @@ class SignIn extends React.Component<Props, State> {
             userName: this.state.userName,
             password: this.state.password
         };
-        this.props.dispatch(
-            signIn(credentials, () => {
-                this.props.history.push('/');
-            })
-        );
+        this.props.dispatch(signIn(credentials));
     };
 
     onKeyPress = event => {
@@ -87,55 +88,57 @@ class SignIn extends React.Component<Props, State> {
                             <Bold>ADVISOR</Bold>
                         </Header>
                         <h3>Sign In</h3>
-                        <Form layout="vertical">
-                            <FormInput
-                                placeholder="Email"
-                                fieldName="userName"
-                                value={this.state.userName}
-                                size="large"
-                                prefix={<Icon type="user" />}
-                                onChange={this.handleUserNameChange}
-                                validationResults={validationResults}
-                                autoFocus={true}
-                                formFieldStyle={{
-                                    marginBottom: '10px'
-                                }}
-                                onKeyPress={this.onKeyPress}
-                            />
-                            <FormInput
-                                placeholder="Password"
-                                fieldName="password"
-                                value={this.state.password}
-                                prefix={<Icon type="lock" />}
-                                size="large"
-                                onChange={this.handlePasswordChange}
-                                validationResults={validationResults}
-                                autoFocus={true}
-                                formFieldStyle={{
-                                    marginBottom: '25px'
-                                }}
-                                type="password"
-                                onKeyPress={this.onKeyPress}
-                            />
-
-                            {this.props.failed && (
-                                <p className="text-error text-center mb-2">
-                                    <b>Invalid email or password</b>
-                                </p>
-                            )}
-
-                            <FormField>
-                                <Button
+                        <ContentLoader isLoading={this.props.fetching}>
+                            <Form layout="vertical">
+                                <FormInput
+                                    placeholder="Email"
+                                    fieldName="userName"
+                                    value={this.state.userName}
                                     size="large"
-                                    noLeftMargin={true}
-                                    onClick={this.signIn}
-                                    type="primary"
-                                    block={true}
-                                >
-                                    Sign In
-                                </Button>
-                            </FormField>
-                        </Form>
+                                    prefix={<Icon type="user" />}
+                                    onChange={this.handleUserNameChange}
+                                    validationResults={validationResults}
+                                    autoFocus={true}
+                                    formFieldStyle={{
+                                        marginBottom: '10px'
+                                    }}
+                                    onKeyPress={this.onKeyPress}
+                                />
+                                <FormInput
+                                    placeholder="Password"
+                                    fieldName="password"
+                                    value={this.state.password}
+                                    prefix={<Icon type="lock" />}
+                                    size="large"
+                                    onChange={this.handlePasswordChange}
+                                    validationResults={validationResults}
+                                    autoFocus={true}
+                                    formFieldStyle={{
+                                        marginBottom: '25px'
+                                    }}
+                                    type="password"
+                                    onKeyPress={this.onKeyPress}
+                                />
+
+                                {this.props.failed && (
+                                    <p className="text-error text-center mb-2">
+                                        <b>Invalid email or password</b>
+                                    </p>
+                                )}
+
+                                <FormField>
+                                    <Button
+                                        size="large"
+                                        noLeftMargin={true}
+                                        onClick={this.signIn}
+                                        type="primary"
+                                        block={true}
+                                    >
+                                        Sign In
+                                    </Button>
+                                </FormField>
+                            </Form>
+                        </ContentLoader>
                     </Col>
                 </Row>
             </>
@@ -149,7 +152,8 @@ const mapStateToProps = (state: RootState) => {
     return {
         fetching: authState.fetching,
         failed: authState.signInFailed,
-        validationResults: authState.validationResults
+        validationResults: authState.validationResults,
+        token: authState.token
     };
 };
 
