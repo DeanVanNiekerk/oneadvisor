@@ -1,7 +1,3 @@
 {
-    "oidc": {
-        "clientId": "0oaiaermp1S0yg0cQ0h7",
-        "issuer": "https://dev-396180.oktapreview.com/oauth2/default"
-    },
     "baseApi": "https://oneadvisor-api.azurewebsites.net"
 }

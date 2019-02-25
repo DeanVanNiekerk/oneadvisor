@@ -5,14 +5,11 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const oidcConfig = config.get('oidc');
 const oaBaseApi = config.get('baseApi');
 
 console.log('Config Settings');
 console.log('========================================');
 console.log('environment: ' + process.env.NODE_ENV);
-console.log('oidcConfig.clientId: ' + oidcConfig.clientId);
-console.log('oidcConfig.issuer: ' + oidcConfig.issuer);
 console.log('oa.baseApi: ' + oaBaseApi);
 console.log('========================================');
 
@@ -70,8 +67,6 @@ module.exports = {
             }
         ]),
         new webpack.DefinePlugin({
-            __OIDC_CLIENT_ID__: JSON.stringify(oidcConfig.clientId),
-            __OIDC_ISSUER__: JSON.stringify(oidcConfig.issuer),
             __OA_BASE_API__: JSON.stringify(oaBaseApi)
         })
     ]
