@@ -121,7 +121,7 @@ namespace OneAdvisor.Service.Directory
             var token = new JwtSecurityToken(
 
               claims: claims,
-              expires: DateTime.Now.AddDays(30),
+              expires: DateTime.Now.AddDays(options.LifeSpanDays),
               signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

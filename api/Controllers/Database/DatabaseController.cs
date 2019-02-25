@@ -58,6 +58,7 @@ namespace api.Controllers.Database
         public async Task<string> SeedUsers()
         {
             var shellyBeachBranchId = Guid.Parse("cfaa7bf4-bff8-4c8c-b71e-f64bd8249750");
+            var lifeBranchId = Guid.Parse("7ab8bcd9-0544-4613-a82e-06b6de99d7ac");
 
             var options = new ScopeOptions(Guid.Empty, shellyBeachBranchId, Guid.Empty, Scope.Organisation, true);
 
@@ -70,7 +71,6 @@ namespace api.Controllers.Database
                 Roles = new List<string>() { "dir_administrator", "mem_administrator", "com_administrator", Role.SUPER_ADMINISTRATOR_ROLE },
                 BranchId = shellyBeachBranchId,
             };
-
             await UserService.InsertUser(options, user, "Test123!");
 
             user = new UserEdit()
@@ -82,7 +82,28 @@ namespace api.Controllers.Database
                 Roles = new List<string>() { "dir_administrator", "mem_administrator", "com_administrator", Role.SUPER_ADMINISTRATOR_ROLE },
                 BranchId = shellyBeachBranchId,
             };
+            await UserService.InsertUser(options, user, "Test123!");
 
+            user = new UserEdit()
+            {
+                FirstName = "Joanne",
+                LastName = "Bormann",
+                Email = "marc@smithbormann.co.za",
+                Scope = Scope.Organisation,
+                Roles = new List<string>() { "mem_administrator", "com_administrator" },
+                BranchId = shellyBeachBranchId,
+            };
+            await UserService.InsertUser(options, user, "Test123!");
+
+            user = new UserEdit()
+            {
+                FirstName = "Gavin",
+                LastName = "Smith",
+                Email = "gavin@lifeplanbrokers.co.za",
+                Scope = Scope.Organisation,
+                Roles = new List<string>() { "mem_administrator", "com_administrator" },
+                BranchId = lifeBranchId,
+            };
             await UserService.InsertUser(options, user, "Test123!");
 
             return "Success";

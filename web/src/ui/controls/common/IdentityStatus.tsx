@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { getScopeName } from '@/config/scope';
-import { authSelector, Identity } from '@/state/auth';
+import { authSelector, Identity, TokenData } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import { Date } from '@/ui/controls';
 
 type Props = {
     identity: Identity;
+    tokenData: TokenData;
 };
 
 class IdentityStatusComponent extends Component<Props> {
     render() {
-        const { identity } = this.props;
+        const { identity, tokenData } = this.props;
 
         return (
             <div>
@@ -44,14 +45,14 @@ class IdentityStatusComponent extends Component<Props> {
                     <b>Roles:</b>&nbsp;
                     {identity.roles.join(', ')}
                 </div>
-                {/* <div>
+                <div>
                     <b>Token Expires:</b>&nbsp;
                     <Date
-                        date={idTokenData.exp}
+                        date={tokenData.exp}
                         includeTime={true}
                         isUnixSeconds={true}
                     />
-                </div> */}
+                </div>
             </div>
         );
     }
@@ -61,7 +62,8 @@ const mapStateToProps = (state: RootState) => {
     const identityState = authSelector(state);
 
     return {
-        identity: identityState.identity
+        identity: identityState.identity,
+        tokenData: identityState.tokenData
     };
 };
 

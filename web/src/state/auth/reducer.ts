@@ -3,9 +3,12 @@ import { ValidationResult } from '@/app/validation';
 import { getIdentity, getToken } from '../storage';
 import { Identity } from './';
 import { Action } from './actions';
+import { decodeToken } from './helpers';
+import { TokenData } from './types';
 
 export type State = {
     readonly token: string | null;
+    readonly tokenData: TokenData | null;
     readonly fetching: boolean;
     readonly error: boolean;
     readonly validationResults: ValidationResult[];
@@ -15,6 +18,7 @@ export type State = {
 
 export const defaultState = {
     token: getToken(),
+    tokenData: decodeToken(getToken()),
     fetching: false,
     error: false,
     validationResults: [],
@@ -37,6 +41,7 @@ export const reducer = (state: State = defaultState, action: Action) => {
                 ...state,
                 fetching: false,
                 token: action.payload.token,
+                tokenData: decodeToken(action.payload.token),
                 identity: action.payload.identity
             };
         }

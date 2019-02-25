@@ -145,6 +145,8 @@ namespace OneAdvisor.Data
         {
             var roles = await _context.Roles.ToListAsync();
 
+            var saRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "super_administrator", NormalizedName = "SUPER_ADMINISTRATOR", Description = "Super Administrator", ApplicationId = null };
+
             //Directory Roles
             var dirRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "dir_administrator", NormalizedName = "DIR_ADMINISTRATOR", Description = "Administrator", ApplicationId = dirGuid };
             var dirRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "dir_readonly", NormalizedName = "DIR_READONLY", Description = "Readonly", ApplicationId = dirGuid };
@@ -159,6 +161,7 @@ namespace OneAdvisor.Data
 
             if (!roles.Any())
             {
+                _context.Roles.Add(saRole1);
                 _context.Roles.Add(dirRole1);
                 _context.Roles.Add(dirRole2);
                 _context.Roles.Add(memRole1);

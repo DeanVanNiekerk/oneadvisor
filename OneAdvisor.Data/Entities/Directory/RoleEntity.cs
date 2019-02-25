@@ -8,8 +8,7 @@ namespace OneAdvisor.Data.Entities.Directory
 {
     public class RoleEntity : IdentityRole<Guid>
     {
-        [Required]
-        public Guid ApplicationId { get; set; }
+        public Guid? ApplicationId { get; set; }
         [Required]
         public string Description { get; set; }
 

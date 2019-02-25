@@ -21,12 +21,13 @@ namespace OneAdvisor.Service.Directory
         public Task<List<Role>> GetRoles()
         {
             var query = from role in _context.Roles
+                        where role.ApplicationId != null
                         select new Role()
                         {
                             Id = role.Id,
                             Name = role.Name,
                             Description = role.Description,
-                            ApplicationId = role.ApplicationId
+                            ApplicationId = role.ApplicationId.Value
                         };
 
             return query.ToListAsync();

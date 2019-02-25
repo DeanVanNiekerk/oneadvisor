@@ -16,3 +16,7 @@ export type Identity = {
     useCaseIds: string[];
     scope: number;
 };
+
+export type TokenData = {
+    exp: number;
+};
