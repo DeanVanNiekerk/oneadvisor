@@ -91,7 +91,10 @@ namespace OneAdvisor.Service.Directory
             if (!result.Success)
                 return result;
 
-            //TODO: CHECK SCOPE
+            //Check scope
+            var branch = ScopeQuery.GetBranchEntityQuery(_context, scope).FirstOrDefaultAsync(b => b.Id == user.BranchId);
+            if (scope.Scope == Scope.User || branch == null)
+                return new Result();
 
             var entity = MapModelToEntity(user);
 
@@ -113,14 +116,6 @@ namespace OneAdvisor.Service.Directory
             result.Tag = user;
 
             return result;
-        }
-
-        private async Task UpdateRoles(UserEntity entity, IEnumerable<string> roles)
-        {
-            //Update roles
-            var currentRoles = await _userManager.GetRolesAsync(entity);
-            await _userManager.RemoveFromRolesAsync(entity, currentRoles);
-            await _userManager.AddToRolesAsync(entity, roles);
         }
 
         public async Task<Result> UpdateUser(ScopeOptions scope, UserEdit user)
@@ -151,6 +146,14 @@ namespace OneAdvisor.Service.Directory
             await UpdateRoles(entity, user.Roles);
 
             return result;
+        }
+
+        private async Task UpdateRoles(UserEntity entity, IEnumerable<string> roles)
+        {
+            //Update roles
+            var currentRoles = await _userManager.GetRolesAsync(entity);
+            await _userManager.RemoveFromRolesAsync(entity, currentRoles);
+            await _userManager.AddToRolesAsync(entity, roles);
         }
 
         private UserEntity MapModelToEntity(UserEdit model, UserEntity entity = null)

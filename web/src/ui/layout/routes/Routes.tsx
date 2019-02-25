@@ -18,8 +18,6 @@ import MemberPreview from '@/ui/app/member/member/MemberPreview';
 
 import SecureRoute from '../SecureRoute';
 
-//TODO: review PrivateRoute: https://reacttraining.com/react-router/web/example/auth-workflow
-
 const Routes = () => (
     <Switch>
         {/* ACCOUNT ----------------------------------------------------------------------------- */}
