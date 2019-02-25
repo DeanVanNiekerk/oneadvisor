@@ -5,7 +5,6 @@ import { Identity } from './';
 import { Action } from './actions';
 
 export type State = {
-    readonly authenticated: boolean;
     readonly token: string | null;
     readonly fetching: boolean;
     readonly error: boolean;
@@ -15,7 +14,6 @@ export type State = {
 };
 
 export const defaultState = {
-    authenticated: false,
     token: getToken(),
     fetching: false,
     error: false,
@@ -53,13 +51,7 @@ export const reducer = (state: State = defaultState, action: Action) => {
             return {
                 ...state,
                 fetching: false,
-                validationResults: action.payload
-            };
-        }
-        case 'AUTH_SIGNIN_FAILED': {
-            return {
-                ...state,
-                fetching: false,
+                validationResults: action.payload,
                 signInFailed: true
             };
         }

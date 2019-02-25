@@ -155,5 +155,40 @@ namespace OneAdvisor.Service.Directory
 
             return entity;
         }
+
+        public async Task<PagedItems<UserSimple>> GetUsersSimple(ScopeOptions scope)
+        {
+            var query = GetUserSimpleQuery(scope);
+
+            var pagedItems = new PagedItems<UserSimple>();
+
+            //Get total items
+            pagedItems.TotalItems = await query.CountAsync();
+
+            //Ordering
+            query = query.OrderBy("LastName", SortDirection.Ascending);
+
+            pagedItems.Items = await query.ToListAsync();
+
+            return pagedItems;
+        }
+
+        public Task<UserSimple> GetUserSimple(ScopeOptions scope, Guid id)
+        {
+            return GetUserSimpleQuery(scope).FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        private IQueryable<UserSimple> GetUserSimpleQuery(ScopeOptions scope)
+        {
+            var query = from user in ScopeQuery.GetUserEntityQuery(_context, scope)
+                        select new UserSimple()
+                        {
+                            Id = user.Id,
+                            FirstName = user.FirstName,
+                            LastName = user.LastName
+                        };
+
+            return query;
+        }
     }
 }

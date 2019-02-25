@@ -12,6 +12,7 @@ export type ApiAction = {
     payload?: Object;
     onSuccess?: ApiOnSuccess;
     onSuccessBlob?: ApiOnSuccessBlob;
+    hideNotifications?: boolean;
 };
 
 export type Result = {

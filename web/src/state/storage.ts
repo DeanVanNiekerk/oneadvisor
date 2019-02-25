@@ -1,17 +1,23 @@
 import { Identity } from './auth';
 
-export const getToken = () => {
+export const getToken = (): string | null => {
     return localStorage.getItem('token');
 };
 
-export const setToken = token => {
-    localStorage.setItem('token', token);
+export const setToken = (token: string | null) => {
+    if (token !== null) localStorage.setItem('token', token);
+    else localStorage.removeItem('token');
 };
 
-export const getIdentity = (): Identity => {
-    return JSON.parse(localStorage.getItem('identity') || '{}');
+export const getIdentity = (): Identity | null => {
+    const identity = localStorage.getItem('identity');
+    if (!identity) return null;
+
+    return JSON.parse(identity);
 };
 
-export const setIdentity = (identity: Identity) => {
-    localStorage.setItem('identity', JSON.stringify(identity));
+export const setIdentity = (identity: Identity | null) => {
+    if (identity !== null)
+        localStorage.setItem('identity', JSON.stringify(identity));
+    else localStorage.removeItem('identity');
 };

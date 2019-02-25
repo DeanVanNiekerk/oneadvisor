@@ -58,15 +58,6 @@ export default (store: any) => (next: any) => (action: any) => {
                 return;
             }
 
-            if (resp.status === 400) {
-                if (dispatchPrefix) {
-                    store.dispatch({
-                        type: `${dispatchPrefix}_FAILED`
-                    });
-                }
-                return;
-            }
-
             //Unauthorized, reload page
             if (resp.status === 401) {
                 showNotification(

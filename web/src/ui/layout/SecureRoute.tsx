@@ -3,6 +3,7 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, RouteProps, withRouter } from 'react-router';
 import { Redirect, Route } from 'react-router-dom';
 
+import { isAuthenticatedSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 
 import Layout from './Layout';
@@ -26,7 +27,7 @@ class SecureRoute extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-    isAuthenticated: state.auth.token != null
+    isAuthenticated: isAuthenticatedSelector(state)
 });
 
 export default withRouter(connect(mapStateToProps)(SecureRoute));

@@ -40,6 +40,8 @@ export const currentMenuSelector: (state: RootState) => Menu = createSelector(
     currentApplicationSelector,
     menusSelector,
     (pathName, application, menus) => {
+        if (!application) return { relativePath: pathName, groups: [] };
+
         const menu = menus[application.id];
 
         return {

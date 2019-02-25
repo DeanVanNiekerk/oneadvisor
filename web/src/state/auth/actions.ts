@@ -21,33 +21,38 @@ type SignInValidationErrorAction = {
     type: 'AUTH_SIGNIN_VALIDATION_ERROR';
     payload: ValidationResult[];
 };
-type SignInFailedAction = {
-    type: 'AUTH_SIGNIN_FAILED';
-};
 
 export type Action =
     | SignInAction
     | SigningInAction
     | SigningInErrorAction
-    | SignInValidationErrorAction
-    | SignInFailedAction;
+    | SignInValidationErrorAction;
 
-export const signIn = (credentials: Credentials): ApiAction => ({
+export const signIn = (
+    credentials: Credentials,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
     type: 'API',
     endpoint: `${signInApi}`,
     method: 'POST',
     payload: credentials,
     dispatchPrefix: 'AUTH_SIGNIN',
-    onSuccess: (result: any) => {
+    hideNotifications: true,
+    onSuccess: (result: any, dispatch: Dispatch) => {
         setToken(result.token);
         setIdentity(result.identity);
+        onSuccess(result, dispatch);
     }
 });
 
-export const signOut = (): Action => ({
-    type: 'AUTH_SIGNIN_RECEIVE',
-    payload: {
-        token: null,
-        identity: null
-    }
-});
+export const signOut = (): Action => {
+    setToken(null);
+    setIdentity(null);
+    return {
+        type: 'AUTH_SIGNIN_RECEIVE',
+        payload: {
+            token: null,
+            identity: null
+        }
+    };
+};

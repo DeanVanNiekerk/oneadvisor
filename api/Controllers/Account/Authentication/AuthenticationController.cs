@@ -4,6 +4,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Authentication;
 
@@ -35,12 +36,12 @@ namespace api.Controllers.Account.Authentication
 
         [AllowAnonymous]
         [HttpPost("[action]")]
-        public async Task<IActionResult> SignIn([FromBody] CredentialsDto dto)
+        public async Task<ActionResult<Result>> SignIn([FromBody] CredentialsDto dto)
         {
             var result = await AuthenticationService.Authenticate(dto.Username, dto.Password);
 
             if (!result.Success)
-                return BadRequest(new { error = true });
+                return BadRequest(new Result().ValidationFailures);
 
             var token = await AuthenticationService.GenerateToken(dto.Username, JwtOptions);
 

@@ -1,11 +1,11 @@
 import { Col, Form, Icon, Row } from 'antd';
 import React from 'react';
 import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import styled from 'styled-components';
 
 import { ValidationResult } from '@/app/validation';
-import { authSelector, Credentials, signIn } from '@/state/auth';
+import { authSelector, Credentials, isAuthenticatedSelector, signIn } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import { Button, ContentLoader, FormField, FormInput } from '@/ui/controls';
 
@@ -23,10 +23,10 @@ const Bold = styled.span`
 `;
 
 type Props = {
+    isAuthenticated: boolean;
     fetching: boolean;
     failed: boolean;
     validationResults: ValidationResult[];
-    token: string;
 } & DispatchProp &
     RouteComponentProps;
 
@@ -45,10 +45,21 @@ class SignIn extends React.Component<Props, State> {
         };
     }
 
-    componentDidUpdate(prevProps: Props) {
-        if (this.props.token !== null && prevProps.token === null)
-            this.props.history.push('/');
+    componentDidMount() {
+        if (this.props.isAuthenticated) {
+            this.redirect();
+        }
     }
+
+    componentDidUpdate(prevProps: Props) {
+        if (this.props.isAuthenticated && !prevProps.isAuthenticated) {
+            this.redirect();
+        }
+    }
+
+    redirect = () => {
+        this.props.history.push('/');
+    };
 
     handleUserNameChange = (fieldName: string, value: any) => {
         this.setState({
@@ -67,7 +78,7 @@ class SignIn extends React.Component<Props, State> {
             userName: this.state.userName,
             password: this.state.password
         };
-        this.props.dispatch(signIn(credentials));
+        this.props.dispatch(signIn(credentials, () => {}));
     };
 
     onKeyPress = event => {
@@ -150,11 +161,11 @@ const mapStateToProps = (state: RootState) => {
     const authState = authSelector(state);
 
     return {
+        isAuthenticated: isAuthenticatedSelector(state),
         fetching: authState.fetching,
         failed: authState.signInFailed,
-        validationResults: authState.validationResults,
-        token: authState.token
+        validationResults: authState.validationResults
     };
 };
 
-export default connect(mapStateToProps)(SignIn);
+export default withRouter(connect(mapStateToProps)(SignIn));

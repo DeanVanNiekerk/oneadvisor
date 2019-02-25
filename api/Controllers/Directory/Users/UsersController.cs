@@ -89,5 +89,30 @@ namespace api.Controllers.Directory.Users
 
             return Ok(result);
         }
+
+        [HttpGet("simple")]
+        [Authorize]
+        public async Task<PagedItemsDto<UserSimpleDto>> GetUsersSimple()
+        {
+            var scope = AuthenticationService.GetScope(User);
+
+            var pagedItems = await UserService.GetUsersSimple(scope);
+
+            return Mapper.MapToPageItemsDto<UserSimple, UserSimpleDto>(pagedItems);
+        }
+
+        [HttpGet("simple/{userId}")]
+        [Authorize]
+        public async Task<ActionResult<UserSimpleDto>> GetUserSimple(Guid userId)
+        {
+            var scope = AuthenticationService.GetScope(User);
+
+            var model = await UserService.GetUserSimple(scope, userId);
+
+            if (model == null)
+                return NotFound();
+
+            return Ok(Mapper.Map<UserSimpleDto>(model));
+        }
     }
 }
