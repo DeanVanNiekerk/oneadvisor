@@ -53,6 +53,7 @@ namespace OneAdvisor.Data
         public DbSet<CommissionEntity> Commission { get; set; }
         public DbSet<CommissionErrorEntity> CommissionError { get; set; }
         public DbSet<CommissionStatementEntity> CommissionStatement { get; set; }
+        public DbSet<CommissionStatementTemplateEntity> CommissionStatementTemplate { get; set; }
 
         #endregion
 
@@ -112,11 +113,13 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<CommissionEntity>().ToTable("com_Commission");
             modelBuilder.Entity<CommissionErrorEntity>().ToTable("com_CommissionError");
             modelBuilder.Entity<CommissionStatementEntity>().ToTable("com_CommissionStatement");
+            modelBuilder.Entity<CommissionStatementTemplateEntity>().ToTable("com_CommissionStatementTemplate");
 
             //Custom mappings
             CommissionMap.Map(modelBuilder);
             CommissionErrorMap.Map(modelBuilder);
             CommissionStatementMap.Map(modelBuilder);
+            CommissionStatementTemplateMap.Map(modelBuilder);
 
             #endregion
 
