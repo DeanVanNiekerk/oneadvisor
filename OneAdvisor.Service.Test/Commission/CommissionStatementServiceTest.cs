@@ -362,7 +362,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var actual = await context.CommissionStatement.FindAsync(((CommissionStatementEdit)result.Tag).Id);
                 Assert.AreEqual(cs1.CompanyId, actual.CompanyId);
-                Assert.AreEqual(cs1.Date, actual.Date);
+                Assert.AreEqual(cs1.Date.Value.Date, actual.Date);
                 Assert.AreEqual(cs1.AmountIncludingVAT, actual.AmountIncludingVAT);
                 Assert.AreEqual(cs1.VAT, actual.VAT);
                 Assert.AreEqual(user1.Organisation.Id, user1.Organisation.Id);
@@ -434,7 +434,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var actual = await context.CommissionStatement.FindAsync(model.Id);
                 Assert.AreEqual(model.CompanyId, actual.CompanyId);
-                Assert.AreEqual(model.Date, actual.Date);
+                Assert.AreEqual(model.Date.Value.Date, actual.Date);
                 Assert.AreEqual(model.AmountIncludingVAT, actual.AmountIncludingVAT);
                 Assert.AreEqual(model.VAT, actual.VAT);
                 Assert.AreEqual(user1.Organisation.Id, user1.Organisation.Id);
