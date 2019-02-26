@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 
 import { ValidationResult } from '@/app/validation';
-import { CommissionErrorData } from '@/state/app/commission/errors';
+import { CommissionImportData } from '@/state/app/commission/errors';
 import { Form, FormInput } from '@/ui/controls';
 
 type Props = {
-    error: CommissionErrorData;
+    error: CommissionImportData;
     validationResults: ValidationResult[];
-    onChange: (error: CommissionErrorData) => void;
+    onChange: (error: CommissionImportData) => void;
 };
 
 type State = {
-    error: CommissionErrorData;
+    error: CommissionImportData;
 };
 
 class FormatErrorForm extends Component<Props, State> {

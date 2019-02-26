@@ -9,7 +9,12 @@ const defaultCommissionError: CommissionError = {
     policyId: '12',
     memberId: '13',
     commissionTypeId: '14',
-    data: `{ "key": "value1" }`,
+    data: {
+        policyNumber: '123-123',
+        amountIncludingVAT: '50',
+        vat: '5',
+        commissionTypeCode: 'gap_cover'
+    },
     isFormatValid: true
 };
 

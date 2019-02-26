@@ -9,7 +9,12 @@ const defaultCommissionError: CommissionError = {
     policyId: '12',
     memberId: '13',
     commissionTypeId: '14',
-    data: `{ "key": "value1" }`,
+    data: {
+        policyNumber: '123-123',
+        amountIncludingVAT: '50',
+        vat: '5',
+        commissionTypeCode: 'gap_cover'
+    },
     isFormatValid: false
 };
 
@@ -18,7 +23,7 @@ describe('commission format error reducer', () => {
         const initalState = {
             ...defaultState,
             commissionError: { ...defaultCommissionError },
-            commissionErrorData: JSON.parse(defaultCommissionError.data),
+            commissionErrorData: defaultCommissionError.data,
             validationResults: [getValidationResult()]
         };
 
@@ -71,7 +76,7 @@ describe('commission format error reducer', () => {
         const expectedState = {
             ...defaultState,
             commissionError: { ...defaultCommissionError },
-            commissionErrorData: JSON.parse(defaultCommissionError.data),
+            commissionErrorData: defaultCommissionError.data,
             fetching: false,
             validationResults: []
         };

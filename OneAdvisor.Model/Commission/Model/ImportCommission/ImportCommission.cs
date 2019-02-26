@@ -1,15 +1,13 @@
 using System;
+using Newtonsoft.Json;
 
 namespace OneAdvisor.Model.Commission.Model.ImportCommission
 {
     public class ImportCommission
     {
-        public ImportCommission()
-        {
-            Id = Guid.NewGuid().ToString();
-        }
+        [JsonIgnore]
+        public string Id { get; set; } //This Id is purely here for the unit tests (breaking if not here)
 
-        public string Id { get; set; }
 
         //Bare minimum
         public string PolicyNumber { get; set; }

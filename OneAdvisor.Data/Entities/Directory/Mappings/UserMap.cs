@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Newtonsoft.Json;
 using OneAdvisor.Data.Entities.Directory.Lookup;
+using OneAdvisor.Data.ValueConverters;
 using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Data.Entities.Directory.Mappings
@@ -12,17 +13,16 @@ namespace OneAdvisor.Data.Entities.Directory.Mappings
     {
         public static void Map(ModelBuilder modelBuilder)
         {
-            var converter = new EnumToStringConverter<Scope>();
+            var enumConverter = new EnumToStringConverter<Scope>();
+            var jsonConverter = new JsonValueConverter<IEnumerable<string>>();
 
             modelBuilder.Entity<UserEntity>()
                 .Property(e => e.Scope)
-                .HasConversion(converter);
+                .HasConversion(enumConverter);
 
             modelBuilder.Entity<UserEntity>()
                 .Property(e => e.Aliases)
-                .HasConversion(
-                    v => JsonConvert.SerializeObject(v),
-                    v => JsonConvert.DeserializeObject<IList<string>>(v));
+                .HasConversion(jsonConverter);
         }
     }
 }

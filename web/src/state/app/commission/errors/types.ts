@@ -4,19 +4,19 @@ export type CommissionError = {
     policyId: string | null;
     memberId: string | null;
     commissionTypeId: string | null;
-    data: string;
+    data: CommissionImportData;
     isFormatValid: boolean;
 };
 
-export type CommissionErrorData = {
-    PolicyNumber: string;
-    CommissionTypeCode: string;
-    AmountIncludingVAT: string;
-    VAT: string;
+export type CommissionImportData = {
+    policyNumber: string;
+    commissionTypeCode: string;
+    amountIncludingVAT: string;
+    vat: string;
 
-    FirstName: string;
-    LastName: string;
-    Initials: string;
-    DateOfBirth: string;
-    IdNumber: string;
+    firstName?: string | null;
+    lastName?: string | null;
+    initials?: string | null;
+    dateOfBirth?: string | null;
+    idNumber?: string | null;
 };

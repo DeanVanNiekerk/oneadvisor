@@ -633,7 +633,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
-                var results = await service.GetAllMappingErrors(scope, statement.Id);
+                var results = await service.GetErrors(scope, statement.Id, true);
 
                 //Then
                 Assert.AreEqual(2, results.Count());
@@ -652,7 +652,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 //Scope checked
                 scope = TestHelper.GetScopeOptions(user2);
-                results = await service.GetAllMappingErrors(scope, statement.Id);
+                results = await service.GetErrors(scope, statement.Id, true);
                 Assert.AreEqual(0, results.Count());
             }
         }

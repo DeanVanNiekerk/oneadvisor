@@ -1,11 +1,11 @@
 import { ValidationResult } from '@/app/validation';
 
-import { CommissionError, CommissionErrorData } from '../types';
+import { CommissionError, CommissionImportData } from '../types';
 import { CommissionFormatErrorAction } from './actions';
 
 export type State = {
     readonly commissionError: CommissionError | null;
-    readonly commissionErrorData: CommissionErrorData | null;
+    readonly commissionErrorData: CommissionImportData | null;
     readonly fetching: boolean;
     readonly updating: boolean;
     readonly error: boolean;
@@ -31,7 +31,7 @@ export const reducer = (
                 ...state,
                 commissionError: action.payload,
                 commissionErrorData: action.payload
-                    ? JSON.parse(action.payload.data)
+                    ? action.payload.data
                     : null,
                 fetching: false,
                 error: false,

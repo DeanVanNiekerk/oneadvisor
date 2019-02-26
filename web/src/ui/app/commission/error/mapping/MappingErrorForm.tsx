@@ -3,7 +3,7 @@ import JSONPretty from 'react-json-pretty';
 import { connect, DispatchProp } from 'react-redux';
 
 import { ValidationResult } from '@/app/validation';
-import { CommissionError, CommissionErrorData } from '@/state/app/commission/errors';
+import { CommissionError, CommissionImportData } from '@/state/app/commission/errors';
 import { Statement } from '@/state/app/commission/statements';
 import { MemberEdit, newMember, receiveMember } from '@/state/app/member/members';
 import { newPolicy, PolicyEdit, receivePolicy } from '@/state/app/member/policies';
@@ -24,7 +24,7 @@ type Props = {
 
 type State = {
     error: CommissionError;
-    errorData: CommissionErrorData;
+    errorData: CommissionImportData;
     searchMemberVisible: boolean;
     searchPolicyVisible: boolean;
     activeTab: TabKey;
@@ -38,7 +38,7 @@ class MappingErrorForm extends Component<Props, State> {
 
         this.state = {
             error: props.error,
-            errorData: JSON.parse(props.error.data),
+            errorData: props.error.data,
             searchMemberVisible: false,
             searchPolicyVisible: false,
             activeTab: 'form_tab'
@@ -49,7 +49,7 @@ class MappingErrorForm extends Component<Props, State> {
         if (this.props.error != prevProps.error) {
             this.setState({
                 error: this.props.error,
-                errorData: JSON.parse(this.props.error.data),
+                errorData: this.props.error.data,
                 activeTab: 'form_tab'
             });
         }
@@ -70,11 +70,11 @@ class MappingErrorForm extends Component<Props, State> {
         const { errorData } = this.state;
 
         const member = newMember({
-            firstName: errorData.FirstName,
-            lastName: errorData.LastName,
-            dateOfBirth: errorData.DateOfBirth,
-            idNumber: errorData.IdNumber,
-            initials: errorData.Initials
+            firstName: errorData.firstName || '',
+            lastName: errorData.lastName || '',
+            dateOfBirth: errorData.dateOfBirth || '',
+            idNumber: errorData.idNumber || '',
+            initials: errorData.initials || ''
         });
         this.props.dispatch(receiveMember(member));
     };
@@ -85,7 +85,7 @@ class MappingErrorForm extends Component<Props, State> {
         const policy = newPolicy({
             memberId: this.state.error.memberId,
             companyId: this.props.statement.companyId,
-            number: this.state.errorData.PolicyNumber
+            number: this.state.errorData.policyNumber
         });
         this.props.dispatch(receivePolicy(policy));
     };
@@ -225,7 +225,7 @@ class MappingErrorForm extends Component<Props, State> {
                     </TabPane>
 
                     <TabPane tab="Excel Data" key="data_tab">
-                        <JSONPretty json={JSON.parse(error.data)} />
+                        <JSONPretty json={error.data} />
                     </TabPane>
                 </Tabs>
 
@@ -238,7 +238,7 @@ class MappingErrorForm extends Component<Props, State> {
                     onClose={this.toggleSearchMemberVisible}
                 >
                     <MemberSearch
-                        defaultSearchText={this.state.errorData.LastName || ''}
+                        defaultSearchText={this.state.errorData.lastName || ''}
                         onSelect={(memberId: string) => {
                             this.selectMember(memberId);
                             this.toggleSearchMemberVisible();

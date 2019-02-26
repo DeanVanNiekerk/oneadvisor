@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using api.App.Authorization;
 using api.Controllers.Commission.CommissionError.Dto;
@@ -31,7 +32,7 @@ namespace api.Controllers.Commission.CommissionError
 
         [HttpGet("errors/next")]
         [UseCaseAuthorize("com_edit_commission_statements")]
-        public async Task<ActionResult<CommissionErrorDto>> Index(Guid commissionStatementId, [FromQuery] bool hasValidFormat)
+        public async Task<ActionResult<CommissionErrorDto>> Next(Guid commissionStatementId, [FromQuery] bool hasValidFormat)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -76,6 +77,17 @@ namespace api.Controllers.Commission.CommissionError
             await CommissionErrorService.AutoResolveMappingErrors(scope, commission.CommissionStatementId.Value, commission.PolicyId.Value);
 
             return Ok(result);
+        }
+
+        [HttpGet("errors")]
+        [UseCaseAuthorize("com_edit_commission_statements")]
+        public async Task<List<CommissionErrorDto>> Index(Guid commissionStatementId, [FromQuery] bool hasValidFormat = true)
+        {
+            var scope = AuthenticationService.GetScope(User);
+
+            var results = await CommissionErrorService.GetErrors(scope, commissionStatementId, hasValidFormat);
+
+            return Mapper.MapList<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError, CommissionErrorDto>(results);
         }
     }
 

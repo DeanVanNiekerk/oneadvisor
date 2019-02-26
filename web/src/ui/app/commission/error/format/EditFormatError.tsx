@@ -5,7 +5,7 @@ import { connect, DispatchProp } from 'react-redux';
 import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
 import {
-    CommissionError, CommissionErrorData, fetchNextFormatError, formatErrorSelector, receiveFormatError,
+    CommissionError, CommissionImportData, fetchNextFormatError, formatErrorSelector, receiveFormatError,
     resolveFormatError
 } from '@/state/app/commission/errors';
 import { RootState } from '@/state/rootReducer';
@@ -19,14 +19,14 @@ type Props = {
     remainingErrors: number;
     onUpdate: () => void;
     error: CommissionError | null;
-    errorData: CommissionErrorData | null;
+    errorData: CommissionImportData | null;
     fetching: boolean;
     updating: boolean;
     validationResults: ValidationResult[];
 } & DispatchProp;
 
 type State = {
-    errorDataEdited: CommissionErrorData | null;
+    errorDataEdited: CommissionImportData | null;
 };
 class EditFormatError extends Component<Props, State> {
     constructor(props: Props) {
@@ -61,11 +61,12 @@ class EditFormatError extends Component<Props, State> {
     };
 
     save = () => {
-        if (this.props.error === null) return;
+        if (this.props.error === null || this.state.errorDataEdited === null)
+            return;
 
         let error = {
             ...this.props.error,
-            data: JSON.stringify(this.state.errorDataEdited)
+            data: this.state.errorDataEdited
         };
 
         this.props.dispatch(
@@ -83,7 +84,7 @@ class EditFormatError extends Component<Props, State> {
         );
     };
 
-    onChange = (errorData: CommissionErrorData) => {
+    onChange = (errorData: CommissionImportData) => {
         this.setState({
             errorDataEdited: errorData
         });

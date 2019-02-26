@@ -115,13 +115,13 @@ namespace OneAdvisor.Service.Commission
             }
         }
 
-        public async Task<IEnumerable<CommissionError>> GetAllMappingErrors(ScopeOptions scope, Guid commissionStatementId)
+        public async Task<List<CommissionError>> GetErrors(ScopeOptions scope, Guid commissionStatementId, bool hasValidFormat)
         {
             var organisationQuery = ScopeQuery.GetOrganisationEntityQuery(_context, scope);
 
             var query = from commissionError in GetCommissionErrorEntityQuery(scope)
                         where commissionError.CommissionStatementId == commissionStatementId
-                        && commissionError.IsFormatValid == true
+                        && commissionError.IsFormatValid == hasValidFormat
                         select MapEntityToModel(commissionError);
 
             return await query.ToListAsync();

@@ -14,6 +14,6 @@ namespace OneAdvisor.Model.Commission.Interface
         Task<Result> ResolveFormatError(ScopeOptions scope, CommissionError error);
         Task<Result> ResolveMappingError(ScopeOptions scope, CommissionError error);
         Task AutoResolveMappingErrors(ScopeOptions scope, Guid commissionStatementId, Guid policyId);
-        Task<IEnumerable<CommissionError>> GetAllMappingErrors(ScopeOptions scope, Guid commissionStatementId);
+        Task<List<CommissionError>> GetErrors(ScopeOptions scope, Guid commissionStatementId, bool hasValidFormat);
     }
 }

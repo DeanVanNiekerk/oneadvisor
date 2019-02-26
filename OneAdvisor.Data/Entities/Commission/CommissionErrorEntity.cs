@@ -16,7 +16,6 @@ namespace OneAdvisor.Data.Entities.Commission
         public Guid? PolicyId { get; set; }
         public Guid? MemberId { get; set; }
         public Guid? CommissionTypeId { get; set; }
-        [Required]
         public ImportCommission Data { get; set; }
         public bool IsFormatValid { get; set; }
 
