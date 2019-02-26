@@ -28,8 +28,10 @@ class FormInputNumber extends Component<Props> {
             this.props.onChange(this.props.fieldName, value);
     };
 
-    currencyFormatter = (value: number) => {
-        return `R ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    currencyFormatter = (value: number | null | undefined) => {
+        let text = '';
+        if (value) text = parseFloat(value.toString()).toFixed(2);
+        return `R ${text}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     };
 
     currencyParser = (value: string) => {

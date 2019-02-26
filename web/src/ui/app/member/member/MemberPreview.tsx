@@ -103,6 +103,7 @@ class MemberPreviewComponent extends Component<Props, State> {
 
     render() {
         let { member } = this.props;
+        const cardHeight = '100px';
 
         return (
             <>
@@ -122,6 +123,7 @@ class MemberPreviewComponent extends Component<Props, State> {
                             <Icon type="edit" onClick={this.editDetails} />
                         ]}
                         rows={2}
+                        height={cardHeight}
                     >
                         {member && (
                             <>
@@ -147,6 +149,7 @@ class MemberPreviewComponent extends Component<Props, State> {
                         isLoading={this.isLoading()}
                         requiredUseCase="mem_view_policies"
                         actions={this.getPolicyActions()}
+                        height={cardHeight}
                     >
                         {member && (
                             <>
@@ -173,6 +176,7 @@ class MemberPreviewComponent extends Component<Props, State> {
                                 onClick={this.toggleContactListVisible}
                             />
                         ]}
+                        height={cardHeight}
                     >
                         {member && (
                             <>
