@@ -5,6 +5,7 @@ import { getMember, MemberEdit } from '@/state/app/member/members';
 
 type Props = {
     memberId: string | null;
+    className?: string;
 } & DispatchProp;
 
 type State = {
@@ -41,7 +42,8 @@ class MemberNameComponent extends Component<Props, State> {
         if (!member) return <span />;
 
         return (
-            <span>{`${member.firstName || ''} ${member.lastName || ''}`}</span>
+            <span className={this.props.className}>{`${member.firstName ||
+                ''} ${member.lastName || ''}`}</span>
         );
     }
 }

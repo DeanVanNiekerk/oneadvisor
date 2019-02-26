@@ -21,5 +21,6 @@ namespace OneAdvisor.Model.Commission.Model.ImportCommission
         public string Initials { get; set; }
         public string DateOfBirth { get; set; }
         public string IdNumber { get; set; }
+        //public string FullName { get; set; }
     }
 }

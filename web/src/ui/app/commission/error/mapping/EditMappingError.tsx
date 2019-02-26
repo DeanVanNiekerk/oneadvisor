@@ -95,6 +95,15 @@ class EditMappingError extends Component<Props, State> {
         } remaining`;
     };
 
+    canSave = () => {
+        if (this.state.errorEdited === null || this.isLoading()) return false;
+
+        return (
+            !!this.state.errorEdited.policyId &&
+            !!this.state.errorEdited.memberId
+        );
+    };
+
     render() {
         const { error, fetching, validationResults, statement } = this.props;
 
@@ -126,7 +135,7 @@ class EditMappingError extends Component<Props, State> {
                         <Button
                             onClick={this.save}
                             type="primary"
-                            disabled={this.isLoading()}
+                            disabled={!this.canSave()}
                             requiredUseCase="com_edit_commission_statements"
                         >
                             {this.props.remainingErrors > 1 && (

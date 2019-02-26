@@ -5,6 +5,7 @@ import { getPolicy, PolicyEdit } from '@/state/app/member/policies';
 
 type Props = {
     policyId: string | null;
+    className?: string;
 } & DispatchProp;
 
 type State = {
@@ -40,7 +41,10 @@ class PolicyNameComponent extends Component<Props, State> {
 
         if (!policy) return <span />;
 
-        return <span>{`${policy.number || ''}`}</span>;
+        return (
+            <span className={this.props.className}>{`${policy.number ||
+                ''}`}</span>
+        );
     }
 }
 

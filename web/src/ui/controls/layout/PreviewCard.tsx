@@ -17,7 +17,7 @@ type Props = {
     useCases: string[];
     requiredUseCase?: string;
     rows?: number;
-    minHeight?: string;
+    height?: string;
 };
 
 class PreviewCardComponent extends Component<Props> {
@@ -30,7 +30,7 @@ class PreviewCardComponent extends Component<Props> {
             isLoading,
             requiredUseCase,
             rows = 1,
-            minHeight,
+            height: height,
             icon
         } = this.props;
 
@@ -44,7 +44,9 @@ class PreviewCardComponent extends Component<Props> {
         let style: any = {
             margin: '10px'
         };
-        if (minHeight) style.minHeight = minHeight;
+
+        let bodyStyle: any = {};
+        if (height) bodyStyle.height = height;
 
         return (
             <Col sm={24} md={12} lg={8} xl={6}>
@@ -68,6 +70,7 @@ class PreviewCardComponent extends Component<Props> {
                     onClick={onClick}
                     actions={actions}
                     style={style}
+                    bodyStyle={bodyStyle}
                 >
                     <Skeleton
                         loading={isLoading}

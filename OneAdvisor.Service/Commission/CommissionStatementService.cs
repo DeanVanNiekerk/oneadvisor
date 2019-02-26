@@ -180,7 +180,7 @@ namespace OneAdvisor.Service.Commission
             entity.CompanyId = model.CompanyId.Value;
             entity.AmountIncludingVAT = model.AmountIncludingVAT.Value;
             entity.VAT = model.VAT.Value;
-            entity.Date = model.Date.Value;
+            entity.Date = model.Date.Value.Date;
             entity.Processed = model.Processed.Value;
 
             return entity;

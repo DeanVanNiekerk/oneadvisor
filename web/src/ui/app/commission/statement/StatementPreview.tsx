@@ -1,13 +1,18 @@
 import { Icon, Modal } from 'antd';
+import moment from 'moment';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
+import { downloadExcel } from '@/app/excel/helpers';
 import { hasUseCase } from '@/app/identity';
+import { DATE_FORMAT } from '@/app/utils';
 import { fetchNextFormatError, fetchNextMappingError } from '@/state/app/commission/errors';
+import { getCommissionErrors } from '@/state/app/commission/errors/list/actions';
 import {
     deleteCommissions, fetchStatement, fetchStatementPreview, Statement, statementPreviewSelector
 } from '@/state/app/commission/statements';
+import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { authSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import {
@@ -29,6 +34,7 @@ type Props = {
     statement: Statement | null;
     fetching: boolean;
     useCases: string[];
+    companies: Company[];
 } & RouteComponentProps<{ commissionStatementId: string }> &
     DispatchProp;
 
@@ -161,9 +167,32 @@ class StatementPreviewComponent extends Component<Props, State> {
         });
     };
 
+    downloadMappingErrors = () => {
+        if (this.props.statement === null) return;
+        this.props.dispatch(
+            getCommissionErrors(this.props.statement.id, true, errors => {
+                if (this.props.statement === null) return;
+                downloadExcel(
+                    errors.map(e => e.data),
+                    `MappingErrors_${this.getCompanyName()}_${moment(
+                        this.props.statement.date
+                    ).format(DATE_FORMAT)}.xlsx`
+                );
+            })
+        );
+    };
+
+    getCompanyName = () => {
+        let companyId = '';
+        if (this.props.statement !== null)
+            companyId = this.props.statement.companyId;
+        const company = this.props.companies.find(u => u.id === companyId);
+        return company ? company.name : '';
+    };
+
     render() {
         let { statement } = this.props;
-        const minCardHeight = '230px';
+        const cardHeight = '130px';
 
         return (
             <>
@@ -187,7 +216,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                             <Icon type="edit" onClick={this.editDetails} />
                         ]}
                         rows={3}
-                        minHeight={minCardHeight}
+                        height={cardHeight}
                     >
                         {statement && (
                             <>
@@ -223,7 +252,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                         isLoading={this.isLoading()}
                         actions={this.getCommissionEntriesActions()}
                         rows={3}
-                        minHeight={minCardHeight}
+                        height={cardHeight}
                     >
                         {statement && (
                             <>
@@ -254,17 +283,16 @@ class StatementPreviewComponent extends Component<Props, State> {
                     </PreviewCard>
                     <PreviewCard
                         title="Upload Statement"
-                        titleExtra={
+                        actions={[
                             <Icon
                                 type="info-circle"
-                                className="text-primary"
                                 onClick={this.showCommissionUploadInfo}
                             />
-                        }
+                        ]}
                         icon="upload"
                         isLoading={this.isLoading()}
                         rows={3}
-                        minHeight={minCardHeight}
+                        height={cardHeight}
                         requiredUseCase="com_import_commissions"
                     >
                         {statement && (
@@ -282,6 +310,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                             rows={3}
                             onClick={this.getNextFormatError}
                             actions={[<Icon type="tool" />]}
+                            height={cardHeight}
                         >
                             {statement && (
                                 <StatementPreviewErrorCount
@@ -297,7 +326,17 @@ class StatementPreviewComponent extends Component<Props, State> {
                             isLoading={this.isLoading()}
                             rows={3}
                             onClick={this.getNextMappingError}
-                            actions={[<Icon type="tool" />]}
+                            actions={[
+                                <Icon type="tool" />,
+                                <Icon
+                                    type="download"
+                                    onClick={event => {
+                                        this.downloadMappingErrors();
+                                        event.stopPropagation();
+                                    }}
+                                />
+                            ]}
+                            height={cardHeight}
                         >
                             {statement && (
                                 <StatementPreviewErrorCount
@@ -357,13 +396,15 @@ class StatementPreviewComponent extends Component<Props, State> {
 const mapStateToProps = (state: RootState) => {
     const statementState = statementPreviewSelector(state);
     const identityState = authSelector(state);
+    const companiesState = companiesSelector(state);
 
     return {
         statement: statementState.statement,
         fetching: statementState.fetching,
         useCases: identityState.identity
             ? identityState.identity.useCaseIds
-            : []
+            : [],
+        companies: companiesState.items
     };
 };
 

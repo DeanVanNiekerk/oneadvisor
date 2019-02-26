@@ -13,7 +13,7 @@ type Props = {
     loading?: boolean;
     validationResults?: ValidationResult[];
     extra?: React.ReactNode;
-    emptyValueText?: string;
+    emptyValueText?: React.ReactNode;
 };
 
 const FormText = (props: Props) => (

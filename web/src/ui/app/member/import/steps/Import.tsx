@@ -1,8 +1,8 @@
-import { Card, Col, Collapse, Icon, Modal, Progress, Row, Tooltip } from 'antd';
+import { Card, Col, Collapse, Icon, Modal, Progress, Row } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
-import { utils, write, writeFile } from 'xlsx';
 
+import { downloadExcel } from '@/app/excel/helpers';
 import { getColumn } from '@/app/table';
 import { parseValidationErrors } from '@/app/validation';
 import {
@@ -154,7 +154,7 @@ class Import extends Component<Props> {
         this.props.dispatch(importMemberReset());
     };
 
-    saveErrors = () => {
+    downloadErrors = () => {
         const errorIds = this.props.resultsFailure.map(
             result => result.importMember._id
         );
@@ -169,17 +169,13 @@ class Import extends Component<Props> {
             return e;
         });
 
-        const workbook = utils.book_new();
-        const sheet = utils.json_to_sheet(data);
-        utils.book_append_sheet(workbook, sheet);
-
         const fileName = this.props.fileName;
         const index = fileName.lastIndexOf('.');
 
         const errorFileName =
             fileName.slice(0, index) + '_Errors' + fileName.slice(index);
 
-        writeFile(workbook, errorFileName);
+        downloadExcel(data, errorFileName);
     };
 
     render() {
@@ -248,7 +244,7 @@ class Import extends Component<Props> {
                                         shape="round"
                                         icon="download"
                                         size="small"
-                                        onClick={this.saveErrors}
+                                        onClick={this.downloadErrors}
                                     >
                                         Download
                                     </Button>

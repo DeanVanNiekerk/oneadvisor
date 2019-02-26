@@ -143,16 +143,28 @@ class MappingErrorForm extends Component<Props, State> {
                                 label="Member"
                                 value={
                                     error.memberId ? (
-                                        <MemberName memberId={error.memberId} />
+                                        <MemberName
+                                            memberId={error.memberId}
+                                            className="text-success"
+                                        />
                                     ) : null
                                 }
-                                emptyValueText="No Mapped Member"
+                                emptyValueText={
+                                    <span className="text-error">
+                                        No Mapped Member
+                                    </span>
+                                }
                                 validationResults={validationResults}
                                 extra={
                                     <>
                                         <Button
                                             size="small"
                                             icon="search"
+                                            type={
+                                                this.state.error.memberId
+                                                    ? 'dashed'
+                                                    : 'primary'
+                                            }
                                             onClick={
                                                 this.toggleSearchMemberVisible
                                             }
@@ -162,6 +174,11 @@ class MappingErrorForm extends Component<Props, State> {
                                         <Button
                                             size="small"
                                             icon="plus"
+                                            type={
+                                                this.state.error.memberId
+                                                    ? 'dashed'
+                                                    : 'primary'
+                                            }
                                             onClick={this.newMember}
                                         >
                                             New Member
@@ -174,16 +191,28 @@ class MappingErrorForm extends Component<Props, State> {
                                 label="Policy"
                                 value={
                                     error.policyId ? (
-                                        <PolicyName policyId={error.policyId} />
+                                        <PolicyName
+                                            policyId={error.policyId}
+                                            className="text-success"
+                                        />
                                     ) : null
                                 }
-                                emptyValueText="No Mapped Policy"
+                                emptyValueText={
+                                    <span className="text-error">
+                                        No Mapped Policy
+                                    </span>
+                                }
                                 validationResults={validationResults}
                                 extra={
                                     <>
                                         <Button
                                             size="small"
                                             icon="search"
+                                            type={
+                                                this.state.error.policyId
+                                                    ? 'dashed'
+                                                    : 'primary'
+                                            }
                                             onClick={
                                                 this.toggleSearchPolicyVisible
                                             }
@@ -196,6 +225,11 @@ class MappingErrorForm extends Component<Props, State> {
                                         <Button
                                             size="small"
                                             icon="plus"
+                                            type={
+                                                this.state.error.policyId
+                                                    ? 'dashed'
+                                                    : 'primary'
+                                            }
                                             onClick={this.newPolicy}
                                             disabled={
                                                 !this.state.error.memberId
@@ -218,7 +252,11 @@ class MappingErrorForm extends Component<Props, State> {
                                         />
                                     ) : null
                                 }
-                                emptyValueText="No Mapped Commission Type"
+                                emptyValueText={
+                                    <span className="text-error">
+                                        No Mapped Commission Type
+                                    </span>
+                                }
                                 validationResults={validationResults}
                             />
                         </Form>
