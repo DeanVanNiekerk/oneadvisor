@@ -1,9 +1,9 @@
 using System;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 
-namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate
+namespace api.Controllers.Commission.CommissionStatementTemplates.Dto
 {
-    public class CommissionStatementTemplateEdit
+    public class CommissionStatementTemplateEditDto
     {
         public Guid? Id { get; set; }
         public Guid? CompanyId { get; set; }

@@ -61,7 +61,6 @@ namespace OneAdvisor.Data
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_UseCase]");
 
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetUserRoles]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetRoleClaims]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetRoles]");
 
             return total;
@@ -205,6 +204,8 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_edit_commissions", Name = "Edit Commissions", ApplicationId = comGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_view_commission_statements", Name = "View Commission Statements", ApplicationId = comGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_edit_commission_statements", Name = "Edit Commission Statements", ApplicationId = comGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "com_view_commission_statement_templates", Name = "View Commission Statement Templates", ApplicationId = comGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "com_edit_commission_statement_templates", Name = "Edit Commission Statement Templates", ApplicationId = comGuid });
             }
 
             var roleToUseCase = await _context.RoleToUseCase.ToListAsync();
@@ -265,10 +266,13 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_edit_commissions" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_view_commission_statements" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_edit_commission_statements" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_view_commission_statement_templates" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_edit_commission_statement_templates" });
 
                 //Readonly
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole2.Id, UseCaseId = "com_view_commissions" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole2.Id, UseCaseId = "com_view_commission_statements" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole2.Id, UseCaseId = "com_view_commission_statement_templates" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
             }
 

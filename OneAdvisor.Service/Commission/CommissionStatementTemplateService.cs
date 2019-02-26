@@ -102,7 +102,7 @@ namespace OneAdvisor.Service.Commission
                 entity = new CommissionStatementTemplateEntity();
 
             entity.Name = model.Name;
-            entity.CompanyId = model.CompanyId;
+            entity.CompanyId = model.CompanyId.Value;
             entity.Config = model.Config;
 
             return entity;

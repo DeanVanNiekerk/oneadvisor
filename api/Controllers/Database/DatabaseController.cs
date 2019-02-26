@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Data;
+using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Role;
@@ -14,14 +16,19 @@ namespace api.Controllers.Database
     [Route("api/database")]
     public class DatabaseController : Controller
     {
-        public DatabaseController(IDefaultDbContextInitializer contextInitializer, IUserService userService)
+        private List<string> _allRoles = new List<string>() { "dir_administrator", "mem_administrator", "com_administrator", Role.SUPER_ADMINISTRATOR_ROLE };
+        private List<string> _limitedRoles = new List<string>() { "mem_administrator", "com_administrator" };
+
+        public DatabaseController(IDefaultDbContextInitializer contextInitializer, IUserService userService, UserManager<UserEntity> userManager)
         {
             DbContextInitializer = contextInitializer;
             UserService = userService;
+            UserManager = userManager;
         }
 
         private IDefaultDbContextInitializer DbContextInitializer { get; }
         private IUserService UserService { get; }
+        private UserManager<UserEntity> UserManager { get; }
 
         [HttpGet("[action]")]
         public async Task<string> Reset()
@@ -36,6 +43,19 @@ namespace api.Controllers.Database
         {
             await DbContextInitializer.CleanRolesAndUseCase();
             await DbContextInitializer.SeedRolesAndUseCase();
+
+            var user = await UserManager.FindByEmailAsync("deanvniekerk@gmail.com");
+            await UserManager.AddToRolesAsync(user, _allRoles);
+
+            user = await UserManager.FindByEmailAsync("marc@smithbormann.co.za");
+            await UserManager.AddToRolesAsync(user, _allRoles);
+
+            user = await UserManager.FindByEmailAsync("advice@smithbormann.co.za");
+            await UserManager.AddToRolesAsync(user, _limitedRoles);
+
+            user = await UserManager.FindByEmailAsync("gavin@lifeplanbrokers.co.za");
+            await UserManager.AddToRolesAsync(user, _limitedRoles);
+
             return "Success";
         }
 
@@ -68,7 +88,7 @@ namespace api.Controllers.Database
                 LastName = "van Niekerk",
                 Email = "deanvniekerk@gmail.com",
                 Scope = Scope.Organisation,
-                Roles = new List<string>() { "dir_administrator", "mem_administrator", "com_administrator", Role.SUPER_ADMINISTRATOR_ROLE },
+                Roles = _allRoles,
                 BranchId = shellyBeachBranchId,
             };
             await UserService.InsertUser(options, user, "Test123!");
@@ -79,7 +99,7 @@ namespace api.Controllers.Database
                 LastName = "Bormann",
                 Email = "marc@smithbormann.co.za",
                 Scope = Scope.Organisation,
-                Roles = new List<string>() { "dir_administrator", "mem_administrator", "com_administrator", Role.SUPER_ADMINISTRATOR_ROLE },
+                Roles = _allRoles,
                 BranchId = shellyBeachBranchId,
             };
             await UserService.InsertUser(options, user, "Test123!");
@@ -90,7 +110,7 @@ namespace api.Controllers.Database
                 LastName = "Bormann",
                 Email = "advice@smithbormann.co.za",
                 Scope = Scope.Organisation,
-                Roles = new List<string>() { "mem_administrator", "com_administrator" },
+                Roles = _limitedRoles,
                 BranchId = shellyBeachBranchId,
             };
             await UserService.InsertUser(options, user, "Test123!");
@@ -101,7 +121,7 @@ namespace api.Controllers.Database
                 LastName = "Smith",
                 Email = "gavin@lifeplanbrokers.co.za",
                 Scope = Scope.Organisation,
-                Roles = new List<string>() { "mem_administrator", "com_administrator" },
+                Roles = _limitedRoles,
                 BranchId = shellyBeachBranchId,
             };
             await UserService.InsertUser(options, user, "Test123!");

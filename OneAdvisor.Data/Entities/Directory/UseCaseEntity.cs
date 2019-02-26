@@ -6,7 +6,7 @@ namespace OneAdvisor.Data.Entities.Directory
 {
     public class UseCaseEntity
     {
-        [Key, StringLength(32)]
+        [Key, StringLength(256)]
         public string Id { get; set; }
         [Required]
         public string Name { get; set; }

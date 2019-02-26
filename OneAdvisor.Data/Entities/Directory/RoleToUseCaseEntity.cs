@@ -10,7 +10,7 @@ namespace OneAdvisor.Data.Entities.Directory
         //Composite key: RoleId/UseCaseId -> setup in RoleToUseCaseMap
         [StringLength(32)]
         public Guid RoleId { get; set; }
-        [StringLength(32)]
+        [StringLength(256)]
         public string UseCaseId { get; set; }
 
         public virtual RoleEntity Role { get; set; }
