@@ -1,4 +1,5 @@
 using System;
+using OneAdvisor.Model.Commission.Model.ImportCommission;
 
 namespace api.Controllers.Commission.CommissionError.Dto
 {
@@ -10,7 +11,7 @@ namespace api.Controllers.Commission.CommissionError.Dto
         public Guid? PolicyId { get; set; }
         public Guid? MemberId { get; set; }
         public Guid? CommissionTypeId { get; set; }
-        public string Data { get; set; }
+        public ImportCommission Data { get; set; }
         public bool IsFormatValid { get; set; }
     }
 }

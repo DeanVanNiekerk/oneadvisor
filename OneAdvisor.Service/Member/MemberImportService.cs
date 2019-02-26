@@ -73,7 +73,7 @@ namespace OneAdvisor.Service.Member
                 var userQuery = from entity in users
                                 where (String.Equals(entity.FirstName, parts[0], StringComparison.OrdinalIgnoreCase)
                                 && String.Equals(entity.LastName, parts[1], StringComparison.OrdinalIgnoreCase))
-                                // Cant get this translated to sql currently (thats why client side)
+                                //JSON Query: should be included in above query
                                 || entity.Aliases.Any(alias => String.Equals(alias, data.PolicyUserFullName, StringComparison.OrdinalIgnoreCase))
                                 select entity;
 

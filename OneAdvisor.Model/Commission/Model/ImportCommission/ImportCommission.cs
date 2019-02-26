@@ -4,6 +4,13 @@ namespace OneAdvisor.Model.Commission.Model.ImportCommission
 {
     public class ImportCommission
     {
+        public ImportCommission()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
+
+        public string Id { get; set; }
+
         //Bare minimum
         public string PolicyNumber { get; set; }
         public string CommissionTypeCode { get; set; }

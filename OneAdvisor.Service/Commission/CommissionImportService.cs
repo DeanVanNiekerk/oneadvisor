@@ -69,7 +69,7 @@ namespace OneAdvisor.Service.Commission
             var error = new CommissionError()
             {
                 CommissionStatementId = commissionStatement.Id,
-                Data = JsonConvert.SerializeObject(importCommission),
+                Data = importCommission,
                 IsFormatValid = true
             };
 

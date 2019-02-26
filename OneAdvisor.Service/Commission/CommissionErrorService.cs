@@ -16,6 +16,7 @@ using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Commission.Validators;
 using OneAdvisor.Service.Common.Query;
+using System.Collections.Generic;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -44,10 +45,8 @@ namespace OneAdvisor.Service.Commission
 
         public async Task<Result> ResolveFormatError(ScopeOptions scope, CommissionError error)
         {
-            var importCommission = JsonConvert.DeserializeObject<ImportCommission>(error.Data);
-
             var validator = new ImportCommissionValidator();
-            var result = validator.Validate(importCommission).GetResult();
+            var result = validator.Validate(error.Data).GetResult();
 
             if (!result.Success)
                 return result;
@@ -72,15 +71,13 @@ namespace OneAdvisor.Service.Commission
             if (!result.Success)
                 return result;
 
-            var importCommission = JsonConvert.DeserializeObject<ImportCommission>(error.Data);
-
             var commission = new CommissionEdit();
 
             commission.PolicyId = error.PolicyId;
             commission.CommissionStatementId = error.CommissionStatementId;
             commission.CommissionTypeId = error.CommissionTypeId;
-            commission.AmountIncludingVAT = Convert.ToDecimal(importCommission.AmountIncludingVAT);
-            commission.VAT = Convert.ToDecimal(importCommission.VAT);
+            commission.AmountIncludingVAT = Convert.ToDecimal(error.Data.AmountIncludingVAT);
+            commission.VAT = Convert.ToDecimal(error.Data.VAT);
 
             result = await _commissionService.InsertCommission(scope, commission);
 
@@ -103,16 +100,31 @@ namespace OneAdvisor.Service.Commission
             var query = from commissionError in GetCommissionErrorEntityQuery(scope)
                         where commissionError.CommissionStatementId == commissionStatementId
                         && commissionError.IsFormatValid == true
-                        && EF.Functions.Like(commissionError.Data, $"%\"PolicyNumber\":\"{policy.Number}\"%")
                         select commissionError;
 
             foreach (var error in query)
             {
+                //JSON Query: should be included in above query
+                if (!String.Equals(error.Data.PolicyNumber, policy.Number, StringComparison.OrdinalIgnoreCase))
+                    continue;
+
                 var model = MapEntityToModel(error);
                 model.MemberId = policy.MemberId;
                 model.PolicyId = policyId;
                 await ResolveMappingError(scope, model);
             }
+        }
+
+        public async Task<IEnumerable<CommissionError>> GetAllMappingErrors(ScopeOptions scope, Guid commissionStatementId)
+        {
+            var organisationQuery = ScopeQuery.GetOrganisationEntityQuery(_context, scope);
+
+            var query = from commissionError in GetCommissionErrorEntityQuery(scope)
+                        where commissionError.CommissionStatementId == commissionStatementId
+                        && commissionError.IsFormatValid == true
+                        select MapEntityToModel(commissionError);
+
+            return await query.ToListAsync();
         }
 
         private async Task DeleteCommissionError(ScopeOptions scope, CommissionError error)

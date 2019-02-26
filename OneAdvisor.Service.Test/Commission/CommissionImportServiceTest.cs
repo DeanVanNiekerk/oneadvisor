@@ -110,7 +110,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(statement.Id, actual.CommissionStatementId);
 
                 Assert.AreEqual(false, actual.IsFormatValid);
-                Assert.AreEqual(JsonConvert.SerializeObject(import1), actual.Data);
+                Assert.AreEqual(import1, actual.Data);
             }
         }
 
@@ -133,10 +133,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 context.CommissionType.Add(commissionType);
                 context.SaveChanges();
-            }
 
-            using (var context = new DataContext(options))
-            {
                 var statementService = new CommissionStatementService(context);
                 var lookupService = new LookupService(context);
                 var policyService = new PolicyService(context);
@@ -168,7 +165,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(statement.Id, actual.CommissionStatementId);
 
                 Assert.AreEqual(true, actual.IsFormatValid);
-                Assert.AreEqual(JsonConvert.SerializeObject(import1), actual.Data);
+                Assert.AreEqual(import1, actual.Data);
             }
         }
 
@@ -196,10 +193,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 context.Policy.Add(policy1);
                 context.SaveChanges();
-            }
 
-            using (var context = new DataContext(options))
-            {
                 var statementService = new CommissionStatementService(context);
                 var lookupService = new LookupService(context);
                 var policyService = new PolicyService(context);
@@ -231,7 +225,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(statement.Id, actual.CommissionStatementId);
 
                 Assert.AreEqual(true, actual.IsFormatValid);
-                Assert.AreEqual(JsonConvert.SerializeObject(import1), actual.Data);
+                Assert.AreEqual(import1, actual.Data);
             }
         }
 
@@ -266,10 +260,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionType.Add(commissionType);
                 context.Policy.Add(policy1);
                 context.SaveChanges();
-            }
 
-            using (var context = new DataContext(options))
-            {
                 var statementService = new CommissionStatementService(context);
                 var lookupService = new LookupService(context);
                 var policyService = new PolicyService(context);
@@ -336,10 +327,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionType.Add(commissionType);
                 context.Policy.Add(policy1);
                 context.SaveChanges();
-            }
 
-            using (var context = new DataContext(options))
-            {
                 var statementService = new CommissionStatementService(context);
                 var lookupService = new LookupService(context);
                 var policyService = new PolicyService(context);

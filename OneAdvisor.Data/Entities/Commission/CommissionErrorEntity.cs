@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Model.Commission.Model.ImportCommission;
 
 namespace OneAdvisor.Data.Entities.Commission
 {
@@ -16,7 +17,7 @@ namespace OneAdvisor.Data.Entities.Commission
         public Guid? MemberId { get; set; }
         public Guid? CommissionTypeId { get; set; }
         [Required]
-        public string Data { get; set; }
+        public ImportCommission Data { get; set; }
         public bool IsFormatValid { get; set; }
 
         public virtual CommissionStatementEntity CommissionStatement { get; set; }
