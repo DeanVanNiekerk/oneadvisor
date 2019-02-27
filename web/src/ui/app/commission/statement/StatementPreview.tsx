@@ -161,6 +161,8 @@ class StatementPreviewComponent extends Component<Props, State> {
                         <li>FirstName</li>
                         <li>IdNumber</li>
                         <li>Initials</li>
+                        <li>FullName</li>
+                        <li>BrokerFullName</li>
                     </ol>
                 </div>
             )

@@ -19,4 +19,6 @@ export type CommissionImportData = {
     initials?: string | null;
     dateOfBirth?: string | null;
     idNumber?: string | null;
+    fullName?: string | null;
+    brokerFullName?: string | null;
 };

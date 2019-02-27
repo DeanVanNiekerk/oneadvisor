@@ -71,7 +71,7 @@ class MappingErrorForm extends Component<Props, State> {
 
         const member = newMember({
             firstName: errorData.firstName || '',
-            lastName: errorData.lastName || '',
+            lastName: errorData.lastName || errorData.fullName || '',
             dateOfBirth: errorData.dateOfBirth || '',
             idNumber: errorData.idNumber || '',
             initials: errorData.initials || ''

@@ -28,6 +28,8 @@ namespace OneAdvisor.Import.Excel.Readers
                         commission.FirstName = GetValue(reader, 6);
                         commission.IdNumber = GetValue(reader, 7);
                         commission.Initials = GetValue(reader, 8);
+                        commission.FullName = GetValue(reader, 9);
+                        commission.BrokerFullName = GetValue(reader, 10);
 
                         if (string.IsNullOrWhiteSpace(commission.PolicyNumber))
                             continue;
