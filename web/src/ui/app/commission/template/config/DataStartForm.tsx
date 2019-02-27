@@ -53,7 +53,6 @@ class DataStartForm extends Component<Props, State> {
                     value={dataStart.headerColumn}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    autoFocus={true}
                 />
                 <FormInput
                     fieldName="headerValue"
@@ -61,7 +60,6 @@ class DataStartForm extends Component<Props, State> {
                     value={dataStart.headerValue}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    autoFocus={true}
                 />
             </Form>
         );
