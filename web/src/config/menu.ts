@@ -105,28 +105,23 @@ export const menus: Menus = {
         relativePath: '/commission',
         groups: [
             {
-                name: 'Management',
+                name: 'Statements',
                 links: [
                     {
                         name: 'Statements',
-                        icon: 'table',
+                        icon: 'reconciliation',
                         relativePath: '/statements',
                         isDefault: true,
                         useCases: ['com_view_commission_statements']
+                    },
+                    {
+                        name: 'Templates',
+                        icon: 'block',
+                        relativePath: '/templates',
+                        useCases: ['com_view_commission_statement_templates']
                     }
                 ]
             }
-            // {
-            //     name: 'Data',
-            //     links: [
-            //         {
-            //             name: 'Import',
-            //             icon: 'cloud-upload',
-            //             relativePath: '/import',
-            //             useCases: ['com_import_commissions']
-            //         }
-            //     ]
-            // }
         ]
     }
 };

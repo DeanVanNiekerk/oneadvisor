@@ -5,6 +5,7 @@ import SignIn from '@/ui/account/SignIn';
 import CommissionImport from '@/ui/app/commission/import/CommissionImport';
 import StatementList from '@/ui/app/commission/statement/StatementList';
 import StatementPreview from '@/ui/app/commission/statement/StatementPreview';
+import CommissionStatementTemplateList from '@/ui/app/commission/template/TemplateList';
 import AuditLogList from '@/ui/app/directory/audit/logs/AuditLogList';
 import CommissionTypeList from '@/ui/app/directory/lookup/commissionType/CommissionTypeList';
 import CompanyList from '@/ui/app/directory/lookup/company/CompanyList';
@@ -54,6 +55,11 @@ const Routes = () => (
             exact
             path="/commission/statements/:commissionStatementId"
             component={StatementPreview}
+        />
+        <SecureRoute
+            exact
+            path="/commission/templates"
+            component={CommissionStatementTemplateList}
         />
         {/* ------------------------------------------------------------------------------------- */}
 

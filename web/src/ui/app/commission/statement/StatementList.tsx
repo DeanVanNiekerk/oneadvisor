@@ -213,7 +213,7 @@ class StatementList extends Component<Props> {
         return (
             <>
                 <Header
-                    icon="table"
+                    icon="reconciliation"
                     actions={
                         <Button
                             type="default"

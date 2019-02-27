@@ -196,7 +196,7 @@ class StatementPreviewComponent extends Component<Props, State> {
 
         return (
             <>
-                <Header icon="table" loading={this.isLoading()}>
+                <Header icon="reconciliation" loading={this.isLoading()}>
                     {statement && (
                         <span>
                             <CompanyName companyId={statement.companyId} />
