@@ -218,5 +218,49 @@ describe('validation', () => {
                 }
             ]);
         });
+
+        it('array, 2 results returned', () => {
+            const prefix = 'obj1.fields';
+            const errors: ValidationResult[] = [
+                {
+                    propertyName: 'obj1.fields[0].prop2',
+                    errorMessage: 'Error 1',
+                    severity: 0,
+                    errorCode: '',
+                    attemptedValue: ''
+                },
+                {
+                    propertyName: 'obj2',
+                    errorMessage: 'Error 2',
+                    severity: 0,
+                    errorCode: '',
+                    attemptedValue: ''
+                },
+                {
+                    propertyName: 'obj1.fields[1].prop3',
+                    errorMessage: 'Error 3',
+                    severity: 0,
+                    errorCode: '',
+                    attemptedValue: ''
+                }
+            ];
+
+            expect(getValidationSubSet(prefix, errors, true)).toEqual([
+                {
+                    propertyName: '[0].prop2',
+                    errorMessage: 'Error 1',
+                    severity: 0,
+                    errorCode: '',
+                    attemptedValue: ''
+                },
+                {
+                    propertyName: '[1].prop3',
+                    errorMessage: 'Error 3',
+                    severity: 0,
+                    errorCode: '',
+                    attemptedValue: ''
+                }
+            ]);
+        });
     });
 });

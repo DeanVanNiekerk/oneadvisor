@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using api.App.Authorization;
 using api.Controllers.Directory.Lookups.Dto;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Lookup;
@@ -34,7 +36,8 @@ namespace api.Controllers.Directory.Lookups
                 CommissionTypes = Mapper.MapList<CommissionType, CommissionTypeDto>(await LookupService.GetCommissionTypes()),
                 PolicyTypes = Mapper.MapList<PolicyType, PolicyTypeDto>(await LookupService.GetPolicyTypes()),
                 ContactTypes = Mapper.MapList<ContactType, ContactTypeDto>(await LookupService.GetContactTypes()),
-                MarritalStatus = Mapper.MapList<MarritalStatus, MarritalStatusDto>(await LookupService.GetMarritalStatus())
+                MarritalStatus = Mapper.MapList<MarritalStatus, MarritalStatusDto>(await LookupService.GetMarritalStatus()),
+                CommissionStatementTemplateFieldNames = Mapper.MapList<CommissionStatementTemplateFieldName, CommissionStatementTemplateFieldNameDto>(LookupService.GetCommissionStatementTemplateFieldNames()),
             };
         }
 

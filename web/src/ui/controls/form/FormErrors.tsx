@@ -17,7 +17,11 @@ const FormErrors = (props: Props) => {
 
     const message = results.join(',');
 
-    return message ? <Alert message={message} type="error" showIcon /> : <></>;
+    return message ? (
+        <Alert message={message} type="error" showIcon className="mb-1" />
+    ) : (
+        <></>
+    );
 };
 
 export { FormErrors };

@@ -48,7 +48,8 @@ export const parseValidationErrors = (errors: string): ValidationResult[] => {
 
 export const getValidationSubSet = (
     prefix: string,
-    validationResults: ValidationResult[]
+    validationResults: ValidationResult[],
+    isArray: boolean = false
 ): ValidationResult[] => {
     if (!prefix) return validationResults;
     const results = validationResults.filter(
@@ -57,7 +58,29 @@ export const getValidationSubSet = (
     return results.map(r => {
         return {
             ...r,
-            propertyName: r.propertyName.substring(prefix.length + 1)
+            propertyName: r.propertyName.substr(
+                prefix.length + (isArray ? 0 : 1)
+            )
         };
     });
+};
+
+export const getErrorMessage = (
+    fieldName: string,
+    value: string,
+    index: number,
+    validationResults: ValidationResult[] | undefined
+) => {
+    const result = getValidationError(
+        `${fieldName}[${index}]` || '',
+        validationResults || []
+    );
+
+    //There is no validation error
+    if (!result) return null;
+
+    //If the value has changed then dont show message
+    if (formatValue(result.attemptedValue) !== formatValue(value)) return null;
+
+    return result.errorMessage;
 };

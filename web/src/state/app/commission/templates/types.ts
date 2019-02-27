@@ -13,9 +13,15 @@ export type CommissionStatementTemplateEdit = {
 
 export type Config = {
     dataStart: DataStart;
+    fields: Field[];
 };
 
 export type DataStart = {
     headerColumn: string;
     headerValue: string;
+};
+
+export type Field = {
+    name: string;
+    column: string;
 };

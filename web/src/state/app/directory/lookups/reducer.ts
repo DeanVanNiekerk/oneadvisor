@@ -3,6 +3,10 @@ import { combineReducers } from 'redux';
 import { LookupsAction } from './all/actions';
 import { reducer as all, State as LookupsState } from './all/reducer';
 import {
+    Action as CommissionStatementTemplateFieldNamesAction, reducer as commissionStatementTemplateFieldNames,
+    State as CommissionStatementTemplateFieldNamesState
+} from './commissionStatementTemplateFieldNames/reducer';
+import {
     Action as CommissionTypesAction, reducer as commissionTypes, State as CommissionTypesState
 } from './commissionTypes/reducer';
 import { Action as CompaniesAction, reducer as companies, State as CompaniesState } from './companies/reducer';
@@ -15,12 +19,13 @@ import {
 import { Action as PolicyTypesAction, reducer as policyTypes, State as PolicyTypesState } from './policyTypes/reducer';
 
 export type Action =
+    | LookupsAction
     | PolicyTypesAction
     | ContactTypesAction
     | MarritalStatusAction
     | CompaniesAction
     | CommissionTypesAction
-    | LookupsAction;
+    | CommissionStatementTemplateFieldNamesAction;
 
 export type State = {
     all: LookupsState;
@@ -29,6 +34,7 @@ export type State = {
     contactTypes: ContactTypesState;
     marritalStatus: MarritalStatusState;
     policyTypes: PolicyTypesState;
+    commissionStatementTemplateFieldNames: CommissionStatementTemplateFieldNamesState;
 };
 
 export const reducer = combineReducers({
@@ -37,5 +43,6 @@ export const reducer = combineReducers({
     commissionTypes: commissionTypes,
     marritalStatus: marritalStatus,
     contactTypes: contactTypes,
-    policyTypes: policyTypes
+    policyTypes: policyTypes,
+    commissionStatementTemplateFieldNames: commissionStatementTemplateFieldNames
 });

@@ -10,6 +10,7 @@ namespace OneAdvisor.Model.Directory.Interface
         Task<List<ContactType>> GetContactTypes();
         Task<List<MarritalStatus>> GetMarritalStatus();
         Task<List<PolicyType>> GetPolicyTypes();
+        List<CommissionStatementTemplateFieldName> GetCommissionStatementTemplateFieldNames();
 
         Task<List<Company>> GetCompanies();
         Task<Result> UpdateCompany(Company model);

@@ -11,7 +11,8 @@ const template: CommissionStatementTemplateEdit = {
         dataStart: {
             headerColumn: 'A',
             headerValue: 'Broker'
-        }
+        },
+        fields: []
     }
 };
 

@@ -9,5 +9,6 @@ namespace api.Controllers.Directory.Lookups.Dto
         public List<ContactTypeDto> ContactTypes { get; set; }
         public List<PolicyTypeDto> PolicyTypes { get; set; }
         public List<MarritalStatusDto> MarritalStatus { get; set; }
+        public List<CommissionStatementTemplateFieldNameDto> CommissionStatementTemplateFieldNames { get; set; }
     }
 }

@@ -4,14 +4,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { getValidationSubSet, ValidationResult } from '@/app/validation';
-import { CommissionStatementTemplateEdit, DataStart } from '@/state/app/commission/templates';
+import { CommissionStatementTemplateEdit, DataStart, Field } from '@/state/app/commission/templates';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
 
 import DataStartForm from './config/DataStartForm';
+import FieldsForm from './config/FieldsForm';
 
-type TabKey = 'details_tab' | 'config_data_start';
+type TabKey = 'details_tab' | 'config_data_start' | 'config_fields';
 
 type Props = {
     template: CommissionStatementTemplateEdit;
@@ -72,8 +73,23 @@ class TemplateForm extends Component<Props, State> {
         this.setTemplateState(template);
     };
 
+    onFieldsChange = (fields: Field[]) => {
+        const template = update(this.state.template, {
+            config: {
+                fields: {
+                    $set: fields
+                }
+            }
+        });
+        this.setTemplateState(template);
+    };
+
     getDataStartTabTitle = () => {
         return this.getTabTitle('Data Start', 'config.dataStart');
+    };
+
+    getFieldsTabTitle = () => {
+        return this.getTabTitle('Fields', 'config.fields');
     };
 
     getTabTitle = (title: string, prefix: string) => {
@@ -129,6 +145,17 @@ class TemplateForm extends Component<Props, State> {
                             validationResults
                         )}
                         onChange={this.onDataStartChange}
+                    />
+                </TabPane>
+                <TabPane tab={this.getFieldsTabTitle()} key="config_fields">
+                    <FieldsForm
+                        fields={template.config.fields}
+                        validationResults={getValidationSubSet(
+                            'config.fields',
+                            validationResults,
+                            true
+                        )}
+                        onChange={this.onFieldsChange}
                     />
                 </TabPane>
             </Tabs>

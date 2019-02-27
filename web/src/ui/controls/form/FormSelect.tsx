@@ -16,6 +16,7 @@ type Props = {
     options: any[];
     optionsValue: string;
     optionsText: string;
+    validationFieldName?: string;
     disabled?: boolean;
     defaultActiveFirstOption?: boolean;
     onChange?: (fieldName: string, value: any) => void;
@@ -30,6 +31,7 @@ type Props = {
     showArrow?: boolean;
     filterOption?: boolean;
     onSearch?: (value: string) => any;
+    minWidth?: string;
 };
 
 class FormSelect extends Component<Props> {
@@ -79,6 +81,7 @@ class FormSelect extends Component<Props> {
                 value={value}
                 layout={layout}
                 loading={loading}
+                validationFieldName={this.props.validationFieldName}
             >
                 <Select
                     showSearch={this.props.showSearch}
@@ -88,7 +91,7 @@ class FormSelect extends Component<Props> {
                     notFoundContent={this.props.notFoundContent}
                     placeholder={this.props.placeholder}
                     style={{
-                        minWidth: '180px'
+                        minWidth: this.props.minWidth || '180px'
                     }}
                     value={value}
                     onChange={this.onChange}

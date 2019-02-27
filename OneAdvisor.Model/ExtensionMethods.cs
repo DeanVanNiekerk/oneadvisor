@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FluentValidation.Results;
 using OneAdvisor.Model.Common;
@@ -80,6 +81,19 @@ namespace OneAdvisor.Model
         public static async Task<IEnumerable<T1>> SelectManyAsync<T, T1>(this IQueryable<T> enumeration, Func<T, Task<IQueryable<T1>>> func)
         {
             return (await Task.WhenAll(enumeration.Select(func))).SelectMany(s => s);
+        }
+
+        public static string SplitCamelCase(this string str)
+        {
+            return Regex.Replace(
+                Regex.Replace(
+                    str,
+                    @"(\P{Ll})(\P{Ll}\p{Ll})",
+                    "$1 $2"
+                ),
+                @"(\p{Ll})(\P{Ll})",
+                "$1 $2"
+            );
         }
     }
 }

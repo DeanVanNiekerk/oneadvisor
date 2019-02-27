@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
-import { formatValue, getValidationError, ValidationResult } from '@/app/validation';
+import { formatValue, getErrorMessage, getValidationError, ValidationResult } from '@/app/validation';
 import { authSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 
@@ -111,24 +111,6 @@ class FormSimpleListComponent extends Component<Props, State> {
         );
     };
 
-    getErrorMessage = (value: string, index: number) => {
-        const result = getValidationError(
-            `${this.props.fieldName}[${index}]` || '',
-            this.props.validationResults || []
-        );
-
-        console.log(value, index, this.props.validationResults, result);
-
-        //There is no validation error
-        if (!result) return null;
-
-        //If the value has changed then dont show message
-        if (formatValue(result.attemptedValue) !== formatValue(value))
-            return null;
-
-        return result.errorMessage;
-    };
-
     getActions = (value: string, index: number) => {
         if (
             this.props.editUseCase &&
@@ -212,7 +194,12 @@ class FormSimpleListComponent extends Component<Props, State> {
                                 }
                                 description={
                                     <span className="text-error">
-                                        {this.getErrorMessage(value, index)}
+                                        {getErrorMessage(
+                                            this.props.fieldName,
+                                            value,
+                                            index,
+                                            this.props.validationResults
+                                        )}
                                     </span>
                                 }
                             />

@@ -15,7 +15,7 @@ namespace OneAdvisor.Service
                 var matches = regex.Matches(value);
                 return matches.Count == 1;
             }
-            ).WithMessage("'{PropertyName}' must be a valid excel column identifier. eg 'A'");
+            ).WithMessage("'{PropertyName}' must be a valid column identifier");
         }
     }
 }

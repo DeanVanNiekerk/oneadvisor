@@ -26,6 +26,7 @@ type Props = {
     formFieldStyle?: React.CSSProperties;
     type?: string;
     onKeyPress?: KeyboardEventHandler<HTMLInputElement>;
+    validationFieldName?: string;
 };
 
 class FormInput extends Component<Props> {
@@ -57,6 +58,7 @@ class FormInput extends Component<Props> {
                 value={value}
                 layout={layout}
                 style={this.props.formFieldStyle}
+                validationFieldName={this.props.validationFieldName}
             >
                 <Input
                     onKeyPress={this.props.onKeyPress}

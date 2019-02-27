@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import { ApiAction } from '@/app/types';
 import { allLookupsApi } from '@/config/api/directory';
 
+import { receiveCommissionStatementTemplateFieldNames } from '../commissionStatementTemplateFieldNames';
 import { receiveCommissionTypes } from '../commissionTypes';
 import { receiveCompanies } from '../companies';
 import { receiveContactTypes } from '../contactTypes';
@@ -30,6 +31,11 @@ export const fetchAllLookups = (): ApiAction => ({
         dispatch(receiveMarritalStatus(payload.marritalStatus));
         dispatch(receiveContactTypes(payload.contactTypes));
         dispatch(receivePolicyTypes(payload.policyTypes));
+        dispatch(
+            receiveCommissionStatementTemplateFieldNames(
+                payload.commissionStatementTemplateFieldNames
+            )
+        );
     },
     dispatchPrefix: 'LOOKUPS'
 });

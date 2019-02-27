@@ -12,6 +12,7 @@ type Props = {
     children: ReactNode;
     value?: any;
     fieldName?: string;
+    validationFieldName?: string;
     validationResults?: ValidationResult[];
     layout?: FormLayout;
     loading?: boolean;
@@ -22,7 +23,7 @@ type Props = {
 class FormField extends React.Component<Props> {
     getErrorText = (): string | null => {
         const result = getValidationError(
-            this.props.fieldName || '',
+            this.props.validationFieldName || this.props.fieldName || '',
             this.props.validationResults || []
         );
 

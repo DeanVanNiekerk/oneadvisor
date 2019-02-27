@@ -1,4 +1,6 @@
-import { CommissionType, Company, ContactType, MarritalStatus, PolicyType } from '../';
+import {
+    CommissionStatementTemplateFieldName, CommissionType, Company, ContactType, MarritalStatus, PolicyType
+} from '../';
 
 export type Lookups = {
     companies: Company[];
@@ -6,4 +8,5 @@ export type Lookups = {
     marritalStatus: MarritalStatus[];
     policyTypes: PolicyType[];
     contactTypes: ContactType[];
+    commissionStatementTemplateFieldNames: CommissionStatementTemplateFieldName[];
 };

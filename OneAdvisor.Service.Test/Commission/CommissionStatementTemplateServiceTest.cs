@@ -132,14 +132,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 Name = "Template 1",
-                Config = new Config()
-                {
-                    DataStart = new DataStart()
-                    {
-                        HeaderColumn = "A",
-                        HeaderValue = "Broker"
-                    }
-                }
+                Config = GetValidConfig()
             };
 
             using (var context = new DataContext(options))
@@ -170,13 +163,6 @@ namespace OneAdvisor.Service.Test.Commission
                 CompanyId = Guid.NewGuid(),
                 Name = "Template 1",
                 Config = new Config()
-                {
-                    DataStart = new DataStart()
-                    {
-                        HeaderColumn = "A",
-                        HeaderValue = "Broker"
-                    }
-                }
             };
 
             var temp2 = new CommissionStatementTemplateEntity
@@ -199,14 +185,7 @@ namespace OneAdvisor.Service.Test.Commission
                     Id = temp1.Id,
                     CompanyId = Guid.NewGuid(),
                     Name = "Template 1 updated",
-                    Config = new Config()
-                    {
-                        DataStart = new DataStart()
-                        {
-                            HeaderColumn = "C",
-                            HeaderValue = "VAT"
-                        }
-                    }
+                    Config = GetValidConfig()
                 };
 
                 var service = new CommissionStatementTemplateService(context);
@@ -222,6 +201,23 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(template.CompanyId, actual.CompanyId);
                 Assert.AreEqual(template.Config, actual.Config);
             }
+        }
+
+        private Config GetValidConfig()
+        {
+            return new Config()
+            {
+                DataStart = new DataStart()
+                {
+                    HeaderColumn = "A",
+                    HeaderValue = "Broker"
+                },
+                Fields = new List<Field>()
+                {
+                    new Field() { Name = "PolicyNumber", Column = "A" },
+                    new Field() { Name = "AmountIncludingVAT", Column = "B" }
+                }
+            };
         }
     }
 }

@@ -25,7 +25,8 @@ describe('commission statement template actions', () => {
                 dataStart: {
                     headerColumn: 'A',
                     headerValue: 'Broker'
-                }
+                },
+                fields: []
             }
         };
 

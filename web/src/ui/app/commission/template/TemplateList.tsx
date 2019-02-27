@@ -49,7 +49,8 @@ class TemplateList extends Component<Props, State> {
                 dataStart: {
                     headerColumn: '',
                     headerValue: ''
-                }
+                },
+                fields: []
             }
         };
         this.props.dispatch(receiveCommissionStatementTemplate(template));
