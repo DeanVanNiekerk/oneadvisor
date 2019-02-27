@@ -34,6 +34,9 @@ namespace OneAdvisor.Service.Commission.Validators
             RuleFor(t => t.Fields).Must(HaveUnqiueFieldNames).WithMessage("Field Names must be unique");
             RuleFor(t => t.Fields).Must(HaveRequiredFieldNames).WithMessage("'Policy Number' AND ('Amount Including VAT' OR 'Amount Excluding VAT') fields are required");
             RuleForEach(t => t.Fields).SetValidator(new FieldValidator());
+
+            RuleFor(t => t.CommissionTypes).NotNull();
+            RuleFor(t => t.CommissionTypes).SetValidator(new CommissionTypestValidator());
         }
 
         private bool HaveUnqiueFieldNames(IEnumerable<Field> fields)
@@ -74,6 +77,25 @@ namespace OneAdvisor.Service.Commission.Validators
         private bool BeValidFieldName(string fieldName)
         {
             return _fieldNames.Any(f => f == fieldName);
+        }
+    }
+
+    internal class CommissionTypestValidator : AbstractValidator<CommissionTypes>
+    {
+        public CommissionTypestValidator()
+        {
+            RuleFor(t => t.MappingTemplate).NotEmpty().WithName("Mapping Template");
+            RuleFor(t => t.DefaultCommissionTypeId).NotEmpty().When(c => !c.Types.Any()).WithMessage("'Default Commission Type' required if no mappings");
+            RuleForEach(t => t.Types).SetValidator(new CommissionTypeValidator());
+        }
+    }
+
+    internal class CommissionTypeValidator : AbstractValidator<CommissionType>
+    {
+        public CommissionTypeValidator()
+        {
+            RuleFor(t => t.CommissionTypeId).NotEmpty().WithName("Commission Type");
+            RuleFor(t => t.Value).NotEmpty();
         }
     }
 }

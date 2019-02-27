@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Model.Directory.Model.Lookup;
 
 namespace OneAdvisor.Data
 {
@@ -110,6 +111,7 @@ namespace OneAdvisor.Data
             var commissionTypes = await _context.CommissionType.ToListAsync();
             if (!commissionTypes.Any())
             {
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = CommissionType.COMMISSION_TYPE_UNKNOWN, Name = "Unknown", Code = "unknown", PolicyTypeId = policyTypeMed });
                 _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Gap Cover", Code = "gap_cover", PolicyTypeId = policyTypeMed });
                 _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Health", Code = "health", PolicyTypeId = policyTypeMed });
                 _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment Advice Fee", Code = "inv_advise_fee", PolicyTypeId = policyTypeInv });

@@ -10,7 +10,6 @@ using OneAdvisor.Service.Directory.Validators.Lookup;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Data.Entities.Directory.Lookup;
-using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 using System.Text.RegularExpressions;
 
 namespace OneAdvisor.Service.Directory
@@ -222,9 +221,13 @@ namespace OneAdvisor.Service.Directory
             return query;
         }
 
+        #endregion
+
+        #region Commission Statement Template Field Name
+
         public List<CommissionStatementTemplateFieldName> GetCommissionStatementTemplateFieldNames()
         {
-            return Enum.GetNames(typeof(FieldNames))
+            return Enum.GetNames(typeof(OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration.FieldNames))
                 .Select(f =>
                     new CommissionStatementTemplateFieldName()
                     {

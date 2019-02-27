@@ -11,5 +11,6 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
 
         public DataStart DataStart { get; set; }
         public IEnumerable<Field> Fields { get; set; }
+        public CommissionTypes CommissionTypes { get; set; }
     }
 }

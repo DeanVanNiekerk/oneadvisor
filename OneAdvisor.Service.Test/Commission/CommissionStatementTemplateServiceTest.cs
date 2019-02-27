@@ -216,6 +216,11 @@ namespace OneAdvisor.Service.Test.Commission
                 {
                     new Field() { Name = "PolicyNumber", Column = "A" },
                     new Field() { Name = "AmountIncludingVAT", Column = "B" }
+                },
+                CommissionTypes = new CommissionTypes()
+                {
+                    MappingTemplate = "{A};{B}",
+                    DefaultCommissionTypeId = Guid.NewGuid()
                 }
             };
         }
