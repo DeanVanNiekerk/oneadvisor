@@ -45,3 +45,19 @@ export const parseValidationErrors = (errors: string): ValidationResult[] => {
 
     return [];
 };
+
+export const getValidationSubSet = (
+    prefix: string,
+    validationResults: ValidationResult[]
+): ValidationResult[] => {
+    if (!prefix) return validationResults;
+    const results = validationResults.filter(
+        r => r.propertyName.toLowerCase().indexOf(prefix.toLowerCase()) === 0
+    );
+    return results.map(r => {
+        return {
+            ...r,
+            propertyName: r.propertyName.substring(prefix.length + 1)
+        };
+    });
+};

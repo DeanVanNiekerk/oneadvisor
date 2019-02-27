@@ -1,6 +1,6 @@
 import { ValidationResult } from '@/app/validation';
 
-import { getValidationError, removeValidationError } from './validation';
+import { getValidationError, getValidationSubSet, removeValidationError } from './validation';
 
 describe('validation', () => {
     describe('getValidationError', () => {
@@ -156,6 +156,67 @@ describe('validation', () => {
             const expected = [errors[0], errors[2]];
 
             expect(removeValidationError(fieldName, errors)).toEqual(expected);
+        });
+    });
+
+    describe('getValidationSubSet', () => {
+        it('no prefix', () => {
+            const prefix = '';
+            const errors: ValidationResult[] = [
+                {
+                    propertyName: 'prop2',
+                    errorMessage: 'Error 2',
+                    severity: 0,
+                    errorCode: '',
+                    attemptedValue: ''
+                }
+            ];
+
+            expect(getValidationSubSet(prefix, errors)).toEqual(errors);
+        });
+
+        it('has prefix, 2 results returned', () => {
+            const prefix = 'obj1.obj2';
+            const errors: ValidationResult[] = [
+                {
+                    propertyName: 'obj1.obj2.prop2',
+                    errorMessage: 'Error 1',
+                    severity: 0,
+                    errorCode: '',
+                    attemptedValue: ''
+                },
+                {
+                    propertyName: 'obj2.obj2.prop2',
+                    errorMessage: 'Error 2',
+                    severity: 0,
+                    errorCode: '',
+                    attemptedValue: ''
+                },
+                {
+                    propertyName: 'OBJ1.obj2.prop3',
+                    errorMessage: 'Error 3',
+                    severity: 0,
+                    errorCode: '',
+                    attemptedValue: ''
+                }
+            ];
+
+            expect(getValidationSubSet(prefix, errors)).toEqual([
+                {
+                    propertyName: 'prop2',
+                    errorMessage: 'Error 1',
+                    severity: 0,
+                    errorCode: '',
+                    attemptedValue: ''
+                },
+                {
+                    propertyName: 'prop3',
+                    errorMessage: 'Error 3',
+                    severity: 0,
+                    errorCode: '',
+                    attemptedValue: ''
+                }
+            ]);
         });
     });
 });

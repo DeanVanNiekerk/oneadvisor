@@ -11,11 +11,11 @@ export type CommissionStatementTemplateEdit = {
     config: Config;
 };
 
-type Config = {
+export type Config = {
     dataStart: DataStart;
 };
 
-type DataStart = {
+export type DataStart = {
     headerColumn: string;
     headerValue: string;
 };

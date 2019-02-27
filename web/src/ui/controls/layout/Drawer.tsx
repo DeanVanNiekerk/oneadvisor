@@ -35,7 +35,7 @@ const Drawer = (props: Props) => {
                 height: 'calc(100% - 65px)',
                 overflow: 'auto',
                 paddingBottom: 53,
-                paddingTop: props.noTopPadding ? 0 : 24
+                paddingTop: props.noTopPadding ? 8 : 24
             }}
         >
             {props.children}

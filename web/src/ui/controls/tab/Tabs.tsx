@@ -9,11 +9,10 @@ type Props = {
 };
 
 const Tabs = (props: Props) => {
-
     let style = {};
 
     let tabBarStyle: any = {
-        backgroundColor: "#FFF",
+        backgroundColor: '#FFF',
         zIndex: 1
     };
 
@@ -32,6 +31,8 @@ const Tabs = (props: Props) => {
 
     return (
         <TabsAD
+            animated={false}
+            type="card"
             onChange={props.onChange}
             activeKey={props.activeKey}
             tabBarStyle={tabBarStyle}

@@ -106,6 +106,7 @@ class EditTemplate extends Component<Props, State> {
                 icon="block"
                 visible={visible}
                 onClose={this.confirmCancel}
+                noTopPadding={true}
             >
                 <ContentLoader isLoading={this.isLoading()}>
                     {template && (
@@ -142,7 +143,7 @@ const mapStateToProps = (state: RootState) => {
 
     return {
         template: templateState.template,
-        updating: templateState.updating,
+        updating: templateState.updating || templateState.fetching,
         validationResults: templateState.validationResults
     };
 };
