@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using FluentValidation;
 using FluentValidation.Results;
 using FluentValidation.Validators;
+using OneAdvisor.Service.Common.Validation;
 
 namespace OneAdvisor.Service
 {
@@ -11,9 +12,7 @@ namespace OneAdvisor.Service
         {
             return ruleBuilder.Must(value =>
             {
-                var regex = new Regex(@"\w{1,3}");
-                var matches = regex.Matches(value);
-                return matches.Count == 1;
+                return Utils.IsValidExcelColumn(value);
             }
             ).WithMessage("'{PropertyName}' must be a valid column identifier");
         }

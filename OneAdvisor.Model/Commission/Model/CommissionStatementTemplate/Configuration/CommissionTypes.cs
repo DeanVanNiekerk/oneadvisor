@@ -5,6 +5,8 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
 {
     public class CommissionTypes
     {
+        public static readonly string COMMISSION_TYPE_SEPARATOR = ";";
+
         public CommissionTypes()
         {
             Types = new List<CommissionType>();

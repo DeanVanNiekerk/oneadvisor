@@ -125,8 +125,6 @@ class CommissionTypesForm extends Component<Props, State> {
         const { validationResults } = this.props;
         const { commissionTypes } = this.state;
 
-        console.log(validationResults);
-
         return (
             <>
                 <FormErrors validationResults={validationResults} />
@@ -168,6 +166,7 @@ class CommissionTypesForm extends Component<Props, State> {
                     renderItem={(type: CommissionType, index: any) => (
                         <List.Item actions={[this.getActions(type, index)]}>
                             <Form
+                                key={index}
                                 editUseCase="com_edit_commission_statement_templates"
                                 layout="inline"
                             >

@@ -1,63 +1,63 @@
 import React, { Component } from 'react';
 
 import { ValidationResult } from '@/app/validation';
-import { DataStart } from '@/state/app/commission/templates';
+import { HeaderIdentifier } from '@/state/app/commission/templates';
 import { Form, FormInput } from '@/ui/controls';
 
 type Props = {
-    dataStart: DataStart;
+    headerIdentifier: HeaderIdentifier;
     validationResults: ValidationResult[];
-    onChange: (template: DataStart) => void;
+    onChange: (headerIdentifier: HeaderIdentifier) => void;
 };
 
 type State = {
-    dataStart: DataStart;
+    headerIdentifier: HeaderIdentifier;
 };
 
-class DataStartForm extends Component<Props, State> {
+class HeaderIdentifierForm extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            dataStart: props.dataStart
+            headerIdentifier: props.headerIdentifier
         };
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.props.dataStart != prevProps.dataStart)
+        if (this.props.headerIdentifier != prevProps.headerIdentifier)
             this.setState({
-                dataStart: this.props.dataStart
+                headerIdentifier: this.props.headerIdentifier
             });
     }
 
     handleChange = (fieldName: string, value: any) => {
-        const dataStart = {
-            ...this.state.dataStart,
+        const headerIdentifier = {
+            ...this.state.headerIdentifier,
             [fieldName]: value
         };
         this.setState({
-            dataStart: dataStart
+            headerIdentifier: headerIdentifier
         });
-        this.props.onChange(dataStart);
+        this.props.onChange(headerIdentifier);
     };
 
     render() {
         const { validationResults } = this.props;
-        const { dataStart } = this.state;
+        const { headerIdentifier } = this.state;
 
         return (
             <Form editUseCase="com_edit_commission_statement_templates">
                 <FormInput
-                    fieldName="headerColumn"
-                    label="Header Column"
-                    value={dataStart.headerColumn}
+                    fieldName="column"
+                    label="Column"
+                    value={headerIdentifier.column}
                     onChange={this.handleChange}
                     validationResults={validationResults}
                 />
                 <FormInput
-                    fieldName="headerValue"
-                    label="Header Value"
-                    value={dataStart.headerValue}
+                    fieldName="value"
+                    label="Value"
+                    value={headerIdentifier.value}
                     onChange={this.handleChange}
                     validationResults={validationResults}
                 />
@@ -66,4 +66,4 @@ class DataStartForm extends Component<Props, State> {
     }
 }
 
-export default DataStartForm;
+export default HeaderIdentifierForm;

@@ -4,18 +4,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { getValidationSubSet, ValidationResult } from '@/app/validation';
-import { CommissionStatementTemplateEdit, CommissionTypes, DataStart, Field } from '@/state/app/commission/templates';
+import {
+    CommissionStatementTemplateEdit, CommissionTypes, Field, HeaderIdentifier
+} from '@/state/app/commission/templates';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
 
 import CommissionTypesForm from './config/CommissionTypesForm';
-import DataStartForm from './config/DataStartForm';
 import FieldsForm from './config/FieldsForm';
+import HeaderIdentifierForm from './config/HeaderIdentifierForm';
 
 type TabKey =
     | 'details_tab'
-    | 'config_data_start'
+    | 'config_header_identifier'
     | 'config_fields'
     | 'config_commission_types';
 
@@ -67,11 +69,11 @@ class TemplateForm extends Component<Props, State> {
         this.setState({ activeTab });
     };
 
-    onDataStartChange = (dataStart: DataStart) => {
+    onHeaderIdentifierChange = (headerIdentifier: HeaderIdentifier) => {
         const template = update(this.state.template, {
             config: {
-                dataStart: {
-                    $set: dataStart
+                headerIdentifier: {
+                    $set: headerIdentifier
                 }
             }
         });
@@ -100,8 +102,8 @@ class TemplateForm extends Component<Props, State> {
         this.setTemplateState(template);
     };
 
-    getDataStartTabTitle = () => {
-        return this.getTabTitle('Data Start', 'config.dataStart');
+    getHeaderIdentifierTabTitle = () => {
+        return this.getTabTitle('Header Identifier', 'config.headerIdentifier');
     };
 
     getFieldsTabTitle = () => {
@@ -155,16 +157,16 @@ class TemplateForm extends Component<Props, State> {
                     </Form>
                 </TabPane>
                 <TabPane
-                    tab={this.getDataStartTabTitle()}
-                    key="config_data_start"
+                    tab={this.getHeaderIdentifierTabTitle()}
+                    key="config_header_identifier"
                 >
-                    <DataStartForm
-                        dataStart={template.config.dataStart}
+                    <HeaderIdentifierForm
+                        headerIdentifier={template.config.headerIdentifier}
                         validationResults={getValidationSubSet(
-                            'config.dataStart',
+                            'config.headerIdentifier',
                             validationResults
                         )}
-                        onChange={this.onDataStartChange}
+                        onChange={this.onHeaderIdentifierChange}
                     />
                 </TabPane>
                 <TabPane tab={this.getFieldsTabTitle()} key="config_fields">

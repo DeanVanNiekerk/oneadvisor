@@ -12,14 +12,14 @@ export type CommissionStatementTemplateEdit = {
 };
 
 export type Config = {
-    dataStart: DataStart;
+    headerIdentifier: HeaderIdentifier;
     fields: Field[];
     commissionTypes: CommissionTypes;
 };
 
-export type DataStart = {
-    headerColumn: string;
-    headerValue: string;
+export type HeaderIdentifier = {
+    column: string;
+    value: string;
 };
 
 export type Field = {

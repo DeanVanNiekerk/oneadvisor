@@ -127,6 +127,7 @@ class FieldsForm extends Component<Props, State> {
                     renderItem={(field: Field, index: any) => (
                         <List.Item actions={[this.getActions(field, index)]}>
                             <Form
+                                key={index}
                                 editUseCase="com_edit_commission_statement_templates"
                                 layout="inline"
                             >

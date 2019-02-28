@@ -85,10 +85,10 @@ namespace OneAdvisor.Service.Test.Commission
                 Name = "Template 1",
                 Config = new Config()
                 {
-                    DataStart = new DataStart()
+                    HeaderIdentifier = new HeaderIdentifier()
                     {
-                        HeaderColumn = "A",
-                        HeaderValue = "Broker"
+                        Column = "A",
+                        Value = "Broker"
                     }
                 }
             };
@@ -207,10 +207,10 @@ namespace OneAdvisor.Service.Test.Commission
         {
             return new Config()
             {
-                DataStart = new DataStart()
+                HeaderIdentifier = new HeaderIdentifier()
                 {
-                    HeaderColumn = "A",
-                    HeaderValue = "Broker"
+                    Column = "A",
+                    Value = "Broker"
                 },
                 Fields = new List<Field>()
                 {
