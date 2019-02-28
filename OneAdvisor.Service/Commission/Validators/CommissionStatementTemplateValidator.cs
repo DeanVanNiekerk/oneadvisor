@@ -100,13 +100,12 @@ namespace OneAdvisor.Service.Commission.Validators
 
             RuleFor(t => t.DefaultCommissionTypeId).NotEmpty().WithName("Default Commission Type");
 
-            RuleFor(t => t.Types).Must(HaveUnqiueCommissionTypes).WithMessage("There are duplicate Commission Type Mappings");
             RuleForEach(t => t.Types).SetValidator(new CommissionTypeValidator());
             RuleForEach(t => t.Types)
                .Custom((type, context) =>
                {
                    var mappingTemplate = ((CommissionTypes)context.ParentContext.InstanceToValidate).MappingTemplate;
-                   if (MappingTemplate.EqualLength(mappingTemplate, type.Value))
+                   if (!MappingTemplate.EqualLength(mappingTemplate, type.Value))
                    {
                        var failure = new ValidationFailure($"{context.PropertyName}.Value", "Invalid Value", type.Value);
                        context.AddFailure(failure);
@@ -135,7 +134,7 @@ namespace OneAdvisor.Service.Commission.Validators
     {
         public CommissionTypeValidator()
         {
-            RuleFor(t => t.CommissionTypeId).NotEmpty().WithName("Commission Type");
+            RuleFor(t => t.CommissionTypeId).NotEmpty().WithName("Type");
             RuleFor(t => t.Value).NotEmpty();
         }
     }

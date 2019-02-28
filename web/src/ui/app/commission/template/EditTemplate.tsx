@@ -10,6 +10,7 @@ import {
 import { RootState } from '@/state/rootReducer';
 import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
 import { showConfirm } from '@/ui/feedback/modal/confirm';
+import { showMessage } from '@/ui/feedback/notifcation';
 
 import TemplateForm from './TemplateForm';
 
@@ -58,7 +59,7 @@ class EditTemplate extends Component<Props, State> {
 
     save = () => {
         if (!this.state.templateEdited) {
-            this.close();
+            //this.close();
             return;
         }
 
@@ -66,7 +67,13 @@ class EditTemplate extends Component<Props, State> {
             this.props.dispatch(
                 updateCommissionStatementTemplate(
                     this.state.templateEdited,
-                    this.close
+                    () => {
+                        showMessage(
+                            'success',
+                            'Template Successfully Saved',
+                            3
+                        );
+                    }
                 )
             );
         } else {
@@ -122,7 +129,7 @@ class EditTemplate extends Component<Props, State> {
                         onClick={this.confirmCancel}
                         disabled={this.isLoading()}
                     >
-                        Cancel
+                        Close
                     </Button>
                     <Button
                         onClick={this.save}

@@ -185,6 +185,7 @@ class TemplateForm extends Component<Props, State> {
                     key="config_commission_types"
                 >
                     <CommissionTypesForm
+                        template={template}
                         commissionTypes={template.config.commissionTypes}
                         validationResults={getValidationSubSet(
                             'config.commissionTypes',

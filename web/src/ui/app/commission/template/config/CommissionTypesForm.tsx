@@ -1,11 +1,15 @@
-import { List, Popconfirm } from 'antd';
+import { Icon, List, Popconfirm, Upload } from 'antd';
+import { UploadChangeParam } from 'antd/lib/upload';
 import update from 'immutability-helper';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
 import { ValidationResult } from '@/app/validation';
-import { CommissionType, CommissionTypes } from '@/state/app/commission/templates';
+import { statementTemplatesApi } from '@/config/api/commission';
+import {
+    CommissionStatementTemplateEdit, CommissionType, CommissionTypes, Config, updateCommissionStatementTemplate
+} from '@/state/app/commission/templates';
 import { CommissionType as LookupCommissionType, commissionTypesSelector } from '@/state/app/directory/lookups';
 import {
     commissionStatementTemplateFieldNamesSelector
@@ -13,18 +17,22 @@ import {
 import { authSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect } from '@/ui/controls';
+import { showMessage } from '@/ui/feedback/notifcation';
 
 type Props = {
+    token: string;
     commissionTypes: CommissionTypes;
+    template: CommissionStatementTemplateEdit;
     validationResults: ValidationResult[];
     onChange: (commissionTypes: CommissionTypes) => void;
     useCases: string[];
     lookupCommissionTypes: LookupCommissionType[];
-};
+} & DispatchProp;
 
 type State = {
     commissionTypes: CommissionTypes;
     hasUseCase: boolean;
+    syncingCommissionTypes: boolean;
 };
 
 class CommissionTypesForm extends Component<Props, State> {
@@ -36,7 +44,8 @@ class CommissionTypesForm extends Component<Props, State> {
             hasUseCase: hasUseCase(
                 'com_edit_commission_statement_templates',
                 props.useCases
-            )
+            ),
+            syncingCommissionTypes: false
         };
     }
 
@@ -54,12 +63,12 @@ class CommissionTypesForm extends Component<Props, State> {
         this.setTypesState(types);
     };
 
-    add = () => {
+    add = (value: string = '') => {
         const types = update(this.state.commissionTypes.types, {
             $push: [
                 {
                     commissionTypeId: '',
-                    value: ''
+                    value: value
                 }
             ]
         });
@@ -121,6 +130,48 @@ class CommissionTypesForm extends Component<Props, State> {
         ];
     };
 
+    syncCommissionTypes = (values: string[]) => {
+        const existingValues = this.state.commissionTypes.types.map(t =>
+            t.value.toLowerCase()
+        );
+
+        values.forEach(value => {
+            if (existingValues.find(v => v === value.toLowerCase())) return;
+            this.add(value);
+        });
+    };
+
+    onFileUpload = (info: UploadChangeParam) => {
+        if (info.file.status === 'done') {
+            showMessage('success', 'Commission Types Sync Successful', 5);
+            this.syncCommissionTypes(info.file.response);
+            this.setState({ syncingCommissionTypes: false });
+        } else if (info.file.status === 'error') {
+            showMessage(
+                'error',
+                'Commission Types sync failed, check data is valid',
+                10
+            );
+            this.setState({ syncingCommissionTypes: false });
+        }
+    };
+
+    onBeforeFileUpload = () => {
+        this.setState({ syncingCommissionTypes: true });
+        return new Promise((resolve, reject) => {
+            this.props.dispatch(
+                updateCommissionStatementTemplate(
+                    this.props.template,
+                    resolve,
+                    () => {
+                        this.setState({ syncingCommissionTypes: false });
+                        reject();
+                    }
+                )
+            );
+        });
+    };
+
     render() {
         const { validationResults } = this.props;
         const { commissionTypes } = this.state;
@@ -152,21 +203,51 @@ class CommissionTypesForm extends Component<Props, State> {
                 <Button
                     icon="plus"
                     type="dashed"
-                    onClick={this.add}
+                    onClick={() => this.add()}
                     noLeftMargin={true}
                     visible={this.state.hasUseCase}
                 >
                     {`Add Mapping`}
                 </Button>
 
+                {this.props.template.id && (
+                    <Upload
+                        name="file"
+                        listType="text"
+                        className="pull-right"
+                        beforeUpload={this.onBeforeFileUpload}
+                        onChange={this.onFileUpload}
+                        action={`${statementTemplatesApi}/${
+                            this.props.template.id
+                        }/excel/uniqueCommissionTypes`}
+                        headers={{
+                            Authorization: 'Bearer ' + this.props.token
+                        }}
+                        showUploadList={false}
+                        disabled={
+                            !this.state.hasUseCase ||
+                            this.state.syncingCommissionTypes
+                        }
+                    >
+                        <Button loading={this.state.syncingCommissionTypes}>
+                            {!this.state.syncingCommissionTypes && (
+                                <Icon type="upload" />
+                            )}
+                            Sync Commission Types
+                        </Button>
+                    </Upload>
+                )}
+
                 <List
                     bordered
                     className="mt-1"
                     dataSource={commissionTypes.types}
                     renderItem={(type: CommissionType, index: any) => (
-                        <List.Item actions={[this.getActions(type, index)]}>
+                        <List.Item
+                            key={index}
+                            actions={[this.getActions(type, index)]}
+                        >
                             <Form
-                                key={index}
                                 editUseCase="com_edit_commission_statement_templates"
                                 layout="inline"
                             >
@@ -186,13 +267,13 @@ class CommissionTypesForm extends Component<Props, State> {
                                         );
                                     }}
                                     validationResults={validationResults}
-                                    width="225px"
+                                    width="320px"
                                 />
                                 <FormItemIcon type="arrow-right" />
                                 <FormSelect
                                     fieldName="commissionTypeId"
                                     validationFieldName={`types[${index}].commissionTypeId`}
-                                    label="Commission Type"
+                                    label="Type"
                                     value={type.commissionTypeId}
                                     onChange={(
                                         fieldName: string,
@@ -225,8 +306,10 @@ const mapStateToProps = (state: RootState) => {
         state
     );
     const lookupCommissionTypesState = commissionTypesSelector(state);
+    const authState = authSelector(state);
 
     return {
+        token: authState.token,
         lookupCommissionTypes: lookupCommissionTypesState.items,
         fieldNames: fieldNamesState.items,
         useCases: identityState.identity

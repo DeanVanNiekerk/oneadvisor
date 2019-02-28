@@ -58,7 +58,7 @@ namespace OneAdvisor.Import.Excel.Readers
 
                         var value = MappingTemplate.Format(values);
 
-                        commissionTypes.Add(value.ToLower());
+                        commissionTypes.Add(value);
                     }
                 } while (reader.NextResult());
             }

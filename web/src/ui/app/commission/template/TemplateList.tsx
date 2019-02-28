@@ -46,9 +46,9 @@ class TemplateList extends Component<Props, State> {
             name: '',
             companyId: '',
             config: {
-                dataStart: {
-                    headerColumn: '',
-                    headerValue: ''
+                headerIdentifier: {
+                    column: '',
+                    value: ''
                 },
                 fields: [],
                 commissionTypes: {

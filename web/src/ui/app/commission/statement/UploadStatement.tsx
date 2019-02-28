@@ -1,4 +1,5 @@
 import { Icon, Upload } from 'antd';
+import { UploadChangeParam } from 'antd/lib/upload';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -27,7 +28,7 @@ class UploadStatement extends Component<Props, State> {
         };
     }
 
-    onChange = info => {
+    onChange = (info: UploadChangeParam) => {
         if (info.file.status !== 'uploading') {
             this.setState({ loading: true });
         }

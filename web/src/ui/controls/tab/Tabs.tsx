@@ -32,7 +32,7 @@ const Tabs = (props: Props) => {
     return (
         <TabsAD
             animated={false}
-            type="card"
+            //type="card"
             onChange={props.onChange}
             activeKey={props.activeKey}
             tabBarStyle={tabBarStyle}

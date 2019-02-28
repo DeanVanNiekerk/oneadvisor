@@ -1,4 +1,4 @@
-import { ApiAction, ApiOnSuccess } from '@/app/types';
+import { ApiAction, ApiOnFailure, ApiOnSuccess } from '@/app/types';
 import { ValidationResult } from '@/app/validation';
 import { statementTemplatesApi } from '@/config/api/commission';
 
@@ -55,13 +55,15 @@ export const fetchCommissionStatementTemplate = (
 
 export const updateCommissionStatementTemplate = (
     template: CommissionStatementTemplateEdit,
-    onSuccess: ApiOnSuccess
+    onSuccess: ApiOnSuccess,
+    onFailure?: ApiOnFailure
 ): ApiAction => ({
     type: 'API',
     endpoint: `${statementTemplatesApi}/${template.id}`,
     method: 'POST',
     payload: template,
     onSuccess: onSuccess,
+    onFailure: onFailure,
     dispatchPrefix: 'COMMISSIONS_STATEMENT_TEMPLATE_EDIT'
 });
 

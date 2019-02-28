@@ -42,3 +42,7 @@
     padding: 12px 12px !important;
     font-size: 0.9em;
 }
+
+.ant-list-item-action {
+    margin-left: 20px !important;
+}

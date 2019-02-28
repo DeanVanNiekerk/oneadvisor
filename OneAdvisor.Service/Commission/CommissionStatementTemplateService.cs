@@ -47,6 +47,7 @@ namespace OneAdvisor.Service.Commission
         public async Task<CommissionStatementTemplateEdit> GetTemplate(Guid templateId)
         {
             var query = from template in _context.CommissionStatementTemplate
+                        where template.Id == templateId
                         select new CommissionStatementTemplateEdit()
                         {
                             Id = template.Id,

@@ -86,22 +86,17 @@ namespace api.Controllers.Commission.CommissionStatementTemplates
             return Ok(result);
         }
 
-        [HttpPost("excel/uniqueCommissionTypes")]
+        [HttpPost("{templateId}/excel/uniqueCommissionTypes")]
         [UseCaseAuthorize("com_edit_commission_statement_templates")]
-        public ActionResult<Result> UniqueCommissionTypes([FromBody] Config config)
+        public async Task<ActionResult<Result>> UniqueCommissionTypes(Guid templateId)
         {
-            var validator = new ConfigValidator();
-            var result = validator.Validate(config).GetResult();
-
-            if (!result.Success)
-                return BadRequest();
-
             var file = Request.Form.Files.FirstOrDefault();
+            var template = await CommissionStatementTemplateService.GetTemplate(templateId);
 
-            if (file == null)
+            if (file == null || template == null)
                 return BadRequest();
 
-            var reader = new UniqueCommissionTypesReader(config);
+            var reader = new UniqueCommissionTypesReader(template.Config);
             var items = reader.Read(file.OpenReadStream());
 
             return Ok(items);

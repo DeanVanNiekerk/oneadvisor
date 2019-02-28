@@ -15,6 +15,7 @@ type Props = {
     editUseCase?: string;
     useCases: string[];
     className?: string;
+    style?: React.CSSProperties;
 };
 
 class FormComponent extends React.Component<Props> {
@@ -36,7 +37,11 @@ class FormComponent extends React.Component<Props> {
         );
 
         return (
-            <FormAD className={this.props.className} layout={this.props.layout}>
+            <FormAD
+                className={this.props.className}
+                layout={this.props.layout}
+                style={this.props.style}
+            >
                 {childrenWithProps}
             </FormAD>
         );

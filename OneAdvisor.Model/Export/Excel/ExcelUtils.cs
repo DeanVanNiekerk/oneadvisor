@@ -4,7 +4,7 @@ namespace OneAdvisor.Model.Export.Excel
     {
         public static string IndexToColumn(int index)
         {
-            int div = index;
+            int div = index + 1;
             string colLetter = string.Empty;
             int mod = 0;
 
@@ -27,7 +27,7 @@ namespace OneAdvisor.Model.Export.Excel
                 sum *= 26;
                 sum += (columnLetter[i] - 'A' + 1);
             }
-            return sum;
+            return sum - 1;
         }
     }
 }
