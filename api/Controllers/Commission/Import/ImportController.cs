@@ -44,7 +44,7 @@ namespace api.Controllers.Commission.Import
             if (file == null)
                 return BadRequest();
 
-            var reader = new CommissionImportExcelReader();
+            var reader = new CommissionImportReader();
             var items = reader.Read(file.OpenReadStream());
 
             await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);

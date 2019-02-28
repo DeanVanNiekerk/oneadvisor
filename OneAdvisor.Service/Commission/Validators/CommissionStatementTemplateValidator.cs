@@ -5,6 +5,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
+using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Helpers;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Service.Common;
 using OneAdvisor.Service.Common.Validation;
@@ -25,7 +26,7 @@ namespace OneAdvisor.Service.Commission.Validators
         }
     }
 
-    internal class ConfigValidator : AbstractValidator<Config>
+    public class ConfigValidator : AbstractValidator<Config>
     {
         public ConfigValidator()
         {
@@ -33,6 +34,7 @@ namespace OneAdvisor.Service.Commission.Validators
             RuleFor(t => t.HeaderIdentifier).SetValidator(new HeaderIdentifierValidator());
 
             RuleFor(t => t.Fields).Must(HaveUnqiueFieldNames).WithMessage("There are duplicate Field Mappings");
+            RuleFor(t => t.Fields).Must(HaveUnqiueFieldColumns).WithMessage("There are duplicate Column Mappings");
             RuleFor(t => t.Fields).Must(HaveRequiredFieldNames).WithMessage("'Policy Number' AND ('Amount Including VAT' OR 'Amount Excluding VAT') fields are required");
             RuleForEach(t => t.Fields).SetValidator(new FieldValidator());
 
@@ -44,6 +46,12 @@ namespace OneAdvisor.Service.Commission.Validators
         {
             var fieldNames = fields.Select(f => f.Name);
             return fieldNames.Distinct().Count() == fieldNames.Count();
+        }
+
+        private bool HaveUnqiueFieldColumns(IEnumerable<Field> fields)
+        {
+            var fieldColumns = fields.Select(f => f.Column);
+            return fieldColumns.Distinct().Count() == fieldColumns.Count();
         }
 
         private bool HaveRequiredFieldNames(IEnumerable<Field> fields)
@@ -85,8 +93,10 @@ namespace OneAdvisor.Service.Commission.Validators
     {
         public CommissionTypestValidator()
         {
-            RuleFor(t => t.MappingTemplate).NotEmpty().WithName("Mapping Template");
-            RuleFor(t => t.MappingTemplate).Must(HaveValidExcelColumnIdentifiers).WithMessage("'Mapping Template' contains invalid excel column identifiers");
+            RuleFor(t => t.MappingTemplate)
+                .Must(HaveValidExcelColumnIdentifiers)
+                .When(t => !string.IsNullOrEmpty(t.MappingTemplate))
+                .WithMessage("'Mapping Template' contains invalid excel column identifiers");
 
             RuleFor(t => t.DefaultCommissionTypeId).NotEmpty().WithName("Default Commission Type");
 
@@ -96,7 +106,7 @@ namespace OneAdvisor.Service.Commission.Validators
                .Custom((type, context) =>
                {
                    var mappingTemplate = ((CommissionTypes)context.ParentContext.InstanceToValidate).MappingTemplate;
-                   if (mappingTemplate.Split(CommissionTypes.COMMISSION_TYPE_SEPARATOR).Count() != type.Value.Split(CommissionTypes.COMMISSION_TYPE_SEPARATOR).Count())
+                   if (MappingTemplate.EqualLength(mappingTemplate, type.Value))
                    {
                        var failure = new ValidationFailure($"{context.PropertyName}.Value", "Invalid Value", type.Value);
                        context.AddFailure(failure);
@@ -106,7 +116,7 @@ namespace OneAdvisor.Service.Commission.Validators
 
         private bool HaveValidExcelColumnIdentifiers(string mappingTemplate)
         {
-            foreach (var column in mappingTemplate.Split(CommissionTypes.COMMISSION_TYPE_SEPARATOR))
+            foreach (var column in MappingTemplate.Parse(mappingTemplate))
             {
                 if (!Utils.IsValidExcelColumn((column)))
                     return false;

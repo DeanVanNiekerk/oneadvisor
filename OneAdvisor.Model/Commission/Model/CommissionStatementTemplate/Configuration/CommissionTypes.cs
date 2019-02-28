@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration
 {

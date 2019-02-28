@@ -95,5 +95,10 @@ namespace OneAdvisor.Model
                 "$1 $2"
             );
         }
+
+        public static bool IgnoreCaseEquals(this string str, string target)
+        {
+            return String.Equals(str, target, StringComparison.OrdinalIgnoreCase); ;
+        }
     }
 }

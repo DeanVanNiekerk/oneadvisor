@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using api.App.Authorization;
 using api.App.Dtos;
@@ -7,12 +8,16 @@ using api.Controllers.Commission.CommissionStatementTemplates.Dto;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OneAdvisor.Import.Excel.Readers;
+using OneAdvisor.Model;
 using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate;
+using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Service.Commission.Validators;
 
 namespace api.Controllers.Commission.CommissionStatementTemplates
 {
@@ -79,6 +84,27 @@ namespace api.Controllers.Commission.CommissionStatementTemplates
                 return BadRequest(result.ValidationFailures);
 
             return Ok(result);
+        }
+
+        [HttpPost("excel/uniqueCommissionTypes")]
+        [UseCaseAuthorize("com_edit_commission_statement_templates")]
+        public ActionResult<Result> UniqueCommissionTypes([FromBody] Config config)
+        {
+            var validator = new ConfigValidator();
+            var result = validator.Validate(config).GetResult();
+
+            if (!result.Success)
+                return BadRequest();
+
+            var file = Request.Form.Files.FirstOrDefault();
+
+            if (file == null)
+                return BadRequest();
+
+            var reader = new UniqueCommissionTypesReader(config);
+            var items = reader.Read(file.OpenReadStream());
+
+            return Ok(items);
         }
     }
 
