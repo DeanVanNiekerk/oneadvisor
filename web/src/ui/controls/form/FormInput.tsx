@@ -27,6 +27,7 @@ type Props = {
     type?: string;
     onKeyPress?: KeyboardEventHandler<HTMLInputElement>;
     validationFieldName?: string;
+    width?: number | string;
 };
 
 class FormInput extends Component<Props> {
@@ -49,6 +50,11 @@ class FormInput extends Component<Props> {
 
         if (readonly)
             return <FormText label={label} value={value} layout={layout} />;
+
+        const style: any = {};
+        if (this.props.width) {
+            style.width = this.props.width;
+        }
 
         return (
             <FormField
@@ -73,6 +79,7 @@ class FormInput extends Component<Props> {
                     value={value}
                     onChange={this.onChange}
                     addonAfter={addonAfter}
+                    style={style}
                 />
             </FormField>
         );

@@ -14,6 +14,7 @@ export type CommissionStatementTemplateEdit = {
 export type Config = {
     dataStart: DataStart;
     fields: Field[];
+    commissionTypes: CommissionTypes;
 };
 
 export type DataStart = {
@@ -24,4 +25,15 @@ export type DataStart = {
 export type Field = {
     name: string;
     column: string;
+};
+
+export type CommissionTypes = {
+    mappingTemplate: string;
+    defaultCommissionTypeId: string;
+    types: CommissionType[];
+};
+
+export type CommissionType = {
+    commissionTypeId: string;
+    value: string;
 };

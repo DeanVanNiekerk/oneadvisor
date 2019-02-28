@@ -1,17 +1,17 @@
-import { List, Popconfirm } from 'antd';
+import { Icon, List, Popconfirm } from 'antd';
 import update from 'immutability-helper';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
-import { getErrorMessage, ValidationResult } from '@/app/validation';
+import { ValidationResult } from '@/app/validation';
 import { Field } from '@/state/app/commission/templates';
 import {
     CommissionStatementTemplateFieldName, commissionStatementTemplateFieldNamesSelector
 } from '@/state/app/directory/lookups/commissionStatementTemplateFieldNames';
 import { authSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
-import { Button, Form, FormErrors, FormInput, FormSelect } from '@/ui/controls';
+import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect } from '@/ui/controls';
 
 type Props = {
     fields: Field[];
@@ -92,7 +92,7 @@ class FieldsForm extends Component<Props, State> {
 
         return [
             <Popconfirm
-                title="Are you sure remove this field?"
+                title="Are you sure remove this mapping?"
                 onConfirm={() => this.remove(index)}
                 okText="Yes"
                 cancelText="No"
@@ -106,8 +106,6 @@ class FieldsForm extends Component<Props, State> {
         const { validationResults } = this.props;
         const { fields } = this.state;
 
-        console.log(validationResults);
-
         return (
             <>
                 <FormErrors validationResults={validationResults} />
@@ -119,7 +117,7 @@ class FieldsForm extends Component<Props, State> {
                     noLeftMargin={true}
                     visible={this.state.hasUseCase}
                 >
-                    {`Add Field`}
+                    {`Add Mapping`}
                 </Button>
 
                 <List
@@ -132,6 +130,21 @@ class FieldsForm extends Component<Props, State> {
                                 editUseCase="com_edit_commission_statement_templates"
                                 layout="inline"
                             >
+                                <FormInput
+                                    fieldName="column"
+                                    validationFieldName={`[${index}].column`}
+                                    label="Column"
+                                    value={field.column}
+                                    onChange={(
+                                        fieldName: string,
+                                        value: string
+                                    ) => {
+                                        this.onChange(fieldName, value, index);
+                                    }}
+                                    validationResults={validationResults}
+                                    width="100px"
+                                />
+                                <FormItemIcon type="arrow-right" />
                                 <FormSelect
                                     fieldName="name"
                                     validationFieldName={`[${index}].name`}
@@ -147,20 +160,7 @@ class FieldsForm extends Component<Props, State> {
                                     options={this.props.fieldNames}
                                     optionsValue="id"
                                     optionsText="name"
-                                    minWidth="250px"
-                                />
-                                <FormInput
-                                    fieldName="column"
-                                    validationFieldName={`[${index}].column`}
-                                    label="Column"
-                                    value={field.column}
-                                    onChange={(
-                                        fieldName: string,
-                                        value: string
-                                    ) => {
-                                        this.onChange(fieldName, value, index);
-                                    }}
-                                    validationResults={validationResults}
+                                    width="300px"
                                 />
                             </Form>
                         </List.Item>

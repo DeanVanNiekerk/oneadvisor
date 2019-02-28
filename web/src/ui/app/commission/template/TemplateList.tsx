@@ -6,7 +6,7 @@ import {
     CommissionStatementTemplate, CommissionStatementTemplateEdit, commissionStatementTemplatesSelector,
     fetchCommissionStatementTemplate, fetchCommissionStatementTemplates, receiveCommissionStatementTemplate
 } from '@/state/app/commission/templates';
-import { companiesSelector, Company } from '@/state/app/directory/lookups';
+import { companiesSelector, Company, UNKNOWN_COMMISSION_TYPE_ID } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Button, CompanyName, Header, Table } from '@/ui/controls';
 
@@ -50,7 +50,12 @@ class TemplateList extends Component<Props, State> {
                     headerColumn: '',
                     headerValue: ''
                 },
-                fields: []
+                fields: [],
+                commissionTypes: {
+                    defaultCommissionTypeId: UNKNOWN_COMMISSION_TYPE_ID,
+                    mappingTemplate: '',
+                    types: []
+                }
             }
         };
         this.props.dispatch(receiveCommissionStatementTemplate(template));

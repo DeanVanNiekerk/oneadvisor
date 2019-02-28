@@ -4,15 +4,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { getValidationSubSet, ValidationResult } from '@/app/validation';
-import { CommissionStatementTemplateEdit, DataStart, Field } from '@/state/app/commission/templates';
+import { CommissionStatementTemplateEdit, CommissionTypes, DataStart, Field } from '@/state/app/commission/templates';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
 
+import CommissionTypesForm from './config/CommissionTypesForm';
 import DataStartForm from './config/DataStartForm';
 import FieldsForm from './config/FieldsForm';
 
-type TabKey = 'details_tab' | 'config_data_start' | 'config_fields';
+type TabKey =
+    | 'details_tab'
+    | 'config_data_start'
+    | 'config_fields'
+    | 'config_commission_types';
 
 type Props = {
     template: CommissionStatementTemplateEdit;
@@ -84,12 +89,27 @@ class TemplateForm extends Component<Props, State> {
         this.setTemplateState(template);
     };
 
+    onCommissionTypesChange = (commissionTypes: CommissionTypes) => {
+        const template = update(this.state.template, {
+            config: {
+                commissionTypes: {
+                    $set: commissionTypes
+                }
+            }
+        });
+        this.setTemplateState(template);
+    };
+
     getDataStartTabTitle = () => {
         return this.getTabTitle('Data Start', 'config.dataStart');
     };
 
     getFieldsTabTitle = () => {
         return this.getTabTitle('Fields', 'config.fields');
+    };
+
+    getCommissionTypesTabTitle = () => {
+        return this.getTabTitle('Commission Types', 'config.commissionTypes');
     };
 
     getTabTitle = (title: string, prefix: string) => {
@@ -156,6 +176,19 @@ class TemplateForm extends Component<Props, State> {
                             true
                         )}
                         onChange={this.onFieldsChange}
+                    />
+                </TabPane>
+                <TabPane
+                    tab={this.getCommissionTypesTabTitle()}
+                    key="config_commission_types"
+                >
+                    <CommissionTypesForm
+                        commissionTypes={template.config.commissionTypes}
+                        validationResults={getValidationSubSet(
+                            'config.commissionTypes',
+                            validationResults
+                        )}
+                        onChange={this.onCommissionTypesChange}
                     />
                 </TabPane>
             </Tabs>

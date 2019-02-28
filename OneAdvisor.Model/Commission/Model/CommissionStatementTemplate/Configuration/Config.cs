@@ -6,7 +6,9 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
     {
         public Config()
         {
+            DataStart = new DataStart();
             Fields = new List<Field>();
+            CommissionTypes = new CommissionTypes();
         }
 
         public DataStart DataStart { get; set; }

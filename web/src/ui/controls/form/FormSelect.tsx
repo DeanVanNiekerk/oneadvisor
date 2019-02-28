@@ -32,6 +32,7 @@ type Props = {
     filterOption?: boolean;
     onSearch?: (value: string) => any;
     minWidth?: string;
+    width?: string;
 };
 
 class FormSelect extends Component<Props> {
@@ -73,6 +74,13 @@ class FormSelect extends Component<Props> {
                 />
             );
 
+        const style: any = {
+            minWidth: this.props.minWidth || '180px'
+        };
+        if (this.props.width) {
+            style.width = this.props.width;
+        }
+
         return (
             <FormField
                 label={label}
@@ -90,9 +98,7 @@ class FormSelect extends Component<Props> {
                     onSearch={this.props.onSearch}
                     notFoundContent={this.props.notFoundContent}
                     placeholder={this.props.placeholder}
-                    style={{
-                        minWidth: this.props.minWidth || '180px'
-                    }}
+                    style={style}
                     value={value}
                     onChange={this.onChange}
                     disabled={disabled}

@@ -12,7 +12,12 @@ const template: CommissionStatementTemplateEdit = {
             headerColumn: 'A',
             headerValue: 'Broker'
         },
-        fields: []
+        fields: [],
+        commissionTypes: {
+            defaultCommissionTypeId: '',
+            mappingTemplate: '',
+            types: []
+        }
     }
 };
 

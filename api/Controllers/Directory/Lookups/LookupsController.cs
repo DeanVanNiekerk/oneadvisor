@@ -7,7 +7,6 @@ using api.Controllers.Directory.Lookups.Dto;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Lookup;

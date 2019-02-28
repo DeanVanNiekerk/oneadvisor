@@ -26,7 +26,12 @@ describe('commission statement template actions', () => {
                     headerColumn: 'A',
                     headerValue: 'Broker'
                 },
-                fields: []
+                fields: [],
+                commissionTypes: {
+                    defaultCommissionTypeId: '',
+                    mappingTemplate: '',
+                    types: []
+                }
             }
         };
 

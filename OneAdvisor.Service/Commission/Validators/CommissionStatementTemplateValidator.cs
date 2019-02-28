@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
+using FluentValidation.Results;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
@@ -31,7 +32,7 @@ namespace OneAdvisor.Service.Commission.Validators
             RuleFor(t => t.DataStart).NotNull();
             RuleFor(t => t.DataStart).SetValidator(new DataStartValidator());
 
-            RuleFor(t => t.Fields).Must(HaveUnqiueFieldNames).WithMessage("Field Names must be unique");
+            RuleFor(t => t.Fields).Must(HaveUnqiueFieldNames).WithMessage("There are duplicate Field Mappings");
             RuleFor(t => t.Fields).Must(HaveRequiredFieldNames).WithMessage("'Policy Number' AND ('Amount Including VAT' OR 'Amount Excluding VAT') fields are required");
             RuleForEach(t => t.Fields).SetValidator(new FieldValidator());
 
@@ -85,8 +86,16 @@ namespace OneAdvisor.Service.Commission.Validators
         public CommissionTypestValidator()
         {
             RuleFor(t => t.MappingTemplate).NotEmpty().WithName("Mapping Template");
-            RuleFor(t => t.DefaultCommissionTypeId).NotEmpty().When(c => !c.Types.Any()).WithMessage("'Default Commission Type' required if no mappings");
+            RuleFor(t => t.DefaultCommissionTypeId).NotEmpty().WithName("Default Commission Type");
+
+            RuleFor(t => t.Types).Must(HaveUnqiueCommissionTypes).WithMessage("There are duplicate Commission Type Mappings");
             RuleForEach(t => t.Types).SetValidator(new CommissionTypeValidator());
+        }
+
+        private bool HaveUnqiueCommissionTypes(IEnumerable<CommissionType> types)
+        {
+            var commissionTypeIds = types.Select(t => t.CommissionTypeId);
+            return commissionTypeIds.Distinct().Count() == commissionTypeIds.Count();
         }
     }
 
@@ -96,6 +105,12 @@ namespace OneAdvisor.Service.Commission.Validators
         {
             RuleFor(t => t.CommissionTypeId).NotEmpty().WithName("Commission Type");
             RuleFor(t => t.Value).NotEmpty();
+
+            RuleFor(t => t.Value).Custom((type, context) =>
+            {
+                var failure = new ValidationFailure(context.PropertyName, "Invalid Value", context.PropertyValue);
+                context.AddFailure(failure);
+            });
         }
     }
 }
