@@ -22,9 +22,9 @@ describe('commission statement template actions', () => {
             companyId: '99',
             name: '321',
             config: {
-                dataStart: {
-                    headerColumn: 'A',
-                    headerValue: 'Broker'
+                headerIdentifier: {
+                    column: 'A',
+                    value: 'Broker'
                 },
                 fields: [],
                 commissionTypes: {

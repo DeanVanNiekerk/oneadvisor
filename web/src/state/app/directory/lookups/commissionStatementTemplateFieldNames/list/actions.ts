@@ -1,3 +1,5 @@
+import { CommissionStatementTemplateFieldName } from '../';
+
 type CommissionStatementTemplateFieldNameListReceiveAction = {
     type: 'COMMISSIONSTATEMENTTEMPLATEFIELDNAMES_LIST_RECEIVE';
     payload: CommissionStatementTemplateFieldName[];

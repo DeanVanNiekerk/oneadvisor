@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 
 import SignIn from '@/ui/account/SignIn';
-import CommissionImport from '@/ui/app/commission/import/CommissionImport';
 import StatementList from '@/ui/app/commission/statement/StatementList';
 import StatementPreview from '@/ui/app/commission/statement/StatementPreview';
 import CommissionStatementTemplateList from '@/ui/app/commission/template/TemplateList';
@@ -41,11 +40,6 @@ const Routes = () => (
 
         {/* COMMISSION -------------------------------------------------------------------------- */}
         <SecureRoute exact path="/commission" component={StatementList} />
-        <SecureRoute
-            exact
-            path="/commission/import"
-            component={CommissionImport}
-        />
         <SecureRoute
             exact
             path="/commission/statements"

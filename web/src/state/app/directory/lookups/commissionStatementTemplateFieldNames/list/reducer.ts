@@ -1,3 +1,4 @@
+import { CommissionStatementTemplateFieldName } from '../';
 import { CommissionStatementTemplateFieldNameListAction } from './actions';
 
 export type State = {

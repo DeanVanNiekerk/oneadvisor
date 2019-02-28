@@ -114,10 +114,10 @@ namespace OneAdvisor.Service.Test.Commission
                 var actual = await service.GetTemplate(temp1.Id);
 
                 //Then
-                Assert.AreEqual(temp2.Id, actual.Id);
-                Assert.AreEqual(temp2.Name, actual.Name);
-                Assert.AreEqual(temp2.CompanyId, actual.CompanyId);
-                Assert.AreEqual(temp2.Config, actual.Config);
+                Assert.AreEqual(temp1.Id, actual.Id);
+                Assert.AreEqual(temp1.Name, actual.Name);
+                Assert.AreEqual(temp1.CompanyId, actual.CompanyId);
+                Assert.AreEqual(temp1.Config, actual.Config);
             }
         }
 
@@ -219,7 +219,7 @@ namespace OneAdvisor.Service.Test.Commission
                 },
                 CommissionTypes = new CommissionTypes()
                 {
-                    MappingTemplate = "{A};{B}",
+                    MappingTemplate = "A;B",
                     DefaultCommissionTypeId = Guid.NewGuid()
                 }
             };
