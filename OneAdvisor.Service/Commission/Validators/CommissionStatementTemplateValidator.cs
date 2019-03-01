@@ -98,7 +98,7 @@ namespace OneAdvisor.Service.Commission.Validators
                 .When(t => !string.IsNullOrEmpty(t.MappingTemplate))
                 .WithMessage("'Mapping Template' contains invalid excel column identifiers");
 
-            RuleFor(t => t.DefaultCommissionTypeId).NotEmpty().WithName("Default Commission Type");
+            RuleFor(t => t.DefaultCommissionTypeCode).NotEmpty().WithName("Default Commission Type");
 
             RuleForEach(t => t.Types).SetValidator(new CommissionTypeValidator());
             RuleForEach(t => t.Types)
@@ -125,7 +125,7 @@ namespace OneAdvisor.Service.Commission.Validators
 
         private bool HaveUnqiueCommissionTypes(IEnumerable<CommissionType> types)
         {
-            var commissionTypeIds = types.Select(t => t.CommissionTypeId);
+            var commissionTypeIds = types.Select(t => t.CommissionTypeCode);
             return commissionTypeIds.Distinct().Count() == commissionTypeIds.Count();
         }
     }
@@ -134,7 +134,7 @@ namespace OneAdvisor.Service.Commission.Validators
     {
         public CommissionTypeValidator()
         {
-            RuleFor(t => t.CommissionTypeId).NotEmpty().WithName("Type");
+            RuleFor(t => t.CommissionTypeCode).NotEmpty().WithName("Type");
             RuleFor(t => t.Value).NotEmpty();
         }
     }

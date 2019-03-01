@@ -5,11 +5,10 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
+import { ApiOnFailure, ApiOnSuccess } from '@/app/types';
 import { ValidationResult } from '@/app/validation';
 import { statementTemplatesApi } from '@/config/api/commission';
-import {
-    CommissionStatementTemplateEdit, CommissionType, CommissionTypes, Config, updateCommissionStatementTemplate
-} from '@/state/app/commission/templates';
+import { CommissionStatementTemplateEdit, CommissionType, CommissionTypes } from '@/state/app/commission/templates';
 import { CommissionType as LookupCommissionType, commissionTypesSelector } from '@/state/app/directory/lookups';
 import {
     commissionStatementTemplateFieldNamesSelector
@@ -27,6 +26,11 @@ type Props = {
     onChange: (commissionTypes: CommissionTypes) => void;
     useCases: string[];
     lookupCommissionTypes: LookupCommissionType[];
+    saveTemplate: (
+        onSuccess?: ApiOnSuccess,
+        onFailure?: ApiOnFailure,
+        disableSuccessMessage?: boolean
+    ) => void;
 } & DispatchProp;
 
 type State = {
@@ -67,7 +71,7 @@ class CommissionTypesForm extends Component<Props, State> {
         const types = update(this.state.commissionTypes.types, {
             $push: [
                 {
-                    commissionTypeId: '',
+                    commissionTypeCode: '',
                     value: value
                 }
             ]
@@ -158,16 +162,17 @@ class CommissionTypesForm extends Component<Props, State> {
 
     onBeforeFileUpload = () => {
         this.setState({ syncingCommissionTypes: true });
+
         return new Promise((resolve, reject) => {
-            this.props.dispatch(
-                updateCommissionStatementTemplate(
-                    this.props.template,
-                    resolve,
-                    () => {
-                        this.setState({ syncingCommissionTypes: false });
-                        reject();
-                    }
-                )
+            this.props.saveTemplate(
+                //Success
+                resolve,
+                //Failure
+                () => {
+                    this.setState({ syncingCommissionTypes: false });
+                    reject();
+                },
+                true
             );
         });
     };
@@ -182,13 +187,13 @@ class CommissionTypesForm extends Component<Props, State> {
 
                 <Form editUseCase="com_edit_commission_statement_templates">
                     <FormSelect
-                        fieldName="defaultCommissionTypeId"
+                        fieldName="defaultCommissionTypeCode"
                         label="Default Commission Type"
-                        value={commissionTypes.defaultCommissionTypeId}
+                        value={commissionTypes.defaultCommissionTypeCode}
                         onChange={this.onChange}
                         validationResults={validationResults}
                         options={this.props.lookupCommissionTypes}
-                        optionsValue="id"
+                        optionsValue="code"
                         optionsText="name"
                     />
                     <FormInput
@@ -271,10 +276,10 @@ class CommissionTypesForm extends Component<Props, State> {
                                 />
                                 <FormItemIcon type="arrow-right" />
                                 <FormSelect
-                                    fieldName="commissionTypeId"
-                                    validationFieldName={`types[${index}].commissionTypeId`}
+                                    fieldName="commissionTypeCode"
+                                    validationFieldName={`types[${index}].commissionTypeCode`}
                                     label="Type"
-                                    value={type.commissionTypeId}
+                                    value={type.commissionTypeCode}
                                     onChange={(
                                         fieldName: string,
                                         value: string
@@ -287,7 +292,7 @@ class CommissionTypesForm extends Component<Props, State> {
                                     }}
                                     validationResults={validationResults}
                                     options={this.props.lookupCommissionTypes}
-                                    optionsValue="id"
+                                    optionsValue="code"
                                     optionsText="name"
                                     width="230px"
                                 />

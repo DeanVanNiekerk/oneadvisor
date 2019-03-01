@@ -4,7 +4,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
 {
     public class CommissionType
     {
-        public Guid? CommissionTypeId { get; set; }
+        public string CommissionTypeCode { get; set; }
         public string Value { get; set; }
     }
 }

@@ -3,6 +3,7 @@ import update from 'immutability-helper';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { ApiOnFailure, ApiOnSuccess } from '@/app/types';
 import { getValidationSubSet, ValidationResult } from '@/app/validation';
 import {
     CommissionStatementTemplateEdit, CommissionTypes, Field, HeaderIdentifier
@@ -14,18 +15,25 @@ import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
 import CommissionTypesForm from './config/CommissionTypesForm';
 import FieldsForm from './config/FieldsForm';
 import HeaderIdentifierForm from './config/HeaderIdentifierForm';
+import RawConfig from './config/RawConfig';
 
 type TabKey =
     | 'details_tab'
     | 'config_header_identifier'
     | 'config_fields'
-    | 'config_commission_types';
+    | 'config_commission_types'
+    | 'config_raw';
 
 type Props = {
     template: CommissionStatementTemplateEdit;
     validationResults: ValidationResult[];
     onChange: (template: CommissionStatementTemplateEdit) => void;
     companies: Company[];
+    saveTemplate: (
+        onSuccess?: ApiOnSuccess,
+        onFailure?: ApiOnFailure,
+        disableSuccessMessage?: boolean
+    ) => void;
 };
 
 type State = {
@@ -192,7 +200,11 @@ class TemplateForm extends Component<Props, State> {
                             validationResults
                         )}
                         onChange={this.onCommissionTypesChange}
+                        saveTemplate={this.props.saveTemplate}
                     />
+                </TabPane>
+                <TabPane tab="Raw Config" key="config_raw">
+                    <RawConfig template={template} />
                 </TabPane>
             </Tabs>
         );

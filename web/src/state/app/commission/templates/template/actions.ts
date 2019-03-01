@@ -55,7 +55,7 @@ export const fetchCommissionStatementTemplate = (
 
 export const updateCommissionStatementTemplate = (
     template: CommissionStatementTemplateEdit,
-    onSuccess: ApiOnSuccess,
+    onSuccess?: ApiOnSuccess,
     onFailure?: ApiOnFailure
 ): ApiAction => ({
     type: 'API',
@@ -69,12 +69,14 @@ export const updateCommissionStatementTemplate = (
 
 export const insertCommissionStatementTemplate = (
     template: CommissionStatementTemplateEdit,
-    onSuccess: ApiOnSuccess
+    onSuccess?: ApiOnSuccess,
+    onFailure?: ApiOnFailure
 ): ApiAction => ({
     type: 'API',
     endpoint: `${statementTemplatesApi}`,
     method: 'POST',
     payload: template,
     onSuccess: onSuccess,
+    onFailure: onFailure,
     dispatchPrefix: 'COMMISSIONS_STATEMENT_TEMPLATE_EDIT'
 });

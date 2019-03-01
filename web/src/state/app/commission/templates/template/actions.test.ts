@@ -28,7 +28,7 @@ describe('commission statement template actions', () => {
                 },
                 fields: [],
                 commissionTypes: {
-                    defaultCommissionTypeId: '',
+                    defaultCommissionTypeCode: '',
                     mappingTemplate: '',
                     types: []
                 }

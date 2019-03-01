@@ -220,7 +220,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypes = new CommissionTypes()
                 {
                     MappingTemplate = "A;B",
-                    DefaultCommissionTypeId = Guid.NewGuid()
+                    DefaultCommissionTypeCode = "com_code_1"
                 }
             };
         }

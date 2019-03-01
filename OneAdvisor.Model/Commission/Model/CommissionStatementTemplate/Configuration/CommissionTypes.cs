@@ -14,7 +14,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
         }
 
         public string MappingTemplate { get; set; }
-        public Guid? DefaultCommissionTypeId { get; set; }
+        public string DefaultCommissionTypeCode { get; set; }
         public List<CommissionType> Types { get; set; }
     }
 }

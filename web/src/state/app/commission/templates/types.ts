@@ -29,11 +29,11 @@ export type Field = {
 
 export type CommissionTypes = {
     mappingTemplate: string;
-    defaultCommissionTypeId: string;
+    defaultCommissionTypeCode: string;
     types: CommissionType[];
 };
 
 export type CommissionType = {
-    commissionTypeId: string;
+    commissionTypeCode: string;
     value: string;
 };

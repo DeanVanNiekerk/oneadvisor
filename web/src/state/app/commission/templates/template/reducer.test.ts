@@ -14,7 +14,7 @@ const template: CommissionStatementTemplateEdit = {
         },
         fields: [],
         commissionTypes: {
-            defaultCommissionTypeId: '',
+            defaultCommissionTypeCode: '',
             mappingTemplate: '',
             types: []
         }

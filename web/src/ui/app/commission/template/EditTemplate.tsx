@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { ApiOnFailure, ApiOnSuccess } from '@/app/types';
 import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
 import {
     CommissionStatementTemplateEdit, commissionStatementTemplateSelector, insertCommissionStatementTemplate,
-    updateCommissionStatementTemplate
+    receiveCommissionStatementTemplate, updateCommissionStatementTemplate
 } from '@/state/app/commission/templates';
 import { RootState } from '@/state/rootReducer';
 import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
@@ -57,7 +58,11 @@ class EditTemplate extends Component<Props, State> {
         this.props.onClose(true);
     };
 
-    save = () => {
+    save = (
+        onSuccess?: ApiOnSuccess,
+        onFailure?: ApiOnFailure,
+        disableSuccessMessage?: boolean
+    ) => {
         if (!this.state.templateEdited) {
             //this.close();
             return;
@@ -67,20 +72,33 @@ class EditTemplate extends Component<Props, State> {
             this.props.dispatch(
                 updateCommissionStatementTemplate(
                     this.state.templateEdited,
-                    () => {
-                        showMessage(
-                            'success',
-                            'Template Successfully Saved',
-                            3
+                    (result, dispatch) => {
+                        if (!disableSuccessMessage) {
+                            showMessage(
+                                'success',
+                                'Template Successfully Saved',
+                                3
+                            );
+                        }
+                        this.props.dispatch(
+                            receiveCommissionStatementTemplate(
+                                this.state.templateEdited
+                            )
                         );
-                    }
+                        if (onSuccess) onSuccess(result, dispatch);
+                    },
+                    onFailure
                 )
             );
         } else {
             this.props.dispatch(
                 insertCommissionStatementTemplate(
                     this.state.templateEdited,
-                    this.close
+                    (result, dispatch) => {
+                        this.close;
+                        if (onSuccess) onSuccess(result, dispatch);
+                    },
+                    onFailure
                 )
             );
         }
@@ -121,6 +139,7 @@ class EditTemplate extends Component<Props, State> {
                             template={template}
                             validationResults={validationResults}
                             onChange={this.onChange}
+                            saveTemplate={this.save}
                         />
                     )}
                 </ContentLoader>
@@ -132,7 +151,7 @@ class EditTemplate extends Component<Props, State> {
                         Close
                     </Button>
                     <Button
-                        onClick={this.save}
+                        onClick={() => this.save()}
                         type="primary"
                         disabled={this.isLoading()}
                         requiredUseCase="com_edit_commission_statement_templates"
