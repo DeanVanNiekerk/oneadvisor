@@ -27,11 +27,10 @@ namespace OneAdvisor.Import.Excel.Readers
 
             using (var reader = ExcelReaderFactory.CreateReader(stream))
             {
-                var headerFound = false;
                 var headerColumnIndex = ExcelUtils.ColumnToIndex(_config.HeaderIdentifier.Column);
-                var commissionTypeIndexes = MappingTemplate.Parse(_config.CommissionTypes.MappingTemplate)
-                                                .Select(c => ExcelUtils.ColumnToIndex(c))
-                                                .ToList();
+                var headerFound = false || headerColumnIndex == -1;
+                var commissionTypeIndexes = GetCommissionIndexes();
+
                 do
                 {
                     while (reader.Read())
@@ -45,12 +44,14 @@ namespace OneAdvisor.Import.Excel.Readers
 
                         //Ignore row if any of the primary field values are empty
                         var requiredFields = _config.Fields.Where(f => Fields.PrimaryFieldNames().Any(p => p == f.Name));
-                        foreach (var field in requiredFields)
+                        var anyMissingRequiredFields = requiredFields.Any(field =>
                         {
                             var fieldValue = Utils.GetValue(reader, ExcelUtils.ColumnToIndex(field.Column));
-                            if (string.IsNullOrWhiteSpace(fieldValue))
-                                continue;
-                        }
+                            return string.IsNullOrWhiteSpace(fieldValue);
+                        });
+
+                        if (anyMissingRequiredFields)
+                            continue;
 
                         var values = new List<string>();
                         foreach (var index in commissionTypeIndexes)
@@ -64,6 +65,18 @@ namespace OneAdvisor.Import.Excel.Readers
             }
 
             return commissionTypes.Distinct().ToList();
+        }
+
+        private List<int> GetCommissionIndexes()
+        {
+            var commissionTypeIndexes = new List<int>();
+
+            if (string.IsNullOrEmpty(_config.CommissionTypes.MappingTemplate))
+                return commissionTypeIndexes;
+
+            return MappingTemplate.Parse(_config.CommissionTypes.MappingTemplate)
+                .Select(c => ExcelUtils.ColumnToIndex(c))
+                .ToList();
         }
 
     }

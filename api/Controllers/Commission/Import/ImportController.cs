@@ -14,6 +14,7 @@ using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Import.Excel.Readers;
 using OneAdvisor.Model.Account.Interface;
+using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 
 namespace api.Controllers.Commission.Import
 {
@@ -44,7 +45,7 @@ namespace api.Controllers.Commission.Import
             if (file == null)
                 return BadRequest();
 
-            var reader = new CommissionImportReader();
+            var reader = new CommissionImportReader(new Config());
             var items = reader.Read(file.OpenReadStream());
 
             await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
