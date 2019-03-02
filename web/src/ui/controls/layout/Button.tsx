@@ -1,6 +1,6 @@
 import { Button as ButtonAD } from 'antd';
 import { ButtonSize, ButtonType } from 'antd/lib/button';
-import React, { ReactNode } from 'react';
+import React, { CSSProperties, ReactNode } from 'react';
 import { connect } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
@@ -22,9 +22,10 @@ type Props = {
     noLeftMargin?: boolean;
     visible?: boolean;
     loading?: boolean;
-    shape?: 'circle' | 'round';
+    shape?: "circle" | "round";
     size?: ButtonSize;
     block?: boolean;
+    style?: CSSProperties;
 };
 
 class ButtonComponent extends React.Component<Props> {
@@ -43,7 +44,8 @@ class ButtonComponent extends React.Component<Props> {
                 {visible && (
                     <ButtonAD
                         style={{
-                            marginLeft: this.props.noLeftMargin ? 0 : 8
+                            marginLeft: this.props.noLeftMargin ? 0 : 8,
+                            ...this.props.style,
                         }}
                         block={this.props.block}
                         type={this.props.type}
@@ -70,7 +72,7 @@ const mapStateToProps = (state: RootState) => {
         useCases: identityState.identity
             ? identityState.identity.useCaseIds
             : [],
-        roles: identityState.identity ? identityState.identity.roles : []
+        roles: identityState.identity ? identityState.identity.roles : [],
     };
 };
 

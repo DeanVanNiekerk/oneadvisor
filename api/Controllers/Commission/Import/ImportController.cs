@@ -23,20 +23,23 @@ namespace api.Controllers.Commission.Import
     [Route("api/commission/import")]
     public class ImportController : Controller
     {
-        public ImportController(IMapper mapper, ICommissionImportService commissionImportService, IAuthenticationService authenticationService)
+        public ImportController(IMapper mapper, ICommissionImportService commissionImportService, ICommissionStatementTemplateService commissionStatementTemplateService, IAuthenticationService authenticationService)
         {
             Mapper = mapper;
             CommissionImportService = commissionImportService;
             AuthenticationService = authenticationService;
+            CommissionStatementTemplateService = commissionStatementTemplateService;
         }
 
         private IMapper Mapper { get; }
         private ICommissionImportService CommissionImportService { get; }
         private IAuthenticationService AuthenticationService { get; }
+        private ICommissionStatementTemplateService CommissionStatementTemplateService { get; }
+
 
         [HttpPost("excel/{commissionStatementId}")]
         [UseCaseAuthorize("com_import_commissions")]
-        public async Task<IActionResult> Import(Guid commissionStatementId)
+        public async Task<IActionResult> Import(Guid commissionStatementId, [FromQuery] Guid? commissionStatementTemplateId = null)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -45,7 +48,16 @@ namespace api.Controllers.Commission.Import
             if (file == null)
                 return BadRequest();
 
-            var reader = new CommissionImportReader(new Config());
+            Config config;
+            if (commissionStatementTemplateId.HasValue)
+            {
+                var template = await CommissionStatementTemplateService.GetTemplate(commissionStatementTemplateId.Value);
+                config = template.Config;
+            }
+            else
+                config = await CommissionStatementTemplateService.GetDefaultConfig();
+
+            var reader = new CommissionImportReader(config);
             var items = reader.Read(file.OpenReadStream());
 
             await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);

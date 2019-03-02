@@ -13,16 +13,21 @@ using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Commission.Validators;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate;
+using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
+using System.Collections.Generic;
+using OneAdvisor.Model.Directory.Interface;
 
 namespace OneAdvisor.Service.Commission
 {
     public class CommissionStatementTemplateService : ICommissionStatementTemplateService
     {
         private readonly DataContext _context;
+        private readonly ILookupService _lookupService;
 
-        public CommissionStatementTemplateService(DataContext context)
+        public CommissionStatementTemplateService(DataContext context, ILookupService lookupService)
         {
             _context = context;
+            _lookupService = lookupService;
         }
 
         public async Task<PagedItems<CommissionStatementTemplate>> GetTemplates()
@@ -95,6 +100,50 @@ namespace OneAdvisor.Service.Commission
             await _context.SaveChangesAsync();
 
             return result;
+        }
+
+        public async Task<Config> GetDefaultConfig()
+        {
+            var config = new Config()
+            {
+                //No header
+                HeaderIdentifier = new HeaderIdentifier()
+                {
+                    Column = "",
+                    Value = ""
+                },
+                Fields = new List<Field>() {
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.PolicyNumber), Column = "A" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.AmountIncludingVAT), Column = "B" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.VAT), Column = "C" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.LastName), Column = "E" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.DateOfBirth), Column = "F" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.FirstName), Column = "G" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.IdNumber), Column = "H" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.Initials), Column = "I" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.FullName), Column = "J" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.BrokerFullName), Column = "K" }
+                },
+                CommissionTypes = new CommissionTypes()
+                {
+                    MappingTemplate = "D",
+                    DefaultCommissionTypeCode = "unknown",
+                    Types = new List<CommissionType>()
+                }
+            };
+
+            var commissionTypes = await _lookupService.GetCommissionTypes();
+            config.CommissionTypes.Types = commissionTypes
+                .Select(c => new CommissionType()
+                {
+                    CommissionTypeCode = c.Code,
+                    Value = c.Code
+                }
+                )
+                .ToList();
+
+            return config;
+
         }
 
         private CommissionStatementTemplateEntity MapModelToEntity(CommissionStatementTemplateEdit model, CommissionStatementTemplateEntity entity = null)

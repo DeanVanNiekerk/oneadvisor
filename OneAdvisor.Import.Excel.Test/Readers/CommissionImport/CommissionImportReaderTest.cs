@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OneAdvisor.Import.Excel.Readers;
 using OneAdvisor.Import.Excel.Test.Readers.CommissionImport.Source;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
+using OneAdvisor.Model.Commission.Model.ImportCommission;
 
 namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
 {
@@ -58,6 +59,10 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
 
             var reader = new CommissionImportReader(config);
             var commissions = reader.Read(stream).ToList();
+
+            //Check we are testing all fields
+            var importCommissionProps = typeof(ImportCommission).GetProperties();
+            Assert.AreEqual(importCommissionProps.Count() - 2, config.Fields.Count()); //minus 2 for Id and CommissionTypeCode
 
             Assert.AreEqual(3, commissions.Count);
             var actual = commissions[0];

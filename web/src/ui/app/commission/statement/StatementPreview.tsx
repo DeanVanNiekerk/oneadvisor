@@ -40,6 +40,7 @@ type Props = {
 
 type State = {
     commissionListVisible: boolean;
+    uploadStatementVisible: boolean;
 };
 
 class StatementPreviewComponent extends Component<Props, State> {
@@ -47,7 +48,8 @@ class StatementPreviewComponent extends Component<Props, State> {
         super(props);
 
         this.state = {
-            commissionListVisible: false
+            commissionListVisible: false,
+            uploadStatementVisible: false,
         };
     }
 
@@ -57,7 +59,13 @@ class StatementPreviewComponent extends Component<Props, State> {
 
     toggleCommissionListVisible = () => {
         this.setState({
-            commissionListVisible: !this.state.commissionListVisible
+            commissionListVisible: !this.state.commissionListVisible,
+        });
+    };
+
+    toggleUploadStatementVisible = () => {
+        this.setState({
+            uploadStatementVisible: !this.state.uploadStatementVisible,
         });
     };
 
@@ -81,21 +89,21 @@ class StatementPreviewComponent extends Component<Props, State> {
 
     deleteCommissions = () => {
         confirm({
-            title: 'Are you sure you want to delete all commission entries?',
+            title: "Are you sure you want to delete all commission entries?",
             content:
-                'All commission entries including any errors will be permanenty deleted, are you sure you wish to continue?',
+                "All commission entries including any errors will be permanenty deleted, are you sure you wish to continue?",
             onOk: () => {
                 this.props.dispatch(
                     deleteCommissions(this.getCommissionStatementId(), () => {
                         showMessage(
-                            'success',
-                            'Commission entries successfully deleted',
+                            "success",
+                            "Commission entries successfully deleted",
                             5
                         );
                         this.load();
                     })
                 );
-            }
+            },
         });
     };
 
@@ -105,10 +113,10 @@ class StatementPreviewComponent extends Component<Props, State> {
 
     getCommissionEntriesActions = () => {
         const actions = [
-            <Icon type="bars" onClick={this.toggleCommissionListVisible} />
+            <Icon type="bars" onClick={this.toggleCommissionListVisible} />,
         ];
 
-        if (hasUseCase('com_edit_commission_statements', this.props.useCases))
+        if (hasUseCase("com_edit_commission_statements", this.props.useCases))
             actions.unshift(
                 <Icon
                     type="delete"
@@ -136,10 +144,15 @@ class StatementPreviewComponent extends Component<Props, State> {
 
     showCommissionUploadInfo = () => {
         Modal.info({
-            title: 'Excel Column Order',
+            title: "Default Template Info",
             content: (
                 <div>
-                    <ol>
+                    <h4 className="mt-1">Excel Column Order</h4>
+                    <ol
+                        style={{
+                            listStyleType: "upper-alpha",
+                        }}
+                    >
                         <li>
                             <b className="text-primary">Policy Number</b>
                             <span className="pull-right">(Required)</span>
@@ -165,7 +178,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                         <li>BrokerFullName</li>
                     </ol>
                 </div>
-            )
+            ),
         });
     };
 
@@ -185,16 +198,16 @@ class StatementPreviewComponent extends Component<Props, State> {
     };
 
     getCompanyName = () => {
-        let companyId = '';
+        let companyId = "";
         if (this.props.statement !== null)
             companyId = this.props.statement.companyId;
         const company = this.props.companies.find(u => u.id === companyId);
-        return company ? company.name : '';
+        return company ? company.name : "";
     };
 
     render() {
         let { statement } = this.props;
-        const cardHeight = '130px';
+        const cardHeight = "130px";
 
         return (
             <>
@@ -202,7 +215,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                     {statement && (
                         <span>
                             <CompanyName companyId={statement.companyId} />
-                            {': '}
+                            {": "}
                             <Date date={statement.date} />
                         </span>
                     )}
@@ -215,7 +228,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                         onClick={this.editDetails}
                         isLoading={this.isLoading()}
                         actions={[
-                            <Icon type="edit" onClick={this.editDetails} />
+                            <Icon type="edit" onClick={this.editDetails} />,
                         ]}
                         rows={3}
                         height={cardHeight}
@@ -288,21 +301,28 @@ class StatementPreviewComponent extends Component<Props, State> {
                         actions={[
                             <Icon
                                 type="info-circle"
-                                onClick={this.showCommissionUploadInfo}
-                            />
+                                onClick={event => {
+                                    this.showCommissionUploadInfo();
+                                    event.stopPropagation();
+                                }}
+                            />,
                         ]}
                         icon="upload"
+                        onClick={this.toggleUploadStatementVisible}
                         isLoading={this.isLoading()}
                         rows={3}
                         height={cardHeight}
                         requiredUseCase="com_import_commissions"
                     >
-                        {statement && (
-                            <UploadStatement
-                                commissionStatementId={statement.id}
-                                onSuccess={this.load}
+                        <div className="text-center">
+                            <Icon
+                                type="file-excel"
+                                style={{
+                                    fontSize: "36px",
+                                    paddingTop: "25px",
+                                }}
                             />
-                        )}
+                        </div>
                     </PreviewCard>
                     {statement && statement.formatErrorCount > 0 && (
                         <PreviewCard
@@ -336,7 +356,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                                         this.downloadMappingErrors();
                                         event.stopPropagation();
                                     }}
-                                />
+                                />,
                             ]}
                             height={cardHeight}
                         >
@@ -352,7 +372,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                 <EditStatement onClose={this.onFormClose} />
                 <EditFormatError
                     statementId={
-                        this.props.statement ? this.props.statement.id : ''
+                        this.props.statement ? this.props.statement.id : ""
                     }
                     remainingErrors={
                         this.props.statement
@@ -390,6 +410,27 @@ class StatementPreviewComponent extends Component<Props, State> {
                         </Button>
                     </DrawerFooter>
                 </Drawer>
+
+                <Drawer
+                    title="Upload Statement"
+                    icon="upload"
+                    visible={this.state.uploadStatementVisible}
+                    onClose={this.toggleUploadStatementVisible}
+                >
+                    {statement && (
+                        <UploadStatement
+                            commissionStatementId={statement.id}
+                            companyId={statement.companyId}
+                            onSuccess={this.load}
+                        />
+                    )}
+
+                    <DrawerFooter>
+                        <Button onClick={this.toggleUploadStatementVisible}>
+                            Close
+                        </Button>
+                    </DrawerFooter>
+                </Drawer>
             </>
         );
     }
@@ -406,7 +447,7 @@ const mapStateToProps = (state: RootState) => {
         useCases: identityState.identity
             ? identityState.identity.useCaseIds
             : [],
-        companies: companiesState.items
+        companies: companiesState.items,
     };
 };
 

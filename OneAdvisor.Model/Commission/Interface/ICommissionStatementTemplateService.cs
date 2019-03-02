@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate;
+using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 
 namespace OneAdvisor.Model.Commission.Interface
 {
@@ -12,5 +13,6 @@ namespace OneAdvisor.Model.Commission.Interface
         Task<CommissionStatementTemplateEdit> GetTemplate(Guid templateId);
         Task<Result> UpdateTemplate(CommissionStatementTemplateEdit template);
         Task<Result> InsertTemplate(CommissionStatementTemplateEdit template);
+        Task<Config> GetDefaultConfig();
     }
 }
