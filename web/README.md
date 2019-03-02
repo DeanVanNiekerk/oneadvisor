@@ -2,6 +2,8 @@
 
 !!! Problematic: @types/styled-components devDep 4.1.8 ❯ 4.1.11
 
+!!! MUST LOCK VERSION NUMBERS
+
 `npm install npm-check -g`
 
 `npm-check -u`
