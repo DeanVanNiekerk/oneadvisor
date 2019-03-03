@@ -12,7 +12,6 @@ using api.App.Dtos;
 using OneAdvisor.Model.Member.Model.Member;
 using Microsoft.AspNetCore.Http;
 using OneAdvisor.Model.Directory.Interface;
-using api.Controllers.Member.Members.Dto;
 using OneAdvisor.Model.Account.Interface;
 
 namespace api.Controllers.Directory.Members
@@ -22,32 +21,28 @@ namespace api.Controllers.Directory.Members
     [Route("api/member/members")]
     public class MembersController : Controller
     {
-        public MembersController(IMapper mapper, IMemberService memberService, IAuthenticationService authenticationService)
+        public MembersController(IMemberService memberService, IAuthenticationService authenticationService)
         {
-            Mapper = mapper;
             MemberService = memberService;
             AuthenticationService = authenticationService;
         }
 
-        private IMapper Mapper { get; }
         private IMemberService MemberService { get; }
         private IAuthenticationService AuthenticationService { get; }
 
         [HttpGet("")]
         [UseCaseAuthorize("mem_view_members")]
-        public async Task<PagedItemsDto<MemberDto>> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
+        public async Task<PagedItems<OneAdvisor.Model.Member.Model.Member.Member>> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
             var scope = AuthenticationService.GetScope(User);
 
             var queryOptions = new MemberQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
-            var pagedItems = await MemberService.GetMembers(queryOptions);
-
-            return Mapper.MapToPageItemsDto<OneAdvisor.Model.Member.Model.Member.Member, MemberDto>(pagedItems);
+            return await MemberService.GetMembers(queryOptions);
         }
 
         [HttpGet("{memberId}")]
         [UseCaseAuthorize("mem_view_members")]
-        public async Task<ActionResult<MemberEditDto>> Get(Guid memberId)
+        public async Task<ActionResult<MemberEdit>> Get(Guid memberId)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -56,12 +51,12 @@ namespace api.Controllers.Directory.Members
             if (model == null)
                 return NotFound();
 
-            return Ok(Mapper.Map<MemberEditDto>(model));
+            return Ok(model);
         }
 
         [HttpGet("{memberId}/preview")]
         [UseCaseAuthorize("mem_view_members")]
-        public async Task<ActionResult<MemberPreviewDto>> GetPreivew(Guid memberId)
+        public async Task<ActionResult<MemberPreview>> GetPreview(Guid memberId)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -70,18 +65,16 @@ namespace api.Controllers.Directory.Members
             if (model == null)
                 return NotFound();
 
-            return Ok(Mapper.Map<MemberPreviewDto>(model));
+            return model;
         }
 
         [HttpPost]
         [UseCaseAuthorize("mem_edit_members")]
-        public async Task<ActionResult<Result>> Insert([FromBody] MemberEditDto member)
+        public async Task<ActionResult<Result>> Insert([FromBody] MemberEdit member)
         {
             var scope = AuthenticationService.GetScope(User);
 
-            var model = Mapper.Map<MemberEdit>(member);
-
-            var result = await MemberService.InsertMember(scope, model);
+            var result = await MemberService.InsertMember(scope, member);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
@@ -91,15 +84,13 @@ namespace api.Controllers.Directory.Members
 
         [HttpPost("{memberId}")]
         [UseCaseAuthorize("mem_edit_members")]
-        public async Task<ActionResult<Result>> Update(Guid memberId, [FromBody] MemberEditDto member)
+        public async Task<ActionResult<Result>> Update(Guid memberId, [FromBody] MemberEdit member)
         {
             member.Id = memberId;
 
-            var model = Mapper.Map<MemberEdit>(member);
-
             var scope = AuthenticationService.GetScope(User);
 
-            var result = await MemberService.UpdateMember(scope, model);
+            var result = await MemberService.UpdateMember(scope, member);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
