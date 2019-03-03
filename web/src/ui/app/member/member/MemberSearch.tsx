@@ -23,7 +23,7 @@ class MemberSearch extends Component<Props, State> {
     constructor(props) {
         super(props);
         this.state = {
-            searchText: props.defaultSearchText || ''
+            searchText: props.defaultSearchText || "",
         };
     }
 
@@ -33,10 +33,10 @@ class MemberSearch extends Component<Props, State> {
 
     loadMembers = () => {
         let filters = {
-            lastName: [this.state.searchText]
+            lastName: [this.state.searchText],
         };
 
-        this.props.dispatch(searchMembers(applyLike(filters, ['lastName'])));
+        this.props.dispatch(searchMembers(applyLike(filters, ["lastName"])));
     };
 
     selectMember = (id: string) => {
@@ -49,13 +49,13 @@ class MemberSearch extends Component<Props, State> {
 
     getColumns = () => {
         return [
-            getColumn('lastName', 'Last Name', { sorter: false }),
-            getColumn('firstName', 'First Name', { sorter: false }),
-            getColumn('idNumber', 'ID Number', { sorter: false }),
-            getColumn('dateOfBirth', 'Date of Birth', {
-                type: 'date',
-                sorter: false
-            })
+            getColumn("lastName", "Last Name", { sorter: false }),
+            getColumn("firstName", "First Name", { sorter: false }),
+            getColumn("idNumber", "ID Number", { sorter: false }),
+            getColumn("dateOfBirth", "Date of Birth", {
+                type: "date",
+                sorter: false,
+            }),
         ];
     };
 
@@ -80,7 +80,6 @@ class MemberSearch extends Component<Props, State> {
                     dataSource={this.props.members}
                     loading={this.props.fetching}
                     onRowClick={member => this.selectMember(member.id)}
-                    hidePagination={true}
                 />
             </>
         );
@@ -92,7 +91,7 @@ const mapStateToProps = (state: RootState) => {
 
     return {
         members: membersState.items,
-        fetching: membersState.fetching
+        fetching: membersState.fetching,
     };
 };
 

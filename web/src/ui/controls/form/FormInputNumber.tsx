@@ -28,16 +28,6 @@ class FormInputNumber extends Component<Props> {
             this.props.onChange(this.props.fieldName, value);
     };
 
-    currencyFormatter = (value: number | null | undefined) => {
-        let text = '';
-        if (value) text = parseFloat(value.toString()).toFixed(2);
-        return `R ${text}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    };
-
-    currencyParser = (value: string) => {
-        return value.replace(/\R\s?|(,*)/g, '');
-    };
-
     render() {
         const {
             fieldName,
@@ -47,18 +37,11 @@ class FormInputNumber extends Component<Props> {
             disabled = false,
             layout,
             readonly,
-            isCurrency
+            isCurrency,
         } = this.props;
 
         if (readonly)
             return <FormText label={label} value={value} layout={layout} />;
-
-        let formatter: any;
-        let parser: any;
-        if (isCurrency) {
-            formatter = this.currencyFormatter;
-            parser = this.currencyParser;
-        }
 
         return (
             <FormField
@@ -74,11 +57,10 @@ class FormInputNumber extends Component<Props> {
                     id={fieldName}
                     value={value}
                     onChange={this.onChange}
-                    formatter={formatter}
-                    parser={parser}
-                    //width="100%"
+                    decimalSeparator="."
+                    precision={2}
                     style={{
-                        width: '100%'
+                        width: "100%",
                     }}
                 />
             </FormField>
