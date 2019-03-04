@@ -1,5 +1,7 @@
 import { PagedItems } from '@/app/table';
 
+import { CommissionImportData } from '../errors';
+
 export type Commission = {
     id: string;
     commissionStatementId: string;
@@ -18,6 +20,7 @@ export type CommissionEdit = {
     commissionTypeId: string;
     amountIncludingVAT: number;
     vat: number;
+    sourceData: CommissionImportData;
 };
 
 export interface PagedCommissions extends PagedItems<Commission> {

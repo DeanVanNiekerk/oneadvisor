@@ -28,14 +28,14 @@ class EditCommission extends Component<Props, State> {
         super(props);
 
         this.state = {
-            commissionEdited: props.commission
+            commissionEdited: props.commission,
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.commission != prevProps.commission) {
             this.setState({
-                commissionEdited: this.props.commission
+                commissionEdited: this.props.commission,
             });
         }
     }
@@ -79,7 +79,7 @@ class EditCommission extends Component<Props, State> {
 
     onChange = (commission: CommissionEdit) => {
         this.setState({
-            commissionEdited: commission
+            commissionEdited: commission,
         });
     };
 
@@ -88,13 +88,13 @@ class EditCommission extends Component<Props, State> {
     };
 
     getTitle = () => {
-        if (this.props.fetching) return 'Loading Commission';
+        if (this.props.fetching) return "Loading Commission";
 
         const { commission } = this.props;
 
         if (commission && commission.id) return `Edit Commission`;
 
-        return 'New Commission';
+        return "New Commission";
     };
 
     render() {
@@ -106,6 +106,7 @@ class EditCommission extends Component<Props, State> {
                 icon="dollar"
                 visible={!!commission || fetching}
                 onClose={this.confirmCancel}
+                noTopPadding={true}
             >
                 <ContentLoader isLoading={this.isLoading()}>
                     {commission && (
@@ -144,7 +145,7 @@ const mapStateToProps = (state: RootState) => {
         commission: commissionState.commission,
         fetching: commissionState.fetching,
         updating: commissionState.updating,
-        validationResults: commissionState.validationResults
+        validationResults: commissionState.validationResults,
     };
 };
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import JSONPretty from 'react-json-pretty';
 import { connect, DispatchProp } from 'react-redux';
 
 import { applyLikeFormat } from '@/app/query';
@@ -8,7 +9,9 @@ import { CommissionEdit } from '@/state/app/commission/commissions';
 import { CommissionType, commissionTypesSelector } from '@/state/app/directory/lookups';
 import { getPolicies, Policy } from '@/state/app/member/policies';
 import { RootState } from '@/state/rootReducer';
-import { Form, FormDate, FormInput, FormInputNumber, FormSelect } from '@/ui/controls';
+import { Form, FormInputNumber, FormSelect, TabPane, Tabs } from '@/ui/controls';
+
+type TabKey = "form_tab" | "data_tab";
 
 type Props = {
     commission: CommissionEdit;
@@ -20,6 +23,7 @@ type Props = {
 type State = {
     commission: CommissionEdit;
     policies: Policy[];
+    activeTab: TabKey;
 };
 
 class CommissionForm extends Component<Props, State> {
@@ -28,7 +32,8 @@ class CommissionForm extends Component<Props, State> {
 
         this.state = {
             commission: props.commission,
-            policies: []
+            policies: [],
+            activeTab: "form_tab",
         };
 
         this.loadPolicy(this.props.commission.policyId);
@@ -37,7 +42,8 @@ class CommissionForm extends Component<Props, State> {
     componentDidUpdate(prevProps: Props) {
         if (this.props.commission != prevProps.commission) {
             this.setState({
-                commission: this.props.commission
+                commission: this.props.commission,
+                activeTab: "form_tab",
             });
             this.loadPolicy(this.props.commission.policyId);
         }
@@ -46,10 +52,10 @@ class CommissionForm extends Component<Props, State> {
     handleChange = async (fieldName: string, value: any) => {
         const commission = {
             ...this.state.commission,
-            [fieldName]: value
+            [fieldName]: value,
         };
         this.setState({
-            commission: commission
+            commission: commission,
         });
         this.props.onChange(commission);
     };
@@ -58,7 +64,7 @@ class CommissionForm extends Component<Props, State> {
         if (!policyId) return;
 
         const filters = {
-            id: [policyId]
+            id: [policyId],
         };
         this.loadPolicies(filters);
     };
@@ -66,12 +72,12 @@ class CommissionForm extends Component<Props, State> {
     loadPolicies = (filters: Filters) => {
         const pageOptions = {
             number: 1,
-            size: 20 //Limit to 20 records
+            size: 20, //Limit to 20 records
         };
         this.props.dispatch(
             getPolicies(filters, pageOptions, policies => {
                 this.setState({
-                    policies: policies
+                    policies: policies,
                 });
             })
         );
@@ -79,9 +85,9 @@ class CommissionForm extends Component<Props, State> {
 
     policySearch = (value: string) => {
         if (value.length < 3) {
-            this.handleChange('policyId', '');
+            this.handleChange("policyId", "");
             this.setState({
-                policies: []
+                policies: [],
             });
             return;
         }
@@ -89,59 +95,78 @@ class CommissionForm extends Component<Props, State> {
         this.loadPolicies(filters);
     };
 
+    onTabChange = (activeTab: TabKey) => {
+        this.setState({ activeTab });
+    };
+
     render() {
         const { validationResults } = this.props;
         const { commission } = this.state;
 
         return (
-            <Form editUseCase="com_edit_commissions">
-                <FormSelect
-                    showSearch={true}
-                    showArrow={false}
-                    filterOption={false}
-                    defaultActiveFirstOption={false}
-                    placeholder={'Select Policy'}
-                    notFoundContent={null}
-                    fieldName="policyId"
-                    onSearch={this.policySearch}
-                    label="Policy"
-                    value={commission.policyId}
-                    onChange={this.handleChange}
-                    validationResults={validationResults}
-                    options={this.state.policies}
-                    optionsValue="id"
-                    optionsText="number"
-                    autoFocus={true}
-                />
-                <FormSelect
-                    fieldName="commissionTypeId"
-                    label="Type"
-                    value={commission.commissionTypeId}
-                    onChange={this.handleChange}
-                    validationResults={validationResults}
-                    options={this.props.commissionTypes}
-                    optionsValue="id"
-                    optionsText="name"
-                />
-                <FormInputNumber
-                    fieldName="amountIncludingVAT"
-                    label="Amount (incl VAT)"
-                    value={commission.amountIncludingVAT}
-                    onChange={this.handleChange}
-                    validationResults={validationResults}
-                    isCurrency={true}
-                    min={0}
-                />
-                <FormInputNumber
-                    fieldName="vat"
-                    label="VAT"
-                    value={commission.vat}
-                    onChange={this.handleChange}
-                    validationResults={validationResults}
-                    isCurrency={true}
-                    min={0}
-                />
-            </Form>
+            <Tabs
+                onChange={this.onTabChange}
+                activeKey={this.state.activeTab}
+                sticky={true}
+            >
+                <TabPane tab="Commission" key="form_tab">
+                    <Form editUseCase="com_edit_commissions">
+                        <FormSelect
+                            showSearch={true}
+                            showArrow={false}
+                            filterOption={false}
+                            defaultActiveFirstOption={false}
+                            placeholder={"Select Policy"}
+                            notFoundContent={null}
+                            fieldName="policyId"
+                            onSearch={this.policySearch}
+                            label="Policy"
+                            value={commission.policyId}
+                            onChange={this.handleChange}
+                            validationResults={validationResults}
+                            options={this.state.policies}
+                            optionsValue="id"
+                            optionsText="number"
+                            autoFocus={true}
+                        />
+                        <FormSelect
+                            fieldName="commissionTypeId"
+                            label="Type"
+                            value={commission.commissionTypeId}
+                            onChange={this.handleChange}
+                            validationResults={validationResults}
+                            options={this.props.commissionTypes}
+                            optionsValue="id"
+                            optionsText="name"
+                        />
+                        <FormInputNumber
+                            fieldName="amountIncludingVAT"
+                            label="Amount (incl VAT)"
+                            value={commission.amountIncludingVAT}
+                            onChange={this.handleChange}
+                            validationResults={validationResults}
+                            isCurrency={true}
+                            min={0}
+                        />
+                        <FormInputNumber
+                            fieldName="vat"
+                            label="VAT"
+                            value={commission.vat}
+                            onChange={this.handleChange}
+                            validationResults={validationResults}
+                            isCurrency={true}
+                            min={0}
+                        />
+                    </Form>
+                </TabPane>
+
+                <TabPane tab="Source Data" key="data_tab">
+                    {!commission.sourceData && <span>No Source Data</span>}
+                    {commission.sourceData && (
+                        <JSONPretty json={commission.sourceData} />
+                    )}
+                </TabPane>
+            </Tabs>
         );
     }
 }
@@ -150,7 +175,7 @@ const mapStateToProps = (state: RootState) => {
     const commissionTypeState = commissionTypesSelector(state);
 
     return {
-        commissionTypes: commissionTypeState.items
+        commissionTypes: commissionTypeState.items,
     };
 };
 
