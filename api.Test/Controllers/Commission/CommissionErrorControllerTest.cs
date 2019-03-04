@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.Commission;
+using OneAdvisor.Model.Commission.Model.CommissionError;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.User;
 
@@ -16,46 +17,54 @@ namespace api.Test.Controllers.Commission
     [TestClass]
     public class CommissionErrorControllerTest
     {
-        // [TestMethod]
-        // public async Task Index()
-        // {
-        //     var error = new OneAdvisor.Model.Commission.Model.CommissionError.CommissionError()
-        //     {
-        //         Id = Guid.Parse("21f9f54f-0bbc-4afc-a588-b6bae4f47ae6"),
-        //         CommissionStatementId = Guid.Parse("d5887153-b373-4275-8eb1-6b7c1e9d57db"),
-        //         CommissionTypeId = Guid.Parse("24b55c80-4624-478f-a73a-647bb77f22d8"),
-        //         IsFormatValid = true,
-        //         MemberId = Guid.Parse("e36c892a-f608-4d24-b29f-d031f4ebf855"),
-        //         PolicyId = Guid.Parse("bb49cd0d-c66d-4c16-858b-0bd6b68df65c"),
-        //         Data = new OneAdvisor.Model.Commission.Model.ImportCommission.ImportCommission()
-        //         {
-        //             PolicyNumber = "123",
-        //             AmountIncludingVAT = "50",
-        //             VAT = "5"
-        //         },
-        //     };
+        [TestMethod]
+        public async Task Index()
+        {
+            var error = new OneAdvisor.Model.Commission.Model.CommissionError.CommissionError()
+            {
+                Id = Guid.Parse("21f9f54f-0bbc-4afc-a588-b6bae4f47ae6"),
+                CommissionStatementId = Guid.Parse("d5887153-b373-4275-8eb1-6b7c1e9d57db"),
+                CommissionTypeId = Guid.Parse("24b55c80-4624-478f-a73a-647bb77f22d8"),
+                IsFormatValid = true,
+                MemberId = Guid.Parse("e36c892a-f608-4d24-b29f-d031f4ebf855"),
+                PolicyId = Guid.Parse("bb49cd0d-c66d-4c16-858b-0bd6b68df65c"),
+                Data = new OneAdvisor.Model.Commission.Model.ImportCommission.ImportCommission()
+                {
+                    PolicyNumber = "123",
+                    AmountIncludingVAT = "50",
+                    VAT = "5"
+                },
+            };
 
-        //     var errors = new List<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>()
-        //     {
-        //         error
-        //     };
+            var errors = new PagedItems<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>()
+            {
+                TotalItems = 1,
+                Items = new List<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>()
+                {
+                    error
+                }
+            };
 
-        //     var service = new Mock<ICommissionErrorService>();
-        //     var authService = TestHelper.MockAuthenticationService(Scope.Branch);
+            var service = new Mock<ICommissionErrorService>();
+            var authService = TestHelper.MockAuthenticationService(Scope.Branch);
 
-        //     ScopeOptions options = null;
-        //     service.Setup(c => c.GetErrors(It.IsAny<ScopeOptions>(), It.Is<Guid>(m => m == error.CommissionStatementId), It.Is<bool>(i => i == true)))
-        //         .Callback((ScopeOptions scopeOptions, Guid a, bool b) => options = scopeOptions)
-        //         .ReturnsAsync(errors);
+            CommissionErrorQueryOptions options = null;
+            service.Setup(c => c.GetErrors(It.IsAny<CommissionErrorQueryOptions>()))
+                .Callback((CommissionErrorQueryOptions o) => options = o)
+                .ReturnsAsync(errors);
 
-        //     var controller = new CommissionErrorController(service.Object, authService.Object);
+            var controller = new CommissionErrorController(service.Object, authService.Object);
 
-        //     var actual = await controller.Index(error.CommissionStatementId, true);
+            var actual = await controller.Index(error.CommissionStatementId, "policyNumber", "desc", 15, 2);
 
-        //     Assert.AreEqual(Scope.Branch, options.Scope);
+            Assert.AreEqual(Scope.Branch, options.Scope.Scope);
+            Assert.AreEqual(15, options.PageOptions.Size);
+            Assert.AreEqual(2, options.PageOptions.Number);
+            Assert.AreEqual("policyNumber", options.SortOptions.Column);
+            Assert.AreEqual(SortDirection.Descending, options.SortOptions.Direction);
 
-        //     Assert.AreEqual("[{\"Id\":\"21f9f54f-0bbc-4afc-a588-b6bae4f47ae6\",\"CommissionStatementId\":\"d5887153-b373-4275-8eb1-6b7c1e9d57db\",\"PolicyId\":\"bb49cd0d-c66d-4c16-858b-0bd6b68df65c\",\"MemberId\":\"e36c892a-f608-4d24-b29f-d031f4ebf855\",\"CommissionTypeId\":\"24b55c80-4624-478f-a73a-647bb77f22d8\",\"Data\":{\"PolicyNumber\":\"123\",\"CommissionTypeCode\":null,\"AmountIncludingVAT\":\"50\",\"VAT\":\"5\",\"FirstName\":null,\"LastName\":null,\"Initials\":null,\"DateOfBirth\":null,\"IdNumber\":null,\"FullName\":null,\"BrokerFullName\":null,\"CommissionTypeValue\":null},\"IsFormatValid\":true}]", JsonConvert.SerializeObject(actual));
-        // }
+            Assert.AreEqual("{\"TotalItems\":1,\"Items\":[{\"Id\":\"21f9f54f-0bbc-4afc-a588-b6bae4f47ae6\",\"CommissionStatementId\":\"d5887153-b373-4275-8eb1-6b7c1e9d57db\",\"PolicyId\":\"bb49cd0d-c66d-4c16-858b-0bd6b68df65c\",\"MemberId\":\"e36c892a-f608-4d24-b29f-d031f4ebf855\",\"CommissionTypeId\":\"24b55c80-4624-478f-a73a-647bb77f22d8\",\"Data\":{\"PolicyNumber\":\"123\",\"AmountIncludingVAT\":\"50\",\"VAT\":\"5\",\"CommissionTypeCode\":null,\"CommissionTypeValue\":null,\"FirstName\":null,\"LastName\":null,\"Initials\":null,\"DateOfBirth\":null,\"IdNumber\":null,\"FullName\":null,\"BrokerFullName\":null},\"IsFormatValid\":true}]}", JsonConvert.SerializeObject(actual));
+        }
 
         [TestMethod]
         public async Task Next()
@@ -90,7 +99,7 @@ namespace api.Test.Controllers.Commission
 
             Assert.AreEqual(Scope.Branch, options.Scope);
 
-            Assert.AreEqual("{\"Result\":{\"Value\":{\"Id\":\"21f9f54f-0bbc-4afc-a588-b6bae4f47ae6\",\"CommissionStatementId\":\"d5887153-b373-4275-8eb1-6b7c1e9d57db\",\"PolicyId\":\"bb49cd0d-c66d-4c16-858b-0bd6b68df65c\",\"MemberId\":\"e36c892a-f608-4d24-b29f-d031f4ebf855\",\"CommissionTypeId\":\"24b55c80-4624-478f-a73a-647bb77f22d8\",\"Data\":{\"PolicyNumber\":\"123\",\"CommissionTypeCode\":null,\"AmountIncludingVAT\":\"50\",\"VAT\":\"5\",\"FirstName\":null,\"LastName\":null,\"Initials\":null,\"DateOfBirth\":null,\"IdNumber\":null,\"FullName\":null,\"BrokerFullName\":null,\"CommissionTypeValue\":null},\"IsFormatValid\":true},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
+            Assert.AreEqual("{\"Result\":{\"Value\":{\"Id\":\"21f9f54f-0bbc-4afc-a588-b6bae4f47ae6\",\"CommissionStatementId\":\"d5887153-b373-4275-8eb1-6b7c1e9d57db\",\"PolicyId\":\"bb49cd0d-c66d-4c16-858b-0bd6b68df65c\",\"MemberId\":\"e36c892a-f608-4d24-b29f-d031f4ebf855\",\"CommissionTypeId\":\"24b55c80-4624-478f-a73a-647bb77f22d8\",\"Data\":{\"PolicyNumber\":\"123\",\"AmountIncludingVAT\":\"50\",\"VAT\":\"5\",\"CommissionTypeCode\":null,\"CommissionTypeValue\":null,\"FirstName\":null,\"LastName\":null,\"Initials\":null,\"DateOfBirth\":null,\"IdNumber\":null,\"FullName\":null,\"BrokerFullName\":null},\"IsFormatValid\":true},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
         }
 
         [TestMethod]
@@ -126,7 +135,7 @@ namespace api.Test.Controllers.Commission
 
             Assert.AreEqual(Scope.Branch, options.Scope);
 
-            Assert.AreEqual("{\"Result\":{\"Value\":{\"Id\":\"21f9f54f-0bbc-4afc-a588-b6bae4f47ae6\",\"CommissionStatementId\":\"d5887153-b373-4275-8eb1-6b7c1e9d57db\",\"PolicyId\":\"bb49cd0d-c66d-4c16-858b-0bd6b68df65c\",\"MemberId\":\"e36c892a-f608-4d24-b29f-d031f4ebf855\",\"CommissionTypeId\":\"24b55c80-4624-478f-a73a-647bb77f22d8\",\"Data\":{\"PolicyNumber\":\"123\",\"CommissionTypeCode\":null,\"AmountIncludingVAT\":\"50\",\"VAT\":\"5\",\"FirstName\":null,\"LastName\":null,\"Initials\":null,\"DateOfBirth\":null,\"IdNumber\":null,\"FullName\":null,\"BrokerFullName\":null,\"CommissionTypeValue\":null},\"IsFormatValid\":true},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
+            Assert.AreEqual("{\"Result\":{\"Value\":{\"Id\":\"21f9f54f-0bbc-4afc-a588-b6bae4f47ae6\",\"CommissionStatementId\":\"d5887153-b373-4275-8eb1-6b7c1e9d57db\",\"PolicyId\":\"bb49cd0d-c66d-4c16-858b-0bd6b68df65c\",\"MemberId\":\"e36c892a-f608-4d24-b29f-d031f4ebf855\",\"CommissionTypeId\":\"24b55c80-4624-478f-a73a-647bb77f22d8\",\"Data\":{\"PolicyNumber\":\"123\",\"AmountIncludingVAT\":\"50\",\"VAT\":\"5\",\"CommissionTypeCode\":null,\"CommissionTypeValue\":null,\"FirstName\":null,\"LastName\":null,\"Initials\":null,\"DateOfBirth\":null,\"IdNumber\":null,\"FullName\":null,\"BrokerFullName\":null},\"IsFormatValid\":true},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
         }
 
         [TestMethod]
