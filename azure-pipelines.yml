@@ -43,6 +43,7 @@ jobs:
       - script: |
           npm run check-types
         displayName: "check types"
+        workingDirectory: "web"
       - script: |
           npm run test
         displayName: "run tests"
