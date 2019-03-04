@@ -50,7 +50,7 @@ class CommissionList extends Component<Props> {
     loadCommissions = () => {
         const filters = {
             ...this.props.filters,
-            commissionStatementId: [this.props.commissionStatementId]
+            commissionStatementId: [this.props.commissionStatementId],
         };
         this.props.dispatch(
             fetchCommissions(
@@ -74,22 +74,23 @@ class CommissionList extends Component<Props> {
 
     newCommission = () => {
         const commission: CommissionEdit = {
-            id: '',
+            id: "",
             commissionStatementId: this.props.commissionStatementId,
             amountIncludingVAT: 0,
             vat: 0,
-            commissionTypeId: '',
-            policyId: ''
+            commissionTypeId: "",
+            policyId: "",
+            sourceData: null,
         };
         this.props.dispatch(receiveCommission(commission));
     };
 
     getColumns = () => {
         return [
-            getColumnEDS('policyNumber', 'Policy Number', {
-                showSearchFilter: true
+            getColumnEDS("policyNumber", "Policy Number", {
+                showSearchFilter: true,
             }),
-            getColumnEDS('commissionTypeId', 'Type', {
+            getColumnEDS("commissionTypeId", "Type", {
                 render: (commissionTypeId: string) => {
                     return (
                         <CommissionTypeName
@@ -99,27 +100,27 @@ class CommissionList extends Component<Props> {
                 },
                 filters: this.props.commissionTypes.map(type => ({
                     text: type.name,
-                    value: type.id
-                }))
+                    value: type.id,
+                })),
             }),
-            getColumnEDS('amountIncludingVAT', 'Amount (incl VAT)', {
-                type: 'currency'
+            getColumnEDS("amountIncludingVAT", "Amount (incl VAT)", {
+                type: "currency",
             }),
-            getColumnEDS('vat', 'VAT', { type: 'currency' }),
-            getColumnEDS('userId', 'Broker', {
+            getColumnEDS("vat", "VAT", { type: "currency" }),
+            getColumnEDS("userId", "Broker", {
                 render: (userId: string) => {
                     return <UserName userId={userId} />;
                 },
                 filters: this.props.users.map(user => ({
                     text: user.fullName,
-                    value: user.id
-                }))
-            })
+                    value: user.id,
+                })),
+            }),
         ];
     };
 
     updateFilters = (filters: Filters): Filters => {
-        return applyLike(filters, ['policyNumber']);
+        return applyLike(filters, ["policyNumber"]);
     };
 
     onTableChange = (
@@ -214,7 +215,7 @@ const mapStateToProps = (state: RootState) => {
         averageVAT: commissionsState.averageVAT,
         filters: commissionsState.filters,
         users: usersState.items,
-        commissionTypes: commissionTypesState.items
+        commissionTypes: commissionTypesState.items,
     };
 };
 

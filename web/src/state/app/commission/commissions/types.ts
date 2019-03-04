@@ -20,7 +20,7 @@ export type CommissionEdit = {
     commissionTypeId: string;
     amountIncludingVAT: number;
     vat: number;
-    sourceData: CommissionImportData;
+    sourceData: CommissionImportData | null;
 };
 
 export interface PagedCommissions extends PagedItems<Commission> {

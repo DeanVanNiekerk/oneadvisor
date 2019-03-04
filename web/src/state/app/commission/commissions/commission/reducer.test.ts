@@ -4,122 +4,123 @@ import { CommissionEdit } from '../';
 import { defaultState, reducer } from './reducer';
 
 const defaultCommission: CommissionEdit = {
-    id: '10',
-    policyId: '99',
-    commissionTypeId: '321',
+    id: "10",
+    policyId: "99",
+    commissionTypeId: "321",
     amountIncludingVAT: 100,
     vat: 14,
-    commissionStatementId: '998877'
+    commissionStatementId: "998877",
+    sourceData: null,
 };
 
-describe('commission reducer', () => {
-    it('should handle COMMISSIONS_COMMISSION_FETCHING', () => {
+describe("commission reducer", () => {
+    it("should handle COMMISSIONS_COMMISSION_FETCHING", () => {
         const initalState = {
             ...defaultState,
             commission: { ...defaultCommission },
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_COMMISSION_FETCHING'
+            type: "COMMISSIONS_COMMISSION_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
             fetching: true,
             commission: null,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_COMMISSION_FETCHING_ERROR', () => {
+    it("should handle COMMISSIONS_COMMISSION_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_COMMISSION_FETCHING_ERROR'
+            type: "COMMISSIONS_COMMISSION_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
             error: true,
-            fetching: false
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_COMMISSION_RECEIVE', () => {
+    it("should handle COMMISSIONS_COMMISSION_RECEIVE", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_COMMISSION_RECEIVE',
-            payload: { ...defaultCommission }
+            type: "COMMISSIONS_COMMISSION_RECEIVE",
+            payload: { ...defaultCommission },
         });
 
         const expectedState = {
             ...defaultState,
             commission: { ...defaultCommission },
             fetching: false,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_COMMISSION_EDIT_FETCHING', () => {
+    it("should handle COMMISSIONS_COMMISSION_EDIT_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'COMMISSIONS_COMMISSION_EDIT_FETCHING'
+            type: "COMMISSIONS_COMMISSION_EDIT_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_COMMISSION_EDIT_FETCHING_ERROR', () => {
+    it("should handle COMMISSIONS_COMMISSION_EDIT_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_COMMISSION_EDIT_FETCHING_ERROR'
+            type: "COMMISSIONS_COMMISSION_EDIT_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
             error: true,
-            updating: false
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_COMMISSION_EDIT_RECEIVE', () => {
+    it("should handle COMMISSIONS_COMMISSION_EDIT_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_COMMISSION_EDIT_RECEIVE'
+            type: "COMMISSIONS_COMMISSION_EDIT_RECEIVE",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: false
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);
