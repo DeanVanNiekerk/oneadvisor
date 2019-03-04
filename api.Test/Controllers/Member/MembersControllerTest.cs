@@ -153,16 +153,24 @@ namespace api.Test.Controllers.Member
                 Success = true
             };
 
-            MemberEdit insertedMember = null;
+            ScopeOptions options = null;
+            MemberEdit inserted = null;
             service.Setup(c => c.InsertMember(It.IsAny<ScopeOptions>(), It.Is<MemberEdit>(m => m == member)))
-                .Callback((ScopeOptions options, MemberEdit memberEdit) => insertedMember = memberEdit)
+                .Callback((ScopeOptions o, MemberEdit i) =>
+                {
+                    inserted = i;
+                    options = o;
+                }
+                    )
                 .ReturnsAsync(result);
 
             var controller = new MembersController(service.Object, authService.Object);
 
             var actual = await controller.Insert(member);
 
-            Assert.AreSame(member, insertedMember);
+            Assert.AreSame(member, inserted);
+            Assert.AreEqual(Scope.Branch, options.Scope);
+
             Assert.AreEqual("{\"Result\":{\"Value\":{\"Success\":true,\"Tag\":null,\"ValidationFailures\":[]},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
         }
 
@@ -193,16 +201,24 @@ namespace api.Test.Controllers.Member
                 Success = true
             };
 
-            MemberEdit updatedMember = null;
+            ScopeOptions options = null;
+            MemberEdit updated = null;
+
             service.Setup(c => c.UpdateMember(It.IsAny<ScopeOptions>(), It.Is<MemberEdit>(m => m == member)))
-                .Callback((ScopeOptions options, MemberEdit memberEdit) => updatedMember = memberEdit)
+                .Callback((ScopeOptions o, MemberEdit u) =>
+                {
+                    updated = u;
+                    options = o;
+                })
                 .ReturnsAsync(result);
 
             var controller = new MembersController(service.Object, authService.Object);
 
             var actual = await controller.Update(member.Id.Value, member);
 
-            Assert.AreSame(member, updatedMember);
+            Assert.AreSame(member, updated);
+            Assert.AreEqual(Scope.Branch, options.Scope);
+
             Assert.AreEqual("{\"Result\":{\"Value\":{\"Success\":true,\"Tag\":null,\"ValidationFailures\":[]},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
         }
     }

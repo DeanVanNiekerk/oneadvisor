@@ -293,6 +293,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(100, actual.AmountIncludingVAT);
                 Assert.AreEqual(14, actual.VAT);
                 Assert.AreEqual(statement.Id, actual.CommissionStatementId);
+                Assert.AreEqual(import1, actual.SourceData);
             }
         }
 
@@ -360,6 +361,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(-100, actual.AmountIncludingVAT);
                 Assert.AreEqual(-14, actual.VAT);
                 Assert.AreEqual(statement.Id, actual.CommissionStatementId);
+                Assert.AreEqual(import1, actual.SourceData);
             }
         }
 

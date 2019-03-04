@@ -62,7 +62,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
 
             //Check we are testing all fields
             var importCommissionProps = typeof(ImportCommission).GetProperties();
-            Assert.AreEqual(importCommissionProps.Count() - 2, config.Fields.Count()); //minus 2 for Id and CommissionTypeCode
+            Assert.AreEqual(importCommissionProps.Count() - 3, config.Fields.Count()); //minus 3 for Id, CommissionTypeValue and CommissionTypeCode
 
             Assert.AreEqual(3, commissions.Count);
             var actual = commissions[0];
@@ -70,6 +70,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             Assert.AreEqual("100", actual.AmountIncludingVAT);
             Assert.AreEqual("14", actual.VAT);
             Assert.AreEqual("code_1", actual.CommissionTypeCode);
+            Assert.AreEqual("code_1", actual.CommissionTypeValue);
             Assert.AreEqual("ln_1", actual.LastName);
             Assert.AreEqual("1982-10-03", actual.DateOfBirth);
             Assert.AreEqual("fn_1", actual.FirstName);
@@ -83,6 +84,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             Assert.AreEqual("200", actual.AmountIncludingVAT);
             Assert.AreEqual("15", actual.VAT);
             Assert.AreEqual("code_2", actual.CommissionTypeCode);
+            Assert.AreEqual("code_2", actual.CommissionTypeValue);
             Assert.AreEqual("ln_2", actual.LastName);
             Assert.AreEqual(null, actual.DateOfBirth);
             Assert.AreEqual("fn_2", actual.FirstName);
@@ -96,6 +98,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             Assert.AreEqual("300", actual.AmountIncludingVAT);
             Assert.AreEqual("16", actual.VAT);
             Assert.AreEqual("unknown", actual.CommissionTypeCode);
+            Assert.AreEqual("", actual.CommissionTypeValue);
             Assert.AreEqual("ln_3", actual.LastName);
             Assert.AreEqual("1982-10-05", actual.DateOfBirth);
             Assert.AreEqual("fn_3", actual.FirstName);

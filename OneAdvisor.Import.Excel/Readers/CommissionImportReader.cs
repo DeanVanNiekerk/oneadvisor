@@ -53,7 +53,10 @@ namespace OneAdvisor.Import.Excel.Readers
                         var commission = new ImportCommission();
 
                         commission.PolicyNumber = GetValue(reader, FieldNames.PolicyNumber);
-                        commission.CommissionTypeCode = GetCommissionTypeCode(reader, commissionTypeIndexes);
+
+                        var commissionTypeValue = GetCommissionTypeValue(reader, commissionTypeIndexes);
+                        commission.CommissionTypeValue = commissionTypeValue;
+                        commission.CommissionTypeCode = GetCommissionTypeCode(commissionTypeValue);
 
                         commission.LastName = GetValue(reader, FieldNames.LastName);
                         commission.DateOfBirth = GetDate(reader, FieldNames.DateOfBirth);
@@ -110,7 +113,7 @@ namespace OneAdvisor.Import.Excel.Readers
             return ExcelUtils.ColumnToIndex(field.Column);
         }
 
-        private string GetCommissionTypeCode(IExcelDataReader reader, List<int> commissionTypeIndexes)
+        private string GetCommissionTypeValue(IExcelDataReader reader, List<int> commissionTypeIndexes)
         {
             if (!commissionTypeIndexes.Any())
                 return _config.CommissionTypes.DefaultCommissionTypeCode;
@@ -119,9 +122,12 @@ namespace OneAdvisor.Import.Excel.Readers
             foreach (var index in commissionTypeIndexes)
                 values.Add(Utils.GetValue(reader, index));
 
-            var value = MappingTemplate.Format(values);
+            return MappingTemplate.Format(values);
+        }
 
-            var commissionType = _config.CommissionTypes.Types.FirstOrDefault(t => t.Value.IgnoreCaseEquals(value));
+        private string GetCommissionTypeCode(string commissionTypeValue)
+        {
+            var commissionType = _config.CommissionTypes.Types.FirstOrDefault(t => t.Value.IgnoreCaseEquals(commissionTypeValue));
             if (commissionType != null)
                 return commissionType.CommissionTypeCode;
 

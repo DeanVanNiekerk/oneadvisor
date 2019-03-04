@@ -78,6 +78,7 @@ namespace OneAdvisor.Service.Commission
             commission.CommissionTypeId = error.CommissionTypeId;
             commission.AmountIncludingVAT = Convert.ToDecimal(error.Data.AmountIncludingVAT);
             commission.VAT = Convert.ToDecimal(error.Data.VAT);
+            commission.SourceData = error.Data;
 
             result = await _commissionService.InsertCommission(scope, commission);
 

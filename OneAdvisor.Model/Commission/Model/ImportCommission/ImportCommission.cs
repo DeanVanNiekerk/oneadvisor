@@ -22,7 +22,7 @@ namespace OneAdvisor.Model.Commission.Model.ImportCommission
         public string DateOfBirth { get; set; }
         public string IdNumber { get; set; }
         public string FullName { get; set; }
-
         public string BrokerFullName { get; set; }
+        public string CommissionTypeValue { get; set; }
     }
 }

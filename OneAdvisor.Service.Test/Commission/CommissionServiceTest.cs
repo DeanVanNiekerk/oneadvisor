@@ -186,7 +186,13 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 99,
                 VAT = 14,
-                CommissionStatementId = Guid.NewGuid()
+                CommissionStatementId = Guid.NewGuid(),
+                SourceData = new Model.Commission.Model.ImportCommission.ImportCommission()
+                {
+                    PolicyNumber = "123",
+                    AmountIncludingVAT = "50",
+                    VAT = "10"
+                }
             };
 
             using (var context = new DataContext(options))
@@ -213,6 +219,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
                 Assert.AreEqual(commission1.VAT, actual.VAT);
                 Assert.AreEqual(commission1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.AreEqual(commission1.SourceData, actual.SourceData);
 
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user2, Scope.User);
@@ -253,7 +260,13 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 99,
                 VAT = 14,
-                CommissionStatementId = Guid.NewGuid()
+                CommissionStatementId = Guid.NewGuid(),
+                SourceData = new Model.Commission.Model.ImportCommission.ImportCommission()
+                {
+                    PolicyNumber = "123",
+                    AmountIncludingVAT = "50",
+                    VAT = "10"
+                }
             };
 
             using (var context = new DataContext(options))
@@ -280,6 +293,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
                 Assert.AreEqual(commission1.VAT, actual.VAT);
                 Assert.AreEqual(commission1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.AreEqual(commission1.SourceData, actual.SourceData);
 
                 //Out of scope 
                 scopeOptions = TestHelper.GetScopeOptions(user2, Scope.User);
@@ -321,7 +335,13 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 99,
                 VAT = 14,
-                CommissionStatementId = Guid.NewGuid()
+                CommissionStatementId = Guid.NewGuid(),
+                SourceData = new Model.Commission.Model.ImportCommission.ImportCommission()
+                {
+                    PolicyNumber = "123",
+                    AmountIncludingVAT = "50",
+                    VAT = "10"
+                }
             };
 
             using (var context = new DataContext(options))
@@ -339,7 +359,13 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 109,
                 VAT = 15,
-                CommissionStatementId = commission.CommissionStatementId
+                CommissionStatementId = commission.CommissionStatementId,
+                SourceData = new Model.Commission.Model.ImportCommission.ImportCommission()
+                {
+                    PolicyNumber = "123",
+                    AmountIncludingVAT = "55",
+                    VAT = "11"
+                }
             };
 
             using (var context = new DataContext(options))
@@ -360,6 +386,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
                 Assert.AreEqual(commission1.VAT, actual.VAT);
                 Assert.AreEqual(commission1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.AreEqual(commission1.SourceData, actual.SourceData);
 
                 //Out of scope 
                 scopeOptions = TestHelper.GetScopeOptions(user2, Scope.User);

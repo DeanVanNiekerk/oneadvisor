@@ -145,6 +145,7 @@ namespace OneAdvisor.Service.Commission
             commission.CommissionTypeId = commissionType.Id;
             commission.AmountIncludingVAT = Convert.ToDecimal(importCommission.AmountIncludingVAT);
             commission.VAT = Convert.ToDecimal(importCommission.VAT);
+            commission.SourceData = importCommission;
 
             return commission;
         }

@@ -200,6 +200,7 @@ namespace OneAdvisor.Service.Commission
                     AmountIncludingVAT = entity.AmountIncludingVAT,
                     VAT = entity.VAT,
                     PolicyId = entity.PolicyId,
+                    SourceData = entity.SourceData
                 });
         }
 
@@ -212,21 +213,9 @@ namespace OneAdvisor.Service.Commission
             entity.AmountIncludingVAT = model.AmountIncludingVAT.Value;
             entity.VAT = model.VAT.Value;
             entity.PolicyId = model.PolicyId.Value;
+            entity.SourceData = model.SourceData;
 
             return entity;
-        }
-
-        private CommissionEdit MapEntityToModel(CommissionEntity entity)
-        {
-            return new CommissionEdit()
-            {
-                Id = entity.Id,
-                CommissionTypeId = entity.CommissionTypeId,
-                CommissionStatementId = entity.CommissionStatementId,
-                AmountIncludingVAT = entity.AmountIncludingVAT,
-                VAT = entity.VAT,
-                PolicyId = entity.PolicyId,
-            };
         }
     }
 }

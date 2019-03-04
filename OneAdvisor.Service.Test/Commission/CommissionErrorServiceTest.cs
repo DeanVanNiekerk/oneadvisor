@@ -315,6 +315,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
                 Assert.AreEqual(22, actual.AmountIncludingVAT);
                 Assert.AreEqual(33, actual.VAT);
+                Assert.AreEqual(error1.Data, actual.SourceData);
 
             }
         }
@@ -400,6 +401,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
                 Assert.AreEqual(55, actual.AmountIncludingVAT);
                 Assert.AreEqual(33, actual.VAT);
+                Assert.AreEqual(error1.Data, actual.SourceData);
 
             }
         }
@@ -549,6 +551,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
                 Assert.AreEqual(11, actual.AmountIncludingVAT);
                 Assert.AreEqual(22, actual.VAT);
+                Assert.AreEqual(err1a.Data, actual.SourceData);
 
                 actual = commissions[1];
                 Assert.AreEqual(error1.PolicyId, actual.PolicyId);
@@ -556,6 +559,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
                 Assert.AreEqual(33, actual.AmountIncludingVAT);
                 Assert.AreEqual(44, actual.VAT);
+                Assert.AreEqual(err1b.Data, actual.SourceData);
 
                 actual = commissions[2];
                 Assert.AreEqual(error1.PolicyId, actual.PolicyId);
@@ -563,6 +567,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
                 Assert.AreEqual(77, actual.AmountIncludingVAT);
                 Assert.AreEqual(88, actual.VAT);
+                Assert.AreEqual(err1c.Data, actual.SourceData);
 
             }
         }

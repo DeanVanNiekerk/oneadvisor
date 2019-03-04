@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Model.Commission.Model.ImportCommission;
 
 namespace OneAdvisor.Data.Entities.Commission
 {
@@ -19,6 +20,7 @@ namespace OneAdvisor.Data.Entities.Commission
         public decimal AmountIncludingVAT { get; set; }
         [Required]
         public decimal VAT { get; set; }
+        public ImportCommission SourceData { get; set; }
 
         public virtual CommissionStatementEntity CommissionStatement { get; set; }
         public virtual PolicyEntity Policy { get; set; }
