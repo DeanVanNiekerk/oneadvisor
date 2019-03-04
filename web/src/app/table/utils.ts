@@ -6,8 +6,8 @@ import { getColumnSearchProps } from '@/ui/controls';
 import { formatCurrency } from '../utils';
 
 const columnOptionDefaults: ColumnOptions = {
-    type: 'string',
-    render: value => value
+    type: "string",
+    render: value => value,
 };
 
 export const getColumnEDS = (
@@ -17,7 +17,7 @@ export const getColumnEDS = (
 ) => {
     return getColumn(key, title, {
         ...options,
-        externalDataSource: true
+        externalDataSource: true,
     });
 };
 
@@ -29,49 +29,49 @@ export const getColumn = (
     const data = {
         title: title,
         dataIndex: key,
-        key: key
+        key: key,
     };
 
     options = {
         ...columnOptionDefaults,
         sorter: (a: any, b: any) => sort(a, b, key),
         onFilter: (value: string, record: any) => filter(value, record, key),
-        ...options
+        ...options,
     };
 
     if (options.externalDataSource) {
-        options.sorter = () => {};
+        if (options.sorter) options.sorter = () => {};
         options.onFilter = undefined;
     }
 
-    if (options.type === 'boolean')
-        options.render = value => (value ? 'Yes' : 'No');
+    if (options.type === "boolean")
+        options.render = value => (value ? "Yes" : "No");
 
-    if (options.type === 'date')
-        options.render = value => (value ? moment(value).format('ll') : '');
+    if (options.type === "date")
+        options.render = value => (value ? moment(value).format("ll") : "");
 
-    if (options.type === 'long-date')
-        options.render = value => (value ? moment(value).format('lll') : '');
+    if (options.type === "long-date")
+        options.render = value => (value ? moment(value).format("lll") : "");
 
-    if (options.type === 'currency')
+    if (options.type === "currency")
         options.render = value => formatCurrency(value);
 
     if (options.showSearchFilter) {
         options = {
             ...options,
-            ...getColumnSearchProps(title)
+            ...getColumnSearchProps(title),
         };
     }
 
     return {
         ...data,
-        ...options
+        ...options,
     };
 };
 
 export const sort = (item1: any, item2: any, property: string) => {
-    const val1 = item1[property] ? item1[property] : '';
-    const val2 = item2[property] ? item2[property] : '';
+    const val1 = item1[property] ? item1[property] : "";
+    const val2 = item2[property] ? item2[property] : "";
     return val1.localeCompare(val2);
 };
 

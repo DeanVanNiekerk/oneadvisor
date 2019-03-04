@@ -9,7 +9,7 @@ import { CommissionEdit } from '@/state/app/commission/commissions';
 import { CommissionType, commissionTypesSelector } from '@/state/app/directory/lookups';
 import { getPolicies, Policy } from '@/state/app/member/policies';
 import { RootState } from '@/state/rootReducer';
-import { Form, FormInputNumber, FormSelect, TabPane, Tabs } from '@/ui/controls';
+import { Form, FormInputNumber, FormReadOnly, FormSelect, TabPane, Tabs } from '@/ui/controls';
 
 type TabKey = "form_tab" | "data_tab";
 
@@ -160,10 +160,10 @@ class CommissionForm extends Component<Props, State> {
                     </Form>
                 </TabPane>
 
-                <TabPane tab="Source Data" key="data_tab">
+                <TabPane tab="Excel Data" key="data_tab">
                     {!commission.sourceData && <span>No Source Data</span>}
                     {commission.sourceData && (
-                        <JSONPretty json={commission.sourceData} />
+                        <FormReadOnly data={commission.sourceData} />
                     )}
                 </TabPane>
             </Tabs>

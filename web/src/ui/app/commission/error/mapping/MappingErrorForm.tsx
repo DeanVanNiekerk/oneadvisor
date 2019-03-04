@@ -12,7 +12,8 @@ import MemberSearch from '@/ui/app/member/member/MemberSearch';
 import EditPolicy from '@/ui/app/member/policy/EditPolicy';
 import PolicySearch from '@/ui/app/member/policy/PolicySearch';
 import {
-    Button, CommissionTypeName, Drawer, DrawerFooter, Form, FormText, MemberName, PolicyName, TabPane, Tabs
+    Button, CommissionTypeName, Drawer, DrawerFooter, Form, FormReadOnly, FormText, MemberName, PolicyName, TabPane,
+    Tabs
 } from '@/ui/controls';
 
 type Props = {
@@ -30,7 +31,7 @@ type State = {
     activeTab: TabKey;
 };
 
-type TabKey = 'form_tab' | 'data_tab';
+type TabKey = "form_tab" | "data_tab";
 
 class MappingErrorForm extends Component<Props, State> {
     constructor(props: Props) {
@@ -41,7 +42,7 @@ class MappingErrorForm extends Component<Props, State> {
             errorData: props.error.data,
             searchMemberVisible: false,
             searchPolicyVisible: false,
-            activeTab: 'form_tab'
+            activeTab: "form_tab",
         };
     }
 
@@ -50,7 +51,7 @@ class MappingErrorForm extends Component<Props, State> {
             this.setState({
                 error: this.props.error,
                 errorData: this.props.error.data,
-                activeTab: 'form_tab'
+                activeTab: "form_tab",
             });
         }
     }
@@ -58,10 +59,10 @@ class MappingErrorForm extends Component<Props, State> {
     handleChange = (fieldName: string, value: any) => {
         const error = {
             ...this.state.error,
-            [fieldName]: value
+            [fieldName]: value,
         };
         this.setState({
-            error: error
+            error: error,
         });
         this.props.onChange(error);
     };
@@ -70,11 +71,11 @@ class MappingErrorForm extends Component<Props, State> {
         const { errorData } = this.state;
 
         const member = newMember({
-            firstName: errorData.firstName || '',
-            lastName: errorData.lastName || errorData.fullName || '',
-            dateOfBirth: errorData.dateOfBirth || '',
-            idNumber: errorData.idNumber || '',
-            initials: errorData.initials || ''
+            firstName: errorData.firstName || "",
+            lastName: errorData.lastName || errorData.fullName || "",
+            dateOfBirth: errorData.dateOfBirth || "",
+            idNumber: errorData.idNumber || "",
+            initials: errorData.initials || "",
         });
         this.props.dispatch(receiveMember(member));
     };
@@ -85,7 +86,7 @@ class MappingErrorForm extends Component<Props, State> {
         const policy = newPolicy({
             memberId: this.state.error.memberId,
             companyId: this.props.statement.companyId,
-            number: this.state.errorData.policyNumber
+            number: this.state.errorData.policyNumber,
         });
         this.props.dispatch(receivePolicy(policy));
     };
@@ -102,22 +103,22 @@ class MappingErrorForm extends Component<Props, State> {
         //If the member changes clear the policy
         if (memberId != this.state.error.memberId) this.selectPolicy(null);
 
-        this.handleChange('memberId', memberId);
+        this.handleChange("memberId", memberId);
     };
 
     selectPolicy = (policyId: string | null) => {
-        this.handleChange('policyId', policyId);
+        this.handleChange("policyId", policyId);
     };
 
     toggleSearchMemberVisible = () => {
         this.setState({
-            searchMemberVisible: !this.state.searchMemberVisible
+            searchMemberVisible: !this.state.searchMemberVisible,
         });
     };
 
     toggleSearchPolicyVisible = () => {
         this.setState({
-            searchPolicyVisible: !this.state.searchPolicyVisible
+            searchPolicyVisible: !this.state.searchPolicyVisible,
         });
     };
 
@@ -162,8 +163,8 @@ class MappingErrorForm extends Component<Props, State> {
                                             icon="search"
                                             type={
                                                 this.state.error.memberId
-                                                    ? 'dashed'
-                                                    : 'primary'
+                                                    ? "dashed"
+                                                    : "primary"
                                             }
                                             onClick={
                                                 this.toggleSearchMemberVisible
@@ -176,8 +177,8 @@ class MappingErrorForm extends Component<Props, State> {
                                             icon="plus"
                                             type={
                                                 this.state.error.memberId
-                                                    ? 'dashed'
-                                                    : 'primary'
+                                                    ? "dashed"
+                                                    : "primary"
                                             }
                                             onClick={this.newMember}
                                         >
@@ -210,8 +211,8 @@ class MappingErrorForm extends Component<Props, State> {
                                             icon="search"
                                             type={
                                                 this.state.error.policyId
-                                                    ? 'dashed'
-                                                    : 'primary'
+                                                    ? "dashed"
+                                                    : "primary"
                                             }
                                             onClick={
                                                 this.toggleSearchPolicyVisible
@@ -227,8 +228,8 @@ class MappingErrorForm extends Component<Props, State> {
                                             icon="plus"
                                             type={
                                                 this.state.error.policyId
-                                                    ? 'dashed'
-                                                    : 'primary'
+                                                    ? "dashed"
+                                                    : "primary"
                                             }
                                             onClick={this.newPolicy}
                                             disabled={
@@ -263,7 +264,7 @@ class MappingErrorForm extends Component<Props, State> {
                     </TabPane>
 
                     <TabPane tab="Excel Data" key="data_tab">
-                        <JSONPretty json={error.data} />
+                        <FormReadOnly data={error.data} />
                     </TabPane>
                 </Tabs>
 
@@ -276,7 +277,7 @@ class MappingErrorForm extends Component<Props, State> {
                     onClose={this.toggleSearchMemberVisible}
                 >
                     <MemberSearch
-                        defaultSearchText={this.state.errorData.lastName || ''}
+                        defaultSearchText={this.state.errorData.lastName || ""}
                         onSelect={(memberId: string) => {
                             this.selectMember(memberId);
                             this.toggleSearchMemberVisible();

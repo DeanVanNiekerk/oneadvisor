@@ -22,7 +22,7 @@ import { showMessage } from '@/ui/feedback/notifcation';
 
 import CommissionList from '../commission/CommissionList';
 import EditFormatError from '../error/format/EditFormatError';
-import EditMappingError from '../error/mapping/EditMappingError';
+import ErrorList from '../error/list/ErrorList';
 import EditStatement from './EditStatement';
 import { Processed } from './Processed';
 import { StatementPreviewErrorCount } from './StatementPreviewErrorCount';
@@ -41,6 +41,7 @@ type Props = {
 type State = {
     commissionListVisible: boolean;
     uploadStatementVisible: boolean;
+    errorListVisible: boolean;
 };
 
 class StatementPreviewComponent extends Component<Props, State> {
@@ -50,6 +51,7 @@ class StatementPreviewComponent extends Component<Props, State> {
         this.state = {
             commissionListVisible: false,
             uploadStatementVisible: false,
+            errorListVisible: false,
         };
     }
 
@@ -66,6 +68,12 @@ class StatementPreviewComponent extends Component<Props, State> {
     toggleUploadStatementVisible = () => {
         this.setState({
             uploadStatementVisible: !this.state.uploadStatementVisible,
+        });
+    };
+
+    toggleErrorListVisible = () => {
+        this.setState({
+            errorListVisible: !this.state.errorListVisible,
         });
     };
 
@@ -134,12 +142,6 @@ class StatementPreviewComponent extends Component<Props, State> {
         if (this.props.statement === null) return;
 
         this.props.dispatch(fetchNextFormatError(this.props.statement.id));
-    };
-
-    getNextMappingError = () => {
-        if (this.props.statement === null) return;
-
-        this.props.dispatch(fetchNextMappingError(this.props.statement.id));
     };
 
     showCommissionUploadInfo = () => {
@@ -347,7 +349,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                             icon="file-exclamation"
                             isLoading={this.isLoading()}
                             rows={3}
-                            onClick={this.getNextMappingError}
+                            onClick={this.toggleErrorListVisible}
                             actions={[
                                 <Icon type="tool" />,
                                 <Icon
@@ -381,17 +383,6 @@ class StatementPreviewComponent extends Component<Props, State> {
                     }
                     onUpdate={this.load}
                 />
-                {this.props.statement && (
-                    <EditMappingError
-                        statement={this.props.statement}
-                        remainingErrors={
-                            this.props.statement
-                                ? this.props.statement.mappingErrorCount
-                                : 0
-                        }
-                        onUpdate={this.load}
-                    />
-                )}
 
                 <Drawer
                     title="Commission Entries"
@@ -431,6 +422,24 @@ class StatementPreviewComponent extends Component<Props, State> {
                         </Button>
                     </DrawerFooter>
                 </Drawer>
+
+                {statement && (
+                    <Drawer
+                        title={`Mapping Errors - ${
+                            statement.mappingErrorCount
+                        } remaining`}
+                        icon="file-exclamation"
+                        visible={this.state.errorListVisible}
+                        onClose={this.toggleErrorListVisible}
+                    >
+                        <ErrorList statement={statement} onUpdate={this.load} />
+                        <DrawerFooter>
+                            <Button onClick={this.toggleErrorListVisible}>
+                                Close
+                            </Button>
+                        </DrawerFooter>
+                    </Drawer>
+                )}
             </>
         );
     }

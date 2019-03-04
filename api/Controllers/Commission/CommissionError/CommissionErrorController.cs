@@ -42,7 +42,7 @@ namespace api.Controllers.Commission.CommissionError
             return Ok(error);
         }
 
-        [HttpGet("{commissionErrorId}")]
+        [HttpGet("errors/{commissionErrorId}")]
         [UseCaseAuthorize("com_edit_commission_statements")]
         public async Task<ActionResult<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>> Get(Guid commissionErrorId)
         {
@@ -89,11 +89,12 @@ namespace api.Controllers.Commission.CommissionError
 
         [HttpGet("errors")]
         [UseCaseAuthorize("com_edit_commission_statements")]
-        public async Task<PagedItems<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
+        public async Task<PagedItems<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>> Index(Guid commissionStatementId, string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
             var scope = AuthenticationService.GetScope(User);
 
             var options = new CommissionErrorQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
+            options.CommissionStatementId = commissionStatementId;
 
             var results = await CommissionErrorService.GetErrors(options);
 

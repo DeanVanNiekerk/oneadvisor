@@ -32,14 +32,14 @@ class EditMappingError extends Component<Props, State> {
         super(props);
 
         this.state = {
-            errorEdited: props.error
+            errorEdited: props.error,
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.error != prevProps.error) {
             this.setState({
-                errorEdited: this.props.error
+                errorEdited: this.props.error,
             });
         }
     }
@@ -59,7 +59,7 @@ class EditMappingError extends Component<Props, State> {
         this.close();
     };
 
-    save = () => {
+    save = (resolveNext: boolean) => {
         if (this.state.errorEdited === null) return;
 
         this.props.dispatch(
@@ -69,9 +69,14 @@ class EditMappingError extends Component<Props, State> {
                 //on success
                 () => {
                     this.props.onUpdate();
-                    this.props.dispatch(
-                        fetchNextMappingError(this.props.statement.id)
-                    );
+
+                    if (resolveNext) {
+                        this.props.dispatch(
+                            fetchNextMappingError(this.props.statement.id)
+                        );
+                    } else {
+                        this.close();
+                    }
                 }
             )
         );
@@ -79,7 +84,7 @@ class EditMappingError extends Component<Props, State> {
 
     onChange = (error: CommissionError) => {
         this.setState({
-            errorEdited: error
+            errorEdited: error,
         });
     };
 
@@ -88,7 +93,7 @@ class EditMappingError extends Component<Props, State> {
     };
 
     getTitle = () => {
-        if (this.props.fetching) return 'Loading Mapping Error';
+        if (this.props.fetching) return "Loading Mapping Error";
 
         return `Resolve Mapping Error - ${
             this.props.remainingErrors
@@ -114,6 +119,7 @@ class EditMappingError extends Component<Props, State> {
                     visible={!!error || fetching}
                     onClose={this.confirmCancel}
                     noTopPadding={true}
+                    icon="file-exclamation"
                 >
                     <ContentLoader isLoading={this.isLoading()}>
                         {error && (
@@ -133,19 +139,26 @@ class EditMappingError extends Component<Props, State> {
                             Cancel
                         </Button>
                         <Button
-                            onClick={this.save}
+                            onClick={() => this.save(false)}
                             type="primary"
                             disabled={!this.canSave()}
                             requiredUseCase="com_edit_commission_statements"
                         >
-                            {this.props.remainingErrors > 1 && (
+                            Save
+                        </Button>
+                        {this.props.remainingErrors > 1 && (
+                            <Button
+                                onClick={() => this.save(true)}
+                                type="primary"
+                                disabled={!this.canSave()}
+                                requiredUseCase="com_edit_commission_statements"
+                            >
                                 <span>
-                                    {'Save & Resolve Next '}
+                                    {"Save & Resolve Next "}
                                     <Icon type="right" />
                                 </span>
-                            )}
-                            {this.props.remainingErrors <= 1 && 'Save'}
-                        </Button>
+                            </Button>
+                        )}
                     </DrawerFooter>
                 </Drawer>
             </>
@@ -160,7 +173,7 @@ const mapStateToProps = (state: RootState) => {
         error: mappingErrorState.commissionError,
         fetching: mappingErrorState.fetching,
         updating: mappingErrorState.updating,
-        validationResults: mappingErrorState.validationResults
+        validationResults: mappingErrorState.validationResults,
     };
 };
 

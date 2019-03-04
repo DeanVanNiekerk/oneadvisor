@@ -33,9 +33,8 @@ namespace OneAdvisor.Service.Commission
 
         public async Task<PagedItems<CommissionError>> GetErrors(CommissionErrorQueryOptions queryOptions)
         {
-            var query = from commissionError in GetCommissionErrorEntityQuery(queryOptions.Scope)
-                        select MapEntityToModel(commissionError);
-
+            var query = from commissionError in GetCommissionErrorQuery(queryOptions.Scope)
+                        select commissionError;
 
             //Apply filters ----------------------------------------------------------------------------------------
             if (queryOptions.CommissionStatementId.HasValue)
@@ -62,19 +61,19 @@ namespace OneAdvisor.Service.Commission
 
         public async Task<CommissionError> GetNextError(ScopeOptions scope, Guid commissionStatementId, bool hasValidFormat)
         {
-            var query = from commissionError in GetCommissionErrorEntityQuery(scope)
+            var query = from commissionError in GetCommissionErrorQuery(scope)
                         where commissionError.CommissionStatementId == commissionStatementId
                         && commissionError.IsFormatValid == hasValidFormat
-                        select MapEntityToModel(commissionError);
+                        select commissionError;
 
             return await query.FirstOrDefaultAsync();
         }
 
         public async Task<CommissionError> GetError(ScopeOptions scope, Guid commissionErrorId)
         {
-            var query = from commissionError in GetCommissionErrorEntityQuery(scope)
+            var query = from commissionError in GetCommissionErrorQuery(scope)
                         where commissionError.Id == commissionErrorId
-                        select MapEntityToModel(commissionError);
+                        select commissionError;
 
             return await query.FirstOrDefaultAsync();
         }
@@ -134,7 +133,7 @@ namespace OneAdvisor.Service.Commission
 
             var organisationQuery = ScopeQuery.GetOrganisationEntityQuery(_context, scope);
 
-            var query = from commissionError in GetCommissionErrorEntityQuery(scope)
+            var query = from commissionError in GetCommissionErrorQuery(scope)
                         where commissionError.CommissionStatementId == commissionStatementId
                         && commissionError.IsFormatValid == true
                         select commissionError;
@@ -145,10 +144,9 @@ namespace OneAdvisor.Service.Commission
                 if (!String.Equals(error.Data.PolicyNumber, policy.Number, StringComparison.OrdinalIgnoreCase))
                     continue;
 
-                var model = MapEntityToModel(error);
-                model.MemberId = policy.MemberId;
-                model.PolicyId = policyId;
-                await ResolveMappingError(scope, model);
+                error.MemberId = policy.MemberId;
+                error.PolicyId = policyId;
+                await ResolveMappingError(scope, error);
             }
         }
 
@@ -177,18 +175,22 @@ namespace OneAdvisor.Service.Commission
             return query;
         }
 
-        private CommissionError MapEntityToModel(CommissionErrorEntity entity)
+        private IQueryable<CommissionError> GetCommissionErrorQuery(ScopeOptions scope)
         {
-            return new CommissionError()
-            {
-                Id = entity.Id,
-                CommissionStatementId = entity.CommissionStatementId,
-                CommissionTypeId = entity.CommissionTypeId,
-                Data = entity.Data,
-                MemberId = entity.MemberId,
-                PolicyId = entity.PolicyId,
-                IsFormatValid = entity.IsFormatValid
-            };
+            var query = from entity in GetCommissionErrorEntityQuery(scope)
+                        select new CommissionError()
+                        {
+                            Id = entity.Id,
+                            CommissionStatementId = entity.CommissionStatementId,
+                            CommissionTypeId = entity.CommissionTypeId,
+                            Data = entity.Data,
+                            MemberId = entity.MemberId,
+                            PolicyId = entity.PolicyId,
+                            IsFormatValid = entity.IsFormatValid
+                        };
+
+            return query;
         }
+
     }
 }
