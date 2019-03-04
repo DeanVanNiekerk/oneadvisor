@@ -4,8 +4,6 @@ export const formatCurrency = (
     value: number | string | undefined,
     decimals: number = 2
 ): string => {
-    console.log("formatCurrency: ", value);
-
     if (value === undefined || value === "" || value === null) return "";
 
     return currency(value, {
@@ -16,7 +14,5 @@ export const formatCurrency = (
 };
 
 export const parseCurrency = (value: string): number => {
-    console.log("parseCurrency: ", value);
-
     return currency(value).value;
 };
