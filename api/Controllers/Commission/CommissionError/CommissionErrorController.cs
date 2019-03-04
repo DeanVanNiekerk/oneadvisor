@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.Commission;
+using OneAdvisor.Model.Commission.Model.CommissionError;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
 
@@ -34,6 +35,20 @@ namespace api.Controllers.Commission.CommissionError
             var scope = AuthenticationService.GetScope(User);
 
             var error = await CommissionErrorService.GetNextError(scope, commissionStatementId, hasValidFormat);
+
+            if (error == null)
+                return NotFound();
+
+            return Ok(error);
+        }
+
+        [HttpGet("{commissionErrorId}")]
+        [UseCaseAuthorize("com_edit_commission_statements")]
+        public async Task<ActionResult<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>> Get(Guid commissionErrorId)
+        {
+            var scope = AuthenticationService.GetScope(User);
+
+            var error = await CommissionErrorService.GetError(scope, commissionErrorId);
 
             if (error == null)
                 return NotFound();
@@ -74,11 +89,13 @@ namespace api.Controllers.Commission.CommissionError
 
         [HttpGet("errors")]
         [UseCaseAuthorize("com_edit_commission_statements")]
-        public async Task<List<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>> Index(Guid commissionStatementId, [FromQuery] bool hasValidFormat = true)
+        public async Task<PagedItems<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
             var scope = AuthenticationService.GetScope(User);
 
-            var results = await CommissionErrorService.GetErrors(scope, commissionStatementId, hasValidFormat);
+            var options = new CommissionErrorQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
+
+            var results = await CommissionErrorService.GetErrors(options);
 
             return results;
         }
