@@ -21,6 +21,10 @@ export type MemberSearchAction =
 
 export const searchMembers = (filters: Filters): ApiAction => {
     let api = membersApi;
+    api = appendPageOptionQuery(api, {
+        number: 1,
+        size: 100,
+    });
     api = appendSortOptionQuery(api, {
         column: "lastName",
         direction: "asc",
