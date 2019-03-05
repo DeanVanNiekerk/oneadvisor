@@ -1,33 +1,33 @@
-var path = require('path');
-var config = require('config');
-const webpack = require('webpack');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+var path = require("path");
+var config = require("config");
+const webpack = require("webpack");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-const oaBaseApi = config.get('baseApi');
+const oaBaseApi = config.get("baseApi");
 
-console.log('Config Settings');
-console.log('========================================');
-console.log('environment: ' + process.env.NODE_ENV);
-console.log('oa.baseApi: ' + oaBaseApi);
-console.log('========================================');
+console.log("Config Settings");
+console.log("========================================");
+console.log("environment: " + process.env.NODE_ENV || "dev");
+console.log("oa.baseApi: " + oaBaseApi);
+console.log("========================================");
 
 module.exports = {
     entry: {
-        app: './src/index.tsx'
+        app: "./src/index.tsx",
     },
 
     output: {
-        path: path.resolve(__dirname, 'server'),
-        publicPath: '/'
+        path: path.resolve(__dirname, "server"),
+        publicPath: "/",
     },
 
     resolve: {
         alias: {
-            '@': path.resolve(__dirname, 'src/')
+            "@": path.resolve(__dirname, "src/"),
         },
-        extensions: ['.js', '.jsx', '.ts', '.tsx']
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
     },
 
     module: {
@@ -36,38 +36,38 @@ module.exports = {
                 test: /\.(js|jsx|ts|tsx)$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: 'babel-loader'
-                }
+                    loader: "babel-loader",
+                },
             },
             {
                 test: /\.html$/,
                 use: [
                     {
-                        loader: 'html-loader'
-                    }
-                ]
+                        loader: "html-loader",
+                    },
+                ],
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader']
-            }
-        ]
+                use: ["style-loader", "css-loader"],
+            },
+        ],
     },
 
     plugins: [
-        new CleanWebpackPlugin(['server/dist']),
+        new CleanWebpackPlugin(["server/dist"]),
         new HtmlWebPackPlugin({
-            template: path.resolve(__dirname, 'template/index.html'),
-            filename: 'index.html'
+            template: path.resolve(__dirname, "template/index.html"),
+            filename: "index.html",
         }),
         new CopyWebpackPlugin([
             {
-                from: path.resolve(__dirname, 'template/favicon.png'),
-                to: path.resolve(__dirname, 'server/dist')
-            }
+                from: path.resolve(__dirname, "template/favicon.png"),
+                to: path.resolve(__dirname, "server/dist"),
+            },
         ]),
         new webpack.DefinePlugin({
-            __OA_BASE_API__: JSON.stringify(oaBaseApi)
-        })
-    ]
+            __OA_BASE_API__: JSON.stringify(oaBaseApi),
+        }),
+    ],
 };

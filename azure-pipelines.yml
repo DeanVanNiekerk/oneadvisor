@@ -65,3 +65,16 @@ jobs:
         inputs:
           pathtoPublish: $(Build.ArtifactStagingDirectory)
           artifactName: web.staging
+      - script: |
+          npm run build:production
+        displayName: "build: production"
+        workingDirectory: "web"
+      - task: CopyFiles@2
+        inputs:
+          sourceFolder: "web/server"
+          targetFolder: $(Build.ArtifactStagingDirectory)
+          cleanTargetFolder: true
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathtoPublish: $(Build.ArtifactStagingDirectory)
+          artifactName: web.production

@@ -8,7 +8,8 @@
         "test": "jest --config=jest.config.json",
         "test:watch": "jest --watch --config=jest.config.json",
         "test:coverage": "jest --coverage --verbose --config=jest.config.json",
-        "build:staging": "NODE_ENV='staging' webpack --mode production --config webpack.prod.js",
+        "build:production": "NODE_ENV='production' webpack --mode production --config webpack.production.js",
+        "build:staging": "NODE_ENV='staging' webpack --mode production --config webpack.staging.js",
         "build:stats": "webpack --mode production --config webpack.prod.js --profile --json > stats.json",
         "check-types": "tsc"
     },
