@@ -13,7 +13,7 @@ namespace OneAdvisor.Service.Member.Validators
 
         public string IdentityNumber { get; private set; }
 
-        public DateTime DateOfBirth { get; private set; }
+        public DateTime? DateOfBirth { get; private set; }
 
         public string Gender { get; private set; }
 
@@ -44,8 +44,13 @@ namespace OneAdvisor.Service.Member.Validators
                 var control = (10 - ((control1 + control2) % 10)) % 10;
                 if (digits[12] == control)
                 {
-                    this.DateOfBirth = DateTime.ParseExact(this.IdentityNumber
-                        .Substring(0, 6), "yyMMdd", null);
+                    try
+                    {
+                        this.DateOfBirth = DateTime.ParseExact(this.IdentityNumber
+                            .Substring(0, 6), "yyMMdd", null);
+                    }
+                    catch { }
+
                     this.Gender = digits[6] < 5 ? "Female" : "Male";
                     this.IsSouthAfrican = digits[10] == 0;
                     this.IsValid = true;

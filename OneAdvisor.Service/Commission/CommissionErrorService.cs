@@ -138,7 +138,9 @@ namespace OneAdvisor.Service.Commission
                         && commissionError.IsFormatValid == true
                         select commissionError;
 
-            foreach (var error in query)
+            var errors = await query.ToListAsync();
+
+            foreach (var error in errors)
             {
                 //JSON Query: should be included in above query
                 if (!String.Equals(error.Data.PolicyNumber, policy.Number, StringComparison.OrdinalIgnoreCase))
