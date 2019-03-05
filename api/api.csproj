@@ -16,6 +16,9 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+    <PackageReference Include="FluentEmail.Core" Version="2.5.1" />
+    <PackageReference Include="FluentEmail.Razor" Version="2.5.2" />
+    <PackageReference Include="FluentEmail.SendGrid" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +27,7 @@
     <ProjectReference Include="..\OneAdvisor.Data\OneAdvisor.Data.csproj" />
     <ProjectReference Include="..\OneAdvisor.Export.Csv\OneAdvisor.Export.Csv.csproj" />
     <ProjectReference Include="..\OneAdvisor.Import.Excel\OneAdvisor.Import.Excel.csproj" />
+    <ProjectReference Include="..\OneAdvisor.Email\OneAdvisor.Email.csproj" />
   </ItemGroup>
 
 </Project>

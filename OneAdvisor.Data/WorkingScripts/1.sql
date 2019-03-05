@@ -47,4 +47,4 @@ INSERT INTO lkp_CommissionType VALUES ('7216609a-9f0b-4c74-9c50-b4c5377b72d6', '
 */
 
 
---delete from mem_Member where IdNumber = '8210035032082'
+--delete from dir_Application where Id = '2dc6f9ac-728b-4e19-9d72-0bad5fc84a03'

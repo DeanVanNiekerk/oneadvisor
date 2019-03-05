@@ -49,6 +49,9 @@ namespace api
             var auditSetup = new AuditSetup(services);
             auditSetup.Setup();
 
+            var emailSetup = new EmailSetup(Configuration, services);
+            emailSetup.Configure();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

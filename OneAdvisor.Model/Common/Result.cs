@@ -12,6 +12,7 @@ namespace OneAdvisor.Model.Common
         public Result(bool success)
         {
             Success = success;
+            Errors = new List<string>();
             ValidationFailures = new List<ValidationFailure>();
         }
 
@@ -25,6 +26,7 @@ namespace OneAdvisor.Model.Common
 
         public object Tag { get; set; }
 
+        public List<string> Errors { get; set; }
         public IList<ValidationFailure> ValidationFailures { get; set; }
 
         public void LoadValidationResults(ValidationResult result)
@@ -39,4 +41,5 @@ namespace OneAdvisor.Model.Common
             ValidationFailures.Add(new ValidationFailure(properyName, errorMessage));
         }
     }
+
 }

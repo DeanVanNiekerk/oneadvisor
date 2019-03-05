@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Import.Excel.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api.Test", "api.Test\api.Test.csproj", "{D4A56685-C168-4E95-823D-14E844ABE869}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Email", "OneAdvisor.Email\OneAdvisor.Email.csproj", "{1068D321-60D5-4226-A342-8880F90C4247}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -166,5 +168,17 @@ Global
 		{D4A56685-C168-4E95-823D-14E844ABE869}.Release|x64.Build.0 = Release|Any CPU
 		{D4A56685-C168-4E95-823D-14E844ABE869}.Release|x86.ActiveCfg = Release|Any CPU
 		{D4A56685-C168-4E95-823D-14E844ABE869}.Release|x86.Build.0 = Release|Any CPU
+		{1068D321-60D5-4226-A342-8880F90C4247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1068D321-60D5-4226-A342-8880F90C4247}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1068D321-60D5-4226-A342-8880F90C4247}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1068D321-60D5-4226-A342-8880F90C4247}.Debug|x64.Build.0 = Debug|Any CPU
+		{1068D321-60D5-4226-A342-8880F90C4247}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1068D321-60D5-4226-A342-8880F90C4247}.Debug|x86.Build.0 = Debug|Any CPU
+		{1068D321-60D5-4226-A342-8880F90C4247}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1068D321-60D5-4226-A342-8880F90C4247}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1068D321-60D5-4226-A342-8880F90C4247}.Release|x64.ActiveCfg = Release|Any CPU
+		{1068D321-60D5-4226-A342-8880F90C4247}.Release|x64.Build.0 = Release|Any CPU
+		{1068D321-60D5-4226-A342-8880F90C4247}.Release|x86.ActiveCfg = Release|Any CPU
+		{1068D321-60D5-4226-A342-8880F90C4247}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

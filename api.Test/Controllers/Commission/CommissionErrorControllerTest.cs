@@ -183,7 +183,7 @@ namespace api.Test.Controllers.Commission
             Assert.AreEqual(Scope.Branch, options.Scope);
             Assert.AreSame(error, resolved);
 
-            Assert.AreEqual("{\"Result\":{\"Value\":{\"Success\":true,\"Tag\":null,\"ValidationFailures\":[]},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
+            Assert.AreEqual("{\"Result\":{\"Value\":{\"Success\":true,\"Tag\":null,\"Errors\":[],\"ValidationFailures\":[]},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
         }
 
         [TestMethod]
@@ -245,7 +245,7 @@ namespace api.Test.Controllers.Commission
             Assert.AreEqual(Scope.Branch, options2.Scope);
             Assert.AreSame(error, resolved);
 
-            Assert.AreEqual("{\"Result\":{\"Value\":{\"Success\":true,\"Tag\":{\"Id\":null,\"CommissionStatementId\":\"d5887153-b373-4275-8eb1-6b7c1e9d57db\",\"PolicyId\":\"bb49cd0d-c66d-4c16-858b-0bd6b68df65c\",\"CommissionTypeId\":null,\"AmountIncludingVAT\":null,\"VAT\":null,\"SourceData\":null},\"ValidationFailures\":[]},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
+            Assert.AreEqual("{\"Result\":{\"Value\":{\"Success\":true,\"Tag\":{\"Id\":null,\"CommissionStatementId\":\"d5887153-b373-4275-8eb1-6b7c1e9d57db\",\"PolicyId\":\"bb49cd0d-c66d-4c16-858b-0bd6b68df65c\",\"CommissionTypeId\":null,\"AmountIncludingVAT\":null,\"VAT\":null,\"SourceData\":null},\"Errors\":[],\"ValidationFailures\":[]},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
         }
     }
 }

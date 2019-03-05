@@ -13,10 +13,12 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
+using OneAdvisor.Email;
 using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Email;
 using OneAdvisor.Model.Member.Interface;
 using OneAdvisor.Service.Account;
 using OneAdvisor.Service.Commission;
@@ -81,6 +83,9 @@ namespace api.App.Setup
         public void ConfigureServices()
         {
             Services.AddHttpContextAccessor();
+
+            //EMAIL
+            Services.AddScoped<IEmailService, EmailService>();
 
             //ACCOUNT
             Services.AddScoped<IAuthenticationService, AuthenticationService>();

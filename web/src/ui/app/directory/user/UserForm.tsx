@@ -12,11 +12,12 @@ import { Role } from '@/state/app/directory/roles';
 import { UserEdit } from '@/state/app/directory/users';
 import { authSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
-import { Form, FormErrors, FormInput, FormSelect, FormSimpleList, TabPane, Tabs } from '@/ui/controls';
+import { Button, Form, FormErrors, FormInput, FormSelect, FormSimpleList, TabPane, Tabs } from '@/ui/controls';
 
 import BranchSelect from './BranchSelect';
+import Emails from './Emails';
 
-type TabKey = 'details_tab' | 'roles_tab' | 'aliases_tab';
+type TabKey = "details_tab" | "roles_tab" | "aliases_tab" | "emails_tab";
 
 type Props = {
     user: UserEdit;
@@ -39,7 +40,7 @@ class UserForm extends Component<Props, State> {
 
         this.state = {
             user: props.user,
-            activeTab: 'details_tab'
+            activeTab: "details_tab",
         };
     }
 
@@ -47,7 +48,7 @@ class UserForm extends Component<Props, State> {
         if (this.props.user != prevProps.user) {
             this.setState({
                 user: this.props.user,
-                activeTab: 'details_tab' //Reset the tab
+                activeTab: "details_tab", //Reset the tab
             });
         }
     }
@@ -55,10 +56,10 @@ class UserForm extends Component<Props, State> {
     handleChange = (fieldName: string, value: any) => {
         const user = {
             ...this.state.user,
-            [fieldName]: value
+            [fieldName]: value,
         };
         this.setState({
-            user: user
+            user: user,
         });
         this.props.onChange(user);
     };
@@ -74,7 +75,7 @@ class UserForm extends Component<Props, State> {
             roles = this.state.user.roles.filter(r => r !== roleName);
         else roles.push(roleName);
 
-        this.handleChange('roles', roles);
+        this.handleChange("roles", roles);
     };
 
     onTabChange = (activeTab: TabKey) => {
@@ -123,7 +124,7 @@ class UserForm extends Component<Props, State> {
                                 organisations={this.props.organisations}
                                 validationResults={validationResults}
                                 onChange={(branchId: string) =>
-                                    this.handleChange('branchId', branchId)
+                                    this.handleChange("branchId", branchId)
                                 }
                             />
                             <FormSelect
@@ -156,7 +157,7 @@ class UserForm extends Component<Props, State> {
                                             <Switch
                                                 disabled={
                                                     !hasUseCase(
-                                                        'dir_edit_users',
+                                                        "dir_edit_users",
                                                         this.props.useCases
                                                     )
                                                 }
@@ -169,7 +170,7 @@ class UserForm extends Component<Props, State> {
                                                     )
                                                 }
                                                 size="small"
-                                            />
+                                            />,
                                         ]}
                                     >
                                         {role.description}
@@ -186,11 +187,16 @@ class UserForm extends Component<Props, State> {
                             displayName="Alias"
                             values={user.aliases}
                             onChange={(aliases: string[]) =>
-                                this.handleChange('aliases', aliases)
+                                this.handleChange("aliases", aliases)
                             }
                             validationResults={validationResults}
                         />
                     </TabPane>
+                    {user.id && (
+                        <TabPane tab="Email" key="emails_tab">
+                            <Emails userId={user.id} />
+                        </TabPane>
+                    )}
                 </Tabs>
             </>
         );
@@ -207,7 +213,7 @@ const mapStateToProps = (state: RootState) => {
         branches: branchesState.items,
         useCases: identityState.identity
             ? identityState.identity.useCaseIds
-            : []
+            : [],
     };
 };
 

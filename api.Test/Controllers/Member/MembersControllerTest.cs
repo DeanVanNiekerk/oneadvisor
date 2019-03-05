@@ -171,7 +171,7 @@ namespace api.Test.Controllers.Member
             Assert.AreSame(member, inserted);
             Assert.AreEqual(Scope.Branch, options.Scope);
 
-            Assert.AreEqual("{\"Result\":{\"Value\":{\"Success\":true,\"Tag\":null,\"ValidationFailures\":[]},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
+            Assert.AreEqual("{\"Result\":{\"Value\":{\"Success\":true,\"Tag\":null,\"Errors\":[],\"ValidationFailures\":[]},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
         }
 
         [TestMethod]
@@ -219,7 +219,7 @@ namespace api.Test.Controllers.Member
             Assert.AreSame(member, updated);
             Assert.AreEqual(Scope.Branch, options.Scope);
 
-            Assert.AreEqual("{\"Result\":{\"Value\":{\"Success\":true,\"Tag\":null,\"ValidationFailures\":[]},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
+            Assert.AreEqual("{\"Result\":{\"Value\":{\"Success\":true,\"Tag\":null,\"Errors\":[],\"ValidationFailures\":[]},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
         }
     }
 }
