@@ -3,69 +3,68 @@ import { Filters, SortOptions } from '@/app/table';
 import { Statement } from '../';
 import { defaultState, reducer } from './reducer';
 
-describe('statement list reducer', () => {
-    it('should handle STATEMENTS_LIST_FETCHING', () => {
+describe("statement list reducer", () => {
+    it("should handle STATEMENTS_LIST_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'STATEMENTS_LIST_FETCHING'
+            type: "STATEMENTS_LIST_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle STATEMENTS_LIST_FETCHING_ERROR', () => {
+    it("should handle STATEMENTS_LIST_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'STATEMENTS_LIST_FETCHING_ERROR'
+            type: "STATEMENTS_LIST_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            error: true,
-            fetching: false
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle STATEMENTS_LIST_RECEIVE', () => {
+    it("should handle STATEMENTS_LIST_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const statement: Statement = {
-            id: '10',
-            companyId: '321',
+            id: "10",
+            companyId: "321",
             processed: false,
             amountIncludingVAT: 100,
             vat: 14,
-            date: '2001-01-01',
+            date: "2001-01-01",
             formatErrorCount: 1,
             mappingErrorCount: 2,
             actualAmountIncludingVAT: 200,
             actualVAT: 16,
-            commissionCount: 10
+            commissionCount: 10,
         };
 
         const actualState = reducer(initalState, {
-            type: 'STATEMENTS_LIST_RECEIVE',
+            type: "STATEMENTS_LIST_RECEIVE",
             payload: {
                 totalItems: 1,
                 sumAmountIncludingVAT: 2,
                 sumVAT: 3,
                 averageAmountIncludingVAT: 4,
                 averageVAT: 5,
-                items: [statement]
-            }
+                items: [statement],
+            },
         });
 
         const expectedState = {
@@ -76,123 +75,123 @@ describe('statement list reducer', () => {
             sumVAT: 3,
             averageAmountIncludingVAT: 4,
             averageVAT: 5,
-            fetching: false
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle STATEMENTS_LIST_PAGE_OPTIONS_RECEIVE', () => {
+    it("should handle STATEMENTS_LIST_PAGE_OPTIONS_RECEIVE", () => {
         const initalState = {
-            ...defaultState
+            ...defaultState,
         };
 
         const options = {
             number: 9,
-            size: 20
+            size: 20,
         };
 
         const actualState = reducer(initalState, {
-            type: 'STATEMENTS_LIST_PAGE_OPTIONS_RECEIVE',
-            payload: options
+            type: "STATEMENTS_LIST_PAGE_OPTIONS_RECEIVE",
+            payload: options,
         });
 
         const expectedState = {
             ...defaultState,
             pageOptions: {
-                ...options
-            }
+                ...options,
+            },
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle STATEMENTS_LIST_SORT_OPTIONS_RECEIVE', () => {
+    it("should handle STATEMENTS_LIST_SORT_OPTIONS_RECEIVE", () => {
         const initalState = {
-            ...defaultState
+            ...defaultState,
         };
 
         const options: SortOptions = {
-            direction: 'asc',
-            column: 'colName'
+            direction: "asc",
+            column: "colName",
         };
 
         const actualState = reducer(initalState, {
-            type: 'STATEMENTS_LIST_SORT_OPTIONS_RECEIVE',
-            payload: options
+            type: "STATEMENTS_LIST_SORT_OPTIONS_RECEIVE",
+            payload: options,
         });
 
         const expectedState = {
             ...defaultState,
             sortOptions: {
-                ...options
-            }
+                ...options,
+            },
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle STATEMENTS_LIST_FILTERS_RECEIVE', () => {
+    it("should handle STATEMENTS_LIST_FILTERS_RECEIVE", () => {
         const initalState = {
-            ...defaultState
+            ...defaultState,
         };
 
         const filters: Filters = {
-            firstName: ['sup']
+            firstName: ["sup"],
         };
 
         const actualState = reducer(initalState, {
-            type: 'STATEMENTS_LIST_FILTERS_RECEIVE',
-            payload: filters
+            type: "STATEMENTS_LIST_FILTERS_RECEIVE",
+            payload: filters,
         });
 
         const expectedState = {
             ...defaultState,
             filters: {
-                ...filters
-            }
+                ...filters,
+            },
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle STATEMENTS_LIST_FILTERS_YEAR_RECEIVE', () => {
+    it("should handle STATEMENTS_LIST_FILTERS_YEAR_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            filterYear: 2000
+            filterYear: 2000,
         };
 
         const year = 2012;
 
         const actualState = reducer(initalState, {
-            type: 'STATEMENTS_LIST_FILTERS_YEAR_RECEIVE',
-            payload: year
+            type: "STATEMENTS_LIST_FILTERS_YEAR_RECEIVE",
+            payload: year,
         });
 
         const expectedState = {
             ...defaultState,
-            filterYear: 2012
+            filterYear: 2012,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle STATEMENTS_LIST_FILTERS_MONTH_RECEIVE', () => {
+    it("should handle STATEMENTS_LIST_FILTERS_MONTH_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            filterMonth: 2
+            filterMonth: 2,
         };
 
         const month = 12;
 
         const actualState = reducer(initalState, {
-            type: 'STATEMENTS_LIST_FILTERS_MONTH_RECEIVE',
-            payload: month
+            type: "STATEMENTS_LIST_FILTERS_MONTH_RECEIVE",
+            payload: month,
         });
 
         const expectedState = {
             ...defaultState,
-            filterMonth: 12
+            filterMonth: 12,
         };
 
         expect(actualState).toEqual(expectedState);

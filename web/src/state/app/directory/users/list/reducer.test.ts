@@ -27,7 +27,7 @@ describe('user list reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             fetching: false
         };
 

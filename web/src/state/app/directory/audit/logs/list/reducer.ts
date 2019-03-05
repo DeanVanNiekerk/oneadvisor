@@ -7,7 +7,6 @@ export type State = {
     readonly items: AuditLog[];
     readonly totalItems: number;
     readonly fetching: boolean;
-    readonly error: boolean;
     readonly pageOptions: PageOptions;
     readonly sortOptions: SortOptions;
     readonly filters: Filters | null;
@@ -17,10 +16,9 @@ export const defaultState: State = {
     items: [],
     totalItems: 0,
     fetching: false,
-    error: false,
     pageOptions: defaultPageOptions(),
-    sortOptions: defaultSortOptions('', 'desc'),
-    filters: null
+    sortOptions: defaultSortOptions("", "desc"),
+    filters: null,
 };
 
 export const reducer = (
@@ -28,51 +26,49 @@ export const reducer = (
     action: AuditLogListAction
 ): State => {
     switch (action.type) {
-        case 'AUDIT_LOGS_LIST_RECEIVE': {
+        case "AUDIT_LOGS_LIST_RECEIVE": {
             return {
                 ...state,
                 totalItems: action.payload.totalItems,
                 items: action.payload.items,
                 fetching: false,
-                error: false
             };
         }
-        case 'AUDIT_LOGS_LIST_FETCHING': {
+        case "AUDIT_LOGS_LIST_FETCHING": {
             return {
                 ...state,
-                fetching: true
+                fetching: true,
             };
         }
-        case 'AUDIT_LOGS_LIST_FETCHING_ERROR': {
+        case "AUDIT_LOGS_LIST_FETCHING_ERROR": {
             return {
                 ...state,
                 items: [],
                 fetching: false,
-                error: true
             };
         }
-        case 'AUDIT_LOGS_LIST_PAGE_OPTIONS_RECEIVE': {
+        case "AUDIT_LOGS_LIST_PAGE_OPTIONS_RECEIVE": {
             return {
                 ...state,
                 pageOptions: {
-                    ...action.payload
-                }
+                    ...action.payload,
+                },
             };
         }
-        case 'AUDIT_LOGS_LIST_SORT_OPTIONS_RECEIVE': {
+        case "AUDIT_LOGS_LIST_SORT_OPTIONS_RECEIVE": {
             return {
                 ...state,
                 sortOptions: {
-                    ...action.payload
-                }
+                    ...action.payload,
+                },
             };
         }
-        case 'AUDIT_LOGS_LIST_FILTERS_RECEIVE': {
+        case "AUDIT_LOGS_LIST_FILTERS_RECEIVE": {
             return {
                 ...state,
                 filters: {
-                    ...action.payload
-                }
+                    ...action.payload,
+                },
             };
         }
         default:

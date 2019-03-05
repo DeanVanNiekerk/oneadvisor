@@ -8,7 +8,6 @@ export type State = {
     readonly items: CommissionError[];
     readonly totalItems: number;
     readonly fetching: boolean;
-    readonly error: boolean;
     readonly pageOptions: PageOptions;
     readonly sortOptions: SortOptions;
     readonly filters: Filters | null;
@@ -18,7 +17,6 @@ export const defaultState: State = {
     items: [],
     totalItems: 0,
     fetching: false,
-    error: false,
     pageOptions: defaultPageOptions(),
     sortOptions: defaultSortOptions("", "desc"),
     filters: null,
@@ -35,7 +33,6 @@ export const reducer = (
                 totalItems: action.payload.totalItems,
                 items: action.payload.items,
                 fetching: false,
-                error: false,
             };
         }
         case "COMMISSIONS_ERRORS_LIST_FETCHING": {
@@ -49,7 +46,6 @@ export const reducer = (
                 ...state,
                 items: [],
                 fetching: false,
-                error: true,
             };
         }
         case "COMMISSIONS_ERRORS_LIST_PAGE_OPTIONS_RECEIVE": {

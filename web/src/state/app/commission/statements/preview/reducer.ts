@@ -4,13 +4,11 @@ import { StatementPreviewAction } from './actions';
 export type State = {
     readonly statement: Statement | null;
     readonly fetching: boolean;
-    readonly error: boolean;
 };
 
 export const defaultState: State = {
     statement: null,
     fetching: false,
-    error: false
 };
 
 export const reducer = (
@@ -18,32 +16,30 @@ export const reducer = (
     action: StatementPreviewAction
 ): State => {
     switch (action.type) {
-        case 'STATEMENTS_STATEMENT_PREVIEW_RECEIVE': {
+        case "STATEMENTS_STATEMENT_PREVIEW_RECEIVE": {
             return {
                 ...state,
                 statement: action.payload.items[0],
                 fetching: false,
-                error: false
             };
         }
-        case 'STATEMENTS_STATEMENT_PREVIEW_FETCHING': {
+        case "STATEMENTS_STATEMENT_PREVIEW_FETCHING": {
             return {
                 ...state,
-                fetching: true
+                fetching: true,
             };
         }
-        case 'STATEMENTS_STATEMENT_PREVIEW_FETCHING_ERROR': {
+        case "STATEMENTS_STATEMENT_PREVIEW_FETCHING_ERROR": {
             return {
                 ...state,
                 statement: null,
                 fetching: false,
-                error: true
             };
         }
-        case 'STATEMENTS_STATEMENT_PREVIEW_CLEAR': {
+        case "STATEMENTS_STATEMENT_PREVIEW_CLEAR": {
             return {
                 ...state,
-                statement: null
+                statement: null,
             };
         }
         default:

@@ -29,7 +29,7 @@ describe('policy list reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             fetching: false
         };
 

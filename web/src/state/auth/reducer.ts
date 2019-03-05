@@ -10,7 +10,6 @@ export type State = {
     readonly token: string | null;
     readonly tokenData: TokenData | null;
     readonly fetching: boolean;
-    readonly error: boolean;
     readonly validationResults: ValidationResult[];
     readonly signInFailed: boolean;
     readonly identity: Identity | null;
@@ -20,44 +19,42 @@ export const defaultState = {
     token: getToken(),
     tokenData: decodeToken(getToken()),
     fetching: false,
-    error: false,
     validationResults: [],
     signInFailed: false,
-    identity: getIdentity()
+    identity: getIdentity(),
 };
 
 export const reducer = (state: State = defaultState, action: Action) => {
     switch (action.type) {
-        case 'AUTH_SIGNIN_FETCHING': {
+        case "AUTH_SIGNIN_FETCHING": {
             return {
                 ...state,
                 fetching: true,
                 validationResults: [],
-                signInFailed: false
+                signInFailed: false,
             };
         }
-        case 'AUTH_SIGNIN_RECEIVE': {
+        case "AUTH_SIGNIN_RECEIVE": {
             return {
                 ...state,
                 fetching: false,
                 token: action.payload.token,
                 tokenData: decodeToken(action.payload.token),
-                identity: action.payload.identity
+                identity: action.payload.identity,
             };
         }
-        case 'AUTH_SIGNIN_FETCHING_ERROR': {
+        case "AUTH_SIGNIN_FETCHING_ERROR": {
             return {
                 ...state,
                 fetching: false,
-                error: true
             };
         }
-        case 'AUTH_SIGNIN_VALIDATION_ERROR': {
+        case "AUTH_SIGNIN_VALIDATION_ERROR": {
             return {
                 ...state,
                 fetching: false,
                 validationResults: action.payload,
-                signInFailed: true
+                signInFailed: true,
             };
         }
         default:

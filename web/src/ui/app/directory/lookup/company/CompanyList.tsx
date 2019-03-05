@@ -11,7 +11,6 @@ import EditCompany from './EditCompany';
 type Props = {
     companies: Company[];
     fetching: boolean;
-    error: boolean;
 } & DispatchProp;
 
 type State = {
@@ -23,7 +22,7 @@ class CompanyList extends Component<Props, State> {
         super(props);
 
         this.state = {
-            editVisible: false
+            editVisible: false,
         };
     }
 
@@ -37,8 +36,8 @@ class CompanyList extends Component<Props, State> {
 
     newCompany = () => {
         const company = {
-            id: '',
-            name: ''
+            id: "",
+            name: "",
         };
         this.showEditCompany(company);
     };
@@ -51,19 +50,19 @@ class CompanyList extends Component<Props, State> {
     showEditCompany = (company: Company) => {
         this.props.dispatch(receiveCompany(company));
         this.setState({
-            editVisible: true
+            editVisible: true,
         });
     };
 
     closeEditCompany = (cancelled: boolean) => {
         this.setState({
-            editVisible: false
+            editVisible: false,
         });
         if (!cancelled) this.loadCompanies();
     };
 
     getColumns = () => {
-        return [getColumn('name', 'Name', { showSearchFilter: true })];
+        return [getColumn("name", "Name", { showSearchFilter: true })];
     };
 
     render() {
@@ -107,7 +106,6 @@ const mapStateToProps = (state: RootState) => {
     return {
         companies: companiesState.items,
         fetching: companiesState.fetching,
-        error: companiesState.error
     };
 };
 

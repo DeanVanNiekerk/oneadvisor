@@ -4,153 +4,152 @@ import { CommissionStatementTemplateEdit } from '../';
 import { defaultState, reducer } from './reducer';
 
 const template: CommissionStatementTemplateEdit = {
-    id: '10',
-    companyId: '99',
-    name: '321',
+    id: "10",
+    companyId: "99",
+    name: "321",
     config: {
         headerIdentifier: {
-            column: 'A',
-            value: 'Broker'
+            column: "A",
+            value: "Broker",
         },
         fields: [],
         commissionTypes: {
-            defaultCommissionTypeCode: '',
-            mappingTemplate: '',
-            types: []
-        }
-    }
+            defaultCommissionTypeCode: "",
+            mappingTemplate: "",
+            types: [],
+        },
+    },
 };
 
-describe('commission reducer', () => {
-    it('should handle COMMISSIONS_STATEMENT_TEMPLATE_FETCHING', () => {
+describe("commission reducer", () => {
+    it("should handle COMMISSIONS_STATEMENT_TEMPLATE_FETCHING", () => {
         const initalState = {
             ...defaultState,
             template: { ...template },
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_STATEMENT_TEMPLATE_FETCHING'
+            type: "COMMISSIONS_STATEMENT_TEMPLATE_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
             fetching: true,
             template: null,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_STATEMENT_TEMPLATE_FETCHING_ERROR', () => {
+    it("should handle COMMISSIONS_STATEMENT_TEMPLATE_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_STATEMENT_TEMPLATE_FETCHING_ERROR'
+            type: "COMMISSIONS_STATEMENT_TEMPLATE_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            error: true,
-            fetching: false
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_STATEMENT_TEMPLATE_RECEIVE', () => {
+    it("should handle COMMISSIONS_STATEMENT_TEMPLATE_RECEIVE", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_STATEMENT_TEMPLATE_RECEIVE',
-            payload: { ...template }
+            type: "COMMISSIONS_STATEMENT_TEMPLATE_RECEIVE",
+            payload: { ...template },
         });
 
         const expectedState = {
             ...defaultState,
             template: { ...template },
             fetching: false,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_STATEMENT_TEMPLATE_EDIT_FETCHING', () => {
+    it("should handle COMMISSIONS_STATEMENT_TEMPLATE_EDIT_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'COMMISSIONS_STATEMENT_TEMPLATE_EDIT_FETCHING'
+            type: "COMMISSIONS_STATEMENT_TEMPLATE_EDIT_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_STATEMENT_TEMPLATE_EDIT_FETCHING_ERROR', () => {
+    it("should handle COMMISSIONS_STATEMENT_TEMPLATE_EDIT_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_STATEMENT_TEMPLATE_EDIT_FETCHING_ERROR'
+            type: "COMMISSIONS_STATEMENT_TEMPLATE_EDIT_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            error: true,
-            updating: false
+
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_STATEMENT_TEMPLATE_EDIT_RECEIVE', () => {
+    it("should handle COMMISSIONS_STATEMENT_TEMPLATE_EDIT_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_STATEMENT_TEMPLATE_EDIT_RECEIVE'
-        });
-
-        const expectedState = {
-            ...defaultState,
-            updating: false
-        };
-
-        expect(actualState).toEqual(expectedState);
-    });
-
-    it('should handle COMMISSIONS_STATEMENT_TEMPLATE_EDIT_VALIDATION_ERROR', () => {
-        const initalState = {
-            ...defaultState,
-            updating: true
-        };
-
-        const validationResults = [getValidationResult()];
-
-        const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_STATEMENT_TEMPLATE_EDIT_VALIDATION_ERROR',
-            payload: validationResults
+            type: "COMMISSIONS_STATEMENT_TEMPLATE_EDIT_RECEIVE",
         });
 
         const expectedState = {
             ...defaultState,
             updating: false,
-            validationResults: validationResults
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle COMMISSIONS_STATEMENT_TEMPLATE_EDIT_VALIDATION_ERROR", () => {
+        const initalState = {
+            ...defaultState,
+            updating: true,
+        };
+
+        const validationResults = [getValidationResult()];
+
+        const actualState = reducer(initalState, {
+            type: "COMMISSIONS_STATEMENT_TEMPLATE_EDIT_VALIDATION_ERROR",
+            payload: validationResults,
+        });
+
+        const expectedState = {
+            ...defaultState,
+            updating: false,
+            validationResults: validationResults,
         };
 
         expect(actualState).toEqual(expectedState);

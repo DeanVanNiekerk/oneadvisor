@@ -52,7 +52,7 @@ describe('member reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             fetching: false
         };
 
@@ -106,7 +106,7 @@ describe('member reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             updating: false
         };
 

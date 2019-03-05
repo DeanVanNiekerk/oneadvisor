@@ -34,7 +34,7 @@ describe('role reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             fetching: false
         };
 
@@ -96,7 +96,7 @@ describe('role reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             updating: false
         };
 

@@ -47,7 +47,6 @@ describe("commission reducer", () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
             fetching: false,
         };
 
@@ -101,7 +100,6 @@ describe("commission reducer", () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
             updating: false,
         };
 

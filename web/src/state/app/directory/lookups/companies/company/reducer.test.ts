@@ -53,7 +53,7 @@ describe('company reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             updating: false
         };
 

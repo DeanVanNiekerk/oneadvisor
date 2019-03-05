@@ -44,7 +44,6 @@ describe("error list reducer", () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
             fetching: false,
         };
 

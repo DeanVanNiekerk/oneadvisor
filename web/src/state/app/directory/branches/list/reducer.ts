@@ -4,13 +4,11 @@ import { BranchListAction } from './actions';
 export type State = {
     readonly items: Branch[];
     readonly fetching: boolean;
-    readonly error: boolean;
 };
 
 export const defaultState: State = {
     items: [],
     fetching: false,
-    error: false
 };
 
 export const reducer = (
@@ -18,26 +16,24 @@ export const reducer = (
     action: BranchListAction
 ): State => {
     switch (action.type) {
-        case 'BRANCHES_LIST_RECEIVE': {
+        case "BRANCHES_LIST_RECEIVE": {
             return {
                 ...state,
                 items: action.payload.items,
                 fetching: false,
-                error: false
             };
         }
-        case 'BRANCHES_LIST_FETCHING': {
+        case "BRANCHES_LIST_FETCHING": {
             return {
                 ...state,
-                fetching: true
+                fetching: true,
             };
         }
-        case 'BRANCHES_LIST_FETCHING_ERROR': {
+        case "BRANCHES_LIST_FETCHING_ERROR": {
             return {
                 ...state,
                 items: [],
                 fetching: false,
-                error: true
             };
         }
         default:

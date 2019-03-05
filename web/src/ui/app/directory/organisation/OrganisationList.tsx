@@ -14,7 +14,6 @@ import EditOrganisation from './EditOrganisation';
 type Props = {
     organisations: Organisation[];
     fetching: boolean;
-    error: boolean;
 } & DispatchProp;
 
 type State = {
@@ -26,7 +25,7 @@ class OrganisationList extends Component<Props, State> {
         super(props);
 
         this.state = {
-            editVisible: false
+            editVisible: false,
         };
     }
 
@@ -40,8 +39,8 @@ class OrganisationList extends Component<Props, State> {
 
     newOrganisation = () => {
         const organisation = {
-            id: '',
-            name: ''
+            id: "",
+            name: "",
         };
         this.showEditOrganisation(organisation);
     };
@@ -54,19 +53,19 @@ class OrganisationList extends Component<Props, State> {
     showEditOrganisation = (organisation: Organisation) => {
         this.props.dispatch(receiveOrganisation(organisation));
         this.setState({
-            editVisible: true
+            editVisible: true,
         });
     };
 
     closeEditOrganisation = (cancelled: boolean) => {
         this.setState({
-            editVisible: false
+            editVisible: false,
         });
         if (!cancelled) this.loadOrganisations();
     };
 
     getColumns = () => {
-        return [getColumn('name', 'Name')];
+        return [getColumn("name", "Name")];
     };
 
     render() {
@@ -111,7 +110,6 @@ const mapStateToProps = (state: RootState) => {
     return {
         organisations: organisationsState.items,
         fetching: organisationsState.fetching,
-        error: organisationsState.error
     };
 };
 

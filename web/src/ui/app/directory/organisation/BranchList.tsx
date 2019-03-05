@@ -13,7 +13,6 @@ type Props = {
     organisationId: string;
     branches: Branch[];
     fetching: boolean;
-    error: boolean;
     useCases: string[];
 } & DispatchProp;
 
@@ -22,7 +21,7 @@ class BranchList extends Component<Props> {
         super(props);
 
         this.state = {
-            editVisible: false
+            editVisible: false,
         };
     }
 
@@ -45,7 +44,7 @@ class BranchList extends Component<Props> {
     };
 
     getActions = (branch: Branch) => {
-        if (!hasUseCase('dir_edit_branches', this.props.useCases)) return [];
+        if (!hasUseCase("dir_edit_branches", this.props.useCases)) return [];
 
         return [<a onClick={() => this.editBranch(branch.id)}>edit</a>];
     };
@@ -80,10 +79,9 @@ const mapStateToProps = (state: RootState) => {
     return {
         branches: branchesState.items,
         fetching: branchesState.fetching,
-        error: branchesState.error,
         useCases: identityState.identity
             ? identityState.identity.useCaseIds
-            : []
+            : [],
     };
 };
 

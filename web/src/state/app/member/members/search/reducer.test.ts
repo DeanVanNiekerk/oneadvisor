@@ -27,7 +27,7 @@ describe('member search reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             fetching: false
         };
 

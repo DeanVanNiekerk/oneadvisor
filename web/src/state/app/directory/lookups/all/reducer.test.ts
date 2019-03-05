@@ -26,7 +26,7 @@ describe('lookups reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             fetching: false
         };
 

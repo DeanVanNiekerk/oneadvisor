@@ -4,31 +4,31 @@ import { CommissionError } from '../types';
 import { defaultState, reducer } from './reducer';
 
 const defaultCommissionError: CommissionError = {
-    id: '10',
-    commissionStatementId: '321',
-    policyId: '12',
-    memberId: '13',
-    commissionTypeId: '14',
+    id: "10",
+    commissionStatementId: "321",
+    policyId: "12",
+    memberId: "13",
+    commissionTypeId: "14",
     data: {
-        policyNumber: '123-123',
-        amountIncludingVAT: '50',
-        vat: '5',
-        commissionTypeCode: 'gap_cover'
+        policyNumber: "123-123",
+        amountIncludingVAT: "50",
+        vat: "5",
+        commissionTypeCode: "gap_cover",
     },
-    isFormatValid: false
+    isFormatValid: false,
 };
 
-describe('commission format error reducer', () => {
-    it('should handle COMMISSIONS_ERROR_FORMAT_FETCHING', () => {
+describe("commission format error reducer", () => {
+    it("should handle COMMISSIONS_ERROR_FORMAT_FETCHING", () => {
         const initalState = {
             ...defaultState,
             commissionError: { ...defaultCommissionError },
             commissionErrorData: defaultCommissionError.data,
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_ERROR_FORMAT_FETCHING'
+            type: "COMMISSIONS_ERROR_FORMAT_FETCHING",
         });
 
         const expectedState = {
@@ -36,41 +36,41 @@ describe('commission format error reducer', () => {
             fetching: true,
             commissionError: null,
             commissionErrorData: null,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_ERROR_FORMAT_FETCHING_ERROR', () => {
+    it("should handle COMMISSIONS_ERROR_FORMAT_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_ERROR_FORMAT_FETCHING_ERROR'
+            type: "COMMISSIONS_ERROR_FORMAT_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            error: true,
-            fetching: false
+
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_ERROR_FORMAT_RECEIVE', () => {
+    it("should handle COMMISSIONS_ERROR_FORMAT_RECEIVE", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_ERROR_FORMAT_RECEIVE',
-            payload: { ...defaultCommissionError }
+            type: "COMMISSIONS_ERROR_FORMAT_RECEIVE",
+            payload: { ...defaultCommissionError },
         });
 
         const expectedState = {
@@ -78,57 +78,56 @@ describe('commission format error reducer', () => {
             commissionError: { ...defaultCommissionError },
             commissionErrorData: defaultCommissionError.data,
             fetching: false,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_ERROR_FORMAT_EDIT_FETCHING', () => {
+    it("should handle COMMISSIONS_ERROR_FORMAT_EDIT_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'COMMISSIONS_ERROR_FORMAT_EDIT_FETCHING'
+            type: "COMMISSIONS_ERROR_FORMAT_EDIT_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_ERROR_FORMAT_EDIT_FETCHING_ERROR', () => {
+    it("should handle COMMISSIONS_ERROR_FORMAT_EDIT_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_ERROR_FORMAT_EDIT_FETCHING_ERROR'
+            type: "COMMISSIONS_ERROR_FORMAT_EDIT_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            error: true,
-            updating: false
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_ERROR_FORMAT_EDIT_RECEIVE', () => {
+    it("should handle COMMISSIONS_ERROR_FORMAT_EDIT_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_ERROR_FORMAT_EDIT_RECEIVE'
+            type: "COMMISSIONS_ERROR_FORMAT_EDIT_RECEIVE",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: false
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);

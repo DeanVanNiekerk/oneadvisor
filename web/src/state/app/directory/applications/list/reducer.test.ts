@@ -26,7 +26,7 @@ describe('application list reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             fetching: false
         };
 

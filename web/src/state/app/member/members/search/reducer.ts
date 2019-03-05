@@ -4,13 +4,11 @@ import { MemberSearchAction } from './actions';
 export type State = {
     readonly items: Member[];
     readonly fetching: boolean;
-    readonly error: boolean;
 };
 
 export const defaultState: State = {
     items: [],
     fetching: false,
-    error: false
 };
 
 export const reducer = (
@@ -18,26 +16,24 @@ export const reducer = (
     action: MemberSearchAction
 ): State => {
     switch (action.type) {
-        case 'MEMBERS_SEARCH_RECEIVE': {
+        case "MEMBERS_SEARCH_RECEIVE": {
             return {
                 ...state,
                 items: action.payload.items,
                 fetching: false,
-                error: false
             };
         }
-        case 'MEMBERS_SEARCH_FETCHING': {
+        case "MEMBERS_SEARCH_FETCHING": {
             return {
                 ...state,
-                fetching: true
+                fetching: true,
             };
         }
-        case 'MEMBERS_SEARCH_FETCHING_ERROR': {
+        case "MEMBERS_SEARCH_FETCHING_ERROR": {
             return {
                 ...state,
                 items: [],
                 fetching: false,
-                error: true
             };
         }
         default:

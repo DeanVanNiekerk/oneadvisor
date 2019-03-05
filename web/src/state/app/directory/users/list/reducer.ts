@@ -8,7 +8,6 @@ export type State = {
     readonly totalItems: number;
     readonly items: User[];
     readonly fetching: boolean;
-    readonly error: boolean;
     readonly pageOptions: PageOptions;
 };
 
@@ -16,8 +15,7 @@ export const defaultState: State = {
     totalItems: 0,
     items: [],
     fetching: false,
-    error: false,
-    pageOptions: defaultPageOptions()
+    pageOptions: defaultPageOptions(),
 };
 
 export const reducer = (
@@ -25,27 +23,25 @@ export const reducer = (
     action: UserListAction
 ): State => {
     switch (action.type) {
-        case 'USERS_LIST_RECEIVE': {
+        case "USERS_LIST_RECEIVE": {
             return {
                 ...state,
                 totalItems: action.payload.totalItems,
                 items: action.payload.items,
                 fetching: false,
-                error: false
             };
         }
-        case 'USERS_LIST_FETCHING': {
+        case "USERS_LIST_FETCHING": {
             return {
                 ...state,
-                fetching: true
+                fetching: true,
             };
         }
-        case 'USERS_LIST_FETCHING_ERROR': {
+        case "USERS_LIST_FETCHING_ERROR": {
             return {
                 ...state,
                 items: [],
                 fetching: false,
-                error: true
             };
         }
         default:

@@ -30,7 +30,7 @@ describe('auditLog list reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             fetching: false
         };
 

@@ -36,7 +36,7 @@ describe('organisation reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             fetching: false
         };
 
@@ -95,7 +95,7 @@ describe('organisation reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             updating: false
         };
 

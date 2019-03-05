@@ -48,7 +48,7 @@ describe('policy reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             fetching: false
         };
 
@@ -102,7 +102,7 @@ describe('policy reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             updating: false
         };
 

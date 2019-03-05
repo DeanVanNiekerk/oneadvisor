@@ -7,7 +7,6 @@ export type State = {
     readonly template: CommissionStatementTemplateEdit | null;
     readonly fetching: boolean;
     readonly updating: boolean;
-    readonly error: boolean;
     readonly validationResults: ValidationResult[];
 };
 
@@ -15,8 +14,7 @@ export const defaultState: State = {
     template: null,
     fetching: false,
     updating: false,
-    error: false,
-    validationResults: []
+    validationResults: [],
 };
 
 export const reducer = (
@@ -24,56 +22,53 @@ export const reducer = (
     action: TemplateAction
 ): State => {
     switch (action.type) {
-        case 'COMMISSIONS_STATEMENT_TEMPLATE_RECEIVE': {
+        case "COMMISSIONS_STATEMENT_TEMPLATE_RECEIVE": {
             return {
                 ...state,
                 template: action.payload,
                 fetching: false,
-                error: false,
-                validationResults: []
+                validationResults: [],
             };
         }
-        case 'COMMISSIONS_STATEMENT_TEMPLATE_FETCHING': {
+        case "COMMISSIONS_STATEMENT_TEMPLATE_FETCHING": {
             return {
                 ...state,
                 fetching: true,
                 template: null,
-                validationResults: []
+                validationResults: [],
             };
         }
-        case 'COMMISSIONS_STATEMENT_TEMPLATE_FETCHING_ERROR': {
+        case "COMMISSIONS_STATEMENT_TEMPLATE_FETCHING_ERROR": {
             return {
                 ...state,
                 template: null,
                 fetching: false,
-                error: true
             };
         }
-        case 'COMMISSIONS_STATEMENT_TEMPLATE_EDIT_FETCHING': {
+        case "COMMISSIONS_STATEMENT_TEMPLATE_EDIT_FETCHING": {
             return {
                 ...state,
                 updating: true,
-                validationResults: []
+                validationResults: [],
             };
         }
-        case 'COMMISSIONS_STATEMENT_TEMPLATE_EDIT_RECEIVE': {
-            return {
-                ...state,
-                updating: false
-            };
-        }
-        case 'COMMISSIONS_STATEMENT_TEMPLATE_EDIT_FETCHING_ERROR': {
+        case "COMMISSIONS_STATEMENT_TEMPLATE_EDIT_RECEIVE": {
             return {
                 ...state,
                 updating: false,
-                error: true
             };
         }
-        case 'COMMISSIONS_STATEMENT_TEMPLATE_EDIT_VALIDATION_ERROR': {
+        case "COMMISSIONS_STATEMENT_TEMPLATE_EDIT_FETCHING_ERROR": {
             return {
                 ...state,
                 updating: false,
-                validationResults: action.payload
+            };
+        }
+        case "COMMISSIONS_STATEMENT_TEMPLATE_EDIT_VALIDATION_ERROR": {
+            return {
+                ...state,
+                updating: false,
+                validationResults: action.payload,
             };
         }
         default:

@@ -27,7 +27,7 @@ describe('policy search reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             fetching: false
         };
 

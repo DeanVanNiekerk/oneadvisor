@@ -15,7 +15,6 @@ import EditTemplate from './EditTemplate';
 type Props = {
     templates: CommissionStatementTemplate[];
     fetching: boolean;
-    error: boolean;
     companies: Company[];
 } & DispatchProp;
 
@@ -28,7 +27,7 @@ class TemplateList extends Component<Props, State> {
         super(props);
 
         this.state = {
-            editVisible: false
+            editVisible: false,
         };
     }
 
@@ -42,21 +41,21 @@ class TemplateList extends Component<Props, State> {
 
     newTemplate = () => {
         const template: CommissionStatementTemplateEdit = {
-            id: '',
-            name: '',
-            companyId: '',
+            id: "",
+            name: "",
+            companyId: "",
             config: {
                 headerIdentifier: {
-                    column: '',
-                    value: ''
+                    column: "",
+                    value: "",
                 },
                 fields: [],
                 commissionTypes: {
                     defaultCommissionTypeCode: UNKNOWN_COMMISSION_TYPE_CODE,
-                    mappingTemplate: '',
-                    types: []
-                }
-            }
+                    mappingTemplate: "",
+                    types: [],
+                },
+            },
         };
         this.props.dispatch(receiveCommissionStatementTemplate(template));
         this.showEditTemplate();
@@ -69,29 +68,29 @@ class TemplateList extends Component<Props, State> {
 
     showEditTemplate = () => {
         this.setState({
-            editVisible: true
+            editVisible: true,
         });
     };
 
     closeEditCompany = (cancelled: boolean) => {
         this.setState({
-            editVisible: false
+            editVisible: false,
         });
         if (!cancelled) this.loadTemplates();
     };
 
     getColumns = () => {
         return [
-            getColumn('name', 'Name', { showSearchFilter: true }),
-            getColumn('companyId', 'Company', {
+            getColumn("name", "Name", { showSearchFilter: true }),
+            getColumn("companyId", "Company", {
                 render: (companyId: string) => {
                     return <CompanyName companyId={companyId} />;
                 },
                 filters: this.props.companies.map(type => ({
                     text: type.name,
-                    value: type.id
-                }))
-            })
+                    value: type.id,
+                })),
+            }),
         ];
     };
 
@@ -137,8 +136,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         templates: templatesState.items,
         fetching: templatesState.fetching,
-        error: templatesState.error,
-        companies: companiesState.items
+        companies: companiesState.items,
     };
 };
 

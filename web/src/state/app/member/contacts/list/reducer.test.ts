@@ -26,7 +26,7 @@ describe('contact list reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             fetching: false
         };
 

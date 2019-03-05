@@ -65,7 +65,7 @@ describe('statement preview reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             fetching: false
         };
 

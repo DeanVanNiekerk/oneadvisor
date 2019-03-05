@@ -7,7 +7,6 @@ export type State = {
     readonly commission: CommissionEdit | null;
     readonly fetching: boolean;
     readonly updating: boolean;
-    readonly error: boolean;
     readonly validationResults: ValidationResult[];
 };
 
@@ -15,8 +14,7 @@ export const defaultState: State = {
     commission: null,
     fetching: false,
     updating: false,
-    error: false,
-    validationResults: []
+    validationResults: [],
 };
 
 export const reducer = (
@@ -24,56 +22,53 @@ export const reducer = (
     action: CommissionAction
 ): State => {
     switch (action.type) {
-        case 'COMMISSIONS_COMMISSION_RECEIVE': {
+        case "COMMISSIONS_COMMISSION_RECEIVE": {
             return {
                 ...state,
                 commission: action.payload,
                 fetching: false,
-                error: false,
-                validationResults: []
+                validationResults: [],
             };
         }
-        case 'COMMISSIONS_COMMISSION_FETCHING': {
+        case "COMMISSIONS_COMMISSION_FETCHING": {
             return {
                 ...state,
                 fetching: true,
                 commission: null,
-                validationResults: []
+                validationResults: [],
             };
         }
-        case 'COMMISSIONS_COMMISSION_FETCHING_ERROR': {
+        case "COMMISSIONS_COMMISSION_FETCHING_ERROR": {
             return {
                 ...state,
                 commission: null,
                 fetching: false,
-                error: true
             };
         }
-        case 'COMMISSIONS_COMMISSION_EDIT_FETCHING': {
+        case "COMMISSIONS_COMMISSION_EDIT_FETCHING": {
             return {
                 ...state,
                 updating: true,
-                validationResults: []
+                validationResults: [],
             };
         }
-        case 'COMMISSIONS_COMMISSION_EDIT_RECEIVE': {
-            return {
-                ...state,
-                updating: false
-            };
-        }
-        case 'COMMISSIONS_COMMISSION_EDIT_FETCHING_ERROR': {
+        case "COMMISSIONS_COMMISSION_EDIT_RECEIVE": {
             return {
                 ...state,
                 updating: false,
-                error: true
             };
         }
-        case 'COMMISSIONS_COMMISSION_EDIT_VALIDATION_ERROR': {
+        case "COMMISSIONS_COMMISSION_EDIT_FETCHING_ERROR": {
             return {
                 ...state,
                 updating: false,
-                validationResults: action.payload
+            };
+        }
+        case "COMMISSIONS_COMMISSION_EDIT_VALIDATION_ERROR": {
+            return {
+                ...state,
+                updating: false,
+                validationResults: action.payload,
             };
         }
         default:

@@ -55,7 +55,7 @@ describe('commissionType reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            error: true,
+            
             updating: false
         };
 

@@ -6,15 +6,13 @@ import { CommissionTypeAction } from './actions';
 export type State = {
     readonly commissionType: CommissionType | null;
     readonly updating: boolean;
-    readonly error: boolean;
     readonly validationResults: ValidationResult[];
 };
 
 export const defaultState: State = {
     commissionType: null,
     updating: false,
-    error: false,
-    validationResults: []
+    validationResults: [],
 };
 
 export const reducer = (
@@ -22,39 +20,37 @@ export const reducer = (
     action: CommissionTypeAction
 ): State => {
     switch (action.type) {
-        case 'COMMISSIONTYPES_COMMISSIONTYPE_RECEIVE': {
+        case "COMMISSIONTYPES_COMMISSIONTYPE_RECEIVE": {
             return {
                 ...state,
                 commissionType: action.payload,
                 validationResults: [],
-                error: false
             };
         }
-        case 'COMMISSIONTYPES_COMMISSIONTYPE_EDIT_FETCHING': {
+        case "COMMISSIONTYPES_COMMISSIONTYPE_EDIT_FETCHING": {
             return {
                 ...state,
                 updating: true,
-                validationResults: []
+                validationResults: [],
             };
         }
-        case 'COMMISSIONTYPES_COMMISSIONTYPE_EDIT_RECEIVE': {
-            return {
-                ...state,
-                updating: false
-            };
-        }
-        case 'COMMISSIONTYPES_COMMISSIONTYPE_EDIT_FETCHING_ERROR': {
+        case "COMMISSIONTYPES_COMMISSIONTYPE_EDIT_RECEIVE": {
             return {
                 ...state,
                 updating: false,
-                error: true
             };
         }
-        case 'COMMISSIONTYPES_COMMISSIONTYPE_EDIT_VALIDATION_ERROR': {
+        case "COMMISSIONTYPES_COMMISSIONTYPE_EDIT_FETCHING_ERROR": {
             return {
                 ...state,
                 updating: false,
-                validationResults: action.payload
+            };
+        }
+        case "COMMISSIONTYPES_COMMISSIONTYPE_EDIT_VALIDATION_ERROR": {
+            return {
+                ...state,
+                updating: false,
+                validationResults: action.payload,
             };
         }
         default:

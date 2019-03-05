@@ -14,7 +14,6 @@ export type State = {
     readonly averageAmountIncludingVAT: number;
     readonly averageVAT: number;
     readonly fetching: boolean;
-    readonly error: boolean;
     readonly pageOptions: PageOptions;
     readonly sortOptions: SortOptions;
     readonly filterMonth: number;
@@ -30,12 +29,11 @@ export const defaultState: State = {
     averageAmountIncludingVAT: 0,
     averageVAT: 0,
     fetching: false,
-    error: false,
     pageOptions: defaultPageOptions(),
-    sortOptions: defaultSortOptions('', 'desc'),
+    sortOptions: defaultSortOptions("", "desc"),
     filterMonth: moment().month() + 1,
     filterYear: moment().year(),
-    filters: null
+    filters: null,
 };
 
 export const reducer = (
@@ -43,7 +41,7 @@ export const reducer = (
     action: StatementListAction
 ): State => {
     switch (action.type) {
-        case 'STATEMENTS_LIST_RECEIVE': {
+        case "STATEMENTS_LIST_RECEIVE": {
             return {
                 ...state,
                 totalItems: action.payload.totalItems,
@@ -54,57 +52,55 @@ export const reducer = (
                 averageVAT: action.payload.averageVAT,
                 items: action.payload.items,
                 fetching: false,
-                error: false
             };
         }
-        case 'STATEMENTS_LIST_FETCHING': {
+        case "STATEMENTS_LIST_FETCHING": {
             return {
                 ...state,
-                fetching: true
+                fetching: true,
             };
         }
-        case 'STATEMENTS_LIST_FETCHING_ERROR': {
+        case "STATEMENTS_LIST_FETCHING_ERROR": {
             return {
                 ...state,
                 items: [],
                 fetching: false,
-                error: true
             };
         }
-        case 'STATEMENTS_LIST_PAGE_OPTIONS_RECEIVE': {
+        case "STATEMENTS_LIST_PAGE_OPTIONS_RECEIVE": {
             return {
                 ...state,
                 pageOptions: {
-                    ...action.payload
-                }
+                    ...action.payload,
+                },
             };
         }
-        case 'STATEMENTS_LIST_SORT_OPTIONS_RECEIVE': {
+        case "STATEMENTS_LIST_SORT_OPTIONS_RECEIVE": {
             return {
                 ...state,
                 sortOptions: {
-                    ...action.payload
-                }
+                    ...action.payload,
+                },
             };
         }
-        case 'STATEMENTS_LIST_FILTERS_RECEIVE': {
+        case "STATEMENTS_LIST_FILTERS_RECEIVE": {
             return {
                 ...state,
                 filters: {
-                    ...action.payload
-                }
+                    ...action.payload,
+                },
             };
         }
-        case 'STATEMENTS_LIST_FILTERS_MONTH_RECEIVE': {
+        case "STATEMENTS_LIST_FILTERS_MONTH_RECEIVE": {
             return {
                 ...state,
-                filterMonth: action.payload
+                filterMonth: action.payload,
             };
         }
-        case 'STATEMENTS_LIST_FILTERS_YEAR_RECEIVE': {
+        case "STATEMENTS_LIST_FILTERS_YEAR_RECEIVE": {
             return {
                 ...state,
-                filterYear: action.payload
+                filterYear: action.payload,
             };
         }
         default:

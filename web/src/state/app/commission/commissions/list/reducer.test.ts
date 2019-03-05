@@ -3,66 +3,65 @@ import { Filters, SortOptions } from '@/app/table';
 import { Commission } from '../';
 import { defaultState, reducer } from './reducer';
 
-describe('commission list reducer', () => {
-    it('should handle COMMISSIONS_LIST_FETCHING', () => {
+describe("commission list reducer", () => {
+    it("should handle COMMISSIONS_LIST_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'COMMISSIONS_LIST_FETCHING'
+            type: "COMMISSIONS_LIST_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_LIST_FETCHING_ERROR', () => {
+    it("should handle COMMISSIONS_LIST_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_LIST_FETCHING_ERROR'
+            type: "COMMISSIONS_LIST_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            error: true,
-            fetching: false
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_LIST_RECEIVE', () => {
+    it("should handle COMMISSIONS_LIST_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const commission: Commission = {
-            id: '10',
-            policyId: '99',
-            commissionTypeId: '321',
+            id: "10",
+            policyId: "99",
+            commissionTypeId: "321",
             amountIncludingVAT: 100,
             vat: 14,
-            userId: '123321',
-            commissionStatementId: '998877',
-            policyNumber: 'POL-9877'
+            userId: "123321",
+            commissionStatementId: "998877",
+            policyNumber: "POL-9877",
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_LIST_RECEIVE',
+            type: "COMMISSIONS_LIST_RECEIVE",
             payload: {
                 totalItems: 1,
                 sumAmountIncludingVAT: 2,
                 sumVAT: 3,
                 averageAmountIncludingVAT: 4,
                 averageVAT: 5,
-                items: [commission]
-            }
+                items: [commission],
+            },
         });
 
         const expectedState = {
@@ -73,81 +72,81 @@ describe('commission list reducer', () => {
             sumVAT: 3,
             averageAmountIncludingVAT: 4,
             averageVAT: 5,
-            fetching: false
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_LIST_PAGE_OPTIONS_RECEIVE', () => {
+    it("should handle COMMISSIONS_LIST_PAGE_OPTIONS_RECEIVE", () => {
         const initalState = {
-            ...defaultState
+            ...defaultState,
         };
 
         const options = {
             number: 9,
-            size: 20
+            size: 20,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_LIST_PAGE_OPTIONS_RECEIVE',
-            payload: options
+            type: "COMMISSIONS_LIST_PAGE_OPTIONS_RECEIVE",
+            payload: options,
         });
 
         const expectedState = {
             ...defaultState,
             pageOptions: {
-                ...options
-            }
+                ...options,
+            },
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_LIST_SORT_OPTIONS_RECEIVE', () => {
+    it("should handle COMMISSIONS_LIST_SORT_OPTIONS_RECEIVE", () => {
         const initalState = {
-            ...defaultState
+            ...defaultState,
         };
 
         const options: SortOptions = {
-            direction: 'asc',
-            column: 'colName'
+            direction: "asc",
+            column: "colName",
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_LIST_SORT_OPTIONS_RECEIVE',
-            payload: options
+            type: "COMMISSIONS_LIST_SORT_OPTIONS_RECEIVE",
+            payload: options,
         });
 
         const expectedState = {
             ...defaultState,
             sortOptions: {
-                ...options
-            }
+                ...options,
+            },
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_LIST_FILTERS_RECEIVE', () => {
+    it("should handle COMMISSIONS_LIST_FILTERS_RECEIVE", () => {
         const initalState = {
-            ...defaultState
+            ...defaultState,
         };
 
         const filters: Filters = {
-            firstName: ['sup']
+            firstName: ["sup"],
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_LIST_FILTERS_RECEIVE',
-            payload: filters
+            type: "COMMISSIONS_LIST_FILTERS_RECEIVE",
+            payload: filters,
         });
 
         const expectedState = {
             ...defaultState,
             filters: {
-                ...filters
-            }
+                ...filters,
+            },
         };
 
         expect(actualState).toEqual(expectedState);

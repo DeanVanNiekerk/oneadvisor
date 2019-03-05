@@ -7,7 +7,6 @@ export type State = {
     readonly totalItems: number;
     readonly items: Contact[];
     readonly fetching: boolean;
-    readonly error: boolean;
     readonly pageOptions: PageOptions;
 };
 
@@ -15,8 +14,7 @@ export const defaultState: State = {
     totalItems: 0,
     items: [],
     fetching: false,
-    error: false,
-    pageOptions: { number: 0, size: 0 }
+    pageOptions: { number: 0, size: 0 },
 };
 
 export const reducer = (
@@ -24,27 +22,25 @@ export const reducer = (
     action: ContactListAction
 ): State => {
     switch (action.type) {
-        case 'CONTACTS_LIST_RECEIVE': {
+        case "CONTACTS_LIST_RECEIVE": {
             return {
                 ...state,
                 totalItems: action.payload.totalItems,
                 items: action.payload.items,
                 fetching: false,
-                error: false
             };
         }
-        case 'CONTACTS_LIST_FETCHING': {
+        case "CONTACTS_LIST_FETCHING": {
             return {
                 ...state,
-                fetching: true
+                fetching: true,
             };
         }
-        case 'CONTACTS_LIST_FETCHING_ERROR': {
+        case "CONTACTS_LIST_FETCHING_ERROR": {
             return {
                 ...state,
                 items: [],
                 fetching: false,
-                error: true
             };
         }
         default:

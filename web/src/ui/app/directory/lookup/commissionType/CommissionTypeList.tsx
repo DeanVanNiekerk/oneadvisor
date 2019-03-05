@@ -13,7 +13,6 @@ import EditCommissionType from './EditCommissionType';
 type Props = {
     commissionTypes: CommissionType[];
     fetching: boolean;
-    error: boolean;
 } & DispatchProp;
 
 type State = {
@@ -25,7 +24,7 @@ class CommissionTypeList extends Component<Props, State> {
         super(props);
 
         this.state = {
-            editVisible: false
+            editVisible: false,
         };
     }
 
@@ -39,10 +38,10 @@ class CommissionTypeList extends Component<Props, State> {
 
     newCommissionType = () => {
         const commissionType = {
-            id: '',
-            policyTypeId: '',
-            name: '',
-            code: ''
+            id: "",
+            policyTypeId: "",
+            name: "",
+            code: "",
         };
         this.showEditCommissionType(commissionType);
     };
@@ -57,26 +56,26 @@ class CommissionTypeList extends Component<Props, State> {
     showEditCommissionType = (commissionType: CommissionType) => {
         this.props.dispatch(receiveCommissionType(commissionType));
         this.setState({
-            editVisible: true
+            editVisible: true,
         });
     };
 
     closeEditCommissionType = (cancelled: boolean) => {
         this.setState({
-            editVisible: false
+            editVisible: false,
         });
         if (!cancelled) this.loadCommissionTypes();
     };
 
     getColumns = () => {
         return [
-            getColumn('name', 'Name', { showSearchFilter: true }),
-            getColumn('code', 'Code', { showSearchFilter: true }),
-            getColumn('policyTypeId', 'Policy Type', {
+            getColumn("name", "Name", { showSearchFilter: true }),
+            getColumn("code", "Code", { showSearchFilter: true }),
+            getColumn("policyTypeId", "Policy Type", {
                 render: (policyTypeId: string) => {
                     return <PolicyTypeName policyTypeId={policyTypeId} />;
-                }
-            })
+                },
+            }),
         ];
     };
 
@@ -121,7 +120,6 @@ const mapStateToProps = (state: RootState) => {
     return {
         commissionTypes: commissionTypesState.items,
         fetching: commissionTypesState.fetching,
-        error: commissionTypesState.error
     };
 };
 
