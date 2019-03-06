@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Directory
 {
-    [TestClass]
+
     public class ApplicationServiceTest
     {
-        [TestMethod]
+        [Fact]
         public async Task GetApplications()
         {
             var options = TestHelper.GetDbContext("GetApplications");
@@ -38,15 +38,15 @@ namespace OneAdvisor.Service.Test.Directory
                 var list = await service.GetApplications();
 
                 //Then
-                Assert.AreEqual(list.Count, 2);
+                Assert.Equal(list.Count, 2);
 
                 var actual1 = list[0];
-                Assert.AreEqual(actual1.Id, app1.Id);
-                Assert.AreEqual(actual1.Name, app1.Name);
+                Assert.Equal(actual1.Id, app1.Id);
+                Assert.Equal(actual1.Name, app1.Name);
 
                 var actual2 = list[1];
-                Assert.AreEqual(actual2.Id, app2.Id);
-                Assert.AreEqual(actual2.Name, app2.Name);
+                Assert.Equal(actual2.Id, app2.Id);
+                Assert.Equal(actual2.Name, app2.Name);
 
             }
         }

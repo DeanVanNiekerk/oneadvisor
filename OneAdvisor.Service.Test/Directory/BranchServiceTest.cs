@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model.Common;
@@ -13,10 +13,10 @@ using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Directory
 {
-    [TestClass]
+
     public class BranchServiceTest
     {
-        [TestMethod]
+        [Fact]
         public async Task GetBranches_FilterAndSort()
         {
             var options = TestHelper.GetDbContext("GetBranches_FilterAndSort");
@@ -57,27 +57,27 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetBranches(queryOptions);
 
                 //Then
-                Assert.AreEqual(actual.TotalItems, 4);
+                Assert.Equal(actual.TotalItems, 4);
 
                 var branches = actual.Items.ToArray();
 
-                Assert.AreEqual(branches.Count(), 4);
+                Assert.Equal(branches.Count(), 4);
 
                 var actual1 = branches[0];
-                Assert.AreEqual(branch1.Id, actual1.Id);
-                Assert.AreEqual(branch1.Name, actual1.Name);
+                Assert.Equal(branch1.Id, actual1.Id);
+                Assert.Equal(branch1.Name, actual1.Name);
 
                 var actual2 = branches[1];
-                Assert.AreEqual(branch3.Id, actual2.Id);
-                Assert.AreEqual(branch3.Name, actual2.Name);
+                Assert.Equal(branch3.Id, actual2.Id);
+                Assert.Equal(branch3.Name, actual2.Name);
 
                 var actual6 = branches[3];
-                Assert.AreEqual(branch6.Id, actual6.Id);
-                Assert.AreEqual(branch6.Name, actual6.Name);
+                Assert.Equal(branch6.Id, actual6.Id);
+                Assert.Equal(branch6.Name, actual6.Name);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetBranch()
         {
             var options = TestHelper.GetDbContext("GetBranch");
@@ -106,20 +106,20 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetBranch(scope, branch1.Id);
 
                 //Then
-                Assert.AreEqual(branch1.Id, actual.Id);
-                Assert.AreEqual(branch1.OrganisationId, actual.OrganisationId);
-                Assert.AreEqual(branch1.Name, actual.Name);
+                Assert.Equal(branch1.Id, actual.Id);
+                Assert.Equal(branch1.OrganisationId, actual.OrganisationId);
+                Assert.Equal(branch1.Name, actual.Name);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(user1);
                 actual = await service.GetBranch(scope, branch2.Id);
 
                 //Then
-                Assert.IsNull(actual);
+                Assert.Null(actual);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task InsertBranch()
         {
             var options = TestHelper.GetDbContext("InsertBranch");
@@ -142,22 +142,22 @@ namespace OneAdvisor.Service.Test.Directory
                 var result = await service.InsertBranch(scope, branch);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Branch.FindAsync(((Branch)result.Tag).Id);
-                Assert.AreEqual(branch.OrganisationId, actual.OrganisationId);
-                Assert.AreEqual(branch.Name, actual.Name);
+                Assert.Equal(branch.OrganisationId, actual.OrganisationId);
+                Assert.Equal(branch.Name, actual.Name);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(user1, Scope.Branch);
                 result = await service.InsertBranch(scope, branch);
 
                 //Then
-                Assert.IsFalse(result.Success);
+                Assert.False(result.Success);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UpdateBranch()
         {
             var options = TestHelper.GetDbContext("UpdateBranch");
@@ -192,11 +192,11 @@ namespace OneAdvisor.Service.Test.Directory
                 var result = await service.UpdateBranch(scope, branch);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Branch.FindAsync(branch.Id);
-                Assert.AreEqual(branch.OrganisationId, actual.OrganisationId);
-                Assert.AreEqual(branch.Name, actual.Name);
+                Assert.Equal(branch.OrganisationId, actual.OrganisationId);
+                Assert.Equal(branch.Name, actual.Name);
 
                 //Scope check
                 branch.Id = branch2.Id;
@@ -205,7 +205,7 @@ namespace OneAdvisor.Service.Test.Directory
                 result = await service.UpdateBranch(scope, branch);
 
                 //Then
-                Assert.IsFalse(result.Success);
+                Assert.False(result.Success);
             }
         }
 

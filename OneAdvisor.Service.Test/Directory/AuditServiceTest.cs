@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model.Directory.Model.Audit;
@@ -10,10 +10,10 @@ using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Directory
 {
-    [TestClass]
+
     public class AuditServiceTest
     {
-        [TestMethod]
+        [Fact]
         public async Task GetAuditLogs_FilterAndSort()
         {
             var options = TestHelper.GetDbContext("GetAuditLogs_FilterAndSort");
@@ -55,25 +55,25 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetAuditLogs(queryOptions);
 
                 //Then
-                Assert.AreEqual(actual.TotalItems, 5);
+                Assert.Equal(actual.TotalItems, 5);
 
                 var logs = actual.Items.ToArray();
 
-                Assert.AreEqual(logs.Count(), 5);
+                Assert.Equal(logs.Count(), 5);
 
                 var actual1 = logs[0];
-                Assert.AreEqual(al1.Id, actual1.Id);
-                Assert.AreEqual(al1.Action, actual1.Action);
-                Assert.AreEqual(al1.Entity, actual1.Entity);
-                Assert.AreEqual(al1.Data, actual1.Data);
-                Assert.AreEqual(al1.Date, actual1.Date);
-                Assert.AreEqual(al1.UserId, actual1.UserId);
+                Assert.Equal(al1.Id, actual1.Id);
+                Assert.Equal(al1.Action, actual1.Action);
+                Assert.Equal(al1.Entity, actual1.Entity);
+                Assert.Equal(al1.Data, actual1.Data);
+                Assert.Equal(al1.Date, actual1.Date);
+                Assert.Equal(al1.UserId, actual1.UserId);
 
                 var actual2 = logs[1];
-                Assert.AreEqual(al2.Id, actual2.Id);
+                Assert.Equal(al2.Id, actual2.Id);
 
                 var actual3 = logs[2];
-                Assert.AreEqual(al3.Id, actual3.Id);
+                Assert.Equal(al3.Id, actual3.Id);
             }
         }
     }

@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Commission;
@@ -14,11 +14,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace OneAdvisor.Service.Test.Commission
 {
-    [TestClass]
+
     public class CommissionServiceTest
     {
 
-        [TestMethod]
+        [Fact]
         public async Task GetCommissions()
         {
             var options = TestHelper.GetDbContext("GetCommissions");
@@ -122,43 +122,43 @@ namespace OneAdvisor.Service.Test.Commission
                 var commissions = await service.GetCommissions(queryOptions);
 
                 //Then
-                Assert.AreEqual(3, commissions.TotalItems);
-                Assert.AreEqual(3, commissions.Items.Count());
+                Assert.Equal(3, commissions.TotalItems);
+                Assert.Equal(3, commissions.Items.Count());
 
-                Assert.AreEqual(200, commissions.AverageAmountIncludingVAT);
-                Assert.AreEqual(20, commissions.AverageVAT);
-                Assert.AreEqual(600, commissions.SumAmountIncludingVAT);
-                Assert.AreEqual(60, commissions.SumVAT);
+                Assert.Equal(200, commissions.AverageAmountIncludingVAT);
+                Assert.Equal(20, commissions.AverageVAT);
+                Assert.Equal(600, commissions.SumAmountIncludingVAT);
+                Assert.Equal(60, commissions.SumVAT);
 
                 var items = commissions.Items.ToList();
                 var actual = items[0];
-                Assert.AreEqual(commission1.Id, actual.Id);
-                Assert.AreEqual(commission1.PolicyId, actual.PolicyId);
-                Assert.AreEqual(commission1.CommissionTypeId, actual.CommissionTypeId);
-                Assert.AreEqual(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
-                Assert.AreEqual(commission1.VAT, actual.VAT);
-                Assert.AreEqual(commission1.CommissionStatementId, actual.CommissionStatementId);
-                Assert.AreEqual(policy1.Number, actual.PolicyNumber);
+                Assert.Equal(commission1.Id, actual.Id);
+                Assert.Equal(commission1.PolicyId, actual.PolicyId);
+                Assert.Equal(commission1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.Equal(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
+                Assert.Equal(commission1.VAT, actual.VAT);
+                Assert.Equal(commission1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.Equal(policy1.Number, actual.PolicyNumber);
 
                 actual = items[1];
-                Assert.AreEqual(commission2.Id, actual.Id);
+                Assert.Equal(commission2.Id, actual.Id);
 
                 actual = items[2];
-                Assert.AreEqual(commission3.Id, actual.Id);
+                Assert.Equal(commission3.Id, actual.Id);
 
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user1, Scope.User);
                 queryOptions = new CommissionQueryOptions(scope, "", "", 0, 0);
                 commissions = await service.GetCommissions(queryOptions);
 
-                Assert.AreEqual(1, commissions.Items.Count());
+                Assert.Equal(1, commissions.Items.Count());
 
                 actual = commissions.Items.First();
-                Assert.AreEqual(commission1.Id, actual.Id);
+                Assert.Equal(commission1.Id, actual.Id);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetCommission()
         {
             var options = TestHelper.GetDbContext("GetCommission");
@@ -213,26 +213,26 @@ namespace OneAdvisor.Service.Test.Commission
                 var actual = await service.GetCommission(scope, commission1.Id);
 
                 //Then
-                Assert.AreEqual(commission1.Id, actual.Id);
-                Assert.AreEqual(commission1.PolicyId, actual.PolicyId);
-                Assert.AreEqual(commission1.CommissionTypeId, actual.CommissionTypeId);
-                Assert.AreEqual(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
-                Assert.AreEqual(commission1.VAT, actual.VAT);
-                Assert.AreEqual(commission1.CommissionStatementId, actual.CommissionStatementId);
-                Assert.AreEqual(commission1.SourceData, actual.SourceData);
+                Assert.Equal(commission1.Id, actual.Id);
+                Assert.Equal(commission1.PolicyId, actual.PolicyId);
+                Assert.Equal(commission1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.Equal(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
+                Assert.Equal(commission1.VAT, actual.VAT);
+                Assert.Equal(commission1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.Equal(commission1.SourceData, actual.SourceData);
 
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user2, Scope.User);
                 actual = await service.GetCommission(scope, commission1.Id);
-                Assert.IsNull(actual);
+                Assert.Null(actual);
 
                 scope = TestHelper.GetScopeOptions(user3, Scope.Organisation);
                 actual = await service.GetCommission(scope, commission1.Id);
-                Assert.IsNull(actual);
+                Assert.Null(actual);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task InsertCommission()
         {
             var options = TestHelper.GetDbContext("InsertCommission");
@@ -284,31 +284,31 @@ namespace OneAdvisor.Service.Test.Commission
                 var result = await service.InsertCommission(scopeOptions, commission1);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Commission.FindAsync(((CommissionEdit)result.Tag).Id);
-                Assert.AreEqual(commission1.Id, actual.Id);
-                Assert.AreEqual(commission1.PolicyId, actual.PolicyId);
-                Assert.AreEqual(commission1.CommissionTypeId, actual.CommissionTypeId);
-                Assert.AreEqual(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
-                Assert.AreEqual(commission1.VAT, actual.VAT);
-                Assert.AreEqual(commission1.CommissionStatementId, actual.CommissionStatementId);
-                Assert.AreEqual(commission1.SourceData, actual.SourceData);
+                Assert.Equal(commission1.Id, actual.Id);
+                Assert.Equal(commission1.PolicyId, actual.PolicyId);
+                Assert.Equal(commission1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.Equal(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
+                Assert.Equal(commission1.VAT, actual.VAT);
+                Assert.Equal(commission1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.Equal(commission1.SourceData, actual.SourceData);
 
                 //Out of scope 
                 scopeOptions = TestHelper.GetScopeOptions(user2, Scope.User);
                 result = await service.InsertCommission(scopeOptions, commission1);
-                Assert.IsFalse(result.Success);
-                Assert.AreEqual("Out of scope", result.ValidationFailures.Single().ErrorMessage);
+                Assert.False(result.Success);
+                Assert.Equal("Out of scope", result.ValidationFailures.Single().ErrorMessage);
 
                 scopeOptions = TestHelper.GetScopeOptions(user3, Scope.Organisation);
                 result = await service.InsertCommission(scopeOptions, commission1);
-                Assert.IsFalse(result.Success);
+                Assert.False(result.Success);
             }
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task UpdateCommission()
         {
             var options = TestHelper.GetDbContext("UpdateCommission");
@@ -377,30 +377,30 @@ namespace OneAdvisor.Service.Test.Commission
                 var result = await service.UpdateCommission(scopeOptions, commission1);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Commission.FindAsync(commission.Id);
-                Assert.AreEqual(commission1.Id, actual.Id);
-                Assert.AreEqual(commission1.PolicyId, actual.PolicyId);
-                Assert.AreEqual(commission1.CommissionTypeId, actual.CommissionTypeId);
-                Assert.AreEqual(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
-                Assert.AreEqual(commission1.VAT, actual.VAT);
-                Assert.AreEqual(commission1.CommissionStatementId, actual.CommissionStatementId);
-                Assert.AreEqual(commission1.SourceData, actual.SourceData);
+                Assert.Equal(commission1.Id, actual.Id);
+                Assert.Equal(commission1.PolicyId, actual.PolicyId);
+                Assert.Equal(commission1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.Equal(commission1.AmountIncludingVAT, actual.AmountIncludingVAT);
+                Assert.Equal(commission1.VAT, actual.VAT);
+                Assert.Equal(commission1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.Equal(commission1.SourceData, actual.SourceData);
 
                 //Out of scope 
                 scopeOptions = TestHelper.GetScopeOptions(user2, Scope.User);
                 result = await service.UpdateCommission(scopeOptions, commission1);
-                Assert.IsFalse(result.Success);
-                Assert.AreEqual("Out of scope", result.ValidationFailures.Single().ErrorMessage);
+                Assert.False(result.Success);
+                Assert.Equal("Out of scope", result.ValidationFailures.Single().ErrorMessage);
 
                 scopeOptions = TestHelper.GetScopeOptions(user3, Scope.Organisation);
                 result = await service.UpdateCommission(scopeOptions, commission1);
-                Assert.IsFalse(result.Success);
+                Assert.False(result.Success);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task DeleteCommissions()
         {
             var options = TestHelper.GetDbContext("DeleteCommissions");
@@ -479,18 +479,18 @@ namespace OneAdvisor.Service.Test.Commission
 
                 //Then
                 var actual = await context.Commission.SingleAsync();
-                Assert.AreEqual(commission3.Id, actual.Id);
+                Assert.Equal(commission3.Id, actual.Id);
 
                 var actualError = await context.CommissionError.SingleAsync();
-                Assert.AreEqual(error3.Id, actualError.Id);
+                Assert.Equal(error3.Id, actualError.Id);
 
                 //Out of scope 
                 await service.DeleteCommissions(scopeOptions, statement2.Id);
                 actual = await context.Commission.SingleAsync();
-                Assert.AreEqual(commission3.Id, actual.Id);
+                Assert.Equal(commission3.Id, actual.Id);
 
                 actualError = await context.CommissionError.SingleAsync();
-                Assert.AreEqual(error3.Id, actualError.Id);
+                Assert.Equal(error3.Id, actualError.Id);
             }
         }
     }

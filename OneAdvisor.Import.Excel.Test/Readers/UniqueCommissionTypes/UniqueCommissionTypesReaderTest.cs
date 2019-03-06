@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OneAdvisor.Import.Excel.Readers;
 using OneAdvisor.Import.Excel.Test.Readers.UniqueCommissionTypes.Source;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 
 namespace OneAdvisor.Import.Excel.Test.Readers.UniqueCommissionTypes
 {
-    [TestClass]
+
     public class UniqueCommissionTypesReaderTest
     {
         public UniqueCommissionTypesReaderTest()
@@ -16,7 +16,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.UniqueCommissionTypes
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
 
-        [TestMethod]
+        [Fact]
         public void Read_Basic()
         {
             var config = new Config()
@@ -42,10 +42,10 @@ namespace OneAdvisor.Import.Excel.Test.Readers.UniqueCommissionTypes
             var reader = new UniqueCommissionTypesReader(config);
             var commissionTypeValues = reader.Read(stream).ToList();
 
-            Assert.AreEqual(3, commissionTypeValues.Count);
-            Assert.AreEqual(commissionTypeValues[0], "val1;val3");
-            Assert.AreEqual(commissionTypeValues[1], "val2;val3");
-            Assert.AreEqual(commissionTypeValues[2], "val4;val6");
+            Assert.Equal(3, commissionTypeValues.Count);
+            Assert.Equal(commissionTypeValues[0], "val1;val3");
+            Assert.Equal(commissionTypeValues[1], "val2;val3");
+            Assert.Equal(commissionTypeValues[2], "val4;val6");
         }
     }
 }

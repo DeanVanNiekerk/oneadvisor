@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Member;
@@ -16,11 +16,11 @@ using OneAdvisor.Service.Member;
 
 namespace OneAdvisor.Service.Test.Member
 {
-    [TestClass]
+
     public class MemberServiceTest
     {
 
-        [TestMethod]
+        [Fact]
         public async Task GetMembers()
         {
             var options = TestHelper.GetDbContext("GetMembers");
@@ -76,26 +76,26 @@ namespace OneAdvisor.Service.Test.Member
                 var members = await service.GetMembers(queryOptions);
 
                 //Then
-                Assert.AreEqual(2, members.TotalItems);
-                Assert.AreEqual(2, members.Items.Count());
+                Assert.Equal(2, members.TotalItems);
+                Assert.Equal(2, members.Items.Count());
 
                 var actual = members.Items.First();
-                Assert.AreEqual(member1.Id, actual.Id);
-                Assert.AreEqual(member1.FirstName, actual.FirstName);
-                Assert.AreEqual(member1.LastName, actual.LastName);
-                Assert.AreEqual(member1.MaidenName, actual.MaidenName);
-                Assert.AreEqual(member1.Initials, actual.Initials);
-                Assert.AreEqual(member1.PreferredName, actual.PreferredName);
-                Assert.AreEqual(member1.IdNumber, actual.IdNumber);
-                Assert.AreEqual(member1.DateOfBirth, actual.DateOfBirth);
-                Assert.AreEqual(member1.TaxNumber, actual.TaxNumber);
-                Assert.AreEqual(member1.MarritalStatusId, actual.MarritalStatusId);
-                Assert.AreEqual(member1.MarriageDate, actual.MarriageDate);
+                Assert.Equal(member1.Id, actual.Id);
+                Assert.Equal(member1.FirstName, actual.FirstName);
+                Assert.Equal(member1.LastName, actual.LastName);
+                Assert.Equal(member1.MaidenName, actual.MaidenName);
+                Assert.Equal(member1.Initials, actual.Initials);
+                Assert.Equal(member1.PreferredName, actual.PreferredName);
+                Assert.Equal(member1.IdNumber, actual.IdNumber);
+                Assert.Equal(member1.DateOfBirth, actual.DateOfBirth);
+                Assert.Equal(member1.TaxNumber, actual.TaxNumber);
+                Assert.Equal(member1.MarritalStatusId, actual.MarritalStatusId);
+                Assert.Equal(member1.MarriageDate, actual.MarriageDate);
             }
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task GetMembers_OrganisationLevel()
         {
             var options = TestHelper.GetDbContext("GetMembers_OrganisationLevel");
@@ -127,20 +127,20 @@ namespace OneAdvisor.Service.Test.Member
                 var members = await service.GetMembers(queryOptions);
 
                 //Then
-                Assert.AreEqual(2, members.TotalItems);
-                Assert.AreEqual(2, members.Items.Count());
+                Assert.Equal(2, members.TotalItems);
+                Assert.Equal(2, members.Items.Count());
 
                 var actual = members.Items.First();
-                Assert.AreEqual(member1.Id, actual.Id);
+                Assert.Equal(member1.Id, actual.Id);
 
                 actual = members.Items.Last();
-                Assert.AreEqual(member2.Id, actual.Id);
+                Assert.Equal(member2.Id, actual.Id);
             }
         }
 
 
 
-        [TestMethod]
+        [Fact]
         public async Task GetMembers_SortAndPage()
         {
             var options = TestHelper.GetDbContext("GetMembers_SortAndPage");
@@ -178,22 +178,22 @@ namespace OneAdvisor.Service.Test.Member
                 var actual = await service.GetMembers(queryOptions);
 
                 //Then
-                Assert.AreEqual(6, actual.TotalItems);
+                Assert.Equal(6, actual.TotalItems);
 
                 var members = actual.Items.ToArray();
 
-                Assert.AreEqual(2, members.Count());
+                Assert.Equal(2, members.Count());
 
                 var actual1 = members[0];
-                Assert.AreEqual(mem4.Id, actual1.Id);
+                Assert.Equal(mem4.Id, actual1.Id);
 
                 var actual2 = members[1];
-                Assert.AreEqual(mem3.Id, actual2.Id);
+                Assert.Equal(mem3.Id, actual2.Id);
             }
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task GetMember()
         {
             var options = TestHelper.GetDbContext("GetMember");
@@ -241,28 +241,28 @@ namespace OneAdvisor.Service.Test.Member
                 var actual = await service.GetMember(scope, mem2.Id);
 
                 //Then
-                Assert.AreEqual(mem2.Id, actual.Id);
-                Assert.AreEqual(mem2.FirstName, actual.FirstName);
-                Assert.AreEqual(mem2.LastName, actual.LastName);
-                Assert.AreEqual(mem2.MaidenName, actual.MaidenName);
-                Assert.AreEqual(mem2.Initials, actual.Initials);
-                Assert.AreEqual(mem2.PreferredName, actual.PreferredName);
-                Assert.AreEqual(mem2.IdNumber, actual.IdNumber);
-                Assert.AreEqual(mem2.DateOfBirth, actual.DateOfBirth);
-                Assert.AreEqual(mem2.TaxNumber, actual.TaxNumber);
-                Assert.AreEqual(mem2.MarritalStatusId, actual.MarritalStatusId);
-                Assert.AreEqual(mem2.MarriageDate, actual.MarriageDate);
+                Assert.Equal(mem2.Id, actual.Id);
+                Assert.Equal(mem2.FirstName, actual.FirstName);
+                Assert.Equal(mem2.LastName, actual.LastName);
+                Assert.Equal(mem2.MaidenName, actual.MaidenName);
+                Assert.Equal(mem2.Initials, actual.Initials);
+                Assert.Equal(mem2.PreferredName, actual.PreferredName);
+                Assert.Equal(mem2.IdNumber, actual.IdNumber);
+                Assert.Equal(mem2.DateOfBirth, actual.DateOfBirth);
+                Assert.Equal(mem2.TaxNumber, actual.TaxNumber);
+                Assert.Equal(mem2.MarritalStatusId, actual.MarritalStatusId);
+                Assert.Equal(mem2.MarriageDate, actual.MarriageDate);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(user1);
                 actual = await service.GetMember(scope, mem2.Id);
 
-                Assert.IsNull(actual);
+                Assert.Null(actual);
             }
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task GetMemberPreview()
         {
             var options = TestHelper.GetDbContext("GetMemberPreview");
@@ -330,18 +330,18 @@ namespace OneAdvisor.Service.Test.Member
                 var actual = await service.GetMemberPreview(scopeOptions, mem2.Id);
 
                 //Then
-                Assert.AreEqual(mem2.Id, actual.Id);
-                Assert.AreEqual(mem2.FirstName, actual.FirstName);
-                Assert.AreEqual(mem2.LastName, actual.LastName);
-                Assert.AreEqual(mem2.IdNumber, actual.IdNumber);
-                Assert.AreEqual(mem2.DateOfBirth, actual.DateOfBirth);
+                Assert.Equal(mem2.Id, actual.Id);
+                Assert.Equal(mem2.FirstName, actual.FirstName);
+                Assert.Equal(mem2.LastName, actual.LastName);
+                Assert.Equal(mem2.IdNumber, actual.IdNumber);
+                Assert.Equal(mem2.DateOfBirth, actual.DateOfBirth);
 
-                Assert.AreEqual(2, actual.PolicyCount);
-                Assert.AreEqual(1, actual.ContactCount);
+                Assert.Equal(2, actual.PolicyCount);
+                Assert.Equal(1, actual.ContactCount);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task InsertMember()
         {
             var options = TestHelper.GetDbContext("InsertMember");
@@ -372,25 +372,25 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.InsertMember(scope, member);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Member.FindAsync(((MemberEdit)result.Tag).Id);
-                Assert.AreEqual(member.Id, actual.Id);
-                Assert.AreEqual(user1.Organisation.Id, actual.OrganisationId);
-                Assert.AreEqual(member.FirstName, actual.FirstName);
-                Assert.AreEqual(member.LastName, actual.LastName);
-                Assert.AreEqual(member.MaidenName, actual.MaidenName);
-                Assert.AreEqual(member.Initials, actual.Initials);
-                Assert.AreEqual(member.PreferredName, actual.PreferredName);
-                Assert.AreEqual(member.IdNumber, actual.IdNumber);
-                Assert.AreEqual(member.DateOfBirth, actual.DateOfBirth);
-                Assert.AreEqual(member.TaxNumber, actual.TaxNumber);
-                Assert.AreEqual(member.MarritalStatusId, actual.MarritalStatusId);
-                Assert.AreEqual(member.MarriageDate, actual.MarriageDate);
+                Assert.Equal(member.Id, actual.Id);
+                Assert.Equal(user1.Organisation.Id, actual.OrganisationId);
+                Assert.Equal(member.FirstName, actual.FirstName);
+                Assert.Equal(member.LastName, actual.LastName);
+                Assert.Equal(member.MaidenName, actual.MaidenName);
+                Assert.Equal(member.Initials, actual.Initials);
+                Assert.Equal(member.PreferredName, actual.PreferredName);
+                Assert.Equal(member.IdNumber, actual.IdNumber);
+                Assert.Equal(member.DateOfBirth, actual.DateOfBirth);
+                Assert.Equal(member.TaxNumber, actual.TaxNumber);
+                Assert.Equal(member.MarritalStatusId, actual.MarritalStatusId);
+                Assert.Equal(member.MarriageDate, actual.MarriageDate);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UpdateMember()
         {
             var options = TestHelper.GetDbContext("UpdateMember");
@@ -448,32 +448,32 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.UpdateMember(scope, member);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Member.FindAsync(member.Id);
-                Assert.AreEqual(member.Id, actual.Id);
-                Assert.AreEqual(user2.Organisation.Id, actual.OrganisationId);
-                Assert.AreEqual(member.FirstName, actual.FirstName);
-                Assert.AreEqual(member.LastName, actual.LastName);
-                Assert.AreEqual(member.MaidenName, actual.MaidenName);
-                Assert.AreEqual(member.Initials, actual.Initials);
-                Assert.AreEqual(member.PreferredName, actual.PreferredName);
-                Assert.AreEqual(member.IdNumber, actual.IdNumber);
-                Assert.AreEqual(member.DateOfBirth, actual.DateOfBirth);
-                Assert.AreEqual(member.TaxNumber, actual.TaxNumber);
-                Assert.AreEqual(member.MarritalStatusId, actual.MarritalStatusId);
-                Assert.AreEqual(member.MarriageDate, actual.MarriageDate);
+                Assert.Equal(member.Id, actual.Id);
+                Assert.Equal(user2.Organisation.Id, actual.OrganisationId);
+                Assert.Equal(member.FirstName, actual.FirstName);
+                Assert.Equal(member.LastName, actual.LastName);
+                Assert.Equal(member.MaidenName, actual.MaidenName);
+                Assert.Equal(member.Initials, actual.Initials);
+                Assert.Equal(member.PreferredName, actual.PreferredName);
+                Assert.Equal(member.IdNumber, actual.IdNumber);
+                Assert.Equal(member.DateOfBirth, actual.DateOfBirth);
+                Assert.Equal(member.TaxNumber, actual.TaxNumber);
+                Assert.Equal(member.MarritalStatusId, actual.MarritalStatusId);
+                Assert.Equal(member.MarriageDate, actual.MarriageDate);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(user1);
                 result = await service.UpdateMember(scope, member);
 
                 //Then
-                Assert.IsFalse(result.Success);
+                Assert.False(result.Success);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task DeleteMember()
         {
             var options = TestHelper.GetDbContext("DeleteMember");
@@ -493,24 +493,24 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.DeleteMember(scope, member1.Member.Id);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Member.FindAsync(member1.Member.Id);
-                Assert.AreEqual(true, actual.IsDeleted);
+                Assert.Equal(true, actual.IsDeleted);
 
                 var member = await service.GetMember(scope, member1.Member.Id);
-                Assert.IsNull(member);
+                Assert.Null(member);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(user2);
                 result = await service.DeleteMember(scope, member2.Member.Id);
 
                 //Then
-                Assert.IsFalse(result.Success);
+                Assert.False(result.Success);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetMembers_Filter()
         {
             var options = TestHelper.GetDbContext("GetMembers_Filter");
@@ -549,11 +549,11 @@ namespace OneAdvisor.Service.Test.Member
                 var members = await service.GetMembers(queryOptions);
 
                 //Then
-                Assert.AreEqual(1, members.TotalItems);
-                Assert.AreEqual(1, members.Items.Count());
+                Assert.Equal(1, members.TotalItems);
+                Assert.Equal(1, members.Items.Count());
 
                 var actual = members.Items.First();
-                Assert.AreEqual(member1.Id, actual.Id);
+                Assert.Equal(member1.Id, actual.Id);
             }
         }
 

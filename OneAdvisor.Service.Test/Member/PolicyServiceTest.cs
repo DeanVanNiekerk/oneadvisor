@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Member;
@@ -12,11 +12,11 @@ using OneAdvisor.Service.Member;
 
 namespace OneAdvisor.Service.Test.Member
 {
-    [TestClass]
+
     public class PolicyServiceTest
     {
 
-        [TestMethod]
+        [Fact]
         public async Task GetPolicies()
         {
             var options = TestHelper.GetDbContext("GetPolicies");
@@ -80,34 +80,34 @@ namespace OneAdvisor.Service.Test.Member
                 var policies = await service.GetPolicies(queryOptions);
 
                 //Then
-                Assert.AreEqual(2, policies.TotalItems);
-                Assert.AreEqual(2, policies.Items.Count());
+                Assert.Equal(2, policies.TotalItems);
+                Assert.Equal(2, policies.Items.Count());
 
                 var actual = policies.Items.First();
-                Assert.AreEqual(policy1.Id, actual.Id);
-                Assert.AreEqual(policy1.MemberId, actual.MemberId);
-                Assert.AreEqual(policy1.CompanyId, actual.CompanyId);
-                Assert.AreEqual(policy1.Number, actual.Number);
-                Assert.AreEqual(policy1.StartDate, actual.StartDate);
-                Assert.AreEqual(policy1.Premium, actual.Premium);
-                Assert.AreEqual(policy1.PolicyTypeId, actual.PolicyTypeId);
+                Assert.Equal(policy1.Id, actual.Id);
+                Assert.Equal(policy1.MemberId, actual.MemberId);
+                Assert.Equal(policy1.CompanyId, actual.CompanyId);
+                Assert.Equal(policy1.Number, actual.Number);
+                Assert.Equal(policy1.StartDate, actual.StartDate);
+                Assert.Equal(policy1.Premium, actual.Premium);
+                Assert.Equal(policy1.PolicyTypeId, actual.PolicyTypeId);
 
                 actual = policies.Items.Last();
-                Assert.AreEqual(policy2.Id, actual.Id);
+                Assert.Equal(policy2.Id, actual.Id);
 
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user1, Scope.User);
                 queryOptions = new PolicyQueryOptions(scope, "", "", 0, 0);
                 policies = await service.GetPolicies(queryOptions);
 
-                Assert.AreEqual(1, policies.Items.Count());
+                Assert.Equal(1, policies.Items.Count());
 
                 actual = policies.Items.First();
-                Assert.AreEqual(policy1.Id, actual.Id);
+                Assert.Equal(policy1.Id, actual.Id);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetPolicy()
         {
             var options = TestHelper.GetDbContext("GetPolicy");
@@ -154,18 +154,18 @@ namespace OneAdvisor.Service.Test.Member
                 var actual = await service.GetPolicy(scopeOptions, policy2.Id);
 
                 //Then
-                Assert.AreEqual(policy2.Id, actual.Id);
-                Assert.AreEqual(policy2.MemberId, actual.MemberId);
-                Assert.AreEqual(policy2.CompanyId, actual.CompanyId);
-                Assert.AreEqual(policy2.UserId, actual.UserId);
-                Assert.AreEqual(policy2.Number, actual.Number);
-                Assert.AreEqual(policy2.StartDate, actual.StartDate);
-                Assert.AreEqual(policy2.Premium, actual.Premium);
-                Assert.AreEqual(policy2.PolicyTypeId, actual.PolicyTypeId);
+                Assert.Equal(policy2.Id, actual.Id);
+                Assert.Equal(policy2.MemberId, actual.MemberId);
+                Assert.Equal(policy2.CompanyId, actual.CompanyId);
+                Assert.Equal(policy2.UserId, actual.UserId);
+                Assert.Equal(policy2.Number, actual.Number);
+                Assert.Equal(policy2.StartDate, actual.StartDate);
+                Assert.Equal(policy2.Premium, actual.Premium);
+                Assert.Equal(policy2.PolicyTypeId, actual.PolicyTypeId);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetPolicy_CheckScope()
         {
             var options = TestHelper.GetDbContext("GetPolicy_CheckScope");
@@ -225,51 +225,51 @@ namespace OneAdvisor.Service.Test.Member
                 //In scope (org 1 -> policy 1)
                 var scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Organisation);
                 var policy = await service.GetPolicy(scope, policy1.Id);
-                Assert.AreEqual(policy1.Id, policy.Id);
+                Assert.Equal(policy1.Id, policy.Id);
 
                 //In scope (org 1 -> policy 3)
                 scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Organisation);
                 policy = await service.GetPolicy(scope, policy3.Id);
-                Assert.AreEqual(policy3.Id, policy.Id);
+                Assert.Equal(policy3.Id, policy.Id);
 
                 //Out of scope (org 2 -> policy 1)
                 scope = new ScopeOptions(org2.Id, branch3.Id, user4.Id, Scope.Organisation);
                 policy = await service.GetPolicy(scope, policy1.Id);
-                Assert.IsNull(policy);
+                Assert.Null(policy);
 
                 //In scope (branch 1 -> policy 1)
                 scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Branch);
                 policy = await service.GetPolicy(scope, policy1.Id);
-                Assert.AreEqual(policy1.Id, policy.Id);
+                Assert.Equal(policy1.Id, policy.Id);
 
                 //In scope (branch 1 -> policy 2)
                 scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.Branch);
                 policy = await service.GetPolicy(scope, policy2.Id);
-                Assert.AreEqual(policy2.Id, policy.Id);
+                Assert.Equal(policy2.Id, policy.Id);
 
                 //Out of scope (branch 2 -> policy 1)
                 scope = new ScopeOptions(org1.Id, branch2.Id, user3.Id, Scope.Branch);
                 policy = await service.GetPolicy(scope, policy1.Id);
-                Assert.IsNull(policy);
+                Assert.Null(policy);
 
                 //Out of scope (branch 3 -> policy 1)
                 scope = new ScopeOptions(org2.Id, branch3.Id, user4.Id, Scope.Branch);
                 policy = await service.GetPolicy(scope, policy1.Id);
-                Assert.IsNull(policy);
+                Assert.Null(policy);
 
                 //In scope (user 1 -> policy 1)
                 scope = new ScopeOptions(org1.Id, branch1.Id, user1.Id, Scope.User);
                 policy = await service.GetPolicy(scope, policy1.Id);
-                Assert.AreEqual(policy1.Id, policy.Id);
+                Assert.Equal(policy1.Id, policy.Id);
 
                 //Out of scope (user 2 -> policy 1)
                 scope = new ScopeOptions(org1.Id, branch1.Id, user2.Id, Scope.User);
                 policy = await service.GetPolicy(scope, policy1.Id);
-                Assert.IsNull(policy);
+                Assert.Null(policy);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetPolicy_ByMember_Company_Number()
         {
             var options = TestHelper.GetDbContext("GetPolicy_ByMember_Company_Number");
@@ -303,11 +303,11 @@ namespace OneAdvisor.Service.Test.Member
                 var actual = await service.GetPolicy(scopeOptions, member1.Member.Id, policy1.CompanyId, policy1.Number);
 
                 //Then
-                Assert.AreEqual(policy1.Id, actual.Id);
+                Assert.Equal(policy1.Id, actual.Id);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetPolicy_ByCompany_Number()
         {
             var options = TestHelper.GetDbContext("GetPolicy_ByCompany_Number");
@@ -341,11 +341,11 @@ namespace OneAdvisor.Service.Test.Member
                 var actual = await service.GetPolicy(scopeOptions, policy1.CompanyId, policy1.Number);
 
                 //Then
-                Assert.AreEqual(policy1.Id, actual.Id);
+                Assert.Equal(policy1.Id, actual.Id);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetPolicy_ByNumber()
         {
             var options = TestHelper.GetDbContext("GetPolicy_ByNumber");
@@ -379,13 +379,13 @@ namespace OneAdvisor.Service.Test.Member
                 var actual = await service.GetPolicy(scopeOptions, "aabbcc"); //Shouldnt be case sensitive
 
                 //Then
-                Assert.AreEqual(policy1.Id, actual.Id);
+                Assert.Equal(policy1.Id, actual.Id);
             }
         }
 
 
 
-        [TestMethod]
+        [Fact]
         public async Task InsertPolicy()
         {
             var options = TestHelper.GetDbContext("InsertPolicy");
@@ -417,26 +417,26 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.InsertPolicy(scopeOptions, policy1);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Policy.FindAsync(((PolicyEdit)result.Tag).Id);
-                Assert.AreEqual(policy1.Id, actual.Id);
-                Assert.AreEqual(policy1.MemberId, actual.MemberId);
-                Assert.AreEqual(policy1.CompanyId, actual.CompanyId);
-                Assert.AreEqual(policy1.Number, actual.Number);
-                Assert.AreEqual(policy1.StartDate, actual.StartDate);
-                Assert.AreEqual(policy1.Premium, actual.Premium);
-                Assert.AreEqual(policy1.PolicyTypeId, actual.PolicyTypeId);
+                Assert.Equal(policy1.Id, actual.Id);
+                Assert.Equal(policy1.MemberId, actual.MemberId);
+                Assert.Equal(policy1.CompanyId, actual.CompanyId);
+                Assert.Equal(policy1.Number, actual.Number);
+                Assert.Equal(policy1.StartDate, actual.StartDate);
+                Assert.Equal(policy1.Premium, actual.Premium);
+                Assert.Equal(policy1.PolicyTypeId, actual.PolicyTypeId);
 
                 //Out of scope 
                 scopeOptions = TestHelper.GetScopeOptions(user2);
                 result = await service.InsertPolicy(scopeOptions, policy1);
-                Assert.IsFalse(result.Success);
-                Assert.AreEqual("Member does not exist", result.ValidationFailures.Single().ErrorMessage);
+                Assert.False(result.Success);
+                Assert.Equal("Member does not exist", result.ValidationFailures.Single().ErrorMessage);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UpdatePolicy()
         {
             var options = TestHelper.GetDbContext("UpdatePolicy");
@@ -487,22 +487,22 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.UpdatePolicy(scopeOptions, policy1);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Policy.FindAsync(policyEntity1.Id);
-                Assert.AreEqual(policy1.Id, actual.Id);
-                Assert.AreEqual(policy1.MemberId, actual.MemberId);
-                Assert.AreEqual(policy1.CompanyId, actual.CompanyId);
-                Assert.AreEqual(policy1.Number, actual.Number);
-                Assert.AreEqual(policy1.StartDate, actual.StartDate);
-                Assert.AreEqual(policy1.Premium, actual.Premium);
-                Assert.AreEqual(policy1.PolicyTypeId, actual.PolicyTypeId);
+                Assert.Equal(policy1.Id, actual.Id);
+                Assert.Equal(policy1.MemberId, actual.MemberId);
+                Assert.Equal(policy1.CompanyId, actual.CompanyId);
+                Assert.Equal(policy1.Number, actual.Number);
+                Assert.Equal(policy1.StartDate, actual.StartDate);
+                Assert.Equal(policy1.Premium, actual.Premium);
+                Assert.Equal(policy1.PolicyTypeId, actual.PolicyTypeId);
 
                 //Out of scope 
                 scopeOptions = TestHelper.GetScopeOptions(user2);
                 result = await service.UpdatePolicy(scopeOptions, policy1);
-                Assert.IsFalse(result.Success);
-                Assert.AreEqual("Member does not exist", result.ValidationFailures.Single().ErrorMessage);
+                Assert.False(result.Success);
+                Assert.Equal("Member does not exist", result.ValidationFailures.Single().ErrorMessage);
             }
         }
     }

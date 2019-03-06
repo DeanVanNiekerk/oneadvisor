@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model.Common;
@@ -13,11 +13,11 @@ using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Directory
 {
-    [TestClass]
+
     public class OrganisationServiceTest
     {
 
-        [TestMethod]
+        [Fact]
         public async Task GetOrganisations_None()
         {
             var options = TestHelper.GetDbContext("GetOrganisations_None");
@@ -35,12 +35,12 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetOrganisations(queryOptions);
 
                 //Then
-                Assert.AreEqual(actual.TotalItems, 0);
-                Assert.AreEqual(actual.Items.Count(), 0);
+                Assert.Equal(actual.TotalItems, 0);
+                Assert.Equal(actual.Items.Count(), 0);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetOrganisations_Sort()
         {
             var options = TestHelper.GetDbContext("GetOrganisations_Sort");
@@ -77,40 +77,40 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetOrganisations(queryOptions);
 
                 //Then
-                Assert.AreEqual(actual.TotalItems, 6);
+                Assert.Equal(actual.TotalItems, 6);
 
                 var organisations = actual.Items.ToArray();
 
-                Assert.AreEqual(organisations.Count(), 6);
+                Assert.Equal(organisations.Count(), 6);
 
                 var actual1 = organisations[0];
-                Assert.AreEqual(org1.Id, actual1.Id);
-                Assert.AreEqual(org1.Name, actual1.Name);
+                Assert.Equal(org1.Id, actual1.Id);
+                Assert.Equal(org1.Name, actual1.Name);
 
                 var actual2 = organisations[1];
-                Assert.AreEqual(org2.Id, actual2.Id);
-                Assert.AreEqual(org2.Name, actual2.Name);
+                Assert.Equal(org2.Id, actual2.Id);
+                Assert.Equal(org2.Name, actual2.Name);
 
                 var actual6 = organisations[5];
-                Assert.AreEqual(org6.Id, actual6.Id);
-                Assert.AreEqual(org6.Name, actual6.Name);
+                Assert.Equal(org6.Id, actual6.Id);
+                Assert.Equal(org6.Name, actual6.Name);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(org6.Id);
                 queryOptions = new OrganisationQueryOptions(scope);
                 actual = await service.GetOrganisations(queryOptions);
 
-                Assert.AreEqual(actual.TotalItems, 1);
+                Assert.Equal(actual.TotalItems, 1);
 
                 organisations = actual.Items.ToArray();
 
                 actual1 = organisations[0];
-                Assert.AreEqual(org6.Id, actual1.Id);
-                Assert.AreEqual(org6.Name, actual1.Name);
+                Assert.Equal(org6.Id, actual1.Id);
+                Assert.Equal(org6.Name, actual1.Name);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetOrganisation()
         {
             var options = TestHelper.GetDbContext("GetOrganisation");
@@ -136,18 +136,18 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetOrganisation(scope, org2.Id);
 
                 //Then
-                Assert.AreEqual(org2.Id, actual.Id);
-                Assert.AreEqual(org2.Name, actual.Name);
+                Assert.Equal(org2.Id, actual.Id);
+                Assert.Equal(org2.Name, actual.Name);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(org1.Id);
                 actual = await service.GetOrganisation(scope, org2.Id);
 
-                Assert.IsNull(actual);
+                Assert.Null(actual);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task InsertOrganisation()
         {
             var options = TestHelper.GetDbContext("InsertOrganisation");
@@ -168,20 +168,20 @@ namespace OneAdvisor.Service.Test.Directory
                 var result = await service.InsertOrganisation(scope, organisation);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Organisation.FindAsync(((Organisation)result.Tag).Id);
-                Assert.AreEqual(organisation.Name, actual.Name);
+                Assert.Equal(organisation.Name, actual.Name);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(Guid.NewGuid());
                 result = await service.InsertOrganisation(scope, organisation);
 
-                Assert.IsFalse(result.Success);
+                Assert.False(result.Success);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UpdateOrganisation()
         {
             var options = TestHelper.GetDbContext("UpdateOrganisation");
@@ -213,17 +213,17 @@ namespace OneAdvisor.Service.Test.Directory
                 var result = await service.UpdateOrganisation(scope, organisation);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Organisation.FindAsync(organisation.Id);
-                Assert.AreEqual(organisation.Name, actual.Name);
+                Assert.Equal(organisation.Name, actual.Name);
 
                 //Scope check
                 organisation.Id = org2.Id;
                 result = await service.UpdateOrganisation(scope, organisation);
 
                 //Then
-                Assert.IsFalse(result.Success);
+                Assert.False(result.Success);
 
             }
         }

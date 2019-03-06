@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Member;
@@ -18,11 +18,11 @@ using OneAdvisor.Service.Member;
 
 namespace OneAdvisor.Service.Test.Member
 {
-    [TestClass]
+
     public class MemberImportServiceTest
     {
 
-        [TestMethod]
+        [Fact]
         public async Task ImportMember_Insert()
         {
             var options = TestHelper.GetDbContext("ImportMember_Insert");
@@ -49,19 +49,19 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.ImportMember(scope, data);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == "8210035032082");
-                Assert.AreEqual(null, actual.PassportNumber);
-                Assert.AreEqual(user1.Organisation.Id, actual.OrganisationId);
-                Assert.AreEqual(data.LastName, actual.LastName);
-                Assert.AreEqual(data.FirstName, actual.FirstName);
-                Assert.AreEqual(data.TaxNumber, actual.TaxNumber);
-                Assert.AreEqual(data.DateOfBirth, actual.DateOfBirth);
+                Assert.Equal(null, actual.PassportNumber);
+                Assert.Equal(user1.Organisation.Id, actual.OrganisationId);
+                Assert.Equal(data.LastName, actual.LastName);
+                Assert.Equal(data.FirstName, actual.FirstName);
+                Assert.Equal(data.TaxNumber, actual.TaxNumber);
+                Assert.Equal(data.DateOfBirth, actual.DateOfBirth);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ImportMember_Insert_WithMissingZeroOnIdNumber()
         {
             var options = TestHelper.GetDbContext("ImportMember_Insert_WithMissingZeroOnIdNumber");
@@ -84,14 +84,14 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.ImportMember(scope, data);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == "0501228318181");
-                Assert.IsNotNull(actual);
+                Assert.NotNull(actual);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ImportMember_Insert_With3MissingZeroOnIdNumber()
         {
             var options = TestHelper.GetDbContext("ImportMember_Insert_With3MissingZeroOnIdNumber");
@@ -114,14 +114,14 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.ImportMember(scope, data);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == "0007287372085");
-                Assert.IsNotNull(actual);
+                Assert.NotNull(actual);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ImportMember_Insert_WithPassportNumber()
         {
             var options = TestHelper.GetDbContext("ImportMember_Insert_WithPassportNumber");
@@ -144,14 +144,14 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.ImportMember(scope, data);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Member.FirstOrDefaultAsync(m => m.PassportNumber == data.IdNumber);
-                Assert.AreEqual(null, actual.IdNumber);
+                Assert.Equal(null, actual.IdNumber);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ImportMember_Insert_WithEmail()
         {
             var options = TestHelper.GetDbContext("ImportMember_Insert_WithEmail");
@@ -176,16 +176,16 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.ImportMember(scope, data);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var member = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == data.IdNumber);
                 var actual = await context.Contact.SingleOrDefaultAsync(c => c.MemberId == member.Id);
-                Assert.AreEqual(data.Email, actual.Value);
-                Assert.AreEqual(ContactType.CONTACT_TYPE_EMAIL, actual.ContactTypeId);
+                Assert.Equal(data.Email, actual.Value);
+                Assert.Equal(ContactType.CONTACT_TYPE_EMAIL, actual.ContactTypeId);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ImportMember_Insert_WithCellphone()
         {
             var options = TestHelper.GetDbContext("ImportMember_Insert_WithCellphone");
@@ -210,16 +210,16 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.ImportMember(scope, data);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var member = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == data.IdNumber);
                 var actual = await context.Contact.SingleOrDefaultAsync(c => c.MemberId == member.Id);
-                Assert.AreEqual("0825728997", actual.Value);
-                Assert.AreEqual(ContactType.CONTACT_TYPE_CELLPHONE, actual.ContactTypeId);
+                Assert.Equal("0825728997", actual.Value);
+                Assert.Equal(ContactType.CONTACT_TYPE_CELLPHONE, actual.ContactTypeId);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ImportMember_Update()
         {
             var options = TestHelper.GetDbContext("ImportMember_Update");
@@ -265,18 +265,18 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.ImportMember(scope, data);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == data.IdNumber);
-                Assert.AreEqual(user1.Organisation.Id, actual.OrganisationId);
-                Assert.AreEqual(data.FirstName, actual.FirstName);
-                Assert.AreEqual(data.LastName, actual.LastName);
-                Assert.AreEqual(data.TaxNumber, actual.TaxNumber);
-                Assert.AreEqual(data.DateOfBirth, actual.DateOfBirth);
+                Assert.Equal(user1.Organisation.Id, actual.OrganisationId);
+                Assert.Equal(data.FirstName, actual.FirstName);
+                Assert.Equal(data.LastName, actual.LastName);
+                Assert.Equal(data.TaxNumber, actual.TaxNumber);
+                Assert.Equal(data.DateOfBirth, actual.DateOfBirth);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ImportMember_Update_MatchOnShortIdNumber()
         {
             var options = TestHelper.GetDbContext("ImportMember_Update_MatchOnShortIdNumber");
@@ -316,16 +316,16 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.ImportMember(scope, data);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Member.FirstOrDefaultAsync(m => m.Id == mem.Id);
-                Assert.AreEqual(user1.Organisation.Id, actual.OrganisationId);
-                Assert.AreEqual(data.LastName, actual.LastName);
+                Assert.Equal(user1.Organisation.Id, actual.OrganisationId);
+                Assert.Equal(data.LastName, actual.LastName);
             }
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task ImportMember_Update_WithContacts()
         {
             var options = TestHelper.GetDbContext("ImportMember_Update_WithContacts");
@@ -381,24 +381,24 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.ImportMember(scope, data);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var member = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == data.IdNumber);
                 var contacts = await context.Contact.Where(c => c.MemberId == member.Id).ToListAsync();
-                Assert.AreEqual(2, contacts.Count);
+                Assert.Equal(2, contacts.Count);
                 var actual = contacts.First();
-                Assert.AreEqual(data.Email, actual.Value);
-                Assert.AreEqual(ContactType.CONTACT_TYPE_EMAIL, actual.ContactTypeId);
+                Assert.Equal(data.Email, actual.Value);
+                Assert.Equal(ContactType.CONTACT_TYPE_EMAIL, actual.ContactTypeId);
 
                 actual = contacts.Last();
-                Assert.AreEqual(contact2.Value, actual.Value);
-                Assert.AreEqual(ContactType.CONTACT_TYPE_CELLPHONE, actual.ContactTypeId);
+                Assert.Equal(contact2.Value, actual.Value);
+                Assert.Equal(ContactType.CONTACT_TYPE_CELLPHONE, actual.ContactTypeId);
             }
         }
 
 
 
-        [TestMethod]
+        [Fact]
         public async Task ImportMember_Update_WithPassportNumber()
         {
             var options = TestHelper.GetDbContext("ImportMember_Update_WithPassportNumber");
@@ -438,14 +438,14 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.ImportMember(scope, data);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Member.FirstOrDefaultAsync(m => m.PassportNumber == data.IdNumber);
-                Assert.AreEqual(data.LastName, actual.LastName);
+                Assert.Equal(data.LastName, actual.LastName);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ImportMember_Update_LastNameAndDateOfBirth()
         {
             var options = TestHelper.GetDbContext("ImportMember_Update_LastNameAndDateOfBirth");
@@ -494,14 +494,14 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.ImportMember(scope, data);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == mem2.IdNumber);
-                Assert.AreEqual(data.FirstName, actual.FirstName);
+                Assert.Equal(data.FirstName, actual.FirstName);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ImportMember_InsertPolicy()
         {
             var options = TestHelper.GetDbContext("ImportMember_InsertPolicy");
@@ -532,18 +532,18 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.ImportMember(scope, data);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Policy.FirstOrDefaultAsync(m => m.Number == data.PolicyNumber);
-                Assert.AreEqual(data.PolicyCompanyId, actual.CompanyId);
-                Assert.AreEqual(user1.User.Id, actual.UserId);
-                Assert.AreEqual(data.PolicyPremium, actual.Premium);
-                Assert.AreEqual(data.PolicyStartDate, actual.StartDate);
-                Assert.AreEqual(PolicyType.POLICY_TYPE_LIFE_INSURANCE, actual.PolicyTypeId);
+                Assert.Equal(data.PolicyCompanyId, actual.CompanyId);
+                Assert.Equal(user1.User.Id, actual.UserId);
+                Assert.Equal(data.PolicyPremium, actual.Premium);
+                Assert.Equal(data.PolicyStartDate, actual.StartDate);
+                Assert.Equal(PolicyType.POLICY_TYPE_LIFE_INSURANCE, actual.PolicyTypeId);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ImportMember_InsertPolicy_CheckUserAlias()
         {
             var options = TestHelper.GetDbContext("ImportMember_InsertPolicy_CheckUserAlias");
@@ -581,16 +581,16 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.ImportMember(scope, data);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Policy.FirstOrDefaultAsync(m => m.Number == data.PolicyNumber);
-                Assert.AreEqual(data.PolicyCompanyId, actual.CompanyId);
-                Assert.AreEqual(user1.User.Id, actual.UserId);
+                Assert.Equal(data.PolicyCompanyId, actual.CompanyId);
+                Assert.Equal(user1.User.Id, actual.UserId);
             }
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task ImportMember_UpdatePolicy()
         {
             var options = TestHelper.GetDbContext("ImportMember_UpdatePolicy");
@@ -644,14 +644,14 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.ImportMember(scope, data);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Policy.FirstOrDefaultAsync(m => m.Number == data.PolicyNumber);
-                Assert.AreEqual(data.PolicyCompanyId, actual.CompanyId);
-                Assert.AreEqual(user1.User.Id, actual.UserId);
-                Assert.AreEqual(data.PolicyPremium, actual.Premium);
-                Assert.AreEqual(data.PolicyStartDate, actual.StartDate);
-                Assert.AreEqual(PolicyType.POLICY_TYPE_MEDICAL_COVER, actual.PolicyTypeId);
+                Assert.Equal(data.PolicyCompanyId, actual.CompanyId);
+                Assert.Equal(user1.User.Id, actual.UserId);
+                Assert.Equal(data.PolicyPremium, actual.Premium);
+                Assert.Equal(data.PolicyStartDate, actual.StartDate);
+                Assert.Equal(PolicyType.POLICY_TYPE_MEDICAL_COVER, actual.PolicyTypeId);
             }
         }
     }

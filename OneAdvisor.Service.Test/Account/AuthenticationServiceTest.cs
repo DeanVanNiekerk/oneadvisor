@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model.Directory.Model.User;
@@ -14,7 +14,7 @@ namespace OneAdvisor.Service.Test.Account
     // [TestClass]
     // public class AuthenticationServiceTest
     // {
-    //     [TestMethod]
+    //     [Fact]
     //     public async Task GetScope_OrganisationLevel()
     //     {
     //         var options = TestHelper.GetDbContext("GetScope_OrganisationLevel");
@@ -28,14 +28,14 @@ namespace OneAdvisor.Service.Test.Account
     //             //When
     //             var scope = await service.GetScope(user.User.Id);
 
-    //             Assert.AreEqual(user.User.Id, scope.UserId);
-    //             Assert.AreEqual(user.Branch.Id, scope.BranchId);
-    //             Assert.AreEqual(user.Organisation.Id, scope.OrganisationId);
-    //             Assert.AreEqual(Scope.Organisation, scope.Scope);
+    //             Assert.Equal(user.User.Id, scope.UserId);
+    //             Assert.Equal(user.Branch.Id, scope.BranchId);
+    //             Assert.Equal(user.Organisation.Id, scope.OrganisationId);
+    //             Assert.Equal(Scope.Organisation, scope.Scope);
     //         }
     //     }
 
-    //     [TestMethod]
+    //     [Fact]
     //     public async Task GetScope_BranchLevel()
     //     {
     //         var options = TestHelper.GetDbContext("GetScope_BranchLevel");
@@ -49,14 +49,14 @@ namespace OneAdvisor.Service.Test.Account
     //             //When
     //             var scope = await service.GetScope(user.User.Id);
 
-    //             Assert.AreEqual(user.User.Id, scope.UserId);
-    //             Assert.AreEqual(user.Branch.Id, scope.BranchId);
-    //             Assert.AreEqual(user.Organisation.Id, scope.OrganisationId);
-    //             Assert.AreEqual(Scope.Branch, scope.Scope);
+    //             Assert.Equal(user.User.Id, scope.UserId);
+    //             Assert.Equal(user.Branch.Id, scope.BranchId);
+    //             Assert.Equal(user.Organisation.Id, scope.OrganisationId);
+    //             Assert.Equal(Scope.Branch, scope.Scope);
     //         }
     //     }
 
-    //     [TestMethod]
+    //     [Fact]
     //     public async Task GetScope_UserLevel()
     //     {
     //         var options = TestHelper.GetDbContext("GetScope_UserLevel");
@@ -70,10 +70,10 @@ namespace OneAdvisor.Service.Test.Account
     //             //When
     //             var scope = await service.GetScope(user.User.Id);
 
-    //             Assert.AreEqual(user.User.Id, scope.UserId);
-    //             Assert.AreEqual(user.Branch.Id, scope.BranchId);
-    //             Assert.AreEqual(user.Organisation.Id, scope.OrganisationId);
-    //             Assert.AreEqual(Scope.User, scope.Scope);
+    //             Assert.Equal(user.User.Id, scope.UserId);
+    //             Assert.Equal(user.Branch.Id, scope.BranchId);
+    //             Assert.Equal(user.Organisation.Id, scope.OrganisationId);
+    //             Assert.Equal(Scope.User, scope.Scope);
     //         }
     //     }
 

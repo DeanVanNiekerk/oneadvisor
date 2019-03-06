@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Commission;
@@ -20,10 +20,10 @@ using System.Collections.Generic;
 
 namespace OneAdvisor.Service.Test.Commission
 {
-    [TestClass]
+
     public class CommissionImportServiceTest
     {
-        [TestMethod]
+        [Fact]
         public async Task ImportCommissions_ScopeCheck()
         {
             var options = TestHelper.GetDbContext("ImportCommissions_ScopeCheck");
@@ -55,17 +55,17 @@ namespace OneAdvisor.Service.Test.Commission
                 var results = await service.ImportCommissions(scope, statement.Id, imports);
 
                 //Then
-                Assert.AreEqual(0, results.Count);
+                Assert.Equal(0, results.Count);
 
                 scope = TestHelper.GetScopeOptions(user1);
                 results = await service.ImportCommissions(scope, statement.Id, imports);
 
                 //Then
-                Assert.AreEqual(1, results.Count);
+                Assert.Equal(1, results.Count);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ImportCommission_BadFormat_InsertError()
         {
             var options = TestHelper.GetDbContext("ImportCommission_BadFormat_InsertError");
@@ -95,27 +95,27 @@ namespace OneAdvisor.Service.Test.Commission
                 var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
 
                 //Then
-                Assert.IsFalse(result.Success);
-                Assert.AreEqual(2, result.ValidationFailures.Count);
-                Assert.AreEqual("'Amount' must be a number", result.ValidationFailures[0].ErrorMessage);
-                Assert.AreEqual("'VAT' must be a number", result.ValidationFailures[1].ErrorMessage);
+                Assert.False(result.Success);
+                Assert.Equal(2, result.ValidationFailures.Count);
+                Assert.Equal("'Amount' must be a number", result.ValidationFailures[0].ErrorMessage);
+                Assert.Equal("'VAT' must be a number", result.ValidationFailures[1].ErrorMessage);
 
                 //Check error record
                 var actual = await context.CommissionError.SingleAsync();
 
-                Assert.AreEqual(null, actual.MemberId);
-                Assert.AreEqual(null, actual.PolicyId);
-                Assert.AreEqual(null, actual.CommissionTypeId);
+                Assert.Equal(null, actual.MemberId);
+                Assert.Equal(null, actual.PolicyId);
+                Assert.Equal(null, actual.CommissionTypeId);
 
-                Assert.AreEqual(statement.Id, actual.CommissionStatementId);
+                Assert.Equal(statement.Id, actual.CommissionStatementId);
 
-                Assert.AreEqual(false, actual.IsFormatValid);
-                Assert.AreEqual(import1, actual.Data);
+                Assert.Equal(false, actual.IsFormatValid);
+                Assert.Equal(import1, actual.Data);
             }
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task ImportCommission_NoMapping_SetCommisionType()
         {
             var options = TestHelper.GetDbContext("ImportCommission_SetCommisionType");
@@ -152,24 +152,24 @@ namespace OneAdvisor.Service.Test.Commission
                 var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
 
                 //Then
-                Assert.IsFalse(result.Success);
-                Assert.AreEqual(0, result.ValidationFailures.Count);
+                Assert.False(result.Success);
+                Assert.Equal(0, result.ValidationFailures.Count);
 
                 //Check error record
                 var actual = await context.CommissionError.SingleAsync();
 
-                Assert.AreEqual(null, actual.MemberId);
-                Assert.AreEqual(null, actual.PolicyId);
-                Assert.AreEqual(commissionType.Id, actual.CommissionTypeId);
+                Assert.Equal(null, actual.MemberId);
+                Assert.Equal(null, actual.PolicyId);
+                Assert.Equal(commissionType.Id, actual.CommissionTypeId);
 
-                Assert.AreEqual(statement.Id, actual.CommissionStatementId);
+                Assert.Equal(statement.Id, actual.CommissionStatementId);
 
-                Assert.AreEqual(true, actual.IsFormatValid);
-                Assert.AreEqual(import1, actual.Data);
+                Assert.Equal(true, actual.IsFormatValid);
+                Assert.Equal(import1, actual.Data);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ImportCommission_NoMapping_SetPolicyAndMember()
         {
             var options = TestHelper.GetDbContext("ImportCommission_SetPolicyAndMember");
@@ -212,24 +212,24 @@ namespace OneAdvisor.Service.Test.Commission
                 var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
 
                 //Then
-                Assert.IsFalse(result.Success);
-                Assert.AreEqual(0, result.ValidationFailures.Count);
+                Assert.False(result.Success);
+                Assert.Equal(0, result.ValidationFailures.Count);
 
                 //Check error record
                 var actual = await context.CommissionError.SingleAsync();
 
-                Assert.AreEqual(policy1.MemberId, actual.MemberId);
-                Assert.AreEqual(policy1.Id, actual.PolicyId);
-                Assert.AreEqual(null, actual.CommissionTypeId);
+                Assert.Equal(policy1.MemberId, actual.MemberId);
+                Assert.Equal(policy1.Id, actual.PolicyId);
+                Assert.Equal(null, actual.CommissionTypeId);
 
-                Assert.AreEqual(statement.Id, actual.CommissionStatementId);
+                Assert.Equal(statement.Id, actual.CommissionStatementId);
 
-                Assert.AreEqual(true, actual.IsFormatValid);
-                Assert.AreEqual(import1, actual.Data);
+                Assert.Equal(true, actual.IsFormatValid);
+                Assert.Equal(import1, actual.Data);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ImportCommission_InsertCommission()
         {
             var options = TestHelper.GetDbContext("ImportCommission_InsertCommission");
@@ -280,24 +280,24 @@ namespace OneAdvisor.Service.Test.Commission
                 var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 //Check error record
                 var anyErrors = await context.CommissionError.AnyAsync();
 
-                Assert.IsFalse(anyErrors);
+                Assert.False(anyErrors);
 
                 var actual = await context.Commission.FindAsync(((CommissionEdit)result.Tag).Id);
-                Assert.AreEqual(policy1.Id, actual.PolicyId);
-                Assert.AreEqual(commissionType.Id, actual.CommissionTypeId);
-                Assert.AreEqual(100, actual.AmountIncludingVAT);
-                Assert.AreEqual(14, actual.VAT);
-                Assert.AreEqual(statement.Id, actual.CommissionStatementId);
-                Assert.AreEqual(import1, actual.SourceData);
+                Assert.Equal(policy1.Id, actual.PolicyId);
+                Assert.Equal(commissionType.Id, actual.CommissionTypeId);
+                Assert.Equal(100, actual.AmountIncludingVAT);
+                Assert.Equal(14, actual.VAT);
+                Assert.Equal(statement.Id, actual.CommissionStatementId);
+                Assert.Equal(import1, actual.SourceData);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ImportCommission_InsertCommission_NegitiveAmmount()
         {
             var options = TestHelper.GetDbContext("ImportCommission_InsertCommission_NegitiveAmmount");
@@ -348,20 +348,20 @@ namespace OneAdvisor.Service.Test.Commission
                 var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 //Check error record
                 var anyErrors = await context.CommissionError.AnyAsync();
 
-                Assert.IsFalse(anyErrors);
+                Assert.False(anyErrors);
 
                 var actual = await context.Commission.FindAsync(((CommissionEdit)result.Tag).Id);
-                Assert.AreEqual(policy1.Id, actual.PolicyId);
-                Assert.AreEqual(commissionType.Id, actual.CommissionTypeId);
-                Assert.AreEqual(-100, actual.AmountIncludingVAT);
-                Assert.AreEqual(-14, actual.VAT);
-                Assert.AreEqual(statement.Id, actual.CommissionStatementId);
-                Assert.AreEqual(import1, actual.SourceData);
+                Assert.Equal(policy1.Id, actual.PolicyId);
+                Assert.Equal(commissionType.Id, actual.CommissionTypeId);
+                Assert.Equal(-100, actual.AmountIncludingVAT);
+                Assert.Equal(-14, actual.VAT);
+                Assert.Equal(statement.Id, actual.CommissionStatementId);
+                Assert.Equal(import1, actual.SourceData);
             }
         }
 

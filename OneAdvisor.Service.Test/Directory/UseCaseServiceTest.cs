@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Directory
 {
-    [TestClass]
+
     public class UseCaseServiceTest
     {
-        [TestMethod]
+        [Fact]
         public async Task GetUseCases()
         {
             var options = TestHelper.GetDbContext("GetUseCases");
@@ -38,22 +38,22 @@ namespace OneAdvisor.Service.Test.Directory
                 var list = await service.GetUseCases();
 
                 //Then
-                Assert.AreEqual(list.Count, 2);
+                Assert.Equal(list.Count, 2);
 
                 var actual1 = list[0];
-                Assert.AreEqual(actual1.Id, uc1.Id);
-                Assert.AreEqual(actual1.Name, uc1.Name);
-                Assert.AreEqual(actual1.ApplicationId, uc1.ApplicationId);
+                Assert.Equal(actual1.Id, uc1.Id);
+                Assert.Equal(actual1.Name, uc1.Name);
+                Assert.Equal(actual1.ApplicationId, uc1.ApplicationId);
 
                 var actual2 = list[1];
-                Assert.AreEqual(actual2.Id, uc2.Id);
-                Assert.AreEqual(actual2.Name, uc2.Name);
-                Assert.AreEqual(actual2.ApplicationId, uc2.ApplicationId);
+                Assert.Equal(actual2.Id, uc2.Id);
+                Assert.Equal(actual2.Name, uc2.Name);
+                Assert.Equal(actual2.ApplicationId, uc2.ApplicationId);
 
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetUseCases_ForRoles()
         {
             var options = TestHelper.GetDbContext("GetUseCases_ForRoles");
@@ -102,13 +102,13 @@ namespace OneAdvisor.Service.Test.Directory
                 var list = await service.GetUseCases(new List<string>() { "role_1", "role_3" });
 
                 //Then
-                Assert.AreEqual(2, list.Count);
+                Assert.Equal(2, list.Count);
 
                 var actual1 = list[0];
-                Assert.AreEqual(uc1.Id, actual1);
+                Assert.Equal(uc1.Id, actual1);
 
                 var actual2 = list[1];
-                Assert.AreEqual(uc3.Id, actual2);
+                Assert.Equal(uc3.Id, actual2);
 
             }
         }

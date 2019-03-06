@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Newtonsoft.Json;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Commission;
@@ -14,10 +14,10 @@ using OneAdvisor.Service.Commission;
 
 namespace OneAdvisor.Service.Test.Commission
 {
-    [TestClass]
+
     public class CommissionErrorServiceTest
     {
-        [TestMethod]
+        [Fact]
         public async Task GetNextError_ValidFormat()
         {
             var options = TestHelper.GetDbContext("GetNextError_ValidFormat");
@@ -53,16 +53,16 @@ namespace OneAdvisor.Service.Test.Commission
                 var actual = await service.GetNextError(scope, statement.Id, true);
 
                 //Then
-                Assert.AreEqual(error1.CommissionStatementId, actual.CommissionStatementId);
-                Assert.AreEqual(error1.IsFormatValid, actual.IsFormatValid);
-                Assert.AreEqual(error1.PolicyId, actual.PolicyId);
-                Assert.AreEqual(error1.MemberId, actual.MemberId);
-                Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
-                Assert.AreEqual(error1.Data, actual.Data);
+                Assert.Equal(error1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.Equal(error1.IsFormatValid, actual.IsFormatValid);
+                Assert.Equal(error1.PolicyId, actual.PolicyId);
+                Assert.Equal(error1.MemberId, actual.MemberId);
+                Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.Equal(error1.Data, actual.Data);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetNextError_InvalidFormat()
         {
             var options = TestHelper.GetDbContext("GetNextError_InvalidFormat");
@@ -97,11 +97,11 @@ namespace OneAdvisor.Service.Test.Commission
                 var actual = await service.GetNextError(scope, statement.Id, false);
 
                 //Then
-                Assert.AreEqual(error2.Id, actual.Id);
+                Assert.Equal(error2.Id, actual.Id);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetError()
         {
             var options = TestHelper.GetDbContext("GetError");
@@ -138,16 +138,16 @@ namespace OneAdvisor.Service.Test.Commission
                 var actual = await service.GetError(scope, error1.Id);
 
                 //Then
-                Assert.AreEqual(error1.CommissionStatementId, actual.CommissionStatementId);
-                Assert.AreEqual(error1.IsFormatValid, actual.IsFormatValid);
-                Assert.AreEqual(error1.PolicyId, actual.PolicyId);
-                Assert.AreEqual(error1.MemberId, actual.MemberId);
-                Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
-                Assert.AreEqual(error1.Data, actual.Data);
+                Assert.Equal(error1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.Equal(error1.IsFormatValid, actual.IsFormatValid);
+                Assert.Equal(error1.PolicyId, actual.PolicyId);
+                Assert.Equal(error1.MemberId, actual.MemberId);
+                Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.Equal(error1.Data, actual.Data);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ResolveFormatError_Fail()
         {
             var options = TestHelper.GetDbContext("ResolveFormatError_Fail");
@@ -182,14 +182,14 @@ namespace OneAdvisor.Service.Test.Commission
                 var result = await service.ResolveFormatError(scope, error1);
 
                 //Then
-                Assert.IsFalse(result.Success);
+                Assert.False(result.Success);
 
-                Assert.AreEqual(2, result.ValidationFailures.Count);
-                Assert.AreEqual("'Amount' must be a number", result.ValidationFailures[0].ErrorMessage);
+                Assert.Equal(2, result.ValidationFailures.Count);
+                Assert.Equal("'Amount' must be a number", result.ValidationFailures[0].ErrorMessage);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ResolveFormatError_Pass()
         {
             var options = TestHelper.GetDbContext("ResolveFormatError_Pass");
@@ -236,16 +236,16 @@ namespace OneAdvisor.Service.Test.Commission
                 var result = await service.ResolveFormatError(scope, error1);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = context.CommissionError.Find(err.Id);
 
-                Assert.AreEqual(true, actual.IsFormatValid);
-                Assert.AreEqual(error1.Data, actual.Data);
+                Assert.Equal(true, actual.IsFormatValid);
+                Assert.Equal(error1.Data, actual.Data);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ResolveMappingError_Fail()
         {
             var options = TestHelper.GetDbContext("ResolveMappingError_Fail");
@@ -271,14 +271,14 @@ namespace OneAdvisor.Service.Test.Commission
                 var result = await service.ResolveMappingError(scope, error1);
 
                 //Then
-                Assert.IsFalse(result.Success);
+                Assert.False(result.Success);
 
-                Assert.AreEqual(3, result.ValidationFailures.Count);
-                Assert.AreEqual("'Policy' must not be empty.", result.ValidationFailures[0].ErrorMessage);
+                Assert.Equal(3, result.ValidationFailures.Count);
+                Assert.Equal("'Policy' must not be empty.", result.ValidationFailures[0].ErrorMessage);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ResolveMappingError_Pass()
         {
             var options = TestHelper.GetDbContext("ResolveMappingError_Pass");
@@ -348,25 +348,25 @@ namespace OneAdvisor.Service.Test.Commission
                 var result = await service.ResolveMappingError(scope, error1);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actualError = context.CommissionError.Single();
 
-                Assert.AreEqual(err2.Id, actualError.Id);
+                Assert.Equal(err2.Id, actualError.Id);
 
                 var actual = context.Commission.Single();
 
-                Assert.AreEqual(error1.PolicyId, actual.PolicyId);
-                Assert.AreEqual(error1.CommissionStatementId, actual.CommissionStatementId);
-                Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
-                Assert.AreEqual(22, actual.AmountIncludingVAT);
-                Assert.AreEqual(33, actual.VAT);
-                Assert.AreEqual(error1.Data, actual.SourceData);
+                Assert.Equal(error1.PolicyId, actual.PolicyId);
+                Assert.Equal(error1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.Equal(22, actual.AmountIncludingVAT);
+                Assert.Equal(33, actual.VAT);
+                Assert.Equal(error1.Data, actual.SourceData);
 
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ResolveFormatAndMappingError_Pass()
         {
             var options = TestHelper.GetDbContext("ResolveFormatAndMappingError_Pass");
@@ -435,25 +435,25 @@ namespace OneAdvisor.Service.Test.Commission
                 var result = await service.ResolveFormatError(scope, error1);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actualError = context.CommissionError.FirstOrDefault();
-                Assert.IsNull(actualError);
+                Assert.Null(actualError);
 
                 var actual = context.Commission.Single();
 
-                Assert.AreEqual(error1.PolicyId, actual.PolicyId);
-                Assert.AreEqual(error1.CommissionStatementId, actual.CommissionStatementId);
-                Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
-                Assert.AreEqual(55, actual.AmountIncludingVAT);
-                Assert.AreEqual(33, actual.VAT);
-                Assert.AreEqual(error1.Data, actual.SourceData);
+                Assert.Equal(error1.PolicyId, actual.PolicyId);
+                Assert.Equal(error1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.Equal(55, actual.AmountIncludingVAT);
+                Assert.Equal(33, actual.VAT);
+                Assert.Equal(error1.Data, actual.SourceData);
 
             }
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task AutoResolveMappingErrors_4Entries_AutoResolve3()
         {
             var options = TestHelper.GetDbContext("AutoResolveMappingErrors_4Entries_AutoResolve3");
@@ -585,40 +585,40 @@ namespace OneAdvisor.Service.Test.Commission
                 //Then
                 var actualErrors = context.CommissionError.ToList();
 
-                Assert.AreEqual(1, actualErrors.Count);
-                Assert.AreEqual(err2.Id, actualErrors[0].Id);
+                Assert.Equal(1, actualErrors.Count);
+                Assert.Equal(err2.Id, actualErrors[0].Id);
 
                 var commissions = context.Commission.ToList();
 
-                Assert.AreEqual(3, commissions.Count);
+                Assert.Equal(3, commissions.Count);
                 var actual = commissions[0];
-                Assert.AreEqual(error1.PolicyId, actual.PolicyId);
-                Assert.AreEqual(error1.CommissionStatementId, actual.CommissionStatementId);
-                Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
-                Assert.AreEqual(11, actual.AmountIncludingVAT);
-                Assert.AreEqual(22, actual.VAT);
-                Assert.AreEqual(err1a.Data, actual.SourceData);
+                Assert.Equal(error1.PolicyId, actual.PolicyId);
+                Assert.Equal(error1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.Equal(11, actual.AmountIncludingVAT);
+                Assert.Equal(22, actual.VAT);
+                Assert.Equal(err1a.Data, actual.SourceData);
 
                 actual = commissions[1];
-                Assert.AreEqual(error1.PolicyId, actual.PolicyId);
-                Assert.AreEqual(error1.CommissionStatementId, actual.CommissionStatementId);
-                Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
-                Assert.AreEqual(33, actual.AmountIncludingVAT);
-                Assert.AreEqual(44, actual.VAT);
-                Assert.AreEqual(err1b.Data, actual.SourceData);
+                Assert.Equal(error1.PolicyId, actual.PolicyId);
+                Assert.Equal(error1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.Equal(33, actual.AmountIncludingVAT);
+                Assert.Equal(44, actual.VAT);
+                Assert.Equal(err1b.Data, actual.SourceData);
 
                 actual = commissions[2];
-                Assert.AreEqual(error1.PolicyId, actual.PolicyId);
-                Assert.AreEqual(error1.CommissionStatementId, actual.CommissionStatementId);
-                Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
-                Assert.AreEqual(77, actual.AmountIncludingVAT);
-                Assert.AreEqual(88, actual.VAT);
-                Assert.AreEqual(err1c.Data, actual.SourceData);
+                Assert.Equal(error1.PolicyId, actual.PolicyId);
+                Assert.Equal(error1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.Equal(77, actual.AmountIncludingVAT);
+                Assert.Equal(88, actual.VAT);
+                Assert.Equal(err1c.Data, actual.SourceData);
 
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetErrors()
         {
             var options = TestHelper.GetDbContext("GetErrors");
@@ -688,26 +688,26 @@ namespace OneAdvisor.Service.Test.Commission
                 var results = await service.GetErrors(queryOptions);
 
                 //Then
-                Assert.AreEqual(2, results.TotalItems);
-                Assert.AreEqual(2, results.Items.Count());
+                Assert.Equal(2, results.TotalItems);
+                Assert.Equal(2, results.Items.Count());
 
                 var actual = results.Items.ToList()[0];
-                Assert.AreEqual(error1.Id, actual.Id);
-                Assert.AreEqual(error1.CommissionStatementId, actual.CommissionStatementId);
-                Assert.AreEqual(error1.IsFormatValid, actual.IsFormatValid);
-                Assert.AreEqual(error1.PolicyId, actual.PolicyId);
-                Assert.AreEqual(error1.MemberId, actual.MemberId);
-                Assert.AreEqual(error1.CommissionTypeId, actual.CommissionTypeId);
-                Assert.AreEqual(error1.Data, actual.Data);
+                Assert.Equal(error1.Id, actual.Id);
+                Assert.Equal(error1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.Equal(error1.IsFormatValid, actual.IsFormatValid);
+                Assert.Equal(error1.PolicyId, actual.PolicyId);
+                Assert.Equal(error1.MemberId, actual.MemberId);
+                Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.Equal(error1.Data, actual.Data);
 
                 actual = results.Items.ToList()[1];
-                Assert.AreEqual(error3.Id, actual.Id);
+                Assert.Equal(error3.Id, actual.Id);
 
                 //Scope checked
                 scope = TestHelper.GetScopeOptions(user2);
                 queryOptions = new CommissionErrorQueryOptions(scope, "", "", 10, 1);
                 results = await service.GetErrors(queryOptions);
-                Assert.AreEqual(0, results.Items.Count());
+                Assert.Equal(0, results.Items.Count());
             }
         }
     }

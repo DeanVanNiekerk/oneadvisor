@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model.Common;
@@ -13,10 +13,10 @@ using OneAdvisor.Service.Member;
 
 namespace OneAdvisor.Service.Test.Member
 {
-    [TestClass]
+
     public class ContactServiceTest
     {
-        [TestMethod]
+        [Fact]
         public async Task GetContacts_FilterAndSort()
         {
             var options = TestHelper.GetDbContext("GetContacts_FilterAndSort");
@@ -59,25 +59,25 @@ namespace OneAdvisor.Service.Test.Member
                 var actual = await service.GetContacts(queryOptions);
 
                 //Then
-                Assert.AreEqual(actual.TotalItems, 4);
+                Assert.Equal(actual.TotalItems, 4);
 
                 var contacts = actual.Items.ToArray();
 
-                Assert.AreEqual(contacts.Count(), 4);
+                Assert.Equal(contacts.Count(), 4);
 
                 var actual1 = contacts[0];
-                Assert.AreEqual(contact1.Id, actual1.Id);
-                Assert.AreEqual(contact1.Value, actual1.Value);
-                Assert.AreEqual(contact1.MemberId, actual1.MemberId);
-                Assert.AreEqual(contact1.ContactTypeId, actual1.ContactTypeId);
+                Assert.Equal(contact1.Id, actual1.Id);
+                Assert.Equal(contact1.Value, actual1.Value);
+                Assert.Equal(contact1.MemberId, actual1.MemberId);
+                Assert.Equal(contact1.ContactTypeId, actual1.ContactTypeId);
 
                 var actual2 = contacts[1];
-                Assert.AreEqual(contact3.Id, actual2.Id);
-                Assert.AreEqual(contact3.Value, actual2.Value);
+                Assert.Equal(contact3.Id, actual2.Id);
+                Assert.Equal(contact3.Value, actual2.Value);
 
                 var actual6 = contacts[3];
-                Assert.AreEqual(contact6.Id, actual6.Id);
-                Assert.AreEqual(contact6.Value, actual6.Value);
+                Assert.Equal(contact6.Id, actual6.Id);
+                Assert.Equal(contact6.Value, actual6.Value);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(user2);
@@ -85,11 +85,11 @@ namespace OneAdvisor.Service.Test.Member
                 actual = await service.GetContacts(queryOptions);
 
                 //Then
-                Assert.AreEqual(actual.TotalItems, 0);
+                Assert.Equal(actual.TotalItems, 0);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetContact()
         {
             var options = TestHelper.GetDbContext("GetContact");
@@ -121,21 +121,21 @@ namespace OneAdvisor.Service.Test.Member
                 var actual = await service.GetContact(scope, contact1.Id);
 
                 //Then
-                Assert.AreEqual(contact1.Id, actual.Id);
-                Assert.AreEqual(contact1.MemberId, actual.MemberId);
-                Assert.AreEqual(contact1.Value, actual.Value);
-                Assert.AreEqual(contact1.ContactTypeId, actual.ContactTypeId);
+                Assert.Equal(contact1.Id, actual.Id);
+                Assert.Equal(contact1.MemberId, actual.MemberId);
+                Assert.Equal(contact1.Value, actual.Value);
+                Assert.Equal(contact1.ContactTypeId, actual.ContactTypeId);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(user2);
                 actual = await service.GetContact(scope, contact1.Id);
 
                 //Then
-                Assert.IsNull(actual);
+                Assert.Null(actual);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetContactWithValue()
         {
             var options = TestHelper.GetDbContext("GetContactWithValue");
@@ -167,21 +167,21 @@ namespace OneAdvisor.Service.Test.Member
                 var actual = await service.GetContact(scope, member1.Member.Id, contact1.Value);
 
                 //Then
-                Assert.AreEqual(contact1.Id, actual.Id);
-                Assert.AreEqual(contact1.MemberId, actual.MemberId);
-                Assert.AreEqual(contact1.Value, actual.Value);
-                Assert.AreEqual(contact1.ContactTypeId, actual.ContactTypeId);
+                Assert.Equal(contact1.Id, actual.Id);
+                Assert.Equal(contact1.MemberId, actual.MemberId);
+                Assert.Equal(contact1.Value, actual.Value);
+                Assert.Equal(contact1.ContactTypeId, actual.ContactTypeId);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(user2);
                 actual = await service.GetContact(scope, contact1.Id);
 
                 //Then
-                Assert.IsNull(actual);
+                Assert.Null(actual);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task InsertContact()
         {
             var options = TestHelper.GetDbContext("InsertContact");
@@ -209,23 +209,23 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.InsertContact(scope, contact);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Contact.FindAsync(((Contact)result.Tag).Id);
-                Assert.AreEqual(contact.MemberId, actual.MemberId);
-                Assert.AreEqual(contact.ContactTypeId, actual.ContactTypeId);
-                Assert.AreEqual(contact.Value, actual.Value);
+                Assert.Equal(contact.MemberId, actual.MemberId);
+                Assert.Equal(contact.ContactTypeId, actual.ContactTypeId);
+                Assert.Equal(contact.Value, actual.Value);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(user2);
                 result = await service.InsertContact(scope, contact);
 
                 //Then
-                Assert.IsFalse(result.Success);
+                Assert.False(result.Success);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UpdateContact()
         {
             var options = TestHelper.GetDbContext("UpdateContact");
@@ -266,23 +266,23 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.UpdateContact(scope, contact);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Contact.FindAsync(contact.Id);
-                Assert.AreEqual(contact.MemberId, actual.MemberId);
-                Assert.AreEqual(contact.ContactTypeId, actual.ContactTypeId);
-                Assert.AreEqual(contact.Value, actual.Value);
+                Assert.Equal(contact.MemberId, actual.MemberId);
+                Assert.Equal(contact.ContactTypeId, actual.ContactTypeId);
+                Assert.Equal(contact.Value, actual.Value);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(user2);
                 result = await service.UpdateContact(scope, contact);
 
                 //Then
-                Assert.IsFalse(result.Success);
+                Assert.False(result.Success);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task DeleteContact()
         {
             var options = TestHelper.GetDbContext("DeleteContact");
@@ -315,17 +315,17 @@ namespace OneAdvisor.Service.Test.Member
                 var result = await service.DeleteContact(scope, contact1.Id);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Contact.FindAsync(contact1.Id);
-                Assert.IsNull(actual);
+                Assert.Null(actual);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(user2);
                 result = await service.DeleteContact(scope, contact1.Id);
 
                 //Then
-                Assert.IsFalse(result.Success);
+                Assert.False(result.Success);
             }
         }
 

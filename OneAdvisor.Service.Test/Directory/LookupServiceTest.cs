@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Model.Common;
@@ -12,12 +12,12 @@ using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Directory
 {
-    [TestClass]
+
     public class LookupServiceTest
     {
         #region Contact Type
 
-        [TestMethod]
+        [Fact]
         public async Task GetContactTypes()
         {
             var options = TestHelper.GetDbContext("GetContactTypes");
@@ -45,17 +45,17 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetContactTypes();
 
                 //Then
-                Assert.AreEqual(actual.Count, 3);
+                Assert.Equal(actual.Count, 3);
 
                 var actual1 = actual[0];
-                Assert.AreEqual(lkp1.Id, actual1.Id);
-                Assert.AreEqual(lkp1.Name, actual1.Name);
+                Assert.Equal(lkp1.Id, actual1.Id);
+                Assert.Equal(lkp1.Name, actual1.Name);
 
                 var actual2 = actual[1];
-                Assert.AreEqual(lkp2.Id, actual2.Id);
+                Assert.Equal(lkp2.Id, actual2.Id);
 
                 var actual3 = actual[2];
-                Assert.AreEqual(lkp3.Id, actual3.Id);
+                Assert.Equal(lkp3.Id, actual3.Id);
             }
         }
 
@@ -63,7 +63,7 @@ namespace OneAdvisor.Service.Test.Directory
 
         #region Policy Type
 
-        [TestMethod]
+        [Fact]
         public async Task GetPolicyTypes()
         {
             var options = TestHelper.GetDbContext("GetPolicyTypes");
@@ -91,17 +91,17 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetPolicyTypes();
 
                 //Then
-                Assert.AreEqual(actual.Count, 3);
+                Assert.Equal(actual.Count, 3);
 
                 var actual1 = actual[0];
-                Assert.AreEqual(lkp1.Id, actual1.Id);
-                Assert.AreEqual(lkp1.Name, actual1.Name);
+                Assert.Equal(lkp1.Id, actual1.Id);
+                Assert.Equal(lkp1.Name, actual1.Name);
 
                 var actual2 = actual[1];
-                Assert.AreEqual(lkp2.Id, actual2.Id);
+                Assert.Equal(lkp2.Id, actual2.Id);
 
                 var actual3 = actual[2];
-                Assert.AreEqual(lkp3.Id, actual3.Id);
+                Assert.Equal(lkp3.Id, actual3.Id);
             }
         }
 
@@ -109,7 +109,7 @@ namespace OneAdvisor.Service.Test.Directory
 
         #region Marrial Status
 
-        [TestMethod]
+        [Fact]
         public async Task GetMarrialStatus()
         {
             var options = TestHelper.GetDbContext("GetMarrialStatus");
@@ -137,17 +137,17 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetMarritalStatus();
 
                 //Then
-                Assert.AreEqual(actual.Count, 3);
+                Assert.Equal(actual.Count, 3);
 
                 var actual1 = actual[0];
-                Assert.AreEqual(lkp1.Id, actual1.Id);
-                Assert.AreEqual(lkp1.Name, actual1.Name);
+                Assert.Equal(lkp1.Id, actual1.Id);
+                Assert.Equal(lkp1.Name, actual1.Name);
 
                 var actual2 = actual[1];
-                Assert.AreEqual(lkp2.Id, actual2.Id);
+                Assert.Equal(lkp2.Id, actual2.Id);
 
                 var actual3 = actual[2];
-                Assert.AreEqual(lkp3.Id, actual3.Id);
+                Assert.Equal(lkp3.Id, actual3.Id);
             }
         }
 
@@ -155,7 +155,7 @@ namespace OneAdvisor.Service.Test.Directory
 
         #region Company
 
-        [TestMethod]
+        [Fact]
         public async Task GetCompanies()
         {
             var options = TestHelper.GetDbContext("GetCompanies");
@@ -183,21 +183,21 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetCompanies();
 
                 //Then
-                Assert.AreEqual(actual.Count, 3);
+                Assert.Equal(actual.Count, 3);
 
                 var actual1 = actual[0];
-                Assert.AreEqual(lkp1.Id, actual1.Id);
-                Assert.AreEqual(lkp1.Name, actual1.Name);
+                Assert.Equal(lkp1.Id, actual1.Id);
+                Assert.Equal(lkp1.Name, actual1.Name);
 
                 var actual2 = actual[1];
-                Assert.AreEqual(lkp2.Id, actual2.Id);
+                Assert.Equal(lkp2.Id, actual2.Id);
 
                 var actual3 = actual[2];
-                Assert.AreEqual(lkp3.Id, actual3.Id);
+                Assert.Equal(lkp3.Id, actual3.Id);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task InsertCompany()
         {
             var options = TestHelper.GetDbContext("InsertCompany");
@@ -216,14 +216,14 @@ namespace OneAdvisor.Service.Test.Directory
                 var result = await service.InsertCompany(model);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Company.FindAsync(((Company)result.Tag).Id);
-                Assert.AreEqual(model.Name, actual.Name);
+                Assert.Equal(model.Name, actual.Name);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UpdateCompany()
         {
             var options = TestHelper.GetDbContext("UpdateCompany");
@@ -252,10 +252,10 @@ namespace OneAdvisor.Service.Test.Directory
                 var result = await service.UpdateCompany(model);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.Company.FindAsync(model.Id);
-                Assert.AreEqual(model.Name, actual.Name);
+                Assert.Equal(model.Name, actual.Name);
             }
         }
 
@@ -264,7 +264,7 @@ namespace OneAdvisor.Service.Test.Directory
 
         #region Commission Type
 
-        [TestMethod]
+        [Fact]
         public async Task GetCommissionTypes()
         {
             var options = TestHelper.GetDbContext("GetCommissionTypes");
@@ -292,23 +292,23 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetCommissionTypes();
 
                 //Then
-                Assert.AreEqual(actual.Count, 3);
+                Assert.Equal(actual.Count, 3);
 
                 var actual1 = actual[0];
-                Assert.AreEqual(lkp1.Id, actual1.Id);
-                Assert.AreEqual(lkp1.Name, actual1.Name);
-                Assert.AreEqual(lkp1.Code, actual1.Code);
-                Assert.AreEqual(lkp1.PolicyTypeId, actual1.PolicyTypeId);
+                Assert.Equal(lkp1.Id, actual1.Id);
+                Assert.Equal(lkp1.Name, actual1.Name);
+                Assert.Equal(lkp1.Code, actual1.Code);
+                Assert.Equal(lkp1.PolicyTypeId, actual1.PolicyTypeId);
 
                 var actual2 = actual[1];
-                Assert.AreEqual(lkp2.Id, actual2.Id);
+                Assert.Equal(lkp2.Id, actual2.Id);
 
                 var actual3 = actual[2];
-                Assert.AreEqual(lkp3.Id, actual3.Id);
+                Assert.Equal(lkp3.Id, actual3.Id);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetCommissionType()
         {
             var options = TestHelper.GetDbContext("GetCommissionType");
@@ -334,15 +334,15 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetCommissionType("Aa");
 
                 //Then
-                Assert.IsNotNull(actual);
-                Assert.AreEqual(lkp1.Id, actual.Id);
-                Assert.AreEqual(lkp1.Name, actual.Name);
-                Assert.AreEqual(lkp1.Code, actual.Code);
-                Assert.AreEqual(lkp1.PolicyTypeId, actual.PolicyTypeId);
+                Assert.NotNull(actual);
+                Assert.Equal(lkp1.Id, actual.Id);
+                Assert.Equal(lkp1.Name, actual.Name);
+                Assert.Equal(lkp1.Code, actual.Code);
+                Assert.Equal(lkp1.PolicyTypeId, actual.PolicyTypeId);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task InsertCommissionType()
         {
             var options = TestHelper.GetDbContext("InsertCommissionType");
@@ -363,16 +363,16 @@ namespace OneAdvisor.Service.Test.Directory
                 var result = await service.InsertCommissionType(model);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.CommissionType.FindAsync(((CommissionType)result.Tag).Id);
-                Assert.AreEqual(model.Name, actual.Name);
-                Assert.AreEqual(model.Code, actual.Code);
-                Assert.AreEqual(model.PolicyTypeId, actual.PolicyTypeId);
+                Assert.Equal(model.Name, actual.Name);
+                Assert.Equal(model.Code, actual.Code);
+                Assert.Equal(model.PolicyTypeId, actual.PolicyTypeId);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UpdateCommissionType()
         {
             var options = TestHelper.GetDbContext("UpdateCommissionType");
@@ -403,12 +403,12 @@ namespace OneAdvisor.Service.Test.Directory
                 var result = await service.UpdateCommissionType(model);
 
                 //Then
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var actual = await context.CommissionType.FindAsync(model.Id);
-                Assert.AreEqual(model.Name, actual.Name);
-                Assert.AreEqual(model.Code, actual.Code);
-                Assert.AreEqual(model.PolicyTypeId, actual.PolicyTypeId);
+                Assert.Equal(model.Name, actual.Name);
+                Assert.Equal(model.Code, actual.Code);
+                Assert.Equal(model.PolicyTypeId, actual.PolicyTypeId);
             }
         }
 

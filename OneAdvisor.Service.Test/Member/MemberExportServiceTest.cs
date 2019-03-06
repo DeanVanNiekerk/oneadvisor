@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model.Directory.Model.Lookup;
@@ -14,10 +14,10 @@ using OneAdvisor.Service.Test.Export;
 
 namespace OneAdvisor.Service.Test.Member
 {
-    [TestClass]
+
     public class MemberExportServiceTest
     {
-        [TestMethod]
+        [Fact]
         public async Task Export()
         {
             var options = TestHelper.GetDbContext("MemberExport");
@@ -53,29 +53,29 @@ namespace OneAdvisor.Service.Test.Member
                 await service.Export(renderer, new MemoryStream(), queryOptions);
 
                 //Then
-                Assert.AreEqual(2, renderer.Items.Count());
+                Assert.Equal(2, renderer.Items.Count());
 
                 var actual = renderer.Items.ToArray()[0];
 
-                Assert.AreEqual(member1.Member.IdNumber, actual.IdNumber);
-                Assert.AreEqual(member1.Member.FirstName, actual.FirstName);
-                Assert.AreEqual(member1.Member.LastName, actual.LastName);
-                Assert.AreEqual("dean@email.com", actual.Email);
-                Assert.AreEqual(2, actual.PolicyInvestmentCount);
-                Assert.AreEqual(1, actual.PolicyShortTermCount);
-                Assert.AreEqual(1, actual.PolicyMedicalCoverCount);
-                Assert.AreEqual(0, actual.PolicyLifeInsuranceCount);
+                Assert.Equal(member1.Member.IdNumber, actual.IdNumber);
+                Assert.Equal(member1.Member.FirstName, actual.FirstName);
+                Assert.Equal(member1.Member.LastName, actual.LastName);
+                Assert.Equal("dean@email.com", actual.Email);
+                Assert.Equal(2, actual.PolicyInvestmentCount);
+                Assert.Equal(1, actual.PolicyShortTermCount);
+                Assert.Equal(1, actual.PolicyMedicalCoverCount);
+                Assert.Equal(0, actual.PolicyLifeInsuranceCount);
 
                 actual = renderer.Items.ToArray()[1];
 
-                Assert.AreEqual(member2.Member.IdNumber, actual.IdNumber);
-                Assert.AreEqual(member2.Member.FirstName, actual.FirstName);
-                Assert.AreEqual(member2.Member.LastName, actual.LastName);
-                Assert.AreEqual("john@email.com", actual.Email);
-                Assert.AreEqual(0, actual.PolicyInvestmentCount);
-                Assert.AreEqual(1, actual.PolicyShortTermCount);
-                Assert.AreEqual(0, actual.PolicyMedicalCoverCount);
-                Assert.AreEqual(0, actual.PolicyLifeInsuranceCount);
+                Assert.Equal(member2.Member.IdNumber, actual.IdNumber);
+                Assert.Equal(member2.Member.FirstName, actual.FirstName);
+                Assert.Equal(member2.Member.LastName, actual.LastName);
+                Assert.Equal("john@email.com", actual.Email);
+                Assert.Equal(0, actual.PolicyInvestmentCount);
+                Assert.Equal(1, actual.PolicyShortTermCount);
+                Assert.Equal(0, actual.PolicyMedicalCoverCount);
+                Assert.Equal(0, actual.PolicyLifeInsuranceCount);
             }
         }
 

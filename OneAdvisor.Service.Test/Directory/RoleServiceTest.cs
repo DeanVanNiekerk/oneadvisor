@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Directory
 {
-    [TestClass]
+
     public class RoleServiceTest
     {
-        [TestMethod]
+        [Fact]
         public async Task GetRoles()
         {
             var options = TestHelper.GetDbContext("GetRoles");
@@ -38,24 +38,24 @@ namespace OneAdvisor.Service.Test.Directory
                 var list = await service.GetRoles();
 
                 //Then
-                Assert.AreEqual(list.Count, 2);
+                Assert.Equal(list.Count, 2);
 
                 var actual1 = list[0];
-                Assert.AreEqual(actual1.Id, role1.Id);
-                Assert.AreEqual(actual1.Name, role1.Name);
-                Assert.AreEqual(actual1.Description, role1.Description);
-                Assert.AreEqual(actual1.ApplicationId, role1.ApplicationId);
+                Assert.Equal(actual1.Id, role1.Id);
+                Assert.Equal(actual1.Name, role1.Name);
+                Assert.Equal(actual1.Description, role1.Description);
+                Assert.Equal(actual1.ApplicationId, role1.ApplicationId);
 
                 var actual2 = list[1];
-                Assert.AreEqual(actual2.Id, role2.Id);
-                Assert.AreEqual(actual2.Name, role2.Name);
-                Assert.AreEqual(actual2.Description, role2.Description);
-                Assert.AreEqual(actual2.ApplicationId, role2.ApplicationId);
+                Assert.Equal(actual2.Id, role2.Id);
+                Assert.Equal(actual2.Name, role2.Name);
+                Assert.Equal(actual2.Description, role2.Description);
+                Assert.Equal(actual2.ApplicationId, role2.ApplicationId);
 
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetRole()
         {
             var options = TestHelper.GetDbContext("GetRole");
@@ -91,18 +91,18 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetRole(role1.Id);
 
                 //Then
-                Assert.AreEqual(actual.Id, role1.Id);
-                Assert.AreEqual(actual.Name, role1.Name);
-                Assert.AreEqual(actual.Description, role1.Description);
-                Assert.AreEqual(actual.ApplicationId, role1.ApplicationId);
-                Assert.AreEqual(actual.UseCaseIds.Count(), 2);
-                Assert.AreEqual(actual.UseCaseIds.ToArray()[0], "uc1");
-                Assert.AreEqual(actual.UseCaseIds.ToArray()[1], "uc2");
+                Assert.Equal(actual.Id, role1.Id);
+                Assert.Equal(actual.Name, role1.Name);
+                Assert.Equal(actual.Description, role1.Description);
+                Assert.Equal(actual.ApplicationId, role1.ApplicationId);
+                Assert.Equal(actual.UseCaseIds.Count(), 2);
+                Assert.Equal(actual.UseCaseIds.ToArray()[0], "uc1");
+                Assert.Equal(actual.UseCaseIds.ToArray()[1], "uc2");
 
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task HasUseCase_DoesNotHave()
         {
             var options = TestHelper.GetDbContext("HasUseCase_DoesNotHave");
@@ -135,11 +135,11 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.HasUseCase(new List<string>() { role1.Name }, new List<string>() { useCase.Id });
 
                 //Then
-                Assert.IsFalse(actual);
+                Assert.False(actual);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task HasUseCase_DoesHave()
         {
             var options = TestHelper.GetDbContext("HasUseCase_DoesHave");
@@ -172,11 +172,11 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.HasUseCase(new List<string>() { role2.Name }, new List<string>() { useCase.Id });
 
                 //Then
-                Assert.IsTrue(actual);
+                Assert.True(actual);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task HasUseCase_DoesHave_List()
         {
             var options = TestHelper.GetDbContext("HasUseCase_DoesHave_List");
@@ -229,7 +229,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.HasUseCase(new List<string>() { role1.Name, role2.Name }, new List<string>() { useCase1.Id, useCase5.Id });
 
                 //Then
-                Assert.IsTrue(actual);
+                Assert.True(actual);
             }
         }
 

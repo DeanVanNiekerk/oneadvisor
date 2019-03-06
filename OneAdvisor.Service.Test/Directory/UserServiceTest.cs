@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
@@ -13,10 +13,10 @@ using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Directory
 {
-    [TestClass]
+
     public class UserServiceTest
     {
-        [TestMethod]
+        [Fact]
         public async Task GetUsers()
         {
             var options = TestHelper.GetDbContext("GetUsers");
@@ -74,29 +74,29 @@ namespace OneAdvisor.Service.Test.Directory
                 var users = await service.GetUsers(queryOptions);
 
                 //Then
-                Assert.AreEqual(3, users.TotalItems);
-                Assert.AreEqual(3, users.Items.Count());
+                Assert.Equal(3, users.TotalItems);
+                Assert.Equal(3, users.Items.Count());
 
                 var actual1 = users.Items.ToArray()[0];
-                Assert.AreEqual(userDetailed1.User.Id, actual1.Id);
+                Assert.Equal(userDetailed1.User.Id, actual1.Id);
 
                 var actual2 = users.Items.ToArray()[1];
-                Assert.AreEqual(user1.Id, actual2.Id);
-                Assert.AreEqual(user1.FirstName, actual2.FirstName);
-                Assert.AreEqual(user1.LastName, actual2.LastName);
-                Assert.AreEqual(user1.Email, actual2.Email);
-                Assert.AreEqual(user1.Scope, actual2.Scope);
-                Assert.AreEqual(user1.BranchId, actual2.BranchId);
-                Assert.AreEqual(userDetailed1.Branch.Name, actual2.BranchName);
-                Assert.AreEqual(userDetailed1.Organisation.Id, actual2.OrganisationId);
-                Assert.AreEqual(userDetailed1.Organisation.Name, actual2.OrganisationName);
+                Assert.Equal(user1.Id, actual2.Id);
+                Assert.Equal(user1.FirstName, actual2.FirstName);
+                Assert.Equal(user1.LastName, actual2.LastName);
+                Assert.Equal(user1.Email, actual2.Email);
+                Assert.Equal(user1.Scope, actual2.Scope);
+                Assert.Equal(user1.BranchId, actual2.BranchId);
+                Assert.Equal(userDetailed1.Branch.Name, actual2.BranchName);
+                Assert.Equal(userDetailed1.Organisation.Id, actual2.OrganisationId);
+                Assert.Equal(userDetailed1.Organisation.Name, actual2.OrganisationName);
 
                 var actual3 = users.Items.ToArray()[2];
-                Assert.AreEqual(user2.Id, actual3.Id);
+                Assert.Equal(user2.Id, actual3.Id);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetUser()
         {
             var options = TestHelper.GetDbContext("GetUser");
@@ -145,23 +145,23 @@ namespace OneAdvisor.Service.Test.Directory
                 var user = await service.GetUser(scope, user2.Id);
 
                 //Then
-                Assert.AreEqual(user2.Id, user.Id);
-                Assert.AreEqual(user2.FirstName, user.FirstName);
-                Assert.AreEqual(user2.LastName, user.LastName);
-                Assert.AreEqual(user2.Email, user.Email);
-                Assert.AreEqual(user2.Scope, user.Scope);
-                Assert.AreEqual(user2.BranchId, user.BranchId);
-                Assert.AreEqual(user2.Aliases, user.Aliases);
-                Assert.AreEqual(roles, user.Roles);
+                Assert.Equal(user2.Id, user.Id);
+                Assert.Equal(user2.FirstName, user.FirstName);
+                Assert.Equal(user2.LastName, user.LastName);
+                Assert.Equal(user2.Email, user.Email);
+                Assert.Equal(user2.Scope, user.Scope);
+                Assert.Equal(user2.BranchId, user.BranchId);
+                Assert.Equal(user2.Aliases, user.Aliases);
+                Assert.Equal(roles, user.Roles);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(userDetailed2, Scope.Organisation);
                 user = await service.GetUser(scope, user2.Id);
-                Assert.IsNull(user);
+                Assert.Null(user);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task InsertUser()
         {
             var options = TestHelper.GetDbContext("InsertUser");
@@ -219,24 +219,24 @@ namespace OneAdvisor.Service.Test.Directory
                 var result = await service.InsertUser(scope, user, "Test123!");
 
                 //Then
-                Assert.IsTrue(result.Success);
-                Assert.AreEqual(user.FirstName, addedUser.FirstName);
-                Assert.AreEqual(user.LastName, addedUser.LastName);
-                Assert.AreEqual(user.Email, addedUser.Email);
-                Assert.AreEqual(user.Scope, addedUser.Scope);
-                Assert.AreEqual(user.BranchId, addedUser.BranchId);
-                Assert.AreEqual(user.Aliases, addedUser.Aliases);
-                Assert.AreEqual("Test123!", addedPassword);
-                Assert.AreEqual(roles, addedRoles);
+                Assert.True(result.Success);
+                Assert.Equal(user.FirstName, addedUser.FirstName);
+                Assert.Equal(user.LastName, addedUser.LastName);
+                Assert.Equal(user.Email, addedUser.Email);
+                Assert.Equal(user.Scope, addedUser.Scope);
+                Assert.Equal(user.BranchId, addedUser.BranchId);
+                Assert.Equal(user.Aliases, addedUser.Aliases);
+                Assert.Equal("Test123!", addedPassword);
+                Assert.Equal(roles, addedRoles);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(userDetailed2, Scope.Organisation);
                 result = await service.InsertUser(scope, user, "Test123!");
-                Assert.IsFalse(result.Success);
+                Assert.False(result.Success);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UpdateUser()
         {
             var options = TestHelper.GetDbContext("UpdateUser");
@@ -306,23 +306,23 @@ namespace OneAdvisor.Service.Test.Directory
                 var result = await service.UpdateUser(scope, user);
 
                 //Then
-                Assert.IsTrue(result.Success);
-                Assert.AreEqual(user.FirstName, updatedUser.FirstName);
-                Assert.AreEqual(user.LastName, updatedUser.LastName);
-                Assert.AreEqual(user.Email, updatedUser.Email);
-                Assert.AreEqual(user.Scope, updatedUser.Scope);
-                Assert.AreEqual(user.BranchId, updatedUser.BranchId);
-                Assert.AreEqual(user.Aliases, updatedUser.Aliases);
-                Assert.AreEqual(roles, addedRoles);
+                Assert.True(result.Success);
+                Assert.Equal(user.FirstName, updatedUser.FirstName);
+                Assert.Equal(user.LastName, updatedUser.LastName);
+                Assert.Equal(user.Email, updatedUser.Email);
+                Assert.Equal(user.Scope, updatedUser.Scope);
+                Assert.Equal(user.BranchId, updatedUser.BranchId);
+                Assert.Equal(user.Aliases, updatedUser.Aliases);
+                Assert.Equal(roles, addedRoles);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(userDetailed2, Scope.Organisation);
                 result = await service.UpdateUser(scope, user);
-                Assert.IsFalse(result.Success);
+                Assert.False(result.Success);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetUsersSimple()
         {
             var options = TestHelper.GetDbContext("GetUsersSimple");
@@ -373,23 +373,23 @@ namespace OneAdvisor.Service.Test.Directory
                 var users = await service.GetUsersSimple(scope);
 
                 //Then
-                Assert.AreEqual(3, users.TotalItems);
-                Assert.AreEqual(3, users.Items.Count());
+                Assert.Equal(3, users.TotalItems);
+                Assert.Equal(3, users.Items.Count());
 
                 var actual1 = users.Items.ToArray()[0];
-                Assert.AreEqual(userDetailed1.User.Id, actual1.Id);
+                Assert.Equal(userDetailed1.User.Id, actual1.Id);
 
                 var actual2 = users.Items.ToArray()[1];
-                Assert.AreEqual(user1.Id, actual2.Id);
-                Assert.AreEqual(user1.FirstName, actual2.FirstName);
-                Assert.AreEqual(user1.LastName, actual2.LastName);
+                Assert.Equal(user1.Id, actual2.Id);
+                Assert.Equal(user1.FirstName, actual2.FirstName);
+                Assert.Equal(user1.LastName, actual2.LastName);
 
                 var actual3 = users.Items.ToArray()[2];
-                Assert.AreEqual(user2.Id, actual3.Id);
+                Assert.Equal(user2.Id, actual3.Id);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetUserSimple()
         {
             var options = TestHelper.GetDbContext("GetUserSimple");
@@ -429,14 +429,14 @@ namespace OneAdvisor.Service.Test.Directory
                 var user = await service.GetUserSimple(scope, user2.Id);
 
                 //Then
-                Assert.AreEqual(user2.Id, user.Id);
-                Assert.AreEqual(user2.FirstName, user.FirstName);
-                Assert.AreEqual(user2.LastName, user.LastName);
+                Assert.Equal(user2.Id, user.Id);
+                Assert.Equal(user2.FirstName, user.FirstName);
+                Assert.Equal(user2.LastName, user.LastName);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(userDetailed2, Scope.Organisation);
                 user = await service.GetUserSimple(scope, user2.Id);
-                Assert.IsNull(user);
+                Assert.Null(user);
             }
         }
     }
