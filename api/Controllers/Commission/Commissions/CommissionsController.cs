@@ -32,17 +32,20 @@ namespace api.Controllers.Commission.Commissions
 
         [HttpGet("")]
         [UseCaseAuthorize("com_view_commissions")]
-        public async Task<PagedCommissions> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
+        public async Task<IActionResult> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
             var scope = AuthenticationService.GetScope(User);
 
             var queryOptions = new CommissionQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
-            return await CommissionService.GetCommissions(queryOptions);
+
+            var commissions = await CommissionService.GetCommissions(queryOptions);
+
+            return Ok(commissions);
         }
 
         [HttpGet("{commissionId}")]
         [UseCaseAuthorize("com_view_commissions")]
-        public async Task<ActionResult<CommissionEdit>> Get(Guid commissionId)
+        public async Task<IActionResult> Get(Guid commissionId)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -56,7 +59,7 @@ namespace api.Controllers.Commission.Commissions
 
         [HttpPost]
         [UseCaseAuthorize("com_edit_commissions")]
-        public async Task<ActionResult<Result>> Insert([FromBody] CommissionEdit commission)
+        public async Task<IActionResult> Insert([FromBody] CommissionEdit commission)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -70,7 +73,7 @@ namespace api.Controllers.Commission.Commissions
 
         [HttpPost("{commissionId}")]
         [UseCaseAuthorize("com_edit_commissions")]
-        public async Task<ActionResult<Result>> Update(Guid commissionId, [FromBody] CommissionEdit commission)
+        public async Task<IActionResult> Update(Guid commissionId, [FromBody] CommissionEdit commission)
         {
             commission.Id = commissionId;
 

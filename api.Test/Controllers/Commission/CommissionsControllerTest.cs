@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Controllers.Commission.Commissions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Newtonsoft.Json;
 using OneAdvisor.Model.Account.Model.Authentication;
@@ -11,13 +11,40 @@ using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.User;
+using Xunit;
 
 namespace api.Test.Controllers.Commission
 {
-    [TestClass]
     public class CommissionsControllerTest
     {
-        [TestMethod]
+        [Fact]
+        public void CommissionModelComposition()
+        {
+            Assert.Equal(8, typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).PropertyCount());
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("Id"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("CommissionStatementId"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("PolicyId"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("CommissionTypeId"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("AmountIncludingVAT"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("VAT"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("UserId"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("PolicyNumber"));
+        }
+
+        [Fact]
+        public void CommissionEditModelComposition()
+        {
+            Assert.Equal(7, typeof(CommissionEdit).PropertyCount());
+            Assert.True(typeof(CommissionEdit).HasProperty("Id"));
+            Assert.True(typeof(CommissionEdit).HasProperty("CommissionStatementId"));
+            Assert.True(typeof(CommissionEdit).HasProperty("PolicyId"));
+            Assert.True(typeof(CommissionEdit).HasProperty("CommissionTypeId"));
+            Assert.True(typeof(CommissionEdit).HasProperty("AmountIncludingVAT"));
+            Assert.True(typeof(CommissionEdit).HasProperty("VAT"));
+            Assert.True(typeof(CommissionEdit).HasProperty("SourceData"));
+        }
+
+        [Fact]
         public async Task Index()
         {
             var commission = new OneAdvisor.Model.Commission.Model.Commission.Commission()
@@ -55,20 +82,23 @@ namespace api.Test.Controllers.Commission
 
             var controller = new CommissionsController(service.Object, authService.Object);
 
-            var actual = await controller.Index("policyNumber", "desc", 15, 2, "commissionTypeId=24b55c80-4624-478f-a73a-647bb77f22d8");
+            var result = await controller.Index("policyNumber", "desc", 15, 2, "commissionTypeId=24b55c80-4624-478f-a73a-647bb77f22d8");
 
-            Assert.AreEqual(Scope.Branch, queryOptions.Scope.Scope);
-            Assert.AreEqual("policyNumber", queryOptions.SortOptions.Column);
-            Assert.AreEqual(SortDirection.Descending, queryOptions.SortOptions.Direction);
-            Assert.AreEqual(15, queryOptions.PageOptions.Size);
-            Assert.AreEqual(2, queryOptions.PageOptions.Number);
+            Assert.Equal(Scope.Branch, queryOptions.Scope.Scope);
+            Assert.Equal("policyNumber", queryOptions.SortOptions.Column);
+            Assert.Equal(SortDirection.Descending, queryOptions.SortOptions.Direction);
+            Assert.Equal(15, queryOptions.PageOptions.Size);
+            Assert.Equal(2, queryOptions.PageOptions.Number);
 
-            Assert.AreEqual(commission.CommissionTypeId, queryOptions.CommissionTypeId.Single());
+            Assert.Equal(commission.CommissionTypeId, queryOptions.CommissionTypeId.Single());
 
-            Assert.AreEqual("{\"SumAmountIncludingVAT\":300.0,\"SumVAT\":400.0,\"AverageAmountIncludingVAT\":100.0,\"AverageVAT\":200.0,\"TotalItems\":1,\"Items\":[{\"Id\":\"21f9f54f-0bbc-4afc-a588-b6bae4f47ae6\",\"CommissionStatementId\":\"d5887153-b373-4275-8eb1-6b7c1e9d57db\",\"PolicyId\":\"e36c892a-f608-4d24-b29f-d031f4ebf855\",\"CommissionTypeId\":\"24b55c80-4624-478f-a73a-647bb77f22d8\",\"AmountIncludingVAT\":100.0,\"VAT\":20.0,\"UserId\":\"bb49cd0d-c66d-4c16-858b-0bd6b68df65c\",\"PolicyNumber\":\"123456\"}]}", JsonConvert.SerializeObject(actual));
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<PagedCommissions>(okResult.Value);
+
+            Assert.Same(pagedItems, returnValue);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get()
         {
             var commission = new CommissionEdit()
@@ -90,12 +120,15 @@ namespace api.Test.Controllers.Commission
 
             var controller = new CommissionsController(service.Object, authService.Object);
 
-            var actual = await controller.Get(commission.Id.Value);
+            var result = await controller.Get(commission.Id.Value);
 
-            Assert.AreEqual("{\"Result\":{\"Value\":{\"Id\":\"21f9f54f-0bbc-4afc-a588-b6bae4f47ae6\",\"CommissionStatementId\":\"d5887153-b373-4275-8eb1-6b7c1e9d57db\",\"PolicyId\":\"e36c892a-f608-4d24-b29f-d031f4ebf855\",\"CommissionTypeId\":\"24b55c80-4624-478f-a73a-647bb77f22d8\",\"AmountIncludingVAT\":100.0,\"VAT\":20.0,\"SourceData\":null},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<CommissionEdit>(okResult.Value);
+
+            Assert.Same(commission, returnValue);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Insert()
         {
             var commission = new CommissionEdit()
@@ -132,13 +165,16 @@ namespace api.Test.Controllers.Commission
 
             var actual = await controller.Insert(commission);
 
-            Assert.AreSame(commission, inserted);
-            Assert.AreEqual(Scope.Branch, options.Scope);
+            Assert.Same(commission, inserted);
+            Assert.Equal(Scope.Branch, options.Scope);
 
-            Assert.AreEqual("{\"Result\":{\"Value\":{\"Success\":true,\"Tag\":null,\"Errors\":[],\"ValidationFailures\":[]},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
+            var okResult = Assert.IsType<OkObjectResult>(actual);
+            var returnValue = Assert.IsType<Result>(okResult.Value);
+
+            Assert.Same(result, returnValue);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Update()
         {
             var commission = new CommissionEdit()
@@ -175,10 +211,13 @@ namespace api.Test.Controllers.Commission
 
             var actual = await controller.Update(commission.Id.Value, commission);
 
-            Assert.AreSame(commission, updated);
-            Assert.AreEqual(Scope.Branch, options.Scope);
+            Assert.Same(commission, updated);
+            Assert.Equal(Scope.Branch, options.Scope);
 
-            Assert.AreEqual("{\"Result\":{\"Value\":{\"Success\":true,\"Tag\":null,\"Errors\":[],\"ValidationFailures\":[]},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
+            var okResult = Assert.IsType<OkObjectResult>(actual);
+            var returnValue = Assert.IsType<Result>(okResult.Value);
+
+            Assert.Same(result, returnValue);
         }
     }
 }

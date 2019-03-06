@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using api.Controllers.Commission.CommissionError;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Newtonsoft.Json;
 using OneAdvisor.Model.Account.Model.Authentication;
@@ -11,13 +11,26 @@ using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Model.Commission.Model.CommissionError;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.User;
+using Xunit;
 
 namespace api.Test.Controllers.Commission
 {
-    [TestClass]
     public class CommissionErrorControllerTest
     {
-        [TestMethod]
+        [Fact]
+        public void CommissionErrorModelComposition()
+        {
+            Assert.Equal(7, typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).PropertyCount());
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("Id"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("CommissionStatementId"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("PolicyId"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("MemberId"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("CommissionTypeId"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("Data"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("IsFormatValid"));
+        }
+
+        [Fact]
         public async Task Index()
         {
             var error = new OneAdvisor.Model.Commission.Model.CommissionError.CommissionError()
@@ -55,18 +68,21 @@ namespace api.Test.Controllers.Commission
 
             var controller = new CommissionErrorController(service.Object, authService.Object);
 
-            var actual = await controller.Index(error.CommissionStatementId, "policyNumber", "desc", 15, 2);
+            var result = await controller.Index(error.CommissionStatementId, "policyNumber", "desc", 15, 2);
 
-            Assert.AreEqual(Scope.Branch, options.Scope.Scope);
-            Assert.AreEqual(15, options.PageOptions.Size);
-            Assert.AreEqual(2, options.PageOptions.Number);
-            Assert.AreEqual("policyNumber", options.SortOptions.Column);
-            Assert.AreEqual(SortDirection.Descending, options.SortOptions.Direction);
+            Assert.Equal(Scope.Branch, options.Scope.Scope);
+            Assert.Equal(15, options.PageOptions.Size);
+            Assert.Equal(2, options.PageOptions.Number);
+            Assert.Equal("policyNumber", options.SortOptions.Column);
+            Assert.Equal(SortDirection.Descending, options.SortOptions.Direction);
 
-            Assert.AreEqual("{\"TotalItems\":1,\"Items\":[{\"Id\":\"21f9f54f-0bbc-4afc-a588-b6bae4f47ae6\",\"CommissionStatementId\":\"d5887153-b373-4275-8eb1-6b7c1e9d57db\",\"PolicyId\":\"bb49cd0d-c66d-4c16-858b-0bd6b68df65c\",\"MemberId\":\"e36c892a-f608-4d24-b29f-d031f4ebf855\",\"CommissionTypeId\":\"24b55c80-4624-478f-a73a-647bb77f22d8\",\"Data\":{\"PolicyNumber\":\"123\",\"AmountIncludingVAT\":\"50\",\"VAT\":\"5\",\"CommissionTypeCode\":null,\"CommissionTypeValue\":null,\"FirstName\":null,\"LastName\":null,\"Initials\":null,\"DateOfBirth\":null,\"IdNumber\":null,\"FullName\":null,\"BrokerFullName\":null},\"IsFormatValid\":true}]}", JsonConvert.SerializeObject(actual));
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<PagedItems<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>>(okResult.Value);
+
+            Assert.Same(errors, returnValue);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Next()
         {
             var error = new OneAdvisor.Model.Commission.Model.CommissionError.CommissionError()
@@ -95,14 +111,17 @@ namespace api.Test.Controllers.Commission
 
             var controller = new CommissionErrorController(service.Object, authService.Object);
 
-            var actual = await controller.Next(error.CommissionStatementId, true);
+            var result = await controller.Next(error.CommissionStatementId, true);
 
-            Assert.AreEqual(Scope.Branch, options.Scope);
+            Assert.Equal(Scope.Branch, options.Scope);
 
-            Assert.AreEqual("{\"Result\":{\"Value\":{\"Id\":\"21f9f54f-0bbc-4afc-a588-b6bae4f47ae6\",\"CommissionStatementId\":\"d5887153-b373-4275-8eb1-6b7c1e9d57db\",\"PolicyId\":\"bb49cd0d-c66d-4c16-858b-0bd6b68df65c\",\"MemberId\":\"e36c892a-f608-4d24-b29f-d031f4ebf855\",\"CommissionTypeId\":\"24b55c80-4624-478f-a73a-647bb77f22d8\",\"Data\":{\"PolicyNumber\":\"123\",\"AmountIncludingVAT\":\"50\",\"VAT\":\"5\",\"CommissionTypeCode\":null,\"CommissionTypeValue\":null,\"FirstName\":null,\"LastName\":null,\"Initials\":null,\"DateOfBirth\":null,\"IdNumber\":null,\"FullName\":null,\"BrokerFullName\":null},\"IsFormatValid\":true},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>(okResult.Value);
+
+            Assert.Same(error, returnValue);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get()
         {
             var error = new OneAdvisor.Model.Commission.Model.CommissionError.CommissionError()
@@ -131,14 +150,17 @@ namespace api.Test.Controllers.Commission
 
             var controller = new CommissionErrorController(service.Object, authService.Object);
 
-            var actual = await controller.Get(error.Id);
+            var result = await controller.Get(error.Id);
 
-            Assert.AreEqual(Scope.Branch, options.Scope);
+            Assert.Equal(Scope.Branch, options.Scope);
 
-            Assert.AreEqual("{\"Result\":{\"Value\":{\"Id\":\"21f9f54f-0bbc-4afc-a588-b6bae4f47ae6\",\"CommissionStatementId\":\"d5887153-b373-4275-8eb1-6b7c1e9d57db\",\"PolicyId\":\"bb49cd0d-c66d-4c16-858b-0bd6b68df65c\",\"MemberId\":\"e36c892a-f608-4d24-b29f-d031f4ebf855\",\"CommissionTypeId\":\"24b55c80-4624-478f-a73a-647bb77f22d8\",\"Data\":{\"PolicyNumber\":\"123\",\"AmountIncludingVAT\":\"50\",\"VAT\":\"5\",\"CommissionTypeCode\":null,\"CommissionTypeValue\":null,\"FirstName\":null,\"LastName\":null,\"Initials\":null,\"DateOfBirth\":null,\"IdNumber\":null,\"FullName\":null,\"BrokerFullName\":null},\"IsFormatValid\":true},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>(okResult.Value);
+
+            Assert.Same(error, returnValue);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ResolveFormatError()
         {
             var error = new OneAdvisor.Model.Commission.Model.CommissionError.CommissionError()
@@ -180,13 +202,16 @@ namespace api.Test.Controllers.Commission
 
             var actual = await controller.ResolveFormatError(error);
 
-            Assert.AreEqual(Scope.Branch, options.Scope);
-            Assert.AreSame(error, resolved);
+            Assert.Equal(Scope.Branch, options.Scope);
+            Assert.Same(error, resolved);
 
-            Assert.AreEqual("{\"Result\":{\"Value\":{\"Success\":true,\"Tag\":null,\"Errors\":[],\"ValidationFailures\":[]},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
+            var okResult = Assert.IsType<OkObjectResult>(actual);
+            var returnValue = Assert.IsType<Result>(okResult.Value);
+
+            Assert.Same(result, returnValue);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ResolveMappingError()
         {
             var error = new OneAdvisor.Model.Commission.Model.CommissionError.CommissionError()
@@ -241,11 +266,14 @@ namespace api.Test.Controllers.Commission
 
             var actual = await controller.ResolveMappingError(error);
 
-            Assert.AreEqual(Scope.Branch, options1.Scope);
-            Assert.AreEqual(Scope.Branch, options2.Scope);
-            Assert.AreSame(error, resolved);
+            Assert.Equal(Scope.Branch, options1.Scope);
+            Assert.Equal(Scope.Branch, options2.Scope);
+            Assert.Same(error, resolved);
 
-            Assert.AreEqual("{\"Result\":{\"Value\":{\"Success\":true,\"Tag\":{\"Id\":null,\"CommissionStatementId\":\"d5887153-b373-4275-8eb1-6b7c1e9d57db\",\"PolicyId\":\"bb49cd0d-c66d-4c16-858b-0bd6b68df65c\",\"CommissionTypeId\":null,\"AmountIncludingVAT\":null,\"VAT\":null,\"SourceData\":null},\"Errors\":[],\"ValidationFailures\":[]},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
+            var okResult = Assert.IsType<OkObjectResult>(actual);
+            var returnValue = Assert.IsType<Result>(okResult.Value);
+
+            Assert.Same(result, returnValue);
         }
     }
 }

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using api.Controllers.Directory.Members;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Newtonsoft.Json;
 using OneAdvisor.Model.Account.Model.Authentication;
@@ -10,13 +10,49 @@ using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Member.Interface;
 using OneAdvisor.Model.Member.Model.Member;
+using Xunit;
 
 namespace api.Test.Controllers.Member
 {
-    [TestClass]
     public class MembersControllerTest
     {
-        [TestMethod]
+        [Fact]
+        public void MemberModelComposition()
+        {
+            Assert.Equal(12, typeof(OneAdvisor.Model.Member.Model.Member.Member).PropertyCount());
+            Assert.True(typeof(OneAdvisor.Model.Member.Model.Member.Member).HasProperty("Id"));
+            Assert.True(typeof(OneAdvisor.Model.Member.Model.Member.Member).HasProperty("FirstName"));
+            Assert.True(typeof(OneAdvisor.Model.Member.Model.Member.Member).HasProperty("LastName"));
+            Assert.True(typeof(OneAdvisor.Model.Member.Model.Member.Member).HasProperty("MaidenName"));
+            Assert.True(typeof(OneAdvisor.Model.Member.Model.Member.Member).HasProperty("Initials"));
+            Assert.True(typeof(OneAdvisor.Model.Member.Model.Member.Member).HasProperty("PreferredName"));
+            Assert.True(typeof(OneAdvisor.Model.Member.Model.Member.Member).HasProperty("IdNumber"));
+            Assert.True(typeof(OneAdvisor.Model.Member.Model.Member.Member).HasProperty("DateOfBirth"));
+            Assert.True(typeof(OneAdvisor.Model.Member.Model.Member.Member).HasProperty("PassportNumber"));
+            Assert.True(typeof(OneAdvisor.Model.Member.Model.Member.Member).HasProperty("TaxNumber"));
+            Assert.True(typeof(OneAdvisor.Model.Member.Model.Member.Member).HasProperty("MarritalStatusId"));
+            Assert.True(typeof(OneAdvisor.Model.Member.Model.Member.Member).HasProperty("MarriageDate"));
+        }
+
+        [Fact]
+        public void MemberEditModelComposition()
+        {
+            Assert.Equal(12, typeof(MemberEdit).PropertyCount());
+            Assert.True(typeof(MemberEdit).HasProperty("Id"));
+            Assert.True(typeof(MemberEdit).HasProperty("FirstName"));
+            Assert.True(typeof(MemberEdit).HasProperty("LastName"));
+            Assert.True(typeof(MemberEdit).HasProperty("MaidenName"));
+            Assert.True(typeof(MemberEdit).HasProperty("Initials"));
+            Assert.True(typeof(MemberEdit).HasProperty("PreferredName"));
+            Assert.True(typeof(MemberEdit).HasProperty("IdNumber"));
+            Assert.True(typeof(MemberEdit).HasProperty("DateOfBirth"));
+            Assert.True(typeof(MemberEdit).HasProperty("PassportNumber"));
+            Assert.True(typeof(MemberEdit).HasProperty("TaxNumber"));
+            Assert.True(typeof(MemberEdit).HasProperty("MarritalStatusId"));
+            Assert.True(typeof(MemberEdit).HasProperty("MarriageDate"));
+        }
+
+        [Fact]
         public async Task Index()
         {
             var member = new OneAdvisor.Model.Member.Model.Member.Member()
@@ -54,20 +90,23 @@ namespace api.Test.Controllers.Member
 
             var controller = new MembersController(service.Object, authService.Object);
 
-            var actual = await controller.Index("firstName", "desc", 15, 2, "lastName=%van%");
+            var result = await controller.Index("firstName", "desc", 15, 2, "lastName=%van%");
 
-            Assert.AreEqual(Scope.Branch, queryOptions.Scope.Scope);
-            Assert.AreEqual("firstName", queryOptions.SortOptions.Column);
-            Assert.AreEqual(SortDirection.Descending, queryOptions.SortOptions.Direction);
-            Assert.AreEqual(15, queryOptions.PageOptions.Size);
-            Assert.AreEqual(2, queryOptions.PageOptions.Number);
+            Assert.Equal(Scope.Branch, queryOptions.Scope.Scope);
+            Assert.Equal("firstName", queryOptions.SortOptions.Column);
+            Assert.Equal(SortDirection.Descending, queryOptions.SortOptions.Direction);
+            Assert.Equal(15, queryOptions.PageOptions.Size);
+            Assert.Equal(2, queryOptions.PageOptions.Number);
 
-            Assert.AreEqual("%van%", queryOptions.LastName);
+            Assert.Equal("%van%", queryOptions.LastName);
 
-            Assert.AreEqual("{\"TotalItems\":1,\"Items\":[{\"Id\":\"21f9f54f-0bbc-4afc-a588-b6bae4f47ae6\",\"FirstName\":\"1\",\"LastName\":\"2\",\"MaidenName\":\"5\",\"Initials\":\"4\",\"PreferredName\":\"7\",\"IdNumber\":\"3\",\"DateOfBirth\":\"1982-10-03T00:00:00\",\"PassportNumber\":\"6\",\"TaxNumber\":\"8\",\"MarritalStatusId\":\"ffa2421d-f77f-4957-bdc5-2e79f7537d22\",\"MarriageDate\":\"2010-03-25T00:00:00\"}]}", JsonConvert.SerializeObject(actual));
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<PagedItems<OneAdvisor.Model.Member.Model.Member.Member>>(okResult.Value);
+
+            Assert.Same(pagedItems, returnValue);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get()
         {
             var member = new MemberEdit()
@@ -94,12 +133,15 @@ namespace api.Test.Controllers.Member
 
             var controller = new MembersController(service.Object, authService.Object);
 
-            var actual = await controller.Get(member.Id.Value);
+            var result = await controller.Get(member.Id.Value);
 
-            Assert.AreEqual("{\"Result\":{\"Value\":{\"Id\":\"21f9f54f-0bbc-4afc-a588-b6bae4f47ae6\",\"FirstName\":\"1\",\"LastName\":\"2\",\"MaidenName\":\"5\",\"Initials\":\"4\",\"PreferredName\":\"7\",\"IdNumber\":\"3\",\"DateOfBirth\":\"1982-10-03T00:00:00\",\"PassportNumber\":\"6\",\"TaxNumber\":\"8\",\"MarritalStatusId\":\"ffa2421d-f77f-4957-bdc5-2e79f7537d22\",\"MarriageDate\":\"2010-03-25T00:00:00\"},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<MemberEdit>(okResult.Value);
+
+            Assert.Same(member, returnValue);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetPreview()
         {
             var member = new MemberPreview()
@@ -121,12 +163,15 @@ namespace api.Test.Controllers.Member
 
             var controller = new MembersController(service.Object, authService.Object);
 
-            var actual = await controller.GetPreview(member.Id);
+            var result = await controller.GetPreview(member.Id);
 
-            Assert.AreEqual("{\"Result\":null,\"Value\":{\"Id\":\"21f9f54f-0bbc-4afc-a588-b6bae4f47ae6\",\"FirstName\":\"1\",\"LastName\":\"2\",\"IdNumber\":\"3\",\"DateOfBirth\":\"1982-10-03T00:00:00\",\"PolicyCount\":5,\"ContactCount\":4}}", JsonConvert.SerializeObject(actual));
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<MemberPreview>(okResult.Value);
+
+            Assert.Same(member, returnValue);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Insert()
         {
             var member = new MemberEdit()
@@ -168,13 +213,16 @@ namespace api.Test.Controllers.Member
 
             var actual = await controller.Insert(member);
 
-            Assert.AreSame(member, inserted);
-            Assert.AreEqual(Scope.Branch, options.Scope);
+            Assert.Same(member, inserted);
+            Assert.Equal(Scope.Branch, options.Scope);
 
-            Assert.AreEqual("{\"Result\":{\"Value\":{\"Success\":true,\"Tag\":null,\"Errors\":[],\"ValidationFailures\":[]},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
+            var okResult = Assert.IsType<OkObjectResult>(actual);
+            var returnValue = Assert.IsType<Result>(okResult.Value);
+
+            Assert.Same(result, returnValue);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Update()
         {
             var member = new MemberEdit()
@@ -216,10 +264,13 @@ namespace api.Test.Controllers.Member
 
             var actual = await controller.Update(member.Id.Value, member);
 
-            Assert.AreSame(member, updated);
-            Assert.AreEqual(Scope.Branch, options.Scope);
+            Assert.Same(member, updated);
+            Assert.Equal(Scope.Branch, options.Scope);
 
-            Assert.AreEqual("{\"Result\":{\"Value\":{\"Success\":true,\"Tag\":null,\"Errors\":[],\"ValidationFailures\":[]},\"Formatters\":[],\"ContentTypes\":[],\"DeclaredType\":null,\"StatusCode\":200},\"Value\":null}", JsonConvert.SerializeObject(actual));
+            var okResult = Assert.IsType<OkObjectResult>(actual);
+            var returnValue = Assert.IsType<Result>(okResult.Value);
+
+            Assert.Same(result, returnValue);
         }
     }
 }

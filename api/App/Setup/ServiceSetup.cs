@@ -128,6 +128,7 @@ namespace api.App.Setup
         public void ConfigureSwagger()
         {
             //https://github.com/domaindrivendev/Swashbuckle.AspNetCore
+            //https://localhost:6001/swagger
             Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "One Advisor", Version = "v1" });

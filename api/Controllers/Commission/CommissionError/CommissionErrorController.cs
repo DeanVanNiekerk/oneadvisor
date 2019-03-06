@@ -30,7 +30,7 @@ namespace api.Controllers.Commission.CommissionError
 
         [HttpGet("errors/next")]
         [UseCaseAuthorize("com_edit_commission_statements")]
-        public async Task<ActionResult<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>> Next(Guid commissionStatementId, [FromQuery] bool hasValidFormat)
+        public async Task<IActionResult> Next(Guid commissionStatementId, [FromQuery] bool hasValidFormat)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -44,7 +44,7 @@ namespace api.Controllers.Commission.CommissionError
 
         [HttpGet("errors/{commissionErrorId}")]
         [UseCaseAuthorize("com_edit_commission_statements")]
-        public async Task<ActionResult<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>> Get(Guid commissionErrorId)
+        public async Task<IActionResult> Get(Guid commissionErrorId)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -58,7 +58,7 @@ namespace api.Controllers.Commission.CommissionError
 
         [HttpPost("errors/resolve/format")]
         [UseCaseAuthorize("com_edit_commission_statements")]
-        public async Task<ActionResult<Result>> ResolveFormatError([FromBody] OneAdvisor.Model.Commission.Model.CommissionError.CommissionError commissionError)
+        public async Task<IActionResult> ResolveFormatError([FromBody] OneAdvisor.Model.Commission.Model.CommissionError.CommissionError commissionError)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -72,7 +72,7 @@ namespace api.Controllers.Commission.CommissionError
 
         [HttpPost("errors/resolve/mapping")]
         [UseCaseAuthorize("com_edit_commission_statements")]
-        public async Task<ActionResult<Result>> ResolveMappingError([FromBody] OneAdvisor.Model.Commission.Model.CommissionError.CommissionError commissionError)
+        public async Task<IActionResult> ResolveMappingError([FromBody] OneAdvisor.Model.Commission.Model.CommissionError.CommissionError commissionError)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -89,7 +89,7 @@ namespace api.Controllers.Commission.CommissionError
 
         [HttpGet("errors")]
         [UseCaseAuthorize("com_edit_commission_statements")]
-        public async Task<PagedItems<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>> Index(Guid commissionStatementId, string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
+        public async Task<IActionResult> Index(Guid commissionStatementId, string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -98,7 +98,7 @@ namespace api.Controllers.Commission.CommissionError
 
             var results = await CommissionErrorService.GetErrors(options);
 
-            return results;
+            return Ok(results);
         }
     }
 

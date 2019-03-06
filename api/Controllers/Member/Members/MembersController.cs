@@ -32,17 +32,20 @@ namespace api.Controllers.Directory.Members
 
         [HttpGet("")]
         [UseCaseAuthorize("mem_view_members")]
-        public async Task<PagedItems<OneAdvisor.Model.Member.Model.Member.Member>> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
+        public async Task<IActionResult> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
             var scope = AuthenticationService.GetScope(User);
 
             var queryOptions = new MemberQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
-            return await MemberService.GetMembers(queryOptions);
+
+            var members = await MemberService.GetMembers(queryOptions);
+
+            return Ok(members);
         }
 
         [HttpGet("{memberId}")]
         [UseCaseAuthorize("mem_view_members")]
-        public async Task<ActionResult<MemberEdit>> Get(Guid memberId)
+        public async Task<IActionResult> Get(Guid memberId)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -56,7 +59,7 @@ namespace api.Controllers.Directory.Members
 
         [HttpGet("{memberId}/preview")]
         [UseCaseAuthorize("mem_view_members")]
-        public async Task<ActionResult<MemberPreview>> GetPreview(Guid memberId)
+        public async Task<IActionResult> GetPreview(Guid memberId)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -65,12 +68,12 @@ namespace api.Controllers.Directory.Members
             if (model == null)
                 return NotFound();
 
-            return model;
+            return Ok(model);
         }
 
         [HttpPost]
         [UseCaseAuthorize("mem_edit_members")]
-        public async Task<ActionResult<Result>> Insert([FromBody] MemberEdit member)
+        public async Task<IActionResult> Insert([FromBody] MemberEdit member)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -84,7 +87,7 @@ namespace api.Controllers.Directory.Members
 
         [HttpPost("{memberId}")]
         [UseCaseAuthorize("mem_edit_members")]
-        public async Task<ActionResult<Result>> Update(Guid memberId, [FromBody] MemberEdit member)
+        public async Task<IActionResult> Update(Guid memberId, [FromBody] MemberEdit member)
         {
             member.Id = memberId;
 
@@ -100,7 +103,7 @@ namespace api.Controllers.Directory.Members
 
         [HttpDelete("{memberId}")]
         [UseCaseAuthorize("mem_edit_members")]
-        public async Task<ActionResult<Result>> Delete(Guid memberId)
+        public async Task<IActionResult> Delete(Guid memberId)
         {
             var scope = AuthenticationService.GetScope(User);
 
