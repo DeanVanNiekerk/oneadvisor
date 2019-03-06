@@ -36,13 +36,13 @@ namespace api.Controllers.Account.Authentication
 
 
         [AllowAnonymous]
-        [HttpPost("[action]")]
+        [HttpPost("signin")]
         public async Task<ActionResult<Result>> SignIn([FromBody] CredentialsDto dto)
         {
             var result = await AuthenticationService.Authenticate(dto.Username, dto.Password);
 
             if (!result.Success)
-                return BadRequest(new Result().ValidationFailures);
+                return BadRequest(new Result("Invalid Username or Password"));
 
             var token = await AuthenticationService.GenerateToken(dto.Username, JwtOptions);
 
