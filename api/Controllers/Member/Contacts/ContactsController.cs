@@ -14,7 +14,6 @@ using OneAdvisor.Model.Directory.Interface;
 using api.Controllers.Member.Policies.Dto;
 using OneAdvisor.Model.Member.Model.Policy;
 using OneAdvisor.Model.Member.Model.Contact;
-using api.Controllers.Member.Contacts.Dto;
 using OneAdvisor.Model.Account.Interface;
 
 namespace api.Controllers.Member.Contacts
@@ -24,32 +23,30 @@ namespace api.Controllers.Member.Contacts
     [Route("api/member/contacts")]
     public class ContactsController : Controller
     {
-        public ContactsController(IMapper mapper, IContactService contactService, IAuthenticationService authenticationService)
+        public ContactsController(IContactService contactService, IAuthenticationService authenticationService)
         {
-            Mapper = mapper;
             ContactService = contactService;
             AuthenticationService = authenticationService;
         }
 
-        private IMapper Mapper { get; }
         private IContactService ContactService { get; }
         private IAuthenticationService AuthenticationService { get; }
 
         [HttpGet("")]
         [UseCaseAuthorize("mem_view_contacts")]
-        public async Task<PagedItemsDto<ContactDto>> Index(string filters = null)
+        public async Task<IActionResult> Index(string filters = null)
         {
             var scope = AuthenticationService.GetScope(User);
 
             var queryOptions = new ContactQueryOptions(scope, filters);
             var pagedItems = await ContactService.GetContacts(queryOptions);
 
-            return Mapper.MapToPageItemsDto<Contact, ContactDto>(pagedItems);
+            return Ok(pagedItems);
         }
 
         [HttpGet("{contactId}")]
         [UseCaseAuthorize("mem_view_contacts")]
-        public async Task<ActionResult<ContactDto>> Get(Guid contactId)
+        public async Task<IActionResult> Get(Guid contactId)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -58,18 +55,16 @@ namespace api.Controllers.Member.Contacts
             if (model == null)
                 return NotFound();
 
-            return Ok(Mapper.Map<ContactDto>(model));
+            return Ok(model);
         }
 
         [HttpPost]
         [UseCaseAuthorize("mem_edit_contacts")]
-        public async Task<ActionResult<Result>> Insert([FromBody] ContactDto contact)
+        public async Task<IActionResult> Insert([FromBody] Contact contact)
         {
             var scope = AuthenticationService.GetScope(User);
 
-            var model = Mapper.Map<Contact>(contact);
-
-            var result = await ContactService.InsertContact(scope, model);
+            var result = await ContactService.InsertContact(scope, contact);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
@@ -79,15 +74,13 @@ namespace api.Controllers.Member.Contacts
 
         [HttpPost("{contactId}")]
         [UseCaseAuthorize("mem_edit_contacts")]
-        public async Task<ActionResult<Result>> Update(Guid contactId, [FromBody] ContactDto contact)
+        public async Task<IActionResult> Update(Guid contactId, [FromBody] Contact contact)
         {
             contact.Id = contactId;
 
-            var model = Mapper.Map<Contact>(contact);
-
             var scope = AuthenticationService.GetScope(User);
 
-            var result = await ContactService.UpdateContact(scope, model);
+            var result = await ContactService.UpdateContact(scope, contact);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
@@ -97,7 +90,7 @@ namespace api.Controllers.Member.Contacts
 
         [HttpDelete("{contactId}")]
         [UseCaseAuthorize("mem_edit_contacts")]
-        public async Task<ActionResult<Result>> Delete(Guid contactId)
+        public async Task<IActionResult> Delete(Guid contactId)
         {
             var scope = AuthenticationService.GetScope(User);
 

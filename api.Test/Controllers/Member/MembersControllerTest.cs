@@ -272,5 +272,42 @@ namespace api.Test.Controllers.Member
 
             Assert.Same(result, returnValue);
         }
+
+        [Fact]
+        public async Task Delete()
+        {
+            var memberId = Guid.NewGuid();
+
+            var service = new Mock<IMemberService>();
+            var authService = TestHelper.MockAuthenticationService(Scope.Branch);
+
+            var result = new Result()
+            {
+                Success = true
+            };
+
+            ScopeOptions options = null;
+            Guid deleted = Guid.Empty;
+
+            service.Setup(c => c.DeleteMember(It.IsAny<ScopeOptions>(), It.Is<Guid>(m => m == memberId)))
+                .Callback((ScopeOptions o, Guid d) =>
+                {
+                    deleted = d;
+                    options = o;
+                })
+                .ReturnsAsync(result);
+
+            var controller = new MembersController(service.Object, authService.Object);
+
+            var actual = await controller.Delete(memberId);
+
+            Assert.Equal(memberId, deleted);
+            Assert.Equal(Scope.Branch, options.Scope);
+
+            var okResult = Assert.IsType<OkObjectResult>(actual);
+            var returnValue = Assert.IsType<Result>(okResult.Value);
+
+            Assert.Same(result, returnValue);
+        }
     }
 }
