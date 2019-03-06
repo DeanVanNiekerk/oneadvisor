@@ -1,3 +1,4 @@
 {
+    "environment": "development",
     "baseApi": "https://localhost:6001"
 }

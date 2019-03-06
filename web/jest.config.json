@@ -14,6 +14,7 @@
     "testURL": "http://localhost",
     "globals": {
         "__OA_BASE_API__": "https://test.api.com",
+        "__ENVIRONMENT__": "development",
         "window": {
             "location": {}
         }

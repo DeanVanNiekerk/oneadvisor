@@ -6,10 +6,11 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const oaBaseApi = config.get("baseApi");
+const environment = config.get("environment");
 
 console.log("Config Settings");
 console.log("========================================");
-console.log("environment: " + process.env.NODE_ENV || "dev");
+console.log("environment: " + environment);
 console.log("oa.baseApi: " + oaBaseApi);
 console.log("========================================");
 
@@ -67,6 +68,7 @@ module.exports = {
             },
         ]),
         new webpack.DefinePlugin({
+            __ENVIRONMENT__: JSON.stringify(environment),
             __OA_BASE_API__: JSON.stringify(oaBaseApi),
         }),
     ],

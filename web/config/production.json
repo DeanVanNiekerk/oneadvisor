@@ -1,3 +1,4 @@
 {
+    "environment": "production",
     "baseApi": "https://api.oneadvisor.net"
 }

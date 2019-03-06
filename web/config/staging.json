@@ -1,3 +1,4 @@
 {
+    "environment": "staging",
     "baseApi": "https://staging-api.oneadvisor.net"
 }

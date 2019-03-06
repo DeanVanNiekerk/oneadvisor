@@ -1,10 +1,11 @@
-import { Icon, Layout, Menu, Popover } from 'antd';
+import { Icon, Layout, Menu, Popover, Tag } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import { hasUseCasesMenuGroups } from '@/app/identity';
+import config from '@/config/config';
 import { authSelector, signOut } from '@/state/auth';
 import { applicationsSelector, currentApplicationSelector, menusSelector } from '@/state/context/selectors';
 import { Application, Menus } from '@/state/context/types';
@@ -79,6 +80,28 @@ class Navigator extends Component<Props> {
         this.props.dispatch(signOut());
     };
 
+    getEnvironmentColor = (): string => {
+        switch (config.environment) {
+            case "development":
+                return "#6461A0";
+            case "staging":
+                return "#E84855";
+            default:
+                return "#000000";
+        }
+    };
+
+    getEnvironmentName = (): string => {
+        switch (config.environment) {
+            case "development":
+                return "Dev";
+            case "staging":
+                return "Staging";
+            default:
+                return "";
+        }
+    };
+
     render() {
         return (
             <>
@@ -92,13 +115,25 @@ class Navigator extends Component<Props> {
                         >
                             <Light>ONE</Light>
                             <Bold>ADVISOR</Bold>
+                            {config.environment !== "production" && (
+                                <Tag
+                                    style={{
+                                        position: "absolute",
+                                        top: "35px",
+                                        left: "160px",
+                                    }}
+                                    color={this.getEnvironmentColor()}
+                                >
+                                    {this.getEnvironmentName()}
+                                </Tag>
+                            )}
                         </Popover>
                     </AppName>
                     <Signout onClick={this.signOut}>Signout</Signout>
                     <Menu
                         theme="dark"
                         mode="horizontal"
-                        style={{ lineHeight: '64px' }}
+                        style={{ lineHeight: "64px" }}
                     >
                         {this.props.applications
                             .filter(app =>
@@ -117,7 +152,7 @@ class Navigator extends Component<Props> {
                                 >
                                     <Icon
                                         type={app.icon}
-                                        style={{ fontSize: '16px' }}
+                                        style={{ fontSize: "16px" }}
                                     />
                                     {app.name}
                                 </MenuItem>
@@ -137,7 +172,7 @@ const mapStateToProps = (state: RootState) => {
         menus: menusSelector(state),
         applications: applicationsSelector(state),
         currentApplication: currentApplicationSelector(state) || {},
-        useCases: authState.identity ? authState.identity.useCaseIds : []
+        useCases: authState.identity ? authState.identity.useCaseIds : [],
     };
 };
 
