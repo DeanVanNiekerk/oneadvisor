@@ -126,14 +126,31 @@ namespace OneAdvisor.Service.Test
             };
         }
 
-        public static CommissionTypeEntity InsertDefaultCommissionType(DbContextOptions<DataContext> options)
+        public static PolicyTypeEntity InsertPolicyType(DbContextOptions<DataContext> options)
+        {
+            var type = new PolicyTypeEntity
+            {
+                Id = Guid.NewGuid(),
+                Name = Guid.NewGuid().ToString()
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.PolicyType.Add(type);
+                context.SaveChanges();
+            };
+
+            return type;
+        }
+
+        public static CommissionTypeEntity InsertDefaultCommissionType(DbContextOptions<DataContext> options, Guid? policyTypeId = null)
         {
             var type = new CommissionTypeEntity
             {
                 Id = Guid.NewGuid(),
                 Name = Guid.NewGuid().ToString(),
                 Code = Guid.NewGuid().ToString(),
-                PolicyTypeId = Guid.NewGuid()
+                PolicyTypeId = policyTypeId.HasValue ? policyTypeId.Value : Guid.NewGuid()
             };
 
             using (var context = new DataContext(options))
@@ -143,6 +160,23 @@ namespace OneAdvisor.Service.Test
             };
 
             return type;
+        }
+
+        public static CompanyEntity InsertCompany(DbContextOptions<DataContext> options)
+        {
+            var company = new CompanyEntity
+            {
+                Id = Guid.NewGuid(),
+                Name = Guid.NewGuid().ToString()
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Company.Add(company);
+                context.SaveChanges();
+            };
+
+            return company;
         }
 
         public static CommissionStatementEntity InsertDefaultCommissionStatement(DbContextOptions<DataContext> options, OrganisationEntity organisation, Guid? companyId = null)

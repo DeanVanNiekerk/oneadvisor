@@ -12,10 +12,5 @@ namespace OneAdvisor.Model.Commission.Model.CommissionError
         public Guid? CommissionTypeId { get; set; }
         public OneAdvisor.Model.Commission.Model.ImportCommission.ImportCommission Data { get; set; }
         public bool IsFormatValid { get; set; }
-
-        public bool IsValid()
-        {
-            return PolicyId.HasValue && MemberId.HasValue && CommissionTypeId.HasValue;
-        }
     }
 }

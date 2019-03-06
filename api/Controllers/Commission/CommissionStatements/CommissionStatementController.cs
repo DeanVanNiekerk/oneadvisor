@@ -17,17 +17,15 @@ namespace api.Controllers.Commission.CommissionStatements
     [Route("api/commission/statements")]
     public class CommissionStatementsController : Controller
     {
-        public CommissionStatementsController(IMapper mapper, ICommissionStatementService commissionStatementService, ICommissionService commissionService, IAuthenticationService authenticationService)
+        public CommissionStatementsController(IMapper mapper, ICommissionStatementService commissionStatementService, IAuthenticationService authenticationService)
         {
             Mapper = mapper;
             CommissionStatementService = commissionStatementService;
-            CommissionService = commissionService;
             AuthenticationService = authenticationService;
         }
 
         private IMapper Mapper { get; }
         private ICommissionStatementService CommissionStatementService { get; }
-        private ICommissionService CommissionService { get; }
         private IAuthenticationService AuthenticationService { get; }
 
 
@@ -97,7 +95,7 @@ namespace api.Controllers.Commission.CommissionStatements
         {
             var scope = AuthenticationService.GetScope(User);
 
-            await CommissionService.DeleteCommissions(scope, commissionStatementId);
+            await CommissionStatementService.DeleteCommissions(scope, commissionStatementId);
 
             return Ok(new { Success = true });
         }

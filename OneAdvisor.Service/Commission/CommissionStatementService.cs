@@ -12,16 +12,20 @@ using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Commission.Validators;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
+using EFCore.BulkExtensions;
+using OneAdvisor.Service.Common.BulkActions;
 
 namespace OneAdvisor.Service.Commission
 {
     public class CommissionStatementService : ICommissionStatementService
     {
         private readonly DataContext _context;
+        private readonly IBulkActions _bulkActions;
 
-        public CommissionStatementService(DataContext context)
+        public CommissionStatementService(DataContext context, IBulkActions bulkActions)
         {
             _context = context;
+            _bulkActions = bulkActions;
         }
 
         public async Task<PagedCommissionStatements> GetCommissionStatements(CommissionStatementQueryOptions queryOptions)
@@ -150,6 +154,18 @@ namespace OneAdvisor.Service.Commission
             await _context.SaveChangesAsync();
 
             return result;
+        }
+
+        public async Task DeleteCommissions(ScopeOptions scope, Guid commissionStatementId)
+        {
+            //Scope check
+            var statement = await GetCommissionStatement(scope, commissionStatementId);
+
+            if (statement == null)
+                return;
+
+            await _bulkActions.BatchDeleteCommissionsAsync(_context, commissionStatementId);
+            await _bulkActions.BatchDeleteCommissionErrorsAsync(_context, commissionStatementId);
         }
 
         private IQueryable<CommissionStatementEdit> GetCommissionStatementEditQuery(ScopeOptions scope)

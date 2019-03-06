@@ -17,6 +17,8 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using OneAdvisor.Data.Entities.Directory.Lookup;
 using System.Collections.Generic;
+using Moq;
+using OneAdvisor.Service.Common.BulkActions;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -37,8 +39,13 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 var lookupService = new LookupService(context);
                 var policyService = new PolicyService(context);
-                var statementService = new CommissionStatementService(context);
-                var service = new CommissionImportService(context, statementService, null, policyService, lookupService);
+                var statementService = new CommissionStatementService(context, null);
+
+                var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
+                bulkActions.Setup(c => c.BulkInsertCommissionErrorsAsync(It.IsAny<DataContext>(), It.IsAny<IList<CommissionErrorEntity>>()))
+                    .Returns(Task.CompletedTask);
+
+                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService);
 
                 //When
                 var import1 = new ImportCommission
@@ -79,8 +86,15 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 var lookupService = new LookupService(context);
                 var policyService = new PolicyService(context);
-                var statementService = new CommissionStatementService(context);
-                var service = new CommissionImportService(context, statementService, null, policyService, lookupService);
+                var statementService = new CommissionStatementService(context, null);
+
+                var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
+                var insertedErrors = new List<CommissionErrorEntity>();
+                bulkActions.Setup(c => c.BulkInsertCommissionErrorsAsync(It.IsAny<DataContext>(), It.IsAny<IList<CommissionErrorEntity>>()))
+                    .Callback((DataContext c, IList<CommissionErrorEntity> l) => insertedErrors = l.ToList())
+                    .Returns(Task.CompletedTask);
+
+                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService);
 
                 //When
                 var import1 = new ImportCommission
@@ -101,7 +115,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal("'VAT' must be a number", result.ValidationFailures[1].ErrorMessage);
 
                 //Check error record
-                var actual = await context.CommissionError.SingleAsync();
+                var actual = insertedErrors.Single();
 
                 Assert.Equal(null, actual.MemberId);
                 Assert.Equal(null, actual.PolicyId);
@@ -134,10 +148,17 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionType.Add(commissionType);
                 context.SaveChanges();
 
-                var statementService = new CommissionStatementService(context);
+                var statementService = new CommissionStatementService(context, null);
                 var lookupService = new LookupService(context);
                 var policyService = new PolicyService(context);
-                var service = new CommissionImportService(context, statementService, null, policyService, lookupService);
+
+                var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
+                var insertedErrors = new List<CommissionErrorEntity>();
+                bulkActions.Setup(c => c.BulkInsertCommissionErrorsAsync(It.IsAny<DataContext>(), It.IsAny<IList<CommissionErrorEntity>>()))
+                    .Callback((DataContext c, IList<CommissionErrorEntity> l) => insertedErrors = l.ToList())
+                    .Returns(Task.CompletedTask);
+
+                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService);
 
                 //When
                 var import1 = new ImportCommission
@@ -156,7 +177,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(0, result.ValidationFailures.Count);
 
                 //Check error record
-                var actual = await context.CommissionError.SingleAsync();
+                var actual = insertedErrors.Single();
 
                 Assert.Equal(null, actual.MemberId);
                 Assert.Equal(null, actual.PolicyId);
@@ -194,10 +215,17 @@ namespace OneAdvisor.Service.Test.Commission
                 context.Policy.Add(policy1);
                 context.SaveChanges();
 
-                var statementService = new CommissionStatementService(context);
+                var statementService = new CommissionStatementService(context, null);
                 var lookupService = new LookupService(context);
                 var policyService = new PolicyService(context);
-                var service = new CommissionImportService(context, statementService, null, policyService, lookupService);
+
+                var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
+                var insertedErrors = new List<CommissionErrorEntity>();
+                bulkActions.Setup(c => c.BulkInsertCommissionErrorsAsync(It.IsAny<DataContext>(), It.IsAny<IList<CommissionErrorEntity>>()))
+                    .Callback((DataContext c, IList<CommissionErrorEntity> l) => insertedErrors = l.ToList())
+                    .Returns(Task.CompletedTask);
+
+                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService);
 
                 //When
                 var import1 = new ImportCommission
@@ -216,7 +244,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(0, result.ValidationFailures.Count);
 
                 //Check error record
-                var actual = await context.CommissionError.SingleAsync();
+                var actual = insertedErrors.Single();
 
                 Assert.Equal(policy1.MemberId, actual.MemberId);
                 Assert.Equal(policy1.Id, actual.PolicyId);
@@ -261,11 +289,18 @@ namespace OneAdvisor.Service.Test.Commission
                 context.Policy.Add(policy1);
                 context.SaveChanges();
 
-                var statementService = new CommissionStatementService(context);
+                var statementService = new CommissionStatementService(context, null);
                 var lookupService = new LookupService(context);
                 var policyService = new PolicyService(context);
                 var commissionService = new CommissionService(context);
-                var service = new CommissionImportService(context, statementService, commissionService, policyService, lookupService);
+
+                var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
+                var insertedCommissions = new List<CommissionEntity>();
+                bulkActions.Setup(c => c.BulkInsertCommissionsAsync(It.IsAny<DataContext>(), It.IsAny<IList<CommissionEntity>>()))
+                    .Callback((DataContext c, IList<CommissionEntity> l) => insertedCommissions = l.ToList())
+                    .Returns(Task.CompletedTask);
+
+                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService);
 
                 //When
                 var import1 = new ImportCommission
@@ -282,12 +317,7 @@ namespace OneAdvisor.Service.Test.Commission
                 //Then
                 Assert.True(result.Success);
 
-                //Check error record
-                var anyErrors = await context.CommissionError.AnyAsync();
-
-                Assert.False(anyErrors);
-
-                var actual = await context.Commission.FindAsync(((CommissionEdit)result.Tag).Id);
+                var actual = insertedCommissions.Single();
                 Assert.Equal(policy1.Id, actual.PolicyId);
                 Assert.Equal(commissionType.Id, actual.CommissionTypeId);
                 Assert.Equal(100, actual.AmountIncludingVAT);
@@ -329,11 +359,18 @@ namespace OneAdvisor.Service.Test.Commission
                 context.Policy.Add(policy1);
                 context.SaveChanges();
 
-                var statementService = new CommissionStatementService(context);
+                var statementService = new CommissionStatementService(context, null);
                 var lookupService = new LookupService(context);
                 var policyService = new PolicyService(context);
                 var commissionService = new CommissionService(context);
-                var service = new CommissionImportService(context, statementService, commissionService, policyService, lookupService);
+
+                var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
+                var insertedCommissions = new List<CommissionEntity>();
+                bulkActions.Setup(c => c.BulkInsertCommissionsAsync(It.IsAny<DataContext>(), It.IsAny<IList<CommissionEntity>>()))
+                    .Callback((DataContext c, IList<CommissionEntity> l) => insertedCommissions = l.ToList())
+                    .Returns(Task.CompletedTask);
+
+                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService);
 
                 //When
                 var import1 = new ImportCommission
@@ -350,12 +387,7 @@ namespace OneAdvisor.Service.Test.Commission
                 //Then
                 Assert.True(result.Success);
 
-                //Check error record
-                var anyErrors = await context.CommissionError.AnyAsync();
-
-                Assert.False(anyErrors);
-
-                var actual = await context.Commission.FindAsync(((CommissionEdit)result.Tag).Id);
+                var actual = insertedCommissions.Single();
                 Assert.Equal(policy1.Id, actual.PolicyId);
                 Assert.Equal(commissionType.Id, actual.CommissionTypeId);
                 Assert.Equal(-100, actual.AmountIncludingVAT);

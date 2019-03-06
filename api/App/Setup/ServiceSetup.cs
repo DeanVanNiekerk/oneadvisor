@@ -22,6 +22,7 @@ using OneAdvisor.Model.Email;
 using OneAdvisor.Model.Member.Interface;
 using OneAdvisor.Service.Account;
 using OneAdvisor.Service.Commission;
+using OneAdvisor.Service.Common.BulkActions;
 using OneAdvisor.Service.Directory;
 using OneAdvisor.Service.Member;
 using Swashbuckle.AspNetCore.Swagger;
@@ -113,6 +114,9 @@ namespace api.App.Setup
             Services.AddScoped<ICommissionStatementService, CommissionStatementService>();
             Services.AddScoped<ICommissionErrorService, CommissionErrorService>();
             Services.AddScoped<ICommissionStatementTemplateService, CommissionStatementTemplateService>();
+
+            //Helpers
+            Services.AddScoped<IBulkActions, BulkActions>();
         }
 
         public void ConfigureMapper()

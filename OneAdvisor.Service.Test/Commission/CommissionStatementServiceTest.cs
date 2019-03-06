@@ -11,6 +11,11 @@ using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Commission;
 using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.Sqlite;
+using OneAdvisor.Model.Commission.Model.ImportCommission;
+using Moq;
+using OneAdvisor.Service.Common.BulkActions;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -137,7 +142,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionStatementService(context);
+                var service = new CommissionStatementService(context, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -231,7 +236,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionStatementService(context);
+                var service = new CommissionStatementService(context, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -308,7 +313,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionStatementService(context);
+                var service = new CommissionStatementService(context, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -351,7 +356,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionStatementService(context);
+                var service = new CommissionStatementService(context, null);
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1);
@@ -413,7 +418,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionStatementService(context);
+                var service = new CommissionStatementService(context, null);
 
                 var model = new CommissionStatementEdit
                 {
@@ -444,6 +449,54 @@ namespace OneAdvisor.Service.Test.Commission
                 scopeOptions = TestHelper.GetScopeOptions(user2, Scope.User);
                 result = await service.UpdateCommissionStatement(scopeOptions, model);
                 Assert.False(result.Success);
+            }
+        }
+
+
+        [Fact]
+        public async Task DeleteCommissions()
+        {
+            var options = TestHelper.GetDbContext("UpdateCommissionStatement");
+
+            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var statement1 = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
+
+            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var statement2 = TestHelper.InsertDefaultCommissionStatement(options, user2.Organisation);
+
+            using (var context = new DataContext(options))
+            {
+
+                var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
+
+                var actualCommissionStatementId1 = Guid.Empty;
+                bulkActions.Setup(c => c.BatchDeleteCommissionsAsync(It.IsAny<DataContext>(), It.IsAny<Guid>()))
+                    .Callback((DataContext c, Guid g1) => actualCommissionStatementId1 = g1)
+                    .Returns(Task.CompletedTask);
+
+                var actualCommissionStatementId2 = Guid.Empty;
+                bulkActions.Setup(c => c.BatchDeleteCommissionErrorsAsync(It.IsAny<DataContext>(), It.IsAny<Guid>()))
+                    .Callback((DataContext c, Guid g1) => actualCommissionStatementId2 = g1)
+                    .Returns(Task.CompletedTask);
+
+                var service = new CommissionStatementService(context, bulkActions.Object);
+
+                //When
+                var scopeOptions = TestHelper.GetScopeOptions(user1);
+                await service.DeleteCommissions(scopeOptions, statement1.Id);
+
+                //Then
+                Assert.Equal(statement1.Id, actualCommissionStatementId1);
+                Assert.Equal(statement1.Id, actualCommissionStatementId2);
+
+                //Reset
+                actualCommissionStatementId1 = Guid.Empty;
+                actualCommissionStatementId2 = Guid.Empty;
+
+                // //Out of scope 
+                await service.DeleteCommissions(scopeOptions, statement2.Id);
+                Assert.Equal(Guid.Empty, actualCommissionStatementId1);
+                Assert.Equal(Guid.Empty, actualCommissionStatementId2);
             }
         }
     }

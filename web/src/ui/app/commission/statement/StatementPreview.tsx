@@ -412,7 +412,10 @@ class StatementPreviewComponent extends Component<Props, State> {
                         <UploadStatement
                             commissionStatementId={statement.id}
                             companyId={statement.companyId}
-                            onSuccess={this.load}
+                            onSuccess={() => {
+                                this.load();
+                                this.toggleUploadStatementVisible();
+                            }}
                         />
                     )}
 

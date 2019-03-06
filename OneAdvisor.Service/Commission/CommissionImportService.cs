@@ -20,6 +20,8 @@ using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Model.Member.Model.Policy;
 using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
+using EFCore.BulkExtensions;
+using OneAdvisor.Service.Common.BulkActions;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -28,46 +30,66 @@ namespace OneAdvisor.Service.Commission
         private readonly DataContext _context;
         private readonly IPolicyService _policyService;
         private readonly ILookupService _lookupService;
-        private readonly ICommissionService _commissionService;
+        private readonly IBulkActions _bulkActions;
         private readonly ICommissionStatementService _commissionStatementService;
 
-        public CommissionImportService(DataContext context, ICommissionStatementService commissionStatementService, ICommissionService commissionService, IPolicyService policyService, ILookupService lookupService)
+        public CommissionImportService(DataContext context, IBulkActions bulkActions, ICommissionStatementService commissionStatementService, IPolicyService policyService, ILookupService lookupService)
         {
             _context = context;
             _policyService = policyService;
             _lookupService = lookupService;
-            _commissionService = commissionService;
             _commissionStatementService = commissionStatementService;
+            _bulkActions = bulkActions;
         }
+
+        private List<CommissionEntity> CommissionsToInsert { get; set; }
+        private List<CommissionErrorEntity> CommissionErrorsToInsert { get; set; }
 
         public async Task<List<Result>> ImportCommissions(ScopeOptions scope, Guid commissionStatementId, IEnumerable<ImportCommission> importData)
         {
             var results = new List<Result>();
 
+            CommissionsToInsert = new List<CommissionEntity>();
+            CommissionErrorsToInsert = new List<CommissionErrorEntity>();
+
             //Scope check
-            var queryOptions = new CommissionStatementQueryOptions(scope, "", "", 0, 0, $"commissionStatementId={commissionStatementId}");
+            var queryOptions = new CommissionStatementQueryOptions(scope, "", "", 0, 0);
+            queryOptions.CommissionStatementId = commissionStatementId;
             var statements = await _commissionStatementService.GetCommissionStatements(queryOptions);
             if (!statements.Items.Any())
                 return results;
 
+            var statement = statements.Items.Single();
+
             var commissionTypes = await _lookupService.GetCommissionTypes();
+
+            var policyQueryOptions = new PolicyQueryOptions(scope, "", "", 0, 0);
+            policyQueryOptions.CompanyId = statement.CompanyId;
+            var policies = (await _policyService.GetPolicies(policyQueryOptions)).Items.ToList();
 
             foreach (var data in importData)
             {
-                var result = await ImportCommission(scope, statements.Items.Single(), data, commissionTypes);
+                var result = ImportCommission(scope, statement, data, policies, commissionTypes);
                 results.Add(result);
             }
+
+            if (CommissionsToInsert.Any())
+                await _bulkActions.BulkInsertCommissionsAsync(_context, CommissionsToInsert);
+
+            if (CommissionErrorsToInsert.Any())
+                await _bulkActions.BulkInsertCommissionErrorsAsync(_context, CommissionErrorsToInsert);
 
             return results;
         }
 
-        public async Task<Result> ImportCommission(ScopeOptions scope, CommissionStatement commissionStatement, ImportCommission importCommission, List<CommissionType> commissionTypes)
+        private Result ImportCommission(ScopeOptions scope, CommissionStatement commissionStatement, ImportCommission importCommission, List<Policy> policies, List<CommissionType> commissionTypes)
         {
             var validator = new ImportCommissionValidator();
             var result = validator.Validate(importCommission).GetResult();
 
-            var error = new CommissionError()
+            var error = new CommissionErrorEntity()
             {
+                Id = Guid.NewGuid(),
                 CommissionStatementId = commissionStatement.Id,
                 Data = importCommission,
                 IsFormatValid = true
@@ -77,7 +99,7 @@ namespace OneAdvisor.Service.Commission
             if (commissionType != null)
                 error.CommissionTypeId = commissionType.Id;
 
-            var policy = await _policyService.GetPolicy(scope, commissionStatement.CompanyId, importCommission.PolicyNumber);
+            var policy = policies.FirstOrDefault(p => p.Number.IgnoreCaseEquals(importCommission.PolicyNumber));
             if (policy != null)
             {
                 error.MemberId = policy.MemberId;
@@ -87,62 +109,36 @@ namespace OneAdvisor.Service.Commission
             if (!result.Success)
             {
                 error.IsFormatValid = false;
-                await InsertCommissionError(error);
+                CommissionErrorsToInsert.Add(error);
                 return result;
             }
 
-            if (!error.IsValid())
+            if (!IsCommissionErrorValid(error))
             {
-                await InsertCommissionError(error);
+                CommissionErrorsToInsert.Add(error);
                 return new Result();
             }
 
-            //Import data is valid, try and get an existing commission entry
-            var commission = LoadCommissionModel(commissionStatement.Id, policy, commissionType, importCommission);
+            var commission = LoadCommissionEntity(commissionStatement.Id, policy, commissionType, importCommission);
 
-            return await _commissionService.InsertCommission(scope, commission);
+            CommissionsToInsert.Add(commission);
+
+            return new Result(true);
         }
 
-        private async Task InsertCommissionError(CommissionError error)
+        public bool IsCommissionErrorValid(CommissionErrorEntity entity)
         {
-            var entity = MapModelToEntity(error);
-            await _context.CommissionError.AddAsync(entity);
-            await _context.SaveChangesAsync();
+            return entity.PolicyId.HasValue && entity.MemberId.HasValue && entity.CommissionTypeId.HasValue;
         }
 
-        private async Task<CommissionErrorEntity> GetCommissionError(CommissionError error)
+        private CommissionEntity LoadCommissionEntity(Guid commissionStatementId, Policy policy, CommissionType commissionType, ImportCommission importCommission)
         {
-            var query = from entity in _context.CommissionError
-                        where entity.CommissionStatementId == error.CommissionStatementId
-                        && entity.Id == error.Id
-                        select entity;
+            var commission = new CommissionEntity();
 
-            return await query.FirstOrDefaultAsync();
-        }
-
-        private CommissionErrorEntity MapModelToEntity(CommissionError model, CommissionErrorEntity entity = null)
-        {
-            if (entity == null)
-                entity = new CommissionErrorEntity();
-
-            entity.CommissionStatementId = model.CommissionStatementId;
-            entity.PolicyId = model.PolicyId;
-            entity.CommissionTypeId = model.CommissionTypeId;
-            entity.MemberId = model.MemberId;
-            entity.IsFormatValid = model.IsFormatValid;
-            entity.Data = model.Data;
-
-            return entity;
-        }
-
-        private CommissionEdit LoadCommissionModel(Guid commissionStatementId, PolicyEdit policy, CommissionType commissionType, ImportCommission importCommission, CommissionEdit commission = null)
-        {
-            if (commission == null)
-                commission = new CommissionEdit();
-
+            commission.Id = Guid.NewGuid();
             commission.PolicyId = policy.Id;
             commission.CommissionStatementId = commissionStatementId;
-            commission.CommissionTypeId = commissionType.Id;
+            commission.CommissionTypeId = commissionType.Id.Value;
             commission.AmountIncludingVAT = Convert.ToDecimal(importCommission.AmountIncludingVAT);
             commission.VAT = Convert.ToDecimal(importCommission.VAT);
             commission.SourceData = importCommission;

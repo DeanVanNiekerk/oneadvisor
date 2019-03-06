@@ -12,5 +12,6 @@ namespace OneAdvisor.Model.Commission.Interface
         Task<CommissionStatementEdit> GetCommissionStatement(ScopeOptions scope, Guid id);
         Task<Result> UpdateCommissionStatement(ScopeOptions scope, CommissionStatementEdit commission);
         Task<Result> InsertCommissionStatement(ScopeOptions scope, CommissionStatementEdit commission);
+        Task DeleteCommissions(ScopeOptions scope, Guid commissionStatementId);
     }
 }
