@@ -152,13 +152,12 @@ namespace api.Test.Controllers.Commission
 
             ScopeOptions options = null;
             CommissionEdit inserted = null;
-            service.Setup(c => c.InsertCommission(It.IsAny<ScopeOptions>(), It.Is<CommissionEdit>(m => m == commission)))
+            service.Setup(c => c.InsertCommission(It.IsAny<ScopeOptions>(), It.IsAny<CommissionEdit>()))
                 .Callback((ScopeOptions o, CommissionEdit i) =>
                 {
                     inserted = i;
                     options = o;
-                }
-                    )
+                })
                 .ReturnsAsync(result);
 
             var controller = new CommissionsController(service.Object, authService.Object);
@@ -198,13 +197,12 @@ namespace api.Test.Controllers.Commission
 
             ScopeOptions options = null;
             CommissionEdit updated = null;
-            service.Setup(c => c.UpdateCommission(It.IsAny<ScopeOptions>(), It.Is<CommissionEdit>(m => m == commission)))
+            service.Setup(c => c.UpdateCommission(It.IsAny<ScopeOptions>(), It.IsAny<CommissionEdit>()))
                 .Callback((ScopeOptions o, CommissionEdit i) =>
                 {
                     updated = i;
                     options = o;
-                }
-                    )
+                })
                 .ReturnsAsync(result);
 
             var controller = new CommissionsController(service.Object, authService.Object);

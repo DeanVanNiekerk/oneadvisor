@@ -20,5 +20,7 @@ namespace OneAdvisor.Model.Directory.Interface
         Task<CommissionType> GetCommissionType(string code);
         Task<Result> UpdateCommissionType(CommissionType model);
         Task<Result> InsertCommissionType(CommissionType model);
+
+        Task<List<CommissionEarningsType>> GetCommissionEarningsTypes();
     }
 }

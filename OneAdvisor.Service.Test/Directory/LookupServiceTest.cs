@@ -270,9 +270,9 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("GetCommissionTypes");
 
             //Given
-            var lkp1 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "A", Code = "aa", PolicyTypeId = Guid.NewGuid() };
-            var lkp2 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "B", Code = "bb", PolicyTypeId = Guid.NewGuid() };
-            var lkp3 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "C", Code = "cc", PolicyTypeId = Guid.NewGuid() };
+            var lkp1 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "A", Code = "aa", PolicyTypeId = Guid.NewGuid(), CommissionEarningsTypeId = Guid.NewGuid() };
+            var lkp2 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "B", Code = "bb", PolicyTypeId = Guid.NewGuid(), CommissionEarningsTypeId = Guid.NewGuid() };
+            var lkp3 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "C", Code = "cc", PolicyTypeId = Guid.NewGuid(), CommissionEarningsTypeId = Guid.NewGuid() };
 
             using (var context = new DataContext(options))
             {
@@ -299,6 +299,7 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.Equal(lkp1.Name, actual1.Name);
                 Assert.Equal(lkp1.Code, actual1.Code);
                 Assert.Equal(lkp1.PolicyTypeId, actual1.PolicyTypeId);
+                Assert.Equal(lkp1.CommissionEarningsTypeId, actual1.CommissionEarningsTypeId);
 
                 var actual2 = actual[1];
                 Assert.Equal(lkp2.Id, actual2.Id);
@@ -314,8 +315,8 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("GetCommissionType");
 
             //Given
-            var lkp1 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "A", Code = "aa", PolicyTypeId = Guid.NewGuid() };
-            var lkp2 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "B", Code = "bb", PolicyTypeId = Guid.NewGuid() };
+            var lkp1 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "A", Code = "aa", PolicyTypeId = Guid.NewGuid(), CommissionEarningsTypeId = Guid.NewGuid() };
+            var lkp2 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "B", Code = "bb", PolicyTypeId = Guid.NewGuid(), CommissionEarningsTypeId = Guid.NewGuid() };
 
             using (var context = new DataContext(options))
             {
@@ -339,6 +340,7 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.Equal(lkp1.Name, actual.Name);
                 Assert.Equal(lkp1.Code, actual.Code);
                 Assert.Equal(lkp1.PolicyTypeId, actual.PolicyTypeId);
+                Assert.Equal(lkp1.CommissionEarningsTypeId, actual.CommissionEarningsTypeId);
             }
         }
 
@@ -352,7 +354,8 @@ namespace OneAdvisor.Service.Test.Directory
             {
                 Name = "1",
                 Code = "one",
-                PolicyTypeId = Guid.NewGuid()
+                PolicyTypeId = Guid.NewGuid(),
+                CommissionEarningsTypeId = Guid.NewGuid()
             };
 
             using (var context = new DataContext(options))
@@ -369,6 +372,7 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.Equal(model.Name, actual.Name);
                 Assert.Equal(model.Code, actual.Code);
                 Assert.Equal(model.PolicyTypeId, actual.PolicyTypeId);
+                Assert.Equal(model.CommissionEarningsTypeId, actual.CommissionEarningsTypeId);
             }
         }
 
@@ -378,7 +382,7 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("UpdateCommissionType");
 
             //Given
-            var lkp1 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "1", Code = "aa", PolicyTypeId = Guid.NewGuid() };
+            var lkp1 = new CommissionTypeEntity { Id = Guid.NewGuid(), Name = "1", Code = "aa", PolicyTypeId = Guid.NewGuid(), CommissionEarningsTypeId = Guid.NewGuid() };
 
             using (var context = new DataContext(options))
             {
@@ -392,7 +396,8 @@ namespace OneAdvisor.Service.Test.Directory
                 Id = lkp1.Id,
                 Name = "1 Updated",
                 Code = "aa Updated",
-                PolicyTypeId = Guid.NewGuid()
+                PolicyTypeId = Guid.NewGuid(),
+                CommissionEarningsTypeId = Guid.NewGuid()
             };
 
             using (var context = new DataContext(options))
@@ -409,6 +414,53 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.Equal(model.Name, actual.Name);
                 Assert.Equal(model.Code, actual.Code);
                 Assert.Equal(model.PolicyTypeId, actual.PolicyTypeId);
+                Assert.Equal(model.CommissionEarningsTypeId, actual.CommissionEarningsTypeId);
+            }
+        }
+
+        #endregion
+
+        #region Marrial Status
+
+        [Fact]
+        public async Task GetCommissionEarningsTypes()
+        {
+            var options = TestHelper.GetDbContext("GetCommissionEarningsTypes");
+
+            //Given
+            var lkp1 = new CommissionEarningsTypeEntity { Id = Guid.NewGuid(), Name = "A" };
+            var lkp2 = new CommissionEarningsTypeEntity { Id = Guid.NewGuid(), Name = "B" };
+            var lkp3 = new CommissionEarningsTypeEntity { Id = Guid.NewGuid(), Name = "C" };
+
+            using (var context = new DataContext(options))
+            {
+                //Jumbled order
+                context.CommissionEarningsType.Add(lkp2);
+                context.CommissionEarningsType.Add(lkp1);
+                context.CommissionEarningsType.Add(lkp3);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new LookupService(context);
+
+                //When
+                var actual = await service.GetCommissionEarningsTypes();
+
+                //Then
+                Assert.Equal(actual.Count, 3);
+
+                var actual1 = actual[0];
+                Assert.Equal(lkp1.Id, actual1.Id);
+                Assert.Equal(lkp1.Name, actual1.Name);
+
+                var actual2 = actual[1];
+                Assert.Equal(lkp2.Id, actual2.Id);
+
+                var actual3 = actual[2];
+                Assert.Equal(lkp3.Id, actual3.Id);
             }
         }
 

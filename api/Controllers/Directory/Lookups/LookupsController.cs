@@ -17,57 +17,44 @@ namespace api.Controllers.Directory.Lookups
     [Route("api/directory/lookups")]
     public class LookupsController : Controller
     {
-        public LookupsController(IMapper mapper, ILookupService lookupService)
+        public LookupsController(ILookupService lookupService)
         {
-            Mapper = mapper;
             LookupService = lookupService;
         }
 
-        private IMapper Mapper { get; }
         private ILookupService LookupService { get; }
 
         [HttpGet("all")]
-        public async Task<LookupsDto> All()
+        public async Task<IActionResult> All()
         {
-            return new LookupsDto()
+            var lookups = new api.Controllers.Directory.Lookups.Dto.Lookups()
             {
-                Companies = Mapper.MapList<Company, CompanyDto>(await LookupService.GetCompanies()),
-                CommissionTypes = Mapper.MapList<CommissionType, CommissionTypeDto>(await LookupService.GetCommissionTypes()),
-                PolicyTypes = Mapper.MapList<PolicyType, PolicyTypeDto>(await LookupService.GetPolicyTypes()),
-                ContactTypes = Mapper.MapList<ContactType, ContactTypeDto>(await LookupService.GetContactTypes()),
-                MarritalStatus = Mapper.MapList<MarritalStatus, MarritalStatusDto>(await LookupService.GetMarritalStatus()),
-                CommissionStatementTemplateFieldNames = Mapper.MapList<CommissionStatementTemplateFieldName, CommissionStatementTemplateFieldNameDto>(LookupService.GetCommissionStatementTemplateFieldNames()),
+                Companies = await LookupService.GetCompanies(),
+                CommissionTypes = await LookupService.GetCommissionTypes(),
+                CommissionEarningsTypes = await LookupService.GetCommissionEarningsTypes(),
+                PolicyTypes = await LookupService.GetPolicyTypes(),
+                ContactTypes = await LookupService.GetContactTypes(),
+                MarritalStatus = await LookupService.GetMarritalStatus(),
+                CommissionStatementTemplateFieldNames = LookupService.GetCommissionStatementTemplateFieldNames(),
             };
+
+            return Ok(lookups);
         }
-
-        #region Marrital Status
-
-        [HttpGet("marritalStatus")]
-        public async Task<List<MarritalStatusDto>> MarritalStatus()
-        {
-            var models = await LookupService.GetMarritalStatus();
-
-            return Mapper.MapList<MarritalStatus, MarritalStatusDto>(models);
-        }
-
-        #endregion
 
         #region Company
 
         [HttpGet("companies")]
-        public async Task<List<CompanyDto>> Companies()
+        public async Task<IActionResult> Companies()
         {
             var models = await LookupService.GetCompanies();
 
-            return Mapper.MapList<Company, CompanyDto>(models);
+            return Ok(models);
         }
 
         [HttpPost("companies")]
         [UseCaseAuthorize("dir_edit_lookups")]
-        public async Task<ActionResult<Result>> InsertCompany([FromBody] CompanyDto dto)
+        public async Task<IActionResult> InsertCompany([FromBody] Company model)
         {
-            var model = Mapper.Map<Company>(dto);
-
             var result = await LookupService.InsertCompany(model);
 
             if (!result.Success)
@@ -78,11 +65,9 @@ namespace api.Controllers.Directory.Lookups
 
         [HttpPost("companies/{companyId}")]
         [UseCaseAuthorize("dir_edit_lookups")]
-        public async Task<ActionResult<Result>> UpdateCompany(Guid companyId, [FromBody] CompanyDto dto)
+        public async Task<IActionResult> UpdateCompany(Guid companyId, [FromBody] Company model)
         {
-            dto.Id = companyId;
-
-            var model = Mapper.Map<Company>(dto);
+            model.Id = companyId;
 
             var result = await LookupService.UpdateCompany(model);
 
@@ -97,19 +82,17 @@ namespace api.Controllers.Directory.Lookups
         #region Commission Types
 
         [HttpGet("commissionTypes")]
-        public async Task<List<CommissionTypeDto>> CommissionTypes()
+        public async Task<IActionResult> CommissionTypes()
         {
             var models = await LookupService.GetCommissionTypes();
 
-            return Mapper.MapList<CommissionType, CommissionTypeDto>(models);
+            return Ok(models);
         }
 
         [HttpPost("commissionTypes")]
         [UseCaseAuthorize("dir_edit_lookups")]
-        public async Task<ActionResult<Result>> InsertCommissionType([FromBody] CommissionTypeDto dto)
+        public async Task<IActionResult> InsertCommissionType([FromBody] CommissionType model)
         {
-            var model = Mapper.Map<CommissionType>(dto);
-
             var result = await LookupService.InsertCommissionType(model);
 
             if (!result.Success)
@@ -120,12 +103,8 @@ namespace api.Controllers.Directory.Lookups
 
         [HttpPost("commissionTypes/{commissionTypeId}")]
         [UseCaseAuthorize("dir_edit_lookups")]
-        public async Task<ActionResult<Result>> UpdateCommissionType(Guid commissionTypeId, [FromBody] CommissionTypeDto dto)
+        public async Task<IActionResult> UpdateCommissionType(Guid commissionTypeId, [FromBody] CommissionType model)
         {
-            dto.Id = commissionTypeId;
-
-            var model = Mapper.Map<CommissionType>(dto);
-
             var result = await LookupService.UpdateCommissionType(model);
 
             if (!result.Success)

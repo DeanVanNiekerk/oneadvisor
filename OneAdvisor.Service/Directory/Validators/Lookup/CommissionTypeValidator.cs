@@ -21,6 +21,7 @@ namespace OneAdvisor.Service.Directory.Validators.Lookup
                 RuleFor(o => o.Id).NotEmpty();
 
             RuleFor(t => t.PolicyTypeId).NotEmpty().WithName("Policy Type");
+            RuleFor(t => t.CommissionEarningsTypeId).NotEmpty().WithName("Earnings Type");
             RuleFor(t => t.Name).NotEmpty().MaximumLength(128);
             RuleFor(t => t.Code).NotEmpty().MaximumLength(128);
             RuleFor(t => t).Custom(AvailableCodeValidator);

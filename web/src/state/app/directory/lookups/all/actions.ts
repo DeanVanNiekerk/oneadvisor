@@ -3,19 +3,16 @@ import { Dispatch } from 'redux';
 import { ApiAction } from '@/app/types';
 import { allLookupsApi } from '@/config/api/directory';
 
-import { receiveCommissionStatementTemplateFieldNames } from '../commissionStatementTemplateFieldNames';
-import { receiveCommissionTypes } from '../commissionTypes';
-import { receiveCompanies } from '../companies';
-import { receiveContactTypes } from '../contactTypes';
-import { receiveMarritalStatus } from '../marritalStatus';
-import { receivePolicyTypes } from '../policyTypes';
-import { Lookups } from './types';
+import {
+    Lookups, receiveCommissionEarningsTypes, receiveCommissionStatementTemplateFieldNames, receiveCommissionTypes,
+    receiveCompanies, receiveContactTypes, receiveMarritalStatus, receivePolicyTypes
+} from '../';
 
 type LookupsReceiveAction = {
-    type: 'LOOKUPS_RECEIVE';
+    type: "LOOKUPS_RECEIVE";
 };
-type LookupsFetchingAction = { type: 'LOOKUPS_FETCHING' };
-type LookupsFetchingErrorAction = { type: 'LOOKUPS_FETCHING_ERROR' };
+type LookupsFetchingAction = { type: "LOOKUPS_FETCHING" };
+type LookupsFetchingErrorAction = { type: "LOOKUPS_FETCHING_ERROR" };
 
 export type LookupsAction =
     | LookupsReceiveAction
@@ -23,7 +20,7 @@ export type LookupsAction =
     | LookupsFetchingErrorAction;
 
 export const fetchAllLookups = (): ApiAction => ({
-    type: 'API',
+    type: "API",
     endpoint: allLookupsApi,
     onSuccess: (payload: Lookups, dispatch: Dispatch) => {
         dispatch(receiveCompanies(payload.companies));
@@ -32,10 +29,13 @@ export const fetchAllLookups = (): ApiAction => ({
         dispatch(receiveContactTypes(payload.contactTypes));
         dispatch(receivePolicyTypes(payload.policyTypes));
         dispatch(
+            receiveCommissionEarningsTypes(payload.commissionEarningsTypes)
+        );
+        dispatch(
             receiveCommissionStatementTemplateFieldNames(
                 payload.commissionStatementTemplateFieldNames
             )
         );
     },
-    dispatchPrefix: 'LOOKUPS'
+    dispatchPrefix: "LOOKUPS",
 });

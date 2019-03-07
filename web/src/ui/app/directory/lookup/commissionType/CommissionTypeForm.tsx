@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { ValidationResult } from '@/app/validation';
-import { PolicyType, policyTypesSelector } from '@/state/app/directory/lookups';
+import {
+    CommissionEarningsType, commissionEarningsTypesSelector, PolicyType, policyTypesSelector
+} from '@/state/app/directory/lookups';
 import { CommissionType } from '@/state/app/directory/lookups/commissionTypes';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormInput, FormSelect } from '@/ui/controls';
@@ -12,6 +14,7 @@ type Props = {
     validationResults: ValidationResult[];
     onChange: (commissionType: CommissionType) => void;
     policyTypes: PolicyType[];
+    commissionEarningsTypes: CommissionEarningsType[];
 };
 
 type State = {
@@ -23,24 +26,24 @@ class CommissionTypeForm extends Component<Props, State> {
         super(props);
 
         this.state = {
-            commissionType: props.commissionType
+            commissionType: props.commissionType,
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.commissionType != prevProps.commissionType)
             this.setState({
-                commissionType: this.props.commissionType
+                commissionType: this.props.commissionType,
             });
     }
 
     handleChange = (fieldName: string, value: any) => {
         const commissionType = {
             ...this.state.commissionType,
-            [fieldName]: value
+            [fieldName]: value,
         };
         this.setState({
-            commissionType: commissionType
+            commissionType: commissionType,
         });
         this.props.onChange(commissionType);
     };
@@ -77,6 +80,16 @@ class CommissionTypeForm extends Component<Props, State> {
                     optionsValue="id"
                     optionsText="name"
                 />
+                <FormSelect
+                    fieldName="commissionEarningsTypeId"
+                    label="Earnings Type"
+                    value={commissionType.commissionEarningsTypeId}
+                    onChange={this.handleChange}
+                    validationResults={validationResults}
+                    options={this.props.commissionEarningsTypes}
+                    optionsValue="id"
+                    optionsText="name"
+                />
             </Form>
         );
     }
@@ -84,9 +97,11 @@ class CommissionTypeForm extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const policyTypeState = policyTypesSelector(state);
+    const commissionEarningsTypeState = commissionEarningsTypesSelector(state);
 
     return {
-        policyTypes: policyTypeState.items
+        policyTypes: policyTypeState.items,
+        commissionEarningsTypes: commissionEarningsTypeState.items,
     };
 };
 

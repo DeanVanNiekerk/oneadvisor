@@ -203,6 +203,7 @@ namespace OneAdvisor.Service.Directory
             entity.Name = model.Name;
             entity.Code = model.Code;
             entity.PolicyTypeId = model.PolicyTypeId.Value;
+            entity.CommissionEarningsTypeId = model.CommissionEarningsTypeId.Value;
 
             return entity;
         }
@@ -215,10 +216,28 @@ namespace OneAdvisor.Service.Directory
                             Id = commissionType.Id,
                             Name = commissionType.Name,
                             Code = commissionType.Code,
-                            PolicyTypeId = commissionType.PolicyTypeId
+                            PolicyTypeId = commissionType.PolicyTypeId,
+                            CommissionEarningsTypeId = commissionType.CommissionEarningsTypeId
                         };
 
             return query;
+        }
+
+        #endregion
+
+        #region Commission Earnings Type
+
+        public async Task<List<CommissionEarningsType>> GetCommissionEarningsTypes()
+        {
+            var query = from type in _context.CommissionEarningsType
+                        orderby type.Name
+                        select new CommissionEarningsType()
+                        {
+                            Id = type.Id,
+                            Name = type.Name
+                        };
+
+            return await query.ToListAsync();
         }
 
         #endregion

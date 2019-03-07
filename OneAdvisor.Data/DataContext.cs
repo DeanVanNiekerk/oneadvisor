@@ -32,6 +32,7 @@ namespace OneAdvisor.Data
 
         public DbSet<CompanyEntity> Company { get; set; }
         public DbSet<CommissionTypeEntity> CommissionType { get; set; }
+        public DbSet<CommissionEarningsTypeEntity> CommissionEarningsType { get; set; }
         public DbSet<MarritalStatusEntity> MarritalStatus { get; set; }
         public DbSet<ContactTypeEntity> ContactType { get; set; }
         public DbSet<PolicyTypeEntity> PolicyType { get; set; }
@@ -75,6 +76,7 @@ namespace OneAdvisor.Data
 
             modelBuilder.Entity<CompanyEntity>().ToTable("lkp_Company");
             modelBuilder.Entity<CommissionTypeEntity>().ToTable("lkp_CommissionType");
+            modelBuilder.Entity<CommissionEarningsTypeEntity>().ToTable("lkp_CommissionEarningsType");
             modelBuilder.Entity<MarritalStatusEntity>().ToTable("lkp_MarritalStatus");
             modelBuilder.Entity<ContactTypeEntity>().ToTable("lkp_ContactType");
             modelBuilder.Entity<PolicyTypeEntity>().ToTable("lkp_PolicyType");

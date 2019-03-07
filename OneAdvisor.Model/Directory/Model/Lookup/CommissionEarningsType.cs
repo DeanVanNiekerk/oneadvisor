@@ -1,8 +1,8 @@
 using System;
 
-namespace api.Controllers.Directory.Lookups.Dto
+namespace OneAdvisor.Model.Directory.Model.Lookup
 {
-    public class CompanyDto
+    public class CommissionEarningsType
     {
         public Guid? Id { get; set; }
         public string Name { get; set; }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OneAdvisor.Data;
 
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190307152247_newTableCommissionEarningsType")]
+    partial class newTableCommissionEarningsType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -278,8 +280,6 @@ namespace OneAdvisor.Data.Migrations
                     b.Property<string>("Code")
                         .IsRequired();
 
-                    b.Property<Guid>("CommissionEarningsTypeId");
-
                     b.Property<string>("Name")
                         .IsRequired();
 
@@ -289,8 +289,6 @@ namespace OneAdvisor.Data.Migrations
 
                     b.HasIndex("Code")
                         .IsUnique();
-
-                    b.HasIndex("CommissionEarningsTypeId");
 
                     b.HasIndex("PolicyTypeId");
 
@@ -688,11 +686,6 @@ namespace OneAdvisor.Data.Migrations
 
             modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.Lookup.CommissionTypeEntity", b =>
                 {
-                    b.HasOne("OneAdvisor.Data.Entities.Directory.Lookup.CommissionEarningsTypeEntity", "CommissionEarningsType")
-                        .WithMany()
-                        .HasForeignKey("CommissionEarningsTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("OneAdvisor.Data.Entities.Directory.Lookup.PolicyTypeEntity", "PolicyType")
                         .WithMany("CommissionTypes")
                         .HasForeignKey("PolicyTypeId")

@@ -2,79 +2,80 @@ import { getValidationResult } from '@/test';
 
 import { defaultState, reducer } from './reducer';
 
-describe('commissionType reducer', () => {
-    it('should handle COMMISSIONTYPES_COMMISSIONTYPE_RECEIVE', () => {
+describe("commissionType reducer", () => {
+    it("should handle COMMISSIONTYPES_COMMISSIONTYPE_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const commissionType = {
-            id: '10',
-            policyTypeId: '123',
-            name: 'Type 1',
-            code: 'type_1'
+            id: "10",
+            policyTypeId: "123",
+            name: "Type 1",
+            code: "type_1",
+            commissionEarningsTypeId: "654",
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONTYPES_COMMISSIONTYPE_RECEIVE',
-            payload: { ...commissionType }
+            type: "COMMISSIONTYPES_COMMISSIONTYPE_RECEIVE",
+            payload: { ...commissionType },
         });
 
         const expectedState = {
             ...defaultState,
             commissionType: { ...commissionType },
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONTYPES_COMMISSIONTYPE_EDIT_FETCHING', () => {
+    it("should handle COMMISSIONTYPES_COMMISSIONTYPE_EDIT_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'COMMISSIONTYPES_COMMISSIONTYPE_EDIT_FETCHING'
+            type: "COMMISSIONTYPES_COMMISSIONTYPE_EDIT_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONTYPES_COMMISSIONTYPE_EDIT_FETCHING_ERROR', () => {
+    it("should handle COMMISSIONTYPES_COMMISSIONTYPE_EDIT_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONTYPES_COMMISSIONTYPE_EDIT_FETCHING_ERROR'
+            type: "COMMISSIONTYPES_COMMISSIONTYPE_EDIT_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            
-            updating: false
+
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONTYPES_COMMISSIONTYPE_EDIT_RECEIVE', () => {
+    it("should handle COMMISSIONTYPES_COMMISSIONTYPE_EDIT_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONTYPES_COMMISSIONTYPE_EDIT_RECEIVE'
+            type: "COMMISSIONTYPES_COMMISSIONTYPE_EDIT_RECEIVE",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: false
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);

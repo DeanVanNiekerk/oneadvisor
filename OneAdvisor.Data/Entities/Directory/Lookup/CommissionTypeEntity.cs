@@ -12,10 +12,13 @@ namespace OneAdvisor.Data.Entities.Directory.Lookup
         [Required]
         public Guid PolicyTypeId { get; set; }
         [Required]
+        public Guid CommissionEarningsTypeId { get; set; }
+        [Required]
         public string Name { get; set; }
         [Required]
         public string Code { get; set; }
 
         public virtual PolicyTypeEntity PolicyType { get; set; }
+        public virtual CommissionEarningsTypeEntity CommissionEarningsType { get; set; }
     }
 }
