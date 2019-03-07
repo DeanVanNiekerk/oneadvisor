@@ -3,16 +3,21 @@ import { connect, DispatchProp } from 'react-redux';
 
 import { getColumn } from '@/app/table';
 import {
+    CommissionEarningsType, commissionEarningsTypesSelector, PolicyType, policyTypesSelector
+} from '@/state/app/directory/lookups';
+import {
     CommissionType, commissionTypesSelector, fetchCommissionTypes, receiveCommissionType
 } from '@/state/app/directory/lookups/commissionTypes';
 import { RootState } from '@/state/rootReducer';
-import { Button, Header, PolicyTypeName, Table } from '@/ui/controls';
+import { Button, CommissionEarningsTypeName, Header, PolicyTypeName, Table } from '@/ui/controls';
 
 import EditCommissionType from './EditCommissionType';
 
 type Props = {
     commissionTypes: CommissionType[];
     fetching: boolean;
+    commissionEarningsTypes: CommissionEarningsType[];
+    policyTypes: PolicyType[];
 } & DispatchProp;
 
 type State = {
@@ -37,9 +42,10 @@ class CommissionTypeList extends Component<Props, State> {
     };
 
     newCommissionType = () => {
-        const commissionType = {
+        const commissionType: CommissionType = {
             id: "",
             policyTypeId: "",
+            commissionEarningsTypeId: "",
             name: "",
             code: "",
         };
@@ -75,6 +81,23 @@ class CommissionTypeList extends Component<Props, State> {
                 render: (policyTypeId: string) => {
                     return <PolicyTypeName policyTypeId={policyTypeId} />;
                 },
+                filters: this.props.policyTypes.map(p => ({
+                    text: p.name,
+                    value: p.id,
+                })),
+            }),
+            getColumn("commissionEarningsTypeId", "Earnings Type", {
+                render: (commissionEarningsTypeId: string) => {
+                    return (
+                        <CommissionEarningsTypeName
+                            commissionEarningsTypeId={commissionEarningsTypeId}
+                        />
+                    );
+                },
+                filters: this.props.commissionEarningsTypes.map(c => ({
+                    text: c.name,
+                    value: c.id,
+                })),
             }),
         ];
     };
@@ -116,9 +139,13 @@ class CommissionTypeList extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const commissionTypesState = commissionTypesSelector(state);
+    const commissionEarningsTypesState = commissionEarningsTypesSelector(state);
+    const policyTypesState = policyTypesSelector(state);
 
     return {
         commissionTypes: commissionTypesState.items,
+        policyTypes: policyTypesState.items,
+        commissionEarningsTypes: commissionEarningsTypesState.items,
         fetching: commissionTypesState.fetching,
     };
 };
