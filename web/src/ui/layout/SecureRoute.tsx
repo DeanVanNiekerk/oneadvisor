@@ -39,7 +39,7 @@ class SecureRoute extends Component<Props> {
         if (hasExpired && !this.modal) {
             this.props.dispatch(signOut());
             this.modal = Modal.info({
-                title: 'Session has Expired',
+                title: "Session has Expired",
                 content: (
                     <div>
                         <p>
@@ -49,8 +49,8 @@ class SecureRoute extends Component<Props> {
                     </div>
                 ),
                 onOk: () => {
-                    this.props.history.push('/signin');
-                }
+                    this.props.history.push("/signin");
+                },
             });
         }
     };
@@ -70,7 +70,7 @@ const mapStateToProps = (state: RootState) => {
     const authState = authSelector(state);
     return {
         isAuthenticated: isAuthenticatedSelector(state),
-        tokenData: authState.tokenData
+        tokenData: authState.tokenData,
     };
 };
 
