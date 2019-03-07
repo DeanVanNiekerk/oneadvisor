@@ -1,27 +1,28 @@
-import React, { ReactNode } from 'react';
-import styled from 'styled-components';
+import React, { CSSProperties, ReactNode } from 'react';
 
 import config from '@/config/config';
+
+const style: CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    flexWrap: "nowrap",
+    position: "sticky",
+    bottom: 0,
+    zIndex: 1061,
+    backgroundColor: "#c9c9c9",
+    borderTop: "1px solid #b5b5b5",
+    height: `${config.ui.footerHeight}px`,
+};
 
 type Props = {
     children: ReactNode;
 };
 
 const Footer = (props: Props) => (
-    <Wrapper className="px-3">{props.children}</Wrapper>
+    <div style={style} className="px-3">
+        {props.children}
+    </div>
 );
-
-const Wrapper = styled.footer`
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    flex-wrap: nowrap;
-    position: sticky;
-    bottom: 0;
-    z-index: 1061;
-    background-color: #c9c9c9;
-    border-top: 1px solid #b5b5b5;
-    height: ${config.ui.footerHeight}px;
-`;
 
 export { Footer };

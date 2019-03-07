@@ -1,7 +1,5 @@
 ## Ensuring latest versions
 
-!!! Problematic: @types/styled-components devDep 4.1.8 ❯ 4.1.11
-
 !!! MUST LOCK VERSION NUMBERS
 
 `npm install npm-check -g`
@@ -29,4 +27,3 @@ Babel: https://github.com/babel/babel-upgrade
 -   https://github.com/jchannon/csharpextensions
 -   https://github.com/prettier/prettier-vscode
 -   https://github.com/SoominHan/import-sorter
--   https://github.com/styled-components/vscode-styled-components

@@ -2,25 +2,11 @@ import { Col, Form, Icon, Row } from 'antd';
 import React from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
-import styled from 'styled-components';
 
 import { ValidationResult } from '@/app/validation';
 import { authSelector, Credentials, isAuthenticatedSelector, signIn } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import { Button, ContentLoader, FormField, FormInput } from '@/ui/controls';
-
-const Header = styled.div`
-    font-size: 32px;
-    text-align: center;
-`;
-
-const Light = styled.span`
-    font-weight: 100;
-`;
-
-const Bold = styled.span`
-    font-weight: 600;
-`;
 
 type Props = {
     isAuthenticated: boolean;
@@ -40,8 +26,8 @@ class SignIn extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            userName: '',
-            password: ''
+            userName: "",
+            password: "",
         };
     }
 
@@ -58,31 +44,31 @@ class SignIn extends React.Component<Props, State> {
     }
 
     redirect = () => {
-        this.props.history.push('/');
+        this.props.history.push("/");
     };
 
     handleUserNameChange = (fieldName: string, value: any) => {
         this.setState({
-            userName: value
+            userName: value,
         });
     };
 
     handlePasswordChange = (fieldName: string, value: any) => {
         this.setState({
-            password: value
+            password: value,
         });
     };
 
     signIn = () => {
         const credentials: Credentials = {
             userName: this.state.userName,
-            password: this.state.password
+            password: this.state.password,
         };
         this.props.dispatch(signIn(credentials, () => {}));
     };
 
     onKeyPress = event => {
-        if (event.key === 'Enter') {
+        if (event.key === "Enter") {
             this.signIn();
         }
     };
@@ -93,11 +79,29 @@ class SignIn extends React.Component<Props, State> {
         return (
             <>
                 <Row type="flex" justify="center">
-                    <Col span={4} style={{ marginTop: '80px' }}>
-                        <Header className="mb-2">
-                            <Light>ONE</Light>
-                            <Bold>ADVISOR</Bold>
-                        </Header>
+                    <Col span={4} style={{ marginTop: "80px" }}>
+                        <div
+                            className="mb-2"
+                            style={{
+                                fontSize: "32px",
+                                textAlign: "center",
+                            }}
+                        >
+                            <span
+                                style={{
+                                    fontWeight: 100,
+                                }}
+                            >
+                                ONE
+                            </span>
+                            <span
+                                style={{
+                                    fontWeight: 600,
+                                }}
+                            >
+                                ADVISOR
+                            </span>
+                        </div>
                         <h3>Sign In</h3>
                         <ContentLoader isLoading={this.props.fetching}>
                             <Form layout="vertical">
@@ -111,7 +115,7 @@ class SignIn extends React.Component<Props, State> {
                                     validationResults={validationResults}
                                     autoFocus={true}
                                     formFieldStyle={{
-                                        marginBottom: '10px'
+                                        marginBottom: "10px",
                                     }}
                                     onKeyPress={this.onKeyPress}
                                 />
@@ -125,7 +129,7 @@ class SignIn extends React.Component<Props, State> {
                                     validationResults={validationResults}
                                     autoFocus={true}
                                     formFieldStyle={{
-                                        marginBottom: '25px'
+                                        marginBottom: "25px",
                                     }}
                                     type="password"
                                     onKeyPress={this.onKeyPress}
@@ -164,7 +168,7 @@ const mapStateToProps = (state: RootState) => {
         isAuthenticated: isAuthenticatedSelector(state),
         fetching: authState.fetching,
         failed: authState.signInFailed,
-        validationResults: authState.validationResults
+        validationResults: authState.validationResults,
     };
 };
 

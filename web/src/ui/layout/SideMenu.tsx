@@ -1,8 +1,7 @@
 import { Icon, Layout, Menu as MenuAD } from 'antd';
-import React, { Component } from 'react';
+import React, { Component, CSSProperties } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import styled, { css } from 'styled-components';
 
 import { hasUseCases, hasUseCasesMenuGroup } from '@/app/identity';
 import { allGroupNames } from '@/config/menu';
@@ -14,20 +13,6 @@ import { RootState } from '@/state/rootReducer';
 const { SubMenu, Item } = MenuAD;
 const { Sider } = Layout;
 
-type MenuItemProps = {
-    link: MenuLink;
-    application: Application;
-};
-
-const MenuItem = styled(Item)`
-    ${(props: MenuItemProps) =>
-        props.link.isCurrent &&
-        css`
-            background-color: ${(props: MenuItemProps) =>
-                props.application.color} !important;
-        `}
-`;
-
 type Props = {
     menu: Menu;
     application: Application;
@@ -35,14 +20,24 @@ type Props = {
 };
 
 class SideMenu extends Component<Props> {
+    getMenuItemStyle = (
+        link: MenuLink,
+        application: Application
+    ): CSSProperties => {
+        if (!link.isCurrent) return {};
+        return {
+            backgroundColor: `${application.color}`,
+        };
+    };
+
     render() {
         return (
-            <Sider width={225} style={{ background: '#fff' }}>
+            <Sider width={225} style={{ background: "#fff" }}>
                 <MenuAD
                     theme="dark"
                     mode="inline"
                     defaultOpenKeys={allGroupNames()}
-                    style={{ height: '100%', borderRight: 0 }}
+                    style={{ height: "100%", borderRight: 0 }}
                 >
                     {this.props.menu.groups
                         .filter(group =>
@@ -61,10 +56,12 @@ class SideMenu extends Component<Props> {
                                         )
                                     )
                                     .map(link => (
-                                        <MenuItem
+                                        <Item
                                             key={link.relativePath}
-                                            link={link}
-                                            application={this.props.application}
+                                            style={this.getMenuItemStyle(
+                                                link,
+                                                this.props.application
+                                            )}
                                         >
                                             <Link
                                                 to={`${
@@ -76,7 +73,7 @@ class SideMenu extends Component<Props> {
                                                     <span>{link.name}</span>
                                                 </span>
                                             </Link>
-                                        </MenuItem>
+                                        </Item>
                                     ))}
                             </SubMenu>
                         ))}
@@ -93,7 +90,7 @@ const mapStateToProps = (state: RootState) => {
         application: currentApplicationSelector(state),
         useCases: identityState.identity
             ? identityState.identity.useCaseIds
-            : []
+            : [],
     };
 };
 

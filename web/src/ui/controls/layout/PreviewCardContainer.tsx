@@ -1,22 +1,21 @@
 import { Row } from 'antd';
-import React, { ReactNode } from 'react';
-import styled from 'styled-components';
+import React, { CSSProperties, ReactNode } from 'react';
+
+const style: CSSProperties = {
+    backgroundColor: "#ececec",
+    padding: "20px",
+};
 
 type Props = {
     children: ReactNode;
 };
 
 const PreviewCardContainer = (props: Props) => (
-    <Wrapper>
+    <div style={style}>
         <Row type="flex" gutter={16}>
             {props.children}
         </Row>
-    </Wrapper>
+    </div>
 );
-
-const Wrapper = styled.div`
-    background-color: #ececec;
-    padding: 20px;
-`;
 
 export { PreviewCardContainer };

@@ -1,8 +1,7 @@
 import { Icon, Layout, Menu, Popover, Tag } from 'antd';
-import React, { Component } from 'react';
+import React, { Component, CSSProperties } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import styled, { css } from 'styled-components';
 
 import { hasUseCasesMenuGroups } from '@/app/identity';
 import config from '@/config/config';
@@ -16,53 +15,22 @@ import { IdentityStatus } from '../controls';
 const { Header } = Layout;
 const { Item } = Menu;
 
-type MenuItemProps = {
-    application: Application;
-    onClick: () => void;
+const appNameStyle: CSSProperties = {
+    fontSize: "20px",
+    width: "175px",
+    height: "31px",
+    float: "left",
+    color: "#ffffff",
 };
 
-const MenuItem = styled(Item)`
-    ${(props: MenuItemProps) =>
-        props.application.isCurrent &&
-        css`
-            background-color: ${props.application.color} !important;
-        `};
-`;
-
-type PinstripeProps = {
-    application: Application;
+const signoutStyle: CSSProperties = {
+    fontSize: "14px",
+    height: "31px",
+    float: "right",
+    color: "#ffffff",
+    zIndex: 12,
+    cursor: "pointer",
 };
-
-const Pinstripe = styled.div`
-    width: 100%;
-    height: 5px;
-    background-color: ${(props: PinstripeProps) => props.application.color};
-`;
-
-const AppName = styled.div`
-    font-size: 20px;
-    width: 175px;
-    height: 31px;
-    float: left;
-    color: #ffffff;
-`;
-
-const Signout = styled.div`
-    font-size: 14px;
-    height: 31px;
-    float: right;
-    color: #ffffff;
-    z-index: 12;
-    cursor: pointer;
-`;
-
-const Light = styled.span`
-    font-weight: 100;
-`;
-
-const Bold = styled.span`
-    font-weight: 600;
-`;
 
 type Props = {
     menus: Menus;
@@ -102,19 +70,46 @@ class Navigator extends Component<Props> {
         }
     };
 
+    getPinstripeStyle = (): CSSProperties => {
+        return {
+            width: "100%",
+            height: "5px",
+            backgroundColor: this.props.currentApplication.color,
+        };
+    };
+
+    getMenuItemStyle = (application: Application): CSSProperties => {
+        if (!application.isCurrent) return {};
+        return {
+            backgroundColor: `${application.color}`,
+        };
+    };
+
     render() {
         return (
             <>
                 <Header className="header">
-                    <AppName>
+                    <div style={appNameStyle}>
                         <Popover
                             placement="bottomRight"
                             content={<IdentityStatus />}
                             title="My Profile"
                             mouseEnterDelay={1.5}
                         >
-                            <Light>ONE</Light>
-                            <Bold>ADVISOR</Bold>
+                            <span
+                                style={{
+                                    fontWeight: 100,
+                                }}
+                            >
+                                ONE
+                            </span>
+                            <span
+                                style={{
+                                    fontWeight: 600,
+                                }}
+                            >
+                                ADVISOR
+                            </span>
                             {config.environment !== "production" && (
                                 <Tag
                                     style={{
@@ -128,8 +123,10 @@ class Navigator extends Component<Props> {
                                 </Tag>
                             )}
                         </Popover>
-                    </AppName>
-                    <Signout onClick={this.signOut}>Signout</Signout>
+                    </div>
+                    <div style={signoutStyle} onClick={this.signOut}>
+                        Signout
+                    </div>
                     <Menu
                         theme="dark"
                         mode="horizontal"
@@ -143,9 +140,9 @@ class Navigator extends Component<Props> {
                                 )
                             )
                             .map(app => (
-                                <MenuItem
+                                <Item
                                     key={app.id}
-                                    application={app}
+                                    style={this.getMenuItemStyle(app)}
                                     onClick={() =>
                                         this.navigate(app.relativePath)
                                     }
@@ -154,12 +151,12 @@ class Navigator extends Component<Props> {
                                         type={app.icon}
                                         style={{ fontSize: "16px" }}
                                     />
-                                    {app.name}
-                                </MenuItem>
+                                    {app.name} {app.isCurrent.toString()}
+                                </Item>
                             ))}
                     </Menu>
                 </Header>
-                <Pinstripe application={this.props.currentApplication} />
+                <div style={this.getPinstripeStyle()} />
             </>
         );
     }

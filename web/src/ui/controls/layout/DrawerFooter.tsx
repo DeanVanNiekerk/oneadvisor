@@ -1,24 +1,23 @@
-import React, { ReactNode } from 'react';
-import styled from 'styled-components';
+import React, { CSSProperties, ReactNode } from 'react';
 
-
-
-type Props = {
-    children: ReactNode
+const style: CSSProperties = {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    borderTop: "1px solid #e8e8e8",
+    padding: "10px 16px",
+    textAlign: "right",
+    left: 0,
+    background: "#fff",
+    borderRadius: "0 0 4px 4px",
 };
 
-const DrawerFooter = (props: Props) => (<Wrapper>{props.children}</Wrapper>);
+type Props = {
+    children: ReactNode;
+};
 
-const Wrapper = styled.div`
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    border-top: 1px solid #e8e8e8;
-    padding: 10px 16px;
-    text-align: right;
-    left: 0;
-    background: #fff;
-    border-radius: 0 0 4px 4px;
-`;
+const DrawerFooter = (props: Props) => (
+    <div style={style}>{props.children}</div>
+);
 
 export { DrawerFooter };
