@@ -207,13 +207,21 @@ class StatementPreviewComponent extends Component<Props, State> {
         return company ? company.name : "";
     };
 
+    back = () => {
+        return this.props.history.push("/commission");
+    };
+
     render() {
         let { statement } = this.props;
         const cardHeight = "130px";
 
         return (
             <>
-                <Header icon="reconciliation" loading={this.isLoading()}>
+                <Header
+                    icon="reconciliation"
+                    loading={this.isLoading()}
+                    onBack={this.back}
+                >
                     {statement && (
                         <span>
                             <CompanyName companyId={statement.companyId} />

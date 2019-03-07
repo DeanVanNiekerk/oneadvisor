@@ -88,7 +88,7 @@ class Navigator extends Component<Props> {
     render() {
         return (
             <>
-                <Header className="header">
+                <Header tagName="header">
                     <div style={appNameStyle}>
                         <Popover
                             placement="bottomRight"
@@ -151,7 +151,7 @@ class Navigator extends Component<Props> {
                                         type={app.icon}
                                         style={{ fontSize: "16px" }}
                                     />
-                                    {app.name} {app.isCurrent.toString()}
+                                    {app.name}
                                 </Item>
                             ))}
                     </Menu>

@@ -1,4 +1,4 @@
-import { Col, Icon, Row, Skeleton } from 'antd';
+import { Icon, PageHeader, Skeleton } from 'antd';
 import React, { ReactNode } from 'react';
 
 type Props = {
@@ -7,46 +7,39 @@ type Props = {
     children?: ReactNode;
     actions?: ReactNode;
     className?: string;
+    onBack?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
 const Header = (props: Props) => (
-    <Row
-        type="flex"
-        style={{
-            //position: 'sticky',
-            //top: 0,
-            //zIndex: 100,
-            //backgroundColor: '#FFFFFF',
-            paddingTop: 15
+    <Skeleton
+        loading={props.loading}
+        title={false}
+        active
+        paragraph={{
+            rows: 1,
         }}
-        className={props.className}
+        className="my-1"
     >
-        <Col span={12} className="content-header">
-            <Skeleton
-                loading={props.loading}
-                title={false}
-                active
-                paragraph={{
-                    rows: 1
-                }}
-            >
-                <h2>
+        <PageHeader
+            onBack={props.onBack}
+            title={
+                <>
                     {props.icon && (
                         <Icon
                             type={props.icon}
-                            style={{ marginRight: '8px' }}
+                            style={{ marginRight: "8px" }}
                         />
                     )}
                     {props.children}
-                </h2>
-            </Skeleton>
-        </Col>
-        {props.actions && (
-            <Col span={12} className="text-right">
-                {props.actions}
-            </Col>
-        )}
-    </Row>
+                </>
+            }
+            //subTitle="This is a subtitle"
+            style={{
+                padding: "8px 2px",
+            }}
+            extra={props.actions}
+        />
+    </Skeleton>
 );
 
 export { Header };

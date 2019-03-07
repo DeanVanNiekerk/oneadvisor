@@ -1,38 +1,20 @@
+/* LAYOUT */
 .ant-layout {
     background-color: #ffffff !important;
 }
 
-.ant-table-filter-dropdown-link {
-    position: relative;
+/* HEADER */
+.ant-page-header-title-view-title {
+    font-size: 18px !important;
+    line-height: 2 !important;
 }
 
-.ant-menu-item-selected {
-    background-color: transparent;
+.ant-page-header-title-view-extra {
+    top: 10px !important;
+    right: 0px !important;
 }
 
-.ant-form-inline > .ant-form-item-with-help {
-    margin-bottom: 0 !important;
-}
-
-.ant-skeleton-paragraph {
-    padding-left: 0 !important;
-    margin-bottom: 5px !important;
-}
-
-.content-header .ant-skeleton-active {
-    margin-top: 8px;
-    margin-bottom: 12px;
-}
-
-.ant-drawer-header {
-    padding: 21px 24px !important;
-}
-
-.ant-drawer-close {
-    height: 65px !important;
-    line-height: 65px !important;
-}
-
+/* TABLE */
 .ant-table td,
 .ant-table th {
     white-space: nowrap;
@@ -43,6 +25,42 @@
     font-size: 0.9em;
 }
 
+.ant-table-filter-dropdown-link {
+    position: relative;
+}
+
+/* LIST */
 .ant-list-item-action {
     margin-left: 20px !important;
+}
+
+/* MENU */
+.ant-menu-item-selected {
+    background-color: transparent;
+}
+
+/* FORM */
+.ant-form-inline > .ant-form-item-with-help {
+    margin-bottom: 0 !important;
+}
+
+/* SKELETON */
+.ant-skeleton-paragraph {
+    padding-left: 0 !important;
+    margin-bottom: 5px !important;
+}
+
+.content-header .ant-skeleton-active {
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+
+/* DRAWER */
+.ant-drawer-header {
+    padding: 21px 24px !important;
+}
+
+.ant-drawer-close {
+    height: 65px !important;
+    line-height: 65px !important;
 }

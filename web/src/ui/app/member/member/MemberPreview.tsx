@@ -35,7 +35,7 @@ class MemberPreviewComponent extends Component<Props, State> {
 
         this.state = {
             policyListVisible: false,
-            contactListVisible: false
+            contactListVisible: false,
         };
     }
 
@@ -45,19 +45,19 @@ class MemberPreviewComponent extends Component<Props, State> {
 
     togglePolicyListVisible = () => {
         this.setState({
-            policyListVisible: !this.state.policyListVisible
+            policyListVisible: !this.state.policyListVisible,
         });
     };
 
     toggleContactListVisible = () => {
         this.setState({
-            contactListVisible: !this.state.contactListVisible
+            contactListVisible: !this.state.contactListVisible,
         });
     };
 
     newPolicy = () => {
         const policy = newPolicy({
-            memberId: this.getMemberId()
+            memberId: this.getMemberId(),
         });
         this.props.dispatch(receivePolicy(policy));
     };
@@ -84,10 +84,10 @@ class MemberPreviewComponent extends Component<Props, State> {
 
     getPolicyActions = () => {
         const actions = [
-            <Icon type="bars" onClick={this.togglePolicyListVisible} />
+            <Icon type="bars" onClick={this.togglePolicyListVisible} />,
         ];
 
-        if (hasUseCase('mem_edit_policies', this.props.useCases))
+        if (hasUseCase("mem_edit_policies", this.props.useCases))
             actions.unshift(
                 <Icon
                     type="plus"
@@ -101,16 +101,24 @@ class MemberPreviewComponent extends Component<Props, State> {
         return actions;
     };
 
+    back = () => {
+        return this.props.history.push("/member");
+    };
+
     render() {
         let { member } = this.props;
-        const cardHeight = '100px';
+        const cardHeight = "100px";
 
         return (
             <>
-                <Header loading={this.isLoading()}>
+                <Header
+                    icon="user"
+                    loading={this.isLoading()}
+                    onBack={this.back}
+                >
                     {`${member && member.lastName}${
-                        member && member.firstName ? ', ' : ''
-                    } ${member && (member.firstName || '')}`}
+                        member && member.firstName ? ", " : ""
+                    } ${member && (member.firstName || "")}`}
                 </Header>
 
                 <PreviewCardContainer>
@@ -120,7 +128,7 @@ class MemberPreviewComponent extends Component<Props, State> {
                         onClick={this.editDetails}
                         isLoading={this.isLoading()}
                         actions={[
-                            <Icon type="edit" onClick={this.editDetails} />
+                            <Icon type="edit" onClick={this.editDetails} />,
                         ]}
                         rows={2}
                         height={cardHeight}
@@ -130,7 +138,7 @@ class MemberPreviewComponent extends Component<Props, State> {
                                 <PreviewCardRow
                                     label="Id"
                                     value={`${
-                                        member.idNumber ? member.idNumber : ''
+                                        member.idNumber ? member.idNumber : ""
                                     }`}
                                 />
                                 <PreviewCardRow
@@ -174,7 +182,7 @@ class MemberPreviewComponent extends Component<Props, State> {
                             <Icon
                                 type="bars"
                                 onClick={this.toggleContactListVisible}
-                            />
+                            />,
                         ]}
                         height={cardHeight}
                     >
@@ -242,7 +250,7 @@ const mapStateToProps = (state: RootState) => {
         fetching: memberState.fetching,
         useCases: identityState.identity
             ? identityState.identity.useCaseIds
-            : []
+            : [],
     };
 };
 
