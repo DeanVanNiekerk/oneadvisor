@@ -56,7 +56,9 @@ module.exports = {
     },
 
     plugins: [
-        new CleanWebpackPlugin(["server/dist"]),
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: ["server/dist"],
+        }),
         new HtmlWebPackPlugin({
             template: path.resolve(__dirname, "template/index.html"),
             filename: "index.html",
