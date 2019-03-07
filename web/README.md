@@ -4,7 +4,7 @@
 
 `npm install npm-check -g`
 
-`npm-check -u`
+`npm-check -u -E`
 
 ## Babel Version Check
 
