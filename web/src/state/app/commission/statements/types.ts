@@ -14,6 +14,8 @@ export type Statement = {
 
     actualAmountIncludingVAT: number;
     actualVAT: number;
+
+    companyName: string;
 };
 
 export type StatementEdit = {

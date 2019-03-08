@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.App.Authorization;
 using api.App.Dtos;
-using api.Controllers.Commission.CommissionStatements.Dto;
 using api.Controllers.Commission.CommissionStatementTemplates.Dto;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;

@@ -49,14 +49,14 @@ namespace api.Test.Controllers.Commission
         {
             var commission = new OneAdvisor.Model.Commission.Model.Commission.Commission()
             {
-                Id = Guid.Parse("21f9f54f-0bbc-4afc-a588-b6bae4f47ae6"),
+                Id = Guid.NewGuid(),
                 AmountIncludingVAT = 100,
                 VAT = 20,
-                CommissionStatementId = Guid.Parse("d5887153-b373-4275-8eb1-6b7c1e9d57db"),
-                CommissionTypeId = Guid.Parse("24b55c80-4624-478f-a73a-647bb77f22d8"),
-                PolicyId = Guid.Parse("e36c892a-f608-4d24-b29f-d031f4ebf855"),
+                CommissionStatementId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
                 PolicyNumber = "123456",
-                UserId = Guid.Parse("bb49cd0d-c66d-4c16-858b-0bd6b68df65c")
+                UserId = Guid.NewGuid()
             };
 
             var pagedItems = new PagedCommissions()
@@ -82,7 +82,7 @@ namespace api.Test.Controllers.Commission
 
             var controller = new CommissionsController(service.Object, authService.Object);
 
-            var result = await controller.Index("policyNumber", "desc", 15, 2, "commissionTypeId=24b55c80-4624-478f-a73a-647bb77f22d8");
+            var result = await controller.Index("policyNumber", "desc", 15, 2, $"commissionTypeId={commission.CommissionTypeId}");
 
             Assert.Equal(Scope.Branch, queryOptions.Scope.Scope);
             Assert.Equal("policyNumber", queryOptions.SortOptions.Column);
@@ -103,12 +103,12 @@ namespace api.Test.Controllers.Commission
         {
             var commission = new CommissionEdit()
             {
-                Id = Guid.Parse("21f9f54f-0bbc-4afc-a588-b6bae4f47ae6"),
+                Id = Guid.NewGuid(),
                 AmountIncludingVAT = 100,
                 VAT = 20,
-                CommissionStatementId = Guid.Parse("d5887153-b373-4275-8eb1-6b7c1e9d57db"),
-                CommissionTypeId = Guid.Parse("24b55c80-4624-478f-a73a-647bb77f22d8"),
-                PolicyId = Guid.Parse("e36c892a-f608-4d24-b29f-d031f4ebf855"),
+                CommissionStatementId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
                 SourceData = null
             };
 
@@ -133,12 +133,12 @@ namespace api.Test.Controllers.Commission
         {
             var commission = new CommissionEdit()
             {
-                Id = Guid.Parse("21f9f54f-0bbc-4afc-a588-b6bae4f47ae6"),
+                Id = Guid.NewGuid(),
                 AmountIncludingVAT = 100,
                 VAT = 20,
-                CommissionStatementId = Guid.Parse("d5887153-b373-4275-8eb1-6b7c1e9d57db"),
-                CommissionTypeId = Guid.Parse("24b55c80-4624-478f-a73a-647bb77f22d8"),
-                PolicyId = Guid.Parse("e36c892a-f608-4d24-b29f-d031f4ebf855"),
+                CommissionStatementId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
                 SourceData = null
             };
 
@@ -178,12 +178,12 @@ namespace api.Test.Controllers.Commission
         {
             var commission = new CommissionEdit()
             {
-                Id = Guid.Parse("21f9f54f-0bbc-4afc-a588-b6bae4f47ae6"),
+                Id = Guid.NewGuid(),
                 AmountIncludingVAT = 100,
                 VAT = 20,
-                CommissionStatementId = Guid.Parse("d5887153-b373-4275-8eb1-6b7c1e9d57db"),
-                CommissionTypeId = Guid.Parse("24b55c80-4624-478f-a73a-647bb77f22d8"),
-                PolicyId = Guid.Parse("e36c892a-f608-4d24-b29f-d031f4ebf855"),
+                CommissionStatementId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
                 SourceData = null
             };
 

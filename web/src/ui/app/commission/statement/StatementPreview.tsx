@@ -190,7 +190,7 @@ class StatementPreviewComponent extends Component<Props, State> {
             getCommissionErrors(this.props.statement.id, true, errors => {
                 if (this.props.statement === null) return;
                 downloadExcel(
-                    errors.map(e => e.data),
+                    errors.items.map(e => e.data),
                     `MappingErrors_${this.getCompanyName()}_${moment(
                         this.props.statement.date
                     ).format(DATE_FORMAT)}.xlsx`

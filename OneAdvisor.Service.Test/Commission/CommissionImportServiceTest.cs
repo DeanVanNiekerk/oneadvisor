@@ -198,14 +198,14 @@ namespace OneAdvisor.Service.Test.Commission
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
             var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
-            var companyId = Guid.NewGuid();
-            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation, companyId);
+            var company = TestHelper.InsertCompany(options);
+            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation, company.Id);
 
             var policy1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
-                CompanyId = companyId,
+                CompanyId = company.Id,
                 MemberId = member1.Member.Id,
                 UserId = user1.User.Id
             };
@@ -265,8 +265,8 @@ namespace OneAdvisor.Service.Test.Commission
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
             var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
-            var companyId = Guid.NewGuid();
-            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation, companyId);
+            var company = TestHelper.InsertCompany(options);
+            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation, company.Id);
 
             var commissionType = new CommissionTypeEntity
             {
@@ -278,7 +278,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
-                CompanyId = companyId,
+                CompanyId = company.Id,
                 MemberId = member1.Member.Id,
                 UserId = user1.User.Id
             };
@@ -335,8 +335,8 @@ namespace OneAdvisor.Service.Test.Commission
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
             var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
 
-            var companyId = Guid.NewGuid();
-            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation, companyId);
+            var company = TestHelper.InsertCompany(options);
+            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation, company.Id);
 
             var commissionType = new CommissionTypeEntity
             {
@@ -348,7 +348,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
-                CompanyId = companyId,
+                CompanyId = company.Id,
                 MemberId = member1.Member.Id,
                 UserId = user1.User.Id
             };

@@ -44,6 +44,7 @@ describe("statement list reducer", () => {
         const statement: Statement = {
             id: "10",
             companyId: "321",
+            companyName: "Comp1",
             processed: false,
             amountIncludingVAT: 100,
             vat: 14,

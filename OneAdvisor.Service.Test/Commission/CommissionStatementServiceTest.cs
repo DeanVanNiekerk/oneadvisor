@@ -30,10 +30,12 @@ namespace OneAdvisor.Service.Test.Commission
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
             var user2 = TestHelper.InsertDefaultUserDetailed(options);
 
+            var company = TestHelper.InsertCompany(options);
+
             var cs1 = new CommissionStatementEntity
             {
                 Id = Guid.NewGuid(),
-                CompanyId = Guid.NewGuid(),
+                CompanyId = company.Id,
                 AmountIncludingVAT = 111,
                 VAT = 11,
                 Date = DateTime.Now,
@@ -44,7 +46,7 @@ namespace OneAdvisor.Service.Test.Commission
             var cs2 = new CommissionStatementEntity
             {
                 Id = Guid.NewGuid(),
-                CompanyId = Guid.NewGuid(),
+                CompanyId = company.Id,
                 AmountIncludingVAT = 222,
                 VAT = 22,
                 Date = DateTime.Now.AddDays(-1),
@@ -55,7 +57,7 @@ namespace OneAdvisor.Service.Test.Commission
             var cs3 = new CommissionStatementEntity
             {
                 Id = Guid.NewGuid(),
-                CompanyId = Guid.NewGuid(),
+                CompanyId = company.Id,
                 AmountIncludingVAT = 333,
                 VAT = 33,
                 Date = DateTime.Now.AddDays(-2),
@@ -66,7 +68,7 @@ namespace OneAdvisor.Service.Test.Commission
             var cs4 = new CommissionStatementEntity
             {
                 Id = Guid.NewGuid(),
-                CompanyId = Guid.NewGuid(),
+                CompanyId = company.Id,
                 AmountIncludingVAT = 444,
                 VAT = 44,
                 Date = DateTime.Now.AddDays(-2),
@@ -196,9 +198,12 @@ namespace OneAdvisor.Service.Test.Commission
 
             var user1 = TestHelper.InsertDefaultUserDetailed(options);
 
+            var company = TestHelper.InsertCompany(options);
+
             var cs1 = new CommissionStatementEntity
             {
                 Id = Guid.NewGuid(),
+                CompanyId = company.Id,
                 Date = new DateTime(2000, 1, 1),
                 OrganisationId = user1.Organisation.Id
             };
@@ -206,6 +211,7 @@ namespace OneAdvisor.Service.Test.Commission
             var cs2 = new CommissionStatementEntity
             {
                 Id = Guid.NewGuid(),
+                CompanyId = company.Id,
                 Date = new DateTime(2000, 1, 20),
                 OrganisationId = user1.Organisation.Id
             };
@@ -213,6 +219,7 @@ namespace OneAdvisor.Service.Test.Commission
             var cs3 = new CommissionStatementEntity
             {
                 Id = Guid.NewGuid(),
+                CompanyId = company.Id,
                 Date = new DateTime(2000, 1, 31),
                 OrganisationId = user1.Organisation.Id
             };
@@ -220,6 +227,7 @@ namespace OneAdvisor.Service.Test.Commission
             var cs4 = new CommissionStatementEntity
             {
                 Id = Guid.NewGuid(),
+                CompanyId = company.Id,
                 Date = new DateTime(2000, 2, 1),
                 OrganisationId = user1.Organisation.Id
             };

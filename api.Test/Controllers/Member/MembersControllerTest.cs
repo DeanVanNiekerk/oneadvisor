@@ -57,7 +57,7 @@ namespace api.Test.Controllers.Member
         {
             var member = new OneAdvisor.Model.Member.Model.Member.Member()
             {
-                Id = Guid.Parse("21f9f54f-0bbc-4afc-a588-b6bae4f47ae6"),
+                Id = Guid.NewGuid(),
                 FirstName = "1",
                 LastName = "2",
                 DateOfBirth = new DateTime(1982, 10, 3),
@@ -65,7 +65,7 @@ namespace api.Test.Controllers.Member
                 Initials = "4",
                 MaidenName = "5",
                 MarriageDate = new DateTime(2010, 03, 25),
-                MarritalStatusId = Guid.Parse("ffa2421d-f77f-4957-bdc5-2e79f7537d22"),
+                MarritalStatusId = Guid.NewGuid(),
                 PassportNumber = "6",
                 PreferredName = "7",
                 TaxNumber = "8"
@@ -111,7 +111,7 @@ namespace api.Test.Controllers.Member
         {
             var member = new MemberEdit()
             {
-                Id = Guid.Parse("21f9f54f-0bbc-4afc-a588-b6bae4f47ae6"),
+                Id = Guid.NewGuid(),
                 FirstName = "1",
                 LastName = "2",
                 DateOfBirth = new DateTime(1982, 10, 3),
@@ -119,7 +119,7 @@ namespace api.Test.Controllers.Member
                 Initials = "4",
                 MaidenName = "5",
                 MarriageDate = new DateTime(2010, 03, 25),
-                MarritalStatusId = Guid.Parse("ffa2421d-f77f-4957-bdc5-2e79f7537d22"),
+                MarritalStatusId = Guid.NewGuid(),
                 PassportNumber = "6",
                 PreferredName = "7",
                 TaxNumber = "8"
@@ -146,7 +146,7 @@ namespace api.Test.Controllers.Member
         {
             var member = new MemberPreview()
             {
-                Id = Guid.Parse("21f9f54f-0bbc-4afc-a588-b6bae4f47ae6"),
+                Id = Guid.NewGuid(),
                 FirstName = "1",
                 LastName = "2",
                 DateOfBirth = new DateTime(1982, 10, 3),
@@ -176,7 +176,7 @@ namespace api.Test.Controllers.Member
         {
             var member = new MemberEdit()
             {
-                Id = Guid.Parse("21f9f54f-0bbc-4afc-a588-b6bae4f47ae6"),
+                Id = Guid.NewGuid(),
                 FirstName = "1",
                 LastName = "2",
                 DateOfBirth = new DateTime(1982, 10, 3),
@@ -184,7 +184,7 @@ namespace api.Test.Controllers.Member
                 Initials = "4",
                 MaidenName = "5",
                 MarriageDate = new DateTime(2010, 03, 25),
-                MarritalStatusId = Guid.Parse("ffa2421d-f77f-4957-bdc5-2e79f7537d22"),
+                MarritalStatusId = Guid.NewGuid(),
                 PassportNumber = "6",
                 PreferredName = "7",
                 TaxNumber = "8"
@@ -227,7 +227,7 @@ namespace api.Test.Controllers.Member
         {
             var member = new MemberEdit()
             {
-                Id = Guid.Parse("21f9f54f-0bbc-4afc-a588-b6bae4f47ae6"),
+                Id = Guid.NewGuid(),
                 FirstName = "1",
                 LastName = "2",
                 DateOfBirth = new DateTime(1982, 10, 3),
@@ -235,7 +235,7 @@ namespace api.Test.Controllers.Member
                 Initials = "4",
                 MaidenName = "5",
                 MarriageDate = new DateTime(2010, 03, 25),
-                MarritalStatusId = Guid.Parse("ffa2421d-f77f-4957-bdc5-2e79f7537d22"),
+                MarritalStatusId = Guid.NewGuid(),
                 PassportNumber = "6",
                 PreferredName = "7",
                 TaxNumber = "8"

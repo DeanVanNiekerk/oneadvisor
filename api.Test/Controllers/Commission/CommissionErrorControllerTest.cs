@@ -35,12 +35,12 @@ namespace api.Test.Controllers.Commission
         {
             var error = new OneAdvisor.Model.Commission.Model.CommissionError.CommissionError()
             {
-                Id = Guid.Parse("21f9f54f-0bbc-4afc-a588-b6bae4f47ae6"),
-                CommissionStatementId = Guid.Parse("d5887153-b373-4275-8eb1-6b7c1e9d57db"),
-                CommissionTypeId = Guid.Parse("24b55c80-4624-478f-a73a-647bb77f22d8"),
+                Id = Guid.NewGuid(),
+                CommissionStatementId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
                 IsFormatValid = true,
-                MemberId = Guid.Parse("e36c892a-f608-4d24-b29f-d031f4ebf855"),
-                PolicyId = Guid.Parse("bb49cd0d-c66d-4c16-858b-0bd6b68df65c"),
+                MemberId = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
                 Data = new OneAdvisor.Model.Commission.Model.ImportCommission.ImportCommission()
                 {
                     PolicyNumber = "123",
@@ -87,12 +87,12 @@ namespace api.Test.Controllers.Commission
         {
             var error = new OneAdvisor.Model.Commission.Model.CommissionError.CommissionError()
             {
-                Id = Guid.Parse("21f9f54f-0bbc-4afc-a588-b6bae4f47ae6"),
-                CommissionStatementId = Guid.Parse("d5887153-b373-4275-8eb1-6b7c1e9d57db"),
-                CommissionTypeId = Guid.Parse("24b55c80-4624-478f-a73a-647bb77f22d8"),
+                Id = Guid.NewGuid(),
+                CommissionStatementId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
                 IsFormatValid = true,
-                MemberId = Guid.Parse("e36c892a-f608-4d24-b29f-d031f4ebf855"),
-                PolicyId = Guid.Parse("bb49cd0d-c66d-4c16-858b-0bd6b68df65c"),
+                MemberId = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
                 Data = new OneAdvisor.Model.Commission.Model.ImportCommission.ImportCommission()
                 {
                     PolicyNumber = "123",
@@ -126,12 +126,12 @@ namespace api.Test.Controllers.Commission
         {
             var error = new OneAdvisor.Model.Commission.Model.CommissionError.CommissionError()
             {
-                Id = Guid.Parse("21f9f54f-0bbc-4afc-a588-b6bae4f47ae6"),
-                CommissionStatementId = Guid.Parse("d5887153-b373-4275-8eb1-6b7c1e9d57db"),
-                CommissionTypeId = Guid.Parse("24b55c80-4624-478f-a73a-647bb77f22d8"),
+                Id = Guid.NewGuid(),
+                CommissionStatementId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
                 IsFormatValid = true,
-                MemberId = Guid.Parse("e36c892a-f608-4d24-b29f-d031f4ebf855"),
-                PolicyId = Guid.Parse("bb49cd0d-c66d-4c16-858b-0bd6b68df65c"),
+                MemberId = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
                 Data = new OneAdvisor.Model.Commission.Model.ImportCommission.ImportCommission()
                 {
                     PolicyNumber = "123",
@@ -165,12 +165,12 @@ namespace api.Test.Controllers.Commission
         {
             var error = new OneAdvisor.Model.Commission.Model.CommissionError.CommissionError()
             {
-                Id = Guid.Parse("21f9f54f-0bbc-4afc-a588-b6bae4f47ae6"),
-                CommissionStatementId = Guid.Parse("d5887153-b373-4275-8eb1-6b7c1e9d57db"),
-                CommissionTypeId = Guid.Parse("24b55c80-4624-478f-a73a-647bb77f22d8"),
+                Id = Guid.NewGuid(),
+                CommissionStatementId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
                 IsFormatValid = true,
-                MemberId = Guid.Parse("e36c892a-f608-4d24-b29f-d031f4ebf855"),
-                PolicyId = Guid.Parse("bb49cd0d-c66d-4c16-858b-0bd6b68df65c"),
+                MemberId = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
                 Data = new OneAdvisor.Model.Commission.Model.ImportCommission.ImportCommission()
                 {
                     PolicyNumber = "123",
@@ -216,12 +216,12 @@ namespace api.Test.Controllers.Commission
         {
             var error = new OneAdvisor.Model.Commission.Model.CommissionError.CommissionError()
             {
-                Id = Guid.Parse("21f9f54f-0bbc-4afc-a588-b6bae4f47ae6"),
-                CommissionStatementId = Guid.Parse("d5887153-b373-4275-8eb1-6b7c1e9d57db"),
-                CommissionTypeId = Guid.Parse("24b55c80-4624-478f-a73a-647bb77f22d8"),
+                Id = Guid.NewGuid(),
+                CommissionStatementId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
                 IsFormatValid = true,
-                MemberId = Guid.Parse("e36c892a-f608-4d24-b29f-d031f4ebf855"),
-                PolicyId = Guid.Parse("bb49cd0d-c66d-4c16-858b-0bd6b68df65c"),
+                MemberId = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
                 Data = new OneAdvisor.Model.Commission.Model.ImportCommission.ImportCommission()
                 {
                     PolicyNumber = "123",

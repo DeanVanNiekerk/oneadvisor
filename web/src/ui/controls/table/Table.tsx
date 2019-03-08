@@ -42,14 +42,14 @@ class TableComponent extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            defaultPageOptions: defaultPageOptions()
+            defaultPageOptions: defaultPageOptions(),
         };
     }
 
     handleTableChange = (
         pagination: PaginationConfig,
         filters: any,
-        sorter
+        sorter: any
     ) => {
         //Check for table change
         if (this.props.onTableChange) {
@@ -60,11 +60,11 @@ class TableComponent extends React.Component<Props, State> {
                         this.state.defaultPageOptions.number,
                     size:
                         pagination.pageSize ||
-                        this.state.defaultPageOptions.size
+                        this.state.defaultPageOptions.size,
                 },
                 {
                     column: sorter.field,
-                    direction: sorter.order === 'ascend' ? 'asc' : 'desc'
+                    direction: sorter.order === "ascend" ? "asc" : "desc",
                 },
                 filters
             );
@@ -74,7 +74,7 @@ class TableComponent extends React.Component<Props, State> {
     render() {
         let pagination: PaginationConfig | false = {
             defaultPageSize: this.state.defaultPageOptions.size,
-            showSizeChanger: true
+            showSizeChanger: true,
         };
 
         const { pageOptions } = this.props;
@@ -86,7 +86,7 @@ class TableComponent extends React.Component<Props, State> {
                 total: this.props.totalRows,
                 pageSize: options.size,
                 defaultPageSize: options.size,
-                current: options.number
+                current: options.number,
             };
         }
 
@@ -114,7 +114,7 @@ class TableComponent extends React.Component<Props, State> {
                                 )
                             )
                                 this.props.onRowClick(record);
-                        }
+                        },
                     };
                 }}
                 size="small"
@@ -129,7 +129,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         useCases: identityState.identity
             ? identityState.identity.useCaseIds
-            : []
+            : [],
     };
 };
 

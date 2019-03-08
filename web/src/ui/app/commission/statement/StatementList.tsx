@@ -62,7 +62,7 @@ class StatementList extends Component<Props> {
             fetchStatements(this.props.pageOptions, this.props.sortOptions, {
                 ...this.props.filters,
                 startDate: [dateRange.start],
-                endDate: [dateRange.end]
+                endDate: [dateRange.end],
             })
         );
     };
@@ -85,48 +85,57 @@ class StatementList extends Component<Props> {
             date = date.date(1);
 
         const statement: StatementEdit = {
-            id: '',
+            id: "",
             amountIncludingVAT: 0,
             vat: 0,
-            companyId: '',
+            companyId: "",
             processed: false,
-            date: date.format()
+            date: date.format(),
         };
         this.props.dispatch(receiveStatement(statement));
     };
 
     getColumns = () => {
         return [
-            getColumnEDS('companyId', 'Company', {
+            getColumnEDS("companyId", "Company", {
                 render: (companyId: string) => {
                     return <CompanyName companyId={companyId} />;
                 },
                 filters: this.props.companies.map(type => ({
                     text: type.name,
-                    value: type.id
-                }))
+                    value: type.id,
+                })),
             }),
-            getColumnEDS('date', 'Date', { type: 'date' }),
-            getColumnEDS('actualAmountIncludingVAT', 'Amount (incl VAT)', {
-                type: 'currency'
+            getColumnEDS("date", "Date", { type: "date" }),
+            getColumnEDS("actualAmountIncludingVAT", "Amount (incl VAT)", {
+                type: "currency",
             }),
-            getColumnEDS('actualVAT', 'VAT', { type: 'currency' }),
-            getColumnEDS('processed', 'Status', {
+            getColumnEDS("actualVAT", "VAT", { type: "currency" }),
+            getColumnEDS("processed", "Status", {
                 render: (processed: boolean) => {
                     return <Processed processed={processed} />;
                 },
                 filters: [
                     {
-                        text: 'Processed',
-                        value: 'true'
+                        text: "Processed",
+                        value: "true",
                     },
                     {
-                        text: 'Processing',
-                        value: 'false'
-                    }
-                ]
-            })
+                        text: "Processing",
+                        value: "false",
+                    },
+                ],
+            }),
         ];
+    };
+
+    mapSortColumns = (sort: SortOptions): SortOptions => {
+        switch (sort.column) {
+            case "companyId":
+                return { ...sort, column: "companyName" };
+            default:
+                return sort;
+        }
     };
 
     onTableChange = (
@@ -137,7 +146,9 @@ class StatementList extends Component<Props> {
         if (this.props.pageOptions != pageOptions)
             this.props.dispatch(receivePageOptions(pageOptions));
         if (this.props.sortOptions != sortOptions)
-            this.props.dispatch(receiveSortOptions(sortOptions));
+            this.props.dispatch(
+                receiveSortOptions(this.mapSortColumns(sortOptions))
+            );
         if (this.props.filters != filters)
             this.props.dispatch(receiveFilters(filters));
     };
@@ -146,7 +157,7 @@ class StatementList extends Component<Props> {
         return moment.months().map((m, i) => {
             return {
                 number: i + 1,
-                name: m
+                name: m,
             };
         });
     };
@@ -318,7 +329,7 @@ const mapStateToProps = (state: RootState) => {
         filterMonth: statementsState.filterMonth,
         filterYear: statementsState.filterYear,
         filters: statementsState.filters,
-        companies: companiesState.items
+        companies: companiesState.items,
     };
 };
 

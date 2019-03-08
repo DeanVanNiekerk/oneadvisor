@@ -61,7 +61,7 @@ export const receiveSortOptions = (
 export const getCommissionErrors = (
     statementId: string,
     hasValidFormat: boolean,
-    onSuccess: (errors: CommissionError[]) => void
+    onSuccess: (errors: PagedItems<CommissionError>) => void
 ): ApiAction => ({
     type: "API",
     endpoint: `${statementsApi}/${statementId}/errors?hasValidFormat=${hasValidFormat}`,

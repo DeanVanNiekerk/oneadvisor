@@ -17,5 +17,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatement
 
         public decimal ActualAmountIncludingVAT { get; set; }
         public decimal ActualVAT { get; set; }
+
+        public string CompanyName { get; set; }
     }
 }
