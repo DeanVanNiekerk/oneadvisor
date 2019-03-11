@@ -145,5 +145,43 @@ namespace OneAdvisor.Service.Commission
 
             return commission;
         }
+
+        public async Task BigDataLoader(Guid commissionStatementId, int totalRecords)
+        {
+            var commissionStatement = _context.CommissionStatement.Find(commissionStatementId);
+
+            var policies = (from policy in _context.Policy
+                            join member in _context.Member
+                                on policy.MemberId equals member.Id
+                            where member.OrganisationId == commissionStatement.OrganisationId
+                            select policy.Id).ToList();
+            var policyCount = policies.Count;
+
+            var commissionTypes = (from commissionType in _context.CommissionType
+                                   select commissionType.Id).ToList();
+            var commissionTypeCount = commissionTypes.Count;
+
+            var items = new List<CommissionEntity>();
+
+            var random = new Random();
+
+            for (int i = 0; i < totalRecords; i++)
+            {
+                var commission = new CommissionEntity();
+
+                commission.Id = Guid.NewGuid();
+                commission.PolicyId = policies[random.Next(0, policyCount)];
+                commission.CommissionStatementId = commissionStatementId;
+                commission.CommissionTypeId = commissionTypes[random.Next(0, commissionTypeCount)];
+                commission.AmountIncludingVAT = Convert.ToDecimal(random.Next(40, 100));
+                commission.VAT = Convert.ToDecimal(random.Next(5, 20));
+                commission.SourceData = null;
+
+                items.Add(commission);
+            }
+
+            await _bulkActions.BulkInsertCommissionsAsync(_context, items);
+
+        }
     }
 }

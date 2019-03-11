@@ -21,7 +21,7 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("GetBranches_FilterAndSort");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var orgId1 = Guid.NewGuid();
@@ -82,7 +82,7 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("GetBranch");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var orgId2 = Guid.NewGuid();
@@ -124,7 +124,7 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("InsertBranch");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var branch = new Branch()
@@ -162,7 +162,7 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("UpdateBranch");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var branch1 = new BranchEntity { Id = Guid.NewGuid(), Name = "Branch 1", OrganisationId = user1.Organisation.Id };

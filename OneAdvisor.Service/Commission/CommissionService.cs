@@ -11,6 +11,8 @@ using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Commission.Validators;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -89,6 +91,54 @@ namespace OneAdvisor.Service.Commission
             pagedItems.Items = await query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
 
             return pagedItems;
+        }
+
+        public IEnumerable<CommissionBulk> GetCommissionsBulk(ScopeOptions scope)
+        {
+            var userQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
+
+            var query = from user in userQuery
+                        join policy in _context.Policy
+                            on user.Id equals policy.UserId
+                        join commission in _context.Commission
+                            on policy.Id equals commission.PolicyId
+                        join commissionStatement in _context.CommissionStatement
+                            on commission.CommissionStatementId equals commissionStatement.Id
+                        select new CommissionBulk()
+                        {
+                            CommissionTypeId = commission.CommissionTypeId,
+                            AmountIncludingVAT = commission.AmountIncludingVAT,
+                            VAT = commission.VAT,
+                            UserId = policy.UserId,
+                            Date = commissionStatement.Date
+                        };
+
+            foreach (var commission in query)
+                yield return commission;
+        }
+
+        private IQueryable<Model.Commission.Model.Commission.Commission> GetCommissionsQuery(ScopeOptions scope)
+        {
+            var userQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
+
+            var query = from user in userQuery
+                        join policy in _context.Policy
+                            on user.Id equals policy.UserId
+                        join commission in _context.Commission
+                            on policy.Id equals commission.PolicyId
+                        select new OneAdvisor.Model.Commission.Model.Commission.Commission()
+                        {
+                            Id = commission.Id,
+                            CommissionStatementId = commission.CommissionStatementId,
+                            PolicyId = commission.PolicyId,
+                            CommissionTypeId = commission.CommissionTypeId,
+                            AmountIncludingVAT = commission.AmountIncludingVAT,
+                            VAT = commission.VAT,
+                            UserId = policy.UserId,
+                            PolicyNumber = policy.Number
+                        };
+
+            return query;
         }
 
         public async Task<CommissionEdit> GetCommission(ScopeOptions scope, Guid id)

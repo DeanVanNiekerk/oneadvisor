@@ -21,11 +21,11 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("GetContacts_FilterAndSort");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
-            var member2 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
+            var member2 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var contactTypeId1 = Guid.NewGuid();
@@ -94,10 +94,10 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("GetContact");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var contactTypeId1 = Guid.NewGuid();
@@ -140,10 +140,10 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("GetContactWithValue");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var contactTypeId1 = Guid.NewGuid();
@@ -186,10 +186,10 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("InsertContact");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var contactTypeId1 = Guid.NewGuid();
@@ -230,10 +230,10 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("UpdateContact");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var contactTypeId1 = Guid.NewGuid();
@@ -287,10 +287,10 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("DeleteContact");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var contactTypeId1 = Guid.NewGuid();

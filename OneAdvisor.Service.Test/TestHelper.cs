@@ -14,6 +14,7 @@ using OneAdvisor.Data.Entities.Member;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Test.Models;
+using OneAdvisor.Model.Directory.Model.Lookup;
 
 namespace OneAdvisor.Service.Test
 {
@@ -27,12 +28,12 @@ namespace OneAdvisor.Service.Test
                .Options;
         }
 
-        public static UserEntity InsertDefaultUser(DbContextOptions<DataContext> options)
+        public static UserEntity InsertUser(DbContextOptions<DataContext> options)
         {
-            return InsertDefaultUserDetailed(options).User;
+            return InsertUserDetailed(options).User;
         }
 
-        public static OrganisationEntity InsertDefaultOrganisation(DbContextOptions<DataContext> options)
+        public static OrganisationEntity InsertOrganisation(DbContextOptions<DataContext> options)
         {
             var organisation = new OrganisationEntity { Id = Guid.NewGuid(), Name = "A Org 1" };
 
@@ -45,14 +46,14 @@ namespace OneAdvisor.Service.Test
             return organisation;
         }
 
-        public static DefaultUser InsertDefaultUserDetailed(DbContextOptions<DataContext> options, Scope scope = Scope.Organisation)
+        public static DefaultUser InsertUserDetailed(DbContextOptions<DataContext> options, Scope scope = Scope.Organisation)
         {
-            var organisation = InsertDefaultOrganisation(options);
+            var organisation = InsertOrganisation(options);
 
-            return InsertDefaultUserDetailed(options, organisation, scope);
+            return InsertUserDetailed(options, organisation, scope);
         }
 
-        public static DefaultUser InsertDefaultUserDetailed(DbContextOptions<DataContext> options, OrganisationEntity organisation, Scope scope = Scope.Organisation)
+        public static DefaultUser InsertUserDetailed(DbContextOptions<DataContext> options, OrganisationEntity organisation, Scope scope = Scope.Organisation)
         {
             var user = new UserEdit
             {
@@ -64,10 +65,10 @@ namespace OneAdvisor.Service.Test
                 Aliases = new List<string>()
             };
 
-            return InsertDefaultUserDetailed(options, organisation, user);
+            return InsertUserDetailed(options, organisation, user);
         }
 
-        public static DefaultUser InsertDefaultUserDetailed(DbContextOptions<DataContext> options, OrganisationEntity organisation, UserEdit sourceUser)
+        public static DefaultUser InsertUserDetailed(DbContextOptions<DataContext> options, OrganisationEntity organisation, UserEdit sourceUser)
         {
             var branch = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = organisation.Id, Name = "Branch 1" };
             var user = new UserEntity
@@ -95,14 +96,14 @@ namespace OneAdvisor.Service.Test
             };
         }
 
-        public static DefaultMember InsertDefaultMember(DbContextOptions<DataContext> options)
+        public static DefaultMember InsertMember(DbContextOptions<DataContext> options)
         {
-            var organisation = InsertDefaultOrganisation(options);
+            var organisation = InsertOrganisation(options);
 
-            return InsertDefaultMember(options, organisation);
+            return InsertMember(options, organisation);
         }
 
-        public static DefaultMember InsertDefaultMember(DbContextOptions<DataContext> options, OrganisationEntity organisation, string idNumber = null)
+        public static DefaultMember InsertMember(DbContextOptions<DataContext> options, OrganisationEntity organisation, string idNumber = null)
         {
             var member = new MemberEntity
             {
@@ -143,14 +144,15 @@ namespace OneAdvisor.Service.Test
             return type;
         }
 
-        public static CommissionTypeEntity InsertDefaultCommissionType(DbContextOptions<DataContext> options, Guid? policyTypeId = null)
+        public static CommissionTypeEntity InsertCommissionType(DbContextOptions<DataContext> options, Guid? policyTypeId = null, Guid? commissionEarningsTypeId = null)
         {
             var type = new CommissionTypeEntity
             {
                 Id = Guid.NewGuid(),
                 Name = Guid.NewGuid().ToString(),
                 Code = Guid.NewGuid().ToString(),
-                PolicyTypeId = policyTypeId.HasValue ? policyTypeId.Value : Guid.NewGuid()
+                PolicyTypeId = policyTypeId.HasValue ? policyTypeId.Value : Guid.NewGuid(),
+                CommissionEarningsTypeId = commissionEarningsTypeId.HasValue ? commissionEarningsTypeId.Value : CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY
             };
 
             using (var context = new DataContext(options))
@@ -160,6 +162,23 @@ namespace OneAdvisor.Service.Test
             };
 
             return type;
+        }
+
+        public static void InsertCommissionEarningsTypes(DbContextOptions<DataContext> options)
+        {
+            InsertCommissionEarningsType(options, new CommissionEarningsTypeEntity() { Id = CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY, Name = "ANNUAL_ANNUITY" });
+            InsertCommissionEarningsType(options, new CommissionEarningsTypeEntity() { Id = CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, Name = "MONTHLY_ANNUITY" });
+            InsertCommissionEarningsType(options, new CommissionEarningsTypeEntity() { Id = CommissionEarningsType.EARNINGS_TYPE_ONCE_OFF, Name = "ONCE_OFF" });
+            InsertCommissionEarningsType(options, new CommissionEarningsTypeEntity() { Id = CommissionEarningsType.EARNINGS_TYPE_LIFE_FIRST_YEARS, Name = "LIFE_FIRST_YEARS" });
+        }
+
+        public static void InsertCommissionEarningsType(DbContextOptions<DataContext> options, CommissionEarningsTypeEntity entity)
+        {
+            using (var context = new DataContext(options))
+            {
+                context.CommissionEarningsType.Add(entity);
+                context.SaveChanges();
+            };
         }
 
         public static CompanyEntity InsertCompany(DbContextOptions<DataContext> options)
@@ -179,7 +198,7 @@ namespace OneAdvisor.Service.Test
             return company;
         }
 
-        public static CommissionStatementEntity InsertDefaultCommissionStatement(DbContextOptions<DataContext> options, OrganisationEntity organisation, Guid? companyId = null)
+        public static CommissionStatementEntity InsertCommissionStatement(DbContextOptions<DataContext> options, OrganisationEntity organisation, Guid? companyId = null)
         {
             companyId = companyId.HasValue ? companyId : InsertCompany(options).Id;
             var statement = new CommissionStatementEntity { Id = Guid.NewGuid(), OrganisationId = organisation.Id, CompanyId = companyId.Value };

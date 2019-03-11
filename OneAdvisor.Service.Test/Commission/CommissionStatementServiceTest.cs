@@ -27,8 +27,8 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("GetCommissionStatements");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
 
             var company = TestHelper.InsertCompany(options);
 
@@ -196,7 +196,7 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("GetCommissionStatements_DateFilter");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             var company = TestHelper.InsertCompany(options);
 
@@ -286,8 +286,8 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("GetCommissionStatement");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
 
             var cs1 = new CommissionStatementEntity
             {
@@ -350,7 +350,7 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("InsertCommissionStatement");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var cs1 = new CommissionStatementEdit
@@ -391,8 +391,8 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("UpdateCommissionStatement");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
 
             var cs1 = new CommissionStatementEntity
             {
@@ -466,11 +466,11 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("UpdateCommissionStatement");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var statement1 = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var statement1 = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
-            var statement2 = TestHelper.InsertDefaultCommissionStatement(options, user2.Organisation);
+            var user2 = TestHelper.InsertUserDetailed(options);
+            var statement2 = TestHelper.InsertCommissionStatement(options, user2.Organisation);
 
             using (var context = new DataContext(options))
             {

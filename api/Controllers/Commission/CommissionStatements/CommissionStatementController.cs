@@ -9,6 +9,7 @@ using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Directory.Model.Role;
 
 namespace api.Controllers.Commission.CommissionStatements
 {
@@ -93,5 +94,4 @@ namespace api.Controllers.Commission.CommissionStatements
             return Ok(new Result(true));
         }
     }
-
 }

@@ -23,13 +23,13 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("GetCommissions");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
-            var member2 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
+            var member2 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var user3 = TestHelper.InsertDefaultUserDetailed(options);
-            var member3 = TestHelper.InsertDefaultMember(options, user3.Organisation);
+            var user3 = TestHelper.InsertUserDetailed(options);
+            var member3 = TestHelper.InsertMember(options, user3.Organisation);
 
             var policy1 = new PolicyEntity
             {
@@ -163,12 +163,12 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("GetCommission");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
+            var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
 
-            var user3 = TestHelper.InsertDefaultUserDetailed(options);
+            var user3 = TestHelper.InsertUserDetailed(options);
 
             var policy1 = new PolicyEntity
             {
@@ -237,12 +237,12 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("InsertCommission");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
+            var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
 
-            var user3 = TestHelper.InsertDefaultUserDetailed(options);
+            var user3 = TestHelper.InsertUserDetailed(options);
 
             var policy1 = new PolicyEntity
             {
@@ -313,12 +313,12 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("UpdateCommission");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
+            var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
 
-            var user3 = TestHelper.InsertDefaultUserDetailed(options);
+            var user3 = TestHelper.InsertUserDetailed(options);
 
             var policy1 = new PolicyEntity
             {

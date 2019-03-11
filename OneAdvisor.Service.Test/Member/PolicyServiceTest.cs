@@ -21,13 +21,13 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("GetPolicies");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
-            var member2 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
+            var member2 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var user3 = TestHelper.InsertDefaultUserDetailed(options);
-            var member3 = TestHelper.InsertDefaultMember(options, user3.Organisation);
+            var user3 = TestHelper.InsertUserDetailed(options);
+            var member3 = TestHelper.InsertMember(options, user3.Organisation);
 
             //Given
             var policy1 = new PolicyEntity
@@ -112,8 +112,8 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("GetPolicy");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
             //Given
             var policy1 = new PolicyEntity
@@ -274,8 +274,8 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("GetPolicy_ByMember_Company_Number");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
             //Given
             var policy1 = new PolicyEntity
@@ -312,8 +312,8 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("GetPolicy_ByCompany_Number");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
             //Given
             var policy1 = new PolicyEntity
@@ -350,8 +350,8 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("GetPolicy_ByNumber");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
             //Given
             var policy1 = new PolicyEntity
@@ -390,10 +390,10 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("InsertPolicy");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var policy1 = new PolicyEdit
@@ -441,10 +441,10 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("UpdatePolicy");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var policyEntity1 = new PolicyEntity

@@ -22,11 +22,11 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("MemberExport");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
-            var member2 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
+            var member2 = TestHelper.InsertMember(options, user1.Organisation);
 
-            TestHelper.InsertDefaultMember(options); //Different org
+            TestHelper.InsertMember(options); //Different org
 
             using (var context = new DataContext(options))
             {

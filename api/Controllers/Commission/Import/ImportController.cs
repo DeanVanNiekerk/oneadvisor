@@ -15,6 +15,7 @@ using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Import.Excel.Readers;
 using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
+using OneAdvisor.Model.Directory.Model.Role;
 
 namespace api.Controllers.Commission.Import
 {
@@ -63,6 +64,15 @@ namespace api.Controllers.Commission.Import
             await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
 
             return Ok();
+        }
+
+        [HttpGet("{commissionStatementId}/bigDataLoader")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
+        public async Task<IActionResult> BigDataLoader(Guid commissionStatementId, [FromQuery] int totalRecords)
+        {
+            await CommissionImportService.BigDataLoader(commissionStatementId, totalRecords);
+
+            return Ok(new Result(true));
         }
     }
 }

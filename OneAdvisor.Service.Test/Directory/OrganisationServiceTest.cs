@@ -186,7 +186,7 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("UpdateOrganisation");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 2" };

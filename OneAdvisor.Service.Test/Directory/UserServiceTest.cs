@@ -21,8 +21,8 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("GetUsers");
 
-            var userDetailed1 = TestHelper.InsertDefaultUserDetailed(options);
-            var userDetailed2 = TestHelper.InsertDefaultUserDetailed(options);
+            var userDetailed1 = TestHelper.InsertUserDetailed(options);
+            var userDetailed2 = TestHelper.InsertUserDetailed(options);
 
             var user1 = new UserEntity()
             {
@@ -101,8 +101,8 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("GetUser");
 
-            var userDetailed1 = TestHelper.InsertDefaultUserDetailed(options);
-            var userDetailed2 = TestHelper.InsertDefaultUserDetailed(options);
+            var userDetailed1 = TestHelper.InsertUserDetailed(options);
+            var userDetailed2 = TestHelper.InsertUserDetailed(options);
 
             var roles = new List<string>() {
                 "role1", "role2"
@@ -166,8 +166,8 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("InsertUser");
 
-            var userDetailed1 = TestHelper.InsertDefaultUserDetailed(options);
-            var userDetailed2 = TestHelper.InsertDefaultUserDetailed(options);
+            var userDetailed1 = TestHelper.InsertUserDetailed(options);
+            var userDetailed2 = TestHelper.InsertUserDetailed(options);
 
             var noRoles = new List<string>();
 
@@ -241,8 +241,8 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("UpdateUser");
 
-            var userDetailed1 = TestHelper.InsertDefaultUserDetailed(options);
-            var userDetailed2 = TestHelper.InsertDefaultUserDetailed(options);
+            var userDetailed1 = TestHelper.InsertUserDetailed(options);
+            var userDetailed2 = TestHelper.InsertUserDetailed(options);
 
             var noRoles = new List<string>();
 
@@ -327,8 +327,8 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("GetUsersSimple");
 
-            var userDetailed1 = TestHelper.InsertDefaultUserDetailed(options);
-            var userDetailed2 = TestHelper.InsertDefaultUserDetailed(options);
+            var userDetailed1 = TestHelper.InsertUserDetailed(options);
+            var userDetailed2 = TestHelper.InsertUserDetailed(options);
 
             var user1 = new UserEntity()
             {
@@ -394,8 +394,8 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("GetUserSimple");
 
-            var userDetailed1 = TestHelper.InsertDefaultUserDetailed(options);
-            var userDetailed2 = TestHelper.InsertDefaultUserDetailed(options);
+            var userDetailed1 = TestHelper.InsertUserDetailed(options);
+            var userDetailed2 = TestHelper.InsertUserDetailed(options);
 
             var user1 = new UserEntity()
             {

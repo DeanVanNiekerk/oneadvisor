@@ -198,8 +198,8 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("GetMember");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var mem1 = new MemberEntity
@@ -267,7 +267,7 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("GetMemberPreview");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var mem1 = new MemberEntity
@@ -346,7 +346,7 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("InsertMember");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var member = new MemberEdit()
@@ -395,8 +395,8 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("UpdateMember");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var mem1 = new MemberEntity { Id = Guid.NewGuid(), FirstName = "FN 1", LastName = "LN 1", OrganisationId = user1.Organisation.Id };
@@ -478,11 +478,11 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("DeleteMember");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
-            var member2 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
+            var member2 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
 
             using (var context = new DataContext(options))
             {

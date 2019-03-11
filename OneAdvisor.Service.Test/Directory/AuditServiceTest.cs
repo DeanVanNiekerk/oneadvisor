@@ -18,8 +18,8 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("GetAuditLogs_FilterAndSort");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
 
             //Given
             var al1 = new AuditLogEntity { Id = Guid.NewGuid(), Entity = "Member", Action = "Insert", UserId = user1.User.Id, Date = DateTime.Now.AddDays(-1), Data = "A" };

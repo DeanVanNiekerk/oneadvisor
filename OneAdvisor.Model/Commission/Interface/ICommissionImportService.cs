@@ -12,5 +12,6 @@ namespace OneAdvisor.Model.Commission.Interface
     public interface ICommissionImportService
     {
         Task<List<Result>> ImportCommissions(ScopeOptions scope, Guid commissionStatementId, IEnumerable<ImportCommission> importData);
+        Task BigDataLoader(Guid commissionStatementId, int totalRecords);
     }
 }

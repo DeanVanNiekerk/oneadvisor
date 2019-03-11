@@ -27,7 +27,7 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("ImportMember_Insert");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             using (var context = new DataContext(options))
             {
@@ -66,7 +66,7 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("ImportMember_Insert_WithMissingZeroOnIdNumber");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             using (var context = new DataContext(options))
             {
@@ -96,7 +96,7 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("ImportMember_Insert_With3MissingZeroOnIdNumber");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             using (var context = new DataContext(options))
             {
@@ -126,7 +126,7 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("ImportMember_Insert_WithPassportNumber");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             using (var context = new DataContext(options))
             {
@@ -156,7 +156,7 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("ImportMember_Insert_WithEmail");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             using (var context = new DataContext(options))
             {
@@ -190,7 +190,7 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("ImportMember_Insert_WithCellphone");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             using (var context = new DataContext(options))
             {
@@ -224,8 +224,8 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("ImportMember_Update");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
 
             var mem = new MemberEntity
             {
@@ -281,8 +281,8 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("ImportMember_Update_MatchOnShortIdNumber");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
 
             var mem = new MemberEntity
             {
@@ -330,7 +330,7 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("ImportMember_Update_WithContacts");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             var mem = new MemberEntity
             {
@@ -403,7 +403,7 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("ImportMember_Update_WithPassportNumber");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             var mem = new MemberEntity
             {
@@ -450,7 +450,7 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("ImportMember_Update_LastNameAndDateOfBirth");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             var mem1 = new MemberEntity
             {
@@ -506,7 +506,7 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("ImportMember_InsertPolicy");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
+            var user1 = TestHelper.InsertUserDetailed(options);
 
             using (var context = new DataContext(options))
             {
@@ -548,7 +548,7 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("ImportMember_InsertPolicy_CheckUserAlias");
 
-            var organisation = TestHelper.InsertDefaultOrganisation(options);
+            var organisation = TestHelper.InsertOrganisation(options);
 
             var user = new UserEdit
             {
@@ -558,7 +558,7 @@ namespace OneAdvisor.Service.Test.Member
                 Aliases = new List<string>() { "DJ VAN Niekerk" }
             };
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options, organisation, user);
+            var user1 = TestHelper.InsertUserDetailed(options, organisation, user);
 
             using (var context = new DataContext(options))
             {
@@ -595,10 +595,10 @@ namespace OneAdvisor.Service.Test.Member
         {
             var options = TestHelper.GetDbContext("ImportMember_UpdatePolicy");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation, "8210035032082");
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation, "8210035032082");
 
-            var user2 = TestHelper.InsertDefaultUserDetailed(options, user1.Organisation);
+            var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
 
             //Given
             var policyEntity1 = new PolicyEntity

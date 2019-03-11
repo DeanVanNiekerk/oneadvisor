@@ -22,8 +22,8 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("GetNextError_ValidFormat");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
             var error1 = new CommissionErrorEntity
             {
@@ -67,8 +67,8 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("GetNextError_InvalidFormat");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
             var error1 = new CommissionErrorEntity
             {
@@ -106,8 +106,8 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("GetError");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
             var error1 = new CommissionErrorEntity
             {
@@ -152,8 +152,8 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("ResolveFormatError_Fail");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
             var ic1 = new ImportCommission
             {
@@ -194,8 +194,8 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("ResolveFormatError_Pass");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
             var ic1 = new ImportCommission
             {
@@ -250,8 +250,8 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("ResolveMappingError_Fail");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
             using (var context = new DataContext(options))
             {
@@ -283,10 +283,10 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("ResolveMappingError_Pass");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
+            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
             var policy1 = new PolicyEntity
             {
@@ -371,10 +371,10 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("ResolveFormatAndMappingError_Pass");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
+            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
             var policy1 = new PolicyEntity
             {
@@ -458,10 +458,10 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("AutoResolveMappingErrors_4Entries_AutoResolve3");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var member1 = TestHelper.InsertDefaultMember(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var member1 = TestHelper.InsertMember(options, user1.Organisation);
 
-            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
+            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
             var commissionTypeId = Guid.NewGuid();
 
@@ -623,10 +623,10 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var options = TestHelper.GetDbContext("GetErrors");
 
-            var user1 = TestHelper.InsertDefaultUserDetailed(options);
-            var statement = TestHelper.InsertDefaultCommissionStatement(options, user1.Organisation);
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
-            var user2 = TestHelper.InsertDefaultUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
 
             var error1 = new CommissionErrorEntity
             {
