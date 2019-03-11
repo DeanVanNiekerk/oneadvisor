@@ -16,7 +16,7 @@
 > In order to run in development mode, set the ASPNETCORE_ENVIRONMENT environment variable to Development
 
 1. Start the api by running `dotnet watch run` in api/ directory
-1. Then run the website by running`npm run start:dev` in web/ directory
+1. Then run the website by running`npm start` in web/ directory
 
 ---
 

@@ -4,6 +4,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
 {
     public class MemberRevenueData
     {
+        public int RowNumber { get; set; }
         public Guid MemberId { get; set; }
         public string MemberFirstName { get; set; }
         public string MemberLastName { get; set; }

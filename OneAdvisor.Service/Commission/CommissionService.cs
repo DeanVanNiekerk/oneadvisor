@@ -93,30 +93,6 @@ namespace OneAdvisor.Service.Commission
             return pagedItems;
         }
 
-        public IEnumerable<CommissionBulk> GetCommissionsBulk(ScopeOptions scope)
-        {
-            var userQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
-
-            var query = from user in userQuery
-                        join policy in _context.Policy
-                            on user.Id equals policy.UserId
-                        join commission in _context.Commission
-                            on policy.Id equals commission.PolicyId
-                        join commissionStatement in _context.CommissionStatement
-                            on commission.CommissionStatementId equals commissionStatement.Id
-                        select new CommissionBulk()
-                        {
-                            CommissionTypeId = commission.CommissionTypeId,
-                            AmountIncludingVAT = commission.AmountIncludingVAT,
-                            VAT = commission.VAT,
-                            UserId = policy.UserId,
-                            Date = commissionStatement.Date
-                        };
-
-            foreach (var commission in query)
-                yield return commission;
-        }
-
         private IQueryable<Model.Commission.Model.Commission.Commission> GetCommissionsQuery(ScopeOptions scope)
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, scope);

@@ -11,6 +11,7 @@ using System.Data;
 using System.Data.SqlClient;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.Lookup;
+using OneAdvisor.Model.Common;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -23,54 +24,105 @@ namespace OneAdvisor.Service.Commission
             _context = context;
         }
 
-        public async Task<IEnumerable<MemberRevenueData>> GetMemberRevenueData(ScopeOptions scope, DateTime start, DateTime end)
+        public async Task<PagedItems<MemberRevenueData>> GetMemberRevenueData(MemberRevenueQueryOptions options)
         {
             var lastMonth = DateTime.UtcNow.AddMonths(-1);
 
-            return await _context.FromSqlAsync<MemberRevenueData>($@"
-SELECT
-    m.id AS 'MemberId',
-    m.firstName AS 'MemberFirstName',
-    m.lastName AS 'MemberLastName',
+            var whereClause = "";
+            if (options.Start.HasValue)
+                whereClause += $" AND cs.Date >= '{options.Start.Value.ToString("yyyy-MM-dd")}' ";
 
-    SUM(CASE WHEN 
-    ct.commissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY}' 
-    THEN c.amountIncludingVat ELSE 0 END) AS 'AnnualAnnuity',
-    SUM(CASE WHEN 
-    (MONTH(cs.date) = {lastMonth.Month} AND YEAR(cs.date) = {lastMonth.Year} AND ct.commissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY}')
-    THEN c.amountIncludingVat ELSE 0 END) AS 'AnnualAnnuityMonth',
+            if (options.End.HasValue)
+                whereClause += $" AND cs.Date <= '{options.End.Value.ToString("yyyy-MM-dd")}' ";
 
-    SUM(CASE WHEN 
-    ct.commissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY}' 
-    THEN c.amountIncludingVat ELSE 0 END) AS 'MonthlyAnnuity',
-    SUM(CASE WHEN 
-    (MONTH(cs.date) = {lastMonth.Month} AND YEAR(cs.date) = {lastMonth.Year} AND ct.commissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY}')
-    THEN c.amountIncludingVat ELSE 0 END) AS 'MonthlyAnnuityMonth',
+            var orderbyClause = "ORDER BY AnnualAnnuity DESC";
+            if (!string.IsNullOrEmpty(options.SortOptions.Column))
+            {
+                var direction = options.SortOptions.Direction == SortDirection.Ascending ? "ASC" : "DESC";
+                orderbyClause = $"ORDER BY {options.SortOptions.Column} {direction}";
+            }
 
-    SUM(CASE WHEN 
-    ct.commissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_ONCE_OFF}'
-    THEN c.amountIncludingVat ELSE 0 END) AS 'OnceOff',
-    SUM(CASE WHEN 
-    (MONTH(cs.date) = {lastMonth.Month} AND YEAR(cs.date) = {lastMonth.Year} AND ct.commissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_ONCE_OFF}')
-    THEN c.amountIncludingVat ELSE 0 END) AS 'OnceOffMonth',
+            var pagingClause = "";
+            if (options.PageOptions.Size > 0)
+            {
+                var start = (options.PageOptions.Size * (options.PageOptions.Number - 1)) + 1;
+                pagingClause = $"WHERE RowNumber BETWEEN {start} AND {start + options.PageOptions.Size - 1}";
+            }
 
-    SUM(CASE WHEN 
-    ct.commissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_LIFE_FIRST_YEARS}'  
-    THEN c.amountIncludingVat ELSE 0 END) AS 'LifeFirstYears',
-    SUM(CASE WHEN 
-    (MONTH(cs.date) = {lastMonth.Month} AND YEAR(cs.date) = {lastMonth.Year} AND ct.commissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_LIFE_FIRST_YEARS}')
-    THEN c.amountIncludingVat ELSE 0 END) AS 'LifeFirstYearsMonth'
+            var pagedItems = new PagedItems<MemberRevenueData>();
 
-FROM com_commission c
-    JOIN com_commissionStatement cs ON c.commissionStatementId = cs.id
-    JOIN mem_policy p ON c.policyId = p.id
-    JOIN mem_member m ON p.memberId = m.id
-    JOIN lkp_commissionType ct ON c.commissionTypeId = ct.id
-    JOIN lkp_commissionEarningsType cet ON ct.commissionEarningsTypeId = cet.id
-WHERE cs.date >= '{start.ToString("yyyy-MM-dd")}'
-AND cs.date <= '{end.ToString("yyyy-MM-dd")}'
-GROUP BY m.id, m.firstName, m.lastName
-            ");
+            var query = GetMemberRevenueQuery(lastMonth, options.Scope.OrganisationId, "COUNT(MemberId)", whereClause, orderbyClause);
+
+            pagedItems.TotalItems = (await _context.FromSqlAsync<int>(query)).Single();
+
+            query = GetMemberRevenueQuery(lastMonth, options.Scope.OrganisationId, "*", whereClause, orderbyClause, pagingClause);
+
+            pagedItems.Items = await _context.FromSqlAsync<MemberRevenueData>(query);
+
+            return pagedItems;
+        }
+
+        private string GetMemberRevenueQuery(DateTime lastMonth, Guid organisationId, string selectClause, string whereClause, string orderbyClause = "", string pagingClause = "")
+        {
+            return $@"
+            WITH CommissionQuery AS 
+            ( 
+                SELECT
+                
+                    m.Id AS 'MemberId',
+                    m.FirstName AS 'MemberFirstName',
+                    m.LastName AS 'MemberLastName',
+
+                    SUM(CASE WHEN 
+                    ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY}' 
+                    THEN c.amountIncludingVat ELSE 0 END) AS 'AnnualAnnuity',
+                    SUM(CASE WHEN 
+                    (cs.DateMonth = {lastMonth.Month} AND cs.DateYear = {lastMonth.Year} AND ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY}')
+                    THEN c.amountIncludingVat ELSE 0 END) AS 'AnnualAnnuityMonth',
+
+                    SUM(CASE WHEN 
+                    ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY}' 
+                    THEN c.AmountIncludingVAT ELSE 0 END) AS 'MonthlyAnnuity',
+                    SUM(CASE WHEN 
+                    (cs.DateMonth = {lastMonth.Month} AND cs.DateYear = {lastMonth.Year} AND ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY}')
+                    THEN c.AmountIncludingVAT ELSE 0 END) AS 'MonthlyAnnuityMonth',
+
+                    SUM(CASE WHEN 
+                    ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_ONCE_OFF}'
+                    THEN c.AmountIncludingVAT ELSE 0 END) AS 'OnceOff',
+                    SUM(CASE WHEN 
+                    (cs.DateMonth = {lastMonth.Month} AND cs.DateYear = {lastMonth.Year} AND ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_ONCE_OFF}')
+                    THEN c.AmountIncludingVAT ELSE 0 END) AS 'OnceOffMonth',
+
+                    SUM(CASE WHEN 
+                    ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_LIFE_FIRST_YEARS}'  
+                    THEN c.AmountIncludingVAT ELSE 0 END) AS 'LifeFirstYears',
+                    SUM(CASE WHEN 
+                    (cs.DateMonth = {lastMonth.Month} AND cs.DateYear = {lastMonth.Year} AND ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_LIFE_FIRST_YEARS}')
+                    THEN c.AmountIncludingVAT ELSE 0 END) AS 'LifeFirstYearsMonth'
+
+                FROM com_commission c
+                    JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id
+                    JOIN mem_Policy p ON c.PolicyId = p.Id
+                    JOIN mem_Member m ON p.MemberId = m.Id
+                    JOIN lkp_CommissionType ct ON c.CommissionTypeId = ct.id
+                    JOIN lkp_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id
+                WHERE cs.Processed = 1
+                AND m.OrganisationId = '{organisationId}'
+                {whereClause}
+                GROUP BY m.id, m.firstName, m.lastName
+               
+            )
+            ,CommissionQueryNumbered AS 
+            (
+                SELECT *, Row_number() OVER({orderbyClause}) AS RowNumber
+                FROM CommissionQuery
+            ) 
+
+            SELECT {selectClause}
+            FROM CommissionQueryNumbered
+            {pagingClause}
+            ";
         }
     }
 }

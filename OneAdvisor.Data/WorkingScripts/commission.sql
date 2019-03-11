@@ -41,6 +41,7 @@ FROM com_commission c
     JOIN lkp_commissionEarningsType cet ON ct.commissionEarningsTypeId = cet.id
 WHERE cs.date BETWEEN '2018-03-02' AND '2019-03-02'
 GROUP BY m.id, m.firstName, m.lastName
+ORDER BY 'AnnualAnnuity'
 
 -- SELECT * FROM lkp_commissionEarningsType
 

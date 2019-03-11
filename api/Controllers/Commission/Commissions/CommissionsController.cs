@@ -43,15 +43,6 @@ namespace api.Controllers.Commission.Commissions
             return Ok(commissions);
         }
 
-        [HttpGet("bulk")]
-        [UseCaseAuthorize("com_view_commissions")]
-        public IEnumerable<CommissionBulk> Bulk()
-        {
-            var scope = AuthenticationService.GetScope(User);
-
-            return CommissionService.GetCommissionsBulk(scope);
-        }
-
         [HttpGet("{commissionId}")]
         [UseCaseAuthorize("com_view_commissions")]
         public async Task<IActionResult> Get(Guid commissionId)

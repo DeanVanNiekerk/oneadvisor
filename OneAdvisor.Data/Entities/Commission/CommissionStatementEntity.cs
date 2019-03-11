@@ -9,6 +9,8 @@ namespace OneAdvisor.Data.Entities.Commission
 {
     public class CommissionStatementEntity
     {
+        private DateTime _date;
+
         [Key]
         public Guid Id { get; set; }
         [Required]
@@ -20,7 +22,20 @@ namespace OneAdvisor.Data.Entities.Commission
         [Required]
         public decimal VAT { get; set; }
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime Date
+        {
+            get { return _date; }
+            set
+            {
+                _date = value;
+                DateMonth = value.Month;
+                DateYear = value.Year;
+            }
+        }
+        [Required]
+        public int DateMonth { get; internal set; }
+        [Required]
+        public int DateYear { get; internal set; }
         [Required]
         public bool Processed { get; set; }
 

@@ -81,6 +81,9 @@ namespace OneAdvisor.Service.Common.DataReader
             if (value == null || value == DBNull.Value)
                 return null;
 
+            if (typeof(byte[]) == value.GetType() && targetType == typeof(Guid))
+                return new Guid((byte[])value);
+
             return Convert.ChangeType(value, Nullable.GetUnderlyingType(targetType) ?? targetType);
         }
     }
