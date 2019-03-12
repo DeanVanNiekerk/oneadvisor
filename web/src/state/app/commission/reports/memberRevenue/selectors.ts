@@ -5,7 +5,7 @@ import { RootState } from '@/state/rootReducer';
 import { State } from './reducer';
 
 const rootSelector = (state: RootState): State =>
-    state.app.commission.commissions.list;
+    state.app.commission.reports.memberRevenue;
 
 export const listSelector: (state: RootState) => State = createSelector(
     rootSelector,

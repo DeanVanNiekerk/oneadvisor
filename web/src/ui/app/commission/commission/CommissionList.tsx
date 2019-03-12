@@ -1,4 +1,4 @@
-import { Col, Row, Statistic } from 'antd';
+import { Col, Row } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 

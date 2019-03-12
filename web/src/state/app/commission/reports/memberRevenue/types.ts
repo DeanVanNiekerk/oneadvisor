@@ -1,14 +1,14 @@
 export type MemberRevenueData = {
-    RowNumber: number;
-    MemberId: string;
-    MemberFirstName: string;
-    MemberLastName: string;
-    AnnualAnnuity: number;
-    AnnualAnnuityMonth: number;
-    MonthlyAnnuity: number;
-    MonthlyAnnuityMonth: number;
-    OnceOff: number;
-    OnceOffMonth: number;
-    LifeFirstYears: number;
-    LifeFirstYearsMonth: number;
+    rowNumber: number;
+    memberId: string;
+    memberFirstName: string;
+    memberLastName: string;
+    annualAnnuity: number;
+    annualAnnuityMonth: number;
+    monthlyAnnuity: number;
+    monthlyAnnuityMonth: number;
+    onceOff: number;
+    onceOffMonth: number;
+    lifeFirstYears: number;
+    lifeFirstYearsMonth: number;
 };

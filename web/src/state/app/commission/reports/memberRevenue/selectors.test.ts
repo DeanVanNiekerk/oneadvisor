@@ -1,21 +1,21 @@
 import { listSelector } from './selectors';
 
-describe('commission list selectors', () => {
-    it('listSelector', () => {
+describe("report member revenue selectors", () => {
+    it("listSelector", () => {
         const state = {
             app: {
                 commission: {
-                    commissions: {
-                        list: {
-                            property: '1'
-                        }
-                    }
-                }
-            }
+                    reports: {
+                        memberRevenue: {
+                            property: "1",
+                        },
+                    },
+                },
+            },
         };
 
         const expected = {
-            property: '1'
+            property: "1",
         };
 
         //@ts-ignore

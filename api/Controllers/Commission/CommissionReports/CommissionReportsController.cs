@@ -32,7 +32,7 @@ namespace api.Controllers.Commission.Commissions
         private IAuthenticationService AuthenticationService { get; }
 
         [HttpGet("memberRevenueData")]
-        [UseCaseAuthorize("com_view_commissions")]
+        [UseCaseAuthorize("com_view_report_member_revenue")]
         public async Task<IActionResult> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
             var scope = AuthenticationService.GetScope(User);

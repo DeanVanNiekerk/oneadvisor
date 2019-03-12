@@ -4,126 +4,137 @@ import { COMMISSION_ID, DIRECTORY_ID, MEMBER_ID } from './application';
 
 export const menus: Menus = {
     [DIRECTORY_ID]: {
-        relativePath: '/directory',
+        relativePath: "/directory",
         groups: [
             {
-                name: 'Organisation',
+                name: "Organisation",
                 links: [
                     {
-                        name: 'Users',
-                        icon: 'team',
-                        relativePath: '/users',
+                        name: "Users",
+                        icon: "team",
+                        relativePath: "/users",
                         isDefault: true,
-                        useCases: ['dir_view_users']
+                        useCases: ["dir_view_users"],
                     },
                     {
-                        name: 'Organisations',
-                        icon: 'bank',
-                        relativePath: '/organisations',
-                        useCases: ['dir_view_organisations']
-                    }
-                ]
+                        name: "Organisations",
+                        icon: "bank",
+                        relativePath: "/organisations",
+                        useCases: ["dir_view_organisations"],
+                    },
+                ],
             },
             {
-                name: 'Security',
+                name: "Security",
                 links: [
                     {
-                        name: 'Roles',
-                        icon: 'safety-certificate',
-                        relativePath: '/roles',
-                        useCases: ['dir_view_roles']
-                    }
-                ]
+                        name: "Roles",
+                        icon: "safety-certificate",
+                        relativePath: "/roles",
+                        useCases: ["dir_view_roles"],
+                    },
+                ],
             },
             {
-                name: 'Lookups',
+                name: "Lookups",
                 links: [
                     {
-                        name: 'Companies',
-                        icon: 'copyright',
-                        relativePath: '/lookups/companies',
-                        useCases: ['dir_view_lookups']
+                        name: "Companies",
+                        icon: "copyright",
+                        relativePath: "/lookups/companies",
+                        useCases: ["dir_view_lookups"],
                     },
                     {
-                        name: 'Commission Types',
-                        icon: 'dollar',
-                        relativePath: '/lookups/commTypes',
-                        useCases: ['dir_view_lookups']
-                    }
-                ]
+                        name: "Commission Types",
+                        icon: "dollar",
+                        relativePath: "/lookups/commTypes",
+                        useCases: ["dir_view_lookups"],
+                    },
+                ],
             },
             {
-                name: 'Audit',
+                name: "Audit",
                 links: [
                     {
-                        name: 'Logs',
-                        icon: 'video-camera',
-                        relativePath: '/audit/logs',
-                        useCases: ['dir_view_audit_logs']
-                    }
-                ]
-            }
-        ]
+                        name: "Logs",
+                        icon: "video-camera",
+                        relativePath: "/audit/logs",
+                        useCases: ["dir_view_audit_logs"],
+                    },
+                ],
+            },
+        ],
     },
 
     [MEMBER_ID]: {
-        relativePath: '/member',
+        relativePath: "/member",
         groups: [
             {
-                name: 'Management',
+                name: "Management",
                 links: [
                     {
-                        name: 'Members',
-                        icon: 'user',
-                        relativePath: '/members',
+                        name: "Members",
+                        icon: "user",
+                        relativePath: "/members",
                         isDefault: true,
-                        useCases: ['mem_view_members']
-                    }
-                ]
+                        useCases: ["mem_view_members"],
+                    },
+                ],
             },
             {
-                name: 'Data',
+                name: "Data",
                 links: [
                     {
-                        name: 'Import',
-                        icon: 'upload',
-                        relativePath: '/import',
-                        useCases: ['mem_import_members']
+                        name: "Import",
+                        icon: "upload",
+                        relativePath: "/import",
+                        useCases: ["mem_import_members"],
                     },
                     {
-                        name: 'Export',
-                        icon: 'download',
-                        relativePath: '/export',
-                        useCases: ['mem_export_members']
-                    }
-                ]
-            }
-        ]
+                        name: "Export",
+                        icon: "download",
+                        relativePath: "/export",
+                        useCases: ["mem_export_members"],
+                    },
+                ],
+            },
+        ],
     },
 
     [COMMISSION_ID]: {
-        relativePath: '/commission',
+        relativePath: "/commission",
         groups: [
             {
-                name: 'Statements',
+                name: "Statements",
                 links: [
                     {
-                        name: 'Statements',
-                        icon: 'reconciliation',
-                        relativePath: '/statements',
+                        name: "Statements",
+                        icon: "reconciliation",
+                        relativePath: "/statements",
                         isDefault: true,
-                        useCases: ['com_view_commission_statements']
+                        useCases: ["com_view_commission_statements"],
                     },
                     {
-                        name: 'Templates',
-                        icon: 'block',
-                        relativePath: '/templates',
-                        useCases: ['com_view_commission_statement_templates']
-                    }
-                ]
-            }
-        ]
-    }
+                        name: "Templates",
+                        icon: "block",
+                        relativePath: "/templates",
+                        useCases: ["com_view_commission_statement_templates"],
+                    },
+                ],
+            },
+            {
+                name: "Reports",
+                links: [
+                    {
+                        name: "Member Revenue",
+                        icon: "line-chart",
+                        relativePath: "/reports/memberRevenue",
+                        useCases: ["com_view_report_member_revenue"],
+                    },
+                ],
+            },
+        ],
+    },
 };
 
 export const allGroupNames = (): string[] => {
