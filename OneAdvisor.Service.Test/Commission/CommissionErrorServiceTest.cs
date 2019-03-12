@@ -240,7 +240,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var actual = context.CommissionError.Find(err.Id);
 
-                Assert.Equal(true, actual.IsFormatValid);
+                Assert.True(actual.IsFormatValid);
                 Assert.Equal(error1.Data, actual.Data);
             }
         }
@@ -585,7 +585,7 @@ namespace OneAdvisor.Service.Test.Commission
                 //Then
                 var actualErrors = context.CommissionError.ToList();
 
-                Assert.Equal(1, actualErrors.Count);
+                Assert.Single(actualErrors);
                 Assert.Equal(err2.Id, actualErrors[0].Id);
 
                 var commissions = context.Commission.ToList();
@@ -707,7 +707,7 @@ namespace OneAdvisor.Service.Test.Commission
                 scope = TestHelper.GetScopeOptions(user2);
                 queryOptions = new CommissionErrorQueryOptions(scope, "", "", 10, 1);
                 results = await service.GetErrors(queryOptions);
-                Assert.Equal(0, results.Items.Count());
+                Assert.Empty(results.Items);
             }
         }
     }

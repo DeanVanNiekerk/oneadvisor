@@ -35,8 +35,8 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetOrganisations(queryOptions);
 
                 //Then
-                Assert.Equal(actual.TotalItems, 0);
-                Assert.Equal(actual.Items.Count(), 0);
+                Assert.Equal(0, actual.TotalItems);
+                Assert.Empty(actual.Items);
             }
         }
 
@@ -77,11 +77,11 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetOrganisations(queryOptions);
 
                 //Then
-                Assert.Equal(actual.TotalItems, 6);
+                Assert.Equal(6, actual.TotalItems);
 
                 var organisations = actual.Items.ToArray();
 
-                Assert.Equal(organisations.Count(), 6);
+                Assert.Equal(6, organisations.Count());
 
                 var actual1 = organisations[0];
                 Assert.Equal(org1.Id, actual1.Id);
@@ -100,7 +100,7 @@ namespace OneAdvisor.Service.Test.Directory
                 queryOptions = new OrganisationQueryOptions(scope);
                 actual = await service.GetOrganisations(queryOptions);
 
-                Assert.Equal(actual.TotalItems, 1);
+                Assert.Equal(1, actual.TotalItems);
 
                 organisations = actual.Items.ToArray();
 

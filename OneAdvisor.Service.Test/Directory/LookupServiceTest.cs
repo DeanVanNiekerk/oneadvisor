@@ -45,7 +45,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetContactTypes();
 
                 //Then
-                Assert.Equal(actual.Count, 3);
+                Assert.Equal(3, actual.Count);
 
                 var actual1 = actual[0];
                 Assert.Equal(lkp1.Id, actual1.Id);
@@ -91,7 +91,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetPolicyTypes();
 
                 //Then
-                Assert.Equal(actual.Count, 3);
+                Assert.Equal(3, actual.Count);
 
                 var actual1 = actual[0];
                 Assert.Equal(lkp1.Id, actual1.Id);
@@ -137,7 +137,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetMarritalStatus();
 
                 //Then
-                Assert.Equal(actual.Count, 3);
+                Assert.Equal(3, actual.Count);
 
                 var actual1 = actual[0];
                 Assert.Equal(lkp1.Id, actual1.Id);
@@ -183,7 +183,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetCompanies();
 
                 //Then
-                Assert.Equal(actual.Count, 3);
+                Assert.Equal(3, actual.Count);
 
                 var actual1 = actual[0];
                 Assert.Equal(lkp1.Id, actual1.Id);
@@ -292,7 +292,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetCommissionTypes();
 
                 //Then
-                Assert.Equal(actual.Count, 3);
+                Assert.Equal(3, actual.Count);
 
                 var actual1 = actual[0];
                 Assert.Equal(lkp1.Id, actual1.Id);
@@ -450,7 +450,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetCommissionEarningsTypes();
 
                 //Then
-                Assert.Equal(actual.Count, 3);
+                Assert.Equal(3, actual.Count);
 
                 var actual1 = actual[0];
                 Assert.Equal(lkp1.Id, actual1.Id);

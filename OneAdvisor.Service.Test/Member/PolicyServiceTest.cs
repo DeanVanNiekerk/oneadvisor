@@ -100,7 +100,7 @@ namespace OneAdvisor.Service.Test.Member
                 queryOptions = new PolicyQueryOptions(scope, "", "", 0, 0);
                 policies = await service.GetPolicies(queryOptions);
 
-                Assert.Equal(1, policies.Items.Count());
+                Assert.Single(policies.Items);
 
                 actual = policies.Items.First();
                 Assert.Equal(policy1.Id, actual.Id);

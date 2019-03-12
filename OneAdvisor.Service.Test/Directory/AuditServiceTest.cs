@@ -55,11 +55,11 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetAuditLogs(queryOptions);
 
                 //Then
-                Assert.Equal(actual.TotalItems, 5);
+                Assert.Equal(5, actual.TotalItems);
 
                 var logs = actual.Items.ToArray();
 
-                Assert.Equal(logs.Count(), 5);
+                Assert.Equal(5, logs.Count());
 
                 var actual1 = logs[0];
                 Assert.Equal(al1.Id, actual1.Id);

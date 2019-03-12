@@ -151,7 +151,7 @@ namespace OneAdvisor.Service.Test.Commission
                 queryOptions = new CommissionQueryOptions(scope, "", "", 0, 0);
                 commissions = await service.GetCommissions(queryOptions);
 
-                Assert.Equal(1, commissions.Items.Count());
+                Assert.Single(commissions.Items);
 
                 actual = commissions.Items.First();
                 Assert.Equal(commission1.Id, actual.Id);

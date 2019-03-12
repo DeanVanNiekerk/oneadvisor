@@ -59,11 +59,11 @@ namespace OneAdvisor.Service.Test.Member
                 var actual = await service.GetContacts(queryOptions);
 
                 //Then
-                Assert.Equal(actual.TotalItems, 4);
+                Assert.Equal(4, actual.TotalItems);
 
                 var contacts = actual.Items.ToArray();
 
-                Assert.Equal(contacts.Count(), 4);
+                Assert.Equal(4, contacts.Count());
 
                 var actual1 = contacts[0];
                 Assert.Equal(contact1.Id, actual1.Id);
@@ -85,7 +85,7 @@ namespace OneAdvisor.Service.Test.Member
                 actual = await service.GetContacts(queryOptions);
 
                 //Then
-                Assert.Equal(actual.TotalItems, 0);
+                Assert.Equal(0, actual.TotalItems);
             }
         }
 

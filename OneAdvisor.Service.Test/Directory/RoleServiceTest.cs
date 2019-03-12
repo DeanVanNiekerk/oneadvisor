@@ -38,19 +38,19 @@ namespace OneAdvisor.Service.Test.Directory
                 var list = await service.GetRoles();
 
                 //Then
-                Assert.Equal(list.Count, 2);
+                Assert.Equal(2, list.Count);
 
                 var actual1 = list[0];
-                Assert.Equal(actual1.Id, role1.Id);
-                Assert.Equal(actual1.Name, role1.Name);
-                Assert.Equal(actual1.Description, role1.Description);
-                Assert.Equal(actual1.ApplicationId, role1.ApplicationId);
+                Assert.Equal(role1.Id, actual1.Id);
+                Assert.Equal(role1.Name, actual1.Name);
+                Assert.Equal(role1.Description, actual1.Description);
+                Assert.Equal(role1.ApplicationId, actual1.ApplicationId);
 
                 var actual2 = list[1];
-                Assert.Equal(actual2.Id, role2.Id);
-                Assert.Equal(actual2.Name, role2.Name);
-                Assert.Equal(actual2.Description, role2.Description);
-                Assert.Equal(actual2.ApplicationId, role2.ApplicationId);
+                Assert.Equal(role2.Id, actual2.Id);
+                Assert.Equal(role2.Name, actual2.Name);
+                Assert.Equal(role2.Description, actual2.Description);
+                Assert.Equal(role2.ApplicationId, actual2.ApplicationId);
 
             }
         }
@@ -91,13 +91,13 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetRole(role1.Id);
 
                 //Then
-                Assert.Equal(actual.Id, role1.Id);
-                Assert.Equal(actual.Name, role1.Name);
-                Assert.Equal(actual.Description, role1.Description);
-                Assert.Equal(actual.ApplicationId, role1.ApplicationId);
-                Assert.Equal(actual.UseCaseIds.Count(), 2);
-                Assert.Equal(actual.UseCaseIds.ToArray()[0], "uc1");
-                Assert.Equal(actual.UseCaseIds.ToArray()[1], "uc2");
+                Assert.Equal(role1.Id, actual.Id);
+                Assert.Equal(role1.Name, actual.Name);
+                Assert.Equal(role1.Description, actual.Description);
+                Assert.Equal(role1.ApplicationId, actual.ApplicationId);
+                Assert.Equal(2, actual.UseCaseIds.Count());
+                Assert.Equal("uc1", actual.UseCaseIds.ToArray()[0]);
+                Assert.Equal("uc2", actual.UseCaseIds.ToArray()[1]);
 
             }
         }

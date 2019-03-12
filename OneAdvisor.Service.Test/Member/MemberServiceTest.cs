@@ -496,7 +496,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.True(result.Success);
 
                 var actual = await context.Member.FindAsync(member1.Member.Id);
-                Assert.Equal(true, actual.IsDeleted);
+                Assert.True(actual.IsDeleted);
 
                 var member = await service.GetMember(scope, member1.Member.Id);
                 Assert.Null(member);
@@ -550,7 +550,7 @@ namespace OneAdvisor.Service.Test.Member
 
                 //Then
                 Assert.Equal(1, members.TotalItems);
-                Assert.Equal(1, members.Items.Count());
+                Assert.Single(members.Items);
 
                 var actual = members.Items.First();
                 Assert.Equal(member1.Id, actual.Id);

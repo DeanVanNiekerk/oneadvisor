@@ -183,7 +183,7 @@ namespace OneAdvisor.Service.Test.Commission
                 queryOptions = new CommissionStatementQueryOptions(scope, "", "", 0, 0);
                 statements = await service.GetCommissionStatements(queryOptions);
 
-                Assert.Equal(1, statements.Items.Count());
+                Assert.Single(statements.Items);
 
                 actual = statements.Items.First();
                 Assert.Equal(cs4.Id, actual.Id);
@@ -252,7 +252,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var statements = await service.GetCommissionStatements(queryOptions);
 
                 Assert.Equal(0, statements.TotalItems);
-                Assert.Equal(0, statements.Items.Count());
+                Assert.Empty(statements.Items);
 
                 filters = "startDate=2000-01-01;endDate=2000-01-21";
                 queryOptions = new CommissionStatementQueryOptions(scope, "", "", 0, 0, filters);

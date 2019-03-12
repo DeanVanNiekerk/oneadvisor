@@ -38,7 +38,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var list = await service.GetUseCases();
 
                 //Then
-                Assert.Equal(list.Count, 2);
+                Assert.Equal(2, list.Count);
 
                 var actual1 = list[0];
                 Assert.Equal(actual1.Id, uc1.Id);

@@ -62,13 +62,13 @@ namespace OneAdvisor.Service.Test.Commission
                 var results = await service.ImportCommissions(scope, statement.Id, imports);
 
                 //Then
-                Assert.Equal(0, results.Count);
+                Assert.Empty(results);
 
                 scope = TestHelper.GetScopeOptions(user1);
                 results = await service.ImportCommissions(scope, statement.Id, imports);
 
                 //Then
-                Assert.Equal(1, results.Count);
+                Assert.Single(results);
             }
         }
 
@@ -117,13 +117,13 @@ namespace OneAdvisor.Service.Test.Commission
                 //Check error record
                 var actual = insertedErrors.Single();
 
-                Assert.Equal(null, actual.MemberId);
-                Assert.Equal(null, actual.PolicyId);
-                Assert.Equal(null, actual.CommissionTypeId);
+                Assert.Null(actual.MemberId);
+                Assert.Null(actual.PolicyId);
+                Assert.Null(actual.CommissionTypeId);
 
                 Assert.Equal(statement.Id, actual.CommissionStatementId);
 
-                Assert.Equal(false, actual.IsFormatValid);
+                Assert.False(actual.IsFormatValid);
                 Assert.Equal(import1, actual.Data);
             }
         }
@@ -174,18 +174,18 @@ namespace OneAdvisor.Service.Test.Commission
 
                 //Then
                 Assert.False(result.Success);
-                Assert.Equal(0, result.ValidationFailures.Count);
+                Assert.Empty(result.ValidationFailures);
 
                 //Check error record
                 var actual = insertedErrors.Single();
 
-                Assert.Equal(null, actual.MemberId);
-                Assert.Equal(null, actual.PolicyId);
+                Assert.Null(actual.MemberId);
+                Assert.Null(actual.PolicyId);
                 Assert.Equal(commissionType.Id, actual.CommissionTypeId);
 
                 Assert.Equal(statement.Id, actual.CommissionStatementId);
 
-                Assert.Equal(true, actual.IsFormatValid);
+                Assert.True(actual.IsFormatValid);
                 Assert.Equal(import1, actual.Data);
             }
         }
@@ -241,18 +241,18 @@ namespace OneAdvisor.Service.Test.Commission
 
                 //Then
                 Assert.False(result.Success);
-                Assert.Equal(0, result.ValidationFailures.Count);
+                Assert.Empty(result.ValidationFailures);
 
                 //Check error record
                 var actual = insertedErrors.Single();
 
                 Assert.Equal(policy1.MemberId, actual.MemberId);
                 Assert.Equal(policy1.Id, actual.PolicyId);
-                Assert.Equal(null, actual.CommissionTypeId);
+                Assert.Null(actual.CommissionTypeId);
 
                 Assert.Equal(statement.Id, actual.CommissionStatementId);
 
-                Assert.Equal(true, actual.IsFormatValid);
+                Assert.True(actual.IsFormatValid);
                 Assert.Equal(import1, actual.Data);
             }
         }

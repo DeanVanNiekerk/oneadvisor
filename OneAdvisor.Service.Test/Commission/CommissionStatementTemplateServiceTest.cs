@@ -57,11 +57,11 @@ namespace OneAdvisor.Service.Test.Commission
                 var actual = await service.GetTemplates();
 
                 //Then
-                Assert.Equal(actual.TotalItems, 2);
+                Assert.Equal(2, actual.TotalItems);
 
                 var templates = actual.Items.ToArray();
 
-                Assert.Equal(templates.Count(), 2);
+                Assert.Equal(2, templates.Count());
 
                 var actual1 = templates[0];
                 Assert.Equal(temp1.Id, actual1.Id);

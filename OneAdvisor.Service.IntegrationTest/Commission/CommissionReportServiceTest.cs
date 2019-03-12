@@ -260,8 +260,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 var results = data.Items.ToList();
                 Assert.Equal(1, data.TotalItems);
 
-                var resultsCount = results.Count();
-                Assert.Equal(1, resultsCount);
+                Assert.Single(results);
 
                 var actual = results[0];
                 Assert.Equal(member1.Member.Id, actual.MemberId);

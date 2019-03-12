@@ -52,7 +52,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.True(result.Success);
 
                 var actual = await context.Member.FirstOrDefaultAsync(m => m.IdNumber == "8210035032082");
-                Assert.Equal(null, actual.PassportNumber);
+                Assert.Null(actual.PassportNumber);
                 Assert.Equal(user1.Organisation.Id, actual.OrganisationId);
                 Assert.Equal(data.LastName, actual.LastName);
                 Assert.Equal(data.FirstName, actual.FirstName);
@@ -147,7 +147,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.True(result.Success);
 
                 var actual = await context.Member.FirstOrDefaultAsync(m => m.PassportNumber == data.IdNumber);
-                Assert.Equal(null, actual.IdNumber);
+                Assert.Null(actual.IdNumber);
             }
         }
 

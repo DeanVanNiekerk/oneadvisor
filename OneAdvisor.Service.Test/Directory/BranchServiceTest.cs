@@ -57,11 +57,11 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetBranches(queryOptions);
 
                 //Then
-                Assert.Equal(actual.TotalItems, 4);
+                Assert.Equal(4, actual.TotalItems);
 
                 var branches = actual.Items.ToArray();
 
-                Assert.Equal(branches.Count(), 4);
+                Assert.Equal(4, branches.Count());
 
                 var actual1 = branches[0];
                 Assert.Equal(branch1.Id, actual1.Id);
