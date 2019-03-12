@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import { Filters, PageOptions, SortOptions } from '@/app/table';
 import { defaultPageOptions, defaultSortOptions } from '@/app/table/defaults';
 
@@ -13,13 +15,19 @@ export type State = {
     readonly filters: Filters | null;
 };
 
+const lastMonth = moment().subtract(1, "months");
+const defaultFilters: Filters = {
+    yearEnding: [lastMonth.year().toString()],
+    monthEnding: [(lastMonth.month() + 1).toString()],
+};
+
 export const defaultState: State = {
     items: [],
     totalItems: 0,
     fetching: false,
     pageOptions: defaultPageOptions(),
     sortOptions: defaultSortOptions("", "desc"),
-    filters: null,
+    filters: defaultFilters,
 };
 
 export const reducer = (

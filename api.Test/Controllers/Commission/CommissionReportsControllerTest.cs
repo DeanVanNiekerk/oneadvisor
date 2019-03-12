@@ -24,16 +24,15 @@ namespace api.Test.Controllers.Commission
             Assert.Equal(12, typeof(MemberRevenueData).PropertyCount());
             Assert.True(typeof(MemberRevenueData).HasProperty("RowNumber"));
             Assert.True(typeof(MemberRevenueData).HasProperty("MemberId"));
-            Assert.True(typeof(MemberRevenueData).HasProperty("MemberFirstName"));
             Assert.True(typeof(MemberRevenueData).HasProperty("MemberLastName"));
-            Assert.True(typeof(MemberRevenueData).HasProperty("AnnualAnnuity"));
-            Assert.True(typeof(MemberRevenueData).HasProperty("AnnualAnnuityMonth"));
-            Assert.True(typeof(MemberRevenueData).HasProperty("MonthlyAnnuity"));
+            Assert.True(typeof(MemberRevenueData).HasProperty("MemberInitials"));
+            Assert.True(typeof(MemberRevenueData).HasProperty("MemberDateOfBirth"));
             Assert.True(typeof(MemberRevenueData).HasProperty("MonthlyAnnuityMonth"));
+            Assert.True(typeof(MemberRevenueData).HasProperty("AnnualAnnuityAverage"));
+            Assert.True(typeof(MemberRevenueData).HasProperty("TotalMonthlyEarnings"));
             Assert.True(typeof(MemberRevenueData).HasProperty("OnceOff"));
-            Assert.True(typeof(MemberRevenueData).HasProperty("OnceOffMonth"));
             Assert.True(typeof(MemberRevenueData).HasProperty("LifeFirstYears"));
-            Assert.True(typeof(MemberRevenueData).HasProperty("LifeFirstYearsMonth"));
+            Assert.True(typeof(MemberRevenueData).HasProperty("GrandTotal"));
         }
 
         [Fact]
@@ -43,16 +42,15 @@ namespace api.Test.Controllers.Commission
             {
                 RowNumber = 1,
                 MemberId = Guid.NewGuid(),
-                MemberFirstName = "Dean",
                 MemberLastName = "van Niekerk",
-                AnnualAnnuity = 1,
-                AnnualAnnuityMonth = 2,
-                MonthlyAnnuity = 3,
-                MonthlyAnnuityMonth = 4,
+                MemberInitials = "DJ",
+                MemberDateOfBirth = DateTime.Now,
+                MonthlyAnnuityMonth = 2,
+                AnnualAnnuityAverage = 3,
+                TotalMonthlyEarnings = 4,
                 OnceOff = 5,
-                OnceOffMonth = 6,
-                LifeFirstYears = 7,
-                LifeFirstYearsMonth = 8
+                LifeFirstYears = 6,
+                GrandTotal = 7,
             };
 
             var pagedItems = new PagedItems<MemberRevenueData>()
@@ -74,15 +72,16 @@ namespace api.Test.Controllers.Commission
 
             var controller = new CommissionReportsController(service.Object, authService.Object);
 
-            var result = await controller.Index("AnnualAnnuityMonth", "desc", 15, 2, $"start=2019-01-01");
+            var result = await controller.Index("MonthlyAnnuityMonth", "desc", 15, 2, $"yearEnding=2019;monthEnding=1");
 
             Assert.Equal(Scope.Branch, queryOptions.Scope.Scope);
-            Assert.Equal("AnnualAnnuityMonth", queryOptions.SortOptions.Column);
+            Assert.Equal("MonthlyAnnuityMonth", queryOptions.SortOptions.Column);
             Assert.Equal(SortDirection.Descending, queryOptions.SortOptions.Direction);
             Assert.Equal(15, queryOptions.PageOptions.Size);
             Assert.Equal(2, queryOptions.PageOptions.Number);
 
-            Assert.Equal("2019-01-01", queryOptions.Start.Value.ToString("yyyy-MM-dd"));
+            Assert.Equal(2019, queryOptions.YearEnding);
+            Assert.Equal(1, queryOptions.MonthEnding);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
             var returnValue = Assert.IsType<PagedItems<MemberRevenueData>>(okResult.Value);

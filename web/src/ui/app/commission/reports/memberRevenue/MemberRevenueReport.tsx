@@ -1,14 +1,16 @@
+import { Col, Row, Select } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { applyLike } from '@/app/query';
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
-import { formatCurrency } from '@/app/utils';
+import { getMonthOptions, getYearOptions } from '@/app/utils';
 import {
     fetchMemberRevenueData, MemberRevenueData, memberRevenueSelector, receiveFilters, receivePageOptions,
     receiveSortOptions
 } from '@/state/app/commission/reports';
 import { RootState } from '@/state/rootReducer';
-import { Header, Table } from '@/ui/controls';
+import { Age, Header, Table } from '@/ui/controls';
 
 type Props = {
     records: MemberRevenueData[];
@@ -45,8 +47,15 @@ class MemberRevenueReport extends Component<Props> {
 
     getColumns = () => {
         return [
-            getColumnEDS("memberFirstName", "First Name"),
-            getColumnEDS("memberLastName", "Last Name"),
+            getColumnEDS("memberLastName", "Last Name", {
+                showSearchFilter: true,
+            }),
+            getColumnEDS("memberInitials", "Initials"),
+            getColumnEDS("memberDateOfBirth", "Age", {
+                render: (memberDateOfBirth: string) => {
+                    return <Age dateOfBirth={memberDateOfBirth} />;
+                },
+            }),
             getColumnEDS(
                 "monthlyAnnuityMonth",
                 "Monthly As & When Commission",
@@ -54,20 +63,15 @@ class MemberRevenueReport extends Component<Props> {
                     type: "currency",
                 }
             ),
-            getColumnEDS("annualAnnuity", "Annual Commissions Ave. Monthly", {
-                render: (annualAnnuity: number) => {
-                    return formatCurrency(annualAnnuity / 12);
-                },
-            }),
-            getColumnEDS("monthlyAnnuityMonth", "Total Monthly Earnings", {
-                render: (
-                    monthlyAnnuityMonth: number,
-                    record: MemberRevenueData
-                ) => {
-                    return formatCurrency(
-                        monthlyAnnuityMonth + record.annualAnnuity / 12
-                    );
-                },
+            getColumnEDS(
+                "annualAnnuityAverage",
+                "Annual Commissions Ave. Monthly",
+                {
+                    type: "currency",
+                }
+            ),
+            getColumnEDS("totalMonthlyEarnings", "Total Monthly Earnings", {
+                type: "currency",
             }),
             getColumnEDS("lifeFirstYears", "Life Upfronts", {
                 type: "currency",
@@ -75,20 +79,40 @@ class MemberRevenueReport extends Component<Props> {
             getColumnEDS("onceOff", "Once Off Commissions", {
                 type: "currency",
             }),
-            getColumnEDS("monthlyAnnuityMonth", "Grand Total Last 12 Months", {
-                render: (
-                    monthlyAnnuityMonth: number,
-                    record: MemberRevenueData
-                ) => {
-                    return formatCurrency(
-                        monthlyAnnuityMonth +
-                            record.annualAnnuity / 12 +
-                            record.lifeFirstYears +
-                            record.onceOff
-                    );
-                },
+            getColumnEDS("grandTotal", "Grand Total Last 12 Months", {
+                type: "currency",
             }),
         ];
+    };
+
+    handleYearChange = (year: number) => {
+        this.props.dispatch(
+            receiveFilters({
+                ...this.props.filters,
+                yearEnding: [year.toString()],
+            })
+        );
+    };
+
+    selectedYear = (): number => {
+        return parseInt(this.props.filters.yearEnding[0]);
+    };
+
+    handleMonthChange = (month: number) => {
+        this.props.dispatch(
+            receiveFilters({
+                ...this.props.filters,
+                monthEnding: [month.toString()],
+            })
+        );
+    };
+
+    selectedMonth = (): number => {
+        return parseInt(this.props.filters.monthEnding[0]);
+    };
+
+    updateFilters = (filters: Filters): Filters => {
+        return applyLike(filters, ["memberLastName"]);
     };
 
     onTableChange = (
@@ -101,13 +125,66 @@ class MemberRevenueReport extends Component<Props> {
         if (this.props.sortOptions != sortOptions)
             this.props.dispatch(receiveSortOptions(sortOptions));
         if (this.props.filters != filters)
-            this.props.dispatch(receiveFilters(filters));
+            this.props.dispatch(
+                receiveFilters(
+                    this.updateFilters({
+                        ...this.props.filters,
+                        ...filters,
+                    })
+                )
+            );
     };
 
     render() {
         return (
             <>
-                <Header icon="line-chart">Member Revenue Report</Header>
+                <Header
+                    icon="line-chart"
+                    actions={
+                        <Row type="flex" gutter={10} align="middle">
+                            <Col>Month Ending:</Col>
+                            <Col>
+                                <Select
+                                    value={this.selectedMonth()}
+                                    onChange={this.handleMonthChange}
+                                    style={{ width: 200 }}
+                                >
+                                    {getMonthOptions().map(month => {
+                                        return (
+                                            <Select.Option
+                                                key={month.number.toString()}
+                                                value={month.number}
+                                            >
+                                                {month.name}
+                                            </Select.Option>
+                                        );
+                                    })}
+                                </Select>
+                            </Col>
+                            <Col>
+                                <Select
+                                    value={this.selectedYear()}
+                                    onChange={this.handleYearChange}
+                                    style={{ width: 200 }}
+                                >
+                                    {getYearOptions().map(year => {
+                                        return (
+                                            <Select.Option
+                                                key={year.toString()}
+                                                value={year}
+                                            >
+                                                {year}
+                                            </Select.Option>
+                                        );
+                                    })}
+                                </Select>
+                            </Col>
+                        </Row>
+                    }
+                >
+                    Member Revenue Report
+                </Header>
+
                 <Table
                     rowKey="id"
                     columns={this.getColumns()}

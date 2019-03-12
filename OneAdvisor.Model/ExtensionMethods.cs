@@ -100,5 +100,10 @@ namespace OneAdvisor.Model
         {
             return String.Equals(str, target, StringComparison.OrdinalIgnoreCase); ;
         }
+
+        public static DateTime LastDayOfMonth(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, DateTime.DaysInMonth(dateTime.Year, dateTime.Month));
+        }
     }
 }

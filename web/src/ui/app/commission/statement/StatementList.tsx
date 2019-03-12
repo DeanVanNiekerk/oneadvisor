@@ -5,7 +5,7 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
-import { formatCurrency, getMonthDateRange } from '@/app/utils';
+import { formatCurrency, getMonthDateRange, getMonthOptions, getYearOptions } from '@/app/utils';
 import {
     clearStatementPreview, fetchStatements, receiveFilterMonth, receiveFilters, receiveFilterYear, receivePageOptions,
     receiveSortOptions, receiveStatement, Statement, StatementEdit, statementsSelector
@@ -153,24 +153,6 @@ class StatementList extends Component<Props> {
             this.props.dispatch(receiveFilters(filters));
     };
 
-    getMonths = () => {
-        return moment.months().map((m, i) => {
-            return {
-                number: i + 1,
-                name: m,
-            };
-        });
-    };
-
-    getYears = () => {
-        let years: number[] = [];
-        const thisYear = moment().year();
-        for (let i = thisYear - 20; i <= thisYear; i++) {
-            years.push(i);
-        }
-        return years.reverse();
-    };
-
     handleMonthChange = (month: number) => {
         this.props.dispatch(receiveFilterMonth(month));
     };
@@ -256,7 +238,7 @@ class StatementList extends Component<Props> {
                             onChange={this.handleMonthChange}
                             style={{ width: 200 }}
                         >
-                            {this.getMonths().map(month => {
+                            {getMonthOptions().map(month => {
                                 return (
                                     <Option
                                         key={month.number.toString()}
@@ -275,7 +257,7 @@ class StatementList extends Component<Props> {
                             onChange={this.handleYearChange}
                             style={{ width: 200 }}
                         >
-                            {this.getYears().map(year => {
+                            {getYearOptions().map(year => {
                                 return (
                                     <Option key={year.toString()} value={year}>
                                         {year}

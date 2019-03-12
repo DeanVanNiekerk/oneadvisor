@@ -12,19 +12,28 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
         {
             Scope = scope;
 
-            var result = GetFilterValue<DateTime>("Start");
-            if (result.Success)
-                Start = result.Value;
+            //Defaults 
+            var lastMonth = DateTime.UtcNow.AddMonths(-1);
+            YearEnding = lastMonth.Year;
+            MonthEnding = lastMonth.Month;
 
-            result = GetFilterValue<DateTime>("End");
+            var result = GetFilterValue<int>("YearEnding");
             if (result.Success)
-                End = result.Value;
+                YearEnding = result.Value;
+
+            result = GetFilterValue<int>("MonthEnding");
+            if (result.Success)
+                MonthEnding = result.Value;
+
+            var resultString = GetFilterValue<string>("MemberLastName");
+            if (resultString.Success)
+                MemberLastName = resultString.Value;
         }
 
         public ScopeOptions Scope { get; set; }
 
-        public DateTime? Start { get; set; }
-        public DateTime? End { get; set; }
-
+        public int YearEnding { get; set; }
+        public int MonthEnding { get; set; }
+        public string MemberLastName { get; set; }
     }
 }

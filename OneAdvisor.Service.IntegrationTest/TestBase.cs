@@ -46,7 +46,6 @@ namespace OneAdvisor.Service.IntegrationTest
             _context.RoleToUseCase.BatchDelete();
             _context.UseCase.BatchDelete();
             _context.Organisation.BatchDelete();
-            _context.Application.BatchDelete();
 
             _context.Company.BatchDelete();
             _context.CommissionType.BatchDelete();

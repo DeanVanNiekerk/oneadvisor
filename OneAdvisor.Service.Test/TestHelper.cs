@@ -111,7 +111,9 @@ namespace OneAdvisor.Service.Test
                 FirstName = Guid.NewGuid().ToString(),
                 LastName = Guid.NewGuid().ToString(),
                 IdNumber = idNumber != null ? idNumber : Guid.NewGuid().ToString(),
-                OrganisationId = organisation.Id
+                OrganisationId = organisation.Id,
+                Initials = Guid.NewGuid().ToString(),
+                DateOfBirth = DateTime.Now.AddYears(-35)
             };
 
             using (var context = new DataContext(options))

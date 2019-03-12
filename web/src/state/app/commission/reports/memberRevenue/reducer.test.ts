@@ -44,16 +44,15 @@ describe("report member revenue reducer", () => {
         const data: MemberRevenueData = {
             rowNumber: 1,
             memberId: "123321",
-            memberFirstName: "Dean",
             memberLastName: "van Niekerk",
-            annualAnnuity: 10,
-            annualAnnuityMonth: 20,
+            memberInitials: "Dean",
+            memberDateOfBirth: "1982-10-03",
+            annualAnnuityAverage: 10,
+            grandTotal: 20,
             lifeFirstYears: 30,
-            lifeFirstYearsMonth: 40,
-            monthlyAnnuity: 50,
-            monthlyAnnuityMonth: 60,
-            onceOff: 70,
-            onceOffMonth: 80,
+            monthlyAnnuityMonth: 40,
+            onceOff: 50,
+            totalMonthlyEarnings: 60,
         };
 
         const actualState = reducer(initalState, {

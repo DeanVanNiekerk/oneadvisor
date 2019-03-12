@@ -252,8 +252,8 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
                 var queryOptions = new MemberRevenueQueryOptions(scope, "", "", 0, 0);
-                queryOptions.Start = thisMonth.AddMonths(-12);
-                queryOptions.End = thisMonth;
+                queryOptions.YearEnding = thisMonth.Year;
+                queryOptions.MonthEnding = thisMonth.Month;
                 var data = await service.GetMemberRevenueData(queryOptions);
 
                 //Then
@@ -264,22 +264,21 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
 
                 var actual = results[0];
                 Assert.Equal(member1.Member.Id, actual.MemberId);
-                Assert.Equal(member1.Member.FirstName, actual.MemberFirstName);
                 Assert.Equal(member1.Member.LastName, actual.MemberLastName);
+                Assert.Equal(member1.Member.Initials, actual.MemberInitials);
+                Assert.Equal(member1.Member.DateOfBirth, actual.MemberDateOfBirth);
 
-                Assert.Equal(1500, actual.AnnualAnnuity); //100 + 500 + 900
-                Assert.Equal(commission5.AmountIncludingVAT, actual.AnnualAnnuityMonth);
-
-                Assert.Equal(1800, actual.MonthlyAnnuity); //200 + 600 + 1000
-                Assert.Equal(commission6.AmountIncludingVAT, actual.MonthlyAnnuityMonth);
+                Assert.Equal(200, actual.MonthlyAnnuityMonth); // com2
+                Assert.Equal(125, actual.AnnualAnnuityAverage); // (100 + 500 + 900) / 12
+                Assert.Equal(325, actual.TotalMonthlyEarnings); // 125 + 200
 
                 Assert.Equal(2100, actual.OnceOff); //300 + 700 + 1100
-                Assert.Equal(commission7.AmountIncludingVAT, actual.OnceOffMonth);
-
                 Assert.Equal(2400, actual.LifeFirstYears); //400 + 800 + 1200
-                Assert.Equal(commission8.AmountIncludingVAT, actual.LifeFirstYearsMonth);
+
+                Assert.Equal(8400, actual.GrandTotal); // (325 * 12) + 2100 + 2400
             }
         }
+
 
         [Fact]
         [Trait("Category", "Integration")]
@@ -287,7 +286,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
         {
             var company = TestHelper.InsertCompany(_options);
             var policyType = TestHelper.InsertPolicyType(_options);
-            var commissionType1 = TestHelper.InsertCommissionType(_options, policyType.Id, CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY);
+            var commissionType1 = TestHelper.InsertCommissionType(_options, policyType.Id, CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY);
 
             var user1 = TestHelper.InsertUserDetailed(_options);
             var member1 = TestHelper.InsertMember(_options, user1.Organisation);
@@ -393,9 +392,9 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
-                var queryOptions = new MemberRevenueQueryOptions(scope, "AnnualAnnuity", "desc", 0, 0);
-                queryOptions.Start = thisMonth.AddMonths(-12);
-                queryOptions.End = thisMonth;
+                var queryOptions = new MemberRevenueQueryOptions(scope, "MonthlyAnnuityMonth", "desc", 0, 0);
+                queryOptions.YearEnding = thisMonth.Year;
+                queryOptions.MonthEnding = thisMonth.Month;
                 var data = await service.GetMemberRevenueData(queryOptions);
 
                 //Then
@@ -407,15 +406,15 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
 
                 var actual = results[0];
                 Assert.Equal(member3.Member.Id, actual.MemberId);
-                Assert.Equal(300, actual.AnnualAnnuity);
+                Assert.Equal(300, actual.MonthlyAnnuityMonth);
 
                 actual = results[1];
                 Assert.Equal(member1.Member.Id, actual.MemberId);
-                Assert.Equal(200, actual.AnnualAnnuity);
+                Assert.Equal(200, actual.MonthlyAnnuityMonth);
 
                 actual = results[2];
                 Assert.Equal(member2.Member.Id, actual.MemberId);
-                Assert.Equal(100, actual.AnnualAnnuity);
+                Assert.Equal(100, actual.MonthlyAnnuityMonth);
             }
         }
 
@@ -425,7 +424,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
         {
             var company = TestHelper.InsertCompany(_options);
             var policyType = TestHelper.InsertPolicyType(_options);
-            var commissionType1 = TestHelper.InsertCommissionType(_options, policyType.Id, CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY);
+            var commissionType1 = TestHelper.InsertCommissionType(_options, policyType.Id, CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY);
 
             var user1 = TestHelper.InsertUserDetailed(_options);
             var member1 = TestHelper.InsertMember(_options, user1.Organisation);
@@ -581,9 +580,9 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
-                var queryOptions = new MemberRevenueQueryOptions(scope, "AnnualAnnuity", "asc", 2, 2);
-                queryOptions.Start = thisMonth.AddMonths(-12);
-                queryOptions.End = thisMonth;
+                var queryOptions = new MemberRevenueQueryOptions(scope, "MonthlyAnnuityMonth", "asc", 2, 2);
+                queryOptions.YearEnding = thisMonth.Year;
+                queryOptions.MonthEnding = thisMonth.Month;
                 var data = await service.GetMemberRevenueData(queryOptions);
 
                 //Then
@@ -595,11 +594,11 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
 
                 var actual = results[0];
                 Assert.Equal(member3.Member.Id, actual.MemberId);
-                Assert.Equal(300, actual.AnnualAnnuity);
+                Assert.Equal(300, actual.MonthlyAnnuityMonth);
 
                 actual = results[1];
                 Assert.Equal(member4.Member.Id, actual.MemberId);
-                Assert.Equal(400, actual.AnnualAnnuity);
+                Assert.Equal(400, actual.MonthlyAnnuityMonth);
             }
         }
     }
