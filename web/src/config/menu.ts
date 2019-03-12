@@ -128,7 +128,7 @@ export const menus: Menus = {
                     {
                         name: "Member Revenue",
                         icon: "line-chart",
-                        relativePath: "/reports/memberRevenue",
+                        relativePath: "/reports/revenueMember",
                         useCases: ["com_view_report_member_revenue"],
                     },
                 ],

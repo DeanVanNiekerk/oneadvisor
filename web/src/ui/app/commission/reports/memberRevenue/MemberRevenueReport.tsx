@@ -47,8 +47,46 @@ class MemberRevenueReport extends Component<Props> {
         return [
             getColumnEDS("memberFirstName", "First Name"),
             getColumnEDS("memberLastName", "Last Name"),
-            getColumnEDS("annualAnnuity", "Annual Annuity", {
+            getColumnEDS(
+                "monthlyAnnuityMonth",
+                "Monthly As & When Commission",
+                {
+                    type: "currency",
+                }
+            ),
+            getColumnEDS("annualAnnuity", "Annual Commissions Ave. Monthly", {
+                render: (annualAnnuity: number) => {
+                    return formatCurrency(annualAnnuity / 12);
+                },
+            }),
+            getColumnEDS("monthlyAnnuityMonth", "Total Monthly Earnings", {
+                render: (
+                    monthlyAnnuityMonth: number,
+                    record: MemberRevenueData
+                ) => {
+                    return formatCurrency(
+                        monthlyAnnuityMonth + record.annualAnnuity / 12
+                    );
+                },
+            }),
+            getColumnEDS("lifeFirstYears", "Life Upfronts", {
                 type: "currency",
+            }),
+            getColumnEDS("onceOff", "Once Off Commissions", {
+                type: "currency",
+            }),
+            getColumnEDS("monthlyAnnuityMonth", "Grand Total Last 12 Months", {
+                render: (
+                    monthlyAnnuityMonth: number,
+                    record: MemberRevenueData
+                ) => {
+                    return formatCurrency(
+                        monthlyAnnuityMonth +
+                            record.annualAnnuity / 12 +
+                            record.lifeFirstYears +
+                            record.onceOff
+                    );
+                },
             }),
         ];
     };
@@ -80,6 +118,9 @@ class MemberRevenueReport extends Component<Props> {
                     pageOptions={this.props.pageOptions}
                     totalRows={this.props.totalItems}
                     onTableChange={this.onTableChange}
+                    scroll={{
+                        x: true,
+                    }}
                 />
             </>
         );

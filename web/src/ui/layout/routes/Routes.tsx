@@ -57,7 +57,7 @@ const Routes = () => (
         />
         <SecureRoute
             exact
-            path="/commission/reports/memberRevenue"
+            path="/commission/reports/revenueMember"
             component={MemberRevenueReport}
         />
         {/* ------------------------------------------------------------------------------------- */}

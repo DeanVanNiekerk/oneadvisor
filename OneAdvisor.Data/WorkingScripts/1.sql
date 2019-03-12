@@ -51,3 +51,10 @@ UPDATE com_CommissionStatement SET DateMonth = MONTH(Date), DateYear = YEAR(Date
 
 
 --delete from dir_Application where Id = '2dc6f9ac-728b-4e19-9d72-0bad5fc84a03'
+
+
+-- INSERT INTO dir_RoleToUseCase
+-- SELECT Id AS 'RoleId', 'com_view_report_member_revenue' AS 'UseCaseId'
+-- FROM AspNetRoles
+-- WHERE Name = 'com_administrator'
+--     OR NAME = 'com_readonly'
