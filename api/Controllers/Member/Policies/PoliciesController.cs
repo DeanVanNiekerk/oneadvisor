@@ -11,7 +11,6 @@ using OneAdvisor.Model.Member.Interface;
 using api.App.Dtos;
 using Microsoft.AspNetCore.Http;
 using OneAdvisor.Model.Directory.Interface;
-using api.Controllers.Member.Policies.Dto;
 using OneAdvisor.Model.Member.Model.Policy;
 using OneAdvisor.Model.Account.Interface;
 
@@ -22,32 +21,31 @@ namespace api.Controllers.Member.Members
     [Route("api/member/policies")]
     public class PoliciesController : Controller
     {
-        public PoliciesController(IMapper mapper, IPolicyService policyService, IAuthenticationService authenticationService)
+        public PoliciesController(IPolicyService policyService, IAuthenticationService authenticationService)
         {
-            Mapper = mapper;
             PolicyService = policyService;
             AuthenticationService = authenticationService;
         }
 
-        private IMapper Mapper { get; }
         private IPolicyService PolicyService { get; }
         private IAuthenticationService AuthenticationService { get; }
 
+
         [HttpGet("")]
         [UseCaseAuthorize("mem_view_policies")]
-        public async Task<PagedItemsDto<PolicyDto>> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
+        public async Task<IActionResult> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
             var scope = AuthenticationService.GetScope(User);
 
             var queryOptions = new PolicyQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
             var pagedItems = await PolicyService.GetPolicies(queryOptions);
 
-            return Mapper.MapToPageItemsDto<Policy, PolicyDto>(pagedItems);
+            return Ok(pagedItems);
         }
 
         [HttpGet("{policyId}")]
         [UseCaseAuthorize("mem_view_policies")]
-        public async Task<ActionResult<PolicyEditDto>> Get(Guid policyId)
+        public async Task<IActionResult> Get(Guid policyId)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -56,18 +54,16 @@ namespace api.Controllers.Member.Members
             if (model == null)
                 return NotFound();
 
-            return Ok(Mapper.Map<PolicyEditDto>(model));
+            return Ok(model);
         }
 
         [HttpPost]
         [UseCaseAuthorize("mem_edit_policies")]
-        public async Task<ActionResult<Result>> Insert([FromBody] PolicyEditDto policy)
+        public async Task<IActionResult> Insert([FromBody] PolicyEdit policy)
         {
             var scope = AuthenticationService.GetScope(User);
 
-            var model = Mapper.Map<PolicyEdit>(policy);
-
-            var result = await PolicyService.InsertPolicy(scope, model);
+            var result = await PolicyService.InsertPolicy(scope, policy);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
@@ -77,15 +73,13 @@ namespace api.Controllers.Member.Members
 
         [HttpPost("{policyId}")]
         [UseCaseAuthorize("mem_edit_policies")]
-        public async Task<ActionResult<Result>> Update(Guid policyId, [FromBody] PolicyEditDto policy)
+        public async Task<IActionResult> Update(Guid policyId, [FromBody] PolicyEdit policy)
         {
             policy.Id = policyId;
 
-            var model = Mapper.Map<PolicyEdit>(policy);
-
             var scope = AuthenticationService.GetScope(User);
 
-            var result = await PolicyService.UpdatePolicy(scope, model);
+            var result = await PolicyService.UpdatePolicy(scope, policy);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);

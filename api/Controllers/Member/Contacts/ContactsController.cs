@@ -11,7 +11,6 @@ using OneAdvisor.Model.Member.Interface;
 using api.App.Dtos;
 using Microsoft.AspNetCore.Http;
 using OneAdvisor.Model.Directory.Interface;
-using api.Controllers.Member.Policies.Dto;
 using OneAdvisor.Model.Member.Model.Policy;
 using OneAdvisor.Model.Member.Model.Contact;
 using OneAdvisor.Model.Account.Interface;
