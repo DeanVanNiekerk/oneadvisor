@@ -21,7 +21,7 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void MemberRevenueDataModelComposition()
         {
-            Assert.Equal(12, typeof(MemberRevenueData).PropertyCount());
+            Assert.Equal(11, typeof(MemberRevenueData).PropertyCount());
             Assert.True(typeof(MemberRevenueData).HasProperty("RowNumber"));
             Assert.True(typeof(MemberRevenueData).HasProperty("MemberId"));
             Assert.True(typeof(MemberRevenueData).HasProperty("MemberLastName"));
