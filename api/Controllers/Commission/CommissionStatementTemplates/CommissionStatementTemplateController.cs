@@ -2,9 +2,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using api.App.Authorization;
-using api.App.Dtos;
-using api.Controllers.Commission.CommissionStatementTemplates.Dto;
-using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Import.Excel.Readers;
@@ -24,44 +21,40 @@ namespace api.Controllers.Commission.CommissionStatementTemplates
     [Route("api/commission/statements/templates")]
     public class CommissionStatementTemplateController : Controller
     {
-        public CommissionStatementTemplateController(IMapper mapper, ICommissionStatementTemplateService commissionStatementTemplateService)
+        public CommissionStatementTemplateController(ICommissionStatementTemplateService commissionStatementTemplateService)
         {
-            Mapper = mapper;
             CommissionStatementTemplateService = commissionStatementTemplateService;
         }
 
-        private IMapper Mapper { get; }
         private ICommissionStatementTemplateService CommissionStatementTemplateService { get; }
 
 
         [HttpGet("")]
         [UseCaseAuthorize("com_view_commission_statement_templates")]
-        public async Task<PagedItemsDto<CommissionStatementTemplateDto>> Index()
+        public async Task<IActionResult> Index()
         {
             var pagedItems = await CommissionStatementTemplateService.GetTemplates();
 
-            return Mapper.MapToPageItemsDto<CommissionStatementTemplate, CommissionStatementTemplateDto>(pagedItems);
+            return Ok(pagedItems);
         }
 
         [HttpGet("{templateId}")]
         [UseCaseAuthorize("com_view_commission_statement_templates")]
-        public async Task<ActionResult<CommissionStatementTemplateEditDto>> Get(Guid templateId)
+        public async Task<IActionResult> Get(Guid templateId)
         {
             var model = await CommissionStatementTemplateService.GetTemplate(templateId);
 
             if (model == null)
                 return NotFound();
 
-            return Ok(Mapper.Map<CommissionStatementTemplateEditDto>(model));
+            return Ok(model);
         }
 
         [HttpPost]
         [UseCaseAuthorize("com_edit_commission_statement_templates")]
-        public async Task<ActionResult<Result>> Insert([FromBody] CommissionStatementTemplateEditDto template)
+        public async Task<IActionResult> Insert([FromBody] CommissionStatementTemplateEdit template)
         {
-            var model = Mapper.Map<CommissionStatementTemplateEdit>(template);
-
-            var result = await CommissionStatementTemplateService.InsertTemplate(model);
+            var result = await CommissionStatementTemplateService.InsertTemplate(template);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
@@ -71,13 +64,11 @@ namespace api.Controllers.Commission.CommissionStatementTemplates
 
         [HttpPost("{templateId}")]
         [UseCaseAuthorize("com_edit_commission_statement_templates")]
-        public async Task<ActionResult<Result>> Update(Guid templateId, [FromBody] CommissionStatementTemplateEditDto template)
+        public async Task<IActionResult> Update(Guid templateId, [FromBody] CommissionStatementTemplateEdit template)
         {
             template.Id = templateId;
 
-            var model = Mapper.Map<CommissionStatementTemplateEdit>(template);
-
-            var result = await CommissionStatementTemplateService.UpdateTemplate(model);
+            var result = await CommissionStatementTemplateService.UpdateTemplate(template);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
@@ -87,7 +78,7 @@ namespace api.Controllers.Commission.CommissionStatementTemplates
 
         [HttpPost("{templateId}/excel/uniqueCommissionTypes")]
         [UseCaseAuthorize("com_edit_commission_statement_templates")]
-        public async Task<ActionResult<Result>> UniqueCommissionTypes(Guid templateId)
+        public async Task<IActionResult> UniqueCommissionTypes(Guid templateId)
         {
             var file = Request.Form.Files.FirstOrDefault();
             var template = await CommissionStatementTemplateService.GetTemplate(templateId);

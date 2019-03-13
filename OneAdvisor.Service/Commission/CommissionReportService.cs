@@ -31,7 +31,7 @@ namespace OneAdvisor.Service.Commission
             var endDate = date.LastDayOfMonth();
             var startDate = endDate.AddYears(-1);
 
-            var whereClause = $" AND cs.Date >= '{startDate.ToString("yyyy-MM-dd")}' ";
+            var whereClause = $" AND cs.Date > '{startDate.ToString("yyyy-MM-dd")}' ";
             whereClause += $" AND cs.Date <= '{endDate.ToString("yyyy-MM-dd")}' ";
 
             if (!string.IsNullOrEmpty(options.MemberLastName))

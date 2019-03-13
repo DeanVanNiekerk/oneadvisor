@@ -49,6 +49,7 @@ class MemberRevenueReport extends Component<Props> {
         return [
             getColumnEDS("memberLastName", "Last Name", {
                 showSearchFilter: true,
+                fixed: "left",
             }),
             getColumnEDS("memberInitials", "Initials"),
             getColumnEDS("memberDateOfBirth", "Age", {
