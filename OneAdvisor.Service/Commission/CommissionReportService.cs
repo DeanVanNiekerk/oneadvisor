@@ -53,21 +53,9 @@ namespace OneAdvisor.Service.Commission
 
             var pagedItems = new PagedItems<MemberRevenueData>();
 
-            var query = GetMemberRevenueQuery(endDate, options.Scope.OrganisationId, "COUNT(MemberId)", whereClause, orderbyClause);
+            var query = GetMemberRevenueCountQuery(options.Scope.OrganisationId, whereClause);
 
-            pagedItems.TotalItems = (await _context.FromSqlAsync<int>(query)).Single();
-
-            /*
-            SELECT
-                Distinct(Count(m.Id) OVER ())
-            FROM com_commission c
-                JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id
-                JOIN mem_Policy p ON c.PolicyId = p.Id
-                JOIN mem_Member m ON p.MemberId = m.Id
-            WHERE m.OrganisationId = '9a46c5ae-3f6f-494c-b0de-d908f08507c3'
-                AND cs.Date >= '2018-02-28' AND cs.Date <= '2019-02-28'
-            GROUP BY m.Id
-            */
+            pagedItems.TotalItems = (await _context.FromSqlAsync<int>(query)).FirstOrDefault();
 
             query = GetMemberRevenueQuery(endDate, options.Scope.OrganisationId, "*", whereClause, orderbyClause, pagingClause);
 
@@ -76,7 +64,21 @@ namespace OneAdvisor.Service.Commission
             return pagedItems;
         }
 
-        private string GetMemberRevenueQuery(DateTime endDate, Guid organisationId, string selectClause, string whereClause, string orderbyClause = "", string pagingClause = "")
+        private string GetMemberRevenueCountQuery(Guid organisationId, string whereClause)
+        {
+            return $@"
+            SELECT
+                Distinct(Count(m.Id) OVER ())
+            FROM com_commission c
+            JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id
+            JOIN mem_Policy p ON c.PolicyId = p.Id
+            JOIN mem_Member m ON p.MemberId = m.Id
+            WHERE m.OrganisationId = '{organisationId}'
+            {whereClause}
+            GROUP BY m.Id";
+        }
+
+        private string GetMemberRevenueQuery(DateTime endDate, Guid organisationId, string selectClause, string whereClause, string orderbyClause, string pagingClause)
         {
             return $@"
             WITH CommissionQuery AS 
