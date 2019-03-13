@@ -48,10 +48,8 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void PagedCommissionStatementsModelComposition()
         {
-            Assert.Equal(6, typeof(PagedCommissionStatements).PropertyCount());
+            Assert.Equal(4, typeof(PagedCommissionStatements).PropertyCount());
             Assert.True(typeof(PagedCommissionStatements).HasProperty("TotalItems"));
-            Assert.True(typeof(PagedCommissionStatements).HasProperty("AverageAmountIncludingVAT"));
-            Assert.True(typeof(PagedCommissionStatements).HasProperty("AverageVAT"));
             Assert.True(typeof(PagedCommissionStatements).HasProperty("SumAmountIncludingVAT"));
             Assert.True(typeof(PagedCommissionStatements).HasProperty("SumVAT"));
             Assert.True(typeof(PagedCommissionStatements).HasProperty("Items"));
@@ -79,8 +77,6 @@ namespace api.Test.Controllers.Commission
             var pagedItems = new PagedCommissionStatements()
             {
                 TotalItems = 1,
-                AverageAmountIncludingVAT = 100,
-                AverageVAT = 200,
                 SumAmountIncludingVAT = 300,
                 SumVAT = 400,
                 Items = new List<CommissionStatement>()

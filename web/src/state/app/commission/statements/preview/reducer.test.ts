@@ -83,8 +83,6 @@ describe("statement preview reducer", () => {
             type: "STATEMENTS_STATEMENT_PREVIEW_RECEIVE",
             payload: {
                 totalItems: 1,
-                averageAmountIncludingVAT: 0,
-                averageVAT: 0,
                 sumAmountIncludingVAT: 0,
                 sumVAT: 0,
                 items: [defaultStatement],

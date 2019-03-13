@@ -27,8 +27,6 @@ type Props = {
     totalItems: number;
     sumAmountIncludingVAT: number;
     sumVAT: number;
-    averageAmountIncludingVAT: number;
-    averageVAT: number;
     filters: Filters;
     filterMonth: number;
     filterYear: number;
@@ -190,14 +188,6 @@ class StatementList extends Component<Props> {
                     <b>Total VAT: </b>
                     {formatCurrency(this.props.sumVAT)}
                 </Col>
-                <Col>
-                    <b>Average Amount (incl VAT): </b>
-                    {formatCurrency(this.props.averageAmountIncludingVAT)}
-                </Col>
-                <Col>
-                    <b>Average VAT: </b>
-                    {formatCurrency(this.props.averageVAT)}
-                </Col>
             </Row>
         );
     };
@@ -306,8 +296,6 @@ const mapStateToProps = (state: RootState) => {
         totalItems: statementsState.totalItems,
         sumAmountIncludingVAT: statementsState.sumAmountIncludingVAT,
         sumVAT: statementsState.sumVAT,
-        averageAmountIncludingVAT: statementsState.averageAmountIncludingVAT,
-        averageVAT: statementsState.averageVAT,
         filterMonth: statementsState.filterMonth,
         filterYear: statementsState.filterYear,
         filters: statementsState.filters,

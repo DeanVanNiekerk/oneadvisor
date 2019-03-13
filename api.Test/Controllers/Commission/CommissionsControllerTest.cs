@@ -62,8 +62,6 @@ namespace api.Test.Controllers.Commission
             var pagedItems = new PagedCommissions()
             {
                 TotalItems = 1,
-                AverageAmountIncludingVAT = 100,
-                AverageVAT = 200,
                 SumAmountIncludingVAT = 300,
                 SumVAT = 400,
                 Items = new List<OneAdvisor.Model.Commission.Model.Commission.Commission>()

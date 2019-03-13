@@ -26,6 +26,4 @@ export type CommissionEdit = {
 export interface PagedCommissions extends PagedItems<Commission> {
     sumAmountIncludingVAT: number;
     sumVAT: number;
-    averageAmountIncludingVAT: number;
-    averageVAT: number;
 }

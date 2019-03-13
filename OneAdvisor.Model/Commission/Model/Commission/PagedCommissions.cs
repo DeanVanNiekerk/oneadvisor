@@ -6,7 +6,5 @@ namespace OneAdvisor.Model.Commission.Model.Commission
     {
         public decimal SumAmountIncludingVAT { get; set; }
         public decimal SumVAT { get; set; }
-        public decimal AverageAmountIncludingVAT { get; set; }
-        public decimal AverageVAT { get; set; }
     }
 }

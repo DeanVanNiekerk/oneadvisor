@@ -62,8 +62,6 @@ describe("statement list reducer", () => {
                 totalItems: 1,
                 sumAmountIncludingVAT: 2,
                 sumVAT: 3,
-                averageAmountIncludingVAT: 4,
-                averageVAT: 5,
                 items: [statement],
             },
         });
@@ -74,8 +72,6 @@ describe("statement list reducer", () => {
             totalItems: 1,
             sumAmountIncludingVAT: 2,
             sumVAT: 3,
-            averageAmountIncludingVAT: 4,
-            averageVAT: 5,
             fetching: false,
         };
 

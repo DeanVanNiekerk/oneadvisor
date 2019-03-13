@@ -57,6 +57,18 @@ namespace OneAdvisor.Service.Commission
 
             pagedItems.TotalItems = (await _context.FromSqlAsync<int>(query)).Single();
 
+            /*
+            SELECT
+                Distinct(Count(m.Id) OVER ())
+            FROM com_commission c
+                JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id
+                JOIN mem_Policy p ON c.PolicyId = p.Id
+                JOIN mem_Member m ON p.MemberId = m.Id
+            WHERE m.OrganisationId = '9a46c5ae-3f6f-494c-b0de-d908f08507c3'
+                AND cs.Date >= '2018-02-28' AND cs.Date <= '2019-02-28'
+            GROUP BY m.Id
+            */
+
             query = GetMemberRevenueQuery(endDate, options.Scope.OrganisationId, "*", whereClause, orderbyClause, pagingClause);
 
             pagedItems.Items = await _context.FromSqlAsync<MemberRevenueData>(query);

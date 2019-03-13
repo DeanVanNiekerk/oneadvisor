@@ -11,8 +11,6 @@ export type State = {
     readonly totalItems: number;
     readonly sumAmountIncludingVAT: number;
     readonly sumVAT: number;
-    readonly averageAmountIncludingVAT: number;
-    readonly averageVAT: number;
     readonly fetching: boolean;
     readonly pageOptions: PageOptions;
     readonly sortOptions: SortOptions;
@@ -26,8 +24,6 @@ export const defaultState: State = {
     totalItems: 0,
     sumAmountIncludingVAT: 0,
     sumVAT: 0,
-    averageAmountIncludingVAT: 0,
-    averageVAT: 0,
     fetching: false,
     pageOptions: defaultPageOptions(),
     sortOptions: defaultSortOptions("", "desc"),
@@ -47,9 +43,6 @@ export const reducer = (
                 totalItems: action.payload.totalItems,
                 sumAmountIncludingVAT: action.payload.sumAmountIncludingVAT,
                 sumVAT: action.payload.sumVAT,
-                averageAmountIncludingVAT:
-                    action.payload.averageAmountIncludingVAT,
-                averageVAT: action.payload.averageVAT,
                 items: action.payload.items,
                 fetching: false,
             };

@@ -70,8 +70,6 @@ namespace OneAdvisor.Service.Commission
                            {
                                SumAmountIncludingVAT = commissionQuery.Select(c => (decimal?)c.AmountIncludingVAT).Sum(),
                                SumVAT = commissionQuery.Select(c => (decimal?)c.VAT).Sum(),
-                               AverageAmountIncludingVAT = commissionQuery.Select(c => (decimal?)c.AmountIncludingVAT).Average(),
-                               AverageVAT = commissionQuery.Select(c => (decimal?)c.VAT).Average()
                            };
 
             var aggregates = await aggQuery.FirstOrDefaultAsync();
@@ -79,8 +77,6 @@ namespace OneAdvisor.Service.Commission
             {
                 pagedItems.SumAmountIncludingVAT = aggregates.SumAmountIncludingVAT.Value;
                 pagedItems.SumVAT = aggregates.SumVAT.Value;
-                pagedItems.AverageAmountIncludingVAT = aggregates.AverageAmountIncludingVAT.Value;
-                pagedItems.AverageVAT = aggregates.AverageVAT.Value;
             }
 
             var modelQuery = from commissionStatement in query

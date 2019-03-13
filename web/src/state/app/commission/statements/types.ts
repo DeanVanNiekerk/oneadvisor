@@ -30,6 +30,4 @@ export type StatementEdit = {
 export interface PagedStatements extends PagedItems<Statement> {
     sumAmountIncludingVAT: number;
     sumVAT: number;
-    averageAmountIncludingVAT: number;
-    averageVAT: number;
 }

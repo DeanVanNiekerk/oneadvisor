@@ -25,8 +25,6 @@ type Props = {
     totalItems: number;
     sumAmountIncludingVAT: number;
     sumVAT: number;
-    averageAmountIncludingVAT: number;
-    averageVAT: number;
     filters: Filters;
     users: UserSimple[];
     commissionTypes: CommissionType[];
@@ -147,14 +145,6 @@ class CommissionList extends Component<Props> {
                     <b>Total VAT: </b>
                     {formatCurrency(this.props.sumVAT)}
                 </Col>
-                <Col>
-                    <b>Average Amount (incl VAT): </b>
-                    {formatCurrency(this.props.averageAmountIncludingVAT)}
-                </Col>
-                <Col>
-                    <b>Average VAT: </b>
-                    {formatCurrency(this.props.averageVAT)}
-                </Col>
             </Row>
         );
     };
@@ -211,8 +201,6 @@ const mapStateToProps = (state: RootState) => {
         totalItems: commissionsState.totalItems,
         sumAmountIncludingVAT: commissionsState.sumAmountIncludingVAT,
         sumVAT: commissionsState.sumVAT,
-        averageAmountIncludingVAT: commissionsState.averageAmountIncludingVAT,
-        averageVAT: commissionsState.averageVAT,
         filters: commissionsState.filters,
         users: usersState.items,
         commissionTypes: commissionTypesState.items,

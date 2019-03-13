@@ -154,8 +154,6 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(3, statements.TotalItems);
                 Assert.Equal(3, statements.Items.Count());
 
-                Assert.Equal(150, statements.AverageAmountIncludingVAT);
-                Assert.Equal(15, statements.AverageVAT);
                 Assert.Equal(600, statements.SumAmountIncludingVAT);
                 Assert.Equal(60, statements.SumVAT);
 
