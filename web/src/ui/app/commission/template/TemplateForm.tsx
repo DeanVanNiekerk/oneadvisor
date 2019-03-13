@@ -18,11 +18,11 @@ import HeaderIdentifierForm from './config/HeaderIdentifierForm';
 import RawConfig from './config/RawConfig';
 
 type TabKey =
-    | 'details_tab'
-    | 'config_header_identifier'
-    | 'config_fields'
-    | 'config_commission_types'
-    | 'config_raw';
+    | "details_tab"
+    | "config_header_identifier"
+    | "config_fields"
+    | "config_commission_types"
+    | "config_raw";
 
 type Props = {
     template: CommissionStatementTemplateEdit;
@@ -47,28 +47,28 @@ class TemplateForm extends Component<Props, State> {
 
         this.state = {
             template: props.template,
-            activeTab: 'details_tab'
+            activeTab: "details_tab",
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.template != prevProps.template)
             this.setState({
-                template: this.props.template
+                template: this.props.template,
             });
     }
 
     handleChange = (fieldName: string, value: any) => {
         const template = {
             ...this.state.template,
-            [fieldName]: value
+            [fieldName]: value,
         };
         this.setTemplateState(template);
     };
 
     setTemplateState = (template: CommissionStatementTemplateEdit) => {
         this.setState({
-            template: template
+            template: template,
         });
         this.props.onChange(template);
     };
@@ -81,9 +81,9 @@ class TemplateForm extends Component<Props, State> {
         const template = update(this.state.template, {
             config: {
                 headerIdentifier: {
-                    $set: headerIdentifier
-                }
-            }
+                    $set: headerIdentifier,
+                },
+            },
         });
         this.setTemplateState(template);
     };
@@ -92,9 +92,9 @@ class TemplateForm extends Component<Props, State> {
         const template = update(this.state.template, {
             config: {
                 fields: {
-                    $set: fields
-                }
-            }
+                    $set: fields,
+                },
+            },
         });
         this.setTemplateState(template);
     };
@@ -103,23 +103,23 @@ class TemplateForm extends Component<Props, State> {
         const template = update(this.state.template, {
             config: {
                 commissionTypes: {
-                    $set: commissionTypes
-                }
-            }
+                    $set: commissionTypes,
+                },
+            },
         });
         this.setTemplateState(template);
     };
 
     getHeaderIdentifierTabTitle = () => {
-        return this.getTabTitle('Header Identifier', 'config.headerIdentifier');
+        return this.getTabTitle("Header Identifier", "config.headerIdentifier");
     };
 
     getFieldsTabTitle = () => {
-        return this.getTabTitle('Fields', 'config.fields');
+        return this.getTabTitle("Fields", "config.fields");
     };
 
     getCommissionTypesTabTitle = () => {
-        return this.getTabTitle('Commission Types', 'config.commissionTypes');
+        return this.getTabTitle("Commission Types", "config.commissionTypes");
     };
 
     getTabTitle = (title: string, prefix: string) => {
@@ -171,7 +171,7 @@ class TemplateForm extends Component<Props, State> {
                     <HeaderIdentifierForm
                         headerIdentifier={template.config.headerIdentifier}
                         validationResults={getValidationSubSet(
-                            'config.headerIdentifier',
+                            "config.headerIdentifier",
                             validationResults
                         )}
                         onChange={this.onHeaderIdentifierChange}
@@ -181,7 +181,7 @@ class TemplateForm extends Component<Props, State> {
                     <FieldsForm
                         fields={template.config.fields}
                         validationResults={getValidationSubSet(
-                            'config.fields',
+                            "config.fields",
                             validationResults,
                             true
                         )}
@@ -196,7 +196,7 @@ class TemplateForm extends Component<Props, State> {
                         template={template}
                         commissionTypes={template.config.commissionTypes}
                         validationResults={getValidationSubSet(
-                            'config.commissionTypes',
+                            "config.commissionTypes",
                             validationResults
                         )}
                         onChange={this.onCommissionTypesChange}
@@ -215,7 +215,7 @@ const mapStateToProps = (state: RootState) => {
     const companiesState = companiesSelector(state);
 
     return {
-        companies: companiesState.items
+        companies: companiesState.items,
     };
 };
 

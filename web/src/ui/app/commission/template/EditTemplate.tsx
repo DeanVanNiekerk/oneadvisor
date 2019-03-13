@@ -32,14 +32,14 @@ class EditTemplate extends Component<Props, State> {
         super(props);
 
         this.state = {
-            templateEdited: props.template
+            templateEdited: props.template,
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.template != prevProps.template)
             this.setState({
-                templateEdited: this.props.template
+                templateEdited: this.props.template,
             });
     }
 
@@ -75,8 +75,8 @@ class EditTemplate extends Component<Props, State> {
                     (result, dispatch) => {
                         if (!disableSuccessMessage) {
                             showMessage(
-                                'success',
-                                'Template Successfully Saved',
+                                "success",
+                                "Template Successfully Saved",
                                 3
                             );
                         }
@@ -95,7 +95,7 @@ class EditTemplate extends Component<Props, State> {
                 insertCommissionStatementTemplate(
                     this.state.templateEdited,
                     (result, dispatch) => {
-                        this.close;
+                        this.close();
                         if (onSuccess) onSuccess(result, dispatch);
                     },
                     onFailure
@@ -106,7 +106,7 @@ class EditTemplate extends Component<Props, State> {
 
     onChange = (template: CommissionStatementTemplateEdit) => {
         this.setState({
-            templateEdited: template
+            templateEdited: template,
         });
     };
 
@@ -119,7 +119,7 @@ class EditTemplate extends Component<Props, State> {
 
         if (template && template.id) return `Template: ${template.name}`;
 
-        return 'New Template';
+        return "New Template";
     };
 
     render() {
@@ -170,7 +170,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         template: templateState.template,
         updating: templateState.updating || templateState.fetching,
-        validationResults: templateState.validationResults
+        validationResults: templateState.validationResults,
     };
 };
 

@@ -3,7 +3,13 @@ import React, { Component } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { connect, DispatchProp } from 'react-redux';
 
-import { CommissionStatementTemplateEdit, receiveCommissionStatementTemplate } from '@/state/app/commission/templates';
+import {
+    CommissionStatementTemplateEdit, Config, receiveCommissionStatementTemplate
+} from '@/state/app/commission/templates';
+import {
+    CommissionType as LookupCommissionType, commissionTypesSelector, UNKNOWN_COMMISSION_TYPE_CODE
+} from '@/state/app/directory/lookups';
+import { RootState } from '@/state/rootReducer';
 import { Button } from '@/ui/controls';
 import { showMessage } from '@/ui/feedback/notifcation';
 
@@ -11,6 +17,7 @@ const { TextArea } = Input;
 
 type Props = {
     template: CommissionStatementTemplateEdit;
+    lookupCommissionTypes: LookupCommissionType[];
 } & DispatchProp;
 
 type State = {
@@ -22,7 +29,7 @@ class RawConfig extends Component<Props, State> {
         super(props);
 
         this.state = {
-            config: ''
+            config: "",
         };
     }
 
@@ -32,15 +39,41 @@ class RawConfig extends Component<Props, State> {
 
     override = () => {
         try {
+            const config = JSON.parse(this.state.config) as Config;
+
+            //Validate commission type codes ------------------
+            if (
+                !this.isValidCommissionType(
+                    config.commissionTypes.defaultCommissionTypeCode
+                )
+            )
+                config.commissionTypes.defaultCommissionTypeCode = UNKNOWN_COMMISSION_TYPE_CODE;
+
+            config.commissionTypes.types = config.commissionTypes.types.map(
+                t => ({
+                    commissionTypeCode: this.isValidCommissionType(
+                        t.commissionTypeCode
+                    )
+                        ? t.commissionTypeCode
+                        : "",
+                    value: t.value,
+                })
+            );
+            //--------------------------------------------------
+
             const template = {
                 ...this.props.template,
-                config: JSON.parse(this.state.config)
+                config: config,
             };
             this.props.dispatch(receiveCommissionStatementTemplate(template));
-            showMessage('info', 'Config Fields Updated', 3);
+            showMessage("info", "Config Fields Updated", 3);
         } catch {
-            showMessage('error', 'Config error, please check syntax', 5);
+            showMessage("error", "Config error, please check syntax", 5);
         }
+    };
+
+    isValidCommissionType = (code: string): boolean => {
+        return !!this.props.lookupCommissionTypes.find(t => t.code === code);
     };
 
     render() {
@@ -58,12 +91,11 @@ class RawConfig extends Component<Props, State> {
                                 4
                             )}
                             onCopy={() => {
-                                showMessage('info', 'Config Copied', 2);
+                                showMessage("info", "Config Copied", 2);
                             }}
                         >
                             <Button
                                 icon="copy"
-                                //onClick={() => this.add()}
                                 noLeftMargin={true}
                                 size="small"
                             >
@@ -110,4 +142,12 @@ class RawConfig extends Component<Props, State> {
     }
 }
 
-export default connect()(RawConfig);
+const mapStateToProps = (state: RootState) => {
+    const lookupCommissionTypesState = commissionTypesSelector(state);
+
+    return {
+        lookupCommissionTypes: lookupCommissionTypesState.items,
+    };
+};
+
+export default connect(mapStateToProps)(RawConfig);
