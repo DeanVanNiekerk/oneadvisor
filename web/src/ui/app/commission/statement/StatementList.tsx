@@ -105,10 +105,16 @@ class StatementList extends Component<Props> {
                 })),
             }),
             getColumnEDS("date", "Date", { type: "date" }),
-            getColumnEDS("actualAmountIncludingVAT", "Amount (incl VAT)", {
-                type: "currency",
+            getColumnEDS("actualAmountIncludingVAT", "Amount (excl VAT)", {
+                render: (
+                    actualAmountIncludingVAT: number,
+                    record: Statement
+                ) => {
+                    return formatCurrency(
+                        actualAmountIncludingVAT - record.actualVAT
+                    );
+                },
             }),
-            getColumnEDS("actualVAT", "VAT", { type: "currency" }),
             getColumnEDS("processed", "Status", {
                 render: (processed: boolean) => {
                     return <Processed processed={processed} />;
@@ -181,12 +187,10 @@ class StatementList extends Component<Props> {
         return (
             <Row type="flex" justify="space-between">
                 <Col>
-                    <b>Total Amount (incl VAT): </b>
-                    {formatCurrency(this.props.sumAmountIncludingVAT)}
-                </Col>
-                <Col>
-                    <b>Total VAT: </b>
-                    {formatCurrency(this.props.sumVAT)}
+                    <b>Total Amount (excl VAT): </b>
+                    {formatCurrency(
+                        this.props.sumAmountIncludingVAT - this.props.sumVAT
+                    )}
                 </Col>
             </Row>
         );

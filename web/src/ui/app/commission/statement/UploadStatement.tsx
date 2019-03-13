@@ -124,6 +124,7 @@ class UploadStatement extends Component<Props, State> {
                             Authorization: "Bearer " + this.props.token,
                         }}
                         disabled={this.props.fetching}
+                        accept=".xlsx"
                     >
                         <Button noLeftMargin={true} type="primary">
                             <Icon type="upload" /> Click to Upload
