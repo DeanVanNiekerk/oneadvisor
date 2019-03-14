@@ -43,6 +43,7 @@
         "xlsx": "0.14.1"
     },
     "devDependencies": {
+        "@types/applicationinsights-js": "^1.0.9",
         "@babel/core": "7.3.4",
         "@babel/plugin-proposal-class-properties": "7.3.4",
         "@babel/plugin-proposal-export-default-from": "7.2.0",
