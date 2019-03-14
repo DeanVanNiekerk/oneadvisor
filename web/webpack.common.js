@@ -13,6 +13,7 @@ console.log("Config Settings");
 console.log("========================================");
 console.log("environment: " + environment);
 console.log("oa.baseApi: " + oaBaseApi);
+console.log("appInsightsKey: " + appInsightsKey);
 console.log("========================================");
 
 module.exports = {
