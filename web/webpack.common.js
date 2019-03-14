@@ -7,6 +7,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const oaBaseApi = config.get("baseApi");
 const environment = config.get("environment");
+const appInsightsKey = config.get("appInsightsKey");
 
 console.log("Config Settings");
 console.log("========================================");
@@ -72,6 +73,7 @@ module.exports = {
         new webpack.DefinePlugin({
             __ENVIRONMENT__: JSON.stringify(environment),
             __OA_BASE_API__: JSON.stringify(oaBaseApi),
+            __APP_INSIGHTS_KEY__: JSON.stringify(appInsightsKey),
         }),
     ],
 };

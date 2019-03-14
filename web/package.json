@@ -25,6 +25,7 @@
         "jwt-decode": "2.2.0",
         "moment": "2.24.0",
         "react": "16.8.4",
+        "react-appinsights": "^2.0.2",
         "react-copy-to-clipboard": "5.0.1",
         "react-dom": "16.8.4",
         "react-flexbox-grid": "2.1.2",
