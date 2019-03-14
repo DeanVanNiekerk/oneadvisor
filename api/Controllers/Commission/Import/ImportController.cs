@@ -24,15 +24,13 @@ namespace api.Controllers.Commission.Import
     [Route("api/commission/import")]
     public class ImportController : Controller
     {
-        public ImportController(IMapper mapper, ICommissionImportService commissionImportService, ICommissionStatementTemplateService commissionStatementTemplateService, IAuthenticationService authenticationService)
+        public ImportController(ICommissionImportService commissionImportService, ICommissionStatementTemplateService commissionStatementTemplateService, IAuthenticationService authenticationService)
         {
-            Mapper = mapper;
             CommissionImportService = commissionImportService;
             AuthenticationService = authenticationService;
             CommissionStatementTemplateService = commissionStatementTemplateService;
         }
 
-        private IMapper Mapper { get; }
         private ICommissionImportService CommissionImportService { get; }
         private IAuthenticationService AuthenticationService { get; }
         private ICommissionStatementTemplateService CommissionStatementTemplateService { get; }

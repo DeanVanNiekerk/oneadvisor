@@ -205,8 +205,7 @@ namespace api.Test.Controllers.Member
                 {
                     inserted = i;
                     options = o;
-                }
-                    )
+                })
                 .ReturnsAsync(result);
 
             var controller = new MembersController(service.Object, authService.Object);

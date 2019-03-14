@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using api.App.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Data;
@@ -13,6 +14,7 @@ using OneAdvisor.Model.Directory.Model.User;
 namespace api.Controllers.Database
 {
     [ApiController]
+    [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
     [Route("api/database")]
     public class DatabaseController : Controller
     {
@@ -29,14 +31,6 @@ namespace api.Controllers.Database
         private IDefaultDbContextInitializer DbContextInitializer { get; }
         private IUserService UserService { get; }
         private UserManager<UserEntity> UserManager { get; }
-
-        [HttpGet("[action]")]
-        public async Task<string> Reset()
-        {
-            await DbContextInitializer.Clean();
-            await Seed();
-            return "Success";
-        }
 
         [HttpGet("[action]")]
         public async Task<string> ResetRolesAndUseCase()
