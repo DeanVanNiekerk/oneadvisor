@@ -163,7 +163,7 @@ namespace OneAdvisor.Service.Test.Commission
                 //When
                 var import1 = new ImportCommission
                 {
-                    PolicyNumber = "123456",
+                    PolicyNumber = "123  456", // has spaces, should be removed
                     CommissionTypeCode = "gap_cover", //existing cover
                     AmountIncludingVAT = "100",
                     VAT = "14"
@@ -186,6 +186,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(statement.Id, actual.CommissionStatementId);
 
                 Assert.True(actual.IsFormatValid);
+
+                import1.PolicyNumber = import1.PolicyNumber.Replace(" ", "");
                 Assert.Equal(import1, actual.Data);
             }
         }
@@ -305,7 +307,7 @@ namespace OneAdvisor.Service.Test.Commission
                 //When
                 var import1 = new ImportCommission
                 {
-                    PolicyNumber = policy1.Number,
+                    PolicyNumber = policy1.Number.Insert(5, " "), //Add a space in (should still match)
                     CommissionTypeCode = commissionType.Code,
                     AmountIncludingVAT = "100",
                     VAT = "14"

@@ -52,7 +52,7 @@ namespace OneAdvisor.Import.Excel.Readers
 
                         var commission = new ImportCommission();
 
-                        commission.PolicyNumber = GetValue(reader, FieldNames.PolicyNumber);
+                        commission.PolicyNumber = GetValue(reader, FieldNames.PolicyNumber).Replace(" ", "");
 
                         var commissionTypeValue = GetCommissionTypeValue(reader, commissionTypeIndexes);
                         commission.CommissionTypeValue = commissionTypeValue;

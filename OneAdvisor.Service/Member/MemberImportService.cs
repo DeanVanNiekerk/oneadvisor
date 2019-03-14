@@ -176,6 +176,7 @@ namespace OneAdvisor.Service.Member
         {
             member.FirstName = data.FirstName != null ? data.FirstName : member.FirstName;
             member.LastName = data.LastName != null ? data.LastName : member.LastName;
+            member.Initials = data.FirstName != null ? data.FirstName.Acronym() : member.Initials;
             member.TaxNumber = data.TaxNumber != null ? data.TaxNumber : member.TaxNumber;
             member.DateOfBirth = data.DateOfBirth != null ? data.DateOfBirth : member.DateOfBirth;
 

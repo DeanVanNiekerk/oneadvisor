@@ -101,6 +101,14 @@ namespace OneAdvisor.Model
             return String.Equals(str, target, StringComparison.OrdinalIgnoreCase); ;
         }
 
+        public static string Acronym(this string str)
+        {
+            var parts = str.Split(" ");
+            var characters = parts.Select(p => p.Count() > 0 ? p[0].ToString().ToUpper() : "");
+            return string.Join("", characters);
+
+        }
+
         public static DateTime LastDayOfMonth(this DateTime dateTime)
         {
             return new DateTime(dateTime.Year, dateTime.Month, DateTime.DaysInMonth(dateTime.Year, dateTime.Month));
