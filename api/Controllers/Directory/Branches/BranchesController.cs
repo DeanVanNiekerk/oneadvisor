@@ -36,7 +36,7 @@ namespace api.Controllers.Directory.Branches
         [UseCaseAuthorize("dir_view_branches")]
         public async Task<PagedItemsDto<BranchDto>> Index(string filters = null)
         {
-            var scope = AuthenticationService.GetScope(User, true);
+            var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
             var queryOptions = new BranchQueryOptions(scope, filters);
             var pagedItems = await BranchService.GetBranches(queryOptions);
@@ -48,7 +48,7 @@ namespace api.Controllers.Directory.Branches
         [UseCaseAuthorize("dir_view_branches")]
         public async Task<ActionResult<BranchDto>> Get(Guid branchId)
         {
-            var scope = AuthenticationService.GetScope(User, true);
+            var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
             var model = await BranchService.GetBranch(scope, branchId);
 
@@ -62,7 +62,7 @@ namespace api.Controllers.Directory.Branches
         [UseCaseAuthorize("dir_edit_branches")]
         public async Task<ActionResult<Result>> Insert([FromBody] BranchDto branch)
         {
-            var scope = AuthenticationService.GetScope(User, true);
+            var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
             var model = Mapper.Map<Branch>(branch);
 
@@ -78,7 +78,7 @@ namespace api.Controllers.Directory.Branches
         [UseCaseAuthorize("dir_edit_branches")]
         public async Task<ActionResult<Result>> Update(Guid branchId, [FromBody] BranchDto branch)
         {
-            var scope = AuthenticationService.GetScope(User, true);
+            var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
             branch.Id = branchId;
 

@@ -6,6 +6,6 @@ namespace OneAdvisor.Model.Email
 {
     public interface IEmailService
     {
-        Task<Result> SendWelcomeEmail(UserEdit user);
+        Task<Result> SendWelcomeEmail(UserEdit user, string activateUrl);
     }
 }

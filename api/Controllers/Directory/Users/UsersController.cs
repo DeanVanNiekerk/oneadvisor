@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using api.Controllers.Directory.Users.Dto;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,52 +19,48 @@ namespace api.Controllers.Directory.Users
     [Route("api/directory/users")]
     public class UsersController : Controller
     {
-        public UsersController(IMapper mapper, IUserService userService, IAuthenticationService authenticationService)
+        public UsersController(IUserService userService, IAuthenticationService authenticationService)
         {
-            Mapper = mapper;
             UserService = userService;
             AuthenticationService = authenticationService;
         }
 
-        private IMapper Mapper { get; }
         private IUserService UserService { get; }
         private IAuthenticationService AuthenticationService { get; }
 
         [HttpGet("")]
         [UseCaseAuthorize("dir_view_users")]
-        public async Task<PagedItemsDto<UserDto>> Index(int pageNumber = 0, int pageSize = 0)
+        public async Task<IActionResult> Index(int pageNumber = 0, int pageSize = 0)
         {
-            var scope = AuthenticationService.GetScope(User, true);
+            var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
-            var queryOptions = new UserQueryOptions(scope, pageNumber, pageSize);
+            var queryOptions = new UserQueryOptions(scope, pageSize, pageNumber);
             var pagedItems = await UserService.GetUsers(queryOptions);
 
-            return Mapper.MapToPageItemsDto<User, UserDto>(pagedItems);
+            return Ok(pagedItems);
         }
 
         [HttpGet("{userId}")]
         [UseCaseAuthorize("dir_view_users")]
-        public async Task<ActionResult<UserEditDto>> Get(Guid userId)
+        public async Task<IActionResult> Get(Guid userId)
         {
-            var scope = AuthenticationService.GetScope(User, true);
+            var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
             var model = await UserService.GetUser(scope, userId);
 
             if (model == null)
                 return NotFound();
 
-            return Ok(Mapper.Map<UserEditDto>(model));
+            return Ok(model);
         }
 
         [HttpPost]
         [UseCaseAuthorize("dir_edit_users")]
-        public async Task<ActionResult<Result>> Insert([FromBody] UserEditDto user)
+        public async Task<IActionResult> Insert([FromBody] UserEdit user)
         {
-            var scope = AuthenticationService.GetScope(User, true);
+            var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
-            var model = Mapper.Map<UserEdit>(user);
-
-            var result = await UserService.InsertUser(scope, model, "Test123!");
+            var result = await UserService.InsertUser(scope, user);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
@@ -75,15 +70,13 @@ namespace api.Controllers.Directory.Users
 
         [HttpPost("{userId}")]
         [UseCaseAuthorize("dir_edit_users")]
-        public async Task<ActionResult<Result>> Update(Guid userId, [FromBody] UserEditDto user)
+        public async Task<IActionResult> Update(Guid userId, [FromBody] UserEdit user)
         {
-            var scope = AuthenticationService.GetScope(User, true);
-
             user.Id = userId;
 
-            var model = Mapper.Map<UserEdit>(user);
+            var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
-            var result = await UserService.UpdateUser(scope, model);
+            var result = await UserService.UpdateUser(scope, user);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
@@ -93,18 +86,18 @@ namespace api.Controllers.Directory.Users
 
         [HttpGet("simple")]
         [Authorize]
-        public async Task<PagedItemsDto<UserSimpleDto>> GetUsersSimple()
+        public async Task<IActionResult> GetUsersSimple()
         {
             var scope = AuthenticationService.GetScope(User);
 
             var pagedItems = await UserService.GetUsersSimple(scope);
 
-            return Mapper.MapToPageItemsDto<UserSimple, UserSimpleDto>(pagedItems);
+            return Ok(pagedItems);
         }
 
         [HttpGet("simple/{userId}")]
         [Authorize]
-        public async Task<ActionResult<UserSimpleDto>> GetUserSimple(Guid userId)
+        public async Task<IActionResult> GetUserSimple(Guid userId)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -113,7 +106,7 @@ namespace api.Controllers.Directory.Users
             if (model == null)
                 return NotFound();
 
-            return Ok(Mapper.Map<UserSimpleDto>(model));
+            return Ok(model);
         }
     }
 }

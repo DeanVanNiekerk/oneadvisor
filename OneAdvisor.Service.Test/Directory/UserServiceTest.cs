@@ -180,6 +180,7 @@ namespace OneAdvisor.Service.Test.Directory
                 Id = Guid.NewGuid(),
                 FirstName = "Jack",
                 LastName = "Reacher",
+                UserName = "jreacher",
                 Email = "jreacher@gmail.com",
                 Scope = Scope.Organisation,
                 BranchId = userDetailed1.Branch.Id,
@@ -216,22 +217,23 @@ namespace OneAdvisor.Service.Test.Directory
 
                 //When
                 var scope = TestHelper.GetScopeOptions(userDetailed1, Scope.Organisation);
-                var result = await service.InsertUser(scope, user, "Test123!");
+                var result = await service.InsertUser(scope, user, "Test@123!");
 
                 //Then
                 Assert.True(result.Success);
                 Assert.Equal(user.FirstName, addedUser.FirstName);
                 Assert.Equal(user.LastName, addedUser.LastName);
                 Assert.Equal(user.Email, addedUser.Email);
+                Assert.Equal(user.UserName, addedUser.UserName);
                 Assert.Equal(user.Scope, addedUser.Scope);
                 Assert.Equal(user.BranchId, addedUser.BranchId);
                 Assert.Equal(user.Aliases, addedUser.Aliases);
-                Assert.Equal("Test123!", addedPassword);
+                Assert.Equal("Test@123!", addedPassword);
                 Assert.Equal(roles, addedRoles);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(userDetailed2, Scope.Organisation);
-                result = await service.InsertUser(scope, user, "Test123!");
+                result = await service.InsertUser(scope, user);
                 Assert.False(result.Success);
             }
         }
@@ -310,6 +312,7 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.Equal(user.FirstName, updatedUser.FirstName);
                 Assert.Equal(user.LastName, updatedUser.LastName);
                 Assert.Equal(user.Email, updatedUser.Email);
+                Assert.Equal(user.UserName, updatedUser.UserName);
                 Assert.Equal(user.Scope, updatedUser.Scope);
                 Assert.Equal(user.BranchId, updatedUser.BranchId);
                 Assert.Equal(user.Aliases, updatedUser.Aliases);

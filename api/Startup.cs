@@ -46,6 +46,9 @@ namespace api
             serviceSetup.ConfigureLogging();
             serviceSetup.ConfigureSwagger();
 
+            var identitySetup = new IdentitySetup(Configuration, services);
+            identitySetup.Configure();
+
             var auditSetup = new AuditSetup(services);
             auditSetup.Setup();
 

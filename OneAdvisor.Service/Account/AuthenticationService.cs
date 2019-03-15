@@ -127,5 +127,14 @@ namespace OneAdvisor.Service.Account
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        public async Task<string> GeneratePasswordResetToken(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+
+            return await _userManager.GeneratePasswordResetTokenAsync(user);
+        }
+
+
     }
 }

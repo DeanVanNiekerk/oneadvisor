@@ -41,6 +41,7 @@ namespace OneAdvisor.Service.Directory
                             FirstName = user.FirstName,
                             LastName = user.LastName,
                             Email = user.Email,
+                            UserName = user.UserName,
                             BranchId = user.BranchId,
                             BranchName = branch.Name,
                             OrganisationId = organisation.Id,
@@ -84,6 +85,11 @@ namespace OneAdvisor.Service.Directory
             return model;
         }
 
+        public async Task<Result> InsertUser(ScopeOptions scope, UserEdit user)
+        {
+            return await InsertUser(scope, user, GenerateRandomPassword(_userManager.Options.Password));
+        }
+
         public async Task<Result> InsertUser(ScopeOptions scope, UserEdit user, string password)
         {
             var validator = new UserValidator(scope, true);
@@ -99,7 +105,7 @@ namespace OneAdvisor.Service.Directory
 
             var entity = MapModelToEntity(user);
 
-            entity.EmailConfirmed = true;
+            entity.EmailConfirmed = false;
 
             var createResult = await _userManager.CreateAsync(entity, password);
             result.Success = createResult.Succeeded;
@@ -161,8 +167,8 @@ namespace OneAdvisor.Service.Directory
             entity.FirstName = model.FirstName;
             entity.LastName = model.LastName;
             entity.Email = model.Email;
+            entity.UserName = model.UserName;
             entity.BranchId = model.BranchId.Value;
-            entity.UserName = model.Email;
             entity.Scope = model.Scope;
             entity.Aliases = model.Aliases;
 
@@ -177,6 +183,7 @@ namespace OneAdvisor.Service.Directory
             model.FirstName = entity.FirstName;
             model.LastName = entity.LastName;
             model.Email = entity.Email;
+            model.UserName = entity.UserName;
             model.BranchId = entity.BranchId;
             model.Scope = entity.Scope;
             model.Aliases = entity.Aliases;
@@ -218,5 +225,55 @@ namespace OneAdvisor.Service.Directory
 
             return query;
         }
+
+        private string GenerateRandomPassword(PasswordOptions options = null)
+        {
+            if (options == null) options = new PasswordOptions()
+            {
+                RequiredLength = 8,
+                RequiredUniqueChars = 4,
+                RequireDigit = true,
+                RequireLowercase = true,
+                RequireNonAlphanumeric = true,
+                RequireUppercase = true
+            };
+
+            string[] randomChars = new[] {
+            "ABCDEFGHJKLMNOPQRSTUVWXYZ",    // uppercase 
+            "abcdefghijkmnopqrstuvwxyz",    // lowercase
+            "0123456789",                   // digits
+            "!@$?_-"                        // non-alphanumeric
+        };
+
+            Random rand = new Random(Environment.TickCount);
+            List<char> chars = new List<char>();
+
+            if (options.RequireUppercase)
+                chars.Insert(rand.Next(0, chars.Count),
+                    randomChars[0][rand.Next(0, randomChars[0].Length)]);
+
+            if (options.RequireLowercase)
+                chars.Insert(rand.Next(0, chars.Count),
+                    randomChars[1][rand.Next(0, randomChars[1].Length)]);
+
+            if (options.RequireDigit)
+                chars.Insert(rand.Next(0, chars.Count),
+                    randomChars[2][rand.Next(0, randomChars[2].Length)]);
+
+            if (options.RequireNonAlphanumeric)
+                chars.Insert(rand.Next(0, chars.Count),
+                    randomChars[3][rand.Next(0, randomChars[3].Length)]);
+
+            for (int i = chars.Count; i < options.RequiredLength
+                || chars.Distinct().Count() < options.RequiredUniqueChars; i++)
+            {
+                string rcs = randomChars[rand.Next(0, randomChars.Length)];
+                chars.Insert(rand.Next(0, chars.Count),
+                    rcs[rand.Next(0, rcs.Length)]);
+            }
+
+            return new string(chars.ToArray());
+        }
+
     }
 }

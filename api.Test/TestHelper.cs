@@ -1,5 +1,7 @@
 using System;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Account.Model.Authentication;
@@ -16,9 +18,17 @@ namespace api.Test
 
             var options = new ScopeOptions(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), scope);
 
-            service.Setup(x => x.GetScope(It.IsAny<ClaimsPrincipal>(), false)).Returns(options);
+            service.Setup(x => x.GetScope(It.IsAny<ClaimsPrincipal>(), It.IsAny<bool>())).Returns(options);
 
             return service;
+        }
+
+        public static ControllerContext GetControllerContext(ClaimsPrincipal user)
+        {
+            return new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = user }
+            };
         }
     }
 }

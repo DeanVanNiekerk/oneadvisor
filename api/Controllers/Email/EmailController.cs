@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using api.App.Token;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Common;
@@ -34,7 +35,10 @@ namespace api.Controllers.Email
             if (user == null)
                 return NotFound();
 
-            var result = await EmailService.SendWelcomeEmail(user);
+            var token = await AuthenticationService.GeneratePasswordResetToken(user.UserName);
+            var url = UrlHelper.GenerateResetPasswordLink(token, user, Request);
+
+            var result = await EmailService.SendWelcomeEmail(user, url);
 
             if (!result.Success)
                 return StatusCode(500, result);

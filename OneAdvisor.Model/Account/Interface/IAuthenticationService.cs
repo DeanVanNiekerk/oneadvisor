@@ -11,5 +11,6 @@ namespace OneAdvisor.Model.Account.Interface
         ScopeOptions GetScope(ClaimsPrincipal principle, bool ignoreScope = false);
         Task<AuthenticationResult> Authenticate(string userName, string password);
         Task<string> GenerateToken(string userName, JwtOptions options);
+        Task<string> GeneratePasswordResetToken(string userName);
     }
 }

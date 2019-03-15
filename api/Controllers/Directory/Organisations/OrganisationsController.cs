@@ -37,7 +37,7 @@ namespace api.Controllers.Directory.Organisations
         [UseCaseAuthorize("dir_view_organisations")]
         public async Task<PagedItemsDto<OrganisationDto>> Index()
         {
-            var scope = AuthenticationService.GetScope(User, true);
+            var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
             var queryOptions = new OrganisationQueryOptions(scope);
             var pagedItems = await OrganisationService.GetOrganisations(queryOptions);
@@ -49,7 +49,7 @@ namespace api.Controllers.Directory.Organisations
         [UseCaseAuthorize("dir_view_organisations")]
         public async Task<ActionResult<OrganisationDto>> Get(Guid organisationId)
         {
-            var scope = AuthenticationService.GetScope(User, true);
+            var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
             var model = await OrganisationService.GetOrganisation(scope, organisationId);
 
@@ -64,7 +64,7 @@ namespace api.Controllers.Directory.Organisations
         [UseCaseAuthorize("dir_edit_organisations")]
         public async Task<ActionResult<Result>> Insert([FromBody] OrganisationDto organisation)
         {
-            var scope = AuthenticationService.GetScope(User, true);
+            var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
             var model = Mapper.Map<Organisation>(organisation);
 
@@ -80,7 +80,7 @@ namespace api.Controllers.Directory.Organisations
         [UseCaseAuthorize("dir_edit_organisations")]
         public async Task<ActionResult<Result>> Update(Guid organisationId, [FromBody] OrganisationDto organisation)
         {
-            var scope = AuthenticationService.GetScope(User, true);
+            var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
             organisation.Id = organisationId;
 
