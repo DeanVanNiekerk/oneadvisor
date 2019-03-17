@@ -7,7 +7,7 @@ import { commissionsImportApi } from '@/config/api/commission';
 import {
     CommissionStatementTemplate, commissionStatementTemplatesSelector, fetchCommissionStatementTemplates
 } from '@/state/app/commission/templates';
-import { authSelector } from '@/state/auth';
+import { tokenSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import { Button, Form, FormField, FormSelect } from '@/ui/controls';
 import { showMessage } from '@/ui/feedback/notifcation';
@@ -137,11 +137,11 @@ class UploadStatement extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const authState = authSelector(state);
+    const tokenState = tokenSelector(state);
     const templatesState = commissionStatementTemplatesSelector(state);
 
     return {
-        token: authState.token,
+        token: tokenState.token,
         fetching: templatesState.fetching,
         templates: templatesState.items,
     };

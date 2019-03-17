@@ -24,6 +24,7 @@
         "immutability-helper": "3.0.0",
         "jwt-decode": "2.2.0",
         "moment": "2.24.0",
+        "query-string": "^6.4.0",
         "react": "16.8.4",
         "react-appinsights": "^2.0.2",
         "react-copy-to-clipboard": "5.0.1",

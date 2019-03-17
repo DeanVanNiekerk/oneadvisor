@@ -9,6 +9,5 @@ namespace OneAdvisor.Model.Account.Model.Authentication
         }
 
         public bool Success { get; set; }
-        public Identity Identity { get; set; }
     }
 }

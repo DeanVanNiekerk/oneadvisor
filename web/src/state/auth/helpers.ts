@@ -4,5 +4,10 @@ import { TokenData } from './types';
 
 export const decodeToken = (token: string | null): TokenData | null => {
     if (token === null) return null;
-    return jwt_decode(token);
+    try {
+        return jwt_decode(token);
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
 };

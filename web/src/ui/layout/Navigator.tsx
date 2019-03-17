@@ -5,7 +5,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { hasUseCasesMenuGroups } from '@/app/identity';
 import config from '@/config/config';
-import { authSelector, signOut } from '@/state/auth';
+import { signOut, useCaseSelector } from '@/state/auth';
 import { applicationsSelector, currentApplicationSelector, menusSelector } from '@/state/context/selectors';
 import { Application, Menus } from '@/state/context/types';
 import { RootState } from '@/state/rootReducer';
@@ -163,13 +163,11 @@ class Navigator extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const authState = authSelector(state);
-
     return {
         menus: menusSelector(state),
         applications: applicationsSelector(state),
         currentApplication: currentApplicationSelector(state) || {},
-        useCases: authState.identity ? authState.identity.useCaseIds : [],
+        useCases: useCaseSelector(state),
     };
 };
 

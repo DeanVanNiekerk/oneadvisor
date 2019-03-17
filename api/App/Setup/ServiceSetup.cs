@@ -1,7 +1,9 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using api.App.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -42,10 +44,13 @@ namespace api.App.Setup
 
         public void ConfigureCors()
         {
+            var origins = Configuration.GetValue<string>("Auth:Cors:WithOrigins").Split(";").Where(o => !string.IsNullOrEmpty(o)).ToList();
+            origins.Add(Configuration.GetValue<string>("App:BaseUrl"));
+
             Services.AddCors(options =>
             {
                 options.AddPolicy("Policy", builder => builder
-                    .WithOrigins(Configuration.GetValue<string>("Auth:Cors:WithOrigins"))
+                    .WithOrigins(origins.ToArray())
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()
@@ -78,6 +83,7 @@ namespace api.App.Setup
                 });
 
             Services.Configure<JwtOptions>(Configuration.GetSection("Auth:Jwt"));
+            Services.Configure<AppOptions>(Configuration.GetSection("App"));
             Services.Configure<IdentityOptions>(options => options.ClaimsIdentity.RoleClaimType = ClaimTypes.Role);
         }
 

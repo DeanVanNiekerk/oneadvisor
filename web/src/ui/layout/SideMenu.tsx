@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { hasUseCases, hasUseCasesMenuGroup } from '@/app/identity';
 import { allGroupNames } from '@/config/menu';
-import { authSelector } from '@/state/auth';
+import { useCaseSelector } from '@/state/auth';
 import { currentApplicationSelector, currentMenuSelector } from '@/state/context/selectors';
 import { Application, Menu, MenuLink } from '@/state/context/types';
 import { RootState } from '@/state/rootReducer';
@@ -84,13 +84,10 @@ class SideMenu extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const identityState = authSelector(state);
     return {
         menu: currentMenuSelector(state),
         application: currentApplicationSelector(state),
-        useCases: identityState.identity
-            ? identityState.identity.useCaseIds
-            : [],
+        useCases: useCaseSelector(state),
     };
 };
 

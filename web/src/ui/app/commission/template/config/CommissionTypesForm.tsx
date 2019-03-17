@@ -13,7 +13,7 @@ import { CommissionType as LookupCommissionType, commissionTypesSelector } from 
 import {
     commissionStatementTemplateFieldNamesSelector
 } from '@/state/app/directory/lookups/commissionStatementTemplateFieldNames';
-import { authSelector } from '@/state/auth';
+import { tokenSelector, useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect } from '@/ui/controls';
 import { showMessage } from '@/ui/feedback/notifcation';
@@ -46,35 +46,35 @@ class CommissionTypesForm extends Component<Props, State> {
         this.state = {
             commissionTypes: props.commissionTypes,
             hasUseCase: hasUseCase(
-                'com_edit_commission_statement_templates',
+                "com_edit_commission_statement_templates",
                 props.useCases
             ),
-            syncingCommissionTypes: false
+            syncingCommissionTypes: false,
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.commissionTypes != prevProps.commissionTypes)
             this.setState({
-                commissionTypes: this.props.commissionTypes
+                commissionTypes: this.props.commissionTypes,
             });
     }
 
     remove = (index: number) => {
         const types = update(this.state.commissionTypes.types, {
-            $splice: [[index, 1]]
+            $splice: [[index, 1]],
         });
         this.setTypesState(types);
     };
 
-    add = (value: string = '') => {
+    add = (value: string = "") => {
         const types = update(this.state.commissionTypes.types, {
             $push: [
                 {
-                    commissionTypeCode: '',
-                    value: value
-                }
-            ]
+                    commissionTypeCode: "",
+                    value: value,
+                },
+            ],
         });
         this.setTypesState(types);
     };
@@ -82,8 +82,8 @@ class CommissionTypesForm extends Component<Props, State> {
     update = (index: number, type: CommissionType) => {
         const types = update(this.state.commissionTypes.types, {
             [index]: {
-                $set: type
-            }
+                $set: type,
+            },
         });
         this.setTypesState(types);
     };
@@ -91,7 +91,7 @@ class CommissionTypesForm extends Component<Props, State> {
     onTypesChange = (fieldName: string, value: string, index: number) => {
         const type = {
             ...this.state.commissionTypes.types[index],
-            [fieldName]: value
+            [fieldName]: value,
         };
         this.update(index, type);
     };
@@ -99,7 +99,7 @@ class CommissionTypesForm extends Component<Props, State> {
     onChange = (fieldName: string, value: string) => {
         const commissionTypes = {
             ...this.state.commissionTypes,
-            [fieldName]: value
+            [fieldName]: value,
         };
         this.setCommissionTypesState(commissionTypes);
     };
@@ -107,14 +107,14 @@ class CommissionTypesForm extends Component<Props, State> {
     setTypesState = (types: CommissionType[]) => {
         const commissionTypes = {
             ...this.state.commissionTypes,
-            types: types
+            types: types,
         };
         this.setCommissionTypesState(commissionTypes);
     };
 
     setCommissionTypesState = (commissionTypes: CommissionTypes) => {
         this.setState({
-            commissionTypes: commissionTypes
+            commissionTypes: commissionTypes,
         });
         this.props.onChange(commissionTypes);
     };
@@ -130,7 +130,7 @@ class CommissionTypesForm extends Component<Props, State> {
                 cancelText="No"
             >
                 <a href="#">remove</a>
-            </Popconfirm>
+            </Popconfirm>,
         ];
     };
 
@@ -146,14 +146,14 @@ class CommissionTypesForm extends Component<Props, State> {
     };
 
     onFileUpload = (info: UploadChangeParam) => {
-        if (info.file.status === 'done') {
-            showMessage('success', 'Commission Types Sync Successful', 5);
+        if (info.file.status === "done") {
+            showMessage("success", "Commission Types Sync Successful", 5);
             this.syncCommissionTypes(info.file.response);
             this.setState({ syncingCommissionTypes: false });
-        } else if (info.file.status === 'error') {
+        } else if (info.file.status === "error") {
             showMessage(
-                'error',
-                'Commission Types sync failed, check data is valid',
+                "error",
+                "Commission Types sync failed, check data is valid",
                 10
             );
             this.setState({ syncingCommissionTypes: false });
@@ -226,7 +226,7 @@ class CommissionTypesForm extends Component<Props, State> {
                             this.props.template.id
                         }/excel/uniqueCommissionTypes`}
                         headers={{
-                            Authorization: 'Bearer ' + this.props.token
+                            Authorization: "Bearer " + this.props.token,
                         }}
                         showUploadList={false}
                         disabled={
@@ -306,20 +306,17 @@ class CommissionTypesForm extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const identityState = authSelector(state);
     const fieldNamesState = commissionStatementTemplateFieldNamesSelector(
         state
     );
     const lookupCommissionTypesState = commissionTypesSelector(state);
-    const authState = authSelector(state);
+    const tokenState = tokenSelector(state);
 
     return {
-        token: authState.token,
+        token: tokenState.token,
         lookupCommissionTypes: lookupCommissionTypesState.items,
         fieldNames: fieldNamesState.items,
-        useCases: identityState.identity
-            ? identityState.identity.useCaseIds
-            : []
+        useCases: useCaseSelector(state),
     };
 };
 

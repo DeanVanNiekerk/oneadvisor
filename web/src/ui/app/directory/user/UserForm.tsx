@@ -10,9 +10,9 @@ import { branchesSelector, branchSelector } from '@/state/app/directory/branches
 import { Organisation } from '@/state/app/directory/organisations';
 import { Role } from '@/state/app/directory/roles';
 import { UserEdit } from '@/state/app/directory/users';
-import { authSelector } from '@/state/auth';
+import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
-import { Button, Form, FormErrors, FormInput, FormSelect, FormSimpleList, TabPane, Tabs } from '@/ui/controls';
+import { Form, FormErrors, FormInput, FormSelect, FormSimpleList, TabPane, Tabs } from '@/ui/controls';
 
 import BranchSelect from './BranchSelect';
 import Emails from './Emails';
@@ -119,6 +119,13 @@ class UserForm extends Component<Props, State> {
                                 onChange={this.handleChange}
                                 validationResults={validationResults}
                             />
+                            <FormInput
+                                fieldName="userName"
+                                label="Username"
+                                value={user.userName}
+                                onChange={this.handleChange}
+                                validationResults={validationResults}
+                            />
                             <BranchSelect
                                 branchId={user.branchId}
                                 organisations={this.props.organisations}
@@ -206,14 +213,11 @@ class UserForm extends Component<Props, State> {
 const mapStateToProps = (state: RootState) => {
     const branchState = branchSelector(state);
     const branchesState = branchesSelector(state);
-    const identityState = authSelector(state);
 
     return {
         branch: branchState.branch,
         branches: branchesState.items,
-        useCases: identityState.identity
-            ? identityState.identity.useCaseIds
-            : [],
+        useCases: useCaseSelector(state),
     };
 };
 

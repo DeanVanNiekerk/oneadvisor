@@ -6,7 +6,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { hasUseCase } from '@/app/identity';
 import { fetchMember, fetchMemberPreview, MemberPreview, memberPreviewSelector } from '@/state/app/member/members';
 import { newPolicy, receivePolicy } from '@/state/app/member/policies';
-import { authSelector } from '@/state/auth';
+import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import {
     Age, Button, Drawer, DrawerFooter, Header, PreviewCard, PreviewCardContainer, PreviewCardRow
@@ -243,14 +243,11 @@ class MemberPreviewComponent extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const memberState = memberPreviewSelector(state);
-    const identityState = authSelector(state);
 
     return {
         member: memberState.member,
         fetching: memberState.fetching,
-        useCases: identityState.identity
-            ? identityState.identity.useCaseIds
-            : [],
+        useCases: useCaseSelector(state),
     };
 };
 

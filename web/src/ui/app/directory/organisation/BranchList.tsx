@@ -4,7 +4,7 @@ import { connect, DispatchProp } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
 import { Branch, branchesSelector, fetchBranch, fetchBranches, receiveBranch } from '@/state/app/directory/branches';
-import { authSelector } from '@/state/auth';
+import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 
 import EditBranch from './EditBranch';
@@ -74,14 +74,11 @@ class BranchList extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     const branchesState = branchesSelector(state);
-    const identityState = authSelector(state);
 
     return {
         branches: branchesState.items,
         fetching: branchesState.fetching,
-        useCases: identityState.identity
-            ? identityState.identity.useCaseIds
-            : [],
+        useCases: useCaseSelector(state),
     };
 };
 

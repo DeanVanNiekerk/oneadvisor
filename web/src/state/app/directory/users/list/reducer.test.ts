@@ -1,70 +1,71 @@
 import { User } from '../';
 import { defaultState, reducer } from './reducer';
 
-describe('user list reducer', () => {
-    it('should handle USERS_LIST_FETCHING', () => {
+describe("user list reducer", () => {
+    it("should handle USERS_LIST_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'USERS_LIST_FETCHING'
+            type: "USERS_LIST_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle USERS_LIST_FETCHING_ERROR', () => {
+    it("should handle USERS_LIST_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'USERS_LIST_FETCHING_ERROR'
+            type: "USERS_LIST_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            
-            fetching: false
+
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle USERS_LIST_RECEIVE', () => {
+    it("should handle USERS_LIST_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const user: User = {
-            id: '10',
-            firstName: 'Dean',
-            lastName: 'Jackson',
-            email: 'dean@gmail.com',
-            organisationId: '432221',
-            organisationName: 'Org1',
-            branchId: '12341234',
-            branchName: 'Branch1',
-            scope: 1
+            id: "10",
+            firstName: "Dean",
+            lastName: "Jackson",
+            email: "dean@gmail.com",
+            userName: "dean",
+            organisationId: "432221",
+            organisationName: "Org1",
+            branchId: "12341234",
+            branchName: "Branch1",
+            scope: 1,
         };
 
         const actualState = reducer(initalState, {
-            type: 'USERS_LIST_RECEIVE',
+            type: "USERS_LIST_RECEIVE",
             payload: {
                 totalItems: 1,
-                items: [user]
-            }
+                items: [user],
+            },
         });
 
         const expectedState = {
             ...defaultState,
             totalItems: 1,
             items: [user],
-            fetching: false
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);

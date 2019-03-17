@@ -1,63 +1,17 @@
-import { ValidationResult } from '@/app/validation';
+import { combineReducers } from 'redux';
 
-import { getIdentity, getToken } from '../storage';
-import { Identity } from './';
-import { Action } from './actions';
-import { decodeToken } from './helpers';
-import { TokenData } from './types';
+import { reducer as resetPassword, State as ResetPasswordState } from './resetPassword/reducer';
+import { reducer as signIn, State as SignInState } from './signIn/reducer';
+import { reducer as token, State as TokenState } from './token/reducer';
 
 export type State = {
-    readonly token: string | null;
-    readonly tokenData: TokenData | null;
-    readonly fetching: boolean;
-    readonly validationResults: ValidationResult[];
-    readonly signInFailed: boolean;
-    readonly identity: Identity | null;
+    resetPassword: ResetPasswordState;
+    signIn: SignInState;
+    token: TokenState;
 };
 
-export const defaultState = {
-    token: getToken(),
-    tokenData: decodeToken(getToken()),
-    fetching: false,
-    validationResults: [],
-    signInFailed: false,
-    identity: getIdentity(),
-};
-
-export const reducer = (state: State = defaultState, action: Action) => {
-    switch (action.type) {
-        case "AUTH_SIGNIN_FETCHING": {
-            return {
-                ...state,
-                fetching: true,
-                validationResults: [],
-                signInFailed: false,
-            };
-        }
-        case "AUTH_SIGNIN_RECEIVE": {
-            return {
-                ...state,
-                fetching: false,
-                token: action.payload.token,
-                tokenData: decodeToken(action.payload.token),
-                identity: action.payload.identity,
-            };
-        }
-        case "AUTH_SIGNIN_FETCHING_ERROR": {
-            return {
-                ...state,
-                fetching: false,
-            };
-        }
-        case "AUTH_SIGNIN_VALIDATION_ERROR": {
-            return {
-                ...state,
-                fetching: false,
-                validationResults: action.payload,
-                signInFailed: true,
-            };
-        }
-        default:
-            return state;
-    }
-};
+export const reducer = combineReducers({
+    resetPassword: resetPassword,
+    signIn: signIn,
+    token: token,
+});

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
-import { authSelector } from '@/state/auth';
+import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 
 type Props = {
@@ -31,7 +31,7 @@ class PreviewCardComponent extends Component<Props> {
             requiredUseCase,
             rows = 1,
             height: height,
-            icon
+            icon,
         } = this.props;
 
         let visible = true;
@@ -42,7 +42,7 @@ class PreviewCardComponent extends Component<Props> {
         if (!visible) return <></>;
 
         let style: any = {
-            margin: '10px'
+            margin: "10px",
         };
 
         let bodyStyle: any = {};
@@ -57,7 +57,7 @@ class PreviewCardComponent extends Component<Props> {
                             <span>
                                 <Icon
                                     type={icon}
-                                    style={{ marginRight: '6px' }}
+                                    style={{ marginRight: "6px" }}
                                 />
                                 {title}
                             </span>
@@ -77,7 +77,7 @@ class PreviewCardComponent extends Component<Props> {
                         title={false}
                         active
                         paragraph={{
-                            rows: rows
+                            rows: rows,
                         }}
                     >
                         {this.props.children}
@@ -89,12 +89,8 @@ class PreviewCardComponent extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const identityState = authSelector(state);
-
     return {
-        useCases: identityState.identity
-            ? identityState.identity.useCaseIds
-            : []
+        useCases: useCaseSelector(state),
     };
 };
 

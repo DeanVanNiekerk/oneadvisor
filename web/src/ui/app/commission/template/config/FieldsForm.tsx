@@ -1,4 +1,4 @@
-import { Icon, List, Popconfirm } from 'antd';
+import { List, Popconfirm } from 'antd';
 import update from 'immutability-helper';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -9,7 +9,7 @@ import { Field } from '@/state/app/commission/templates';
 import {
     CommissionStatementTemplateFieldName, commissionStatementTemplateFieldNamesSelector
 } from '@/state/app/directory/lookups/commissionStatementTemplateFieldNames';
-import { authSelector } from '@/state/auth';
+import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect } from '@/ui/controls';
 
@@ -33,16 +33,16 @@ class FieldsForm extends Component<Props, State> {
         this.state = {
             fields: props.fields,
             hasUseCase: hasUseCase(
-                'com_edit_commission_statement_templates',
+                "com_edit_commission_statement_templates",
                 props.useCases
-            )
+            ),
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.fields != prevProps.fields)
             this.setState({
-                fields: this.props.fields
+                fields: this.props.fields,
             });
     }
 
@@ -55,10 +55,10 @@ class FieldsForm extends Component<Props, State> {
         const fields = update(this.state.fields, {
             $push: [
                 {
-                    name: '',
-                    column: ''
-                }
-            ]
+                    name: "",
+                    column: "",
+                },
+            ],
         });
         this.setFieldsState(fields);
     };
@@ -66,8 +66,8 @@ class FieldsForm extends Component<Props, State> {
     update = (index: number, field: Field) => {
         const fields = update(this.state.fields, {
             [index]: {
-                $set: field
-            }
+                $set: field,
+            },
         });
         this.setFieldsState(fields);
     };
@@ -75,14 +75,14 @@ class FieldsForm extends Component<Props, State> {
     onChange = (fieldName: string, value: string, index: number) => {
         const field = {
             ...this.state.fields[index],
-            [fieldName]: value
+            [fieldName]: value,
         };
         this.update(index, field);
     };
 
     setFieldsState = (fields: Field[]) => {
         this.setState({
-            fields: fields
+            fields: fields,
         });
         this.props.onChange(fields);
     };
@@ -98,7 +98,7 @@ class FieldsForm extends Component<Props, State> {
                 cancelText="No"
             >
                 <a href="#">remove</a>
-            </Popconfirm>
+            </Popconfirm>,
         ];
     };
 
@@ -173,16 +173,13 @@ class FieldsForm extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const identityState = authSelector(state);
     const fieldNamesState = commissionStatementTemplateFieldNamesSelector(
         state
     );
 
     return {
         fieldNames: fieldNamesState.items,
-        useCases: identityState.identity
-            ? identityState.identity.useCaseIds
-            : []
+        useCases: useCaseSelector(state),
     };
 };
 

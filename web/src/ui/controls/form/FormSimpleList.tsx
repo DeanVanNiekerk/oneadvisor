@@ -4,8 +4,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
-import { formatValue, getErrorMessage, getValidationError, ValidationResult } from '@/app/validation';
-import { authSelector } from '@/state/auth';
+import { getErrorMessage, ValidationResult } from '@/app/validation';
+import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 
 import { Button, FormInput } from '../';
@@ -22,7 +22,7 @@ type Props = {
     useCases: string[];
 };
 
-type Mode = 'add' | 'edit';
+type Mode = "add" | "edit";
 
 type State = {
     values: string[];
@@ -39,18 +39,18 @@ class FormSimpleListComponent extends Component<Props, State> {
         this.state = {
             values: props.values,
             editing: false,
-            editValue: '',
+            editValue: "",
             editIndex: null,
-            mode: 'add'
+            mode: "add",
         };
     }
 
     add = () => {
         this.setState({
             editing: true,
-            editValue: '',
+            editValue: "",
             editIndex: null,
-            mode: 'add'
+            mode: "add",
         });
     };
 
@@ -59,7 +59,7 @@ class FormSimpleListComponent extends Component<Props, State> {
             editing: true,
             editValue: value,
             editIndex: index,
-            mode: 'edit'
+            mode: "edit",
         });
     };
 
@@ -67,7 +67,7 @@ class FormSimpleListComponent extends Component<Props, State> {
         const values = update(this.state.values, { $splice: [[index, 1]] });
         this.setState(
             {
-                values: values
+                values: values,
             },
             () => this.props.onChange(values)
         );
@@ -76,14 +76,14 @@ class FormSimpleListComponent extends Component<Props, State> {
     cancel = () => {
         this.setState({
             editing: false,
-            editValue: '',
-            editIndex: null
+            editValue: "",
+            editIndex: null,
         });
     };
 
     update = (value: string) => {
         this.setState({
-            editValue: value
+            editValue: value,
         });
     };
 
@@ -91,21 +91,21 @@ class FormSimpleListComponent extends Component<Props, State> {
         let values: string[] = [];
         if (this.state.editIndex === null)
             values = update(this.state.values, {
-                $push: [this.state.editValue]
+                $push: [this.state.editValue],
             });
         else
             values = update(this.state.values, {
                 [this.state.editIndex]: {
-                    $set: this.state.editValue
-                }
+                    $set: this.state.editValue,
+                },
             });
 
         this.setState(
             {
                 values: values,
                 editing: false,
-                editValue: '',
-                editIndex: null
+                editValue: "",
+                editIndex: null,
             },
             () => this.props.onChange(values)
         );
@@ -127,7 +127,7 @@ class FormSimpleListComponent extends Component<Props, State> {
                 cancelText="No"
             >
                 <a href="#">remove</a>
-            </Popconfirm>
+            </Popconfirm>,
         ];
     };
 
@@ -172,7 +172,7 @@ class FormSimpleListComponent extends Component<Props, State> {
                                 type="primary"
                                 disabled={!this.state.editValue}
                             >
-                                {this.state.mode === 'edit'
+                                {this.state.mode === "edit"
                                     ? `Update ${this.props.displayName}`
                                     : `Add ${this.props.displayName}`}
                             </Button>
@@ -212,12 +212,8 @@ class FormSimpleListComponent extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const identityState = authSelector(state);
-
     return {
-        useCases: identityState.identity
-            ? identityState.identity.useCaseIds
-            : []
+        useCases: useCaseSelector(state),
     };
 };
 

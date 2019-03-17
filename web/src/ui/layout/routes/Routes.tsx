@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
 
+import Activate from '@/ui/account/Activate';
 import SignIn from '@/ui/account/SignIn';
 import MemberRevenueReport from '@/ui/app/commission/reports/memberRevenue/MemberRevenueReport';
 import StatementList from '@/ui/app/commission/statement/StatementList';
@@ -25,6 +26,7 @@ const Routes = () => (
     <Switch>
         {/* ACCOUNT ----------------------------------------------------------------------------- */}
         <Route exact path="/signin" component={SignIn} />
+        <Route exact path="/activate" component={Activate} />
         {/* ------------------------------------------------------------------------------------- */}
         {/* MEMBER ------------------------------------------------------------------------------- */}
         <SecureRoute exact path="/" component={MemberList} />

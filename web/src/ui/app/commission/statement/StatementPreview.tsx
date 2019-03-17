@@ -7,13 +7,13 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { downloadExcel } from '@/app/excel/helpers';
 import { hasUseCase } from '@/app/identity';
 import { DATE_FORMAT } from '@/app/utils';
-import { fetchNextFormatError, fetchNextMappingError } from '@/state/app/commission/errors';
+import { fetchNextFormatError } from '@/state/app/commission/errors';
 import { getCommissionErrors } from '@/state/app/commission/errors/list/actions';
 import {
     deleteCommissions, fetchStatement, fetchStatementPreview, Statement, statementPreviewSelector
 } from '@/state/app/commission/statements';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
-import { authSelector } from '@/state/auth';
+import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import {
     Button, CompanyName, Currency, Date, Drawer, DrawerFooter, Header, PreviewCard, PreviewCardContainer, PreviewCardRow
@@ -458,15 +458,12 @@ class StatementPreviewComponent extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const statementState = statementPreviewSelector(state);
-    const identityState = authSelector(state);
     const companiesState = companiesSelector(state);
 
     return {
         statement: statementState.statement,
         fetching: statementState.fetching,
-        useCases: identityState.identity
-            ? identityState.identity.useCaseIds
-            : [],
+        useCases: useCaseSelector(state),
         companies: companiesState.items,
     };
 };

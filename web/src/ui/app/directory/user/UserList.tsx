@@ -26,7 +26,7 @@ class UserList extends Component<Props, State> {
         super(props);
 
         this.state = {
-            editVisible: false
+            editVisible: false,
         };
     }
 
@@ -46,14 +46,15 @@ class UserList extends Component<Props, State> {
 
     newUser = () => {
         const user: UserEdit = {
-            id: '',
-            firstName: '',
-            lastName: '',
-            email: '',
-            branchId: '',
+            id: "",
+            firstName: "",
+            lastName: "",
+            email: "",
+            userName: "",
+            branchId: "",
             scope: 1,
             roles: [],
-            aliases: []
+            aliases: [],
         };
 
         this.props.dispatch(receiveUser(user));
@@ -72,25 +73,25 @@ class UserList extends Component<Props, State> {
 
     showEditUser = () => {
         this.setState({
-            editVisible: true
+            editVisible: true,
         });
     };
 
     closeEditUser = (cancelled: boolean) => {
         this.setState({
-            editVisible: false
+            editVisible: false,
         });
         if (!cancelled) this.loadUsers();
     };
 
     getColumns = () => {
         return [
-            getColumn('lastName', 'Last Name'),
-            getColumn('firstName', 'First Name'),
-            getColumn('email', 'Email'),
-            getColumn('organisationName', 'Organisation'),
-            getColumn('branchName', 'Branch'),
-            getColumn('scope', 'Scope', {
+            getColumn("lastName", "Last Name"),
+            getColumn("firstName", "First Name"),
+            getColumn("email", "Email"),
+            getColumn("organisationName", "Organisation"),
+            getColumn("branchName", "Branch"),
+            getColumn("scope", "Scope", {
                 render: (scope: number) => {
                     switch (scope) {
                         case 1:
@@ -100,8 +101,8 @@ class UserList extends Component<Props, State> {
                         case 3:
                             return <Tag color="green">User</Tag>;
                     }
-                }
-            })
+                },
+            }),
         ];
     };
 
@@ -148,7 +149,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         users: usersState.items,
         organisations: organisationsState.items,
-        fetching: usersState.fetching || organisationsState.fetching
+        fetching: usersState.fetching || organisationsState.fetching,
     };
 };
 

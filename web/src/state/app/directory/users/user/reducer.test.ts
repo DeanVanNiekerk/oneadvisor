@@ -4,124 +4,125 @@ import { UserEdit } from '../';
 import { defaultState, reducer } from './reducer';
 
 const defaultUser: UserEdit = {
-    id: '10',
-    firstName: 'Dean',
-    lastName: 'Jackson',
-    email: 'dean@gmail.com',
-    branchId: '12341234',
-    roles: ['role_1'],
+    id: "10",
+    firstName: "Dean",
+    lastName: "Jackson",
+    email: "dean@gmail.com",
+    userName: "dean",
+    branchId: "12341234",
+    roles: ["role_1"],
     scope: 1,
-    aliases: ['DJ']
+    aliases: ["DJ"],
 };
 
-describe('user reducer', () => {
-    it('should handle USERS_USER_FETCHING', () => {
+describe("user reducer", () => {
+    it("should handle USERS_USER_FETCHING", () => {
         const initalState = {
             ...defaultState,
             user: { ...defaultUser },
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const actualState = reducer(initalState, {
-            type: 'USERS_USER_FETCHING'
+            type: "USERS_USER_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
             fetching: true,
             user: null,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle USERS_USER_FETCHING_ERROR', () => {
+    it("should handle USERS_USER_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'USERS_USER_FETCHING_ERROR'
+            type: "USERS_USER_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            
-            fetching: false
+
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle USERS_USER_RECEIVE', () => {
+    it("should handle USERS_USER_RECEIVE", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const actualState = reducer(initalState, {
-            type: 'USERS_USER_RECEIVE',
-            payload: { ...defaultUser }
+            type: "USERS_USER_RECEIVE",
+            payload: { ...defaultUser },
         });
 
         const expectedState = {
             ...defaultState,
             user: { ...defaultUser },
             fetching: false,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle USERS_USER_EDIT_FETCHING', () => {
+    it("should handle USERS_USER_EDIT_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'USERS_USER_EDIT_FETCHING'
+            type: "USERS_USER_EDIT_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle USERS_USER_EDIT_FETCHING_ERROR', () => {
+    it("should handle USERS_USER_EDIT_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'USERS_USER_EDIT_FETCHING_ERROR'
+            type: "USERS_USER_EDIT_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            
-            updating: false
+
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle USERS_USER_EDIT_RECEIVE', () => {
+    it("should handle USERS_USER_EDIT_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'USERS_USER_EDIT_RECEIVE'
+            type: "USERS_USER_EDIT_RECEIVE",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: false
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);

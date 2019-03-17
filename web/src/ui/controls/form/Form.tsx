@@ -3,10 +3,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
-import { authSelector } from '@/state/auth';
+import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 
-export type FormLayout = 'horizontal' | 'vertical' | 'inline';
+export type FormLayout = "horizontal" | "vertical" | "inline";
 
 type Props = {
     children: any;
@@ -20,7 +20,7 @@ type Props = {
 
 class FormComponent extends React.Component<Props> {
     render() {
-        const { children, layout = 'horizontal', editUseCase } = this.props;
+        const { children, layout = "horizontal", editUseCase } = this.props;
 
         let readonly = this.props.readonly || false;
 
@@ -31,7 +31,7 @@ class FormComponent extends React.Component<Props> {
             child
                 ? React.cloneElement(child, {
                       layout: layout,
-                      readonly: readonly
+                      readonly: readonly,
                   })
                 : null
         );
@@ -49,12 +49,8 @@ class FormComponent extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const identityState = authSelector(state);
-
     return {
-        useCases: identityState.identity
-            ? identityState.identity.useCaseIds
-            : []
+        useCases: useCaseSelector(state),
     };
 };
 

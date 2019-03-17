@@ -17,7 +17,7 @@ namespace api.App.Authorization
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            //No or bad token
+            //Check token is valid and not expired
             if (!context.HttpContext.User.Identity.IsAuthenticated)
             {
                 context.Result = new UnauthorizedResult();

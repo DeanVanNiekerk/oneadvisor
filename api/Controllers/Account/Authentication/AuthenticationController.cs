@@ -4,7 +4,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using OneAdvisor.Model;
 using OneAdvisor.Model.Account.Interface;
+using OneAdvisor.Model.Account.Model.Account;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
@@ -39,16 +41,33 @@ namespace api.Controllers.Account.Authentication
         [HttpPost("signin")]
         public async Task<ActionResult<Result>> SignIn([FromBody] CredentialsDto dto)
         {
-            var result = await AuthenticationService.Authenticate(dto.Username, dto.Password);
+            var result = await AuthenticationService.Authenticate(dto.UserName, dto.Password);
 
             if (!result.Success)
                 return BadRequest(new Result("Invalid Username or Password"));
 
-            var token = await AuthenticationService.GenerateToken(dto.Username, JwtOptions);
+            var token = await AuthenticationService.GenerateToken(dto.UserName, JwtOptions);
 
-            var identity = Mapper.Map<Identity, IdentityDto>(result.Identity);
+            return Ok(new { token = token });
+        }
 
-            return Ok(new { token = token, identity = identity });
+        [AllowAnonymous]
+        [HttpPost("resetPassword")]
+        public async Task<ActionResult<Result>> ResetPassword([FromBody] ResetPassword model)
+        {
+            var isActivate = await AuthenticationService.IsUserActive(model.UserName);
+
+            if (isActivate)
+                return BadRequest(new Result("", "User Account has already been activated").ValidationFailures);
+
+            var result = await AuthenticationService.ResetPassword(model);
+
+            if (!result.Success)
+                return BadRequest(result.ValidationFailures);
+
+            result.Tag = await AuthenticationService.GenerateToken(model.UserName, JwtOptions);
+
+            return Ok(result);
         }
     }
 }

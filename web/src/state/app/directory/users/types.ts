@@ -3,6 +3,7 @@ export type User = {
     firstName: string;
     lastName: string;
     email: string;
+    userName: string;
     organisationId: string;
     organisationName: string;
     branchId: string;
@@ -15,6 +16,7 @@ export type UserEdit = {
     firstName: string;
     lastName: string;
     email: string;
+    userName: string;
     branchId: string;
     roles: string[];
     scope: number;

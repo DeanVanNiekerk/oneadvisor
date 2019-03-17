@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { hasUseCase } from '@/app/identity';
 import { Filters, PageOptions, SortOptions } from '@/app/table';
 import { defaultPageOptions } from '@/app/table/defaults';
-import { authSelector } from '@/state/auth';
+import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 
 type Props = {
@@ -124,12 +124,8 @@ class TableComponent extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const identityState = authSelector(state);
-
     return {
-        useCases: identityState.identity
-            ? identityState.identity.useCaseIds
-            : [],
+        useCases: useCaseSelector(state),
     };
 };
 

@@ -3,7 +3,8 @@ export type Credentials = {
     password: string;
 };
 
-export type Identity = {
+export type TokenData = {
+    exp: number;
     userId: string;
     firstName: string;
     lastName: string;
@@ -12,11 +13,14 @@ export type Identity = {
     organisationName: string;
     branchId: string;
     branchName: string;
-    roles: string[];
     useCaseIds: string[];
     scope: number;
+    "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string[];
 };
 
-export type TokenData = {
-    exp: number;
+export type ResetPassword = {
+    userName: string;
+    password: string;
+    confirmPassword: string;
+    token: string;
 };

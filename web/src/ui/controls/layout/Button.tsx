@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
 import { hasRole } from '@/config/role';
-import { authSelector } from '@/state/auth';
+import { roleSelector, useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 
 type Props = {
@@ -66,13 +66,9 @@ class ButtonComponent extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const identityState = authSelector(state);
-
     return {
-        useCases: identityState.identity
-            ? identityState.identity.useCaseIds
-            : [],
-        roles: identityState.identity ? identityState.identity.roles : [],
+        useCases: useCaseSelector(state),
+        roles: roleSelector(state),
     };
 };
 

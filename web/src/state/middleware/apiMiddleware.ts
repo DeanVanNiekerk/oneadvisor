@@ -2,25 +2,29 @@ import { isArray } from 'util';
 
 import { showMessage, showNotification } from '@/ui/feedback/notifcation';
 
+import { RootState } from '../rootReducer';
+
 export default (store: any) => (next: any) => (action: any) => {
     // Check if this is an api request
-    if (action.type !== 'API') {
+    if (action.type !== "API") {
         return next(action);
     }
 
     const { endpoint, method, dispatchPrefix, options, payload } = action;
 
+    const rootState: RootState = store.getState();
+
     const defaultOptions = {
-        method: method ? method : 'GET',
+        method: method ? method : "GET",
         headers: {
-            Authorization: 'Bearer ' + store.getState().auth.token,
-            'Content-Type': 'application/json; charset=utf-8'
-        }
+            Authorization: "Bearer " + rootState.auth.token.token,
+            "Content-Type": "application/json; charset=utf-8",
+        },
     };
 
     const fetchOptions = {
         ...defaultOptions,
-        ...options
+        ...options,
     };
 
     if (payload) fetchOptions.body = JSON.stringify(payload);
@@ -28,7 +32,7 @@ export default (store: any) => (next: any) => (action: any) => {
     //Fetching
     if (dispatchPrefix) {
         store.dispatch({
-            type: `${dispatchPrefix}_FETCHING`
+            type: `${dispatchPrefix}_FETCHING`,
         });
     }
 
@@ -37,6 +41,10 @@ export default (store: any) => (next: any) => (action: any) => {
     const showNotifications =
         action.hideNotifications === undefined ||
         action.hideNotifications !== true;
+
+    const showValidationNotifications =
+        action.hideValidationNotifications === undefined ||
+        action.hideValidationNotifications !== true;
 
     fetch(endpoint, fetchOptions)
         .then(resp => {
@@ -61,8 +69,8 @@ export default (store: any) => (next: any) => (action: any) => {
             //Unauthorized, reload page
             if (resp.status === 401) {
                 showNotification(
-                    'error',
-                    'Unauthorized',
+                    "error",
+                    "Unauthorized",
                     `Unauthorized Api call to '${endpoint}'`,
                     20
                 );
@@ -74,7 +82,7 @@ export default (store: any) => (next: any) => (action: any) => {
                 if (dispatchPrefix) {
                     store.dispatch({
                         type: `${dispatchPrefix}_RECEIVE`,
-                        payload: null
+                        payload: null,
                     });
                 }
                 return;
@@ -87,7 +95,7 @@ export default (store: any) => (next: any) => (action: any) => {
                     if (action.onFailure) action.onFailure(json);
 
                     handleValidationError(
-                        showNotifications,
+                        showNotifications && showValidationNotifications,
                         store,
                         dispatchPrefix,
                         json
@@ -102,7 +110,7 @@ export default (store: any) => (next: any) => (action: any) => {
                 if (dispatchPrefix) {
                     store.dispatch({
                         type: `${dispatchPrefix}_RECEIVE`,
-                        payload: json
+                        payload: json,
                     });
                 }
 
@@ -125,9 +133,9 @@ const handleError = (
 ) => {
     if (showNotifications) {
         showNotification(
-            'error',
-            'Server Error: Unhandled',
-            'A server error occured please reload the page',
+            "error",
+            "Server Error: Unhandled",
+            "A server error occured please reload the page",
             10
         );
     }
@@ -137,7 +145,7 @@ const handleError = (
     if (dispatchPrefix) {
         store.dispatch({
             type: `${dispatchPrefix}_FETCHING_ERROR`,
-            payload: error
+            payload: error,
         });
     }
 };
@@ -152,14 +160,14 @@ const handleValidationError = (
     if (!isArray(json)) {
         let error = JSON.stringify(json);
         if (showNotifications) {
-            showNotification('error', 'Server Error: Validation', error, 10);
+            showNotification("error", "Server Error: Validation", error, 10);
         }
         console.log(error);
 
         if (dispatchPrefix) {
             store.dispatch({
                 type: `${dispatchPrefix}_RECEIVE`,
-                payload: null
+                payload: null,
             });
         }
         return;
@@ -167,8 +175,8 @@ const handleValidationError = (
 
     if (showNotifications) {
         showMessage(
-            'error',
-            'Data not saved, check form for validation errors',
+            "error",
+            "Data not saved, check form for validation errors",
             6.5
         );
     }
@@ -177,7 +185,7 @@ const handleValidationError = (
     if (dispatchPrefix) {
         store.dispatch({
             type: `${dispatchPrefix}_VALIDATION_ERROR`,
-            payload: json
+            payload: json,
         });
     }
 };
