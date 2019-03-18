@@ -14,7 +14,7 @@ using OneAdvisor.Model.Directory.Model.User;
 namespace api.Controllers.Database
 {
     [ApiController]
-    [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
+    //[RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
     [Route("api/database")]
     public class DatabaseController : Controller
     {
@@ -68,6 +68,7 @@ namespace api.Controllers.Database
             return "Success";
         }
 
+
         [HttpGet("[action]")]
         public async Task<string> SeedUsers()
         {
@@ -81,6 +82,7 @@ namespace api.Controllers.Database
                 FirstName = "Dean",
                 LastName = "van Niekerk",
                 Email = "deanvniekerk@gmail.com",
+                UserName = "deanvniekerk@gmail.com",
                 Scope = Scope.Organisation,
                 Roles = _allRoles,
                 BranchId = shellyBeachBranchId,
@@ -92,6 +94,7 @@ namespace api.Controllers.Database
                 FirstName = "Marc",
                 LastName = "Bormann",
                 Email = "marc@smithbormann.co.za",
+                UserName = "marc@smithbormann.co.za",
                 Scope = Scope.Organisation,
                 Roles = _allRoles,
                 BranchId = shellyBeachBranchId,
@@ -103,6 +106,7 @@ namespace api.Controllers.Database
                 FirstName = "Joanne",
                 LastName = "Bormann",
                 Email = "advice@smithbormann.co.za",
+                UserName = "advice@smithbormann.co.za",
                 Scope = Scope.Organisation,
                 Roles = _limitedRoles,
                 BranchId = shellyBeachBranchId,
@@ -114,6 +118,7 @@ namespace api.Controllers.Database
                 FirstName = "Gavin",
                 LastName = "Smith",
                 Email = "gavin@lifeplanbrokers.co.za",
+                UserName = "gavin@lifeplanbrokers.co.za",
                 Scope = Scope.Organisation,
                 Roles = _limitedRoles,
                 BranchId = shellyBeachBranchId,
