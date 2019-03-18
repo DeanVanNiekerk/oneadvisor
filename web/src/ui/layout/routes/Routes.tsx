@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 
 import Activate from '@/ui/account/Activate';
+import ResetPassword from '@/ui/account/ResetPassword';
 import ResetPasswordRequest from '@/ui/account/ResetPasswordRequest';
 import SignIn from '@/ui/account/SignIn';
 import MemberRevenueReport from '@/ui/app/commission/reports/memberRevenue/MemberRevenueReport';
@@ -21,8 +22,6 @@ import MemberPreview from '@/ui/app/member/member/MemberPreview';
 
 import SecureRoute from '../SecureRoute';
 
-//withRouter() on SecureRoute is stuffing up the typing... check later, happening after package upgrade.
-
 const Routes = () => (
     <Switch>
         {/* ACCOUNT ----------------------------------------------------------------------------- */}
@@ -33,6 +32,7 @@ const Routes = () => (
             path="/resetPasswordRequest"
             component={ResetPasswordRequest}
         />
+        <Route exact path="/resetPassword" component={ResetPassword} />
         {/* ------------------------------------------------------------------------------------- */}
         {/* MEMBER ------------------------------------------------------------------------------- */}
         <SecureRoute exact path="/" component={MemberList} />

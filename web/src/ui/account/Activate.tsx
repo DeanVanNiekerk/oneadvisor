@@ -5,7 +5,7 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { ValidationResult } from '@/app/validation';
-import { resetPassword, ResetPasswordData, resetPasswordSelector, signOut } from '@/state/auth';
+import { activate, ResetPasswordData, resetPasswordSelector, signOut } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import { Button, FormErrors, FormField, FormInput } from '@/ui/controls';
 
@@ -64,7 +64,7 @@ class Activate extends React.Component<Props, State> {
             token: this.state.token,
         };
         this.props.dispatch(
-            resetPassword(data, () => {
+            activate(data, () => {
                 showMessage(
                     "success",
                     "Activation Successful, Welcome to One Advisor",
@@ -96,7 +96,7 @@ class Activate extends React.Component<Props, State> {
 
                 <Form layout="vertical">
                     <FormInput
-                        placeholder="Email"
+                        placeholder="Username"
                         fieldName="userName"
                         value={this.state.userName}
                         size="large"

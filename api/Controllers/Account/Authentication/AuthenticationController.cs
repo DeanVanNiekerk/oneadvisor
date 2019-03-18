@@ -38,7 +38,7 @@ namespace api.Controllers.Account.Authentication
 
         [AllowAnonymous]
         [HttpPost("signin")]
-        public async Task<ActionResult<Result>> SignIn([FromBody] CredentialsDto dto)
+        public async Task<IActionResult> SignIn([FromBody] CredentialsDto dto)
         {
             var result = await AuthenticationService.Authenticate(dto.UserName, dto.Password);
 
@@ -52,7 +52,7 @@ namespace api.Controllers.Account.Authentication
 
         [AllowAnonymous]
         [HttpPost("resetPasswordRequest")]
-        public async Task<ActionResult<Result>> ResetPasswordRequest([FromBody] ResetPasswordRequest model)
+        public async Task<IActionResult> ResetPasswordRequest([FromBody] ResetPasswordRequest model)
         {
             var result = await AuthenticationService.GeneratePasswordResetToken(model.UserName);
 
@@ -63,7 +63,7 @@ namespace api.Controllers.Account.Authentication
             var user = await UserService.GetUser(scope, model.UserName);
 
             var token = (string)result.Tag;
-            var url = UrlHelper.GenerateResetPasswordLink(AppOptions, token);
+            var url = UrlHelper.GenerateResetPasswordLink(AppOptions, token, model.UserName);
 
             result = await EmailService.SendResetPasswordEmail(user, url);
 
@@ -74,14 +74,28 @@ namespace api.Controllers.Account.Authentication
         }
 
         [AllowAnonymous]
-        [HttpPost("resetPassword")]
-        public async Task<ActionResult<Result>> ResetPassword([FromBody] ResetPassword model)
+        [HttpPost("activate")]
+        public async Task<IActionResult> Activate([FromBody] ResetPassword model)
         {
             var isActivate = await AuthenticationService.IsUserActive(model.UserName);
 
             if (isActivate)
                 return BadRequest(new Result("", "User Account has already been activated").ValidationFailures);
 
+            var result = await AuthenticationService.ResetPassword(model);
+
+            if (!result.Success)
+                return BadRequest(result.ValidationFailures);
+
+            result.Tag = await AuthenticationService.GenerateToken(model.UserName, JwtOptions);
+
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("resetPassword")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPassword model)
+        {
             var result = await AuthenticationService.ResetPassword(model);
 
             if (!result.Success)

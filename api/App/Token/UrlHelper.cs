@@ -12,9 +12,9 @@ namespace api.App.Token
             return $"{appOptions.BaseUrl}/activate?username={System.Net.WebUtility.UrlEncode(user.UserName)}&token={System.Net.WebUtility.UrlEncode(token)}";
         }
 
-        public static string GenerateResetPasswordLink(AppOptions appOptions, string token)
+        public static string GenerateResetPasswordLink(AppOptions appOptions, string token, string userName)
         {
-            return $"{appOptions.BaseUrl}/resetPasswordRequest?token={System.Net.WebUtility.UrlEncode(token)}";
+            return $"{appOptions.BaseUrl}/resetPassword?username={System.Net.WebUtility.UrlEncode(userName)}&token={System.Net.WebUtility.UrlEncode(token)}";
         }
     }
 }

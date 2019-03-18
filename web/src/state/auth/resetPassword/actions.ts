@@ -2,8 +2,7 @@ import { Dispatch } from 'redux';
 
 import { ApiAction, ApiOnFailure, ApiOnSuccess, Result } from '@/app/types';
 import { ValidationResult } from '@/app/validation';
-import { resetPasswordApi, resetPasswordRequestApi } from '@/config/api/account';
-import { setToken } from '@/state/storage';
+import { activateApi, resetPasswordApi, resetPasswordRequestApi } from '@/config/api/account';
 
 import { recieveToken } from '../';
 import { ResetPasswordData, ResetPasswordRequestData } from '../types';
@@ -29,12 +28,23 @@ export type Action =
     | ResetPasswordErrorAction
     | ResetPasswordValidationErrorAction;
 
+export const activate = (
+    data: ResetPasswordData,
+    onSuccess: ApiOnSuccess
+): ApiAction => resetPasswordInternal(data, onSuccess, `${activateApi}`);
+
 export const resetPassword = (
     data: ResetPasswordData,
     onSuccess: ApiOnSuccess
+): ApiAction => resetPasswordInternal(data, onSuccess, `${resetPasswordApi}`);
+
+const resetPasswordInternal = (
+    data: ResetPasswordData,
+    onSuccess: ApiOnSuccess,
+    endPoint: string
 ): ApiAction => ({
     type: "API",
-    endpoint: `${resetPasswordApi}`,
+    endpoint: endPoint,
     method: "POST",
     payload: data,
     dispatchPrefix: "AUTH_RESETPASSWORD",

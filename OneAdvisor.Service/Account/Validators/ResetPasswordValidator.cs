@@ -11,7 +11,7 @@ namespace OneAdvisor.Service.Account.Validators
             RuleFor(o => o.Password).NotEmpty();
             RuleFor(o => o.ConfirmPassword).NotEmpty().WithName("Confirm Password");
 
-            RuleFor(o => o.ConfirmPassword).Matches(o => o.Password).WithMessage("Password and Confirm Password do not match");
+            RuleFor(o => o.ConfirmPassword).Equal(o => o.Password).WithMessage("Password and Confirm Password do not match");
         }
     }
 }
