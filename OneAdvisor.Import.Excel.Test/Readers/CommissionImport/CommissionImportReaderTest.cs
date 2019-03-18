@@ -85,7 +85,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             Assert.Equal("code_2", actual.CommissionTypeCode);
             Assert.Equal("code_2", actual.CommissionTypeValue);
             Assert.Equal("ln_2", actual.LastName);
-            Assert.Equal(null, actual.DateOfBirth);
+            Assert.Null(actual.DateOfBirth);
             Assert.Equal("fn_2", actual.FirstName);
             Assert.Equal("8210035032082", actual.IdNumber);
             Assert.Equal("ini_2", actual.Initials);
@@ -101,7 +101,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             Assert.Equal("ln_3", actual.LastName);
             Assert.Equal("1982-10-05", actual.DateOfBirth);
             Assert.Equal("fn_3", actual.FirstName);
-            Assert.Equal(null, actual.IdNumber);
+            Assert.Null(actual.IdNumber);
             Assert.Equal("ini_3", actual.Initials);
             Assert.Equal("fullName_3", actual.FullName);
             Assert.Equal("brokerFullName_3", actual.BrokerFullName);
