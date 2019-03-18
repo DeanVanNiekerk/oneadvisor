@@ -5,10 +5,11 @@ export type Credentials = {
 
 export type TokenData = {
     exp: number;
-    userId: string;
+    "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier": string;
     firstName: string;
     lastName: string;
     email: string;
+    userName: string;
     organisationId: string;
     organisationName: string;
     branchId: string;

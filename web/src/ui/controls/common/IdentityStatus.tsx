@@ -16,34 +16,44 @@ class IdentityStatusComponent extends Component<Props> {
 
         return (
             <div>
-                {/* <div>
+                <div>
                     <b>Id:</b>&nbsp;
-                    {identity.userId}
+                    {
+                        tokenData[
+                            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+                        ]
+                    }
                 </div>
                 <div>
                     <b>Name:</b>&nbsp;
-                    {`${identity.firstName} ${identity.lastName}`}
+                    {`${tokenData.firstName} ${tokenData.lastName}`}
+                </div>
+                <div>
+                    <b>Username:</b>&nbsp;
+                    {tokenData.userName}
                 </div>
                 <div>
                     <b>Email:</b>&nbsp;
-                    {identity.email}
+                    {tokenData.email}
                 </div>
                 <div>
                     <b>Organisation:</b>&nbsp;
-                    {identity.organisationName}
+                    {tokenData.organisationName}
                 </div>
                 <div>
                     <b>Branch:</b>&nbsp;
-                    {identity.branchName}
+                    {tokenData.branchName}
                 </div>
                 <div>
                     <b>Scope:</b>&nbsp;
-                    {getScopeName(identity.scope)}
+                    {getScopeName(tokenData.scope)}
                 </div>
                 <div>
                     <b>Roles:</b>&nbsp;
-                    {identity.roles.join(', ')}
-                </div> */}
+                    {tokenData[
+                        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+                    ].join(", ")}
+                </div>
                 <div>
                     <b>Token Expires:</b>&nbsp;
                     <Date
