@@ -36,6 +36,7 @@ const Header = (props: Props) => (
             //subTitle="This is a subtitle"
             style={{
                 padding: "8px 2px",
+                minHeight: "50px",
             }}
             extra={props.actions}
         />
