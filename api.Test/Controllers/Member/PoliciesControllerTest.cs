@@ -20,7 +20,7 @@ namespace api.Test.Controllers.Member
         [Fact]
         public void PolicyModelComposition()
         {
-            Assert.Equal(8, typeof(Policy).PropertyCount());
+            Assert.Equal(11, typeof(Policy).PropertyCount());
             Assert.True(typeof(Policy).HasProperty("Id"));
             Assert.True(typeof(Policy).HasProperty("MemberId"));
             Assert.True(typeof(Policy).HasProperty("CompanyId"));
@@ -29,6 +29,9 @@ namespace api.Test.Controllers.Member
             Assert.True(typeof(Policy).HasProperty("StartDate"));
             Assert.True(typeof(Policy).HasProperty("Premium"));
             Assert.True(typeof(Policy).HasProperty("PolicyTypeId"));
+            Assert.True(typeof(Policy).HasProperty("MemberLastName"));
+            Assert.True(typeof(Policy).HasProperty("MemberInitials"));
+            Assert.True(typeof(Policy).HasProperty("MemberDateOfBirth"));
         }
 
         [Fact]

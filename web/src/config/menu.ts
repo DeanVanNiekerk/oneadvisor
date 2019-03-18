@@ -79,6 +79,12 @@ export const menus: Menus = {
                         isDefault: true,
                         useCases: ["mem_view_members"],
                     },
+                    {
+                        name: "Policies",
+                        icon: "file-text",
+                        relativePath: "/policies",
+                        useCases: ["mem_view_policies"],
+                    },
                 ],
             },
             {

@@ -21,6 +21,7 @@ import MemberList from '@/ui/app/member/member/MemberList';
 import MemberPreview from '@/ui/app/member/member/MemberPreview';
 
 import SecureRoute from '../SecureRoute';
+import PolicyList from '@/ui/app/member/policy/PolicyList';
 
 const Routes = () => (
     <Switch>
@@ -38,6 +39,7 @@ const Routes = () => (
         <SecureRoute exact path="/" component={MemberList} />
         <SecureRoute exact path="/member" component={MemberList} />
         <SecureRoute exact path="/member/members" component={MemberList} />
+        <SecureRoute exact path="/member/policies" component={PolicyList} />
         <SecureRoute exact path="/member/import" component={MemberImport} />
         <SecureRoute exact path="/member/export" component={MemberExport} />
         <SecureRoute

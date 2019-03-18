@@ -29,7 +29,7 @@ describe('policy list reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            
+
             fetching: false
         };
 
@@ -51,7 +51,10 @@ describe('policy list reducer', () => {
             userFullName: 'Dean van Niekerk',
             premium: 500,
             startDate: '1999-01-01',
-            policyTypeId: '123321'
+            policyTypeId: '123321',
+            memberLastName: "Jones",
+            memberInitials: "DJ",
+            memberDateOfBirth: "1982-10-03"
         };
 
         const actualState = reducer(initalState, {
