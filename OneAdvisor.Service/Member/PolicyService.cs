@@ -196,7 +196,7 @@ namespace OneAdvisor.Service.Member
                 entity = new PolicyEntity();
 
             entity.MemberId = model.MemberId.Value;
-            entity.Number = model.Number;
+            entity.Number = model.Number.Replace(" ", "");
             entity.CompanyId = model.CompanyId.Value;
             entity.UserId = model.UserId;
             entity.StartDate = model.StartDate;

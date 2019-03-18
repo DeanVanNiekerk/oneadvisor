@@ -20,6 +20,7 @@ type Props = {
     sortOptions: SortOptions;
     totalItems: number;
     filters: Filters;
+    onChange?: () => void;
 } & DispatchProp;
 
 class PolicyList extends Component<Props> {
@@ -56,7 +57,11 @@ class PolicyList extends Component<Props> {
     };
 
     onFormClose = (cancelled: boolean) => {
-        if (!cancelled) this.loadPolicies();
+        if (!cancelled) {
+            this.loadPolicies();
+            if (this.props.onChange)
+                this.props.onChange();
+        }
     };
 
     newPolicy = () => {

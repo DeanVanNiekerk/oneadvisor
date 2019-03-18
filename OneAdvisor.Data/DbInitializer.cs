@@ -50,6 +50,7 @@ namespace OneAdvisor.Data
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_MarritalStatus]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_PolicyType]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_ContactType]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_CommissionEarningsType]");
 
             return total;
         }
@@ -91,6 +92,20 @@ namespace OneAdvisor.Data
                 _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("91ebd765-bd8b-4908-94dc-00f09fe37ca7"), Name = "Divorced" });
             }
 
+            //Lookups - Earnings Types
+            var earningsTypes = await _context.CommissionEarningsType.ToListAsync();
+            var earningsMonthAn = Guid.Parse("8b42edc0-fac6-e946-c779-9d90a805c294");
+            var earningsAnnualAn = Guid.Parse("e8799015-6f4a-5d45-5be9-0fcd516e0951");
+            var earningsLife = Guid.Parse("e7f98561-f018-3edd-2118-e3646c89e2a2");
+            var earningsOnceOff = Guid.Parse("9f8fc29d-0f1c-b952-d446-79cc3ed967d7");
+            if (!earningsTypes.Any())
+            {
+                _context.CommissionEarningsType.Add(new CommissionEarningsTypeEntity() { Id = earningsMonthAn, Name = "Monthly Annuity" });
+                _context.CommissionEarningsType.Add(new CommissionEarningsTypeEntity() { Id = earningsAnnualAn, Name = "Annual Annuity" });
+                _context.CommissionEarningsType.Add(new CommissionEarningsTypeEntity() { Id = earningsLife, Name = "Life 1st Years" });
+                _context.CommissionEarningsType.Add(new CommissionEarningsTypeEntity() { Id = earningsOnceOff, Name = "Once Off Commissions" });
+            }
+
             //Lookups - Policy Types
             var policyTypes = await _context.PolicyType.ToListAsync();
             var policyTypeInv = Guid.Parse("a98bb718-4acb-4fad-afe9-5fbba00203b9");
@@ -111,24 +126,24 @@ namespace OneAdvisor.Data
             var commissionTypes = await _context.CommissionType.ToListAsync();
             if (!commissionTypes.Any())
             {
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = CommissionType.COMMISSION_TYPE_UNKNOWN, Name = "Unknown", Code = "unknown", PolicyTypeId = policyTypeMed });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Gap Cover", Code = "gap_cover", PolicyTypeId = policyTypeMed });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Health", Code = "health", PolicyTypeId = policyTypeMed });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment Advice Fee", Code = "inv_advise_fee", PolicyTypeId = policyTypeInv });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment Premium Fee", Code = "inv_premium_fee", PolicyTypeId = policyTypeInv });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment PUFF New", Code = "inv_puff_new", PolicyTypeId = policyTypeInv });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment PUFF Old", Code = "inv_puff_old", PolicyTypeId = policyTypeInv });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment Upfront", Code = "inv_upfront", PolicyTypeId = policyTypeInv });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Lapse", Code = "lapse", PolicyTypeId = policyTypeInv });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Life 2nd Years", Code = "life_2nd_years", PolicyTypeId = policyTypeLife });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Life New Business", Code = "life_new_bus", PolicyTypeId = policyTypeLife });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Life PUFF", Code = "life_puff", PolicyTypeId = policyTypeLife });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Premium Reduction", Code = "premium_reduction", PolicyTypeId = policyTypeInv });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Group Scheme (Annual)", Code = "group_scheme_annual", PolicyTypeId = policyTypeInv });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Group Scheme (Monthly)", Code = "group_scheme_monthly", PolicyTypeId = policyTypeInv });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Rewards Program", Code = "rewards_program", PolicyTypeId = policyTypeInv });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Short Term Insurance (Annual)", Code = "short_term_ins_annual", PolicyTypeId = policyTypeShort });
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Short Term Insurance (Monthly)", Code = "short_term_ins_monthly", PolicyTypeId = policyTypeShort });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = CommissionType.COMMISSION_TYPE_UNKNOWN, Name = "Unknown", Code = "unknown", PolicyTypeId = policyTypeMed, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Gap Cover", Code = "gap_cover", PolicyTypeId = policyTypeMed, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Health", Code = "health", PolicyTypeId = policyTypeMed, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment Advice Fee", Code = "inv_advise_fee", PolicyTypeId = policyTypeInv, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment Premium Fee", Code = "inv_premium_fee", PolicyTypeId = policyTypeInv, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment PUFF New", Code = "inv_puff_new", PolicyTypeId = policyTypeInv, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment PUFF Old", Code = "inv_puff_old", PolicyTypeId = policyTypeInv, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment Upfront", Code = "inv_upfront", PolicyTypeId = policyTypeInv, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Lapse", Code = "lapse", PolicyTypeId = policyTypeInv, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Life 2nd Years", Code = "life_2nd_years", PolicyTypeId = policyTypeLife, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Life New Business", Code = "life_new_bus", PolicyTypeId = policyTypeLife, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Life PUFF", Code = "life_puff", PolicyTypeId = policyTypeLife, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Premium Reduction", Code = "premium_reduction", PolicyTypeId = policyTypeInv, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Group Scheme (Annual)", Code = "group_scheme_annual", PolicyTypeId = policyTypeInv, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Group Scheme (Monthly)", Code = "group_scheme_monthly", PolicyTypeId = policyTypeInv, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Rewards Program", Code = "rewards_program", PolicyTypeId = policyTypeInv, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Short Term Insurance (Annual)", Code = "short_term_ins_annual", PolicyTypeId = policyTypeShort, CommissionEarningsTypeId = earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Short Term Insurance (Monthly)", Code = "short_term_ins_monthly", PolicyTypeId = policyTypeShort, CommissionEarningsTypeId = earningsMonthAn });
             }
 
             //Lookups - Contact Types
@@ -208,6 +223,7 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_edit_commission_statements", Name = "Edit Commission Statements", ApplicationId = comGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_view_commission_statement_templates", Name = "View Commission Statement Templates", ApplicationId = comGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_edit_commission_statement_templates", Name = "Edit Commission Statement Templates", ApplicationId = comGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "com_view_report_member_revenue", Name = "View Commission Member Revenue Report", ApplicationId = comGuid });
             }
 
             var roleToUseCase = await _context.RoleToUseCase.ToListAsync();
@@ -270,11 +286,13 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_edit_commission_statements" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_view_commission_statement_templates" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_edit_commission_statement_templates" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_view_report_member_revenue" });
 
                 //Readonly
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole2.Id, UseCaseId = "com_view_commissions" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole2.Id, UseCaseId = "com_view_commission_statements" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole2.Id, UseCaseId = "com_view_commission_statement_templates" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole2.Id, UseCaseId = "com_view_report_member_revenue" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
             }
 

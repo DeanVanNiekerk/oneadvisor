@@ -43,9 +43,9 @@ namespace OneAdvisor.Import.Excel.Test.Readers.UniqueCommissionTypes
             var commissionTypeValues = reader.Read(stream).ToList();
 
             Assert.Equal(3, commissionTypeValues.Count);
-            Assert.Equal(commissionTypeValues[0], "val1;val3");
-            Assert.Equal(commissionTypeValues[1], "val2;val3");
-            Assert.Equal(commissionTypeValues[2], "val4;val6");
+            Assert.Equal("val1;val3", commissionTypeValues[0]);
+            Assert.Equal("val2;val3", commissionTypeValues[1]);
+            Assert.Equal("val4;val6", commissionTypeValues[2]);
         }
     }
 }

@@ -118,7 +118,7 @@ class MemberPreviewComponent extends Component<Props, State> {
                 >
                     {`${member && member.lastName}${
                         member && member.firstName ? ", " : ""
-                    } ${member && (member.firstName || "")}`}
+                        } ${member && (member.firstName || "")}`}
                 </Header>
 
                 <PreviewCardContainer>
@@ -139,7 +139,7 @@ class MemberPreviewComponent extends Component<Props, State> {
                                     label="Id"
                                     value={`${
                                         member.idNumber ? member.idNumber : ""
-                                    }`}
+                                        }`}
                                 />
                                 <PreviewCardRow
                                     label="Age"
@@ -211,7 +211,7 @@ class MemberPreviewComponent extends Component<Props, State> {
                     visible={this.state.policyListVisible}
                     onClose={this.togglePolicyListVisible}
                 >
-                    <PolicyList memberId={this.getMemberId()} />
+                    <PolicyList memberId={this.getMemberId()} onChange={this.load} />
                     <DrawerFooter>
                         <Button onClick={this.togglePolicyListVisible}>
                             Close

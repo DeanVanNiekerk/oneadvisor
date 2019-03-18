@@ -53,10 +53,11 @@ namespace api.Test.Controllers.Directory
         [Fact]
         public void UserSimpleComposition()
         {
-            Assert.Equal(3, typeof(UserSimple).PropertyCount());
+            Assert.Equal(4, typeof(UserSimple).PropertyCount());
             Assert.True(typeof(UserSimple).HasProperty("Id"));
             Assert.True(typeof(UserSimple).HasProperty("FirstName"));
             Assert.True(typeof(UserSimple).HasProperty("LastName"));
+            Assert.True(typeof(UserSimple).HasProperty("FullName"));
         }
 
         [Fact]
