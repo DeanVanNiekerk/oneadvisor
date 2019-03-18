@@ -7,5 +7,6 @@ namespace OneAdvisor.Model.Email
     public interface IEmailService
     {
         Task<Result> SendWelcomeEmail(UserEdit user, string activateUrl);
+        Task<Result> SendResetPasswordEmail(UserEdit user, string resetPasswordUrl);
     }
 }

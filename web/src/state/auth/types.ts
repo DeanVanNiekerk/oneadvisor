@@ -18,9 +18,13 @@ export type TokenData = {
     "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string[];
 };
 
-export type ResetPassword = {
+export type ResetPasswordData = {
     userName: string;
     password: string;
     confirmPassword: string;
     token: string;
+};
+
+export type ResetPasswordRequestData = {
+    userName: string;
 };

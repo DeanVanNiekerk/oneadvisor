@@ -79,8 +79,27 @@ namespace OneAdvisor.Service.Directory
             if (user == null)
                 return null;
 
-            var model = MapEntityToModel(user);
-            model.Roles = await _userManager.GetRolesAsync(user);
+            return await LoadUserEditModel(user);
+        }
+
+        public async Task<UserEdit> GetUser(ScopeOptions scope, string userName)
+        {
+            var query = from entity in ScopeQuery.GetUserEntityQuery(_context, scope)
+                        where entity.UserName == userName
+                        select entity;
+
+            var user = await query.FirstOrDefaultAsync();
+
+            if (user == null)
+                return null;
+
+            return await LoadUserEditModel(user);
+        }
+
+        public async Task<UserEdit> LoadUserEditModel(UserEntity entity)
+        {
+            var model = MapEntityToModel(entity);
+            model.Roles = await _userManager.GetRolesAsync(entity);
 
             return model;
         }

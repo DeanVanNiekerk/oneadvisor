@@ -18,7 +18,13 @@ class Layout extends React.Component<Props> {
         return (
             <>
                 <Row type="flex" justify="center">
-                    <Col span={5} style={{ marginTop: "80px" }}>
+                    <Col
+                        sm={14}
+                        md={10}
+                        lg={6}
+                        xl={4}
+                        style={{ marginTop: "80px" }}
+                    >
                         <div
                             className="mb-2"
                             style={{

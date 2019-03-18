@@ -1,148 +1,131 @@
-// import { Form, Icon } from 'antd';
-// import React from 'react';
-// import { connect, DispatchProp } from 'react-redux';
-// import { RouteComponentProps, withRouter } from 'react-router';
+import { Alert, Form, Icon } from 'antd';
+import React from 'react';
+import { connect, DispatchProp } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router';
 
-// import { ValidationResult } from '@/app/validation';
-// import { authSelector, Credentials, isAuthenticatedSelector, signIn } from '@/state/auth';
-// import { RootState } from '@/state/rootReducer';
-// import { Button, FormField, FormInput } from '@/ui/controls';
+import { resetPasswordRequest, ResetPasswordRequestData, signOut } from '@/state/auth';
+import { Button, FormField, FormInput } from '@/ui/controls';
 
-// import Layout from './Layout';
+import Layout from './Layout';
 
-// type Props = {
-//     isAuthenticated: boolean;
-//     fetching: boolean;
-//     failed: boolean;
-//     validationResults: ValidationResult[];
-// } & DispatchProp &
-//     RouteComponentProps;
+type Props = {} & DispatchProp & RouteComponentProps;
 
-// type State = {
-//     userName: string;
-//     password: string;
-// };
+type State = {
+    userName: string;
+    emailSent: boolean;
+    fetching: boolean;
+};
 
-// class ResetPasswordRequest extends React.Component<Props, State> {
-//     constructor(props) {
-//         super(props);
+class ResetPasswordRequest extends React.Component<Props, State> {
+    constructor(props) {
+        super(props);
 
-//         this.state = {
-//             userName: "",
-//             password: "",
-//         };
-//     }
+        this.state = {
+            userName: "",
+            emailSent: false,
+            fetching: false,
+        };
+    }
 
-//     componentDidMount() {
-//         if (this.props.isAuthenticated) {
-//             this.redirect();
-//         }
-//     }
+    componentDidMount() {
+        this.props.dispatch(signOut());
+    }
 
-//     componentDidUpdate(prevProps: Props) {
-//         if (this.props.isAuthenticated && !prevProps.isAuthenticated) {
-//             this.redirect();
-//         }
-//     }
+    handleUserNameChange = (fieldName: string, value: any) => {
+        this.setState({
+            userName: value,
+        });
+    };
 
-//     redirect = () => {
-//         this.props.history.push("/");
-//     };
+    sendResetPasswordRequest = () => {
+        this.setState({
+            fetching: true,
+        });
+        const data: ResetPasswordRequestData = {
+            userName: this.state.userName,
+        };
+        this.props.dispatch(
+            resetPasswordRequest(
+                data,
+                () => {
+                    this.setState({
+                        emailSent: true,
+                        fetching: false,
+                    });
+                },
+                () => {
+                    this.setState({
+                        fetching: false,
+                    });
+                }
+            )
+        );
+    };
 
-//     handleUserNameChange = (fieldName: string, value: any) => {
-//         this.setState({
-//             userName: value,
-//         });
-//     };
+    onKeyPress = event => {
+        if (event.key === "Enter") {
+            this.sendResetPasswordRequest();
+        }
+    };
 
-//     handlePasswordChange = (fieldName: string, value: any) => {
-//         this.setState({
-//             password: value,
-//         });
-//     };
+    signIn = () => {
+        this.props.history.push("/signin");
+    };
 
-//     signIn = () => {
-//         const credentials: Credentials = {
-//             userName: this.state.userName,
-//             password: this.state.password,
-//         };
-//         this.props.dispatch(signIn(credentials, () => {}));
-//     };
+    render() {
+        return (
+            <Layout header="Reset Password" loading={this.state.fetching}>
+                {this.state.emailSent && (
+                    <>
+                        <Alert
+                            message="If your Username matches a user in our system you will be emailed a password reset link."
+                            type="info"
+                            className="mb-1"
+                        />
 
-//     onKeyPress = event => {
-//         if (event.key === "Enter") {
-//             this.signIn();
-//         }
-//     };
+                        <Button
+                            size="large"
+                            noLeftMargin={true}
+                            onClick={this.signIn}
+                            type="primary"
+                            block={true}
+                        >
+                            Sign In
+                        </Button>
+                    </>
+                )}
 
-//     render() {
-//         const { validationResults } = this.props;
+                {!this.state.emailSent && (
+                    <Form layout="vertical">
+                        <FormInput
+                            placeholder="Username"
+                            fieldName="userName"
+                            onChange={this.handleUserNameChange}
+                            value={this.state.userName}
+                            size="large"
+                            prefix={<Icon type="user" />}
+                            formFieldStyle={{
+                                marginBottom: "25px",
+                            }}
+                            autoFocus={true}
+                        />
 
-//         return (
-//             <Layout header="Sign In" loading={this.props.fetching}>
-//                 <Form layout="vertical">
-//                     <FormInput
-//                         placeholder="Email"
-//                         fieldName="userName"
-//                         value={this.state.userName}
-//                         size="large"
-//                         prefix={<Icon type="user" />}
-//                         onChange={this.handleUserNameChange}
-//                         validationResults={validationResults}
-//                         autoFocus={true}
-//                         formFieldStyle={{
-//                             marginBottom: "10px",
-//                         }}
-//                         onKeyPress={this.onKeyPress}
-//                     />
-//                     <FormInput
-//                         placeholder="Password"
-//                         fieldName="password"
-//                         value={this.state.password}
-//                         prefix={<Icon type="lock" />}
-//                         size="large"
-//                         onChange={this.handlePasswordChange}
-//                         validationResults={validationResults}
-//                         autoFocus={true}
-//                         formFieldStyle={{
-//                             marginBottom: "25px",
-//                         }}
-//                         type="password"
-//                         onKeyPress={this.onKeyPress}
-//                     />
+                        <FormField>
+                            <Button
+                                size="large"
+                                noLeftMargin={true}
+                                onClick={this.sendResetPasswordRequest}
+                                type="primary"
+                                block={true}
+                            >
+                                Submit
+                            </Button>
+                        </FormField>
+                    </Form>
+                )}
+            </Layout>
+        );
+    }
+}
 
-//                     {this.props.failed && (
-//                         <p className="text-error text-center mb-2">
-//                             <b>Invalid email or password</b>
-//                         </p>
-//                     )}
-
-//                     <FormField>
-//                         <Button
-//                             size="large"
-//                             noLeftMargin={true}
-//                             onClick={this.signIn}
-//                             type="primary"
-//                             block={true}
-//                         >
-//                             Sign In
-//                         </Button>
-//                     </FormField>
-//                 </Form>
-//             </Layout>
-//         );
-//     }
-// }
-
-// const mapStateToProps = (state: RootState) => {
-//     const authState = authSelector(state);
-
-//     return {
-//         isAuthenticated: isAuthenticatedSelector(state),
-//         fetching: authState.fetching,
-//         failed: authState.signInFailed,
-//         validationResults: authState.validationResults,
-//     };
-// };
-
-// export default withRouter(connect(mapStateToProps)(ResetPasswordRequest));
+export default withRouter(connect()(ResetPasswordRequest));

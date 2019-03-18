@@ -4,3 +4,4 @@ const accountBaseApi = `${config.baseApi}/api/account`;
 
 export const signInApi = `${accountBaseApi}/signin`;
 export const resetPasswordApi = `${accountBaseApi}/resetPassword`;
+export const resetPasswordRequestApi = `${accountBaseApi}/resetPasswordRequest`;

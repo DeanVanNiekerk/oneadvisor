@@ -1,12 +1,12 @@
 import { Dispatch } from 'redux';
 
-import { ApiAction, ApiOnSuccess, Result } from '@/app/types';
+import { ApiAction, ApiOnFailure, ApiOnSuccess, Result } from '@/app/types';
 import { ValidationResult } from '@/app/validation';
-import { resetPasswordApi } from '@/config/api/account';
+import { resetPasswordApi, resetPasswordRequestApi } from '@/config/api/account';
 import { setToken } from '@/state/storage';
 
 import { recieveToken } from '../';
-import { ResetPassword } from '../types';
+import { ResetPasswordData, ResetPasswordRequestData } from '../types';
 
 type ResetPasswordAction = {
     type: "AUTH_RESETPASSWORD_RECEIVE";
@@ -30,7 +30,7 @@ export type Action =
     | ResetPasswordValidationErrorAction;
 
 export const resetPassword = (
-    data: ResetPassword,
+    data: ResetPasswordData,
     onSuccess: ApiOnSuccess
 ): ApiAction => ({
     type: "API",
@@ -43,4 +43,17 @@ export const resetPassword = (
         dispatch(recieveToken(result.tag));
         onSuccess(result, dispatch);
     },
+});
+
+export const resetPasswordRequest = (
+    data: ResetPasswordRequestData,
+    onSuccess: ApiOnSuccess,
+    onFailure: ApiOnFailure
+): ApiAction => ({
+    type: "API",
+    endpoint: `${resetPasswordRequestApi}`,
+    method: "POST",
+    payload: data,
+    onSuccess: onSuccess,
+    onFailure: onFailure,
 });

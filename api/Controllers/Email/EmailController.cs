@@ -39,10 +39,15 @@ namespace api.Controllers.Email
             if (user == null)
                 return NotFound();
 
-            var token = await AuthenticationService.GeneratePasswordResetToken(user.UserName);
+            var result = await AuthenticationService.GeneratePasswordResetToken(user.UserName);
+
+            if (!result.Success)
+                return NotFound();
+
+            var token = (string)result.Tag;
             var url = UrlHelper.GenerateActivateLink(AppOptions, token, user);
 
-            var result = await EmailService.SendWelcomeEmail(user, url);
+            result = await EmailService.SendWelcomeEmail(user, url);
 
             if (!result.Success)
                 return StatusCode(500, result);

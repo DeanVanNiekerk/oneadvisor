@@ -52,6 +52,11 @@ namespace OneAdvisor.Service.Account
             return new ScopeOptions(organisationId, branchId, userId, scope, ignoreScope);
         }
 
+        public ScopeOptions GetIgnoreScope()
+        {
+            return new ScopeOptions(Guid.Empty, Guid.Empty, Guid.Empty, Scope.User, true);
+        }
+
         public async Task<AuthenticationResult> Authenticate(string userName, string password)
         {
             var result = new AuthenticationResult();
@@ -121,11 +126,19 @@ namespace OneAdvisor.Service.Account
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<string> GeneratePasswordResetToken(string userName)
+        public async Task<Result> GeneratePasswordResetToken(string userName)
         {
+            var result = new Result();
+
             var user = await _userManager.FindByNameAsync(userName);
 
-            return await _userManager.GeneratePasswordResetTokenAsync(user);
+            if (user == null)
+                return result;
+
+            result.Success = true;
+            result.Tag = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            return result;
         }
 
         public async Task<bool> IsUserActive(string userName)

@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using api.App.Models;
+using api.App.Token;
 using api.Controllers.Account.Authentication.Dto;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +12,7 @@ using OneAdvisor.Model.Account.Model.Account;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Email;
 
 namespace api.Controllers.Account.Authentication
 {
@@ -17,24 +20,20 @@ namespace api.Controllers.Account.Authentication
     [Route("api/account")]
     public class AuthenticationController : Controller
     {
-        public AuthenticationController(IMapper mapper, IAuthenticationService authenticationService, IUseCaseService useCaseService, IOrganisationService organisationService, IBranchService branchService, IUserService userService, IOptions<JwtOptions> jwtOptions)
+        public AuthenticationController(IAuthenticationService authenticationService, IEmailService emailService, IUserService userService, IOptions<JwtOptions> jwtOptions, IOptions<AppOptions> appOptions)
         {
-            Mapper = mapper;
-            UseCaseService = useCaseService;
-            OrganisationService = organisationService;
-            BranchService = branchService;
+            EmailService = emailService;
             AuthenticationService = authenticationService;
             UserService = userService;
             JwtOptions = jwtOptions.Value;
+            AppOptions = appOptions.Value;
         }
 
-        private IMapper Mapper { get; }
-        private JwtOptions JwtOptions { get; }
         private IAuthenticationService AuthenticationService { get; }
-        private IUseCaseService UseCaseService { get; }
-        private IOrganisationService OrganisationService { get; }
-        private IBranchService BranchService { get; }
+        private IEmailService EmailService { get; }
         private IUserService UserService { get; }
+        private JwtOptions JwtOptions { get; }
+        private AppOptions AppOptions { get; }
 
 
         [AllowAnonymous]
@@ -49,6 +48,29 @@ namespace api.Controllers.Account.Authentication
             var token = await AuthenticationService.GenerateToken(dto.UserName, JwtOptions);
 
             return Ok(new { token = token });
+        }
+
+        [AllowAnonymous]
+        [HttpPost("resetPasswordRequest")]
+        public async Task<ActionResult<Result>> ResetPasswordRequest([FromBody] ResetPasswordRequest model)
+        {
+            var result = await AuthenticationService.GeneratePasswordResetToken(model.UserName);
+
+            if (!result.Success)
+                return Ok(new Result(true)); //No phishing for usernames....
+
+            var scope = AuthenticationService.GetIgnoreScope();
+            var user = await UserService.GetUser(scope, model.UserName);
+
+            var token = (string)result.Tag;
+            var url = UrlHelper.GenerateResetPasswordLink(AppOptions, token);
+
+            result = await EmailService.SendResetPasswordEmail(user, url);
+
+            if (!result.Success)
+                return StatusCode(500, result);
+
+            return Ok(result);
         }
 
         [AllowAnonymous]

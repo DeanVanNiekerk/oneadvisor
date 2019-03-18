@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 
 import Activate from '@/ui/account/Activate';
+import ResetPasswordRequest from '@/ui/account/ResetPasswordRequest';
 import SignIn from '@/ui/account/SignIn';
 import MemberRevenueReport from '@/ui/app/commission/reports/memberRevenue/MemberRevenueReport';
 import StatementList from '@/ui/app/commission/statement/StatementList';
@@ -27,6 +28,11 @@ const Routes = () => (
         {/* ACCOUNT ----------------------------------------------------------------------------- */}
         <Route exact path="/signin" component={SignIn} />
         <Route exact path="/activate" component={Activate} />
+        <Route
+            exact
+            path="/resetPasswordRequest"
+            component={ResetPasswordRequest}
+        />
         {/* ------------------------------------------------------------------------------------- */}
         {/* MEMBER ------------------------------------------------------------------------------- */}
         <SecureRoute exact path="/" component={MemberList} />

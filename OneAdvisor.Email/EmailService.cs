@@ -37,5 +37,26 @@ namespace OneAdvisor.Email
 
             return result;
         }
+
+        public async Task<Result> SendResetPasswordEmail(UserEdit user, string resetPasswordUrl)
+        {
+            var result = new Result();
+
+            var response = await _email
+                .To(user.Email)
+                .Subject("One Advisor - Reset Password")
+                .UsingTemplate(ResetPassword.Template, new { FirstName = user.FirstName, ResetPasswordUrl = resetPasswordUrl })
+                .SendAsync();
+
+            result.Success = response.Successful;
+
+            if (!result.Success)
+            {
+                result.Errors = response.ErrorMessages;
+                return result;
+            }
+
+            return result;
+        }
     }
 }

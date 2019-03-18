@@ -5,7 +5,7 @@ import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { ValidationResult } from '@/app/validation';
-import { ResetPassword, resetPassword, resetPasswordSelector, signOut } from '@/state/auth';
+import { resetPassword, ResetPasswordData, resetPasswordSelector, signOut } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import { Button, FormErrors, FormField, FormInput } from '@/ui/controls';
 
@@ -57,7 +57,7 @@ class Activate extends React.Component<Props, State> {
     };
 
     activate = () => {
-        const data: ResetPassword = {
+        const data: ResetPasswordData = {
             userName: this.state.userName,
             password: this.state.password,
             confirmPassword: this.state.confirmPassword,

@@ -75,6 +75,10 @@ class SignIn extends React.Component<Props, State> {
         }
     };
 
+    forgotPassword = () => {
+        this.props.history.push("/resetPasswordRequest");
+    };
+
     render() {
         const { validationResults } = this.props;
 
@@ -128,6 +132,10 @@ class SignIn extends React.Component<Props, State> {
                         </Button>
                     </FormField>
                 </Form>
+
+                <p className="text-center">
+                    <a onClick={this.forgotPassword}>Forgot Password?</a>
+                </p>
             </Layout>
         );
     }
