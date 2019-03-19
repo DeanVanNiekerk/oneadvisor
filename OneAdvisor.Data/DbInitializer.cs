@@ -197,6 +197,7 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_branches", Name = "View Branches", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_edit_branches", Name = "Edit Branches", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_roles", Name = "View Roles", ApplicationId = dirGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "dir_edit_roles", Name = "Edit Roles", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_applications", Name = "View Applications", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_usecases", Name = "View UseCases", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_audit_logs", Name = "View Audit Logs", ApplicationId = dirGuid });
@@ -241,6 +242,7 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_view_branches" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_edit_branches" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_view_roles" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_edit_roles" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_view_applications" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_view_usecases" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_view_lookups" });

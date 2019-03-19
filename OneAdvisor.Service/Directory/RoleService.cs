@@ -6,6 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Role;
+using OneAdvisor.Model.Common;
+using OneAdvisor.Data.Entities.Directory;
+using OneAdvisor.Service.Directory.Validators;
+using OneAdvisor.Model;
 
 namespace OneAdvisor.Service.Directory
 {
@@ -59,6 +63,72 @@ namespace OneAdvisor.Service.Directory
                         };
 
             return query.FirstOrDefaultAsync();
+        }
+
+        public async Task<Result> InsertRole(RoleEdit role)
+        {
+            var validator = new RoleValidator(true);
+            var result = validator.Validate(role).GetResult();
+
+            if (!result.Success)
+                return result;
+
+            var entity = MapModelToEntity(role);
+            await _context.Roles.AddAsync(entity);
+            await _context.SaveChangesAsync();
+
+            role.Id = entity.Id;
+
+            await UpdateUseCases(role);
+
+            result.Tag = role;
+
+            return result;
+        }
+
+        public async Task<Result> UpdateRole(RoleEdit role)
+        {
+            var validator = new RoleValidator(false);
+            var result = validator.Validate(role).GetResult();
+
+            if (!result.Success)
+                return result;
+
+            var entity = await _context.Roles.FindAsync(role.Id);
+
+            if (entity == null)
+                return new Result();
+
+            entity = MapModelToEntity(role, entity);
+            await _context.SaveChangesAsync();
+            await UpdateUseCases(role);
+
+            return result;
+        }
+
+        private async Task UpdateUseCases(RoleEdit role)
+        {
+            var roleToUseCases = await _context.RoleToUseCase.Where(r => r.RoleId == role.Id).ToListAsync();
+
+            foreach (var roleToUseCase in roleToUseCases)
+                _context.RoleToUseCase.Remove(roleToUseCase);
+
+            foreach (var useCaseId in role.UseCaseIds)
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = role.Id.Value, UseCaseId = useCaseId });
+
+            await _context.SaveChangesAsync();
+        }
+
+        private RoleEntity MapModelToEntity(RoleEdit model, RoleEntity entity = null)
+        {
+            if (entity == null)
+                entity = new RoleEntity();
+
+            entity.Name = model.Name;
+            entity.Description = model.Description;
+            entity.ApplicationId = model.ApplicationId.Value;
+
+            return entity;
         }
     }
 }

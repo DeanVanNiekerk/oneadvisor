@@ -7,6 +7,7 @@ using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Service.Directory;
+using OneAdvisor.Model.Directory.Model.Role;
 
 namespace OneAdvisor.Service.Test.Directory
 {
@@ -230,6 +231,95 @@ namespace OneAdvisor.Service.Test.Directory
 
                 //Then
                 Assert.True(actual);
+            }
+        }
+
+        [Fact]
+        public async Task InsertRole()
+        {
+            var options = TestHelper.GetDbContext("InsertRole");
+
+            var role = new RoleEdit()
+            {
+                Name = "Branch 1",
+                Description = "Branch 1 Desc",
+                ApplicationId = Guid.NewGuid(),
+                UseCaseIds = new List<string>() { "uc1", "uc2" }
+            };
+
+            using (var context = new DataContext(options))
+            {
+                var service = new RoleService(context);
+
+                //When
+                var result = await service.InsertRole(role);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.Roles.FindAsync(((RoleEdit)result.Tag).Id);
+                Assert.Equal(role.Name, actual.Name);
+                Assert.Equal(role.Description, actual.Description);
+                Assert.Equal(role.ApplicationId, actual.ApplicationId);
+
+                var roleToUseCases = await context.RoleToUseCase.Where(r => r.RoleId == actual.Id).ToListAsync();
+                Assert.Equal(2, roleToUseCases.Count);
+                Assert.Equal("uc1", roleToUseCases[0].UseCaseId);
+                Assert.Equal("uc2", roleToUseCases[1].UseCaseId);
+            }
+        }
+
+        [Fact]
+        public async Task UpdateRole()
+        {
+            var options = TestHelper.GetDbContext("UpdateRole");
+
+            //Given
+            var role1 = new RoleEntity { Id = Guid.NewGuid(), Name = "Role 1", Description = "Role 1 Desc", ApplicationId = Guid.NewGuid() };
+            var ru1 = new RoleToUseCaseEntity { RoleId = role1.Id, UseCaseId = "uc1" };
+
+            var role2 = new RoleEntity { Id = Guid.NewGuid(), Name = "Role 2", Description = "Role 2 Desc", ApplicationId = Guid.NewGuid() };
+            var ru2 = new RoleToUseCaseEntity { RoleId = role2.Id, UseCaseId = "uc2" };
+
+            using (var context = new DataContext(options))
+            {
+                context.Roles.Add(role1);
+                context.RoleToUseCase.Add(ru1);
+
+                context.Roles.Add(role2);
+                context.RoleToUseCase.Add(ru2);
+
+                context.SaveChanges();
+            }
+
+            var role = new RoleEdit()
+            {
+                Id = role2.Id,
+                Name = "Branch 2 - updated",
+                Description = "Branch 2 Desc - updated",
+                ApplicationId = Guid.NewGuid(),
+                UseCaseIds = new List<string>() { "uc4", "uc5" }
+            };
+
+            using (var context = new DataContext(options))
+            {
+                var service = new RoleService(context);
+
+                //When
+                var result = await service.UpdateRole(role);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.Roles.FindAsync(role.Id);
+                Assert.Equal(role.Name, actual.Name);
+                Assert.Equal(role.Description, actual.Description);
+                Assert.Equal(role.ApplicationId, actual.ApplicationId);
+
+                var roleToUseCases = await context.RoleToUseCase.Where(r => r.RoleId == actual.Id).ToListAsync();
+                Assert.Equal(2, roleToUseCases.Count);
+                Assert.Equal("uc4", roleToUseCases[0].UseCaseId);
+                Assert.Equal("uc5", roleToUseCases[1].UseCaseId);
             }
         }
 
