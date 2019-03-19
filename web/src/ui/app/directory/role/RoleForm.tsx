@@ -1,17 +1,20 @@
 import { List, Switch } from 'antd';
 import React, { Component } from 'react';
 
+import { ValidationResult } from '@/app/validation';
 import { Application } from '@/state/app/directory/applications/types';
 import { RoleEdit } from '@/state/app/directory/roles';
 import { UseCase } from '@/state/app/directory/usecases';
-import { Form, FormText, TabPane, Tabs } from '@/ui/controls';
+import { Form, FormInput, FormSelect, FormText, TabPane, Tabs } from '@/ui/controls';
 
-type TabKey = 'details_tab' | 'usecases_tab';
+type TabKey = "details_tab" | "usecases_tab";
 
 type Props = {
     role: RoleEdit;
     applications: Application[];
     useCases: UseCase[];
+    onChange: (role: RoleEdit) => void;
+    validationResults: ValidationResult[];
 };
 
 type State = {
@@ -25,7 +28,7 @@ class UserForm extends Component<Props, State> {
 
         this.state = {
             role: props.role,
-            activeTab: 'details_tab'
+            activeTab: "details_tab",
         };
     }
 
@@ -33,35 +36,51 @@ class UserForm extends Component<Props, State> {
         if (this.props.role != prevProps.role)
             this.setState({
                 role: this.props.role,
-                activeTab: 'details_tab' //Reset the tab
+                activeTab: "details_tab", //Reset the tab
             });
     }
 
-    // handleChange = (fieldName: string, value: any) => {
-    //     const role = {
-    //         ...this.state.role,
-    //         [fieldName]: value
-    //     };
-    //     this.setState({
-    //         role: role
-    //     });
-    //     this.props.onChange(role);
-    // };
+    handleChange = (fieldName: string, value: any) => {
+        const role = {
+            ...this.state.role,
+            [fieldName]: value,
+        };
+        this.setState({
+            role: role,
+        });
+        this.props.onChange(role);
+    };
+
+    handleApplicationChange = (fieldName: string, value: any) => {
+        const role = {
+            ...this.state.role,
+            useCaseIds: [], //Clear use case ids
+        };
+        this.setState(
+            {
+                role: role,
+            },
+            () => {
+                this.handleChange(fieldName, value);
+            }
+        );
+    };
 
     isUseCaseSelected = (useCaseId: string) => {
         return this.state.role.useCaseIds.some(r => r === useCaseId);
     };
 
-    // toggleUseCaseChange = (useCaseId: string) => {
-    //     let useCaseIds = [...this.state.role.useCaseIds];
+    toggleUseCaseChange = (useCaseId: string) => {
+        let useCaseIds = [...this.state.role.useCaseIds];
 
-    //     if(this.isUseCaseSelected(useCaseId))
-    //         useCaseIds = this.state.role.useCaseIds.filter(r => r !== useCaseId);
-    //     else
-    //         useCaseIds.push(useCaseId);
+        if (this.isUseCaseSelected(useCaseId))
+            useCaseIds = this.state.role.useCaseIds.filter(
+                r => r !== useCaseId
+            );
+        else useCaseIds.push(useCaseId);
 
-    //     this.handleChange("useCaseIds", useCaseIds);
-    // };
+        this.handleChange("useCaseIds", useCaseIds);
+    };
 
     onTabChange = (activeTab: TabKey) => {
         this.setState({ activeTab });
@@ -72,11 +91,16 @@ class UserForm extends Component<Props, State> {
             a => a.id === applicationId
         );
         if (application) return application.name;
-        return '';
+        return "";
+    };
+
+    isInsert = () => {
+        return !!this.state.role.id;
     };
 
     render() {
         const { role } = this.state;
+        const { validationResults } = this.props;
 
         return (
             <Tabs
@@ -85,15 +109,31 @@ class UserForm extends Component<Props, State> {
                 sticky={true}
             >
                 <TabPane tab="Details" key="details_tab">
-                    <Form>
-                        <FormText label="Name" value={role.name} />
-                        <FormText
+                    <Form editUseCase="dir_edit_roles">
+                        <FormInput
+                            fieldName="name"
+                            label="Name"
+                            value={role.name}
+                            onChange={this.handleChange}
+                            disabled={this.isInsert()}
+                            validationResults={validationResults}
+                        />
+                        <FormInput
+                            fieldName="description"
                             label="Description"
                             value={role.description}
+                            onChange={this.handleChange}
+                            validationResults={validationResults}
                         />
-                        <FormText
+                        <FormSelect
+                            fieldName="applicationId"
                             label="Application"
-                            value={this.getApplicationName(role.applicationId)}
+                            value={role.applicationId}
+                            onChange={this.handleApplicationChange}
+                            validationResults={validationResults}
+                            options={this.props.applications}
+                            optionsValue="id"
+                            optionsText="name"
                         />
                     </Form>
                 </TabPane>
@@ -101,7 +141,7 @@ class UserForm extends Component<Props, State> {
                     <List
                         header={
                             <h4 className="mb-0">
-                                {this.getApplicationName(role.applicationId)}{' '}
+                                {this.getApplicationName(role.applicationId)}{" "}
                                 Use Cases
                             </h4>
                         }
@@ -118,7 +158,10 @@ class UserForm extends Component<Props, State> {
                                             useCase.id
                                         )}
                                         size="small"
-                                    />
+                                        onChange={() =>
+                                            this.toggleUseCaseChange(useCase.id)
+                                        }
+                                    />,
                                 ]}
                             >
                                 {useCase.name}

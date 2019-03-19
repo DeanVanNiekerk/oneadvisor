@@ -38,6 +38,7 @@ class SideMenu extends Component<Props> {
                     mode="inline"
                     defaultOpenKeys={allGroupNames()}
                     style={{ height: "100%", borderRight: 0 }}
+                    selectedKeys={[]}
                 >
                     {this.props.menu.groups
                         .filter(group =>

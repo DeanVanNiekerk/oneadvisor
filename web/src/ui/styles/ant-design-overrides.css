@@ -34,11 +34,6 @@
     margin-left: 20px !important;
 }
 
-/* MENU */
-.ant-menu-item-selected {
-    background-color: transparent;
-}
-
 /* FORM */
 .ant-form-inline > .ant-form-item-with-help {
     margin-bottom: 0 !important;
