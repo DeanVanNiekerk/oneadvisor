@@ -30,6 +30,8 @@ namespace OneAdvisor.Service.Member
             var query = from user in userQuery
                         join policy in _context.Policy
                             on user.Id equals policy.UserId
+                        join member in _context.Member
+                            on policy.MemberId equals member.Id
                         select new Policy()
                         {
                             Id = policy.Id,
@@ -39,7 +41,10 @@ namespace OneAdvisor.Service.Member
                             UserId = policy.UserId,
                             Premium = policy.Premium,
                             StartDate = policy.StartDate,
-                            PolicyTypeId = policy.PolicyTypeId
+                            PolicyTypeId = policy.PolicyTypeId,
+                            MemberLastName = member.LastName,
+                            MemberInitials = member.Initials,
+                            MemberDateOfBirth = member.DateOfBirth,
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -49,14 +54,20 @@ namespace OneAdvisor.Service.Member
             if (queryOptions.MemberId.HasValue)
                 query = query.Where(m => m.MemberId == queryOptions.MemberId.Value);
 
-            if (queryOptions.CompanyId.HasValue)
-                query = query.Where(m => m.CompanyId == queryOptions.CompanyId.Value);
+            if (queryOptions.CompanyId.Any())
+                query = query.Where(m => queryOptions.CompanyId.Contains(m.CompanyId));
 
-            if (queryOptions.UserId.HasValue)
-                query = query.Where(m => m.UserId == queryOptions.UserId.Value);
+            if (queryOptions.PolicyTypeId.Any())
+                query = query.Where(m => queryOptions.PolicyTypeId.Contains(m.PolicyTypeId.Value));
+
+            if (queryOptions.UserId.Any())
+                query = query.Where(m => queryOptions.UserId.Contains(m.UserId));
 
             if (!string.IsNullOrWhiteSpace(queryOptions.Number))
                 query = query.Where(m => EF.Functions.Like(m.Number, queryOptions.Number));
+
+            if (!string.IsNullOrWhiteSpace(queryOptions.MemberLastName))
+                query = query.Where(m => EF.Functions.Like(m.MemberLastName, queryOptions.MemberLastName));
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedItems<Policy>();
@@ -120,7 +131,7 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
-            result = await ScopeQuery.CheckScope(_context, scope, policy.MemberId.Value, policy.UserId);
+            result = await ScopeQuery.CheckScope(_context, scope, policy.MemberId.Value, policy.UserId.Value);
 
             if (!result.Success)
                 return result;
@@ -143,7 +154,7 @@ namespace OneAdvisor.Service.Member
             if (!result.Success)
                 return result;
 
-            result = await ScopeQuery.CheckScope(_context, scope, policy.MemberId.Value, policy.UserId);
+            result = await ScopeQuery.CheckScope(_context, scope, policy.MemberId.Value, policy.UserId.Value);
 
             if (!result.Success)
                 return result;
@@ -198,7 +209,7 @@ namespace OneAdvisor.Service.Member
             entity.MemberId = model.MemberId.Value;
             entity.Number = model.Number.Replace(" ", "");
             entity.CompanyId = model.CompanyId.Value;
-            entity.UserId = model.UserId;
+            entity.UserId = model.UserId.Value;
             entity.StartDate = model.StartDate;
             entity.Premium = model.Premium;
             entity.PolicyTypeId = model.PolicyTypeId;

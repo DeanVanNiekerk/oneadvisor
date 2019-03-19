@@ -77,3 +77,12 @@
 ## Azure Pipelines
 
 - Tasks: https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/?view=vsts
+
+## VS Code Extension
+
+-   https://github.com/formulahendry/vscode-dotnet-test-explorer
+-   https://github.com/OmniSharp/omnisharp-vscode
+-   https://github.com/jchannon/csharpextensions
+-   https://github.com/prettier/prettier-vscode
+-   https://github.com/SoominHan/import-sorter
+

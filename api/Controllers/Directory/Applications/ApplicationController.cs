@@ -9,32 +9,29 @@ using api.App.Authorization;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Common;
 using api.App.Dtos;
-using api.Controllers.Directory.Applications.Dto;
 using OneAdvisor.Model.Directory.Model.Application;
 
-namespace api.Controllers.Directory.Roles
+namespace api.Controllers.Directory.Applications
 {
-    
+
     [ApiController]
     [Route("api/directory/applications")]
     public class ApplicationsController : Controller
     {
-        public ApplicationsController(IMapper mapper, IApplicationService applicationService)
+        public ApplicationsController(IApplicationService applicationService)
         {
-            Mapper = mapper;
             ApplicationService = applicationService;
         }
 
-        private IMapper Mapper { get; }
         private IApplicationService ApplicationService { get; }
 
         [HttpGet("")]
         [UseCaseAuthorize("dir_view_applications")]
-        public async Task<List<ApplicationDto>> Index()
+        public async Task<IActionResult> Index()
         {
             var applications = await ApplicationService.GetApplications();
 
-            return Mapper.MapList<Application, ApplicationDto>(applications);
+            return Ok(applications);
         }
 
     }

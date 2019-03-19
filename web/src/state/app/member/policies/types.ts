@@ -8,6 +8,9 @@ export type Policy = {
     startDate: string;
     premium: number | null;
     policyTypeId: string | null;
+    memberLastName: string;
+    memberInitials: string;
+    memberDateOfBirth: string | null;
 };
 
 export type PolicyEdit = {

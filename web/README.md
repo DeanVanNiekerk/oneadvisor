@@ -20,10 +20,3 @@ Babel: https://github.com/babel/babel-upgrade
 
 `npx webpack-bundle-analyzer stats.json`
 
-## VS Code Extension
-
--   https://github.com/formulahendry/vscode-dotnet-test-explorer
--   https://github.com/OmniSharp/omnisharp-vscode
--   https://github.com/jchannon/csharpextensions
--   https://github.com/prettier/prettier-vscode
--   https://github.com/SoominHan/import-sorter

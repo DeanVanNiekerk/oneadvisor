@@ -64,7 +64,7 @@ namespace OneAdvisor.Service.Commission
             var commissionTypes = await _lookupService.GetCommissionTypes();
 
             var policyQueryOptions = new PolicyQueryOptions(scope, "", "", 0, 0);
-            policyQueryOptions.CompanyId = statement.CompanyId;
+            policyQueryOptions.CompanyId.Add(statement.CompanyId);
             var policies = (await _policyService.GetPolicies(policyQueryOptions)).Items.ToList();
 
             foreach (var data in importData)

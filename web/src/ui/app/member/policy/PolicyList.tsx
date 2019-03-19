@@ -3,6 +3,8 @@ import { connect, DispatchProp } from 'react-redux';
 
 import { applyLike } from '@/app/query';
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
+import { companiesSelector, Company, PolicyType, policyTypesSelector } from '@/state/app/directory/lookups';
+import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import {
     fetchPolicies, fetchPolicy, newPolicy, policiesSelector, Policy, receiveFilters, receivePageOptions, receivePolicy,
     receiveSortOptions
@@ -13,7 +15,7 @@ import { Button, CompanyName, Header, PolicyTypeName, Table, UserName } from '@/
 import EditPolicy from './EditPolicy';
 
 type Props = {
-    memberId: string;
+    memberId?: string;
     policies: Policy[];
     fetching: boolean;
     pageOptions: PageOptions;
@@ -21,6 +23,9 @@ type Props = {
     totalItems: number;
     filters: Filters;
     onChange?: () => void;
+    companies: Company[];
+    policyTypes: PolicyType[];
+    users: UserSimple[];
 } & DispatchProp;
 
 class PolicyList extends Component<Props> {
@@ -40,8 +45,10 @@ class PolicyList extends Component<Props> {
     loadPolicies = () => {
         const filters = {
             ...this.props.filters,
-            memberId: [this.props.memberId]
+            memberId: [] as string[],
         };
+
+        if (this.props.memberId) filters.memberId.push(this.props.memberId);
 
         this.props.dispatch(
             fetchPolicies(
@@ -59,42 +66,68 @@ class PolicyList extends Component<Props> {
     onFormClose = (cancelled: boolean) => {
         if (!cancelled) {
             this.loadPolicies();
-            if (this.props.onChange)
-                this.props.onChange();
+            if (this.props.onChange) this.props.onChange();
         }
     };
 
     newPolicy = () => {
         const policy = newPolicy({
-            memberId: this.props.memberId
+            memberId: this.props.memberId,
         });
         this.props.dispatch(receivePolicy(policy));
     };
 
     getColumns = () => {
-        return [
-            getColumnEDS('policyTypeId', 'Type', {
-                render: (policyTypeId: string) => {
-                    return <PolicyTypeName policyTypeId={policyTypeId} />;
-                }
-            }),
-            getColumnEDS('number', 'Number', { showSearchFilter: true }),
-            getColumnEDS('premium', 'Premium', { type: 'currency' }),
-            getColumnEDS('companyId', 'Company', {
+        const columns = [
+            getColumnEDS("companyId", "Company", {
                 render: (companyId: string) => {
                     return <CompanyName companyId={companyId} />;
-                }
+                },
+                filters: this.props.companies.map(type => ({
+                    text: type.name,
+                    value: type.id,
+                })),
             }),
-            getColumnEDS('userId', 'Broker', {
+            getColumnEDS("number", "Number", { showSearchFilter: true }),
+            getColumnEDS("policyTypeId", "Type", {
+                render: (policyTypeId: string) => {
+                    return <PolicyTypeName policyTypeId={policyTypeId} />;
+                },
+                filters: this.props.policyTypes.map(type => ({
+                    text: type.name,
+                    value: type.id,
+                })),
+            }),
+            getColumnEDS("userId", "Broker", {
                 render: (userId: string) => {
                     return <UserName userId={userId} />;
-                }
-            })
+                },
+                filters: this.props.users.map(user => ({
+                    text: user.fullName,
+                    value: user.id,
+                })),
+            }),
         ];
+
+        if (!this.props.memberId) {
+            columns.splice(
+                3,
+                0,
+                getColumnEDS("memberLastName", "Last Name", {
+                    showSearchFilter: true,
+                }),
+                getColumnEDS("memberInitials", "Initials"),
+                getColumnEDS("memberDateOfBirth", "Date of Birth", {
+                    type: "date",
+                })
+            );
+        }
+
+        return columns;
     };
 
     updateFilters = (filters: Filters): Filters => {
-        return applyLike(filters, ['number']);
+        return applyLike(filters, ["number", "memberLastName"]);
     };
 
     onTableChange = (
@@ -131,12 +164,16 @@ class PolicyList extends Component<Props> {
                                 onClick={this.newPolicy}
                                 disabled={this.props.fetching}
                                 requiredUseCase="mem_edit_policies"
+                                visible={!!this.props.memberId}
                             >
                                 New Policy
                             </Button>
                         </>
                     }
-                />
+                    icon={!this.props.memberId ? "file-text" : ""}
+                >
+                    {!this.props.memberId && <span>Policies</span>}
+                </Header>
                 <Table
                     rowKey="id"
                     columns={this.getColumns()}
@@ -156,6 +193,9 @@ class PolicyList extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     const policiesState = policiesSelector(state);
+    const companiesState = companiesSelector(state);
+    const policyTypesState = policyTypesSelector(state);
+    const usersState = usersSimpleSelector(state);
 
     return {
         policies: policiesState.items,
@@ -163,7 +203,10 @@ const mapStateToProps = (state: RootState) => {
         pageOptions: policiesState.pageOptions,
         sortOptions: policiesState.sortOptions,
         totalItems: policiesState.totalItems,
-        filters: policiesState.filters
+        filters: policiesState.filters,
+        companies: companiesState.items,
+        policyTypes: policyTypesState.items,
+        users: usersState.items,
     };
 };
 
