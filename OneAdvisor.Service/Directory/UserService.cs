@@ -46,7 +46,8 @@ namespace OneAdvisor.Service.Directory
                             BranchName = branch.Name,
                             OrganisationId = organisation.Id,
                             OrganisationName = organisation.Name,
-                            Scope = user.Scope
+                            Scope = user.Scope,
+                            EmailConfirmed = user.EmailConfirmed
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------

@@ -9,6 +9,7 @@ export type User = {
     branchId: string;
     branchName: string;
     scope: number;
+    emailConfirmed: boolean;
 };
 
 export type UserEdit = {

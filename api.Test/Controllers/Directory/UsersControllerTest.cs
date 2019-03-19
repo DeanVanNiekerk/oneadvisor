@@ -22,7 +22,7 @@ namespace api.Test.Controllers.Directory
         [Fact]
         public void UserModelComposition()
         {
-            Assert.Equal(10, typeof(User).PropertyCount());
+            Assert.Equal(11, typeof(User).PropertyCount());
             Assert.True(typeof(User).HasProperty("Id"));
             Assert.True(typeof(User).HasProperty("FirstName"));
             Assert.True(typeof(User).HasProperty("LastName"));
@@ -33,6 +33,7 @@ namespace api.Test.Controllers.Directory
             Assert.True(typeof(User).HasProperty("BranchId"));
             Assert.True(typeof(User).HasProperty("BranchName"));
             Assert.True(typeof(User).HasProperty("Scope"));
+            Assert.True(typeof(User).HasProperty("EmailConfirmed"));
         }
 
         [Fact]

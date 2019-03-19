@@ -51,6 +51,7 @@ describe("user list reducer", () => {
             branchId: "12341234",
             branchName: "Branch1",
             scope: 1,
+            emailConfirmed: true,
         };
 
         const actualState = reducer(initalState, {

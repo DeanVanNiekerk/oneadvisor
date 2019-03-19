@@ -15,5 +15,6 @@ namespace OneAdvisor.Model.Directory.Model.User
         public Guid BranchId { get; set; }
         public string BranchName { get; set; }
         public Scope Scope { get; set; }
+        public bool EmailConfirmed { get; set; }
     }
 }

@@ -91,15 +91,24 @@ class UserList extends Component<Props, State> {
             getColumn("email", "Email"),
             getColumn("organisationName", "Organisation"),
             getColumn("branchName", "Branch"),
+            getColumn("emailConfirmed", "Activated", {
+                render: (emailConfirmed: boolean) => {
+                    return emailConfirmed ? (
+                        <Tag color="green">Yes</Tag>
+                    ) : (
+                        <Tag color="volcano">No</Tag>
+                    );
+                },
+            }),
             getColumn("scope", "Scope", {
                 render: (scope: number) => {
                     switch (scope) {
                         case 1:
-                            return <Tag color="volcano">Organisation</Tag>;
+                            return <Tag color="purple">Organisation</Tag>;
                         case 2:
                             return <Tag color="blue">Branch</Tag>;
                         case 3:
-                            return <Tag color="green">User</Tag>;
+                            return <Tag color="magenta">User</Tag>;
                     }
                 },
             }),
