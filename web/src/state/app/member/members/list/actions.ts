@@ -6,22 +6,26 @@ import { membersApi } from '@/config/api/member';
 import { Member } from '../types';
 
 type MemberListReceiveAction = {
-    type: 'MEMBERS_LIST_RECEIVE';
+    type: "MEMBERS_LIST_RECEIVE";
     payload: PagedItems<Member>;
 };
-type MemberListFetchingAction = { type: 'MEMBERS_LIST_FETCHING' };
-type MemberListFetchingErrorAction = { type: 'MEMBERS_LIST_FETCHING_ERROR' };
+type MemberListFetchingAction = { type: "MEMBERS_LIST_FETCHING" };
+type MemberListFetchingErrorAction = { type: "MEMBERS_LIST_FETCHING_ERROR" };
 type MemberListPageOptionsReceiveAction = {
-    type: 'MEMBERS_LIST_PAGE_OPTIONS_RECEIVE';
+    type: "MEMBERS_LIST_PAGE_OPTIONS_RECEIVE";
     payload: PageOptions;
 };
 type MemberListSortOptionsReceiveAction = {
-    type: 'MEMBERS_LIST_SORT_OPTIONS_RECEIVE';
+    type: "MEMBERS_LIST_SORT_OPTIONS_RECEIVE";
     payload: SortOptions;
 };
 type MemberListFiltersReceiveAction = {
-    type: 'MEMBERS_LIST_FILTERS_RECEIVE';
+    type: "MEMBERS_LIST_FILTERS_RECEIVE";
     payload: Filters;
+};
+type MemberListSelectedReceiveAction = {
+    type: "MEMBERS_LIST_SELECTED_RECEIVE";
+    payload: string[];
 };
 
 export type MemberListAction =
@@ -30,7 +34,8 @@ export type MemberListAction =
     | MemberListFetchingErrorAction
     | MemberListPageOptionsReceiveAction
     | MemberListSortOptionsReceiveAction
-    | MemberListFiltersReceiveAction;
+    | MemberListFiltersReceiveAction
+    | MemberListSelectedReceiveAction;
 
 export const fetchMembers = (
     pageOptions: PageOptions,
@@ -42,29 +47,36 @@ export const fetchMembers = (
     api = appendSortOptionQuery(api, sortOptions);
     api = appendFiltersQuery(api, filters);
     return {
-        type: 'API',
+        type: "API",
         endpoint: api,
-        dispatchPrefix: 'MEMBERS_LIST'
+        dispatchPrefix: "MEMBERS_LIST",
     };
 };
 
 export const receivePageOptions = (
     pageOptions: PageOptions
 ): MemberListPageOptionsReceiveAction => ({
-    type: 'MEMBERS_LIST_PAGE_OPTIONS_RECEIVE',
-    payload: pageOptions
+    type: "MEMBERS_LIST_PAGE_OPTIONS_RECEIVE",
+    payload: pageOptions,
 });
 
 export const receiveSortOptions = (
     sortOptions: SortOptions
 ): MemberListSortOptionsReceiveAction => ({
-    type: 'MEMBERS_LIST_SORT_OPTIONS_RECEIVE',
-    payload: sortOptions
+    type: "MEMBERS_LIST_SORT_OPTIONS_RECEIVE",
+    payload: sortOptions,
 });
 
 export const receiveFilters = (
     filters: Filters
 ): MemberListFiltersReceiveAction => ({
-    type: 'MEMBERS_LIST_FILTERS_RECEIVE',
-    payload: filters
+    type: "MEMBERS_LIST_FILTERS_RECEIVE",
+    payload: filters,
+});
+
+export const receiveSelectedMembers = (
+    memberIds: string[]
+): MemberListSelectedReceiveAction => ({
+    type: "MEMBERS_LIST_SELECTED_RECEIVE",
+    payload: memberIds,
 });

@@ -11,6 +11,7 @@ export type State = {
     readonly pageOptions: PageOptions;
     readonly sortOptions: SortOptions;
     readonly filters: Filters | null;
+    readonly selectedMemberIds: string[];
 };
 
 export const defaultState: State = {
@@ -20,6 +21,7 @@ export const defaultState: State = {
     pageOptions: defaultPageOptions(),
     sortOptions: defaultSortOptions("", "desc"),
     filters: null,
+    selectedMemberIds: [],
 };
 
 export const reducer = (
@@ -70,6 +72,12 @@ export const reducer = (
                 filters: {
                     ...action.payload,
                 },
+            };
+        }
+        case "MEMBERS_LIST_SELECTED_RECEIVE": {
+            return {
+                ...state,
+                selectedMemberIds: action.payload,
             };
         }
         default:

@@ -1,5 +1,5 @@
 import { Table as TableAD } from 'antd';
-import { PaginationConfig } from 'antd/lib/table';
+import { PaginationConfig, TableRowSelection } from 'antd/lib/table';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
@@ -31,6 +31,7 @@ type Props = {
         y?: boolean | number | string;
     };
     footer?: (currentPageData: Object[]) => React.ReactNode;
+    rowSelection?: TableRowSelection<any>;
 };
 
 type State = {
@@ -103,6 +104,7 @@ class TableComponent extends React.Component<Props, State> {
                 onChange={this.handleTableChange}
                 pagination={pagination}
                 footer={this.props.footer}
+                rowSelection={this.props.rowSelection}
                 onRow={record => {
                     return {
                         onClick: () => {

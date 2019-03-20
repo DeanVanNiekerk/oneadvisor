@@ -7,7 +7,7 @@ import { applyLike } from '@/app/query';
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
 import {
     deleteMember, fetchMembers, Member, MemberEdit, membersSelector, newMember, receiveFilters, receiveMember,
-    receiveMemberPreview, receivePageOptions, receiveSortOptions
+    receiveMemberPreview, receivePageOptions, receiveSelectedMembers, receiveSortOptions
 } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
 import { Button, Header, StopPropagation, Table } from '@/ui/controls';
@@ -21,6 +21,7 @@ type Props = {
     sortOptions: SortOptions;
     totalItems: number;
     filters: Filters;
+    selectedMemberIds: string[];
 } & RouteComponentProps &
     DispatchProp;
 
@@ -68,11 +69,11 @@ class MemberList extends Component<Props> {
 
     getColumns = () => {
         return [
-            getColumnEDS('lastName', 'Last Name', { showSearchFilter: true }),
-            getColumnEDS('firstName', 'First Name', { showSearchFilter: true }),
-            getColumnEDS('idNumber', 'ID Number', { showSearchFilter: true }),
-            getColumnEDS('dateOfBirth', 'Date of Birth', { type: 'date' }),
-            getColumnEDS('id', 'Actions', {
+            getColumnEDS("lastName", "Last Name", { showSearchFilter: true }),
+            getColumnEDS("firstName", "First Name", { showSearchFilter: true }),
+            getColumnEDS("idNumber", "ID Number", { showSearchFilter: true }),
+            getColumnEDS("dateOfBirth", "Date of Birth", { type: "date" }),
+            getColumnEDS("id", "Actions", {
                 render: (id: string) => {
                     return (
                         <StopPropagation>
@@ -93,13 +94,13 @@ class MemberList extends Component<Props> {
                             </Popconfirm>
                         </StopPropagation>
                     );
-                }
-            })
+                },
+            }),
         ];
     };
 
     updateFilters = (filters: Filters): Filters => {
-        return applyLike(filters, ['firstName', 'lastName', 'idNumber']);
+        return applyLike(filters, ["firstName", "lastName", "idNumber"]);
     };
 
     onTableChange = (
@@ -115,6 +116,10 @@ class MemberList extends Component<Props> {
             this.props.dispatch(receiveFilters(this.updateFilters(filters)));
     };
 
+    onMemberSelected = (selectedMemberIds: string[]) => {
+        this.props.dispatch(receiveSelectedMembers(selectedMemberIds));
+    };
+
     render() {
         return (
             <>
@@ -122,6 +127,16 @@ class MemberList extends Component<Props> {
                     icon="user"
                     actions={
                         <>
+                            <Button
+                                type="primary"
+                                icon="fork"
+                                onClick={this.loadMembers}
+                                visible={
+                                    this.props.selectedMemberIds.length > 1
+                                }
+                            >
+                                Merge
+                            </Button>
                             <Button
                                 type="default"
                                 icon="sync"
@@ -154,6 +169,10 @@ class MemberList extends Component<Props> {
                     pageOptions={this.props.pageOptions}
                     totalRows={this.props.totalItems}
                     onTableChange={this.onTableChange}
+                    rowSelection={{
+                        onChange: this.onMemberSelected,
+                        selectedRowKeys: this.props.selectedMemberIds,
+                    }}
                 />
                 <EditMember onClose={this.onFormClose} />
             </>
@@ -170,7 +189,8 @@ const mapStateToProps = (state: RootState) => {
         pageOptions: membersState.pageOptions,
         sortOptions: membersState.sortOptions,
         totalItems: membersState.totalItems,
-        filters: membersState.filters
+        filters: membersState.filters,
+        selectedMemberIds: membersState.selectedMemberIds,
     };
 };
 
