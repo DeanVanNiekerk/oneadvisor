@@ -1,16 +1,13 @@
-import moment from 'moment';
 import React from 'react';
+
+import { getAge } from '@/app/utils';
 
 type Props = {
     dateOfBirth: string | null;
 };
 
 const Age = (props: Props) => {
-    if (!props.dateOfBirth) return <span />;
-
-    const dob = moment(props.dateOfBirth);
-
-    return <span>{moment().diff(dob, 'years')}</span>;
+    return <span>{getAge(props.dateOfBirth)}</span>;
 };
 
 export { Age };

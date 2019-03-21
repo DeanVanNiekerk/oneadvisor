@@ -17,78 +17,78 @@ export type State = {
 };
 
 export const defaultState: State = {
-    fileName: '',
+    fileName: "",
     data: [],
     members: [],
     resultsSuccess: [],
     resultsFailure: [],
     companyId: null,
     currentStepIndex: 0,
-    steps: ['Select File', 'Configure', 'Verify', 'Import'],
+    steps: ["Select File", "Configure", "Verify", "Import"],
     selectedColumns: [
-        'idNumber',
-        'firstName',
-        'lastName',
-        'email',
-        'cellphone',
-        'dateOfBirth',
-        'taxNumber',
-        'policyNumber',
-        'policyUserFullName',
-        'policyPremium',
-        'policyType',
-        'policyStartDate'
+        "idNumber",
+        "firstName",
+        "lastName",
+        "email",
+        "cellphone",
+        "dateOfBirth",
+        "taxNumber",
+        "policyNumber",
+        "policyUserFullName",
+        "policyPremium",
+        "policyType",
+        "policyStartDate",
     ],
     columns: [
         {
-            id: 'idNumber',
-            name: 'ID Number'
+            id: "idNumber",
+            name: "ID Number",
         },
         {
-            id: 'firstName',
-            name: 'First Name'
+            id: "firstName",
+            name: "First Name",
         },
         {
-            id: 'lastName',
-            name: 'Last Name'
+            id: "lastName",
+            name: "Last Name",
         },
         {
-            id: 'email',
-            name: 'Email'
+            id: "email",
+            name: "Email",
         },
         {
-            id: 'cellphone',
-            name: 'Cellphone'
+            id: "cellphone",
+            name: "Cellphone",
         },
         {
-            id: 'dateOfBirth',
-            name: 'Date of Birth'
+            id: "dateOfBirth",
+            name: "Date of Birth",
         },
         {
-            id: 'taxNumber',
-            name: 'Tax Number'
+            id: "taxNumber",
+            name: "Tax Number",
         },
         {
-            id: 'policyNumber',
-            name: 'Policy Number'
+            id: "policyNumber",
+            name: "Policy Number",
         },
         {
-            id: 'policyUserFullName',
-            name: 'Policy Broker'
+            id: "policyUserFullName",
+            name: "Policy Broker",
         },
         {
-            id: 'policyPremium',
-            name: 'Policy Premium'
+            id: "policyPremium",
+            name: "Policy Premium",
         },
         {
-            id: 'policyType',
-            name: 'Policy Type'
+            id: "policyType",
+            name: "Policy Type",
         },
         {
-            id: 'policyStartDate',
-            name: 'Policy Start Date'
-        }
-    ]
+            id: "policyStartDate",
+            name: "Policy Start Date",
+        },
+    ],
 };
 
 export const reducer = (
@@ -96,37 +96,37 @@ export const reducer = (
     action: ImportMemberAction
 ): State => {
     switch (action.type) {
-        case 'MEMBERS_IMPORT_FILE_NAME_RECEIVE': {
+        case "MEMBERS_IMPORT_FILE_NAME_RECEIVE": {
             return {
                 ...state,
-                fileName: action.payload
+                fileName: action.payload,
             };
         }
-        case 'MEMBERS_IMPORT_DATA_RECEIVE': {
+        case "MEMBERS_IMPORT_DATA_RECEIVE": {
             return {
                 ...state,
-                data: action.payload
+                data: action.payload,
             };
         }
-        case 'MEMBERS_IMPORT_COLUMNS_RECEIVE': {
+        case "MEMBERS_IMPORT_COLUMNS_RECEIVE": {
             return {
                 ...state,
-                columns: [...action.payload]
+                columns: [...action.payload],
             };
         }
-        case 'MEMBERS_IMPORT_SELECTED_COLUMNS_RECEIVE': {
+        case "MEMBERS_IMPORT_SELECTED_COLUMNS_RECEIVE": {
             return {
                 ...state,
-                selectedColumns: [...action.payload]
+                selectedColumns: [...action.payload],
             };
         }
-        case 'MEMBERS_IMPORT_MEMBERS_RECEIVE': {
+        case "MEMBERS_IMPORT_MEMBERS_RECEIVE": {
             return {
                 ...state,
-                members: [...action.payload]
+                members: [...action.payload],
             };
         }
-        case 'MEMBERS_IMPORT_MEMBERS_REMOVE': {
+        case "MEMBERS_IMPORT_MEMBERS_REMOVE": {
             const members = state.members;
             const index = members.findIndex(m => m._id === action.payload);
 
@@ -134,62 +134,62 @@ export const reducer = (
 
             return {
                 ...state,
-                members: update(members, { $splice: [[index, 1]] })
+                members: update(members, { $splice: [[index, 1]] }),
             };
         }
-        case 'MEMBERS_IMPORT_MEMBERS_POLICY_COMPANY_RECEIVE': {
+        case "MEMBERS_IMPORT_MEMBERS_POLICY_COMPANY_RECEIVE": {
             return {
                 ...state,
-                companyId: action.payload
+                companyId: action.payload,
             };
         }
-        case 'MEMBERS_IMPORT_MEMBERS_UPDATE_POLICY_COMPANIES': {
+        case "MEMBERS_IMPORT_MEMBERS_UPDATE_POLICY_COMPANIES": {
             return {
                 ...state,
                 members: state.members.map(member => {
                     return {
                         ...member,
-                        policyCompanyId: state.companyId
+                        policyCompanyId: state.companyId,
                     };
-                })
+                }),
             };
         }
-        case 'MEMBERS_IMPORT_MEMBERS_NEXT_STEP': {
+        case "MEMBERS_IMPORT_MEMBERS_NEXT_STEP": {
             return {
                 ...state,
-                currentStepIndex: state.currentStepIndex + 1
+                currentStepIndex: state.currentStepIndex + 1,
             };
         }
-        case 'MEMBERS_IMPORT_MEMBERS_PREVIOUS_STEP': {
+        case "MEMBERS_IMPORT_MEMBERS_PREVIOUS_STEP": {
             return {
                 ...state,
-                currentStepIndex: state.currentStepIndex - 1
+                currentStepIndex: state.currentStepIndex - 1,
             };
         }
-        case 'MEMBERS_IMPORT_MEMBER_SUCCESS': {
+        case "MEMBERS_IMPORT_MEMBER_SUCCESS": {
             return {
                 ...state,
                 resultsSuccess: update(state.resultsSuccess, {
-                    $push: [action.payload]
-                })
+                    $push: [action.payload],
+                }),
             };
         }
-        case 'MEMBERS_IMPORT_MEMBER_FAILURE': {
+        case "MEMBERS_IMPORT_MEMBER_FAILURE": {
             return {
                 ...state,
                 resultsFailure: update(state.resultsFailure, {
-                    $push: [action.payload]
-                })
+                    $push: [action.payload],
+                }),
             };
         }
-        case 'MEMBERS_IMPORT_MEMBER_CLEAR_RESULTS': {
+        case "MEMBERS_IMPORT_MEMBER_CLEAR_RESULTS": {
             return {
                 ...state,
                 resultsSuccess: [],
-                resultsFailure: []
+                resultsFailure: [],
             };
         }
-        case 'MEMBERS_IMPORT_MEMBER_RESET': {
+        case "MEMBERS_IMPORT_MEMBER_RESET": {
             return {
                 ...state,
                 data: [],
@@ -197,7 +197,7 @@ export const reducer = (
                 resultsSuccess: [],
                 resultsFailure: [],
                 companyId: null,
-                currentStepIndex: 0
+                currentStepIndex: 0,
             };
         }
         default:

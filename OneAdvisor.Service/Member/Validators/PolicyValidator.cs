@@ -16,11 +16,13 @@ namespace OneAdvisor.Service.Member.Validators
     {
         private readonly ScopeOptions _scope;
         private readonly DataContext _context;
+        private readonly bool _isInsert;
 
         public PolicyValidator(DataContext dataContext, ScopeOptions scope, bool isInsert)
         {
             _context = dataContext;
             _scope = scope;
+            _isInsert = isInsert;
 
             if (!isInsert)
                 RuleFor(p => p.Id).NotEmpty();
@@ -58,7 +60,7 @@ namespace OneAdvisor.Service.Member.Validators
             if (entity == null)
                 return true;
 
-            if (!policy.Id.HasValue)
+            if (!policy.Id.HasValue || _isInsert)
                 return entity == null;
 
             return policy.Id == entity.Id;

@@ -6,12 +6,14 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { applyLike } from '@/app/query';
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
 import {
-    deleteMember, fetchMembers, Member, MemberEdit, membersSelector, newMember, receiveFilters, receiveMember,
-    receiveMemberPreview, receivePageOptions, receiveSelectedMembers, receiveSortOptions
+    deleteMember, fetchMembers, fetchMergeMembers, Member, MemberEdit, memberMergeReset, membersSelector, newMember,
+    receiveFilters, receiveMember, receiveMemberPreview, receivePageOptions, receiveSelectedMembers, receiveSortOptions
 } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
 import { Button, Header, StopPropagation, Table } from '@/ui/controls';
+import { BooleanTypeAnnotation } from '@babel/types';
 
+import MemberMerge from '../merge/MemberMerge';
 import EditMember from './EditMember';
 
 type Props = {
@@ -25,7 +27,21 @@ type Props = {
 } & RouteComponentProps &
     DispatchProp;
 
-class MemberList extends Component<Props> {
+type State = {
+    memberEditVisible: boolean;
+    memberMergeVisible: boolean;
+};
+
+class MemberList extends Component<Props, State> {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            memberEditVisible: false,
+            memberMergeVisible: false,
+        };
+    }
+
     componentDidMount() {
         if (this.props.members.length === 0) this.loadMembers();
     }
@@ -58,13 +74,14 @@ class MemberList extends Component<Props> {
         this.props.dispatch(deleteMember(id, this.loadMembers));
     };
 
-    onFormClose = (cancelled: boolean) => {
+    onDataChange = (cancelled: boolean) => {
         if (!cancelled) this.loadMembers();
     };
 
     newMember = () => {
         const member: MemberEdit = newMember();
         this.props.dispatch(receiveMember(member));
+        this.toggleMemberEditVisible();
     };
 
     getColumns = () => {
@@ -120,6 +137,34 @@ class MemberList extends Component<Props> {
         this.props.dispatch(receiveSelectedMembers(selectedMemberIds));
     };
 
+    toggleMemberEditVisible = () => {
+        this.setState({
+            memberEditVisible: !this.state.memberEditVisible,
+        });
+    };
+
+    closeMemberEdit = (cancelled: boolean) => {
+        this.onDataChange(cancelled);
+        this.toggleMemberEditVisible();
+    };
+
+    toggleMemberMergeVisible = () => {
+        this.setState({
+            memberMergeVisible: !this.state.memberMergeVisible,
+        });
+    };
+
+    closeMemberMerge = (cancelled: boolean) => {
+        this.onDataChange(cancelled);
+        this.toggleMemberMergeVisible();
+    };
+
+    openMemberMerge = () => {
+        this.props.dispatch(memberMergeReset());
+        this.props.dispatch(fetchMergeMembers(this.props.selectedMemberIds));
+        this.toggleMemberMergeVisible();
+    };
+
     render() {
         return (
             <>
@@ -130,7 +175,7 @@ class MemberList extends Component<Props> {
                             <Button
                                 type="primary"
                                 icon="fork"
-                                onClick={this.loadMembers}
+                                onClick={this.openMemberMerge}
                                 visible={
                                     this.props.selectedMemberIds.length > 1
                                 }
@@ -174,7 +219,14 @@ class MemberList extends Component<Props> {
                         selectedRowKeys: this.props.selectedMemberIds,
                     }}
                 />
-                <EditMember onClose={this.onFormClose} />
+                <EditMember
+                    onClose={this.closeMemberEdit}
+                    visible={this.state.memberEditVisible}
+                />
+                <MemberMerge
+                    onClose={this.closeMemberMerge}
+                    visible={this.state.memberMergeVisible}
+                />
             </>
         );
     }

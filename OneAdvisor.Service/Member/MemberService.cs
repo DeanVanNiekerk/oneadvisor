@@ -11,6 +11,7 @@ using OneAdvisor.Model.Member.Interface;
 using OneAdvisor.Model.Member.Model.Member;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Member.Validators;
+using FluentValidation;
 
 namespace OneAdvisor.Service.Member
 {
@@ -51,6 +52,9 @@ namespace OneAdvisor.Service.Member
 
             if (!string.IsNullOrWhiteSpace(queryOptions.IdNumber))
                 query = query.Where(m => EF.Functions.Like(m.IdNumber, queryOptions.IdNumber));
+
+            if (queryOptions.MemberId.Any())
+                query = query.Where(m => queryOptions.MemberId.Contains(m.Id));
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedItems<Model.Member.Model.Member.Member>();
@@ -111,7 +115,7 @@ namespace OneAdvisor.Service.Member
         public async Task<Result> InsertMember(ScopeOptions scope, MemberEdit member)
         {
             var validator = new MemberValidator(_context, scope, true);
-            var result = validator.Validate(member).GetResult();
+            var result = validator.Validate(member, ruleSet: "default,Availability").GetResult();
 
             if (!result.Success)
                 return result;
@@ -130,7 +134,7 @@ namespace OneAdvisor.Service.Member
         public async Task<Result> UpdateMember(ScopeOptions scope, MemberEdit member)
         {
             var validator = new MemberValidator(_context, scope, false);
-            var result = validator.Validate(member).GetResult();
+            var result = validator.Validate(member, ruleSet: "default,Availability").GetResult();
 
             if (!result.Success)
                 return result;

@@ -27,6 +27,7 @@ type Props = {
 type State = {
     policyListVisible: boolean;
     contactListVisible: boolean;
+    memberEditVisible: boolean;
 };
 
 class MemberPreviewComponent extends Component<Props, State> {
@@ -36,12 +37,19 @@ class MemberPreviewComponent extends Component<Props, State> {
         this.state = {
             policyListVisible: false,
             contactListVisible: false,
+            memberEditVisible: false,
         };
     }
 
     componentDidMount() {
         this.load();
     }
+
+    toggleMemberEditVisible = () => {
+        this.setState({
+            memberEditVisible: !this.state.memberEditVisible,
+        });
+    };
 
     togglePolicyListVisible = () => {
         this.setState({
@@ -76,6 +84,12 @@ class MemberPreviewComponent extends Component<Props, State> {
 
     editDetails = () => {
         this.props.dispatch(fetchMember(this.getMemberId()));
+        this.toggleMemberEditVisible();
+    };
+
+    closeMemberEdit = (cancelled: boolean) => {
+        this.onFormClose(cancelled);
+        this.toggleMemberEditVisible();
     };
 
     isLoading = () => {
@@ -118,7 +132,7 @@ class MemberPreviewComponent extends Component<Props, State> {
                 >
                     {`${member && member.lastName}${
                         member && member.firstName ? ", " : ""
-                        } ${member && (member.firstName || "")}`}
+                    } ${member && (member.firstName || "")}`}
                 </Header>
 
                 <PreviewCardContainer>
@@ -139,7 +153,7 @@ class MemberPreviewComponent extends Component<Props, State> {
                                     label="Id"
                                     value={`${
                                         member.idNumber ? member.idNumber : ""
-                                        }`}
+                                    }`}
                                 />
                                 <PreviewCardRow
                                     label="Age"
@@ -201,7 +215,10 @@ class MemberPreviewComponent extends Component<Props, State> {
                     </PreviewCard>
                 </PreviewCardContainer>
 
-                <EditMember onClose={this.onFormClose} />
+                <EditMember
+                    onClose={this.closeMemberEdit}
+                    visible={this.state.memberEditVisible}
+                />
                 <EditPolicy onClose={this.onFormClose} />
 
                 <Drawer
@@ -211,7 +228,10 @@ class MemberPreviewComponent extends Component<Props, State> {
                     visible={this.state.policyListVisible}
                     onClose={this.togglePolicyListVisible}
                 >
-                    <PolicyList memberId={this.getMemberId()} onChange={this.load} />
+                    <PolicyList
+                        memberId={this.getMemberId()}
+                        onChange={this.load}
+                    />
                     <DrawerFooter>
                         <Button onClick={this.togglePolicyListVisible}>
                             Close

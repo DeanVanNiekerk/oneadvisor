@@ -18,6 +18,7 @@ type Props = {
     fetching: boolean;
     updating: boolean;
     validationResults: ValidationResult[];
+    visible: boolean;
 } & DispatchProp;
 
 type State = {
@@ -28,14 +29,14 @@ class EditMember extends Component<Props, State> {
         super(props);
 
         this.state = {
-            memberEdited: props.member
+            memberEdited: props.member,
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.member != prevProps.member) {
             this.setState({
-                memberEdited: this.props.member
+                memberEdited: this.props.member,
             });
         }
     }
@@ -79,7 +80,7 @@ class EditMember extends Component<Props, State> {
 
     onChange = (member: MemberEdit) => {
         this.setState({
-            memberEdited: member
+            memberEdited: member,
         });
     };
 
@@ -88,14 +89,14 @@ class EditMember extends Component<Props, State> {
     };
 
     getTitle = () => {
-        if (this.props.fetching) return 'Loading Member';
+        if (this.props.fetching) return "Loading Member";
 
         const { member } = this.props;
 
         if (member && member.id)
-            return `Member: ${member.firstName} ${member.lastName}`;
+            return `Member: ${member.firstName || ""} ${member.lastName || ""}`;
 
-        return 'New Member';
+        return "New Member";
     };
 
     render() {
@@ -105,7 +106,7 @@ class EditMember extends Component<Props, State> {
             <Drawer
                 title={this.getTitle()}
                 icon="profile"
-                visible={!!member || fetching}
+                visible={this.props.visible && !fetching}
                 onClose={this.confirmCancel}
             >
                 <ContentLoader isLoading={this.isLoading()}>
@@ -145,7 +146,7 @@ const mapStateToProps = (state: RootState) => {
         member: memberState.member,
         fetching: memberState.fetching,
         updating: memberState.updating,
-        validationResults: memberState.validationResults
+        validationResults: memberState.validationResults,
     };
 };
 

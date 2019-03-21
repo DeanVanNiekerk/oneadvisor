@@ -18,11 +18,13 @@ namespace OneAdvisor.Service.Member.Validators
     {
         private readonly DataContext _context;
         private readonly ScopeOptions _scope;
+        private readonly bool _isInsert;
 
         public MemberValidator(DataContext dataContext, ScopeOptions scope, bool isInsert)
         {
             _context = dataContext;
             _scope = scope;
+            _isInsert = isInsert;
 
             if (!isInsert)
                 RuleFor(o => o.Id).NotEmpty();
@@ -34,14 +36,24 @@ namespace OneAdvisor.Service.Member.Validators
             When(m => !string.IsNullOrWhiteSpace(m.IdNumber), () =>
             {
                 RuleFor(m => m.IdNumber).Must(BeValidIdNumber).WithMessage("Invalid ID Number");
-                RuleFor(m => m).Custom(AvailableIdNumberValidator);
+
+                RuleSet("Availability", () =>
+                {
+                    RuleFor(m => m).Custom(AvailableIdNumberValidator);
+                });
             });
 
             When(m => !string.IsNullOrWhiteSpace(m.PassportNumber), () =>
             {
                 RuleFor(m => m.PassportNumber).MaximumLength(128).WithName("Passport Number");
-                RuleFor(m => m).Custom(AvailablePassportNumberValidator);
+
+                RuleSet("Availability", () =>
+                {
+                    RuleFor(m => m).Custom(AvailablePassportNumberValidator);
+                });
+
             });
+
 
             When(m => string.IsNullOrWhiteSpace(m.IdNumber) && string.IsNullOrWhiteSpace(m.PassportNumber), () =>
             {
@@ -71,7 +83,7 @@ namespace OneAdvisor.Service.Member.Validators
             if (entity == null)
                 return true;
 
-            if (member.Id == default(Guid))
+            if (!member.Id.HasValue || _isInsert)
                 return entity == null;
 
             return member.Id == entity.Id;
@@ -93,7 +105,7 @@ namespace OneAdvisor.Service.Member.Validators
             if (entity == null)
                 return true;
 
-            if (member.Id == default(Guid))
+            if (!member.Id.HasValue || _isInsert)
                 return entity == null;
 
             return member.Id == entity.Id;

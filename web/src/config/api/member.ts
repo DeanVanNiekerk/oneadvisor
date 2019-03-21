@@ -7,3 +7,4 @@ export const membersImportApi = `${memberBaseApi}/import`;
 export const membersExportApi = `${memberBaseApi}/export/csv`;
 export const policiesApi = `${memberBaseApi}/policies`;
 export const contactsApi = `${memberBaseApi}/contacts`;
+export const mergeApi = `${memberBaseApi}/merge`;

@@ -56,3 +56,11 @@ export const getYearOptions = () => {
     }
     return years.reverse();
 };
+
+export const getAge = (dateOfBirth: string | null) => {
+    if (!dateOfBirth) return "";
+
+    const dob = moment(dateOfBirth);
+
+    return moment().diff(dob, "years");
+};

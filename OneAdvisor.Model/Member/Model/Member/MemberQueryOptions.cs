@@ -12,6 +12,8 @@ namespace OneAdvisor.Model.Member.Model.Member
         {
             Scope = scope;
 
+            MemberId = new List<Guid>();
+
             var result = GetFilterValue<string>("FirstName");
             if (result.Success)
                 FirstName = result.Value;
@@ -23,6 +25,10 @@ namespace OneAdvisor.Model.Member.Model.Member
             result = GetFilterValue<string>("IdNumber");
             if (result.Success)
                 IdNumber = result.Value;
+
+            var resultGuids = GetFilterValues<Guid>("MemberId");
+            if (resultGuids.Success)
+                MemberId = resultGuids.Value;
         }
 
         public ScopeOptions Scope { get; set; }
@@ -30,5 +36,6 @@ namespace OneAdvisor.Model.Member.Model.Member
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string IdNumber { get; set; }
+        public List<Guid> MemberId { get; set; }
     }
 }
