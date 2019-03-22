@@ -28,6 +28,7 @@ type State = {
     errorData: CommissionImportData;
     searchMemberVisible: boolean;
     searchPolicyVisible: boolean;
+    memberEditVisible: boolean;
     activeTab: TabKey;
 };
 
@@ -42,6 +43,7 @@ class MappingErrorForm extends Component<Props, State> {
             errorData: props.error.data,
             searchMemberVisible: false,
             searchPolicyVisible: false,
+            memberEditVisible: false,
             activeTab: "form_tab",
         };
     }
@@ -78,6 +80,7 @@ class MappingErrorForm extends Component<Props, State> {
             initials: errorData.initials || "",
         });
         this.props.dispatch(receiveMember(member));
+        this.toggleMemberEditVisible();
     };
 
     newPolicy = () => {
@@ -119,6 +122,12 @@ class MappingErrorForm extends Component<Props, State> {
     toggleSearchPolicyVisible = () => {
         this.setState({
             searchPolicyVisible: !this.state.searchPolicyVisible,
+        });
+    };
+
+    toggleMemberEditVisible = () => {
+        this.setState({
+            memberEditVisible: !this.state.memberEditVisible,
         });
     };
 
@@ -268,7 +277,11 @@ class MappingErrorForm extends Component<Props, State> {
                     </TabPane>
                 </Tabs>
 
-                <EditMember onMemberInserted={this.memberInserted} />
+                <EditMember
+                    onMemberInserted={this.memberInserted}
+                    visible={this.state.memberEditVisible}
+                    onClose={this.toggleMemberEditVisible}
+                />
                 <EditPolicy onPolicyInserted={this.policyInserted} />
 
                 <Drawer

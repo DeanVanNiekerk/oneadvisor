@@ -53,7 +53,7 @@ namespace api.Test.Controllers.Member
             service.Setup(c => c.MergeMembers(It.IsAny<ScopeOptions>(), It.Is<MergeMembers>(m => m == merge)))
                 .Callback((ScopeOptions o, MergeMembers m) =>
                 {
-                    merge = m;
+                    merged = m;
                     options = o;
                 })
                 .ReturnsAsync(result);
