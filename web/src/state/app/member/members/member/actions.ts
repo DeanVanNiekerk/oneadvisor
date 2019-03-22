@@ -5,17 +5,17 @@ import { membersApi } from '@/config/api/member';
 import { MemberEdit } from '../types';
 
 type MemberReceiveAction = {
-    type: 'MEMBERS_MEMBER_RECEIVE';
+    type: "MEMBERS_MEMBER_RECEIVE";
     payload: MemberEdit | null;
 };
-type MemberFetchingAction = { type: 'MEMBERS_MEMBER_FETCHING' };
-type MemberFetchingErrorAction = { type: 'MEMBERS_MEMBER_FETCHING_ERROR' };
+type MemberFetchingAction = { type: "MEMBERS_MEMBER_FETCHING" };
+type MemberFetchingErrorAction = { type: "MEMBERS_MEMBER_FETCHING_ERROR" };
 
-type MemberUpdatedAction = { type: 'MEMBERS_MEMBER_EDIT_RECEIVE' };
-type MemberUpdatingAction = { type: 'MEMBERS_MEMBER_EDIT_FETCHING' };
-type MemberUpdatingErrorAction = { type: 'MEMBERS_MEMBER_EDIT_FETCHING_ERROR' };
+type MemberUpdatedAction = { type: "MEMBERS_MEMBER_EDIT_RECEIVE" };
+type MemberUpdatingAction = { type: "MEMBERS_MEMBER_EDIT_FETCHING" };
+type MemberUpdatingErrorAction = { type: "MEMBERS_MEMBER_EDIT_FETCHING_ERROR" };
 type MemberValidationErrorAction = {
-    type: 'MEMBERS_MEMBER_EDIT_VALIDATION_ERROR';
+    type: "MEMBERS_MEMBER_EDIT_VALIDATION_ERROR";
     payload: ValidationResult[];
 };
 
@@ -31,56 +31,63 @@ export type MemberAction =
 export const receiveMember = (
     member: MemberEdit | null
 ): MemberReceiveAction => ({
-    type: 'MEMBERS_MEMBER_RECEIVE',
-    payload: member
+    type: "MEMBERS_MEMBER_RECEIVE",
+    payload: member,
 });
 
 export const getMember = (
     memberId: string,
     onSuccess: ApiOnSuccess
 ): ApiAction => ({
-    type: 'API',
+    type: "API",
     endpoint: `${membersApi}/${memberId}`,
-    onSuccess: onSuccess
+    onSuccess: onSuccess,
 });
 
 export const fetchMember = (memberId: string): ApiAction => ({
-    type: 'API',
+    type: "API",
     endpoint: `${membersApi}/${memberId}`,
-    dispatchPrefix: 'MEMBERS_MEMBER'
+    dispatchPrefix: "MEMBERS_MEMBER",
 });
 
 export const updateMember = (
     member: MemberEdit,
     onSuccess: ApiOnSuccess
 ): ApiAction => ({
-    type: 'API',
+    type: "API",
     endpoint: `${membersApi}/${member.id}`,
-    method: 'POST',
+    method: "POST",
     payload: member,
     onSuccess: onSuccess,
-    dispatchPrefix: 'MEMBERS_MEMBER_EDIT'
+    dispatchPrefix: "MEMBERS_MEMBER_EDIT",
 });
 
 export const insertMember = (
     member: MemberEdit,
     onSuccess: ApiOnSuccess
 ): ApiAction => ({
-    type: 'API',
+    type: "API",
     endpoint: `${membersApi}`,
-    method: 'POST',
+    method: "POST",
     payload: member,
     onSuccess: onSuccess,
-    dispatchPrefix: 'MEMBERS_MEMBER_EDIT'
+    dispatchPrefix: "MEMBERS_MEMBER_EDIT",
 });
 
 export const deleteMember = (
     memberId: string,
     onSuccess: ApiOnSuccess
 ): ApiAction => ({
-    type: 'API',
+    type: "API",
     endpoint: `${membersApi}/${memberId}`,
-    method: 'DELETE',
+    method: "DELETE",
     onSuccess: onSuccess,
-    dispatchPrefix: 'MEMBERS_MEMBER_EDIT'
+    dispatchPrefix: "MEMBERS_MEMBER_EDIT",
+});
+
+export const receiveMemberValidationResults = (
+    validationResults: ValidationResult[]
+): MemberAction => ({
+    type: "MEMBERS_MEMBER_EDIT_VALIDATION_ERROR",
+    payload: validationResults,
 });

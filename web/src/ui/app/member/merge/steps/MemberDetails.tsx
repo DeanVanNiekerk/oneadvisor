@@ -5,8 +5,8 @@ import { connect, DispatchProp } from 'react-redux';
 import { Result } from '@/app/types';
 import { ValidationResult } from '@/app/validation';
 import {
-    insertMember, Member, MemberEdit, memberMergeNextStep, memberMergePreviousStep, memberMergeSelector, memberSelector,
-    receiveMember, receiveMemberMergeInserted
+    Member, MemberEdit, memberMergeNextStep, memberMergePreviousStep, memberMergeSelector, memberSelector, mergeMembers,
+    MergeMembers, receiveMember, receiveSelectedMembers
 } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
 
@@ -56,7 +56,9 @@ class MemberDetails extends Component<Props, State> {
     };
 
     mergeMembers = (members: Member[]): Member => {
-        const member = members[0];
+        const member = {
+            ...members[0],
+        };
         members.forEach(m => {
             for (let property in m) {
                 const value = m[property];
@@ -64,20 +66,26 @@ class MemberDetails extends Component<Props, State> {
                     member[property] = value;
             }
         });
+        member.id = "";
         return member;
     };
 
-    insertNewMember = () => {
+    save = () => {
         if (!this.state.memberEdited) {
             return;
         }
 
+        var merge: MergeMembers = {
+            targetMember: this.state.memberEdited,
+            sourceMemberIds: this.props.members.map(m => m.id),
+        };
+
         this.props.dispatch(
-            insertMember(
-                this.state.memberEdited,
+            mergeMembers(
+                merge,
                 //Success
-                (result: Result) => {
-                    this.props.dispatch(receiveMemberMergeInserted(result.tag));
+                () => {
+                    this.props.dispatch(receiveSelectedMembers([]));
                     this.props.dispatch(memberMergeNextStep());
                 }
             )
@@ -88,7 +96,7 @@ class MemberDetails extends Component<Props, State> {
         return (
             <>
                 <MemberMergeSteps
-                    onNext={() => this.insertNewMember()}
+                    onNext={() => this.save()}
                     nextIcon="fork"
                     nextText="Merge"
                     onPrevious={() =>

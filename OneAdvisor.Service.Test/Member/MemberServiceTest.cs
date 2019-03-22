@@ -13,6 +13,7 @@ using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Member.Model.Member;
 using OneAdvisor.Service.Member;
+using OneAdvisor.Model.Member.Model.Merge;
 
 namespace OneAdvisor.Service.Test.Member
 {
@@ -554,6 +555,132 @@ namespace OneAdvisor.Service.Test.Member
 
                 var actual = members.Items.First();
                 Assert.Equal(member1.Id, actual.Id);
+            }
+        }
+
+        [Fact]
+        public async Task MergeMembers()
+        {
+            var options = TestHelper.GetDbContext("MergeMembers");
+
+            //Given
+            var user = TestHelper.InsertUserDetailed(options);
+
+            var memberSource1 = TestHelper.InsertMember(options, user.Organisation, "8210035032082");
+            var memberSource2 = TestHelper.InsertMember(options, user.Organisation);
+            var member3 = TestHelper.InsertMember(options, user.Organisation);
+
+            var user2 = TestHelper.InsertUserDetailed(options);
+            var member4 = TestHelper.InsertMember(options, user2.Organisation, "8210035032082"); //Same Id but different organisation
+
+            var target = new MemberEdit
+            {
+                FirstName = "FN 1",
+                LastName = "LN 1",
+                MaidenName = "MN 1",
+                Initials = "INI 1",
+                PreferredName = "PN 1",
+                IdNumber = "8210035032082",
+                DateOfBirth = new DateTime(1982, 10, 3),
+                TaxNumber = "889977",
+                MarritalStatusId = Guid.NewGuid(),
+                MarriageDate = new DateTime(2009, 11, 13),
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new MemberService(context);
+
+                var merge = new MergeMembers()
+                {
+                    TargetMember = target,
+                    SourceMemberIds = new List<Guid>() { memberSource1.Member.Id, memberSource2.Member.Id }
+                };
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user.Organisation.Id);
+                var result = await service.MergeMembers(scope, merge);
+
+                //Then
+                Assert.True(result.Success);
+
+                //Check new member added
+                var memberId = ((MemberEdit)result.Tag).Id;
+                var actual = context.Member.Find(memberId);
+                Assert.Equal(target.FirstName, actual.FirstName);
+                Assert.Equal(target.LastName, actual.LastName);
+                Assert.Equal(target.MaidenName, actual.MaidenName);
+                Assert.Equal(target.Initials, actual.Initials);
+                Assert.Equal(target.PreferredName, actual.PreferredName);
+                Assert.Equal(target.IdNumber, actual.IdNumber);
+                Assert.Equal(target.DateOfBirth, actual.DateOfBirth);
+                Assert.Equal(target.TaxNumber, actual.TaxNumber);
+                Assert.Equal(target.MarritalStatusId, actual.MarritalStatusId);
+                Assert.Equal(target.MarriageDate, actual.MarriageDate);
+                Assert.False(actual.IsDeleted);
+
+                //Check old members deleted
+                actual = context.Member.Find(memberSource1.Member.Id);
+                Assert.True(actual.IsDeleted);
+                actual = context.Member.Find(memberSource2.Member.Id);
+                Assert.True(actual.IsDeleted);
+
+                //Dummy un-effected
+                actual = context.Member.Find(member3.Member.Id);
+                Assert.False(actual.IsDeleted);
+
+                //Different Organisation un-effected
+                actual = context.Member.Find(member4.Member.Id);
+                Assert.False(actual.IsDeleted);
+            }
+        }
+
+        [Fact]
+        public async Task MergeMembers_ScopeCheck()
+        {
+            var options = TestHelper.GetDbContext("MergeMembers_ScopeCheck");
+
+            //Given
+            var user = TestHelper.InsertUserDetailed(options);
+
+            var memberSource1 = TestHelper.InsertMember(options, user.Organisation, "8210035032082");
+            var memberSource2 = TestHelper.InsertMember(options, user.Organisation);
+
+            var user2 = TestHelper.InsertUserDetailed(options);
+
+            var target = new MemberEdit
+            {
+                IdNumber = "8210035032082"
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new MemberService(context);
+
+                var merge = new MergeMembers()
+                {
+                    TargetMember = target,
+                    SourceMemberIds = new List<Guid>() { memberSource1.Member.Id, memberSource2.Member.Id }
+                };
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user2.Organisation.Id);
+                var result = await service.MergeMembers(scope, merge);
+
+                //Then
+                Assert.False(result.Success);
+                Assert.Equal("SourceMemberIds", result.ValidationFailures[0].PropertyName);
+                Assert.Equal("Invalid Source Member Ids", result.ValidationFailures[0].ErrorMessage);
             }
         }
 

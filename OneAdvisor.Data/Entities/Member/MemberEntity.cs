@@ -27,8 +27,10 @@ namespace OneAdvisor.Data.Entities.Member
         [Required]
         public bool IsDeleted { get; set; }
 
+        //NB!!!!: When adding new list relationships dont forget to update MergeMembers() ----
         public virtual ICollection<PolicyEntity> MemberPolicies { get; set; }
         public virtual ICollection<ContactEntity> MemberContacts { get; set; }
+        //-------------------------------------------------------------------------------------
 
         public virtual OrganisationEntity Organisation { get; set; }
         public virtual MarritalStatusEntity MarritalStatus { get; set; }

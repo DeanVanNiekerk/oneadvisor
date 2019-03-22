@@ -1,20 +1,24 @@
+import { Dispatch, Store } from 'redux';
 import { isArray } from 'util';
 
+import { ApiAction, ApiOnValidationFailure } from '@/app/types';
 import { showMessage, showNotification } from '@/ui/feedback/notifcation';
 
 import { RootState } from '../rootReducer';
 
-export default (store: any) => (next: any) => (action: any) => {
+export default (store: Store<RootState>) => (next: any) => (
+    action: ApiAction
+) => {
     // Check if this is an api request
     if (action.type !== "API") {
         return next(action);
     }
 
-    const { endpoint, method, dispatchPrefix, options, payload } = action;
+    const { endpoint, method, dispatchPrefix, payload } = action;
 
-    const rootState: RootState = store.getState();
+    const rootState = store.getState();
 
-    const defaultOptions = {
+    const requestInit: RequestInit = {
         method: method ? method : "GET",
         headers: {
             Authorization: "Bearer " + rootState.auth.token.token,
@@ -22,12 +26,7 @@ export default (store: any) => (next: any) => (action: any) => {
         },
     };
 
-    const fetchOptions = {
-        ...defaultOptions,
-        ...options,
-    };
-
-    if (payload) fetchOptions.body = JSON.stringify(payload);
+    if (payload) requestInit.body = JSON.stringify(payload);
 
     //Fetching
     if (dispatchPrefix) {
@@ -46,7 +45,7 @@ export default (store: any) => (next: any) => (action: any) => {
         action.hideValidationNotifications === undefined ||
         action.hideValidationNotifications !== true;
 
-    fetch(endpoint, fetchOptions)
+    fetch(endpoint, requestInit)
         .then(resp => {
             //Check for server error
             if (resp.status === 500) {
@@ -61,7 +60,8 @@ export default (store: any) => (next: any) => (action: any) => {
             //Call onSuccessBlob
             if (action.onSuccessBlob) {
                 resp.blob().then(blob => {
-                    action.onSuccessBlob(blob, store.dispatch);
+                    if (action.onSuccessBlob)
+                        action.onSuccessBlob(blob, store.dispatch);
                 });
                 return;
             }
@@ -98,7 +98,9 @@ export default (store: any) => (next: any) => (action: any) => {
                         showNotifications && showValidationNotifications,
                         store,
                         dispatchPrefix,
-                        json
+                        json,
+                        action.onValidationFailure,
+                        store.dispatch
                     );
                     return;
                 }
@@ -128,7 +130,7 @@ export default (store: any) => (next: any) => (action: any) => {
 const handleError = (
     showNotifications: boolean,
     store: any,
-    dispatchPrefix: string,
+    dispatchPrefix: string | undefined,
     error: string
 ) => {
     if (showNotifications) {
@@ -153,8 +155,10 @@ const handleError = (
 const handleValidationError = (
     showNotifications: boolean,
     store: any,
-    dispatchPrefix: string,
-    json: any
+    dispatchPrefix: string | undefined,
+    json: any,
+    validationFailureCallback: ApiOnValidationFailure | undefined,
+    dispatch: Dispatch
 ) => {
     //Check if this is one of dotnets parse erros
     if (!isArray(json)) {
@@ -182,6 +186,8 @@ const handleValidationError = (
     }
 
     //Validation Error
+    if (validationFailureCallback) validationFailureCallback(json, dispatch);
+
     if (dispatchPrefix) {
         store.dispatch({
             type: `${dispatchPrefix}_VALIDATION_ERROR`,

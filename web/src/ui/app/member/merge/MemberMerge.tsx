@@ -48,7 +48,20 @@ class MemberMerge extends Component<Props, State> {
                 onClose={this.cancel}
             >
                 <ContentLoader isLoading={this.isLoading()}>
-                    {this.state.steps[currentStepIndex]}
+                    {this.state.steps.map((step, index) => {
+                        return (
+                            <div
+                                style={{
+                                    display:
+                                        index === currentStepIndex
+                                            ? "inline"
+                                            : "none",
+                                }}
+                            >
+                                {step}
+                            </div>
+                        );
+                    })}
                 </ContentLoader>
                 <DrawerFooter>
                     <Button onClick={this.cancel} disabled={this.isLoading()}>

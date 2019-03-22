@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Member.Model.Member;
+using OneAdvisor.Model.Member.Model.Merge;
 
 namespace OneAdvisor.Model.Member.Interface
 {
@@ -14,5 +15,6 @@ namespace OneAdvisor.Model.Member.Interface
         Task<Result> DeleteMember(ScopeOptions scope, Guid memberId);
         Task<Result> UpdateMember(ScopeOptions scope, MemberEdit member);
         Task<Result> InsertMember(ScopeOptions scope, MemberEdit member);
+        Task<Result> MergeMembers(ScopeOptions scope, MergeMembers merge);
     }
 }

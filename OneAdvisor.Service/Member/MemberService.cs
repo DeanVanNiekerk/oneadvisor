@@ -12,6 +12,7 @@ using OneAdvisor.Model.Member.Model.Member;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Member.Validators;
 using FluentValidation;
+using OneAdvisor.Model.Member.Model.Merge;
 
 namespace OneAdvisor.Service.Member
 {
@@ -165,6 +166,64 @@ namespace OneAdvisor.Service.Member
             return new Result(true);
         }
 
+        public async Task<Result> MergeMembers(ScopeOptions scope, MergeMembers merge)
+        {
+            var memberValidator = new MemberValidator(_context, scope, true);
+            var result = memberValidator.Validate(merge.TargetMember, ruleSet: "default").GetResult();
+
+            if (!result.Success)
+                return result;
+
+            var mergeValidator = new MergeMembersValidator(_context);
+            result = mergeValidator.Validate(merge).GetResult();
+
+            if (!result.Success)
+                return result;
+
+            //Scope check ------
+            var options = new MemberQueryOptions(scope, "", "", 0, 0);
+            options.MemberId = merge.SourceMemberIds;
+
+            var members = await GetMembers(options);
+
+            if (members.TotalItems != merge.SourceMemberIds.Count)
+                return new Result("SourceMemberIds", "Invalid Source Member Ids");
+            //--------------------
+
+            //Insert the 'new' member
+            var entity = MapModelToEntity(merge.TargetMember);
+            entity.OrganisationId = scope.OrganisationId;
+            await _context.Member.AddAsync(entity);
+            await _context.SaveChangesAsync();
+
+            merge.TargetMember.Id = entity.Id;
+
+            //Move dependancies to the new member -----------------------------------------------------
+
+            //1. Policies
+            var policies = await _context.Policy.Where(p => merge.SourceMemberIds.Contains(p.MemberId)).ToListAsync();
+            foreach (var policy in policies)
+                policy.MemberId = merge.TargetMember.Id.Value;
+
+            //2. Contacts
+            var contacts = await _context.Contact.Where(c => merge.SourceMemberIds.Contains(c.MemberId)).ToListAsync();
+            foreach (var contact in contacts)
+                contact.MemberId = merge.TargetMember.Id.Value;
+
+            //----------------------------------------------------------------------------------------
+
+            //Delete 'old' members
+            var memberToDelete = await _context.Member.Where(m => merge.SourceMemberIds.Contains(m.Id)).ToListAsync();
+            foreach (var member in memberToDelete)
+                member.IsDeleted = true;
+
+            await _context.SaveChangesAsync();
+
+            result.Tag = merge.TargetMember;
+
+            return result;
+        }
+
         private IQueryable<MemberEntity> GetMemberEntityQuery(ScopeOptions scope)
         {
             return ScopeQuery.GetMemberEntityQuery(_context, scope);
@@ -196,6 +255,5 @@ namespace OneAdvisor.Service.Member
 
             return entity;
         }
-
     }
 }

@@ -38,3 +38,8 @@ export type MemberPreview = {
     policyCount: number;
     contactCount: number;
 };
+
+export type MergeMembers = {
+    targetMember: MemberEdit;
+    sourceMemberIds: string[];
+};

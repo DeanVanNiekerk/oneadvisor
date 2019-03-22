@@ -9,7 +9,7 @@ describe("member: merge: actions", () => {
         const expectedAction = {
             type: "API",
             endpoint: api,
-            dispatchPrefix: "MEMBERS_MERGE",
+            dispatchPrefix: "MEMBERS_MERGE_SOURCE",
         };
 
         expect(actions.fetchMergeMembers(["123"])).toEqual(expectedAction);

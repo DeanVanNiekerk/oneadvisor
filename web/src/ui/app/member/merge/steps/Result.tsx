@@ -1,17 +1,25 @@
 import { Alert, Divider } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router';
 
-import { memberMergeNextStep, memberMergeSelector } from '@/state/app/member/members';
+import { MemberEdit, memberMergeSelector } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
 import { Button } from '@/ui/controls';
 
 import MemberMergeSteps from '../MemberMergeSteps';
 
-type Props = {} & DispatchProp;
+type Props = {
+    insertedMember: MemberEdit;
+} & DispatchProp &
+    RouteComponentProps;
 
 class Result extends Component<Props> {
-    preview = () => {};
+    preview = () => {
+        this.props.history.push(
+            `/member/members/${this.props.insertedMember.id}`
+        );
+    };
 
     render() {
         return (
@@ -43,7 +51,9 @@ class Result extends Component<Props> {
 const mapStateToProps = (state: RootState) => {
     const mergeState = memberMergeSelector(state);
 
-    return {};
+    return {
+        insertedMember: mergeState.insertedMember,
+    };
 };
 
-export default connect(mapStateToProps)(Result);
+export default withRouter(connect(mapStateToProps)(Result));

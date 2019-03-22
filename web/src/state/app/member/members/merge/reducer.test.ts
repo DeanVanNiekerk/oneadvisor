@@ -17,9 +17,9 @@ const defaultMember: Member = {
 };
 
 describe("member merge reducer", () => {
-    it("should handle MEMBERS_MERGE_FETCHING", () => {
+    it("should handle MEMBERS_MERGE_SOURCE_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: "MEMBERS_MERGE_FETCHING",
+            type: "MEMBERS_MERGE_SOURCE_FETCHING",
         });
 
         const expectedState = {
@@ -30,14 +30,14 @@ describe("member merge reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle MEMBERS_MERGE_FETCHING_ERROR", () => {
+    it("should handle MEMBERS_MERGE_SOURCE_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: "MEMBERS_MERGE_FETCHING_ERROR",
+            type: "MEMBERS_MERGE_SOURCE_FETCHING_ERROR",
         });
 
         const expectedState = {
@@ -48,14 +48,14 @@ describe("member merge reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle MEMBERS_MERGE_RECEIVE", () => {
+    it("should handle MEMBERS_MERGE_SOURCE_RECEIVE", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: "MEMBERS_MERGE_RECEIVE",
+            type: "MEMBERS_MERGE_SOURCE_RECEIVE",
             payload: {
                 totalItems: 1,
                 items: [defaultMember],

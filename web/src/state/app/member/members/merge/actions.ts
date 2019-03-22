@@ -1,16 +1,23 @@
+import { Dispatch } from 'redux';
+
 import { appendFiltersQuery } from '@/app/query';
 import { Filters, PagedItems } from '@/app/table';
-import { ApiAction } from '@/app/types';
+import { ApiAction, ApiOnSuccess, Result } from '@/app/types';
+import { ValidationResult } from '@/app/validation';
 import { membersApi, mergeApi } from '@/config/api/member';
 
-import { Member } from '../';
+import { Member, MemberEdit, MergeMembers, receiveMemberValidationResults } from '../';
 
-type MemberMergeReceiveAction = {
-    type: "MEMBERS_MERGE_RECEIVE";
+type MemberMergeSourceReceiveAction = {
+    type: "MEMBERS_MERGE_SOURCE_RECEIVE";
     payload: PagedItems<Member>;
 };
-type MemberMergeFetchingAction = { type: "MEMBERS_MERGE_FETCHING" };
-type MemberMergeFetchingErrorAction = { type: "MEMBERS_MERGE_FETCHING_ERROR" };
+type MemberMergeSourceFetchingAction = {
+    type: "MEMBERS_MERGE_SOURCE_FETCHING";
+};
+type MemberMergeSourceFetchingErrorAction = {
+    type: "MEMBERS_MERGE_SOURCE_FETCHING_ERROR";
+};
 
 type MemberMergeNextStepReceiveAction = {
     type: "MEMBERS_MERGE_NEXT_STEP";
@@ -24,19 +31,31 @@ type MemberMergeResetAction = {
     type: "MEMBERS_MERGE_RESET";
 };
 
-type MemberMergeInsertedReceiveAction = {
-    type: "MEMBERS_MERGE_INSERTED_RECEIVE";
-    payload: Member;
+type MemberMergeReceiveAction = {
+    type: "MEMBERS_MERGE_RECEIVE";
+    payload: Result<MemberEdit>;
+};
+type MemberMergeFetchingAction = {
+    type: "MEMBERS_MERGE_FETCHING";
+};
+type MemberMergeFetchingErrorAction = {
+    type: "MEMBERS_MERGE_FETCHING_ERROR";
+};
+type MemberMergeValidationErrorAction = {
+    type: "MEMBERS_MERGE_VALIDATION_ERROR";
 };
 
 export type MemberMergeAction =
     | MemberMergeReceiveAction
     | MemberMergeFetchingAction
     | MemberMergeFetchingErrorAction
+    | MemberMergeValidationErrorAction
+    | MemberMergeSourceReceiveAction
+    | MemberMergeSourceFetchingAction
+    | MemberMergeSourceFetchingErrorAction
     | MemberMergeNextStepReceiveAction
     | MemberMergePreviousStepReceiveAction
-    | MemberMergeResetAction
-    | MemberMergeInsertedReceiveAction;
+    | MemberMergeResetAction;
 
 export const fetchMergeMembers = (memberIds: string[]): ApiAction => {
     let api = membersApi;
@@ -47,7 +66,7 @@ export const fetchMergeMembers = (memberIds: string[]): ApiAction => {
     return {
         type: "API",
         endpoint: api,
-        dispatchPrefix: "MEMBERS_MERGE",
+        dispatchPrefix: "MEMBERS_MERGE_SOURCE",
     };
 };
 
@@ -63,9 +82,22 @@ export const memberMergeReset = (): MemberMergeAction => ({
     type: "MEMBERS_MERGE_RESET",
 });
 
-export const receiveMemberMergeInserted = (
-    member: Member
-): MemberMergeAction => ({
-    type: "MEMBERS_MERGE_INSERTED_RECEIVE",
-    payload: member,
-});
+export const mergeMembers = (
+    merge: MergeMembers,
+    onSuccess: ApiOnSuccess
+): ApiAction => {
+    return {
+        type: "API",
+        method: "POST",
+        endpoint: mergeApi,
+        payload: merge,
+        dispatchPrefix: "MEMBERS_MERGE",
+        onSuccess: onSuccess,
+        onValidationFailure: (
+            validationResults: ValidationResult[],
+            dispatch: Dispatch
+        ) => {
+            dispatch(receiveMemberValidationResults(validationResults));
+        },
+    };
+};

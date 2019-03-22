@@ -11,7 +11,6 @@ import {
 } from '@/state/app/member/members';
 import { RootState } from '@/state/rootReducer';
 import { Button, Header, StopPropagation, Table } from '@/ui/controls';
-import { BooleanTypeAnnotation } from '@babel/types';
 
 import MemberMerge from '../merge/MemberMerge';
 import EditMember from './EditMember';
@@ -43,7 +42,7 @@ class MemberList extends Component<Props, State> {
     }
 
     componentDidMount() {
-        if (this.props.members.length === 0) this.loadMembers();
+        this.loadMembers();
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -165,6 +164,10 @@ class MemberList extends Component<Props, State> {
         this.toggleMemberMergeVisible();
     };
 
+    clearAllSelectedMembers = () => {
+        this.props.dispatch(receiveSelectedMembers([]));
+    };
+
     render() {
         return (
             <>
@@ -179,16 +182,19 @@ class MemberList extends Component<Props, State> {
                                 visible={
                                     this.props.selectedMemberIds.length > 1
                                 }
+                                requiredUseCase="mem_edit_members"
                             >
                                 Merge
                             </Button>
                             <Button
-                                type="default"
-                                icon="sync"
-                                onClick={this.loadMembers}
-                                disabled={this.props.fetching}
+                                type="primary"
+                                icon="delete"
+                                onClick={this.clearAllSelectedMembers}
+                                visible={
+                                    this.props.selectedMemberIds.length > 0
+                                }
                             >
-                                Reload
+                                Clear All Selected
                             </Button>
                             <Button
                                 type="default"
