@@ -78,7 +78,8 @@ class ResetPasswordRequest extends React.Component<Props, State> {
                 {this.state.emailSent && (
                     <>
                         <Alert
-                            message="If your Username matches a user in our system you will be emailed a password reset link."
+                            message="if an account exists with the username you entered, we will email you instructions for resetting your password.
+                            If you don't receive an email, please make sure you've entered the username you registered with."
                             type="info"
                             className="mb-1"
                         />
