@@ -347,6 +347,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                             {statement && (
                                 <StatementPreviewErrorCount
                                     count={statement.formatErrorCount}
+                                    errorType="format"
                                 />
                             )}
                         </PreviewCard>
@@ -373,6 +374,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                             {statement && (
                                 <StatementPreviewErrorCount
                                     count={statement.mappingErrorCount}
+                                    errorType="mapping"
                                 />
                             )}
                         </PreviewCard>
