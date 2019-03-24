@@ -21,7 +21,7 @@ jobs:
           dotnet test
         displayName: "run tests"
       - script: |
-          dotnet publish --configuration $(buildConfiguration)
+          dotnet publish --configuration $(buildConfiguration) /p:Version=0.1.0
         displayName: "publish for $(buildConfiguration)"
       - task: CopyFiles@2
         inputs:

@@ -5,6 +5,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { fetchAllLookups, lookupsSelector } from '@/state/app/directory/lookups';
 import { fetchUsersSimple } from '@/state/app/directory/usersSimple';
 import { isAuthenticatedSelector } from '@/state/auth';
+import { fetchAppInfo } from '@/state/context/actions';
 import { RootState } from '@/state/rootReducer';
 import { Loader } from '@/ui/controls';
 
@@ -18,6 +19,7 @@ type Props = {
 class Startup extends React.Component<Props> {
     componentDidMount() {
         this.props.dispatch(fetchAllLookups());
+        this.props.dispatch(fetchAppInfo());
         this.loadSecureData();
     }
 
@@ -33,7 +35,7 @@ class Startup extends React.Component<Props> {
     }
 
     isAccountPage = () => {
-        return this.props.location.pathname === '/signin';
+        return this.props.location.pathname === "/signin";
     };
 
     render() {
@@ -49,7 +51,7 @@ const mapStateToProps = (state: RootState) => {
 
     return {
         loading: lookupsState.fetching,
-        isAuthenticated: isAuthenticatedSelector(state)
+        isAuthenticated: isAuthenticatedSelector(state),
     };
 };
 

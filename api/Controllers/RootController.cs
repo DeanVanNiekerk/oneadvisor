@@ -10,7 +10,7 @@ namespace api.Controllers.Member.Contacts
         [HttpGet("")]
         public IActionResult Index()
         {
-            return Ok(new { message = "Welcome to the OneAdvisor API." });
+            return Ok(new { appName = "OneAdvisor API", version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString() });
         }
     }
 }

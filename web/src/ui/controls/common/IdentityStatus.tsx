@@ -3,16 +3,19 @@ import { connect } from 'react-redux';
 
 import { getScopeName } from '@/config/scope';
 import { TokenData, tokenSelector } from '@/state/auth';
+import { contextSelector } from '@/state/context/selectors';
+import { AppInfo } from '@/state/context/types';
 import { RootState } from '@/state/rootReducer';
 import { Date } from '@/ui/controls';
 
 type Props = {
     tokenData: TokenData;
+    appInfo: AppInfo;
 };
 
 class IdentityStatusComponent extends Component<Props> {
     render() {
-        const { tokenData } = this.props;
+        const { tokenData, appInfo } = this.props;
 
         return (
             <div>
@@ -62,6 +65,10 @@ class IdentityStatusComponent extends Component<Props> {
                         isUnixSeconds={true}
                     />
                 </div>
+                <div>
+                    <b>App Version:</b>&nbsp;
+                    {appInfo && appInfo.version}
+                </div>
             </div>
         );
     }
@@ -69,9 +76,11 @@ class IdentityStatusComponent extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     const tokenState = tokenSelector(state);
+    const contextState = contextSelector(state);
 
     return {
         tokenData: tokenState.tokenData,
+        appInfo: contextState.appInfo,
     };
 };
 

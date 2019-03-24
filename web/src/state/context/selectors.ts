@@ -3,10 +3,18 @@ import { createSelector } from 'reselect';
 import { DEFAULT_APPLICATION_ID } from '@/config/application';
 import { RootState } from '@/state/rootReducer';
 
+import { State } from './reducer';
 import { Application, Menu, MenuLink, Menus } from './types';
 
+const rootSelector = (state: RootState): State => state.context;
+
+export const contextSelector: (state: RootState) => State = createSelector(
+    rootSelector,
+    root => root
+);
+
 export const pathNameSelector = (state: RootState): string =>
-    state.router ? state.router.location.pathname : '';
+    state.router ? state.router.location.pathname : "";
 export const appsSelector = (state: RootState): Application[] =>
     state.context.applications;
 export const menusSelector = (state: RootState): Menus => state.context.menus;
@@ -20,7 +28,7 @@ export const applicationsSelector: (
         return applications.map(app => {
             return {
                 ...app,
-                isCurrent: isCurrentApplication(app, pathName)
+                isCurrent: isCurrentApplication(app, pathName),
             };
         });
     }
@@ -52,11 +60,11 @@ export const currentMenuSelector: (state: RootState) => Menu = createSelector(
                     links: group.links.map(link => {
                         return {
                             ...link,
-                            isCurrent: isCurrentMenuLink(menu, link, pathName)
+                            isCurrent: isCurrentMenuLink(menu, link, pathName),
                         };
-                    })
+                    }),
                 };
-            })
+            }),
         };
     }
 );
@@ -78,7 +86,7 @@ export const currentMenuLinkSelector: (
 );
 
 const isCurrentApplication = (application: Application, pathName: string) => {
-    if (!pathName || pathName === '/') {
+    if (!pathName || pathName === "/") {
         if (application.id === DEFAULT_APPLICATION_ID) return true;
         return false;
     }
@@ -87,7 +95,7 @@ const isCurrentApplication = (application: Application, pathName: string) => {
 };
 
 const isCurrentMenuLink = (menu: Menu, link: MenuLink, pathName: string) => {
-    if (!pathName || pathName === '/' || pathName === menu.relativePath) {
+    if (!pathName || pathName === "/" || pathName === menu.relativePath) {
         if (link.isDefault) return true;
         return false;
     }
