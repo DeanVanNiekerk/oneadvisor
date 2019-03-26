@@ -45,9 +45,10 @@ namespace api.Test.Controllers.Directory
         [Fact]
         public void PolicyTypeModelComposition()
         {
-            Assert.Equal(2, typeof(PolicyType).PropertyCount());
+            Assert.Equal(3, typeof(PolicyType).PropertyCount());
             Assert.True(typeof(PolicyType).HasProperty("Id"));
             Assert.True(typeof(PolicyType).HasProperty("Name"));
+            Assert.True(typeof(PolicyType).HasProperty("Code"));
         }
 
         [Fact]
@@ -98,7 +99,7 @@ namespace api.Test.Controllers.Directory
             };
             var company = new Company() { Id = Guid.NewGuid(), Name = "Name2" };
             var commissionEarningsType = new CommissionEarningsType() { Id = Guid.NewGuid(), Name = "Name3" };
-            var policyType = new PolicyType() { Id = Guid.NewGuid(), Name = "Name4" };
+            var policyType = new PolicyType() { Id = Guid.NewGuid(), Name = "Name4", Code = "Code4" };
             var contactType = new ContactType() { Id = Guid.NewGuid(), Name = "Name5" };
             var marritalStatus = new MarritalStatus() { Id = Guid.NewGuid(), Name = "Name6" };
             var commissionStatementTemplateFieldName = new CommissionStatementTemplateFieldName() { Id = Guid.NewGuid().ToString(), Name = "Name7" };
