@@ -51,6 +51,7 @@ class MemberMerge extends Component<Props, State> {
                     {this.state.steps.map((step, index) => {
                         return (
                             <div
+                                key={index}
                                 style={{
                                     display:
                                         index === currentStepIndex

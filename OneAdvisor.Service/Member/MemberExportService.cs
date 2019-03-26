@@ -25,10 +25,10 @@ namespace OneAdvisor.Service.Member
         public async Task Policies(IExportRenderer<MemberPolicy> renderer, Stream stream, ScopeOptions scope)
         {
             var query = from member in ScopeQuery.GetMemberEntityQuery(_context, scope)
-                        join policy in _context.Policy
-                            on member.Id equals policy.MemberId
-                        join user in _context.Users
-                            on policy.UserId equals user.Id
+                        join policy in _context.Policy on member.Id equals policy.MemberId into policyGroup
+                        from policy in policyGroup.DefaultIfEmpty()
+                        join user in _context.Users on policy.UserId equals user.Id into userGroup
+                        from user in userGroup.DefaultIfEmpty()
                         select new MemberPolicy()
                         {
                             IdNumber = member.IdNumber,
@@ -42,7 +42,8 @@ namespace OneAdvisor.Service.Member
                             PolicyBroker = user.FirstName + " " + user.LastName,
                             PolicyPremium = policy.Premium,
                             PolicyTypeCode = policy.PolicyType.Code,
-                            PolicyStartDate = policy.StartDate
+                            PolicyStartDate = policy.StartDate,
+                            PolicyCompany = policy.Company.Name
                         };
 
             var items = await query.ToListAsync();

@@ -7,11 +7,25 @@ import { membersExportApi } from '@/config/api/member';
 
 type TOnComplete = () => void;
 
-export const exportMembers = (onComplete: TOnComplete): ApiAction => ({
-    type: 'API',
-    endpoint: `${membersExportApi}`,
+export const exportMemberPolicyAggregates = (
+    onComplete: TOnComplete
+): ApiAction => ({
+    type: "API",
+    endpoint: `${membersExportApi}/policyAggregates/csv`,
     onSuccessBlob: blob => {
-        saveFile(blob, `Members_${moment().format(DATE_FORMAT)}.csv`);
+        saveFile(
+            blob,
+            `MemberPolicyAggregates_${moment().format(DATE_FORMAT)}.csv`
+        );
         onComplete();
-    }
+    },
+});
+
+export const exportMemberPolicies = (onComplete: TOnComplete): ApiAction => ({
+    type: "API",
+    endpoint: `${membersExportApi}/policies/csv`,
+    onSuccessBlob: blob => {
+        saveFile(blob, `MemberPolicies_${moment().format(DATE_FORMAT)}.csv`);
+        onComplete();
+    },
 });

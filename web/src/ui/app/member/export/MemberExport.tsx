@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { exportMembers } from '@/state/app/member/export';
+import { exportMemberPolicies, exportMemberPolicyAggregates } from '@/state/app/member/export';
 import { Button, Header } from '@/ui/controls';
 
 type State = {
-    downloading: boolean;
+    downloadingPolicies: boolean;
+    downloadingPolicyAggregates: boolean;
 };
 
 class MemberExport extends Component<DispatchProp, State> {
@@ -13,18 +14,32 @@ class MemberExport extends Component<DispatchProp, State> {
         super(props);
 
         this.state = {
-            downloading: false
+            downloadingPolicies: false,
+            downloadingPolicyAggregates: false,
         };
     }
 
-    export = () => {
+    downloadMemberPolicyAggregates = () => {
         this.setState({
-            downloading: true
+            downloadingPolicyAggregates: true,
         });
         this.props.dispatch(
-            exportMembers(() => {
+            exportMemberPolicyAggregates(() => {
                 this.setState({
-                    downloading: false
+                    downloadingPolicyAggregates: false,
+                });
+            })
+        );
+    };
+
+    downloadMemberPolicies = () => {
+        this.setState({
+            downloadingPolicies: true,
+        });
+        this.props.dispatch(
+            exportMemberPolicies(() => {
+                this.setState({
+                    downloadingPolicies: false,
                 });
             })
         );
@@ -39,10 +54,18 @@ class MemberExport extends Component<DispatchProp, State> {
 
                 <Button
                     icon="download"
-                    loading={this.state.downloading}
-                    onClick={this.export}
+                    loading={this.state.downloadingPolicyAggregates}
+                    onClick={this.downloadMemberPolicyAggregates}
                 >
-                    Download
+                    Policy Aggregates
+                </Button>
+
+                <Button
+                    icon="download"
+                    loading={this.state.downloadingPolicies}
+                    onClick={this.downloadMemberPolicies}
+                >
+                    Policies
                 </Button>
             </>
         );

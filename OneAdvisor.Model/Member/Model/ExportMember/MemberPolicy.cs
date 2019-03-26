@@ -17,5 +17,6 @@ namespace OneAdvisor.Model.Member.Model.ExportMember
         public decimal? PolicyPremium { get; set; }
         public string PolicyTypeCode { get; set; }
         public DateTime? PolicyStartDate { get; set; }
+        public string PolicyCompany { get; set; }
     }
 }
