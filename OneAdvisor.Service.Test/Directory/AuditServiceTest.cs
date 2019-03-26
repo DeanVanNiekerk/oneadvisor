@@ -22,14 +22,14 @@ namespace OneAdvisor.Service.Test.Directory
             var user2 = TestHelper.InsertUserDetailed(options);
 
             //Given
-            var al1 = new AuditLogEntity { Id = Guid.NewGuid(), Entity = "Member", Action = "Insert", UserId = user1.User.Id, Date = DateTime.Now.AddDays(-1), Data = "A" };
-            var al2 = new AuditLogEntity { Id = Guid.NewGuid(), Entity = "Member", Action = "Insert", UserId = user1.User.Id, Date = DateTime.Now.AddDays(-2), Data = "B" };
-            var al3 = new AuditLogEntity { Id = Guid.NewGuid(), Entity = "Member", Action = "Insert", UserId = user1.User.Id, Date = DateTime.Now.AddDays(-3), Data = "C" };
-            var al4 = new AuditLogEntity { Id = Guid.NewGuid(), Entity = "Member", Action = "Insert", UserId = user1.User.Id, Date = DateTime.Now.AddDays(-4), Data = "D" };
-            var al5 = new AuditLogEntity { Id = Guid.NewGuid(), Entity = "Member", Action = "Update", UserId = user1.User.Id, Date = DateTime.Now.AddDays(-5), Data = "E" };
-            var al6 = new AuditLogEntity { Id = Guid.NewGuid(), Entity = "Member", Action = "Insert", UserId = user1.User.Id, Date = DateTime.Now.AddDays(-6), Data = "F" };
+            var al1 = new AuditLogEntity { Id = Guid.NewGuid(), Entity = "Client", Action = "Insert", UserId = user1.User.Id, Date = DateTime.Now.AddDays(-1), Data = "A" };
+            var al2 = new AuditLogEntity { Id = Guid.NewGuid(), Entity = "Client", Action = "Insert", UserId = user1.User.Id, Date = DateTime.Now.AddDays(-2), Data = "B" };
+            var al3 = new AuditLogEntity { Id = Guid.NewGuid(), Entity = "Client", Action = "Insert", UserId = user1.User.Id, Date = DateTime.Now.AddDays(-3), Data = "C" };
+            var al4 = new AuditLogEntity { Id = Guid.NewGuid(), Entity = "Client", Action = "Insert", UserId = user1.User.Id, Date = DateTime.Now.AddDays(-4), Data = "D" };
+            var al5 = new AuditLogEntity { Id = Guid.NewGuid(), Entity = "Client", Action = "Update", UserId = user1.User.Id, Date = DateTime.Now.AddDays(-5), Data = "E" };
+            var al6 = new AuditLogEntity { Id = Guid.NewGuid(), Entity = "Client", Action = "Insert", UserId = user1.User.Id, Date = DateTime.Now.AddDays(-6), Data = "F" };
 
-            var al7 = new AuditLogEntity { Id = Guid.NewGuid(), Entity = "Member", Action = "Insert", UserId = user2.User.Id, Date = DateTime.Now.AddDays(-7), Data = "G" };
+            var al7 = new AuditLogEntity { Id = Guid.NewGuid(), Entity = "Client", Action = "Insert", UserId = user2.User.Id, Date = DateTime.Now.AddDays(-7), Data = "G" };
 
             using (var context = new DataContext(options))
             {

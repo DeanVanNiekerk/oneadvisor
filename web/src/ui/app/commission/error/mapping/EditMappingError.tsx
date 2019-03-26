@@ -105,7 +105,7 @@ class EditMappingError extends Component<Props, State> {
 
         return (
             !!this.state.errorEdited.policyId &&
-            !!this.state.errorEdited.memberId
+            !!this.state.errorEdited.clientId
         );
     };
 

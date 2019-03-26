@@ -2,7 +2,7 @@ export type CommissionError = {
     id: string;
     commissionStatementId: string;
     policyId: string | null;
-    memberId: string | null;
+    clientId: string | null;
     commissionTypeId: string | null;
     data: CommissionImportData;
     isFormatValid: boolean;

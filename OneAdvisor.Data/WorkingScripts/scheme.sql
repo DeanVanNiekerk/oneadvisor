@@ -24,9 +24,9 @@ DROP TABLE AspNetUserTokens
 DROP TABLE com_Commission
 DROP TABLE com_CommissionError
 DROP TABLE com_CommissionStatement
-DROP TABLE mem_Contact
-DROP TABLE mem_Policy
-DROP TABLE mem_Member
+DROP TABLE clt_Contact
+DROP TABLE clt_Policy
+DROP TABLE clt_Client
 DROP TABLE lkp_ContactType
 DROP TABLE lkp_MarritalStatus
 DROP TABLE lkp_PolicyType

@@ -5,7 +5,7 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
 using OneAdvisor.Model.Export;
-using OneAdvisor.Model.Member.Model.ExportMember;
+using OneAdvisor.Model.Client.Model.ExportClient;
 
 namespace OneAdvisor.Export.Csv.Renderers
 {

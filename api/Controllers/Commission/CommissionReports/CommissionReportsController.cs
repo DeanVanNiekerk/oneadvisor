@@ -31,15 +31,15 @@ namespace api.Controllers.Commission.Commissions
         private ICommissionReportService CommissionReportService { get; }
         private IAuthenticationService AuthenticationService { get; }
 
-        [HttpGet("memberRevenueData")]
-        [UseCaseAuthorize("com_view_report_member_revenue")]
+        [HttpGet("clientRevenueData")]
+        [UseCaseAuthorize("com_view_report_client_revenue")]
         public async Task<IActionResult> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
             var scope = AuthenticationService.GetScope(User);
 
-            var queryOptions = new MemberRevenueQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
+            var queryOptions = new ClientRevenueQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
 
-            var data = await CommissionReportService.GetMemberRevenueData(queryOptions);
+            var data = await CommissionReportService.GetClientRevenueData(queryOptions);
 
             return Ok(data);
         }

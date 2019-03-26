@@ -5,7 +5,12 @@ import Activate from '@/ui/account/Activate';
 import ResetPassword from '@/ui/account/ResetPassword';
 import ResetPasswordRequest from '@/ui/account/ResetPasswordRequest';
 import SignIn from '@/ui/account/SignIn';
-import MemberRevenueReport from '@/ui/app/commission/reports/memberRevenue/MemberRevenueReport';
+import ClientList from '@/ui/app/client/client/ClientList';
+import ClientPreview from '@/ui/app/client/client/ClientPreview';
+import ClientExport from '@/ui/app/client/export/ClientExport';
+import ClientImport from '@/ui/app/client/import/ClientImport';
+import PolicyList from '@/ui/app/client/policy/PolicyList';
+import ClientRevenueReport from '@/ui/app/commission/reports/clientRevenue/ClientRevenueReport';
 import StatementList from '@/ui/app/commission/statement/StatementList';
 import StatementPreview from '@/ui/app/commission/statement/StatementPreview';
 import CommissionStatementTemplateList from '@/ui/app/commission/template/TemplateList';
@@ -15,13 +20,8 @@ import CompanyList from '@/ui/app/directory/lookup/company/CompanyList';
 import OrganisationList from '@/ui/app/directory/organisation/OrganisationList';
 import RoleList from '@/ui/app/directory/role/RoleList';
 import UserList from '@/ui/app/directory/user/UserList';
-import MemberExport from '@/ui/app/member/export/MemberExport';
-import MemberImport from '@/ui/app/member/import/MemberImport';
-import MemberList from '@/ui/app/member/member/MemberList';
-import MemberPreview from '@/ui/app/member/member/MemberPreview';
 
 import SecureRoute from '../SecureRoute';
-import PolicyList from '@/ui/app/member/policy/PolicyList';
 
 const Routes = () => (
     <Switch>
@@ -35,17 +35,17 @@ const Routes = () => (
         />
         <Route exact path="/resetPassword" component={ResetPassword} />
         {/* ------------------------------------------------------------------------------------- */}
-        {/* MEMBER ------------------------------------------------------------------------------- */}
-        <SecureRoute exact path="/" component={MemberList} />
-        <SecureRoute exact path="/member" component={MemberList} />
-        <SecureRoute exact path="/member/members" component={MemberList} />
-        <SecureRoute exact path="/member/policies" component={PolicyList} />
-        <SecureRoute exact path="/member/import" component={MemberImport} />
-        <SecureRoute exact path="/member/export" component={MemberExport} />
+        {/* CLIENT ------------------------------------------------------------------------------- */}
+        <SecureRoute exact path="/" component={ClientList} />
+        <SecureRoute exact path="/client" component={ClientList} />
+        <SecureRoute exact path="/client/clients" component={ClientList} />
+        <SecureRoute exact path="/client/policies" component={PolicyList} />
+        <SecureRoute exact path="/client/import" component={ClientImport} />
+        <SecureRoute exact path="/client/export" component={ClientExport} />
         <SecureRoute
             exact
-            path="/member/members/:memberId"
-            component={MemberPreview}
+            path="/client/clients/:clientId"
+            component={ClientPreview}
         />
         {/* ------------------------------------------------------------------------------------- */}
         {/* COMMISSION -------------------------------------------------------------------------- */}
@@ -67,8 +67,8 @@ const Routes = () => (
         />
         <SecureRoute
             exact
-            path="/commission/reports/revenueMember"
-            component={MemberRevenueReport}
+            path="/commission/reports/revenueClient"
+            component={ClientRevenueReport}
         />
         {/* ------------------------------------------------------------------------------------- */}
         {/* DIRECTORY --------------------------------------------------------------------------- */}

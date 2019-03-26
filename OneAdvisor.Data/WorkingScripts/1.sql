@@ -22,9 +22,9 @@ select *
 from dir_AuditLog
 
 select *
-from mem_Member
+from clt_Client
 select *
-from mem_Policy
+from clt_Policy
 
 
 select *

@@ -9,7 +9,7 @@ using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Commission;
-using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Data.Entities.Client;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Model.Directory.Model.Lookup;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +22,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
     {
         [Fact]
         [Trait("Category", "Integration")]
-        public async Task GetMemberRevenueData()
+        public async Task GetClientRevenueData()
         {
             var company = TestHelper.InsertCompany(_options);
             var policyType = TestHelper.InsertPolicyType(_options);
@@ -32,7 +32,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             var commissionType4 = TestHelper.InsertCommissionType(_options, policyType.Id, CommissionEarningsType.EARNINGS_TYPE_LIFE_FIRST_YEARS);
 
             var user1 = TestHelper.InsertUserDetailed(_options);
-            var member1 = TestHelper.InsertMember(_options, user1.Organisation);
+            var client1 = TestHelper.InsertClient(_options, user1.Organisation);
 
             var thisMonth = DateTime.Now.Date;
             var lastMonth = thisMonth.AddMonths(-1);
@@ -42,7 +42,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
-                MemberId = member1.Member.Id,
+                ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -251,10 +251,10 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
-                var queryOptions = new MemberRevenueQueryOptions(scope, "", "", 0, 0);
+                var queryOptions = new ClientRevenueQueryOptions(scope, "", "", 0, 0);
                 queryOptions.YearEnding = thisMonth.Year;
                 queryOptions.MonthEnding = thisMonth.Month;
-                var data = await service.GetMemberRevenueData(queryOptions);
+                var data = await service.GetClientRevenueData(queryOptions);
 
                 //Then
                 var results = data.Items.ToList();
@@ -263,10 +263,10 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Assert.Single(results);
 
                 var actual = results[0];
-                Assert.Equal(member1.Member.Id, actual.MemberId);
-                Assert.Equal(member1.Member.LastName, actual.MemberLastName);
-                Assert.Equal(member1.Member.Initials, actual.MemberInitials);
-                Assert.Equal(member1.Member.DateOfBirth, actual.MemberDateOfBirth);
+                Assert.Equal(client1.Client.Id, actual.ClientId);
+                Assert.Equal(client1.Client.LastName, actual.ClientLastName);
+                Assert.Equal(client1.Client.Initials, actual.ClientInitials);
+                Assert.Equal(client1.Client.DateOfBirth, actual.ClientDateOfBirth);
 
                 Assert.Equal(200, actual.MonthlyAnnuityMonth); // com2
                 Assert.Equal(125, actual.AnnualAnnuityAverage); // (100 + 500 + 900) / 12
@@ -282,16 +282,16 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
 
         [Fact]
         [Trait("Category", "Integration")]
-        public async Task GetMemberRevenueData_Sorting()
+        public async Task GetClientRevenueData_Sorting()
         {
             var company = TestHelper.InsertCompany(_options);
             var policyType = TestHelper.InsertPolicyType(_options);
             var commissionType1 = TestHelper.InsertCommissionType(_options, policyType.Id, CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY);
 
             var user1 = TestHelper.InsertUserDetailed(_options);
-            var member1 = TestHelper.InsertMember(_options, user1.Organisation);
-            var member2 = TestHelper.InsertMember(_options, user1.Organisation);
-            var member3 = TestHelper.InsertMember(_options, user1.Organisation);
+            var client1 = TestHelper.InsertClient(_options, user1.Organisation);
+            var client2 = TestHelper.InsertClient(_options, user1.Organisation);
+            var client3 = TestHelper.InsertClient(_options, user1.Organisation);
 
             var thisMonth = DateTime.Now.Date;
 
@@ -313,7 +313,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
-                MemberId = member1.Member.Id,
+                ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -334,7 +334,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
-                MemberId = member2.Member.Id,
+                ClientId = client2.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -355,7 +355,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
-                MemberId = member3.Member.Id,
+                ClientId = client3.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -392,10 +392,10 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
-                var queryOptions = new MemberRevenueQueryOptions(scope, "MonthlyAnnuityMonth", "desc", 0, 0);
+                var queryOptions = new ClientRevenueQueryOptions(scope, "MonthlyAnnuityMonth", "desc", 0, 0);
                 queryOptions.YearEnding = thisMonth.Year;
                 queryOptions.MonthEnding = thisMonth.Month;
-                var data = await service.GetMemberRevenueData(queryOptions);
+                var data = await service.GetClientRevenueData(queryOptions);
 
                 //Then
                 var results = data.Items.ToList();
@@ -405,33 +405,33 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Assert.Equal(3, resultsCount);
 
                 var actual = results[0];
-                Assert.Equal(member3.Member.Id, actual.MemberId);
+                Assert.Equal(client3.Client.Id, actual.ClientId);
                 Assert.Equal(300, actual.MonthlyAnnuityMonth);
 
                 actual = results[1];
-                Assert.Equal(member1.Member.Id, actual.MemberId);
+                Assert.Equal(client1.Client.Id, actual.ClientId);
                 Assert.Equal(200, actual.MonthlyAnnuityMonth);
 
                 actual = results[2];
-                Assert.Equal(member2.Member.Id, actual.MemberId);
+                Assert.Equal(client2.Client.Id, actual.ClientId);
                 Assert.Equal(100, actual.MonthlyAnnuityMonth);
             }
         }
 
         [Fact]
         [Trait("Category", "Integration")]
-        public async Task GetMemberRevenueData_Paging()
+        public async Task GetClientRevenueData_Paging()
         {
             var company = TestHelper.InsertCompany(_options);
             var policyType = TestHelper.InsertPolicyType(_options);
             var commissionType1 = TestHelper.InsertCommissionType(_options, policyType.Id, CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY);
 
             var user1 = TestHelper.InsertUserDetailed(_options);
-            var member1 = TestHelper.InsertMember(_options, user1.Organisation);
-            var member2 = TestHelper.InsertMember(_options, user1.Organisation);
-            var member3 = TestHelper.InsertMember(_options, user1.Organisation);
-            var member4 = TestHelper.InsertMember(_options, user1.Organisation);
-            var member5 = TestHelper.InsertMember(_options, user1.Organisation);
+            var client1 = TestHelper.InsertClient(_options, user1.Organisation);
+            var client2 = TestHelper.InsertClient(_options, user1.Organisation);
+            var client3 = TestHelper.InsertClient(_options, user1.Organisation);
+            var client4 = TestHelper.InsertClient(_options, user1.Organisation);
+            var client5 = TestHelper.InsertClient(_options, user1.Organisation);
 
             var thisMonth = DateTime.Now.Date;
 
@@ -453,7 +453,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
-                MemberId = member1.Member.Id,
+                ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -474,7 +474,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
-                MemberId = member2.Member.Id,
+                ClientId = client2.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -495,7 +495,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
-                MemberId = member3.Member.Id,
+                ClientId = client3.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -518,7 +518,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
-                MemberId = member4.Member.Id,
+                ClientId = client4.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -539,7 +539,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
-                MemberId = member5.Member.Id,
+                ClientId = client5.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -580,10 +580,10 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
-                var queryOptions = new MemberRevenueQueryOptions(scope, "MonthlyAnnuityMonth", "asc", 2, 2);
+                var queryOptions = new ClientRevenueQueryOptions(scope, "MonthlyAnnuityMonth", "asc", 2, 2);
                 queryOptions.YearEnding = thisMonth.Year;
                 queryOptions.MonthEnding = thisMonth.Month;
-                var data = await service.GetMemberRevenueData(queryOptions);
+                var data = await service.GetClientRevenueData(queryOptions);
 
                 //Then
                 var results = data.Items.ToList();
@@ -593,11 +593,11 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Assert.Equal(2, resultsCount);
 
                 var actual = results[0];
-                Assert.Equal(member3.Member.Id, actual.MemberId);
+                Assert.Equal(client3.Client.Id, actual.ClientId);
                 Assert.Equal(300, actual.MonthlyAnnuityMonth);
 
                 actual = results[1];
-                Assert.Equal(member4.Member.Id, actual.MemberId);
+                Assert.Equal(client4.Client.Id, actual.ClientId);
                 Assert.Equal(400, actual.MonthlyAnnuityMonth);
             }
         }

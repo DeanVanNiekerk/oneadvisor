@@ -1,10 +1,10 @@
 import { Application } from '@/state/context/types';
 
-export const DIRECTORY_ID = 'DIRECTORY';
-export const MEMBER_ID = 'MEMBER';
-export const COMMISSION_ID = 'COMMISSION';
+export const DIRECTORY_ID = "DIRECTORY";
+export const CLIENT_ID = "CLIENT";
+export const COMMISSION_ID = "COMMISSION";
 
-export const DEFAULT_APPLICATION_ID = MEMBER_ID;
+export const DEFAULT_APPLICATION_ID = CLIENT_ID;
 
 //https://coolors.co/f1f2eb-cc3f0c-001528-009ffd-2a2a72
 
@@ -20,23 +20,23 @@ const createApplication = (
     color,
     relativePath,
     icon,
-    isCurrent: false
+    isCurrent: false,
 });
 
 export const applications: Application[] = [
     createApplication(
         DIRECTORY_ID,
-        'Directory',
-        '#cc3f0c',
-        '/directory',
-        'safety'
+        "Directory",
+        "#cc3f0c",
+        "/directory",
+        "safety"
     ),
-    createApplication(MEMBER_ID, 'Member', '#009ffd', '/member', 'user'),
+    createApplication(CLIENT_ID, "Client", "#009ffd", "/client", "user"),
     createApplication(
         COMMISSION_ID,
-        'Commission',
-        '#2A2A72',
-        '/commission',
-        'dollar'
-    )
+        "Commission",
+        "#2A2A72",
+        "/commission",
+        "dollar"
+    ),
 ];

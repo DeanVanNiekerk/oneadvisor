@@ -131,7 +131,7 @@ namespace OneAdvisor.Service.Commission
                 return result;
 
             var policy = await _context.Policy.FindAsync(commission.PolicyId);
-            result = await ScopeQuery.CheckScope(_context, scope, policy.MemberId, policy.UserId);
+            result = await ScopeQuery.CheckScope(_context, scope, policy.ClientId, policy.UserId);
 
             if (!result.Success)
                 return result;
@@ -156,7 +156,7 @@ namespace OneAdvisor.Service.Commission
                 return result;
 
             var policy = await _context.Policy.FindAsync(commission.PolicyId);
-            result = await ScopeQuery.CheckScope(_context, scope, policy.MemberId, policy.UserId);
+            result = await ScopeQuery.CheckScope(_context, scope, policy.ClientId, policy.UserId);
 
             if (!result.Success)
                 return result;
@@ -166,7 +166,7 @@ namespace OneAdvisor.Service.Commission
             if (entity == null)
                 return new Result();
 
-            var memberEntity = MapModelToEntity(commission, entity);
+            var clientEntity = MapModelToEntity(commission, entity);
 
             await _context.SaveChangesAsync();
 

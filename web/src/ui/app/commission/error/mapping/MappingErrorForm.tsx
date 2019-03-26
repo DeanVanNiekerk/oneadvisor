@@ -5,14 +5,14 @@ import { connect, DispatchProp } from 'react-redux';
 import { ValidationResult } from '@/app/validation';
 import { CommissionError, CommissionImportData } from '@/state/app/commission/errors';
 import { Statement } from '@/state/app/commission/statements';
-import { MemberEdit, newMember, receiveMember } from '@/state/app/member/members';
-import { newPolicy, PolicyEdit, receivePolicy } from '@/state/app/member/policies';
-import EditMember from '@/ui/app/member/member/EditMember';
-import MemberSearch from '@/ui/app/member/member/MemberSearch';
-import EditPolicy from '@/ui/app/member/policy/EditPolicy';
-import PolicySearch from '@/ui/app/member/policy/PolicySearch';
+import { ClientEdit, newClient, receiveClient } from '@/state/app/client/clients';
+import { newPolicy, PolicyEdit, receivePolicy } from '@/state/app/client/policies';
+import EditClient from '@/ui/app/client/client/EditClient';
+import ClientSearch from '@/ui/app/client/client/ClientSearch';
+import EditPolicy from '@/ui/app/client/policy/EditPolicy';
+import PolicySearch from '@/ui/app/client/policy/PolicySearch';
 import {
-    Button, CommissionTypeName, Drawer, DrawerFooter, Form, FormReadOnly, FormText, MemberName, PolicyName, TabPane,
+    Button, CommissionTypeName, Drawer, DrawerFooter, Form, FormReadOnly, FormText, ClientName, PolicyName, TabPane,
     Tabs
 } from '@/ui/controls';
 
@@ -26,9 +26,9 @@ type Props = {
 type State = {
     error: CommissionError;
     errorData: CommissionImportData;
-    searchMemberVisible: boolean;
+    searchClientVisible: boolean;
     searchPolicyVisible: boolean;
-    memberEditVisible: boolean;
+    clientEditVisible: boolean;
     activeTab: TabKey;
 };
 
@@ -41,9 +41,9 @@ class MappingErrorForm extends Component<Props, State> {
         this.state = {
             error: props.error,
             errorData: props.error.data,
-            searchMemberVisible: false,
+            searchClientVisible: false,
             searchPolicyVisible: false,
-            memberEditVisible: false,
+            clientEditVisible: false,
             activeTab: "form_tab",
         };
     }
@@ -69,53 +69,53 @@ class MappingErrorForm extends Component<Props, State> {
         this.props.onChange(error);
     };
 
-    newMember = () => {
+    newClient = () => {
         const { errorData } = this.state;
 
-        const member = newMember({
+        const client = newClient({
             firstName: errorData.firstName || "",
             lastName: errorData.lastName || errorData.fullName || "",
             dateOfBirth: errorData.dateOfBirth || "",
             idNumber: errorData.idNumber || "",
             initials: errorData.initials || "",
         });
-        this.props.dispatch(receiveMember(member));
-        this.toggleMemberEditVisible();
+        this.props.dispatch(receiveClient(client));
+        this.toggleClientEditVisible();
     };
 
     newPolicy = () => {
-        if (!this.state.error.memberId) return;
+        if (!this.state.error.clientId) return;
 
         const policy = newPolicy({
-            memberId: this.state.error.memberId,
+            clientId: this.state.error.clientId,
             companyId: this.props.statement.companyId,
             number: this.state.errorData.policyNumber,
         });
         this.props.dispatch(receivePolicy(policy));
     };
 
-    memberInserted = (member: MemberEdit) => {
-        this.selectMember(member.id);
+    clientInserted = (client: ClientEdit) => {
+        this.selectClient(client.id);
     };
 
     policyInserted = (policy: PolicyEdit) => {
         this.selectPolicy(policy.id);
     };
 
-    selectMember = (memberId: string) => {
-        //If the member changes clear the policy
-        if (memberId != this.state.error.memberId) this.selectPolicy(null);
+    selectClient = (clientId: string) => {
+        //If the client changes clear the policy
+        if (clientId != this.state.error.clientId) this.selectPolicy(null);
 
-        this.handleChange("memberId", memberId);
+        this.handleChange("clientId", clientId);
     };
 
     selectPolicy = (policyId: string | null) => {
         this.handleChange("policyId", policyId);
     };
 
-    toggleSearchMemberVisible = () => {
+    toggleSearchClientVisible = () => {
         this.setState({
-            searchMemberVisible: !this.state.searchMemberVisible,
+            searchClientVisible: !this.state.searchClientVisible,
         });
     };
 
@@ -125,9 +125,9 @@ class MappingErrorForm extends Component<Props, State> {
         });
     };
 
-    toggleMemberEditVisible = () => {
+    toggleClientEditVisible = () => {
         this.setState({
-            memberEditVisible: !this.state.memberEditVisible,
+            clientEditVisible: !this.state.clientEditVisible,
         });
     };
 
@@ -149,19 +149,19 @@ class MappingErrorForm extends Component<Props, State> {
                     <TabPane tab="Mapping" key="form_tab">
                         <Form editUseCase="com_edit_commission_statements">
                             <FormText
-                                fieldName="memberId"
-                                label="Member"
+                                fieldName="clientId"
+                                label="Client"
                                 value={
-                                    error.memberId ? (
-                                        <MemberName
-                                            memberId={error.memberId}
+                                    error.clientId ? (
+                                        <ClientName
+                                            clientId={error.clientId}
                                             className="text-success"
                                         />
                                     ) : null
                                 }
                                 emptyValueText={
                                     <span className="text-error">
-                                        No Mapped Member
+                                        No Mapped Client
                                     </span>
                                 }
                                 validationResults={validationResults}
@@ -171,27 +171,27 @@ class MappingErrorForm extends Component<Props, State> {
                                             size="small"
                                             icon="search"
                                             type={
-                                                this.state.error.memberId
+                                                this.state.error.clientId
                                                     ? "dashed"
                                                     : "primary"
                                             }
                                             onClick={
-                                                this.toggleSearchMemberVisible
+                                                this.toggleSearchClientVisible
                                             }
                                         >
-                                            Find Member
+                                            Find Client
                                         </Button>
                                         <Button
                                             size="small"
                                             icon="plus"
                                             type={
-                                                this.state.error.memberId
+                                                this.state.error.clientId
                                                     ? "dashed"
                                                     : "primary"
                                             }
-                                            onClick={this.newMember}
+                                            onClick={this.newClient}
                                         >
-                                            New Member
+                                            New Client
                                         </Button>
                                     </>
                                 }
@@ -227,7 +227,7 @@ class MappingErrorForm extends Component<Props, State> {
                                                 this.toggleSearchPolicyVisible
                                             }
                                             disabled={
-                                                !this.state.error.memberId
+                                                !this.state.error.clientId
                                             }
                                         >
                                             Find Policy
@@ -242,7 +242,7 @@ class MappingErrorForm extends Component<Props, State> {
                                             }
                                             onClick={this.newPolicy}
                                             disabled={
-                                                !this.state.error.memberId
+                                                !this.state.error.clientId
                                             }
                                         >
                                             New Policy
@@ -277,27 +277,27 @@ class MappingErrorForm extends Component<Props, State> {
                     </TabPane>
                 </Tabs>
 
-                <EditMember
-                    onMemberInserted={this.memberInserted}
-                    visible={this.state.memberEditVisible}
-                    onClose={this.toggleMemberEditVisible}
+                <EditClient
+                    onClientInserted={this.clientInserted}
+                    visible={this.state.clientEditVisible}
+                    onClose={this.toggleClientEditVisible}
                 />
                 <EditPolicy onPolicyInserted={this.policyInserted} />
 
                 <Drawer
-                    title="Member Search"
-                    visible={this.state.searchMemberVisible}
-                    onClose={this.toggleSearchMemberVisible}
+                    title="Client Search"
+                    visible={this.state.searchClientVisible}
+                    onClose={this.toggleSearchClientVisible}
                 >
-                    <MemberSearch
+                    <ClientSearch
                         defaultSearchText={this.state.errorData.lastName || ""}
-                        onSelect={(memberId: string) => {
-                            this.selectMember(memberId);
-                            this.toggleSearchMemberVisible();
+                        onSelect={(clientId: string) => {
+                            this.selectClient(clientId);
+                            this.toggleSearchClientVisible();
                         }}
                     />
                     <DrawerFooter>
-                        <Button onClick={this.toggleSearchMemberVisible}>
+                        <Button onClick={this.toggleSearchClientVisible}>
                             Close
                         </Button>
                     </DrawerFooter>
@@ -313,7 +313,7 @@ class MappingErrorForm extends Component<Props, State> {
                             this.selectPolicy(policyId);
                             this.toggleSearchPolicyVisible();
                         }}
-                        memberId={this.state.error.memberId}
+                        clientId={this.state.error.clientId}
                         companyId={this.props.statement.companyId}
                     />
                     <DrawerFooter>

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
-using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
@@ -13,12 +13,12 @@ namespace OneAdvisor.Service.Common.Query
 {
     public class ScopeQuery
     {
-        public static IQueryable<MemberEntity> GetMemberEntityQuery(DataContext context, ScopeOptions options)
+        public static IQueryable<ClientEntity> GetClientEntityQuery(DataContext context, ScopeOptions options)
         {
-            return from member in context.Member
-                   where member.OrganisationId == options.OrganisationId
-                   && member.IsDeleted == false
-                   select member;
+            return from client in context.Client
+                   where client.OrganisationId == options.OrganisationId
+                   && client.IsDeleted == false
+                   select client;
         }
 
         public static IQueryable<UserEntity> GetUserEntityQuery(DataContext context, ScopeOptions options)
@@ -100,15 +100,15 @@ namespace OneAdvisor.Service.Common.Query
             return options.OrganisationId == organisationId;
         }
 
-        public static async Task<Result> IsMemberInOrganisation(DataContext context, ScopeOptions options, Guid memberId)
+        public static async Task<Result> IsClientInOrganisation(DataContext context, ScopeOptions options, Guid clientId)
         {
             var result = new Result();
 
-            var member = await context.Member.FindAsync(memberId);
+            var client = await context.Client.FindAsync(clientId);
 
-            if (member == null || member.IsDeleted || member.OrganisationId != options.OrganisationId)
+            if (client == null || client.IsDeleted || client.OrganisationId != options.OrganisationId)
             {
-                result.AddValidationFailure("MemberId", "Member does not exist");
+                result.AddValidationFailure("ClientId", "Client does not exist");
                 return result;
             }
 
@@ -116,9 +116,9 @@ namespace OneAdvisor.Service.Common.Query
             return result;
         }
 
-        public static async Task<Result> CheckScope(DataContext context, ScopeOptions scope, Guid memberId, Guid userId)
+        public static async Task<Result> CheckScope(DataContext context, ScopeOptions scope, Guid clientId, Guid userId)
         {
-            var result = await ScopeQuery.IsMemberInOrganisation(context, scope, memberId);
+            var result = await ScopeQuery.IsClientInOrganisation(context, scope, clientId);
 
             if (!result.Success)
                 return result;

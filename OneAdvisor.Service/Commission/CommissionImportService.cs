@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Commission;
-using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.Commission;
@@ -14,10 +14,10 @@ using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Account.Model.Authentication;
-using OneAdvisor.Model.Member.Interface;
+using OneAdvisor.Model.Client.Interface;
 using OneAdvisor.Service.Commission.Validators;
 using Microsoft.EntityFrameworkCore;
-using OneAdvisor.Model.Member.Model.Policy;
+using OneAdvisor.Model.Client.Model.Policy;
 using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using EFCore.BulkExtensions;
@@ -105,7 +105,7 @@ namespace OneAdvisor.Service.Commission
             var policy = policies.FirstOrDefault(p => p.Number.IgnoreCaseEquals(importCommission.PolicyNumber));
             if (policy != null)
             {
-                error.MemberId = policy.MemberId;
+                error.ClientId = policy.ClientId;
                 error.PolicyId = policy.Id;
             }
 
@@ -131,7 +131,7 @@ namespace OneAdvisor.Service.Commission
 
         public bool IsCommissionErrorValid(CommissionErrorEntity entity)
         {
-            return entity.PolicyId.HasValue && entity.MemberId.HasValue && entity.CommissionTypeId.HasValue;
+            return entity.PolicyId.HasValue && entity.ClientId.HasValue && entity.CommissionTypeId.HasValue;
         }
 
         private CommissionEntity LoadCommissionEntity(Guid commissionStatementId, Policy policy, CommissionType commissionType, ImportCommission importCommission)
@@ -154,9 +154,9 @@ namespace OneAdvisor.Service.Commission
             var commissionStatement = _context.CommissionStatement.Find(commissionStatementId);
 
             var policies = (from policy in _context.Policy
-                            join member in _context.Member
-                                on policy.MemberId equals member.Id
-                            where member.OrganisationId == commissionStatement.OrganisationId
+                            join client in _context.Client
+                                on policy.ClientId equals client.Id
+                            where client.OrganisationId == commissionStatement.OrganisationId
                             select policy.Id).ToList();
             var policyCount = policies.Count;
 

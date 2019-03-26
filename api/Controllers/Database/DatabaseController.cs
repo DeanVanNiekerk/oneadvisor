@@ -18,8 +18,8 @@ namespace api.Controllers.Database
     [Route("api/database")]
     public class DatabaseController : Controller
     {
-        private List<string> _allRoles = new List<string>() { "dir_administrator", "mem_administrator", "com_administrator", Role.SUPER_ADMINISTRATOR_ROLE };
-        private List<string> _limitedRoles = new List<string>() { "mem_administrator", "com_administrator" };
+        private List<string> _allRoles = new List<string>() { "dir_administrator", "clt_administrator", "com_administrator", Role.SUPER_ADMINISTRATOR_ROLE };
+        private List<string> _limitedRoles = new List<string>() { "clt_administrator", "com_administrator" };
 
         public DatabaseController(IDefaultDbContextInitializer contextInitializer, IUserService userService, UserManager<UserEntity> userManager)
         {

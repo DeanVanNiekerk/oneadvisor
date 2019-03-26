@@ -40,7 +40,7 @@ namespace OneAdvisor.Service.IntegrationTest
 
             _context.Contact.BatchDelete();
             _context.Policy.BatchDelete();
-            _context.Member.BatchDelete();
+            _context.Client.BatchDelete();
 
             _context.AuditLog.BatchDelete();
             _context.RoleToUseCase.BatchDelete();

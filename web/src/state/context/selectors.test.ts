@@ -1,4 +1,4 @@
-import { COMMISSION_ID, DEFAULT_APPLICATION_ID, DIRECTORY_ID, MEMBER_ID } from '@/config/application';
+import { CLIENT_ID, COMMISSION_ID, DEFAULT_APPLICATION_ID, DIRECTORY_ID } from '@/config/application';
 import { menus } from '@/config/menu';
 
 import { defaultState as defaultContextState } from './reducer';
@@ -6,22 +6,22 @@ import {
     applicationsSelector, currentApplicationSelector, currentMenuLinkSelector, currentMenuSelector
 } from './selectors';
 
-describe('context selectors', () => {
-    const setupState = (pathName = '/', contextState = defaultContextState) => {
+describe("context selectors", () => {
+    const setupState = (pathName = "/", contextState = defaultContextState) => {
         return {
             context: {
-                ...contextState
+                ...contextState,
             },
             router: {
                 location: {
-                    pathname: pathName
-                }
-            }
+                    pathname: pathName,
+                },
+            },
         };
     };
 
-    describe('applicationsSelector()', () => {
-        it('root path', () => {
+    describe("applicationsSelector()", () => {
+        it("root path", () => {
             const state = setupState();
 
             //@ts-ignore
@@ -29,12 +29,12 @@ describe('context selectors', () => {
 
             expect(actual.length).toEqual(3);
             expect(actual[0].id).toEqual(DIRECTORY_ID);
-            expect(actual[1].id).toEqual(MEMBER_ID);
+            expect(actual[1].id).toEqual(CLIENT_ID);
             expect(actual[2].id).toEqual(COMMISSION_ID);
         });
 
-        it('directory app', () => {
-            const state = setupState('/directory/users');
+        it("directory app", () => {
+            const state = setupState("/directory/users");
 
             //@ts-ignore
             const actual = applicationsSelector(state);
@@ -42,27 +42,27 @@ describe('context selectors', () => {
             const app = actual[0];
 
             expect(app.id).toEqual(DIRECTORY_ID);
-            expect(app.name).toEqual('Directory');
-            expect(app.relativePath).toEqual('/directory');
+            expect(app.name).toEqual("Directory");
+            expect(app.relativePath).toEqual("/directory");
             expect(app.isCurrent).toEqual(true);
         });
 
-        it('member app', () => {
-            const state = setupState('/member/members');
+        it("client app", () => {
+            const state = setupState("/client/clients");
 
             //@ts-ignore
             const actual = applicationsSelector(state);
 
             const app = actual[1];
 
-            expect(app.id).toEqual(MEMBER_ID);
-            expect(app.name).toEqual('Member');
-            expect(app.relativePath).toEqual('/member');
+            expect(app.id).toEqual(CLIENT_ID);
+            expect(app.name).toEqual("Client");
+            expect(app.relativePath).toEqual("/client");
             expect(app.isCurrent).toEqual(true);
         });
 
-        it('commission app', () => {
-            const state = setupState('/commission/upload');
+        it("commission app", () => {
+            const state = setupState("/commission/upload");
 
             //@ts-ignore
             const actual = applicationsSelector(state);
@@ -70,14 +70,14 @@ describe('context selectors', () => {
             const app = actual[2];
 
             expect(app.id).toEqual(COMMISSION_ID);
-            expect(app.name).toEqual('Commission');
-            expect(app.relativePath).toEqual('/commission');
+            expect(app.name).toEqual("Commission");
+            expect(app.relativePath).toEqual("/commission");
             expect(app.isCurrent).toEqual(true);
         });
     });
 
-    describe('currentApplicationSelector()', () => {
-        it('get current app - default', () => {
+    describe("currentApplicationSelector()", () => {
+        it("get current app - default", () => {
             const state = setupState();
 
             //@ts-ignore
@@ -86,18 +86,18 @@ describe('context selectors', () => {
             expect(actual.id).toEqual(DEFAULT_APPLICATION_ID);
         });
 
-        it('get current app - not default', () => {
-            const state = setupState('/member');
+        it("get current app - not default", () => {
+            const state = setupState("/client");
 
             //@ts-ignore
             const actual = currentApplicationSelector(state);
 
-            expect(actual.id).toEqual(MEMBER_ID);
+            expect(actual.id).toEqual(CLIENT_ID);
         });
     });
 
-    describe('currentMenuSelector()', () => {
-        it('get current app menu - default app', () => {
+    describe("currentMenuSelector()", () => {
+        it("get current app menu - default app", () => {
             const state = setupState();
 
             //@ts-ignore
@@ -109,8 +109,8 @@ describe('context selectors', () => {
         });
     });
 
-    describe('currentMenuLinkSelector()', () => {
-        it('get current app menu link - default app', () => {
+    describe("currentMenuLinkSelector()", () => {
+        it("get current app menu link - default app", () => {
             const state = setupState();
 
             //@ts-ignore
@@ -122,14 +122,14 @@ describe('context selectors', () => {
             );
         });
 
-        it('get current app menu link - default app', () => {
-            const state = setupState('/directory/users/00ug5ocbmgYtTMoGM0h7');
+        it("get current app menu link - default app", () => {
+            const state = setupState("/directory/users/00ug5ocbmgYtTMoGM0h7");
 
             //@ts-ignore
             const link = currentMenuLinkSelector(state);
 
             //Bit of a guess, but whatevs
-            expect(link.name).toEqual('Users');
+            expect(link.name).toEqual("Users");
         });
     });
 });

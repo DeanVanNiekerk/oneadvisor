@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Directory.Lookup;
-using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Directory.Model.Lookup;
 
 namespace OneAdvisor.Data
@@ -31,9 +31,9 @@ namespace OneAdvisor.Data
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [com_CommissionError]");
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [com_CommissionStatement]");
 
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_Contact]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_Policy]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [mem_Member]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [clt_Contact]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [clt_Policy]");
+            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [clt_Client]");
 
             total += await CleanRolesAndUseCase();
             total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Organisation]");
@@ -167,9 +167,9 @@ namespace OneAdvisor.Data
             var dirRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "dir_administrator", NormalizedName = "DIR_ADMINISTRATOR", Description = "Administrator", ApplicationId = dirGuid };
             var dirRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "dir_readonly", NormalizedName = "DIR_READONLY", Description = "Readonly", ApplicationId = dirGuid };
 
-            //Member Roles
-            var memRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "mem_administrator", NormalizedName = "MEM_ADMINISTRATOR", Description = "Administrator", ApplicationId = memGuid };
-            var memRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "mem_readonly", NormalizedName = "MEM_READONLY", Description = "Readonly", ApplicationId = memGuid };
+            //Client Roles
+            var memRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "clt_administrator", NormalizedName = "MEM_ADMINISTRATOR", Description = "Administrator", ApplicationId = memGuid };
+            var memRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "clt_readonly", NormalizedName = "MEM_READONLY", Description = "Readonly", ApplicationId = memGuid };
 
             //Commision Roles
             var comRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "com_administrator", NormalizedName = "COM_ADMINISTRATOR", Description = "Administrator", ApplicationId = comGuid };
@@ -206,15 +206,15 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_view_lookups", Name = "View Lookups", ApplicationId = dirGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_edit_lookups", Name = "Edit Lookups", ApplicationId = dirGuid });
 
-                //Member Use Cases
-                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_view_members", Name = "View Members", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_edit_members", Name = "Edit Members", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_view_policies", Name = "View Policies", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_edit_policies", Name = "Edit Policies", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_view_contacts", Name = "View Contacts", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_edit_contacts", Name = "Edit Contacts", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_import_members", Name = "Import Members", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "mem_export_members", Name = "Export Members", ApplicationId = memGuid });
+                //Client Use Cases
+                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_view_clients", Name = "View Clients", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_edit_clients", Name = "Edit Clients", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_view_policies", Name = "View Policies", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_edit_policies", Name = "Edit Policies", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_view_contacts", Name = "View Contacts", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_edit_contacts", Name = "Edit Contacts", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_import_clients", Name = "Import Clients", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_export_clients", Name = "Export Clients", ApplicationId = memGuid });
 
                 //Commission Use Cases
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_import_commissions", Name = "Import Commissions", ApplicationId = comGuid });
@@ -224,7 +224,7 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_edit_commission_statements", Name = "Edit Commission Statements", ApplicationId = comGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_view_commission_statement_templates", Name = "View Commission Statement Templates", ApplicationId = comGuid });
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_edit_commission_statement_templates", Name = "Edit Commission Statement Templates", ApplicationId = comGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "com_view_report_member_revenue", Name = "View Commission Member Revenue Report", ApplicationId = comGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "com_view_report_client_revenue", Name = "View Commission Client Revenue Report", ApplicationId = comGuid });
             }
 
             var roleToUseCase = await _context.RoleToUseCase.ToListAsync();
@@ -260,22 +260,22 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole2.Id, UseCaseId = "dir_view_audit_logs" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
 
-                //Member App
+                //Client App
                 //==========
                 //Adminstrator
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "mem_view_members" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "mem_edit_members" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "mem_import_members" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "mem_view_policies" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "mem_edit_policies" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "mem_view_contacts" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "mem_edit_contacts" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "mem_export_members" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "clt_view_clients" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "clt_edit_clients" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "clt_import_clients" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "clt_view_policies" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "clt_edit_policies" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "clt_view_contacts" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "clt_edit_contacts" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "clt_export_clients" });
 
                 //Readonly
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole2.Id, UseCaseId = "mem_view_members" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole2.Id, UseCaseId = "mem_view_policies" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole2.Id, UseCaseId = "mem_view_contacts" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole2.Id, UseCaseId = "clt_view_clients" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole2.Id, UseCaseId = "clt_view_policies" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole2.Id, UseCaseId = "clt_view_contacts" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
 
                 //Commission App
@@ -288,13 +288,13 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_edit_commission_statements" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_view_commission_statement_templates" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_edit_commission_statement_templates" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_view_report_member_revenue" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_view_report_client_revenue" });
 
                 //Readonly
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole2.Id, UseCaseId = "com_view_commissions" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole2.Id, UseCaseId = "com_view_commission_statements" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole2.Id, UseCaseId = "com_view_commission_statement_templates" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole2.Id, UseCaseId = "com_view_report_member_revenue" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole2.Id, UseCaseId = "com_view_report_client_revenue" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
             }
 
@@ -311,7 +311,7 @@ namespace OneAdvisor.Data
 
             application = await _context.Application.FindAsync(memGuid);
             if (application == null)
-                _context.Application.Add(new ApplicationEntity() { Id = memGuid, Name = "Member" });
+                _context.Application.Add(new ApplicationEntity() { Id = memGuid, Name = "Client" });
 
             application = await _context.Application.FindAsync(comGuid);
             if (application == null)

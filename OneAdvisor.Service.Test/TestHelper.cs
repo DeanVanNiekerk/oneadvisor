@@ -10,7 +10,7 @@ using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Commission;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Directory.Lookup;
-using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Test.Models;
@@ -96,16 +96,16 @@ namespace OneAdvisor.Service.Test
             };
         }
 
-        public static DefaultMember InsertMember(DbContextOptions<DataContext> options)
+        public static DefaultClient InsertClient(DbContextOptions<DataContext> options)
         {
             var organisation = InsertOrganisation(options);
 
-            return InsertMember(options, organisation);
+            return InsertClient(options, organisation);
         }
 
-        public static DefaultMember InsertMember(DbContextOptions<DataContext> options, OrganisationEntity organisation, string idNumber = null)
+        public static DefaultClient InsertClient(DbContextOptions<DataContext> options, OrganisationEntity organisation, string idNumber = null)
         {
-            var member = new MemberEntity
+            var client = new ClientEntity
             {
                 Id = Guid.NewGuid(),
                 FirstName = Guid.NewGuid().ToString(),
@@ -119,14 +119,14 @@ namespace OneAdvisor.Service.Test
 
             using (var context = new DataContext(options))
             {
-                context.Member.Add(member);
+                context.Client.Add(client);
                 context.SaveChanges();
             }
 
-            return new DefaultMember()
+            return new DefaultClient()
             {
                 Organisation = organisation,
-                Member = member
+                Client = client
             };
         }
 

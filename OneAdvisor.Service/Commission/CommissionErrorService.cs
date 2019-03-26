@@ -146,7 +146,7 @@ namespace OneAdvisor.Service.Commission
                 if (!String.Equals(error.Data.PolicyNumber, policy.Number, StringComparison.OrdinalIgnoreCase))
                     continue;
 
-                error.MemberId = policy.MemberId;
+                error.ClientId = policy.ClientId;
                 error.PolicyId = policyId;
                 await ResolveMappingError(scope, error);
             }
@@ -186,7 +186,7 @@ namespace OneAdvisor.Service.Commission
                             CommissionStatementId = entity.CommissionStatementId,
                             CommissionTypeId = entity.CommissionTypeId,
                             Data = entity.Data,
-                            MemberId = entity.MemberId,
+                            ClientId = entity.ClientId,
                             PolicyId = entity.PolicyId,
                             IsFormatValid = entity.IsFormatValid
                         };

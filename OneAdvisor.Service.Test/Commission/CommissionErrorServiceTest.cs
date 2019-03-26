@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Commission;
 using OneAdvisor.Data.Entities.Directory.Lookup;
-using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Commission.Model.CommissionError;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Model.Directory.Model.User;
@@ -30,7 +30,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionStatementId = statement.Id,
                 IsFormatValid = true,
                 PolicyId = Guid.NewGuid(),
-                MemberId = Guid.NewGuid(),
+                ClientId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
                 Data = new ImportCommission()
             };
@@ -56,7 +56,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(error1.CommissionStatementId, actual.CommissionStatementId);
                 Assert.Equal(error1.IsFormatValid, actual.IsFormatValid);
                 Assert.Equal(error1.PolicyId, actual.PolicyId);
-                Assert.Equal(error1.MemberId, actual.MemberId);
+                Assert.Equal(error1.ClientId, actual.ClientId);
                 Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
                 Assert.Equal(error1.Data, actual.Data);
             }
@@ -115,7 +115,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionStatementId = statement.Id,
                 IsFormatValid = true,
                 PolicyId = Guid.NewGuid(),
-                MemberId = Guid.NewGuid(),
+                ClientId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
                 Data = new ImportCommission()
             };
@@ -141,7 +141,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(error1.CommissionStatementId, actual.CommissionStatementId);
                 Assert.Equal(error1.IsFormatValid, actual.IsFormatValid);
                 Assert.Equal(error1.PolicyId, actual.PolicyId);
-                Assert.Equal(error1.MemberId, actual.MemberId);
+                Assert.Equal(error1.ClientId, actual.ClientId);
                 Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
                 Assert.Equal(error1.Data, actual.Data);
             }
@@ -168,7 +168,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionStatementId = statement.Id,
                 IsFormatValid = true,
                 PolicyId = Guid.NewGuid(),
-                MemberId = Guid.NewGuid(),
+                ClientId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
                 Data = ic1
             };
@@ -284,7 +284,7 @@ namespace OneAdvisor.Service.Test.Commission
             var options = TestHelper.GetDbContext("ResolveMappingError_Pass");
 
             var user1 = TestHelper.InsertUserDetailed(options);
-            var member1 = TestHelper.InsertMember(options, user1.Organisation);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
 
             var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
@@ -292,7 +292,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
-                MemberId = member1.Member.Id,
+                ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -335,7 +335,7 @@ namespace OneAdvisor.Service.Test.Commission
                     CommissionStatementId = statement.Id,
                     IsFormatValid = true,
                     PolicyId = policy1.Id,
-                    MemberId = policy1.MemberId,
+                    ClientId = policy1.ClientId,
                     CommissionTypeId = Guid.NewGuid(),
                     Data = ic1
                 };
@@ -372,7 +372,7 @@ namespace OneAdvisor.Service.Test.Commission
             var options = TestHelper.GetDbContext("ResolveFormatAndMappingError_Pass");
 
             var user1 = TestHelper.InsertUserDetailed(options);
-            var member1 = TestHelper.InsertMember(options, user1.Organisation);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
 
             var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
@@ -380,7 +380,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
-                MemberId = member1.Member.Id,
+                ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -422,7 +422,7 @@ namespace OneAdvisor.Service.Test.Commission
                     CommissionStatementId = statement.Id,
                     IsFormatValid = true,
                     PolicyId = policy1.Id,
-                    MemberId = policy1.MemberId,
+                    ClientId = policy1.ClientId,
                     CommissionTypeId = Guid.NewGuid(),
                     Data = ic2
                 };
@@ -459,7 +459,7 @@ namespace OneAdvisor.Service.Test.Commission
             var options = TestHelper.GetDbContext("AutoResolveMappingErrors_4Entries_AutoResolve3");
 
             var user1 = TestHelper.InsertUserDetailed(options);
-            var member1 = TestHelper.InsertMember(options, user1.Organisation);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
 
             var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
@@ -470,7 +470,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 Number = "123456",
                 CompanyId = Guid.NewGuid(),
-                MemberId = member1.Member.Id,
+                ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -570,7 +570,7 @@ namespace OneAdvisor.Service.Test.Commission
                     CommissionStatementId = statement.Id,
                     IsFormatValid = true,
                     PolicyId = policy1.Id,
-                    MemberId = policy1.MemberId,
+                    ClientId = policy1.ClientId,
                     CommissionTypeId = err1a.CommissionTypeId,
                     Data = ic1a
                 };
@@ -634,7 +634,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionStatementId = statement.Id,
                 IsFormatValid = true,
                 PolicyId = Guid.NewGuid(),
-                MemberId = Guid.NewGuid(),
+                ClientId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
                 Data = new ImportCommission()
             };
@@ -645,7 +645,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionStatementId = statement.Id,
                 IsFormatValid = false,
                 PolicyId = Guid.NewGuid(),
-                MemberId = Guid.NewGuid(),
+                ClientId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
                 Data = new ImportCommission()
             };
@@ -656,7 +656,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionStatementId = statement.Id,
                 IsFormatValid = true,
                 PolicyId = Guid.NewGuid(),
-                MemberId = Guid.NewGuid(),
+                ClientId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
                 Data = new ImportCommission()
             };
@@ -667,7 +667,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionStatementId = Guid.NewGuid(),
                 IsFormatValid = true,
                 PolicyId = Guid.NewGuid(),
-                MemberId = Guid.NewGuid(),
+                ClientId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
                 Data = new ImportCommission()
             };
@@ -696,7 +696,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(error1.CommissionStatementId, actual.CommissionStatementId);
                 Assert.Equal(error1.IsFormatValid, actual.IsFormatValid);
                 Assert.Equal(error1.PolicyId, actual.PolicyId);
-                Assert.Equal(error1.MemberId, actual.MemberId);
+                Assert.Equal(error1.ClientId, actual.ClientId);
                 Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
                 Assert.Equal(error1.Data, actual.Data);
 
