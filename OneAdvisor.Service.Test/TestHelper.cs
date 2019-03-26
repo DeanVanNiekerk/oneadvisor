@@ -134,7 +134,8 @@ namespace OneAdvisor.Service.Test
             var type = new PolicyTypeEntity
             {
                 Id = Guid.NewGuid(),
-                Name = Guid.NewGuid().ToString()
+                Name = Guid.NewGuid().ToString(),
+                Code = Guid.NewGuid().ToString()
             };
 
             using (var context = new DataContext(options))

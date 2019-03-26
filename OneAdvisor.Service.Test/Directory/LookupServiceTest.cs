@@ -69,9 +69,9 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("GetPolicyTypes");
 
             //Given
-            var lkp1 = new PolicyTypeEntity { Id = Guid.NewGuid(), Name = "A" };
-            var lkp2 = new PolicyTypeEntity { Id = Guid.NewGuid(), Name = "B" };
-            var lkp3 = new PolicyTypeEntity { Id = Guid.NewGuid(), Name = "C" };
+            var lkp1 = new PolicyTypeEntity { Id = Guid.NewGuid(), Name = "A", Code = "aa" };
+            var lkp2 = new PolicyTypeEntity { Id = Guid.NewGuid(), Name = "B", Code = "bb" };
+            var lkp3 = new PolicyTypeEntity { Id = Guid.NewGuid(), Name = "C", Code = "cc" };
 
             using (var context = new DataContext(options))
             {
@@ -96,6 +96,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual1 = actual[0];
                 Assert.Equal(lkp1.Id, actual1.Id);
                 Assert.Equal(lkp1.Name, actual1.Name);
+                Assert.Equal(lkp1.Code, actual1.Code);
 
                 var actual2 = actual[1];
                 Assert.Equal(lkp2.Id, actual2.Id);

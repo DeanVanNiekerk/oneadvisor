@@ -115,11 +115,11 @@ namespace OneAdvisor.Data
             var policyTypeRewards = Guid.Parse("3d991459-2043-46b9-9357-5446a993b81d");
             if (!policyTypes.Any())
             {
-                _context.PolicyType.Add(new PolicyTypeEntity() { Id = policyTypeInv, Name = "Investment" });
-                _context.PolicyType.Add(new PolicyTypeEntity() { Id = policyTypeLife, Name = "Life Insurance" });
-                _context.PolicyType.Add(new PolicyTypeEntity() { Id = policyTypeShort, Name = "Short Term Insurance" });
-                _context.PolicyType.Add(new PolicyTypeEntity() { Id = policyTypeMed, Name = "Medical Cover" });
-                _context.PolicyType.Add(new PolicyTypeEntity() { Id = policyTypeRewards, Name = "Rewards Program" });
+                _context.PolicyType.Add(new PolicyTypeEntity() { Id = policyTypeInv, Name = "Investment", Code = "investment" });
+                _context.PolicyType.Add(new PolicyTypeEntity() { Id = policyTypeLife, Name = "Life Insurance", Code = "life_insurance" });
+                _context.PolicyType.Add(new PolicyTypeEntity() { Id = policyTypeShort, Name = "Short Term Insurance", Code = "short_term" });
+                _context.PolicyType.Add(new PolicyTypeEntity() { Id = policyTypeMed, Name = "Medical Cover", Code = "medical_cover" });
+                _context.PolicyType.Add(new PolicyTypeEntity() { Id = policyTypeRewards, Name = "Rewards Program", Code = "rewards" });
             }
 
             //Lookups - Commission Type

@@ -18,9 +18,9 @@ namespace OneAdvisor.Service.Test.Member
     public class MemberExportServiceTest
     {
         [Fact]
-        public async Task Export()
+        public async Task PolicyAggregates()
         {
-            var options = TestHelper.GetDbContext("MemberExport");
+            var options = TestHelper.GetDbContext("PolicyAggregates");
 
             var user1 = TestHelper.InsertUserDetailed(options);
             var member1 = TestHelper.InsertMember(options, user1.Organisation);
@@ -47,10 +47,9 @@ namespace OneAdvisor.Service.Test.Member
                 var service = new MemberExportService(context);
 
                 //When
-                var renderer = new MockMemberExportRenderer();
+                var renderer = new MockMemberExportRenderer<MemberPolicyAggregate>();
                 var scopeOptions = TestHelper.GetScopeOptions(user1);
-                var queryOptions = new ExportMemberQueryOptions(scopeOptions, new List<string>());
-                await service.Export(renderer, new MemoryStream(), queryOptions);
+                await service.PolicyAggregates(renderer, new MemoryStream(), scopeOptions);
 
                 //Then
                 Assert.Equal(2, renderer.Items.Count());

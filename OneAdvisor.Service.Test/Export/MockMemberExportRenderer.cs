@@ -5,11 +5,11 @@ using OneAdvisor.Model.Member.Model.ExportMember;
 
 namespace OneAdvisor.Service.Test.Export
 {
-    public class MockMemberExportRenderer : IExportRenderer<ExportMember>
+    public class MockMemberExportRenderer<T> : IExportRenderer<T>
     {
-        public IEnumerable<ExportMember> Items { get; set; }
+        public IEnumerable<T> Items { get; set; }
 
-        public void Render(Stream stream, IEnumerable<ExportMember> items)
+        public void Render(Stream stream, IEnumerable<T> items)
         {
             Items = items;
         }

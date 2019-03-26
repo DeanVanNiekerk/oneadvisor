@@ -1,4 +1,4 @@
-namespace OneAdvisor.Model.Export.Excel
+namespace OneAdvisor.Model.Import.Excel
 {
     public class ExcelUtils
     {

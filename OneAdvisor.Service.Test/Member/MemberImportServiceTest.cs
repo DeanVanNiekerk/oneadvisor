@@ -15,6 +15,7 @@ using OneAdvisor.Model.Member.Model.ImportMember;
 using OneAdvisor.Model.Member.Model.Member;
 using OneAdvisor.Model.Member.Model.Policy;
 using OneAdvisor.Service.Member;
+using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Member
 {
@@ -32,7 +33,7 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
-                var service = new MemberImportService(context, memberService, null, null);
+                var service = new MemberImportService(context, memberService, null, null, null);
 
                 //When
                 var data = new ImportMember()
@@ -71,7 +72,7 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
-                var service = new MemberImportService(context, memberService, null, null);
+                var service = new MemberImportService(context, memberService, null, null, null);
 
                 //When
                 var data = new ImportMember()
@@ -101,7 +102,7 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
-                var service = new MemberImportService(context, memberService, null, null);
+                var service = new MemberImportService(context, memberService, null, null, null);
 
                 //When
                 var data = new ImportMember()
@@ -131,7 +132,7 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
-                var service = new MemberImportService(context, memberService, null, null);
+                var service = new MemberImportService(context, memberService, null, null, null);
 
                 //When
                 var data = new ImportMember()
@@ -162,7 +163,7 @@ namespace OneAdvisor.Service.Test.Member
             {
                 var memberService = new MemberService(context);
                 var contactService = new ContactService(context);
-                var service = new MemberImportService(context, memberService, null, contactService);
+                var service = new MemberImportService(context, memberService, null, contactService, null);
 
                 //When
                 var data = new ImportMember()
@@ -196,7 +197,7 @@ namespace OneAdvisor.Service.Test.Member
             {
                 var memberService = new MemberService(context);
                 var contactService = new ContactService(context);
-                var service = new MemberImportService(context, memberService, null, contactService);
+                var service = new MemberImportService(context, memberService, null, contactService, null);
 
                 //When
                 var data = new ImportMember()
@@ -248,7 +249,7 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
-                var service = new MemberImportService(context, memberService, null, null);
+                var service = new MemberImportService(context, memberService, null, null, null);
 
                 //When
                 var data = new ImportMember()
@@ -302,7 +303,7 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
-                var service = new MemberImportService(context, memberService, null, null);
+                var service = new MemberImportService(context, memberService, null, null, null);
 
                 //When
                 var data = new ImportMember()
@@ -366,7 +367,7 @@ namespace OneAdvisor.Service.Test.Member
             {
                 var memberService = new MemberService(context);
                 var contactService = new ContactService(context);
-                var service = new MemberImportService(context, memberService, null, contactService);
+                var service = new MemberImportService(context, memberService, null, contactService, null);
 
                 //When
                 var data = new ImportMember()
@@ -424,7 +425,7 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
-                var service = new MemberImportService(context, memberService, null, null);
+                var service = new MemberImportService(context, memberService, null, null, null);
 
                 //When
                 var data = new ImportMember()
@@ -479,7 +480,7 @@ namespace OneAdvisor.Service.Test.Member
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
-                var service = new MemberImportService(context, memberService, null, null);
+                var service = new MemberImportService(context, memberService, null, null, null);
 
                 //When
                 var data = new ImportMember()
@@ -508,11 +509,15 @@ namespace OneAdvisor.Service.Test.Member
 
             var user1 = TestHelper.InsertUserDetailed(options);
 
+            var policyType1 = TestHelper.InsertPolicyType(options);
+            var policyType2 = TestHelper.InsertPolicyType(options);
+
             using (var context = new DataContext(options))
             {
                 var memberService = new MemberService(context);
                 var policyService = new PolicyService(context);
-                var service = new MemberImportService(context, memberService, policyService, null);
+                var lookupService = new LookupService(context);
+                var service = new MemberImportService(context, memberService, policyService, null, lookupService);
 
                 //When
                 var data = new ImportMember()
@@ -521,7 +526,7 @@ namespace OneAdvisor.Service.Test.Member
                     LastName = "LN",
                     PolicyNumber = "987654",
                     PolicyCompanyId = Guid.NewGuid(),
-                    PolicyType = "life_insurance",
+                    PolicyType = policyType2.Code,
                     PolicyPremium = 5000,
                     PolicyStartDate = DateTime.Now,
                     PolicyUserFullName = $"{user1.User.FirstName} {user1.User.LastName}"
@@ -539,7 +544,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.Equal(user1.User.Id, actual.UserId);
                 Assert.Equal(data.PolicyPremium, actual.Premium);
                 Assert.Equal(data.PolicyStartDate, actual.StartDate);
-                Assert.Equal(PolicyType.POLICY_TYPE_LIFE_INSURANCE, actual.PolicyTypeId);
+                Assert.Equal(policyType2.Id, actual.PolicyTypeId);
             }
         }
 
@@ -564,7 +569,8 @@ namespace OneAdvisor.Service.Test.Member
             {
                 var memberService = new MemberService(context);
                 var policyService = new PolicyService(context);
-                var service = new MemberImportService(context, memberService, policyService, null);
+                var lookupService = new LookupService(context);
+                var service = new MemberImportService(context, memberService, policyService, null, lookupService);
 
                 //When
                 var data = new ImportMember()
@@ -600,6 +606,9 @@ namespace OneAdvisor.Service.Test.Member
 
             var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
 
+            var policyType1 = TestHelper.InsertPolicyType(options);
+            var policyType2 = TestHelper.InsertPolicyType(options);
+
             //Given
             var policyEntity1 = new PolicyEntity
             {
@@ -607,7 +616,7 @@ namespace OneAdvisor.Service.Test.Member
                 CompanyId = Guid.NewGuid(),
                 MemberId = member1.Member.Id,
                 UserId = user2.User.Id,
-                PolicyTypeId = PolicyType.POLICY_TYPE_INVESTMENT,
+                PolicyTypeId = policyType2.Id,
                 Premium = 2000,
                 StartDate = DateTime.Now,
                 Number = "123465"
@@ -624,7 +633,8 @@ namespace OneAdvisor.Service.Test.Member
             {
                 var memberService = new MemberService(context);
                 var policyService = new PolicyService(context);
-                var service = new MemberImportService(context, memberService, policyService, null);
+                var lookupService = new LookupService(context);
+                var service = new MemberImportService(context, memberService, policyService, null, lookupService);
 
                 //When
                 var data = new ImportMember()
@@ -633,7 +643,7 @@ namespace OneAdvisor.Service.Test.Member
                     LastName = "LN",
                     PolicyNumber = policyEntity1.Number,
                     PolicyCompanyId = policyEntity1.CompanyId,
-                    PolicyType = "medical_cover",
+                    PolicyType = policyType1.Code,
                     PolicyPremium = 6000,
                     PolicyStartDate = DateTime.Now.AddDays(-100),
                     PolicyUserFullName = $"{user1.User.FirstName} {user1.User.LastName}"
@@ -651,7 +661,7 @@ namespace OneAdvisor.Service.Test.Member
                 Assert.Equal(user1.User.Id, actual.UserId);
                 Assert.Equal(data.PolicyPremium, actual.Premium);
                 Assert.Equal(data.PolicyStartDate, actual.StartDate);
-                Assert.Equal(PolicyType.POLICY_TYPE_MEDICAL_COVER, actual.PolicyTypeId);
+                Assert.Equal(policyType1.Id, actual.PolicyTypeId);
             }
         }
     }

@@ -11,6 +11,8 @@ namespace OneAdvisor.Data.Entities.Directory.Lookup
         public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
+        [Required]
+        public string Code { get; set; }
 
         public virtual ICollection<CommissionTypeEntity> CommissionTypes { get; set; }
     }

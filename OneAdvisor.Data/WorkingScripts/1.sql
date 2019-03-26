@@ -35,7 +35,7 @@ select *
 from com_CommissionError
 
 select *
-from lkp_CommissionType
+from lkp_PolicyType
 
 
 --update AspNetUsers set EmailConfirmed = 0 where id = '69e858df-093e-41a0-c031-08d6ab01fec0'

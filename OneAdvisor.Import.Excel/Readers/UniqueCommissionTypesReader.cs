@@ -7,7 +7,7 @@ using OneAdvisor.Model;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Helpers;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
-using OneAdvisor.Model.Export.Excel;
+using OneAdvisor.Model.Import.Excel;
 using OneAdvisor.Model.Import;
 
 namespace OneAdvisor.Import.Excel.Readers

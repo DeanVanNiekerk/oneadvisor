@@ -17,6 +17,7 @@ using OneAdvisor.Model.Member.Model.Member;
 using OneAdvisor.Model.Member.Model.Policy;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Member.Validators;
+using OneAdvisor.Model.Directory.Interface;
 
 namespace OneAdvisor.Service.Member
 {
@@ -26,18 +27,20 @@ namespace OneAdvisor.Service.Member
         private readonly IMemberService _memberService;
         private readonly IPolicyService _policyService;
         private readonly IContactService _contactService;
+        private readonly ILookupService _lookupService;
 
-        public MemberImportService(DataContext context, IMemberService memberService, IPolicyService policyService, IContactService contactService)
+        public MemberImportService(DataContext context, IMemberService memberService, IPolicyService policyService, IContactService contactService, ILookupService lookupService)
         {
             _context = context;
             _memberService = memberService;
             _policyService = policyService;
             _contactService = contactService;
+            _lookupService = lookupService;
         }
 
         public async Task<Result> ImportMember(ScopeOptions scope, ImportMember data)
         {
-            var validator = new ImportMemberValidator(false);
+            var validator = new ImportMemberValidator(_context);
             var result = validator.Validate(data).GetResult();
 
             if (!result.Success)
@@ -249,11 +252,12 @@ namespace OneAdvisor.Service.Member
                 return result;
 
             var policy = await _policyService.GetPolicy(scope, member.Id.Value, data.PolicyCompanyId.Value, data.PolicyNumber);
+            var policyTypes = await _lookupService.GetPolicyTypes();
 
             //Policy exits, update
             if (policy != null)
             {
-                policy = MapPolicyProperties(policy, data, userId);
+                policy = MapPolicyProperties(policy, data, userId, policyTypes);
 
                 result = await _policyService.UpdatePolicy(scope, policy);
 
@@ -269,7 +273,7 @@ namespace OneAdvisor.Service.Member
                     Number = data.PolicyNumber
                 };
 
-                policy = MapPolicyProperties(policy, data, userId);
+                policy = MapPolicyProperties(policy, data, userId, policyTypes);
 
                 result = await _policyService.InsertPolicy(scope, policy);
 
@@ -333,37 +337,24 @@ namespace OneAdvisor.Service.Member
             return result;
         }
 
-        private PolicyEdit MapPolicyProperties(PolicyEdit policy, ImportMember data, Guid userId)
+        private PolicyEdit MapPolicyProperties(PolicyEdit policy, ImportMember data, Guid userId, List<PolicyType> policyTypes)
         {
             policy.UserId = userId;
             policy.Premium = data.PolicyPremium != null ? data.PolicyPremium : policy.Premium;
             policy.StartDate = data.PolicyStartDate != null ? data.PolicyStartDate : policy.StartDate;
-            policy.PolicyTypeId = GetPolicyTypeId(data.PolicyType);
+            policy.PolicyTypeId = GetPolicyTypeId(data.PolicyType, policyTypes);
 
             return policy;
         }
 
-        private Guid? GetPolicyTypeId(string policyType)
+        private Guid? GetPolicyTypeId(string policyTypeCode, List<PolicyType> policyTypes)
         {
-            if (string.IsNullOrWhiteSpace(policyType))
+            var policyType = policyTypes.FirstOrDefault(p => p.Code.IgnoreCaseEquals(policyTypeCode));
+
+            if (policyType == null)
                 return null;
 
-            //NB: when updating checking, ImportMemberValidator.cs
-            switch (policyType.ToLower())
-            {
-                case "investment":
-                    return PolicyType.POLICY_TYPE_INVESTMENT;
-                case "life_insurance":
-                    return PolicyType.POLICY_TYPE_LIFE_INSURANCE;
-                case "short_term":
-                    return PolicyType.POLICY_TYPE_SHORT_TERM;
-                case "medical_cover":
-                    return PolicyType.POLICY_TYPE_MEDICAL_COVER;
-                case "rewards":
-                    return PolicyType.POLICY_TYPE_REWARDS;
-            }
-
-            return null;
+            return policyType.Id;
         }
     }
 }

@@ -2,7 +2,7 @@ using System;
 
 namespace OneAdvisor.Model.Member.Model.ExportMember
 {
-    public class ExportMember
+    public class MemberPolicyAggregate
     {
         public string IdNumber { get; set; }
         public string FirstName { get; set; }

@@ -49,7 +49,8 @@ namespace OneAdvisor.Service.Directory
                         select new PolicyType()
                         {
                             Id = policyType.Id,
-                            Name = policyType.Name
+                            Name = policyType.Name,
+                            Code = policyType.Code
                         };
 
             return await query.ToListAsync();

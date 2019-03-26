@@ -28,20 +28,19 @@ namespace api.Controllers.Member.Export
         private IMemberExportService MemberExportService { get; }
         private IAuthenticationService AuthenticationService { get; }
 
-        [HttpGet("csv")]
+        [HttpGet("/policyAggregates/csv")]
         [UseCaseAuthorize("mem_export_members")]
-        public async Task Export()
+        public async Task ExportPolicyAggregates()
         {
             var scope = AuthenticationService.GetScope(User);
 
-            var csvRenderer = new MemberExportCsvRenderer();
-            var queryOptions = new ExportMemberQueryOptions(scope, new List<string>());
+            var csvRenderer = new CsvRenderer<MemberPolicyAggregate>();
 
             var fileName = $"Members_{DateTime.Now.ToString("yyyy-MM-dd")}";
             Response.Headers.Add("Content-Disposition", $"attachment; filename={fileName}; filename*=UTF-8''{fileName}");
             Response.Headers.Add("Content-Type", "text/csv");
 
-            await MemberExportService.Export(csvRenderer, Response.Body, queryOptions);
+            await MemberExportService.PolicyAggregates(csvRenderer, Response.Body, scope);
         }
     }
 }
