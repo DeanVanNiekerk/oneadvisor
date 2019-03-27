@@ -31,7 +31,7 @@ namespace OneAdvisor.Service.Member
                         from user in userGroup.DefaultIfEmpty()
                         select new MemberPolicy()
                         {
-                            IdNumber = member.IdNumber,
+                            IdNumber = member.IdNumber != "" ? member.IdNumber : member.PassportNumber,
                             FirstName = member.FirstName,
                             LastName = member.LastName,
                             Email = member.MemberContacts.Where(c => c.ContactTypeId == ContactType.CONTACT_TYPE_EMAIL).Select(c => c.Value).FirstOrDefault(),
