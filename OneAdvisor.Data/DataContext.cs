@@ -10,6 +10,8 @@ using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.Entities.Directory.Mappings;
 using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Data.Entities.Client.Mappings;
+using OneAdvisor.Data.Entities.Client.Lookup;
+using OneAdvisor.Data.Entities.Commission.Lookup;
 
 namespace OneAdvisor.Data
 {
@@ -39,6 +41,7 @@ namespace OneAdvisor.Data
         public DbSet<MarritalStatusEntity> MarritalStatus { get; set; }
         public DbSet<ContactTypeEntity> ContactType { get; set; }
         public DbSet<PolicyTypeEntity> PolicyType { get; set; }
+        public DbSet<ClientTypeEntity> ClientType { get; set; }
 
         #endregion
 
@@ -55,17 +58,19 @@ namespace OneAdvisor.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // #region Identity
+            base.OnModelCreating(modelBuilder);
 
-            // modelBuilder.Entity<UserEntity>().ToTable("idnty_User");
-            // modelBuilder.Entity<RoleEntity>().ToTable("idnty_Role");
-            // modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("idnty_UserClaim");
-            // modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("idnty_UserRole");
-            // modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("idnty_UserLogin");
-            // modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("idnty_RoleClaim");
-            // modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("idnty_UserToken");
+            #region Identity
 
-            // #endregion
+            modelBuilder.Entity<UserEntity>().ToTable("idn_User"); ;
+            modelBuilder.Entity<RoleEntity>().ToTable("idn_Role");
+            modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("idn_UserClaim");
+            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("idn_UserRole");
+            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("idn_UserLogin");
+            modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("idn_RoleClaim");
+            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("idn_UserToken");
+
+            #endregion
 
             #region Directory
 
@@ -92,6 +97,7 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<ContactEntity>().ToTable("clt_Contact");
             modelBuilder.Entity<ContactTypeEntity>().ToTable("clt_ContactType");
             modelBuilder.Entity<MarritalStatusEntity>().ToTable("clt_MarritalStatus");
+            modelBuilder.Entity<ClientTypeEntity>().ToTable("clt_ClientType");
 
             //Custom mappings
             PolicyMap.Map(modelBuilder);
@@ -115,7 +121,7 @@ namespace OneAdvisor.Data
 
             #endregion
 
-            base.OnModelCreating(modelBuilder);
+
         }
     }
 }

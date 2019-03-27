@@ -19,6 +19,7 @@ using OneAdvisor.Data.Entities.Directory.Lookup;
 using System.Collections.Generic;
 using Moq;
 using OneAdvisor.Service.Common.BulkActions;
+using OneAdvisor.Data.Entities.Commission.Lookup;
 
 namespace OneAdvisor.Service.Test.Commission
 {

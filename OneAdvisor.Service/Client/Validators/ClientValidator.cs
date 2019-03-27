@@ -27,8 +27,9 @@ namespace OneAdvisor.Service.Client.Validators
             _isInsert = isInsert;
 
             if (!isInsert)
-                RuleFor(o => o.Id).NotEmpty();
+                RuleFor(m => m.Id).NotEmpty();
 
+            RuleFor(m => m.ClientTypeId).NotEmpty().WithName("Client Type");
             RuleFor(m => m.FirstName).MaximumLength(128).WithName("First Name");
             RuleFor(m => m.LastName).MaximumLength(128).WithName("Last Name");
             RuleFor(m => m.TaxNumber).MaximumLength(128).WithName("Tax Number");

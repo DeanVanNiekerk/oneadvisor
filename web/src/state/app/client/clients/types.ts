@@ -1,5 +1,6 @@
 export type Client = {
     id: string;
+    clientTypeId: string;
     firstName: string;
     lastName: string;
     maidenName: string;
@@ -15,6 +16,7 @@ export type Client = {
 
 export type ClientEdit = {
     id: string;
+    clientTypeId: string;
     firstName: string;
     lastName: string;
     maidenName: string;

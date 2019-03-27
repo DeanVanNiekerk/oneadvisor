@@ -11,10 +11,9 @@ using OneAdvisor.Model.Client.Interface;
 using api.App.Dtos;
 using OneAdvisor.Model.Client.Model.Client;
 using Microsoft.AspNetCore.Http;
-using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Account.Interface;
 
-namespace api.Controllers.Directory.Clients
+namespace api.Controllers.Client.Clients
 {
 
     [ApiController]

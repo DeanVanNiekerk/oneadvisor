@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { reducer as all, State as LookupsState } from './all/reducer';
+import { reducer as clientTypes, State as ClientTypesState } from './clientTypes/reducer';
 import {
     reducer as commissionEarningsTypes, State as CommissionEarningsTypesState
 } from './commissionEarningsTypes/reducer';
@@ -22,6 +23,7 @@ export type State = {
     policyTypes: PolicyTypesState;
     commissionStatementTemplateFieldNames: CommissionStatementTemplateFieldNamesState;
     commissionEarningsTypes: CommissionEarningsTypesState;
+    clientTypes: ClientTypesState;
 };
 
 export const reducer = combineReducers({
@@ -33,4 +35,5 @@ export const reducer = combineReducers({
     policyTypes: policyTypes,
     commissionStatementTemplateFieldNames: commissionStatementTemplateFieldNames,
     commissionEarningsTypes: commissionEarningsTypes,
+    clientTypes: clientTypes,
 });

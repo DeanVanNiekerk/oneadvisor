@@ -107,12 +107,13 @@ namespace api.App.Setup
             Services.AddScoped<ILookupService, LookupService>();
             Services.AddScoped<IAuditService, AuditService>();
 
-            //MEMBER
+            //CLIENT
             Services.AddScoped<IClientService, ClientService>();
             Services.AddScoped<IClientImportService, ClientImportService>();
             Services.AddScoped<IClientExportService, ClientExportService>();
             Services.AddScoped<IPolicyService, PolicyService>();
             Services.AddScoped<IContactService, ContactService>();
+            Services.AddScoped<IClientLookupService, ClientLookupService>();
 
             //COMMISSION
             Services.AddScoped<ICommissionService, CommissionService>();

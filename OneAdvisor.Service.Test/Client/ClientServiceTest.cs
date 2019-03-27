@@ -14,6 +14,7 @@ using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Client.Model.Client;
 using OneAdvisor.Service.Client;
 using OneAdvisor.Model.Client.Model.Merge;
+using OneAdvisor.Model.Client.Model.Lookup;
 
 namespace OneAdvisor.Service.Test.Client
 {
@@ -32,6 +33,7 @@ namespace OneAdvisor.Service.Test.Client
             var client1 = new ClientEntity
             {
                 Id = Guid.NewGuid(),
+                ClientTypeId = Guid.NewGuid(),
                 FirstName = "FN 1",
                 LastName = "LN 1",
                 MaidenName = "MN 1",
@@ -83,6 +85,7 @@ namespace OneAdvisor.Service.Test.Client
                 var actual = clients.Items.First();
                 Assert.Equal(client1.Id, actual.Id);
                 Assert.Equal(client1.FirstName, actual.FirstName);
+                Assert.Equal(client1.ClientTypeId, actual.ClientTypeId);
                 Assert.Equal(client1.LastName, actual.LastName);
                 Assert.Equal(client1.MaidenName, actual.MaidenName);
                 Assert.Equal(client1.Initials, actual.Initials);
@@ -212,6 +215,7 @@ namespace OneAdvisor.Service.Test.Client
             var mem2 = new ClientEntity
             {
                 Id = Guid.NewGuid(),
+                ClientTypeId = Guid.NewGuid(),
                 FirstName = "FN 1",
                 LastName = "LN 1",
                 MaidenName = "MN 1",
@@ -243,6 +247,7 @@ namespace OneAdvisor.Service.Test.Client
 
                 //Then
                 Assert.Equal(mem2.Id, actual.Id);
+                Assert.Equal(mem2.ClientTypeId, actual.ClientTypeId);
                 Assert.Equal(mem2.FirstName, actual.FirstName);
                 Assert.Equal(mem2.LastName, actual.LastName);
                 Assert.Equal(mem2.MaidenName, actual.MaidenName);
@@ -280,6 +285,7 @@ namespace OneAdvisor.Service.Test.Client
             var mem2 = new ClientEntity
             {
                 Id = Guid.NewGuid(),
+                ClientTypeId = Guid.NewGuid(),
                 FirstName = "FN 1",
                 LastName = "LN 1",
                 IdNumber = "321654",
@@ -332,6 +338,7 @@ namespace OneAdvisor.Service.Test.Client
 
                 //Then
                 Assert.Equal(mem2.Id, actual.Id);
+                Assert.Equal(mem2.ClientTypeId, actual.ClientTypeId);
                 Assert.Equal(mem2.FirstName, actual.FirstName);
                 Assert.Equal(mem2.LastName, actual.LastName);
                 Assert.Equal(mem2.IdNumber, actual.IdNumber);
@@ -352,6 +359,7 @@ namespace OneAdvisor.Service.Test.Client
             //Given
             var client = new ClientEdit()
             {
+                ClientTypeId = Guid.NewGuid(),
                 FirstName = "FN 1",
                 LastName = "LN 1",
                 MaidenName = "MN 1",
@@ -377,6 +385,7 @@ namespace OneAdvisor.Service.Test.Client
 
                 var actual = await context.Client.FindAsync(((ClientEdit)result.Tag).Id);
                 Assert.Equal(client.Id, actual.Id);
+                Assert.Equal(client.ClientTypeId, actual.ClientTypeId);
                 Assert.Equal(user1.Organisation.Id, actual.OrganisationId);
                 Assert.Equal(client.FirstName, actual.FirstName);
                 Assert.Equal(client.LastName, actual.LastName);
@@ -404,6 +413,7 @@ namespace OneAdvisor.Service.Test.Client
             var mem2 = new ClientEntity
             {
                 Id = Guid.NewGuid(),
+                ClientTypeId = Guid.NewGuid(),
                 FirstName = "FN 1",
                 LastName = "LN 1",
                 MaidenName = "MN 1",
@@ -428,6 +438,7 @@ namespace OneAdvisor.Service.Test.Client
             var client = new ClientEdit()
             {
                 Id = mem2.Id,
+                ClientTypeId = Guid.NewGuid(),
                 FirstName = "FN 1 updated",
                 LastName = "LN 1 updated",
                 MaidenName = "MN 1 updated",
@@ -453,6 +464,7 @@ namespace OneAdvisor.Service.Test.Client
 
                 var actual = await context.Client.FindAsync(client.Id);
                 Assert.Equal(client.Id, actual.Id);
+                Assert.Equal(client.ClientTypeId, actual.ClientTypeId);
                 Assert.Equal(user2.Organisation.Id, actual.OrganisationId);
                 Assert.Equal(client.FirstName, actual.FirstName);
                 Assert.Equal(client.LastName, actual.LastName);
@@ -575,6 +587,7 @@ namespace OneAdvisor.Service.Test.Client
 
             var target = new ClientEdit
             {
+                ClientTypeId = Guid.NewGuid(),
                 FirstName = "FN 1",
                 LastName = "LN 1",
                 MaidenName = "MN 1",
@@ -655,7 +668,8 @@ namespace OneAdvisor.Service.Test.Client
 
             var target = new ClientEdit
             {
-                IdNumber = "8210035032082"
+                IdNumber = "8210035032082",
+                ClientTypeId = Guid.NewGuid()
             };
 
             using (var context = new DataContext(options))

@@ -11,6 +11,7 @@ using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Client.Model.ExportClient;
 using OneAdvisor.Service.Client;
 using OneAdvisor.Service.Test.Export;
+using OneAdvisor.Model.Client.Model.Lookup;
 
 namespace OneAdvisor.Service.Test.Client
 {

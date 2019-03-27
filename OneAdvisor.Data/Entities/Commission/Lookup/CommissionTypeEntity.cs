@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using OneAdvisor.Data.Entities.Client;
+using OneAdvisor.Data.Entities.Client.Lookup;
 
-namespace OneAdvisor.Data.Entities.Directory.Lookup
+namespace OneAdvisor.Data.Entities.Commission.Lookup
 {
     public class CommissionTypeEntity
     {

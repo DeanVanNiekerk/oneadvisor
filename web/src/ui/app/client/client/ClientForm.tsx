@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { parseIdNumber } from '@/app/parsers/id';
 import { ValidationResult } from '@/app/validation';
 import { ClientEdit } from '@/state/app/client/clients';
+import { ClientType, clientTypesSelector } from '@/state/app/directory/lookups';
 import { MarritalStatus, marritalStatusSelector } from '@/state/app/directory/lookups/marritalStatus';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormDate, FormInput, FormSelect } from '@/ui/controls';
@@ -14,6 +15,7 @@ type Props = {
     validationResults: ValidationResult[];
     onChange: (client: ClientEdit) => void;
     marritalStatus: MarritalStatus[];
+    clientTypes: ClientType[];
 };
 
 type State = {
@@ -142,6 +144,16 @@ class ClientForm extends Component<Props, State> {
 
         return (
             <Form editUseCase="clt_edit_clients">
+                <FormSelect
+                    fieldName="clientTypeId"
+                    label="Client Type"
+                    value={client.clientTypeId}
+                    onChange={this.handleChange}
+                    validationResults={validationResults}
+                    options={this.props.clientTypes}
+                    optionsValue="id"
+                    optionsText="name"
+                />
                 <FormInput
                     fieldName="firstName"
                     label="First Name"
@@ -233,9 +245,11 @@ class ClientForm extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const marritalStatusState = marritalStatusSelector(state);
+    const clientTypesState = clientTypesSelector(state);
 
     return {
         marritalStatus: marritalStatusState.items,
+        clientTypes: clientTypesState.items,
     };
 };
 

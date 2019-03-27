@@ -32,26 +32,26 @@ namespace api.Controllers.Database
         private IUserService UserService { get; }
         private UserManager<UserEntity> UserManager { get; }
 
-        [HttpGet("[action]")]
-        public async Task<string> ResetRolesAndUseCase()
-        {
-            await DbContextInitializer.CleanRolesAndUseCase();
-            await DbContextInitializer.SeedRolesAndUseCase();
+        // [HttpGet("[action]")]
+        // public async Task<string> ResetRolesAndUseCase()
+        // {
+        //     await DbContextInitializer.CleanRolesAndUseCase();
+        //     await DbContextInitializer.SeedRolesAndUseCase();
 
-            var user = await UserManager.FindByEmailAsync("deanvniekerk@gmail.com");
-            await UserManager.AddToRolesAsync(user, _allRoles);
+        //     var user = await UserManager.FindByEmailAsync("deanvniekerk@gmail.com");
+        //     await UserManager.AddToRolesAsync(user, _allRoles);
 
-            user = await UserManager.FindByEmailAsync("marc@smithbormann.co.za");
-            await UserManager.AddToRolesAsync(user, _allRoles);
+        //     user = await UserManager.FindByEmailAsync("marc@smithbormann.co.za");
+        //     await UserManager.AddToRolesAsync(user, _allRoles);
 
-            user = await UserManager.FindByEmailAsync("advice@smithbormann.co.za");
-            await UserManager.AddToRolesAsync(user, _limitedRoles);
+        //     user = await UserManager.FindByEmailAsync("advice@smithbormann.co.za");
+        //     await UserManager.AddToRolesAsync(user, _limitedRoles);
 
-            user = await UserManager.FindByEmailAsync("gavin@lifeplanbrokers.co.za");
-            await UserManager.AddToRolesAsync(user, _limitedRoles);
+        //     user = await UserManager.FindByEmailAsync("gavin@lifeplanbrokers.co.za");
+        //     await UserManager.AddToRolesAsync(user, _limitedRoles);
 
-            return "Success";
-        }
+        //     return "Success";
+        // }
 
         [HttpGet("[action]")]
         public async Task<string> Seed()
@@ -61,16 +61,15 @@ namespace api.Controllers.Database
             return "Success";
         }
 
-        [HttpGet("[action]")]
-        public async Task<string> SeedLookups()
-        {
-            await DbContextInitializer.SeedLookups();
-            return "Success";
-        }
+        // [HttpGet("[action]")]
+        // public async Task<string> SeedLookups()
+        // {
+        //     await DbContextInitializer.SeedLookups();
+        //     return "Success";
+        // }
 
 
-        [HttpGet("[action]")]
-        public async Task<string> SeedUsers()
+        private async Task<string> SeedUsers()
         {
             var shellyBeachBranchId = Guid.Parse("cfaa7bf4-bff8-4c8c-b71e-f64bd8249750");
             var lifeBranchId = Guid.Parse("7ab8bcd9-0544-4613-a82e-06b6de99d7ac");
@@ -87,7 +86,7 @@ namespace api.Controllers.Database
                 Roles = _allRoles,
                 BranchId = shellyBeachBranchId,
             };
-            await UserService.InsertUser(options, user, "Test123!");
+            await UserService.InsertUser(options, user, "Test123!", true);
 
             user = new UserEdit()
             {
@@ -99,7 +98,7 @@ namespace api.Controllers.Database
                 Roles = _allRoles,
                 BranchId = shellyBeachBranchId,
             };
-            await UserService.InsertUser(options, user, "Test123!");
+            await UserService.InsertUser(options, user, "Test123!", true);
 
             user = new UserEdit()
             {
@@ -111,7 +110,7 @@ namespace api.Controllers.Database
                 Roles = _limitedRoles,
                 BranchId = shellyBeachBranchId,
             };
-            await UserService.InsertUser(options, user, "Test123!");
+            await UserService.InsertUser(options, user, "Test123!", true);
 
             user = new UserEdit()
             {
@@ -123,16 +122,16 @@ namespace api.Controllers.Database
                 Roles = _limitedRoles,
                 BranchId = shellyBeachBranchId,
             };
-            await UserService.InsertUser(options, user, "Test123!");
+            await UserService.InsertUser(options, user, "Test123!", true);
 
             return "Success";
         }
 
-        [HttpGet("[action]")]
-        public async Task<string> Clean()
-        {
-            var total = await DbContextInitializer.Clean();
-            return "Success. Rows nuked: " + total.ToString();
-        }
+        // [HttpGet("[action]")]
+        // public async Task<string> Clean()
+        // {
+        //     var total = await DbContextInitializer.Clean();
+        //     return "Success. Rows nuked: " + total.ToString();
+        // }
     }
 }

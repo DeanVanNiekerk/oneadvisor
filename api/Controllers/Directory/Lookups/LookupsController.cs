@@ -7,6 +7,7 @@ using api.Controllers.Directory.Lookups.Dto;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OneAdvisor.Model.Client.Interface;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Lookup;
@@ -17,12 +18,14 @@ namespace api.Controllers.Directory.Lookups
     [Route("api/directory/lookups")]
     public class LookupsController : Controller
     {
-        public LookupsController(ILookupService lookupService)
+        public LookupsController(ILookupService lookupService, IClientLookupService clientLookupService)
         {
             LookupService = lookupService;
+            ClientLookupService = clientLookupService;
         }
 
         private ILookupService LookupService { get; }
+        private IClientLookupService ClientLookupService { get; }
 
         [HttpGet("all")]
         public async Task<IActionResult> All()
@@ -32,9 +35,10 @@ namespace api.Controllers.Directory.Lookups
                 Companies = await LookupService.GetCompanies(),
                 CommissionTypes = await LookupService.GetCommissionTypes(),
                 CommissionEarningsTypes = await LookupService.GetCommissionEarningsTypes(),
-                PolicyTypes = await LookupService.GetPolicyTypes(),
-                ContactTypes = await LookupService.GetContactTypes(),
-                MarritalStatus = await LookupService.GetMarritalStatus(),
+                PolicyTypes = await ClientLookupService.GetPolicyTypes(),
+                ClientTypes = await ClientLookupService.GetClientTypes(),
+                ContactTypes = await ClientLookupService.GetContactTypes(),
+                MarritalStatus = await ClientLookupService.GetMarritalStatus(),
                 CommissionStatementTemplateFieldNames = LookupService.GetCommissionStatementTemplateFieldNames(),
             };
 

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using api.Controllers.Directory.Clients;
 using api.Controllers.Client.Merge;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

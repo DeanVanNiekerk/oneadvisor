@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using OneAdvisor.Data.Entities.Client.Lookup;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Directory.Lookup;
 

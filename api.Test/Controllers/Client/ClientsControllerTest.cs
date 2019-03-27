@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using api.Controllers.Directory.Clients;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Newtonsoft.Json;
@@ -11,6 +10,7 @@ using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Client.Interface;
 using OneAdvisor.Model.Client.Model.Client;
 using Xunit;
+using api.Controllers.Client.Clients;
 
 namespace api.Test.Controllers.Client
 {
@@ -19,7 +19,7 @@ namespace api.Test.Controllers.Client
         [Fact]
         public void ClientModelComposition()
         {
-            Assert.Equal(12, typeof(OneAdvisor.Model.Client.Model.Client.Client).PropertyCount());
+            Assert.Equal(13, typeof(OneAdvisor.Model.Client.Model.Client.Client).PropertyCount());
             Assert.True(typeof(OneAdvisor.Model.Client.Model.Client.Client).HasProperty("Id"));
             Assert.True(typeof(OneAdvisor.Model.Client.Model.Client.Client).HasProperty("FirstName"));
             Assert.True(typeof(OneAdvisor.Model.Client.Model.Client.Client).HasProperty("LastName"));
@@ -32,12 +32,13 @@ namespace api.Test.Controllers.Client
             Assert.True(typeof(OneAdvisor.Model.Client.Model.Client.Client).HasProperty("TaxNumber"));
             Assert.True(typeof(OneAdvisor.Model.Client.Model.Client.Client).HasProperty("MarritalStatusId"));
             Assert.True(typeof(OneAdvisor.Model.Client.Model.Client.Client).HasProperty("MarriageDate"));
+            Assert.True(typeof(OneAdvisor.Model.Client.Model.Client.Client).HasProperty("ClientTypeId"));
         }
 
         [Fact]
         public void ClientEditModelComposition()
         {
-            Assert.Equal(12, typeof(ClientEdit).PropertyCount());
+            Assert.Equal(13, typeof(ClientEdit).PropertyCount());
             Assert.True(typeof(ClientEdit).HasProperty("Id"));
             Assert.True(typeof(ClientEdit).HasProperty("FirstName"));
             Assert.True(typeof(ClientEdit).HasProperty("LastName"));
@@ -50,6 +51,7 @@ namespace api.Test.Controllers.Client
             Assert.True(typeof(ClientEdit).HasProperty("TaxNumber"));
             Assert.True(typeof(ClientEdit).HasProperty("MarritalStatusId"));
             Assert.True(typeof(ClientEdit).HasProperty("MarriageDate"));
+            Assert.True(typeof(ClientEdit).HasProperty("ClientTypeId"));
         }
 
         [Fact]
@@ -68,7 +70,8 @@ namespace api.Test.Controllers.Client
                 MarritalStatusId = Guid.NewGuid(),
                 PassportNumber = "6",
                 PreferredName = "7",
-                TaxNumber = "8"
+                TaxNumber = "8",
+                ClientTypeId = Guid.NewGuid()
             };
 
             var pagedItems = new PagedItems<OneAdvisor.Model.Client.Model.Client.Client>()
@@ -122,7 +125,8 @@ namespace api.Test.Controllers.Client
                 MarritalStatusId = Guid.NewGuid(),
                 PassportNumber = "6",
                 PreferredName = "7",
-                TaxNumber = "8"
+                TaxNumber = "8",
+                ClientTypeId = Guid.NewGuid()
             };
 
             var service = new Mock<IClientService>();
@@ -187,7 +191,8 @@ namespace api.Test.Controllers.Client
                 MarritalStatusId = Guid.NewGuid(),
                 PassportNumber = "6",
                 PreferredName = "7",
-                TaxNumber = "8"
+                TaxNumber = "8",
+                ClientTypeId = Guid.NewGuid()
             };
 
             var service = new Mock<IClientService>();
@@ -237,7 +242,8 @@ namespace api.Test.Controllers.Client
                 MarritalStatusId = Guid.NewGuid(),
                 PassportNumber = "6",
                 PreferredName = "7",
-                TaxNumber = "8"
+                TaxNumber = "8",
+                ClientTypeId = Guid.NewGuid()
             };
 
             var service = new Mock<IClientService>();

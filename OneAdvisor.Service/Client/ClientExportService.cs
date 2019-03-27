@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data;
 using OneAdvisor.Model.Account.Model.Authentication;
-using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Export;
 using OneAdvisor.Model.Client.Interface;
 using OneAdvisor.Model.Client.Model.ExportClient;
 using OneAdvisor.Service.Common.Query;
+using OneAdvisor.Model.Client.Model.Lookup;
 
 namespace OneAdvisor.Service.Client
 {

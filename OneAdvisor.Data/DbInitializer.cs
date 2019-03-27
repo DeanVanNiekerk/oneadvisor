@@ -7,6 +7,8 @@ using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Directory.Model.Lookup;
+using OneAdvisor.Data.Entities.Client.Lookup;
+using OneAdvisor.Data.Entities.Commission.Lookup;
 
 namespace OneAdvisor.Data
 {
@@ -15,7 +17,7 @@ namespace OneAdvisor.Data
         private readonly DataContext _context;
 
         private readonly Guid dirGuid = Guid.Parse("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9");
-        private readonly Guid memGuid = Guid.Parse("605ea52c-3627-48e2-8f7c-4819c5ea555b");
+        private readonly Guid cltGuid = Guid.Parse("605ea52c-3627-48e2-8f7c-4819c5ea555b");
         private readonly Guid comGuid = Guid.Parse("2fca4500-9142-4940-aaf4-b18925c96d66");
 
         public DbInitializer(DataContext context)
@@ -23,37 +25,37 @@ namespace OneAdvisor.Data
             _context = context;
         }
 
-        public async Task<int> Clean()
-        {
-            var total = 0;
+        // public async Task<int> Clean()
+        // {
+        //     var total = 0;
 
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [com_Commission]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [com_CommissionError]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [com_CommissionStatement]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [com_Commission]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [com_CommissionError]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [com_CommissionStatement]");
 
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [clt_Contact]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [clt_Policy]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [clt_Client]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [clt_Contact]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [clt_Policy]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [clt_Client]");
 
-            total += await CleanRolesAndUseCase();
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Organisation]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Branch]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_AuditLog]");
+        //     total += await CleanRolesAndUseCase();
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Organisation]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_Branch]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [dir_AuditLog]");
 
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetUserTokens]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetUserClaims]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetUserLogins]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetUsers]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetUserTokens]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetUserClaims]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetUserLogins]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [AspNetUsers]");
 
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_Company]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_CommissionType]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_MarritalStatus]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_PolicyType]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_ContactType]");
-            total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_CommissionEarningsType]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_Company]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_CommissionType]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_MarritalStatus]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_PolicyType]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_ContactType]");
+        //     total += await _context.Database.ExecuteSqlCommandAsync("DELETE FROM [lkp_CommissionEarningsType]");
 
-            return total;
-        }
+        //     return total;
+        // }
 
         public async Task<int> CleanRolesAndUseCase()
         {
@@ -75,9 +77,35 @@ namespace OneAdvisor.Data
             var comp1Guid = Guid.NewGuid();
             if (!companies.Any())
             {
-                _context.Company.Add(new CompanyEntity() { Id = comp1Guid, Name = "Discovery" });
+                _context.Company.Add(new CompanyEntity() { Id = comp1Guid, Name = "Discovery Health" });
                 _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Momentum" });
                 _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Best Med" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "African Unity Gap" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Allan Gray" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Ambledown" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Bonitas" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Brightrock" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Discovery Life" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Dynamic" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Fedhealth" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "FMI" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Hollard" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Liberty Life" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Linksave" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Medihelp" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Medshield" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Old Mutual" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Old Mutual International" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Procom" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Profmed" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Sanlam" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Sanlam Gap" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Stanlib" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Stratum" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Turnberry Gap" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Vitality" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Xelus" });
+                _context.Company.Add(new CompanyEntity() { Id = Guid.NewGuid(), Name = "Zestlife" });
             }
 
             //Lookups - Marrital Status
@@ -90,6 +118,18 @@ namespace OneAdvisor.Data
                 _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("b16cbd3b-cf50-4a74-8f38-a8ca6b1cb83f"), Name = "Married ANC (with Accrual)" });
                 _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("e4f03497-5dbf-4bd0-bc14-660a3969f011"), Name = "Widowed" });
                 _context.MarritalStatus.Add(new MarritalStatusEntity() { Id = Guid.Parse("91ebd765-bd8b-4908-94dc-00f09fe37ca7"), Name = "Divorced" });
+            }
+
+            //Lookups - Client Types
+            var clientTypes = await _context.ClientType.ToListAsync();
+            var individual = Guid.Parse("27bb22b3-4c3d-41a3-48bf-690a98f8f780");
+            var company = Guid.Parse("295565bf-7485-85f1-6c98-947ab0b7770c");
+            var trust = Guid.Parse("55f6c0ef-ae2c-faac-adff-ea3bd269043f");
+            if (!clientTypes.Any())
+            {
+                _context.ClientType.Add(new ClientTypeEntity() { Id = individual, Name = "Individual", Code = "individual", DisplayOrder = 1 });
+                _context.ClientType.Add(new ClientTypeEntity() { Id = company, Name = "Company", Code = "company", DisplayOrder = 2 });
+                _context.ClientType.Add(new ClientTypeEntity() { Id = trust, Name = "Trust", Code = "trust", DisplayOrder = 3 });
             }
 
             //Lookups - Earnings Types
@@ -168,8 +208,8 @@ namespace OneAdvisor.Data
             var dirRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "dir_readonly", NormalizedName = "DIR_READONLY", Description = "Readonly", ApplicationId = dirGuid };
 
             //Client Roles
-            var memRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "clt_administrator", NormalizedName = "MEM_ADMINISTRATOR", Description = "Administrator", ApplicationId = memGuid };
-            var memRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "clt_readonly", NormalizedName = "MEM_READONLY", Description = "Readonly", ApplicationId = memGuid };
+            var cltRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "clt_administrator", NormalizedName = "CLT_ADMINISTRATOR", Description = "Administrator", ApplicationId = cltGuid };
+            var cltRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "clt_readonly", NormalizedName = "CLT_READONLY", Description = "Readonly", ApplicationId = cltGuid };
 
             //Commision Roles
             var comRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "com_administrator", NormalizedName = "COM_ADMINISTRATOR", Description = "Administrator", ApplicationId = comGuid };
@@ -180,8 +220,8 @@ namespace OneAdvisor.Data
                 _context.Roles.Add(saRole1);
                 _context.Roles.Add(dirRole1);
                 _context.Roles.Add(dirRole2);
-                _context.Roles.Add(memRole1);
-                _context.Roles.Add(memRole2);
+                _context.Roles.Add(cltRole1);
+                _context.Roles.Add(cltRole2);
                 _context.Roles.Add(comRole1);
                 _context.Roles.Add(comRole2);
             }
@@ -207,14 +247,14 @@ namespace OneAdvisor.Data
                 _context.UseCase.Add(new UseCaseEntity() { Id = "dir_edit_lookups", Name = "Edit Lookups", ApplicationId = dirGuid });
 
                 //Client Use Cases
-                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_view_clients", Name = "View Clients", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_edit_clients", Name = "Edit Clients", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_view_policies", Name = "View Policies", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_edit_policies", Name = "Edit Policies", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_view_contacts", Name = "View Contacts", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_edit_contacts", Name = "Edit Contacts", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_import_clients", Name = "Import Clients", ApplicationId = memGuid });
-                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_export_clients", Name = "Export Clients", ApplicationId = memGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_view_clients", Name = "View Clients", ApplicationId = cltGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_edit_clients", Name = "Edit Clients", ApplicationId = cltGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_view_policies", Name = "View Policies", ApplicationId = cltGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_edit_policies", Name = "Edit Policies", ApplicationId = cltGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_view_contacts", Name = "View Contacts", ApplicationId = cltGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_edit_contacts", Name = "Edit Contacts", ApplicationId = cltGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_import_clients", Name = "Import Clients", ApplicationId = cltGuid });
+                _context.UseCase.Add(new UseCaseEntity() { Id = "clt_export_clients", Name = "Export Clients", ApplicationId = cltGuid });
 
                 //Commission Use Cases
                 _context.UseCase.Add(new UseCaseEntity() { Id = "com_import_commissions", Name = "Import Commissions", ApplicationId = comGuid });
@@ -263,19 +303,19 @@ namespace OneAdvisor.Data
                 //Client App
                 //==========
                 //Adminstrator
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "clt_view_clients" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "clt_edit_clients" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "clt_import_clients" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "clt_view_policies" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "clt_edit_policies" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "clt_view_contacts" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "clt_edit_contacts" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole1.Id, UseCaseId = "clt_export_clients" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = cltRole1.Id, UseCaseId = "clt_view_clients" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = cltRole1.Id, UseCaseId = "clt_edit_clients" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = cltRole1.Id, UseCaseId = "clt_import_clients" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = cltRole1.Id, UseCaseId = "clt_view_policies" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = cltRole1.Id, UseCaseId = "clt_edit_policies" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = cltRole1.Id, UseCaseId = "clt_view_contacts" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = cltRole1.Id, UseCaseId = "clt_edit_contacts" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = cltRole1.Id, UseCaseId = "clt_export_clients" });
 
                 //Readonly
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole2.Id, UseCaseId = "clt_view_clients" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole2.Id, UseCaseId = "clt_view_policies" });
-                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = memRole2.Id, UseCaseId = "clt_view_contacts" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = cltRole2.Id, UseCaseId = "clt_view_clients" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = cltRole2.Id, UseCaseId = "clt_view_policies" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = cltRole2.Id, UseCaseId = "clt_view_contacts" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
 
                 //Commission App
@@ -309,9 +349,9 @@ namespace OneAdvisor.Data
             if (application == null)
                 _context.Application.Add(new ApplicationEntity() { Id = dirGuid, Name = "Directory" });
 
-            application = await _context.Application.FindAsync(memGuid);
+            application = await _context.Application.FindAsync(cltGuid);
             if (application == null)
-                _context.Application.Add(new ApplicationEntity() { Id = memGuid, Name = "Client" });
+                _context.Application.Add(new ApplicationEntity() { Id = cltGuid, Name = "Client" });
 
             application = await _context.Application.FindAsync(comGuid);
             if (application == null)
@@ -347,10 +387,10 @@ namespace OneAdvisor.Data
     public interface IDefaultDbContextInitializer
     {
         Task Seed();
-        Task SeedLookups();
-        Task SeedRolesAndUseCase();
-        Task<int> Clean();
-        Task<int> CleanRolesAndUseCase();
+        //Task SeedLookups();
+        //Task SeedRolesAndUseCase();
+        //Task<int> Clean();
+        //Task<int> CleanRolesAndUseCase();
     }
 
 }

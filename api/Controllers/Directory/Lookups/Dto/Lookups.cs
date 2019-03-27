@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using OneAdvisor.Model.Client.Model.Lookup;
 using OneAdvisor.Model.Directory.Model.Lookup;
 
 namespace api.Controllers.Directory.Lookups.Dto
@@ -10,6 +11,7 @@ namespace api.Controllers.Directory.Lookups.Dto
         public List<CommissionEarningsType> CommissionEarningsTypes { get; set; }
         public List<ContactType> ContactTypes { get; set; }
         public List<PolicyType> PolicyTypes { get; set; }
+        public List<ClientType> ClientTypes { get; set; }
         public List<MarritalStatus> MarritalStatus { get; set; }
         public List<CommissionStatementTemplateFieldName> CommissionStatementTemplateFieldNames { get; set; }
     }

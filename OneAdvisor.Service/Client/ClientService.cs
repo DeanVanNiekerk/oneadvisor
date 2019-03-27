@@ -31,6 +31,7 @@ namespace OneAdvisor.Service.Client
                         select new Model.Client.Model.Client.Client()
                         {
                             Id = client.Id,
+                            ClientTypeId = client.ClientTypeId,
                             FirstName = client.FirstName,
                             LastName = client.LastName,
                             MaidenName = client.MaidenName,
@@ -79,6 +80,7 @@ namespace OneAdvisor.Service.Client
                         select new ClientPreview()
                         {
                             Id = client.Id,
+                            ClientTypeId = client.ClientTypeId,
                             FirstName = client.FirstName,
                             LastName = client.LastName,
                             IdNumber = client.IdNumber,
@@ -97,6 +99,7 @@ namespace OneAdvisor.Service.Client
                         select new ClientEdit()
                         {
                             Id = client.Id,
+                            ClientTypeId = client.ClientTypeId,
                             FirstName = client.FirstName,
                             LastName = client.LastName,
                             MaidenName = client.MaidenName,
@@ -234,6 +237,7 @@ namespace OneAdvisor.Service.Client
             if (entity == null)
                 entity = new ClientEntity();
 
+            entity.ClientTypeId = model.ClientTypeId.Value;
             entity.FirstName = model.FirstName;
             entity.LastName = model.LastName;
             entity.MaidenName = model.MaidenName;

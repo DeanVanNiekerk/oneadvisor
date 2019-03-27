@@ -8,7 +8,6 @@ using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Account.Model.Authentication;
-using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Client.Interface;
 using OneAdvisor.Model.Client.Model.Contact;
@@ -18,6 +17,7 @@ using OneAdvisor.Model.Client.Model.Policy;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Client.Validators;
 using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Client.Model.Lookup;
 
 namespace OneAdvisor.Service.Client
 {
@@ -27,9 +27,9 @@ namespace OneAdvisor.Service.Client
         private readonly IClientService _clientService;
         private readonly IPolicyService _policyService;
         private readonly IContactService _contactService;
-        private readonly ILookupService _lookupService;
+        private readonly IClientLookupService _lookupService;
 
-        public ClientImportService(DataContext context, IClientService clientService, IPolicyService policyService, IContactService contactService, ILookupService lookupService)
+        public ClientImportService(DataContext context, IClientService clientService, IPolicyService policyService, IContactService contactService, IClientLookupService lookupService)
         {
             _context = context;
             _clientService = clientService;
@@ -177,6 +177,7 @@ namespace OneAdvisor.Service.Client
 
         private ClientEdit MapClientProperties(ClientEdit client, ImportClient data)
         {
+            client.ClientTypeId = client.ClientTypeId.HasValue ? client.ClientTypeId : ClientType.CLIENT_TYPE_INDIVIDUAL;
             client.FirstName = data.FirstName != null ? data.FirstName : client.FirstName;
             client.LastName = data.LastName != null ? data.LastName : client.LastName;
             client.Initials = data.FirstName != null ? data.FirstName.Acronym() : client.Initials;

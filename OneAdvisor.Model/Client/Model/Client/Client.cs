@@ -5,6 +5,7 @@ namespace OneAdvisor.Model.Client.Model.Client
     public class Client
     {
         public Guid Id { get; set; }
+        public Guid ClientTypeId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MaidenName { get; set; }

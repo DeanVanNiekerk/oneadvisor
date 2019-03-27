@@ -16,6 +16,7 @@ using OneAdvisor.Model.Client.Model.Client;
 using OneAdvisor.Model.Client.Model.Policy;
 using OneAdvisor.Service.Client;
 using OneAdvisor.Service.Directory;
+using OneAdvisor.Model.Client.Model.Lookup;
 
 namespace OneAdvisor.Service.Test.Client
 {
@@ -54,6 +55,7 @@ namespace OneAdvisor.Service.Test.Client
 
                 var actual = await context.Client.FirstOrDefaultAsync(m => m.IdNumber == "8210035032082");
                 Assert.Null(actual.PassportNumber);
+                Assert.Equal(ClientType.CLIENT_TYPE_INDIVIDUAL, actual.ClientTypeId);
                 Assert.Equal(user1.Organisation.Id, actual.OrganisationId);
                 Assert.Equal(data.LastName, actual.LastName);
                 Assert.Equal(data.FirstName, actual.FirstName);
@@ -231,6 +233,7 @@ namespace OneAdvisor.Service.Test.Client
             var mem = new ClientEntity
             {
                 Id = Guid.NewGuid(),
+                ClientTypeId = Guid.NewGuid(),
                 FirstName = "FN 1",
                 LastName = "LN 1",
                 TaxNumber = "987654",
@@ -270,6 +273,7 @@ namespace OneAdvisor.Service.Test.Client
 
                 var actual = await context.Client.FirstOrDefaultAsync(m => m.IdNumber == data.IdNumber);
                 Assert.Equal(user1.Organisation.Id, actual.OrganisationId);
+                Assert.Equal(mem.ClientTypeId, actual.ClientTypeId); //Should not have changed
                 Assert.Equal(data.FirstName, actual.FirstName);
                 Assert.Equal(data.LastName, actual.LastName);
                 Assert.Equal(data.TaxNumber, actual.TaxNumber);
@@ -516,7 +520,7 @@ namespace OneAdvisor.Service.Test.Client
             {
                 var clientService = new ClientService(context);
                 var policyService = new PolicyService(context);
-                var lookupService = new LookupService(context);
+                var lookupService = new ClientLookupService(context);
                 var service = new ClientImportService(context, clientService, policyService, null, lookupService);
 
                 //When
@@ -569,7 +573,7 @@ namespace OneAdvisor.Service.Test.Client
             {
                 var clientService = new ClientService(context);
                 var policyService = new PolicyService(context);
-                var lookupService = new LookupService(context);
+                var lookupService = new ClientLookupService(context);
                 var service = new ClientImportService(context, clientService, policyService, null, lookupService);
 
                 //When
@@ -633,7 +637,7 @@ namespace OneAdvisor.Service.Test.Client
             {
                 var clientService = new ClientService(context);
                 var policyService = new PolicyService(context);
-                var lookupService = new LookupService(context);
+                var lookupService = new ClientLookupService(context);
                 var service = new ClientImportService(context, clientService, policyService, null, lookupService);
 
                 //When

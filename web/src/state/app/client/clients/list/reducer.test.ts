@@ -44,6 +44,7 @@ describe("client list reducer", () => {
 
         const client: Client = {
             id: "10",
+            clientTypeId: "99",
             firstName: "Dean",
             lastName: "Jackson",
             maidenName: "",
