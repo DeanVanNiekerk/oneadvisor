@@ -105,7 +105,7 @@ class EditClient extends Component<Props, State> {
         return (
             <Drawer
                 title={this.getTitle()}
-                icon="profile"
+                icon="user"
                 visible={this.props.visible && !fetching}
                 onClose={this.confirmCancel}
             >

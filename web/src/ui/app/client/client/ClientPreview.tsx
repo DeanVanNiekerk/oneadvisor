@@ -138,7 +138,7 @@ class ClientPreviewComponent extends Component<Props, State> {
                 <PreviewCardContainer>
                     <PreviewCard
                         title="Details"
-                        icon="profile"
+                        icon="user"
                         onClick={this.editDetails}
                         isLoading={this.isLoading()}
                         actions={[
