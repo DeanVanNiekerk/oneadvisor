@@ -31,7 +31,7 @@ namespace OneAdvisor.Service.Client
                         from user in userGroup.DefaultIfEmpty()
                         select new ClientPolicy()
                         {
-                            IdNumber = client.IdNumber,
+                            IdNumber = client.IdNumber != "" ? client.IdNumber : client.PassportNumber,
                             FirstName = client.FirstName,
                             LastName = client.LastName,
                             Email = client.ClientContacts.Where(c => c.ContactTypeId == ContactType.CONTACT_TYPE_EMAIL).Select(c => c.Value).FirstOrDefault(),
