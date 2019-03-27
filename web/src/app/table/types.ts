@@ -1,9 +1,9 @@
 export type ColumnType =
-    | 'string'
-    | 'date'
-    | 'long-date'
-    | 'boolean'
-    | 'currency';
+    | "string"
+    | "date"
+    | "long-date"
+    | "boolean"
+    | "currency";
 
 export type FilterOptions = {
     text: string;
@@ -18,7 +18,9 @@ export type ColumnOptions = {
     filters?: FilterOptions[];
     showSearchFilter?: boolean;
     externalDataSource?: boolean;
-    fixed?: 'left' | 'right';
+    fixed?: "left" | "right";
+    width?: string | number;
+    align?: "left" | "right" | "center";
 };
 
 export interface PagedItems<T> {
@@ -31,7 +33,7 @@ export type PageOptions = {
     size: number;
 };
 
-export type SortDirection = 'asc' | 'desc';
+export type SortDirection = "asc" | "desc";
 
 export type SortOptions = {
     direction: SortDirection;

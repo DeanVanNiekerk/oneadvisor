@@ -57,6 +57,9 @@ namespace OneAdvisor.Service.Client
 
             if (queryOptions.ClientId.Any())
                 query = query.Where(m => queryOptions.ClientId.Contains(m.Id));
+
+            if (queryOptions.ClientTypeId.Any())
+                query = query.Where(m => queryOptions.ClientTypeId.Contains(m.ClientTypeId));
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedItems<Model.Client.Model.Client.Client>();

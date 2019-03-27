@@ -32,6 +32,7 @@ export type ClientEdit = {
 
 export type ClientPreview = {
     id: string;
+    clientTypeId: string;
     firstName: string;
     lastName: string;
     idNumber: string;

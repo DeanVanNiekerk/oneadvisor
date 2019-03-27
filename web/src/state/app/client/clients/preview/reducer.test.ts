@@ -5,6 +5,7 @@ import { defaultState, reducer } from './reducer';
 
 const defaultClient: ClientPreview = {
     id: "10",
+    clientTypeId: "99",
     firstName: "Dean",
     lastName: "Jackson",
     idNumber: "12341234",

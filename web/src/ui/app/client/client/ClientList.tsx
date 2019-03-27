@@ -9,8 +9,9 @@ import {
     Client, ClientEdit, clientMergeReset, clientsSelector, deleteClient, fetchClients, fetchMergeClients, newClient,
     receiveClient, receiveClientPreview, receiveFilters, receivePageOptions, receiveSelectedClients, receiveSortOptions
 } from '@/state/app/client/clients';
+import { ClientType, clientTypesSelector } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
-import { Button, Header, StopPropagation, Table } from '@/ui/controls';
+import { Button, ClientTypeIcon, Header, StopPropagation, Table } from '@/ui/controls';
 
 import ClientMerge from '../merge/ClientMerge';
 import EditClient from './EditClient';
@@ -23,6 +24,7 @@ type Props = {
     totalItems: number;
     filters: Filters;
     selectedClientIds: string[];
+    clientTypes: ClientType[];
 } & RouteComponentProps &
     DispatchProp;
 
@@ -85,6 +87,17 @@ class ClientList extends Component<Props, State> {
 
     getColumns = () => {
         return [
+            getColumnEDS("clientTypeId", "Type", {
+                width: "110px",
+                align: "center",
+                render: (clientTypeId: string) => {
+                    return <ClientTypeIcon clientTypeId={clientTypeId} />;
+                },
+                filters: this.props.clientTypes.map(type => ({
+                    text: type.name,
+                    value: type.id,
+                })),
+            }),
             getColumnEDS("lastName", "Last Name", { showSearchFilter: true }),
             getColumnEDS("firstName", "First Name", { showSearchFilter: true }),
             getColumnEDS("idNumber", "ID Number", { showSearchFilter: true }),
@@ -240,6 +253,7 @@ class ClientList extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const clientsState = clientsSelector(state);
+    const clientTypesState = clientTypesSelector(state);
 
     return {
         clients: clientsState.items,
@@ -249,6 +263,7 @@ const mapStateToProps = (state: RootState) => {
         totalItems: clientsState.totalItems,
         filters: clientsState.filters,
         selectedClientIds: clientsState.selectedClientIds,
+        clientTypes: clientTypesState.items,
     };
 };
 

@@ -6,7 +6,7 @@ import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
 import { ClientEdit, clientSelector, insertClient, receiveClient, updateClient } from '@/state/app/client/clients';
 import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
+import { Button, ClientTypeIcon, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
 import { showConfirm } from '@/ui/feedback/modal/confirm';
 
 import ClientForm from './ClientForm';
@@ -91,21 +91,28 @@ class EditClient extends Component<Props, State> {
     getTitle = () => {
         if (this.props.fetching) return "Loading Client";
 
-        const { client } = this.props;
+        const { clientEdited } = this.state;
 
-        if (client && client.id)
-            return `Client: ${client.firstName || ""} ${client.lastName || ""}`;
+        if (clientEdited && clientEdited.id)
+            return `Client: ${clientEdited.firstName ||
+                ""} ${clientEdited.lastName || ""}`;
 
         return "New Client";
     };
 
     render() {
         const { client, fetching, validationResults } = this.props;
+        const { clientEdited } = this.state;
+
+        let icon = <span />;
+        if (clientEdited) {
+            icon = <ClientTypeIcon clientTypeId={clientEdited.clientTypeId} />;
+        }
 
         return (
             <Drawer
                 title={this.getTitle()}
-                icon="user"
+                icon={icon}
                 visible={this.props.visible && !fetching}
                 onClose={this.confirmCancel}
             >

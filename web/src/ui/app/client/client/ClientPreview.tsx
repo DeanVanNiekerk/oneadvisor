@@ -9,7 +9,7 @@ import { newPolicy, receivePolicy } from '@/state/app/client/policies';
 import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import {
-    Age, Button, Drawer, DrawerFooter, Header, PreviewCard, PreviewCardContainer, PreviewCardRow
+    Age, Button, ClientTypeIcon, Drawer, DrawerFooter, Header, PreviewCard, PreviewCardContainer, PreviewCardRow
 } from '@/ui/controls';
 
 import ContactList from '../contact/ContactList';
@@ -123,10 +123,15 @@ class ClientPreviewComponent extends Component<Props, State> {
         let { client } = this.props;
         const cardHeight = "100px";
 
+        let icon = <span />;
+        if (client) {
+            icon = <ClientTypeIcon clientTypeId={client.clientTypeId} />;
+        }
+
         return (
             <>
                 <Header
-                    icon="user"
+                    icon={icon}
                     loading={this.isLoading()}
                     onBack={this.back}
                 >
@@ -138,7 +143,7 @@ class ClientPreviewComponent extends Component<Props, State> {
                 <PreviewCardContainer>
                     <PreviewCard
                         title="Details"
-                        icon="user"
+                        icon="profile"
                         onClick={this.editDetails}
                         isLoading={this.isLoading()}
                         actions={[
