@@ -65,7 +65,7 @@ class ClientExport extends Component<DispatchProp, State> {
                     loading={this.state.downloadingPolicies}
                     onClick={this.downloadClientPolicies}
                 >
-                    Policies
+                    Policy Dump
                 </Button>
             </>
         );
