@@ -1,5 +1,5 @@
 import { clientsApi } from '@/config/api/client';
-import { ClientTypeId } from '@/state/app/directory/lookups';
+import { ClientTypeId } from '@/state/app/directory/lookups/clientTypes';
 
 import { ClientEdit } from '../';
 import * as actions from './actions';

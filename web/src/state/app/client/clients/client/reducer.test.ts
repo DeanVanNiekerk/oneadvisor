@@ -1,4 +1,4 @@
-import { ClientTypeId } from '@/state/app/directory/lookups';
+import { ClientTypeId } from '@/state/app/directory/lookups/clientTypes';
 import { getValidationResult } from '@/test';
 
 import { ClientEdit } from '../';

@@ -1,5 +1,5 @@
 import { Filters, SortOptions } from '@/app/table';
-import { ClientTypeId } from '@/state/app/directory/lookups';
+import { ClientTypeId } from '@/state/app/directory/lookups/clientTypes';
 
 import { Client } from '../';
 import { defaultState, reducer } from './reducer';
