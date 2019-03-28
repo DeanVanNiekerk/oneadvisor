@@ -25,7 +25,7 @@ namespace OneAdvisor.Service.Commission
             _context = context;
         }
 
-        public async Task<PagedItems<MemberRevenueData>> GetMemberRevenueData(MemberRevenueQueryOptions options)
+        public async Task<PagedItems<ClientRevenueData>> GetClientRevenueData(ClientRevenueQueryOptions options)
         {
             var date = new DateTime(options.YearEnding, options.MonthEnding, 1);
             var endDate = date.LastDayOfMonth();
@@ -34,8 +34,8 @@ namespace OneAdvisor.Service.Commission
             var whereClause = $" AND cs.Date > '{startDate.ToString("yyyy-MM-dd")}' ";
             whereClause += $" AND cs.Date <= '{endDate.ToString("yyyy-MM-dd")}' ";
 
-            if (!string.IsNullOrEmpty(options.MemberLastName))
-                whereClause += $" AND m.LastName LIKE '{options.MemberLastName}'";
+            if (!string.IsNullOrEmpty(options.ClientLastName))
+                whereClause += $" AND m.LastName LIKE '{options.ClientLastName}'";
 
             var orderbyClause = "ORDER BY MonthlyAnnuityMonth DESC";
             if (!string.IsNullOrEmpty(options.SortOptions.Column))
@@ -51,44 +51,44 @@ namespace OneAdvisor.Service.Commission
                 pagingClause = $"WHERE RowNumber BETWEEN {start} AND {start + options.PageOptions.Size - 1}";
             }
 
-            var pagedItems = new PagedItems<MemberRevenueData>();
+            var pagedItems = new PagedItems<ClientRevenueData>();
 
-            var query = GetMemberRevenueCountQuery(options.Scope.OrganisationId, whereClause);
+            var query = GetClientRevenueCountQuery(options.Scope.OrganisationId, whereClause);
 
             pagedItems.TotalItems = (await _context.FromSqlAsync<int>(query)).FirstOrDefault();
 
-            query = GetMemberRevenueQuery(endDate, options.Scope.OrganisationId, "*", whereClause, orderbyClause, pagingClause);
+            query = GetClientRevenueQuery(endDate, options.Scope.OrganisationId, "*", whereClause, orderbyClause, pagingClause);
 
-            pagedItems.Items = await _context.FromSqlAsync<MemberRevenueData>(query);
+            pagedItems.Items = await _context.FromSqlAsync<ClientRevenueData>(query);
 
             return pagedItems;
         }
 
-        private string GetMemberRevenueCountQuery(Guid organisationId, string whereClause)
+        private string GetClientRevenueCountQuery(Guid organisationId, string whereClause)
         {
             return $@"
             SELECT
                 Distinct(Count(m.Id) OVER ())
             FROM com_commission c
             JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id
-            JOIN mem_Policy p ON c.PolicyId = p.Id
-            JOIN mem_Member m ON p.MemberId = m.Id
+            JOIN clt_Policy p ON c.PolicyId = p.Id
+            JOIN clt_Client m ON p.ClientId = m.Id
             WHERE m.OrganisationId = '{organisationId}'
             {whereClause}
             GROUP BY m.Id";
         }
 
-        private string GetMemberRevenueQuery(DateTime endDate, Guid organisationId, string selectClause, string whereClause, string orderbyClause, string pagingClause)
+        private string GetClientRevenueQuery(DateTime endDate, Guid organisationId, string selectClause, string whereClause, string orderbyClause, string pagingClause)
         {
             return $@"
             WITH CommissionQuery AS 
             ( 
                 SELECT
                 
-                    m.Id AS 'MemberId',
-                    m.LastName AS 'MemberLastName',
-                    m.Initials AS 'MemberInitials',
-                    m.DateOfBirth AS 'MemberDateOfBirth',
+                    m.Id AS 'ClientId',
+                    m.LastName AS 'ClientLastName',
+                    m.Initials AS 'ClientInitials',
+                    m.DateOfBirth AS 'ClientDateOfBirth',
 
                     SUM(CASE WHEN 
                     (cs.DateMonth = {endDate.Month} AND cs.DateYear = {endDate.Year} AND ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY}')
@@ -108,8 +108,8 @@ namespace OneAdvisor.Service.Commission
 
                 FROM com_commission c
                     JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id
-                    JOIN mem_Policy p ON c.PolicyId = p.Id
-                    JOIN mem_Member m ON p.MemberId = m.Id
+                    JOIN clt_Policy p ON c.PolicyId = p.Id
+                    JOIN clt_Client m ON p.ClientId = m.Id
                     JOIN lkp_CommissionType ct ON c.CommissionTypeId = ct.id
                     JOIN lkp_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id
                 WHERE m.OrganisationId = '{organisationId}'
@@ -120,10 +120,10 @@ namespace OneAdvisor.Service.Commission
             AS
             (
                 SELECT
-                    MemberId,
-                    MemberLastName,
-                    MemberInitials,
-                    MemberDateOfBirth,
+                    ClientId,
+                    ClientLastName,
+                    ClientInitials,
+                    ClientDateOfBirth,
                     MonthlyAnnuityMonth,
                     (AnnualAnnuity / 12) AS 'AnnualAnnuityAverage',
                     ((AnnualAnnuity / 12) + MonthlyAnnuityMonth) AS 'TotalMonthlyEarnings',

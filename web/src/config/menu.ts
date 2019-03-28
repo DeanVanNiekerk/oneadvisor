@@ -1,6 +1,6 @@
 import { Menus } from '@/state/context/types';
 
-import { COMMISSION_ID, DIRECTORY_ID, MEMBER_ID } from './application';
+import { CLIENT_ID, COMMISSION_ID, DIRECTORY_ID } from './application';
 
 export const menus: Menus = {
     [DIRECTORY_ID]: {
@@ -66,24 +66,24 @@ export const menus: Menus = {
         ],
     },
 
-    [MEMBER_ID]: {
-        relativePath: "/member",
+    [CLIENT_ID]: {
+        relativePath: "/client",
         groups: [
             {
                 name: "Management",
                 links: [
                     {
-                        name: "Members",
+                        name: "Clients",
                         icon: "user",
-                        relativePath: "/members",
+                        relativePath: "/clients",
                         isDefault: true,
-                        useCases: ["mem_view_members"],
+                        useCases: ["clt_view_clients"],
                     },
                     {
                         name: "Policies",
                         icon: "file-text",
                         relativePath: "/policies",
-                        useCases: ["mem_view_policies"],
+                        useCases: ["clt_view_policies"],
                     },
                 ],
             },
@@ -94,13 +94,13 @@ export const menus: Menus = {
                         name: "Import",
                         icon: "upload",
                         relativePath: "/import",
-                        useCases: ["mem_import_members"],
+                        useCases: ["clt_import_clients"],
                     },
                     {
                         name: "Export",
                         icon: "download",
                         relativePath: "/export",
-                        useCases: ["mem_export_members"],
+                        useCases: ["clt_export_clients"],
                     },
                 ],
             },
@@ -132,10 +132,10 @@ export const menus: Menus = {
                 name: "Reports",
                 links: [
                     {
-                        name: "Member Revenue",
+                        name: "Client Revenue",
                         icon: "line-chart",
-                        relativePath: "/reports/revenueMember",
-                        useCases: ["com_view_report_member_revenue"],
+                        relativePath: "/reports/revenueClient",
+                        useCases: ["com_view_report_client_revenue"],
                     },
                 ],
             },

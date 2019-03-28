@@ -1,5 +1,5 @@
-export * from "./memberRevenue/actions";
-export * from "./memberRevenue/types";
+export * from "./clientRevenue/actions";
+export * from "./clientRevenue/types";
 export {
-    listSelector as memberRevenueSelector,
-} from "./memberRevenue/selectors";
+    listSelector as clientRevenueSelector,
+} from "./clientRevenue/selectors";

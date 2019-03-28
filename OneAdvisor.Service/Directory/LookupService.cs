@@ -11,6 +11,7 @@ using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Data.Entities.Directory.Lookup;
 using System.Text.RegularExpressions;
+using OneAdvisor.Data.Entities.Commission.Lookup;
 
 namespace OneAdvisor.Service.Directory
 {
@@ -22,58 +23,6 @@ namespace OneAdvisor.Service.Directory
         {
             _context = context;
         }
-
-        #region Contact Type
-
-        public async Task<List<ContactType>> GetContactTypes()
-        {
-            var query = from contactType in _context.ContactType
-                        orderby contactType.Name
-                        select new ContactType()
-                        {
-                            Id = contactType.Id,
-                            Name = contactType.Name
-                        };
-
-            return await query.ToListAsync();
-        }
-
-        #endregion
-
-        #region Policy Type
-
-        public async Task<List<PolicyType>> GetPolicyTypes()
-        {
-            var query = from policyType in _context.PolicyType
-                        orderby policyType.Name
-                        select new PolicyType()
-                        {
-                            Id = policyType.Id,
-                            Name = policyType.Name,
-                            Code = policyType.Code
-                        };
-
-            return await query.ToListAsync();
-        }
-
-        #endregion
-
-        #region Marrial Status
-
-        public async Task<List<MarritalStatus>> GetMarritalStatus()
-        {
-            var query = from marrialStatus in _context.MarritalStatus
-                        orderby marrialStatus.Name
-                        select new MarritalStatus()
-                        {
-                            Id = marrialStatus.Id,
-                            Name = marrialStatus.Name
-                        };
-
-            return await query.ToListAsync();
-        }
-
-        #endregion
 
         #region Company
 

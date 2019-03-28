@@ -4,10 +4,10 @@ WITH
     AS
     (
         SELECT
-            m.Id AS 'MemberId',
-            m.LastName AS 'MemberLastName',
-            m.Initials AS 'MemberInitials',
-            m.DateOfBirth AS 'MemberDateOfBirth',
+            m.Id AS 'ClientId',
+            m.LastName AS 'ClientLastName',
+            m.Initials AS 'ClientInitials',
+            m.DateOfBirth AS 'ClientDateOfBirth',
 
             SUM(CASE WHEN 
             (MONTH(cs.date) = 3 AND YEAR(cs.date) = 2019 AND ct.commissionEarningsTypeId = '8b42edc0-fac6-e946-c779-9d90a805c294')
@@ -27,8 +27,8 @@ WITH
 
         FROM com_commission c
             JOIN com_commissionStatement cs ON c.commissionStatementId = cs.id
-            JOIN mem_policy p ON c.policyId = p.id
-            JOIN mem_member m ON p.memberId = m.id
+            JOIN clt_policy p ON c.policyId = p.id
+            JOIN clt_client m ON p.clientId = m.id
             JOIN lkp_commissionType ct ON c.commissionTypeId = ct.id
             JOIN lkp_commissionEarningsType cet ON ct.commissionEarningsTypeId = cet.id
         GROUP BY m.Id, m.LastName, m.Initials, m.DateOfBirth
@@ -38,10 +38,10 @@ WITH
     AS
     (
         SELECT
-            MemberId,
-            MemberLastName,
-            MemberInitials,
-            MemberDateOfBirth,
+            ClientId,
+            ClientLastName,
+            ClientInitials,
+            ClientDateOfBirth,
             MonthlyAnnuityMonth,
             (AnnualAnnuity / 12) AS 'AnnualAnnuityAverage',
             ((AnnualAnnuity / 12) + MonthlyAnnuityMonth) AS 'TotalMonthlyEarnings',
@@ -63,7 +63,7 @@ SELECT *
 FROM CommissionQueryNumbered
 WHERE RowNumber BETWEEN 1 AND 10
 
--- SELECT * FROM mem_member
+-- SELECT * FROM clt_client
 
 --AND cs.Date >= '2018-02-28' AND cs.Date <= '2019-02-28' 
 --WHERE m.OrganisationId = '9a46c5ae-3f6f-494c-b0de-d908f08507c3'
@@ -75,10 +75,10 @@ WITH
     AS
     (
         SELECT
-            m.Id AS 'MemberId',
-            m.LastName AS 'MemberLastName',
-            m.Initials AS 'MemberInitials',
-            m.DateOfBirth AS 'MemberDateOfBirth',
+            m.Id AS 'ClientId',
+            m.LastName AS 'ClientLastName',
+            m.Initials AS 'ClientInitials',
+            m.DateOfBirth AS 'ClientDateOfBirth',
             SUM(CASE WHEN (cs.DateMonth = 2 AND cs.DateYear = 2019 AND ct.CommissionEarningsTypeId = '8b42edc0-fac6-e946-c779-9d90a805c294')
     THEN c.AmountIncludingVAT ELSE 0 END) AS 'MonthlyAnnuityMonth',
             SUM(CASE WHEN ct.CommissionEarningsTypeId = 'e8799015-6f4a-5d45-5be9-0fcd516e0951'
@@ -90,8 +90,8 @@ WITH
 
         FROM com_commission c
             JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id
-            JOIN mem_Policy p ON c.PolicyId = p.Id
-            JOIN mem_Member m ON p.MemberId = m.Id
+            JOIN clt_Policy p ON c.PolicyId = p.Id
+            JOIN clt_Client m ON p.ClientId = m.Id
             JOIN lkp_CommissionType ct ON c.CommissionTypeId = ct.id
             JOIN lkp_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id
         WHERE m.OrganisationId = '9a46c5ae-3f6f-494c-b0de-d908f08507c3'
@@ -102,7 +102,7 @@ WITH
     AS
     (
         SELECT
-            MemberId, MemberLastName, MemberInitials, MemberDateOfBirth, MonthlyAnnuityMonth,
+            ClientId, ClientLastName, ClientInitials, ClientDateOfBirth, MonthlyAnnuityMonth,
             (AnnualAnnuity / 12) AS 'AnnualAnnuityAverage',
             ((AnnualAnnuity / 12) + MonthlyAnnuityMonth) AS 'TotalMonthlyEarnings',
             LifeFirstYears,
@@ -121,14 +121,14 @@ FROM CommissionQueryNumbered
 WHERE RowNumber BETWEEN 1 AND 10
 
 
---CREATE NONCLUSTERED INDEX [memberOrganisationId] ON [dbo].[mem_Member] ([OrganisationId])
---DROP INDEX [mem_member_OrganisationId_Index] ON [dbo].[mem_Member]
+--CREATE NONCLUSTERED INDEX [clientOrganisationId] ON [dbo].[clt_Client] ([OrganisationId])
+--DROP INDEX [clt_client_OrganisationId_Index] ON [dbo].[clt_Client]
 
 IF NOT EXISTS(SELECT *
 FROM sys.indexes
-WHERE name = 'mem_member_OrganisationId_Index')
+WHERE name = 'clt_client_OrganisationId_Index')
     BEGIN
-    CREATE NONCLUSTERED INDEX [mem_member_OrganisationId_Index] ON [dbo].[mem_Member] ([OrganisationId])
+    CREATE NONCLUSTERED INDEX [clt_client_OrganisationId_Index] ON [dbo].[clt_Client] ([OrganisationId])
 END
 
 SELECT *
@@ -137,16 +137,16 @@ FROM sys.indexes
 
 SELECT
     -- TOP 100
-    m.Id AS 'MemberId',
-    m.LastName AS 'MemberLastName',
-    m.Initials AS 'MemberInitials',
-    m.DateOfBirth AS 'MemberDateOfBirth',
+    m.Id AS 'ClientId',
+    m.LastName AS 'ClientLastName',
+    m.Initials AS 'ClientInitials',
+    m.DateOfBirth AS 'ClientDateOfBirth',
     m.OrganisationId AS 'OrganisationId'
 
 FROM com_commission c
     JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id
-    JOIN mem_Policy p ON c.PolicyId = p.Id
-    JOIN mem_Member m ON p.MemberId = m.Id
+    JOIN clt_Policy p ON c.PolicyId = p.Id
+    JOIN clt_Client m ON p.ClientId = m.Id
     JOIN lkp_CommissionType ct ON c.CommissionTypeId = ct.id
     JOIN lkp_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id
 WHERE m.OrganisationId = '9a46c5ae-3f6f-494c-b0de-d908f08507c3'

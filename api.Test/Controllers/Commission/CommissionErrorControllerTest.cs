@@ -24,7 +24,7 @@ namespace api.Test.Controllers.Commission
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("Id"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("CommissionStatementId"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("PolicyId"));
-            Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("MemberId"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("ClientId"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("CommissionTypeId"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("Data"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("IsFormatValid"));
@@ -39,7 +39,7 @@ namespace api.Test.Controllers.Commission
                 CommissionStatementId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
                 IsFormatValid = true,
-                MemberId = Guid.NewGuid(),
+                ClientId = Guid.NewGuid(),
                 PolicyId = Guid.NewGuid(),
                 Data = new OneAdvisor.Model.Commission.Model.ImportCommission.ImportCommission()
                 {
@@ -91,7 +91,7 @@ namespace api.Test.Controllers.Commission
                 CommissionStatementId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
                 IsFormatValid = true,
-                MemberId = Guid.NewGuid(),
+                ClientId = Guid.NewGuid(),
                 PolicyId = Guid.NewGuid(),
                 Data = new OneAdvisor.Model.Commission.Model.ImportCommission.ImportCommission()
                 {
@@ -130,7 +130,7 @@ namespace api.Test.Controllers.Commission
                 CommissionStatementId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
                 IsFormatValid = true,
-                MemberId = Guid.NewGuid(),
+                ClientId = Guid.NewGuid(),
                 PolicyId = Guid.NewGuid(),
                 Data = new OneAdvisor.Model.Commission.Model.ImportCommission.ImportCommission()
                 {
@@ -169,7 +169,7 @@ namespace api.Test.Controllers.Commission
                 CommissionStatementId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
                 IsFormatValid = true,
-                MemberId = Guid.NewGuid(),
+                ClientId = Guid.NewGuid(),
                 PolicyId = Guid.NewGuid(),
                 Data = new OneAdvisor.Model.Commission.Model.ImportCommission.ImportCommission()
                 {
@@ -220,7 +220,7 @@ namespace api.Test.Controllers.Commission
                 CommissionStatementId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
                 IsFormatValid = true,
-                MemberId = Guid.NewGuid(),
+                ClientId = Guid.NewGuid(),
                 PolicyId = Guid.NewGuid(),
                 Data = new OneAdvisor.Model.Commission.Model.ImportCommission.ImportCommission()
                 {

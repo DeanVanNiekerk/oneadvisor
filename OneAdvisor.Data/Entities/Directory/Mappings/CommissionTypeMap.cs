@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using OneAdvisor.Data.Entities.Directory.Lookup;
+using OneAdvisor.Data.Entities.Commission.Lookup;
 
 namespace OneAdvisor.Data.Entities.Directory.Mappings
 {

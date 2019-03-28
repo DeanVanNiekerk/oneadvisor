@@ -46,7 +46,7 @@ describe('auditLog list reducer', () => {
         const auditLog: AuditLog = {
             id: '2345',
             data: 'data',
-            entity: 'Member',
+            entity: 'Client',
             action: 'Insert',
             date: '1982-01-01',
             userId: '432234'

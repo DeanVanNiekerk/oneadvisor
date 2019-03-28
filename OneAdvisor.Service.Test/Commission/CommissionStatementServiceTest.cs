@@ -9,7 +9,7 @@ using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Commission;
-using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Model.Commission.Model.ImportCommission;

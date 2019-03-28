@@ -10,6 +10,6 @@ namespace OneAdvisor.Model.Commission.Interface
 {
     public interface ICommissionReportService
     {
-        Task<PagedItems<MemberRevenueData>> GetMemberRevenueData(MemberRevenueQueryOptions options);
+        Task<PagedItems<ClientRevenueData>> GetClientRevenueData(ClientRevenueQueryOptions options);
     }
 }

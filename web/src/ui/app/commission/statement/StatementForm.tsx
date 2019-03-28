@@ -10,7 +10,7 @@ import { Form, FormDate, FormInputNumber, FormSelect, FormSwitch } from '@/ui/co
 type Props = {
     statement: StatementEdit;
     validationResults: ValidationResult[];
-    onChange: (member: StatementEdit) => void;
+    onChange: (client: StatementEdit) => void;
     companies: Company[];
 } & DispatchProp;
 

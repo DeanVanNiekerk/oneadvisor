@@ -21,12 +21,12 @@ using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Email;
-using OneAdvisor.Model.Member.Interface;
+using OneAdvisor.Model.Client.Interface;
 using OneAdvisor.Service.Account;
 using OneAdvisor.Service.Commission;
 using OneAdvisor.Service.Common.BulkActions;
 using OneAdvisor.Service.Directory;
-using OneAdvisor.Service.Member;
+using OneAdvisor.Service.Client;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace api.App.Setup
@@ -107,12 +107,13 @@ namespace api.App.Setup
             Services.AddScoped<ILookupService, LookupService>();
             Services.AddScoped<IAuditService, AuditService>();
 
-            //MEMBER
-            Services.AddScoped<IMemberService, MemberService>();
-            Services.AddScoped<IMemberImportService, MemberImportService>();
-            Services.AddScoped<IMemberExportService, MemberExportService>();
+            //CLIENT
+            Services.AddScoped<IClientService, ClientService>();
+            Services.AddScoped<IClientImportService, ClientImportService>();
+            Services.AddScoped<IClientExportService, ClientExportService>();
             Services.AddScoped<IPolicyService, PolicyService>();
             Services.AddScoped<IContactService, ContactService>();
+            Services.AddScoped<IClientLookupService, ClientLookupService>();
 
             //COMMISSION
             Services.AddScoped<ICommissionService, CommissionService>();

@@ -9,8 +9,8 @@ using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Commission;
-using OneAdvisor.Data.Entities.Member;
-using OneAdvisor.Service.Member;
+using OneAdvisor.Data.Entities.Client;
+using OneAdvisor.Service.Client;
 using OneAdvisor.Service.Directory;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +19,7 @@ using OneAdvisor.Data.Entities.Directory.Lookup;
 using System.Collections.Generic;
 using Moq;
 using OneAdvisor.Service.Common.BulkActions;
+using OneAdvisor.Data.Entities.Commission.Lookup;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -117,7 +118,7 @@ namespace OneAdvisor.Service.Test.Commission
                 //Check error record
                 var actual = insertedErrors.Single();
 
-                Assert.Null(actual.MemberId);
+                Assert.Null(actual.ClientId);
                 Assert.Null(actual.PolicyId);
                 Assert.Null(actual.CommissionTypeId);
 
@@ -179,7 +180,7 @@ namespace OneAdvisor.Service.Test.Commission
                 //Check error record
                 var actual = insertedErrors.Single();
 
-                Assert.Null(actual.MemberId);
+                Assert.Null(actual.ClientId);
                 Assert.Null(actual.PolicyId);
                 Assert.Equal(commissionType.Id, actual.CommissionTypeId);
 
@@ -193,12 +194,12 @@ namespace OneAdvisor.Service.Test.Commission
         }
 
         [Fact]
-        public async Task ImportCommission_NoMapping_SetPolicyAndMember()
+        public async Task ImportCommission_NoMapping_SetPolicyAndClient()
         {
-            var options = TestHelper.GetDbContext("ImportCommission_SetPolicyAndMember");
+            var options = TestHelper.GetDbContext("ImportCommission_SetPolicyAndClient");
 
             var user1 = TestHelper.InsertUserDetailed(options);
-            var member1 = TestHelper.InsertMember(options, user1.Organisation);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
 
             var company = TestHelper.InsertCompany(options);
             var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation, company.Id);
@@ -208,7 +209,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
-                MemberId = member1.Member.Id,
+                ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -248,7 +249,7 @@ namespace OneAdvisor.Service.Test.Commission
                 //Check error record
                 var actual = insertedErrors.Single();
 
-                Assert.Equal(policy1.MemberId, actual.MemberId);
+                Assert.Equal(policy1.ClientId, actual.ClientId);
                 Assert.Equal(policy1.Id, actual.PolicyId);
                 Assert.Null(actual.CommissionTypeId);
 
@@ -265,7 +266,7 @@ namespace OneAdvisor.Service.Test.Commission
             var options = TestHelper.GetDbContext("ImportCommission_InsertCommission");
 
             var user1 = TestHelper.InsertUserDetailed(options);
-            var member1 = TestHelper.InsertMember(options, user1.Organisation);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
 
             var company = TestHelper.InsertCompany(options);
             var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation, company.Id);
@@ -281,7 +282,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
-                MemberId = member1.Member.Id,
+                ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -335,7 +336,7 @@ namespace OneAdvisor.Service.Test.Commission
             var options = TestHelper.GetDbContext("ImportCommission_InsertCommission_NegitiveAmmount");
 
             var user1 = TestHelper.InsertUserDetailed(options);
-            var member1 = TestHelper.InsertMember(options, user1.Organisation);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
 
             var company = TestHelper.InsertCompany(options);
             var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation, company.Id);
@@ -351,7 +352,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
-                MemberId = member1.Member.Id,
+                ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
 

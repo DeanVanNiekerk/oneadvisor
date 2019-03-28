@@ -8,8 +8,10 @@ using OneAdvisor.Data.Entities.Commission.Mappings;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.Entities.Directory.Mappings;
-using OneAdvisor.Data.Entities.Member;
-using OneAdvisor.Data.Entities.Member.Mappings;
+using OneAdvisor.Data.Entities.Client;
+using OneAdvisor.Data.Entities.Client.Mappings;
+using OneAdvisor.Data.Entities.Client.Lookup;
+using OneAdvisor.Data.Entities.Commission.Lookup;
 
 namespace OneAdvisor.Data
 {
@@ -27,25 +29,19 @@ namespace OneAdvisor.Data
         public DbSet<RoleToUseCaseEntity> RoleToUseCase { get; set; }
         public DbSet<BranchEntity> Branch { get; set; }
         public DbSet<AuditLogEntity> AuditLog { get; set; }
-
-        #region Lookup
-
         public DbSet<CompanyEntity> Company { get; set; }
-        public DbSet<CommissionTypeEntity> CommissionType { get; set; }
-        public DbSet<CommissionEarningsTypeEntity> CommissionEarningsType { get; set; }
+
+        #endregion
+
+        #region Client
+
+        public DbSet<ClientEntity> Client { get; set; }
+        public DbSet<PolicyEntity> Policy { get; set; }
+        public DbSet<ContactEntity> Contact { get; set; }
         public DbSet<MarritalStatusEntity> MarritalStatus { get; set; }
         public DbSet<ContactTypeEntity> ContactType { get; set; }
         public DbSet<PolicyTypeEntity> PolicyType { get; set; }
-
-        #endregion
-
-        #endregion
-
-        #region Member
-
-        public DbSet<MemberEntity> Member { get; set; }
-        public DbSet<PolicyEntity> Policy { get; set; }
-        public DbSet<ContactEntity> Contact { get; set; }
+        public DbSet<ClientTypeEntity> ClientType { get; set; }
 
         #endregion
 
@@ -55,31 +51,24 @@ namespace OneAdvisor.Data
         public DbSet<CommissionErrorEntity> CommissionError { get; set; }
         public DbSet<CommissionStatementEntity> CommissionStatement { get; set; }
         public DbSet<CommissionStatementTemplateEntity> CommissionStatementTemplate { get; set; }
+        public DbSet<CommissionTypeEntity> CommissionType { get; set; }
+        public DbSet<CommissionEarningsTypeEntity> CommissionEarningsType { get; set; }
 
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // #region Identity
+            base.OnModelCreating(modelBuilder);
 
-            // modelBuilder.Entity<UserEntity>().ToTable("idnty_User");
-            // modelBuilder.Entity<RoleEntity>().ToTable("idnty_Role");
-            // modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("idnty_UserClaim");
-            // modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("idnty_UserRole");
-            // modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("idnty_UserLogin");
-            // modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("idnty_RoleClaim");
-            // modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("idnty_UserToken");
+            #region Identity
 
-            // #endregion
-
-            #region Lookup
-
-            modelBuilder.Entity<CompanyEntity>().ToTable("lkp_Company");
-            modelBuilder.Entity<CommissionTypeEntity>().ToTable("lkp_CommissionType");
-            modelBuilder.Entity<CommissionEarningsTypeEntity>().ToTable("lkp_CommissionEarningsType");
-            modelBuilder.Entity<MarritalStatusEntity>().ToTable("lkp_MarritalStatus");
-            modelBuilder.Entity<ContactTypeEntity>().ToTable("lkp_ContactType");
-            modelBuilder.Entity<PolicyTypeEntity>().ToTable("lkp_PolicyType");
+            modelBuilder.Entity<UserEntity>().ToTable("idn_User"); ;
+            modelBuilder.Entity<RoleEntity>().ToTable("idn_Role");
+            modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("idn_UserClaim");
+            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("idn_UserRole");
+            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("idn_UserLogin");
+            modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("idn_RoleClaim");
+            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("idn_UserToken");
 
             #endregion
 
@@ -91,6 +80,7 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<RoleToUseCaseEntity>().ToTable("dir_RoleToUseCase");
             modelBuilder.Entity<BranchEntity>().ToTable("dir_Branch");
             modelBuilder.Entity<AuditLogEntity>().ToTable("dir_AuditLog");
+            modelBuilder.Entity<CompanyEntity>().ToTable("dir_Company");
 
             //Custom mappings
             UserMap.Map(modelBuilder);
@@ -99,11 +89,15 @@ namespace OneAdvisor.Data
 
             #endregion
 
-            #region Member
+            #region Client
 
-            modelBuilder.Entity<MemberEntity>().ToTable("mem_Member");
-            modelBuilder.Entity<PolicyEntity>().ToTable("mem_Policy");
-            modelBuilder.Entity<ContactEntity>().ToTable("mem_Contact");
+            modelBuilder.Entity<ClientEntity>().ToTable("clt_Client");
+            modelBuilder.Entity<PolicyEntity>().ToTable("clt_Policy");
+            modelBuilder.Entity<PolicyTypeEntity>().ToTable("clt_PolicyType");
+            modelBuilder.Entity<ContactEntity>().ToTable("clt_Contact");
+            modelBuilder.Entity<ContactTypeEntity>().ToTable("clt_ContactType");
+            modelBuilder.Entity<MarritalStatusEntity>().ToTable("clt_MarritalStatus");
+            modelBuilder.Entity<ClientTypeEntity>().ToTable("clt_ClientType");
 
             //Custom mappings
             PolicyMap.Map(modelBuilder);
@@ -116,6 +110,8 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<CommissionErrorEntity>().ToTable("com_CommissionError");
             modelBuilder.Entity<CommissionStatementEntity>().ToTable("com_CommissionStatement");
             modelBuilder.Entity<CommissionStatementTemplateEntity>().ToTable("com_CommissionStatementTemplate");
+            modelBuilder.Entity<CommissionTypeEntity>().ToTable("com_CommissionType");
+            modelBuilder.Entity<CommissionEarningsTypeEntity>().ToTable("com_CommissionEarningsType");
 
             //Custom mappings
             CommissionMap.Map(modelBuilder);
@@ -125,7 +121,7 @@ namespace OneAdvisor.Data
 
             #endregion
 
-            base.OnModelCreating(modelBuilder);
+
         }
     }
 }

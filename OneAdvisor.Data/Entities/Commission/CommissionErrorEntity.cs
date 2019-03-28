@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using OneAdvisor.Data.Entities.Directory.Lookup;
-using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 
 namespace OneAdvisor.Data.Entities.Commission
@@ -14,7 +14,7 @@ namespace OneAdvisor.Data.Entities.Commission
         public Guid CommissionStatementId { get; set; }
 
         public Guid? PolicyId { get; set; }
-        public Guid? MemberId { get; set; }
+        public Guid? ClientId { get; set; }
         public Guid? CommissionTypeId { get; set; }
         [Required]
         public ImportCommission Data { get; set; }
@@ -22,7 +22,7 @@ namespace OneAdvisor.Data.Entities.Commission
 
         public virtual CommissionStatementEntity CommissionStatement { get; set; }
         public virtual PolicyEntity Policy { get; set; }
-        public virtual MemberEntity Member { get; set; }
+        public virtual ClientEntity Client { get; set; }
 
     }
 }

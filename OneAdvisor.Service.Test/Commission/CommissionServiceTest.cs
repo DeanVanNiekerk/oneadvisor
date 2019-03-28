@@ -9,7 +9,7 @@ using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Commission;
-using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Data.Entities.Client;
 using Microsoft.EntityFrameworkCore;
 
 namespace OneAdvisor.Service.Test.Commission
@@ -25,18 +25,18 @@ namespace OneAdvisor.Service.Test.Commission
 
             var user1 = TestHelper.InsertUserDetailed(options);
             var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
-            var member1 = TestHelper.InsertMember(options, user1.Organisation);
-            var member2 = TestHelper.InsertMember(options, user1.Organisation);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
+            var client2 = TestHelper.InsertClient(options, user1.Organisation);
 
             var user3 = TestHelper.InsertUserDetailed(options);
-            var member3 = TestHelper.InsertMember(options, user3.Organisation);
+            var client3 = TestHelper.InsertClient(options, user3.Organisation);
 
             var policy1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = Guid.NewGuid(),
-                MemberId = member1.Member.Id,
+                ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -44,7 +44,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
-                MemberId = member2.Member.Id,
+                ClientId = client2.Client.Id,
                 UserId = user2.User.Id
             };
 
@@ -52,7 +52,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
-                MemberId = member3.Member.Id,
+                ClientId = client3.Client.Id,
                 UserId = user3.User.Id
             };
 
@@ -162,7 +162,7 @@ namespace OneAdvisor.Service.Test.Commission
             var options = TestHelper.GetDbContext("GetCommission");
 
             var user1 = TestHelper.InsertUserDetailed(options);
-            var member1 = TestHelper.InsertMember(options, user1.Organisation);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
 
             var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
 
@@ -172,7 +172,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
-                MemberId = member1.Member.Id,
+                ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -236,7 +236,7 @@ namespace OneAdvisor.Service.Test.Commission
             var options = TestHelper.GetDbContext("InsertCommission");
 
             var user1 = TestHelper.InsertUserDetailed(options);
-            var member1 = TestHelper.InsertMember(options, user1.Organisation);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
 
             var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
 
@@ -246,7 +246,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
-                MemberId = member1.Member.Id,
+                ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -312,7 +312,7 @@ namespace OneAdvisor.Service.Test.Commission
             var options = TestHelper.GetDbContext("UpdateCommission");
 
             var user1 = TestHelper.InsertUserDetailed(options);
-            var member1 = TestHelper.InsertMember(options, user1.Organisation);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
 
             var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
 
@@ -322,7 +322,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
-                MemberId = member1.Member.Id,
+                ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
 

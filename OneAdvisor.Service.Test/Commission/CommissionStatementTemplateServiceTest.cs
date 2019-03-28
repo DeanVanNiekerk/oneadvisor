@@ -13,6 +13,7 @@ using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Service.Commission;
 using OneAdvisor.Service.Directory;
+using OneAdvisor.Data.Entities.Commission.Lookup;
 
 namespace OneAdvisor.Service.Test.Commission
 {

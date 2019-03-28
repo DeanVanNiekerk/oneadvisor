@@ -7,7 +7,7 @@ import { Filters } from '@/app/table';
 import { ValidationResult } from '@/app/validation';
 import { CommissionEdit } from '@/state/app/commission/commissions';
 import { CommissionType, commissionTypesSelector } from '@/state/app/directory/lookups';
-import { getPolicies, Policy } from '@/state/app/member/policies';
+import { getPolicies, Policy } from '@/state/app/client/policies';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormInputNumber, FormReadOnly, FormSelect, TabPane, Tabs } from '@/ui/controls';
 
@@ -16,7 +16,7 @@ type TabKey = "form_tab" | "data_tab";
 type Props = {
     commission: CommissionEdit;
     validationResults: ValidationResult[];
-    onChange: (member: CommissionEdit) => void;
+    onChange: (client: CommissionEdit) => void;
     commissionTypes: CommissionType[];
 } & DispatchProp;
 

@@ -107,10 +107,10 @@ namespace OneAdvisor.Service.Directory
 
         public async Task<Result> InsertUser(ScopeOptions scope, UserEdit user)
         {
-            return await InsertUser(scope, user, GenerateRandomPassword(_userManager.Options.Password));
+            return await InsertUser(scope, user, GenerateRandomPassword(_userManager.Options.Password), false);
         }
 
-        public async Task<Result> InsertUser(ScopeOptions scope, UserEdit user, string password)
+        public async Task<Result> InsertUser(ScopeOptions scope, UserEdit user, string password, bool emailConfirmed)
         {
             var validator = new UserValidator(scope, true);
             var result = validator.Validate(user).GetResult();
@@ -125,7 +125,7 @@ namespace OneAdvisor.Service.Directory
 
             var entity = MapModelToEntity(user);
 
-            entity.EmailConfirmed = false;
+            entity.EmailConfirmed = emailConfirmed;
 
             var createResult = await _userManager.CreateAsync(entity, password);
             result.Success = createResult.Succeeded;

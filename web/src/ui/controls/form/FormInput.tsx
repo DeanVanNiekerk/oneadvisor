@@ -7,7 +7,7 @@ import { FormText } from './';
 import { FormLayout } from './Form';
 import { FormField } from './FormField';
 
-declare const InputSizes: ['small', 'default', 'large'];
+declare const InputSizes: ["small", "default", "large"];
 
 type Props = {
     fieldName: string;
@@ -28,6 +28,7 @@ type Props = {
     onKeyPress?: KeyboardEventHandler<HTMLInputElement>;
     validationFieldName?: string;
     width?: number | string;
+    hidden?: boolean;
 };
 
 class FormInput extends Component<Props> {
@@ -39,17 +40,18 @@ class FormInput extends Component<Props> {
     render() {
         const {
             fieldName,
-            label = '',
+            label = "",
             value,
             validationResults,
             disabled = false,
             layout,
             addonAfter,
-            readonly
         } = this.props;
 
-        if (readonly)
+        if (this.props.readonly)
             return <FormText label={label} value={value} layout={layout} />;
+
+        if (this.props.hidden) return <></>;
 
         const style: any = {};
         if (this.props.width) {

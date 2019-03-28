@@ -7,7 +7,7 @@ const defaultCommissionError: CommissionError = {
     id: "10",
     commissionStatementId: "321",
     policyId: "12",
-    memberId: "13",
+    clientId: "13",
     commissionTypeId: "14",
     data: {
         policyNumber: "123-123",

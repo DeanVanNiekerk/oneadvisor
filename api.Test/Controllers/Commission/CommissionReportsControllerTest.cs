@@ -19,32 +19,32 @@ namespace api.Test.Controllers.Commission
     public class CommissionReportsControllerTest
     {
         [Fact]
-        public void MemberRevenueDataModelComposition()
+        public void ClientRevenueDataModelComposition()
         {
-            Assert.Equal(11, typeof(MemberRevenueData).PropertyCount());
-            Assert.True(typeof(MemberRevenueData).HasProperty("RowNumber"));
-            Assert.True(typeof(MemberRevenueData).HasProperty("MemberId"));
-            Assert.True(typeof(MemberRevenueData).HasProperty("MemberLastName"));
-            Assert.True(typeof(MemberRevenueData).HasProperty("MemberInitials"));
-            Assert.True(typeof(MemberRevenueData).HasProperty("MemberDateOfBirth"));
-            Assert.True(typeof(MemberRevenueData).HasProperty("MonthlyAnnuityMonth"));
-            Assert.True(typeof(MemberRevenueData).HasProperty("AnnualAnnuityAverage"));
-            Assert.True(typeof(MemberRevenueData).HasProperty("TotalMonthlyEarnings"));
-            Assert.True(typeof(MemberRevenueData).HasProperty("OnceOff"));
-            Assert.True(typeof(MemberRevenueData).HasProperty("LifeFirstYears"));
-            Assert.True(typeof(MemberRevenueData).HasProperty("GrandTotal"));
+            Assert.Equal(11, typeof(ClientRevenueData).PropertyCount());
+            Assert.True(typeof(ClientRevenueData).HasProperty("RowNumber"));
+            Assert.True(typeof(ClientRevenueData).HasProperty("ClientId"));
+            Assert.True(typeof(ClientRevenueData).HasProperty("ClientLastName"));
+            Assert.True(typeof(ClientRevenueData).HasProperty("ClientInitials"));
+            Assert.True(typeof(ClientRevenueData).HasProperty("ClientDateOfBirth"));
+            Assert.True(typeof(ClientRevenueData).HasProperty("MonthlyAnnuityMonth"));
+            Assert.True(typeof(ClientRevenueData).HasProperty("AnnualAnnuityAverage"));
+            Assert.True(typeof(ClientRevenueData).HasProperty("TotalMonthlyEarnings"));
+            Assert.True(typeof(ClientRevenueData).HasProperty("OnceOff"));
+            Assert.True(typeof(ClientRevenueData).HasProperty("LifeFirstYears"));
+            Assert.True(typeof(ClientRevenueData).HasProperty("GrandTotal"));
         }
 
         [Fact]
         public async Task Index()
         {
-            var data = new MemberRevenueData()
+            var data = new ClientRevenueData()
             {
                 RowNumber = 1,
-                MemberId = Guid.NewGuid(),
-                MemberLastName = "van Niekerk",
-                MemberInitials = "DJ",
-                MemberDateOfBirth = DateTime.Now,
+                ClientId = Guid.NewGuid(),
+                ClientLastName = "van Niekerk",
+                ClientInitials = "DJ",
+                ClientDateOfBirth = DateTime.Now,
                 MonthlyAnnuityMonth = 2,
                 AnnualAnnuityAverage = 3,
                 TotalMonthlyEarnings = 4,
@@ -53,10 +53,10 @@ namespace api.Test.Controllers.Commission
                 GrandTotal = 7,
             };
 
-            var pagedItems = new PagedItems<MemberRevenueData>()
+            var pagedItems = new PagedItems<ClientRevenueData>()
             {
                 TotalItems = 1,
-                Items = new List<MemberRevenueData>()
+                Items = new List<ClientRevenueData>()
                 {
                     data
                 }
@@ -65,9 +65,9 @@ namespace api.Test.Controllers.Commission
             var service = new Mock<ICommissionReportService>();
             var authService = TestHelper.MockAuthenticationService(Scope.Branch);
 
-            MemberRevenueQueryOptions queryOptions = null;
-            service.Setup(c => c.GetMemberRevenueData(It.IsAny<MemberRevenueQueryOptions>()))
-                .Callback((MemberRevenueQueryOptions options) => queryOptions = options)
+            ClientRevenueQueryOptions queryOptions = null;
+            service.Setup(c => c.GetClientRevenueData(It.IsAny<ClientRevenueQueryOptions>()))
+                .Callback((ClientRevenueQueryOptions options) => queryOptions = options)
                 .ReturnsAsync(pagedItems);
 
             var controller = new CommissionReportsController(service.Object, authService.Object);
@@ -84,7 +84,7 @@ namespace api.Test.Controllers.Commission
             Assert.Equal(1, queryOptions.MonthEnding);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var returnValue = Assert.IsType<PagedItems<MemberRevenueData>>(okResult.Value);
+            var returnValue = Assert.IsType<PagedItems<ClientRevenueData>>(okResult.Value);
 
             Assert.Same(pagedItems, returnValue);
         }

@@ -1,8 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using OneAdvisor.Data.Entities.Directory.Lookup;
-using OneAdvisor.Data.Entities.Member;
+using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
+using OneAdvisor.Data.Entities.Commission.Lookup;
 
 namespace OneAdvisor.Data.Entities.Commission
 {

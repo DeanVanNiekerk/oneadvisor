@@ -9,7 +9,7 @@ namespace OneAdvisor.Service.Commission.Validators
         {
             RuleFor(c => c.CommissionStatementId).NotEmpty().WithName("Commission Statement");
             RuleFor(c => c.PolicyId).NotEmpty().WithName("Policy");
-            RuleFor(c => c.MemberId).NotEmpty().WithName("Member");
+            RuleFor(c => c.ClientId).NotEmpty().WithName("Client");
             RuleFor(c => c.CommissionTypeId).NotEmpty().WithName("Commission Type");
         }
     }

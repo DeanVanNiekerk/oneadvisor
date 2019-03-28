@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 
 type Props = {
     title: string;
-    icon?: string;
+    icon?: string | ReactNode;
     children: ReactNode;
     visible: boolean;
     onClose: () => void;
@@ -13,17 +13,22 @@ type Props = {
 };
 
 const Drawer = (props: Props) => {
+    let icon: ReactNode = <span />;
+
+    if (props.icon) {
+        if (typeof props.icon === "string") {
+            icon = <Icon type={props.icon} />;
+        } else {
+            icon = props.icon;
+        }
+    }
+
     return (
         <DrawerAD
             title={
                 <span>
-                    {props.icon && (
-                        <Icon
-                            type={props.icon}
-                            style={{ marginRight: '8px' }}
-                        />
-                    )}
-                    {props.title}
+                    {icon}
+                    <span style={{ marginLeft: "8px" }}>{props.title}</span>
                 </span>
             }
             width={props.width}
@@ -32,10 +37,10 @@ const Drawer = (props: Props) => {
             maskClosable={props.maskClosable}
             destroyOnClose={true}
             bodyStyle={{
-                height: 'calc(100% - 65px)',
-                overflow: 'auto',
+                height: "calc(100% - 65px)",
+                overflow: "auto",
                 paddingBottom: 53,
-                paddingTop: props.noTopPadding ? 0 : 24
+                paddingTop: props.noTopPadding ? 0 : 24,
             }}
         >
             {props.children}
@@ -45,9 +50,9 @@ const Drawer = (props: Props) => {
 Drawer.defaultProps = {
     visible: false,
     //width: '45%',
-    width: '900px',
+    width: "900px",
     maskClosable: true,
-    noTopPadding: false
+    noTopPadding: false,
 };
 
 export { Drawer };

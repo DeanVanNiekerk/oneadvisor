@@ -7,9 +7,6 @@ namespace OneAdvisor.Model.Directory.Interface
 {
     public interface ILookupService
     {
-        Task<List<ContactType>> GetContactTypes();
-        Task<List<MarritalStatus>> GetMarritalStatus();
-        Task<List<PolicyType>> GetPolicyTypes();
         List<CommissionStatementTemplateFieldName> GetCommissionStatementTemplateFieldNames();
 
         Task<List<Company>> GetCompanies();

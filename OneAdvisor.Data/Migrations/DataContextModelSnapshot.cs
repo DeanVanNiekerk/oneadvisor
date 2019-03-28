@@ -35,7 +35,7 @@ namespace OneAdvisor.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims");
+                    b.ToTable("idn_RoleClaim");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -54,7 +54,7 @@ namespace OneAdvisor.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims");
+                    b.ToTable("idn_UserClaim");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
@@ -71,7 +71,7 @@ namespace OneAdvisor.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins");
+                    b.ToTable("idn_UserLogin");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -84,7 +84,7 @@ namespace OneAdvisor.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("idn_UserRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -99,7 +99,166 @@ namespace OneAdvisor.Data.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens");
+                    b.ToTable("idn_UserToken");
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Client.ClientEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AlternateIdNumber");
+
+                    b.Property<Guid>("ClientTypeId");
+
+                    b.Property<DateTime?>("DateOfBirth");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("IdNumber");
+
+                    b.Property<string>("Initials");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("MaidenName");
+
+                    b.Property<DateTime?>("MarriageDate");
+
+                    b.Property<Guid?>("MarritalStatusId");
+
+                    b.Property<Guid>("OrganisationId");
+
+                    b.Property<string>("PreferredName");
+
+                    b.Property<string>("TaxNumber");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientTypeId");
+
+                    b.HasIndex("MarritalStatusId");
+
+                    b.HasIndex("OrganisationId");
+
+                    b.ToTable("clt_Client");
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Client.ContactEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("ClientId");
+
+                    b.Property<Guid>("ContactTypeId");
+
+                    b.Property<string>("Value")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("ContactTypeId");
+
+                    b.ToTable("clt_Contact");
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Client.Lookup.ClientTypeEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Code")
+                        .IsRequired();
+
+                    b.Property<int>("DisplayOrder");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("clt_ClientType");
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Client.Lookup.ContactTypeEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("clt_ContactType");
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Client.Lookup.MarritalStatusEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("clt_MarritalStatus");
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Client.Lookup.PolicyTypeEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Code")
+                        .IsRequired();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("clt_PolicyType");
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Client.PolicyEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("ClientId");
+
+                    b.Property<Guid>("CompanyId");
+
+                    b.Property<string>("Number")
+                        .IsRequired();
+
+                    b.Property<Guid?>("PolicyTypeId");
+
+                    b.Property<decimal?>("Premium")
+                        .HasColumnType("Money");
+
+                    b.Property<DateTime?>("StartDate");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("PolicyTypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("clt_Policy");
                 });
 
             modelBuilder.Entity("OneAdvisor.Data.Entities.Commission.CommissionEntity", b =>
@@ -137,6 +296,8 @@ namespace OneAdvisor.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<Guid?>("ClientId");
+
                     b.Property<Guid>("CommissionStatementId");
 
                     b.Property<Guid?>("CommissionTypeId");
@@ -146,15 +307,13 @@ namespace OneAdvisor.Data.Migrations
 
                     b.Property<bool>("IsFormatValid");
 
-                    b.Property<Guid?>("MemberId");
-
                     b.Property<Guid?>("PolicyId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommissionStatementId");
+                    b.HasIndex("ClientId");
 
-                    b.HasIndex("MemberId");
+                    b.HasIndex("CommissionStatementId");
 
                     b.HasIndex("PolicyId");
 
@@ -211,6 +370,46 @@ namespace OneAdvisor.Data.Migrations
                     b.ToTable("com_CommissionStatementTemplate");
                 });
 
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Commission.Lookup.CommissionEarningsTypeEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("com_CommissionEarningsType");
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Commission.Lookup.CommissionTypeEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Code")
+                        .IsRequired();
+
+                    b.Property<Guid>("CommissionEarningsTypeId");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<Guid>("PolicyTypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("CommissionEarningsTypeId");
+
+                    b.HasIndex("PolicyTypeId");
+
+                    b.ToTable("com_CommissionType");
+                });
+
             modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.ApplicationEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -261,46 +460,6 @@ namespace OneAdvisor.Data.Migrations
                     b.ToTable("dir_Branch");
                 });
 
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.Lookup.CommissionEarningsTypeEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("lkp_CommissionEarningsType");
-                });
-
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.Lookup.CommissionTypeEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Code")
-                        .IsRequired();
-
-                    b.Property<Guid>("CommissionEarningsTypeId");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<Guid>("PolicyTypeId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.HasIndex("CommissionEarningsTypeId");
-
-                    b.HasIndex("PolicyTypeId");
-
-                    b.ToTable("lkp_CommissionType");
-                });
-
             modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.Lookup.CompanyEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -311,49 +470,7 @@ namespace OneAdvisor.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("lkp_Company");
-                });
-
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.Lookup.ContactTypeEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("lkp_ContactType");
-                });
-
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.Lookup.MarritalStatusEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("lkp_MarritalStatus");
-                });
-
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.Lookup.PolicyTypeEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Code")
-                        .IsRequired();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("lkp_PolicyType");
+                    b.ToTable("dir_Company");
                 });
 
             modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.OrganisationEntity", b =>
@@ -397,7 +514,7 @@ namespace OneAdvisor.Data.Migrations
                         .HasName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("idn_Role");
                 });
 
             modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.RoleToUseCaseEntity", b =>
@@ -495,102 +612,7 @@ namespace OneAdvisor.Data.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Member.ContactEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("ContactTypeId");
-
-                    b.Property<Guid>("MemberId");
-
-                    b.Property<string>("Value")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContactTypeId");
-
-                    b.HasIndex("MemberId");
-
-                    b.ToTable("mem_Contact");
-                });
-
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Member.MemberEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("DateOfBirth");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("IdNumber");
-
-                    b.Property<string>("Initials");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("LastName");
-
-                    b.Property<string>("MaidenName");
-
-                    b.Property<DateTime?>("MarriageDate");
-
-                    b.Property<Guid?>("MarritalStatusId");
-
-                    b.Property<Guid>("OrganisationId");
-
-                    b.Property<string>("PassportNumber");
-
-                    b.Property<string>("PreferredName");
-
-                    b.Property<string>("TaxNumber");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MarritalStatusId");
-
-                    b.HasIndex("OrganisationId");
-
-                    b.ToTable("mem_Member");
-                });
-
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Member.PolicyEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("CompanyId");
-
-                    b.Property<Guid>("MemberId");
-
-                    b.Property<string>("Number")
-                        .IsRequired();
-
-                    b.Property<Guid?>("PolicyTypeId");
-
-                    b.Property<decimal?>("Premium")
-                        .HasColumnType("Money");
-
-                    b.Property<DateTime?>("StartDate");
-
-                    b.Property<Guid>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("MemberId");
-
-                    b.HasIndex("PolicyTypeId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("mem_Policy");
+                    b.ToTable("idn_User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -638,6 +660,58 @@ namespace OneAdvisor.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Client.ClientEntity", b =>
+                {
+                    b.HasOne("OneAdvisor.Data.Entities.Client.Lookup.ClientTypeEntity", "ClientType")
+                        .WithMany()
+                        .HasForeignKey("ClientTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("OneAdvisor.Data.Entities.Client.Lookup.MarritalStatusEntity", "MarritalStatus")
+                        .WithMany()
+                        .HasForeignKey("MarritalStatusId");
+
+                    b.HasOne("OneAdvisor.Data.Entities.Directory.OrganisationEntity", "Organisation")
+                        .WithMany("Clients")
+                        .HasForeignKey("OrganisationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Client.ContactEntity", b =>
+                {
+                    b.HasOne("OneAdvisor.Data.Entities.Client.ClientEntity", "Client")
+                        .WithMany("ClientContacts")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("OneAdvisor.Data.Entities.Client.Lookup.ContactTypeEntity", "ContactType")
+                        .WithMany()
+                        .HasForeignKey("ContactTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Client.PolicyEntity", b =>
+                {
+                    b.HasOne("OneAdvisor.Data.Entities.Client.ClientEntity", "Client")
+                        .WithMany("ClientPolicies")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("OneAdvisor.Data.Entities.Directory.Lookup.CompanyEntity", "Company")
+                        .WithMany("ClientPolicies")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("OneAdvisor.Data.Entities.Client.Lookup.PolicyTypeEntity", "PolicyType")
+                        .WithMany()
+                        .HasForeignKey("PolicyTypeId");
+
+                    b.HasOne("OneAdvisor.Data.Entities.Directory.UserEntity", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("OneAdvisor.Data.Entities.Commission.CommissionEntity", b =>
                 {
                     b.HasOne("OneAdvisor.Data.Entities.Commission.CommissionStatementEntity", "CommissionStatement")
@@ -645,12 +719,12 @@ namespace OneAdvisor.Data.Migrations
                         .HasForeignKey("CommissionStatementId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("OneAdvisor.Data.Entities.Directory.Lookup.CommissionTypeEntity", "CommissionType")
+                    b.HasOne("OneAdvisor.Data.Entities.Commission.Lookup.CommissionTypeEntity", "CommissionType")
                         .WithMany()
                         .HasForeignKey("CommissionTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("OneAdvisor.Data.Entities.Member.PolicyEntity", "Policy")
+                    b.HasOne("OneAdvisor.Data.Entities.Client.PolicyEntity", "Policy")
                         .WithMany()
                         .HasForeignKey("PolicyId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -658,16 +732,16 @@ namespace OneAdvisor.Data.Migrations
 
             modelBuilder.Entity("OneAdvisor.Data.Entities.Commission.CommissionErrorEntity", b =>
                 {
+                    b.HasOne("OneAdvisor.Data.Entities.Client.ClientEntity", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+
                     b.HasOne("OneAdvisor.Data.Entities.Commission.CommissionStatementEntity", "CommissionStatement")
                         .WithMany("CommissionErrors")
                         .HasForeignKey("CommissionStatementId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("OneAdvisor.Data.Entities.Member.MemberEntity", "Member")
-                        .WithMany()
-                        .HasForeignKey("MemberId");
-
-                    b.HasOne("OneAdvisor.Data.Entities.Member.PolicyEntity", "Policy")
+                    b.HasOne("OneAdvisor.Data.Entities.Client.PolicyEntity", "Policy")
                         .WithMany()
                         .HasForeignKey("PolicyId");
                 });
@@ -685,24 +759,24 @@ namespace OneAdvisor.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Commission.Lookup.CommissionTypeEntity", b =>
+                {
+                    b.HasOne("OneAdvisor.Data.Entities.Commission.Lookup.CommissionEarningsTypeEntity", "CommissionEarningsType")
+                        .WithMany()
+                        .HasForeignKey("CommissionEarningsTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("OneAdvisor.Data.Entities.Client.Lookup.PolicyTypeEntity", "PolicyType")
+                        .WithMany("CommissionTypes")
+                        .HasForeignKey("PolicyTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.BranchEntity", b =>
                 {
                     b.HasOne("OneAdvisor.Data.Entities.Directory.OrganisationEntity", "Organisation")
                         .WithMany("Branches")
                         .HasForeignKey("OrganisationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.Lookup.CommissionTypeEntity", b =>
-                {
-                    b.HasOne("OneAdvisor.Data.Entities.Directory.Lookup.CommissionEarningsTypeEntity", "CommissionEarningsType")
-                        .WithMany()
-                        .HasForeignKey("CommissionEarningsTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("OneAdvisor.Data.Entities.Directory.Lookup.PolicyTypeEntity", "PolicyType")
-                        .WithMany("CommissionTypes")
-                        .HasForeignKey("PolicyTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -731,53 +805,6 @@ namespace OneAdvisor.Data.Migrations
                     b.HasOne("OneAdvisor.Data.Entities.Directory.ApplicationEntity", "Application")
                         .WithMany()
                         .HasForeignKey("ApplicationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Member.ContactEntity", b =>
-                {
-                    b.HasOne("OneAdvisor.Data.Entities.Directory.Lookup.ContactTypeEntity", "ContactType")
-                        .WithMany()
-                        .HasForeignKey("ContactTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("OneAdvisor.Data.Entities.Member.MemberEntity", "Member")
-                        .WithMany("MemberContacts")
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Member.MemberEntity", b =>
-                {
-                    b.HasOne("OneAdvisor.Data.Entities.Directory.Lookup.MarritalStatusEntity", "MarritalStatus")
-                        .WithMany()
-                        .HasForeignKey("MarritalStatusId");
-
-                    b.HasOne("OneAdvisor.Data.Entities.Directory.OrganisationEntity", "Organisation")
-                        .WithMany("Members")
-                        .HasForeignKey("OrganisationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Member.PolicyEntity", b =>
-                {
-                    b.HasOne("OneAdvisor.Data.Entities.Directory.Lookup.CompanyEntity", "Company")
-                        .WithMany("MemberPolicies")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("OneAdvisor.Data.Entities.Member.MemberEntity", "Member")
-                        .WithMany("MemberPolicies")
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("OneAdvisor.Data.Entities.Directory.Lookup.PolicyTypeEntity", "PolicyType")
-                        .WithMany()
-                        .HasForeignKey("PolicyTypeId");
-
-                    b.HasOne("OneAdvisor.Data.Entities.Directory.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

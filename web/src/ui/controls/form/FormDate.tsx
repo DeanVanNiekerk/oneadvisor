@@ -18,6 +18,7 @@ type Props = {
     validationResults?: ValidationResult[];
     layout?: FormLayout;
     readonly?: boolean;
+    hidden?: boolean;
 };
 
 class FormDate extends Component<Props> {
@@ -34,17 +35,19 @@ class FormDate extends Component<Props> {
             validationResults,
             disabled = false,
             layout,
-            readonly
+            readonly,
         } = this.props;
 
         if (readonly)
             return (
                 <FormText
                     label={label}
-                    value={value ? moment(value).format(DATE_FORMAT) : ''}
+                    value={value ? moment(value).format(DATE_FORMAT) : ""}
                     layout={layout}
                 />
             );
+
+        if (this.props.hidden) return <></>;
 
         return (
             <FormField

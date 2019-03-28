@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using api.Controllers.Directory.Lookups;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using OneAdvisor.Model.Client.Interface;
+using OneAdvisor.Model.Client.Model.Lookup;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Lookup;
@@ -16,11 +18,12 @@ namespace api.Test.Controllers.Directory
         [Fact]
         public void LookupsModelComposition()
         {
-            Assert.Equal(7, typeof(api.Controllers.Directory.Lookups.Dto.Lookups).PropertyCount());
+            Assert.Equal(8, typeof(api.Controllers.Directory.Lookups.Dto.Lookups).PropertyCount());
             Assert.True(typeof(api.Controllers.Directory.Lookups.Dto.Lookups).HasProperty("CommissionTypes"));
             Assert.True(typeof(api.Controllers.Directory.Lookups.Dto.Lookups).HasProperty("Companies"));
             Assert.True(typeof(api.Controllers.Directory.Lookups.Dto.Lookups).HasProperty("CommissionEarningsTypes"));
             Assert.True(typeof(api.Controllers.Directory.Lookups.Dto.Lookups).HasProperty("PolicyTypes"));
+            Assert.True(typeof(api.Controllers.Directory.Lookups.Dto.Lookups).HasProperty("ClientTypes"));
             Assert.True(typeof(api.Controllers.Directory.Lookups.Dto.Lookups).HasProperty("ContactTypes"));
             Assert.True(typeof(api.Controllers.Directory.Lookups.Dto.Lookups).HasProperty("MarritalStatus"));
             Assert.True(typeof(api.Controllers.Directory.Lookups.Dto.Lookups).HasProperty("CommissionStatementTemplateFieldNames"));
@@ -49,6 +52,15 @@ namespace api.Test.Controllers.Directory
             Assert.True(typeof(PolicyType).HasProperty("Id"));
             Assert.True(typeof(PolicyType).HasProperty("Name"));
             Assert.True(typeof(PolicyType).HasProperty("Code"));
+        }
+
+        [Fact]
+        public void ClientTypeModelComposition()
+        {
+            Assert.Equal(3, typeof(ClientType).PropertyCount());
+            Assert.True(typeof(ClientType).HasProperty("Id"));
+            Assert.True(typeof(ClientType).HasProperty("Name"));
+            Assert.True(typeof(ClientType).HasProperty("Code"));
         }
 
         [Fact]
@@ -103,26 +115,30 @@ namespace api.Test.Controllers.Directory
             var contactType = new ContactType() { Id = Guid.NewGuid(), Name = "Name5" };
             var marritalStatus = new MarritalStatus() { Id = Guid.NewGuid(), Name = "Name6" };
             var commissionStatementTemplateFieldName = new CommissionStatementTemplateFieldName() { Id = Guid.NewGuid().ToString(), Name = "Name7" };
+            var clientType = new ClientType() { Id = Guid.NewGuid(), Name = "Name8", Code = "Code8" };
 
             var commissionTypes = new List<CommissionType>() { commissionType };
             var companies = new List<Company>() { company };
             var commissionEarningsTypes = new List<CommissionEarningsType>() { commissionEarningsType };
             var policyTypes = new List<PolicyType>() { policyType };
+            var clientTypes = new List<ClientType>() { clientType };
             var contactTypes = new List<ContactType>() { contactType };
             var marritalStatusList = new List<MarritalStatus>() { marritalStatus };
             var commissionStatementTemplateFieldNames = new List<CommissionStatementTemplateFieldName>() { commissionStatementTemplateFieldName };
 
             var service = new Mock<ILookupService>();
-
             service.Setup(c => c.GetCommissionTypes()).ReturnsAsync(commissionTypes);
             service.Setup(c => c.GetCompanies()).ReturnsAsync(companies);
             service.Setup(c => c.GetCommissionEarningsTypes()).ReturnsAsync(commissionEarningsTypes);
-            service.Setup(c => c.GetPolicyTypes()).ReturnsAsync(policyTypes);
-            service.Setup(c => c.GetContactTypes()).ReturnsAsync(contactTypes);
-            service.Setup(c => c.GetMarritalStatus()).ReturnsAsync(marritalStatusList);
             service.Setup(c => c.GetCommissionStatementTemplateFieldNames()).Returns(commissionStatementTemplateFieldNames);
 
-            var controller = new LookupsController(service.Object);
+            var clientLookupService = new Mock<IClientLookupService>();
+            clientLookupService.Setup(c => c.GetPolicyTypes()).ReturnsAsync(policyTypes);
+            clientLookupService.Setup(c => c.GetContactTypes()).ReturnsAsync(contactTypes);
+            clientLookupService.Setup(c => c.GetClientTypes()).ReturnsAsync(clientTypes);
+            clientLookupService.Setup(c => c.GetMarritalStatus()).ReturnsAsync(marritalStatusList);
+
+            var controller = new LookupsController(service.Object, clientLookupService.Object);
 
             var result = await controller.All();
 
@@ -162,7 +178,7 @@ namespace api.Test.Controllers.Directory
             service.Setup(c => c.GetCompanies())
                 .ReturnsAsync(companies);
 
-            var controller = new LookupsController(service.Object);
+            var controller = new LookupsController(service.Object, null);
 
             var result = await controller.Companies();
 
@@ -196,7 +212,7 @@ namespace api.Test.Controllers.Directory
                 })
                 .ReturnsAsync(result);
 
-            var controller = new LookupsController(service.Object);
+            var controller = new LookupsController(service.Object, null);
 
             var actual = await controller.InsertCompany(company);
 
@@ -232,7 +248,7 @@ namespace api.Test.Controllers.Directory
                 })
                 .ReturnsAsync(result);
 
-            var controller = new LookupsController(service.Object);
+            var controller = new LookupsController(service.Object, null);
 
             var actual = await controller.UpdateCompany(company.Id.Value, company);
 
@@ -266,7 +282,7 @@ namespace api.Test.Controllers.Directory
             service.Setup(c => c.GetCommissionTypes())
                 .ReturnsAsync(types);
 
-            var controller = new LookupsController(service.Object);
+            var controller = new LookupsController(service.Object, null);
 
             var result = await controller.CommissionTypes();
 
@@ -303,7 +319,7 @@ namespace api.Test.Controllers.Directory
                 })
                 .ReturnsAsync(result);
 
-            var controller = new LookupsController(service.Object);
+            var controller = new LookupsController(service.Object, null);
 
             var actual = await controller.InsertCommissionType(type);
 
@@ -342,7 +358,7 @@ namespace api.Test.Controllers.Directory
                 })
                 .ReturnsAsync(result);
 
-            var controller = new LookupsController(service.Object);
+            var controller = new LookupsController(service.Object, null);
 
             var actual = await controller.UpdateCommissionType(type.Id.Value, type);
 

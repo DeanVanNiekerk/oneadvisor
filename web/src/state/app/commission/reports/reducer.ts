@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-import { reducer as memberRevenue, State as MemberRevenueState } from './memberRevenue/reducer';
+import { reducer as clientRevenue, State as ClientRevenueState } from './clientRevenue/reducer';
 
 export type State = {
-    memberRevenue: MemberRevenueState;
+    clientRevenue: ClientRevenueState;
 };
 
 export const reducer = combineReducers({
-    memberRevenue: memberRevenue,
+    clientRevenue: clientRevenue,
 });

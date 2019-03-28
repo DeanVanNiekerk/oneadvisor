@@ -217,7 +217,7 @@ namespace OneAdvisor.Service.Test.Directory
 
                 //When
                 var scope = TestHelper.GetScopeOptions(userDetailed1, Scope.Organisation);
-                var result = await service.InsertUser(scope, user, "Test@123!");
+                var result = await service.InsertUser(scope, user, "Test@123!", true);
 
                 //Then
                 Assert.True(result.Success);

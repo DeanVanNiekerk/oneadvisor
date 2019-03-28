@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { getPolicy, PolicyEdit } from '@/state/app/member/policies';
+import { getPolicy, PolicyEdit } from '@/state/app/client/policies';
 
 type Props = {
     policyId: string | null;
@@ -16,14 +16,14 @@ class PolicyNameComponent extends Component<Props, State> {
     constructor(props) {
         super(props);
         this.state = { policy: null };
-        this.loadMember();
+        this.loadClient();
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.props.policyId != prevProps.policyId) this.loadMember();
+        if (this.props.policyId != prevProps.policyId) this.loadClient();
     }
 
-    loadMember = () => {
+    loadClient = () => {
         if (!this.props.policyId) {
             this.setState({ policy: null });
             return;
@@ -43,7 +43,7 @@ class PolicyNameComponent extends Component<Props, State> {
 
         return (
             <span className={this.props.className}>{`${policy.number ||
-                ''}`}</span>
+                ""}`}</span>
         );
     }
 }
