@@ -54,7 +54,7 @@ namespace OneAdvisor.Service.Test.Client
                 Assert.True(result.Success);
 
                 var actual = await context.Client.FirstOrDefaultAsync(m => m.IdNumber == "8210035032082");
-                Assert.Null(actual.PassportNumber);
+                Assert.Null(actual.AlternateIdNumber);
                 Assert.Equal(ClientType.CLIENT_TYPE_INDIVIDUAL, actual.ClientTypeId);
                 Assert.Equal(user1.Organisation.Id, actual.OrganisationId);
                 Assert.Equal(data.LastName, actual.LastName);
@@ -125,9 +125,9 @@ namespace OneAdvisor.Service.Test.Client
         }
 
         [Fact]
-        public async Task ImportClient_Insert_WithPassportNumber()
+        public async Task ImportClient_Insert_WithAlternateIdNumber()
         {
-            var options = TestHelper.GetDbContext("ImportClient_Insert_WithPassportNumber");
+            var options = TestHelper.GetDbContext("ImportClient_Insert_WithAlternateIdNumber");
 
             var user1 = TestHelper.InsertUserDetailed(options);
 
@@ -149,7 +149,7 @@ namespace OneAdvisor.Service.Test.Client
                 //Then
                 Assert.True(result.Success);
 
-                var actual = await context.Client.FirstOrDefaultAsync(m => m.PassportNumber == data.IdNumber);
+                var actual = await context.Client.FirstOrDefaultAsync(m => m.AlternateIdNumber == data.IdNumber);
                 Assert.Null(actual.IdNumber);
             }
         }
@@ -404,9 +404,9 @@ namespace OneAdvisor.Service.Test.Client
 
 
         [Fact]
-        public async Task ImportClient_Update_WithPassportNumber()
+        public async Task ImportClient_Update_WithAlternateIdNumber()
         {
-            var options = TestHelper.GetDbContext("ImportClient_Update_WithPassportNumber");
+            var options = TestHelper.GetDbContext("ImportClient_Update_WithAlternateIdNumber");
 
             var user1 = TestHelper.InsertUserDetailed(options);
 
@@ -415,7 +415,7 @@ namespace OneAdvisor.Service.Test.Client
                 Id = Guid.NewGuid(),
                 FirstName = "FN 1",
                 LastName = "LN 1",
-                PassportNumber = "123456",
+                AlternateIdNumber = "123456",
                 OrganisationId = user1.Organisation.Id
             };
 
@@ -445,7 +445,7 @@ namespace OneAdvisor.Service.Test.Client
                 //Then
                 Assert.True(result.Success);
 
-                var actual = await context.Client.FirstOrDefaultAsync(m => m.PassportNumber == data.IdNumber);
+                var actual = await context.Client.FirstOrDefaultAsync(m => m.AlternateIdNumber == data.IdNumber);
                 Assert.Equal(data.LastName, actual.LastName);
             }
         }

@@ -33,6 +33,7 @@ type Props = {
     onSearch?: (value: string) => any;
     minWidth?: string;
     width?: string;
+    hidden?: boolean;
 };
 
 class FormSelect extends Component<Props> {
@@ -46,7 +47,7 @@ class FormSelect extends Component<Props> {
             o => o[this.props.optionsValue] === this.props.value
         );
 
-        if (!item) return '';
+        if (!item) return "";
 
         return item[this.props.optionsText];
     };
@@ -62,7 +63,7 @@ class FormSelect extends Component<Props> {
             defaultActiveFirstOption = true,
             loading = false,
             readonly,
-            autoFocus = false
+            autoFocus = false,
         } = this.props;
 
         if (readonly)
@@ -74,8 +75,10 @@ class FormSelect extends Component<Props> {
                 />
             );
 
+        if (this.props.hidden) return <></>;
+
         const style: any = {
-            minWidth: this.props.minWidth || '180px'
+            minWidth: this.props.minWidth || "180px",
         };
         if (this.props.width) {
             style.width = this.props.width;

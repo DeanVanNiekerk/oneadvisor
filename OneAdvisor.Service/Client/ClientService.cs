@@ -36,7 +36,7 @@ namespace OneAdvisor.Service.Client
                             LastName = client.LastName,
                             MaidenName = client.MaidenName,
                             IdNumber = client.IdNumber,
-                            PassportNumber = client.PassportNumber,
+                            AlternateIdNumber = client.AlternateIdNumber,
                             Initials = client.Initials,
                             PreferredName = client.PreferredName,
                             DateOfBirth = client.DateOfBirth,
@@ -87,6 +87,7 @@ namespace OneAdvisor.Service.Client
                             FirstName = client.FirstName,
                             LastName = client.LastName,
                             IdNumber = client.IdNumber,
+                            AlternateIdNumber = client.AlternateIdNumber,
                             DateOfBirth = client.DateOfBirth,
                             PolicyCount = client.ClientPolicies.Count(),
                             ContactCount = client.ClientContacts.Count()
@@ -107,7 +108,7 @@ namespace OneAdvisor.Service.Client
                             LastName = client.LastName,
                             MaidenName = client.MaidenName,
                             IdNumber = client.IdNumber,
-                            PassportNumber = client.PassportNumber,
+                            AlternateIdNumber = client.AlternateIdNumber,
                             Initials = client.Initials,
                             PreferredName = client.PreferredName,
                             DateOfBirth = client.DateOfBirth,
@@ -245,7 +246,7 @@ namespace OneAdvisor.Service.Client
             entity.LastName = model.LastName;
             entity.MaidenName = model.MaidenName;
             entity.IdNumber = model.IdNumber;
-            entity.PassportNumber = model.PassportNumber;
+            entity.AlternateIdNumber = model.AlternateIdNumber;
             entity.Initials = model.Initials;
             entity.PreferredName = model.PreferredName;
             entity.DateOfBirth = model.DateOfBirth;

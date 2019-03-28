@@ -1,4 +1,5 @@
 import { clientsApi } from '@/config/api/client';
+import { ClientTypeId } from '@/state/app/directory/lookups';
 
 import { ClientPreview } from '../';
 import * as actions from './actions';
@@ -17,10 +18,11 @@ describe("client actions", () => {
     it("should dispatch CLIENTS_CLIENT_PREVIEW_RECEIVE when receiveClientPreview is called", () => {
         const client: ClientPreview = {
             id: "10",
-            clientTypeId: "99",
+            clientTypeId: ClientTypeId.Individual,
             firstName: "Dean",
             lastName: "Jackson",
             idNumber: "12341234",
+            alternateIdNumber: "987654",
             dateOfBirth: "1982-10-03",
             policyCount: 2,
             contactCount: 3,

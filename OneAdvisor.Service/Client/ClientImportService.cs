@@ -196,7 +196,7 @@ namespace OneAdvisor.Service.Client
             if (id.IsValid)
                 client.IdNumber = data.IdNumber;
             else
-                client.PassportNumber = data.IdNumber;
+                client.AlternateIdNumber = data.IdNumber;
 
             return client;
         }
@@ -210,10 +210,10 @@ namespace OneAdvisor.Service.Client
 
             if (!string.IsNullOrWhiteSpace(data.IdNumber))
             {
-                //First try and match on IdNumber and PassportNumber
+                //First try and match on IdNumber and AlternateIdNumber
                 query = from entity in clientQuery
                         where entity.IdNumber == data.IdNumber
-                        || entity.PassportNumber == data.IdNumber
+                        || entity.AlternateIdNumber == data.IdNumber
                         select entity;
 
                 var matches = await query.ToListAsync();

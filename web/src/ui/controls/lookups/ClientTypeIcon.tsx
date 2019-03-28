@@ -2,9 +2,7 @@ import { Icon, Tooltip } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import {
-    CLIENT_TYPE_COMPANY_ID, CLIENT_TYPE_INDIVIDUAL_ID, CLIENT_TYPE_TRUST_ID, ClientType, clientTypesSelector
-} from '@/state/app/directory/lookups';
+import { ClientType, ClientTypeId, clientTypesSelector } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
 
 type Props = {
@@ -42,16 +40,12 @@ class ClientTypeIconComponent extends Component<Props> {
         if (!clientType) return <span />;
 
         switch (clientTypeId) {
-            case CLIENT_TYPE_INDIVIDUAL_ID:
-                return this.getIcon(
-                    CLIENT_TYPE_INDIVIDUAL_ID,
-                    "user",
-                    "#9D44B5"
-                );
-            case CLIENT_TYPE_COMPANY_ID:
-                return this.getIcon(CLIENT_TYPE_COMPANY_ID, "bank", "#D1495B");
-            case CLIENT_TYPE_TRUST_ID:
-                return this.getIcon(CLIENT_TYPE_TRUST_ID, "team", "#012A36");
+            case ClientTypeId.Individual:
+                return this.getIcon(ClientTypeId.Individual, "user", "#9D44B5");
+            case ClientTypeId.Company:
+                return this.getIcon(ClientTypeId.Company, "bank", "#D1495B");
+            case ClientTypeId.Trust:
+                return this.getIcon(ClientTypeId.Trust, "team", "#012A36");
             default:
                 return <Icon type="question" />;
         }

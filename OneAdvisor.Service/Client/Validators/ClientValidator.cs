@@ -44,19 +44,19 @@ namespace OneAdvisor.Service.Client.Validators
                 });
             });
 
-            When(m => !string.IsNullOrWhiteSpace(m.PassportNumber), () =>
+            When(m => !string.IsNullOrWhiteSpace(m.AlternateIdNumber), () =>
             {
-                RuleFor(m => m.PassportNumber).MaximumLength(128).WithName("Passport Number");
+                RuleFor(m => m.AlternateIdNumber).MaximumLength(128).WithName("Passport Number");
 
                 RuleSet("Availability", () =>
                 {
-                    RuleFor(m => m).Custom(AvailablePassportNumberValidator);
+                    RuleFor(m => m).Custom(AvailableAlternateIdNumberValidator);
                 });
 
             });
 
 
-            When(m => string.IsNullOrWhiteSpace(m.IdNumber) && string.IsNullOrWhiteSpace(m.PassportNumber), () =>
+            When(m => string.IsNullOrWhiteSpace(m.IdNumber) && string.IsNullOrWhiteSpace(m.AlternateIdNumber), () =>
             {
                 RuleFor(m => m.IdNumber).NotEmpty().WithMessage("ID Number or Passport Number is required");
             });
@@ -90,18 +90,18 @@ namespace OneAdvisor.Service.Client.Validators
             return client.Id == entity.Id;
         }
 
-        private void AvailablePassportNumberValidator(ClientEdit client, CustomContext context)
+        private void AvailableAlternateIdNumberValidator(ClientEdit client, CustomContext context)
         {
-            if (!IsAvailablePassportNumber(client))
+            if (!IsAvailableAlternateIdNumber(client))
             {
-                var failure = new ValidationFailure("PassportNumber", "Passport Number is already in use", client.PassportNumber);
+                var failure = new ValidationFailure("Alternate Id Number", "Alternate Id Number is already in use", client.AlternateIdNumber);
                 context.AddFailure(failure);
             }
         }
 
-        private bool IsAvailablePassportNumber(ClientEdit client)
+        private bool IsAvailableAlternateIdNumber(ClientEdit client)
         {
-            var entity = GetClientEntityQuery().Where(m => m.PassportNumber == client.PassportNumber).FirstOrDefault();
+            var entity = GetClientEntityQuery().Where(m => m.AlternateIdNumber == client.AlternateIdNumber).FirstOrDefault();
 
             if (entity == null)
                 return true;

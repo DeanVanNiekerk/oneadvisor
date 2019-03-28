@@ -28,7 +28,7 @@ namespace api.Test.Controllers.Client
             Assert.True(typeof(OneAdvisor.Model.Client.Model.Client.Client).HasProperty("PreferredName"));
             Assert.True(typeof(OneAdvisor.Model.Client.Model.Client.Client).HasProperty("IdNumber"));
             Assert.True(typeof(OneAdvisor.Model.Client.Model.Client.Client).HasProperty("DateOfBirth"));
-            Assert.True(typeof(OneAdvisor.Model.Client.Model.Client.Client).HasProperty("PassportNumber"));
+            Assert.True(typeof(OneAdvisor.Model.Client.Model.Client.Client).HasProperty("AlternateIdNumber"));
             Assert.True(typeof(OneAdvisor.Model.Client.Model.Client.Client).HasProperty("TaxNumber"));
             Assert.True(typeof(OneAdvisor.Model.Client.Model.Client.Client).HasProperty("MarritalStatusId"));
             Assert.True(typeof(OneAdvisor.Model.Client.Model.Client.Client).HasProperty("MarriageDate"));
@@ -47,11 +47,26 @@ namespace api.Test.Controllers.Client
             Assert.True(typeof(ClientEdit).HasProperty("PreferredName"));
             Assert.True(typeof(ClientEdit).HasProperty("IdNumber"));
             Assert.True(typeof(ClientEdit).HasProperty("DateOfBirth"));
-            Assert.True(typeof(ClientEdit).HasProperty("PassportNumber"));
+            Assert.True(typeof(ClientEdit).HasProperty("AlternateIdNumber"));
             Assert.True(typeof(ClientEdit).HasProperty("TaxNumber"));
             Assert.True(typeof(ClientEdit).HasProperty("MarritalStatusId"));
             Assert.True(typeof(ClientEdit).HasProperty("MarriageDate"));
             Assert.True(typeof(ClientEdit).HasProperty("ClientTypeId"));
+        }
+
+        [Fact]
+        public void ClientPreviewModelComposition()
+        {
+            Assert.Equal(9, typeof(ClientPreview).PropertyCount());
+            Assert.True(typeof(ClientPreview).HasProperty("Id"));
+            Assert.True(typeof(ClientPreview).HasProperty("ClientTypeId"));
+            Assert.True(typeof(ClientPreview).HasProperty("FirstName"));
+            Assert.True(typeof(ClientPreview).HasProperty("LastName"));
+            Assert.True(typeof(ClientPreview).HasProperty("IdNumber"));
+            Assert.True(typeof(ClientPreview).HasProperty("AlternateIdNumber"));
+            Assert.True(typeof(ClientPreview).HasProperty("DateOfBirth"));
+            Assert.True(typeof(ClientPreview).HasProperty("PolicyCount"));
+            Assert.True(typeof(ClientPreview).HasProperty("ContactCount"));
         }
 
         [Fact]
@@ -68,7 +83,7 @@ namespace api.Test.Controllers.Client
                 MaidenName = "5",
                 MarriageDate = DateTime.Now,
                 MarritalStatusId = Guid.NewGuid(),
-                PassportNumber = "6",
+                AlternateIdNumber = "6",
                 PreferredName = "7",
                 TaxNumber = "8",
                 ClientTypeId = Guid.NewGuid()
@@ -123,7 +138,7 @@ namespace api.Test.Controllers.Client
                 MaidenName = "5",
                 MarriageDate = new DateTime(2010, 03, 25),
                 MarritalStatusId = Guid.NewGuid(),
-                PassportNumber = "6",
+                AlternateIdNumber = "6",
                 PreferredName = "7",
                 TaxNumber = "8",
                 ClientTypeId = Guid.NewGuid()
@@ -155,8 +170,9 @@ namespace api.Test.Controllers.Client
                 LastName = "2",
                 DateOfBirth = new DateTime(1982, 10, 3),
                 IdNumber = "3",
-                ContactCount = 4,
-                PolicyCount = 5
+                AlternateIdNumber = "4",
+                ContactCount = 5,
+                PolicyCount = 6
             };
 
             var service = new Mock<IClientService>();
@@ -189,7 +205,7 @@ namespace api.Test.Controllers.Client
                 MaidenName = "5",
                 MarriageDate = new DateTime(2010, 03, 25),
                 MarritalStatusId = Guid.NewGuid(),
-                PassportNumber = "6",
+                AlternateIdNumber = "6",
                 PreferredName = "7",
                 TaxNumber = "8",
                 ClientTypeId = Guid.NewGuid()
@@ -240,7 +256,7 @@ namespace api.Test.Controllers.Client
                 MaidenName = "5",
                 MarriageDate = new DateTime(2010, 03, 25),
                 MarritalStatusId = Guid.NewGuid(),
-                PassportNumber = "6",
+                AlternateIdNumber = "6",
                 PreferredName = "7",
                 TaxNumber = "8",
                 ClientTypeId = Guid.NewGuid()

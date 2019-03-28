@@ -1,15 +1,18 @@
+import { ClientTypeId } from '@/state/app/directory/lookups';
+
 import { Client } from '../';
 import { defaultState, reducer } from './reducer';
 
 const defaultClient: Client = {
     id: "10",
+    clientTypeId: ClientTypeId.Individual,
     firstName: "Dean",
     lastName: "Jackson",
     maidenName: "",
     initials: "DJ",
     preferredName: "ripper",
     idNumber: "12341234",
-    passportNumber: "987987",
+    alternateIdNumber: "987987",
     dateOfBirth: "1982-10-03",
     marriageDate: "1982-10-02",
     marritalStatusId: "987654",

@@ -249,7 +249,7 @@ namespace OneAdvisor.Data.Migrations
                     PreferredName = table.Column<string>(nullable: true),
                     IdNumber = table.Column<string>(nullable: true),
                     DateOfBirth = table.Column<DateTime>(nullable: true),
-                    PassportNumber = table.Column<string>(nullable: true),
+                    AlternateIdNumber = table.Column<string>(nullable: true),
                     TaxNumber = table.Column<string>(nullable: true),
                     MarritalStatusId = table.Column<Guid>(nullable: true),
                     MarriageDate = table.Column<DateTime>(nullable: true),

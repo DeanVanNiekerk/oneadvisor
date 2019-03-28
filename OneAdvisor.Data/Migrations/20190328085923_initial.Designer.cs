@@ -10,7 +10,7 @@ using OneAdvisor.Data;
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190327130059_initial")]
+    [Migration("20190328085923_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -109,6 +109,8 @@ namespace OneAdvisor.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("AlternateIdNumber");
+
                     b.Property<Guid>("ClientTypeId");
 
                     b.Property<DateTime?>("DateOfBirth");
@@ -130,8 +132,6 @@ namespace OneAdvisor.Data.Migrations
                     b.Property<Guid?>("MarritalStatusId");
 
                     b.Property<Guid>("OrganisationId");
-
-                    b.Property<string>("PassportNumber");
 
                     b.Property<string>("PreferredName");
 

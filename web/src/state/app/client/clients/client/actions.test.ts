@@ -1,4 +1,5 @@
 import { clientsApi } from '@/config/api/client';
+import { ClientTypeId } from '@/state/app/directory/lookups';
 
 import { ClientEdit } from '../';
 import * as actions from './actions';
@@ -17,13 +18,13 @@ describe("client actions", () => {
     it("should dispatch API when updateClient is called", () => {
         const client: ClientEdit = {
             id: "10",
-            clientTypeId: "99",
+            clientTypeId: ClientTypeId.Individual,
             firstName: "Dean",
             lastName: "Jackson",
             maidenName: "",
             initials: "DJ",
             preferredName: "ripper",
-            passportNumber: "987987",
+            alternateIdNumber: "987987",
             idNumber: "12341234",
             dateOfBirth: "1982-10-03",
             marriageDate: "1982-10-02",

@@ -1,3 +1,4 @@
+import { ClientTypeId } from '@/state/app/directory/lookups';
 import { getValidationResult } from '@/test';
 
 import { ClientPreview } from '../';
@@ -5,10 +6,11 @@ import { defaultState, reducer } from './reducer';
 
 const defaultClient: ClientPreview = {
     id: "10",
-    clientTypeId: "99",
+    clientTypeId: ClientTypeId.Individual,
     firstName: "Dean",
     lastName: "Jackson",
     idNumber: "12341234",
+    alternateIdNumber: "987987",
     dateOfBirth: "1982-10-03",
     policyCount: 2,
     contactCount: 3,

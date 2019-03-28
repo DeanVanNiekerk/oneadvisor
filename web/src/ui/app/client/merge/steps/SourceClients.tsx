@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { getAge } from '@/app/utils';
-import { Client, clientMergeNextStep, clientMergeSelector } from '@/state/app/client/clients';
+import {
+    Client, clientMergeNextStep, clientMergeSelector, getAlternateIdNumberLabel
+} from '@/state/app/client/clients';
 import { RootState } from '@/state/rootReducer';
 
 import ClientMergeSteps from '../ClientMergeSteps';
@@ -32,9 +34,12 @@ class SourceClients extends Component<Props> {
             parts.push(`Age: ${getAge(client.dateOfBirth)}`);
 
         if (client.idNumber) parts.push(`ID Number: ${client.idNumber}`);
-
-        if (client.passportNumber)
-            parts.push(`Passport Number: ${client.passportNumber}`);
+        else if (client.alternateIdNumber)
+            parts.push(
+                `${getAlternateIdNumberLabel(client.clientTypeId)}: ${
+                    client.alternateIdNumber
+                }`
+            );
 
         return parts.join(" | ");
     };

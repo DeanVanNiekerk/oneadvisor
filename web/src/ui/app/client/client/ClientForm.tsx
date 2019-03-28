@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 
 import { parseIdNumber } from '@/app/parsers/id';
 import { ValidationResult } from '@/app/validation';
-import { ClientEdit } from '@/state/app/client/clients';
-import { ClientType, clientTypesSelector } from '@/state/app/directory/lookups';
+import {
+    ClientEdit, getAlternateIdNumberLabel, getDateOfBirthLabel, getLastNameLabel
+} from '@/state/app/client/clients';
+import { ClientType, ClientTypeId, clientTypesSelector } from '@/state/app/directory/lookups';
 import { MarritalStatus, marritalStatusSelector } from '@/state/app/directory/lookups/marritalStatus';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormDate, FormInput, FormSelect } from '@/ui/controls';
@@ -161,10 +163,11 @@ class ClientForm extends Component<Props, State> {
                     onChange={this.handleChange}
                     validationResults={validationResults}
                     autoFocus={true}
+                    hidden={client.clientTypeId != ClientTypeId.Individual}
                 />
                 <FormInput
                     fieldName="lastName"
-                    label="Last Name"
+                    label={getLastNameLabel(client.clientTypeId)}
                     value={client.lastName}
                     onChange={this.handleChange}
                     validationResults={validationResults}
@@ -175,6 +178,7 @@ class ClientForm extends Component<Props, State> {
                     value={client.initials}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    hidden={client.clientTypeId !== ClientTypeId.Individual}
                 />
                 <FormInput
                     fieldName="maidenName"
@@ -182,6 +186,7 @@ class ClientForm extends Component<Props, State> {
                     value={client.maidenName}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    hidden={client.clientTypeId !== ClientTypeId.Individual}
                 />
                 <FormInput
                     fieldName="preferredName"
@@ -189,6 +194,7 @@ class ClientForm extends Component<Props, State> {
                     value={client.preferredName}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    hidden={client.clientTypeId !== ClientTypeId.Individual}
                 />
                 <FormInput
                     fieldName="idNumber"
@@ -197,17 +203,18 @@ class ClientForm extends Component<Props, State> {
                     onChange={this.handleChange}
                     validationResults={validationResults}
                     addonAfter={this.idNumberInputAddon()}
+                    hidden={client.clientTypeId !== ClientTypeId.Individual}
                 />
                 <FormInput
-                    fieldName="passportNumber"
-                    label="Passport Number"
-                    value={client.passportNumber}
+                    fieldName="alternateIdNumber"
+                    label={getAlternateIdNumberLabel(client.clientTypeId)}
+                    value={client.alternateIdNumber}
                     onChange={this.handleChange}
                     validationResults={validationResults}
                 />
                 <FormDate
                     fieldName="dateOfBirth"
-                    label="Date of Birth"
+                    label={getDateOfBirthLabel(client.clientTypeId)}
                     value={client.dateOfBirth}
                     onChange={this.handleChange}
                     validationResults={validationResults}
@@ -228,16 +235,19 @@ class ClientForm extends Component<Props, State> {
                     options={this.props.marritalStatus}
                     optionsValue="id"
                     optionsText="name"
+                    hidden={client.clientTypeId !== ClientTypeId.Individual}
                 />
-                {this.isMarried() && (
-                    <FormDate
-                        fieldName="marriageDate"
-                        label="Marriage Date"
-                        value={client.marriageDate}
-                        onChange={this.handleChange}
-                        validationResults={validationResults}
-                    />
-                )}
+                <FormDate
+                    fieldName="marriageDate"
+                    label="Marriage Date"
+                    value={client.marriageDate}
+                    onChange={this.handleChange}
+                    validationResults={validationResults}
+                    hidden={
+                        client.clientTypeId !== ClientTypeId.Individual ||
+                        !this.isMarried()
+                    }
+                />
             </Form>
         );
     }

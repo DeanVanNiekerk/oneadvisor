@@ -1,15 +1,15 @@
-import { CLIENT_TYPE_INDIVIDUAL_ID } from '@/state/app/directory/lookups';
+import { ClientTypeId } from '@/state/app/directory/lookups';
 
 import { ClientEdit } from '../';
 
 export const newClient = (client: Partial<ClientEdit> = {}): ClientEdit => ({
     id: "",
-    clientTypeId: CLIENT_TYPE_INDIVIDUAL_ID,
+    clientTypeId: ClientTypeId.Individual,
     firstName: "",
     lastName: "",
     maidenName: "",
     idNumber: "",
-    passportNumber: "",
+    alternateIdNumber: "",
     initials: "",
     preferredName: "",
     dateOfBirth: "",
@@ -18,3 +18,35 @@ export const newClient = (client: Partial<ClientEdit> = {}): ClientEdit => ({
     taxNumber: "",
     ...client,
 });
+
+export const getAlternateIdNumberLabel = (
+    clientTypeId: ClientTypeId
+): string => {
+    switch (clientTypeId) {
+        case ClientTypeId.Company:
+        case ClientTypeId.Trust:
+            return "Registration Number";
+        default:
+            return "Passport Number";
+    }
+};
+
+export const getDateOfBirthLabel = (clientTypeId: ClientTypeId): string => {
+    switch (clientTypeId) {
+        case ClientTypeId.Company:
+        case ClientTypeId.Trust:
+            return "Registration Date";
+        default:
+            return "Date of Birth";
+    }
+};
+
+export const getLastNameLabel = (clientTypeId: ClientTypeId): string => {
+    switch (clientTypeId) {
+        case ClientTypeId.Company:
+        case ClientTypeId.Trust:
+            return "Name";
+        default:
+            return "Last Name";
+    }
+};

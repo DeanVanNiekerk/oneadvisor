@@ -1,13 +1,15 @@
+import { ClientTypeId } from '../../directory/lookups';
+
 export type Client = {
     id: string;
-    clientTypeId: string;
+    clientTypeId: ClientTypeId;
     firstName: string;
     lastName: string;
     maidenName: string;
     initials: string;
     preferredName: string;
     idNumber: string;
-    passportNumber: string;
+    alternateIdNumber: string;
     dateOfBirth: string;
     taxNumber: string;
     marritalStatusId: string;
@@ -16,14 +18,14 @@ export type Client = {
 
 export type ClientEdit = {
     id: string;
-    clientTypeId: string;
+    clientTypeId: ClientTypeId;
     firstName: string;
     lastName: string;
     maidenName: string;
     initials: string;
     preferredName: string;
     idNumber: string;
-    passportNumber: string;
+    alternateIdNumber: string;
     dateOfBirth: string;
     taxNumber: string;
     marritalStatusId: string;
@@ -32,10 +34,11 @@ export type ClientEdit = {
 
 export type ClientPreview = {
     id: string;
-    clientTypeId: string;
+    clientTypeId: ClientTypeId;
     firstName: string;
     lastName: string;
     idNumber: string;
+    alternateIdNumber: string;
     dateOfBirth: string | null;
 
     policyCount: number;

@@ -107,6 +107,8 @@ namespace OneAdvisor.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("AlternateIdNumber");
+
                     b.Property<Guid>("ClientTypeId");
 
                     b.Property<DateTime?>("DateOfBirth");
@@ -128,8 +130,6 @@ namespace OneAdvisor.Data.Migrations
                     b.Property<Guid?>("MarritalStatusId");
 
                     b.Property<Guid>("OrganisationId");
-
-                    b.Property<string>("PassportNumber");
 
                     b.Property<string>("PreferredName");
 
