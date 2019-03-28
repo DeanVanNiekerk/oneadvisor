@@ -18,6 +18,7 @@ using OneAdvisor.Model.Commission.Model.CommissionReport;
 
 namespace OneAdvisor.Service.IntegrationTest.Commission
 {
+    /*
     public class CommissionReportServiceTest : TestBase
     {
         [Fact]
@@ -602,4 +603,5 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             }
         }
     }
+     */
 }
