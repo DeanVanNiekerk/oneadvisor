@@ -6,6 +6,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { hasUseCase } from '@/app/identity';
 import { ClientPreview, clientPreviewSelector, fetchClient, fetchClientPreview } from '@/state/app/client/clients';
 import { newPolicy, receivePolicy } from '@/state/app/client/policies';
+import { ClientTypeId } from '@/state/app/directory/lookups/clientTypes/types';
 import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import {
@@ -154,18 +155,42 @@ class ClientPreviewComponent extends Component<Props, State> {
                     >
                         {client && (
                             <>
-                                <PreviewCardRow
-                                    label="Id"
-                                    value={`${
-                                        client.idNumber ? client.idNumber : ""
-                                    }`}
-                                />
-                                <PreviewCardRow
-                                    label="Age"
-                                    value={
-                                        <Age dateOfBirth={client.dateOfBirth} />
-                                    }
-                                />
+                                {client.clientTypeId ===
+                                    ClientTypeId.Individual && (
+                                    <>
+                                        <PreviewCardRow
+                                            label="Id"
+                                            value={`${
+                                                client.idNumber
+                                                    ? client.idNumber
+                                                    : ""
+                                            }`}
+                                        />
+                                        <PreviewCardRow
+                                            label="Age"
+                                            value={
+                                                <Age
+                                                    dateOfBirth={
+                                                        client.dateOfBirth
+                                                    }
+                                                />
+                                            }
+                                        />
+                                    </>
+                                )}
+                                {client.clientTypeId !==
+                                    ClientTypeId.Individual && (
+                                    <>
+                                        <PreviewCardRow
+                                            label="Reg. Number"
+                                            value={`${
+                                                client.alternateIdNumber
+                                                    ? client.alternateIdNumber
+                                                    : ""
+                                            }`}
+                                        />
+                                    </>
+                                )}
                             </>
                         )}
                     </PreviewCard>
