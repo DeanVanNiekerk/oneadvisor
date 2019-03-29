@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { ColumnOptions } from '@/app/table';
+import { ColumnOptions, Filters } from '@/app/table';
 import { getColumnSearchProps } from '@/ui/controls';
 
 import { formatCurrency } from '../utils';
@@ -13,18 +13,25 @@ const columnOptionDefaults: ColumnOptions = {
 export const getColumnEDS = (
     key: string,
     title: string,
-    options: ColumnOptions = {}
+    options: ColumnOptions = {},
+    filters: Filters | null = null
 ) => {
-    return getColumn(key, title, {
-        ...options,
-        externalDataSource: true,
-    });
+    return getColumn(
+        key,
+        title,
+        {
+            ...options,
+            externalDataSource: true,
+        },
+        filters
+    );
 };
 
 export const getColumn = (
     key: string,
     title: string,
-    options: ColumnOptions = {}
+    options: ColumnOptions = {},
+    filters: Filters | null = null
 ) => {
     const data = {
         title: title,
@@ -61,6 +68,16 @@ export const getColumn = (
             ...options,
             ...getColumnSearchProps(title),
         };
+    }
+
+    if (filters) {
+        let filter = filters[key];
+        if (filter && filter.length > 0)
+            options = {
+                ...options,
+                filtered: true,
+                filteredValue: filter,
+            };
     }
 
     return {

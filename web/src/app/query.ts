@@ -6,13 +6,13 @@ export const appendPageOptionQuery = (
 ): string => {
     const query: Param[] = [
         {
-            key: 'pageNumber',
-            value: options.number.toString()
+            key: "pageNumber",
+            value: options.number.toString(),
         },
         {
-            key: 'pageSize',
-            value: options.size.toString()
-        }
+            key: "pageSize",
+            value: options.size.toString(),
+        },
     ];
 
     return appendQueryString(api, query);
@@ -24,13 +24,13 @@ export const appendSortOptionQuery = (
 ): string => {
     const query: Param[] = [
         {
-            key: 'sortColumn',
-            value: options.column ? options.column : ''
+            key: "sortColumn",
+            value: options.column ? options.column : "",
         },
         {
-            key: 'sortDirection',
-            value: options.direction ? options.direction : ''
-        }
+            key: "sortDirection",
+            value: options.direction ? options.direction : "",
+        },
     ];
 
     return appendQueryString(api, query);
@@ -43,16 +43,16 @@ export const appendFiltersQuery = (api: string, filters: Filters): string => {
 
     Object.keys(filters).forEach(key => {
         const values = cleanValues(filters[key]);
-        if (values.length > 0) filtersValues.push(`${key}=${values.join(',')}`);
+        if (values.length > 0) filtersValues.push(`${key}=${values.join(",")}`);
     });
 
     if (filtersValues.length === 0) return api;
 
     const query: Param[] = [
         {
-            key: 'filters',
-            value: filtersValues.join(';')
-        }
+            key: "filters",
+            value: filtersValues.join(";"),
+        },
     ];
 
     return appendQueryString(api, query);
@@ -64,9 +64,9 @@ const cleanValues = (values: string[]): string[] => {
 
 const cleanValue = (values: string): string => {
     return values
-        .replace('=', '')
-        .replace(',', '')
-        .replace(';', '');
+        .replace("=", "")
+        .replace(",", "")
+        .replace(";", "");
 };
 
 export const appendQueryString = (url: string, params: Param[]): string => {
@@ -76,6 +76,8 @@ export const appendQueryString = (url: string, params: Param[]): string => {
 };
 
 export const applyLike = (filters: Filters, fieldNames: string[]): Filters => {
+    if (!filters) return filters;
+
     const newFilters: Filters = {};
     Object.keys(filters).forEach(key => {
         newFilters[key] = filters[key].map(f => {
@@ -102,25 +104,25 @@ type Url = {
 };
 
 const parseUrl = (input: string): Url => {
-    var split = input.split('?');
+    var split = input.split("?");
 
     const url: Url = {
         base: split[0],
-        params: []
+        params: [],
     };
 
     if (split.length === 1) return url;
 
-    const params = split[1].split('&');
+    const params = split[1].split("&");
 
     params.forEach(p => {
-        const param = p.split('=');
+        const param = p.split("=");
 
         if (param.length < 2) return;
 
         url.params.push({
             key: param[0],
-            value: param[1]
+            value: param[1],
         });
     });
 
@@ -134,7 +136,7 @@ const formatUrl = (input: Url): string => {
         const query = input.params.map(p => {
             return `${p.key}=${encodeURIComponent(p.value)}`;
         });
-        url = `${url}?${query.join('&')}`;
+        url = `${url}?${query.join("&")}`;
     }
 
     return url;

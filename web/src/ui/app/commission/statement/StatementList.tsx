@@ -95,41 +95,56 @@ class StatementList extends Component<Props> {
 
     getColumns = () => {
         return [
-            getColumnEDS("companyId", "Company", {
-                render: (companyId: string) => {
-                    return <CompanyName companyId={companyId} />;
+            getColumnEDS(
+                "companyId",
+                "Company",
+                {
+                    render: (companyId: string) => {
+                        return <CompanyName companyId={companyId} />;
+                    },
+                    filters: this.props.companies.map(type => ({
+                        text: type.name,
+                        value: type.id,
+                    })),
                 },
-                filters: this.props.companies.map(type => ({
-                    text: type.name,
-                    value: type.id,
-                })),
-            }),
+                this.props.filters
+            ),
             getColumnEDS("date", "Date", { type: "date" }),
-            getColumnEDS("actualAmountIncludingVAT", "Amount (excl VAT)", {
-                render: (
-                    actualAmountIncludingVAT: number,
-                    record: Statement
-                ) => {
-                    return formatCurrency(
-                        actualAmountIncludingVAT - record.actualVAT
-                    );
-                },
-            }),
-            getColumnEDS("processed", "Status", {
-                render: (processed: boolean) => {
-                    return <Processed processed={processed} />;
-                },
-                filters: [
-                    {
-                        text: "Processed",
-                        value: "true",
+            getColumnEDS(
+                "actualAmountIncludingVAT",
+                "Amount (excl VAT)",
+                {
+                    render: (
+                        actualAmountIncludingVAT: number,
+                        record: Statement
+                    ) => {
+                        return formatCurrency(
+                            actualAmountIncludingVAT - record.actualVAT
+                        );
                     },
-                    {
-                        text: "Processing",
-                        value: "false",
+                },
+                this.props.filters
+            ),
+            getColumnEDS(
+                "processed",
+                "Status",
+                {
+                    render: (processed: boolean) => {
+                        return <Processed processed={processed} />;
                     },
-                ],
-            }),
+                    filters: [
+                        {
+                            text: "Processed",
+                            value: "true",
+                        },
+                        {
+                            text: "Processing",
+                            value: "false",
+                        },
+                    ],
+                },
+                this.props.filters
+            ),
         ];
     };
 

@@ -31,7 +31,7 @@ class AuditLogList extends Component<Props, State> {
         super(props);
 
         this.state = {
-            viewAuditLog: null
+            viewAuditLog: null,
         };
     }
 
@@ -60,61 +60,76 @@ class AuditLogList extends Component<Props, State> {
 
     viewAuditLog = (log: AuditLog) => {
         this.setState({
-            viewAuditLog: log
+            viewAuditLog: log,
         });
     };
 
     closeAuditLog = () => {
         this.setState({
-            viewAuditLog: null
+            viewAuditLog: null,
         });
     };
 
     getColumns = () => {
         return [
-            getColumnEDS('date', 'Date', { type: 'long-date' }),
-            getColumnEDS('entity', 'Entity', {
-                render: (entity: string) => {
-                    return entity.replace('Entity', '');
-                },
-                showSearchFilter: true
-            }),
-            getColumnEDS('action', 'Action', {
-                render: (action: string) => {
-                    action = action.toUpperCase();
-                    switch (action) {
-                        case 'DELETE':
-                            return <Tag color="red">{action}</Tag>;
-                        case 'INSERT':
-                            return <Tag color="green">{action}</Tag>;
-                        default:
-                            return <Tag color="blue">{action}</Tag>;
-                    }
-                },
-                filters: [
-                    {
-                        text: 'Insert',
-                        value: 'Insert'
+            getColumnEDS("date", "Date", { type: "long-date" }),
+            getColumnEDS(
+                "entity",
+                "Entity",
+                {
+                    render: (entity: string) => {
+                        return entity.replace("Entity", "");
                     },
-                    {
-                        text: 'Update',
-                        value: 'Update'
-                    },
-                    {
-                        text: 'Delete',
-                        value: 'Delete'
-                    }
-                ]
-            }),
-            getColumnEDS('userId', 'Broker', {
-                render: (userId: string) => {
-                    return <UserName userId={userId} />;
+                    showSearchFilter: true,
                 },
-                filters: this.props.users.map(user => ({
-                    text: user.fullName,
-                    value: user.id
-                }))
-            })
+                this.props.filters
+            ),
+            getColumnEDS(
+                "action",
+                "Action",
+                {
+                    render: (action: string) => {
+                        action = action.toUpperCase();
+                        switch (action) {
+                            case "DELETE":
+                                return <Tag color="red">{action}</Tag>;
+                            case "INSERT":
+                                return <Tag color="green">{action}</Tag>;
+                            default:
+                                return <Tag color="blue">{action}</Tag>;
+                        }
+                    },
+                    filters: [
+                        {
+                            text: "Insert",
+                            value: "Insert",
+                        },
+                        {
+                            text: "Update",
+                            value: "Update",
+                        },
+                        {
+                            text: "Delete",
+                            value: "Delete",
+                        },
+                    ],
+                },
+                this.props.filters
+            ),
+            getColumnEDS(
+                "userId",
+                "Broker",
+                {
+                    render: (userId: string) => {
+                        return <UserName userId={userId} />;
+                    },
+                    filters: this.props.users.map(user => ({
+                        text: user.fullName,
+                        value: user.id,
+                    })),
+                },
+                this.props.filters
+            ),
         ];
     };
 
@@ -183,7 +198,7 @@ const mapStateToProps = (state: RootState) => {
         sortOptions: auditLogsState.sortOptions,
         totalItems: auditLogsState.totalItems,
         filters: auditLogsState.filters,
-        users: usersState.items
+        users: usersState.items,
     };
 };
 

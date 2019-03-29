@@ -3,12 +3,12 @@ import { connect, DispatchProp } from 'react-redux';
 
 import { applyLike } from '@/app/query';
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
-import { companiesSelector, Company, PolicyType, policyTypesSelector } from '@/state/app/directory/lookups';
-import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import {
     fetchPolicies, fetchPolicy, newPolicy, policiesSelector, Policy, receiveFilters, receivePageOptions, receivePolicy,
     receiveSortOptions
 } from '@/state/app/client/policies';
+import { companiesSelector, Company, PolicyType, policyTypesSelector } from '@/state/app/directory/lookups';
+import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
 import { Button, CompanyName, Header, PolicyTypeName, Table, UserName } from '@/ui/controls';
 
@@ -54,9 +54,13 @@ class PolicyList extends Component<Props> {
             fetchPolicies(
                 this.props.pageOptions,
                 this.props.sortOptions,
-                filters
+                this.updateFilters(filters)
             )
         );
+    };
+
+    updateFilters = (filters: Filters): Filters => {
+        return applyLike(filters, ["number", "clientLastName"]);
     };
 
     editPolicy = (id: string) => {
@@ -79,43 +83,68 @@ class PolicyList extends Component<Props> {
 
     getColumns = () => {
         const columns = [
-            getColumnEDS("companyId", "Company", {
-                render: (companyId: string) => {
-                    return <CompanyName companyId={companyId} />;
+            getColumnEDS(
+                "companyId",
+                "Company",
+                {
+                    render: (companyId: string) => {
+                        return <CompanyName companyId={companyId} />;
+                    },
+                    filters: this.props.companies.map(type => ({
+                        text: type.name,
+                        value: type.id,
+                    })),
                 },
-                filters: this.props.companies.map(type => ({
-                    text: type.name,
-                    value: type.id,
-                })),
-            }),
-            getColumnEDS("number", "Number", { showSearchFilter: true }),
-            getColumnEDS("policyTypeId", "Type", {
-                render: (policyTypeId: string) => {
-                    return <PolicyTypeName policyTypeId={policyTypeId} />;
+                this.props.filters
+            ),
+            getColumnEDS(
+                "number",
+                "Number",
+                { showSearchFilter: true },
+                this.props.filters
+            ),
+            getColumnEDS(
+                "policyTypeId",
+                "Type",
+                {
+                    render: (policyTypeId: string) => {
+                        return <PolicyTypeName policyTypeId={policyTypeId} />;
+                    },
+                    filters: this.props.policyTypes.map(type => ({
+                        text: type.name,
+                        value: type.id,
+                    })),
                 },
-                filters: this.props.policyTypes.map(type => ({
-                    text: type.name,
-                    value: type.id,
-                })),
-            }),
-            getColumnEDS("userId", "Broker", {
-                render: (userId: string) => {
-                    return <UserName userId={userId} />;
+                this.props.filters
+            ),
+            getColumnEDS(
+                "userId",
+                "Broker",
+                {
+                    render: (userId: string) => {
+                        return <UserName userId={userId} />;
+                    },
+                    filters: this.props.users.map(user => ({
+                        text: user.fullName,
+                        value: user.id,
+                    })),
                 },
-                filters: this.props.users.map(user => ({
-                    text: user.fullName,
-                    value: user.id,
-                })),
-            }),
+                this.props.filters
+            ),
         ];
 
         if (!this.props.clientId) {
             columns.splice(
                 3,
                 0,
-                getColumnEDS("clientLastName", "Last Name", {
-                    showSearchFilter: true,
-                }),
+                getColumnEDS(
+                    "clientLastName",
+                    "Last Name",
+                    {
+                        showSearchFilter: true,
+                    },
+                    this.props.filters
+                ),
                 getColumnEDS("clientInitials", "Initials"),
                 getColumnEDS("clientDateOfBirth", "Date of Birth", {
                     type: "date",
@@ -124,10 +153,6 @@ class PolicyList extends Component<Props> {
         }
 
         return columns;
-    };
-
-    updateFilters = (filters: Filters): Filters => {
-        return applyLike(filters, ["number", "clientLastName"]);
     };
 
     onTableChange = (
@@ -140,7 +165,7 @@ class PolicyList extends Component<Props> {
         if (this.props.sortOptions != sortOptions)
             this.props.dispatch(receiveSortOptions(sortOptions));
         if (this.props.filters != filters)
-            this.props.dispatch(receiveFilters(this.updateFilters(filters)));
+            this.props.dispatch(receiveFilters(filters));
     };
 
     render() {

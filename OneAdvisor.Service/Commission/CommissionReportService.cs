@@ -110,8 +110,8 @@ namespace OneAdvisor.Service.Commission
                     JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id
                     JOIN clt_Policy p ON c.PolicyId = p.Id
                     JOIN clt_Client m ON p.ClientId = m.Id
-                    JOIN lkp_CommissionType ct ON c.CommissionTypeId = ct.id
-                    JOIN lkp_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id
+                    JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id
+                    JOIN com_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id
                 WHERE m.OrganisationId = '{organisationId}'
                 {whereClause}
                 GROUP BY m.Id, m.LastName, m.Initials, m.DateOfBirth

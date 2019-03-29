@@ -40,17 +40,26 @@ class ClientRevenueReport extends Component<Props> {
             fetchClientRevenueData(
                 this.props.pageOptions,
                 this.props.sortOptions,
-                this.props.filters
+                this.updateFilters(this.props.filters)
             )
         );
     };
 
+    updateFilters = (filters: Filters): Filters => {
+        return applyLike(filters, ["clientLastName"]);
+    };
+
     getColumns = () => {
         return [
-            getColumnEDS("clientLastName", "Last Name", {
-                showSearchFilter: true,
-                fixed: "left",
-            }),
+            getColumnEDS(
+                "clientLastName",
+                "Last Name",
+                {
+                    showSearchFilter: true,
+                    fixed: "left",
+                },
+                this.props.filters
+            ),
             getColumnEDS("clientInitials", "Initials"),
             getColumnEDS("clientDateOfBirth", "Age", {
                 render: (clientDateOfBirth: string) => {
@@ -112,10 +121,6 @@ class ClientRevenueReport extends Component<Props> {
         return parseInt(this.props.filters.monthEnding[0]);
     };
 
-    updateFilters = (filters: Filters): Filters => {
-        return applyLike(filters, ["clientLastName"]);
-    };
-
     onTableChange = (
         pageOptions: PageOptions,
         sortOptions: SortOptions,
@@ -127,12 +132,10 @@ class ClientRevenueReport extends Component<Props> {
             this.props.dispatch(receiveSortOptions(sortOptions));
         if (this.props.filters != filters)
             this.props.dispatch(
-                receiveFilters(
-                    this.updateFilters({
-                        ...this.props.filters,
-                        ...filters,
-                    })
-                )
+                receiveFilters({
+                    ...this.props.filters,
+                    ...filters,
+                })
             );
     };
 

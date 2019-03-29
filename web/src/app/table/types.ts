@@ -21,6 +21,8 @@ export type ColumnOptions = {
     fixed?: "left" | "right";
     width?: string | number;
     align?: "left" | "right" | "center";
+    filtered?: boolean;
+    filteredValue?: string[];
 };
 
 export interface PagedItems<T> {

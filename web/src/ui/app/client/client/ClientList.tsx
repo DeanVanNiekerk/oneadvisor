@@ -61,9 +61,13 @@ class ClientList extends Component<Props, State> {
             fetchClients(
                 this.props.pageOptions,
                 this.props.sortOptions,
-                this.props.filters
+                this.updateFilters(this.props.filters)
             )
         );
+    };
+
+    updateFilters = (filters: Filters): Filters => {
+        return applyLike(filters, ["firstName", "lastName", "idNumber"]);
     };
 
     editClient = (id: string) => {
@@ -87,20 +91,42 @@ class ClientList extends Component<Props, State> {
 
     getColumns = () => {
         return [
-            getColumnEDS("clientTypeId", "Type", {
-                width: "110px",
-                align: "center",
-                render: (clientTypeId: string) => {
-                    return <ClientTypeIcon clientTypeId={clientTypeId} />;
+            getColumnEDS(
+                "clientTypeId",
+                "Type",
+                {
+                    width: "110px",
+                    align: "center",
+                    render: (clientTypeId: string) => {
+                        return <ClientTypeIcon clientTypeId={clientTypeId} />;
+                    },
+                    filters: this.props.clientTypes.map(type => ({
+                        text: type.name,
+                        value: type.id,
+                    })),
                 },
-                filters: this.props.clientTypes.map(type => ({
-                    text: type.name,
-                    value: type.id,
-                })),
-            }),
-            getColumnEDS("lastName", "Last Name", { showSearchFilter: true }),
-            getColumnEDS("firstName", "First Name", { showSearchFilter: true }),
-            getColumnEDS("idNumber", "ID Number", { showSearchFilter: true }),
+                this.props.filters
+            ),
+            getColumnEDS(
+                "lastName",
+                "Last Name",
+                {
+                    showSearchFilter: true,
+                },
+                this.props.filters
+            ),
+            getColumnEDS(
+                "firstName",
+                "First Name",
+                { showSearchFilter: true },
+                this.props.filters
+            ),
+            getColumnEDS(
+                "idNumber",
+                "ID Number",
+                { showSearchFilter: true },
+                this.props.filters
+            ),
             getColumnEDS("dateOfBirth", "Date of Birth", { type: "date" }),
             getColumnEDS("id", "Actions", {
                 render: (id: string) => {
@@ -128,10 +154,6 @@ class ClientList extends Component<Props, State> {
         ];
     };
 
-    updateFilters = (filters: Filters): Filters => {
-        return applyLike(filters, ["firstName", "lastName", "idNumber"]);
-    };
-
     onTableChange = (
         pageOptions: PageOptions,
         sortOptions: SortOptions,
@@ -142,7 +164,7 @@ class ClientList extends Component<Props, State> {
         if (this.props.sortOptions != sortOptions)
             this.props.dispatch(receiveSortOptions(sortOptions));
         if (this.props.filters != filters)
-            this.props.dispatch(receiveFilters(this.updateFilters(filters)));
+            this.props.dispatch(receiveFilters(filters));
     };
 
     onClientSelected = (selectedClientIds: string[]) => {
