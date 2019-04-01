@@ -755,6 +755,108 @@ namespace OneAdvisor.Data.Migrations
                 name: "IX_idn_UserRole_RoleId",
                 table: "idn_UserRole",
                 column: "RoleId");
+
+
+            migrationBuilder.InsertData(
+                table: "clt_ClientType",
+                columns: new[] { "Id", "Code", "DisplayOrder", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("27bb22b3-4c3d-41a3-48bf-690a98f8f780"), "individual", 1, "Individual" },
+                    { new Guid("295565bf-7485-85f1-6c98-947ab0b7770c"), "company", 2, "Company" },
+                    { new Guid("55f6c0ef-ae2c-faac-adff-ea3bd269043f"), "trust", 3, "Trust" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "clt_ContactType",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("d6349e22-3e27-404a-8584-58e420510834"), "Cellphone Number" },
+                    { new Guid("b3c261d0-4e1d-4dd8-b944-6d6afd1795e0"), "Email Address" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "clt_MarritalStatus",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("77fa3769-7775-4cdd-b5d4-8b526b2d894c"), "Single" },
+                    { new Guid("5f7a5d69-845c-4f8d-b108-7c70084f3f6a"), "Married COP" },
+                    { new Guid("b31331ec-73cb-4985-aa93-e60e04a48095"), "Married ANC" },
+                    { new Guid("b16cbd3b-cf50-4a74-8f38-a8ca6b1cb83f"), "Married ANC (with Accrual)" },
+                    { new Guid("e4f03497-5dbf-4bd0-bc14-660a3969f011"), "Widowed" },
+                    { new Guid("91ebd765-bd8b-4908-94dc-00f09fe37ca7"), "Divorced" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "clt_PolicyType",
+                columns: new[] { "Id", "Code", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("3d991459-2043-46b9-9357-5446a993b81d"), "rewards", "Rewards Program" },
+                    { new Guid("023107f5-97a6-456d-9182-7bbda72ca82a"), "medical_cover", "Medical Cover" },
+                    { new Guid("a98bb718-4acb-4fad-afe9-5fbba00203b9"), "investment", "Investment" },
+                    { new Guid("f3d877b4-1800-4711-8cc9-35169f8bd60b"), "life_insurance", "Life Insurance" },
+                    { new Guid("a90a5869-4da5-4cce-8973-9a8194c2bdcb"), "short_term", "Short Term Insurance" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "com_CommissionEarningsType",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("8b42edc0-fac6-e946-c779-9d90a805c294"), "Monthly Annuity" },
+                    { new Guid("e8799015-6f4a-5d45-5be9-0fcd516e0951"), "Annual Annuity" },
+                    { new Guid("e7f98561-f018-3edd-2118-e3646c89e2a2"), "Life 1st Years" },
+                    { new Guid("9f8fc29d-0f1c-b952-d446-79cc3ed967d7"), "Once Off Commissions" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "dir_Application",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("605ea52c-3627-48e2-8f7c-4819c5ea555b"), "Client" },
+                    { new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"), "Directory" },
+                    { new Guid("2fca4500-9142-4940-aaf4-b18925c96d66"), "Commission" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "dir_UseCase",
+                columns: new[] { "Id", "ApplicationId", "Name" },
+                values: new object[,]
+                {
+                    { "dir_view_users", new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"), "View Users" },
+                    { "com_view_commission_statement_templates", new Guid("2fca4500-9142-4940-aaf4-b18925c96d66"), "View Commission Statement Templates" },
+                    { "com_edit_commission_statements", new Guid("2fca4500-9142-4940-aaf4-b18925c96d66"), "Edit Commission Statements" },
+                    { "com_view_commission_statements", new Guid("2fca4500-9142-4940-aaf4-b18925c96d66"), "View Commission Statements" },
+                    { "com_edit_commissions", new Guid("2fca4500-9142-4940-aaf4-b18925c96d66"), "Edit Commissions" },
+                    { "com_view_commissions", new Guid("2fca4500-9142-4940-aaf4-b18925c96d66"), "View Commissions" },
+                    { "com_import_commissions", new Guid("2fca4500-9142-4940-aaf4-b18925c96d66"), "Import Commissions" },
+                    { "clt_export_clients", new Guid("605ea52c-3627-48e2-8f7c-4819c5ea555b"), "Export Clients" },
+                    { "clt_import_clients", new Guid("605ea52c-3627-48e2-8f7c-4819c5ea555b"), "Import Clients" },
+                    { "clt_edit_contacts", new Guid("605ea52c-3627-48e2-8f7c-4819c5ea555b"), "Edit Contacts" },
+                    { "clt_view_contacts", new Guid("605ea52c-3627-48e2-8f7c-4819c5ea555b"), "View Contacts" },
+                    { "clt_edit_policies", new Guid("605ea52c-3627-48e2-8f7c-4819c5ea555b"), "Edit Policies" },
+                    { "clt_view_policies", new Guid("605ea52c-3627-48e2-8f7c-4819c5ea555b"), "View Policies" },
+                    { "com_edit_commission_statement_templates", new Guid("2fca4500-9142-4940-aaf4-b18925c96d66"), "Edit Commission Statement Templates" },
+                    { "clt_edit_clients", new Guid("605ea52c-3627-48e2-8f7c-4819c5ea555b"), "Edit Clients" },
+                    { "dir_edit_lookups", new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"), "Edit Lookups" },
+                    { "dir_view_lookups", new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"), "View Lookups" },
+                    { "dir_view_audit_logs", new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"), "View Audit Logs" },
+                    { "dir_view_usecases", new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"), "View UseCases" },
+                    { "dir_view_applications", new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"), "View Applications" },
+                    { "dir_edit_roles", new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"), "Edit Roles" },
+                    { "dir_view_roles", new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"), "View Roles" },
+                    { "dir_edit_branches", new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"), "Edit Branches" },
+                    { "dir_view_branches", new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"), "View Branches" },
+                    { "dir_edit_organisations", new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"), "Edit Organisations" },
+                    { "dir_view_organisations", new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"), "View Organisations" },
+                    { "dir_edit_users", new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"), "Edit Users" },
+                    { "clt_view_clients", new Guid("605ea52c-3627-48e2-8f7c-4819c5ea555b"), "View Clients" },
+                    { "com_view_report_client_revenue", new Guid("2fca4500-9142-4940-aaf4-b18925c96d66"), "View Commission Client Revenue Report" }
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

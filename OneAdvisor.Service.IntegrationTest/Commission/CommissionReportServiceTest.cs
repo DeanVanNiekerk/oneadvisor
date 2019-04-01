@@ -15,25 +15,29 @@ using OneAdvisor.Model.Directory.Model.Lookup;
 using Microsoft.Extensions.DependencyInjection;
 using OneAdvisor.Service.Test;
 using OneAdvisor.Model.Commission.Model.CommissionReport;
+using Microsoft.Data.Sqlite;
+using OneAdvisor.Model.Client.Model.Lookup;
 
 namespace OneAdvisor.Service.IntegrationTest.Commission
 {
-    /*
+
     public class CommissionReportServiceTest : TestBase
     {
         [Fact]
         [Trait("Category", "Integration")]
         public async Task GetClientRevenueData()
         {
-            var company = TestHelper.InsertCompany(_options);
-            var policyType = TestHelper.InsertPolicyType(_options);
-            var commissionType1 = TestHelper.InsertCommissionType(_options, policyType.Id, CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY);
-            var commissionType2 = TestHelper.InsertCommissionType(_options, policyType.Id, CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY);
-            var commissionType3 = TestHelper.InsertCommissionType(_options, policyType.Id, CommissionEarningsType.EARNINGS_TYPE_ONCE_OFF);
-            var commissionType4 = TestHelper.InsertCommissionType(_options, policyType.Id, CommissionEarningsType.EARNINGS_TYPE_LIFE_FIRST_YEARS);
+            var options = await CreateDatabase();
 
-            var user1 = TestHelper.InsertUserDetailed(_options);
-            var client1 = TestHelper.InsertClient(_options, user1.Organisation);
+            var company = TestHelper.InsertCompany(options);
+
+            var commissionType1 = TestHelper.InsertCommissionType(options, PolicyType.POLICY_TYPE_INVESTMENT, CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY);
+            var commissionType2 = TestHelper.InsertCommissionType(options, PolicyType.POLICY_TYPE_INVESTMENT, CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY);
+            var commissionType3 = TestHelper.InsertCommissionType(options, PolicyType.POLICY_TYPE_INVESTMENT, CommissionEarningsType.EARNINGS_TYPE_ONCE_OFF);
+            var commissionType4 = TestHelper.InsertCommissionType(options, PolicyType.POLICY_TYPE_INVESTMENT, CommissionEarningsType.EARNINGS_TYPE_LIFE_FIRST_YEARS);
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
 
             var thisMonth = DateTime.Now.Date;
             var lastMonth = thisMonth.AddMonths(-1);
@@ -221,7 +225,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 CommissionStatementId = cs3.Id
             };
 
-            using (var context = new DataContext(_options))
+            using (var context = new DataContext(options))
             {
                 context.Policy.Add(policy1);
 
@@ -246,7 +250,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 context.SaveChanges();
             }
 
-            using (var context = new DataContext(_options))
+            using (var context = new DataContext(options))
             {
                 var service = new CommissionReportService(context);
 
@@ -285,14 +289,15 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
         [Trait("Category", "Integration")]
         public async Task GetClientRevenueData_Sorting()
         {
-            var company = TestHelper.InsertCompany(_options);
-            var policyType = TestHelper.InsertPolicyType(_options);
-            var commissionType1 = TestHelper.InsertCommissionType(_options, policyType.Id, CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY);
+            var options = await CreateDatabase();
 
-            var user1 = TestHelper.InsertUserDetailed(_options);
-            var client1 = TestHelper.InsertClient(_options, user1.Organisation);
-            var client2 = TestHelper.InsertClient(_options, user1.Organisation);
-            var client3 = TestHelper.InsertClient(_options, user1.Organisation);
+            var company = TestHelper.InsertCompany(options);
+            var commissionType1 = TestHelper.InsertCommissionType(options, PolicyType.POLICY_TYPE_INVESTMENT, CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY);
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
+            var client2 = TestHelper.InsertClient(options, user1.Organisation);
+            var client3 = TestHelper.InsertClient(options, user1.Organisation);
 
             var thisMonth = DateTime.Now.Date;
 
@@ -373,7 +378,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             //------------------------------------------------------------------------
 
 
-            using (var context = new DataContext(_options))
+            using (var context = new DataContext(options))
             {
                 context.Policy.Add(policy1);
                 context.Policy.Add(policy2);
@@ -387,7 +392,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 context.SaveChanges();
             }
 
-            using (var context = new DataContext(_options))
+            using (var context = new DataContext(options))
             {
                 var service = new CommissionReportService(context);
 
@@ -423,16 +428,17 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
         [Trait("Category", "Integration")]
         public async Task GetClientRevenueData_Paging()
         {
-            var company = TestHelper.InsertCompany(_options);
-            var policyType = TestHelper.InsertPolicyType(_options);
-            var commissionType1 = TestHelper.InsertCommissionType(_options, policyType.Id, CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY);
+            var options = await CreateDatabase();
 
-            var user1 = TestHelper.InsertUserDetailed(_options);
-            var client1 = TestHelper.InsertClient(_options, user1.Organisation);
-            var client2 = TestHelper.InsertClient(_options, user1.Organisation);
-            var client3 = TestHelper.InsertClient(_options, user1.Organisation);
-            var client4 = TestHelper.InsertClient(_options, user1.Organisation);
-            var client5 = TestHelper.InsertClient(_options, user1.Organisation);
+            var company = TestHelper.InsertCompany(options);
+            var commissionType1 = TestHelper.InsertCommissionType(options, PolicyType.POLICY_TYPE_INVESTMENT, CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY);
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
+            var client2 = TestHelper.InsertClient(options, user1.Organisation);
+            var client3 = TestHelper.InsertClient(options, user1.Organisation);
+            var client4 = TestHelper.InsertClient(options, user1.Organisation);
+            var client5 = TestHelper.InsertClient(options, user1.Organisation);
 
             var thisMonth = DateTime.Now.Date;
 
@@ -557,7 +563,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             //------------------------------------------------------------------------
 
 
-            using (var context = new DataContext(_options))
+            using (var context = new DataContext(options))
             {
                 context.Policy.Add(policy4);
                 context.Policy.Add(policy1);
@@ -575,7 +581,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 context.SaveChanges();
             }
 
-            using (var context = new DataContext(_options))
+            using (var context = new DataContext(options))
             {
                 var service = new CommissionReportService(context);
 
@@ -602,6 +608,8 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Assert.Equal(400, actual.MonthlyAnnuityMonth);
             }
         }
+
+
     }
-     */
+
 }

@@ -74,9 +74,9 @@ namespace OneAdvisor.Data
 
             #region Directory
 
+            modelBuilder.Entity<ApplicationEntity>().ToTable("dir_Application").HasData(SeedData.GetApplications());
             modelBuilder.Entity<OrganisationEntity>().ToTable("dir_Organisation");
-            modelBuilder.Entity<ApplicationEntity>().ToTable("dir_Application");
-            modelBuilder.Entity<UseCaseEntity>().ToTable("dir_UseCase");
+            modelBuilder.Entity<UseCaseEntity>().ToTable("dir_UseCase").HasData(SeedData.GetUseCases());
             modelBuilder.Entity<RoleToUseCaseEntity>().ToTable("dir_RoleToUseCase");
             modelBuilder.Entity<BranchEntity>().ToTable("dir_Branch");
             modelBuilder.Entity<AuditLogEntity>().ToTable("dir_AuditLog");
@@ -93,11 +93,11 @@ namespace OneAdvisor.Data
 
             modelBuilder.Entity<ClientEntity>().ToTable("clt_Client");
             modelBuilder.Entity<PolicyEntity>().ToTable("clt_Policy");
-            modelBuilder.Entity<PolicyTypeEntity>().ToTable("clt_PolicyType");
+            modelBuilder.Entity<PolicyTypeEntity>().ToTable("clt_PolicyType").HasData(SeedData.GetPolicyTypes());
             modelBuilder.Entity<ContactEntity>().ToTable("clt_Contact");
-            modelBuilder.Entity<ContactTypeEntity>().ToTable("clt_ContactType");
-            modelBuilder.Entity<MarritalStatusEntity>().ToTable("clt_MarritalStatus");
-            modelBuilder.Entity<ClientTypeEntity>().ToTable("clt_ClientType");
+            modelBuilder.Entity<ContactTypeEntity>().ToTable("clt_ContactType").HasData(SeedData.GetContactTypes());
+            modelBuilder.Entity<MarritalStatusEntity>().ToTable("clt_MarritalStatus").HasData(SeedData.GetMarritalStatus());
+            modelBuilder.Entity<ClientTypeEntity>().ToTable("clt_ClientType").HasData(SeedData.GetClientTypes());
 
             //Custom mappings
             PolicyMap.Map(modelBuilder);
@@ -111,7 +111,7 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<CommissionStatementEntity>().ToTable("com_CommissionStatement");
             modelBuilder.Entity<CommissionStatementTemplateEntity>().ToTable("com_CommissionStatementTemplate");
             modelBuilder.Entity<CommissionTypeEntity>().ToTable("com_CommissionType");
-            modelBuilder.Entity<CommissionEarningsTypeEntity>().ToTable("com_CommissionEarningsType");
+            modelBuilder.Entity<CommissionEarningsTypeEntity>().ToTable("com_CommissionEarningsType").HasData(SeedData.GetCommissionEarningsTypes());
 
             //Custom mappings
             CommissionMap.Map(modelBuilder);

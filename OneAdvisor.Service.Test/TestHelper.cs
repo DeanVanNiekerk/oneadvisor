@@ -17,6 +17,7 @@ using OneAdvisor.Service.Test.Models;
 using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Data.Entities.Client.Lookup;
 using OneAdvisor.Data.Entities.Commission.Lookup;
+using OneAdvisor.Model.Client.Model.Lookup;
 
 namespace OneAdvisor.Service.Test
 {
@@ -110,7 +111,7 @@ namespace OneAdvisor.Service.Test
             var client = new ClientEntity
             {
                 Id = Guid.NewGuid(),
-                ClientTypeId = Guid.NewGuid(),
+                ClientTypeId = ClientType.CLIENT_TYPE_INDIVIDUAL,
                 FirstName = Guid.NewGuid().ToString(),
                 LastName = Guid.NewGuid().ToString(),
                 IdNumber = idNumber != null ? idNumber : Guid.NewGuid().ToString(),
@@ -184,6 +185,22 @@ namespace OneAdvisor.Service.Test
             using (var context = new DataContext(options))
             {
                 context.CommissionEarningsType.Add(entity);
+                context.SaveChanges();
+            };
+        }
+
+        public static void InsertClientTypes(DbContextOptions<DataContext> options)
+        {
+            InsertClientType(options, new ClientTypeEntity() { Id = ClientType.CLIENT_TYPE_INDIVIDUAL, Name = "Individual", Code = "individual", DisplayOrder = 0 });
+            //InsertClientType(options, new ClientTypeEntity() { Id = ClientType.CLIENT_TYPE_INDIVIDUAL, Name = "MONTHLY_ANNUITY" });
+            //InsertClientType(options, new ClientTypeEntity() { Id = ClientType.CLIENT_TYPE_INDIVIDUAL, Name = "ONCE_OFF" });
+        }
+
+        public static void InsertClientType(DbContextOptions<DataContext> options, ClientTypeEntity entity)
+        {
+            using (var context = new DataContext(options))
+            {
+                context.ClientType.Add(entity);
                 context.SaveChanges();
             };
         }
