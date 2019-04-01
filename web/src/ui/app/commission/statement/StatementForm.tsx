@@ -16,6 +16,7 @@ type Props = {
 
 type State = {
     statement: StatementEdit;
+    companySearch: string;
 };
 
 class StatementForm extends Component<Props, State> {
@@ -23,17 +24,18 @@ class StatementForm extends Component<Props, State> {
         super(props);
 
         this.state = {
-            statement: props.statement
+            statement: props.statement,
+            companySearch: "",
         };
     }
 
     handleChange = async (fieldName: string, value: any) => {
         const statement = {
             ...this.state.statement,
-            [fieldName]: value
+            [fieldName]: value,
         };
         this.setState({
-            statement: statement
+            statement: statement,
         });
         this.props.onChange(statement);
     };
@@ -41,12 +43,29 @@ class StatementForm extends Component<Props, State> {
     handleAmountExclVATChange = async (fieldName: string, value: number) => {
         const statement = {
             ...this.state.statement,
-            amountIncludingVAT: value + this.state.statement.vat
+            amountIncludingVAT: value + this.state.statement.vat,
         };
         this.setState({
-            statement: statement
+            statement: statement,
         });
         this.props.onChange(statement);
+    };
+
+    companySearch = (value: string) => {
+        this.setState({
+            companySearch: value,
+        });
+    };
+
+    companies = () => {
+        if (this.state.companySearch === "") return this.props.companies;
+        return this.props.companies.filter(c => {
+            return (
+                c.name
+                    .toLowerCase()
+                    .indexOf(this.state.companySearch.toLowerCase()) === 0
+            );
+        });
     };
 
     render() {
@@ -55,15 +74,20 @@ class StatementForm extends Component<Props, State> {
 
         return (
             <Form editUseCase="com_edit_commission_statements">
-                <FormSelect
+                <FormSelect<string>
                     fieldName="companyId"
                     label="Company"
                     value={statement.companyId}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    options={this.props.companies}
+                    options={this.companies()}
                     optionsValue="id"
                     optionsText="name"
+                    autoFocus={true}
+                    onSearch={this.companySearch}
+                    onSelect={() => this.companySearch("")}
+                    showSearch
+                    allowClear
                 />
                 <FormInputNumber
                     fieldName="amountIncludingVAT"
@@ -116,7 +140,7 @@ const mapStateToProps = (state: RootState) => {
     const companiesState = companiesSelector(state);
 
     return {
-        companies: companiesState.items
+        companies: companiesState.items,
     };
 };
 

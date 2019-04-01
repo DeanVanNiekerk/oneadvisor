@@ -9,7 +9,7 @@ import { FormField } from './FormField';
 
 const Option = Select.Option;
 
-type Props = {
+type Props<T> = {
     fieldName: string;
     label: string;
     value: any;
@@ -19,7 +19,7 @@ type Props = {
     validationFieldName?: string;
     disabled?: boolean;
     defaultActiveFirstOption?: boolean;
-    onChange?: (fieldName: string, value: any) => void;
+    onChange?: (fieldName: string, value: T) => void;
     validationResults?: ValidationResult[];
     layout?: FormLayout;
     loading?: boolean;
@@ -31,13 +31,15 @@ type Props = {
     showArrow?: boolean;
     filterOption?: boolean;
     onSearch?: (value: string) => any;
+    onSelect?: (value: T) => any;
     minWidth?: string;
     width?: string;
     hidden?: boolean;
+    allowClear?: boolean;
 };
 
-class FormSelect extends Component<Props> {
-    onChange = (value: any) => {
+class FormSelect<T> extends Component<Props<T>> {
+    onChange = (value: T) => {
         if (this.props.onChange)
             this.props.onChange(this.props.fieldName, value);
     };
@@ -107,6 +109,8 @@ class FormSelect extends Component<Props> {
                     disabled={disabled}
                     defaultActiveFirstOption={defaultActiveFirstOption}
                     autoFocus={autoFocus}
+                    allowClear={this.props.allowClear}
+                    onSelect={this.props.onSelect}
                 >
                     {this.props.options.map(option => (
                         <Option
