@@ -189,28 +189,13 @@ namespace OneAdvisor.Service.Test
             };
         }
 
-        public static void InsertClientTypes(DbContextOptions<DataContext> options)
-        {
-            InsertClientType(options, new ClientTypeEntity() { Id = ClientType.CLIENT_TYPE_INDIVIDUAL, Name = "Individual", Code = "individual", DisplayOrder = 0 });
-            //InsertClientType(options, new ClientTypeEntity() { Id = ClientType.CLIENT_TYPE_INDIVIDUAL, Name = "MONTHLY_ANNUITY" });
-            //InsertClientType(options, new ClientTypeEntity() { Id = ClientType.CLIENT_TYPE_INDIVIDUAL, Name = "ONCE_OFF" });
-        }
-
-        public static void InsertClientType(DbContextOptions<DataContext> options, ClientTypeEntity entity)
-        {
-            using (var context = new DataContext(options))
-            {
-                context.ClientType.Add(entity);
-                context.SaveChanges();
-            };
-        }
-
         public static CompanyEntity InsertCompany(DbContextOptions<DataContext> options)
         {
             var company = new CompanyEntity
             {
                 Id = Guid.NewGuid(),
-                Name = Guid.NewGuid().ToString()
+                Name = Guid.NewGuid().ToString(),
+                CommissionPolicyNumberPrefixes = new List<string>()
             };
 
             using (var context = new DataContext(options))

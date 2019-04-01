@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OneAdvisor.Model.Common;
@@ -10,6 +11,7 @@ namespace OneAdvisor.Model.Directory.Interface
         List<CommissionStatementTemplateFieldName> GetCommissionStatementTemplateFieldNames();
 
         Task<List<Company>> GetCompanies();
+        Task<Company> GetCompany(Guid id);
         Task<Result> UpdateCompany(Company model);
         Task<Result> InsertCompany(Company model);
 

@@ -25,9 +25,9 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("GetCompanies");
 
             //Given
-            var lkp1 = new CompanyEntity { Id = Guid.NewGuid(), Name = "A" };
-            var lkp2 = new CompanyEntity { Id = Guid.NewGuid(), Name = "B" };
-            var lkp3 = new CompanyEntity { Id = Guid.NewGuid(), Name = "C" };
+            var lkp1 = new CompanyEntity { Id = Guid.NewGuid(), Name = "A", CommissionPolicyNumberPrefixes = new List<string>() { "pre_1" } };
+            var lkp2 = new CompanyEntity { Id = Guid.NewGuid(), Name = "B", CommissionPolicyNumberPrefixes = new List<string>() { "pre_2" } };
+            var lkp3 = new CompanyEntity { Id = Guid.NewGuid(), Name = "C", CommissionPolicyNumberPrefixes = new List<string>() { "pre_3" } };
 
             using (var context = new DataContext(options))
             {
@@ -52,12 +52,44 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual1 = actual[0];
                 Assert.Equal(lkp1.Id, actual1.Id);
                 Assert.Equal(lkp1.Name, actual1.Name);
+                Assert.Equal(lkp1.CommissionPolicyNumberPrefixes, actual1.CommissionPolicyNumberPrefixes);
 
                 var actual2 = actual[1];
                 Assert.Equal(lkp2.Id, actual2.Id);
 
                 var actual3 = actual[2];
                 Assert.Equal(lkp3.Id, actual3.Id);
+            }
+        }
+
+        [Fact]
+        public async Task GetCompany()
+        {
+            var options = TestHelper.GetDbContext("GetCompany");
+
+            //Given
+            var lkp1 = new CompanyEntity { Id = Guid.NewGuid(), Name = "A", CommissionPolicyNumberPrefixes = new List<string>() { "pre_1" } };
+            var lkp2 = new CompanyEntity { Id = Guid.NewGuid(), Name = "B", CommissionPolicyNumberPrefixes = new List<string>() { "pre_2" } };
+
+            using (var context = new DataContext(options))
+            {
+                context.Company.Add(lkp1);
+                context.Company.Add(lkp2);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new LookupService(context);
+
+                //When
+                var actual = await service.GetCompany(lkp2.Id);
+
+                //Then
+                Assert.Equal(lkp2.Id, actual.Id);
+                Assert.Equal(lkp2.Name, actual.Name);
+                Assert.Equal(lkp2.CommissionPolicyNumberPrefixes, actual.CommissionPolicyNumberPrefixes);
             }
         }
 
@@ -69,7 +101,8 @@ namespace OneAdvisor.Service.Test.Directory
             //Given
             var model = new Company()
             {
-                Name = "1"
+                Name = "1",
+                CommissionPolicyNumberPrefixes = new List<string>() { "pre_1" }
             };
 
             using (var context = new DataContext(options))
@@ -84,6 +117,7 @@ namespace OneAdvisor.Service.Test.Directory
 
                 var actual = await context.Company.FindAsync(((Company)result.Tag).Id);
                 Assert.Equal(model.Name, actual.Name);
+                Assert.Equal(model.CommissionPolicyNumberPrefixes, actual.CommissionPolicyNumberPrefixes);
             }
         }
 
@@ -93,7 +127,7 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("UpdateCompany");
 
             //Given
-            var lkp1 = new CompanyEntity { Id = Guid.NewGuid(), Name = "1" };
+            var lkp1 = new CompanyEntity { Id = Guid.NewGuid(), Name = "1", CommissionPolicyNumberPrefixes = new List<string>() { "pre_1" } };
 
             using (var context = new DataContext(options))
             {
@@ -105,7 +139,8 @@ namespace OneAdvisor.Service.Test.Directory
             var model = new Company()
             {
                 Id = lkp1.Id,
-                Name = "1 Updated"
+                Name = "1 Updated",
+                CommissionPolicyNumberPrefixes = new List<string>() { "pre_1", "pre_new" }
             };
 
             using (var context = new DataContext(options))
@@ -120,6 +155,7 @@ namespace OneAdvisor.Service.Test.Directory
 
                 var actual = await context.Company.FindAsync(model.Id);
                 Assert.Equal(model.Name, actual.Name);
+                Assert.Equal(model.CommissionPolicyNumberPrefixes, actual.CommissionPolicyNumberPrefixes);
             }
         }
 

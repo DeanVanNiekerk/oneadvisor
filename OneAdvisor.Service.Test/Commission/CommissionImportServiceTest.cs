@@ -331,6 +331,83 @@ namespace OneAdvisor.Service.Test.Commission
         }
 
         [Fact]
+        public async Task ImportCommission_InsertCommission_MatchUsingPolicyPrefix()
+        {
+            var options = TestHelper.GetDbContext("ImportCommission_InsertCommission_MatchUsingPolicyPrefix");
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
+
+            var company = new CompanyEntity
+            {
+                Id = Guid.NewGuid(),
+                Name = Guid.NewGuid().ToString(),
+                CommissionPolicyNumberPrefixes = new List<string>() { "px" }
+            };
+
+            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation, company.Id);
+
+            var commissionType = new CommissionTypeEntity
+            {
+                Id = Guid.NewGuid(),
+                Code = "gap_cover"
+            };
+
+            var policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                Number = Guid.NewGuid().ToString(),
+                CompanyId = company.Id,
+                ClientId = client1.Client.Id,
+                UserId = user1.User.Id
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Company.Add(company);
+                context.CommissionType.Add(commissionType);
+                context.Policy.Add(policy1);
+                context.SaveChanges();
+
+                var statementService = new CommissionStatementService(context, null);
+                var lookupService = new LookupService(context);
+                var policyService = new PolicyService(context);
+                var commissionService = new CommissionService(context);
+
+                var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
+                var insertedCommissions = new List<CommissionEntity>();
+                bulkActions.Setup(c => c.BulkInsertCommissionsAsync(It.IsAny<DataContext>(), It.IsAny<IList<CommissionEntity>>()))
+                    .Callback((DataContext c, IList<CommissionEntity> l) => insertedCommissions = l.ToList())
+                    .Returns(Task.CompletedTask);
+
+                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService);
+
+                //When
+                var import1 = new ImportCommission
+                {
+                    PolicyNumber = $"px {policy1.Number}",
+                    CommissionTypeCode = commissionType.Code,
+                    AmountIncludingVAT = "100",
+                    VAT = "14"
+                };
+
+                var scope = TestHelper.GetScopeOptions(user1);
+                var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = insertedCommissions.Single();
+                Assert.Equal(policy1.Id, actual.PolicyId);
+                Assert.Equal(commissionType.Id, actual.CommissionTypeId);
+                Assert.Equal(100, actual.AmountIncludingVAT);
+                Assert.Equal(14, actual.VAT);
+                Assert.Equal(statement.Id, actual.CommissionStatementId);
+                Assert.Equal(import1, actual.SourceData);
+            }
+        }
+
+        [Fact]
         public async Task ImportCommission_InsertCommission_NegitiveAmmount()
         {
             var options = TestHelper.GetDbContext("ImportCommission_InsertCommission_NegitiveAmmount");

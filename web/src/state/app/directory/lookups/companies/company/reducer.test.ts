@@ -2,77 +2,78 @@ import { getValidationResult } from '@/test';
 
 import { defaultState, reducer } from './reducer';
 
-describe('company reducer', () => {
-    it('should handle COMPANIES_COMPANY_RECEIVE', () => {
+describe("company reducer", () => {
+    it("should handle COMPANIES_COMPANY_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const company = {
-            id: '10',
-            name: 'Org1'
+            id: "10",
+            name: "Org1",
+            commissionPolicyNumberPrefixes: ["pre_1"],
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMPANIES_COMPANY_RECEIVE',
-            payload: { ...company }
+            type: "COMPANIES_COMPANY_RECEIVE",
+            payload: { ...company },
         });
 
         const expectedState = {
             ...defaultState,
             company: { ...company },
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMPANIES_COMPANY_EDIT_FETCHING', () => {
+    it("should handle COMPANIES_COMPANY_EDIT_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'COMPANIES_COMPANY_EDIT_FETCHING'
+            type: "COMPANIES_COMPANY_EDIT_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMPANIES_COMPANY_EDIT_FETCHING_ERROR', () => {
+    it("should handle COMPANIES_COMPANY_EDIT_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMPANIES_COMPANY_EDIT_FETCHING_ERROR'
+            type: "COMPANIES_COMPANY_EDIT_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            
-            updating: false
+
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMPANIES_COMPANY_EDIT_RECEIVE', () => {
+    it("should handle COMPANIES_COMPANY_EDIT_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMPANIES_COMPANY_EDIT_RECEIVE'
+            type: "COMPANIES_COMPANY_EDIT_RECEIVE",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: false
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);

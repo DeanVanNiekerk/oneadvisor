@@ -27,14 +27,14 @@ class EditCompany extends Component<Props, State> {
         super(props);
 
         this.state = {
-            companyEdited: props.company
+            companyEdited: props.company,
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.company != prevProps.company)
             this.setState({
-                companyEdited: this.props.company
+                companyEdited: this.props.company,
             });
     }
 
@@ -72,7 +72,7 @@ class EditCompany extends Component<Props, State> {
 
     onChange = (company: Company) => {
         this.setState({
-            companyEdited: company
+            companyEdited: company,
         });
     };
 
@@ -85,7 +85,7 @@ class EditCompany extends Component<Props, State> {
 
         if (company && company.id) return `Company: ${company.name}`;
 
-        return 'New Company';
+        return "New Company";
     };
 
     render() {
@@ -97,6 +97,7 @@ class EditCompany extends Component<Props, State> {
                 icon="copyright"
                 visible={visible}
                 onClose={this.confirmCancel}
+                noTopPadding={true}
             >
                 <ContentLoader isLoading={this.isLoading()}>
                     {company && (
@@ -134,7 +135,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         company: companyState.company,
         updating: companyState.updating,
-        validationResults: companyState.validationResults
+        validationResults: companyState.validationResults,
     };
 };
 

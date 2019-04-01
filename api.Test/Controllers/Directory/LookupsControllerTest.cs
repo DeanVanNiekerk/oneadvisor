@@ -32,9 +32,10 @@ namespace api.Test.Controllers.Directory
         [Fact]
         public void CompanyModelComposition()
         {
-            Assert.Equal(2, typeof(Company).PropertyCount());
+            Assert.Equal(3, typeof(Company).PropertyCount());
             Assert.True(typeof(Company).HasProperty("Id"));
             Assert.True(typeof(Company).HasProperty("Name"));
+            Assert.True(typeof(Company).HasProperty("CommissionPolicyNumberPrefixes"));
         }
 
         [Fact]

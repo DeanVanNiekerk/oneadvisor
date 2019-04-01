@@ -62,6 +62,7 @@ namespace OneAdvisor.Service.Commission
             var statement = statements.Items.Single();
 
             var commissionTypes = await _lookupService.GetCommissionTypes();
+            var company = await _lookupService.GetCompany(statement.CompanyId);
 
             var policyQueryOptions = new PolicyQueryOptions(scope, "", "", 0, 0);
             policyQueryOptions.CompanyId.Add(statement.CompanyId);
@@ -69,7 +70,7 @@ namespace OneAdvisor.Service.Commission
 
             foreach (var data in importData)
             {
-                var result = ImportCommission(scope, statement, data, policies, commissionTypes);
+                var result = ImportCommission(scope, statement, data, policies, commissionTypes, company);
                 results.Add(result);
             }
 
@@ -82,7 +83,7 @@ namespace OneAdvisor.Service.Commission
             return results;
         }
 
-        private Result ImportCommission(ScopeOptions scope, CommissionStatement commissionStatement, ImportCommission importCommission, List<Policy> policies, List<CommissionType> commissionTypes)
+        private Result ImportCommission(ScopeOptions scope, CommissionStatement commissionStatement, ImportCommission importCommission, List<Policy> policies, List<CommissionType> commissionTypes, Company company)
         {
             var validator = new ImportCommissionValidator();
             var result = validator.Validate(importCommission).GetResult();
@@ -102,7 +103,10 @@ namespace OneAdvisor.Service.Commission
             if (commissionType != null)
                 error.CommissionTypeId = commissionType.Id;
 
-            var policy = policies.FirstOrDefault(p => p.Number.IgnoreCaseEquals(importCommission.PolicyNumber));
+            var prefixes = company.CommissionPolicyNumberPrefixes.ToList();
+            prefixes.Insert(0, ""); //Add empty prefix for the default case
+
+            var policy = policies.FirstOrDefault(p => prefixes.Any(prefix => importCommission.PolicyNumber.IgnoreCaseEquals($"{prefix}{p.Number}")));
             if (policy != null)
             {
                 error.ClientId = policy.ClientId;

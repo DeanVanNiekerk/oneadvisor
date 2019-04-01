@@ -1,11 +1,11 @@
 --TO RUN: Shift + Cmd + E
 
 select *
-from AspNetUsers
+from idn_User
 select *
-from AspNetRoles
+from idn_Role
 select *
-from AspNetUserRoles
+from idn_UserRole
 
 select *
 from dir_Application

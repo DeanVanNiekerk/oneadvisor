@@ -38,6 +38,7 @@ class CompanyList extends Component<Props, State> {
         const company = {
             id: "",
             name: "",
+            commissionPolicyNumberPrefixes: [""],
         };
         this.showEditCompany(company);
     };

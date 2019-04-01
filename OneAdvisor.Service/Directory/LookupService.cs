@@ -28,15 +28,32 @@ namespace OneAdvisor.Service.Directory
 
         public async Task<List<Company>> GetCompanies()
         {
+            var query = GetCompanyQuery();
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<Company> GetCompany(Guid id)
+        {
+            var query = from company in GetCompanyQuery()
+                        where company.Id == id
+                        select company;
+
+            return await query.FirstOrDefaultAsync();
+        }
+
+        private IQueryable<Company> GetCompanyQuery()
+        {
             var query = from company in _context.Company
                         orderby company.Name
                         select new Company()
                         {
                             Id = company.Id,
-                            Name = company.Name
+                            Name = company.Name,
+                            CommissionPolicyNumberPrefixes = company.CommissionPolicyNumberPrefixes
                         };
 
-            return await query.ToListAsync();
+            return query;
         }
 
         public async Task<Result> InsertCompany(Company model)
@@ -82,6 +99,7 @@ namespace OneAdvisor.Service.Directory
                 entity = new CompanyEntity();
 
             entity.Name = model.Name;
+            entity.CommissionPolicyNumberPrefixes = model.CommissionPolicyNumberPrefixes;
 
             return entity;
         }
