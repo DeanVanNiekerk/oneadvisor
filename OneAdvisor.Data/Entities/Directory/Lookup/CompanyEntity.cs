@@ -7,6 +7,11 @@ namespace OneAdvisor.Data.Entities.Directory.Lookup
 {
     public class CompanyEntity
     {
+        public CompanyEntity()
+        {
+            CommissionPolicyNumberPrefixes = new List<string>();
+        }
+
         [Key]
         public Guid Id { get; set; }
         [Required]

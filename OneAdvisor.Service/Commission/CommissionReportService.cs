@@ -13,6 +13,7 @@ using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model;
+using OneAdvisor.Model.Commission.Model.Lookup;
 
 namespace OneAdvisor.Service.Commission
 {

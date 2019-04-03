@@ -21,10 +21,14 @@ namespace OneAdvisor.Data.Entities.Client
         public DateTime? StartDate { get; set; }
         public decimal? Premium { get; set; }
         public Guid? PolicyTypeId { get; set; }
+        public Guid? PolicyProductTypeId { get; set; }
+        public Guid? PolicyProductId { get; set; }
 
         public virtual ClientEntity Client { get; set; }
         public virtual CompanyEntity Company { get; set; }
         public virtual UserEntity User { get; set; }
         public virtual PolicyTypeEntity PolicyType { get; set; }
+        public virtual PolicyProductTypeEntity PolicyProductType { get; set; }
+        public virtual PolicyProductEntity PolicyProduct { get; set; }
     }
 }

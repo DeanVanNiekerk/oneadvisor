@@ -17,6 +17,7 @@ using OneAdvisor.Service.Test;
 using OneAdvisor.Model.Commission.Model.CommissionReport;
 using Microsoft.Data.Sqlite;
 using OneAdvisor.Model.Client.Model.Lookup;
+using OneAdvisor.Model.Commission.Model.Lookup;
 
 namespace OneAdvisor.Service.IntegrationTest.Commission
 {

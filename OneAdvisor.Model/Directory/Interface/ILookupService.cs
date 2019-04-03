@@ -8,18 +8,9 @@ namespace OneAdvisor.Model.Directory.Interface
 {
     public interface ILookupService
     {
-        List<CommissionStatementTemplateFieldName> GetCommissionStatementTemplateFieldNames();
-
         Task<List<Company>> GetCompanies();
         Task<Company> GetCompany(Guid id);
         Task<Result> UpdateCompany(Company model);
         Task<Result> InsertCompany(Company model);
-
-        Task<List<CommissionType>> GetCommissionTypes();
-        Task<CommissionType> GetCommissionType(string code);
-        Task<Result> UpdateCommissionType(CommissionType model);
-        Task<Result> InsertCommissionType(CommissionType model);
-
-        Task<List<CommissionEarningsType>> GetCommissionEarningsTypes();
     }
 }

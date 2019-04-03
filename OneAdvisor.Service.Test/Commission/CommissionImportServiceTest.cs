@@ -39,6 +39,7 @@ namespace OneAdvisor.Service.Test.Commission
             using (var context = new DataContext(options))
             {
                 var lookupService = new LookupService(context);
+                var commissionLookupService = new CommissionLookupService(context);
                 var policyService = new PolicyService(context);
                 var statementService = new CommissionStatementService(context, null);
 
@@ -46,7 +47,7 @@ namespace OneAdvisor.Service.Test.Commission
                 bulkActions.Setup(c => c.BulkInsertCommissionErrorsAsync(It.IsAny<DataContext>(), It.IsAny<IList<CommissionErrorEntity>>()))
                     .Returns(Task.CompletedTask);
 
-                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService);
+                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService, commissionLookupService);
 
                 //When
                 var import1 = new ImportCommission
@@ -86,6 +87,7 @@ namespace OneAdvisor.Service.Test.Commission
             using (var context = new DataContext(options))
             {
                 var lookupService = new LookupService(context);
+                var commissionLookupService = new CommissionLookupService(context);
                 var policyService = new PolicyService(context);
                 var statementService = new CommissionStatementService(context, null);
 
@@ -95,7 +97,7 @@ namespace OneAdvisor.Service.Test.Commission
                     .Callback((DataContext c, IList<CommissionErrorEntity> l) => insertedErrors = l.ToList())
                     .Returns(Task.CompletedTask);
 
-                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService);
+                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService, commissionLookupService);
 
                 //When
                 var import1 = new ImportCommission
@@ -151,6 +153,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var statementService = new CommissionStatementService(context, null);
                 var lookupService = new LookupService(context);
+                var commissionLookupService = new CommissionLookupService(context);
                 var policyService = new PolicyService(context);
 
                 var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
@@ -159,7 +162,7 @@ namespace OneAdvisor.Service.Test.Commission
                     .Callback((DataContext c, IList<CommissionErrorEntity> l) => insertedErrors = l.ToList())
                     .Returns(Task.CompletedTask);
 
-                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService);
+                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService, commissionLookupService);
 
                 //When
                 var import1 = new ImportCommission
@@ -220,6 +223,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var statementService = new CommissionStatementService(context, null);
                 var lookupService = new LookupService(context);
+                var commissionLookupService = new CommissionLookupService(context);
                 var policyService = new PolicyService(context);
 
                 var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
@@ -228,7 +232,7 @@ namespace OneAdvisor.Service.Test.Commission
                     .Callback((DataContext c, IList<CommissionErrorEntity> l) => insertedErrors = l.ToList())
                     .Returns(Task.CompletedTask);
 
-                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService);
+                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService, commissionLookupService);
 
                 //When
                 var import1 = new ImportCommission
@@ -294,6 +298,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var statementService = new CommissionStatementService(context, null);
                 var lookupService = new LookupService(context);
+                var commissionLookupService = new CommissionLookupService(context);
                 var policyService = new PolicyService(context);
                 var commissionService = new CommissionService(context);
 
@@ -303,7 +308,7 @@ namespace OneAdvisor.Service.Test.Commission
                     .Callback((DataContext c, IList<CommissionEntity> l) => insertedCommissions = l.ToList())
                     .Returns(Task.CompletedTask);
 
-                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService);
+                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService, commissionLookupService);
 
                 //When
                 var import1 = new ImportCommission
@@ -371,6 +376,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var statementService = new CommissionStatementService(context, null);
                 var lookupService = new LookupService(context);
+                var commissionLookupService = new CommissionLookupService(context);
                 var policyService = new PolicyService(context);
                 var commissionService = new CommissionService(context);
 
@@ -380,7 +386,7 @@ namespace OneAdvisor.Service.Test.Commission
                     .Callback((DataContext c, IList<CommissionEntity> l) => insertedCommissions = l.ToList())
                     .Returns(Task.CompletedTask);
 
-                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService);
+                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService, commissionLookupService);
 
                 //When
                 var import1 = new ImportCommission
@@ -441,6 +447,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var statementService = new CommissionStatementService(context, null);
                 var lookupService = new LookupService(context);
+                var commissionLookupService = new CommissionLookupService(context);
                 var policyService = new PolicyService(context);
                 var commissionService = new CommissionService(context);
 
@@ -450,7 +457,7 @@ namespace OneAdvisor.Service.Test.Commission
                     .Callback((DataContext c, IList<CommissionEntity> l) => insertedCommissions = l.ToList())
                     .Returns(Task.CompletedTask);
 
-                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService);
+                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService, commissionLookupService);
 
                 //When
                 var import1 = new ImportCommission

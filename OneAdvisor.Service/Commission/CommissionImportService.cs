@@ -22,6 +22,7 @@ using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using EFCore.BulkExtensions;
 using OneAdvisor.Service.Common.BulkActions;
+using OneAdvisor.Model.Commission.Model.Lookup;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -32,14 +33,16 @@ namespace OneAdvisor.Service.Commission
         private readonly ILookupService _lookupService;
         private readonly IBulkActions _bulkActions;
         private readonly ICommissionStatementService _commissionStatementService;
+        private readonly ICommissionLookupService _commissionLookupService;
 
-        public CommissionImportService(DataContext context, IBulkActions bulkActions, ICommissionStatementService commissionStatementService, IPolicyService policyService, ILookupService lookupService)
+        public CommissionImportService(DataContext context, IBulkActions bulkActions, ICommissionStatementService commissionStatementService, IPolicyService policyService, ILookupService lookupService, ICommissionLookupService commissionLookupService)
         {
             _context = context;
             _policyService = policyService;
             _lookupService = lookupService;
             _commissionStatementService = commissionStatementService;
             _bulkActions = bulkActions;
+            _commissionLookupService = commissionLookupService;
         }
 
         private List<CommissionEntity> CommissionsToInsert { get; set; }
@@ -61,7 +64,7 @@ namespace OneAdvisor.Service.Commission
 
             var statement = statements.Items.Single();
 
-            var commissionTypes = await _lookupService.GetCommissionTypes();
+            var commissionTypes = await _commissionLookupService.GetCommissionTypes();
             var company = await _lookupService.GetCompany(statement.CompanyId);
 
             var policyQueryOptions = new PolicyQueryOptions(scope, "", "", 0, 0);

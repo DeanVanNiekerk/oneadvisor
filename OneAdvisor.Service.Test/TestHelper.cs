@@ -18,6 +18,7 @@ using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Data.Entities.Client.Lookup;
 using OneAdvisor.Data.Entities.Commission.Lookup;
 using OneAdvisor.Model.Client.Model.Lookup;
+using OneAdvisor.Model.Commission.Model.Lookup;
 
 namespace OneAdvisor.Service.Test
 {

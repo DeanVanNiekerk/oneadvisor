@@ -10,3 +10,4 @@ export { FormSimpleList } from "./FormSimpleList";
 export { FormSwitch } from "./FormSwitch";
 export { FormItemIcon } from "./FormItemIcon";
 export { FormReadOnly } from "./FormReadOnly";
+export { FormCascade } from "./FormCascade";

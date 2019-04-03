@@ -1,6 +1,6 @@
 using System;
 
-namespace OneAdvisor.Model.Directory.Model.Lookup
+namespace OneAdvisor.Model.Commission.Model.Lookup
 {
     public class CommissionStatementTemplateFieldName
     {

@@ -10,8 +10,8 @@ using OneAdvisor.Data;
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190401125535_seedData")]
-    partial class seedData
+    [Migration("20190403185923_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -280,6 +280,136 @@ namespace OneAdvisor.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Client.Lookup.PolicyProductEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Code")
+                        .IsRequired();
+
+                    b.Property<Guid>("CompanyId");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<Guid>("PolicyProductTypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("PolicyProductTypeId");
+
+                    b.ToTable("clt_PolicyProduct");
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Client.Lookup.PolicyProductTypeEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Code")
+                        .IsRequired();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<Guid>("PolicyTypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PolicyTypeId");
+
+                    b.ToTable("clt_PolicyProductType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("95b24f26-5d16-0289-ea4d-754603c3e950"),
+                            Code = "med_medical_aid",
+                            Name = "Medical Aid",
+                            PolicyTypeId = new Guid("023107f5-97a6-456d-9182-7bbda72ca82a")
+                        },
+                        new
+                        {
+                            Id = new Guid("f6db6be4-2672-7063-6920-ae95a0130b73"),
+                            Code = "med_gap_cover",
+                            Name = "Gap Cover",
+                            PolicyTypeId = new Guid("023107f5-97a6-456d-9182-7bbda72ca82a")
+                        },
+                        new
+                        {
+                            Id = new Guid("0269860e-a5ab-7912-e65a-539c124d5593"),
+                            Code = "med_add_medical_savings",
+                            Name = "Additional Medical Savings",
+                            PolicyTypeId = new Guid("023107f5-97a6-456d-9182-7bbda72ca82a")
+                        },
+                        new
+                        {
+                            Id = new Guid("178c71d8-f378-fc92-6347-149108b4f24f"),
+                            Code = "life_insurance_benefits",
+                            Name = "Life Insurance Benefits",
+                            PolicyTypeId = new Guid("f3d877b4-1800-4711-8cc9-35169f8bd60b")
+                        },
+                        new
+                        {
+                            Id = new Guid("0c55f316-f446-a8f8-488c-ac1eb587a9c9"),
+                            Code = "inv_insurance_benefits",
+                            Name = "Life Insurance Benefits",
+                            PolicyTypeId = new Guid("a98bb718-4acb-4fad-afe9-5fbba00203b9")
+                        },
+                        new
+                        {
+                            Id = new Guid("3b7ccd1e-44b5-d81e-b6b4-18c56c1c077f"),
+                            Code = "inv_endowment",
+                            Name = "Endowment",
+                            PolicyTypeId = new Guid("a98bb718-4acb-4fad-afe9-5fbba00203b9")
+                        },
+                        new
+                        {
+                            Id = new Guid("62007d95-7d61-4182-b998-9ffb4c5fda0b"),
+                            Code = "inv_tax_free",
+                            Name = "Tax Free",
+                            PolicyTypeId = new Guid("a98bb718-4acb-4fad-afe9-5fbba00203b9")
+                        },
+                        new
+                        {
+                            Id = new Guid("062d7233-f743-9e5a-8c07-d5580bfa11a4"),
+                            Code = "short_personal_cover",
+                            Name = "Personal Cover",
+                            PolicyTypeId = new Guid("a90a5869-4da5-4cce-8973-9a8194c2bdcb")
+                        },
+                        new
+                        {
+                            Id = new Guid("67c1d0a3-b5b4-3c23-4256-4e79266f5378"),
+                            Code = "short_commercial_cover",
+                            Name = "Commercial Cover",
+                            PolicyTypeId = new Guid("a90a5869-4da5-4cce-8973-9a8194c2bdcb")
+                        },
+                        new
+                        {
+                            Id = new Guid("da086441-91a9-6e5e-5ad6-3167b2076329"),
+                            Code = "rewards_rewards",
+                            Name = "Rewards",
+                            PolicyTypeId = new Guid("3d991459-2043-46b9-9357-5446a993b81d")
+                        },
+                        new
+                        {
+                            Id = new Guid("a202bce5-8e20-a795-1a38-c93b0cfd41ac"),
+                            Code = "rewards_rewards",
+                            Name = "Group Life (Approved)",
+                            PolicyTypeId = new Guid("8fe8751f-c4f0-01c5-26bd-a92f918651d2")
+                        },
+                        new
+                        {
+                            Id = new Guid("988d7de4-1760-f6e8-b9c2-c68e4d95e7e2"),
+                            Code = "rewards_rewards",
+                            Name = "Group Life (Unapproved)",
+                            PolicyTypeId = new Guid("8fe8751f-c4f0-01c5-26bd-a92f918651d2")
+                        });
+                });
+
             modelBuilder.Entity("OneAdvisor.Data.Entities.Client.Lookup.PolicyTypeEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -325,6 +455,12 @@ namespace OneAdvisor.Data.Migrations
                             Id = new Guid("3d991459-2043-46b9-9357-5446a993b81d"),
                             Code = "rewards",
                             Name = "Rewards Program"
+                        },
+                        new
+                        {
+                            Id = new Guid("8fe8751f-c4f0-01c5-26bd-a92f918651d2"),
+                            Code = "group_scheme",
+                            Name = "Group scheme"
                         });
                 });
 
@@ -340,6 +476,10 @@ namespace OneAdvisor.Data.Migrations
                     b.Property<string>("Number")
                         .IsRequired();
 
+                    b.Property<Guid?>("PolicyProductId");
+
+                    b.Property<Guid?>("PolicyProductTypeId");
+
                     b.Property<Guid?>("PolicyTypeId");
 
                     b.Property<decimal?>("Premium")
@@ -354,6 +494,10 @@ namespace OneAdvisor.Data.Migrations
                     b.HasIndex("ClientId");
 
                     b.HasIndex("CompanyId");
+
+                    b.HasIndex("PolicyProductId");
+
+                    b.HasIndex("PolicyProductTypeId");
 
                     b.HasIndex("PolicyTypeId");
 
@@ -604,6 +748,9 @@ namespace OneAdvisor.Data.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CommissionPolicyNumberPrefixes")
+                        .IsRequired();
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -1006,6 +1153,27 @@ namespace OneAdvisor.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Client.Lookup.PolicyProductEntity", b =>
+                {
+                    b.HasOne("OneAdvisor.Data.Entities.Directory.Lookup.CompanyEntity", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("OneAdvisor.Data.Entities.Client.Lookup.PolicyProductTypeEntity", "PolicyProductType")
+                        .WithMany()
+                        .HasForeignKey("PolicyProductTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Client.Lookup.PolicyProductTypeEntity", b =>
+                {
+                    b.HasOne("OneAdvisor.Data.Entities.Client.Lookup.PolicyTypeEntity", "PolicyType")
+                        .WithMany("PolicyProductTypes")
+                        .HasForeignKey("PolicyTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("OneAdvisor.Data.Entities.Client.PolicyEntity", b =>
                 {
                     b.HasOne("OneAdvisor.Data.Entities.Client.ClientEntity", "Client")
@@ -1018,8 +1186,16 @@ namespace OneAdvisor.Data.Migrations
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("OneAdvisor.Data.Entities.Client.Lookup.PolicyProductEntity", "PolicyProduct")
+                        .WithMany("Policies")
+                        .HasForeignKey("PolicyProductId");
+
+                    b.HasOne("OneAdvisor.Data.Entities.Client.Lookup.PolicyProductTypeEntity", "PolicyProductType")
+                        .WithMany("Policies")
+                        .HasForeignKey("PolicyProductTypeId");
+
                     b.HasOne("OneAdvisor.Data.Entities.Client.Lookup.PolicyTypeEntity", "PolicyType")
-                        .WithMany()
+                        .WithMany("Policies")
                         .HasForeignKey("PolicyTypeId");
 
                     b.HasOne("OneAdvisor.Data.Entities.Directory.UserEntity", "User")

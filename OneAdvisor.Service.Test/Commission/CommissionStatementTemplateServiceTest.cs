@@ -236,7 +236,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var lookupService = new LookupService(context);
+                var lookupService = new CommissionLookupService(context);
                 var service = new CommissionStatementTemplateService(context, lookupService);
 
                 //When

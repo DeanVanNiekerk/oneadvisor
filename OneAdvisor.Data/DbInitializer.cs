@@ -9,6 +9,8 @@ using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Data.Entities.Client.Lookup;
 using OneAdvisor.Data.Entities.Commission.Lookup;
+using System.Collections.Generic;
+using OneAdvisor.Model.Commission.Model.Lookup;
 
 namespace OneAdvisor.Data
 {
@@ -201,7 +203,6 @@ namespace OneAdvisor.Data
             var lifeOrgId = Guid.Parse("d44abb82-9eab-47a3-b20c-61b4ee93bf21");
             if (!organisations.Any())
             {
-
                 _context.Organisation.Add(new OrganisationEntity() { Id = sabOrgId, Name = "Smith and Bormann" });
                 _context.Organisation.Add(new OrganisationEntity() { Id = lifeOrgId, Name = "Life Brokers" });
             }

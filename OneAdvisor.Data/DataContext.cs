@@ -41,6 +41,8 @@ namespace OneAdvisor.Data
         public DbSet<MarritalStatusEntity> MarritalStatus { get; set; }
         public DbSet<ContactTypeEntity> ContactType { get; set; }
         public DbSet<PolicyTypeEntity> PolicyType { get; set; }
+        public DbSet<PolicyProductTypeEntity> PolicyProductType { get; set; }
+        public DbSet<PolicyProductEntity> PolicyProduct { get; set; }
         public DbSet<ClientTypeEntity> ClientType { get; set; }
 
         #endregion
@@ -95,6 +97,8 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<ClientEntity>().ToTable("clt_Client");
             modelBuilder.Entity<PolicyEntity>().ToTable("clt_Policy");
             modelBuilder.Entity<PolicyTypeEntity>().ToTable("clt_PolicyType").HasData(SeedData.GetPolicyTypes());
+            modelBuilder.Entity<PolicyProductTypeEntity>().ToTable("clt_PolicyProductType").HasData(SeedData.GetPolicyProductTypes());
+            modelBuilder.Entity<PolicyProductEntity>().ToTable("clt_PolicyProduct");
             modelBuilder.Entity<ContactEntity>().ToTable("clt_Contact");
             modelBuilder.Entity<ContactTypeEntity>().ToTable("clt_ContactType").HasData(SeedData.GetContactTypes());
             modelBuilder.Entity<MarritalStatusEntity>().ToTable("clt_MarritalStatus").HasData(SeedData.GetMarritalStatus());

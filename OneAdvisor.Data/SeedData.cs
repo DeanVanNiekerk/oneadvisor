@@ -12,17 +12,6 @@ namespace OneAdvisor.Data
         public static readonly Guid cltGuid = Guid.Parse("605ea52c-3627-48e2-8f7c-4819c5ea555b");
         public static readonly Guid comGuid = Guid.Parse("2fca4500-9142-4940-aaf4-b18925c96d66");
 
-        public static readonly Guid policyTypeInv = Guid.Parse("a98bb718-4acb-4fad-afe9-5fbba00203b9");
-        public static readonly Guid policyTypeLife = Guid.Parse("f3d877b4-1800-4711-8cc9-35169f8bd60b");
-        public static readonly Guid policyTypeShort = Guid.Parse("a90a5869-4da5-4cce-8973-9a8194c2bdcb");
-        public static readonly Guid policyTypeMed = Guid.Parse("023107f5-97a6-456d-9182-7bbda72ca82a");
-        public static readonly Guid policyTypeRewards = Guid.Parse("3d991459-2043-46b9-9357-5446a993b81d");
-
-        public static readonly Guid earningsMonthAn = Guid.Parse("8b42edc0-fac6-e946-c779-9d90a805c294");
-        public static readonly Guid earningsAnnualAn = Guid.Parse("e8799015-6f4a-5d45-5be9-0fcd516e0951");
-        public static readonly Guid earningsLife = Guid.Parse("e7f98561-f018-3edd-2118-e3646c89e2a2");
-        public static readonly Guid earningsOnceOff = Guid.Parse("9f8fc29d-0f1c-b952-d446-79cc3ed967d7");
-
         public static List<ApplicationEntity> GetApplications()
         {
             var list = new List<ApplicationEntity>();
@@ -63,6 +52,11 @@ namespace OneAdvisor.Data
             return list;
         }
 
+        public static readonly Guid earningsMonthAn = Guid.Parse("8b42edc0-fac6-e946-c779-9d90a805c294");
+        public static readonly Guid earningsAnnualAn = Guid.Parse("e8799015-6f4a-5d45-5be9-0fcd516e0951");
+        public static readonly Guid earningsLife = Guid.Parse("e7f98561-f018-3edd-2118-e3646c89e2a2");
+        public static readonly Guid earningsOnceOff = Guid.Parse("9f8fc29d-0f1c-b952-d446-79cc3ed967d7");
+
         public static List<CommissionEarningsTypeEntity> GetCommissionEarningsTypes()
         {
             var list = new List<CommissionEarningsTypeEntity>();
@@ -75,6 +69,13 @@ namespace OneAdvisor.Data
             return list;
         }
 
+
+        public static readonly Guid policyTypeInv = Guid.Parse("a98bb718-4acb-4fad-afe9-5fbba00203b9");
+        public static readonly Guid policyTypeLife = Guid.Parse("f3d877b4-1800-4711-8cc9-35169f8bd60b");
+        public static readonly Guid policyTypeShort = Guid.Parse("a90a5869-4da5-4cce-8973-9a8194c2bdcb");
+        public static readonly Guid policyTypeMed = Guid.Parse("023107f5-97a6-456d-9182-7bbda72ca82a");
+        public static readonly Guid policyTypeRewards = Guid.Parse("3d991459-2043-46b9-9357-5446a993b81d");
+        public static readonly Guid policyTypeGroupScheme = Guid.Parse("8fe8751f-c4f0-01c5-26bd-a92f918651d2");
         public static List<PolicyTypeEntity> GetPolicyTypes()
         {
             var list = new List<PolicyTypeEntity>();
@@ -84,6 +85,51 @@ namespace OneAdvisor.Data
             list.Add(new PolicyTypeEntity() { Id = policyTypeShort, Name = "Short Term Insurance", Code = "short_term" });
             list.Add(new PolicyTypeEntity() { Id = policyTypeMed, Name = "Medical Cover", Code = "medical_cover" });
             list.Add(new PolicyTypeEntity() { Id = policyTypeRewards, Name = "Rewards Program", Code = "rewards" });
+            list.Add(new PolicyTypeEntity() { Id = policyTypeGroupScheme, Name = "Group scheme", Code = "group_scheme" });
+
+            return list;
+        }
+
+        public static readonly Guid policyProductTypeMedicalAid = Guid.Parse("95b24f26-5d16-0289-ea4d-754603c3e950");
+        public static readonly Guid policyProductTypeGapCover = Guid.Parse("f6db6be4-2672-7063-6920-ae95a0130b73");
+        public static readonly Guid policyProductTypeAddMedSavings = Guid.Parse("0269860e-a5ab-7912-e65a-539c124d5593");
+
+        public static readonly Guid policyProductTypeLifeInsBen = Guid.Parse("178c71d8-f378-fc92-6347-149108b4f24f");
+
+        public static readonly Guid policyProductTypeUnitTrust = Guid.Parse("0c55f316-f446-a8f8-488c-ac1eb587a9c9");
+        public static readonly Guid policyProductTypeEndowment = Guid.Parse("3b7ccd1e-44b5-d81e-b6b4-18c56c1c077f");
+        public static readonly Guid policyProductTypeTaxFree = Guid.Parse("62007d95-7d61-4182-b998-9ffb4c5fda0b");
+
+        public static readonly Guid policyProductTypePersonalCover = Guid.Parse("062d7233-f743-9e5a-8c07-d5580bfa11a4");
+        public static readonly Guid policyProductTypeCommercialCover = Guid.Parse("67c1d0a3-b5b4-3c23-4256-4e79266f5378");
+
+        public static readonly Guid policyProductTypeGroupLifeApp = Guid.Parse("a202bce5-8e20-a795-1a38-c93b0cfd41ac");
+        public static readonly Guid policyProductTypeGroupLifeUnApp = Guid.Parse("988d7de4-1760-f6e8-b9c2-c68e4d95e7e2");
+
+        public static readonly Guid policyProductTypeRewards = Guid.Parse("da086441-91a9-6e5e-5ad6-3167b2076329");
+
+
+        public static List<PolicyProductTypeEntity> GetPolicyProductTypes()
+        {
+            var list = new List<PolicyProductTypeEntity>();
+
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeMedicalAid, Name = "Medical Aid", Code = "med_medical_aid", PolicyTypeId = policyTypeMed });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeGapCover, Name = "Gap Cover", Code = "med_gap_cover", PolicyTypeId = policyTypeMed });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeAddMedSavings, Name = "Additional Medical Savings", Code = "med_add_medical_savings", PolicyTypeId = policyTypeMed });
+
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeLifeInsBen, Name = "Life Insurance Benefits", Code = "life_insurance_benefits", PolicyTypeId = policyTypeLife });
+
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeUnitTrust, Name = "Life Insurance Benefits", Code = "inv_insurance_benefits", PolicyTypeId = policyTypeInv });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeEndowment, Name = "Endowment", Code = "inv_endowment", PolicyTypeId = policyTypeInv });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeTaxFree, Name = "Tax Free", Code = "inv_tax_free", PolicyTypeId = policyTypeInv });
+
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypePersonalCover, Name = "Personal Cover", Code = "short_personal_cover", PolicyTypeId = policyTypeShort });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeCommercialCover, Name = "Commercial Cover", Code = "short_commercial_cover", PolicyTypeId = policyTypeShort });
+
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeRewards, Name = "Rewards", Code = "rewards_rewards", PolicyTypeId = policyTypeRewards });
+
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeGroupLifeApp, Name = "Group Life (Approved)", Code = "rewards_rewards", PolicyTypeId = policyTypeGroupScheme });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeGroupLifeUnApp, Name = "Group Life (Unapproved)", Code = "rewards_rewards", PolicyTypeId = policyTypeGroupScheme });
 
             return list;
         }

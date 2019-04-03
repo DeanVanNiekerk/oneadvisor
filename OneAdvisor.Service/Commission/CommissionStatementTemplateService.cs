@@ -22,9 +22,9 @@ namespace OneAdvisor.Service.Commission
     public class CommissionStatementTemplateService : ICommissionStatementTemplateService
     {
         private readonly DataContext _context;
-        private readonly ILookupService _lookupService;
+        private readonly ICommissionLookupService _lookupService;
 
-        public CommissionStatementTemplateService(DataContext context, ILookupService lookupService)
+        public CommissionStatementTemplateService(DataContext context, ICommissionLookupService lookupService)
         {
             _context = context;
             _lookupService = lookupService;
