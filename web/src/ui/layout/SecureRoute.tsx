@@ -74,4 +74,6 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-export default withRouter(connect(mapStateToProps)(SecureRoute));
+export default withRouter(
+    connect(mapStateToProps)(SecureRoute)
+) as React.ComponentType<any>;
