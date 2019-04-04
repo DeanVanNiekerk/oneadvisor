@@ -88,7 +88,7 @@ class Navigator extends Component<Props> {
     render() {
         return (
             <>
-                <Header tagName="header">
+                <Header>
                     <div style={appNameStyle}>
                         <Popover
                             placement="bottomRight"

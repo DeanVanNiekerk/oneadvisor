@@ -14,17 +14,15 @@ class LayoutContainer extends React.Component<Props> {
     render() {
         return (
             <Layout
-                tagName="section"
                 style={{
                     height: "100%",
                 }}
             >
                 <Navigator />
-                <Layout tagName="section">
+                <Layout>
                     <SideMenu />
-                    <Layout tagName="section">
+                    <Layout>
                         <Content
-                            tagName="main"
                             style={{
                                 background: "#fff",
                                 padding: 15,
