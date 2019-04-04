@@ -1,4 +1,4 @@
-export * from './types';
+export * from "./types";
 
-export * from './actions';
-export { lookupsSelector } from './selectors';
+export * from "./actions";
+export { lookupsSelector as directoryLookupupSelector } from "./selectors";

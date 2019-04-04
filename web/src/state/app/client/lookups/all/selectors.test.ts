@@ -1,10 +1,10 @@
 import { lookupsSelector } from './selectors';
 
-describe("directory lookups selectors", () => {
+describe("lookups selectors", () => {
     it("lookupsSelector", () => {
         const state = {
             app: {
-                directory: {
+                client: {
                     lookups: {
                         all: {
                             property: "1",

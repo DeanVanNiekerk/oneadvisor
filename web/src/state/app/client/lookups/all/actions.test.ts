@@ -2,15 +2,15 @@ import { allLookupsApi } from '@/config/api/directory';
 
 import * as actions from './actions';
 
-describe("directory: lookups: actions", () => {
-    it("should dispatch API when fetchAllDirectoryLookups is called", () => {
+describe("client: lookups: actions", () => {
+    it("should dispatch API when fetchAllClientLookups is called", () => {
         const expectedAction = {
             type: "API",
             endpoint: allLookupsApi,
-            dispatchPrefix: "DIRECTORY_LOOKUPS",
+            dispatchPrefix: "CLIENT_LOOKUPS",
             onSuccess: expect.any(Function),
         };
 
-        expect(actions.fetchAllDirectoryLookups()).toEqual(expectedAction);
+        expect(actions.fetchAllClientLookups()).toEqual(expectedAction);
     });
 });

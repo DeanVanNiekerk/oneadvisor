@@ -1,9 +1,9 @@
 import { defaultState, reducer } from './reducer';
 
-describe("lookups reducer", () => {
-    it("should handle DIRECTORY_LOOKUPS_FETCHING", () => {
+describe("client lookups reducer", () => {
+    it("should handle CLIENT_LOOKUPS_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: "DIRECTORY_LOOKUPS_FETCHING",
+            type: "CLIENT_LOOKUPS_FETCHING",
         });
 
         const expectedState = {
@@ -14,14 +14,14 @@ describe("lookups reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle DIRECTORY_LOOKUPS_FETCHING_ERROR", () => {
+    it("should handle CLIENT_LOOKUPS_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: "DIRECTORY_LOOKUPS_FETCHING_ERROR",
+            type: "CLIENT_LOOKUPS_FETCHING_ERROR",
         });
 
         const expectedState = {
@@ -33,14 +33,14 @@ describe("lookups reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle DIRECTORY_LOOKUPS_RECEIVE", () => {
+    it("should handle CLIENT_LOOKUPS_RECEIVE", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: "DIRECTORY_LOOKUPS_RECEIVE",
+            type: "CLIENT_LOOKUPS_RECEIVE",
         });
 
         const expectedState = {

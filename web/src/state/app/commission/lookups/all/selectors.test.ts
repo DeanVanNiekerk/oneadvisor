@@ -1,10 +1,10 @@
 import { lookupsSelector } from './selectors';
 
-describe("directory lookups selectors", () => {
+describe("commission lookups selectors", () => {
     it("lookupsSelector", () => {
         const state = {
             app: {
-                directory: {
+                commission: {
                     lookups: {
                         all: {
                             property: "1",
