@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { getColumn } from '@/app/table';
-import {
-    CommissionEarningsType, commissionEarningsTypesSelector, PolicyType, policyTypesSelector
-} from '@/state/app/directory/lookups';
+import { PolicyType, policyTypesSelector } from '@/state/app/client/lookups';
+import { CommissionEarningsType, commissionEarningsTypesSelector } from '@/state/app/commission/lookups';
 import {
     CommissionType, commissionTypesSelector, fetchCommissionTypes, receiveCommissionType
-} from '@/state/app/directory/lookups/commissionTypes';
+} from '@/state/app/commission/lookups/commissionTypes';
 import { RootState } from '@/state/rootReducer';
 import { Button, CommissionEarningsTypeName, Header, PolicyTypeName, Table } from '@/ui/controls';
 

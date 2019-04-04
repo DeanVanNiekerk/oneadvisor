@@ -3,11 +3,12 @@ import { connect, DispatchProp } from 'react-redux';
 
 import { applyLike } from '@/app/query';
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
+import { PolicyType, policyTypesSelector } from '@/state/app/client/lookups';
 import {
     fetchPolicies, fetchPolicy, newPolicy, policiesSelector, Policy, receiveFilters, receivePageOptions, receivePolicy,
     receiveSortOptions
 } from '@/state/app/client/policies';
-import { companiesSelector, Company, PolicyType, policyTypesSelector } from '@/state/app/directory/lookups';
+import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
 import { Button, CompanyName, Header, PolicyTypeName, Table, UserName } from '@/ui/controls';

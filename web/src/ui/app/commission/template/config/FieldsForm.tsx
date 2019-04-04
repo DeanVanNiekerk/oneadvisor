@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
 import { ValidationResult } from '@/app/validation';
-import { Field } from '@/state/app/commission/templates';
 import {
     CommissionStatementTemplateFieldName, commissionStatementTemplateFieldNamesSelector
-} from '@/state/app/directory/lookups/commissionStatementTemplateFieldNames';
+} from '@/state/app/commission/lookups';
+import { Field } from '@/state/app/commission/templates';
 import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect } from '@/ui/controls';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { PolicyType, policyTypesSelector } from '@/state/app/directory/lookups';
+import { PolicyType, policyTypesSelector } from '@/state/app/client/lookups';
 import { RootState } from '@/state/rootReducer';
 
 type Props = {
@@ -25,7 +25,7 @@ const mapStateToProps = (state: RootState) => {
     const policyTypesState = policyTypesSelector(state);
 
     return {
-        policyTypes: policyTypesState.items
+        policyTypes: policyTypesState.items,
     };
 };
 

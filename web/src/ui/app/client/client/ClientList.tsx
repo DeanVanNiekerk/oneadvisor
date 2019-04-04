@@ -9,7 +9,7 @@ import {
     Client, ClientEdit, clientMergeReset, clientsSelector, deleteClient, fetchClients, fetchMergeClients, newClient,
     receiveClient, receiveClientPreview, receiveFilters, receivePageOptions, receiveSelectedClients, receiveSortOptions
 } from '@/state/app/client/clients';
-import { ClientType, clientTypesSelector } from '@/state/app/directory/lookups';
+import { ClientType, clientTypesSelector } from '@/state/app/client/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Button, ClientTypeIcon, Header, StopPropagation, Table } from '@/ui/controls';
 

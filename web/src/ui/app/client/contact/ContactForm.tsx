@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { ValidationResult } from '@/app/validation';
-import { ContactType, contactTypesSelector } from '@/state/app/directory/lookups';
 import { Contact } from '@/state/app/client/contacts';
+import { ContactType, contactTypesSelector } from '@/state/app/client/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Button, Form, FormField, FormInput, FormSelect } from '@/ui/controls';
 
@@ -24,24 +24,24 @@ class ContactForm extends Component<Props, State> {
         super(props);
 
         this.state = {
-            contact: props.contact
+            contact: props.contact,
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.contact != prevProps.contact)
             this.setState({
-                contact: this.props.contact
+                contact: this.props.contact,
             });
     }
 
     handleChange = (fieldName: string, value: any) => {
         const contact = {
             ...this.state.contact,
-            [fieldName]: value
+            [fieldName]: value,
         };
         this.setState({
-            contact: contact
+            contact: contact,
         });
     };
 
@@ -68,11 +68,8 @@ class ContactForm extends Component<Props, State> {
                     options={this.props.contactTypes}
                     optionsValue="id"
                     optionsText="name"
-
                 />
-                <FormField
-                    className="mr-0"
-                >
+                <FormField className="mr-0">
                     <Button onClick={() => this.props.onCancel()}>
                         Cancel
                     </Button>
@@ -83,8 +80,8 @@ class ContactForm extends Component<Props, State> {
                         type="primary"
                     >
                         {this.props.contact.id
-                            ? 'Update Contact'
-                            : 'Add Contact'}
+                            ? "Update Contact"
+                            : "Add Contact"}
                     </Button>
                 </FormField>
             </Form>
@@ -94,7 +91,7 @@ class ContactForm extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     return {
-        contactTypes: contactTypesSelector(state).items
+        contactTypes: contactTypesSelector(state).items,
     };
 };
 

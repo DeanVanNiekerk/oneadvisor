@@ -7,7 +7,7 @@ import { Filters } from '@/app/table';
 import { ValidationResult } from '@/app/validation';
 import { getPolicies, Policy } from '@/state/app/client/policies';
 import { CommissionEdit } from '@/state/app/commission/commissions';
-import { CommissionType, commissionTypesSelector } from '@/state/app/directory/lookups';
+import { CommissionType, commissionTypesSelector } from '@/state/app/commission/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormInputNumber, FormReadOnly, FormSelect, TabPane, Tabs } from '@/ui/controls';
 

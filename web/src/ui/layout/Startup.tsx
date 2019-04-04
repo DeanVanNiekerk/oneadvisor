@@ -2,7 +2,9 @@ import React, { ReactNode } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { fetchAllLookups, lookupsSelector } from '@/state/app/directory/lookups';
+import { clientLookupsSelector, fetchAllClientLookups } from '@/state/app/client/lookups';
+import { commissionLookupsSelector, fetchAllCommissionLookups } from '@/state/app/commission/lookups';
+import { directoryLookupsSelector, fetchAllDirectoryLookups } from '@/state/app/directory/lookups';
 import { fetchUsersSimple } from '@/state/app/directory/usersSimple';
 import { isAuthenticatedSelector } from '@/state/auth';
 import { fetchAppInfo } from '@/state/context/actions';
@@ -18,7 +20,10 @@ type Props = {
 
 class Startup extends React.Component<Props> {
     componentDidMount() {
-        this.props.dispatch(fetchAllLookups());
+        this.props.dispatch(fetchAllDirectoryLookups());
+        this.props.dispatch(fetchAllCommissionLookups());
+        this.props.dispatch(fetchAllClientLookups());
+
         this.props.dispatch(fetchAppInfo());
         this.loadSecureData();
     }
@@ -47,10 +52,15 @@ class Startup extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const lookupsState = lookupsSelector(state);
+    const directoryLookupsState = directoryLookupsSelector(state);
+    const commissionLookupsState = commissionLookupsSelector(state);
+    const clientLookupsState = clientLookupsSelector(state);
 
     return {
-        loading: lookupsState.fetching,
+        loading:
+            directoryLookupsState.fetching ||
+            commissionLookupsState.fetching ||
+            clientLookupsState.fetching,
         isAuthenticated: isAuthenticatedSelector(state),
     };
 };

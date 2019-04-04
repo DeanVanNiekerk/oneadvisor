@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { CommissionEarningsType, commissionEarningsTypesSelector } from '@/state/app/directory/lookups';
+import { CommissionEarningsType, commissionEarningsTypesSelector } from '@/state/app/commission/lookups';
 import { RootState } from '@/state/rootReducer';
 
 type Props = {

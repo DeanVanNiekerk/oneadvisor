@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { contactTypesSelector, ContactType } from '@/state/app/directory/lookups';
+import { ContactType, contactTypesSelector } from '@/state/app/client/lookups';
 import { RootState } from '@/state/rootReducer';
 
 type Props = {
@@ -25,7 +25,7 @@ const mapStateToProps = (state: RootState) => {
     const contactTypesState = contactTypesSelector(state);
 
     return {
-        contactTypes: contactTypesState.items
+        contactTypes: contactTypesState.items,
     };
 };
 

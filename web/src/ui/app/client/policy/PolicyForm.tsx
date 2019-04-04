@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { ValidationResult } from '@/app/validation';
-import { companiesSelector, Company, PolicyType, policyTypesSelector } from '@/state/app/directory/lookups';
-import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
+import { PolicyType, policyTypesSelector } from '@/state/app/client/lookups';
 import { PolicyEdit } from '@/state/app/client/policies';
+import { companiesSelector, Company } from '@/state/app/directory/lookups';
+import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormDate, FormInput, FormInputNumber, FormSelect } from '@/ui/controls';
 
@@ -26,24 +27,24 @@ class PolicyForm extends Component<Props, State> {
         super(props);
 
         this.state = {
-            policy: props.policy
+            policy: props.policy,
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.policy != prevProps.policy)
             this.setState({
-                policy: this.props.policy
+                policy: this.props.policy,
             });
     }
 
     handleChange = async (fieldName: string, value: any) => {
         const policy = {
             ...this.state.policy,
-            [fieldName]: value
+            [fieldName]: value,
         };
         this.setState({
-            policy: policy
+            policy: policy,
         });
         this.props.onChange(policy);
     };
@@ -122,7 +123,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         users: usersState.items,
         companies: companiesState.items,
-        policyTypes: policyTypeState.items
+        policyTypes: policyTypeState.items,
     };
 };
 

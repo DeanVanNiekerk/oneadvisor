@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { ValidationResult } from '@/app/validation';
-import {
-    CommissionEarningsType, commissionEarningsTypesSelector, PolicyType, policyTypesSelector
-} from '@/state/app/directory/lookups';
-import { CommissionType } from '@/state/app/directory/lookups/commissionTypes';
+import { PolicyType, policyTypesSelector } from '@/state/app/client/lookups';
+import { CommissionEarningsType, commissionEarningsTypesSelector } from '@/state/app/commission/lookups';
+import { CommissionType } from '@/state/app/commission/lookups/commissionTypes';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormInput, FormSelect } from '@/ui/controls';
 

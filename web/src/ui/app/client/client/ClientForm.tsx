@@ -7,8 +7,9 @@ import { ValidationResult } from '@/app/validation';
 import {
     ClientEdit, getAlternateIdNumberLabel, getDateOfBirthLabel, getLastNameLabel
 } from '@/state/app/client/clients';
-import { ClientType, ClientTypeId, clientTypesSelector } from '@/state/app/directory/lookups';
-import { MarritalStatus, marritalStatusSelector } from '@/state/app/directory/lookups/marritalStatus';
+import {
+    ClientType, ClientTypeId, clientTypesSelector, MarritalStatus, marritalStatusSelector
+} from '@/state/app/client/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormDate, FormInput, FormSelect } from '@/ui/controls';
 

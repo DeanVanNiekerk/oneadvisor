@@ -1,6 +1,5 @@
-import { ClientTypeId } from '@/state/app/directory/lookups/clientTypes';
-
 import { Client } from '../';
+import { ClientTypeId } from '../../lookups';
 import { defaultState, reducer } from './reducer';
 
 describe("client search reducer", () => {

@@ -5,7 +5,7 @@ import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
 import {
     CommissionType, commissionTypeSelector, insertCommissionType, updateCommissionType
-} from '@/state/app/directory/lookups/commissionTypes';
+} from '@/state/app/commission/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
 import { showConfirm } from '@/ui/feedback/modal/confirm';
@@ -29,14 +29,14 @@ class EditCommissionType extends Component<Props, State> {
         super(props);
 
         this.state = {
-            commissionTypeEdited: props.commissionType
+            commissionTypeEdited: props.commissionType,
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.commissionType != prevProps.commissionType)
             this.setState({
-                commissionTypeEdited: this.props.commissionType
+                commissionTypeEdited: this.props.commissionType,
             });
     }
 
@@ -85,7 +85,7 @@ class EditCommissionType extends Component<Props, State> {
 
     onChange = (commissionType: CommissionType) => {
         this.setState({
-            commissionTypeEdited: commissionType
+            commissionTypeEdited: commissionType,
         });
     };
 
@@ -99,7 +99,7 @@ class EditCommissionType extends Component<Props, State> {
         if (commissionType && commissionType.id)
             return `Commission Type: ${commissionType.name}`;
 
-        return 'New Commission Type';
+        return "New Commission Type";
     };
 
     render() {
@@ -148,7 +148,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         commissionType: commissionTypeState.commissionType,
         updating: commissionTypeState.updating,
-        validationResults: commissionTypeState.validationResults
+        validationResults: commissionTypeState.validationResults,
     };
 };
 

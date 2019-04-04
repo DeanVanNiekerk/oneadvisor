@@ -5,8 +5,8 @@ import { RouteComponentProps, withRouter } from 'react-router';
 
 import { hasUseCase } from '@/app/identity';
 import { ClientPreview, clientPreviewSelector, fetchClient, fetchClientPreview } from '@/state/app/client/clients';
+import { ClientTypeId } from '@/state/app/client/lookups';
 import { newPolicy, receivePolicy } from '@/state/app/client/policies';
-import { ClientTypeId } from '@/state/app/directory/lookups/clientTypes';
 import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import {

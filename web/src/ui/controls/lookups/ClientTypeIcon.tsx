@@ -2,7 +2,7 @@ import { Icon, Tooltip } from 'antd';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { ClientType, ClientTypeId, clientTypesSelector } from '@/state/app/directory/lookups';
+import { ClientType, ClientTypeId, clientTypesSelector } from '@/state/app/client/lookups';
 import { RootState } from '@/state/rootReducer';
 
 type Props = {

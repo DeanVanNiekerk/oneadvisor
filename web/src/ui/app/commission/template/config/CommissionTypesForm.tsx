@@ -8,11 +8,11 @@ import { hasUseCase } from '@/app/identity';
 import { ApiOnFailure, ApiOnSuccess } from '@/app/types';
 import { ValidationResult } from '@/app/validation';
 import { statementTemplatesApi } from '@/config/api/commission';
-import { CommissionStatementTemplateEdit, CommissionType, CommissionTypes } from '@/state/app/commission/templates';
-import { CommissionType as LookupCommissionType, commissionTypesSelector } from '@/state/app/directory/lookups';
+import { CommissionType as LookupCommissionType, commissionTypesSelector } from '@/state/app/commission/lookups';
 import {
     commissionStatementTemplateFieldNamesSelector
-} from '@/state/app/directory/lookups/commissionStatementTemplateFieldNames';
+} from '@/state/app/commission/lookups/commissionStatementTemplateFieldNames';
+import { CommissionStatementTemplateEdit, CommissionType, CommissionTypes } from '@/state/app/commission/templates';
 import { tokenSelector, useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect } from '@/ui/controls';

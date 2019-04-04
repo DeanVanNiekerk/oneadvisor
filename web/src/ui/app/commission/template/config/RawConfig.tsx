@@ -4,11 +4,11 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import { connect, DispatchProp } from 'react-redux';
 
 import {
+    CommissionType as LookupCommissionType, commissionTypesSelector, UNKNOWN_COMMISSION_TYPE_CODE
+} from '@/state/app/commission/lookups';
+import {
     CommissionStatementTemplateEdit, Config, receiveCommissionStatementTemplate
 } from '@/state/app/commission/templates';
-import {
-    CommissionType as LookupCommissionType, commissionTypesSelector, UNKNOWN_COMMISSION_TYPE_CODE
-} from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Button } from '@/ui/controls';
 import { showMessage } from '@/ui/feedback/notifcation';

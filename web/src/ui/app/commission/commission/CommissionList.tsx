@@ -9,7 +9,7 @@ import {
     Commission, CommissionEdit, commissionsSelector, fetchCommission, fetchCommissions, receiveCommission,
     receiveFilters, receivePageOptions, receiveSortOptions
 } from '@/state/app/commission/commissions';
-import { CommissionType, commissionTypesSelector } from '@/state/app/directory/lookups';
+import { CommissionType, commissionTypesSelector } from '@/state/app/commission/lookups';
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
 import { Button, CommissionTypeName, Header, Table, UserName } from '@/ui/controls';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { CommissionType, commissionTypesSelector } from '@/state/app/directory/lookups';
+import { CommissionType, commissionTypesSelector } from '@/state/app/commission/lookups';
 import { RootState } from '@/state/rootReducer';
 
 type Props = {
@@ -27,7 +27,7 @@ const mapStateToProps = (state: RootState) => {
     const commissionTypesState = commissionTypesSelector(state);
 
     return {
-        commissionTypes: commissionTypesState.items
+        commissionTypes: commissionTypesState.items,
     };
 };
 
