@@ -1,4 +1,4 @@
-import { commissionTypesApi } from '@/config/api/directory';
+import { commissionTypesApi } from '@/config/api/commission';
 
 import { CommissionType } from '../';
 import * as actions from './actions';

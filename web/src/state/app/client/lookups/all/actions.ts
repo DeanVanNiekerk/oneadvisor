@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 
 import { ApiAction } from '@/app/types';
-import { allLookupsApi } from '@/config/api/directory';
+import { allClientLookupsApi } from '@/config/api/client';
 
 import { Lookups, receiveClientTypes, receiveContactTypes, receiveMarritalStatus, receivePolicyTypes } from '../';
 
@@ -18,7 +18,7 @@ export type LookupsAction =
 
 export const fetchAllClientLookups = (): ApiAction => ({
     type: "API",
-    endpoint: allLookupsApi,
+    endpoint: allClientLookupsApi,
     onSuccess: (payload: Lookups, dispatch: Dispatch) => {
         dispatch(receiveMarritalStatus(payload.marritalStatus));
         dispatch(receiveContactTypes(payload.contactTypes));

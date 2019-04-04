@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 
 import { ApiAction } from '@/app/types';
-import { allLookupsApi } from '@/config/api/directory';
+import { allCommissionLookupsApi } from '@/config/api/commission';
 
 import {
     Lookups, receiveCommissionEarningsTypes, receiveCommissionStatementTemplateFieldNames, receiveCommissionTypes
@@ -20,7 +20,7 @@ export type LookupsAction =
 
 export const fetchAllCommissionLookups = (): ApiAction => ({
     type: "API",
-    endpoint: allLookupsApi,
+    endpoint: allCommissionLookupsApi,
     onSuccess: (payload: Lookups, dispatch: Dispatch) => {
         dispatch(receiveCommissionTypes(payload.commissionTypes));
         dispatch(

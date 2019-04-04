@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 
 import { ApiAction } from '@/app/types';
-import { allLookupsApi } from '@/config/api/directory';
+import { allDirectoryLookupsApi } from '@/config/api/directory';
 
 import { Lookups, receiveCompanies } from '../';
 
@@ -18,7 +18,7 @@ export type LookupsAction =
 
 export const fetchAllDirectoryLookups = (): ApiAction => ({
     type: "API",
-    endpoint: allLookupsApi,
+    endpoint: allDirectoryLookupsApi,
     onSuccess: (payload: Lookups, dispatch: Dispatch) => {
         dispatch(receiveCompanies(payload.companies));
     },

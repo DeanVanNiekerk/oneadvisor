@@ -11,7 +11,6 @@ export const useCasesApi = `${directoryBaseApi}/usecases`;
 export const branchesApi = `${directoryBaseApi}/branches`;
 export const auditApi = `${directoryBaseApi}/audit`;
 
-export const lookupsApi = `${directoryBaseApi}/lookups`;
-export const allLookupsApi = `${lookupsApi}/all`;
-export const companiesApi = `${lookupsApi}/companies`;
-export const commissionTypesApi = `${lookupsApi}/commissionTypes`;
+export const directoryLookupsApi = `${directoryBaseApi}/lookups`;
+export const allDirectoryLookupsApi = `${directoryLookupsApi}/all`;
+export const companiesApi = `${directoryLookupsApi}/companies`;

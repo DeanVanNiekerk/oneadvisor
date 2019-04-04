@@ -1,18 +1,18 @@
 import { PagedItems } from '@/app/table';
 import { ApiAction } from '@/app/types';
-import { commissionTypesApi } from '@/config/api/directory';
+import { commissionTypesApi } from '@/config/api/commission';
 
 import { CommissionType } from '../types';
 
 type CommissionTypeListReceiveAction = {
-    type: 'COMMISSIONTYPES_LIST_RECEIVE';
+    type: "COMMISSIONTYPES_LIST_RECEIVE";
     payload: CommissionType[];
 };
 type CommissionTypeListFetchingAction = {
-    type: 'COMMISSIONTYPES_LIST_FETCHING';
+    type: "COMMISSIONTYPES_LIST_FETCHING";
 };
 type CommissionTypeListFetchingErrorAction = {
-    type: 'COMMISSIONTYPES_LIST_FETCHING_ERROR';
+    type: "COMMISSIONTYPES_LIST_FETCHING_ERROR";
 };
 
 export type CommissionTypeListAction =
@@ -23,14 +23,14 @@ export type CommissionTypeListAction =
 export const receiveCommissionTypes = (
     payload: CommissionType[]
 ): CommissionTypeListAction => ({
-    type: 'COMMISSIONTYPES_LIST_RECEIVE',
-    payload
+    type: "COMMISSIONTYPES_LIST_RECEIVE",
+    payload,
 });
 
 export const fetchCommissionTypes = (): ApiAction => {
     return {
-        type: 'API',
+        type: "API",
         endpoint: commissionTypesApi,
-        dispatchPrefix: 'COMMISSIONTYPES_LIST'
+        dispatchPrefix: "COMMISSIONTYPES_LIST",
     };
 };

@@ -8,3 +8,8 @@ export const clientsExportApi = `${clientBaseApi}/export`;
 export const policiesApi = `${clientBaseApi}/policies`;
 export const contactsApi = `${clientBaseApi}/contacts`;
 export const mergeApi = `${clientBaseApi}/merge`;
+
+export const clientLookupsApi = `${clientBaseApi}/lookups`;
+export const allClientLookupsApi = `${clientLookupsApi}/all`;
+export const policyProductTypesApi = `${clientLookupsApi}/policyProductTypes`;
+export const policyProductsApi = `${clientLookupsApi}/policyProducts`;
