@@ -42,6 +42,8 @@ namespace OneAdvisor.Service.Client
                             Premium = policy.Premium,
                             StartDate = policy.StartDate,
                             PolicyTypeId = policy.PolicyTypeId,
+                            PolicyProductTypeId = policy.PolicyProductTypeId,
+                            PolicyProductId = policy.PolicyProductId,
                             ClientLastName = client.LastName,
                             ClientInitials = client.Initials,
                             ClientDateOfBirth = client.DateOfBirth,
@@ -183,7 +185,9 @@ namespace OneAdvisor.Service.Client
                             UserId = policy.UserId,
                             Premium = policy.Premium,
                             StartDate = policy.StartDate,
-                            PolicyTypeId = policy.PolicyTypeId
+                            PolicyTypeId = policy.PolicyTypeId,
+                            PolicyProductTypeId = policy.PolicyProductTypeId,
+                            PolicyProductId = policy.PolicyProductId
                         };
 
             return query;
@@ -213,6 +217,8 @@ namespace OneAdvisor.Service.Client
             entity.StartDate = model.StartDate;
             entity.Premium = model.Premium;
             entity.PolicyTypeId = model.PolicyTypeId;
+            entity.PolicyProductTypeId = model.PolicyProductTypeId;
+            entity.PolicyProductId = model.PolicyProductId;
 
             return entity;
         }

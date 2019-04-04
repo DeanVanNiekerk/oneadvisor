@@ -67,7 +67,7 @@ class CommissionTypeForm extends Component<Props, State> {
                     value={commissionType.code}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    disabled={true}
+                    disabled={!!commissionType.id}
                 />
                 <FormSelect
                     fieldName="policyTypeId"

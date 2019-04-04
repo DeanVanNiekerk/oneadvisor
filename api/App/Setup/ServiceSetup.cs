@@ -117,6 +117,7 @@ namespace api.App.Setup
 
             //COMMISSION
             Services.AddScoped<ICommissionService, CommissionService>();
+            Services.AddScoped<ICommissionLookupService, CommissionLookupService>();
             Services.AddScoped<ICommissionImportService, CommissionImportService>();
             Services.AddScoped<ICommissionStatementService, CommissionStatementService>();
             Services.AddScoped<ICommissionErrorService, CommissionErrorService>();

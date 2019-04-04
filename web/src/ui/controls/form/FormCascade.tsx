@@ -11,22 +11,18 @@ import { FormField } from './FormField';
 type Props = {
     fieldName: string;
     label: string;
-    value: any;
+    value: string[];
     options: CascaderOptionType[];
     layout?: FormLayout;
     readonly?: boolean;
     validationResults?: ValidationResult[];
     validationFieldName?: string;
     showSearch?: boolean;
-    onChange?: (fieldName: string, value: any) => void;
+    onChange?: (values: string[]) => void;
+    changeOnSelect?: boolean;
 };
 
 class FormCascade extends Component<Props> {
-    onChange = (value: string[]) => {
-        if (this.props.onChange)
-            this.props.onChange(this.props.fieldName, value[value.length - 1]);
-    };
-
     getTest = (): string => {
         return "TODO";
     };
@@ -81,17 +77,19 @@ class FormCascade extends Component<Props> {
                 label={label}
                 fieldName={fieldName}
                 validationResults={validationResults}
-                value={value}
+                //value={value}
                 layout={layout}
                 validationFieldName={this.props.validationFieldName}
             >
                 <Cascader
                     options={this.props.options}
-                    onChange={this.onChange}
+                    onChange={this.props.onChange}
                     placeholder=""
                     showSearch={
                         this.props.showSearch ? { filter: this.filter } : false
                     }
+                    changeOnSelect={this.props.changeOnSelect}
+                    value={this.props.value}
                 />
             </FormField>
         );

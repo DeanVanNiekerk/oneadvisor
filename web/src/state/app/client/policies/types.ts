@@ -8,6 +8,8 @@ export type Policy = {
     startDate: string;
     premium: number | null;
     policyTypeId: string | null;
+    policyProductTypeId: string | null;
+    policyProductId: string | null;
     clientLastName: string;
     clientInitials: string;
     clientDateOfBirth: string | null;
@@ -22,4 +24,6 @@ export type PolicyEdit = {
     startDate: string;
     premium: number | null;
     policyTypeId: string | null;
+    policyProductTypeId: string | null;
+    policyProductId: string | null;
 };

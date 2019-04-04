@@ -3,147 +3,149 @@ import { Filters, SortOptions } from '@/app/table';
 import { Policy } from '../';
 import { defaultState, reducer } from './reducer';
 
-describe('policy list reducer', () => {
-    it('should handle POLICIES_LIST_FETCHING', () => {
+describe("policy list reducer", () => {
+    it("should handle POLICIES_LIST_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'POLICIES_LIST_FETCHING'
+            type: "POLICIES_LIST_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle POLICIES_LIST_FETCHING_ERROR', () => {
+    it("should handle POLICIES_LIST_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'POLICIES_LIST_FETCHING_ERROR'
+            type: "POLICIES_LIST_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
 
-            fetching: false
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle POLICIES_LIST_RECEIVE', () => {
+    it("should handle POLICIES_LIST_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const policy: Policy = {
-            id: '10',
-            clientId: '12',
-            companyId: '100',
-            userId: '1',
-            number: '987654',
-            userFullName: 'Dean van Niekerk',
+            id: "10",
+            clientId: "12",
+            companyId: "100",
+            userId: "1",
+            number: "987654",
+            userFullName: "Dean van Niekerk",
             premium: 500,
-            startDate: '1999-01-01',
-            policyTypeId: '123321',
+            startDate: "1999-01-01",
+            policyTypeId: "123321",
+            policyProductTypeId: "00111",
+            policyProductId: "99988777",
             clientLastName: "Jones",
             clientInitials: "DJ",
-            clientDateOfBirth: "1982-10-03"
+            clientDateOfBirth: "1982-10-03",
         };
 
         const actualState = reducer(initalState, {
-            type: 'POLICIES_LIST_RECEIVE',
+            type: "POLICIES_LIST_RECEIVE",
             payload: {
                 totalItems: 1,
-                items: [policy]
-            }
+                items: [policy],
+            },
         });
 
         const expectedState = {
             ...defaultState,
             items: [policy],
             totalItems: 1,
-            fetching: false
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle POLICIES_LIST_PAGE_OPTIONS_RECEIVE', () => {
+    it("should handle POLICIES_LIST_PAGE_OPTIONS_RECEIVE", () => {
         const initalState = {
-            ...defaultState
+            ...defaultState,
         };
 
         const options = {
             number: 9,
-            size: 20
+            size: 20,
         };
 
         const actualState = reducer(initalState, {
-            type: 'POLICIES_LIST_PAGE_OPTIONS_RECEIVE',
-            payload: options
+            type: "POLICIES_LIST_PAGE_OPTIONS_RECEIVE",
+            payload: options,
         });
 
         const expectedState = {
             ...defaultState,
             pageOptions: {
-                ...options
-            }
+                ...options,
+            },
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle POLICIES_LIST_SORT_OPTIONS_RECEIVE', () => {
+    it("should handle POLICIES_LIST_SORT_OPTIONS_RECEIVE", () => {
         const initalState = {
-            ...defaultState
+            ...defaultState,
         };
 
         const options: SortOptions = {
-            direction: 'asc',
-            column: 'colName'
+            direction: "asc",
+            column: "colName",
         };
 
         const actualState = reducer(initalState, {
-            type: 'POLICIES_LIST_SORT_OPTIONS_RECEIVE',
-            payload: options
+            type: "POLICIES_LIST_SORT_OPTIONS_RECEIVE",
+            payload: options,
         });
 
         const expectedState = {
             ...defaultState,
             sortOptions: {
-                ...options
-            }
+                ...options,
+            },
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle POLICIES_LIST_FILTERS_RECEIVE', () => {
+    it("should handle POLICIES_LIST_FILTERS_RECEIVE", () => {
         const initalState = {
-            ...defaultState
+            ...defaultState,
         };
 
         const filters: Filters = {
-            firstName: ['sup']
+            firstName: ["sup"],
         };
 
         const actualState = reducer(initalState, {
-            type: 'POLICIES_LIST_FILTERS_RECEIVE',
-            payload: filters
+            type: "POLICIES_LIST_FILTERS_RECEIVE",
+            payload: filters,
         });
 
         const expectedState = {
             ...defaultState,
             filters: {
-                ...filters
-            }
+                ...filters,
+            },
         };
 
         expect(actualState).toEqual(expectedState);

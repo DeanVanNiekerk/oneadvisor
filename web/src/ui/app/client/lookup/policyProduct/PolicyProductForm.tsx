@@ -68,7 +68,7 @@ class PolicyProductForm extends Component<Props, State> {
                     value={policyProduct.code}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    disabled={true}
+                    disabled={!!policyProduct.id}
                 />
                 <FormSelect
                     fieldName="policyProductTypeId"
