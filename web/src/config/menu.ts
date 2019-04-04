@@ -42,13 +42,7 @@ export const menus: Menus = {
                         name: "Companies",
                         icon: "copyright",
                         relativePath: "/lookups/companies",
-                        useCases: ["dir_view_lookups"],
-                    },
-                    {
-                        name: "Commission Types",
-                        icon: "dollar",
-                        relativePath: "/lookups/commTypes",
-                        useCases: ["dir_view_lookups"],
+                        useCases: ["dir_edit_lookups"],
                     },
                 ],
             },
@@ -104,6 +98,23 @@ export const menus: Menus = {
                     },
                 ],
             },
+            {
+                name: "Lookups",
+                links: [
+                    {
+                        name: "Product Types",
+                        icon: "copyright",
+                        relativePath: "/lookups/policyProductTypes",
+                        useCases: ["dir_edit_lookups"],
+                    },
+                    {
+                        name: "Products",
+                        icon: "dollar",
+                        relativePath: "/lookups/policyProducts",
+                        useCases: ["dir_edit_lookups"],
+                    },
+                ],
+            },
         ],
     },
 
@@ -136,6 +147,17 @@ export const menus: Menus = {
                         icon: "line-chart",
                         relativePath: "/reports/revenueClient",
                         useCases: ["com_view_report_client_revenue"],
+                    },
+                ],
+            },
+            {
+                name: "Lookups",
+                links: [
+                    {
+                        name: "Commission Types",
+                        icon: "dollar",
+                        relativePath: "/lookups/commTypes",
+                        useCases: ["dir_edit_lookups"],
                     },
                 ],
             },

@@ -9,13 +9,15 @@ import ClientList from '@/ui/app/client/client/ClientList';
 import ClientPreview from '@/ui/app/client/client/ClientPreview';
 import ClientExport from '@/ui/app/client/export/ClientExport';
 import ClientImport from '@/ui/app/client/import/ClientImport';
+import PolicyProductList from '@/ui/app/client/lookup/policyProduct/PolicyProductList';
+import PolicyProductTypeList from '@/ui/app/client/lookup/policyProductType/PolicyProductTypeList';
 import PolicyList from '@/ui/app/client/policy/PolicyList';
+import CommissionTypeList from '@/ui/app/commission/lookup/commissionType/CommissionTypeList';
 import ClientRevenueReport from '@/ui/app/commission/reports/clientRevenue/ClientRevenueReport';
 import StatementList from '@/ui/app/commission/statement/StatementList';
 import StatementPreview from '@/ui/app/commission/statement/StatementPreview';
 import CommissionStatementTemplateList from '@/ui/app/commission/template/TemplateList';
 import AuditLogList from '@/ui/app/directory/audit/logs/AuditLogList';
-import CommissionTypeList from '@/ui/app/directory/lookup/commissionType/CommissionTypeList';
 import CompanyList from '@/ui/app/directory/lookup/company/CompanyList';
 import OrganisationList from '@/ui/app/directory/organisation/OrganisationList';
 import RoleList from '@/ui/app/directory/role/RoleList';
@@ -47,6 +49,16 @@ const Routes = () => (
             path="/client/clients/:clientId"
             component={ClientPreview}
         />
+        <SecureRoute
+            exact
+            path="/client/lookups/policyProductTypes"
+            component={PolicyProductTypeList}
+        />
+        <SecureRoute
+            exact
+            path="/client/lookups/policyProducts"
+            component={PolicyProductList}
+        />
         {/* ------------------------------------------------------------------------------------- */}
         {/* COMMISSION -------------------------------------------------------------------------- */}
         <SecureRoute exact path="/commission" component={StatementList} />
@@ -70,6 +82,11 @@ const Routes = () => (
             path="/commission/reports/revenueClient"
             component={ClientRevenueReport}
         />
+        <SecureRoute
+            exact
+            path="/commission/lookups/commTypes"
+            component={CommissionTypeList}
+        />
         {/* ------------------------------------------------------------------------------------- */}
         {/* DIRECTORY --------------------------------------------------------------------------- */}
         <SecureRoute exact path="/directory" component={UserList} />
@@ -84,11 +101,6 @@ const Routes = () => (
             exact
             path="/directory/lookups/companies"
             component={CompanyList}
-        />
-        <SecureRoute
-            exact
-            path="/directory/lookups/commTypes"
-            component={CommissionTypeList}
         />
         <SecureRoute
             exact
