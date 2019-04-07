@@ -51,8 +51,23 @@ namespace OneAdvisor.Service.Directory
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
-            //if (!string.IsNullOrWhiteSpace(queryOptions.FirstName))
-            ///    query = query.Where(m => EF.Functions.Like(m.FirstName, queryOptions.FirstName));
+            if (!string.IsNullOrWhiteSpace(queryOptions.FirstName))
+                query = query.Where(m => EF.Functions.Like(m.FirstName, queryOptions.FirstName));
+
+            if (!string.IsNullOrWhiteSpace(queryOptions.LastName))
+                query = query.Where(m => EF.Functions.Like(m.LastName, queryOptions.LastName));
+
+            if (!string.IsNullOrWhiteSpace(queryOptions.Email))
+                query = query.Where(m => EF.Functions.Like(m.Email, queryOptions.Email));
+
+            if (queryOptions.EmailConfirmed.HasValue)
+                query = query.Where(m => m.EmailConfirmed == queryOptions.EmailConfirmed);
+
+            if (queryOptions.OrganisationId.Any())
+                query = query.Where(m => queryOptions.OrganisationId.Contains(m.OrganisationId));
+
+            if (queryOptions.BranchId.Any())
+                query = query.Where(m => queryOptions.BranchId.Contains(m.BranchId));
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedItems<User>();
