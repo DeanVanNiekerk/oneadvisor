@@ -10,7 +10,7 @@ using OneAdvisor.Data;
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190403185923_initial")]
+    [Migration("20190415152623_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -342,21 +342,21 @@ namespace OneAdvisor.Data.Migrations
                         {
                             Id = new Guid("0269860e-a5ab-7912-e65a-539c124d5593"),
                             Code = "med_add_medical_savings",
-                            Name = "Additional Medical Savings",
+                            Name = "Extra Medical Savings",
                             PolicyTypeId = new Guid("023107f5-97a6-456d-9182-7bbda72ca82a")
                         },
                         new
                         {
                             Id = new Guid("178c71d8-f378-fc92-6347-149108b4f24f"),
-                            Code = "life_insurance_benefits",
-                            Name = "Life Insurance Benefits",
+                            Code = "life_life_insurance",
+                            Name = "Life Insurance",
                             PolicyTypeId = new Guid("f3d877b4-1800-4711-8cc9-35169f8bd60b")
                         },
                         new
                         {
                             Id = new Guid("0c55f316-f446-a8f8-488c-ac1eb587a9c9"),
-                            Code = "inv_insurance_benefits",
-                            Name = "Life Insurance Benefits",
+                            Code = "inv_unit_trust",
+                            Name = "Unit Trust",
                             PolicyTypeId = new Guid("a98bb718-4acb-4fad-afe9-5fbba00203b9")
                         },
                         new
@@ -370,42 +370,70 @@ namespace OneAdvisor.Data.Migrations
                         {
                             Id = new Guid("62007d95-7d61-4182-b998-9ffb4c5fda0b"),
                             Code = "inv_tax_free",
-                            Name = "Tax Free",
+                            Name = "Tax Free Savings",
+                            PolicyTypeId = new Guid("a98bb718-4acb-4fad-afe9-5fbba00203b9")
+                        },
+                        new
+                        {
+                            Id = new Guid("4df79496-16cd-9375-eb86-3cbcd8eb47fc"),
+                            Code = "inv_preservation_pension",
+                            Name = "Preservation Pension",
+                            PolicyTypeId = new Guid("a98bb718-4acb-4fad-afe9-5fbba00203b9")
+                        },
+                        new
+                        {
+                            Id = new Guid("5541cf6c-50ef-5fcd-f584-6673a125c817"),
+                            Code = "inv_preservation_provident",
+                            Name = "Preservation Provident",
+                            PolicyTypeId = new Guid("a98bb718-4acb-4fad-afe9-5fbba00203b9")
+                        },
+                        new
+                        {
+                            Id = new Guid("273e862c-abd5-ac36-3bb7-31ea2e18cb9d"),
+                            Code = "inv_retirement_annuity",
+                            Name = "Retirement Annuity",
                             PolicyTypeId = new Guid("a98bb718-4acb-4fad-afe9-5fbba00203b9")
                         },
                         new
                         {
                             Id = new Guid("062d7233-f743-9e5a-8c07-d5580bfa11a4"),
-                            Code = "short_personal_cover",
-                            Name = "Personal Cover",
+                            Code = "short_personal_lines",
+                            Name = "Personal Lines",
                             PolicyTypeId = new Guid("a90a5869-4da5-4cce-8973-9a8194c2bdcb")
                         },
                         new
                         {
                             Id = new Guid("67c1d0a3-b5b4-3c23-4256-4e79266f5378"),
-                            Code = "short_commercial_cover",
-                            Name = "Commercial Cover",
+                            Code = "short_commercial_lines",
+                            Name = "Commercial Lines",
                             PolicyTypeId = new Guid("a90a5869-4da5-4cce-8973-9a8194c2bdcb")
                         },
                         new
                         {
                             Id = new Guid("da086441-91a9-6e5e-5ad6-3167b2076329"),
-                            Code = "rewards_rewards",
-                            Name = "Rewards",
+                            Code = "rewards_rewards_program",
+                            Name = "Rewards Program",
                             PolicyTypeId = new Guid("3d991459-2043-46b9-9357-5446a993b81d")
                         },
                         new
                         {
                             Id = new Guid("a202bce5-8e20-a795-1a38-c93b0cfd41ac"),
-                            Code = "rewards_rewards",
-                            Name = "Group Life (Approved)",
+                            Code = "group_scheme_pension",
+                            Name = "Pension Fund",
                             PolicyTypeId = new Guid("8fe8751f-c4f0-01c5-26bd-a92f918651d2")
                         },
                         new
                         {
                             Id = new Guid("988d7de4-1760-f6e8-b9c2-c68e4d95e7e2"),
-                            Code = "rewards_rewards",
-                            Name = "Group Life (Unapproved)",
+                            Code = "group_scheme_provident",
+                            Name = "Provident Fund",
+                            PolicyTypeId = new Guid("8fe8751f-c4f0-01c5-26bd-a92f918651d2")
+                        },
+                        new
+                        {
+                            Id = new Guid("bdb36139-07a5-13aa-7431-128329c3bb28"),
+                            Code = "group_scheme_risk",
+                            Name = "Group Risk",
                             PolicyTypeId = new Guid("8fe8751f-c4f0-01c5-26bd-a92f918651d2")
                         });
                 });

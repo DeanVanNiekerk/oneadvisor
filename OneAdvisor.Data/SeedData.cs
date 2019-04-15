@@ -90,22 +90,32 @@ namespace OneAdvisor.Data
             return list;
         }
 
+        //Medical Cover
         public static readonly Guid policyProductTypeMedicalAid = Guid.Parse("95b24f26-5d16-0289-ea4d-754603c3e950");
         public static readonly Guid policyProductTypeGapCover = Guid.Parse("f6db6be4-2672-7063-6920-ae95a0130b73");
         public static readonly Guid policyProductTypeAddMedSavings = Guid.Parse("0269860e-a5ab-7912-e65a-539c124d5593");
 
+        //Life Insurance
         public static readonly Guid policyProductTypeLifeInsBen = Guid.Parse("178c71d8-f378-fc92-6347-149108b4f24f");
 
+        //Investment
         public static readonly Guid policyProductTypeUnitTrust = Guid.Parse("0c55f316-f446-a8f8-488c-ac1eb587a9c9");
         public static readonly Guid policyProductTypeEndowment = Guid.Parse("3b7ccd1e-44b5-d81e-b6b4-18c56c1c077f");
         public static readonly Guid policyProductTypeTaxFree = Guid.Parse("62007d95-7d61-4182-b998-9ffb4c5fda0b");
+        public static readonly Guid policyProductTypePreservationPension = Guid.Parse("4df79496-16cd-9375-eb86-3cbcd8eb47fc");
+        public static readonly Guid policyProductTypePreservationProvident = Guid.Parse("5541cf6c-50ef-5fcd-f584-6673a125c817");
+        public static readonly Guid policyProductTypeRA = Guid.Parse("273e862c-abd5-ac36-3bb7-31ea2e18cb9d");
 
+        //Short Term Insurance
         public static readonly Guid policyProductTypePersonalCover = Guid.Parse("062d7233-f743-9e5a-8c07-d5580bfa11a4");
         public static readonly Guid policyProductTypeCommercialCover = Guid.Parse("67c1d0a3-b5b4-3c23-4256-4e79266f5378");
 
-        public static readonly Guid policyProductTypeGroupLifeApp = Guid.Parse("a202bce5-8e20-a795-1a38-c93b0cfd41ac");
-        public static readonly Guid policyProductTypeGroupLifeUnApp = Guid.Parse("988d7de4-1760-f6e8-b9c2-c68e4d95e7e2");
+        //Group Scheme
+        public static readonly Guid policyProductTypePension = Guid.Parse("a202bce5-8e20-a795-1a38-c93b0cfd41ac");
+        public static readonly Guid policyProductTypeProvident = Guid.Parse("988d7de4-1760-f6e8-b9c2-c68e4d95e7e2");
+        public static readonly Guid policyProductTypeRisk = Guid.Parse("bdb36139-07a5-13aa-7431-128329c3bb28");
 
+        //Rewards
         public static readonly Guid policyProductTypeRewards = Guid.Parse("da086441-91a9-6e5e-5ad6-3167b2076329");
 
 
@@ -115,21 +125,25 @@ namespace OneAdvisor.Data
 
             list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeMedicalAid, Name = "Medical Aid", Code = "med_medical_aid", PolicyTypeId = policyTypeMed });
             list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeGapCover, Name = "Gap Cover", Code = "med_gap_cover", PolicyTypeId = policyTypeMed });
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeAddMedSavings, Name = "Additional Medical Savings", Code = "med_add_medical_savings", PolicyTypeId = policyTypeMed });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeAddMedSavings, Name = "Extra Medical Savings", Code = "med_add_medical_savings", PolicyTypeId = policyTypeMed });
 
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeLifeInsBen, Name = "Life Insurance Benefits", Code = "life_insurance_benefits", PolicyTypeId = policyTypeLife });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeLifeInsBen, Name = "Life Insurance", Code = "life_life_insurance", PolicyTypeId = policyTypeLife });
 
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeUnitTrust, Name = "Life Insurance Benefits", Code = "inv_insurance_benefits", PolicyTypeId = policyTypeInv });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeUnitTrust, Name = "Unit Trust", Code = "inv_unit_trust", PolicyTypeId = policyTypeInv });
             list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeEndowment, Name = "Endowment", Code = "inv_endowment", PolicyTypeId = policyTypeInv });
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeTaxFree, Name = "Tax Free", Code = "inv_tax_free", PolicyTypeId = policyTypeInv });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeTaxFree, Name = "Tax Free Savings", Code = "inv_tax_free", PolicyTypeId = policyTypeInv });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypePreservationPension, Name = "Preservation Pension", Code = "inv_preservation_pension", PolicyTypeId = policyTypeInv });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypePreservationProvident, Name = "Preservation Provident", Code = "inv_preservation_provident", PolicyTypeId = policyTypeInv });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeRA, Name = "Retirement Annuity", Code = "inv_retirement_annuity", PolicyTypeId = policyTypeInv });
 
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypePersonalCover, Name = "Personal Cover", Code = "short_personal_cover", PolicyTypeId = policyTypeShort });
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeCommercialCover, Name = "Commercial Cover", Code = "short_commercial_cover", PolicyTypeId = policyTypeShort });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypePersonalCover, Name = "Personal Lines", Code = "short_personal_lines", PolicyTypeId = policyTypeShort });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeCommercialCover, Name = "Commercial Lines", Code = "short_commercial_lines", PolicyTypeId = policyTypeShort });
 
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeRewards, Name = "Rewards", Code = "rewards_rewards", PolicyTypeId = policyTypeRewards });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeRewards, Name = "Rewards Program", Code = "rewards_rewards_program", PolicyTypeId = policyTypeRewards });
 
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeGroupLifeApp, Name = "Group Life (Approved)", Code = "rewards_rewards", PolicyTypeId = policyTypeGroupScheme });
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeGroupLifeUnApp, Name = "Group Life (Unapproved)", Code = "rewards_rewards", PolicyTypeId = policyTypeGroupScheme });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypePension, Name = "Pension Fund", Code = "group_scheme_pension", PolicyTypeId = policyTypeGroupScheme });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeProvident, Name = "Provident Fund", Code = "group_scheme_provident", PolicyTypeId = policyTypeGroupScheme });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeRisk, Name = "Group Risk", Code = "group_scheme_risk", PolicyTypeId = policyTypeGroupScheme });
 
             return list;
         }
