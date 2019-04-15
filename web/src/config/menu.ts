@@ -40,7 +40,7 @@ export const menus: Menus = {
                 links: [
                     {
                         name: "Companies",
-                        icon: "copyright",
+                        icon: "database",
                         relativePath: "/lookups/companies",
                         useCases: ["dir_edit_lookups"],
                     },
@@ -103,13 +103,13 @@ export const menus: Menus = {
                 links: [
                     {
                         name: "Product Types",
-                        icon: "copyright",
+                        icon: "database",
                         relativePath: "/lookups/policyProductTypes",
                         useCases: ["dir_edit_lookups"],
                     },
                     {
                         name: "Products",
-                        icon: "dollar",
+                        icon: "database",
                         relativePath: "/lookups/policyProducts",
                         useCases: ["dir_edit_lookups"],
                     },
@@ -155,7 +155,7 @@ export const menus: Menus = {
                 links: [
                     {
                         name: "Commission Types",
-                        icon: "dollar",
+                        icon: "database",
                         relativePath: "/lookups/commTypes",
                         useCases: ["dir_edit_lookups"],
                     },

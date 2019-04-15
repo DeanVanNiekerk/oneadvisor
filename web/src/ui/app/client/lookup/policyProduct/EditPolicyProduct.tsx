@@ -97,7 +97,7 @@ class EditPolicyProduct extends Component<Props, State> {
         return (
             <Drawer
                 title={this.getTitle()}
-                icon="dollar"
+                icon="database"
                 visible={visible}
                 onClose={this.confirmCancel}
             >

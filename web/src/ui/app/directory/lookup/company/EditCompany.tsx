@@ -94,7 +94,7 @@ class EditCompany extends Component<Props, State> {
         return (
             <Drawer
                 title={this.getTitle()}
-                icon="copyright"
+                icon="database"
                 visible={visible}
                 onClose={this.confirmCancel}
                 noTopPadding={true}

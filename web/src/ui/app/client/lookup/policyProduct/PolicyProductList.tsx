@@ -103,7 +103,7 @@ class PolicyProductList extends Component<Props, State> {
         return (
             <>
                 <Header
-                    icon="dollar"
+                    icon="database"
                     actions={
                         <Button
                             type="default"
