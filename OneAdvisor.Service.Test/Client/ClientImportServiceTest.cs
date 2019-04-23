@@ -233,7 +233,7 @@ namespace OneAdvisor.Service.Test.Client
             var mem = new ClientEntity
             {
                 Id = Guid.NewGuid(),
-                ClientTypeId = Guid.NewGuid(),
+                ClientTypeId = ClientType.CLIENT_TYPE_INDIVIDUAL,
                 FirstName = "FN 1",
                 LastName = "LN 1",
                 TaxNumber = "987654",
@@ -292,6 +292,7 @@ namespace OneAdvisor.Service.Test.Client
             var mem = new ClientEntity
             {
                 Id = Guid.NewGuid(),
+                ClientTypeId = ClientType.CLIENT_TYPE_INDIVIDUAL,
                 LastName = "LN 1",
                 IdNumber = "8201015800184",
                 OrganisationId = user1.Organisation.Id
@@ -340,6 +341,7 @@ namespace OneAdvisor.Service.Test.Client
             var mem = new ClientEntity
             {
                 Id = Guid.NewGuid(),
+                ClientTypeId = ClientType.CLIENT_TYPE_INDIVIDUAL,
                 IdNumber = "8210035032082",
                 OrganisationId = user1.Organisation.Id
             };
@@ -460,12 +462,14 @@ namespace OneAdvisor.Service.Test.Client
             var mem1 = new ClientEntity
             {
                 Id = Guid.NewGuid(),
+                ClientTypeId = ClientType.CLIENT_TYPE_INDIVIDUAL,
                 OrganisationId = user1.Organisation.Id
             };
 
             var mem2 = new ClientEntity
             {
                 Id = Guid.NewGuid(),
+                ClientTypeId = ClientType.CLIENT_TYPE_INDIVIDUAL,
                 FirstName = "FN 1",
                 LastName = "van Jones",
                 IdNumber = "8210035032082",

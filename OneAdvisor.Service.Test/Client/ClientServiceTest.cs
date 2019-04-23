@@ -359,7 +359,7 @@ namespace OneAdvisor.Service.Test.Client
             //Given
             var client = new ClientEdit()
             {
-                ClientTypeId = Guid.NewGuid(),
+                ClientTypeId = ClientType.CLIENT_TYPE_INDIVIDUAL,
                 FirstName = "FN 1",
                 LastName = "LN 1",
                 MaidenName = "MN 1",
@@ -413,7 +413,7 @@ namespace OneAdvisor.Service.Test.Client
             var mem2 = new ClientEntity
             {
                 Id = Guid.NewGuid(),
-                ClientTypeId = Guid.NewGuid(),
+                ClientTypeId = ClientType.CLIENT_TYPE_INDIVIDUAL,
                 FirstName = "FN 1",
                 LastName = "LN 1",
                 MaidenName = "MN 1",
@@ -438,7 +438,7 @@ namespace OneAdvisor.Service.Test.Client
             var client = new ClientEdit()
             {
                 Id = mem2.Id,
-                ClientTypeId = Guid.NewGuid(),
+                ClientTypeId = ClientType.CLIENT_TYPE_INDIVIDUAL,
                 FirstName = "FN 1 updated",
                 LastName = "LN 1 updated",
                 MaidenName = "MN 1 updated",
@@ -587,7 +587,7 @@ namespace OneAdvisor.Service.Test.Client
 
             var target = new ClientEdit
             {
-                ClientTypeId = Guid.NewGuid(),
+                ClientTypeId = ClientType.CLIENT_TYPE_INDIVIDUAL,
                 FirstName = "FN 1",
                 LastName = "LN 1",
                 MaidenName = "MN 1",
@@ -668,8 +668,8 @@ namespace OneAdvisor.Service.Test.Client
 
             var target = new ClientEdit
             {
-                IdNumber = "8210035032082",
-                ClientTypeId = Guid.NewGuid()
+                ClientTypeId = ClientType.CLIENT_TYPE_INDIVIDUAL,
+                IdNumber = "8210035032082"
             };
 
             using (var context = new DataContext(options))
