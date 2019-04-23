@@ -9,6 +9,7 @@ using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Client.Model.Client;
+using OneAdvisor.Model.Client.Model.Lookup;
 using OneAdvisor.Service.Common;
 using OneAdvisor.Service.Common.Query;
 
@@ -46,20 +47,30 @@ namespace OneAdvisor.Service.Client.Validators
 
             When(m => !string.IsNullOrWhiteSpace(m.AlternateIdNumber), () =>
             {
-                RuleFor(m => m.AlternateIdNumber).MaximumLength(128).WithName("Passport Number");
+                RuleFor(m => m.AlternateIdNumber).MaximumLength(128).WithName(client => GetAlternateIdNumberLabel(client));
 
                 RuleSet("Availability", () =>
                 {
                     RuleFor(m => m).Custom(AvailableAlternateIdNumberValidator);
                 });
-
             });
 
-
-            When(m => string.IsNullOrWhiteSpace(m.IdNumber) && string.IsNullOrWhiteSpace(m.AlternateIdNumber), () =>
+            When(m => m.ClientTypeId == ClientType.CLIENT_TYPE_INDIVIDUAL && string.IsNullOrWhiteSpace(m.IdNumber) && string.IsNullOrWhiteSpace(m.AlternateIdNumber), () =>
             {
-                RuleFor(m => m.IdNumber).NotEmpty().WithMessage("ID Number or Passport Number is required");
+                RuleFor(m => m.IdNumber).NotEmpty().WithMessage(client => IdNumberOrAlternateIdNumberRequiredMessage(client));
+                RuleFor(m => m.AlternateIdNumber).NotEmpty().WithMessage(client => IdNumberOrAlternateIdNumberRequiredMessage(client));
             });
+
+            When(m => m.ClientTypeId != ClientType.CLIENT_TYPE_INDIVIDUAL, () =>
+            {
+                RuleFor(m => m.AlternateIdNumber).NotEmpty().WithName(client => GetAlternateIdNumberLabel(client));
+            });
+        }
+
+        private string IdNumberOrAlternateIdNumberRequiredMessage(ClientEdit client)
+        {
+            var label = GetAlternateIdNumberLabel(client);
+            return $"ID Number or {label} is required";
         }
 
         private bool BeValidIdNumber(string idNumber)
@@ -94,7 +105,8 @@ namespace OneAdvisor.Service.Client.Validators
         {
             if (!IsAvailableAlternateIdNumber(client))
             {
-                var failure = new ValidationFailure("Alternate Id Number", "Alternate Id Number is already in use", client.AlternateIdNumber);
+                var label = GetAlternateIdNumberLabel(client);
+                var failure = new ValidationFailure("AlternateIdNumber", $"{label} is already in use", client.AlternateIdNumber);
                 context.AddFailure(failure);
             }
         }
@@ -110,6 +122,14 @@ namespace OneAdvisor.Service.Client.Validators
                 return entity == null;
 
             return client.Id == entity.Id;
+        }
+
+        private string GetAlternateIdNumberLabel(ClientEdit client)
+        {
+            if (client.ClientTypeId == ClientType.CLIENT_TYPE_INDIVIDUAL)
+                return "Passport Number";
+
+            return "Registration Number";
         }
 
         private IQueryable<ClientEntity> GetClientEntityQuery()
