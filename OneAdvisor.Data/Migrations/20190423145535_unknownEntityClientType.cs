@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OneAdvisor.Data.Migrations
 {
-    public partial class businessEntityClientType : Migration
+    public partial class unknownEntityClientType : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.InsertData(
                 table: "clt_ClientType",
                 columns: new[] { "Id", "Code", "DisplayOrder", "Name" },
-                values: new object[] { new Guid("bc0b4043-25cc-dbb6-cfd5-981557a10ca1"), "business", 4, "Business Entity" });
+                values: new object[] { new Guid("bc0b4043-25cc-dbb6-cfd5-981557a10ca1"), "unknown", 4, "Unknown Entity" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

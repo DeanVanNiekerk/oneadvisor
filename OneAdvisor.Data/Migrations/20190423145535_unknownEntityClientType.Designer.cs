@@ -10,8 +10,8 @@ using OneAdvisor.Data;
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190423080845_businessEntityClientType")]
-    partial class businessEntityClientType
+    [Migration("20190423145535_unknownEntityClientType")]
+    partial class unknownEntityClientType
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -211,9 +211,9 @@ namespace OneAdvisor.Data.Migrations
                         new
                         {
                             Id = new Guid("bc0b4043-25cc-dbb6-cfd5-981557a10ca1"),
-                            Code = "business",
+                            Code = "unknown",
                             DisplayOrder = 4,
-                            Name = "Business Entity"
+                            Name = "Unknown Entity"
                         });
                 });
 

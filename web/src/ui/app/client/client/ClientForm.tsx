@@ -212,6 +212,7 @@ class ClientForm extends Component<Props, State> {
                     value={client.alternateIdNumber}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    hidden={client.clientTypeId === ClientTypeId.UnknownEntity}
                 />
                 <FormDate
                     fieldName="dateOfBirth"
@@ -219,6 +220,7 @@ class ClientForm extends Component<Props, State> {
                     value={client.dateOfBirth}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    hidden={client.clientTypeId === ClientTypeId.UnknownEntity}
                 />
                 <FormInput
                     fieldName="taxNumber"
@@ -226,6 +228,7 @@ class ClientForm extends Component<Props, State> {
                     value={client.taxNumber}
                     onChange={this.handleChange}
                     validationResults={validationResults}
+                    hidden={client.clientTypeId === ClientTypeId.UnknownEntity}
                 />
                 <FormSelect
                     fieldName="marritalStatusId"

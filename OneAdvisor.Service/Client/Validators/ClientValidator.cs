@@ -61,7 +61,7 @@ namespace OneAdvisor.Service.Client.Validators
                 RuleFor(m => m.AlternateIdNumber).NotEmpty().WithMessage(client => IdNumberOrAlternateIdNumberRequiredMessage(client));
             });
 
-            When(m => m.ClientTypeId != ClientType.CLIENT_TYPE_INDIVIDUAL, () =>
+            When(m => m.ClientTypeId != ClientType.CLIENT_TYPE_INDIVIDUAL && m.ClientTypeId != ClientType.CLIENT_TYPE_UNKNOWN_ENTITY, () =>
             {
                 RuleFor(m => m.AlternateIdNumber).NotEmpty().WithName(client => GetAlternateIdNumberLabel(client));
             });

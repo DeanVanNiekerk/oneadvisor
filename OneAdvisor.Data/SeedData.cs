@@ -42,14 +42,14 @@ namespace OneAdvisor.Data
             var individual = Guid.Parse("27bb22b3-4c3d-41a3-48bf-690a98f8f780");
             var company = Guid.Parse("295565bf-7485-85f1-6c98-947ab0b7770c");
             var trust = Guid.Parse("55f6c0ef-ae2c-faac-adff-ea3bd269043f");
-            var businessEntity = Guid.Parse("bc0b4043-25cc-dbb6-cfd5-981557a10ca1");
+            var unknownEntity = Guid.Parse("bc0b4043-25cc-dbb6-cfd5-981557a10ca1");
 
             var list = new List<ClientTypeEntity>();
 
             list.Add(new ClientTypeEntity() { Id = individual, Name = "Individual", Code = "individual", DisplayOrder = 1 });
             list.Add(new ClientTypeEntity() { Id = company, Name = "Company", Code = "company", DisplayOrder = 2 });
             list.Add(new ClientTypeEntity() { Id = trust, Name = "Trust", Code = "trust", DisplayOrder = 3 });
-            list.Add(new ClientTypeEntity() { Id = businessEntity, Name = "Business Entity", Code = "business", DisplayOrder = 4 });
+            list.Add(new ClientTypeEntity() { Id = unknownEntity, Name = "Unknown Entity", Code = "unknown", DisplayOrder = 4 });
 
             return list;
         }

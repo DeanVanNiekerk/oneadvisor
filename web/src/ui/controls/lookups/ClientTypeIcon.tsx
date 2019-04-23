@@ -46,8 +46,8 @@ class ClientTypeIconComponent extends Component<Props> {
                 return this.getIcon(clientTypeId, "bank", "#D1495B");
             case ClientTypeId.Trust:
                 return this.getIcon(clientTypeId, "team", "#012A36");
-            case ClientTypeId.BusinessEntity:
-                return this.getIcon(clientTypeId, "home", "#1F487E");
+            case ClientTypeId.UnknownEntity:
+                return this.getIcon(clientTypeId, "question", "#1F487E");
             default:
                 return <Icon type="question" />;
         }

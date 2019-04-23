@@ -178,8 +178,10 @@ class ClientPreviewComponent extends Component<Props, State> {
                                         />
                                     </>
                                 )}
-                                {client.clientTypeId !==
-                                    ClientTypeId.Individual && (
+                                {(client.clientTypeId ===
+                                    ClientTypeId.Company ||
+                                    client.clientTypeId ===
+                                        ClientTypeId.Trust) && (
                                     <>
                                         <PreviewCardRow
                                             label="Reg. Number"
