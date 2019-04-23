@@ -41,11 +41,13 @@ class ClientTypeIconComponent extends Component<Props> {
 
         switch (clientTypeId) {
             case ClientTypeId.Individual:
-                return this.getIcon(ClientTypeId.Individual, "user", "#9D44B5");
+                return this.getIcon(clientTypeId, "user", "#9D44B5");
             case ClientTypeId.Company:
-                return this.getIcon(ClientTypeId.Company, "bank", "#D1495B");
+                return this.getIcon(clientTypeId, "bank", "#D1495B");
             case ClientTypeId.Trust:
-                return this.getIcon(ClientTypeId.Trust, "team", "#012A36");
+                return this.getIcon(clientTypeId, "team", "#012A36");
+            case ClientTypeId.BusinessEntity:
+                return this.getIcon(clientTypeId, "home", "#1F487E");
             default:
                 return <Icon type="question" />;
         }

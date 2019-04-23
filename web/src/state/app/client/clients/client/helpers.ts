@@ -24,6 +24,7 @@ export const getAlternateIdNumberLabel = (
     switch (clientTypeId) {
         case ClientTypeId.Company:
         case ClientTypeId.Trust:
+        case ClientTypeId.BusinessEntity:
             return "Registration Number";
         default:
             return "Passport Number";
@@ -34,6 +35,7 @@ export const getDateOfBirthLabel = (clientTypeId: ClientTypeId): string => {
     switch (clientTypeId) {
         case ClientTypeId.Company:
         case ClientTypeId.Trust:
+        case ClientTypeId.BusinessEntity:
             return "Registration Date";
         default:
             return "Date of Birth";
@@ -44,6 +46,7 @@ export const getLastNameLabel = (clientTypeId: ClientTypeId): string => {
     switch (clientTypeId) {
         case ClientTypeId.Company:
         case ClientTypeId.Trust:
+        case ClientTypeId.BusinessEntity:
             return "Name";
         default:
             return "Last Name";
