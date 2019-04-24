@@ -123,6 +123,7 @@ namespace api.App.Setup
             Services.AddScoped<ICommissionErrorService, CommissionErrorService>();
             Services.AddScoped<ICommissionStatementTemplateService, CommissionStatementTemplateService>();
             Services.AddScoped<ICommissionReportService, CommissionReportService>();
+            Services.AddScoped<ICommissionAllocationService, CommissionAllocationService>();
 
             //Helpers
             Services.AddScoped<IBulkActions, BulkActions>();

@@ -166,7 +166,7 @@ namespace OneAdvisor.Service.Commission
             if (entity == null)
                 return new Result();
 
-            var clientEntity = MapModelToEntity(commission, entity);
+            var commissionEntity = MapModelToEntity(commission, entity);
 
             await _context.SaveChangesAsync();
 

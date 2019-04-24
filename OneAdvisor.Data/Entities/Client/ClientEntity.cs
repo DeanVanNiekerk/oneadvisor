@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using OneAdvisor.Data.Entities.Client.Lookup;
+using OneAdvisor.Data.Entities.Commission;
 using OneAdvisor.Data.Entities.Directory;
 
 namespace OneAdvisor.Data.Entities.Client
@@ -32,6 +33,8 @@ namespace OneAdvisor.Data.Entities.Client
         //NB!!!!: When adding new list relationships dont forget to update MergeClients() ----
         public virtual ICollection<PolicyEntity> ClientPolicies { get; set; }
         public virtual ICollection<ContactEntity> ClientContacts { get; set; }
+        public virtual ICollection<CommissionAllocationEntity> FromCommissionAllocations { get; set; }
+        public virtual ICollection<CommissionAllocationEntity> ToCommissionAllocations { get; set; }
         //-------------------------------------------------------------------------------------
 
         public virtual OrganisationEntity Organisation { get; set; }
