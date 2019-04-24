@@ -44,7 +44,10 @@ class PolicyForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: string, value: any) => {
+    handleChange = (
+        fieldName: keyof PolicyEdit,
+        value: string | number | null
+    ) => {
         const policy = {
             ...this.state.policy,
             [fieldName]: value,

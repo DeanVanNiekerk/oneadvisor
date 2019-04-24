@@ -20,24 +20,24 @@ class BranchForm extends Component<Props, State> {
         super(props);
 
         this.state = {
-            branch: props.branch
+            branch: props.branch,
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.branch != prevProps.branch)
             this.setState({
-                branch: this.props.branch
+                branch: this.props.branch,
             });
     }
 
-    handleChange = (fieldName: string, value: any) => {
+    handleChange = (fieldName: keyof Branch, value: string) => {
         const branch = {
             ...this.state.branch,
-            [fieldName]: value
+            [fieldName]: value,
         };
         this.setState({
-            branch: branch
+            branch: branch,
         });
     };
 
@@ -55,9 +55,7 @@ class BranchForm extends Component<Props, State> {
                     validationResults={validationResults}
                     autoFocus={true}
                 />
-                <FormField
-                    className="mr-0"
-                >
+                <FormField className="mr-0">
                     <Button onClick={() => this.props.onCancel()}>
                         Cancel
                     </Button>
@@ -67,7 +65,7 @@ class BranchForm extends Component<Props, State> {
                         onClick={() => this.props.onSave(this.state.branch)}
                         type="primary"
                     >
-                        {this.props.branch.id ? 'Update Branch' : 'Add Branch'}
+                        {this.props.branch.id ? "Update Branch" : "Add Branch"}
                     </Button>
                 </FormField>
             </Form>

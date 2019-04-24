@@ -35,7 +35,7 @@ class ContactForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: string, value: any) => {
+    handleChange = (fieldName: keyof Contact, value: string) => {
         const contact = {
             ...this.state.contact,
             [fieldName]: value,

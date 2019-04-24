@@ -8,6 +8,7 @@ type Props = {
     actions?: ReactNode;
     className?: string;
     onBack?: (e: React.MouseEvent<HTMLElement>) => void;
+    hidden?: boolean;
 };
 
 const Header = (props: Props) => {
@@ -20,6 +21,8 @@ const Header = (props: Props) => {
             icon = props.icon;
         }
     }
+
+    if (props.hidden) return <></>;
 
     return (
         <Skeleton

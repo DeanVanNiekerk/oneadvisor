@@ -35,7 +35,7 @@ class CompanyForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: string, value: any) => {
+    handleChange = (fieldName: keyof Company, value: string | string[]) => {
         const company = {
             ...this.state.company,
             [fieldName]: value,

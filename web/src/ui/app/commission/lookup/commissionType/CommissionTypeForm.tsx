@@ -36,7 +36,7 @@ class CommissionTypeForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: string, value: any) => {
+    handleChange = (fieldName: keyof CommissionType, value: string) => {
         const commissionType = {
             ...this.state.commissionType,
             [fieldName]: value,

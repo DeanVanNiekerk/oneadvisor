@@ -3,16 +3,16 @@ import JSONPretty from 'react-json-pretty';
 import { connect, DispatchProp } from 'react-redux';
 
 import { ValidationResult } from '@/app/validation';
-import { CommissionError, CommissionImportData } from '@/state/app/commission/errors';
-import { Statement } from '@/state/app/commission/statements';
 import { ClientEdit, newClient, receiveClient } from '@/state/app/client/clients';
 import { newPolicy, PolicyEdit, receivePolicy } from '@/state/app/client/policies';
-import EditClient from '@/ui/app/client/client/EditClient';
+import { CommissionError, CommissionImportData } from '@/state/app/commission/errors';
+import { Statement } from '@/state/app/commission/statements';
 import ClientSearch from '@/ui/app/client/client/ClientSearch';
+import EditClient from '@/ui/app/client/client/EditClient';
 import EditPolicy from '@/ui/app/client/policy/EditPolicy';
 import PolicySearch from '@/ui/app/client/policy/PolicySearch';
 import {
-    Button, CommissionTypeName, Drawer, DrawerFooter, Form, FormReadOnly, FormText, ClientName, PolicyName, TabPane,
+    Button, ClientName, CommissionTypeName, Drawer, DrawerFooter, Form, FormReadOnly, FormText, PolicyName, TabPane,
     Tabs
 } from '@/ui/controls';
 
@@ -58,7 +58,7 @@ class MappingErrorForm extends Component<Props, State> {
         }
     }
 
-    handleChange = (fieldName: string, value: any) => {
+    handleChange = (fieldName: keyof CommissionError, value: any) => {
         const error = {
             ...this.state.error,
             [fieldName]: value,

@@ -1,3 +1,4 @@
+import { TableRowSelection } from 'antd/lib/table';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
@@ -27,6 +28,8 @@ type Props = {
     companies: Company[];
     policyTypes: PolicyType[];
     users: UserSimple[];
+    hideHeader?: boolean;
+    rowSelection?: TableRowSelection<any>;
 } & DispatchProp;
 
 class PolicyList extends Component<Props> {
@@ -36,6 +39,7 @@ class PolicyList extends Component<Props> {
 
     componentDidUpdate(prevProps: Props) {
         if (
+            prevProps.clientId != this.props.clientId ||
             prevProps.pageOptions != this.props.pageOptions ||
             prevProps.sortOptions != this.props.sortOptions ||
             prevProps.filters != this.props.filters
@@ -173,6 +177,7 @@ class PolicyList extends Component<Props> {
         return (
             <>
                 <Header
+                    hidden={this.props.hideHeader}
                     className="mb-1"
                     actions={
                         <>
@@ -210,6 +215,7 @@ class PolicyList extends Component<Props> {
                     pageOptions={this.props.pageOptions}
                     totalRows={this.props.totalItems}
                     onTableChange={this.onTableChange}
+                    rowSelection={this.props.rowSelection}
                 />
                 <EditPolicy onClose={this.onFormClose} />
             </>

@@ -40,7 +40,7 @@ class UserForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: string, value: any) => {
+    handleChange = (fieldName: keyof RoleEdit, value: string | string[]) => {
         const role = {
             ...this.state.role,
             [fieldName]: value,
@@ -51,7 +51,7 @@ class UserForm extends Component<Props, State> {
         this.props.onChange(role);
     };
 
-    handleApplicationChange = (fieldName: string, value: any) => {
+    handleApplicationChange = (fieldName: keyof RoleEdit, value: any) => {
         const role = {
             ...this.state.role,
             useCaseIds: [], //Clear use case ids

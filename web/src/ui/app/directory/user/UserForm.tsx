@@ -53,7 +53,10 @@ class UserForm extends Component<Props, State> {
         }
     }
 
-    handleChange = (fieldName: string, value: any) => {
+    handleChange = (
+        fieldName: keyof UserEdit,
+        value: string | number | string[]
+    ) => {
         const user = {
             ...this.state.user,
             [fieldName]: value,

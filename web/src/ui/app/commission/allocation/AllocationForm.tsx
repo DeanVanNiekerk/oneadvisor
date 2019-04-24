@@ -6,6 +6,8 @@ import { AllocationEdit } from '@/state/app/commission/allocations';
 import ClientSearch from '@/ui/app/client/client/ClientSearch';
 import { Button, ClientName, Drawer, DrawerFooter, Form, FormText } from '@/ui/controls';
 
+import PolicyList from '../../client/policy/PolicyList';
+
 type Props = {
     allocation: AllocationEdit;
     validationResults: ValidationResult[];
@@ -35,7 +37,10 @@ class AllocationForm extends Component<Props, State> {
         }
     }
 
-    handleChange = (fieldName: string, value: any) => {
+    handleChange = (
+        fieldName: keyof AllocationEdit,
+        value: string | string[]
+    ) => {
         const allocation = {
             ...this.state.allocation,
             [fieldName]: value,
@@ -48,12 +53,17 @@ class AllocationForm extends Component<Props, State> {
 
     selectClient = (clientId: string) => {
         this.handleChange("fromClientId", clientId);
+        this.handleChange("policyIds", []);
     };
 
     toggleSearchClientVisible = () => {
         this.setState({
             searchClientVisible: !this.state.searchClientVisible,
         });
+    };
+
+    onPolicySelected = (selectedPolicyIds: string[]) => {
+        this.handleChange("policyIds", selectedPolicyIds);
     };
 
     render() {
@@ -99,6 +109,17 @@ class AllocationForm extends Component<Props, State> {
                         }
                     />
                 </Form>
+
+                {this.state.allocation.fromClientId && (
+                    <PolicyList
+                        hideHeader={true}
+                        clientId={this.state.allocation.fromClientId}
+                        rowSelection={{
+                            onChange: this.onPolicySelected,
+                            selectedRowKeys: this.state.allocation.policyIds,
+                        }}
+                    />
+                )}
 
                 <Drawer
                     title="Client Search"

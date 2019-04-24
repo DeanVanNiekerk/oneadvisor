@@ -19,24 +19,24 @@ class HeaderIdentifierForm extends Component<Props, State> {
         super(props);
 
         this.state = {
-            headerIdentifier: props.headerIdentifier
+            headerIdentifier: props.headerIdentifier,
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.headerIdentifier != prevProps.headerIdentifier)
             this.setState({
-                headerIdentifier: this.props.headerIdentifier
+                headerIdentifier: this.props.headerIdentifier,
             });
     }
 
-    handleChange = (fieldName: string, value: any) => {
+    handleChange = (fieldName: keyof HeaderIdentifier, value: string) => {
         const headerIdentifier = {
             ...this.state.headerIdentifier,
-            [fieldName]: value
+            [fieldName]: value,
         };
         this.setState({
-            headerIdentifier: headerIdentifier
+            headerIdentifier: headerIdentifier,
         });
         this.props.onChange(headerIdentifier);
     };

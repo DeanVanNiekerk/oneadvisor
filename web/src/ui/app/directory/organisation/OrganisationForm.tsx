@@ -19,24 +19,24 @@ class OrganisationForm extends Component<Props, State> {
         super(props);
 
         this.state = {
-            organisation: props.organisation
+            organisation: props.organisation,
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.organisation != prevProps.organisation)
             this.setState({
-                organisation: this.props.organisation
+                organisation: this.props.organisation,
             });
     }
 
-    handleChange = (fieldName: string, value: any) => {
+    handleChange = (fieldName: keyof Organisation, value: string) => {
         const organisation = {
             ...this.state.organisation,
-            [fieldName]: value
+            [fieldName]: value,
         };
         this.setState({
-            organisation: organisation
+            organisation: organisation,
         });
         this.props.onChange(organisation);
     };

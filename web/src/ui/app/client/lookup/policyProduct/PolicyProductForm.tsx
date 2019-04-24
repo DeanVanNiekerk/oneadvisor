@@ -37,7 +37,7 @@ class PolicyProductForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: string, value: any) => {
+    handleChange = (fieldName: keyof PolicyProduct, value: string) => {
         const policyProduct = {
             ...this.state.policyProduct,
             [fieldName]: value,

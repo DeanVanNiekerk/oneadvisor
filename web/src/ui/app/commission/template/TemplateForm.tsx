@@ -58,7 +58,10 @@ class TemplateForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: string, value: any) => {
+    handleChange = (
+        fieldName: keyof CommissionStatementTemplateEdit,
+        value: any
+    ) => {
         const template = {
             ...this.state.template,
             [fieldName]: value,
