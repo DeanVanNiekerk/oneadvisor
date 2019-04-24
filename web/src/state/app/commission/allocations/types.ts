@@ -3,6 +3,8 @@ export type Allocation = {
     fromClientId: string;
     toClientId: string;
     policyIds: string[];
+    fromClientFirstName: string;
+    fromClientLastName: string;
 };
 
 export type AllocationEdit = {

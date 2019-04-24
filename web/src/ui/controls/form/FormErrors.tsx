@@ -6,19 +6,25 @@ import { ValidationResult } from '@/app/validation';
 type Props = {
     propertyName?: string;
     validationResults: ValidationResult[];
+    message?: string;
 };
 
 const FormErrors = (props: Props) => {
-    const { propertyName = '', validationResults } = props;
+    const { propertyName = "", validationResults } = props;
 
     const results = validationResults
         .filter(r => r.propertyName === propertyName)
         .map(r => r.errorMessage);
 
-    const message = results.join(',');
+    const message = results.join(",");
 
     return message ? (
-        <Alert message={message} type="error" showIcon className="mb-1" />
+        <Alert
+            message={props.message || message}
+            type="error"
+            showIcon
+            className="mb-1"
+        />
     ) : (
         <></>
     );

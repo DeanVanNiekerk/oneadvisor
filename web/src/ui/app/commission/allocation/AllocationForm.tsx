@@ -4,7 +4,7 @@ import { connect, DispatchProp } from 'react-redux';
 import { ValidationResult } from '@/app/validation';
 import { AllocationEdit } from '@/state/app/commission/allocations';
 import ClientSearch from '@/ui/app/client/client/ClientSearch';
-import { Button, ClientName, Drawer, DrawerFooter, Form, FormText } from '@/ui/controls';
+import { Button, ClientName, Drawer, DrawerFooter, Form, FormErrors, FormText } from '@/ui/controls';
 
 import PolicyList from '../../client/policy/PolicyList';
 
@@ -52,8 +52,8 @@ class AllocationForm extends Component<Props, State> {
     };
 
     selectClient = (clientId: string) => {
-        this.handleChange("fromClientId", clientId);
         this.handleChange("policyIds", []);
+        this.handleChange("fromClientId", clientId);
     };
 
     toggleSearchClientVisible = () => {
@@ -109,6 +109,12 @@ class AllocationForm extends Component<Props, State> {
                         }
                     />
                 </Form>
+
+                <FormErrors
+                    propertyName="PolicyIds"
+                    validationResults={validationResults}
+                    message="Please select at least one Policy"
+                />
 
                 {this.state.allocation.fromClientId && (
                     <PolicyList

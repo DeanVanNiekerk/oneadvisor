@@ -82,6 +82,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(ca1.FromClientId, actual.FromClientId);
                 Assert.Equal(ca1.ToClientId, actual.ToClientId);
                 Assert.Equal(ca1.PolicyIds, actual.PolicyIds);
+                Assert.Equal(client1.Client.FirstName, actual.FromClientFirstName);
+                Assert.Equal(client1.Client.LastName, actual.FromClientLastName);
 
                 actual = items[1];
                 Assert.Equal(ca2.Id, actual.Id);
@@ -169,7 +171,7 @@ namespace OneAdvisor.Service.Test.Commission
             var policy1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
-                ClientId = client2.Client.Id,
+                ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
 
@@ -228,14 +230,14 @@ namespace OneAdvisor.Service.Test.Commission
             var policy1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
-                ClientId = client3.Client.Id,
+                ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
 
             var policy2 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
-                ClientId = client4.Client.Id,
+                ClientId = client2.Client.Id,
                 UserId = user1.User.Id
             };
 

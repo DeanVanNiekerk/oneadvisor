@@ -55,13 +55,23 @@ class AllocationList extends Component<Props> {
     };
 
     deleteAllocation = (id: string) => {
-        this.props.dispatch(deleteAllocation(id, this.onClose));
+        this.props.dispatch(deleteAllocation(id, this.loadAllocations));
     };
 
     getColumns = () => {
         return [
-            getColumn("fromClientId", "Client"),
-            getColumn("policyIds", "Policies"),
+            getColumn("fromClientId", "From Client", {
+                render: (fromClientId: string, allocation: Allocation) => {
+                    return `${allocation.fromClientFirstName} ${
+                        allocation.fromClientLastName
+                    }`;
+                },
+            }),
+            getColumn("policyIds", "Allocated Policies", {
+                render: (policyIds: string[]) => {
+                    return policyIds.length;
+                },
+            }),
             getColumn("id", "Actions", {
                 render: (id: string) => {
                     return (

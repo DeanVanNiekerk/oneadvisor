@@ -44,6 +44,8 @@ describe("allocation list reducer", () => {
             fromClientId: "12",
             toClientId: "13",
             policyIds: ["14"],
+            fromClientFirstName: "FN1",
+            fromClientLastName: "LN1",
         };
 
         const actualState = reducer(initalState, {

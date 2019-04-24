@@ -20,11 +20,13 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void CommissionAllocationModelComposition()
         {
-            Assert.Equal(4, typeof(CommissionAllocation).PropertyCount());
+            Assert.Equal(6, typeof(CommissionAllocation).PropertyCount());
             Assert.True(typeof(CommissionAllocation).HasProperty("Id"));
             Assert.True(typeof(CommissionAllocation).HasProperty("FromClientId"));
             Assert.True(typeof(CommissionAllocation).HasProperty("ToClientId"));
             Assert.True(typeof(CommissionAllocation).HasProperty("PolicyIds"));
+            Assert.True(typeof(CommissionAllocation).HasProperty("FromClientFirstName"));
+            Assert.True(typeof(CommissionAllocation).HasProperty("FromClientLastName"));
         }
 
         [Fact]
@@ -45,7 +47,9 @@ namespace api.Test.Controllers.Commission
                 Id = Guid.NewGuid(),
                 FromClientId = Guid.NewGuid(),
                 ToClientId = Guid.NewGuid(),
-                PolicyIds = new List<Guid>() { Guid.NewGuid() }
+                PolicyIds = new List<Guid>() { Guid.NewGuid() },
+                FromClientFirstName = "FN1",
+                FromClientLastName = "LN1",
             };
 
             var pagedItems = new PagedItems<CommissionAllocation>()

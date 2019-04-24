@@ -40,7 +40,9 @@ namespace OneAdvisor.Service.Commission
                             Id = commissionAllocation.Id,
                             FromClientId = commissionAllocation.FromClientId,
                             ToClientId = commissionAllocation.ToClientId,
-                            PolicyIds = commissionAllocation.PolicyIds
+                            PolicyIds = commissionAllocation.PolicyIds,
+                            FromClientFirstName = fromClient.FirstName,
+                            FromClientLastName = fromClient.LastName
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -106,7 +108,7 @@ namespace OneAdvisor.Service.Commission
             if (!result.Success)
                 return result;
 
-            result = await ValidatePolicyIds(commissionAllocation.ToClientId.Value, commissionAllocation.PolicyIds);
+            result = await ValidatePolicyIds(commissionAllocation.FromClientId.Value, commissionAllocation.PolicyIds);
             if (!result.Success)
                 return result;
 
@@ -136,7 +138,7 @@ namespace OneAdvisor.Service.Commission
             if (!result.Success)
                 return result;
 
-            result = await ValidatePolicyIds(commissionAllocation.ToClientId.Value, commissionAllocation.PolicyIds);
+            result = await ValidatePolicyIds(commissionAllocation.FromClientId.Value, commissionAllocation.PolicyIds);
             if (!result.Success)
                 return result;
 
@@ -162,6 +164,9 @@ namespace OneAdvisor.Service.Commission
                             .ToListAsync();
 
             result.Success = policyIds.All(p => existing.Contains(p));
+
+            if (!result.Success)
+                result.AddValidationFailure("PolicyIds", "There are invalid Policy Ids");
 
             return result;
         }
