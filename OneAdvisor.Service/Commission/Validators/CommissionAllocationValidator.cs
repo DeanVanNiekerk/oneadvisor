@@ -16,6 +16,7 @@ namespace OneAdvisor.Service.Commission.Validators
 
             RuleFor(o => o.FromClientId).NotEmpty().WithName("From Client");
             RuleFor(o => o.ToClientId).NotEmpty().WithName("To Client");
+            RuleFor(o => o.PolicyIds).NotEmpty().WithName("Policies");
         }
     }
 }

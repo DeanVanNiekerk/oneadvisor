@@ -39,7 +39,8 @@ namespace OneAdvisor.Service.Commission
                         {
                             Id = commissionAllocation.Id,
                             FromClientId = commissionAllocation.FromClientId,
-                            ToClientId = commissionAllocation.ToClientId
+                            ToClientId = commissionAllocation.ToClientId,
+                            PolicyIds = commissionAllocation.PolicyIds
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -105,6 +106,10 @@ namespace OneAdvisor.Service.Commission
             if (!result.Success)
                 return result;
 
+            result = await ValidatePolicyIds(commissionAllocation.ToClientId.Value, commissionAllocation.PolicyIds);
+            if (!result.Success)
+                return result;
+
             var entity = MapModelToEntity(commissionAllocation);
             await _context.CommissionAllocation.AddAsync(entity);
             await _context.SaveChangesAsync();
@@ -131,6 +136,10 @@ namespace OneAdvisor.Service.Commission
             if (!result.Success)
                 return result;
 
+            result = await ValidatePolicyIds(commissionAllocation.ToClientId.Value, commissionAllocation.PolicyIds);
+            if (!result.Success)
+                return result;
+
             var entity = await _context.CommissionAllocation.FindAsync(commissionAllocation.Id);
 
             if (entity == null)
@@ -143,6 +152,20 @@ namespace OneAdvisor.Service.Commission
             return result;
         }
 
+        private async Task<Result> ValidatePolicyIds(Guid clientId, List<Guid> policyIds)
+        {
+            var result = new Result();
+
+            var existing = await _context.Policy
+                            .Where(p => p.ClientId == clientId)
+                            .Select(p => p.Id)
+                            .ToListAsync();
+
+            result.Success = policyIds.All(p => existing.Contains(p));
+
+            return result;
+        }
+
         private IQueryable<CommissionAllocationEdit> GetCommissionAllocationQuery(ScopeOptions scope)
         {
             var query = from commissionAllocation in GetCommissionAllocationEntityQuery(scope)
@@ -150,7 +173,8 @@ namespace OneAdvisor.Service.Commission
                         {
                             Id = commissionAllocation.Id,
                             FromClientId = commissionAllocation.FromClientId,
-                            ToClientId = commissionAllocation.ToClientId
+                            ToClientId = commissionAllocation.ToClientId,
+                            PolicyIds = commissionAllocation.PolicyIds
                         };
 
             return query;
@@ -177,6 +201,7 @@ namespace OneAdvisor.Service.Commission
 
             entity.FromClientId = model.FromClientId.Value;
             entity.ToClientId = model.ToClientId.Value;
+            entity.PolicyIds = model.PolicyIds;
 
             return entity;
         }

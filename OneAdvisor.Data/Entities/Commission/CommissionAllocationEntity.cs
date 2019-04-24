@@ -4,6 +4,7 @@ using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Data.Entities.Commission.Lookup;
+using System.Collections.Generic;
 
 namespace OneAdvisor.Data.Entities.Commission
 {
@@ -15,6 +16,8 @@ namespace OneAdvisor.Data.Entities.Commission
         public Guid FromClientId { get; set; }
         [Required]
         public Guid ToClientId { get; set; }
+        [Required]
+        public List<Guid> PolicyIds { get; set; }
 
         public virtual ClientEntity FromClient { get; set; }
         public virtual ClientEntity ToClient { get; set; }

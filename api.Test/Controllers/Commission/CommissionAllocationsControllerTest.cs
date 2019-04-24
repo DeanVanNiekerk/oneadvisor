@@ -20,19 +20,21 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void CommissionAllocationModelComposition()
         {
-            Assert.Equal(3, typeof(CommissionAllocation).PropertyCount());
+            Assert.Equal(4, typeof(CommissionAllocation).PropertyCount());
             Assert.True(typeof(CommissionAllocation).HasProperty("Id"));
             Assert.True(typeof(CommissionAllocation).HasProperty("FromClientId"));
             Assert.True(typeof(CommissionAllocation).HasProperty("ToClientId"));
+            Assert.True(typeof(CommissionAllocation).HasProperty("PolicyIds"));
         }
 
         [Fact]
         public void CommissionAllocationEditModelComposition()
         {
-            Assert.Equal(3, typeof(CommissionAllocationEdit).PropertyCount());
+            Assert.Equal(4, typeof(CommissionAllocationEdit).PropertyCount());
             Assert.True(typeof(CommissionAllocationEdit).HasProperty("Id"));
             Assert.True(typeof(CommissionAllocationEdit).HasProperty("FromClientId"));
             Assert.True(typeof(CommissionAllocationEdit).HasProperty("ToClientId"));
+            Assert.True(typeof(CommissionAllocation).HasProperty("PolicyIds"));
         }
 
         [Fact]
@@ -42,7 +44,8 @@ namespace api.Test.Controllers.Commission
             {
                 Id = Guid.NewGuid(),
                 FromClientId = Guid.NewGuid(),
-                ToClientId = Guid.NewGuid()
+                ToClientId = Guid.NewGuid(),
+                PolicyIds = new List<Guid>() { Guid.NewGuid() }
             };
 
             var pagedItems = new PagedItems<CommissionAllocation>()
@@ -88,7 +91,8 @@ namespace api.Test.Controllers.Commission
             {
                 Id = Guid.NewGuid(),
                 FromClientId = Guid.NewGuid(),
-                ToClientId = Guid.NewGuid()
+                ToClientId = Guid.NewGuid(),
+                PolicyIds = new List<Guid>() { Guid.NewGuid() }
             };
 
             var service = new Mock<ICommissionAllocationService>();
@@ -114,7 +118,8 @@ namespace api.Test.Controllers.Commission
             var allocation = new CommissionAllocationEdit()
             {
                 FromClientId = Guid.NewGuid(),
-                ToClientId = Guid.NewGuid()
+                ToClientId = Guid.NewGuid(),
+                PolicyIds = new List<Guid>() { Guid.NewGuid() }
             };
 
             var service = new Mock<ICommissionAllocationService>();
@@ -155,7 +160,8 @@ namespace api.Test.Controllers.Commission
             {
                 Id = Guid.NewGuid(),
                 FromClientId = Guid.NewGuid(),
-                ToClientId = Guid.NewGuid()
+                ToClientId = Guid.NewGuid(),
+                PolicyIds = new List<Guid>() { Guid.NewGuid() }
             };
 
             var service = new Mock<ICommissionAllocationService>();
