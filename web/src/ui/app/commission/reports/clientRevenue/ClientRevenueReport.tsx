@@ -1,7 +1,8 @@
-import { Col, Row, Select } from 'antd';
+import { Col, Icon, Row, Select } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { hasUseCase } from '@/app/identity';
 import { applyLike } from '@/app/query';
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
 import { getMonthOptions, getYearOptions } from '@/app/utils';
@@ -9,8 +10,11 @@ import {
     ClientRevenueData, clientRevenueSelector, fetchClientRevenueData, receiveFilters, receivePageOptions,
     receiveSortOptions
 } from '@/state/app/commission/reports';
+import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
-import { Age, Header, Table } from '@/ui/controls';
+import { Age, Button, Drawer, DrawerFooter, Header, Table } from '@/ui/controls';
+
+import AllocationList from '../../allocation/AllocationList';
 
 type Props = {
     records: ClientRevenueData[];
@@ -19,9 +23,22 @@ type Props = {
     sortOptions: SortOptions;
     totalItems: number;
     filters: Filters;
+    useCases: string[];
 } & DispatchProp;
 
-class ClientRevenueReport extends Component<Props> {
+type State = {
+    editAllocationsClientId: string | null;
+};
+
+class ClientRevenueReport extends Component<Props, State> {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            editAllocationsClientId: null,
+        };
+    }
+
     componentDidMount() {
         this.loadData();
     }
@@ -49,8 +66,21 @@ class ClientRevenueReport extends Component<Props> {
         return applyLike(filters, ["clientLastName"]);
     };
 
+    editAllocations = (clientId: string | null) => {
+        this.setState({
+            editAllocationsClientId: clientId,
+        });
+    };
+
+    closeEditAllocations = () => {
+        this.setState({
+            editAllocationsClientId: null,
+        });
+        this.loadData();
+    };
+
     getColumns = () => {
-        return [
+        const columns = [
             getColumnEDS(
                 "clientLastName",
                 "Last Name",
@@ -93,6 +123,29 @@ class ClientRevenueReport extends Component<Props> {
                 type: "currency",
             }),
         ];
+
+        if (
+            hasUseCase("com_view_commission_allocations", this.props.useCases)
+        ) {
+            columns.push(
+                getColumnEDS("actions", "", {
+                    sorter: undefined,
+                    fixed: "right",
+                    render: (value: any, record: ClientRevenueData) => {
+                        return (
+                            <Icon
+                                type="share-alt"
+                                onClick={() =>
+                                    this.editAllocations(record.clientId)
+                                }
+                            />
+                        );
+                    },
+                })
+            );
+        }
+
+        return columns;
     };
 
     handleYearChange = (year: number) => {
@@ -203,6 +256,27 @@ class ClientRevenueReport extends Component<Props> {
                         x: true,
                     }}
                 />
+
+                <Drawer
+                    title="Allocations"
+                    icon="share-alt"
+                    noTopPadding={true}
+                    visible={!!this.state.editAllocationsClientId}
+                    onClose={this.closeEditAllocations}
+                >
+                    {this.state.editAllocationsClientId && (
+                        <>
+                            <AllocationList
+                                clientId={this.state.editAllocationsClientId}
+                            />
+                            <DrawerFooter>
+                                <Button onClick={this.closeEditAllocations}>
+                                    Close
+                                </Button>
+                            </DrawerFooter>
+                        </>
+                    )}
+                </Drawer>
             </>
         );
     }
@@ -218,6 +292,7 @@ const mapStateToProps = (state: RootState) => {
         pageOptions: clientRevenueState.pageOptions,
         sortOptions: clientRevenueState.sortOptions,
         filters: clientRevenueState.filters,
+        useCases: useCaseSelector(state),
     };
 };
 

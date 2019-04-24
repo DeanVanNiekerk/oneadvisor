@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 
+import { reducer as allocations, State as AllocationsState } from './allocations/reducer';
 import { reducer as commissions, State as CommissionsState } from './commissions/reducer';
 import { reducer as errors, State as ErrorsState } from './errors/reducer';
 import { reducer as lookups, State as LookupsState } from './lookups/reducer';
@@ -14,6 +15,7 @@ export type State = {
     templates: TemplatesState;
     reports: ReportsState;
     lookups: LookupsState;
+    allocations: AllocationsState;
 };
 
 export const reducer = combineReducers({
@@ -23,4 +25,5 @@ export const reducer = combineReducers({
     templates: templates,
     reports: reports,
     lookups: lookups,
+    allocations: allocations,
 });
