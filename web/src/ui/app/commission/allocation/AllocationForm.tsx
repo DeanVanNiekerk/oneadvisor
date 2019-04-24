@@ -77,7 +77,7 @@ class AllocationForm extends Component<Props, State> {
                     className="mt-1"
                 >
                     <FormText
-                        fieldName="clientId"
+                        fieldName="fromClientId"
                         label="From Client"
                         value={
                             allocation.fromClientId ? (
@@ -110,21 +110,23 @@ class AllocationForm extends Component<Props, State> {
                     />
                 </Form>
 
-                <FormErrors
-                    propertyName="PolicyIds"
-                    validationResults={validationResults}
-                    message="Please select at least one Policy"
-                />
-
                 {this.state.allocation.fromClientId && (
-                    <PolicyList
-                        hideHeader={true}
-                        clientId={this.state.allocation.fromClientId}
-                        rowSelection={{
-                            onChange: this.onPolicySelected,
-                            selectedRowKeys: this.state.allocation.policyIds,
-                        }}
-                    />
+                    <>
+                        <FormErrors
+                            propertyName="PolicyIds"
+                            validationResults={validationResults}
+                            message="Please select at least one Policy"
+                        />
+                        <PolicyList
+                            hideHeader={true}
+                            clientId={this.state.allocation.fromClientId}
+                            rowSelection={{
+                                onChange: this.onPolicySelected,
+                                selectedRowKeys: this.state.allocation
+                                    .policyIds,
+                            }}
+                        />
+                    </>
                 )}
 
                 <Drawer
