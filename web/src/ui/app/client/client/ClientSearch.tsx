@@ -6,7 +6,7 @@ import { applyLike } from '@/app/query';
 import { getColumn } from '@/app/table';
 import { Client, clientSearchSelector, searchClients } from '@/state/app/client/clients';
 import { RootState } from '@/state/rootReducer';
-import { Table } from '@/ui/controls';
+import { Age, Table } from '@/ui/controls';
 
 type Props = {
     clients: Client[];
@@ -50,12 +50,14 @@ class ClientSearch extends Component<Props, State> {
     getColumns = () => {
         return [
             getColumn("lastName", "Last Name", { sorter: false }),
-            getColumn("firstName", "First Name", { sorter: false }),
-            getColumn("idNumber", "ID Number", { sorter: false }),
-            getColumn("dateOfBirth", "Date of Birth", {
-                type: "date",
+            getColumn("initials", "Initials", { sorter: false }),
+            getColumn("dateOfBirth", "Age", {
                 sorter: false,
+                render: (dateOfBirth: string) => {
+                    return <Age dateOfBirth={dateOfBirth} />;
+                },
             }),
+            getColumn("idNumber", "ID Number", { sorter: false }),
         ];
     };
 

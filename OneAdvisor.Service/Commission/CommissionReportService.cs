@@ -70,10 +70,11 @@ namespace OneAdvisor.Service.Commission
             return $@"
             SELECT
                 Distinct(Count(m.Id) OVER ())
-            FROM com_commission c
-            JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id
-            JOIN clt_Policy p ON c.PolicyId = p.Id
-            JOIN clt_Client m ON p.ClientId = m.Id
+            FROM clt_Client m
+            LEFT JOIN com_CommissionAllocation ca on m.Id = ca.ToClientId
+            JOIN clt_Policy p ON (m.Id = p.ClientId OR p.Id IN (SELECT value FROM OPENJSON(ca.PolicyIds)))
+            JOIN com_commission c ON p.Id = c.PolicyId
+            JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id 
             WHERE m.OrganisationId = '{organisationId}'
             {whereClause}
             GROUP BY m.Id";
@@ -107,12 +108,13 @@ namespace OneAdvisor.Service.Commission
                     ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_LIFE_FIRST_YEARS}'  
                     THEN c.AmountIncludingVAT ELSE 0 END) AS 'LifeFirstYears'
 
-                FROM com_commission c
-                    JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id
-                    JOIN clt_Policy p ON c.PolicyId = p.Id
-                    JOIN clt_Client m ON p.ClientId = m.Id
-                    JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id
-                    JOIN com_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id
+                FROM clt_Client m
+                LEFT JOIN com_CommissionAllocation ca on m.Id = ca.ToClientId
+                JOIN clt_Policy p ON (m.Id = p.ClientId OR p.Id IN (SELECT value FROM OPENJSON(ca.PolicyIds)))
+                JOIN com_commission c ON p.Id = c.PolicyId
+                JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id 
+                JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id 
+                JOIN com_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id
                 WHERE m.OrganisationId = '{organisationId}'
                 {whereClause}
                 GROUP BY m.Id, m.LastName, m.Initials, m.DateOfBirth
