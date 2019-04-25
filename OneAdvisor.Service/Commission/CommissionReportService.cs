@@ -82,11 +82,7 @@ namespace OneAdvisor.Service.Commission
 
         private string GetClientRevenueQuery(DateTime endDate, Guid organisationId, string selectClause, string whereClause, string orderbyClause, string pagingClause)
         {
-            return $@"
-            WITH CommissionQuery AS 
-            ( 
-                SELECT
-                
+            var select = $@"
                     m.Id AS 'ClientId',
                     m.LastName AS 'ClientLastName',
                     m.Initials AS 'ClientInitials',
@@ -107,10 +103,34 @@ namespace OneAdvisor.Service.Commission
                     SUM(CASE WHEN 
                     ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_LIFE_FIRST_YEARS}'  
                     THEN c.AmountIncludingVAT ELSE 0 END) AS 'LifeFirstYears'
+            ";
+
+            return $@"
+            WITH CommissionQuery AS 
+            ( 
+                SELECT
+                
+                    {select}
 
                 FROM clt_Client m
-                LEFT JOIN com_CommissionAllocation ca on m.Id = ca.ToClientId
-                JOIN clt_Policy p ON (m.Id = p.ClientId OR p.Id IN (SELECT value FROM OPENJSON(ca.PolicyIds)))
+                JOIN clt_Policy p ON m.Id = p.ClientId
+                JOIN com_commission c ON p.Id = c.PolicyId
+                JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id 
+                JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id 
+                JOIN com_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id
+                WHERE m.OrganisationId = '{organisationId}'
+                {whereClause}
+                GROUP BY m.Id, m.LastName, m.Initials, m.DateOfBirth
+
+                UNION
+
+                SELECT
+                
+                    {select}
+
+                FROM clt_Client m
+                JOIN com_CommissionAllocation ca on m.Id = ca.ToClientId
+                JOIN clt_Policy p ON p.Id IN (SELECT value FROM OPENJSON(ca.PolicyIds))
                 JOIN com_commission c ON p.Id = c.PolicyId
                 JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id 
                 JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id 
@@ -135,10 +155,27 @@ namespace OneAdvisor.Service.Commission
                     ((((AnnualAnnuity / 12) + MonthlyAnnuityMonth) * 12) + LifeFirstYears + OnceOff) AS 'GrandTotal'
                 FROM CommissionQuery
             ),
+            CommissionQueryTotalGrouped
+            AS
+            (
+                SELECT 
+                ClientId, 
+                ClientLastName, 
+                ClientInitials, 
+                ClientDateOfBirth, 
+                SUM(MonthlyAnnuityMonth) AS 'MonthlyAnnuityMonth', 
+                SUM(AnnualAnnuityAverage) AS 'AnnualAnnuityAverage', 
+                SUM(TotalMonthlyEarnings) AS 'TotalMonthlyEarnings', 
+                SUM(LifeFirstYears) AS 'LifeFirstYears', 
+                SUM(OnceOff) AS 'OnceOff', 
+                SUM(GrandTotal) AS 'GrandTotal' 
+                FROM CommissionQueryTotaled
+                GROUP BY ClientId, ClientLastName, ClientInitials, ClientDateOfBirth
+            ),
             CommissionQueryNumbered AS 
             (
                 SELECT *, Row_number() OVER({orderbyClause}) AS RowNumber
-                FROM CommissionQueryTotaled
+                FROM CommissionQueryTotalGrouped
             ) 
 
             SELECT {selectClause}
