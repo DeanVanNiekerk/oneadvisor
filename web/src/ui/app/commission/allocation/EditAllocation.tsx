@@ -7,7 +7,7 @@ import {
     AllocationEdit, allocationSelector, insertAllocation, receiveAllocation, updateAllocation
 } from '@/state/app/commission/allocations';
 import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
+import { Button, ClientName, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
 import { showConfirm } from '@/ui/feedback/modal/confirm';
 
 import AllocationForm from './AllocationForm';
@@ -92,9 +92,19 @@ class EditAllocation extends Component<Props, State> {
 
         const { allocation } = this.props;
 
-        if (allocation && allocation.id) return `Edit Allocation`;
+        let prefix = "New Allocation to ";
+        if (allocation && allocation.id) prefix = "Edit Allocation to ";
 
-        return "New Allocation";
+        return (
+            <ClientName
+                prefix={prefix}
+                clientId={
+                    this.props.allocation
+                        ? this.props.allocation.toClientId
+                        : ""
+                }
+            />
+        );
     };
 
     render() {

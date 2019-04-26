@@ -6,6 +6,7 @@ import { ClientEdit, getClient } from '@/state/app/client/clients';
 type Props = {
     clientId: string | null;
     className?: string;
+    prefix?: string;
 } & DispatchProp;
 
 type State = {
@@ -42,8 +43,8 @@ class ClientNameComponent extends Component<Props, State> {
         if (!client) return <span />;
 
         return (
-            <span className={this.props.className}>{`${client.firstName ||
-                ""} ${client.lastName || ""}`}</span>
+            <span className={this.props.className}>{`${this.props.prefix ||
+                ""}${client.firstName || ""} ${client.lastName || ""}`}</span>
         );
     }
 }

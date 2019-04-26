@@ -2,7 +2,7 @@ import { Drawer as DrawerAD, Icon } from 'antd';
 import React, { ReactNode } from 'react';
 
 type Props = {
-    title: string;
+    title: string | ReactNode;
     icon?: string | ReactNode;
     children: ReactNode;
     visible: boolean;

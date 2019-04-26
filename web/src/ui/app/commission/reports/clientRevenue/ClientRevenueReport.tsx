@@ -12,7 +12,7 @@ import {
 } from '@/state/app/commission/reports';
 import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
-import { Age, Button, Drawer, DrawerFooter, Header, Table } from '@/ui/controls';
+import { Age, Button, ClientName, Drawer, DrawerFooter, Header, Table } from '@/ui/controls';
 
 import AllocationList from '../../allocation/AllocationList';
 
@@ -260,7 +260,12 @@ class ClientRevenueReport extends Component<Props, State> {
                 />
 
                 <Drawer
-                    title="Allocations"
+                    title={
+                        <ClientName
+                            prefix="Allocations to "
+                            clientId={this.state.editAllocationsClientId}
+                        />
+                    }
                     icon="share-alt"
                     noTopPadding={true}
                     visible={!!this.state.editAllocationsClientId}
