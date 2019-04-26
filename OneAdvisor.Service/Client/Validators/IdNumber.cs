@@ -23,38 +23,45 @@ namespace OneAdvisor.Service.Client.Validators
 
         private void Initialize(string identityNumber)
         {
-            this.IdentityNumber = (identityNumber ?? string.Empty).Replace(" ", "");
-            if (this.IdentityNumber.Length == 13)
+            try
             {
-                var digits = new int[13];
-                for (int i = 0; i < 13; i++)
+                this.IdentityNumber = (identityNumber ?? string.Empty).Replace(" ", "");
+                if (this.IdentityNumber.Length == 13)
                 {
-                    digits[i] = int.Parse(this.IdentityNumber.Substring(i, 1));
-                }
-                int control1 = digits.Where((v, i) => i % 2 == 0 && i < 12).Sum();
-                string second = string.Empty;
-                digits.Where((v, i) => i % 2 != 0 && i < 12).ToList().ForEach(v =>
-                      second += v.ToString());
-                var string2 = (int.Parse(second) * 2).ToString();
-                int control2 = 0;
-                for (int i = 0; i < string2.Length; i++)
-                {
-                    control2 += int.Parse(string2.Substring(i, 1));
-                }
-                var control = (10 - ((control1 + control2) % 10)) % 10;
-                if (digits[12] == control)
-                {
-                    try
+                    var digits = new int[13];
+                    for (int i = 0; i < 13; i++)
                     {
-                        this.DateOfBirth = DateTime.ParseExact(this.IdentityNumber
-                            .Substring(0, 6), "yyMMdd", null);
+                        digits[i] = int.Parse(this.IdentityNumber.Substring(i, 1));
                     }
-                    catch { }
+                    int control1 = digits.Where((v, i) => i % 2 == 0 && i < 12).Sum();
+                    string second = string.Empty;
+                    digits.Where((v, i) => i % 2 != 0 && i < 12).ToList().ForEach(v =>
+                          second += v.ToString());
+                    var string2 = (int.Parse(second) * 2).ToString();
+                    int control2 = 0;
+                    for (int i = 0; i < string2.Length; i++)
+                    {
+                        control2 += int.Parse(string2.Substring(i, 1));
+                    }
+                    var control = (10 - ((control1 + control2) % 10)) % 10;
+                    if (digits[12] == control)
+                    {
+                        try
+                        {
+                            this.DateOfBirth = DateTime.ParseExact(this.IdentityNumber
+                                .Substring(0, 6), "yyMMdd", null);
+                        }
+                        catch { }
 
-                    this.Gender = digits[6] < 5 ? "Female" : "Male";
-                    this.IsSouthAfrican = digits[10] == 0;
-                    this.IsValid = true;
+                        this.Gender = digits[6] < 5 ? "Female" : "Male";
+                        this.IsSouthAfrican = digits[10] == 0;
+                        this.IsValid = true;
+                    }
                 }
+            }
+            catch
+            {
+                this.IsValid = false;
             }
         }
     }
