@@ -31,11 +31,14 @@ namespace OneAdvisor.Service.Test.Commission
             var user3 = TestHelper.InsertUserDetailed(options);
             var client3 = TestHelper.InsertClient(options, user3.Organisation);
 
+            var statement1 = TestHelper.InsertCommissionStatement(options, user1.Organisation);
+            var statement2 = TestHelper.InsertCommissionStatement(options, user1.Organisation);
+
             var policy1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
                 Number = Guid.NewGuid().ToString(),
-                CompanyId = Guid.NewGuid(),
+                CompanyId = statement1.CompanyId,
                 ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
@@ -43,7 +46,7 @@ namespace OneAdvisor.Service.Test.Commission
             var policy2 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
-                CompanyId = Guid.NewGuid(),
+                CompanyId = statement1.CompanyId,
                 ClientId = client2.Client.Id,
                 UserId = user2.User.Id
             };
@@ -51,13 +54,12 @@ namespace OneAdvisor.Service.Test.Commission
             var policy3 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
-                CompanyId = Guid.NewGuid(),
+                CompanyId = statement1.CompanyId,
                 ClientId = client3.Client.Id,
                 UserId = user3.User.Id
             };
 
             //Given
-            var csId = Guid.NewGuid();
             var commission1 = new CommissionEntity
             {
                 Id = Guid.NewGuid(),
@@ -65,7 +67,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 100,
                 VAT = 10,
-                CommissionStatementId = csId
+                CommissionStatementId = statement1.Id
             };
 
             var commission2 = new CommissionEntity
@@ -75,7 +77,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 200,
                 VAT = 20,
-                CommissionStatementId = csId
+                CommissionStatementId = statement1.Id
             };
 
             var commission3 = new CommissionEntity
@@ -85,7 +87,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 300,
                 VAT = 30,
-                CommissionStatementId = csId
+                CommissionStatementId = statement1.Id
             };
 
             var commission4 = new CommissionEntity
@@ -95,7 +97,7 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 40,
                 VAT = 400,
-                CommissionStatementId = Guid.NewGuid()
+                CommissionStatementId = statement2.Id
             };
 
             using (var context = new DataContext(options))
@@ -137,6 +139,12 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(commission1.VAT, actual.VAT);
                 Assert.Equal(commission1.CommissionStatementId, actual.CommissionStatementId);
                 Assert.Equal(policy1.Number, actual.PolicyNumber);
+
+                Assert.Equal(statement1.Date, actual.CommissionStatementDate);
+                Assert.Equal(client1.Client.LastName, actual.PolicyClientLastName);
+                Assert.Equal(client1.Client.Initials, actual.PolicyClientInitials);
+                Assert.Equal(client1.Client.DateOfBirth, actual.PolicyClientDateOfBirth);
+                Assert.Equal(statement1.CompanyId, actual.PolicyCompanyId);
 
                 actual = items[1];
                 Assert.Equal(commission2.Id, actual.Id);

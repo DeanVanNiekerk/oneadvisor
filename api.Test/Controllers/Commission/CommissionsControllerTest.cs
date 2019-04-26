@@ -20,7 +20,7 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void CommissionModelComposition()
         {
-            Assert.Equal(8, typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).PropertyCount());
+            Assert.Equal(13, typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).PropertyCount());
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("Id"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("CommissionStatementId"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("PolicyId"));
@@ -29,6 +29,11 @@ namespace api.Test.Controllers.Commission
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("VAT"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("UserId"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("PolicyNumber"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("CommissionStatementDate"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("PolicyCompanyId"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("PolicyClientLastName"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("PolicyClientInitials"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("PolicyClientDateOfBirth"));
         }
 
         [Fact]

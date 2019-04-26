@@ -12,6 +12,7 @@ import ClientImport from '@/ui/app/client/import/ClientImport';
 import PolicyProductList from '@/ui/app/client/lookup/policyProduct/PolicyProductList';
 import PolicyProductTypeList from '@/ui/app/client/lookup/policyProductType/PolicyProductTypeList';
 import PolicyList from '@/ui/app/client/policy/PolicyList';
+import CommissionList from '@/ui/app/commission/commission/CommissionList';
 import CommissionTypeList from '@/ui/app/commission/lookup/commissionType/CommissionTypeList';
 import ClientRevenueReport from '@/ui/app/commission/reports/clientRevenue/ClientRevenueReport';
 import StatementList from '@/ui/app/commission/statement/StatementList';
@@ -76,6 +77,11 @@ const Routes = () => (
             exact
             path="/commission/templates"
             component={CommissionStatementTemplateList}
+        />
+        <SecureRoute
+            exact
+            path="/commission/commissionEntries"
+            component={CommissionList}
         />
         <SecureRoute
             exact

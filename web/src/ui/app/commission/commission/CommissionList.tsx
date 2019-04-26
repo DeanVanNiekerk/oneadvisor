@@ -10,14 +10,17 @@ import {
     receiveFilters, receivePageOptions, receiveSortOptions
 } from '@/state/app/commission/commissions';
 import { CommissionType, commissionTypesSelector } from '@/state/app/commission/lookups';
+import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
-import { Button, CommissionTypeName, Header, Table, UserName } from '@/ui/controls';
+import { Button, CommissionTypeName, CompanyName, Header, Table, UserName } from '@/ui/controls';
 
 import EditCommission from './EditCommission';
 
+type Columns = keyof Commission;
+
 type Props = {
-    commissionStatementId: string;
+    commissionStatementId?: string;
     commissions: Commission[];
     fetching: boolean;
     pageOptions: PageOptions;
@@ -28,7 +31,10 @@ type Props = {
     filters: Filters;
     users: UserSimple[];
     commissionTypes: CommissionType[];
-    onCommissionsUpdate: () => void;
+    onCommissionsUpdate?: () => void;
+    hideHeaderText?: boolean;
+    companies: Company[];
+    hideColumns?: Columns[];
 } & DispatchProp;
 
 class CommissionList extends Component<Props> {
@@ -48,8 +54,14 @@ class CommissionList extends Component<Props> {
     loadCommissions = () => {
         const filters = {
             ...this.props.filters,
-            commissionStatementId: [this.props.commissionStatementId],
+            commissionStatementId: [] as string[],
         };
+
+        if (this.props.commissionStatementId)
+            filters.commissionStatementId.push(
+                this.props.commissionStatementId
+            );
+
         this.props.dispatch(
             fetchCommissions(
                 this.props.pageOptions,
@@ -66,14 +78,15 @@ class CommissionList extends Component<Props> {
     onFormClose = (cancelled: boolean) => {
         if (!cancelled) {
             this.loadCommissions();
-            this.props.onCommissionsUpdate();
+            if (this.props.onCommissionsUpdate)
+                this.props.onCommissionsUpdate();
         }
     };
 
     newCommission = () => {
         const commission: CommissionEdit = {
             id: "",
-            commissionStatementId: this.props.commissionStatementId,
+            commissionStatementId: this.props.commissionStatementId || "",
             amountIncludingVAT: 0,
             vat: 0,
             commissionTypeId: "",
@@ -84,37 +97,92 @@ class CommissionList extends Component<Props> {
     };
 
     getColumns = () => {
-        return [
-            getColumnEDS("policyNumber", "Policy Number", {
-                showSearchFilter: true,
-            }),
-            getColumnEDS("commissionTypeId", "Type", {
-                render: (commissionTypeId: string) => {
-                    return (
-                        <CommissionTypeName
-                            commissionTypeId={commissionTypeId}
-                        />
-                    );
-                },
-                filters: this.props.commissionTypes.map(type => ({
-                    text: type.name,
-                    value: type.id,
-                })),
-            }),
-            getColumnEDS("amountIncludingVAT", "Amount (incl VAT)", {
-                type: "currency",
-            }),
-            getColumnEDS("vat", "VAT", { type: "currency" }),
-            getColumnEDS("userId", "Broker", {
-                render: (userId: string) => {
-                    return <UserName userId={userId} />;
-                },
-                filters: this.props.users.map(user => ({
-                    text: user.fullName,
-                    value: user.id,
-                })),
-            }),
-        ];
+        const columns = [] as any[];
+        const { hideColumns = [] } = this.props;
+
+        if (!hideColumns.some(c => c == "commissionStatementDate"))
+            columns.push(
+                getColumnEDS("commissionStatementDate", "Date", {
+                    type: "date",
+                })
+            );
+
+        if (!hideColumns.some(c => c == "policyClientLastName"))
+            columns.push(
+                getColumnEDS("policyClientLastName", "Last Name", {
+                    showSearchFilter: true,
+                })
+            );
+
+        if (!hideColumns.some(c => c == "policyClientInitials"))
+            columns.push(getColumnEDS("policyClientInitials", "Initials"));
+
+        if (!hideColumns.some(c => c == "policyCompanyId"))
+            columns.push(
+                getColumnEDS(
+                    "policyCompanyId",
+                    "Company",
+                    {
+                        render: (policyCompanyId: string) => {
+                            return <CompanyName companyId={policyCompanyId} />;
+                        },
+                        filters: this.props.companies.map(type => ({
+                            text: type.name,
+                            value: type.id,
+                        })),
+                    },
+                    this.props.filters
+                )
+            );
+
+        if (!hideColumns.some(c => c == "policyNumber"))
+            columns.push(
+                getColumnEDS("policyNumber", "Policy Number", {
+                    showSearchFilter: true,
+                })
+            );
+
+        if (!hideColumns.some(c => c == "commissionTypeId"))
+            columns.push(
+                getColumnEDS("commissionTypeId", "Type", {
+                    render: (commissionTypeId: string) => {
+                        return (
+                            <CommissionTypeName
+                                commissionTypeId={commissionTypeId}
+                            />
+                        );
+                    },
+                    filters: this.props.commissionTypes.map(type => ({
+                        text: type.name,
+                        value: type.id,
+                    })),
+                })
+            );
+
+        if (!hideColumns.some(c => c == "amountIncludingVAT"))
+            columns.push(
+                getColumnEDS("amountIncludingVAT", "Amount (incl VAT)", {
+                    type: "currency",
+                })
+            );
+
+        if (!hideColumns.some(c => c == "vat"))
+            columns.push(getColumnEDS("vat", "VAT", { type: "currency" }));
+
+        if (!hideColumns.some(c => c == "userId"))
+            columns.push(
+                getColumnEDS("userId", "Broker", {
+                    render: (userId: string) => {
+                        return <UserName userId={userId} />;
+                    },
+                    filters: this.props.users.map(user => ({
+                        text: user.fullName,
+                        value: user.id,
+                    })),
+                })
+            );
+
+        return columns;
     };
 
     updateFilters = (filters: Filters): Filters => {
@@ -154,6 +222,8 @@ class CommissionList extends Component<Props> {
             <>
                 <Header
                     className="mb-1"
+                    icon="dollar"
+                    textHidden={this.props.hideHeaderText}
                     actions={
                         <>
                             <Button
@@ -162,12 +232,15 @@ class CommissionList extends Component<Props> {
                                 onClick={this.newCommission}
                                 disabled={this.props.fetching}
                                 requiredUseCase="com_edit_commissions"
+                                visible={!!this.props.commissionStatementId}
                             >
                                 New Commission
                             </Button>
                         </>
                     }
-                />
+                >
+                    Commission Entries
+                </Header>
                 <Table
                     rowKey="id"
                     columns={this.getColumns()}
@@ -192,6 +265,7 @@ const mapStateToProps = (state: RootState) => {
     const commissionsState = commissionsSelector(state);
     const usersState = usersSimpleSelector(state);
     const commissionTypesState = commissionTypesSelector(state);
+    const companiesState = companiesSelector(state);
 
     return {
         commissions: commissionsState.items,
@@ -204,6 +278,7 @@ const mapStateToProps = (state: RootState) => {
         filters: commissionsState.filters,
         users: usersState.items,
         commissionTypes: commissionTypesState.items,
+        companies: companiesState.items,
     };
 };
 

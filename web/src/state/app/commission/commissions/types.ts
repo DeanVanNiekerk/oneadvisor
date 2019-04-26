@@ -11,6 +11,12 @@ export type Commission = {
     vat: number;
     userId: string;
     policyNumber: string;
+
+    commissionStatementDate: string;
+    policyCompanyId: string;
+    policyClientLastName: string;
+    policyClientInitials: string;
+    policyClientDateOfBirth: string | null;
 };
 
 export type CommissionEdit = {

@@ -13,5 +13,11 @@ namespace OneAdvisor.Model.Commission.Model.Commission
 
         public Guid UserId { get; set; }
         public string PolicyNumber { get; set; }
+
+        public DateTime CommissionStatementDate { get; set; }
+        public Guid PolicyCompanyId { get; set; }
+        public string PolicyClientLastName { get; set; }
+        public string PolicyClientInitials { get; set; }
+        public DateTime? PolicyClientDateOfBirth { get; set; }
     }
 }

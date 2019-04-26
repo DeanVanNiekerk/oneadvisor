@@ -50,6 +50,11 @@ describe("commission list reducer", () => {
             userId: "123321",
             commissionStatementId: "998877",
             policyNumber: "POL-9877",
+            commissionStatementDate: "1999-09-09",
+            policyClientLastName: "van Niekerk",
+            policyClientInitials: "DJ",
+            policyClientDateOfBirth: "1982-10-03",
+            policyCompanyId: "987987",
         };
 
         const actualState = reducer(initalState, {

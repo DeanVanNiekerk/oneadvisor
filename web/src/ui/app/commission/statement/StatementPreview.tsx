@@ -402,8 +402,14 @@ class StatementPreviewComponent extends Component<Props, State> {
                     onClose={this.toggleCommissionListVisible}
                 >
                     <CommissionList
+                        hideHeaderText={true}
                         commissionStatementId={this.getCommissionStatementId()}
                         onCommissionsUpdate={this.load}
+                        hideColumns={[
+                            "commissionStatementDate",
+                            "policyClientInitials",
+                            "policyCompanyId",
+                        ]}
                     />
                     <DrawerFooter>
                         <Button onClick={this.toggleCommissionListVisible}>

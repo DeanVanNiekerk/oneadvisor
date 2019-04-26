@@ -9,6 +9,7 @@ type Props = {
     className?: string;
     onBack?: (e: React.MouseEvent<HTMLElement>) => void;
     hidden?: boolean;
+    textHidden?: boolean;
 };
 
 const Header = (props: Props) => {
@@ -37,12 +38,16 @@ const Header = (props: Props) => {
             <PageHeader
                 onBack={props.onBack}
                 title={
-                    <>
-                        {icon}
-                        <span style={{ marginLeft: "8px" }}>
-                            {props.children}
-                        </span>
-                    </>
+                    !props.textHidden ? (
+                        <>
+                            {icon}
+                            <span style={{ marginLeft: "8px" }}>
+                                {props.children}
+                            </span>
+                        </>
+                    ) : (
+                        <></>
+                    )
                 }
                 //subTitle="This is a subtitle"
                 style={{

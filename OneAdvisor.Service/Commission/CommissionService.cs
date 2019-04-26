@@ -34,6 +34,10 @@ namespace OneAdvisor.Service.Commission
                             on user.Id equals policy.UserId
                         join commission in _context.Commission
                             on policy.Id equals commission.PolicyId
+                        join statement in _context.CommissionStatement
+                            on commission.CommissionStatementId equals statement.Id
+                        join client in _context.Client
+                            on policy.ClientId equals client.Id
                         select new OneAdvisor.Model.Commission.Model.Commission.Commission()
                         {
                             Id = commission.Id,
@@ -43,7 +47,12 @@ namespace OneAdvisor.Service.Commission
                             AmountIncludingVAT = commission.AmountIncludingVAT,
                             VAT = commission.VAT,
                             UserId = policy.UserId,
-                            PolicyNumber = policy.Number
+                            PolicyNumber = policy.Number,
+                            CommissionStatementDate = statement.Date,
+                            PolicyCompanyId = policy.CompanyId,
+                            PolicyClientLastName = client.LastName,
+                            PolicyClientInitials = client.Initials,
+                            PolicyClientDateOfBirth = client.DateOfBirth
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -56,8 +65,14 @@ namespace OneAdvisor.Service.Commission
             if (queryOptions.CommissionTypeId.Any())
                 query = query.Where(c => queryOptions.CommissionTypeId.Contains(c.CommissionTypeId));
 
+            if (queryOptions.PolicyCompanyId.Any())
+                query = query.Where(c => queryOptions.PolicyCompanyId.Contains(c.PolicyCompanyId));
+
             if (!string.IsNullOrWhiteSpace(queryOptions.PolicyNumber))
                 query = query.Where(m => EF.Functions.Like(m.PolicyNumber, queryOptions.PolicyNumber));
+
+            if (!string.IsNullOrWhiteSpace(queryOptions.PolicyClientLastName))
+                query = query.Where(m => EF.Functions.Like(m.PolicyClientLastName, queryOptions.PolicyClientLastName));
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedCommissions();

@@ -140,6 +140,17 @@ export const menus: Menus = {
                 ],
             },
             {
+                name: "Commission",
+                links: [
+                    {
+                        name: "Commission Entries",
+                        icon: "dollar",
+                        relativePath: "/commissionEntries",
+                        useCases: ["com_view_commissions"],
+                    },
+                ],
+            },
+            {
                 name: "Reports",
                 links: [
                     {
