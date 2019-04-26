@@ -283,6 +283,8 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Assert.Equal(2400, actual.LifeFirstYears); //400 + 800 + 1200
 
                 Assert.Equal(8400, actual.GrandTotal); // (325 * 12) + 2100 + 2400
+
+                Assert.Equal(0, actual.AllocationsCount);
             }
         }
 
@@ -803,14 +805,17 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 var actual = results[0];
                 Assert.Equal(client1.Client.Id, actual.ClientId);
                 Assert.Equal(100, actual.MonthlyAnnuityMonth);
+                Assert.Equal(0, actual.AllocationsCount);
 
                 actual = results[1];
                 Assert.Equal(client2.Client.Id, actual.ClientId);
                 Assert.Equal(700, actual.MonthlyAnnuityMonth); //200 + 100 (pol1) + 400 (pol3b)
+                Assert.Equal(2, actual.AllocationsCount);
 
                 actual = results[2];
                 Assert.Equal(client3.Client.Id, actual.ClientId);
                 Assert.Equal(1200, actual.MonthlyAnnuityMonth); //300 + 400 + 500
+                Assert.Equal(0, actual.AllocationsCount);
 
             }
         }

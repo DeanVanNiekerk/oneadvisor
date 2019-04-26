@@ -11,4 +11,6 @@ export type ClientRevenueData = {
     lifeFirstYears: number;
     onceOff: number;
     grandTotal: number;
+
+    allocationsCount: number;
 };

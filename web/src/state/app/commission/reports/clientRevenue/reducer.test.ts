@@ -53,6 +53,7 @@ describe("report client revenue reducer", () => {
             monthlyAnnuityMonth: 40,
             onceOff: 50,
             totalMonthlyEarnings: 60,
+            allocationsCount: 70,
         };
 
         const actualState = reducer(initalState, {

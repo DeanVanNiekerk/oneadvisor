@@ -110,7 +110,8 @@ namespace OneAdvisor.Service.Commission
             ( 
                 SELECT
                 
-                    {select}
+                    {select},
+                    0 AS 'AllocationsCount'
 
                 FROM clt_Client m
                 JOIN clt_Policy p ON m.Id = p.ClientId
@@ -126,7 +127,8 @@ namespace OneAdvisor.Service.Commission
 
                 SELECT
                 
-                    {select}
+                    {select},
+                    COUNT(*) AS 'AllocationsCount'
 
                 FROM clt_Client m
                 JOIN com_CommissionAllocation ca on m.Id = ca.ToClientId
@@ -152,7 +154,8 @@ namespace OneAdvisor.Service.Commission
                     ((AnnualAnnuity / 12) + MonthlyAnnuityMonth) AS 'TotalMonthlyEarnings',
                     LifeFirstYears,
                     OnceOff,
-                    ((((AnnualAnnuity / 12) + MonthlyAnnuityMonth) * 12) + LifeFirstYears + OnceOff) AS 'GrandTotal'
+                    ((((AnnualAnnuity / 12) + MonthlyAnnuityMonth) * 12) + LifeFirstYears + OnceOff) AS 'GrandTotal',
+                    AllocationsCount
                 FROM CommissionQuery
             ),
             CommissionQueryTotalGrouped
@@ -168,7 +171,8 @@ namespace OneAdvisor.Service.Commission
                 SUM(TotalMonthlyEarnings) AS 'TotalMonthlyEarnings', 
                 SUM(LifeFirstYears) AS 'LifeFirstYears', 
                 SUM(OnceOff) AS 'OnceOff', 
-                SUM(GrandTotal) AS 'GrandTotal' 
+                SUM(GrandTotal) AS 'GrandTotal',
+                SUM(AllocationsCount) AS 'AllocationsCount' 
                 FROM CommissionQueryTotaled
                 GROUP BY ClientId, ClientLastName, ClientInitials, ClientDateOfBirth
             ),

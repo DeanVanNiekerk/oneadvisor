@@ -1,4 +1,4 @@
-import { Col, Icon, Row, Select } from 'antd';
+import { Badge, Col, Icon, Row, Select } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
@@ -133,12 +133,14 @@ class ClientRevenueReport extends Component<Props, State> {
                     fixed: "right",
                     render: (value: any, record: ClientRevenueData) => {
                         return (
-                            <Icon
-                                type="share-alt"
-                                onClick={() =>
-                                    this.editAllocations(record.clientId)
-                                }
-                            />
+                            <Badge dot count={record.allocationsCount}>
+                                <Icon
+                                    type="share-alt"
+                                    onClick={() =>
+                                        this.editAllocations(record.clientId)
+                                    }
+                                />
+                            </Badge>
                         );
                     },
                 })

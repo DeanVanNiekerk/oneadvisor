@@ -16,5 +16,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
         public decimal LifeFirstYears { get; set; }
         public decimal OnceOff { get; set; }
         public decimal GrandTotal { get; set; }
+
+        public int AllocationsCount { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void ClientRevenueDataModelComposition()
         {
-            Assert.Equal(11, typeof(ClientRevenueData).PropertyCount());
+            Assert.Equal(12, typeof(ClientRevenueData).PropertyCount());
             Assert.True(typeof(ClientRevenueData).HasProperty("RowNumber"));
             Assert.True(typeof(ClientRevenueData).HasProperty("ClientId"));
             Assert.True(typeof(ClientRevenueData).HasProperty("ClientLastName"));
@@ -33,6 +33,7 @@ namespace api.Test.Controllers.Commission
             Assert.True(typeof(ClientRevenueData).HasProperty("OnceOff"));
             Assert.True(typeof(ClientRevenueData).HasProperty("LifeFirstYears"));
             Assert.True(typeof(ClientRevenueData).HasProperty("GrandTotal"));
+            Assert.True(typeof(ClientRevenueData).HasProperty("AllocationsCount"));
         }
 
         [Fact]
@@ -51,6 +52,7 @@ namespace api.Test.Controllers.Commission
                 OnceOff = 5,
                 LifeFirstYears = 6,
                 GrandTotal = 7,
+                AllocationsCount = 8
             };
 
             var pagedItems = new PagedItems<ClientRevenueData>()
