@@ -11,6 +11,8 @@ using OneAdvisor.Model.Commission.Model.CommissionError;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Commission;
+using OneAdvisor.Service.Client;
+using OneAdvisor.Model.Client.Model.Lookup;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -46,7 +48,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionError.Add(error1);
                 context.SaveChanges();
 
-                var service = new CommissionErrorService(context, null);
+                var service = new CommissionErrorService(context, null, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -90,7 +92,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionError.Add(error1);
                 context.SaveChanges();
 
-                var service = new CommissionErrorService(context, null);
+                var service = new CommissionErrorService(context, null, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -131,7 +133,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionError.Add(error1);
                 context.SaveChanges();
 
-                var service = new CommissionErrorService(context, null);
+                var service = new CommissionErrorService(context, null, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -175,7 +177,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionErrorService(context, null);
+                var service = new CommissionErrorService(context, null, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -229,7 +231,7 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var commissionService = new CommissionService(context);
-                var service = new CommissionErrorService(context, commissionService);
+                var service = new CommissionErrorService(context, commissionService, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -264,7 +266,7 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var commissionService = new CommissionService(context);
-                var service = new CommissionErrorService(context, commissionService);
+                var service = new CommissionErrorService(context, commissionService, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -301,7 +303,14 @@ namespace OneAdvisor.Service.Test.Commission
                 PolicyNumber = "123456",
                 CommissionTypeCode = "gap_cover",
                 AmountIncludingVAT = "22",
-                VAT = "33"
+                VAT = "33",
+
+                //These should get ignored as values already exist in db
+                FirstName = "Dean",
+                LastName = "van Niekerk",
+                IdNumber = "8210035032082",
+                DateOfBirth = "1982-10-03",
+                Initials = "DJ"
             };
 
             var err1 = new CommissionErrorEntity
@@ -341,7 +350,8 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var commissionService = new CommissionService(context);
-                var service = new CommissionErrorService(context, commissionService);
+                var clientService = new ClientService(context);
+                var service = new CommissionErrorService(context, commissionService, clientService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -363,6 +373,115 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(33, actual.VAT);
                 Assert.Equal(error1.Data, actual.SourceData);
 
+                //These details should not have changed
+                var actualClient = context.Client.Single();
+                Assert.Equal(client1.Client.Initials, actualClient.Initials);
+                Assert.Equal(client1.Client.FirstName, actualClient.FirstName);
+                Assert.Equal(client1.Client.LastName, actualClient.LastName);
+                Assert.Equal(client1.Client.IdNumber, actualClient.IdNumber);
+                Assert.Equal(client1.Client.DateOfBirth, actualClient.DateOfBirth);
+
+            }
+        }
+
+        [Fact]
+        public async Task ResolveMappingError_Pass_UpdateMemberDetails()
+        {
+            var options = TestHelper.GetDbContext("ResolveMappingError_Pass_UpdateMemberDetails");
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+
+            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
+
+            var client1 = new ClientEntity
+            {
+                Id = Guid.NewGuid(),
+                ClientTypeId = ClientType.CLIENT_TYPE_INDIVIDUAL,
+                FirstName = "",
+                LastName = "",
+                IdNumber = "",
+                OrganisationId = user1.Organisation.Id,
+                Initials = "",
+                DateOfBirth = null,
+                TaxNumber = Guid.NewGuid().ToString()
+            };
+
+            var policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                ClientId = client1.Id,
+                UserId = user1.User.Id
+            };
+
+            var ic1 = new ImportCommission
+            {
+                PolicyNumber = "123456",
+                CommissionTypeCode = "gap_cover",
+                AmountIncludingVAT = "22",
+                VAT = "33",
+                FirstName = "Dean",
+                LastName = "van Niekerk",
+                IdNumber = "8210035032082",
+                DateOfBirth = "1982-10-03",
+                Initials = "DJ"
+            };
+
+            var err1 = new CommissionErrorEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionStatementId = statement.Id,
+                IsFormatValid = true,
+                Data = ic1
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Client.Add(client1);
+
+                context.CommissionError.Add(err1);
+
+                context.Policy.Add(policy1);
+
+                context.SaveChanges();
+
+                var error1 = new CommissionError
+                {
+                    Id = err1.Id,
+                    CommissionStatementId = statement.Id,
+                    IsFormatValid = true,
+                    PolicyId = policy1.Id,
+                    ClientId = policy1.ClientId,
+                    CommissionTypeId = Guid.NewGuid(),
+                    Data = ic1
+                };
+
+                var commissionService = new CommissionService(context);
+                var clientService = new ClientService(context);
+                var service = new CommissionErrorService(context, commissionService, clientService);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1);
+                var result = await service.ResolveMappingError(scope, error1);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = context.Commission.Single();
+
+                Assert.Equal(error1.PolicyId, actual.PolicyId);
+                Assert.Equal(error1.CommissionStatementId, actual.CommissionStatementId);
+                Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
+                Assert.Equal(22, actual.AmountIncludingVAT);
+                Assert.Equal(33, actual.VAT);
+                Assert.Equal(error1.Data, actual.SourceData);
+
+                var actualClient = context.Client.Single();
+                Assert.Equal(ic1.Initials, actualClient.Initials);
+                Assert.Equal(ic1.FirstName, actualClient.FirstName);
+                Assert.Equal(ic1.LastName, actualClient.LastName);
+                Assert.Equal(ic1.IdNumber, actualClient.IdNumber);
+                Assert.Equal(DateTime.Parse(ic1.DateOfBirth), actualClient.DateOfBirth);
             }
         }
 
@@ -428,7 +547,8 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var commissionService = new CommissionService(context);
-                var service = new CommissionErrorService(context, commissionService);
+                var clientService = new ClientService(context);
+                var service = new CommissionErrorService(context, commissionService, clientService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -576,7 +696,8 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var commissionService = new CommissionService(context);
-                var service = new CommissionErrorService(context, commissionService);
+                var clientService = new ClientService(context);
+                var service = new CommissionErrorService(context, commissionService, clientService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -680,7 +801,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionError.Add(error3);
                 context.SaveChanges();
 
-                var service = new CommissionErrorService(context, null);
+                var service = new CommissionErrorService(context, null, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);

@@ -17,6 +17,8 @@ using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Commission.Validators;
 using OneAdvisor.Service.Common.Query;
 using System.Collections.Generic;
+using OneAdvisor.Model.Client.Interface;
+using OneAdvisor.Service.Client.Validators;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -24,11 +26,13 @@ namespace OneAdvisor.Service.Commission
     {
         private readonly DataContext _context;
         private readonly ICommissionService _commissionService;
+        private readonly IClientService _clientService;
 
-        public CommissionErrorService(DataContext context, ICommissionService commissionService)
+        public CommissionErrorService(DataContext context, ICommissionService commissionService, IClientService clientService)
         {
             _context = context;
             _commissionService = commissionService;
+            _clientService = clientService;
         }
 
         public async Task<PagedItems<CommissionError>> GetErrors(CommissionErrorQueryOptions queryOptions)
@@ -116,6 +120,29 @@ namespace OneAdvisor.Service.Commission
             commission.SourceData = error.Data;
 
             result = await _commissionService.InsertCommission(scope, commission);
+
+            //Update client details (if none exist)
+            try
+            {
+                var client = await _clientService.GetClient(scope, error.ClientId.Value);
+                client.FirstName = string.IsNullOrEmpty(client.FirstName) ? error.Data.FirstName ?? "" : client.FirstName;
+                client.LastName = string.IsNullOrEmpty(client.LastName) ? error.Data.FullName ?? "" : client.LastName;
+                client.LastName = string.IsNullOrEmpty(client.LastName) ? error.Data.LastName ?? "" : client.LastName;
+                client.Initials = string.IsNullOrEmpty(client.Initials) ? error.Data.Initials ?? "" : client.Initials;
+                client.DateOfBirth = !client.DateOfBirth.HasValue ? DateTime.Parse(error.Data.DateOfBirth) : client.DateOfBirth;
+
+                if (!string.IsNullOrEmpty(error.Data.IdNumber))
+                {
+                    var idNumber = new IdNumber(error.Data.IdNumber);
+                    if (idNumber.IsValid)
+                        client.IdNumber = string.IsNullOrEmpty(client.IdNumber) ? error.Data.IdNumber : client.IdNumber;
+                    else
+                        client.AlternateIdNumber = string.IsNullOrEmpty(client.AlternateIdNumber) ? error.Data.IdNumber ?? "" : client.AlternateIdNumber;
+                }
+
+                await _clientService.UpdateClient(scope, client);
+            }
+            catch { }
 
             if (!result.Success)
                 return result;
