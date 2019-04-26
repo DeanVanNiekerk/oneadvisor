@@ -75,6 +75,7 @@ namespace OneAdvisor.Service.Commission
             JOIN com_commission c ON p.Id = c.PolicyId
             JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id 
             WHERE m.OrganisationId = '{organisationId}'
+            AND m.IsDeleted = 0
             {whereClause}
             GROUP BY m.Id";
         }
@@ -119,6 +120,7 @@ namespace OneAdvisor.Service.Commission
                 JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id 
                 JOIN com_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id
                 WHERE m.OrganisationId = '{organisationId}'
+                AND m.IsDeleted = 0
                 {whereClause}
                 GROUP BY m.Id, m.LastName, m.Initials, m.DateOfBirth
 
@@ -137,6 +139,7 @@ namespace OneAdvisor.Service.Commission
                 JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id 
                 JOIN com_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id
                 WHERE m.OrganisationId = '{organisationId}'
+                AND m.IsDeleted = 0
                 {whereClause}
                 GROUP BY m.Id, m.LastName, m.Initials, m.DateOfBirth
             ),

@@ -119,6 +119,7 @@ class AllocationForm extends Component<Props, State> {
                         />
                         <PolicyList
                             hideHeader={true}
+                            disabledEdit={true}
                             clientId={this.state.allocation.fromClientId}
                             rowSelection={{
                                 onChange: this.onPolicySelected,

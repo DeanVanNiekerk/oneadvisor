@@ -30,6 +30,7 @@ type Props = {
     users: UserSimple[];
     hideHeader?: boolean;
     rowSelection?: TableRowSelection<any>;
+    disabledEdit?: boolean;
 } & DispatchProp;
 
 class PolicyList extends Component<Props> {
@@ -69,6 +70,8 @@ class PolicyList extends Component<Props> {
     };
 
     editPolicy = (id: string) => {
+        if (this.props.disabledEdit) return;
+
         this.props.dispatch(fetchPolicy(id));
     };
 
@@ -195,7 +198,7 @@ class PolicyList extends Component<Props> {
                                 onClick={this.newPolicy}
                                 disabled={this.props.fetching}
                                 requiredUseCase="clt_edit_policies"
-                                visible={!!this.props.clientId}
+                                visible={!this.props.disabledEdit}
                             >
                                 New Policy
                             </Button>
