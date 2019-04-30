@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.App.Authorization;
 using api.Controllers.Directory.Lookups.Dto;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Model.Client.Interface;

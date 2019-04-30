@@ -42,7 +42,6 @@ namespace api
             serviceSetup.ConfigureCors();
             serviceSetup.ConfigureAuthentication();
             serviceSetup.ConfigureServices();
-            serviceSetup.ConfigureMapper();
             serviceSetup.ConfigureLogging();
             serviceSetup.ConfigureSwagger();
 

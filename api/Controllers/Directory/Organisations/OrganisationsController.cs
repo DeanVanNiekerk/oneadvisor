@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using api.App.Authorization;
 using OneAdvisor.Model.Directory.Interface;
-using api.Controllers.Directory.Organisations.Dto;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Organisation;
 using api.App.Dtos;
@@ -17,37 +15,34 @@ using OneAdvisor.Model.Account.Interface;
 
 namespace api.Controllers.Directory.Organisations
 {
-
     [ApiController]
     [Route("api/directory/organisations")]
     public class OrganisationsController : Controller
     {
-        public OrganisationsController(IMapper mapper, IAuthenticationService authenticationService, IOrganisationService organisationService)
+        public OrganisationsController(IAuthenticationService authenticationService, IOrganisationService organisationService)
         {
-            Mapper = mapper;
             OrganisationService = organisationService;
             AuthenticationService = authenticationService;
         }
 
-        private IMapper Mapper { get; }
         private IOrganisationService OrganisationService { get; }
         private IAuthenticationService AuthenticationService { get; }
 
         [HttpGet("")]
         [UseCaseAuthorize("dir_view_organisations")]
-        public async Task<PagedItemsDto<OrganisationDto>> Index()
+        public async Task<IActionResult> Index()
         {
             var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
             var queryOptions = new OrganisationQueryOptions(scope);
             var pagedItems = await OrganisationService.GetOrganisations(queryOptions);
 
-            return Mapper.MapToPageItemsDto<Organisation, OrganisationDto>(pagedItems);
+            return Ok(pagedItems);
         }
 
         [HttpGet("{organisationId}")]
         [UseCaseAuthorize("dir_view_organisations")]
-        public async Task<ActionResult<OrganisationDto>> Get(Guid organisationId)
+        public async Task<IActionResult> Get(Guid organisationId)
         {
             var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
@@ -56,19 +51,17 @@ namespace api.Controllers.Directory.Organisations
             if (model == null)
                 return NotFound();
 
-            return Ok(Mapper.Map<OrganisationDto>(model));
+            return Ok(model);
         }
 
         [HttpPost]
         [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         [UseCaseAuthorize("dir_edit_organisations")]
-        public async Task<ActionResult<Result>> Insert([FromBody] OrganisationDto organisation)
+        public async Task<IActionResult> Insert([FromBody] Organisation organisation)
         {
             var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
-            var model = Mapper.Map<Organisation>(organisation);
-
-            var result = await OrganisationService.InsertOrganisation(scope, model);
+            var result = await OrganisationService.InsertOrganisation(scope, organisation);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
@@ -78,15 +71,13 @@ namespace api.Controllers.Directory.Organisations
 
         [HttpPost("{organisationId}")]
         [UseCaseAuthorize("dir_edit_organisations")]
-        public async Task<ActionResult<Result>> Update(Guid organisationId, [FromBody] OrganisationDto organisation)
+        public async Task<IActionResult> Update(Guid organisationId, [FromBody] Organisation organisation)
         {
             var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
             organisation.Id = organisationId;
 
-            var model = Mapper.Map<Organisation>(organisation);
-
-            var result = await OrganisationService.UpdateOrganisation(scope, model);
+            var result = await OrganisationService.UpdateOrganisation(scope, organisation);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);

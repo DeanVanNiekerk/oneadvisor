@@ -4,7 +4,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using api.App.Models;
-using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -127,11 +126,6 @@ namespace api.App.Setup
 
             //Helpers
             Services.AddScoped<IBulkActions, BulkActions>();
-        }
-
-        public void ConfigureMapper()
-        {
-            Services.AddAutoMapper();
         }
 
         public void ConfigureLogging()

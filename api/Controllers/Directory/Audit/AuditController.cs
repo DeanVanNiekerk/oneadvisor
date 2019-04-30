@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using api.App.Authorization;
@@ -15,19 +14,16 @@ using OneAdvisor.Model.Account.Interface;
 
 namespace api.Controllers.Directory.Audit
 {
-
     [ApiController]
     [Route("api/directory/audit")]
     public class AuditController : Controller
     {
-        public AuditController(IMapper mapper, IAuthenticationService authenticationService, IAuditService auditService)
+        public AuditController(IAuthenticationService authenticationService, IAuditService auditService)
         {
-            Mapper = mapper;
             AuditService = auditService;
             AuthenticationService = authenticationService;
         }
 
-        private IMapper Mapper { get; }
         private IAuditService AuditService { get; }
         private IAuthenticationService AuthenticationService { get; }
 

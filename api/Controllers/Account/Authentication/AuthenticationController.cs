@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using api.App.Models;
 using api.App.Token;
 using api.Controllers.Account.Authentication.Dto;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
