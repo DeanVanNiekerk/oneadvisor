@@ -32,13 +32,26 @@ namespace api.Controllers.Commission.Commissions
 
         [HttpGet("clientRevenueData")]
         [UseCaseAuthorize("com_view_report_client_revenue")]
-        public async Task<IActionResult> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
+        public async Task<IActionResult> GetClientRevenueData(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
             var scope = AuthenticationService.GetScope(User);
 
             var queryOptions = new ClientRevenueQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
 
             var data = await CommissionReportService.GetClientRevenueData(queryOptions);
+
+            return Ok(data);
+        }
+
+        [HttpGet("userMonthlyCommissioData")]
+        [UseCaseAuthorize("com_view_report_user_monthly_commission")]
+        public async Task<IActionResult> GetUserMonthlyCommissionData(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
+        {
+            var scope = AuthenticationService.GetScope(User);
+
+            var queryOptions = new UserMonthlyCommissionQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
+
+            var data = await CommissionReportService.GetUserMonthlyCommissionData(queryOptions);
 
             return Ok(data);
         }

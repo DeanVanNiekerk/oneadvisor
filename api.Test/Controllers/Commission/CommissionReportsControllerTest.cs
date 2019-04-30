@@ -37,7 +37,7 @@ namespace api.Test.Controllers.Commission
         }
 
         [Fact]
-        public async Task Index()
+        public async Task GetClientRevenueData()
         {
             var data = new ClientRevenueData()
             {
@@ -74,7 +74,7 @@ namespace api.Test.Controllers.Commission
 
             var controller = new CommissionReportsController(service.Object, authService.Object);
 
-            var result = await controller.Index("MonthlyAnnuityMonth", "desc", 15, 2, $"yearEnding=2019;monthEnding=1");
+            var result = await controller.GetClientRevenueData("MonthlyAnnuityMonth", "desc", 15, 2, $"yearEnding=2019;monthEnding=1");
 
             Assert.Equal(Scope.Branch, queryOptions.Scope.Scope);
             Assert.Equal("MonthlyAnnuityMonth", queryOptions.SortOptions.Column);
@@ -87,6 +87,74 @@ namespace api.Test.Controllers.Commission
 
             var okResult = Assert.IsType<OkObjectResult>(result);
             var returnValue = Assert.IsType<PagedItems<ClientRevenueData>>(okResult.Value);
+
+            Assert.Same(pagedItems, returnValue);
+        }
+
+
+
+        [Fact]
+        public void UserMonthlyCommissionDataModelComposition()
+        {
+            Assert.Equal(9, typeof(UserMonthlyCommissionData).PropertyCount());
+            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("UserId"));
+            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("UserLastName"));
+            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("UserFirstName"));
+            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("Month"));
+            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("Year"));
+            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("MonthlyAnnuity"));
+            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("AnnualAnnuity"));
+            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("LifeFirstYears"));
+            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("OnceOff"));
+        }
+
+        [Fact]
+        public async Task GetUserMonthlyCommissionData()
+        {
+            var data = new UserMonthlyCommissionData()
+            {
+                UserId = Guid.NewGuid(),
+                UserLastName = "van Niekerk",
+                UserFirstName = "DJ",
+                Month = 1,
+                Year = 1999,
+                MonthlyAnnuity = 100,
+                AnnualAnnuity = 200,
+                LifeFirstYears = 500,
+                OnceOff = 400,
+            };
+
+            var pagedItems = new PagedItems<UserMonthlyCommissionData>()
+            {
+                TotalItems = 1,
+                Items = new List<UserMonthlyCommissionData>()
+                {
+                    data
+                }
+            };
+
+            var service = new Mock<ICommissionReportService>();
+            var authService = TestHelper.MockAuthenticationService(Scope.Branch);
+
+            UserMonthlyCommissionQueryOptions queryOptions = null;
+            service.Setup(c => c.GetUserMonthlyCommissionData(It.IsAny<UserMonthlyCommissionQueryOptions>()))
+                .Callback((UserMonthlyCommissionQueryOptions options) => queryOptions = options)
+                .ReturnsAsync(pagedItems);
+
+            var controller = new CommissionReportsController(service.Object, authService.Object);
+
+            var result = await controller.GetUserMonthlyCommissionData("Year", "desc", 15, 2, $"month=9");
+
+            Assert.Equal(Scope.Branch, queryOptions.Scope.Scope);
+            Assert.Equal("Year", queryOptions.SortOptions.Column);
+            Assert.Equal(SortDirection.Descending, queryOptions.SortOptions.Direction);
+            Assert.Equal(15, queryOptions.PageOptions.Size);
+            Assert.Equal(2, queryOptions.PageOptions.Number);
+
+            Assert.Equal(9, queryOptions.Month.Single());
+
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<PagedItems<UserMonthlyCommissionData>>(okResult.Value);
 
             Assert.Same(pagedItems, returnValue);
         }

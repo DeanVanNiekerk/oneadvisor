@@ -208,10 +208,10 @@ namespace OneAdvisor.Service.Test
             return company;
         }
 
-        public static CommissionStatementEntity InsertCommissionStatement(DbContextOptions<DataContext> options, OrganisationEntity organisation, Guid? companyId = null)
+        public static CommissionStatementEntity InsertCommissionStatement(DbContextOptions<DataContext> options, OrganisationEntity organisation, Guid? companyId = null, DateTime? date = null)
         {
             companyId = companyId.HasValue ? companyId : InsertCompany(options).Id;
-            var statement = new CommissionStatementEntity { Id = Guid.NewGuid(), OrganisationId = organisation.Id, CompanyId = companyId.Value };
+            var statement = new CommissionStatementEntity { Id = Guid.NewGuid(), OrganisationId = organisation.Id, CompanyId = companyId.Value, Date = date ?? DateTime.Now };
 
             using (var context = new DataContext(options))
             {

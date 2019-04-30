@@ -202,6 +202,7 @@ namespace OneAdvisor.Data
             list.Add(new UseCaseEntity() { Id = "com_view_report_client_revenue", Name = "View Commission Client Revenue Report", ApplicationId = comGuid });
             list.Add(new UseCaseEntity() { Id = "com_view_commission_allocations", Name = "View Commission Allocations", ApplicationId = comGuid });
             list.Add(new UseCaseEntity() { Id = "com_edit_commission_allocations", Name = "Edit Commission Allocations", ApplicationId = comGuid });
+            list.Add(new UseCaseEntity() { Id = "com_view_report_user_monthly_commission", Name = "View Commission User Monthly Commission Report", ApplicationId = comGuid });
 
             return list;
         }

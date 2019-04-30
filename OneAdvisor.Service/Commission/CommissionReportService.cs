@@ -14,6 +14,7 @@ using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Commission.Model.Lookup;
+using OneAdvisor.Service.Common.Query;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -188,6 +189,58 @@ namespace OneAdvisor.Service.Commission
             FROM CommissionQueryNumbered
             {pagingClause}
             ";
+        }
+
+        public async Task<PagedItems<UserMonthlyCommissionData>> GetUserMonthlyCommissionData(UserMonthlyCommissionQueryOptions queryOptions)
+        {
+            var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
+
+            var query = from commission in _context.Commission
+                        join statement in _context.CommissionStatement
+                            on commission.CommissionStatementId equals statement.Id
+                        join commissionType in _context.CommissionType
+                            on commission.CommissionTypeId equals commissionType.Id
+                        join policy in _context.Policy
+                            on commission.PolicyId equals policy.Id
+                        join user in userQuery
+                            on policy.UserId equals user.Id
+                        group new { commissionType.CommissionEarningsTypeId, commission.AmountIncludingVAT } by new { policy.UserId, user.FirstName, user.LastName, commissionType.CommissionEarningsTypeId, statement.DateYear, statement.DateMonth } into g
+                        select new UserMonthlyCommissionData()
+                        {
+                            UserId = g.Key.UserId,
+                            UserFirstName = g.Key.FirstName,
+                            UserLastName = g.Key.LastName,
+                            Month = g.Key.DateMonth,
+                            Year = g.Key.DateYear,
+                            MonthlyAnnuity = g.Where(c => c.CommissionEarningsTypeId == CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY).Sum(c => c.AmountIncludingVAT),
+                            AnnualAnnuity = g.Where(c => c.CommissionEarningsTypeId == CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY).Sum(c => c.AmountIncludingVAT),
+                            LifeFirstYears = g.Where(c => c.CommissionEarningsTypeId == CommissionEarningsType.EARNINGS_TYPE_LIFE_FIRST_YEARS).Sum(c => c.AmountIncludingVAT),
+                            OnceOff = g.Where(c => c.CommissionEarningsTypeId == CommissionEarningsType.EARNINGS_TYPE_ONCE_OFF).Sum(c => c.AmountIncludingVAT)
+                        };
+
+            //Apply filters ----------------------------------------------------------------------------------------
+            if (queryOptions.Year.Any())
+                query = query.Where(d => queryOptions.Year.Contains(d.Year));
+
+            if (queryOptions.Month.Any())
+                query = query.Where(d => queryOptions.Month.Contains(d.Month));
+
+            if (queryOptions.UserId.Any())
+                query = query.Where(d => queryOptions.UserId.Contains(d.UserId));
+            //------------------------------------------------------------------------------------------------------
+
+            var pagedItems = new PagedItems<UserMonthlyCommissionData>();
+
+            //Get total items
+            pagedItems.TotalItems = await query.CountAsync();
+
+            //Ordering
+            query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
+
+            //Paging
+            pagedItems.Items = await query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
+
+            return pagedItems;
         }
     }
 }
