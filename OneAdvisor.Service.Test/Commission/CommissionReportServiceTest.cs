@@ -29,6 +29,7 @@ namespace OneAdvisor.Service.Test.Commission
             TestHelper.InsertCommissionEarningsTypes(options);
 
             var comTypeMonth = TestHelper.InsertCommissionType(options, Guid.NewGuid(), CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY);
+            var comTypeAnnual = TestHelper.InsertCommissionType(options, Guid.NewGuid(), CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY);
 
             var user1 = TestHelper.InsertUserDetailed(options);
             var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
@@ -98,6 +99,16 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionStatementId = statement1.Id
             };
 
+            var usr2_policy1_comm3 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = usr2_policy1.Id,
+                CommissionTypeId = comTypeAnnual.Id,
+                AmountIncludingVAT = 400,
+                VAT = 40,
+                CommissionStatementId = statement1.Id
+            };
+
             var usr3_policy1_comm1 = new CommissionEntity
             {
                 Id = Guid.NewGuid(),
@@ -117,6 +128,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.Commission.Add(usr1_policy1_comm1);
                 context.Commission.Add(usr2_policy1_comm1);
                 context.Commission.Add(usr2_policy1_comm2);
+                context.Commission.Add(usr2_policy1_comm3);
                 context.Commission.Add(usr3_policy1_comm1);
 
                 context.SaveChanges();
@@ -129,23 +141,21 @@ namespace OneAdvisor.Service.Test.Commission
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
                 var queryOptions = new UserMonthlyCommissionQueryOptions(scope, "", "", 0, 0);
-                var users = await service.GetUserMonthlyCommissionData(queryOptions);
+                var records = await service.GetUserMonthlyCommissionData(queryOptions);
 
                 //Then
-                Assert.Equal(2, users.TotalItems);
-                Assert.Equal(2, users.Items.Count());
+                Assert.Equal(3, records.TotalItems);
+                Assert.Equal(3, records.Items.Count());
 
-                var items = users.Items.ToList();
+                var items = records.Items.ToList();
                 var actual = items[0];
                 Assert.Equal(user1.User.Id, actual.UserId);
                 Assert.Equal(user1.User.FirstName, actual.UserFirstName);
                 Assert.Equal(user1.User.LastName, actual.UserLastName);
                 Assert.Equal(statement1.DateYear, actual.Year);
                 Assert.Equal(statement1.DateMonth, actual.Month);
-                Assert.Equal(100, actual.MonthlyAnnuity);
-                Assert.Equal(0, actual.AnnualAnnuity);
-                Assert.Equal(0, actual.LifeFirstYears);
-                Assert.Equal(0, actual.OnceOff);
+                Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
+                Assert.Equal(100, actual.AmountIncludingVAT);
 
                 actual = items[1];
                 Assert.Equal(user2.User.Id, actual.UserId);
@@ -153,23 +163,32 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(user2.User.LastName, actual.UserLastName);
                 Assert.Equal(statement1.DateYear, actual.Year);
                 Assert.Equal(statement1.DateMonth, actual.Month);
-                Assert.Equal(500, actual.MonthlyAnnuity); //200 + 300
-                Assert.Equal(0, actual.AnnualAnnuity);
-                Assert.Equal(0, actual.LifeFirstYears);
-                Assert.Equal(0, actual.OnceOff);
+                Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
+                Assert.Equal(500, actual.AmountIncludingVAT); //200 + 300
+
+                actual = items[2];
+                Assert.Equal(user2.User.Id, actual.UserId);
+                Assert.Equal(user2.User.FirstName, actual.UserFirstName);
+                Assert.Equal(user2.User.LastName, actual.UserLastName);
+                Assert.Equal(statement1.DateYear, actual.Year);
+                Assert.Equal(statement1.DateMonth, actual.Month);
+                Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY, actual.CommissionEarningsTypeId);
+                Assert.Equal(400, actual.AmountIncludingVAT);
 
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user3);
                 queryOptions = new UserMonthlyCommissionQueryOptions(scope, "", "", 0, 0);
-                users = await service.GetUserMonthlyCommissionData(queryOptions);
+                records = await service.GetUserMonthlyCommissionData(queryOptions);
 
-                Assert.Single(users.Items);
+                Assert.Single(records.Items);
 
-                items = users.Items.ToList();
+                items = records.Items.ToList();
                 actual = items[0];
                 Assert.Equal(user3.User.Id, actual.UserId);
+
             }
         }
+
 
         [Fact]
         public async Task GetUserMonthlyCommissionData_YearMonthFilter()
@@ -263,23 +282,21 @@ namespace OneAdvisor.Service.Test.Commission
                 var queryOptions = new UserMonthlyCommissionQueryOptions(scope, "", "", 0, 0);
                 queryOptions.Year = new List<int>() { lastMonth.Year };
                 queryOptions.Month = new List<int>() { lastMonth.Month };
-                var users = await service.GetUserMonthlyCommissionData(queryOptions);
+                var records = await service.GetUserMonthlyCommissionData(queryOptions);
 
                 //Then
-                Assert.Equal(1, users.TotalItems);
-                Assert.Equal(1, users.Items.Count());
+                Assert.Equal(1, records.TotalItems);
+                Assert.Equal(1, records.Items.Count());
 
-                var items = users.Items.ToList();
+                var items = records.Items.ToList();
                 var actual = items[0];
                 Assert.Equal(user1.User.Id, actual.UserId);
                 Assert.Equal(user1.User.FirstName, actual.UserFirstName);
                 Assert.Equal(user1.User.LastName, actual.UserLastName);
                 Assert.Equal(statement2.DateYear, actual.Year);
                 Assert.Equal(statement2.DateMonth, actual.Month);
-                Assert.Equal(500, actual.MonthlyAnnuity); //200 + 300
-                Assert.Equal(0, actual.AnnualAnnuity);
-                Assert.Equal(0, actual.LifeFirstYears);
-                Assert.Equal(0, actual.OnceOff);
+                Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
+                Assert.Equal(500, actual.AmountIncludingVAT); //200 + 300
             }
         }
 
@@ -356,25 +373,22 @@ namespace OneAdvisor.Service.Test.Commission
                 var scope = TestHelper.GetScopeOptions(user1);
                 var queryOptions = new UserMonthlyCommissionQueryOptions(scope, "", "", 0, 0);
                 queryOptions.UserId.Add(user2.User.Id);
-                var users = await service.GetUserMonthlyCommissionData(queryOptions);
+                var records = await service.GetUserMonthlyCommissionData(queryOptions);
 
                 //Then
-                Assert.Equal(1, users.TotalItems);
-                Assert.Equal(1, users.Items.Count());
+                Assert.Equal(1, records.TotalItems);
+                Assert.Equal(1, records.Items.Count());
 
-                var items = users.Items.ToList();
+                var items = records.Items.ToList();
                 var actual = items[0];
                 Assert.Equal(user2.User.Id, actual.UserId);
                 Assert.Equal(user2.User.FirstName, actual.UserFirstName);
                 Assert.Equal(user2.User.LastName, actual.UserLastName);
                 Assert.Equal(statement1.DateYear, actual.Year);
                 Assert.Equal(statement1.DateMonth, actual.Month);
-                Assert.Equal(200, actual.MonthlyAnnuity);
-                Assert.Equal(0, actual.AnnualAnnuity);
-                Assert.Equal(0, actual.LifeFirstYears);
-                Assert.Equal(0, actual.OnceOff);
+                Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
+                Assert.Equal(200, actual.AmountIncludingVAT);
             }
         }
-
     }
 }

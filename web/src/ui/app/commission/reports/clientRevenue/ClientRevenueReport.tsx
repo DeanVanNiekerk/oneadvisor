@@ -7,8 +7,8 @@ import { applyLike } from '@/app/query';
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
 import { getMonthOptions, getYearOptions } from '@/app/utils';
 import {
-    ClientRevenueData, clientRevenueSelector, fetchClientRevenueData, receiveFilters, receivePageOptions,
-    receiveSortOptions
+    ClientRevenueData, clientRevenueSelector, fetchClientRevenueData, receiveClientRevenueFilters,
+    receiveClientRevenuePageOptions, receiveClientRevenueSortOptions
 } from '@/state/app/commission/reports';
 import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
@@ -152,7 +152,7 @@ class ClientRevenueReport extends Component<Props, State> {
 
     handleYearChange = (year: number) => {
         this.props.dispatch(
-            receiveFilters({
+            receiveClientRevenueFilters({
                 ...this.props.filters,
                 yearEnding: [year.toString()],
             })
@@ -165,7 +165,7 @@ class ClientRevenueReport extends Component<Props, State> {
 
     handleMonthChange = (month: number) => {
         this.props.dispatch(
-            receiveFilters({
+            receiveClientRevenueFilters({
                 ...this.props.filters,
                 monthEnding: [month.toString()],
             })
@@ -182,12 +182,12 @@ class ClientRevenueReport extends Component<Props, State> {
         filters: Filters
     ) => {
         if (this.props.pageOptions != pageOptions)
-            this.props.dispatch(receivePageOptions(pageOptions));
+            this.props.dispatch(receiveClientRevenuePageOptions(pageOptions));
         if (this.props.sortOptions != sortOptions)
-            this.props.dispatch(receiveSortOptions(sortOptions));
+            this.props.dispatch(receiveClientRevenueSortOptions(sortOptions));
         if (this.props.filters != filters)
             this.props.dispatch(
-                receiveFilters({
+                receiveClientRevenueFilters({
                     ...this.props.filters,
                     ...filters,
                 })

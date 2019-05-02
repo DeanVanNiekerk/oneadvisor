@@ -47,7 +47,9 @@ describe("reports: client revenue: list actions", () => {
             payload: options,
         };
 
-        expect(actions.receivePageOptions(options)).toEqual(expectedAction);
+        expect(actions.receiveClientRevenuePageOptions(options)).toEqual(
+            expectedAction
+        );
     });
 
     it("should dispatch COMMISSIONS_REPORT_MEM_REVENUE_PAGE_OPTIONS_RECEIVE when receivePageOptions is called", () => {
@@ -61,7 +63,9 @@ describe("reports: client revenue: list actions", () => {
             payload: options,
         };
 
-        expect(actions.receiveSortOptions(options)).toEqual(expectedAction);
+        expect(actions.receiveClientRevenueSortOptions(options)).toEqual(
+            expectedAction
+        );
     });
 
     it("should dispatch COMMISSIONS_REPORT_MEM_REVENUE_FILTERS_RECEIVE when receiveFilters is called", () => {
@@ -74,6 +78,8 @@ describe("reports: client revenue: list actions", () => {
             payload: filters,
         };
 
-        expect(actions.receiveFilters(filters)).toEqual(expectedAction);
+        expect(actions.receiveClientRevenueFilters(filters)).toEqual(
+            expectedAction
+        );
     });
 });

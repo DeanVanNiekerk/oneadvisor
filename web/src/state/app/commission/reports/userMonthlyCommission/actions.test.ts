@@ -1,0 +1,53 @@
+import { Filters, PageOptions, SortOptions } from '@/app/table';
+import { commissionReportsApi } from '@/config/api/commission';
+
+import * as actions from './actions';
+
+describe("reports: user monthly commission: list actions", () => {
+    it("should dispatch API when fetchCommissions is called", () => {
+        const pageOptions: PageOptions = {
+            number: 2,
+            size: 10,
+        };
+
+        const sortOptions: SortOptions = {
+            column: "number",
+            direction: "desc",
+        };
+
+        const filters: Filters = {
+            number: ["123"],
+        };
+
+        const api = `${commissionReportsApi}/userMonthlyCommissionData?pageNumber=${
+            pageOptions.number
+        }&pageSize=${
+            pageOptions.size
+        }&sortColumn=number&sortDirection=desc&filters=number%3D123`;
+
+        const expectedAction = {
+            type: "API",
+            endpoint: api,
+            dispatchPrefix: "COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION",
+        };
+
+        expect(actions.fetchUserMonthlyCommissionData(filters)).toEqual(
+            expectedAction
+        );
+    });
+
+    it("should dispatch COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_FILTERS_RECEIVE when receiveFilters is called", () => {
+        const filters: Filters = {
+            firstName: ["sup"],
+        };
+
+        const expectedAction = {
+            type: "COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_FILTERS_RECEIVE",
+            payload: filters,
+        };
+
+        expect(actions.receiveUserMonthlyCommissionFilters(filters)).toEqual(
+            expectedAction
+        );
+    });
+});

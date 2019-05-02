@@ -52,21 +52,21 @@ export const fetchClientRevenueData = (
     };
 };
 
-export const receivePageOptions = (
+export const receiveClientRevenuePageOptions = (
     pageOptions: PageOptions
 ): ClientRevenueDataPageOptionsReceiveAction => ({
     type: "COMMISSIONS_REPORT_MEM_REVENUE_PAGE_OPTIONS_RECEIVE",
     payload: pageOptions,
 });
 
-export const receiveSortOptions = (
+export const receiveClientRevenueSortOptions = (
     sortOptions: SortOptions
 ): ClientRevenueDataSortOptionsReceiveAction => ({
     type: "COMMISSIONS_REPORT_MEM_REVENUE_SORT_OPTIONS_RECEIVE",
     payload: sortOptions,
 });
 
-export const receiveFilters = (
+export const receiveClientRevenueFilters = (
     filters: Filters
 ): ClientRevenueDataFiltersReceiveAction => ({
     type: "COMMISSIONS_REPORT_MEM_REVENUE_FILTERS_RECEIVE",

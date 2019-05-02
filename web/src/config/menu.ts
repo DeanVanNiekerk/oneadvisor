@@ -132,21 +132,16 @@ export const menus: Menus = {
                         useCases: ["com_view_commission_statements"],
                     },
                     {
-                        name: "Templates",
-                        icon: "block",
-                        relativePath: "/templates",
-                        useCases: ["com_view_commission_statement_templates"],
-                    },
-                ],
-            },
-            {
-                name: "Commission",
-                links: [
-                    {
                         name: "Commission Entries",
                         icon: "dollar",
                         relativePath: "/commissionEntries",
                         useCases: ["com_view_commissions"],
+                    },
+                    {
+                        name: "Templates",
+                        icon: "block",
+                        relativePath: "/templates",
+                        useCases: ["com_view_commission_statement_templates"],
                     },
                 ],
             },
@@ -158,6 +153,12 @@ export const menus: Menus = {
                         icon: "line-chart",
                         relativePath: "/reports/revenueClient",
                         useCases: ["com_view_report_client_revenue"],
+                    },
+                    {
+                        name: "Broker Commission",
+                        icon: "pie-chart",
+                        relativePath: "/reports/userMonthlyCommission",
+                        useCases: ["com_view_report_user_monthly_commission"],
                     },
                 ],
             },

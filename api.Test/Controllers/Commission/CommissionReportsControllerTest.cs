@@ -96,16 +96,14 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void UserMonthlyCommissionDataModelComposition()
         {
-            Assert.Equal(9, typeof(UserMonthlyCommissionData).PropertyCount());
+            Assert.Equal(7, typeof(UserMonthlyCommissionData).PropertyCount());
             Assert.True(typeof(UserMonthlyCommissionData).HasProperty("UserId"));
             Assert.True(typeof(UserMonthlyCommissionData).HasProperty("UserLastName"));
             Assert.True(typeof(UserMonthlyCommissionData).HasProperty("UserFirstName"));
             Assert.True(typeof(UserMonthlyCommissionData).HasProperty("Month"));
             Assert.True(typeof(UserMonthlyCommissionData).HasProperty("Year"));
-            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("MonthlyAnnuity"));
-            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("AnnualAnnuity"));
-            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("LifeFirstYears"));
-            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("OnceOff"));
+            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("AmountIncludingVAT"));
+            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("CommissionEarningsTypeId"));
         }
 
         [Fact]
@@ -118,10 +116,8 @@ namespace api.Test.Controllers.Commission
                 UserFirstName = "DJ",
                 Month = 1,
                 Year = 1999,
-                MonthlyAnnuity = 100,
-                AnnualAnnuity = 200,
-                LifeFirstYears = 500,
-                OnceOff = 400,
+                AmountIncludingVAT = 100,
+                CommissionEarningsTypeId = Guid.NewGuid(),
             };
 
             var pagedItems = new PagedItems<UserMonthlyCommissionData>()

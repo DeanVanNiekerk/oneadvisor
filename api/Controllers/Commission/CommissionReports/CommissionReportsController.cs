@@ -43,7 +43,7 @@ namespace api.Controllers.Commission.Commissions
             return Ok(data);
         }
 
-        [HttpGet("userMonthlyCommissioData")]
+        [HttpGet("userMonthlyCommissionData")]
         [UseCaseAuthorize("com_view_report_user_monthly_commission")]
         public async Task<IActionResult> GetUserMonthlyCommissionData(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {

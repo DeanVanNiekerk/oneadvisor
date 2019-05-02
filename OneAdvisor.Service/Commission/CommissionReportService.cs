@@ -204,7 +204,7 @@ namespace OneAdvisor.Service.Commission
                             on commission.PolicyId equals policy.Id
                         join user in userQuery
                             on policy.UserId equals user.Id
-                        group new { commissionType.CommissionEarningsTypeId, commission.AmountIncludingVAT } by new { policy.UserId, user.FirstName, user.LastName, commissionType.CommissionEarningsTypeId, statement.DateYear, statement.DateMonth } into g
+                        group new { commission.AmountIncludingVAT } by new { policy.UserId, user.FirstName, user.LastName, commissionType.CommissionEarningsTypeId, statement.DateYear, statement.DateMonth } into g
                         select new UserMonthlyCommissionData()
                         {
                             UserId = g.Key.UserId,
@@ -212,10 +212,8 @@ namespace OneAdvisor.Service.Commission
                             UserLastName = g.Key.LastName,
                             Month = g.Key.DateMonth,
                             Year = g.Key.DateYear,
-                            MonthlyAnnuity = g.Where(c => c.CommissionEarningsTypeId == CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY).Sum(c => c.AmountIncludingVAT),
-                            AnnualAnnuity = g.Where(c => c.CommissionEarningsTypeId == CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY).Sum(c => c.AmountIncludingVAT),
-                            LifeFirstYears = g.Where(c => c.CommissionEarningsTypeId == CommissionEarningsType.EARNINGS_TYPE_LIFE_FIRST_YEARS).Sum(c => c.AmountIncludingVAT),
-                            OnceOff = g.Where(c => c.CommissionEarningsTypeId == CommissionEarningsType.EARNINGS_TYPE_ONCE_OFF).Sum(c => c.AmountIncludingVAT)
+                            CommissionEarningsTypeId = g.Key.CommissionEarningsTypeId,
+                            AmountIncludingVAT = g.Sum(c => c.AmountIncludingVAT),
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
