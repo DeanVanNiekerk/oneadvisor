@@ -89,7 +89,10 @@ export const getColumn = (
 export const sort = (item1: any, item2: any, property: string) => {
     const val1 = item1[property] ? item1[property] : "";
     const val2 = item2[property] ? item2[property] : "";
-    return val1.localeCompare(val2);
+
+    if (typeof val1 === "number") return val1 - val2;
+
+    return val1.toString().localeCompare(val2);
 };
 
 export const filter = (value: string, record: any, property: string) => {

@@ -181,9 +181,9 @@ namespace OneAdvisor.Service.Test.Commission
             var options = TestHelper.GetDbContext("GetCommissionEarningsTypes");
 
             //Given
-            var lkp1 = new CommissionEarningsTypeEntity { Id = Guid.NewGuid(), Name = "A" };
-            var lkp2 = new CommissionEarningsTypeEntity { Id = Guid.NewGuid(), Name = "B" };
-            var lkp3 = new CommissionEarningsTypeEntity { Id = Guid.NewGuid(), Name = "C" };
+            var lkp1 = new CommissionEarningsTypeEntity { Id = Guid.NewGuid(), Name = "C", DisplayOrder = 0 };
+            var lkp2 = new CommissionEarningsTypeEntity { Id = Guid.NewGuid(), Name = "B", DisplayOrder = 1 };
+            var lkp3 = new CommissionEarningsTypeEntity { Id = Guid.NewGuid(), Name = "A", DisplayOrder = 2 };
 
             using (var context = new DataContext(options))
             {

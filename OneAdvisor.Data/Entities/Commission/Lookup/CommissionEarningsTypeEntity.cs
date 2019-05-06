@@ -11,5 +11,7 @@ namespace OneAdvisor.Data.Entities.Commission.Lookup
         public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
+        [Required]
+        public int DisplayOrder { get; set; }
     }
 }

@@ -286,7 +286,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 //Then
                 Assert.Equal(1, records.TotalItems);
-                Assert.Equal(1, records.Items.Count());
+                Assert.Single(records.Items);
 
                 var items = records.Items.ToList();
                 var actual = items[0];
@@ -377,7 +377,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 //Then
                 Assert.Equal(1, records.TotalItems);
-                Assert.Equal(1, records.Items.Count());
+                Assert.Single(records.Items);
 
                 var items = records.Items.ToList();
                 var actual = items[0];

@@ -84,6 +84,10 @@ class CommissionForm extends Component<Props, State> {
     };
 
     policySearch = (value: string) => {
+        if (value === "") {
+            //Some reason when selecting 
+            return;
+        }
         if (value.length < 3) {
             this.handleChange("policyId", "");
             this.setState({
@@ -128,6 +132,7 @@ class CommissionForm extends Component<Props, State> {
                             optionsValue="id"
                             optionsText="number"
                             autoFocus={true}
+                            disabled={true}
                         />
                         <FormSelect
                             fieldName="commissionTypeId"

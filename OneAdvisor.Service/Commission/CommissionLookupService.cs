@@ -116,7 +116,7 @@ namespace OneAdvisor.Service.Commission
         public async Task<List<CommissionEarningsType>> GetCommissionEarningsTypes()
         {
             var query = from type in _context.CommissionEarningsType
-                        orderby type.Name
+                        orderby type.DisplayOrder
                         select new CommissionEarningsType()
                         {
                             Id = type.Id,

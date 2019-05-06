@@ -45,7 +45,7 @@ namespace api.Controllers.Commission.Commissions
 
         [HttpGet("userEarningsTypeMonthlyCommissionData")]
         [UseCaseAuthorize("com_view_report_user_monthly_commission")]
-        public async Task<IActionResult> GetUserEarningsTypeMonthlyCommissionData(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
+        public async Task<IActionResult> GetUserEarningsTypeMonthlyCommissionData(string sortColumn = "AmountIncludingVAT", string sortDirection = "desc", int pageSize = 0, int pageNumber = 0, string filters = null)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -58,7 +58,7 @@ namespace api.Controllers.Commission.Commissions
 
         [HttpGet("userCompanyMonthlyCommissionData")]
         [UseCaseAuthorize("com_view_report_user_monthly_commission")]
-        public async Task<IActionResult> GetUserCompanyMonthlyCommissionData(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
+        public async Task<IActionResult> GetUserCompanyMonthlyCommissionData(string sortColumn = "AmountIncludingVAT", string sortDirection = "desc", int pageSize = 0, int pageNumber = 0, string filters = null)
         {
             var scope = AuthenticationService.GetScope(User);
 

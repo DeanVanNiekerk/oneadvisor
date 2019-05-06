@@ -63,10 +63,10 @@ namespace OneAdvisor.Data
         {
             var list = new List<CommissionEarningsTypeEntity>();
 
-            list.Add(new CommissionEarningsTypeEntity() { Id = earningsMonthAn, Name = "Monthly Annuity" });
-            list.Add(new CommissionEarningsTypeEntity() { Id = earningsAnnualAn, Name = "Annual Annuity" });
-            list.Add(new CommissionEarningsTypeEntity() { Id = earningsLife, Name = "Life 1st Years" });
-            list.Add(new CommissionEarningsTypeEntity() { Id = earningsOnceOff, Name = "Once Off Commissions" });
+            list.Add(new CommissionEarningsTypeEntity() { Id = earningsMonthAn, Name = "Monthly Annuity", DisplayOrder = 0 });
+            list.Add(new CommissionEarningsTypeEntity() { Id = earningsAnnualAn, Name = "Annual Annuity", DisplayOrder = 1 });
+            list.Add(new CommissionEarningsTypeEntity() { Id = earningsLife, Name = "Life 1st Years", DisplayOrder = 2 });
+            list.Add(new CommissionEarningsTypeEntity() { Id = earningsOnceOff, Name = "Once Off Commissions", DisplayOrder = 3 });
 
             return list;
         }

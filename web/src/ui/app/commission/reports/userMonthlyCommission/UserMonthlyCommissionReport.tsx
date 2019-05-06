@@ -14,7 +14,7 @@ import {
     userCompanyMonthlyCommissionTotalSelector
 } from '@/state/app/commission/reports/userCompanyMonthlyCommission/selectors';
 import {
-    userEarningsTypeMonthlyCommissionTotalSelector
+    userEarningsTypeMonthlyCommissionItemsSelector, userEarningsTypeMonthlyCommissionTotalSelector
 } from '@/state/app/commission/reports/userEarningsTypeMonthlyCommission/selectors';
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
@@ -250,7 +250,7 @@ const mapStateToProps = (state: RootState) => {
     const usersState = usersSimpleSelector(state);
 
     return {
-        earningsTypeRecords: userEarningsTypeMonthlyCommissionState.items,
+        earningsTypeRecords: userEarningsTypeMonthlyCommissionItemsSelector(state),
         fetchingEarningsTypeRecords: userEarningsTypeMonthlyCommissionState.fetching,
         companyRecords: userCompanyMonthlyCommissionState.items,
         fetchingCompanyRecords: userCompanyMonthlyCommissionState.fetching,
