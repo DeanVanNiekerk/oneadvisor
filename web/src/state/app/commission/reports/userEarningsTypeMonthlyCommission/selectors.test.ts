@@ -5,6 +5,11 @@ describe("report user monthly commission selectors", () => {
         const state = {
             app: {
                 commission: {
+                    lookups: {
+                        commissionEarningsTypes: {
+                            list: [],
+                        },
+                    },
                     reports: {
                         userEarningsTypeMonthlyCommission: {
                             property: "1",
