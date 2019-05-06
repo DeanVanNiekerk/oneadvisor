@@ -2,7 +2,7 @@ using System;
 
 namespace OneAdvisor.Model.Commission.Model.CommissionReport
 {
-    public class UserMonthlyCommissionData
+    public class UserEarningsTypeMonthlyCommissionData
     {
         public Guid UserId { get; set; }
         public string UserLastName { get; set; }

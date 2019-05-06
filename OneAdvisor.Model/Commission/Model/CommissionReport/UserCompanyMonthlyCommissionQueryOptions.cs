@@ -5,9 +5,9 @@ using OneAdvisor.Model.Account.Model.Authentication;
 
 namespace OneAdvisor.Model.Commission.Model.CommissionReport
 {
-    public class UserMonthlyCommissionQueryOptions : QueryOptionsBase
+    public class UserCompanyMonthlyCommissionQueryOptions : QueryOptionsBase
     {
-        public UserMonthlyCommissionQueryOptions(ScopeOptions scope, string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
+        public UserCompanyMonthlyCommissionQueryOptions(ScopeOptions scope, string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
         : base(sortColumn, sortDirection, pageSize, pageNumber, filters)
         {
             Scope = scope;

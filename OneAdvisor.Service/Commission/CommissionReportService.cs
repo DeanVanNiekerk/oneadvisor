@@ -191,7 +191,7 @@ namespace OneAdvisor.Service.Commission
             ";
         }
 
-        public async Task<PagedItems<UserMonthlyCommissionData>> GetUserMonthlyCommissionData(UserMonthlyCommissionQueryOptions queryOptions)
+        public async Task<PagedItems<UserEarningsTypeMonthlyCommissionData>> GetUserEarningsTypeMonthlyCommissionData(UserEarningsTypeMonthlyCommissionQueryOptions queryOptions)
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
 
@@ -205,7 +205,7 @@ namespace OneAdvisor.Service.Commission
                         join user in userQuery
                             on policy.UserId equals user.Id
                         group new { commission.AmountIncludingVAT } by new { policy.UserId, user.FirstName, user.LastName, commissionType.CommissionEarningsTypeId, statement.DateYear, statement.DateMonth } into g
-                        select new UserMonthlyCommissionData()
+                        select new UserEarningsTypeMonthlyCommissionData()
                         {
                             UserId = g.Key.UserId,
                             UserFirstName = g.Key.FirstName,
@@ -227,7 +227,55 @@ namespace OneAdvisor.Service.Commission
                 query = query.Where(d => queryOptions.UserId.Contains(d.UserId));
             //------------------------------------------------------------------------------------------------------
 
-            var pagedItems = new PagedItems<UserMonthlyCommissionData>();
+            var pagedItems = new PagedItems<UserEarningsTypeMonthlyCommissionData>();
+
+            //Get total items
+            pagedItems.TotalItems = await query.CountAsync();
+
+            //Ordering
+            query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
+
+            //Paging
+            pagedItems.Items = await query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
+
+            return pagedItems;
+        }
+
+        public async Task<PagedItems<UserCompanyMonthlyCommissionData>> GetUserCompanyMonthlyCommissionData(UserCompanyMonthlyCommissionQueryOptions queryOptions)
+        {
+            var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
+
+            var query = from commission in _context.Commission
+                        join statement in _context.CommissionStatement
+                            on commission.CommissionStatementId equals statement.Id
+                        join policy in _context.Policy
+                            on commission.PolicyId equals policy.Id
+                        join user in userQuery
+                            on policy.UserId equals user.Id
+                        group new { commission.AmountIncludingVAT } by new { policy.UserId, user.FirstName, user.LastName, policy.CompanyId, statement.DateYear, statement.DateMonth } into g
+                        select new UserCompanyMonthlyCommissionData()
+                        {
+                            UserId = g.Key.UserId,
+                            UserFirstName = g.Key.FirstName,
+                            UserLastName = g.Key.LastName,
+                            Month = g.Key.DateMonth,
+                            Year = g.Key.DateYear,
+                            CompanyId = g.Key.CompanyId,
+                            AmountIncludingVAT = g.Sum(c => c.AmountIncludingVAT),
+                        };
+
+            //Apply filters ----------------------------------------------------------------------------------------
+            if (queryOptions.Year.Any())
+                query = query.Where(d => queryOptions.Year.Contains(d.Year));
+
+            if (queryOptions.Month.Any())
+                query = query.Where(d => queryOptions.Month.Contains(d.Month));
+
+            if (queryOptions.UserId.Any())
+                query = query.Where(d => queryOptions.UserId.Contains(d.UserId));
+            //------------------------------------------------------------------------------------------------------
+
+            var pagedItems = new PagedItems<UserCompanyMonthlyCommissionData>();
 
             //Get total items
             pagedItems.TotalItems = await query.CountAsync();

@@ -6,7 +6,7 @@ describe("report user monthly commission selectors", () => {
             app: {
                 commission: {
                     reports: {
-                        userMonthlyCommission: {
+                        userEarningsTypeMonthlyCommission: {
                             property: "1",
                         },
                     },

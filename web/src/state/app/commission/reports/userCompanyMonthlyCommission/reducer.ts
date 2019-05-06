@@ -2,11 +2,11 @@ import moment from 'moment';
 
 import { Filters } from '@/app/table';
 
-import { UserMonthlyCommissionDataAction } from './actions';
-import { UserMonthlyCommissionData } from './types';
+import { UserCompanyMonthlyCommissionDataAction } from './actions';
+import { UserCompanyMonthlyCommissionData } from './types';
 
 export type State = {
-    readonly items: UserMonthlyCommissionData[];
+    readonly items: UserCompanyMonthlyCommissionData[];
     readonly totalItems: number;
     readonly fetching: boolean;
     readonly filters: Filters | null;
@@ -14,6 +14,7 @@ export type State = {
 
 const thisMonth = moment();
 const defaultFilters: Filters = {
+    userId: [],
     year: [thisMonth.year().toString()],
     month: [(thisMonth.month() + 1).toString()],
 };
@@ -27,10 +28,10 @@ export const defaultState: State = {
 
 export const reducer = (
     state: State = defaultState,
-    action: UserMonthlyCommissionDataAction
+    action: UserCompanyMonthlyCommissionDataAction
 ): State => {
     switch (action.type) {
-        case "COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_RECEIVE": {
+        case "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_RECEIVE": {
             return {
                 ...state,
                 totalItems: action.payload.totalItems,
@@ -38,20 +39,20 @@ export const reducer = (
                 fetching: false,
             };
         }
-        case "COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_FETCHING": {
+        case "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FETCHING": {
             return {
                 ...state,
                 fetching: true,
             };
         }
-        case "COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_FETCHING_ERROR": {
+        case "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FETCHING_ERROR": {
             return {
                 ...state,
                 items: [],
                 fetching: false,
             };
         }
-        case "COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_FILTERS_RECEIVE": {
+        case "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FILTERS_RECEIVE": {
             return {
                 ...state,
                 filters: {

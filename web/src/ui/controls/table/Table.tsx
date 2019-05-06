@@ -32,6 +32,7 @@ type Props = {
     };
     footer?: (currentPageData: Object[]) => React.ReactNode;
     rowSelection?: TableRowSelection<any>;
+    header?: string;
 };
 
 type State = {
@@ -95,6 +96,7 @@ class TableComponent extends React.Component<Props, State> {
 
         return (
             <TableAD
+                title={this.props.header ? () => this.props.header : undefined}
                 bordered
                 scroll={this.props.scroll}
                 columns={this.props.columns}

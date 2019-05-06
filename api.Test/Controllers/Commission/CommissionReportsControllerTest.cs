@@ -94,22 +94,22 @@ namespace api.Test.Controllers.Commission
 
 
         [Fact]
-        public void UserMonthlyCommissionDataModelComposition()
+        public void UserEarningsTypeMonthlyCommissionDataModelComposition()
         {
-            Assert.Equal(7, typeof(UserMonthlyCommissionData).PropertyCount());
-            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("UserId"));
-            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("UserLastName"));
-            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("UserFirstName"));
-            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("Month"));
-            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("Year"));
-            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("AmountIncludingVAT"));
-            Assert.True(typeof(UserMonthlyCommissionData).HasProperty("CommissionEarningsTypeId"));
+            Assert.Equal(7, typeof(UserEarningsTypeMonthlyCommissionData).PropertyCount());
+            Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("UserId"));
+            Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("UserLastName"));
+            Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("UserFirstName"));
+            Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("Month"));
+            Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("Year"));
+            Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("AmountIncludingVAT"));
+            Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("CommissionEarningsTypeId"));
         }
 
         [Fact]
-        public async Task GetUserMonthlyCommissionData()
+        public async Task GetUserEarningsTypeMonthlyCommissionData()
         {
-            var data = new UserMonthlyCommissionData()
+            var data = new UserEarningsTypeMonthlyCommissionData()
             {
                 UserId = Guid.NewGuid(),
                 UserLastName = "van Niekerk",
@@ -120,10 +120,10 @@ namespace api.Test.Controllers.Commission
                 CommissionEarningsTypeId = Guid.NewGuid(),
             };
 
-            var pagedItems = new PagedItems<UserMonthlyCommissionData>()
+            var pagedItems = new PagedItems<UserEarningsTypeMonthlyCommissionData>()
             {
                 TotalItems = 1,
-                Items = new List<UserMonthlyCommissionData>()
+                Items = new List<UserEarningsTypeMonthlyCommissionData>()
                 {
                     data
                 }
@@ -132,14 +132,14 @@ namespace api.Test.Controllers.Commission
             var service = new Mock<ICommissionReportService>();
             var authService = TestHelper.MockAuthenticationService(Scope.Branch);
 
-            UserMonthlyCommissionQueryOptions queryOptions = null;
-            service.Setup(c => c.GetUserMonthlyCommissionData(It.IsAny<UserMonthlyCommissionQueryOptions>()))
-                .Callback((UserMonthlyCommissionQueryOptions options) => queryOptions = options)
+            UserEarningsTypeMonthlyCommissionQueryOptions queryOptions = null;
+            service.Setup(c => c.GetUserEarningsTypeMonthlyCommissionData(It.IsAny<UserEarningsTypeMonthlyCommissionQueryOptions>()))
+                .Callback((UserEarningsTypeMonthlyCommissionQueryOptions options) => queryOptions = options)
                 .ReturnsAsync(pagedItems);
 
             var controller = new CommissionReportsController(service.Object, authService.Object);
 
-            var result = await controller.GetUserMonthlyCommissionData("Year", "desc", 15, 2, $"month=9");
+            var result = await controller.GetUserEarningsTypeMonthlyCommissionData("Year", "desc", 15, 2, $"month=9");
 
             Assert.Equal(Scope.Branch, queryOptions.Scope.Scope);
             Assert.Equal("Year", queryOptions.SortOptions.Column);
@@ -150,7 +150,70 @@ namespace api.Test.Controllers.Commission
             Assert.Equal(9, queryOptions.Month.Single());
 
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var returnValue = Assert.IsType<PagedItems<UserMonthlyCommissionData>>(okResult.Value);
+            var returnValue = Assert.IsType<PagedItems<UserEarningsTypeMonthlyCommissionData>>(okResult.Value);
+
+            Assert.Same(pagedItems, returnValue);
+        }
+
+
+        [Fact]
+        public void UserCompanyMonthlyCommissionDataModelComposition()
+        {
+            Assert.Equal(7, typeof(UserCompanyMonthlyCommissionData).PropertyCount());
+            Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("UserId"));
+            Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("UserLastName"));
+            Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("UserFirstName"));
+            Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("Month"));
+            Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("Year"));
+            Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("AmountIncludingVAT"));
+            Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("CompanyId"));
+        }
+
+        [Fact]
+        public async Task GetUserCompanyMonthlyCommissionData()
+        {
+            var data = new UserCompanyMonthlyCommissionData()
+            {
+                UserId = Guid.NewGuid(),
+                UserLastName = "van Niekerk",
+                UserFirstName = "DJ",
+                Month = 1,
+                Year = 1999,
+                AmountIncludingVAT = 100,
+                CompanyId = Guid.NewGuid(),
+            };
+
+            var pagedItems = new PagedItems<UserCompanyMonthlyCommissionData>()
+            {
+                TotalItems = 1,
+                Items = new List<UserCompanyMonthlyCommissionData>()
+                {
+                    data
+                }
+            };
+
+            var service = new Mock<ICommissionReportService>();
+            var authService = TestHelper.MockAuthenticationService(Scope.Branch);
+
+            UserCompanyMonthlyCommissionQueryOptions queryOptions = null;
+            service.Setup(c => c.GetUserCompanyMonthlyCommissionData(It.IsAny<UserCompanyMonthlyCommissionQueryOptions>()))
+                .Callback((UserCompanyMonthlyCommissionQueryOptions options) => queryOptions = options)
+                .ReturnsAsync(pagedItems);
+
+            var controller = new CommissionReportsController(service.Object, authService.Object);
+
+            var result = await controller.GetUserCompanyMonthlyCommissionData("Year", "desc", 15, 2, $"month=9");
+
+            Assert.Equal(Scope.Branch, queryOptions.Scope.Scope);
+            Assert.Equal("Year", queryOptions.SortOptions.Column);
+            Assert.Equal(SortDirection.Descending, queryOptions.SortOptions.Direction);
+            Assert.Equal(15, queryOptions.PageOptions.Size);
+            Assert.Equal(2, queryOptions.PageOptions.Number);
+
+            Assert.Equal(9, queryOptions.Month.Single());
+
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<PagedItems<UserCompanyMonthlyCommissionData>>(okResult.Value);
 
             Assert.Same(pagedItems, returnValue);
         }

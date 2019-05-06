@@ -1,12 +1,12 @@
 import { Filters, SortOptions } from '@/app/table';
 
 import { defaultState, reducer } from './reducer';
-import { UserMonthlyCommissionData } from './types';
+import { UserCompanyMonthlyCommissionData } from './types';
 
 describe("report user monthly commission reducer", () => {
-    it("should handle COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_FETCHING", () => {
+    it("should handle COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: "COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_FETCHING",
+            type: "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FETCHING",
         });
 
         const expectedState = {
@@ -17,14 +17,15 @@ describe("report user monthly commission reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_FETCHING_ERROR", () => {
+    it("should handle COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: "COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_FETCHING_ERROR",
+            type:
+                "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FETCHING_ERROR",
         });
 
         const expectedState = {
@@ -35,26 +36,24 @@ describe("report user monthly commission reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_RECEIVE", () => {
+    it("should handle COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_RECEIVE", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
         };
 
-        const data: UserMonthlyCommissionData = {
+        const data: UserCompanyMonthlyCommissionData = {
             userId: "123321",
             userLastName: "van Niekerk",
             userFirstName: "Dean",
             month: 1,
             year: 1999,
-            monthlyAnnuity: 40,
-            annualAnnuity: 10,
-            lifeFirstYears: 30,
-            onceOff: 50,
+            amountIncludingVAT: 40,
+            commissionCompanyId: "987987",
         };
 
         const actualState = reducer(initalState, {
-            type: "COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_RECEIVE",
+            type: "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_RECEIVE",
             payload: {
                 totalItems: 1,
                 items: [data],
@@ -71,7 +70,7 @@ describe("report user monthly commission reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_FILTERS_RECEIVE", () => {
+    it("should handle COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FILTERS_RECEIVE", () => {
         const initalState = {
             ...defaultState,
         };
@@ -81,7 +80,8 @@ describe("report user monthly commission reducer", () => {
         };
 
         const actualState = reducer(initalState, {
-            type: "COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_FILTERS_RECEIVE",
+            type:
+                "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FILTERS_RECEIVE",
             payload: filters,
         });
 

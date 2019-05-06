@@ -186,7 +186,7 @@ class CommissionList extends Component<Props> {
     };
 
     updateFilters = (filters: Filters): Filters => {
-        return applyLike(filters, ["policyNumber"]);
+        return applyLike(filters, ["policyNumber", "policyClientLastName"]);
     };
 
     onTableChange = (

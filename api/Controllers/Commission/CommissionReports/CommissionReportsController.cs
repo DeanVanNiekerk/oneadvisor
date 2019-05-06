@@ -43,15 +43,28 @@ namespace api.Controllers.Commission.Commissions
             return Ok(data);
         }
 
-        [HttpGet("userMonthlyCommissionData")]
+        [HttpGet("userEarningsTypeMonthlyCommissionData")]
         [UseCaseAuthorize("com_view_report_user_monthly_commission")]
-        public async Task<IActionResult> GetUserMonthlyCommissionData(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
+        public async Task<IActionResult> GetUserEarningsTypeMonthlyCommissionData(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
             var scope = AuthenticationService.GetScope(User);
 
-            var queryOptions = new UserMonthlyCommissionQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
+            var queryOptions = new UserEarningsTypeMonthlyCommissionQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
 
-            var data = await CommissionReportService.GetUserMonthlyCommissionData(queryOptions);
+            var data = await CommissionReportService.GetUserEarningsTypeMonthlyCommissionData(queryOptions);
+
+            return Ok(data);
+        }
+
+        [HttpGet("userCompanyMonthlyCommissionData")]
+        [UseCaseAuthorize("com_view_report_user_monthly_commission")]
+        public async Task<IActionResult> GetUserCompanyMonthlyCommissionData(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
+        {
+            var scope = AuthenticationService.GetScope(User);
+
+            var queryOptions = new UserCompanyMonthlyCommissionQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
+
+            var data = await CommissionReportService.GetUserCompanyMonthlyCommissionData(queryOptions);
 
             return Ok(data);
         }

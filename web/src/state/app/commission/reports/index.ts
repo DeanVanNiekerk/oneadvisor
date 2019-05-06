@@ -4,8 +4,14 @@ export {
     listSelector as clientRevenueSelector,
 } from "./clientRevenue/selectors";
 
-export * from "./userMonthlyCommission/actions";
-export * from "./userMonthlyCommission/types";
+export * from "./userEarningsTypeMonthlyCommission/actions";
+export * from "./userEarningsTypeMonthlyCommission/types";
 export {
-    listSelector as userMonthlyCommissionSelector,
-} from "./userMonthlyCommission/selectors";
+    listSelector as userEarningsTypeMonthlyCommissionSelector,
+} from "./userEarningsTypeMonthlyCommission/selectors";
+
+export * from "./userCompanyMonthlyCommission/actions";
+export * from "./userCompanyMonthlyCommission/types";
+export {
+    listSelector as userCompanyMonthlyCommissionSelector,
+} from "./userCompanyMonthlyCommission/selectors";

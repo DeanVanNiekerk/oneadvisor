@@ -11,6 +11,7 @@ namespace OneAdvisor.Model.Commission.Interface
     public interface ICommissionReportService
     {
         Task<PagedItems<ClientRevenueData>> GetClientRevenueData(ClientRevenueQueryOptions options);
-        Task<PagedItems<UserMonthlyCommissionData>> GetUserMonthlyCommissionData(UserMonthlyCommissionQueryOptions queryOptions);
+        Task<PagedItems<UserEarningsTypeMonthlyCommissionData>> GetUserEarningsTypeMonthlyCommissionData(UserEarningsTypeMonthlyCommissionQueryOptions queryOptions);
+        Task<PagedItems<UserCompanyMonthlyCommissionData>> GetUserCompanyMonthlyCommissionData(UserCompanyMonthlyCommissionQueryOptions queryOptions);
     }
 }

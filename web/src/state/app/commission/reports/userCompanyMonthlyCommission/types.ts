@@ -1,4 +1,4 @@
-export type UserMonthlyCommissionData = {
+export type UserCompanyMonthlyCommissionData = {
     userId: string;
     userLastName: string;
     userFirstName: string;
@@ -6,6 +6,6 @@ export type UserMonthlyCommissionData = {
     month: number;
     year: number;
 
-    commissionEarningsTypeId: string;
+    commissionCompanyId: string;
     amountIncludingVAT: number;
 };
