@@ -11,3 +11,14 @@ export const listSelector: (state: RootState) => State = createSelector(
     rootSelector,
     root => root
 );
+
+export const userEarningsTypeMonthlyCommissionTotalSelector: (
+    state: RootState
+) => number = createSelector(
+    rootSelector,
+    root => {
+        return root.items.reduce((p, c) => {
+            return p + c.amountIncludingVAT;
+        }, 0);
+    }
+);

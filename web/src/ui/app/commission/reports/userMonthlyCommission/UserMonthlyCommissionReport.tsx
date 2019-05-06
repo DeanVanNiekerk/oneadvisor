@@ -3,13 +3,19 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { Filters, getColumn } from '@/app/table';
-import { getMonthOptions, getYearOptions } from '@/app/utils';
+import { formatCurrency, getMonthOptions, getYearOptions } from '@/app/utils';
 import {
     fetchUserCompanyMonthlyCommissionData, fetchUserEarningsTypeMonthlyCommissionData,
     receiveUserEarningsTypeMonthlyCommissionFilters, UserCompanyMonthlyCommissionData,
     userCompanyMonthlyCommissionSelector, UserEarningsTypeMonthlyCommissionData,
     userEarningsTypeMonthlyCommissionSelector
 } from '@/state/app/commission/reports';
+import {
+    userCompanyMonthlyCommissionTotalSelector
+} from '@/state/app/commission/reports/userCompanyMonthlyCommission/selectors';
+import {
+    userEarningsTypeMonthlyCommissionTotalSelector
+} from '@/state/app/commission/reports/userEarningsTypeMonthlyCommission/selectors';
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
 import { CommissionEarningsTypeName, CompanyName, Header, Table } from '@/ui/controls';
@@ -21,6 +27,8 @@ type Props = {
     fetchingCompanyRecords: boolean;
     filters: Filters;
     users: UserSimple[];
+    earningsTypeTotal: number;
+    companyTotal: number;
 } & DispatchProp;
 
 class UserMonthlyCommissionReport extends Component<Props> {
@@ -126,6 +134,17 @@ class UserMonthlyCommissionReport extends Component<Props> {
         return parseInt(this.props.filters.month[0]);
     };
 
+    tableFooter = (total: number) => {
+        return (
+            <Row type="flex" justify="space-between">
+                <Col>
+                    <b>Total Amount (incl VAT): </b>
+                    {formatCurrency(total)}
+                </Col>
+            </Row>
+        );
+    };
+
     render() {
         return (
             <>
@@ -193,7 +212,7 @@ class UserMonthlyCommissionReport extends Component<Props> {
                     Broker Monthly Commission Report
                 </Header>
 
-                <Row gutter={24}>
+                <Row gutter={32}>
                     <Col span={12}>
                         <Table
                             header="By Commission Earnings Type"
@@ -202,6 +221,7 @@ class UserMonthlyCommissionReport extends Component<Props> {
                             dataSource={this.props.earningsTypeRecords}
                             loading={this.props.fetchingEarningsTypeRecords}
                             hidePagination={true}
+                            footer={() => this.tableFooter(this.props.earningsTypeTotal)}
                         />
 
                     </Col>
@@ -212,6 +232,7 @@ class UserMonthlyCommissionReport extends Component<Props> {
                             columns={this.getCompanyColumns()}
                             dataSource={this.props.companyRecords}
                             loading={this.props.fetchingCompanyRecords}
+                            footer={() => this.tableFooter(this.props.companyTotal)}
                         />
                     </Col>
                 </Row>
@@ -235,6 +256,8 @@ const mapStateToProps = (state: RootState) => {
         fetchingCompanyRecords: userCompanyMonthlyCommissionState.fetching,
         filters: userEarningsTypeMonthlyCommissionState.filters,
         users: usersState.items,
+        earningsTypeTotal: userEarningsTypeMonthlyCommissionTotalSelector(state),
+        companyTotal: userCompanyMonthlyCommissionTotalSelector(state),
     };
 };
 
