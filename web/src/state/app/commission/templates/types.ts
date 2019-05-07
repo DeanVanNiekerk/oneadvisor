@@ -25,6 +25,7 @@ export type HeaderIdentifier = {
 export type Field = {
     name: string;
     column: string;
+    absoluteValue: boolean;
 };
 
 export type CommissionTypes = {

@@ -186,5 +186,45 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             Assert.Equal("230.00", actual.AmountIncludingVAT);
             Assert.Equal("30.00", actual.VAT);
         }
+
+        [Fact]
+        public void Read_AbsoluteValues()
+        {
+            var config = new Config()
+            {
+                //No header
+                HeaderIdentifier = new HeaderIdentifier()
+                {
+                    Column = "",
+                    Value = ""
+                },
+                Fields = new List<Field>() {
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.PolicyNumber), Column = "A" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.AmountIncludingVAT), Column = "B", AbsoluteValue = true },
+                },
+                CommissionTypes = new CommissionTypes()
+                {
+                    MappingTemplate = "",
+                    DefaultCommissionTypeCode = "unknown"
+                }
+            };
+
+            var bytes = System.Convert.FromBase64String(AbsoluteValues_Base64.STRING);
+            var stream = new MemoryStream(bytes);
+
+            var reader = new CommissionImportReader(config);
+            var commissions = reader.Read(stream).ToList();
+
+            Assert.Equal(2, commissions.Count);
+            var actual = commissions[0];
+            Assert.Equal("123456", actual.PolicyNumber);
+            Assert.Equal("115", actual.AmountIncludingVAT);
+            Assert.Equal("15", actual.VAT);
+
+            actual = commissions[1];
+            Assert.Equal("654321", actual.PolicyNumber);
+            Assert.Equal("200", actual.AmountIncludingVAT);
+            Assert.Equal("26.09", actual.VAT);
+        }
     }
 }

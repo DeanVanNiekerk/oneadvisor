@@ -11,7 +11,7 @@ import {
 import { Field } from '@/state/app/commission/templates';
 import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
-import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect } from '@/ui/controls';
+import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect, FormSwitch } from '@/ui/controls';
 
 type Props = {
     fields: Field[];
@@ -57,6 +57,7 @@ class FieldsForm extends Component<Props, State> {
                 {
                     name: "",
                     column: "",
+                    absoluteValue: false,
                 },
             ],
         });
@@ -162,6 +163,22 @@ class FieldsForm extends Component<Props, State> {
                                     optionsValue="id"
                                     optionsText="name"
                                     width="300px"
+                                />
+                                <FormSwitch
+                                    fieldName="absoluteValue"
+                                    label="Abs."
+                                    value={field.absoluteValue}
+                                    validationResults={validationResults}
+                                    onChange={(
+                                        fieldName: string,
+                                        value: string
+                                    ) => {
+                                        this.onChange(
+                                            fieldName,
+                                            value,
+                                            index
+                                        );
+                                    }}
                                 />
                             </Form>
                         </List.Item>

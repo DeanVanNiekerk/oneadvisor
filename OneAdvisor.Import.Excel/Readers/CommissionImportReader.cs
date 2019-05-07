@@ -95,7 +95,8 @@ namespace OneAdvisor.Import.Excel.Readers
         private string GetValue(IExcelDataReader reader, FieldNames fieldName)
         {
             var index = GetFieldIndex(fieldName);
-            return Utils.GetValue(reader, index);
+            var absolute = IsFieldValueAbsolute(fieldName);
+            return Utils.GetValue(reader, index, absolute);
         }
 
         private string GetDate(IExcelDataReader reader, FieldNames fieldName)
@@ -111,6 +112,15 @@ namespace OneAdvisor.Import.Excel.Readers
             if (field == null)
                 return null;
             return ExcelUtils.ColumnToIndex(field.Column);
+        }
+
+        private bool IsFieldValueAbsolute(FieldNames fieldName)
+        {
+            var name = Enum.GetName(typeof(FieldNames), fieldName);
+            var field = _config.Fields.FirstOrDefault(f => f.Name == name);
+            if (field == null)
+                return false;
+            return field.AbsoluteValue;
         }
 
         private string GetCommissionTypeValue(IExcelDataReader reader, List<int> commissionTypeIndexes)
