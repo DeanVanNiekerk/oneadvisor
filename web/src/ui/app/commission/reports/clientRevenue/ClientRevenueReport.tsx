@@ -1,13 +1,15 @@
 import { Badge, Col, Icon, Row, Select } from 'antd';
+import moment from 'moment';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
+import { downloadExcel } from '@/app/excel/helpers';
 import { hasUseCase } from '@/app/identity';
 import { applyLike } from '@/app/query';
 import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
-import { getMonthOptions, getYearOptions } from '@/app/utils';
+import { DATE_FORMAT, getMonthName, getMonthOptions, getYearOptions } from '@/app/utils';
 import {
-    ClientRevenueData, clientRevenueSelector, fetchClientRevenueData, receiveClientRevenueFilters,
+    ClientRevenueData, clientRevenueSelector, fetchClientRevenueData, getClientRevenueData, receiveClientRevenueFilters,
     receiveClientRevenuePageOptions, receiveClientRevenueSortOptions
 } from '@/state/app/commission/reports';
 import { useCaseSelector } from '@/state/auth';
@@ -28,6 +30,7 @@ type Props = {
 
 type State = {
     editAllocationsClientId: string | null;
+    downloading: boolean;
 };
 
 class ClientRevenueReport extends Component<Props, State> {
@@ -36,6 +39,7 @@ class ClientRevenueReport extends Component<Props, State> {
 
         this.state = {
             editAllocationsClientId: null,
+            downloading: false
         };
     }
 
@@ -194,6 +198,24 @@ class ClientRevenueReport extends Component<Props, State> {
             );
     };
 
+    download = () => {
+        this.setState({ downloading: true });
+        this.props.dispatch(
+            getClientRevenueData(this.updateFilters(this.props.filters), records => {
+                this.setState({ downloading: false });
+                downloadExcel(
+                    records.items.map(d => {
+                        delete d.rowNumber;
+                        delete d.clientId;
+                        d.clientDateOfBirth = d.clientDateOfBirth ? moment(d.clientDateOfBirth).format(DATE_FORMAT) : d.clientDateOfBirth;
+                        return d;
+                    }),
+                    `ClientRevenue_${getMonthName(this.selectedMonth())}_${this.selectedYear()}.xlsx`
+                );
+            })
+        );
+    };
+
     render() {
         return (
             <>
@@ -238,6 +260,9 @@ class ClientRevenueReport extends Component<Props, State> {
                                     })}
                                 </Select>
                             </Col>
+                            <Col>
+                                <Button icon="download" onClick={this.download} loading={this.state.downloading} noLeftMargin={true} />
+                            </Col>
                         </Row>
                     }
                 >
@@ -249,7 +274,7 @@ class ClientRevenueReport extends Component<Props, State> {
                     columns={this.getColumns()}
                     dataSource={this.props.records}
                     loading={this.props.fetching}
-                    onRowClick={() => {}}
+                    onRowClick={() => { }}
                     externalDataSource={true}
                     pageOptions={this.props.pageOptions}
                     totalRows={this.props.totalItems}

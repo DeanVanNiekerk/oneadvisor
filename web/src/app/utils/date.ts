@@ -48,6 +48,12 @@ export const getMonthOptions = () => {
     });
 };
 
+export const getMonthName = (number: number) => {
+    const month = getMonthOptions().find(m => m.number === number);
+    if (!month) return "";
+    return month.name;
+};
+
 export const getYearOptions = () => {
     let years: number[] = [];
     const thisYear = moment().year();

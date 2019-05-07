@@ -72,3 +72,16 @@ export const receiveClientRevenueFilters = (
     type: "COMMISSIONS_REPORT_MEM_REVENUE_FILTERS_RECEIVE",
     payload: filters,
 });
+
+export const getClientRevenueData = (
+    filters: Filters,
+    onSuccess: (records: PagedItems<ClientRevenueData>) => void
+): ApiAction => {
+    let api = `${commissionReportsApi}/clientRevenueData`;
+    api = appendFiltersQuery(api, filters);
+    return {
+        type: "API",
+        endpoint: api,
+        onSuccess: onSuccess,
+    };
+};
