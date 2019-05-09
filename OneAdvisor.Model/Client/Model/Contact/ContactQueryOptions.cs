@@ -4,7 +4,7 @@ using OneAdvisor.Model.Account.Model.Authentication;
 
 namespace OneAdvisor.Model.Client.Model.Contact
 {
-    public class ContactQueryOptions : QueryOptionsBase
+    public class ContactQueryOptions : QueryOptionsBase<Contact>
     {
         public ContactQueryOptions(ScopeOptions scope, string filters = null)
          : base("Value", "asc", 0, 0, filters)

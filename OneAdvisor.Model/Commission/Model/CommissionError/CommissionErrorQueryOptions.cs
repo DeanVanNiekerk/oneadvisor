@@ -5,7 +5,7 @@ using OneAdvisor.Model.Account.Model.Authentication;
 
 namespace OneAdvisor.Model.Commission.Model.CommissionError
 {
-    public class CommissionErrorQueryOptions : QueryOptionsBase
+    public class CommissionErrorQueryOptions : QueryOptionsBase<CommissionError>
     {
         public CommissionErrorQueryOptions(ScopeOptions scope, string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
         : base(sortColumn, sortDirection, pageSize, pageNumber, filters)

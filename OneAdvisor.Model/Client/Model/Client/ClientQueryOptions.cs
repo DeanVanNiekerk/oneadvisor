@@ -5,7 +5,7 @@ using OneAdvisor.Model.Account.Model.Authentication;
 
 namespace OneAdvisor.Model.Client.Model.Client
 {
-    public class ClientQueryOptions : QueryOptionsBase
+    public class ClientQueryOptions : QueryOptionsBase<Client>
     {
         public ClientQueryOptions(ScopeOptions scope, string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
          : base(sortColumn, sortDirection, pageSize, pageNumber, filters)

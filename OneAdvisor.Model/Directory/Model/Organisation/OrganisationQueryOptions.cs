@@ -3,7 +3,7 @@ using OneAdvisor.Model.Account.Model.Authentication;
 
 namespace OneAdvisor.Model.Directory.Model.Organisation
 {
-    public class OrganisationQueryOptions : QueryOptionsBase
+    public class OrganisationQueryOptions : QueryOptionsBase<Organisation>
     {
         public OrganisationQueryOptions(ScopeOptions scope)
          : base("Name", "asc", 0, 0)

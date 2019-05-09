@@ -5,7 +5,7 @@ using OneAdvisor.Model.Account.Model.Authentication;
 
 namespace OneAdvisor.Model.Directory.Model.Audit
 {
-    public class AuditLogQueryOptions : QueryOptionsBase
+    public class AuditLogQueryOptions : QueryOptionsBase<AuditLog>
     {
         public AuditLogQueryOptions(ScopeOptions scope, string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
          : base(sortColumn, sortDirection, pageSize, pageNumber, filters)

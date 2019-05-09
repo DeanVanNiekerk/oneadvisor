@@ -6,11 +6,12 @@ using OneAdvisor.Model.Common;
 
 namespace OneAdvisor.Model.Common
 {
-    public abstract class QueryOptionsBase
+    public abstract class QueryOptionsBase<T>
     {
         public QueryOptionsBase(string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
         {
-            SortOptions = new SortOptions(sortColumn, sortDirection);
+            var isSortColumnValid = IsSortColumnValid(sortColumn);
+            SortOptions = new SortOptions(isSortColumnValid ? sortColumn : "", sortDirection);
             PageOptions = new PageOptions(pageSize, pageNumber);
             Filters = GetFilters(filters);
         }
@@ -18,6 +19,12 @@ namespace OneAdvisor.Model.Common
         public SortOptions SortOptions { get; private set; }
         public PageOptions PageOptions { get; private set; }
         public List<Filter> Filters { get; set; }
+
+        private bool IsSortColumnValid(string sortColumn)
+        {
+            var props = typeof(T).GetProperties();
+            return props.Any(p => p.Name == sortColumn);
+        }
 
         private List<Filter> GetFilters(string rawData)
         {

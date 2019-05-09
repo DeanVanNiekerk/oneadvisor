@@ -5,7 +5,7 @@ using OneAdvisor.Model.Account.Model.Authentication;
 
 namespace OneAdvisor.Model.Commission.Model.Commission
 {
-    public class CommissionQueryOptions : QueryOptionsBase
+    public class CommissionQueryOptions : QueryOptionsBase<Commission>
     {
         public CommissionQueryOptions(ScopeOptions scope, string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
         : base(sortColumn, sortDirection, pageSize, pageNumber, filters)

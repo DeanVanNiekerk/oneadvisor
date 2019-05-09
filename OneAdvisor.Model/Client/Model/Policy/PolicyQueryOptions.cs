@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace OneAdvisor.Model.Client.Model.Policy
 {
-    public class PolicyQueryOptions : QueryOptionsBase
+    public class PolicyQueryOptions : QueryOptionsBase<Policy>
     {
         public PolicyQueryOptions(ScopeOptions scope, string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
         : base(sortColumn, sortDirection, pageSize, pageNumber, filters)

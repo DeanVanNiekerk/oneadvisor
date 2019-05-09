@@ -4,7 +4,7 @@ using OneAdvisor.Model.Account.Model.Authentication;
 
 namespace OneAdvisor.Model.Directory.Model.Branch
 {
-    public class BranchQueryOptions : QueryOptionsBase
+    public class BranchQueryOptions : QueryOptionsBase<Branch>
     {
         public BranchQueryOptions(ScopeOptions scope, string filters = null)
          : base("Name", "asc", 0, 0, filters)

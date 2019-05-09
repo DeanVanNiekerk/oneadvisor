@@ -5,7 +5,7 @@ using OneAdvisor.Model.Account.Model.Authentication;
 
 namespace OneAdvisor.Model.Commission.Model.CommissionReport
 {
-    public class UserEarningsTypeMonthlyCommissionQueryOptions : QueryOptionsBase
+    public class UserEarningsTypeMonthlyCommissionQueryOptions : QueryOptionsBase<UserEarningsTypeMonthlyCommissionData>
     {
         public UserEarningsTypeMonthlyCommissionQueryOptions(ScopeOptions scope, string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
         : base(sortColumn, sortDirection, pageSize, pageNumber, filters)

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace OneAdvisor.Model.Directory.Model.User
 {
-    public class UserQueryOptions : QueryOptionsBase
+    public class UserQueryOptions : QueryOptionsBase<User>
     {
         public UserQueryOptions(ScopeOptions scope, int pageSize, int pageNumber)
          : base("LastName", "asc", pageSize, pageNumber)

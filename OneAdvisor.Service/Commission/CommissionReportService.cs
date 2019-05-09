@@ -29,16 +29,6 @@ namespace OneAdvisor.Service.Commission
 
         public async Task<PagedItems<ClientRevenueData>> GetClientRevenueData(ClientRevenueQueryOptions options)
         {
-            var date = new DateTime(options.YearEnding, options.MonthEnding, 1);
-            var endDate = date.LastDayOfMonth();
-            var startDate = endDate.AddYears(-1);
-
-            var whereClause = $" AND cs.Date > '{startDate.ToString("yyyy-MM-dd")}' ";
-            whereClause += $" AND cs.Date <= '{endDate.ToString("yyyy-MM-dd")}' ";
-
-            if (!string.IsNullOrEmpty(options.ClientLastName))
-                whereClause += $" AND m.LastName LIKE '{options.ClientLastName}'";
-
             var orderbyClause = "ORDER BY MonthlyAnnuityMonth DESC";
             if (!string.IsNullOrEmpty(options.SortOptions.Column))
             {
@@ -55,34 +45,123 @@ namespace OneAdvisor.Service.Commission
 
             var pagedItems = new PagedItems<ClientRevenueData>();
 
-            var query = GetClientRevenueCountQuery(options.Scope.OrganisationId, whereClause);
+            var builder = GetClientRevenueCountQuery(options);
 
-            pagedItems.TotalItems = (await _context.FromSqlAsync<int>(query)).FirstOrDefault();
+            pagedItems.TotalItems = (await _context.FromSqlAsync<int>(builder.Query, builder.SqlParameters)).FirstOrDefault();
 
-            query = GetClientRevenueQuery(endDate, options.Scope.OrganisationId, "*", whereClause, orderbyClause, pagingClause);
+            builder = GetClientRevenueQuery(options, "*", orderbyClause, pagingClause);
 
-            pagedItems.Items = await _context.FromSqlAsync<ClientRevenueData>(query);
+            pagedItems.Items = await _context.FromSqlAsync<ClientRevenueData>(builder.Query, builder.SqlParameters);
 
             return pagedItems;
         }
 
-        private string GetClientRevenueCountQuery(Guid organisationId, string whereClause)
+        private QueryBuilder GetClientRevenueCountQuery(ClientRevenueQueryOptions options)
         {
-            return $@"
+            var builder = new QueryBuilder();
+
+            builder.Append($@"
             SELECT
                 Distinct(Count(m.Id) OVER ())
             FROM clt_Client m
             JOIN clt_Policy p ON m.Id = p.ClientId
             JOIN com_commission c ON p.Id = c.PolicyId
-            JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id 
-            WHERE m.OrganisationId = '{organisationId}'
-            AND m.IsDeleted = 0
-            {whereClause}
-            GROUP BY m.Id";
+            JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id");
+
+            builder = AddBranchJoin(builder, options);
+
+            builder.Append($@"
+            WHERE m.OrganisationId = '{options.Scope.OrganisationId}'
+            AND m.IsDeleted = 0");
+
+            builder = AddBranchFilter(builder, options);
+            builder = AddUserFilter(builder, options);
+            builder = AddFilters(builder, options);
+
+            builder.Append($@"GROUP BY m.Id");
+
+            return builder;
         }
 
-        private string GetClientRevenueQuery(DateTime endDate, Guid organisationId, string selectClause, string whereClause, string orderbyClause, string pagingClause)
+        private QueryBuilder AddBranchJoin(QueryBuilder builder, ClientRevenueQueryOptions options)
         {
+            if (options.BranchId.Any())
+            {
+                builder.Append(@"
+                JOIN idn_User u ON p.UserId = u.Id
+                ");
+            }
+            return builder;
+        }
+
+        private QueryBuilder AddBranchFilter(QueryBuilder builder, ClientRevenueQueryOptions options, bool addSqlParameters = true)
+        {
+            if (options.BranchId.Any())
+            {
+                var parameters = new List<SqlParameter>();
+
+                var index = 0;
+                options.BranchId.ForEach(b =>
+                {
+                    parameters.Add(new SqlParameter($"@BranchId{index}", b.ToString()));
+                    index++;
+                });
+
+                builder.Append($@"
+                AND u.BranchId IN ({String.Join(',', parameters.Select(p => p.ParameterName))})");
+
+                if (addSqlParameters)
+                    builder.SqlParameters.AddRange(parameters);
+            }
+            return builder;
+        }
+
+        private QueryBuilder AddFilters(QueryBuilder builder, ClientRevenueQueryOptions options, bool addSqlParameters = true)
+        {
+            builder.Append("AND cs.Date > @StartDate");
+            if (addSqlParameters)
+                builder.SqlParameters.Add(new SqlParameter("@StartDate", options.StartDate));
+
+            builder.Append("AND cs.Date <= @EndDate");
+            if (addSqlParameters)
+                builder.SqlParameters.Add(new SqlParameter("@EndDate", options.EndDate));
+
+            if (!string.IsNullOrEmpty(options.ClientLastName))
+            {
+                builder.Append($"AND m.LastName LIKE @ClientLastName");
+                if (addSqlParameters)
+                    builder.SqlParameters.Add(new SqlParameter("@ClientLastName", options.ClientLastName));
+            }
+
+            return builder;
+        }
+
+        private QueryBuilder AddUserFilter(QueryBuilder builder, ClientRevenueQueryOptions options, bool addSqlParameters = true)
+        {
+            if (options.UserId.Any())
+            {
+                var parameters = new List<SqlParameter>();
+
+                var index = 0;
+                options.UserId.ForEach(u =>
+                {
+                    parameters.Add(new SqlParameter($"@User{index}", u.ToString()));
+                    index++;
+                });
+
+                builder.Append($@"
+                AND p.UserId IN ({String.Join(',', parameters.Select(p => p.ParameterName))})");
+
+                if (addSqlParameters)
+                    builder.SqlParameters.AddRange(parameters);
+            }
+            return builder;
+        }
+
+        private QueryBuilder GetClientRevenueQuery(ClientRevenueQueryOptions options, string selectClause, string orderbyClause, string pagingClause)
+        {
+            var builder = new QueryBuilder();
+
             var select = $@"
                     m.Id AS 'ClientId',
                     m.LastName AS 'ClientLastName',
@@ -90,7 +169,7 @@ namespace OneAdvisor.Service.Commission
                     m.DateOfBirth AS 'ClientDateOfBirth',
 
                     SUM(CASE WHEN 
-                    (cs.DateMonth = {endDate.Month} AND cs.DateYear = {endDate.Year} AND ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY}')
+                    (cs.DateMonth = {options.EndDate.Month} AND cs.DateYear = {options.EndDate.Year} AND ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY}')
                     THEN (c.AmountIncludingVAT - c.VAT) ELSE 0 END) AS 'MonthlyAnnuityMonth',
 
                     SUM(CASE WHEN 
@@ -106,7 +185,7 @@ namespace OneAdvisor.Service.Commission
                     THEN (c.AmountIncludingVAT - c.VAT) ELSE 0 END) AS 'LifeFirstYears'
             ";
 
-            return $@"
+            builder.Append($@"
             WITH CommissionQuery AS 
             ( 
                 SELECT
@@ -119,10 +198,19 @@ namespace OneAdvisor.Service.Commission
                 JOIN com_commission c ON p.Id = c.PolicyId
                 JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id 
                 JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id 
-                JOIN com_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id
-                WHERE m.OrganisationId = '{organisationId}'
-                AND m.IsDeleted = 0
-                {whereClause}
+                JOIN com_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id");
+
+            builder = AddBranchJoin(builder, options);
+
+            builder.Append($@"  
+                WHERE m.OrganisationId = '{options.Scope.OrganisationId}'
+                AND m.IsDeleted = 0");
+
+            builder = AddBranchFilter(builder, options);
+            builder = AddUserFilter(builder, options);
+            builder = AddFilters(builder, options);
+
+            builder.Append($@"     
                 GROUP BY m.Id, m.LastName, m.Initials, m.DateOfBirth
 
                 UNION
@@ -138,10 +226,19 @@ namespace OneAdvisor.Service.Commission
                 JOIN com_commission c ON p.Id = c.PolicyId
                 JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id 
                 JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id 
-                JOIN com_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id
-                WHERE m.OrganisationId = '{organisationId}'
-                AND m.IsDeleted = 0
-                {whereClause}
+                JOIN com_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id");
+
+            builder = AddBranchJoin(builder, options);
+
+            builder.Append($@"  
+                WHERE m.OrganisationId = '{options.Scope.OrganisationId}'
+                AND m.IsDeleted = 0");
+
+            builder = AddBranchFilter(builder, options, false);
+            builder = AddUserFilter(builder, options, false);
+            builder = AddFilters(builder, options, false);
+
+            builder.Append($@"
                 GROUP BY m.Id, m.LastName, m.Initials, m.DateOfBirth
             ),
             CommissionQueryTotaled
@@ -188,7 +285,9 @@ namespace OneAdvisor.Service.Commission
             SELECT {selectClause}
             FROM CommissionQueryNumbered
             {pagingClause}
-            ";
+            ");
+
+            return builder;
         }
 
         public async Task<PagedItems<UserEarningsTypeMonthlyCommissionData>> GetUserEarningsTypeMonthlyCommissionData(UserEarningsTypeMonthlyCommissionQueryOptions queryOptions)
