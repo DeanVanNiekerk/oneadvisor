@@ -22,6 +22,7 @@ namespace OneAdvisor.Model.Common
 
         private bool IsSortColumnValid(string sortColumn)
         {
+            sortColumn = Char.ToUpperInvariant(sortColumn[0]) + sortColumn.Substring(1);
             var props = typeof(T).GetProperties();
             return props.Any(p => p.Name == sortColumn);
         }

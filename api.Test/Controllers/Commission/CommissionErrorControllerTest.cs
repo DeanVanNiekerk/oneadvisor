@@ -68,12 +68,12 @@ namespace api.Test.Controllers.Commission
 
             var controller = new CommissionErrorController(service.Object, authService.Object);
 
-            var result = await controller.Index(error.CommissionStatementId, "policyNumber", "desc", 15, 2);
+            var result = await controller.Index(error.CommissionStatementId, "commissionTypeId", "desc", 15, 2);
 
             Assert.Equal(Scope.Branch, options.Scope.Scope);
             Assert.Equal(15, options.PageOptions.Size);
             Assert.Equal(2, options.PageOptions.Number);
-            Assert.Equal("policyNumber", options.SortOptions.Column);
+            Assert.Equal("commissionTypeId", options.SortOptions.Column);
             Assert.Equal(SortDirection.Descending, options.SortOptions.Direction);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
