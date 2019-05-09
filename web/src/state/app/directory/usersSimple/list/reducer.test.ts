@@ -1,65 +1,66 @@
 import { UserSimple } from '../';
 import { defaultState, reducer } from './reducer';
 
-describe('user list reducer', () => {
-    it('should handle USERSSIMPLE_LIST_FETCHING', () => {
+describe("user list reducer", () => {
+    it("should handle USERSSIMPLE_LIST_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'USERSSIMPLE_LIST_FETCHING'
+            type: "USERSSIMPLE_LIST_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle USERSSIMPLE_LIST_FETCHING_ERROR', () => {
+    it("should handle USERSSIMPLE_LIST_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'USERSSIMPLE_LIST_FETCHING_ERROR'
+            type: "USERSSIMPLE_LIST_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            
-            fetching: false
+
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle USERSSIMPLE_LIST_RECEIVE', () => {
+    it("should handle USERSSIMPLE_LIST_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const user: UserSimple = {
-            id: '10',
-            firstName: 'Dean',
-            lastName: 'Jackson',
-            fullName: 'DJ'
+            id: "10",
+            firstName: "Dean",
+            lastName: "Jackson",
+            fullName: "DJ",
+            branchId: "321321",
         };
 
         const actualState = reducer(initalState, {
-            type: 'USERSSIMPLE_LIST_RECEIVE',
+            type: "USERSSIMPLE_LIST_RECEIVE",
             payload: {
                 totalItems: 1,
-                items: [user]
-            }
+                items: [user],
+            },
         });
 
         const expectedState = {
             ...defaultState,
             totalItems: 1,
             items: [user],
-            fetching: false
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);

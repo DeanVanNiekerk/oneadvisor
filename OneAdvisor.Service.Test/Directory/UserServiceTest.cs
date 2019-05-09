@@ -435,6 +435,7 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.Equal(user2.Id, user.Id);
                 Assert.Equal(user2.FirstName, user.FirstName);
                 Assert.Equal(user2.LastName, user.LastName);
+                Assert.Equal(user2.BranchId, user.BranchId);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(userDetailed2, Scope.Organisation);

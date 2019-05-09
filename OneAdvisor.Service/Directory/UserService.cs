@@ -255,7 +255,8 @@ namespace OneAdvisor.Service.Directory
                         {
                             Id = user.Id,
                             FirstName = user.FirstName,
-                            LastName = user.LastName
+                            LastName = user.LastName,
+                            BranchId = user.BranchId
                         };
 
             return query;

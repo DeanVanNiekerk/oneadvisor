@@ -3,66 +3,67 @@ import { getValidationResult } from '@/test';
 import { defaultState, reducer } from './reducer';
 
 const defaultUser = {
-    id: '10',
-    firstName: 'Dean',
-    lastName: 'Jackson',
-    fullName: 'DJ'
+    id: "10",
+    firstName: "Dean",
+    lastName: "Jackson",
+    fullName: "DJ",
+    branchId: "321321",
 };
 
-describe('user reducer', () => {
-    it('should handle USERSSIMPLE_USER_FETCHING', () => {
+describe("user reducer", () => {
+    it("should handle USERSSIMPLE_USER_FETCHING", () => {
         const initalState = {
             ...defaultState,
-            userSimple: { ...defaultUser }
+            userSimple: { ...defaultUser },
         };
 
         const actualState = reducer(initalState, {
-            type: 'USERSSIMPLE_USER_FETCHING'
+            type: "USERSSIMPLE_USER_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
             fetching: true,
-            userSimple: null
+            userSimple: null,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle USERSSIMPLE_USER_FETCHING_ERROR', () => {
+    it("should handle USERSSIMPLE_USER_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'USERSSIMPLE_USER_FETCHING_ERROR'
+            type: "USERSSIMPLE_USER_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            
-            fetching: false
+
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle USERSSIMPLE_USER_RECEIVE', () => {
+    it("should handle USERSSIMPLE_USER_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'USERSSIMPLE_USER_RECEIVE',
-            payload: { ...defaultUser }
+            type: "USERSSIMPLE_USER_RECEIVE",
+            payload: { ...defaultUser },
         });
 
         const expectedState = {
             ...defaultState,
             userSimple: { ...defaultUser },
-            fetching: false
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);

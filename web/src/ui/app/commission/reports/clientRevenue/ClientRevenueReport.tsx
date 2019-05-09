@@ -12,7 +12,9 @@ import {
     ClientRevenueData, clientRevenueSelector, fetchClientRevenueData, getClientRevenueData, receiveClientRevenueFilters,
     receiveClientRevenuePageOptions, receiveClientRevenueSortOptions
 } from '@/state/app/commission/reports';
-import { useCaseSelector } from '@/state/auth';
+import { Branch, branchesSelector, branchSelector, fetchBranches } from '@/state/app/directory/branches';
+import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
+import { useCaseSelector, userOrganisationIdSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import { Age, Button, ClientName, Drawer, DrawerFooter, Header, Table } from '@/ui/controls';
 
@@ -26,6 +28,9 @@ type Props = {
     totalItems: number;
     filters: Filters;
     useCases: string[];
+    branches: Branch[];
+    organisationId: string;
+    users: UserSimple[];
 } & DispatchProp;
 
 type State = {
@@ -64,6 +69,9 @@ class ClientRevenueReport extends Component<Props, State> {
                 this.updateFilters(this.props.filters)
             )
         );
+
+        if (this.props.branches.length === 0)
+            this.props.dispatch(fetchBranches(this.props.organisationId));
     };
 
     updateFilters = (filters: Filters): Filters => {
@@ -180,6 +188,33 @@ class ClientRevenueReport extends Component<Props, State> {
         return parseInt(this.props.filters.monthEnding[0]);
     };
 
+    selectedBranch = (): string | undefined => {
+        return this.props.filters.branchId.length !== 0 ? this.props.filters.branchId[0] : undefined;
+    };
+
+    handleBranchChange = (branchId: string | undefined) => {
+        this.props.dispatch(
+            receiveClientRevenueFilters({
+                ...this.props.filters,
+                branchId: branchId ? [branchId] : [],
+                userId: [], //Clear user when branch changes
+            })
+        );
+    };
+
+    selectedUser = (): string | undefined => {
+        return this.props.filters.userId.length !== 0 ? this.props.filters.userId[0] : undefined;
+    };
+
+    handleUserChange = (userId: string | undefined) => {
+        this.props.dispatch(
+            receiveClientRevenueFilters({
+                ...this.props.filters,
+                userId: userId ? [userId] : [],
+            })
+        );
+    };
+
     onTableChange = (
         pageOptions: PageOptions,
         sortOptions: SortOptions,
@@ -228,7 +263,7 @@ class ClientRevenueReport extends Component<Props, State> {
                                 <Select
                                     value={this.selectedMonth()}
                                     onChange={this.handleMonthChange}
-                                    style={{ width: 200 }}
+                                    style={{ width: 125 }}
                                 >
                                     {getMonthOptions().map(month => {
                                         return (
@@ -246,7 +281,7 @@ class ClientRevenueReport extends Component<Props, State> {
                                 <Select
                                     value={this.selectedYear()}
                                     onChange={this.handleYearChange}
-                                    style={{ width: 200 }}
+                                    style={{ width: 90 }}
                                 >
                                     {getYearOptions().map(year => {
                                         return (
@@ -255,6 +290,46 @@ class ClientRevenueReport extends Component<Props, State> {
                                                 value={year}
                                             >
                                                 {year}
+                                            </Select.Option>
+                                        );
+                                    })}
+                                </Select>
+                            </Col>
+                            <Col>
+                                <Select
+                                    value={this.selectedBranch()}
+                                    onChange={this.handleBranchChange}
+                                    placeholder="Branch"
+                                    allowClear={true}
+                                    style={{ width: 150 }}
+                                >
+                                    {this.props.branches.map(branch => {
+                                        return (
+                                            <Select.Option
+                                                key={branch.id}
+                                                value={branch.id}
+                                            >
+                                                {branch.name}
+                                            </Select.Option>
+                                        );
+                                    })}
+                                </Select>
+                            </Col>
+                            <Col>
+                                <Select
+                                    value={this.selectedUser()}
+                                    onChange={this.handleUserChange}
+                                    placeholder="Broker"
+                                    allowClear={true}
+                                    style={{ width: 150 }}
+                                >
+                                    {this.props.users.filter(u => !this.selectedBranch() || u.branchId === this.selectedBranch()).map(user => {
+                                        return (
+                                            <Select.Option
+                                                key={user.id}
+                                                value={user.id}
+                                            >
+                                                {user.fullName}
                                             </Select.Option>
                                         );
                                     })}
@@ -270,7 +345,7 @@ class ClientRevenueReport extends Component<Props, State> {
                 </Header>
 
                 <Table
-                    rowKey="id"
+                    rowKey="rowNumber"
                     columns={this.getColumns()}
                     dataSource={this.props.records}
                     loading={this.props.fetching}
@@ -316,15 +391,20 @@ class ClientRevenueReport extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const clientRevenueState = clientRevenueSelector(state);
+    const branchesState = branchesSelector(state);
+    const usersState = usersSimpleSelector(state);
 
     return {
         records: clientRevenueState.items,
         totalItems: clientRevenueState.totalItems,
-        fetching: clientRevenueState.fetching,
+        fetching: clientRevenueState.fetching || branchesState.fetching,
         pageOptions: clientRevenueState.pageOptions,
         sortOptions: clientRevenueState.sortOptions,
         filters: clientRevenueState.filters,
         useCases: useCaseSelector(state),
+        organisationId: userOrganisationIdSelector(state),
+        branches: branchesState.items,
+        users: usersState.items,
     };
 };
 

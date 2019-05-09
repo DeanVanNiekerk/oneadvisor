@@ -20,6 +20,16 @@ export const isAuthenticatedSelector: (
     }
 );
 
+export const userOrganisationIdSelector: (
+    state: RootState
+) => string = createSelector(
+    tokenSelector,
+    root => {
+        if (!root.tokenData) return "";
+        return root.tokenData.organisationId;
+    }
+);
+
 export const useCaseSelector: (state: RootState) => string[] = createSelector(
     tokenSelector,
     root => {

@@ -6,7 +6,7 @@ using OneAdvisor.Model.Common;
 
 namespace OneAdvisor.Model.Common
 {
-    public abstract class QueryOptionsBase<T>
+    public abstract class QueryOptionsBase<M>
     {
         public QueryOptionsBase(string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
         {
@@ -22,8 +22,11 @@ namespace OneAdvisor.Model.Common
 
         private bool IsSortColumnValid(string sortColumn)
         {
+            if (string.IsNullOrEmpty(sortColumn))
+                return false;
+
             sortColumn = Char.ToUpperInvariant(sortColumn[0]) + sortColumn.Substring(1);
-            var props = typeof(T).GetProperties();
+            var props = typeof(M).GetProperties();
             return props.Any(p => p.Name == sortColumn);
         }
 

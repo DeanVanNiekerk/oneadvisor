@@ -19,6 +19,8 @@ const lastMonth = moment().subtract(1, "months");
 const defaultFilters: Filters = {
     yearEnding: [lastMonth.year().toString()],
     monthEnding: [(lastMonth.month() + 1).toString()],
+    branchId: [],
+    userId: [],
 };
 
 export const defaultState: State = {

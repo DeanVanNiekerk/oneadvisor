@@ -54,11 +54,12 @@ namespace api.Test.Controllers.Directory
         [Fact]
         public void UserSimpleComposition()
         {
-            Assert.Equal(4, typeof(UserSimple).PropertyCount());
+            Assert.Equal(5, typeof(UserSimple).PropertyCount());
             Assert.True(typeof(UserSimple).HasProperty("Id"));
             Assert.True(typeof(UserSimple).HasProperty("FirstName"));
             Assert.True(typeof(UserSimple).HasProperty("LastName"));
             Assert.True(typeof(UserSimple).HasProperty("FullName"));
+            Assert.True(typeof(UserSimple).HasProperty("BranchId"));
         }
 
         [Fact]
@@ -287,6 +288,7 @@ namespace api.Test.Controllers.Directory
                 Id = Guid.NewGuid(),
                 FirstName = "1",
                 LastName = "2",
+                BranchId = Guid.NewGuid()
             };
 
             var service = new Mock<IUserService>();

@@ -3,4 +3,5 @@ export type UserSimple = {
     firstName: string;
     lastName: string;
     fullName: string;
+    branchId: string;
 };
