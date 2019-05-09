@@ -34,7 +34,7 @@ export const userEarningsTypeMonthlyCommissionItemsSelector: (
                 month: 0,
                 year: 0,
                 commissionEarningsTypeId: earningsType.id,
-                amountIncludingVAT: 0,
+                amountExcludingVAT: 0,
             };
         });
     }
@@ -46,7 +46,7 @@ export const userEarningsTypeMonthlyCommissionTotalSelector: (
     rootSelector,
     root => {
         return root.items.reduce((p, c) => {
-            return p + c.amountIncludingVAT;
+            return p + c.amountExcludingVAT;
         }, 0);
     }
 );

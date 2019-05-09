@@ -18,7 +18,7 @@ export const userCompanyMonthlyCommissionTotalSelector: (
     rootSelector,
     root => {
         return root.items.reduce((p, c) => {
-            return p + c.amountIncludingVAT;
+            return p + c.amountExcludingVAT;
         }, 0);
     }
 );

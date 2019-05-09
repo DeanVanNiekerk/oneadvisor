@@ -76,8 +76,8 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
                 CommissionTypeId = commissionType1.Id,
-                AmountIncludingVAT = 100,
-                VAT = 0,
+                AmountIncludingVAT = 110,
+                VAT = 10,
                 CommissionStatementId = cs1.Id
             };
 
@@ -86,8 +86,8 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
                 CommissionTypeId = commissionType2.Id,
-                AmountIncludingVAT = 200,
-                VAT = 0,
+                AmountIncludingVAT = 220,
+                VAT = 20,
                 CommissionStatementId = cs1.Id
             };
 
@@ -96,8 +96,8 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
                 CommissionTypeId = commissionType3.Id,
-                AmountIncludingVAT = 300,
-                VAT = 0,
+                AmountIncludingVAT = 330,
+                VAT = 30,
                 CommissionStatementId = cs1.Id
             };
 
@@ -106,8 +106,8 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
                 CommissionTypeId = commissionType4.Id,
-                AmountIncludingVAT = 400,
-                VAT = 0,
+                AmountIncludingVAT = 440,
+                VAT = 40,
                 CommissionStatementId = cs1.Id
             };
 

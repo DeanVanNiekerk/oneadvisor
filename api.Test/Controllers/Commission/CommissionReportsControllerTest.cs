@@ -102,7 +102,7 @@ namespace api.Test.Controllers.Commission
             Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("UserFirstName"));
             Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("Month"));
             Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("Year"));
-            Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("AmountIncludingVAT"));
+            Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("AmountExcludingVAT"));
             Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("CommissionEarningsTypeId"));
         }
 
@@ -116,7 +116,7 @@ namespace api.Test.Controllers.Commission
                 UserFirstName = "DJ",
                 Month = 1,
                 Year = 1999,
-                AmountIncludingVAT = 100,
+                AmountExcludingVAT = 100,
                 CommissionEarningsTypeId = Guid.NewGuid(),
             };
 
@@ -165,7 +165,7 @@ namespace api.Test.Controllers.Commission
             Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("UserFirstName"));
             Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("Month"));
             Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("Year"));
-            Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("AmountIncludingVAT"));
+            Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("AmountExcludingVAT"));
             Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("CompanyId"));
         }
 
@@ -179,7 +179,7 @@ namespace api.Test.Controllers.Commission
                 UserFirstName = "DJ",
                 Month = 1,
                 Year = 1999,
-                AmountIncludingVAT = 100,
+                AmountExcludingVAT = 100,
                 CompanyId = Guid.NewGuid(),
             };
 

@@ -6,10 +6,9 @@
 
 `npm-check -u -E`
 
-**Current issues**
+**Current upgrade issues**
 
--   "@types/react-redux": "7.0.6" cause compile issues
--   Try to remove hack on next upgrade 'as React.ComponentType' in SecureRoute.tsx
+None!
 
 ## Babel Version Check
 

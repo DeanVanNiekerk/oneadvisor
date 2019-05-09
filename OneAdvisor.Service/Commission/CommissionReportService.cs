@@ -91,19 +91,19 @@ namespace OneAdvisor.Service.Commission
 
                     SUM(CASE WHEN 
                     (cs.DateMonth = {endDate.Month} AND cs.DateYear = {endDate.Year} AND ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY}')
-                    THEN c.AmountIncludingVAT ELSE 0 END) AS 'MonthlyAnnuityMonth',
+                    THEN (c.AmountIncludingVAT - c.VAT) ELSE 0 END) AS 'MonthlyAnnuityMonth',
 
                     SUM(CASE WHEN 
                     ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY}' 
-                    THEN c.amountIncludingVat ELSE 0 END) AS 'AnnualAnnuity',
+                    THEN (c.AmountIncludingVAT - c.VAT) ELSE 0 END) AS 'AnnualAnnuity',
 
                     SUM(CASE WHEN 
                     ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_ONCE_OFF}'
-                    THEN c.AmountIncludingVAT ELSE 0 END) AS 'OnceOff',
+                    THEN (c.AmountIncludingVAT - c.VAT) ELSE 0 END) AS 'OnceOff',
 
                     SUM(CASE WHEN 
                     ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_LIFE_FIRST_YEARS}'  
-                    THEN c.AmountIncludingVAT ELSE 0 END) AS 'LifeFirstYears'
+                    THEN (c.AmountIncludingVAT - c.VAT) ELSE 0 END) AS 'LifeFirstYears'
             ";
 
             return $@"
@@ -204,7 +204,7 @@ namespace OneAdvisor.Service.Commission
                             on commission.PolicyId equals policy.Id
                         join user in userQuery
                             on policy.UserId equals user.Id
-                        group new { commission.AmountIncludingVAT } by new { policy.UserId, user.FirstName, user.LastName, commissionType.CommissionEarningsTypeId, statement.DateYear, statement.DateMonth } into g
+                        group new { commission.AmountIncludingVAT, commission.VAT } by new { policy.UserId, user.FirstName, user.LastName, commissionType.CommissionEarningsTypeId, statement.DateYear, statement.DateMonth } into g
                         select new UserEarningsTypeMonthlyCommissionData()
                         {
                             UserId = g.Key.UserId,
@@ -213,7 +213,7 @@ namespace OneAdvisor.Service.Commission
                             Month = g.Key.DateMonth,
                             Year = g.Key.DateYear,
                             CommissionEarningsTypeId = g.Key.CommissionEarningsTypeId,
-                            AmountIncludingVAT = g.Sum(c => c.AmountIncludingVAT),
+                            AmountExcludingVAT = g.Sum(c => (c.AmountIncludingVAT - c.VAT)),
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -252,7 +252,7 @@ namespace OneAdvisor.Service.Commission
                             on commission.PolicyId equals policy.Id
                         join user in userQuery
                             on policy.UserId equals user.Id
-                        group new { commission.AmountIncludingVAT } by new { policy.UserId, user.FirstName, user.LastName, policy.CompanyId, statement.DateYear, statement.DateMonth } into g
+                        group new { commission.AmountIncludingVAT, commission.VAT } by new { policy.UserId, user.FirstName, user.LastName, policy.CompanyId, statement.DateYear, statement.DateMonth } into g
                         select new UserCompanyMonthlyCommissionData()
                         {
                             UserId = g.Key.UserId,
@@ -261,7 +261,7 @@ namespace OneAdvisor.Service.Commission
                             Month = g.Key.DateMonth,
                             Year = g.Key.DateYear,
                             CompanyId = g.Key.CompanyId,
-                            AmountIncludingVAT = g.Sum(c => c.AmountIncludingVAT),
+                            AmountExcludingVAT = g.Sum(c => (c.AmountIncludingVAT - c.VAT)),
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------

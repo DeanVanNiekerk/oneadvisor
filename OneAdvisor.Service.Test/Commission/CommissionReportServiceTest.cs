@@ -74,7 +74,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = usr1_policy1.Id,
                 CommissionTypeId = comTypeMonth.Id,
-                AmountIncludingVAT = 100,
+                AmountIncludingVAT = 110,
                 VAT = 10,
                 CommissionStatementId = statement1.Id
             };
@@ -84,7 +84,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = usr2_policy1.Id,
                 CommissionTypeId = comTypeMonth.Id,
-                AmountIncludingVAT = 200,
+                AmountIncludingVAT = 220,
                 VAT = 20,
                 CommissionStatementId = statement1.Id
             };
@@ -94,7 +94,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = usr2_policy1.Id,
                 CommissionTypeId = comTypeMonth.Id,
-                AmountIncludingVAT = 300,
+                AmountIncludingVAT = 330,
                 VAT = 30,
                 CommissionStatementId = statement1.Id
             };
@@ -104,7 +104,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = usr2_policy1.Id,
                 CommissionTypeId = comTypeAnnual.Id,
-                AmountIncludingVAT = 400,
+                AmountIncludingVAT = 440,
                 VAT = 40,
                 CommissionStatementId = statement1.Id
             };
@@ -114,8 +114,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = usr3_policy1.Id,
                 CommissionTypeId = comTypeMonth.Id,
-                AmountIncludingVAT = 40,
-                VAT = 400,
+                AmountIncludingVAT = 550,
+                VAT = 50,
                 CommissionStatementId = statement3.Id
             };
 
@@ -155,7 +155,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(statement1.DateYear, actual.Year);
                 Assert.Equal(statement1.DateMonth, actual.Month);
                 Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
-                Assert.Equal(100, actual.AmountIncludingVAT);
+                Assert.Equal(100, actual.AmountExcludingVAT);
 
                 actual = items[1];
                 Assert.Equal(user2.User.Id, actual.UserId);
@@ -164,7 +164,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(statement1.DateYear, actual.Year);
                 Assert.Equal(statement1.DateMonth, actual.Month);
                 Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
-                Assert.Equal(500, actual.AmountIncludingVAT); //200 + 300
+                Assert.Equal(500, actual.AmountExcludingVAT); //200 + 300
 
                 actual = items[2];
                 Assert.Equal(user2.User.Id, actual.UserId);
@@ -173,7 +173,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(statement1.DateYear, actual.Year);
                 Assert.Equal(statement1.DateMonth, actual.Month);
                 Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY, actual.CommissionEarningsTypeId);
-                Assert.Equal(400, actual.AmountIncludingVAT);
+                Assert.Equal(400, actual.AmountExcludingVAT);
 
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user3);
@@ -226,7 +226,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
                 CommissionTypeId = comTypeMonth.Id,
-                AmountIncludingVAT = 100,
+                AmountIncludingVAT = 110,
                 VAT = 10,
                 CommissionStatementId = statement1.Id
             };
@@ -236,7 +236,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
                 CommissionTypeId = comTypeMonth.Id,
-                AmountIncludingVAT = 200,
+                AmountIncludingVAT = 220,
                 VAT = 20,
                 CommissionStatementId = statement2.Id
             };
@@ -246,7 +246,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
                 CommissionTypeId = comTypeMonth.Id,
-                AmountIncludingVAT = 300,
+                AmountIncludingVAT = 330,
                 VAT = 30,
                 CommissionStatementId = statement2.Id
             };
@@ -256,8 +256,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
                 CommissionTypeId = comTypeMonth.Id,
-                AmountIncludingVAT = 40,
-                VAT = 400,
+                AmountIncludingVAT = 440,
+                VAT = 40,
                 CommissionStatementId = statement3.Id
             };
 
@@ -296,7 +296,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(statement2.DateYear, actual.Year);
                 Assert.Equal(statement2.DateMonth, actual.Month);
                 Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
-                Assert.Equal(500, actual.AmountIncludingVAT); //200 + 300
+                Assert.Equal(500, actual.AmountExcludingVAT); //200 + 300
             }
         }
 
@@ -339,7 +339,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
                 CommissionTypeId = comTypeMonth.Id,
-                AmountIncludingVAT = 100,
+                AmountIncludingVAT = 110,
                 VAT = 10,
                 CommissionStatementId = statement1.Id
             };
@@ -349,7 +349,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = policy2.Id,
                 CommissionTypeId = comTypeMonth.Id,
-                AmountIncludingVAT = 200,
+                AmountIncludingVAT = 220,
                 VAT = 20,
                 CommissionStatementId = statement1.Id
             };
@@ -387,7 +387,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(statement1.DateYear, actual.Year);
                 Assert.Equal(statement1.DateMonth, actual.Month);
                 Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
-                Assert.Equal(200, actual.AmountIncludingVAT);
+                Assert.Equal(200, actual.AmountExcludingVAT);
             }
         }
 
@@ -442,7 +442,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = usr1_policy1.Id,
                 CommissionTypeId = Guid.NewGuid(),
-                AmountIncludingVAT = 100,
+                AmountIncludingVAT = 110,
                 VAT = 10,
                 CommissionStatementId = statement1.Id
             };
@@ -452,7 +452,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = usr2_policy1.Id,
                 CommissionTypeId = Guid.NewGuid(),
-                AmountIncludingVAT = 200,
+                AmountIncludingVAT = 220,
                 VAT = 20,
                 CommissionStatementId = statement2.Id
             };
@@ -462,7 +462,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = usr2_policy1.Id,
                 CommissionTypeId = Guid.NewGuid(),
-                AmountIncludingVAT = 300,
+                AmountIncludingVAT = 330,
                 VAT = 30,
                 CommissionStatementId = statement2.Id
             };
@@ -472,7 +472,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = usr2_policy1.Id,
                 CommissionTypeId = Guid.NewGuid(),
-                AmountIncludingVAT = 400,
+                AmountIncludingVAT = 440,
                 VAT = 40,
                 CommissionStatementId = statement2.Id
             };
@@ -482,8 +482,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 PolicyId = usr3_policy1.Id,
                 CommissionTypeId = Guid.NewGuid(),
-                AmountIncludingVAT = 40,
-                VAT = 400,
+                AmountIncludingVAT = 550,
+                VAT = 50,
                 CommissionStatementId = statement3.Id
             };
 
@@ -523,7 +523,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(statement1.DateYear, actual.Year);
                 Assert.Equal(statement1.DateMonth, actual.Month);
                 Assert.Equal(statement1.CompanyId, actual.CompanyId);
-                Assert.Equal(100, actual.AmountIncludingVAT);
+                Assert.Equal(100, actual.AmountExcludingVAT);
 
                 actual = items[1];
                 Assert.Equal(user2.User.Id, actual.UserId);
@@ -532,7 +532,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(statement2.DateYear, actual.Year);
                 Assert.Equal(statement2.DateMonth, actual.Month);
                 Assert.Equal(statement2.CompanyId, actual.CompanyId);
-                Assert.Equal(900, actual.AmountIncludingVAT); //200 + 300 + 400
+                Assert.Equal(900, actual.AmountExcludingVAT); //200 + 300 + 400
 
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user3);

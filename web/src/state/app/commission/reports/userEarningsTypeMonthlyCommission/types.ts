@@ -7,5 +7,5 @@ export type UserEarningsTypeMonthlyCommissionData = {
     year: number;
 
     commissionEarningsTypeId: string;
-    amountIncludingVAT: number;
+    amountExcludingVAT: number;
 };

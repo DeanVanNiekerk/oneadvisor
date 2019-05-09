@@ -48,7 +48,7 @@ describe("report user monthly commission reducer", () => {
             userFirstName: "Dean",
             month: 1,
             year: 1999,
-            amountIncludingVAT: 40,
+            amountExcludingVAT: 40,
             commissionCompanyId: "987987",
         };
 

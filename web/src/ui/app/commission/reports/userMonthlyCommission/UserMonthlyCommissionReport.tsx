@@ -70,7 +70,7 @@ class UserMonthlyCommissionReport extends Component<Props> {
                     );
                 },
             }),
-            getColumn("amountIncludingVAT", "Amount", {
+            getColumn("amountExcludingVAT", "Amount", {
                 type: "currency",
             }),
         ];
@@ -87,7 +87,7 @@ class UserMonthlyCommissionReport extends Component<Props> {
                     );
                 },
             }),
-            getColumn("amountIncludingVAT", "Amount", {
+            getColumn("amountExcludingVAT", "Amount", {
                 type: "currency",
             }),
         ];
