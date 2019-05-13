@@ -14,11 +14,11 @@ namespace OneAdvisor.Import.Excel.Readers
 {
     public class UniqueCommissionTypesReader : IImportReader<string>
     {
-        private Config _config;
+        private Sheet _sheet;
 
-        public UniqueCommissionTypesReader(Config config)
+        public UniqueCommissionTypesReader(Sheet sheet)
         {
-            _config = config;
+            _sheet = sheet;
         }
 
         public IEnumerable<string> Read(Stream stream)
@@ -27,23 +27,31 @@ namespace OneAdvisor.Import.Excel.Readers
 
             using (var reader = ExcelReaderFactory.CreateReader(stream))
             {
-                var headerColumnIndex = ExcelUtils.ColumnToIndex(_config.HeaderIdentifier.Column);
-                var headerFound = false || headerColumnIndex == -1;
-                var commissionTypeIndexes = GetCommissionIndexes();
+                var sheetNumber = 0;
 
                 do
                 {
+                    //Increment the sheet number
+                    sheetNumber++;
+
+                    if (_sheet.Position != sheetNumber)
+                        continue;
+
+                    var headerColumnIndex = ExcelUtils.ColumnToIndex(_sheet.Config.HeaderIdentifier.Column);
+                    var headerFound = false || headerColumnIndex == -1;
+                    var commissionTypeIndexes = GetCommissionIndexes();
+
                     while (reader.Read())
                     {
                         if (!headerFound)
                         {
                             var currentValue = Utils.GetValue(reader, headerColumnIndex);
-                            headerFound = _config.HeaderIdentifier.Value.IgnoreCaseEquals(currentValue);
+                            headerFound = _sheet.Config.HeaderIdentifier.Value.IgnoreCaseEquals(currentValue);
                             continue;
                         }
 
                         //Ignore row if any of the primary field values are empty
-                        var requiredFields = _config.Fields.Where(f => Fields.PrimaryFieldNames().Any(p => p == f.Name));
+                        var requiredFields = _sheet.Config.Fields.Where(f => Fields.PrimaryFieldNames().Any(p => p == f.Name));
                         var anyMissingRequiredFields = requiredFields.Any(field =>
                         {
                             var fieldValue = Utils.GetValue(reader, ExcelUtils.ColumnToIndex(field.Column));
@@ -71,10 +79,10 @@ namespace OneAdvisor.Import.Excel.Readers
         {
             var commissionTypeIndexes = new List<int>();
 
-            if (string.IsNullOrEmpty(_config.CommissionTypes.MappingTemplate))
+            if (string.IsNullOrEmpty(_sheet.Config.CommissionTypes.MappingTemplate))
                 return commissionTypeIndexes;
 
-            return MappingTemplate.Parse(_config.CommissionTypes.MappingTemplate)
+            return MappingTemplate.Parse(_sheet.Config.CommissionTypes.MappingTemplate)
                 .Select(c => ExcelUtils.ColumnToIndex(c))
                 .ToList();
         }

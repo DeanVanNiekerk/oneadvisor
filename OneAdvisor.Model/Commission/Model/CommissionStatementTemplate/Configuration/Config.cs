@@ -6,13 +6,9 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
     {
         public Config()
         {
-            HeaderIdentifier = new HeaderIdentifier();
-            Fields = new List<Field>();
-            CommissionTypes = new CommissionTypes();
+            Sheets = new List<Sheet>();
         }
 
-        public HeaderIdentifier HeaderIdentifier { get; set; }
-        public IEnumerable<Field> Fields { get; set; }
-        public CommissionTypes CommissionTypes { get; set; }
+        public IEnumerable<Sheet> Sheets { get; set; }
     }
 }

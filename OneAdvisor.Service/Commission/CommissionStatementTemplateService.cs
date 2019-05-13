@@ -104,7 +104,7 @@ namespace OneAdvisor.Service.Commission
 
         public async Task<Config> GetDefaultConfig()
         {
-            var config = new Config()
+            var sheetConfig = new SheetConfig()
             {
                 //No header
                 HeaderIdentifier = new HeaderIdentifier()
@@ -133,7 +133,7 @@ namespace OneAdvisor.Service.Commission
             };
 
             var commissionTypes = await _lookupService.GetCommissionTypes();
-            config.CommissionTypes.Types = commissionTypes
+            sheetConfig.CommissionTypes.Types = commissionTypes
                 .Select(c => new CommissionType()
                 {
                     CommissionTypeCode = c.Code,
@@ -142,8 +142,15 @@ namespace OneAdvisor.Service.Commission
                 )
                 .ToList();
 
-            return config;
+            var sheet = new Sheet();
+            sheet.Name = "Sheet 1";
+            sheet.Position = 1;
+            sheet.Config = sheetConfig;
 
+            var config = new Config();
+            config.Sheets = new List<Sheet>() { sheet };
+
+            return config;
         }
 
         private CommissionStatementTemplateEntity MapModelToEntity(CommissionStatementTemplateEdit model, CommissionStatementTemplateEntity entity = null)

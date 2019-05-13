@@ -30,6 +30,27 @@ namespace OneAdvisor.Service.Commission.Validators
     {
         public ConfigValidator()
         {
+            RuleFor(t => t.Sheets).NotEmpty();
+            RuleForEach(t => t.Sheets).SetValidator(new SheetValidator());
+        }
+    }
+
+    public class SheetValidator : AbstractValidator<Sheet>
+    {
+        public SheetValidator()
+        {
+            RuleFor(t => t.Name).NotEmpty();
+            RuleFor(t => t.Position).GreaterThanOrEqualTo(1);
+
+            RuleFor(t => t.Config).NotNull();
+            RuleFor(t => t.Config).SetValidator(new SheetConfigValidator());
+        }
+    }
+
+    public class SheetConfigValidator : AbstractValidator<SheetConfig>
+    {
+        public SheetConfigValidator()
+        {
             RuleFor(t => t.HeaderIdentifier).NotNull();
             RuleFor(t => t.HeaderIdentifier).SetValidator(new HeaderIdentifierValidator());
 

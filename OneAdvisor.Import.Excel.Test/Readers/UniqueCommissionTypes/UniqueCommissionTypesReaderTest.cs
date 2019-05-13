@@ -19,7 +19,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.UniqueCommissionTypes
         [Fact]
         public void Read_Basic()
         {
-            var config = new Config()
+            var sheetConfig = new SheetConfig()
             {
                 HeaderIdentifier = new HeaderIdentifier()
                 {
@@ -36,10 +36,15 @@ namespace OneAdvisor.Import.Excel.Test.Readers.UniqueCommissionTypes
                 }
             };
 
+            var sheet = new Sheet();
+            sheet.Name = "Sheet 1";
+            sheet.Position = 1;
+            sheet.Config = sheetConfig;
+
             var bytes = System.Convert.FromBase64String(Basic_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
-            var reader = new UniqueCommissionTypesReader(config);
+            var reader = new UniqueCommissionTypesReader(sheet);
             var commissionTypeValues = reader.Read(stream).ToList();
 
             Assert.Equal(3, commissionTypeValues.Count);

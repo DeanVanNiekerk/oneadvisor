@@ -88,13 +88,6 @@ namespace OneAdvisor.Service.Test.Commission
                 CompanyId = Guid.NewGuid(),
                 Name = "Template 1",
                 Config = new Config()
-                {
-                    HeaderIdentifier = new HeaderIdentifier()
-                    {
-                        Column = "A",
-                        Value = "Broker"
-                    }
-                }
             };
 
             var temp2 = new CommissionStatementTemplateEntity
@@ -242,12 +235,14 @@ namespace OneAdvisor.Service.Test.Commission
                 //When
                 var config = await service.GetDefaultConfig();
 
+                var sheetConfig = config.Sheets.Single().Config;
+
                 //Then
-                Assert.Equal("", config.HeaderIdentifier.Column);
-                Assert.Equal("", config.HeaderIdentifier.Value);
+                Assert.Equal("", sheetConfig.HeaderIdentifier.Column);
+                Assert.Equal("", sheetConfig.HeaderIdentifier.Value);
 
                 var importCommissionProps = typeof(ImportCommission).GetProperties();
-                var fields = config.Fields.ToList();
+                var fields = sheetConfig.Fields.ToList();
                 Assert.Equal(importCommissionProps.Count() - 3, fields.Count()); //minus 3 for Id, CommissionTypeValue and CommissionTypeCode
                 Assert.Equal("PolicyNumber", fields[0].Name);
                 Assert.Equal("A", fields[0].Column);
@@ -270,9 +265,9 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal("BrokerFullName", fields[9].Name);
                 Assert.Equal("K", fields[9].Column);
 
-                Assert.Equal("D", config.CommissionTypes.MappingTemplate);
-                Assert.Equal("unknown", config.CommissionTypes.DefaultCommissionTypeCode);
-                var types = config.CommissionTypes.Types.ToList();
+                Assert.Equal("D", sheetConfig.CommissionTypes.MappingTemplate);
+                Assert.Equal("unknown", sheetConfig.CommissionTypes.DefaultCommissionTypeCode);
+                var types = sheetConfig.CommissionTypes.Types.ToList();
                 Assert.Equal("type_1", types[0].CommissionTypeCode);
                 Assert.Equal("type_1", types[0].Value);
                 Assert.Equal("type_2", types[1].CommissionTypeCode);
@@ -282,7 +277,7 @@ namespace OneAdvisor.Service.Test.Commission
 
         private Config GetValidConfig()
         {
-            return new Config()
+            var sheetConfig = new SheetConfig()
             {
                 HeaderIdentifier = new HeaderIdentifier()
                 {
@@ -300,6 +295,16 @@ namespace OneAdvisor.Service.Test.Commission
                     DefaultCommissionTypeCode = "com_code_1"
                 }
             };
+
+            var sheet = new Sheet();
+            sheet.Name = "Sheet 1";
+            sheet.Position = 1;
+            sheet.Config = sheetConfig;
+
+            var config = new Config();
+            config.Sheets = new List<Sheet>() { sheet };
+
+            return config;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
         [Fact]
         public void Read_DefaultTemplate()
         {
-            var config = new Config()
+            var sheetConfig = new SheetConfig()
             {
                 //No header
                 HeaderIdentifier = new HeaderIdentifier()
@@ -53,6 +53,14 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
                 }
             };
 
+            var sheet = new Sheet();
+            sheet.Name = "Sheet 1";
+            sheet.Position = 1;
+            sheet.Config = sheetConfig;
+
+            var config = new Config();
+            config.Sheets = new List<Sheet>() { sheet };
+
             var bytes = System.Convert.FromBase64String(DefaultTemplate_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
@@ -61,7 +69,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
 
             //Check we are testing all fields
             var importCommissionProps = typeof(ImportCommission).GetProperties();
-            Assert.Equal(importCommissionProps.Count() - 3, config.Fields.Count()); //minus 3 for Id, CommissionTypeValue and CommissionTypeCode
+            Assert.Equal(importCommissionProps.Count() - 3, sheetConfig.Fields.Count()); //minus 3 for Id, CommissionTypeValue and CommissionTypeCode
 
             Assert.Equal(3, commissions.Count);
             var actual = commissions[0];
@@ -110,7 +118,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
         [Fact]
         public void Read_OnlyAmountIncludingVAT()
         {
-            var config = new Config()
+            var sheetConfig = new SheetConfig()
             {
                 //No header
                 HeaderIdentifier = new HeaderIdentifier()
@@ -128,6 +136,14 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
                     DefaultCommissionTypeCode = "unknown"
                 }
             };
+
+            var sheet = new Sheet();
+            sheet.Name = "Sheet 1";
+            sheet.Position = 1;
+            sheet.Config = sheetConfig;
+
+            var config = new Config();
+            config.Sheets = new List<Sheet>() { sheet };
 
             var bytes = System.Convert.FromBase64String(OnlyAmountIncludingVAT_Base64.STRING);
             var stream = new MemoryStream(bytes);
@@ -150,7 +166,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
         [Fact]
         public void Read_OnlyAmountExcludingVAT()
         {
-            var config = new Config()
+            var sheetConfig = new SheetConfig()
             {
                 //No header
                 HeaderIdentifier = new HeaderIdentifier()
@@ -168,6 +184,14 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
                     DefaultCommissionTypeCode = "unknown"
                 }
             };
+
+            var sheet = new Sheet();
+            sheet.Name = "Sheet 1";
+            sheet.Position = 1;
+            sheet.Config = sheetConfig;
+
+            var config = new Config();
+            config.Sheets = new List<Sheet>() { sheet };
 
             var bytes = System.Convert.FromBase64String(OnlyAmountExcludingVAT_Base64.STRING);
             var stream = new MemoryStream(bytes);
@@ -190,7 +214,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
         [Fact]
         public void Read_AbsoluteValues()
         {
-            var config = new Config()
+            var sheetConfig = new SheetConfig()
             {
                 //No header
                 HeaderIdentifier = new HeaderIdentifier()
@@ -208,6 +232,14 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
                     DefaultCommissionTypeCode = "unknown"
                 }
             };
+
+            var sheet = new Sheet();
+            sheet.Name = "Sheet 1";
+            sheet.Position = 1;
+            sheet.Config = sheetConfig;
+
+            var config = new Config();
+            config.Sheets = new List<Sheet>() { sheet };
 
             var bytes = System.Convert.FromBase64String(AbsoluteValues_Base64.STRING);
             var stream = new MemoryStream(bytes);

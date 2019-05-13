@@ -78,7 +78,7 @@ namespace api.Controllers.Commission.CommissionStatementTemplates
 
         [HttpPost("{templateId}/excel/uniqueCommissionTypes")]
         [UseCaseAuthorize("com_edit_commission_statement_templates")]
-        public async Task<IActionResult> UniqueCommissionTypes(Guid templateId)
+        public async Task<IActionResult> UniqueCommissionTypes(Guid templateId, int sheetPosition)
         {
             var file = Request.Form.Files.FirstOrDefault();
             var template = await CommissionStatementTemplateService.GetTemplate(templateId);
@@ -86,7 +86,7 @@ namespace api.Controllers.Commission.CommissionStatementTemplates
             if (file == null || template == null)
                 return BadRequest();
 
-            var reader = new UniqueCommissionTypesReader(template.Config);
+            var reader = new UniqueCommissionTypesReader(template.Config.Sheets.Single(s => s.Position == sheetPosition));
             var items = reader.Read(file.OpenReadStream());
 
             return Ok(items);
