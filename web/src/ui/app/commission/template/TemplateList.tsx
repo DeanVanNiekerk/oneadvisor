@@ -46,16 +46,24 @@ class TemplateList extends Component<Props, State> {
             name: "",
             companyId: "",
             config: {
-                headerIdentifier: {
-                    column: "",
-                    value: "",
-                },
-                fields: [],
-                commissionTypes: {
-                    defaultCommissionTypeCode: UNKNOWN_COMMISSION_TYPE_CODE,
-                    mappingTemplate: "",
-                    types: [],
-                },
+                sheets: [
+                    {
+                        name: "Sheet 1",
+                        position: 1,
+                        config: {
+                            headerIdentifier: {
+                                column: "",
+                                value: "",
+                            },
+                            fields: [],
+                            commissionTypes: {
+                                defaultCommissionTypeCode: UNKNOWN_COMMISSION_TYPE_CODE,
+                                mappingTemplate: "",
+                                types: [],
+                            },
+                        }
+                    }
+                ]
             },
         };
         this.props.dispatch(receiveCommissionStatementTemplate(template));

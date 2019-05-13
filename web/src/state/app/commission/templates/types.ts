@@ -12,6 +12,16 @@ export type CommissionStatementTemplateEdit = {
 };
 
 export type Config = {
+    sheets: Sheet[];
+};
+
+export type Sheet = {
+    name: string;
+    position: number;
+    config: SheetConfig;
+};
+
+export type SheetConfig = {
     headerIdentifier: HeaderIdentifier;
     fields: Field[];
     commissionTypes: CommissionTypes;

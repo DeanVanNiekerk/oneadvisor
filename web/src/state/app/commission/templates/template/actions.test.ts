@@ -3,47 +3,38 @@ import { statementTemplatesApi } from '@/config/api/commission';
 import { CommissionStatementTemplateEdit } from '../';
 import * as actions from './actions';
 
-describe('commission statement template actions', () => {
-    it('should dispatch API when fetchCommissionStatementTemplate is called', () => {
+describe("commission statement template actions", () => {
+    it("should dispatch API when fetchCommissionStatementTemplate is called", () => {
         const expectedAction = {
-            type: 'API',
+            type: "API",
             endpoint: `${statementTemplatesApi}/99`,
-            dispatchPrefix: 'COMMISSIONS_STATEMENT_TEMPLATE'
+            dispatchPrefix: "COMMISSIONS_STATEMENT_TEMPLATE",
         };
 
-        expect(actions.fetchCommissionStatementTemplate('99')).toEqual(
+        expect(actions.fetchCommissionStatementTemplate("99")).toEqual(
             expectedAction
         );
     });
 
-    it('should dispatch API when updateCommissionStatementTemplate is called', () => {
+    it("should dispatch API when updateCommissionStatementTemplate is called", () => {
         const template: CommissionStatementTemplateEdit = {
-            id: '10',
-            companyId: '99',
-            name: '321',
+            id: "10",
+            companyId: "99",
+            name: "321",
             config: {
-                headerIdentifier: {
-                    column: 'A',
-                    value: 'Broker'
-                },
-                fields: [],
-                commissionTypes: {
-                    defaultCommissionTypeCode: '',
-                    mappingTemplate: '',
-                    types: []
-                }
-            }
+                sheets: [],
+            },
         };
 
         const onSuccess = () => {};
 
         const expectedAction = {
-            type: 'API',
+            type: "API",
             endpoint: `${statementTemplatesApi}/10`,
-            method: 'POST',
+            method: "POST",
             payload: template,
             onSuccess: onSuccess,
-            dispatchPrefix: 'COMMISSIONS_STATEMENT_TEMPLATE_EDIT'
+            dispatchPrefix: "COMMISSIONS_STATEMENT_TEMPLATE_EDIT",
         };
 
         expect(

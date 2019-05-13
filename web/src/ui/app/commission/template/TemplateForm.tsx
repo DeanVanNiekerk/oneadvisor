@@ -1,4 +1,4 @@
-import { Badge, Icon } from 'antd';
+import { Badge } from 'antd';
 import update from 'immutability-helper';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -6,19 +6,21 @@ import { connect } from 'react-redux';
 import { ApiOnFailure, ApiOnSuccess } from '@/app/types';
 import { getValidationSubSet, ValidationResult } from '@/app/validation';
 import {
-    CommissionStatementTemplateEdit, CommissionTypes, Field, HeaderIdentifier
+    CommissionStatementTemplateEdit, CommissionTypes, Field, HeaderIdentifier, Sheet
 } from '@/state/app/commission/templates';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
 
-import CommissionTypesForm from './config/CommissionTypesForm';
-import FieldsForm from './config/FieldsForm';
-import HeaderIdentifierForm from './config/HeaderIdentifierForm';
-import RawConfig from './config/RawConfig';
+import CommissionTypesForm from './sheet/config/CommissionTypesForm';
+import FieldsForm from './sheet/config/FieldsForm';
+import HeaderIdentifierForm from './sheet/config/HeaderIdentifierForm';
+import RawConfig from './sheet/config/RawConfig';
+import SheetList from './sheet/SheetList';
 
 type TabKey =
-    | "details_tab"
+    | "details"
+    | "sheets"
     | "config_header_identifier"
     | "config_fields"
     | "config_commission_types"
@@ -47,7 +49,7 @@ class TemplateForm extends Component<Props, State> {
 
         this.state = {
             template: props.template,
-            activeTab: "details_tab",
+            activeTab: "details",
         };
     }
 
@@ -80,38 +82,48 @@ class TemplateForm extends Component<Props, State> {
         this.setState({ activeTab });
     };
 
-    onHeaderIdentifierChange = (headerIdentifier: HeaderIdentifier) => {
-        const template = update(this.state.template, {
+    onSheetsChange = (sheets: Sheet[]) => {
+        const template = {
+            ...this.state.template,
             config: {
-                headerIdentifier: {
-                    $set: headerIdentifier,
-                },
-            },
-        });
-        this.setTemplateState(template);
+                sheets: sheets
+            }
+        }
+        this.setTemplateState(template)
     };
 
-    onFieldsChange = (fields: Field[]) => {
-        const template = update(this.state.template, {
-            config: {
-                fields: {
-                    $set: fields,
-                },
-            },
-        });
-        this.setTemplateState(template);
-    };
+    // onHeaderIdentifierChange = (headerIdentifier: HeaderIdentifier) => {
+    //     const template = update(this.state.template, {
+    //         config: {
+    //             headerIdentifier: {
+    //                 $set: headerIdentifier,
+    //             },
+    //         },
+    //     });
+    //     this.setTemplateState(template);
+    // };
 
-    onCommissionTypesChange = (commissionTypes: CommissionTypes) => {
-        const template = update(this.state.template, {
-            config: {
-                commissionTypes: {
-                    $set: commissionTypes,
-                },
-            },
-        });
-        this.setTemplateState(template);
-    };
+    // onFieldsChange = (fields: Field[]) => {
+    //     const template = update(this.state.template, {
+    //         config: {
+    //             fields: {
+    //                 $set: fields,
+    //             },
+    //         },
+    //     });
+    //     this.setTemplateState(template);
+    // };
+
+    // onCommissionTypesChange = (commissionTypes: CommissionTypes) => {
+    //     const template = update(this.state.template, {
+    //         config: {
+    //             commissionTypes: {
+    //                 $set: commissionTypes,
+    //             },
+    //         },
+    //     });
+    //     this.setTemplateState(template);
+    // };
 
     getHeaderIdentifierTabTitle = () => {
         return this.getTabTitle("Header Identifier", "config.headerIdentifier");
@@ -145,7 +157,7 @@ class TemplateForm extends Component<Props, State> {
                 activeKey={this.state.activeTab}
                 sticky={true}
             >
-                <TabPane tab="Details" key="details_tab">
+                <TabPane tab="Details" key="details">
                     <Form editUseCase="com_edit_commission_statement_templates">
                         <FormInput
                             fieldName="name"
@@ -168,11 +180,20 @@ class TemplateForm extends Component<Props, State> {
                     </Form>
                 </TabPane>
                 <TabPane
+                    tab="Sheets"
+                    key="sheets"
+                >
+                    <SheetList
+                        sheets={template.config.sheets}
+                        onChange={this.onSheetsChange}
+                    />
+                </TabPane>
+                {/* <TabPane
                     tab={this.getHeaderIdentifierTabTitle()}
                     key="config_header_identifier"
                 >
                     <HeaderIdentifierForm
-                        headerIdentifier={template.config.headerIdentifier}
+                        headerIdentifier={template.config.sheets[0].config.headerIdentifier}
                         validationResults={getValidationSubSet(
                             "config.headerIdentifier",
                             validationResults
@@ -182,7 +203,7 @@ class TemplateForm extends Component<Props, State> {
                 </TabPane>
                 <TabPane tab={this.getFieldsTabTitle()} key="config_fields">
                     <FieldsForm
-                        fields={template.config.fields}
+                        fields={template.config.sheets[0].config.fields}
                         validationResults={getValidationSubSet(
                             "config.fields",
                             validationResults,
@@ -197,7 +218,7 @@ class TemplateForm extends Component<Props, State> {
                 >
                     <CommissionTypesForm
                         template={template}
-                        commissionTypes={template.config.commissionTypes}
+                        commissionTypes={template.config.sheets[0].config.commissionTypes}
                         validationResults={getValidationSubSet(
                             "config.commissionTypes",
                             validationResults
@@ -205,7 +226,7 @@ class TemplateForm extends Component<Props, State> {
                         onChange={this.onCommissionTypesChange}
                         saveTemplate={this.props.saveTemplate}
                     />
-                </TabPane>
+                </TabPane> */}
                 <TabPane tab="Raw Config" key="config_raw">
                     <RawConfig template={template} />
                 </TabPane>

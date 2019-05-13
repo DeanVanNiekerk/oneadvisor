@@ -15,7 +15,7 @@ type Props = {
     rowKey: string;
     loading?: boolean;
     useCases: string[];
-    onRowClick?: (record: any) => void;
+    onRowClick?: (record: any, index: number) => void;
     onRowClickRequiredUseCase?: string;
     externalDataSource?: boolean;
     pageOptions?: PageOptions;
@@ -33,6 +33,7 @@ type Props = {
     footer?: (currentPageData: Object[]) => React.ReactNode;
     rowSelection?: TableRowSelection<any>;
     header?: string;
+    className?: string;
 };
 
 type State = {
@@ -107,7 +108,8 @@ class TableComponent extends React.Component<Props, State> {
                 pagination={pagination}
                 footer={this.props.footer}
                 rowSelection={this.props.rowSelection}
-                onRow={record => {
+                className={this.props.className}
+                onRow={(record, index: number) => {
                     return {
                         onClick: () => {
                             if (
@@ -117,7 +119,7 @@ class TableComponent extends React.Component<Props, State> {
                                     this.props.useCases
                                 )
                             )
-                                this.props.onRowClick(record);
+                                this.props.onRowClick(record, index);
                         },
                     };
                 }}

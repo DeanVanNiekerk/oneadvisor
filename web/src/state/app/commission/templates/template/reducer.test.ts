@@ -8,16 +8,7 @@ const template: CommissionStatementTemplateEdit = {
     companyId: "99",
     name: "321",
     config: {
-        headerIdentifier: {
-            column: "A",
-            value: "Broker",
-        },
-        fields: [],
-        commissionTypes: {
-            defaultCommissionTypeCode: "",
-            mappingTemplate: "",
-            types: [],
-        },
+        sheets: [],
     },
 };
 

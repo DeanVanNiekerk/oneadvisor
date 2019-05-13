@@ -38,38 +38,39 @@ class RawConfig extends Component<Props, State> {
     };
 
     override = () => {
-        try {
-            const config = JSON.parse(this.state.config) as Config;
+        alert('fix');
+        //     try {
+        //         const config = JSON.parse(this.state.config) as Config;
 
-            //Validate commission type codes ------------------
-            if (
-                !this.isValidCommissionType(
-                    config.commissionTypes.defaultCommissionTypeCode
-                )
-            )
-                config.commissionTypes.defaultCommissionTypeCode = UNKNOWN_COMMISSION_TYPE_CODE;
+        //         //Validate commission type codes ------------------
+        //         if (
+        //             !this.isValidCommissionType(
+        //                 config.commissionTypes.defaultCommissionTypeCode
+        //             )
+        //         )
+        //             config.commissionTypes.defaultCommissionTypeCode = UNKNOWN_COMMISSION_TYPE_CODE;
 
-            config.commissionTypes.types = config.commissionTypes.types.map(
-                t => ({
-                    commissionTypeCode: this.isValidCommissionType(
-                        t.commissionTypeCode
-                    )
-                        ? t.commissionTypeCode
-                        : "",
-                    value: t.value,
-                })
-            );
-            //--------------------------------------------------
+        //         config.commissionTypes.types = config.commissionTypes.types.map(
+        //             t => ({
+        //                 commissionTypeCode: this.isValidCommissionType(
+        //                     t.commissionTypeCode
+        //                 )
+        //                     ? t.commissionTypeCode
+        //                     : "",
+        //                 value: t.value,
+        //             })
+        //         );
+        //         //--------------------------------------------------
 
-            const template = {
-                ...this.props.template,
-                config: config,
-            };
-            this.props.dispatch(receiveCommissionStatementTemplate(template));
-            showMessage("info", "Config Fields Updated", 3);
-        } catch {
-            showMessage("error", "Config error, please check syntax", 5);
-        }
+        //         const template = {
+        //             ...this.props.template,
+        //             config: config,
+        //         };
+        //         this.props.dispatch(receiveCommissionStatementTemplate(template));
+        //         showMessage("info", "Config Fields Updated", 3);
+        //     } catch {
+        //         showMessage("error", "Config error, please check syntax", 5);
+        //     }
     };
 
     isValidCommissionType = (code: string): boolean => {
