@@ -161,7 +161,6 @@ class PolicyForm extends Component<Props, State> {
                     value={policy.premium}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    isCurrency={true}
                     min={0}
                 />
                 <FormDate

@@ -13,7 +13,7 @@ type Props = {
     label: string;
     value: any;
     disabled?: boolean;
-    onChange?: (fieldName: string, value: number | undefined) => void;
+    onChange?: (fieldName: string, value: any | undefined) => void;
     validationResults?: ValidationResult[];
     layout?: FormLayout;
     readonly?: boolean;

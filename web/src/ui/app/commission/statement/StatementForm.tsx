@@ -95,7 +95,6 @@ class StatementForm extends Component<Props, State> {
                     value={statement.amountIncludingVAT}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    isCurrency={true}
                     min={0}
                 />
                 <FormInputNumber
@@ -104,7 +103,6 @@ class StatementForm extends Component<Props, State> {
                     value={statement.vat}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    isCurrency={true}
                     min={0}
                 />
                 <FormInputNumber
@@ -114,7 +112,6 @@ class StatementForm extends Component<Props, State> {
                         statement.amountIncludingVAT - statement.vat
                     ).toFixed(2)}
                     onChange={this.handleAmountExclVATChange}
-                    isCurrency={true}
                     min={0}
                 />
                 <FormDate

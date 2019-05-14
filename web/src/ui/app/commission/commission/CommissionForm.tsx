@@ -150,7 +150,6 @@ class CommissionForm extends Component<Props, State> {
                             value={commission.amountIncludingVAT}
                             onChange={this.handleChange}
                             validationResults={validationResults}
-                            isCurrency={true}
                             min={0}
                         />
                         <FormInputNumber
@@ -159,7 +158,6 @@ class CommissionForm extends Component<Props, State> {
                             value={commission.vat}
                             onChange={this.handleChange}
                             validationResults={validationResults}
-                            isCurrency={true}
                             min={0}
                         />
                     </Form>

@@ -58,6 +58,7 @@ namespace OneAdvisor.Data
         public static readonly Guid earningsAnnualAn = Guid.Parse("e8799015-6f4a-5d45-5be9-0fcd516e0951");
         public static readonly Guid earningsLife = Guid.Parse("e7f98561-f018-3edd-2118-e3646c89e2a2");
         public static readonly Guid earningsOnceOff = Guid.Parse("9f8fc29d-0f1c-b952-d446-79cc3ed967d7");
+        public static readonly Guid earningsUnknown = Guid.Parse("27ec936b-5db7-64b8-1a1b-5edb3b56a20d");
 
         public static List<CommissionEarningsTypeEntity> GetCommissionEarningsTypes()
         {
@@ -67,6 +68,7 @@ namespace OneAdvisor.Data
             list.Add(new CommissionEarningsTypeEntity() { Id = earningsAnnualAn, Name = "Annual Annuity", DisplayOrder = 1 });
             list.Add(new CommissionEarningsTypeEntity() { Id = earningsLife, Name = "Life 1st Years", DisplayOrder = 2 });
             list.Add(new CommissionEarningsTypeEntity() { Id = earningsOnceOff, Name = "Once Off Commissions", DisplayOrder = 3 });
+            list.Add(new CommissionEarningsTypeEntity() { Id = earningsUnknown, Name = "Unknown", DisplayOrder = 4 });
 
             return list;
         }

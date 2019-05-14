@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 import { RootState } from '@/state/rootReducer';
 
-import { commissionEarningsTypesSelector } from '../../lookups';
+import { commissionEarningsTypesSelector, UNKNOWN_COMMISSION_EARNINGS_TYPE_ID } from '../../lookups';
 import { State } from './reducer';
 import { UserEarningsTypeMonthlyCommissionData } from './types';
 
@@ -21,7 +21,7 @@ export const userEarningsTypeMonthlyCommissionItemsSelector: (
     rootSelector,
     commissionEarningsTypesSelector,
     (root, commissionEarningsTypes) => {
-        return commissionEarningsTypes.items.map(earningsType => {
+        let types = commissionEarningsTypes.items.map(earningsType => {
             const record = root.items.find(
                 r => r.commissionEarningsTypeId === earningsType.id
             );
@@ -37,6 +37,19 @@ export const userEarningsTypeMonthlyCommissionItemsSelector: (
                 amountExcludingVAT: 0,
             };
         });
+
+        //Filter out unknown earnings type if it has no value
+        types = types.filter(t => {
+            if (
+                t.commissionEarningsTypeId ===
+                    UNKNOWN_COMMISSION_EARNINGS_TYPE_ID &&
+                t.amountExcludingVAT === 0
+            )
+                return false;
+            return true;
+        });
+
+        return types;
     }
 );
 
