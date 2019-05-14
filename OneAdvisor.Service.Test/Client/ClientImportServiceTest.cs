@@ -223,6 +223,45 @@ namespace OneAdvisor.Service.Test.Client
         }
 
         [Fact]
+        public async Task ImportClient_Insert_NoIdButHasPolicyNumber_UnknowClientType()
+        {
+            var options = TestHelper.GetDbContext("ImportClient_Insert_NoIdButHasPolicyNumber_UnknowClientType");
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+
+            using (var context = new DataContext(options))
+            {
+                var clientService = new ClientService(context);
+                var policyService = new PolicyService(context);
+                var contactService = new ContactService(context);
+                var clientLookupService = new ClientLookupService(context);
+                var service = new ClientImportService(context, clientService, policyService, contactService, clientLookupService);
+
+                //When
+                var data = new ImportClient()
+                {
+                    IdNumber = "",
+                    PolicyNumber = "123456798",
+                    LastName = "Some Business",
+                    PolicyCompanyId = Guid.NewGuid(),
+                    PolicyUserFullName = user1.User.FirstName + " " + user1.User.LastName
+                };
+
+                var scope = TestHelper.GetScopeOptions(user1);
+
+                var result = await service.ImportClient(scope, data);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.Client.FirstOrDefaultAsync();
+                Assert.Null(actual.IdNumber);
+                Assert.Equal(data.LastName, actual.LastName);
+                Assert.Equal(ClientType.CLIENT_TYPE_UNKNOWN_ENTITY, actual.ClientTypeId);
+            }
+        }
+
+        [Fact]
         public async Task ImportClient_Update()
         {
             var options = TestHelper.GetDbContext("ImportClient_Update");
@@ -325,6 +364,50 @@ namespace OneAdvisor.Service.Test.Client
                 Assert.True(result.Success);
 
                 var actual = await context.Client.FirstOrDefaultAsync(m => m.Id == mem.Id);
+                Assert.Equal(user1.Organisation.Id, actual.OrganisationId);
+                Assert.Equal(data.LastName, actual.LastName);
+            }
+        }
+
+        [Fact]
+        public async Task ImportClient_Update_MatchOnPolicyNumber()
+        {
+            var options = TestHelper.GetDbContext("ImportClient_Update_MatchOnPolicyNumber");
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
+
+            var client2 = TestHelper.InsertClient(options, user1.Organisation);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation, "8210035032082");
+
+            var policy2 = TestHelper.InsertPolicy(options, client2, user1);
+            var policy1 = TestHelper.InsertPolicy(options, client1, user1);
+
+            using (var context = new DataContext(options))
+            {
+                var clientService = new ClientService(context);
+                var policyService = new PolicyService(context);
+                var clientLookupService = new ClientLookupService(context);
+                var service = new ClientImportService(context, clientService, policyService, null, clientLookupService);
+
+                //When
+                var data = new ImportClient()
+                {
+                    IdNumber = "",
+                    LastName = "LN updated",
+                    PolicyNumber = policy1.Number,
+                    PolicyCompanyId = policy1.CompanyId,
+                    PolicyUserFullName = user1.User.FirstName + " " + user1.User.LastName
+                };
+
+                var scope = TestHelper.GetScopeOptions(user1);
+
+                var result = await service.ImportClient(scope, data);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.Client.FirstOrDefaultAsync(m => m.Id == client1.Client.Id);
                 Assert.Equal(user1.Organisation.Id, actual.OrganisationId);
                 Assert.Equal(data.LastName, actual.LastName);
             }

@@ -123,6 +123,7 @@ namespace OneAdvisor.Service.Client
                 client = new ClientEdit();
                 client = LoadClientIdNumber(client, data);
                 client = MapClientProperties(client, data);
+                client = LoadClientType(client, data);
 
                 result = await _clientService.InsertClient(scope, client);
 
@@ -187,6 +188,15 @@ namespace OneAdvisor.Service.Client
             return client;
         }
 
+        private ClientEdit LoadClientType(ClientEdit client, ImportClient data)
+        {
+            //If there is no id number but there is a policy number then set client type to Unknown.
+            if (string.IsNullOrWhiteSpace(data.IdNumber) && !string.IsNullOrWhiteSpace(data.PolicyNumber))
+                client.ClientTypeId = ClientType.CLIENT_TYPE_UNKNOWN_ENTITY;
+
+            return client;
+        }
+
         private ClientEdit LoadClientIdNumber(ClientEdit client, ImportClient data)
         {
             if (string.IsNullOrWhiteSpace(data.IdNumber))
@@ -229,6 +239,22 @@ namespace OneAdvisor.Service.Client
                             select entity;
 
                     matches = await query.ToListAsync();
+
+                    if (matches.Any())
+                        return matches;
+                }
+            }
+            //If we dont have an Id then try match on the PolicyNumber
+            else if (!string.IsNullOrWhiteSpace(data.PolicyNumber))
+            {
+                var policy = await _policyService.GetPolicy(scope, data.PolicyCompanyId.Value, data.PolicyNumber);
+                if (policy != null)
+                {
+                    query = from entity in clientQuery
+                            where entity.Id == policy.ClientId
+                            select entity;
+
+                    var matches = await query.ToListAsync();
 
                     if (matches.Any())
                         return matches;

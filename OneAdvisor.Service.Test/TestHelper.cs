@@ -135,6 +135,31 @@ namespace OneAdvisor.Service.Test
             };
         }
 
+        public static PolicyEntity InsertPolicy(DbContextOptions<DataContext> options, DefaultClient client, DefaultUser user)
+        {
+            var policy = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                ClientId = client.Client.Id,
+                UserId = user.User.Id,
+                Number = Guid.NewGuid().ToString(),
+                StartDate = DateTime.Now,
+                Premium = 500,
+                PolicyTypeId = Guid.NewGuid(),
+                PolicyProductTypeId = Guid.NewGuid(),
+                PolicyProductId = Guid.NewGuid()
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Policy.Add(policy);
+                context.SaveChanges();
+            };
+
+            return policy;
+        }
+
         public static PolicyTypeEntity InsertPolicyType(DbContextOptions<DataContext> options)
         {
             var type = new PolicyTypeEntity
