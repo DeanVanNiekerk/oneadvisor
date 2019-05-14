@@ -29,7 +29,7 @@ export const removeValidationError = (
 };
 
 export const formatValue = (value: any): string => {
-    if (value === undefined || value === null) return '';
+    if (value === undefined || value === null) return "";
     return value.toString().toLowerCase();
 };
 
@@ -49,18 +49,24 @@ export const parseValidationErrors = (errors: string): ValidationResult[] => {
 export const getValidationSubSet = (
     prefix: string,
     validationResults: ValidationResult[],
-    isArray: boolean = false
+    isArray: boolean = false,
+    exactMatch: boolean = false
 ): ValidationResult[] => {
     if (!prefix) return validationResults;
-    const results = validationResults.filter(
-        r => r.propertyName.toLowerCase().indexOf(prefix.toLowerCase()) === 0
-    );
+    const results = validationResults.filter(r => {
+        if (exactMatch)
+            return r.propertyName.toLowerCase() === prefix.toLowerCase();
+        else
+            return (
+                r.propertyName.toLowerCase().indexOf(prefix.toLowerCase()) === 0
+            );
+    });
     return results.map(r => {
         return {
             ...r,
             propertyName: r.propertyName.substr(
                 prefix.length + (isArray ? 0 : 1)
-            )
+            ),
         };
     });
 };
@@ -72,7 +78,7 @@ export const getErrorMessage = (
     validationResults: ValidationResult[] | undefined
 ) => {
     const result = getValidationError(
-        `${fieldName}[${index}]` || '',
+        `${fieldName}[${index}]` || "",
         validationResults || []
     );
 

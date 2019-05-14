@@ -10,7 +10,7 @@ import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
 
-import RawConfig from './sheet/config/RawConfig';
+import RawConfig from './RawConfig';
 import EditSheetConfig from './sheet/EditSheetConfig';
 import SheetList from './sheet/SheetList';
 
@@ -50,11 +50,9 @@ class TemplateForm extends Component<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.props.template != prevProps.template)
+        if (this.props.template.id != prevProps.template.id)
             this.setState({
                 template: this.props.template,
-                activeTab: "details",
-                selectedSheetIndex: 0,
             });
     }
 
@@ -95,11 +93,15 @@ class TemplateForm extends Component<Props, State> {
     };
 
     getConfigTabTitle = () => {
-        return this.getTabTitle("Config", "config");
+        return this.getTabTitle("Config", "config.sheets");
     };
 
-    getTabTitle = (title: string, prefix: string) => {
-        const count = getValidationSubSet(prefix, this.props.validationResults)
+    getSheetsTabTitle = () => {
+        return this.getTabTitle("Sheets", "config.sheets", true);
+    };
+
+    getTabTitle = (title: string, prefix: string, exactMatch: boolean = false) => {
+        const count = getValidationSubSet(prefix, this.props.validationResults, true, exactMatch)
             .length;
         return (
             <Badge count={count} offset={[10, -2]}>
@@ -168,29 +170,24 @@ class TemplateForm extends Component<Props, State> {
                     </Form>
                 </TabPane>
                 <TabPane
-                    tab="Sheets"
+                    tab={this.getSheetsTabTitle()}
                     key="sheets"
                 >
                     <SheetList
                         sheets={template.config.sheets}
                         onChange={this.onSheetsChange}
+                        validationResults={getValidationSubSet(
+                            `config.sheets`,
+                            validationResults,
+                            true,
+                            true
+                        )}
                     />
                 </TabPane>
                 <TabPane
                     tab={this.getConfigTabTitle()}
                     key="sheet_config"
                 >
-                    {/* <Row type="flex" justify="center">
-                        <Col>
-                            <Select style={{ width: 150 }} onChange={this.onSelectSheetChange} value={this.state.selectedSheetIndex}>
-                                {template.config.sheets.map((s, index) => {
-                                    return <Select.Option value={index}>{`Sheet ${s.position}`}</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                    </Row> */}
-
-
                     <EditSheetConfig
                         config={template.config.sheets[this.state.selectedSheetIndex].config}
                         template={template}

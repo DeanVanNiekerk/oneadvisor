@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Sheet } from '@/state/app/commission/templates';
-import { Button, Form, FormField, FormInput } from '@/ui/controls';
+import { Button, Form, FormField, FormInputNumber } from '@/ui/controls';
 
 type Props = {
     sheet: Sheet;
@@ -45,13 +45,16 @@ class SheetForm extends Component<Props, State> {
 
         return (
             <Form className="my-1" layout="inline">
-                <FormInput
+                <FormInputNumber
                     fieldName="position"
                     label="Position"
                     value={sheet.position}
                     onChange={this.handleChange}
-                    //validationResults={validationResults}
                     autoFocus={true}
+                    min={1}
+                    max={50}
+                    step={1}
+                    precision={0}
                 />
                 <FormField className="mr-0">
                     <Button onClick={() => this.props.onCancel()}>

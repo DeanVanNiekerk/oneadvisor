@@ -3,15 +3,17 @@ import update from 'immutability-helper';
 import React, { Component } from 'react';
 
 import { getColumn } from '@/app/table';
+import { ValidationResult } from '@/app/validation';
 import { UNKNOWN_COMMISSION_TYPE_CODE } from '@/state/app/commission/lookups';
 import { Sheet } from '@/state/app/commission/templates';
-import { StopPropagation, Table } from '@/ui/controls';
+import { FormErrors, StopPropagation, Table } from '@/ui/controls';
 
 import EditSheet from './EditSheet';
 
 type Props = {
     sheets: Sheet[];
     onChange: (sheets: Sheet[]) => void;
+    validationResults: ValidationResult[];
 };
 
 type State = {
@@ -135,6 +137,8 @@ class SheetList extends Component<Props, State> {
 
         return (
             <>
+                <FormErrors validationResults={this.props.validationResults} />
+
                 <EditSheet
                     sheet={this.state.sheet}
                     cancel={this.cancelEditSheet}

@@ -32,6 +32,13 @@ namespace OneAdvisor.Service.Commission.Validators
         {
             RuleFor(t => t.Sheets).NotEmpty();
             RuleForEach(t => t.Sheets).SetValidator(new SheetValidator());
+            RuleFor(t => t.Sheets).Must(HaveUnqiueSheetPositions).WithMessage("There are duplicate Sheet Positions");
+        }
+
+        private bool HaveUnqiueSheetPositions(IEnumerable<Sheet> sheets)
+        {
+            var positions = sheets.Select(f => f.Position);
+            return positions.Distinct().Count() == sheets.Count();
         }
     }
 

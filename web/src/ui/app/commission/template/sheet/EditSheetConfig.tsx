@@ -172,6 +172,7 @@ class EditSheetConfig extends Component<Props, State> {
                         )}
                         onChange={this.onCommissionTypesChange}
                         saveTemplate={this.props.saveTemplate}
+                        selectedSheet={this.props.template.config.sheets[this.props.selectedSheetIndex]}
                     />
                 </TabPane>
             </Tabs>

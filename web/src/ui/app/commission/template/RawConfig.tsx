@@ -38,39 +38,43 @@ class RawConfig extends Component<Props, State> {
     };
 
     override = () => {
-        alert('fix');
-        //     try {
-        //         const config = JSON.parse(this.state.config) as Config;
+        try {
+            const config = JSON.parse(this.state.config) as Config;
 
-        //         //Validate commission type codes ------------------
-        //         if (
-        //             !this.isValidCommissionType(
-        //                 config.commissionTypes.defaultCommissionTypeCode
-        //             )
-        //         )
-        //             config.commissionTypes.defaultCommissionTypeCode = UNKNOWN_COMMISSION_TYPE_CODE;
+            config.sheets.forEach(sheet => {
 
-        //         config.commissionTypes.types = config.commissionTypes.types.map(
-        //             t => ({
-        //                 commissionTypeCode: this.isValidCommissionType(
-        //                     t.commissionTypeCode
-        //                 )
-        //                     ? t.commissionTypeCode
-        //                     : "",
-        //                 value: t.value,
-        //             })
-        //         );
-        //         //--------------------------------------------------
+                //Validate commission type codes ------------------
+                if (
+                    !this.isValidCommissionType(
+                        sheet.config.commissionTypes.defaultCommissionTypeCode
+                    )
+                )
+                    sheet.config.commissionTypes.defaultCommissionTypeCode = UNKNOWN_COMMISSION_TYPE_CODE;
 
-        //         const template = {
-        //             ...this.props.template,
-        //             config: config,
-        //         };
-        //         this.props.dispatch(receiveCommissionStatementTemplate(template));
-        //         showMessage("info", "Config Fields Updated", 3);
-        //     } catch {
-        //         showMessage("error", "Config error, please check syntax", 5);
-        //     }
+                sheet.config.commissionTypes.types = sheet.config.commissionTypes.types.map(
+                    t => ({
+                        commissionTypeCode: this.isValidCommissionType(
+                            t.commissionTypeCode
+                        )
+                            ? t.commissionTypeCode
+                            : "",
+                        value: t.value,
+                    })
+                );
+                //--------------------------------------------------
+
+            })
+
+
+            const template = {
+                ...this.props.template,
+                config: config,
+            };
+            this.props.dispatch(receiveCommissionStatementTemplate(template));
+            showMessage("info", "Config Fields Updated", 3);
+        } catch {
+            showMessage("error", "Config error, please check syntax", 5);
+        }
     };
 
     isValidCommissionType = (code: string): boolean => {

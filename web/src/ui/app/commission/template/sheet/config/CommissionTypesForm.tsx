@@ -12,7 +12,7 @@ import { CommissionType as LookupCommissionType, commissionTypesSelector } from 
 import {
     commissionStatementTemplateFieldNamesSelector
 } from '@/state/app/commission/lookups/commissionStatementTemplateFieldNames';
-import { CommissionType, CommissionTypes } from '@/state/app/commission/templates';
+import { CommissionType, CommissionTypes, Sheet } from '@/state/app/commission/templates';
 import { tokenSelector, useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect } from '@/ui/controls';
@@ -31,6 +31,7 @@ type Props = {
         onFailure?: ApiOnFailure,
         disableSuccessMessage?: boolean
     ) => void;
+    selectedSheet: Sheet;
 } & DispatchProp;
 
 type State = {
@@ -224,6 +225,8 @@ class CommissionTypesForm extends Component<Props, State> {
                         onChange={this.onFileUpload}
                         action={`${statementTemplatesApi}/${
                             this.props.commissionStatementTemplateId
+                            }/${
+                            this.props.selectedSheet.position
                             }/excel/uniqueCommissionTypes`}
                         headers={{
                             Authorization: "Bearer " + this.props.token,

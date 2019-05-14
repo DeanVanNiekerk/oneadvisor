@@ -13,17 +13,19 @@ type Props = {
     label: string;
     value: any;
     disabled?: boolean;
-    onChange?: (fieldName: string, value: any) => void;
+    onChange?: (fieldName: string, value: number | undefined) => void;
     validationResults?: ValidationResult[];
     layout?: FormLayout;
     readonly?: boolean;
     min?: number;
     max?: number;
-    isCurrency?: boolean;
+    autoFocus?: boolean;
+    step?: number | string;
+    precision?: number;
 };
 
 class FormInputNumber extends Component<Props> {
-    onChange = (value: number | string | undefined) => {
+    onChange = (value: number | undefined) => {
         if (this.props.onChange)
             this.props.onChange(this.props.fieldName, value);
     };
@@ -37,7 +39,9 @@ class FormInputNumber extends Component<Props> {
             disabled = false,
             layout,
             readonly,
-            isCurrency,
+            autoFocus,
+            step,
+            precision = 2,
         } = this.props;
 
         if (readonly)
@@ -58,10 +62,12 @@ class FormInputNumber extends Component<Props> {
                     value={value}
                     onChange={this.onChange}
                     decimalSeparator="."
-                    precision={2}
+                    precision={precision}
                     style={{
                         width: "100%",
                     }}
+                    autoFocus={autoFocus}
+                    step={step}
                 />
             </FormField>
         );

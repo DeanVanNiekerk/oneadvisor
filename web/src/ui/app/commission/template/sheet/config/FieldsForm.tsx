@@ -107,8 +107,6 @@ class FieldsForm extends Component<Props, State> {
         const { validationResults } = this.props;
         const { fields } = this.state;
 
-        console.log(validationResults)
-
         return (
             <>
                 <FormErrors validationResults={validationResults} />

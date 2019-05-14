@@ -76,7 +76,7 @@ namespace api.Controllers.Commission.CommissionStatementTemplates
             return Ok(result);
         }
 
-        [HttpPost("{templateId}/excel/uniqueCommissionTypes")]
+        [HttpPost("{templateId}/{sheetPosition}/excel/uniqueCommissionTypes")]
         [UseCaseAuthorize("com_edit_commission_statement_templates")]
         public async Task<IActionResult> UniqueCommissionTypes(Guid templateId, int sheetPosition)
         {
