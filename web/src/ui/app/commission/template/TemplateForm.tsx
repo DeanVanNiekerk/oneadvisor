@@ -1,29 +1,23 @@
-import { Badge } from 'antd';
+import { Badge, Col, Row, Select } from 'antd';
 import update from 'immutability-helper';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { ApiOnFailure, ApiOnSuccess } from '@/app/types';
 import { getValidationSubSet, ValidationResult } from '@/app/validation';
-import {
-    CommissionStatementTemplateEdit, CommissionTypes, Field, HeaderIdentifier, Sheet
-} from '@/state/app/commission/templates';
+import { CommissionStatementTemplateEdit, Sheet, SheetConfig } from '@/state/app/commission/templates';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
 
-import CommissionTypesForm from './sheet/config/CommissionTypesForm';
-import FieldsForm from './sheet/config/FieldsForm';
-import HeaderIdentifierForm from './sheet/config/HeaderIdentifierForm';
 import RawConfig from './sheet/config/RawConfig';
+import EditSheetConfig from './sheet/EditSheetConfig';
 import SheetList from './sheet/SheetList';
 
 type TabKey =
     | "details"
     | "sheets"
-    | "config_header_identifier"
-    | "config_fields"
-    | "config_commission_types"
+    | "sheet_config"
     | "config_raw";
 
 type Props = {
@@ -41,6 +35,7 @@ type Props = {
 type State = {
     template: CommissionStatementTemplateEdit;
     activeTab: TabKey;
+    selectedSheetIndex: number;
 };
 
 class TemplateForm extends Component<Props, State> {
@@ -50,6 +45,7 @@ class TemplateForm extends Component<Props, State> {
         this.state = {
             template: props.template,
             activeTab: "details",
+            selectedSheetIndex: 0,
         };
     }
 
@@ -57,6 +53,8 @@ class TemplateForm extends Component<Props, State> {
         if (this.props.template != prevProps.template)
             this.setState({
                 template: this.props.template,
+                activeTab: "details",
+                selectedSheetIndex: 0,
             });
     }
 
@@ -89,52 +87,15 @@ class TemplateForm extends Component<Props, State> {
                 sheets: sheets
             }
         }
-        this.setTemplateState(template)
+        this.setTemplateState(template);
+
+        this.setState({
+            selectedSheetIndex: 0,
+        });
     };
 
-    // onHeaderIdentifierChange = (headerIdentifier: HeaderIdentifier) => {
-    //     const template = update(this.state.template, {
-    //         config: {
-    //             headerIdentifier: {
-    //                 $set: headerIdentifier,
-    //             },
-    //         },
-    //     });
-    //     this.setTemplateState(template);
-    // };
-
-    // onFieldsChange = (fields: Field[]) => {
-    //     const template = update(this.state.template, {
-    //         config: {
-    //             fields: {
-    //                 $set: fields,
-    //             },
-    //         },
-    //     });
-    //     this.setTemplateState(template);
-    // };
-
-    // onCommissionTypesChange = (commissionTypes: CommissionTypes) => {
-    //     const template = update(this.state.template, {
-    //         config: {
-    //             commissionTypes: {
-    //                 $set: commissionTypes,
-    //             },
-    //         },
-    //     });
-    //     this.setTemplateState(template);
-    // };
-
-    getHeaderIdentifierTabTitle = () => {
-        return this.getTabTitle("Header Identifier", "config.headerIdentifier");
-    };
-
-    getFieldsTabTitle = () => {
-        return this.getTabTitle("Fields", "config.fields");
-    };
-
-    getCommissionTypesTabTitle = () => {
-        return this.getTabTitle("Commission Types", "config.commissionTypes");
+    getConfigTabTitle = () => {
+        return this.getTabTitle("Config", "config");
     };
 
     getTabTitle = (title: string, prefix: string) => {
@@ -145,6 +106,33 @@ class TemplateForm extends Component<Props, State> {
                 {title}
             </Badge>
         );
+    };
+
+    onSelectSheetChange = (index: number) => {
+        this.setState({
+            selectedSheetIndex: index,
+        });
+    };
+
+    onSheetConfigChange = (sheetConfig: SheetConfig) => {
+
+        const sheet: Sheet = {
+            ...this.state.template.config.sheets[this.state.selectedSheetIndex],
+            config: sheetConfig
+        };
+
+        const sheets = update(this.state.template.config.sheets, {
+            [this.state.selectedSheetIndex]: {
+                $set: sheet,
+            },
+        });
+
+        const config = {
+            ...this.state.template.config,
+            sheets: sheets
+        }
+
+        this.handleChange("config", config);
     };
 
     render() {
@@ -188,45 +176,34 @@ class TemplateForm extends Component<Props, State> {
                         onChange={this.onSheetsChange}
                     />
                 </TabPane>
-                {/* <TabPane
-                    tab={this.getHeaderIdentifierTabTitle()}
-                    key="config_header_identifier"
-                >
-                    <HeaderIdentifierForm
-                        headerIdentifier={template.config.sheets[0].config.headerIdentifier}
-                        validationResults={getValidationSubSet(
-                            "config.headerIdentifier",
-                            validationResults
-                        )}
-                        onChange={this.onHeaderIdentifierChange}
-                    />
-                </TabPane>
-                <TabPane tab={this.getFieldsTabTitle()} key="config_fields">
-                    <FieldsForm
-                        fields={template.config.sheets[0].config.fields}
-                        validationResults={getValidationSubSet(
-                            "config.fields",
-                            validationResults,
-                            true
-                        )}
-                        onChange={this.onFieldsChange}
-                    />
-                </TabPane>
                 <TabPane
-                    tab={this.getCommissionTypesTabTitle()}
-                    key="config_commission_types"
+                    tab={this.getConfigTabTitle()}
+                    key="sheet_config"
                 >
-                    <CommissionTypesForm
+                    {/* <Row type="flex" justify="center">
+                        <Col>
+                            <Select style={{ width: 150 }} onChange={this.onSelectSheetChange} value={this.state.selectedSheetIndex}>
+                                {template.config.sheets.map((s, index) => {
+                                    return <Select.Option value={index}>{`Sheet ${s.position}`}</Select.Option>
+                                })}
+                            </Select>
+                        </Col>
+                    </Row> */}
+
+
+                    <EditSheetConfig
+                        config={template.config.sheets[this.state.selectedSheetIndex].config}
                         template={template}
-                        commissionTypes={template.config.sheets[0].config.commissionTypes}
+                        selectedSheetIndex={this.state.selectedSheetIndex}
+                        onSelectSheetChange={this.onSelectSheetChange}
                         validationResults={getValidationSubSet(
-                            "config.commissionTypes",
+                            `config.sheets[${this.state.selectedSheetIndex}].config`,
                             validationResults
                         )}
-                        onChange={this.onCommissionTypesChange}
+                        onChange={this.onSheetConfigChange}
                         saveTemplate={this.props.saveTemplate}
                     />
-                </TabPane> */}
+                </TabPane>
                 <TabPane tab="Raw Config" key="config_raw">
                     <RawConfig template={template} />
                 </TabPane>

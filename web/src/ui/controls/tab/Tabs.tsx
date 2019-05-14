@@ -1,4 +1,5 @@
 import { Tabs as TabsAD } from 'antd';
+import { TabsPosition, TabsType } from 'antd/lib/tabs';
 import React, { ReactNode } from 'react';
 
 type Props = {
@@ -6,6 +7,10 @@ type Props = {
     onChange: (activeKey: string) => void;
     sticky: boolean;
     children: ReactNode;
+    tabPosition?: TabsPosition;
+    tabBarExtraContent?: React.ReactNode | null;
+    size?: 'large' | 'default' | 'small';
+    type?: TabsType;
 };
 
 const Tabs = (props: Props) => {
@@ -32,11 +37,14 @@ const Tabs = (props: Props) => {
     return (
         <TabsAD
             animated={false}
-            //type="card"
+            type={props.type}
             onChange={props.onChange}
             activeKey={props.activeKey}
             tabBarStyle={tabBarStyle}
             style={style}
+            tabPosition={props.tabPosition}
+            tabBarExtraContent={props.tabBarExtraContent}
+            size={props.size}
         >
             {props.children}
         </TabsAD>

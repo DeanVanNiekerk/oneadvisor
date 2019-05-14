@@ -48,7 +48,6 @@ class TemplateList extends Component<Props, State> {
             config: {
                 sheets: [
                     {
-                        name: "Sheet 1",
                         position: 1,
                         config: {
                             headerIdentifier: {

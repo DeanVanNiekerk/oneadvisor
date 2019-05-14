@@ -2,7 +2,6 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
 {
     public class Sheet
     {
-        public string Name { get; set; }
         public int Position { get; set; }
         public SheetConfig Config { get; set; }
     }

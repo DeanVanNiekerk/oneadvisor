@@ -16,7 +16,6 @@ export type Config = {
 };
 
 export type Sheet = {
-    name: string;
     position: number;
     config: SheetConfig;
 };

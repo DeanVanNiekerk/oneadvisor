@@ -297,7 +297,6 @@ namespace OneAdvisor.Service.Test.Commission
             };
 
             var sheet = new Sheet();
-            sheet.Name = "Sheet 1";
             sheet.Position = 1;
             sheet.Config = sheetConfig;
 

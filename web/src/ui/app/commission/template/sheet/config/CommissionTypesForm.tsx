@@ -12,7 +12,7 @@ import { CommissionType as LookupCommissionType, commissionTypesSelector } from 
 import {
     commissionStatementTemplateFieldNamesSelector
 } from '@/state/app/commission/lookups/commissionStatementTemplateFieldNames';
-import { CommissionStatementTemplateEdit, CommissionType, CommissionTypes } from '@/state/app/commission/templates';
+import { CommissionType, CommissionTypes } from '@/state/app/commission/templates';
 import { tokenSelector, useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
 import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect } from '@/ui/controls';
@@ -21,7 +21,7 @@ import { showMessage } from '@/ui/feedback/notifcation';
 type Props = {
     token: string;
     commissionTypes: CommissionTypes;
-    template: CommissionStatementTemplateEdit;
+    commissionStatementTemplateId: string | null;
     validationResults: ValidationResult[];
     onChange: (commissionTypes: CommissionTypes) => void;
     useCases: string[];
@@ -215,7 +215,7 @@ class CommissionTypesForm extends Component<Props, State> {
                     {`Add Mapping`}
                 </Button>
 
-                {this.props.template.id && (
+                {this.props.commissionStatementTemplateId && (
                     <Upload
                         name="file"
                         listType="text"
@@ -223,8 +223,8 @@ class CommissionTypesForm extends Component<Props, State> {
                         beforeUpload={this.onBeforeFileUpload}
                         onChange={this.onFileUpload}
                         action={`${statementTemplatesApi}/${
-                            this.props.template.id
-                        }/excel/uniqueCommissionTypes`}
+                            this.props.commissionStatementTemplateId
+                            }/excel/uniqueCommissionTypes`}
                         headers={{
                             Authorization: "Bearer " + this.props.token,
                         }}

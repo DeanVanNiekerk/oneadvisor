@@ -39,7 +39,6 @@ namespace OneAdvisor.Service.Commission.Validators
     {
         public SheetValidator()
         {
-            RuleFor(t => t.Name).NotEmpty();
             RuleFor(t => t.Position).GreaterThanOrEqualTo(1);
 
             RuleFor(t => t.Config).NotNull();

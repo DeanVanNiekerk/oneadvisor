@@ -6,7 +6,7 @@ namespace OneAdvisor.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("UPDATE com_CommissionStatementTemplate SET Config = '{\"Sheets\":[{\"Name\": \"Sheet 1\",\"Position\": 1,\"Config\":' + Config + '}]}'");
+            migrationBuilder.Sql("UPDATE com_CommissionStatementTemplate SET Config = '{\"Sheets\":[{\"Position\": 1,\"Config\":' + Config + '}]}'");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -54,7 +54,6 @@ class SheetList extends Component<Props, State> {
     newSheet = () => {
 
         const sheet: Sheet = {
-            name: "Sheet 1",
             position: this.props.sheets.length + 1,
             config: {
                 headerIdentifier: {

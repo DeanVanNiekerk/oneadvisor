@@ -54,7 +54,6 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             };
 
             var sheet = new Sheet();
-            sheet.Name = "Sheet 1";
             sheet.Position = 1;
             sheet.Config = sheetConfig;
 
@@ -138,7 +137,6 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             };
 
             var sheet = new Sheet();
-            sheet.Name = "Sheet 1";
             sheet.Position = 1;
             sheet.Config = sheetConfig;
 
@@ -186,7 +184,6 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             };
 
             var sheet = new Sheet();
-            sheet.Name = "Sheet 1";
             sheet.Position = 1;
             sheet.Config = sheetConfig;
 
@@ -234,7 +231,6 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             };
 
             var sheet = new Sheet();
-            sheet.Name = "Sheet 1";
             sheet.Position = 1;
             sheet.Config = sheetConfig;
 
