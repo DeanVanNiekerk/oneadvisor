@@ -4,7 +4,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
 {
     public class UserCompanyMonthlyCommissionData
     {
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
         public string UserLastName { get; set; }
         public string UserFirstName { get; set; }
         public int Month { get; set; }

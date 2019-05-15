@@ -33,28 +33,14 @@ type Props = {
 
 class UserMonthlyCommissionReport extends Component<Props> {
     componentDidMount() {
-        this.checkSelectedUser();
         this.loadData();
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (prevProps.users != this.props.users) {
-            this.checkSelectedUser();
-        }
-
         if (prevProps.filters != this.props.filters) this.loadData();
     }
 
-    checkSelectedUser = () => {
-        if (!this.selectedUserId()) {
-            if (this.props.users.length !== 0) {
-                this.handleUserChange(this.props.users[0].id);
-            }
-        }
-    };
-
     loadData = () => {
-        if (!this.selectedUserId()) return;
         this.props.dispatch(fetchUserEarningsTypeMonthlyCommissionData(this.props.filters));
         this.props.dispatch(fetchUserCompanyMonthlyCommissionData(this.props.filters));
     };
@@ -94,16 +80,23 @@ class UserMonthlyCommissionReport extends Component<Props> {
     };
 
     handleUserChange = (userId: string) => {
+
+        console.log('handleUserChange', userId);
+
+        const userIdFilter: string[] = [];
+        if (userId)
+            userIdFilter.push(userId);
+
         this.props.dispatch(
             receiveUserEarningsTypeMonthlyCommissionFilters({
                 ...this.props.filters,
-                userId: [userId],
+                userId: userIdFilter,
             })
         );
     };
 
-    selectedUserId = (): string => {
-        if (this.props.filters.userId.length === 0) return "";
+    selectedUserId = (): string | undefined => {
+        if (this.props.filters.userId.length === 0) return undefined;
 
         return this.props.filters.userId[0];
     };
@@ -157,6 +150,8 @@ class UserMonthlyCommissionReport extends Component<Props> {
                                     value={this.selectedUserId()}
                                     onChange={this.handleUserChange}
                                     style={{ width: 200 }}
+                                    allowClear={true}
+                                    placeholder="Broker"
                                 >
                                     {this.props.users.map(user => {
                                         return (
@@ -236,9 +231,6 @@ class UserMonthlyCommissionReport extends Component<Props> {
                         />
                     </Col>
                 </Row>
-
-
-
             </>
         );
     }

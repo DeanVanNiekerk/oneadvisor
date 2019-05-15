@@ -294,7 +294,11 @@ namespace OneAdvisor.Service.Commission
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
 
-            var query = from commission in _context.Commission
+            IQueryable<UserEarningsTypeMonthlyCommissionData> query;
+
+            if (queryOptions.UserId.Any())
+            {
+                query = from commission in _context.Commission
                         join statement in _context.CommissionStatement
                             on commission.CommissionStatementId equals statement.Id
                         join commissionType in _context.CommissionType
@@ -303,6 +307,7 @@ namespace OneAdvisor.Service.Commission
                             on commission.PolicyId equals policy.Id
                         join user in userQuery
                             on policy.UserId equals user.Id
+                        where queryOptions.UserId.Contains(user.Id)
                         group new { commission.AmountIncludingVAT, commission.VAT } by new { policy.UserId, user.FirstName, user.LastName, commissionType.CommissionEarningsTypeId, statement.DateYear, statement.DateMonth } into g
                         select new UserEarningsTypeMonthlyCommissionData()
                         {
@@ -314,6 +319,27 @@ namespace OneAdvisor.Service.Commission
                             CommissionEarningsTypeId = g.Key.CommissionEarningsTypeId,
                             AmountExcludingVAT = g.Sum(c => (c.AmountIncludingVAT - c.VAT)),
                         };
+            }
+            else
+            {
+                query = from commission in _context.Commission
+                        join statement in _context.CommissionStatement
+                            on commission.CommissionStatementId equals statement.Id
+                        join commissionType in _context.CommissionType
+                            on commission.CommissionTypeId equals commissionType.Id
+                        join policy in _context.Policy
+                            on commission.PolicyId equals policy.Id
+                        join user in userQuery
+                            on policy.UserId equals user.Id
+                        group new { commission.AmountIncludingVAT, commission.VAT } by new { commissionType.CommissionEarningsTypeId, statement.DateYear, statement.DateMonth } into g
+                        select new UserEarningsTypeMonthlyCommissionData()
+                        {
+                            Month = g.Key.DateMonth,
+                            Year = g.Key.DateYear,
+                            CommissionEarningsTypeId = g.Key.CommissionEarningsTypeId,
+                            AmountExcludingVAT = g.Sum(c => (c.AmountIncludingVAT - c.VAT)),
+                        };
+            }
 
             //Apply filters ----------------------------------------------------------------------------------------
             if (queryOptions.Year.Any())
@@ -321,9 +347,6 @@ namespace OneAdvisor.Service.Commission
 
             if (queryOptions.Month.Any())
                 query = query.Where(d => queryOptions.Month.Contains(d.Month));
-
-            if (queryOptions.UserId.Any())
-                query = query.Where(d => queryOptions.UserId.Contains(d.UserId));
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedItems<UserEarningsTypeMonthlyCommissionData>();
@@ -344,13 +367,18 @@ namespace OneAdvisor.Service.Commission
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
 
-            var query = from commission in _context.Commission
+            IQueryable<UserCompanyMonthlyCommissionData> query;
+
+            if (queryOptions.UserId.Any())
+            {
+                query = from commission in _context.Commission
                         join statement in _context.CommissionStatement
                             on commission.CommissionStatementId equals statement.Id
                         join policy in _context.Policy
                             on commission.PolicyId equals policy.Id
                         join user in userQuery
                             on policy.UserId equals user.Id
+                        where queryOptions.UserId.Contains(user.Id)
                         group new { commission.AmountIncludingVAT, commission.VAT } by new { policy.UserId, user.FirstName, user.LastName, policy.CompanyId, statement.DateYear, statement.DateMonth } into g
                         select new UserCompanyMonthlyCommissionData()
                         {
@@ -362,6 +390,27 @@ namespace OneAdvisor.Service.Commission
                             CompanyId = g.Key.CompanyId,
                             AmountExcludingVAT = g.Sum(c => (c.AmountIncludingVAT - c.VAT)),
                         };
+            }
+            else
+            {
+                query = from commission in _context.Commission
+                        join statement in _context.CommissionStatement
+                            on commission.CommissionStatementId equals statement.Id
+                        join policy in _context.Policy
+                            on commission.PolicyId equals policy.Id
+                        join user in userQuery
+                            on policy.UserId equals user.Id
+                        group new { commission.AmountIncludingVAT, commission.VAT } by new { policy.CompanyId, statement.DateYear, statement.DateMonth } into g
+                        select new UserCompanyMonthlyCommissionData()
+                        {
+                            Month = g.Key.DateMonth,
+                            Year = g.Key.DateYear,
+                            CompanyId = g.Key.CompanyId,
+                            AmountExcludingVAT = g.Sum(c => (c.AmountIncludingVAT - c.VAT)),
+                        };
+            }
+
+
 
             //Apply filters ----------------------------------------------------------------------------------------
             if (queryOptions.Year.Any())
@@ -369,9 +418,6 @@ namespace OneAdvisor.Service.Commission
 
             if (queryOptions.Month.Any())
                 query = query.Where(d => queryOptions.Month.Contains(d.Month));
-
-            if (queryOptions.UserId.Any())
-                query = query.Where(d => queryOptions.UserId.Contains(d.UserId));
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedItems<UserCompanyMonthlyCommissionData>();
