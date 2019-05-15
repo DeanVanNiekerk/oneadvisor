@@ -17,6 +17,8 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@nivo/core": "0.57.0",
+        "@nivo/pie": "0.57.0",
         "antd": "3.17.0",
         "connected-react-router": "6.4.0",
         "currency.js": "1.2.1",

@@ -2,33 +2,26 @@ import { Col, Row, Select } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { Filters, getColumn } from '@/app/table';
-import { formatCurrency, getMonthOptions, getYearOptions } from '@/app/utils';
+import { Filters } from '@/app/table';
+import { getMonthOptions, getYearOptions } from '@/app/utils';
 import {
     fetchUserCompanyMonthlyCommissionData, fetchUserEarningsTypeMonthlyCommissionData,
-    receiveUserEarningsTypeMonthlyCommissionFilters, UserCompanyMonthlyCommissionData,
-    userCompanyMonthlyCommissionSelector, UserEarningsTypeMonthlyCommissionData,
+    receiveUserEarningsTypeMonthlyCommissionFilters, UserEarningsTypeMonthlyCommissionData,
     userEarningsTypeMonthlyCommissionSelector
 } from '@/state/app/commission/reports';
-import {
-    userCompanyMonthlyCommissionTotalSelector
-} from '@/state/app/commission/reports/userCompanyMonthlyCommission/selectors';
-import {
-    userEarningsTypeMonthlyCommissionItemsSelector, userEarningsTypeMonthlyCommissionTotalSelector
-} from '@/state/app/commission/reports/userEarningsTypeMonthlyCommission/selectors';
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
-import { CommissionEarningsTypeName, CompanyName, Header, Table } from '@/ui/controls';
+import { Header } from '@/ui/controls';
+
+import CompanyReport from './company/CompanyReport';
+import EarningsTypeReport from './earningsType/EarningsTypeReport';
 
 type Props = {
     earningsTypeRecords: UserEarningsTypeMonthlyCommissionData[];
-    companyRecords: UserCompanyMonthlyCommissionData[];
     fetchingEarningsTypeRecords: boolean;
-    fetchingCompanyRecords: boolean;
     filters: Filters;
     users: UserSimple[];
     earningsTypeTotal: number;
-    companyTotal: number;
 } & DispatchProp;
 
 class UserMonthlyCommissionReport extends Component<Props> {
@@ -45,44 +38,7 @@ class UserMonthlyCommissionReport extends Component<Props> {
         this.props.dispatch(fetchUserCompanyMonthlyCommissionData(this.props.filters));
     };
 
-    getEarningsTypeColumns = () => {
-        return [
-            getColumn("commissionEarningsTypeId", "Type", {
-                render: (commissionEarningsTypeId: string) => {
-                    return (
-                        <CommissionEarningsTypeName
-                            commissionEarningsTypeId={commissionEarningsTypeId}
-                        />
-                    );
-                },
-            }),
-            getColumn("amountExcludingVAT", "Amount", {
-                type: "currency",
-            }),
-        ];
-    };
-
-    getCompanyColumns = () => {
-        return [
-            getColumn("companyId", "Company", {
-                render: (companyId: string) => {
-                    return (
-                        <CompanyName
-                            companyId={companyId}
-                        />
-                    );
-                },
-            }),
-            getColumn("amountExcludingVAT", "Amount", {
-                type: "currency",
-            }),
-        ];
-    };
-
     handleUserChange = (userId: string) => {
-
-        console.log('handleUserChange', userId);
-
         const userIdFilter: string[] = [];
         if (userId)
             userIdFilter.push(userId);
@@ -125,17 +81,6 @@ class UserMonthlyCommissionReport extends Component<Props> {
 
     selectedMonth = (): number => {
         return parseInt(this.props.filters.month[0]);
-    };
-
-    tableFooter = (total: number) => {
-        return (
-            <Row type="flex" justify="space-between">
-                <Col>
-                    <b>Total Amount (incl VAT): </b>
-                    {formatCurrency(total)}
-                </Col>
-            </Row>
-        );
     };
 
     render() {
@@ -209,26 +154,10 @@ class UserMonthlyCommissionReport extends Component<Props> {
 
                 <Row gutter={32}>
                     <Col span={12}>
-                        <Table
-                            header="By Commission Earnings Type"
-                            rowKey="commissionEarningsTypeId"
-                            columns={this.getEarningsTypeColumns()}
-                            dataSource={this.props.earningsTypeRecords}
-                            loading={this.props.fetchingEarningsTypeRecords}
-                            hidePagination={true}
-                            footer={() => this.tableFooter(this.props.earningsTypeTotal)}
-                        />
-
+                        <EarningsTypeReport />
                     </Col>
                     <Col span={12}>
-                        <Table
-                            header="By Company"
-                            rowKey="companyId"
-                            columns={this.getCompanyColumns()}
-                            dataSource={this.props.companyRecords}
-                            loading={this.props.fetchingCompanyRecords}
-                            footer={() => this.tableFooter(this.props.companyTotal)}
-                        />
+                        <CompanyReport />
                     </Col>
                 </Row>
             </>
@@ -238,18 +167,11 @@ class UserMonthlyCommissionReport extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     const userEarningsTypeMonthlyCommissionState = userEarningsTypeMonthlyCommissionSelector(state);
-    const userCompanyMonthlyCommissionState = userCompanyMonthlyCommissionSelector(state);
     const usersState = usersSimpleSelector(state);
 
     return {
-        earningsTypeRecords: userEarningsTypeMonthlyCommissionItemsSelector(state),
-        fetchingEarningsTypeRecords: userEarningsTypeMonthlyCommissionState.fetching,
-        companyRecords: userCompanyMonthlyCommissionState.items,
-        fetchingCompanyRecords: userCompanyMonthlyCommissionState.fetching,
         filters: userEarningsTypeMonthlyCommissionState.filters,
         users: usersState.items,
-        earningsTypeTotal: userEarningsTypeMonthlyCommissionTotalSelector(state),
-        companyTotal: userCompanyMonthlyCommissionTotalSelector(state),
     };
 };
 

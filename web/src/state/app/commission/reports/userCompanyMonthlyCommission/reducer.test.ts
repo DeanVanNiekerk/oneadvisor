@@ -49,7 +49,7 @@ describe("report user monthly commission reducer", () => {
             month: 1,
             year: 1999,
             amountExcludingVAT: 40,
-            commissionCompanyId: "987987",
+            companyId: "987987",
         };
 
         const actualState = reducer(initalState, {

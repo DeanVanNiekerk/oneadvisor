@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { CommissionEarningsType, commissionEarningsTypesSelector } from '@/state/app/commission/lookups';
+import {
+    CommissionEarningsType, commissionEarningsTypesSelector, getCommissionEarningsTypeName
+} from '@/state/app/commission/lookups';
 import { RootState } from '@/state/rootReducer';
 
 type Props = {
@@ -16,13 +18,9 @@ class CommissionEarningsTypeNameComponent extends Component<Props> {
             commissionEarningsTypeId,
         } = this.props;
 
-        const type = commissionEarningsTypes.find(
-            u => u.id === commissionEarningsTypeId
-        );
+        const name = getCommissionEarningsTypeName(commissionEarningsTypeId, commissionEarningsTypes);
 
-        if (!type) return <span />;
-
-        return <span>{type.name}</span>;
+        return <span>{name}</span>;
     }
 }
 

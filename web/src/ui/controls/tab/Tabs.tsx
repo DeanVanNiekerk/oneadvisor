@@ -11,6 +11,8 @@ type Props = {
     tabBarExtraContent?: React.ReactNode | null;
     size?: 'large' | 'default' | 'small';
     type?: TabsType;
+    tabBarGutter?: number | undefined;
+    clearTabsTopPadding?: boolean | undefined;
 };
 
 const Tabs = (props: Props) => {
@@ -34,6 +36,10 @@ const Tabs = (props: Props) => {
         };
     }
 
+    let className = "";
+    if (props.clearTabsTopPadding)
+        className = "clearTabsTopPadding"
+
     return (
         <TabsAD
             animated={false}
@@ -45,6 +51,8 @@ const Tabs = (props: Props) => {
             tabPosition={props.tabPosition}
             tabBarExtraContent={props.tabBarExtraContent}
             size={props.size}
+            tabBarGutter={props.tabBarGutter}
+            className={className}
         >
             {props.children}
         </TabsAD>

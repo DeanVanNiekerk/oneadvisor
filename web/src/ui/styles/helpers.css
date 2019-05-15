@@ -52,6 +52,10 @@ MARGIN
 /* 
 PADDING
 */
+.pt-0 {
+    padding-top: 0 !important;
+}
+
 .pt-3 {
     padding-top: 3rem !important;
 }

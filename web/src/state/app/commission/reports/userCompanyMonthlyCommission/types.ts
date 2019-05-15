@@ -6,6 +6,6 @@ export type UserCompanyMonthlyCommissionData = {
     month: number;
     year: number;
 
-    commissionCompanyId: string;
+    companyId: string;
     amountExcludingVAT: number;
 };
