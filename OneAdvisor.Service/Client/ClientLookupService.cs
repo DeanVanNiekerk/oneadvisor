@@ -45,7 +45,7 @@ namespace OneAdvisor.Service.Directory
         public async Task<List<PolicyType>> GetPolicyTypes()
         {
             var query = from policyType in _context.PolicyType
-                        orderby policyType.Name
+                        orderby policyType.DisplayOrder
                         select new PolicyType()
                         {
                             Id = policyType.Id,

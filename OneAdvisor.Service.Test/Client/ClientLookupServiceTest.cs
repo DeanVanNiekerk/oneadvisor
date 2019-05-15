@@ -12,7 +12,7 @@ using OneAdvisor.Service.Directory;
 using OneAdvisor.Data.Entities.Client.Lookup;
 using OneAdvisor.Model.Client.Model.Lookup;
 
-namespace OneAdvisor.Service.Test.Directory
+namespace OneAdvisor.Service.Test.Client
 {
 
     public class ClientLookupServiceTest
@@ -71,9 +71,9 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("GetPolicyTypes");
 
             //Given
-            var lkp1 = new PolicyTypeEntity { Id = Guid.NewGuid(), Name = "A", Code = "aa" };
-            var lkp2 = new PolicyTypeEntity { Id = Guid.NewGuid(), Name = "B", Code = "bb" };
-            var lkp3 = new PolicyTypeEntity { Id = Guid.NewGuid(), Name = "C", Code = "cc" };
+            var lkp1 = new PolicyTypeEntity { Id = Guid.NewGuid(), Name = "C", Code = "cc", DisplayOrder = 1 };
+            var lkp2 = new PolicyTypeEntity { Id = Guid.NewGuid(), Name = "B", Code = "bb", DisplayOrder = 2 };
+            var lkp3 = new PolicyTypeEntity { Id = Guid.NewGuid(), Name = "A", Code = "aa", DisplayOrder = 3 };
 
             using (var context = new DataContext(options))
             {

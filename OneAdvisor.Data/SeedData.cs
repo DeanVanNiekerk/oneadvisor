@@ -80,16 +80,18 @@ namespace OneAdvisor.Data
         public static readonly Guid policyTypeMed = Guid.Parse("023107f5-97a6-456d-9182-7bbda72ca82a");
         public static readonly Guid policyTypeRewards = Guid.Parse("3d991459-2043-46b9-9357-5446a993b81d");
         public static readonly Guid policyTypeGroupScheme = Guid.Parse("8fe8751f-c4f0-01c5-26bd-a92f918651d2");
+        public static readonly Guid policyTypeUnknown = Guid.Parse("c498f023-a7c9-f6c3-e021-c265972a209c");
         public static List<PolicyTypeEntity> GetPolicyTypes()
         {
             var list = new List<PolicyTypeEntity>();
 
-            list.Add(new PolicyTypeEntity() { Id = policyTypeInv, Name = "Investment", Code = "investment" });
-            list.Add(new PolicyTypeEntity() { Id = policyTypeLife, Name = "Life Insurance", Code = "life_insurance" });
-            list.Add(new PolicyTypeEntity() { Id = policyTypeShort, Name = "Short Term Insurance", Code = "short_term" });
-            list.Add(new PolicyTypeEntity() { Id = policyTypeMed, Name = "Medical Cover", Code = "medical_cover" });
-            list.Add(new PolicyTypeEntity() { Id = policyTypeRewards, Name = "Rewards Program", Code = "rewards" });
-            list.Add(new PolicyTypeEntity() { Id = policyTypeGroupScheme, Name = "Group scheme", Code = "group_scheme" });
+            list.Add(new PolicyTypeEntity() { Id = policyTypeInv, Name = "Investment", Code = "investment", DisplayOrder = 1 });
+            list.Add(new PolicyTypeEntity() { Id = policyTypeLife, Name = "Life Insurance", Code = "life_insurance", DisplayOrder = 2 });
+            list.Add(new PolicyTypeEntity() { Id = policyTypeShort, Name = "Short Term Insurance", Code = "short_term", DisplayOrder = 3 });
+            list.Add(new PolicyTypeEntity() { Id = policyTypeMed, Name = "Medical Cover", Code = "medical_cover", DisplayOrder = 4 });
+            list.Add(new PolicyTypeEntity() { Id = policyTypeRewards, Name = "Rewards Program", Code = "rewards", DisplayOrder = 5 });
+            list.Add(new PolicyTypeEntity() { Id = policyTypeGroupScheme, Name = "Group scheme", Code = "group_scheme", DisplayOrder = 6 });
+            list.Add(new PolicyTypeEntity() { Id = policyTypeUnknown, Name = "Unknown", Code = "unknown", DisplayOrder = 7 });
 
             return list;
         }

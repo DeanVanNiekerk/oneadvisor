@@ -14,6 +14,8 @@ namespace OneAdvisor.Data.Entities.Client.Lookup
         public string Name { get; set; }
         [Required]
         public string Code { get; set; }
+        [Required]
+        public int DisplayOrder { get; set; }
 
 
         public virtual ICollection<PolicyEntity> Policies { get; set; }
