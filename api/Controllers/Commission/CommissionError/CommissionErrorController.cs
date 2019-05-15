@@ -57,7 +57,7 @@ namespace api.Controllers.Commission.CommissionError
 
         [HttpPost("errors/resolve/format")]
         [UseCaseAuthorize("com_edit_commission_statements")]
-        public async Task<IActionResult> ResolveFormatError([FromBody] OneAdvisor.Model.Commission.Model.CommissionError.CommissionError commissionError)
+        public async Task<IActionResult> ResolveFormatError([FromBody] OneAdvisor.Model.Commission.Model.CommissionError.CommissionErrorEdit commissionError)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -71,7 +71,7 @@ namespace api.Controllers.Commission.CommissionError
 
         [HttpPost("errors/resolve/mapping")]
         [UseCaseAuthorize("com_edit_commission_statements")]
-        public async Task<IActionResult> ResolveMappingError([FromBody] OneAdvisor.Model.Commission.Model.CommissionError.CommissionError commissionError)
+        public async Task<IActionResult> ResolveMappingError([FromBody] OneAdvisor.Model.Commission.Model.CommissionError.CommissionErrorEdit commissionError)
         {
             var scope = AuthenticationService.GetScope(User);
 

@@ -1,3 +1,13 @@
+export type CommissionErrorEdit = {
+    id: string;
+    commissionStatementId: string;
+    policyId: string | null;
+    clientId: string | null;
+    commissionTypeId: string | null;
+    data: CommissionImportData;
+    isFormatValid: boolean;
+};
+
 export type CommissionError = {
     id: string;
     commissionStatementId: string;
@@ -6,6 +16,7 @@ export type CommissionError = {
     commissionTypeId: string | null;
     data: CommissionImportData;
     isFormatValid: boolean;
+    policyTypeCode: string | null;
 };
 
 export type CommissionImportData = {

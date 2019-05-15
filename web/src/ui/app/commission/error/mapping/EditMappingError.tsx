@@ -5,7 +5,7 @@ import { connect, DispatchProp } from 'react-redux';
 import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
 import {
-    CommissionError, fetchNextMappingError, mappingErrorSelector, receiveMappingError, resolveMappingError
+    CommissionErrorEdit, fetchNextMappingError, mappingErrorSelector, receiveMappingError, resolveMappingError
 } from '@/state/app/commission/errors';
 import { Statement } from '@/state/app/commission/statements';
 import { RootState } from '@/state/rootReducer';
@@ -18,14 +18,14 @@ type Props = {
     statement: Statement;
     remainingErrors: number;
     onUpdate: () => void;
-    error: CommissionError | null;
+    error: CommissionErrorEdit | null;
     fetching: boolean;
     updating: boolean;
     validationResults: ValidationResult[];
 } & DispatchProp;
 
 type State = {
-    errorEdited: CommissionError | null;
+    errorEdited: CommissionErrorEdit | null;
 };
 class EditMappingError extends Component<Props, State> {
     constructor(props: Props) {
@@ -82,7 +82,7 @@ class EditMappingError extends Component<Props, State> {
         );
     };
 
-    onChange = (error: CommissionError) => {
+    onChange = (error: CommissionErrorEdit) => {
         this.setState({
             errorEdited: error,
         });
@@ -97,7 +97,7 @@ class EditMappingError extends Component<Props, State> {
 
         return `Resolve Mapping Error - ${
             this.props.remainingErrors
-        } remaining`;
+            } remaining`;
     };
 
     canSave = () => {

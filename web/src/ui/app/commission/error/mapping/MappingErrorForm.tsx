@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import JSONPretty from 'react-json-pretty';
 import { connect, DispatchProp } from 'react-redux';
 
 import { ValidationResult } from '@/app/validation';
 import { ClientEdit, newClient, receiveClient } from '@/state/app/client/clients';
 import { newPolicy, PolicyEdit, receivePolicy } from '@/state/app/client/policies';
-import { CommissionError, CommissionImportData } from '@/state/app/commission/errors';
+import { CommissionErrorEdit, CommissionImportData } from '@/state/app/commission/errors';
 import { Statement } from '@/state/app/commission/statements';
 import ClientSearch from '@/ui/app/client/client/ClientSearch';
 import EditClient from '@/ui/app/client/client/EditClient';
@@ -18,13 +17,13 @@ import {
 
 type Props = {
     statement: Statement;
-    error: CommissionError;
+    error: CommissionErrorEdit;
     validationResults: ValidationResult[];
-    onChange: (error: CommissionError) => void;
+    onChange: (error: CommissionErrorEdit) => void;
 } & DispatchProp;
 
 type State = {
-    error: CommissionError;
+    error: CommissionErrorEdit;
     errorData: CommissionImportData;
     searchClientVisible: boolean;
     searchPolicyVisible: boolean;
@@ -58,7 +57,7 @@ class MappingErrorForm extends Component<Props, State> {
         }
     }
 
-    handleChange = (fieldName: keyof CommissionError, value: any) => {
+    handleChange = (fieldName: keyof CommissionErrorEdit, value: any) => {
         const error = {
             ...this.state.error,
             [fieldName]: value,

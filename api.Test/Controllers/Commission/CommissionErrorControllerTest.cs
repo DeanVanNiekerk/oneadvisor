@@ -20,7 +20,7 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void CommissionErrorModelComposition()
         {
-            Assert.Equal(7, typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).PropertyCount());
+            Assert.Equal(8, typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).PropertyCount());
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("Id"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("CommissionStatementId"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("PolicyId"));
@@ -28,6 +28,20 @@ namespace api.Test.Controllers.Commission
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("CommissionTypeId"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("Data"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("IsFormatValid"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("PolicyTypeCode"));
+        }
+
+        [Fact]
+        public void CommissionErrorEditModelComposition()
+        {
+            Assert.Equal(7, typeof(CommissionErrorEdit).PropertyCount());
+            Assert.True(typeof(CommissionErrorEdit).HasProperty("Id"));
+            Assert.True(typeof(CommissionErrorEdit).HasProperty("CommissionStatementId"));
+            Assert.True(typeof(CommissionErrorEdit).HasProperty("PolicyId"));
+            Assert.True(typeof(CommissionErrorEdit).HasProperty("ClientId"));
+            Assert.True(typeof(CommissionErrorEdit).HasProperty("CommissionTypeId"));
+            Assert.True(typeof(CommissionErrorEdit).HasProperty("Data"));
+            Assert.True(typeof(CommissionErrorEdit).HasProperty("IsFormatValid"));
         }
 
         [Fact]
@@ -85,7 +99,7 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public async Task Next()
         {
-            var error = new OneAdvisor.Model.Commission.Model.CommissionError.CommissionError()
+            var error = new CommissionErrorEdit()
             {
                 Id = Guid.NewGuid(),
                 CommissionStatementId = Guid.NewGuid(),
@@ -116,7 +130,7 @@ namespace api.Test.Controllers.Commission
             Assert.Equal(Scope.Branch, options.Scope);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var returnValue = Assert.IsType<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>(okResult.Value);
+            var returnValue = Assert.IsType<CommissionErrorEdit>(okResult.Value);
 
             Assert.Same(error, returnValue);
         }
@@ -124,7 +138,7 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public async Task Get()
         {
-            var error = new OneAdvisor.Model.Commission.Model.CommissionError.CommissionError()
+            var error = new CommissionErrorEdit()
             {
                 Id = Guid.NewGuid(),
                 CommissionStatementId = Guid.NewGuid(),
@@ -155,7 +169,7 @@ namespace api.Test.Controllers.Commission
             Assert.Equal(Scope.Branch, options.Scope);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var returnValue = Assert.IsType<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>(okResult.Value);
+            var returnValue = Assert.IsType<CommissionErrorEdit>(okResult.Value);
 
             Assert.Same(error, returnValue);
         }
@@ -163,7 +177,7 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public async Task ResolveFormatError()
         {
-            var error = new OneAdvisor.Model.Commission.Model.CommissionError.CommissionError()
+            var error = new CommissionErrorEdit()
             {
                 Id = Guid.NewGuid(),
                 CommissionStatementId = Guid.NewGuid(),
@@ -188,10 +202,10 @@ namespace api.Test.Controllers.Commission
             };
 
             ScopeOptions options = null;
-            OneAdvisor.Model.Commission.Model.CommissionError.CommissionError resolved = null;
+            CommissionErrorEdit resolved = null;
 
-            service.Setup(c => c.ResolveFormatError(It.IsAny<ScopeOptions>(), It.Is<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>(e => e == error)))
-                .Callback((ScopeOptions o, OneAdvisor.Model.Commission.Model.CommissionError.CommissionError e) =>
+            service.Setup(c => c.ResolveFormatError(It.IsAny<ScopeOptions>(), It.Is<CommissionErrorEdit>(e => e == error)))
+                .Callback((ScopeOptions o, CommissionErrorEdit e) =>
                 {
                     resolved = e;
                     options = o;
@@ -214,7 +228,7 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public async Task ResolveMappingError()
         {
-            var error = new OneAdvisor.Model.Commission.Model.CommissionError.CommissionError()
+            var error = new CommissionErrorEdit()
             {
                 Id = Guid.NewGuid(),
                 CommissionStatementId = Guid.NewGuid(),
@@ -244,10 +258,10 @@ namespace api.Test.Controllers.Commission
             };
 
             ScopeOptions options1 = null;
-            OneAdvisor.Model.Commission.Model.CommissionError.CommissionError resolved = null;
+            CommissionErrorEdit resolved = null;
 
-            service.Setup(c => c.ResolveMappingError(It.IsAny<ScopeOptions>(), It.Is<OneAdvisor.Model.Commission.Model.CommissionError.CommissionError>(e => e == error)))
-                    .Callback((ScopeOptions o, OneAdvisor.Model.Commission.Model.CommissionError.CommissionError e) =>
+            service.Setup(c => c.ResolveMappingError(It.IsAny<ScopeOptions>(), It.Is<CommissionErrorEdit>(e => e == error)))
+                    .Callback((ScopeOptions o, CommissionErrorEdit e) =>
                     {
                         resolved = e;
                         options1 = o;

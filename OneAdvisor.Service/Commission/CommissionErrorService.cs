@@ -63,9 +63,9 @@ namespace OneAdvisor.Service.Commission
 
         }
 
-        public async Task<CommissionError> GetNextError(ScopeOptions scope, Guid commissionStatementId, bool hasValidFormat)
+        public async Task<CommissionErrorEdit> GetNextError(ScopeOptions scope, Guid commissionStatementId, bool hasValidFormat)
         {
-            var query = from commissionError in GetCommissionErrorQuery(scope)
+            var query = from commissionError in GetCommissionErrorEditQuery(scope)
                         where commissionError.CommissionStatementId == commissionStatementId
                         && commissionError.IsFormatValid == hasValidFormat
                         select commissionError;
@@ -73,16 +73,16 @@ namespace OneAdvisor.Service.Commission
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<CommissionError> GetError(ScopeOptions scope, Guid commissionErrorId)
+        public async Task<CommissionErrorEdit> GetError(ScopeOptions scope, Guid commissionErrorId)
         {
-            var query = from commissionError in GetCommissionErrorQuery(scope)
+            var query = from commissionError in GetCommissionErrorEditQuery(scope)
                         where commissionError.Id == commissionErrorId
                         select commissionError;
 
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<Result> ResolveFormatError(ScopeOptions scope, CommissionError error)
+        public async Task<Result> ResolveFormatError(ScopeOptions scope, CommissionErrorEdit error)
         {
             var validator = new ImportCommissionValidator();
             var result = validator.Validate(error.Data).GetResult();
@@ -102,7 +102,7 @@ namespace OneAdvisor.Service.Commission
             return result;
         }
 
-        public async Task<Result> ResolveMappingError(ScopeOptions scope, CommissionError error)
+        public async Task<Result> ResolveMappingError(ScopeOptions scope, CommissionErrorEdit error)
         {
             var validator = new CommissionErrorValidator();
             var result = validator.Validate(error).GetResult();
@@ -160,7 +160,7 @@ namespace OneAdvisor.Service.Commission
 
             var organisationQuery = ScopeQuery.GetOrganisationEntityQuery(_context, scope);
 
-            var query = from commissionError in GetCommissionErrorQuery(scope)
+            var query = from commissionError in GetCommissionErrorEditQuery(scope)
                         where commissionError.CommissionStatementId == commissionStatementId
                         && commissionError.IsFormatValid == true
                         select commissionError;
@@ -179,7 +179,7 @@ namespace OneAdvisor.Service.Commission
             }
         }
 
-        private async Task DeleteCommissionError(ScopeOptions scope, CommissionError error)
+        private async Task DeleteCommissionError(ScopeOptions scope, CommissionErrorEdit error)
         {
             var entity = await GetCommissionErrorEntityQuery(scope).FirstOrDefaultAsync(e => e.Id == error.Id);
 
@@ -204,10 +204,10 @@ namespace OneAdvisor.Service.Commission
             return query;
         }
 
-        private IQueryable<CommissionError> GetCommissionErrorQuery(ScopeOptions scope)
+        private IQueryable<CommissionErrorEdit> GetCommissionErrorEditQuery(ScopeOptions scope)
         {
             var query = from entity in GetCommissionErrorEntityQuery(scope)
-                        select new CommissionError()
+                        select new CommissionErrorEdit()
                         {
                             Id = entity.Id,
                             CommissionStatementId = entity.CommissionStatementId,
@@ -216,6 +216,28 @@ namespace OneAdvisor.Service.Commission
                             ClientId = entity.ClientId,
                             PolicyId = entity.PolicyId,
                             IsFormatValid = entity.IsFormatValid
+                        };
+
+            return query;
+        }
+
+        private IQueryable<CommissionError> GetCommissionErrorQuery(ScopeOptions scope)
+        {
+            var query = from entity in GetCommissionErrorEntityQuery(scope)
+                        join commissionType in _context.CommissionType on entity.CommissionTypeId equals commissionType.Id into commissionTypeGroup
+                        from commissionType in commissionTypeGroup.DefaultIfEmpty()
+                        join policyType in _context.PolicyType on commissionType.PolicyTypeId equals policyType.Id into policyTypeGroup
+                        from policyType in policyTypeGroup.DefaultIfEmpty()
+                        select new CommissionError()
+                        {
+                            Id = entity.Id,
+                            CommissionStatementId = entity.CommissionStatementId,
+                            CommissionTypeId = entity.CommissionTypeId,
+                            Data = entity.Data,
+                            ClientId = entity.ClientId,
+                            PolicyId = entity.PolicyId,
+                            IsFormatValid = entity.IsFormatValid,
+                            PolicyTypeCode = policyType.Code
                         };
 
             return query;

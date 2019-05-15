@@ -165,7 +165,7 @@ namespace OneAdvisor.Service.Test.Commission
                 VAT = "zzz" //Bad format
             };
 
-            var error1 = new CommissionError
+            var error1 = new CommissionErrorEdit
             {
                 CommissionStatementId = statement.Id,
                 IsFormatValid = true,
@@ -222,7 +222,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 ic1.AmountIncludingVAT = "22"; //Fixed
 
-                var error1 = new CommissionError
+                var error1 = new CommissionErrorEdit
                 {
                     Id = err.Id,
                     CommissionStatementId = statement.Id,
@@ -257,7 +257,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var error1 = new CommissionError
+                var error1 = new CommissionErrorEdit
                 {
                     Id = Guid.NewGuid(),
                     CommissionStatementId = statement.Id,
@@ -338,7 +338,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 context.SaveChanges();
 
-                var error1 = new CommissionError
+                var error1 = new CommissionErrorEdit
                 {
                     Id = err1.Id,
                     CommissionStatementId = statement.Id,
@@ -445,7 +445,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 context.SaveChanges();
 
-                var error1 = new CommissionError
+                var error1 = new CommissionErrorEdit
                 {
                     Id = err1.Id,
                     CommissionStatementId = statement.Id,
@@ -535,7 +535,7 @@ namespace OneAdvisor.Service.Test.Commission
                     VAT = "33"
                 };
 
-                var error1 = new CommissionError
+                var error1 = new CommissionErrorEdit
                 {
                     Id = err1.Id,
                     CommissionStatementId = statement.Id,
@@ -745,9 +745,15 @@ namespace OneAdvisor.Service.Test.Commission
             var options = TestHelper.GetDbContext("GetErrors");
 
             var user1 = TestHelper.InsertUserDetailed(options);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
+
             var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
             var user2 = TestHelper.InsertUserDetailed(options);
+
+            var policyType = TestHelper.InsertPolicyType(options);
+
+            var commissionType = TestHelper.InsertCommissionType(options, policyType.Id);
 
             var error1 = new CommissionErrorEntity
             {
@@ -756,7 +762,7 @@ namespace OneAdvisor.Service.Test.Commission
                 IsFormatValid = true,
                 PolicyId = Guid.NewGuid(),
                 ClientId = Guid.NewGuid(),
-                CommissionTypeId = Guid.NewGuid(),
+                CommissionTypeId = commissionType.Id,
                 Data = new ImportCommission()
             };
 
@@ -820,9 +826,11 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(error1.ClientId, actual.ClientId);
                 Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
                 Assert.Equal(error1.Data, actual.Data);
+                Assert.Equal(policyType.Code, actual.PolicyTypeCode);
 
                 actual = results.Items.ToList()[1];
                 Assert.Equal(error3.Id, actual.Id);
+                Assert.Null(actual.PolicyTypeCode);
 
                 //Scope checked
                 scope = TestHelper.GetScopeOptions(user2);

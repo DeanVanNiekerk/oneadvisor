@@ -1,10 +1,10 @@
 import { ValidationResult } from '@/app/validation';
 
-import { CommissionError } from '../types';
+import { CommissionErrorEdit } from '../types';
 import { CommissionMappingErrorAction } from './actions';
 
 export type State = {
-    readonly commissionError: CommissionError | null;
+    readonly commissionError: CommissionErrorEdit | null;
     readonly fetching: boolean;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];

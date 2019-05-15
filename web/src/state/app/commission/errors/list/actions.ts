@@ -1,5 +1,5 @@
-import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from '@/app/query';
-import { Filters, PagedItems, PageOptions, SortOptions } from '@/app/table';
+import { appendPageOptionQuery, appendSortOptionQuery } from '@/app/query';
+import { PagedItems, PageOptions, SortOptions } from '@/app/table';
 import { ApiAction } from '@/app/types';
 import { statementsApi } from '@/config/api/commission';
 

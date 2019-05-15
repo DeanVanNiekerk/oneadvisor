@@ -3,7 +3,7 @@ using OneAdvisor.Model.Commission.Model.CommissionError;
 
 namespace OneAdvisor.Service.Commission.Validators
 {
-    public class CommissionErrorValidator : AbstractValidator<CommissionError>
+    public class CommissionErrorValidator : AbstractValidator<CommissionErrorEdit>
     {
         public CommissionErrorValidator()
         {

@@ -2,30 +2,30 @@ import { ApiAction, ApiOnSuccess } from '@/app/types';
 import { ValidationResult } from '@/app/validation';
 import { statementsApi } from '@/config/api/commission';
 
-import { CommissionError } from '../types';
+import { CommissionErrorEdit } from '../types';
 
 type CommissionErrorReceiveAction = {
-    type: 'COMMISSIONS_ERROR_FORMAT_RECEIVE';
-    payload: CommissionError | null;
+    type: "COMMISSIONS_ERROR_FORMAT_RECEIVE";
+    payload: CommissionErrorEdit | null;
 };
 type CommissionErrorFetchingAction = {
-    type: 'COMMISSIONS_ERROR_FORMAT_FETCHING';
+    type: "COMMISSIONS_ERROR_FORMAT_FETCHING";
 };
 type CommissionErrorFetchingErrorAction = {
-    type: 'COMMISSIONS_ERROR_FORMAT_FETCHING_ERROR';
+    type: "COMMISSIONS_ERROR_FORMAT_FETCHING_ERROR";
 };
 
 type CommissionErrorUpdatedAction = {
-    type: 'COMMISSIONS_ERROR_FORMAT_EDIT_RECEIVE';
+    type: "COMMISSIONS_ERROR_FORMAT_EDIT_RECEIVE";
 };
 type CommissionErrorUpdatingAction = {
-    type: 'COMMISSIONS_ERROR_FORMAT_EDIT_FETCHING';
+    type: "COMMISSIONS_ERROR_FORMAT_EDIT_FETCHING";
 };
 type CommissionErrorUpdatingErrorAction = {
-    type: 'COMMISSIONS_ERROR_FORMAT_EDIT_FETCHING_ERROR';
+    type: "COMMISSIONS_ERROR_FORMAT_EDIT_FETCHING_ERROR";
 };
 type CommissionErrorValidationErrorAction = {
-    type: 'COMMISSIONS_ERROR_FORMAT_EDIT_VALIDATION_ERROR';
+    type: "COMMISSIONS_ERROR_FORMAT_EDIT_VALIDATION_ERROR";
     payload: ValidationResult[];
 };
 
@@ -39,27 +39,27 @@ export type CommissionFormatErrorAction =
     | CommissionErrorUpdatedAction;
 
 export const fetchNextFormatError = (statementId: string): ApiAction => ({
-    type: 'API',
+    type: "API",
     endpoint: `${statementsApi}/${statementId}/errors/next?hasValidFormat=false`,
-    dispatchPrefix: 'COMMISSIONS_ERROR_FORMAT'
+    dispatchPrefix: "COMMISSIONS_ERROR_FORMAT",
 });
 
 export const receiveFormatError = (
-    error: CommissionError | null
+    error: CommissionErrorEdit | null
 ): CommissionErrorReceiveAction => ({
-    type: 'COMMISSIONS_ERROR_FORMAT_RECEIVE',
-    payload: error
+    type: "COMMISSIONS_ERROR_FORMAT_RECEIVE",
+    payload: error,
 });
 
 export const resolveFormatError = (
     statementId: string,
-    error: CommissionError,
+    error: CommissionErrorEdit,
     onSuccess: ApiOnSuccess
 ): ApiAction => ({
-    type: 'API',
+    type: "API",
     endpoint: `${statementsApi}/${statementId}/errors/resolve/format`,
-    method: 'POST',
+    method: "POST",
     payload: error,
     onSuccess: onSuccess,
-    dispatchPrefix: 'COMMISSIONS_ERROR_FORMAT_EDIT'
+    dispatchPrefix: "COMMISSIONS_ERROR_FORMAT_EDIT",
 });

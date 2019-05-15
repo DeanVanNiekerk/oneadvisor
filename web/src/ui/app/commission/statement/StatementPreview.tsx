@@ -190,7 +190,12 @@ class StatementPreviewComponent extends Component<Props, State> {
             getCommissionErrors(this.props.statement.id, true, errors => {
                 if (this.props.statement === null) return;
                 downloadExcel(
-                    errors.items.map(e => e.data),
+                    errors.items.map(e => {
+                        return {
+                            ...e.data,
+                            policyTypeCode: e.policyTypeCode
+                        }
+                    }),
                     `MappingErrors_${this.getCompanyName()}_${moment(
                         this.props.statement.date
                     ).format(DATE_FORMAT)}.xlsx`
@@ -446,7 +451,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                     <Drawer
                         title={`Mapping Errors - ${
                             statement.mappingErrorCount
-                        } remaining`}
+                            } remaining`}
                         icon="file-exclamation"
                         visible={this.state.errorListVisible}
                         onClose={this.toggleErrorListVisible}

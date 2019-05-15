@@ -1,9 +1,9 @@
 import { getValidationResult } from '@/test';
 
-import { CommissionError } from '../types';
+import { CommissionErrorEdit } from '../types';
 import { defaultState, reducer } from './reducer';
 
-const defaultCommissionError: CommissionError = {
+const defaultCommissionError: CommissionErrorEdit = {
     id: "10",
     commissionStatementId: "321",
     policyId: "12",

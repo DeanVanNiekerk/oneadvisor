@@ -1,131 +1,131 @@
 import { getValidationResult } from '@/test';
 
-import { CommissionError } from '../types';
+import { CommissionErrorEdit } from '../types';
 import { defaultState, reducer } from './reducer';
 
-const defaultCommissionError: CommissionError = {
-    id: '10',
-    commissionStatementId: '321',
-    policyId: '12',
-    clientId: '13',
-    commissionTypeId: '14',
+const defaultCommissionError: CommissionErrorEdit = {
+    id: "10",
+    commissionStatementId: "321",
+    policyId: "12",
+    clientId: "13",
+    commissionTypeId: "14",
     data: {
-        policyNumber: '123-123',
-        amountIncludingVAT: '50',
-        vat: '5',
-        commissionTypeCode: 'gap_cover'
+        policyNumber: "123-123",
+        amountIncludingVAT: "50",
+        vat: "5",
+        commissionTypeCode: "gap_cover",
     },
-    isFormatValid: true
+    isFormatValid: true,
 };
 
-describe('commission mapping error reducer', () => {
-    it('should handle COMMISSIONS_ERROR_MAPPING_FETCHING', () => {
+describe("commission mapping error reducer", () => {
+    it("should handle COMMISSIONS_ERROR_MAPPING_FETCHING", () => {
         const initalState = {
             ...defaultState,
             commissionError: { ...defaultCommissionError },
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_ERROR_MAPPING_FETCHING'
+            type: "COMMISSIONS_ERROR_MAPPING_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
             fetching: true,
             commissionError: null,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_ERROR_MAPPING_FETCHING_ERROR', () => {
+    it("should handle COMMISSIONS_ERROR_MAPPING_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_ERROR_MAPPING_FETCHING_ERROR'
+            type: "COMMISSIONS_ERROR_MAPPING_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            
-            fetching: false
+
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_ERROR_MAPPING_RECEIVE', () => {
+    it("should handle COMMISSIONS_ERROR_MAPPING_RECEIVE", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_ERROR_MAPPING_RECEIVE',
-            payload: { ...defaultCommissionError }
+            type: "COMMISSIONS_ERROR_MAPPING_RECEIVE",
+            payload: { ...defaultCommissionError },
         });
 
         const expectedState = {
             ...defaultState,
             commissionError: { ...defaultCommissionError },
             fetching: false,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_ERROR_MAPPING_EDIT_FETCHING', () => {
+    it("should handle COMMISSIONS_ERROR_MAPPING_EDIT_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'COMMISSIONS_ERROR_MAPPING_EDIT_FETCHING'
+            type: "COMMISSIONS_ERROR_MAPPING_EDIT_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_ERROR_MAPPING_EDIT_FETCHING_ERROR', () => {
+    it("should handle COMMISSIONS_ERROR_MAPPING_EDIT_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_ERROR_MAPPING_EDIT_FETCHING_ERROR'
+            type: "COMMISSIONS_ERROR_MAPPING_EDIT_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            
-            updating: false
+
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle COMMISSIONS_ERROR_MAPPING_EDIT_RECEIVE', () => {
+    it("should handle COMMISSIONS_ERROR_MAPPING_EDIT_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'COMMISSIONS_ERROR_MAPPING_EDIT_RECEIVE'
+            type: "COMMISSIONS_ERROR_MAPPING_EDIT_RECEIVE",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: false
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);

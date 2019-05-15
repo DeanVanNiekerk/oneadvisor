@@ -2,11 +2,11 @@ import { ApiAction, ApiOnSuccess } from '@/app/types';
 import { ValidationResult } from '@/app/validation';
 import { statementsApi } from '@/config/api/commission';
 
-import { CommissionError } from '../types';
+import { CommissionErrorEdit } from '../types';
 
 type CommissionErrorReceiveAction = {
     type: "COMMISSIONS_ERROR_MAPPING_RECEIVE";
-    payload: CommissionError | null;
+    payload: CommissionErrorEdit | null;
 };
 type CommissionErrorFetchingAction = {
     type: "COMMISSIONS_ERROR_MAPPING_FETCHING";
@@ -54,7 +54,7 @@ export const fetchNextMappingError = (statementId: string): ApiAction => ({
 });
 
 export const receiveMappingError = (
-    error: CommissionError | null
+    error: CommissionErrorEdit | null
 ): CommissionErrorReceiveAction => ({
     type: "COMMISSIONS_ERROR_MAPPING_RECEIVE",
     payload: error,
@@ -62,7 +62,7 @@ export const receiveMappingError = (
 
 export const resolveMappingError = (
     statementId: string,
-    error: CommissionError,
+    error: CommissionErrorEdit,
     onSuccess: ApiOnSuccess
 ): ApiAction => ({
     type: "API",

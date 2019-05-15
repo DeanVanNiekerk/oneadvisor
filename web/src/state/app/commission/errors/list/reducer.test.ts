@@ -16,6 +16,7 @@ const defaultCommissionError: CommissionError = {
         commissionTypeCode: "gap_cover",
     },
     isFormatValid: false,
+    policyTypeCode: "med_cover",
 };
 
 describe("error list reducer", () => {

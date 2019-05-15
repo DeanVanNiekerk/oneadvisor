@@ -5,7 +5,7 @@ import { connect, DispatchProp } from 'react-redux';
 import { areEqual } from '@/app/utils';
 import { ValidationResult } from '@/app/validation';
 import {
-    CommissionError, CommissionImportData, fetchNextFormatError, formatErrorSelector, receiveFormatError,
+    CommissionErrorEdit, CommissionImportData, fetchNextFormatError, formatErrorSelector, receiveFormatError,
     resolveFormatError
 } from '@/state/app/commission/errors';
 import { RootState } from '@/state/rootReducer';
@@ -18,7 +18,7 @@ type Props = {
     statementId: string;
     remainingErrors: number;
     onUpdate: () => void;
-    error: CommissionError | null;
+    error: CommissionErrorEdit | null;
     errorData: CommissionImportData | null;
     fetching: boolean;
     updating: boolean;
