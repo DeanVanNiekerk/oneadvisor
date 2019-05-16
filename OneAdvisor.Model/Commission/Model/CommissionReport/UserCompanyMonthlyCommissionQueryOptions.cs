@@ -15,6 +15,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
             Month = new List<int>();
             Year = new List<int>();
             UserId = new List<Guid>();
+            CompanyId = new List<Guid>();
 
             //Defaults 
             var thisMonth = DateTime.UtcNow;
@@ -32,6 +33,10 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
             var resultsGuid = GetFilterValues<Guid>("UserId");
             if (resultsGuid.Success)
                 UserId = resultsGuid.Value;
+
+            resultsGuid = GetFilterValues<Guid>("CompanyId");
+            if (resultsGuid.Success)
+                CompanyId = resultsGuid.Value;
         }
 
         public ScopeOptions Scope { get; set; }
@@ -39,5 +44,6 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
         public List<int> Month { get; set; }
         public List<int> Year { get; set; }
         public List<Guid> UserId { get; set; }
+        public List<Guid> CompanyId { get; set; }
     }
 }

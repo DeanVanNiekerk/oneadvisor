@@ -9,6 +9,7 @@ import {
     receiveUserEarningsTypeMonthlyCommissionFilters, UserEarningsTypeMonthlyCommissionData,
     userEarningsTypeMonthlyCommissionSelector
 } from '@/state/app/commission/reports';
+import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
 import { Header } from '@/ui/controls';
@@ -22,6 +23,7 @@ type Props = {
     filters: Filters;
     users: UserSimple[];
     earningsTypeTotal: number;
+    companies: Company[];
 } & DispatchProp;
 
 class UserMonthlyCommissionReport extends Component<Props> {
@@ -38,23 +40,30 @@ class UserMonthlyCommissionReport extends Component<Props> {
         this.props.dispatch(fetchUserCompanyMonthlyCommissionData(this.props.filters));
     };
 
-    handleUserChange = (userId: string) => {
-        const userIdFilter: string[] = [];
-        if (userId)
-            userIdFilter.push(userId);
-
+    handleUserChange = (userIds: string[]) => {
         this.props.dispatch(
             receiveUserEarningsTypeMonthlyCommissionFilters({
                 ...this.props.filters,
-                userId: userIdFilter,
+                userId: userIds,
             })
         );
     };
 
-    selectedUserId = (): string | undefined => {
-        if (this.props.filters.userId.length === 0) return undefined;
+    selectedUserIds = (): string[] => {
+        return this.props.filters.userId;
+    };
 
-        return this.props.filters.userId[0];
+    handleCompanyChange = (companyIds: string[]) => {
+        this.props.dispatch(
+            receiveUserEarningsTypeMonthlyCommissionFilters({
+                ...this.props.filters,
+                companyId: companyIds,
+            })
+        );
+    };
+
+    selectedCompanyIds = (): string[] => {
+        return this.props.filters.companyId;
     };
 
     handleYearChange = (year: number) => {
@@ -88,69 +97,94 @@ class UserMonthlyCommissionReport extends Component<Props> {
             <>
                 <Header
                     icon="pie-chart"
-                    actions={
-                        <Row type="flex" gutter={10} align="middle">
-                            <Col>
-                                <Select
-                                    value={this.selectedUserId()}
-                                    onChange={this.handleUserChange}
-                                    style={{ width: 200 }}
-                                    allowClear={true}
-                                    placeholder="Broker"
-                                >
-                                    {this.props.users.map(user => {
-                                        return (
-                                            <Select.Option
-                                                key={user.id}
-                                                value={user.id}
-                                            >
-                                                {user.fullName}
-                                            </Select.Option>
-                                        );
-                                    })}
-                                </Select>
-                            </Col>
-                            <Col>
-                                <Select
-                                    value={this.selectedMonth()}
-                                    onChange={this.handleMonthChange}
-                                    style={{ width: 200 }}
-                                >
-                                    {getMonthOptions().map(month => {
-                                        return (
-                                            <Select.Option
-                                                key={month.number.toString()}
-                                                value={month.number}
-                                            >
-                                                {month.name}
-                                            </Select.Option>
-                                        );
-                                    })}
-                                </Select>
-                            </Col>
-                            <Col>
-                                <Select
-                                    value={this.selectedYear()}
-                                    onChange={this.handleYearChange}
-                                    style={{ width: 200 }}
-                                >
-                                    {getYearOptions().map(year => {
-                                        return (
-                                            <Select.Option
-                                                key={year.toString()}
-                                                value={year}
-                                            >
-                                                {year}
-                                            </Select.Option>
-                                        );
-                                    })}
-                                </Select>
-                            </Col>
-                        </Row>
-                    }
                 >
                     Broker Monthly Commission Report
                 </Header>
+
+                <Row type="flex" gutter={10} align="middle" justify="start">
+                    <Col>
+                        <Select
+                            mode="multiple"
+                            maxTagCount={1}
+                            maxTagTextLength={15}
+                            defaultValue={this.selectedUserIds()}
+                            onChange={this.handleUserChange}
+                            style={{ width: 250 }}
+                            allowClear={true}
+                            placeholder="Broker"
+                        >
+                            {this.props.users.map(user => {
+                                return (
+                                    <Select.Option
+                                        key={user.id}
+                                        value={user.id}
+                                    >
+                                        {user.fullName}
+                                    </Select.Option>
+                                );
+                            })}
+                        </Select>
+                    </Col>
+                    <Col>
+                        <Select
+                            mode="multiple"
+                            maxTagCount={1}
+                            maxTagTextLength={15}
+                            defaultValue={this.selectedCompanyIds()}
+                            onChange={this.handleCompanyChange}
+                            style={{ width: 250 }}
+                            allowClear={true}
+                            placeholder="Company"
+                        >
+                            {this.props.companies.map(company => {
+                                return (
+                                    <Select.Option
+                                        key={company.id}
+                                        value={company.id}
+                                    >
+                                        {company.name}
+                                    </Select.Option>
+                                );
+                            })}
+                        </Select>
+                    </Col>
+                    <Col>
+                        <Select
+                            value={this.selectedMonth()}
+                            onChange={this.handleMonthChange}
+                            style={{ width: 125 }}
+                        >
+                            {getMonthOptions().map(month => {
+                                return (
+                                    <Select.Option
+                                        key={month.number.toString()}
+                                        value={month.number}
+                                    >
+                                        {month.name}
+                                    </Select.Option>
+                                );
+                            })}
+                        </Select>
+                    </Col>
+                    <Col>
+                        <Select
+                            value={this.selectedYear()}
+                            onChange={this.handleYearChange}
+                            style={{ width: 90 }}
+                        >
+                            {getYearOptions().map(year => {
+                                return (
+                                    <Select.Option
+                                        key={year.toString()}
+                                        value={year}
+                                    >
+                                        {year}
+                                    </Select.Option>
+                                );
+                            })}
+                        </Select>
+                    </Col>
+                </Row>
 
                 <Row gutter={32}>
                     <Col span={12}>
@@ -168,10 +202,12 @@ class UserMonthlyCommissionReport extends Component<Props> {
 const mapStateToProps = (state: RootState) => {
     const userEarningsTypeMonthlyCommissionState = userEarningsTypeMonthlyCommissionSelector(state);
     const usersState = usersSimpleSelector(state);
+    const companiesState = companiesSelector(state);
 
     return {
         filters: userEarningsTypeMonthlyCommissionState.filters,
         users: usersState.items,
+        companies: companiesState.items,
     };
 };
 

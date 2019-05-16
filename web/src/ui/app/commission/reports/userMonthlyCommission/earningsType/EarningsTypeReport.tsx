@@ -49,7 +49,7 @@ class EarningsTypeReport extends Component<Props, State> {
                 activeKey={this.state.activeTab}
                 sticky={true}
                 tabBarGutter={0}
-                clearTabsTopPadding={true}
+                //clearTabsTopPadding={true}
             >
                 <TabPane tab={<Icon type="table" className="mr-0" />} key="table">
                     <EarningsTypeTable earningsTypeRecords={this.props.earningsTypeRecords} fetching={this.props.fetching} earningsTypeTotal={this.props.earningsTypeTotal} />

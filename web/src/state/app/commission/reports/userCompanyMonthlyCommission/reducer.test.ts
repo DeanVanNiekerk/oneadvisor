@@ -43,11 +43,6 @@ describe("report user monthly commission reducer", () => {
         };
 
         const data: UserCompanyMonthlyCommissionData = {
-            userId: "123321",
-            userLastName: "van Niekerk",
-            userFirstName: "Dean",
-            month: 1,
-            year: 1999,
             amountExcludingVAT: 40,
             companyId: "987987",
         };

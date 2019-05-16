@@ -188,29 +188,29 @@ class ClientRevenueReport extends Component<Props, State> {
         return parseInt(this.props.filters.monthEnding[0]);
     };
 
-    selectedBranch = (): string | undefined => {
-        return this.props.filters.branchId.length !== 0 ? this.props.filters.branchId[0] : undefined;
+    selectedBranchIds = (): string[] => {
+        return this.props.filters.branchId;
     };
 
-    handleBranchChange = (branchId: string | undefined) => {
+    handleBranchChange = (branchIds: string[]) => {
         this.props.dispatch(
             receiveClientRevenueFilters({
                 ...this.props.filters,
-                branchId: branchId ? [branchId] : [],
+                branchId: branchIds,
                 userId: [], //Clear user when branch changes
             })
         );
     };
 
-    selectedUser = (): string | undefined => {
-        return this.props.filters.userId.length !== 0 ? this.props.filters.userId[0] : undefined;
+    selectedUserIds = (): string[] => {
+        return this.props.filters.userId;
     };
 
-    handleUserChange = (userId: string | undefined) => {
+    handleUserChange = (userIds: string[]) => {
         this.props.dispatch(
             receiveClientRevenueFilters({
                 ...this.props.filters,
-                userId: userId ? [userId] : [],
+                userId: userIds,
             })
         );
     };
@@ -258,83 +258,6 @@ class ClientRevenueReport extends Component<Props, State> {
                     icon="line-chart"
                     actions={
                         <Row type="flex" gutter={10} align="middle">
-                            <Col>Month Ending:</Col>
-                            <Col>
-                                <Select
-                                    value={this.selectedMonth()}
-                                    onChange={this.handleMonthChange}
-                                    style={{ width: 125 }}
-                                >
-                                    {getMonthOptions().map(month => {
-                                        return (
-                                            <Select.Option
-                                                key={month.number.toString()}
-                                                value={month.number}
-                                            >
-                                                {month.name}
-                                            </Select.Option>
-                                        );
-                                    })}
-                                </Select>
-                            </Col>
-                            <Col>
-                                <Select
-                                    value={this.selectedYear()}
-                                    onChange={this.handleYearChange}
-                                    style={{ width: 90 }}
-                                >
-                                    {getYearOptions().map(year => {
-                                        return (
-                                            <Select.Option
-                                                key={year.toString()}
-                                                value={year}
-                                            >
-                                                {year}
-                                            </Select.Option>
-                                        );
-                                    })}
-                                </Select>
-                            </Col>
-                            <Col>
-                                <Select
-                                    value={this.selectedBranch()}
-                                    onChange={this.handleBranchChange}
-                                    placeholder="Branch"
-                                    allowClear={true}
-                                    style={{ width: 150 }}
-                                >
-                                    {this.props.branches.map(branch => {
-                                        return (
-                                            <Select.Option
-                                                key={branch.id}
-                                                value={branch.id}
-                                            >
-                                                {branch.name}
-                                            </Select.Option>
-                                        );
-                                    })}
-                                </Select>
-                            </Col>
-                            <Col>
-                                <Select
-                                    value={this.selectedUser()}
-                                    onChange={this.handleUserChange}
-                                    placeholder="Broker"
-                                    allowClear={true}
-                                    style={{ width: 150 }}
-                                >
-                                    {this.props.users.filter(u => !this.selectedBranch() || u.branchId === this.selectedBranch()).map(user => {
-                                        return (
-                                            <Select.Option
-                                                key={user.id}
-                                                value={user.id}
-                                            >
-                                                {user.fullName}
-                                            </Select.Option>
-                                        );
-                                    })}
-                                </Select>
-                            </Col>
                             <Col>
                                 <Button icon="download" onClick={this.download} loading={this.state.downloading} noLeftMargin={true} />
                             </Col>
@@ -343,6 +266,96 @@ class ClientRevenueReport extends Component<Props, State> {
                 >
                     Client Revenue Report
                 </Header>
+
+                <Row type="flex" gutter={10} align="middle" justify="start" className="mb-1">
+                    <Col>Month Ending:</Col>
+                    <Col>
+                        <Select
+                            value={this.selectedMonth()}
+                            onChange={this.handleMonthChange}
+                            style={{ width: 125 }}
+                        >
+                            {getMonthOptions().map(month => {
+                                return (
+                                    <Select.Option
+                                        key={month.number.toString()}
+                                        value={month.number}
+                                    >
+                                        {month.name}
+                                    </Select.Option>
+                                );
+                            })}
+                        </Select>
+                    </Col>
+                    <Col>
+                        <Select
+                            value={this.selectedYear()}
+                            onChange={this.handleYearChange}
+                            style={{ width: 90 }}
+                        >
+                            {getYearOptions().map(year => {
+                                return (
+                                    <Select.Option
+                                        key={year.toString()}
+                                        value={year}
+                                    >
+                                        {year}
+                                    </Select.Option>
+                                );
+                            })}
+                        </Select>
+                    </Col>
+                    <Col>
+                        <Select
+                            mode="multiple"
+                            maxTagCount={1}
+                            maxTagTextLength={15}
+                            value={this.selectedBranchIds()}
+                            onChange={this.handleBranchChange}
+                            placeholder="Branch"
+                            allowClear={true}
+                            style={{ width: 250 }}
+                        >
+                            {this.props.branches.map(branch => {
+                                return (
+                                    <Select.Option
+                                        key={branch.id}
+                                        value={branch.id}
+                                    >
+                                        {branch.name}
+                                    </Select.Option>
+                                );
+                            })}
+                        </Select>
+                    </Col>
+                    <Col>
+                        <Select
+                            mode="multiple"
+                            maxTagCount={1}
+                            maxTagTextLength={15}
+                            value={this.selectedUserIds()}
+                            onChange={this.handleUserChange}
+                            placeholder="Broker"
+                            allowClear={true}
+                            style={{ width: 250 }}
+                        >
+                            {this.props.users
+                                .filter(u =>
+                                    this.selectedBranchIds().length === 0 ||
+                                    this.selectedBranchIds().some(id => id === u.branchId))
+                                .map(user => {
+                                    return (
+                                        <Select.Option
+                                            key={user.id}
+                                            value={user.id}
+                                        >
+                                            {user.fullName}
+                                        </Select.Option>
+                                    );
+                                })}
+                        </Select>
+                    </Col>
+                </Row>
 
                 <Table
                     rowKey="rowNumber"

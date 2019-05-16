@@ -15,6 +15,7 @@ export type State = {
 const thisMonth = moment();
 const defaultFilters: Filters = {
     userId: [],
+    companyId: [],
     year: [thisMonth.year().toString()],
     month: [(thisMonth.month() + 1).toString()],
 };

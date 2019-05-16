@@ -47,7 +47,7 @@ class CompanyReport extends Component<Props, State> {
                 activeKey={this.state.activeTab}
                 sticky={true}
                 tabBarGutter={0}
-                clearTabsTopPadding={true}
+                //clearTabsTopPadding={true}
             >
                 <TabPane tab={<Icon type="table" className="mr-0" />} key="table">
                     <CompanyTable companyRecords={this.props.companyRecords} fetching={this.props.fetching} companyTotal={this.props.companyTotal} />

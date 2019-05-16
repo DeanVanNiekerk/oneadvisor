@@ -306,6 +306,7 @@ namespace OneAdvisor.Service.Commission
                         select new
                         {
                             UserId = user.Id,
+                            CompanyId = policy.CompanyId,
                             Year = statement.DateYear,
                             Month = statement.DateMonth,
                             CommissionEarningsTypeId = commissionType.CommissionEarningsTypeId,
@@ -315,6 +316,9 @@ namespace OneAdvisor.Service.Commission
 
 
             //Apply filters ----------------------------------------------------------------------------------------
+            if (queryOptions.CompanyId.Any())
+                query = query.Where(d => queryOptions.CompanyId.Contains(d.CompanyId));
+
             if (queryOptions.UserId.Any())
                 query = query.Where(d => queryOptions.UserId.Contains(d.UserId));
 
@@ -370,6 +374,9 @@ namespace OneAdvisor.Service.Commission
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
+            if (queryOptions.CompanyId.Any())
+                query = query.Where(d => queryOptions.CompanyId.Contains(d.CompanyId));
+
             if (queryOptions.UserId.Any())
                 query = query.Where(d => queryOptions.UserId.Contains(d.UserId));
 
