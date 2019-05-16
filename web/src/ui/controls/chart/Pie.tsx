@@ -3,8 +3,11 @@ import React from 'react';
 
 import { PieSvgProps, ResponsivePie } from '@nivo/pie';
 
+import { ContentLoader } from '../';
+
 type Props = {
     containerHeight?: string;
+    isLoading?: boolean;
 } & PieSvgProps;
 
 const Pie = (props: Props) => {
@@ -17,6 +20,7 @@ const Pie = (props: Props) => {
         cornerRadius: 3,
         colors: { scheme: 'set3' },
         borderWidth: 1,
+        radialLabelsLinkHorizontalLength: 10,
         ...props
     }
 
@@ -26,9 +30,11 @@ const Pie = (props: Props) => {
         return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
 
     return (
-        <div style={{ height: containerHeight }}>
-            <ResponsivePie {...p} />
-        </div>
+        <ContentLoader isLoading={props.isLoading}>
+            <div style={{ height: containerHeight }}>
+                <ResponsivePie {...p} />
+            </div>
+        </ContentLoader>
     );
 };
 

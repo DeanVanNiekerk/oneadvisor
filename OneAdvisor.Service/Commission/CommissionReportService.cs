@@ -294,54 +294,30 @@ namespace OneAdvisor.Service.Commission
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
 
-            IQueryable<UserEarningsTypeMonthlyCommissionData> query;
+            var query = from commission in _context.Commission
+                        join statement in _context.CommissionStatement
+                            on commission.CommissionStatementId equals statement.Id
+                        join commissionType in _context.CommissionType
+                            on commission.CommissionTypeId equals commissionType.Id
+                        join policy in _context.Policy
+                            on commission.PolicyId equals policy.Id
+                        join user in userQuery
+                            on policy.UserId equals user.Id
+                        select new
+                        {
+                            UserId = user.Id,
+                            Year = statement.DateYear,
+                            Month = statement.DateMonth,
+                            CommissionEarningsTypeId = commissionType.CommissionEarningsTypeId,
+                            AmountIncludingVAT = commission.AmountIncludingVAT,
+                            VAT = commission.VAT
+                        };
 
-            if (queryOptions.UserId.Any())
-            {
-                query = from commission in _context.Commission
-                        join statement in _context.CommissionStatement
-                            on commission.CommissionStatementId equals statement.Id
-                        join commissionType in _context.CommissionType
-                            on commission.CommissionTypeId equals commissionType.Id
-                        join policy in _context.Policy
-                            on commission.PolicyId equals policy.Id
-                        join user in userQuery
-                            on policy.UserId equals user.Id
-                        where queryOptions.UserId.Contains(user.Id)
-                        group new { commission.AmountIncludingVAT, commission.VAT } by new { policy.UserId, user.FirstName, user.LastName, commissionType.CommissionEarningsTypeId, statement.DateYear, statement.DateMonth } into g
-                        select new UserEarningsTypeMonthlyCommissionData()
-                        {
-                            UserId = g.Key.UserId,
-                            UserFirstName = g.Key.FirstName,
-                            UserLastName = g.Key.LastName,
-                            Month = g.Key.DateMonth,
-                            Year = g.Key.DateYear,
-                            CommissionEarningsTypeId = g.Key.CommissionEarningsTypeId,
-                            AmountExcludingVAT = g.Sum(c => (c.AmountIncludingVAT - c.VAT)),
-                        };
-            }
-            else
-            {
-                query = from commission in _context.Commission
-                        join statement in _context.CommissionStatement
-                            on commission.CommissionStatementId equals statement.Id
-                        join commissionType in _context.CommissionType
-                            on commission.CommissionTypeId equals commissionType.Id
-                        join policy in _context.Policy
-                            on commission.PolicyId equals policy.Id
-                        join user in userQuery
-                            on policy.UserId equals user.Id
-                        group new { commission.AmountIncludingVAT, commission.VAT } by new { commissionType.CommissionEarningsTypeId, statement.DateYear, statement.DateMonth } into g
-                        select new UserEarningsTypeMonthlyCommissionData()
-                        {
-                            Month = g.Key.DateMonth,
-                            Year = g.Key.DateYear,
-                            CommissionEarningsTypeId = g.Key.CommissionEarningsTypeId,
-                            AmountExcludingVAT = g.Sum(c => (c.AmountIncludingVAT - c.VAT)),
-                        };
-            }
 
             //Apply filters ----------------------------------------------------------------------------------------
+            if (queryOptions.UserId.Any())
+                query = query.Where(d => queryOptions.UserId.Contains(d.UserId));
+
             if (queryOptions.Year.Any())
                 query = query.Where(d => queryOptions.Year.Contains(d.Year));
 
@@ -349,16 +325,25 @@ namespace OneAdvisor.Service.Commission
                 query = query.Where(d => queryOptions.Month.Contains(d.Month));
             //------------------------------------------------------------------------------------------------------
 
+
+            var groupQuery = from data in query
+                             group new { data.AmountIncludingVAT, data.VAT } by new { data.CommissionEarningsTypeId } into g
+                             select new UserEarningsTypeMonthlyCommissionData()
+                             {
+                                 CommissionEarningsTypeId = g.Key.CommissionEarningsTypeId,
+                                 AmountExcludingVAT = g.Sum(c => (c.AmountIncludingVAT - c.VAT)),
+                             };
+
             var pagedItems = new PagedItems<UserEarningsTypeMonthlyCommissionData>();
 
             //Get total items
-            pagedItems.TotalItems = await query.CountAsync();
+            pagedItems.TotalItems = await groupQuery.CountAsync();
 
             //Ordering
-            query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
+            groupQuery = groupQuery.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
 
             //Paging
-            pagedItems.Items = await query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
+            pagedItems.Items = await groupQuery.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
 
             return pagedItems;
         }
@@ -367,52 +352,27 @@ namespace OneAdvisor.Service.Commission
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
 
-            IQueryable<UserCompanyMonthlyCommissionData> query;
-
-            if (queryOptions.UserId.Any())
-            {
-                query = from commission in _context.Commission
+            var query = from commission in _context.Commission
                         join statement in _context.CommissionStatement
                             on commission.CommissionStatementId equals statement.Id
                         join policy in _context.Policy
                             on commission.PolicyId equals policy.Id
                         join user in userQuery
                             on policy.UserId equals user.Id
-                        where queryOptions.UserId.Contains(user.Id)
-                        group new { commission.AmountIncludingVAT, commission.VAT } by new { policy.UserId, user.FirstName, user.LastName, policy.CompanyId, statement.DateYear, statement.DateMonth } into g
-                        select new UserCompanyMonthlyCommissionData()
+                        select new
                         {
-                            UserId = g.Key.UserId,
-                            UserFirstName = g.Key.FirstName,
-                            UserLastName = g.Key.LastName,
-                            Month = g.Key.DateMonth,
-                            Year = g.Key.DateYear,
-                            CompanyId = g.Key.CompanyId,
-                            AmountExcludingVAT = g.Sum(c => (c.AmountIncludingVAT - c.VAT)),
+                            UserId = user.Id,
+                            Month = statement.DateMonth,
+                            Year = statement.DateYear,
+                            CompanyId = policy.CompanyId,
+                            AmountIncludingVAT = commission.AmountIncludingVAT,
+                            VAT = commission.VAT
                         };
-            }
-            else
-            {
-                query = from commission in _context.Commission
-                        join statement in _context.CommissionStatement
-                            on commission.CommissionStatementId equals statement.Id
-                        join policy in _context.Policy
-                            on commission.PolicyId equals policy.Id
-                        join user in userQuery
-                            on policy.UserId equals user.Id
-                        group new { commission.AmountIncludingVAT, commission.VAT } by new { policy.CompanyId, statement.DateYear, statement.DateMonth } into g
-                        select new UserCompanyMonthlyCommissionData()
-                        {
-                            Month = g.Key.DateMonth,
-                            Year = g.Key.DateYear,
-                            CompanyId = g.Key.CompanyId,
-                            AmountExcludingVAT = g.Sum(c => (c.AmountIncludingVAT - c.VAT)),
-                        };
-            }
-
-
 
             //Apply filters ----------------------------------------------------------------------------------------
+            if (queryOptions.UserId.Any())
+                query = query.Where(d => queryOptions.UserId.Contains(d.UserId));
+
             if (queryOptions.Year.Any())
                 query = query.Where(d => queryOptions.Year.Contains(d.Year));
 
@@ -420,16 +380,24 @@ namespace OneAdvisor.Service.Commission
                 query = query.Where(d => queryOptions.Month.Contains(d.Month));
             //------------------------------------------------------------------------------------------------------
 
+            var groupQuery = from data in query
+                             group new { data.AmountIncludingVAT, data.VAT } by new { data.CompanyId } into g
+                             select new UserCompanyMonthlyCommissionData()
+                             {
+                                 CompanyId = g.Key.CompanyId,
+                                 AmountExcludingVAT = g.Sum(c => (c.AmountIncludingVAT - c.VAT)),
+                             };
+
             var pagedItems = new PagedItems<UserCompanyMonthlyCommissionData>();
 
             //Get total items
-            pagedItems.TotalItems = await query.CountAsync();
+            pagedItems.TotalItems = await groupQuery.CountAsync();
 
             //Ordering
-            query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
+            groupQuery = groupQuery.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
 
             //Paging
-            pagedItems.Items = await query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
+            pagedItems.Items = await groupQuery.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
 
             return pagedItems;
         }

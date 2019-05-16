@@ -17,11 +17,18 @@ type Props = {
 
 class CompanyChart extends Component<Props> {
 
+    total = () => {
+        return this.props.companyRecords.reduce((p, c) => p + c.amountExcludingVAT, 0);
+    }
+
+    percent = (value: number) => {
+        return value / this.total() * 100;
+    }
+
     data = (): PieDatum[] => {
         return this.props.companyRecords
             .filter(r => r.amountExcludingVAT > 0)
             .map(r => {
-                console.log(r.companyId);
                 return {
                     id: r.companyId,
                     label: getCompanyName(r.companyId, this.props.companies),
@@ -32,12 +39,12 @@ class CompanyChart extends Component<Props> {
 
     render() {
 
-        console.log("this.props.companies", this.props.companies);
-
         return (
             <Pie
+                isLoading={this.props.fetching}
                 data={this.data()}
-                sliceLabel={(d) => formatCurrency(d.value)}
+                sliceLabel={(d) => this.percent(d.value) > 10 ? formatCurrency(d.value, 0) : ""}
+                tooltipFormat={value => formatCurrency(value, 0)}
             />
         );
     }

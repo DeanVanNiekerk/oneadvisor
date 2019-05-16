@@ -149,20 +149,10 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var items = records.Items.ToList();
                 var actual = items[0];
-                Assert.Null(actual.UserId);
-                Assert.Null(actual.UserFirstName);
-                Assert.Null(actual.UserLastName);
-                Assert.Equal(statement1.DateYear, actual.Year);
-                Assert.Equal(statement1.DateMonth, actual.Month);
                 Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
                 Assert.Equal(600, actual.AmountExcludingVAT); //100 + 200 + 300
 
                 actual = items[1];
-                Assert.Null(actual.UserId);
-                Assert.Null(actual.UserFirstName);
-                Assert.Null(actual.UserLastName);
-                Assert.Equal(statement1.DateYear, actual.Year);
-                Assert.Equal(statement1.DateMonth, actual.Month);
                 Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY, actual.CommissionEarningsTypeId);
                 Assert.Equal(400, actual.AmountExcludingVAT);
 
@@ -175,7 +165,6 @@ namespace OneAdvisor.Service.Test.Commission
 
                 items = records.Items.ToList();
                 actual = items[0];
-                Assert.Null(actual.UserId);
                 Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
                 Assert.Equal(500, actual.AmountExcludingVAT);
 
@@ -283,11 +272,6 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var items = records.Items.ToList();
                 var actual = items[0];
-                Assert.Null(actual.UserId);
-                Assert.Null(actual.UserFirstName);
-                Assert.Null(actual.UserLastName);
-                Assert.Equal(statement2.DateYear, actual.Year);
-                Assert.Equal(statement2.DateMonth, actual.Month);
                 Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
                 Assert.Equal(500, actual.AmountExcludingVAT); //200 + 300
             }
@@ -374,11 +358,6 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var items = records.Items.ToList();
                 var actual = items[0];
-                Assert.Equal(user2.User.Id, actual.UserId);
-                Assert.Equal(user2.User.FirstName, actual.UserFirstName);
-                Assert.Equal(user2.User.LastName, actual.UserLastName);
-                Assert.Equal(statement1.DateYear, actual.Year);
-                Assert.Equal(statement1.DateMonth, actual.Month);
                 Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
                 Assert.Equal(200, actual.AmountExcludingVAT);
             }
@@ -510,20 +489,10 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var items = records.Items.ToList();
                 var actual = items[0];
-                Assert.Null(actual.UserId);
-                Assert.Null(actual.UserFirstName);
-                Assert.Null(actual.UserLastName);
-                Assert.Equal(statement1.DateYear, actual.Year);
-                Assert.Equal(statement1.DateMonth, actual.Month);
                 Assert.Equal(statement1.CompanyId, actual.CompanyId);
                 Assert.Equal(100, actual.AmountExcludingVAT);
 
                 actual = items[1];
-                Assert.Null(actual.UserId);
-                Assert.Null(actual.UserFirstName);
-                Assert.Null(actual.UserLastName);
-                Assert.Equal(statement2.DateYear, actual.Year);
-                Assert.Equal(statement2.DateMonth, actual.Month);
                 Assert.Equal(statement2.CompanyId, actual.CompanyId);
                 Assert.Equal(900, actual.AmountExcludingVAT); //200 + 300 + 400
 
@@ -536,7 +505,6 @@ namespace OneAdvisor.Service.Test.Commission
 
                 items = records.Items.ToList();
                 actual = items[0];
-                Assert.Null(actual.UserId);
                 Assert.Equal(500, actual.AmountExcludingVAT);
 
             }
@@ -669,11 +637,6 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var items = records.Items.ToList();
                 var actual = items[0];
-                Assert.Equal(user2.User.Id, actual.UserId);
-                Assert.Equal(user2.User.FirstName, actual.UserFirstName);
-                Assert.Equal(user2.User.LastName, actual.UserLastName);
-                Assert.Equal(statement2.DateYear, actual.Year);
-                Assert.Equal(statement2.DateMonth, actual.Month);
                 Assert.Equal(statement2.CompanyId, actual.CompanyId);
                 Assert.Equal(900, actual.AmountExcludingVAT); //200 + 300 + 400
 

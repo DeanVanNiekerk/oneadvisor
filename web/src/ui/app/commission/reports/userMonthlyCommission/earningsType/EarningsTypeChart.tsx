@@ -19,6 +19,14 @@ type Props = {
 
 class EarningsTypeChart extends Component<Props> {
 
+    total = () => {
+        return this.props.earningsTypeRecords.reduce((p, c) => p + c.amountExcludingVAT, 0);
+    }
+
+    percent = (value: number) => {
+        return value / this.total() * 100;
+    }
+
     data = (): PieDatum[] => {
         return this.props.earningsTypeRecords
             .filter(r => r.amountExcludingVAT > 0)
@@ -29,14 +37,17 @@ class EarningsTypeChart extends Component<Props> {
                     value: r.amountExcludingVAT,
                 }
             })
+
     }
 
     render() {
 
         return (
             <Pie
+                isLoading={this.props.fetching}
                 data={this.data()}
-                sliceLabel={(d) => formatCurrency(d.value)}
+                sliceLabel={(d) => this.percent(d.value) > 10 ? formatCurrency(d.value, 0) : ""}
+                tooltipFormat={value => formatCurrency(value, 0)}
             />
         );
     }

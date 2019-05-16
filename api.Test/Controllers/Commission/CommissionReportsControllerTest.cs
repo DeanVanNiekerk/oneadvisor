@@ -96,12 +96,7 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void UserEarningsTypeMonthlyCommissionDataModelComposition()
         {
-            Assert.Equal(7, typeof(UserEarningsTypeMonthlyCommissionData).PropertyCount());
-            Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("UserId"));
-            Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("UserLastName"));
-            Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("UserFirstName"));
-            Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("Month"));
-            Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("Year"));
+            Assert.Equal(2, typeof(UserEarningsTypeMonthlyCommissionData).PropertyCount());
             Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("AmountExcludingVAT"));
             Assert.True(typeof(UserEarningsTypeMonthlyCommissionData).HasProperty("CommissionEarningsTypeId"));
         }
@@ -111,11 +106,6 @@ namespace api.Test.Controllers.Commission
         {
             var data = new UserEarningsTypeMonthlyCommissionData()
             {
-                UserId = Guid.NewGuid(),
-                UserLastName = "van Niekerk",
-                UserFirstName = "DJ",
-                Month = 1,
-                Year = 1999,
                 AmountExcludingVAT = 100,
                 CommissionEarningsTypeId = Guid.NewGuid(),
             };
@@ -139,10 +129,10 @@ namespace api.Test.Controllers.Commission
 
             var controller = new CommissionReportsController(service.Object, authService.Object);
 
-            var result = await controller.GetUserEarningsTypeMonthlyCommissionData("Year", "desc", 15, 2, $"month=9");
+            var result = await controller.GetUserEarningsTypeMonthlyCommissionData("AmountExcludingVAT", "desc", 15, 2, $"month=9");
 
             Assert.Equal(Scope.Branch, queryOptions.Scope.Scope);
-            Assert.Equal("Year", queryOptions.SortOptions.Column);
+            Assert.Equal("AmountExcludingVAT", queryOptions.SortOptions.Column);
             Assert.Equal(SortDirection.Descending, queryOptions.SortOptions.Direction);
             Assert.Equal(15, queryOptions.PageOptions.Size);
             Assert.Equal(2, queryOptions.PageOptions.Number);
@@ -159,12 +149,7 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void UserCompanyMonthlyCommissionDataModelComposition()
         {
-            Assert.Equal(7, typeof(UserCompanyMonthlyCommissionData).PropertyCount());
-            Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("UserId"));
-            Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("UserLastName"));
-            Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("UserFirstName"));
-            Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("Month"));
-            Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("Year"));
+            Assert.Equal(2, typeof(UserCompanyMonthlyCommissionData).PropertyCount());
             Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("AmountExcludingVAT"));
             Assert.True(typeof(UserCompanyMonthlyCommissionData).HasProperty("CompanyId"));
         }
@@ -174,11 +159,6 @@ namespace api.Test.Controllers.Commission
         {
             var data = new UserCompanyMonthlyCommissionData()
             {
-                UserId = Guid.NewGuid(),
-                UserLastName = "van Niekerk",
-                UserFirstName = "DJ",
-                Month = 1,
-                Year = 1999,
                 AmountExcludingVAT = 100,
                 CompanyId = Guid.NewGuid(),
             };
@@ -202,10 +182,10 @@ namespace api.Test.Controllers.Commission
 
             var controller = new CommissionReportsController(service.Object, authService.Object);
 
-            var result = await controller.GetUserCompanyMonthlyCommissionData("Year", "desc", 15, 2, $"month=9");
+            var result = await controller.GetUserCompanyMonthlyCommissionData("AmountExcludingVAT", "desc", 15, 2, $"month=9");
 
             Assert.Equal(Scope.Branch, queryOptions.Scope.Scope);
-            Assert.Equal("Year", queryOptions.SortOptions.Column);
+            Assert.Equal("AmountExcludingVAT", queryOptions.SortOptions.Column);
             Assert.Equal(SortDirection.Descending, queryOptions.SortOptions.Direction);
             Assert.Equal(15, queryOptions.PageOptions.Size);
             Assert.Equal(2, queryOptions.PageOptions.Number);

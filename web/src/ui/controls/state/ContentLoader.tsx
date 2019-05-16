@@ -2,7 +2,7 @@ import { Spin } from 'antd';
 import React, { ReactNode } from 'react';
 
 type Props = {
-    isLoading: boolean,
+    isLoading?: boolean;
     children: ReactNode
 };
 
