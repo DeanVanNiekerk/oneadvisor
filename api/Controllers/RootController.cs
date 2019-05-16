@@ -10,7 +10,7 @@ namespace api.Controllers.Client.Contacts
         [HttpGet("")]
         public IActionResult Index()
         {
-            return Ok(new { appName = "OneAdvisor API", version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString() });
+            return Ok(new { appName = "OneAdvisor API", version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString(3) });
         }
     }
 }

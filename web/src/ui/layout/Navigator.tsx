@@ -6,8 +6,10 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { hasUseCasesMenuGroups } from '@/app/identity';
 import config from '@/config/config';
 import { signOut, useCaseSelector } from '@/state/auth';
-import { applicationsSelector, currentApplicationSelector, menusSelector } from '@/state/context/selectors';
-import { Application, Menus } from '@/state/context/types';
+import {
+    applicationsSelector, contextSelector, currentApplicationSelector, menusSelector
+} from '@/state/context/selectors';
+import { AppInfo, Application, Menus } from '@/state/context/types';
 import { RootState } from '@/state/rootReducer';
 
 import { IdentityStatus } from '../controls';
@@ -37,6 +39,7 @@ type Props = {
     applications: Application[];
     currentApplication: Application;
     useCases: string[];
+    appInfo: AppInfo;
 } & RouteComponentProps &
     DispatchProp;
 class Navigator extends Component<Props> {
@@ -55,7 +58,7 @@ class Navigator extends Component<Props> {
             case "staging":
                 return "#E84855";
             default:
-                return "#000000";
+                return "#48A9A6";
         }
     };
 
@@ -66,7 +69,7 @@ class Navigator extends Component<Props> {
             case "staging":
                 return "Staging";
             default:
-                return "";
+                return `v${this.props.appInfo ? this.props.appInfo.version : ""}`;
         }
     };
 
@@ -110,18 +113,16 @@ class Navigator extends Component<Props> {
                             >
                                 ADVISOR
                             </span>
-                            {config.environment !== "production" && (
-                                <Tag
-                                    style={{
-                                        position: "absolute",
-                                        top: "35px",
-                                        left: "160px",
-                                    }}
-                                    color={this.getEnvironmentColor()}
-                                >
-                                    {this.getEnvironmentName()}
-                                </Tag>
-                            )}
+                            <Tag
+                                style={{
+                                    position: "absolute",
+                                    top: "35px",
+                                    left: "160px",
+                                }}
+                                color={this.getEnvironmentColor()}
+                            >
+                                {this.getEnvironmentName()}
+                            </Tag>
                         </Popover>
                     </div>
                     <div style={signoutStyle} onClick={this.signOut}>
@@ -163,11 +164,14 @@ class Navigator extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => {
+    const contextState = contextSelector(state);
+
     return {
         menus: menusSelector(state),
         applications: applicationsSelector(state),
         currentApplication: currentApplicationSelector(state) || {},
         useCases: useCaseSelector(state),
+        appInfo: contextState.appInfo,
     };
 };
 
