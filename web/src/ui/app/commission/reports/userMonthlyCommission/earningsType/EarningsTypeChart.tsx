@@ -48,6 +48,7 @@ class EarningsTypeChart extends Component<Props> {
                 data={this.data()}
                 sliceLabel={(d) => this.percent(d.value) > 10 ? formatCurrency(d.value, 0) : ""}
                 tooltipFormat={value => formatCurrency(value, 0)}
+                startAngle={-45}
             />
         );
     }

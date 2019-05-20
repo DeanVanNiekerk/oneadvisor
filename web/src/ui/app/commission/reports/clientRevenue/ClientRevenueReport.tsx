@@ -314,7 +314,7 @@ class ClientRevenueReport extends Component<Props, State> {
                             onChange={this.handleBranchChange}
                             placeholder="Branch"
                             allowClear={true}
-                            style={{ width: 250 }}
+                            style={{ width: 260 }}
                         >
                             {this.props.branches.map(branch => {
                                 return (
@@ -337,7 +337,7 @@ class ClientRevenueReport extends Component<Props, State> {
                             onChange={this.handleUserChange}
                             placeholder="Broker"
                             allowClear={true}
-                            style={{ width: 250 }}
+                            style={{ width: 260 }}
                         >
                             {this.props.users
                                 .filter(u =>

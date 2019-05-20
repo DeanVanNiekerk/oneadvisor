@@ -7,7 +7,6 @@ import { UserEarningsTypeMonthlyCommissionData } from './types';
 
 export type State = {
     readonly items: UserEarningsTypeMonthlyCommissionData[];
-    readonly totalItems: number;
     readonly fetching: boolean;
     readonly filters: Filters | null;
 };
@@ -22,7 +21,6 @@ const defaultFilters: Filters = {
 
 export const defaultState: State = {
     items: [],
-    totalItems: 0,
     fetching: false,
     filters: defaultFilters,
 };
@@ -35,8 +33,7 @@ export const reducer = (
         case "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_RECEIVE": {
             return {
                 ...state,
-                totalItems: action.payload.totalItems,
-                items: action.payload.items,
+                items: action.payload,
                 fetching: false,
             };
         }

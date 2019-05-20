@@ -141,13 +141,11 @@ namespace OneAdvisor.Service.Test.Commission
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
                 var queryOptions = new UserEarningsTypeMonthlyCommissionQueryOptions(scope, "", "", 0, 0);
-                var records = await service.GetUserEarningsTypeMonthlyCommissionData(queryOptions);
+                var items = (await service.GetUserEarningsTypeMonthlyCommissionData(queryOptions)).ToList();
 
                 //Then
-                Assert.Equal(2, records.TotalItems);
-                Assert.Equal(2, records.Items.Count());
+                Assert.Equal(2, items.Count());
 
-                var items = records.Items.ToList();
                 var actual = items[0];
                 Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
                 Assert.Equal(600, actual.AmountExcludingVAT); //100 + 200 + 300
@@ -159,15 +157,13 @@ namespace OneAdvisor.Service.Test.Commission
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user3);
                 queryOptions = new UserEarningsTypeMonthlyCommissionQueryOptions(scope, "", "", 0, 0);
-                records = await service.GetUserEarningsTypeMonthlyCommissionData(queryOptions);
+                items = (await service.GetUserEarningsTypeMonthlyCommissionData(queryOptions)).ToList();
 
-                Assert.Single(records.Items);
+                Assert.Single(items);
 
-                items = records.Items.ToList();
                 actual = items[0];
                 Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
                 Assert.Equal(500, actual.AmountExcludingVAT);
-
             }
         }
 
@@ -264,13 +260,11 @@ namespace OneAdvisor.Service.Test.Commission
                 var queryOptions = new UserEarningsTypeMonthlyCommissionQueryOptions(scope, "", "", 0, 0);
                 queryOptions.Year = new List<int>() { lastMonth.Year };
                 queryOptions.Month = new List<int>() { lastMonth.Month };
-                var records = await service.GetUserEarningsTypeMonthlyCommissionData(queryOptions);
+                var items = (await service.GetUserEarningsTypeMonthlyCommissionData(queryOptions)).ToList();
 
                 //Then
-                Assert.Equal(1, records.TotalItems);
-                Assert.Single(records.Items);
+                Assert.Single(items);
 
-                var items = records.Items.ToList();
                 var actual = items[0];
                 Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
                 Assert.Equal(500, actual.AmountExcludingVAT); //200 + 300
@@ -350,13 +344,11 @@ namespace OneAdvisor.Service.Test.Commission
                 var scope = TestHelper.GetScopeOptions(user1);
                 var queryOptions = new UserEarningsTypeMonthlyCommissionQueryOptions(scope, "", "", 0, 0);
                 queryOptions.UserId.Add(user2.User.Id);
-                var records = await service.GetUserEarningsTypeMonthlyCommissionData(queryOptions);
+                var items = (await service.GetUserEarningsTypeMonthlyCommissionData(queryOptions)).ToList();
 
                 //Then
-                Assert.Equal(1, records.TotalItems);
-                Assert.Single(records.Items);
+                Assert.Single(items);
 
-                var items = records.Items.ToList();
                 var actual = items[0];
                 Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
                 Assert.Equal(200, actual.AmountExcludingVAT);
@@ -481,13 +473,11 @@ namespace OneAdvisor.Service.Test.Commission
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
                 var queryOptions = new UserCompanyMonthlyCommissionQueryOptions(scope, "", "", 0, 0);
-                var records = await service.GetUserCompanyMonthlyCommissionData(queryOptions);
+                var items = (await service.GetUserCompanyMonthlyCommissionData(queryOptions)).ToList();
 
                 //Then
-                Assert.Equal(2, records.TotalItems);
-                Assert.Equal(2, records.Items.Count());
+                Assert.Equal(2, items.Count());
 
-                var items = records.Items.ToList();
                 var actual = items[0];
                 Assert.Equal(statement1.CompanyId, actual.CompanyId);
                 Assert.Equal(100, actual.AmountExcludingVAT);
@@ -499,14 +489,13 @@ namespace OneAdvisor.Service.Test.Commission
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user3);
                 queryOptions = new UserCompanyMonthlyCommissionQueryOptions(scope, "", "", 0, 0);
-                records = await service.GetUserCompanyMonthlyCommissionData(queryOptions);
+                items = (await service.GetUserCompanyMonthlyCommissionData(queryOptions)).ToList();
 
-                Assert.Single(records.Items);
+                //Then
+                Assert.Single(items);
 
-                items = records.Items.ToList();
                 actual = items[0];
                 Assert.Equal(500, actual.AmountExcludingVAT);
-
             }
         }
 
@@ -629,17 +618,14 @@ namespace OneAdvisor.Service.Test.Commission
                 var scope = TestHelper.GetScopeOptions(user1);
                 var queryOptions = new UserCompanyMonthlyCommissionQueryOptions(scope, "", "", 0, 0);
                 queryOptions.UserId.Add(user2.User.Id);
-                var records = await service.GetUserCompanyMonthlyCommissionData(queryOptions);
+                var items = (await service.GetUserCompanyMonthlyCommissionData(queryOptions)).ToList();
 
                 //Then
-                Assert.Equal(1, records.TotalItems);
-                Assert.Equal(1, records.Items.Count());
+                Assert.Single(items);
 
-                var items = records.Items.ToList();
                 var actual = items[0];
                 Assert.Equal(statement2.CompanyId, actual.CompanyId);
                 Assert.Equal(900, actual.AmountExcludingVAT); //200 + 300 + 400
-
             }
         }
     }

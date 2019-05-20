@@ -1,5 +1,5 @@
 import { appendFiltersQuery } from '@/app/query';
-import { Filters, PagedItems } from '@/app/table';
+import { Filters } from '@/app/table';
 import { ApiAction } from '@/app/types';
 import { commissionReportsApi } from '@/config/api/commission';
 
@@ -7,7 +7,7 @@ import { UserCompanyMonthlyCommissionData } from './types';
 
 type UserCompanyMonthlyCommissionDataReceiveAction = {
     type: "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_RECEIVE";
-    payload: PagedItems<UserCompanyMonthlyCommissionData>;
+    payload: UserCompanyMonthlyCommissionData[];
 };
 type UserCompanyMonthlyCommissionDataFetchingAction = {
     type: "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FETCHING";

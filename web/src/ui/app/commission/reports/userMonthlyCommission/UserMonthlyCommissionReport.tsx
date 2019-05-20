@@ -109,7 +109,7 @@ class UserMonthlyCommissionReport extends Component<Props> {
                             maxTagTextLength={15}
                             defaultValue={this.selectedUserIds()}
                             onChange={this.handleUserChange}
-                            style={{ width: 250 }}
+                            style={{ width: 260 }}
                             allowClear={true}
                             placeholder="Broker"
                         >
@@ -132,7 +132,7 @@ class UserMonthlyCommissionReport extends Component<Props> {
                             maxTagTextLength={15}
                             defaultValue={this.selectedCompanyIds()}
                             onChange={this.handleCompanyChange}
-                            style={{ width: 250 }}
+                            style={{ width: 260 }}
                             allowClear={true}
                             placeholder="Company"
                         >

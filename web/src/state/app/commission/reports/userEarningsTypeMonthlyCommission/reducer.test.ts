@@ -51,16 +51,12 @@ describe("report user monthly commission reducer", () => {
         const actualState = reducer(initalState, {
             type:
                 "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_RECEIVE",
-            payload: {
-                totalItems: 1,
-                items: [data],
-            },
+            payload: [data],
         });
 
         const expectedState = {
             ...defaultState,
             items: [data],
-            totalItems: 1,
             fetching: false,
         };
 

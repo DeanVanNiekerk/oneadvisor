@@ -290,7 +290,7 @@ namespace OneAdvisor.Service.Commission
             return builder;
         }
 
-        public async Task<PagedItems<UserEarningsTypeMonthlyCommissionData>> GetUserEarningsTypeMonthlyCommissionData(UserEarningsTypeMonthlyCommissionQueryOptions queryOptions)
+        public async Task<IEnumerable<UserEarningsTypeMonthlyCommissionData>> GetUserEarningsTypeMonthlyCommissionData(UserEarningsTypeMonthlyCommissionQueryOptions queryOptions)
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
 
@@ -338,21 +338,12 @@ namespace OneAdvisor.Service.Commission
                                  AmountExcludingVAT = g.Sum(c => (c.AmountIncludingVAT - c.VAT)),
                              };
 
-            var pagedItems = new PagedItems<UserEarningsTypeMonthlyCommissionData>();
-
-            //Get total items
-            pagedItems.TotalItems = await groupQuery.CountAsync();
-
-            //Ordering
             groupQuery = groupQuery.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
 
-            //Paging
-            pagedItems.Items = await groupQuery.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
-
-            return pagedItems;
+            return await groupQuery.ToListAsync();
         }
 
-        public async Task<PagedItems<UserCompanyMonthlyCommissionData>> GetUserCompanyMonthlyCommissionData(UserCompanyMonthlyCommissionQueryOptions queryOptions)
+        public async Task<IEnumerable<UserCompanyMonthlyCommissionData>> GetUserCompanyMonthlyCommissionData(UserCompanyMonthlyCommissionQueryOptions queryOptions)
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
 
@@ -395,18 +386,9 @@ namespace OneAdvisor.Service.Commission
                                  AmountExcludingVAT = g.Sum(c => (c.AmountIncludingVAT - c.VAT)),
                              };
 
-            var pagedItems = new PagedItems<UserCompanyMonthlyCommissionData>();
-
-            //Get total items
-            pagedItems.TotalItems = await groupQuery.CountAsync();
-
-            //Ordering
             groupQuery = groupQuery.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
 
-            //Paging
-            pagedItems.Items = await groupQuery.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
-
-            return pagedItems;
+            return await groupQuery.ToListAsync();
         }
     }
 }

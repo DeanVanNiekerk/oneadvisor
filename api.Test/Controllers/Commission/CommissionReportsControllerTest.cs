@@ -110,14 +110,10 @@ namespace api.Test.Controllers.Commission
                 CommissionEarningsTypeId = Guid.NewGuid(),
             };
 
-            var pagedItems = new PagedItems<UserEarningsTypeMonthlyCommissionData>()
-            {
-                TotalItems = 1,
-                Items = new List<UserEarningsTypeMonthlyCommissionData>()
+            var items = new List<UserEarningsTypeMonthlyCommissionData>()
                 {
                     data
-                }
-            };
+                };
 
             var service = new Mock<ICommissionReportService>();
             var authService = TestHelper.MockAuthenticationService(Scope.Branch);
@@ -125,7 +121,7 @@ namespace api.Test.Controllers.Commission
             UserEarningsTypeMonthlyCommissionQueryOptions queryOptions = null;
             service.Setup(c => c.GetUserEarningsTypeMonthlyCommissionData(It.IsAny<UserEarningsTypeMonthlyCommissionQueryOptions>()))
                 .Callback((UserEarningsTypeMonthlyCommissionQueryOptions options) => queryOptions = options)
-                .ReturnsAsync(pagedItems);
+                .ReturnsAsync(items);
 
             var controller = new CommissionReportsController(service.Object, authService.Object);
 
@@ -140,9 +136,9 @@ namespace api.Test.Controllers.Commission
             Assert.Equal(9, queryOptions.Month.Single());
 
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var returnValue = Assert.IsType<PagedItems<UserEarningsTypeMonthlyCommissionData>>(okResult.Value);
+            var returnValue = Assert.IsType<List<UserEarningsTypeMonthlyCommissionData>>(okResult.Value);
 
-            Assert.Same(pagedItems, returnValue);
+            Assert.Same(items, returnValue);
         }
 
 
@@ -163,13 +159,9 @@ namespace api.Test.Controllers.Commission
                 CompanyId = Guid.NewGuid(),
             };
 
-            var pagedItems = new PagedItems<UserCompanyMonthlyCommissionData>()
+            var items = new List<UserCompanyMonthlyCommissionData>()
             {
-                TotalItems = 1,
-                Items = new List<UserCompanyMonthlyCommissionData>()
-                {
-                    data
-                }
+                data
             };
 
             var service = new Mock<ICommissionReportService>();
@@ -178,7 +170,7 @@ namespace api.Test.Controllers.Commission
             UserCompanyMonthlyCommissionQueryOptions queryOptions = null;
             service.Setup(c => c.GetUserCompanyMonthlyCommissionData(It.IsAny<UserCompanyMonthlyCommissionQueryOptions>()))
                 .Callback((UserCompanyMonthlyCommissionQueryOptions options) => queryOptions = options)
-                .ReturnsAsync(pagedItems);
+                .ReturnsAsync(items);
 
             var controller = new CommissionReportsController(service.Object, authService.Object);
 
@@ -193,9 +185,9 @@ namespace api.Test.Controllers.Commission
             Assert.Equal(9, queryOptions.Month.Single());
 
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var returnValue = Assert.IsType<PagedItems<UserCompanyMonthlyCommissionData>>(okResult.Value);
+            var returnValue = Assert.IsType<List<UserCompanyMonthlyCommissionData>>(okResult.Value);
 
-            Assert.Same(pagedItems, returnValue);
+            Assert.Same(items, returnValue);
         }
     }
 }
