@@ -15,6 +15,8 @@ using OneAdvisor.Import.Excel.Readers;
 using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 using OneAdvisor.Model.Directory.Model.Role;
+using OneAdvisor.Model.Storage.Interface;
+using OneAdvisor.Model.Storage.Model.Path.Commission;
 
 namespace api.Controllers.Commission.Import
 {
@@ -23,16 +25,21 @@ namespace api.Controllers.Commission.Import
     [Route("api/commission/import")]
     public class ImportController : Controller
     {
-        public ImportController(ICommissionImportService commissionImportService, ICommissionStatementTemplateService commissionStatementTemplateService, IAuthenticationService authenticationService)
+        public ImportController(ICommissionImportService commissionImportService,
+            ICommissionStatementTemplateService commissionStatementTemplateService,
+            IAuthenticationService authenticationService,
+            IFileStorageService fileStorageService)
         {
             CommissionImportService = commissionImportService;
             AuthenticationService = authenticationService;
             CommissionStatementTemplateService = commissionStatementTemplateService;
+            FileStorageService = fileStorageService;
         }
 
         private ICommissionImportService CommissionImportService { get; }
         private IAuthenticationService AuthenticationService { get; }
         private ICommissionStatementTemplateService CommissionStatementTemplateService { get; }
+        private IFileStorageService FileStorageService { get; }
 
 
         [HttpPost("excel/{commissionStatementId}")]
@@ -55,10 +62,17 @@ namespace api.Controllers.Commission.Import
             else
                 config = await CommissionStatementTemplateService.GetDefaultConfig();
 
-            var reader = new CommissionImportReader(config);
-            var items = reader.Read(file.OpenReadStream());
+            using (var stream = file.OpenReadStream())
+            {
+                var reader = new CommissionImportReader(config);
+                var items = reader.Read(stream);
 
-            await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
+                await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
+
+                stream.Position = 0;
+                var path = new CommissionStatementPath(scope.OrganisationId, commissionStatementId, file.Name);
+                var storageName = await FileStorageService.AddFileAsync(path, stream);
+            }
 
             return Ok();
         }

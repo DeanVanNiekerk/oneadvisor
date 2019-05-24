@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using api.App.Models;
 using Microsoft.AspNetCore.Http;
+using OneAdvisor.Model.Config.Options;
 using OneAdvisor.Model.Directory.Model.User;
 
 namespace api.App.Token

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using api.App.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +26,9 @@ using OneAdvisor.Service.Common.BulkActions;
 using OneAdvisor.Service.Directory;
 using OneAdvisor.Service.Client;
 using Swashbuckle.AspNetCore.Swagger;
+using OneAdvisor.Model.Config.Options;
+using OneAdvisor.Model.Storage.Interface;
+using OneAdvisor.Service.Storage;
 
 namespace api.App.Setup
 {
@@ -83,6 +85,7 @@ namespace api.App.Setup
 
             Services.Configure<JwtOptions>(Configuration.GetSection("Auth:Jwt"));
             Services.Configure<AppOptions>(Configuration.GetSection("App"));
+            Services.Configure<ConnectionOptions>(Configuration.GetSection("ConnectionStrings"));
             Services.Configure<IdentityOptions>(options => options.ClaimsIdentity.RoleClaimType = ClaimTypes.Role);
         }
 
@@ -95,6 +98,9 @@ namespace api.App.Setup
 
             //ACCOUNT
             Services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+            //STORAGE
+            Services.AddScoped<IFileStorageService, FileStorageService>();
 
             //DIRECTORY
             Services.AddScoped<IUserService, UserService>();

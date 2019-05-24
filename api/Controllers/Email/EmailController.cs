@@ -1,11 +1,11 @@
 using System;
 using System.Threading.Tasks;
-using api.App.Models;
 using api.App.Token;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Common;
+using OneAdvisor.Model.Config.Options;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Email;
 

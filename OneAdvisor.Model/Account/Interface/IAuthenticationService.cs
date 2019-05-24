@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using OneAdvisor.Model.Account.Model.Account;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Common;
+using OneAdvisor.Model.Config.Options;
 
 namespace OneAdvisor.Model.Account.Interface
 {

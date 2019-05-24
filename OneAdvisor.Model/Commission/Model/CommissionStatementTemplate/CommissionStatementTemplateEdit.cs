@@ -8,6 +8,6 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate
         public Guid? Id { get; set; }
         public Guid? CompanyId { get; set; }
         public string Name { get; set; }
-        public Config Config { get; set; }
+        public OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration.Config Config { get; set; }
     }
 }

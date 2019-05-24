@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using api.App.Models;
 using api.App.Token;
 using api.Controllers.Account.Authentication.Dto;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +9,7 @@ using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Account.Model.Account;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Common;
+using OneAdvisor.Model.Config.Options;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Email;
 

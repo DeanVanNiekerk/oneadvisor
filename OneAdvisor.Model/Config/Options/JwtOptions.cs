@@ -1,4 +1,4 @@
-namespace OneAdvisor.Model.Account.Model.Authentication
+namespace OneAdvisor.Model.Config.Options
 {
     public class JwtOptions
     {

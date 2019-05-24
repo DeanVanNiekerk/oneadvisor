@@ -1,4 +1,4 @@
-namespace api.App.Models
+namespace OneAdvisor.Model.Config.Options
 {
     public class AppOptions
     {

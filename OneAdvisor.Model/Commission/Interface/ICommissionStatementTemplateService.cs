@@ -13,6 +13,6 @@ namespace OneAdvisor.Model.Commission.Interface
         Task<CommissionStatementTemplateEdit> GetTemplate(Guid templateId);
         Task<Result> UpdateTemplate(CommissionStatementTemplateEdit template);
         Task<Result> InsertTemplate(CommissionStatementTemplateEdit template);
-        Task<Config> GetDefaultConfig();
+        Task<OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration.Config> GetDefaultConfig();
     }
 }

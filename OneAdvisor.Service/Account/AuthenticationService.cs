@@ -15,6 +15,7 @@ using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Account.Model.Account;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Common;
+using OneAdvisor.Model.Config.Options;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Role;
 using OneAdvisor.Model.Directory.Model.User;
