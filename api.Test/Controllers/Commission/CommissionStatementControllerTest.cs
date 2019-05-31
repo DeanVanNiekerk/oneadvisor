@@ -9,6 +9,7 @@ using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.User;
+using OneAdvisor.Model.Storage.Interface;
 using Xunit;
 
 namespace api.Test.Controllers.Commission
@@ -93,7 +94,7 @@ namespace api.Test.Controllers.Commission
                 .Callback((CommissionStatementQueryOptions options) => queryOptions = options)
                 .ReturnsAsync(pagedItems);
 
-            var controller = new CommissionStatementsController(service.Object, authService.Object);
+            var controller = new CommissionStatementsController(service.Object, authService.Object, null);
 
             var result = await controller.Index("date", "desc", 15, 2, $"commissionStatementId={statement.Id}");
 
@@ -130,7 +131,7 @@ namespace api.Test.Controllers.Commission
             service.Setup(c => c.GetCommissionStatement(It.IsAny<ScopeOptions>(), It.Is<Guid>(m => m == statement.Id.Value)))
                 .ReturnsAsync(statement);
 
-            var controller = new CommissionStatementsController(service.Object, authService.Object);
+            var controller = new CommissionStatementsController(service.Object, authService.Object, null);
 
             var result = await controller.Get(statement.Id.Value);
 
@@ -149,7 +150,7 @@ namespace api.Test.Controllers.Commission
             service.Setup(c => c.GetCommissionStatement(It.IsAny<ScopeOptions>(), It.IsAny<Guid>()))
                 .ReturnsAsync((CommissionStatementEdit)null);
 
-            var controller = new CommissionStatementsController(service.Object, authService.Object);
+            var controller = new CommissionStatementsController(service.Object, authService.Object, null);
 
             var result = await controller.Get(Guid.NewGuid());
 
@@ -187,7 +188,7 @@ namespace api.Test.Controllers.Commission
                 })
                 .ReturnsAsync(result);
 
-            var controller = new CommissionStatementsController(service.Object, authService.Object);
+            var controller = new CommissionStatementsController(service.Object, authService.Object, null);
 
             var actual = await controller.Insert(statement);
 
@@ -231,7 +232,7 @@ namespace api.Test.Controllers.Commission
                 })
                 .ReturnsAsync(result);
 
-            var controller = new CommissionStatementsController(service.Object, authService.Object);
+            var controller = new CommissionStatementsController(service.Object, authService.Object, null);
 
             var actual = await controller.Update(statement.Id.Value, statement);
 
@@ -250,6 +251,7 @@ namespace api.Test.Controllers.Commission
             var commissionStatementId = Guid.NewGuid();
 
             var service = new Mock<ICommissionStatementService>();
+            var fileStorageService = new Mock<IFileStorageService>();
             var authService = TestHelper.MockAuthenticationService(Scope.Branch);
 
             var result = new Result()
@@ -268,7 +270,7 @@ namespace api.Test.Controllers.Commission
                 })
                 .Returns(Task.CompletedTask);
 
-            var controller = new CommissionStatementsController(service.Object, authService.Object);
+            var controller = new CommissionStatementsController(service.Object, authService.Object, fileStorageService.Object);
 
             var actual = await controller.DeleteCommissions(commissionStatementId);
 
