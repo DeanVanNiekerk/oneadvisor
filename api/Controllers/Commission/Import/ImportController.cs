@@ -68,8 +68,10 @@ namespace api.Controllers.Commission.Import
                 var items = reader.Read(stream);
 
                 await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
+            }
 
-                stream.Position = 0;
+            using (var stream = file.OpenReadStream())
+            {
                 var path = new CommissionStatementPath(scope.OrganisationId, commissionStatementId, file.Name);
                 var storageName = await FileStorageService.AddFileAsync(path, stream);
             }

@@ -1,16 +1,16 @@
-import { Icon, Popover } from 'antd';
+import { Icon, Popconfirm, Popover } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { getColumnEDS, PageOptions, SortOptions } from '@/app/table';
 import { formatCurrency, splitCamelCase } from '@/app/utils';
 import {
-    CommissionError, commissionErrorsSelector, CommissionImportData, fetchErrors, fetchMappingError, receivePageOptions,
-    receiveSortOptions
+    CommissionError, commissionErrorsSelector, CommissionImportData, deleteMappingError, fetchErrors, fetchMappingError,
+    receivePageOptions, receiveSortOptions
 } from '@/state/app/commission/errors';
 import { Statement } from '@/state/app/commission/statements';
 import { RootState } from '@/state/rootReducer';
-import { Table } from '@/ui/controls';
+import { StopPropagation, Table } from '@/ui/controls';
 
 import EditMappingError from '../mapping/EditMappingError';
 
@@ -61,6 +61,16 @@ class ErrorList extends Component<Props> {
         this.props.onUpdate();
     };
 
+    deleteError = (id: string) => {
+        this.props.dispatch(
+            deleteMappingError(
+                this.props.statement.id,
+                id,
+                this.loadErrors
+            )
+        );
+    };
+
     onFormClose = (cancelled: boolean) => {
         if (!cancelled) this.loadErrors();
     };
@@ -90,6 +100,24 @@ class ErrorList extends Component<Props> {
 
     getColumns = () => {
         return [
+            getColumnEDS("data", "Excel", {
+                align: "center",
+                render: (data: CommissionImportData) => {
+                    return (
+                        <Popover
+                            content={this.errorData(data)}
+                            title="Excel Data"
+                            placement="leftTop"
+                            style={{
+                                width: "450px",
+                            }}
+                        >
+                            <Icon type="info-circle" />
+                        </Popover>
+                    );
+                },
+                sorter: false,
+            }),
             getColumnEDS("data", "Policy Number", {
                 render: (data: CommissionImportData) => {
                     return data.policyNumber;
@@ -108,23 +136,25 @@ class ErrorList extends Component<Props> {
                 },
                 sorter: false,
             }),
-            getColumnEDS("data", "Excel Data", {
-                render: (data: CommissionImportData) => {
+
+            getColumnEDS("id", "Actions", {
+                render: (id: string) => {
                     return (
-                        <Popover
-                            content={this.errorData(data)}
-                            title="Excel Data"
-                            placement="leftTop"
-                            style={{
-                                width: "450px",
-                            }}
-                        >
-                            <Icon type="file-excel" />
-                        </Popover>
+                        <StopPropagation>
+                            <Popconfirm
+                                title="Are you sure remove this commission record?"
+                                onConfirm={() => this.deleteError(id)}
+                                okText="Yes"
+                                cancelText="No"
+                            >
+                                <a href="#">Remove</a>
+                            </Popconfirm>
+                        </StopPropagation>
                     );
                 },
                 sorter: false,
             }),
+
         ];
     };
 
