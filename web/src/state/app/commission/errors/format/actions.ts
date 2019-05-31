@@ -63,3 +63,14 @@ export const resolveFormatError = (
     onSuccess: onSuccess,
     dispatchPrefix: "COMMISSIONS_ERROR_FORMAT_EDIT",
 });
+
+export const deleteFormatError = (
+    statementId: string,
+    commissionErrorId: string,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
+    type: "API",
+    endpoint: `${statementsApi}/${statementId}/errors/${commissionErrorId}`,
+    method: "DELETE",
+    onSuccess: onSuccess,
+});

@@ -72,3 +72,14 @@ export const resolveMappingError = (
     onSuccess: onSuccess,
     dispatchPrefix: "COMMISSIONS_ERROR_MAPPING_EDIT",
 });
+
+export const deleteMappingError = (
+    statementId: string,
+    commissionErrorId: string,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
+    type: "API",
+    endpoint: `${statementsApi}/${statementId}/errors/${commissionErrorId}`,
+    method: "DELETE",
+    onSuccess: onSuccess,
+});

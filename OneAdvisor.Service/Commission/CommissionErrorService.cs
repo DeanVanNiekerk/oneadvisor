@@ -147,7 +147,7 @@ namespace OneAdvisor.Service.Commission
             if (!result.Success)
                 return result;
 
-            await DeleteCommissionError(scope, error);
+            await DeleteError(scope, error.Id);
 
             result.Tag = commission;
 
@@ -179,15 +179,17 @@ namespace OneAdvisor.Service.Commission
             }
         }
 
-        private async Task DeleteCommissionError(ScopeOptions scope, CommissionErrorEdit error)
+        public async Task<Result> DeleteError(ScopeOptions scope, Guid commissionErrorId)
         {
-            var entity = await GetCommissionErrorEntityQuery(scope).FirstOrDefaultAsync(e => e.Id == error.Id);
+            var entity = await GetCommissionErrorEntityQuery(scope).FirstOrDefaultAsync(e => e.Id == commissionErrorId);
 
             if (entity == null)
-                return;
+                return new Result();
 
             _context.CommissionError.Remove(entity);
             await _context.SaveChangesAsync();
+
+            return new Result(true);
         }
 
         private IQueryable<CommissionErrorEntity> GetCommissionErrorEntityQuery(ScopeOptions scope)

@@ -99,6 +99,20 @@ namespace api.Controllers.Commission.CommissionError
 
             return Ok(results);
         }
+
+        [HttpDelete("errors/{commissionErrorId}")]
+        [UseCaseAuthorize("com_edit_commission_statements")]
+        public async Task<IActionResult> Delete(Guid commissionErrorId)
+        {
+            var scope = AuthenticationService.GetScope(User);
+
+            var result = await CommissionErrorService.DeleteError(scope, commissionErrorId);
+
+            if (!result.Success)
+                return BadRequest(result.ValidationFailures);
+
+            return Ok(result);
+        }
     }
 
 }

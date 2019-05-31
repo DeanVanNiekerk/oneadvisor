@@ -289,5 +289,42 @@ namespace api.Test.Controllers.Commission
 
             Assert.Same(result, returnValue);
         }
+
+        [Fact]
+        public async Task Delete()
+        {
+            var commissionErrorId = Guid.NewGuid();
+
+            var service = new Mock<ICommissionErrorService>();
+            var authService = TestHelper.MockAuthenticationService(Scope.Branch);
+
+            var result = new Result()
+            {
+                Success = true
+            };
+
+            ScopeOptions options = null;
+            Guid deleted = Guid.Empty;
+
+            service.Setup(c => c.DeleteError(It.IsAny<ScopeOptions>(), It.Is<Guid>(m => m == commissionErrorId)))
+                .Callback((ScopeOptions o, Guid d) =>
+                {
+                    deleted = d;
+                    options = o;
+                })
+                .ReturnsAsync(result);
+
+            var controller = new CommissionErrorController(service.Object, authService.Object);
+
+            var actual = await controller.Delete(commissionErrorId);
+
+            Assert.Equal(commissionErrorId, deleted);
+            Assert.Equal(Scope.Branch, options.Scope);
+
+            var okResult = Assert.IsType<OkObjectResult>(actual);
+            var returnValue = Assert.IsType<Result>(okResult.Value);
+
+            Assert.Same(result, returnValue);
+        }
     }
 }

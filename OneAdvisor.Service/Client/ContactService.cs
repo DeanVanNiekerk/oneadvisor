@@ -110,8 +110,6 @@ namespace OneAdvisor.Service.Client
 
         public async Task<Result> DeleteContact(ScopeOptions scope, Guid contactId)
         {
-            var result = new Result();
-
             var entity = await GetContactEntityQuery(scope).FirstOrDefaultAsync(b => b.Id == contactId);
 
             if (entity == null)

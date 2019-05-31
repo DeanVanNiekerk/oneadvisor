@@ -839,5 +839,77 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Empty(results.Items);
             }
         }
+
+        [Fact]
+        public async Task DeleteError()
+        {
+            var options = TestHelper.GetDbContext("DeleteError");
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
+            var policy1 = TestHelper.InsertPolicy(options, client1, user1);
+            var statement1 = TestHelper.InsertCommissionStatement(options, user1.Organisation);
+
+            var user2 = TestHelper.InsertUserDetailed(options);
+            var client2 = TestHelper.InsertClient(options, user2.Organisation);
+            var policy2 = TestHelper.InsertPolicy(options, client2, user2);
+            var statement2 = TestHelper.InsertCommissionStatement(options, user2.Organisation);
+
+
+            var error1 = new CommissionErrorEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionStatementId = statement1.Id,
+                IsFormatValid = true,
+                PolicyId = policy1.Id,
+                ClientId = client1.Client.Id,
+                CommissionTypeId = Guid.NewGuid(),
+                Data = new ImportCommission()
+            };
+
+            var error2 = new CommissionErrorEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionStatementId = statement2.Id,
+                IsFormatValid = false,
+                PolicyId = policy2.Id,
+                ClientId = client2.Client.Id,
+                CommissionTypeId = Guid.NewGuid(),
+                Data = new ImportCommission()
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.CommissionError.Add(error1);
+                context.CommissionError.Add(error2);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new CommissionErrorService(context, null, null);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1);
+                var result = await service.DeleteError(scope, error1.Id);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.CommissionError.FindAsync(error1.Id);
+                Assert.Null(actual);
+
+                //Scope check
+                scope = TestHelper.GetScopeOptions(user1);
+                result = await service.DeleteError(scope, error2.Id);
+
+                //Then
+                Assert.False(result.Success);
+
+                actual = await context.CommissionError.FindAsync(error2.Id);
+                Assert.NotNull(actual);
+            }
+        }
     }
 }
