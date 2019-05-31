@@ -16,6 +16,7 @@ namespace OneAdvisor.Service.Storage
     public class FileStorageService : IFileStorageService
     {
         private readonly string METADATA_FILENAME = "FileName";
+        private readonly string METADATA_DELETED = "Deleted";
 
         private CloudStorageAccount _account;
 
@@ -64,13 +65,22 @@ namespace OneAdvisor.Service.Storage
                     var blob = new CloudBlob(result.Uri, _account.Credentials);
                     await blob.FetchAttributesAsync();
 
+                    var deleted = false;
+                    var deletedString = "";
+                    var success = blob.Metadata.TryGetValue(METADATA_DELETED, out deletedString);
+                    if (success)
+                        deleted = Boolean.TrueString == deletedString;
+
+                    if (deleted)
+                        continue;
+
                     var file = new CloudFileInfo()
                     {
                         Name = blob.Metadata[METADATA_FILENAME],
                         StorageName = blob.Name,
                         Size = blob.Properties.Length,
                         LastModified = blob.Properties.LastModified,
-                        DownloadLink = result.Uri.AbsoluteUri
+                        Url = result.Uri.AbsoluteUri
                     };
 
                     items.Add(file);
@@ -90,6 +100,15 @@ namespace OneAdvisor.Service.Storage
             await blob.DownloadToStreamAsync(stream);
 
             return blob.Metadata[METADATA_FILENAME];
+        }
+
+        public async Task SoftDeleteFile(string url)
+        {
+            var blob = new CloudBlob(new Uri(url), _account.Credentials);
+
+            blob.Metadata[METADATA_DELETED] = true.ToString();
+
+            await blob.SetMetadataAsync();
         }
 
         public async Task DeleteFile(string url)

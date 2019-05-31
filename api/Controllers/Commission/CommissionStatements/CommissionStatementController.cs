@@ -9,6 +9,8 @@ using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Role;
+using OneAdvisor.Model.Storage.Interface;
+using OneAdvisor.Model.Storage.Model.Path.Commission;
 
 namespace api.Controllers.Commission.CommissionStatements
 {
@@ -16,14 +18,16 @@ namespace api.Controllers.Commission.CommissionStatements
     [Route("api/commission/statements")]
     public class CommissionStatementsController : Controller
     {
-        public CommissionStatementsController(ICommissionStatementService commissionStatementService, IAuthenticationService authenticationService)
+        public CommissionStatementsController(ICommissionStatementService commissionStatementService, IAuthenticationService authenticationService, IFileStorageService fileStorageService)
         {
             CommissionStatementService = commissionStatementService;
             AuthenticationService = authenticationService;
+            FileStorageService = fileStorageService;
         }
 
         private ICommissionStatementService CommissionStatementService { get; }
         private IAuthenticationService AuthenticationService { get; }
+        private IFileStorageService FileStorageService { get; }
 
 
         [HttpGet("")]
@@ -89,6 +93,12 @@ namespace api.Controllers.Commission.CommissionStatements
             var scope = AuthenticationService.GetScope(User);
 
             await CommissionStatementService.DeleteCommissions(scope, commissionStatementId);
+
+            var path = new CommissionStatementPath(scope.OrganisationId, commissionStatementId);
+            var files = await FileStorageService.GetFilesAsync(path);
+
+            foreach (var file in files)
+                await FileStorageService.SoftDeleteFile(file.Url);
 
             return Ok(new Result(true));
         }

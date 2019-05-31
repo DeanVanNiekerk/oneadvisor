@@ -12,5 +12,6 @@ namespace OneAdvisor.Model.Storage.Interface
         Task<IEnumerable<CloudFileInfo>> GetFilesAsync(PathBase path);
         Task<string> GetFile(string url, Stream stream);
         Task DeleteFile(string url);
+        Task SoftDeleteFile(string url);
     }
 }

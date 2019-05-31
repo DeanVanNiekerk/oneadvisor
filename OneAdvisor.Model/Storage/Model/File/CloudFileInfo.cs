@@ -6,7 +6,7 @@ namespace OneAdvisor.Model.Storage.Model.File
     {
         public string Name { get; set; }
         public string StorageName { get; set; }
-        public string DownloadLink { get; set; }
+        public string Url { get; set; }
         public long Size { get; set; }
         public DateTimeOffset? LastModified { get; set; }
     }
