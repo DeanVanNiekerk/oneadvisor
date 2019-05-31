@@ -22,7 +22,7 @@ using System.Collections.Generic;
 
 namespace OneAdvisor.Service.IntegrationTest.Commission
 {
-
+    /*
     public class CommissionReportServiceTest : TestBase
     {
         [Fact]
@@ -937,4 +937,5 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             }
         }
     }
+     */
 }
