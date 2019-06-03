@@ -8,7 +8,8 @@ import { FormLayout } from './Form';
 const FormItem = Form.Item;
 
 type Props = {
-    label?: string;
+    label?: React.ReactNode;
+    extra?: React.ReactNode;
     children: ReactNode;
     value?: any;
     fieldName?: string;
@@ -41,18 +42,19 @@ class FormField extends React.Component<Props> {
 
     render() {
         const errorText = this.getErrorText();
-        const { label, children, layout, loading } = this.props;
+        const { label, children, layout, loading, extra } = this.props;
 
         const formItemLayout =
             layout === 'horizontal'
                 ? {
-                      labelCol: { span: 6 },
-                      wrapperCol: { span: 18 }
-                  }
+                    labelCol: { span: 6 },
+                    wrapperCol: { span: 18 }
+                }
                 : null;
 
         return (
             <FormItem
+                extra={extra}
                 label={label}
                 validateStatus={errorText ? 'error' : undefined}
                 help={errorText}

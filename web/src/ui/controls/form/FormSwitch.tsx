@@ -8,7 +8,8 @@ import { FormField } from './FormField';
 
 type Props = {
     fieldName: string;
-    label: string;
+    label: React.ReactNode;
+    extra?: React.ReactNode;
     value: boolean | undefined;
     disabled?: boolean;
     onChange?: (fieldName: string, value: any) => void;
@@ -31,12 +32,14 @@ class FormSwitch extends Component<Props> {
             validationResults,
             disabled = false,
             layout,
-            readonly
+            readonly,
+            extra
         } = this.props;
 
         return (
             <FormField
                 label={label}
+                extra={extra}
                 fieldName={fieldName}
                 validationResults={validationResults}
                 value={value}

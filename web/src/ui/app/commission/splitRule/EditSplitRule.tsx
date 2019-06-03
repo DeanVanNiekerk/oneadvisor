@@ -7,7 +7,7 @@ import {
     insertSplitRule, receiveSplitRule, SplitRule, splitRuleSelector, updateSplitRule
 } from '@/state/app/commission/splitRules';
 import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter, UserName } from '@/ui/controls';
+import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
 import { showConfirm } from '@/ui/feedback/modal/confirm';
 
 import SplitRuleForm from './SplitRuleForm';
@@ -92,19 +92,10 @@ class EditSplitRule extends Component<Props, State> {
 
         const { splitRule } = this.props;
 
-        let prefix = "New Commission Split Rule for ";
-        if (splitRule && splitRule.id) prefix = "Edit CommissionSplit Rule for ";
+        if (splitRule && splitRule.id)
+            return "Edit Commission Split Rule";
 
-        return (
-            <UserName
-                prefix={prefix}
-                userId={
-                    this.props.splitRule
-                        ? this.props.splitRule.userId
-                        : ""
-                }
-            />
-        );
+        return "New Commission Split Rule";
     };
 
     render() {
