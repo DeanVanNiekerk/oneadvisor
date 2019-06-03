@@ -68,6 +68,8 @@ class FormInputNumber extends Component<Props> {
                     }}
                     autoFocus={autoFocus}
                     step={step}
+                    min={this.props.min}
+                    max={this.props.max}
                 />
             </FormField>
         );

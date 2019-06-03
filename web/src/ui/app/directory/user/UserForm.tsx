@@ -12,12 +12,13 @@ import { Role } from '@/state/app/directory/roles';
 import { UserEdit } from '@/state/app/directory/users';
 import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
-import { Form, FormErrors, FormInput, FormSelect, FormSimpleList, TabPane, Tabs } from '@/ui/controls';
+import { Form, FormErrors, FormInput, FormSelect, FormSimpleList, Secure, TabPane, Tabs } from '@/ui/controls';
 
+import SplitRuleList from '../../commission/splitRule/SplitRuleList';
 import BranchSelect from './BranchSelect';
 import Emails from './Emails';
 
-type TabKey = "details_tab" | "roles_tab" | "aliases_tab" | "emails_tab";
+type TabKey = "details_tab" | "roles_tab" | "aliases_tab" | "emails_tab" | "commission_tab";
 
 type Props = {
     user: UserEdit;
@@ -205,6 +206,11 @@ class UserForm extends Component<Props, State> {
                     {user.id && (
                         <TabPane tab="Email" key="emails_tab">
                             <Emails userId={user.id} />
+                        </TabPane>
+                    )}
+                    {user.id && hasUseCase("com_view_commission_split_rules", this.props.useCases) && (
+                        <TabPane tab="Commission" key="commission_tab">
+                            <SplitRuleList userId={user.id} />
                         </TabPane>
                     )}
                 </Tabs>

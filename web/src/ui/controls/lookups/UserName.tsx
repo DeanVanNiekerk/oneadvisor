@@ -7,6 +7,7 @@ import { RootState } from '@/state/rootReducer';
 type Props = {
     users: UserSimple[];
     userId: string;
+    prefix?: string;
 };
 
 class UserNameComponent extends Component<Props> {
@@ -17,7 +18,7 @@ class UserNameComponent extends Component<Props> {
 
         if (!user) return <span />;
 
-        return <span>{`${user.firstName} ${user.lastName}`}</span>;
+        return <span>{`${this.props.prefix || ""}${user.firstName} ${user.lastName}`}</span>;
     }
 }
 

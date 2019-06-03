@@ -38,6 +38,19 @@ namespace OneAdvisor.Data.Migrations
                 columns: new[] { "Id", "ApplicationId", "Name" },
                 values: new object[] { "com_view_commission_split_rules", new Guid("2fca4500-9142-4940-aaf4-b18925c96d66"), "View Commission Split Rules" });
 
+            migrationBuilder.Sql(@"
+                INSERT INTO dir_RoleToUseCase
+                    SELECT Id, 'com_view_commission_split_rules'
+                    FROM idn_Role
+                    WHERE Name = 'com_administrator'
+                    OR Name = 'com_readonly'
+
+                INSERT INTO dir_RoleToUseCase
+                    SELECT Id, 'com_edit_commission_split_rules'
+                    FROM idn_Role
+                    WHERE Name = 'com_administrator'
+                ");
+
             migrationBuilder.CreateIndex(
                 name: "IX_idn_User_BranchId",
                 table: "idn_User",

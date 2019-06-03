@@ -23,7 +23,7 @@ namespace OneAdvisor.Service.Commission.Validators
             RuleFor(c => c.Name).NotEmpty();
             RuleFor(c => c.UserId).NotEmpty();
             RuleFor(c => c.UserId).UserMustBeInScope(context, scope);
-            RuleFor(c => c.Split).Must(AddUpTo100Percent).WithMessage("Split Percentages must add up to 100");
+            RuleFor(c => c.Split).Must(AddUpTo100Percent).WithMessage("Split Percentages must add up to 100%");
             RuleForEach(c => c.Split).SetValidator(new CommissionSplitValidator(context, scope));
         }
 
@@ -39,7 +39,7 @@ namespace OneAdvisor.Service.Commission.Validators
         public CommissionSplitValidator(DataContext context, ScopeOptions scope)
         {
             RuleFor(c => c.UserId).UserMustBeInScope(context, scope);
-            RuleFor(c => c.Percentage).InclusiveBetween(0, 100);
+            RuleFor(c => c.Percentage).InclusiveBetween(1, 100);
         }
     }
 }
