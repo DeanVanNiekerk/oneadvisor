@@ -10,6 +10,11 @@ namespace OneAdvisor.Data.Entities.Commission
 {
     public class CommissionAllocationEntity
     {
+        public CommissionAllocationEntity()
+        {
+            PolicyIds = new List<Guid>();
+        }
+
         [Key]
         public Guid Id { get; set; }
         [Required]

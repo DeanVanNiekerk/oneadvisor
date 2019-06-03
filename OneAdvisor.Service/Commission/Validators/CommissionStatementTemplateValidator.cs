@@ -66,7 +66,7 @@ namespace OneAdvisor.Service.Commission.Validators
             RuleForEach(t => t.Fields).SetValidator(new FieldValidator());
 
             RuleFor(t => t.CommissionTypes).NotNull();
-            RuleFor(t => t.CommissionTypes).SetValidator(new CommissionTypestValidator());
+            RuleFor(t => t.CommissionTypes).SetValidator(new CommissionTypesValidator());
         }
 
         private bool HaveUnqiueFieldNames(IEnumerable<Field> fields)
@@ -116,9 +116,9 @@ namespace OneAdvisor.Service.Commission.Validators
         }
     }
 
-    internal class CommissionTypestValidator : AbstractValidator<CommissionTypes>
+    internal class CommissionTypesValidator : AbstractValidator<CommissionTypes>
     {
-        public CommissionTypestValidator()
+        public CommissionTypesValidator()
         {
             RuleFor(t => t.MappingTemplate)
                 .Must(HaveValidExcelColumnIdentifiers)

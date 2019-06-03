@@ -13,7 +13,6 @@ using OneAdvisor.Model.Commission.Model.CommissionAllocation;
 
 namespace api.Controllers.Commission.CommissionAllocations
 {
-
     [ApiController]
     [Route("api/commission/allocations")]
     public class CommissionAllocationsController : Controller

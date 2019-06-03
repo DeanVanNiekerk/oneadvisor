@@ -14,6 +14,23 @@
 
 - `dotnet ef database update {migrationName}`
 
+## Add Use Case to Role
+
+```sql
+migrationBuilder.Sql(@"
+INSERT INTO dir_RoleToUseCase
+    SELECT Id, 'com_view_commission_allocations'
+    FROM idn_Role
+    WHERE Name = 'com_administrator'
+    OR Name = 'com_readonly'
+
+INSERT INTO dir_RoleToUseCase
+    SELECT Id, 'com_edit_commission_allocations'
+    FROM idn_Role
+    WHERE Name = 'com_administrator'
+");
+```
+
 ### Money Columns
 
 `CommissionTypeId = table.Column<Guid>(type: "Money", nullable: false),`

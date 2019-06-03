@@ -56,6 +56,7 @@ namespace OneAdvisor.Data
         public DbSet<CommissionTypeEntity> CommissionType { get; set; }
         public DbSet<CommissionEarningsTypeEntity> CommissionEarningsType { get; set; }
         public DbSet<CommissionAllocationEntity> CommissionAllocation { get; set; }
+        public DbSet<CommissionSplitRuleEntity> CommissionSplitRule { get; set; }
 
         #endregion
 
@@ -119,6 +120,7 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<CommissionTypeEntity>().ToTable("com_CommissionType");
             modelBuilder.Entity<CommissionAllocationEntity>().ToTable("com_CommissionAllocation");
             modelBuilder.Entity<CommissionEarningsTypeEntity>().ToTable("com_CommissionEarningsType").HasData(SeedData.GetCommissionEarningsTypes());
+            modelBuilder.Entity<CommissionSplitRuleEntity>().ToTable("com_CommissionSplitRule");
 
             //Custom mappings
             CommissionMap.Map(modelBuilder);
@@ -126,6 +128,7 @@ namespace OneAdvisor.Data
             CommissionStatementMap.Map(modelBuilder);
             CommissionStatementTemplateMap.Map(modelBuilder);
             CommissionAllocationMap.Map(modelBuilder);
+            CommissionSplitRuleMap.Map(modelBuilder);
 
             #endregion
 

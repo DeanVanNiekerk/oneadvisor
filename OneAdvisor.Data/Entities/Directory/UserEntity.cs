@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
+using OneAdvisor.Data.Entities.Commission;
 using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Data.Entities.Directory
@@ -19,5 +20,7 @@ namespace OneAdvisor.Data.Entities.Directory
         [Required]
         public Scope Scope { get; set; }
 
+        public virtual BranchEntity Branch { get; set; }
+        public virtual ICollection<CommissionSplitRuleEntity> CommissionSplitRules { get; set; }
     }
 }

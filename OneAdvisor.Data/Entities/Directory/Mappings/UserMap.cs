@@ -23,6 +23,11 @@ namespace OneAdvisor.Data.Entities.Directory.Mappings
             modelBuilder.Entity<UserEntity>()
                 .Property(e => e.Aliases)
                 .HasConversion(jsonConverter);
+
+            modelBuilder.Entity<UserEntity>()
+                .HasOne(u => u.Branch)
+                .WithMany(b => b.Users)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
