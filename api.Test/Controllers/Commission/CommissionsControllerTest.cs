@@ -20,10 +20,11 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void CommissionModelComposition()
         {
-            Assert.Equal(13, typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).PropertyCount());
+            Assert.Equal(14, typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).PropertyCount());
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("Id"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("CommissionStatementId"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("PolicyId"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("SplitGroupId"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("CommissionTypeId"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("AmountIncludingVAT"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.Commission.Commission).HasProperty("VAT"));
@@ -39,10 +40,12 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void CommissionEditModelComposition()
         {
-            Assert.Equal(7, typeof(CommissionEdit).PropertyCount());
+            Assert.Equal(9, typeof(CommissionEdit).PropertyCount());
             Assert.True(typeof(CommissionEdit).HasProperty("Id"));
             Assert.True(typeof(CommissionEdit).HasProperty("CommissionStatementId"));
             Assert.True(typeof(CommissionEdit).HasProperty("PolicyId"));
+            Assert.True(typeof(CommissionEdit).HasProperty("UserId"));
+            Assert.True(typeof(CommissionEdit).HasProperty("SplitGroupId"));
             Assert.True(typeof(CommissionEdit).HasProperty("CommissionTypeId"));
             Assert.True(typeof(CommissionEdit).HasProperty("AmountIncludingVAT"));
             Assert.True(typeof(CommissionEdit).HasProperty("VAT"));

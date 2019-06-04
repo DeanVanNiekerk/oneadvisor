@@ -10,6 +10,7 @@ export type Commission = {
     amountIncludingVAT: number;
     vat: number;
     userId: string;
+    splitGroupId: string | null;
     policyNumber: string;
 
     commissionStatementDate: string;
@@ -24,9 +25,11 @@ export type CommissionEdit = {
     commissionStatementId: string;
     policyId: string;
     commissionTypeId: string;
+    userId: string;
     amountIncludingVAT: number;
     vat: number;
     sourceData: CommissionImportData | null;
+    splitGroupId: string | null;
 };
 
 export interface PagedCommissions extends PagedItems<Commission> {

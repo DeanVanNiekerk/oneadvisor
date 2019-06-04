@@ -8,6 +8,7 @@ import { ValidationResult } from '@/app/validation';
 import { getPolicies, Policy } from '@/state/app/client/policies';
 import { CommissionEdit } from '@/state/app/commission/commissions';
 import { CommissionType, commissionTypesSelector } from '@/state/app/commission/lookups';
+import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormInputNumber, FormReadOnly, FormSelect, TabPane, Tabs } from '@/ui/controls';
 
@@ -18,6 +19,7 @@ type Props = {
     validationResults: ValidationResult[];
     onChange: (client: CommissionEdit) => void;
     commissionTypes: CommissionType[];
+    users: UserSimple[];
 } & DispatchProp;
 
 type State = {
@@ -135,6 +137,16 @@ class CommissionForm extends Component<Props, State> {
                             disabled={true}
                         />
                         <FormSelect
+                            fieldName="userId"
+                            label="Broker"
+                            value={commission.userId}
+                            onChange={this.handleChange}
+                            validationResults={validationResults}
+                            options={this.props.users}
+                            optionsValue="id"
+                            optionsText="fullName"
+                        />
+                        <FormSelect
                             fieldName="commissionTypeId"
                             label="Type"
                             value={commission.commissionTypeId}
@@ -176,9 +188,11 @@ class CommissionForm extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const commissionTypeState = commissionTypesSelector(state);
+    const usersState = usersSimpleSelector(state);
 
     return {
         commissionTypes: commissionTypeState.items,
+        users: usersState.items,
     };
 };
 

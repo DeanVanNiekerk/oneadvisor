@@ -591,7 +591,7 @@ namespace OneAdvisor.Data.Migrations
 
                     b.Property<string>("SourceData");
 
-                    b.Property<Guid>("SplitGroupId");
+                    b.Property<Guid?>("SplitGroupId");
 
                     b.Property<Guid>("UserId");
 

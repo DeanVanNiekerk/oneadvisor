@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { applyLike } from '@/app/query';
-import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
+import { Filters, formatBool, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
 import { formatCurrency } from '@/app/utils';
 import {
     Commission, CommissionEdit, commissionsSelector, fetchCommission, fetchCommissions, receiveCommission,
@@ -91,6 +91,8 @@ class CommissionList extends Component<Props> {
             vat: 0,
             commissionTypeId: "",
             policyId: "",
+            userId: "",
+            splitGroupId: null,
             sourceData: null,
         };
         this.props.dispatch(receiveCommission(commission));
@@ -168,6 +170,15 @@ class CommissionList extends Component<Props> {
 
         if (!hideColumns.some(c => c == "vat"))
             columns.push(getColumnEDS("vat", "VAT", { type: "currency" }));
+
+        if (!hideColumns.some(c => c == "splitGroupId"))
+            columns.push(
+                getColumnEDS("splitGroupId", "Split", {
+                    render: (splitGroupId: string | null) => {
+                        return formatBool(!!splitGroupId);
+                    },
+                })
+            );
 
         if (!hideColumns.some(c => c == "userId"))
             columns.push(
@@ -254,6 +265,9 @@ class CommissionList extends Component<Props> {
                     totalRows={this.props.totalItems}
                     onTableChange={this.onTableChange}
                     footer={this.tableFooter}
+                    scroll={{
+                        x: true,
+                    }}
                 />
                 <EditCommission onClose={this.onFormClose} />
             </>

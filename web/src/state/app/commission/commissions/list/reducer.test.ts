@@ -55,6 +55,7 @@ describe("commission list reducer", () => {
             policyClientInitials: "DJ",
             policyClientDateOfBirth: "1982-10-03",
             policyCompanyId: "987987",
+            splitGroupId: null,
         };
 
         const actualState = reducer(initalState, {

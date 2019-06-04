@@ -138,7 +138,6 @@ class PolicyForm extends Component<Props, State> {
                     changeOnSelect={true}
                 />
                 <FormSelect
-                    defaultActiveFirstOption={true}
                     fieldName="userId"
                     label="Broker"
                     value={policy.userId}

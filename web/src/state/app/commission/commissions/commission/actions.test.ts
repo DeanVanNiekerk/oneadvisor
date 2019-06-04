@@ -18,6 +18,8 @@ describe("commission actions", () => {
         const commission: CommissionEdit = {
             id: "10",
             policyId: "99",
+            userId: "500",
+            splitGroupId: null,
             commissionTypeId: "321",
             amountIncludingVAT: 100,
             vat: 14,

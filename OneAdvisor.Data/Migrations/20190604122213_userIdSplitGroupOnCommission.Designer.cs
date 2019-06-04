@@ -10,8 +10,8 @@ using OneAdvisor.Data;
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190604062559_userIdSplitGroupOnCommissionNotNull")]
-    partial class userIdSplitGroupOnCommissionNotNull
+    [Migration("20190604122213_userIdSplitGroupOnCommission")]
+    partial class userIdSplitGroupOnCommission
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -593,9 +593,9 @@ namespace OneAdvisor.Data.Migrations
 
                     b.Property<string>("SourceData");
 
-                    b.Property<Guid>("SplitGroupId");
+                    b.Property<Guid?>("SplitGroupId");
 
-                    b.Property<Guid>("UserId");
+                    b.Property<Guid?>("UserId");
 
                     b.Property<decimal>("VAT")
                         .HasColumnType("Money");
@@ -607,6 +607,8 @@ namespace OneAdvisor.Data.Migrations
                     b.HasIndex("CommissionTypeId");
 
                     b.HasIndex("PolicyId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("com_Commission");
                 });
@@ -1376,6 +1378,10 @@ namespace OneAdvisor.Data.Migrations
                         .WithMany()
                         .HasForeignKey("PolicyId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("OneAdvisor.Data.Entities.Directory.UserEntity", "User")
+                        .WithMany("Commissions")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("OneAdvisor.Data.Entities.Commission.CommissionErrorEntity", b =>

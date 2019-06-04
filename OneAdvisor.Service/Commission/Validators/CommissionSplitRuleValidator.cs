@@ -11,17 +11,12 @@ namespace OneAdvisor.Service.Commission.Validators
 {
     public class CommissionSplitRuleValidator : AbstractValidator<CommissionSplitRule>
     {
-        private readonly DataContext _context;
-
         public CommissionSplitRuleValidator(DataContext context, ScopeOptions scope, bool isInsert)
         {
-            _context = context;
-
             if (!isInsert)
                 RuleFor(c => c.Id).NotEmpty();
 
             RuleFor(c => c.Name).NotEmpty();
-            RuleFor(c => c.UserId).NotEmpty();
             RuleFor(c => c.UserId).UserMustBeInScope(context, scope);
             RuleFor(c => c.Split).Must(AddUpTo100Percent).WithMessage("Split Percentages must add up to 100%");
             RuleForEach(c => c.Split).SetValidator(new CommissionSplitValidator(context, scope));

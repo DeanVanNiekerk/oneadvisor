@@ -23,6 +23,7 @@ using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using EFCore.BulkExtensions;
 using OneAdvisor.Service.Common.BulkActions;
 using OneAdvisor.Model.Commission.Model.Lookup;
+using OneAdvisor.Model.Commission.Model.CommissionSplitRule;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -34,8 +35,14 @@ namespace OneAdvisor.Service.Commission
         private readonly IBulkActions _bulkActions;
         private readonly ICommissionStatementService _commissionStatementService;
         private readonly ICommissionLookupService _commissionLookupService;
+        private readonly ICommissionSplitService _commissionSplitService;
 
-        public CommissionImportService(DataContext context, IBulkActions bulkActions, ICommissionStatementService commissionStatementService, IPolicyService policyService, ILookupService lookupService, ICommissionLookupService commissionLookupService)
+        public CommissionImportService(DataContext context, IBulkActions bulkActions,
+            ICommissionStatementService commissionStatementService,
+            IPolicyService policyService,
+            ILookupService lookupService,
+            ICommissionLookupService commissionLookupService,
+            ICommissionSplitService commissionSplitService)
         {
             _context = context;
             _policyService = policyService;
@@ -43,6 +50,7 @@ namespace OneAdvisor.Service.Commission
             _commissionStatementService = commissionStatementService;
             _bulkActions = bulkActions;
             _commissionLookupService = commissionLookupService;
+            _commissionSplitService = commissionSplitService;
         }
 
         private List<CommissionEntity> CommissionsToInsert { get; set; }
@@ -71,9 +79,12 @@ namespace OneAdvisor.Service.Commission
             policyQueryOptions.CompanyId.Add(statement.CompanyId);
             var policies = (await _policyService.GetPolicies(policyQueryOptions)).Items.ToList();
 
+            var commissionSplitRulesQueryOptions = new CommissionSplitRuleQueryOptions(scope, "", "", 0, 0);
+            var commissionSplitRules = (await _commissionSplitService.GetCommissionSplitRules(commissionSplitRulesQueryOptions)).Items.ToList(); ;
+
             foreach (var data in importData)
             {
-                var result = ImportCommission(scope, statement, data, policies, commissionTypes, company);
+                var result = ImportCommission(scope, statement, data, policies, commissionTypes, company, commissionSplitRules);
                 results.Add(result);
             }
 
@@ -86,7 +97,7 @@ namespace OneAdvisor.Service.Commission
             return results;
         }
 
-        private Result ImportCommission(ScopeOptions scope, CommissionStatement commissionStatement, ImportCommission importCommission, List<Policy> policies, List<CommissionType> commissionTypes, Company company)
+        private Result ImportCommission(ScopeOptions scope, CommissionStatement commissionStatement, ImportCommission importCommission, List<Policy> policies, List<CommissionType> commissionTypes, Company company, List<CommissionSplitRule> commissionSplitRules)
         {
             var validator = new ImportCommissionValidator();
             var result = validator.Validate(importCommission).GetResult();
@@ -129,9 +140,11 @@ namespace OneAdvisor.Service.Commission
                 return new Result();
             }
 
-            var commission = LoadCommissionEntity(commissionStatement.Id, policy, commissionType, importCommission);
+            var commission = LoadCommissionEdit(commissionStatement.Id, policy, commissionType, importCommission);
 
-            CommissionsToInsert.Add(commission);
+            var commissionsSplit = _commissionSplitService.SplitCommission(commission, policy, importCommission, commissionSplitRules);
+
+            CommissionsToInsert.AddRange(commissionsSplit.Select(c => MapCommissionToEntity(c)));
 
             return new Result(true);
         }
@@ -141,12 +154,13 @@ namespace OneAdvisor.Service.Commission
             return entity.PolicyId.HasValue && entity.ClientId.HasValue && entity.CommissionTypeId.HasValue;
         }
 
-        private CommissionEntity LoadCommissionEntity(Guid commissionStatementId, Policy policy, CommissionType commissionType, ImportCommission importCommission)
+        private CommissionEdit LoadCommissionEdit(Guid commissionStatementId, Policy policy, CommissionType commissionType, ImportCommission importCommission)
         {
-            var commission = new CommissionEntity();
+            var commission = new CommissionEdit();
 
             commission.Id = Guid.NewGuid();
             commission.PolicyId = policy.Id;
+            commission.UserId = policy.UserId;
             commission.CommissionStatementId = commissionStatementId;
             commission.CommissionTypeId = commissionType.Id.Value;
             commission.AmountIncludingVAT = Convert.ToDecimal(importCommission.AmountIncludingVAT);
@@ -154,6 +168,23 @@ namespace OneAdvisor.Service.Commission
             commission.SourceData = importCommission;
 
             return commission;
+        }
+
+        private CommissionEntity MapCommissionToEntity(CommissionEdit commission)
+        {
+            var c = new CommissionEntity();
+
+            c.Id = commission.Id.Value;
+            c.PolicyId = commission.PolicyId.Value;
+            c.UserId = commission.UserId.Value;
+            c.CommissionStatementId = commission.CommissionStatementId.Value;
+            c.CommissionTypeId = commission.CommissionTypeId.Value;
+            c.AmountIncludingVAT = commission.AmountIncludingVAT.Value;
+            c.VAT = commission.VAT.Value;
+            c.SourceData = commission.SourceData;
+            c.SplitGroupId = commission.SplitGroupId;
+
+            return c;
         }
 
         public async Task BigDataLoader(Guid commissionStatementId, int totalRecords)

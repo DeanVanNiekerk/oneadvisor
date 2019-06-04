@@ -42,5 +42,18 @@ namespace OneAdvisor.Service
             })
             .WithMessage("User does not exist");
         }
+
+        public static IRuleBuilderOptions<T, Guid?> PolicyMustBeInScope<T>(this IRuleBuilder<T, Guid?> ruleBuilder, DataContext dataContext, ScopeOptions scope)
+        {
+            return ruleBuilder.MustAsync(async (root, policyId, context) =>
+            {
+                if (!policyId.HasValue)
+                    return false;
+
+                var policy = await dataContext.Policy.FindAsync(policyId);
+                return await ScopeQuery.IsUserInScope(dataContext, scope, policy.UserId);
+            })
+            .WithMessage("Policy does not exist");
+        }
     }
 }

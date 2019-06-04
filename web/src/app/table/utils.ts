@@ -51,8 +51,7 @@ export const getColumn = (
         options.onFilter = undefined;
     }
 
-    if (options.type === "boolean")
-        options.render = value => (value ? "Yes" : "No");
+    if (options.type === "boolean") options.render = formatBool;
 
     if (options.type === "date")
         options.render = value => (value ? moment(value).format("ll") : "");
@@ -97,4 +96,8 @@ export const sort = (item1: any, item2: any, property: string) => {
 
 export const filter = (value: string, record: any, property: string) => {
     return record[property].toLowerCase().indexOf(value.toLowerCase()) !== -1;
+};
+
+export const formatBool = (value: boolean) => {
+    return value ? "Yes" : "No";
 };

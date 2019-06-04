@@ -263,6 +263,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 99,
                 VAT = 14,
@@ -305,7 +306,6 @@ namespace OneAdvisor.Service.Test.Commission
                 scopeOptions = TestHelper.GetScopeOptions(user2, Scope.User);
                 result = await service.InsertCommission(scopeOptions, commission1);
                 Assert.False(result.Success);
-                Assert.Equal("Out of scope", result.ValidationFailures.Single().ErrorMessage);
 
                 scopeOptions = TestHelper.GetScopeOptions(user3, Scope.Organisation);
                 result = await service.InsertCommission(scopeOptions, commission1);
@@ -338,6 +338,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 99,
                 VAT = 14,
@@ -362,6 +363,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = commission.Id,
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 109,
                 VAT = 15,
@@ -398,7 +400,6 @@ namespace OneAdvisor.Service.Test.Commission
                 scopeOptions = TestHelper.GetScopeOptions(user2, Scope.User);
                 result = await service.UpdateCommission(scopeOptions, commission1);
                 Assert.False(result.Success);
-                Assert.Equal("Out of scope", result.ValidationFailures.Single().ErrorMessage);
 
                 scopeOptions = TestHelper.GetScopeOptions(user3, Scope.Organisation);
                 result = await service.UpdateCommission(scopeOptions, commission1);

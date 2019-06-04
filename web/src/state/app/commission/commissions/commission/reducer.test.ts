@@ -11,6 +11,8 @@ const defaultCommission: CommissionEdit = {
     vat: 14,
     commissionStatementId: "998877",
     sourceData: null,
+    userId: "500",
+    splitGroupId: null,
 };
 
 describe("commission reducer", () => {

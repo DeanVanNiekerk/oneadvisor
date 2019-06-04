@@ -10,8 +10,8 @@ using OneAdvisor.Data;
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190604062927_userIdSplitGroupOnCommissionFKs")]
-    partial class userIdSplitGroupOnCommissionFKs
+    [Migration("20190604122301_userIdOnCommissionNotNull")]
+    partial class userIdOnCommissionNotNull
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -593,7 +593,7 @@ namespace OneAdvisor.Data.Migrations
 
                     b.Property<string>("SourceData");
 
-                    b.Property<Guid>("SplitGroupId");
+                    b.Property<Guid?>("SplitGroupId");
 
                     b.Property<Guid>("UserId");
 

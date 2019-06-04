@@ -48,7 +48,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionError.Add(error1);
                 context.SaveChanges();
 
-                var service = new CommissionErrorService(context, null, null);
+                var service = new CommissionErrorService(context, null, null, null, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -92,7 +92,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionError.Add(error1);
                 context.SaveChanges();
 
-                var service = new CommissionErrorService(context, null, null);
+                var service = new CommissionErrorService(context, null, null, null, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -133,7 +133,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionError.Add(error1);
                 context.SaveChanges();
 
-                var service = new CommissionErrorService(context, null, null);
+                var service = new CommissionErrorService(context, null, null, null, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -177,7 +177,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionErrorService(context, null, null);
+                var service = new CommissionErrorService(context, null, null, null, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -231,7 +231,7 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var commissionService = new CommissionService(context);
-                var service = new CommissionErrorService(context, commissionService, null);
+                var service = new CommissionErrorService(context, commissionService, null, null, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -266,7 +266,7 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var commissionService = new CommissionService(context);
-                var service = new CommissionErrorService(context, commissionService, null);
+                var service = new CommissionErrorService(context, commissionService, null, null, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -351,7 +351,9 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var commissionService = new CommissionService(context);
                 var clientService = new ClientService(context);
-                var service = new CommissionErrorService(context, commissionService, clientService);
+                var policyService = new PolicyService(context);
+                var commissionSplitService = new CommissionSplitService(context);
+                var service = new CommissionErrorService(context, commissionService, clientService, commissionSplitService, policyService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -458,7 +460,9 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var commissionService = new CommissionService(context);
                 var clientService = new ClientService(context);
-                var service = new CommissionErrorService(context, commissionService, clientService);
+                var policyService = new PolicyService(context);
+                var commissionSplitService = new CommissionSplitService(context);
+                var service = new CommissionErrorService(context, commissionService, clientService, commissionSplitService, policyService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -548,7 +552,9 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var commissionService = new CommissionService(context);
                 var clientService = new ClientService(context);
-                var service = new CommissionErrorService(context, commissionService, clientService);
+                var policyService = new PolicyService(context);
+                var commissionSplitService = new CommissionSplitService(context);
+                var service = new CommissionErrorService(context, commissionService, clientService, commissionSplitService, policyService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -697,7 +703,9 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var commissionService = new CommissionService(context);
                 var clientService = new ClientService(context);
-                var service = new CommissionErrorService(context, commissionService, clientService);
+                var policyService = new PolicyService(context);
+                var commissionSplitService = new CommissionSplitService(context);
+                var service = new CommissionErrorService(context, commissionService, clientService, commissionSplitService, policyService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -807,7 +815,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionError.Add(error3);
                 context.SaveChanges();
 
-                var service = new CommissionErrorService(context, null, null);
+                var service = new CommissionErrorService(context, null, null, null, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -888,7 +896,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionErrorService(context, null, null);
+                var service = new CommissionErrorService(context, null, null, null, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);

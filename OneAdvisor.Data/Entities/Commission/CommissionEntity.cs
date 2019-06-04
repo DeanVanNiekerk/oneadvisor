@@ -24,8 +24,7 @@ namespace OneAdvisor.Data.Entities.Commission
         public decimal AmountIncludingVAT { get; set; }
         [Required]
         public decimal VAT { get; set; }
-        [Required]
-        public Guid SplitGroupId { get; set; }
+        public Guid? SplitGroupId { get; set; }
         public ImportCommission SourceData { get; set; }
 
         public virtual CommissionStatementEntity CommissionStatement { get; set; }

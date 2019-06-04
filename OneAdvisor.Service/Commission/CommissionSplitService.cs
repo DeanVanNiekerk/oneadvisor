@@ -13,6 +13,9 @@ using OneAdvisor.Service.Commission.Validators;
 using System.Collections;
 using System.Collections.Generic;
 using OneAdvisor.Model.Commission.Model.CommissionSplitRule;
+using OneAdvisor.Model.Commission.Model.Commission;
+using OneAdvisor.Model.Client.Model.Policy;
+using OneAdvisor.Model.Commission.Model.ImportCommission;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -167,6 +170,50 @@ namespace OneAdvisor.Service.Commission
             entity.Split = model.Split;
 
             return entity;
+        }
+
+        public List<CommissionEdit> SplitCommission(CommissionEdit commission, Policy policy, ImportCommission sourceData, List<CommissionSplitRule> commissionSplitRules)
+        {
+            var commissions = new List<CommissionEdit>();
+
+            var splits = GetCommissionSplit(policy, commissionSplitRules);
+
+            var splitGroupId = splits.Count > 1 ? (Guid?)Guid.NewGuid() : null;
+
+            foreach (var split in splits)
+            {
+                var c = new CommissionEdit();
+
+                c.Id = Guid.NewGuid();
+                c.PolicyId = policy.Id;
+                c.UserId = split.UserId;
+                c.CommissionStatementId = commission.CommissionStatementId;
+                c.CommissionTypeId = commission.CommissionTypeId;
+                c.AmountIncludingVAT = commission.AmountIncludingVAT * (split.Percentage / 100);
+                c.VAT = commission.VAT * (split.Percentage / 100);
+                c.SourceData = sourceData;
+                c.SplitGroupId = splitGroupId;
+
+                commissions.Add(c);
+            }
+
+            return commissions;
+        }
+
+        private List<CommissionSplit> GetCommissionSplit(Policy policy, List<CommissionSplitRule> commissionSplitRules)
+        {
+            var split = new List<CommissionSplit>();
+
+            //TODO: check rule on policy
+
+            var rule = commissionSplitRules.FirstOrDefault(r => r.IsDefault && r.UserId == policy.UserId);
+
+            if (rule == null)
+                split.Add(new CommissionSplit() { UserId = policy.UserId, Percentage = 100 });
+            else
+                split.AddRange(rule.Split);
+
+            return split;
         }
 
     }

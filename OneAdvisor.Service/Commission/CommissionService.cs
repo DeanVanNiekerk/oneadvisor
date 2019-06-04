@@ -46,13 +46,14 @@ namespace OneAdvisor.Service.Commission
                             CommissionTypeId = commission.CommissionTypeId,
                             AmountIncludingVAT = commission.AmountIncludingVAT,
                             VAT = commission.VAT,
-                            UserId = policy.UserId,
+                            UserId = commission.UserId,
                             PolicyNumber = policy.Number,
                             CommissionStatementDate = statement.Date,
                             PolicyCompanyId = policy.CompanyId,
                             PolicyClientLastName = client.LastName,
                             PolicyClientInitials = client.Initials,
-                            PolicyClientDateOfBirth = client.DateOfBirth
+                            PolicyClientDateOfBirth = client.DateOfBirth,
+                            SplitGroupId = commission.SplitGroupId
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -121,8 +122,9 @@ namespace OneAdvisor.Service.Commission
                             CommissionTypeId = commission.CommissionTypeId,
                             AmountIncludingVAT = commission.AmountIncludingVAT,
                             VAT = commission.VAT,
-                            UserId = policy.UserId,
-                            PolicyNumber = policy.Number
+                            UserId = commission.UserId,
+                            PolicyNumber = policy.Number,
+                            SplitGroupId = commission.SplitGroupId
                         };
 
             return query;
@@ -139,14 +141,8 @@ namespace OneAdvisor.Service.Commission
 
         public async Task<Result> InsertCommission(ScopeOptions scope, CommissionEdit commission)
         {
-            var validator = new CommissionValidator(true);
+            var validator = new CommissionValidator(_context, scope, true);
             var result = validator.Validate(commission).GetResult();
-
-            if (!result.Success)
-                return result;
-
-            var policy = await _context.Policy.FindAsync(commission.PolicyId);
-            result = await ScopeQuery.CheckScope(_context, scope, policy.ClientId, policy.UserId);
 
             if (!result.Success)
                 return result;
@@ -164,14 +160,8 @@ namespace OneAdvisor.Service.Commission
 
         public async Task<Result> UpdateCommission(ScopeOptions scope, CommissionEdit commission)
         {
-            var validator = new CommissionValidator(false);
+            var validator = new CommissionValidator(_context, scope, false);
             var result = validator.Validate(commission).GetResult();
-
-            if (!result.Success)
-                return result;
-
-            var policy = await _context.Policy.FindAsync(commission.PolicyId);
-            result = await ScopeQuery.CheckScope(_context, scope, policy.ClientId, policy.UserId);
 
             if (!result.Success)
                 return result;
@@ -213,7 +203,9 @@ namespace OneAdvisor.Service.Commission
                     AmountIncludingVAT = entity.AmountIncludingVAT,
                     VAT = entity.VAT,
                     PolicyId = entity.PolicyId,
-                    SourceData = entity.SourceData
+                    SourceData = entity.SourceData,
+                    UserId = entity.UserId,
+                    SplitGroupId = entity.SplitGroupId
                 });
         }
 
@@ -227,8 +219,12 @@ namespace OneAdvisor.Service.Commission
             entity.VAT = model.VAT.Value;
             entity.PolicyId = model.PolicyId.Value;
             entity.SourceData = model.SourceData;
+            entity.UserId = model.UserId.Value;
+            entity.SplitGroupId = model.SplitGroupId;
 
             return entity;
         }
+
+
     }
 }

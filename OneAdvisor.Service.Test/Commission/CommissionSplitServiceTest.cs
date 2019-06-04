@@ -397,7 +397,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 //Check is default clear from csr1
                 actual = await context.CommissionSplitRule.FindAsync(csr1.Id);
-                Assert.Equal(false, actual.IsDefault);
+                Assert.False(actual.IsDefault);
 
                 //Out of scope 
                 scope = TestHelper.GetScopeOptions(user3, Scope.User);
