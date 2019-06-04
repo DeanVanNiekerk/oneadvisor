@@ -150,7 +150,7 @@ namespace OneAdvisor.Service.Commission
                 });
 
                 builder.Append($@"
-                AND p.UserId IN ({String.Join(',', parameters.Select(p => p.ParameterName))})");
+                AND c.UserId IN ({String.Join(',', parameters.Select(p => p.ParameterName))})");
 
                 if (addSqlParameters)
                     builder.SqlParameters.AddRange(parameters);
@@ -302,7 +302,7 @@ namespace OneAdvisor.Service.Commission
                         join policy in _context.Policy
                             on commission.PolicyId equals policy.Id
                         join user in userQuery
-                            on policy.UserId equals user.Id
+                            on commission.UserId equals user.Id
                         select new
                         {
                             UserId = user.Id,
@@ -353,7 +353,7 @@ namespace OneAdvisor.Service.Commission
                         join policy in _context.Policy
                             on commission.PolicyId equals policy.Id
                         join user in userQuery
-                            on policy.UserId equals user.Id
+                            on commission.UserId equals user.Id
                         select new
                         {
                             UserId = user.Id,

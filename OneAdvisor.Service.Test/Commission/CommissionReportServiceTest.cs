@@ -73,6 +73,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = usr1_policy1.Id,
+                UserId = user1.User.Id,
                 CommissionTypeId = comTypeMonth.Id,
                 AmountIncludingVAT = 110,
                 VAT = 10,
@@ -83,6 +84,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = usr2_policy1.Id,
+                UserId = user2.User.Id,
                 CommissionTypeId = comTypeMonth.Id,
                 AmountIncludingVAT = 220,
                 VAT = 20,
@@ -93,6 +95,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = usr2_policy1.Id,
+                UserId = user2.User.Id,
                 CommissionTypeId = comTypeMonth.Id,
                 AmountIncludingVAT = 330,
                 VAT = 30,
@@ -103,6 +106,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = usr2_policy1.Id,
+                UserId = user2.User.Id,
                 CommissionTypeId = comTypeAnnual.Id,
                 AmountIncludingVAT = 440,
                 VAT = 40,
@@ -113,6 +117,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = usr3_policy1.Id,
+                UserId = user3.User.Id,
                 CommissionTypeId = comTypeMonth.Id,
                 AmountIncludingVAT = 550,
                 VAT = 50,
@@ -203,6 +208,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = user1.User.Id,
                 CommissionTypeId = comTypeMonth.Id,
                 AmountIncludingVAT = 110,
                 VAT = 10,
@@ -213,6 +219,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = user1.User.Id,
                 CommissionTypeId = comTypeMonth.Id,
                 AmountIncludingVAT = 220,
                 VAT = 20,
@@ -223,6 +230,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = user1.User.Id,
                 CommissionTypeId = comTypeMonth.Id,
                 AmountIncludingVAT = 330,
                 VAT = 30,
@@ -233,6 +241,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = user1.User.Id,
                 CommissionTypeId = comTypeMonth.Id,
                 AmountIncludingVAT = 440,
                 VAT = 40,
@@ -309,6 +318,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = user1.User.Id,
                 CommissionTypeId = comTypeMonth.Id,
                 AmountIncludingVAT = 110,
                 VAT = 10,
@@ -319,6 +329,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy2.Id,
+                UserId = user2.User.Id,
                 CommissionTypeId = comTypeMonth.Id,
                 AmountIncludingVAT = 220,
                 VAT = 20,
@@ -405,6 +416,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = usr1_policy1.Id,
+                UserId = user1.User.Id,
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 110,
                 VAT = 10,
@@ -415,6 +427,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = usr2_policy1.Id,
+                UserId = user2.User.Id,
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 220,
                 VAT = 20,
@@ -425,6 +438,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = usr2_policy1.Id,
+                UserId = user2.User.Id,
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 330,
                 VAT = 30,
@@ -435,6 +449,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = usr2_policy1.Id,
+                UserId = user2.User.Id,
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 440,
                 VAT = 40,
@@ -445,6 +460,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = usr3_policy1.Id,
+                UserId = user3.User.Id,
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 550,
                 VAT = 50,
@@ -549,6 +565,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = usr1_policy1.Id,
+                UserId = user1.User.Id,
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 110,
                 VAT = 10,
@@ -559,6 +576,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = usr2_policy1.Id,
+                UserId = user2.User.Id,
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 220,
                 VAT = 20,
@@ -569,6 +587,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = usr2_policy1.Id,
+                UserId = user2.User.Id,
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 330,
                 VAT = 30,
@@ -579,6 +598,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = usr2_policy1.Id,
+                UserId = user2.User.Id,
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 440,
                 VAT = 40,
@@ -589,6 +609,7 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = usr3_policy1.Id,
+                UserId = user3.User.Id,
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 550,
                 VAT = 50,

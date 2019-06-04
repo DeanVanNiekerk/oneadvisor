@@ -22,7 +22,7 @@ using System.Collections.Generic;
 
 namespace OneAdvisor.Service.IntegrationTest.Commission
 {
-    /*
+
     public class CommissionReportServiceTest : TestBase
     {
         [Fact]
@@ -75,6 +75,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 110,
                 VAT = 10,
@@ -85,6 +86,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = commissionType2.Id,
                 AmountIncludingVAT = 220,
                 VAT = 20,
@@ -95,6 +97,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = commissionType3.Id,
                 AmountIncludingVAT = 330,
                 VAT = 30,
@@ -105,6 +108,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = commissionType4.Id,
                 AmountIncludingVAT = 440,
                 VAT = 40,
@@ -133,6 +137,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 500,
                 VAT = 0,
@@ -143,6 +148,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = commissionType2.Id,
                 AmountIncludingVAT = 600,
                 VAT = 0,
@@ -153,6 +159,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = commissionType3.Id,
                 AmountIncludingVAT = 700,
                 VAT = 0,
@@ -163,6 +170,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = commissionType4.Id,
                 AmountIncludingVAT = 800,
                 VAT = 0,
@@ -191,6 +199,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 900,
                 VAT = 0,
@@ -201,6 +210,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = commissionType2.Id,
                 AmountIncludingVAT = 1000,
                 VAT = 0,
@@ -211,6 +221,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = commissionType3.Id,
                 AmountIncludingVAT = 1100,
                 VAT = 0,
@@ -221,6 +232,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = commissionType4.Id,
                 AmountIncludingVAT = 1200,
                 VAT = 0,
@@ -329,6 +341,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 200,
                 VAT = 0,
@@ -350,6 +363,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy2.Id,
+                UserId = policy2.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 100,
                 VAT = 0,
@@ -371,6 +385,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy3.Id,
+                UserId = policy3.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 300,
                 VAT = 0,
@@ -468,6 +483,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 100,
                 VAT = 0,
@@ -489,6 +505,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy2.Id,
+                UserId = policy2.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 200,
                 VAT = 0,
@@ -510,6 +527,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy3.Id,
+                UserId = policy3.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 300,
                 VAT = 0,
@@ -533,6 +551,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy4.Id,
+                UserId = policy4.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 400,
                 VAT = 0,
@@ -554,6 +573,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy5.Id,
+                UserId = policy5.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 500,
                 VAT = 0,
@@ -649,6 +669,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 100,
                 VAT = 0,
@@ -670,6 +691,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy2.Id,
+                UserId = policy2.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 200,
                 VAT = 0,
@@ -691,6 +713,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy3a.Id,
+                UserId = policy3a.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 300,
                 VAT = 0,
@@ -710,6 +733,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy3b.Id,
+                UserId = policy3b.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 400,
                 VAT = 0,
@@ -729,6 +753,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy3c.Id,
+                UserId = policy3c.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 500,
                 VAT = 0,
@@ -854,6 +879,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy1.Id,
+                UserId = policy1.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 100,
                 VAT = 0,
@@ -875,6 +901,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 PolicyId = policy2.Id,
+                UserId = policy2.UserId,
                 CommissionTypeId = commissionType1.Id,
                 AmountIncludingVAT = 200,
                 VAT = 0,
@@ -937,5 +964,5 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             }
         }
     }
-     */
+
 }
