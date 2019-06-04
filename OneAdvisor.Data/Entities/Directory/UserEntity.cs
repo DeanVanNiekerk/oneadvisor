@@ -22,5 +22,6 @@ namespace OneAdvisor.Data.Entities.Directory
 
         public virtual BranchEntity Branch { get; set; }
         public virtual ICollection<CommissionSplitRuleEntity> CommissionSplitRules { get; set; }
+        public virtual ICollection<CommissionEntity> Commissions { get; set; }
     }
 }

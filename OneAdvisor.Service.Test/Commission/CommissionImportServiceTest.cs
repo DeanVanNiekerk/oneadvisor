@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using Moq;
 using OneAdvisor.Service.Common.BulkActions;
 using OneAdvisor.Data.Entities.Commission.Lookup;
+using OneAdvisor.Model.Commission.Model.CommissionSplitRule;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -483,6 +484,117 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(import1, actual.SourceData);
             }
         }
+
+        /*
+        [Fact]
+        public async Task ImportCommission_InsertCommission_Split_Default()
+        {
+            var options = TestHelper.GetDbContext("ImportCommission_InsertCommission_Split_Default");
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
+            var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
+            var user3 = TestHelper.InsertUserDetailed(options, user1.Organisation);
+
+            var company = TestHelper.InsertCompany(options);
+            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation, company.Id);
+
+            var commissionType = new CommissionTypeEntity
+            {
+                Id = Guid.NewGuid(),
+                Code = "gap_cover"
+            };
+
+            var policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                Number = Guid.NewGuid().ToString(),
+                CompanyId = company.Id,
+                ClientId = client1.Client.Id,
+                UserId = user1.User.Id
+            };
+
+
+             var csr1 = new CommissionSplitRuleEntity
+            {
+                Id = Guid.NewGuid(),
+                UserId = user1.User.Id,
+                Name = "75/25  split",
+                IsDefault = true, //Is default
+                Split = new List<CommissionSplit>()
+                {
+                    new CommissionSplit()
+                    {
+                        UserId = user2.User.Id,
+                        Percentage = 75
+                    },
+                    new CommissionSplit()
+                    {
+                        UserId = user3.User.Id,
+                        Percentage = 25
+                    }
+                }
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.CommissionType.Add(commissionType);
+                
+                context.Policy.Add(policy1);
+                
+                context.CommissionSplitRule.Add(csr1);
+
+                context.SaveChanges();
+
+                var statementService = new CommissionStatementService(context, null);
+                var lookupService = new LookupService(context);
+                var commissionLookupService = new CommissionLookupService(context);
+                var policyService = new PolicyService(context);
+                var commissionService = new CommissionService(context);
+
+                var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
+                var insertedCommissions = new List<CommissionEntity>();
+                bulkActions.Setup(c => c.BulkInsertCommissionsAsync(It.IsAny<DataContext>(), It.IsAny<IList<CommissionEntity>>()))
+                    .Callback((DataContext c, IList<CommissionEntity> l) => insertedCommissions = l.ToList())
+                    .Returns(Task.CompletedTask);
+
+                var service = new CommissionImportService(context, bulkActions.Object, statementService, policyService, lookupService, commissionLookupService);
+
+                //When
+                var import1 = new ImportCommission
+                {
+                    PolicyNumber = policy1.Number,
+                    CommissionTypeCode = commissionType.Code,
+                    AmountIncludingVAT = "120",
+                    VAT = "12"
+                };
+
+                var scope = TestHelper.GetScopeOptions(user1);
+                var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
+
+                //Then
+                Assert.True(result.Success);
+
+                Assert.Equal(2, insertedCommissions.Count);
+
+                var actual = insertedCommissions[0];
+                Assert.Equal(policy1.Id, actual.PolicyId);
+                Assert.Equal(commissionType.Id, actual.CommissionTypeId);
+                Assert.Equal(90, actual.AmountIncludingVAT);
+                Assert.Equal(9, actual.VAT);
+                Assert.Equal(statement.Id, actual.CommissionStatementId);
+                Assert.Equal(import1, actual.SourceData);
+
+                actual = insertedCommissions[1];
+                Assert.Equal(policy1.Id, actual.PolicyId);
+                Assert.Equal(commissionType.Id, actual.CommissionTypeId);
+                Assert.Equal(30, actual.AmountIncludingVAT);
+                Assert.Equal(3, actual.VAT);
+                Assert.Equal(statement.Id, actual.CommissionStatementId);
+                Assert.Equal(import1, actual.SourceData);
+            }
+        }
+         */
 
 
     }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OneAdvisor.Data;
 
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190604061718_userIdSplitGroupOnCommission")]
+    partial class userIdSplitGroupOnCommission
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -591,9 +593,9 @@ namespace OneAdvisor.Data.Migrations
 
                     b.Property<string>("SourceData");
 
-                    b.Property<Guid>("SplitGroupId");
+                    b.Property<Guid?>("SplitGroupId");
 
-                    b.Property<Guid>("UserId");
+                    b.Property<Guid?>("UserId");
 
                     b.Property<decimal>("VAT")
                         .HasColumnType("Money");
@@ -605,8 +607,6 @@ namespace OneAdvisor.Data.Migrations
                     b.HasIndex("CommissionTypeId");
 
                     b.HasIndex("PolicyId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("com_Commission");
                 });
@@ -1375,11 +1375,6 @@ namespace OneAdvisor.Data.Migrations
                     b.HasOne("OneAdvisor.Data.Entities.Client.PolicyEntity", "Policy")
                         .WithMany()
                         .HasForeignKey("PolicyId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("OneAdvisor.Data.Entities.Directory.UserEntity", "User")
-                        .WithMany("Commissions")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
