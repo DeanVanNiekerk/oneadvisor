@@ -9,7 +9,7 @@ namespace OneAdvisor.Model.Commission.Interface
 {
     public interface ICommissionStatementTemplateService
     {
-        Task<PagedItems<CommissionStatementTemplate>> GetTemplates();
+        Task<PagedItems<CommissionStatementTemplate>> GetTemplates(CommissionStatementTemplateQueryOptions queryOptions);
         Task<CommissionStatementTemplateEdit> GetTemplate(Guid templateId);
         Task<Result> UpdateTemplate(CommissionStatementTemplateEdit template);
         Task<Result> InsertTemplate(CommissionStatementTemplateEdit template);

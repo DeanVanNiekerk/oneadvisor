@@ -12,6 +12,7 @@ import { FormField } from './FormField';
 type Props = {
     fieldName: string;
     label: string;
+    extra?: React.ReactNode;
     value: string | null;
     disabled?: boolean;
     onChange?: (fieldName: string, value: any) => void;
@@ -36,6 +37,7 @@ class FormDate extends Component<Props> {
             disabled = false,
             layout,
             readonly,
+            extra,
         } = this.props;
 
         if (readonly)
@@ -56,6 +58,7 @@ class FormDate extends Component<Props> {
                 validationResults={validationResults}
                 value={value}
                 layout={layout}
+                extra={extra}
             >
                 <DatePicker
                     disabled={disabled}

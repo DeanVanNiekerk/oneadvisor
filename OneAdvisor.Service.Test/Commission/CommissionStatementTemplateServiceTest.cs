@@ -31,6 +31,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 Name = "Template 1",
+                StartDate = DateTime.Now.AddDays(-1),
+                EndDate = DateTime.Now.AddDays(1),
                 Config = new Config()
             };
 
@@ -39,6 +41,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 Name = "Template 2",
+                StartDate = DateTime.Now.AddDays(-1),
+                EndDate = DateTime.Now.AddDays(1),
                 Config = new Config()
             };
 
@@ -55,7 +59,8 @@ namespace OneAdvisor.Service.Test.Commission
                 var service = new CommissionStatementTemplateService(context, null);
 
                 //When
-                var actual = await service.GetTemplates();
+                var queryOptions = new CommissionStatementTemplateQueryOptions("", "", 0, 0);
+                var actual = await service.GetTemplates(queryOptions);
 
                 //Then
                 Assert.Equal(2, actual.TotalItems);
@@ -68,11 +73,128 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(temp1.Id, actual1.Id);
                 Assert.Equal(temp1.Name, actual1.Name);
                 Assert.Equal(temp1.CompanyId, actual1.CompanyId);
+                Assert.Equal(temp1.StartDate, actual1.StartDate);
+                Assert.Equal(temp1.EndDate, actual1.EndDate);
 
                 var actual2 = templates[1];
                 Assert.Equal(temp2.Id, actual2.Id);
                 Assert.Equal(temp2.Name, actual2.Name);
                 Assert.Equal(temp2.CompanyId, actual2.CompanyId);
+                Assert.Equal(temp2.StartDate, actual2.StartDate);
+                Assert.Equal(temp2.EndDate, actual2.EndDate);
+            }
+        }
+
+        [Fact]
+        public async Task GetTemplates_DateFilter()
+        {
+            var options = TestHelper.GetDbContext("GetTemplates_DateFilter");
+
+            var now = DateTime.Now.Date;
+
+            //Given
+            //Start and End in scope
+            var temp1 = new CommissionStatementTemplateEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                Name = "Template 1",
+                StartDate = now.AddMonths(-1),
+                EndDate = now.AddMonths(1),
+                Config = new Config()
+            };
+
+            //Old start, old end, out of scope
+            var temp2 = new CommissionStatementTemplateEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                Name = "Template 2",
+                StartDate = now.AddMonths(-12),
+                EndDate = now.AddMonths(-10),
+                Config = new Config()
+            };
+
+            //Old start, no end, in scope
+            var temp3 = new CommissionStatementTemplateEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                Name = "Template 3",
+                StartDate = now.AddMonths(-12),
+                EndDate = null,
+                Config = new Config()
+            };
+
+            //Future start, no end, out of scope
+            var temp4 = new CommissionStatementTemplateEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                Name = "Template 4",
+                StartDate = now.AddDays(1),
+                EndDate = null,
+                Config = new Config()
+            };
+
+            //Future end, no start, in scope
+            var temp5 = new CommissionStatementTemplateEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                Name = "Template 5",
+                StartDate = null,
+                EndDate = now.AddMonths(1),
+                Config = new Config()
+            };
+
+            //Old end, no start, out of scope
+            var temp6 = new CommissionStatementTemplateEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                Name = "Template 6",
+                StartDate = null,
+                EndDate = now.AddMonths(-5),
+                Config = new Config()
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.CommissionStatementTemplate.Add(temp1);
+                context.CommissionStatementTemplate.Add(temp2);
+                context.CommissionStatementTemplate.Add(temp3);
+                context.CommissionStatementTemplate.Add(temp4);
+                context.CommissionStatementTemplate.Add(temp5);
+                context.CommissionStatementTemplate.Add(temp6);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new CommissionStatementTemplateService(context, null);
+
+                //When
+                var queryOptions = new CommissionStatementTemplateQueryOptions("", "", 0, 0);
+                queryOptions.Date = now;
+                var result = await service.GetTemplates(queryOptions);
+
+                //Then
+                Assert.Equal(3, result.TotalItems);
+
+                var templates = result.Items.ToArray();
+
+                Assert.Equal(3, templates.Count());
+
+                var actual = templates[0];
+                Assert.Equal(temp1.Id, actual.Id);
+
+                actual = templates[1];
+                Assert.Equal(temp3.Id, actual.Id);
+
+                actual = templates[2];
+                Assert.Equal(temp5.Id, actual.Id);
             }
         }
 
@@ -87,6 +209,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 Name = "Template 1",
+                StartDate = DateTime.Now.AddDays(-1),
+                EndDate = DateTime.Now.AddDays(1),
                 Config = new Config()
             };
 
@@ -115,6 +239,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(temp1.Name, actual.Name);
                 Assert.Equal(temp1.CompanyId, actual.CompanyId);
                 Assert.Equal(temp1.Config, actual.Config);
+                Assert.Equal(temp1.StartDate, actual.StartDate);
+                Assert.Equal(temp1.EndDate, actual.EndDate);
             }
         }
 
@@ -129,6 +255,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 Name = "Template 1",
+                StartDate = DateTime.Now.AddDays(-1),
+                EndDate = DateTime.Now.AddDays(1),
                 Config = GetValidConfig()
             };
 
@@ -146,6 +274,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(temp1.Name, actual.Name);
                 Assert.Equal(temp1.CompanyId, actual.CompanyId);
                 Assert.Equal(temp1.Config, actual.Config);
+                Assert.Equal(temp1.StartDate.Value.Date, actual.StartDate);
+                Assert.Equal(temp1.EndDate.Value.Date, actual.EndDate);
             }
         }
 
@@ -159,6 +289,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 Name = "Template 1",
+                StartDate = DateTime.Now.AddDays(-1),
+                EndDate = DateTime.Now.AddDays(1),
                 Config = new Config()
             };
 
@@ -182,6 +314,8 @@ namespace OneAdvisor.Service.Test.Commission
                     Id = temp1.Id,
                     CompanyId = Guid.NewGuid(),
                     Name = "Template 1 updated",
+                    StartDate = DateTime.Now.AddDays(-2),
+                    EndDate = DateTime.Now.AddDays(2),
                     Config = GetValidConfig()
                 };
 
@@ -197,6 +331,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(template.Name, actual.Name);
                 Assert.Equal(template.CompanyId, actual.CompanyId);
                 Assert.Equal(template.Config, actual.Config);
+                Assert.Equal(template.StartDate.Value.Date, actual.StartDate);
+                Assert.Equal(template.EndDate.Value.Date, actual.EndDate);
             }
         }
 

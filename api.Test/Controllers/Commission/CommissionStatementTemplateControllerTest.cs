@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using api.Controllers.Commission.CommissionStatements;
 using api.Controllers.Commission.CommissionStatementTemplates;
@@ -20,20 +21,24 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void CommissionStatementTemplateModelComposition()
         {
-            Assert.Equal(3, typeof(CommissionStatementTemplate).PropertyCount());
+            Assert.Equal(5, typeof(CommissionStatementTemplate).PropertyCount());
             Assert.True(typeof(CommissionStatementTemplate).HasProperty("Id"));
             Assert.True(typeof(CommissionStatementTemplate).HasProperty("CompanyId"));
             Assert.True(typeof(CommissionStatementTemplate).HasProperty("Name"));
+            Assert.True(typeof(CommissionStatementTemplate).HasProperty("StartDate"));
+            Assert.True(typeof(CommissionStatementTemplate).HasProperty("EndDate"));
         }
 
         [Fact]
         public void CommissionStatementTemplateEditModelComposition()
         {
-            Assert.Equal(4, typeof(CommissionStatementTemplateEdit).PropertyCount());
+            Assert.Equal(6, typeof(CommissionStatementTemplateEdit).PropertyCount());
             Assert.True(typeof(CommissionStatementTemplateEdit).HasProperty("Id"));
             Assert.True(typeof(CommissionStatementTemplateEdit).HasProperty("CompanyId"));
             Assert.True(typeof(CommissionStatementTemplateEdit).HasProperty("Name"));
             Assert.True(typeof(CommissionStatementTemplateEdit).HasProperty("Config"));
+            Assert.True(typeof(CommissionStatementTemplateEdit).HasProperty("StartDate"));
+            Assert.True(typeof(CommissionStatementTemplateEdit).HasProperty("EndDate"));
         }
 
         [Fact]
@@ -57,12 +62,21 @@ namespace api.Test.Controllers.Commission
 
             var service = new Mock<ICommissionStatementTemplateService>();
 
-            service.Setup(c => c.GetTemplates())
-                .ReturnsAsync(pagedItems);
+            CommissionStatementTemplateQueryOptions queryOptions = null;
+            service.Setup(c => c.GetTemplates(It.IsAny<CommissionStatementTemplateQueryOptions>()))
+               .Callback((CommissionStatementTemplateQueryOptions options) => queryOptions = options)
+               .ReturnsAsync(pagedItems);
 
             var controller = new CommissionStatementTemplateController(service.Object);
 
-            var result = await controller.Index();
+            var result = await controller.Index("Name", "desc", 15, 2, $"CompanyId={template.CompanyId}");
+
+            Assert.Equal("Name", queryOptions.SortOptions.Column);
+            Assert.Equal(SortDirection.Descending, queryOptions.SortOptions.Direction);
+            Assert.Equal(15, queryOptions.PageOptions.Size);
+            Assert.Equal(2, queryOptions.PageOptions.Number);
+
+            Assert.Equal(template.CompanyId, queryOptions.CompanyId.Single());
 
             var okResult = Assert.IsType<OkObjectResult>(result);
             var returnValue = Assert.IsType<PagedItems<CommissionStatementTemplate>>(okResult.Value);

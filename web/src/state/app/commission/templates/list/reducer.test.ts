@@ -44,6 +44,8 @@ describe("commission list reducer", () => {
             id: "10",
             companyId: "99",
             name: "Template 1",
+            startDate: "1999-12-31",
+            endDate: "1999-12-31",
         };
 
         const actualState = reducer(initalState, {

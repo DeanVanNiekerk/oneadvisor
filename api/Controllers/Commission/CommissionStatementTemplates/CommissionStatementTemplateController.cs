@@ -31,9 +31,11 @@ namespace api.Controllers.Commission.CommissionStatementTemplates
 
         [HttpGet("")]
         [UseCaseAuthorize("com_view_commission_statement_templates")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
-            var pagedItems = await CommissionStatementTemplateService.GetTemplates();
+            var queryOptions = new CommissionStatementTemplateQueryOptions(sortColumn, sortDirection, pageSize, pageNumber, filters);
+
+            var pagedItems = await CommissionStatementTemplateService.GetTemplates(queryOptions);
 
             return Ok(pagedItems);
         }

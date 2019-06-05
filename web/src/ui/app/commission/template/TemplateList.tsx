@@ -45,6 +45,8 @@ class TemplateList extends Component<Props, State> {
             id: "",
             name: "",
             companyId: "",
+            startDate: "",
+            endDate: "",
             config: {
                 sheets: [
                     {
@@ -84,7 +86,7 @@ class TemplateList extends Component<Props, State> {
         this.setState({
             editVisible: false,
         });
-        if (!cancelled) this.loadTemplates();
+        this.loadTemplates();
     };
 
     getColumns = () => {
@@ -99,6 +101,8 @@ class TemplateList extends Component<Props, State> {
                     value: type.id,
                 })),
             }),
+            getColumn("startDate", "Start", { type: "date" }),
+            getColumn("endDate", "End", { type: "date" }),
         ];
     };
 

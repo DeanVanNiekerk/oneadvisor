@@ -7,6 +7,8 @@ const template: CommissionStatementTemplateEdit = {
     id: "10",
     companyId: "99",
     name: "321",
+    startDate: "1999-12-31",
+    endDate: "1999-12-31",
     config: {
         sheets: [],
     },

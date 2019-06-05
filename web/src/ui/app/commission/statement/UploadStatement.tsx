@@ -1,9 +1,10 @@
-import { Icon, Upload } from 'antd';
+import { Alert, Icon, Upload } from 'antd';
 import { UploadChangeParam } from 'antd/lib/upload';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { commissionsImportApi } from '@/config/api/commission';
+import { Statement } from '@/state/app/commission/statements';
 import {
     CommissionStatementTemplate, commissionStatementTemplatesSelector, fetchCommissionStatementTemplates
 } from '@/state/app/commission/templates';
@@ -16,15 +17,14 @@ type Props = {
     templates: CommissionStatementTemplate[];
     token: string;
     onSuccess: () => void;
-    commissionStatementId: string;
+    statement: Statement;
     fetching: boolean;
     companyId: string;
 } & DispatchProp;
 
 type State = {
     loading: boolean;
-    templateId: string;
-    templates: CommissionStatementTemplate[];
+    templateId: string | undefined;
 };
 
 class UploadStatement extends Component<Props, State> {
@@ -33,26 +33,23 @@ class UploadStatement extends Component<Props, State> {
 
         this.state = {
             loading: false,
-            templateId: "",
-            templates: [],
+            templateId: undefined,
         };
     }
 
     componentDidMount() {
-        if (this.props.templates.length === 0) this.loadTemplates();
-        this.setTemplateState();
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (prevProps.templates != this.props.templates)
-            this.setTemplateState();
+        this.loadTemplates();
     }
 
     loadTemplates = () => {
-        this.props.dispatch(fetchCommissionStatementTemplates());
+        const filters = {
+            date: [this.props.statement.date],
+            companyId: [this.props.companyId]
+        }
+        this.props.dispatch(fetchCommissionStatementTemplates(filters));
     };
 
-    handleChange = async (fieldName: string, value: any) => {
+    handleTemplateChange = async (fieldName: string, value: any) => {
         this.setState({
             templateId: value,
         });
@@ -74,41 +71,23 @@ class UploadStatement extends Component<Props, State> {
         }
     };
 
-    setTemplateState = () => {
-        const templates = this.props.templates.filter(
-            t => t.companyId == this.props.companyId
-        );
-        if (templates.length > 0) {
-            this.setState({
-                templateId: templates[0].id,
-                templates: templates,
-            });
-        } else {
-            const defaultTemplate: CommissionStatementTemplate = {
-                id: "",
-                companyId: "",
-                name: "Default",
-            };
-
-            this.setState({
-                templateId: "",
-                templates: [defaultTemplate],
-            });
-        }
-    };
-
     render() {
+
+        if (!this.props.fetching && !this.state.loading && this.props.templates.length === 0)
+            return <Alert message="Unable to import. There are no valid templates for this statement." type="error" />
+
         return (
             <Form editUseCase="com_import_commissions">
                 <FormSelect
                     fieldName="templateId"
                     label="Template"
                     value={this.state.templateId}
-                    onChange={this.handleChange}
-                    options={this.state.templates}
+                    onChange={this.handleTemplateChange}
+                    options={this.props.templates}
                     optionsValue="id"
                     optionsText="name"
                     loading={this.props.fetching}
+                    placeholder="Select Template"
                 />
                 <FormField label="File">
                     <Upload
@@ -116,14 +95,14 @@ class UploadStatement extends Component<Props, State> {
                         listType="text"
                         onChange={this.onChange}
                         action={`${commissionsImportApi}/${
-                            this.props.commissionStatementId
-                        }?commissionStatementTemplateId=${
+                            this.props.statement.id
+                            }?commissionStatementTemplateId=${
                             this.state.templateId
-                        }`}
+                            }`}
                         headers={{
                             Authorization: "Bearer " + this.props.token,
                         }}
-                        disabled={this.props.fetching}
+                        disabled={this.props.fetching || !this.state.templateId}
                         accept=".xlsx"
                     >
                         <Button noLeftMargin={true} type="primary">

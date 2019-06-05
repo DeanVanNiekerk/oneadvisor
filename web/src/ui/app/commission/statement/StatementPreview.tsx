@@ -431,7 +431,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                 >
                     {statement && (
                         <UploadStatement
-                            commissionStatementId={statement.id}
+                            statement={statement}
                             companyId={statement.companyId}
                             onSuccess={() => {
                                 this.load();

@@ -12,6 +12,8 @@ namespace OneAdvisor.Data.Entities.Commission
         public Guid CompanyId { get; set; }
         [Required]
         public string Name { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         [Required]
         public Config Config { get; set; }
     }

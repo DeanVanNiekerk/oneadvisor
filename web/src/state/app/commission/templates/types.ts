@@ -2,6 +2,8 @@ export type CommissionStatementTemplate = {
     id: string;
     companyId: string;
     name: string;
+    startDate: string | null;
+    endDate: string | null;
 };
 
 export type CommissionStatementTemplateEdit = {
@@ -9,6 +11,8 @@ export type CommissionStatementTemplateEdit = {
     companyId: string;
     name: string;
     config: Config;
+    startDate: string | null;
+    endDate: string | null;
 };
 
 export type Config = {

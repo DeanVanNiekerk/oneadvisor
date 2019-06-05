@@ -30,20 +30,39 @@ namespace OneAdvisor.Service.Commission
             _lookupService = lookupService;
         }
 
-        public async Task<PagedItems<CommissionStatementTemplate>> GetTemplates()
+        public async Task<PagedItems<CommissionStatementTemplate>> GetTemplates(CommissionStatementTemplateQueryOptions queryOptions)
         {
             var query = from template in _context.CommissionStatementTemplate
                         select new CommissionStatementTemplate()
                         {
                             Id = template.Id,
                             CompanyId = template.CompanyId,
-                            Name = template.Name
+                            Name = template.Name,
+                            StartDate = template.StartDate,
+                            EndDate = template.EndDate
                         };
+
+            //Apply filters ----------------------------------------------------------------------------------------
+            if (queryOptions.CompanyId.Any())
+                query = query.Where(c => queryOptions.CompanyId.Contains(c.CompanyId));
+
+            if (queryOptions.Date.HasValue)
+            {
+                query = query.Where(c => c.StartDate <= queryOptions.Date.Value.Date || c.StartDate == null);
+                query = query.Where(c => c.EndDate >= queryOptions.Date.Value.Date || c.EndDate == null);
+            }
+            //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedItems<CommissionStatementTemplate>();
 
+            //Get total items
             pagedItems.TotalItems = await query.CountAsync();
-            pagedItems.Items = await query.ToListAsync();
+
+            //Ordering
+            query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
+
+            //Paging
+            pagedItems.Items = await query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
 
             return pagedItems;
         }
@@ -58,6 +77,8 @@ namespace OneAdvisor.Service.Commission
                             Id = template.Id,
                             CompanyId = template.CompanyId,
                             Name = template.Name,
+                            StartDate = template.StartDate,
+                            EndDate = template.EndDate,
                             Config = template.Config
                         };
 
@@ -160,6 +181,8 @@ namespace OneAdvisor.Service.Commission
             entity.Name = model.Name;
             entity.CompanyId = model.CompanyId.Value;
             entity.Config = model.Config;
+            entity.StartDate = model.StartDate.HasValue ? (DateTime?)model.StartDate.Value.Date : null;
+            entity.EndDate = model.EndDate.HasValue ? (DateTime?)model.EndDate.Value.Date : null;
 
             return entity;
         }

@@ -23,6 +23,7 @@ namespace OneAdvisor.Service.Commission.Validators
             RuleFor(t => t.CompanyId).NotEmpty().WithName("Company");
             RuleFor(t => t.Config).NotNull();
             RuleFor(t => t.Config).SetValidator(new ConfigValidator());
+            RuleFor(t => t.EndDate).GreaterThan(t => t.StartDate).When(t => t.StartDate.HasValue && t.EndDate.HasValue).WithMessage("End Date must be greater than the Start Date");
         }
     }
 

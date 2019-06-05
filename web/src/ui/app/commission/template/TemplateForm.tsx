@@ -8,7 +8,7 @@ import { getValidationSubSet, ValidationResult } from '@/app/validation';
 import { CommissionStatementTemplateEdit, Sheet, SheetConfig } from '@/state/app/commission/templates';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
-import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
+import { Form, FormDate, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
 
 import RawConfig from './RawConfig';
 import EditSheetConfig from './sheet/EditSheetConfig';
@@ -166,6 +166,22 @@ class TemplateForm extends Component<Props, State> {
                             options={this.props.companies}
                             optionsValue="id"
                             optionsText="name"
+                        />
+                        <FormDate
+                            fieldName="startDate"
+                            label="State Date"
+                            value={template.startDate}
+                            onChange={this.handleChange}
+                            validationResults={validationResults}
+                            extra="Inclusive state date. Leave empty if there is no start date."
+                        />
+                        <FormDate
+                            fieldName="endDate"
+                            label="End Date"
+                            value={template.endDate}
+                            onChange={this.handleChange}
+                            validationResults={validationResults}
+                            extra="Inclusive end date. Leave empty if there is no end date."
                         />
                     </Form>
                 </TabPane>
