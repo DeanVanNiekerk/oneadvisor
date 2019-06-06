@@ -40,7 +40,7 @@ namespace OneAdvisor.Service.Storage
             return cloudBlockBlob.Name;
         }
 
-        public async Task<IEnumerable<CloudFileInfo>> GetFilesAsync(PathBase path)
+        public async Task<IEnumerable<CloudFileInfo>> GetFilesAsync(PathBase path, bool includeDeleted = false)
         {
             var client = _account.CreateCloudBlobClient();
             var container = client.GetContainerReference(path.GetContainerName());
@@ -71,16 +71,22 @@ namespace OneAdvisor.Service.Storage
                     if (success)
                         deleted = Boolean.TrueString == deletedString;
 
-                    if (deleted)
+                    if (!includeDeleted && deleted)
                         continue;
+
+                    var fileName = "unknown";
+                    blob.Metadata.TryGetValue(METADATA_FILENAME, out fileName);
 
                     var file = new CloudFileInfo()
                     {
-                        Name = blob.Metadata[METADATA_FILENAME],
+                        Name = fileName,
                         StorageName = blob.Name,
                         Size = blob.Properties.Length,
+                        ContentType = blob.Properties.ContentType,
+                        Created = blob.Properties.Created,
                         LastModified = blob.Properties.LastModified,
-                        Url = result.Uri.AbsoluteUri
+                        Url = result.Uri.AbsoluteUri,
+                        Deleted = deleted,
                     };
 
                     items.Add(file);

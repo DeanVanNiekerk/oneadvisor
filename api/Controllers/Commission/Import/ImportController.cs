@@ -72,20 +72,11 @@ namespace api.Controllers.Commission.Import
 
             using (var stream = file.OpenReadStream())
             {
-                var path = new CommissionStatementPath(scope.OrganisationId, commissionStatementId, file.Name);
+                var path = new CommissionStatementPath(scope.OrganisationId, commissionStatementId, file.FileName);
                 var storageName = await FileStorageService.AddFileAsync(path, stream);
             }
 
             return Ok();
-        }
-
-        [HttpGet("{commissionStatementId}/bigDataLoader")]
-        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
-        public async Task<IActionResult> BigDataLoader(Guid commissionStatementId, [FromQuery] int totalRecords)
-        {
-            await CommissionImportService.BigDataLoader(commissionStatementId, totalRecords);
-
-            return Ok(new Result(true));
         }
     }
 }
