@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using api.App.Authorization;
 using OneAdvisor.Model.Common;
-using api.App.Dtos;
 using Microsoft.AspNetCore.Http;
 using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Model.Commission.Interface;

@@ -3,15 +3,8 @@
     "git.enableSmartCommit": true,
     "git.confirmSync": false,
     "git.autofetch": true,
-    "explorer.confirmDragAndDrop": false,
+    "explorer.confirmDragAndDrop": true,
     "editor.formatOnSave": true,
-    "mssql.connections": [
-        {
-            "connectionString": "Server=127.0.0.1,1433;Database=OneAdvisor;User ID=sa;Password=2x&%bLn3c47Y!y&hv7",
-            "profileName": "OneAdvisor Dev",
-            "password": ""
-        }
-    ],
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
@@ -28,10 +21,7 @@
     "dotnet-test-explorer.testProjectPath": "*/*.Test.csproj",
     "prettier.printWidth": 120,
     "prettier.trailingComma": "es5",
-    "prettier.typescriptEnable": [
-        "typescript",
-        "typescriptreact"
-    ],
     "prettier.singleQuote": false,
     "prettier.useTabs": false,
+    "prettier.tabWidth": 4
 }

@@ -1,3 +1,4 @@
+using api;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using api.App.Authorization;
 using OneAdvisor.Model.Common;
-using api.App.Dtos;
 using Microsoft.AspNetCore.Http;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Commission.Interface;
@@ -17,6 +17,10 @@ using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuratio
 using OneAdvisor.Model.Directory.Model.Role;
 using OneAdvisor.Model.Storage.Interface;
 using OneAdvisor.Model.Storage.Model.Path.Commission;
+using FluentValidation.Results;
+using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate;
+using System.IO;
+using api.Controllers.Commission.Import.Dto;
 
 namespace api.Controllers.Commission.Import
 {
@@ -26,21 +30,23 @@ namespace api.Controllers.Commission.Import
     public class ImportController : Controller
     {
         public ImportController(ICommissionImportService commissionImportService,
+            ICommissionStatementService commissionStatementService,
             ICommissionStatementTemplateService commissionStatementTemplateService,
             IAuthenticationService authenticationService,
             IFileStorageService fileStorageService)
         {
             CommissionImportService = commissionImportService;
+            CommissionStatementService = commissionStatementService;
             AuthenticationService = authenticationService;
             CommissionStatementTemplateService = commissionStatementTemplateService;
             FileStorageService = fileStorageService;
         }
 
         private ICommissionImportService CommissionImportService { get; }
+        private ICommissionStatementService CommissionStatementService { get; }
         private IAuthenticationService AuthenticationService { get; }
         private ICommissionStatementTemplateService CommissionStatementTemplateService { get; }
         private IFileStorageService FileStorageService { get; }
-
 
         [HttpPost("excel/{commissionStatementId}")]
         [UseCaseAuthorize("com_import_commissions")]
@@ -62,12 +68,15 @@ namespace api.Controllers.Commission.Import
             else
                 config = await CommissionStatementTemplateService.GetDefaultConfig();
 
+            var result = new ImportResult();
+
             using (var stream = file.OpenReadStream())
             {
                 var reader = new CommissionImportReader(config);
                 var items = reader.Read(stream);
 
-                await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
+                var results = await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
+                result.ImportCount = results.Count;
             }
 
             using (var stream = file.OpenReadStream())
@@ -76,7 +85,56 @@ namespace api.Controllers.Commission.Import
                 var storageName = await FileStorageService.AddFileAsync(path, stream);
             }
 
-            return Ok();
+            return Ok(result);
+        }
+
+        [HttpPost("excel/{commissionStatementId}/reimport")]
+        [UseCaseAuthorize("com_import_commissions")]
+        public async Task<IActionResult> Reimport(Guid commissionStatementId)
+        {
+            var scope = AuthenticationService.GetScope(User);
+
+            var statement = await CommissionStatementService.GetCommissionStatement(scope, commissionStatementId);
+
+            if (statement == null)
+                return NotFound();
+
+            var path = new CommissionStatementPath(scope.OrganisationId, commissionStatementId);
+            var files = await FileStorageService.GetFilesAsync(path);
+
+            if (!files.Any())
+                return this.BadRequest("Reimport failed as there are no existing statement files.");
+
+            var queryOptions = new CommissionStatementTemplateQueryOptions("", "", 0, 0);
+            queryOptions.CompanyId.Add(statement.CompanyId.Value);
+            queryOptions.Date = statement.Date;
+
+            var templates = (await CommissionStatementTemplateService.GetTemplates(queryOptions)).Items;
+
+            if (!templates.Any())
+                return this.BadRequest("Reimport failed as there are no valid templates.");
+
+            var template = await CommissionStatementTemplateService.GetTemplate(templates.First().Id);
+
+            await CommissionStatementService.DeleteCommissions(scope, commissionStatementId);
+
+            var result = new ImportResult();
+
+            foreach (var fileInfo in files)
+            {
+                using (var stream = new MemoryStream())
+                {
+                    await FileStorageService.GetFile(fileInfo.Url, stream);
+
+                    var reader = new CommissionImportReader(template.Config);
+                    var items = reader.Read(stream);
+
+                    var results = await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
+                    result.ImportCount += results.Count;
+                }
+            }
+
+            return Ok(result);
         }
     }
 }

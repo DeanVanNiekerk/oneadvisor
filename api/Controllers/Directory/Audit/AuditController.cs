@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using api.App.Authorization;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Common;
-using api.App.Dtos;
 using Microsoft.AspNetCore.Http;
 using OneAdvisor.Model.Directory.Model.Audit;
 using OneAdvisor.Model.Account.Interface;

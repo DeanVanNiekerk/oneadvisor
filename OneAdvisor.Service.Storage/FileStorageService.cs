@@ -112,6 +112,8 @@ namespace OneAdvisor.Service.Storage
         {
             var blob = new CloudBlob(new Uri(url), _account.Credentials);
 
+            await blob.FetchAttributesAsync();
+
             blob.Metadata[METADATA_DELETED] = true.ToString();
 
             await blob.SetMetadataAsync();

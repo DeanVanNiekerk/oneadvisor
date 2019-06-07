@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using api.App.Authorization;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Common;
-using api.App.Dtos;
 using OneAdvisor.Model.Directory.Model.Role;
 
 namespace api.Controllers.Directory.Roles

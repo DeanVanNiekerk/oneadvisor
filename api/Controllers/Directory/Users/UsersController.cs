@@ -8,7 +8,6 @@ using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.User;
 using api.App.Authorization;
 using OneAdvisor.Model.Common;
-using api.App.Dtos;
 using Microsoft.AspNetCore.Http;
 using OneAdvisor.Model.Account.Interface;
 
