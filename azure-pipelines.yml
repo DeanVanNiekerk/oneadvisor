@@ -4,77 +4,77 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 jobs:
-  - job: api_build
-    pool:
-      vmImage: "Ubuntu 16.04"
-    variables:
-      buildConfiguration: "Release"
-    steps:
-      - task: DotNetCoreInstaller@0
-        displayName: "Use .NET Core SDK Tool Installer"
-        inputs:
-          version: 2.2.100
-      - script: |
-          dotnet restore
-        displayName: "restore packages"
-      - script: |
-          dotnet test
-        displayName: "run tests"
-      - script: |
-          dotnet publish --configuration $(buildConfiguration) /p:Version=0.3.0
-        displayName: "publish for $(buildConfiguration)"
-      - task: CopyFiles@2
-        inputs:
-          sourceFolder: "api/bin/$(buildConfiguration)/netcoreapp2.2/publish"
-          targetFolder: $(Build.ArtifactStagingDirectory)
-          cleanTargetFolder: true
-      - task: PublishBuildArtifacts@1
-        inputs:
-          pathtoPublish: $(Build.ArtifactStagingDirectory)
-          artifactName: api
-  - job: web_build
-    pool:
-      vmImage: "Ubuntu 16.04"
-    steps:
-      - script: |
-          npm install
-        displayName: "install client packages"
-        workingDirectory: "web"
-      - script: |
-          npm run check-types
-        displayName: "check types"
-        workingDirectory: "web"
-      - script: |
-          npm run test
-        displayName: "run tests"
-        workingDirectory: "web"
-      - script: |
-          npm install
-        displayName: "install server packages"
-        workingDirectory: "web/server"
-      - script: |
-          npm run build:staging
-        displayName: "build: staging"
-        workingDirectory: "web"
-      - task: CopyFiles@2
-        inputs:
-          sourceFolder: "web/server"
-          targetFolder: $(Build.ArtifactStagingDirectory)
-          cleanTargetFolder: true
-      - task: PublishBuildArtifacts@1
-        inputs:
-          pathtoPublish: $(Build.ArtifactStagingDirectory)
-          artifactName: web.staging
-      - script: |
-          npm run build:production
-        displayName: "build: production"
-        workingDirectory: "web"
-      - task: CopyFiles@2
-        inputs:
-          sourceFolder: "web/server"
-          targetFolder: $(Build.ArtifactStagingDirectory)
-          cleanTargetFolder: true
-      - task: PublishBuildArtifacts@1
-        inputs:
-          pathtoPublish: $(Build.ArtifactStagingDirectory)
-          artifactName: web.production
+    - job: api_build
+      pool:
+          vmImage: "Ubuntu 16.04"
+      variables:
+          buildConfiguration: "Release"
+      steps:
+          - task: DotNetCoreInstaller@0
+            displayName: "Use .NET Core SDK Tool Installer"
+            inputs:
+                version: 2.2.100
+          - script: |
+                dotnet restore
+            displayName: "restore packages"
+          - script: |
+                dotnet test
+            displayName: "run tests"
+          - script: |
+                dotnet publish --configuration $(buildConfiguration) /p:Version=0.4.0
+            displayName: "publish for $(buildConfiguration)"
+          - task: CopyFiles@2
+            inputs:
+                sourceFolder: "api/bin/$(buildConfiguration)/netcoreapp2.2/publish"
+                targetFolder: $(Build.ArtifactStagingDirectory)
+                cleanTargetFolder: true
+          - task: PublishBuildArtifacts@1
+            inputs:
+                pathtoPublish: $(Build.ArtifactStagingDirectory)
+                artifactName: api
+    - job: web_build
+      pool:
+          vmImage: "Ubuntu 16.04"
+      steps:
+          - script: |
+                npm install
+            displayName: "install client packages"
+            workingDirectory: "web"
+          - script: |
+                npm run check-types
+            displayName: "check types"
+            workingDirectory: "web"
+          - script: |
+                npm run test
+            displayName: "run tests"
+            workingDirectory: "web"
+          - script: |
+                npm install
+            displayName: "install server packages"
+            workingDirectory: "web/server"
+          - script: |
+                npm run build:staging
+            displayName: "build: staging"
+            workingDirectory: "web"
+          - task: CopyFiles@2
+            inputs:
+                sourceFolder: "web/server"
+                targetFolder: $(Build.ArtifactStagingDirectory)
+                cleanTargetFolder: true
+          - task: PublishBuildArtifacts@1
+            inputs:
+                pathtoPublish: $(Build.ArtifactStagingDirectory)
+                artifactName: web.staging
+          - script: |
+                npm run build:production
+            displayName: "build: production"
+            workingDirectory: "web"
+          - task: CopyFiles@2
+            inputs:
+                sourceFolder: "web/server"
+                targetFolder: $(Build.ArtifactStagingDirectory)
+                cleanTargetFolder: true
+          - task: PublishBuildArtifacts@1
+            inputs:
+                pathtoPublish: $(Build.ArtifactStagingDirectory)
+                artifactName: web.production
