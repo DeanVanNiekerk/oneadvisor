@@ -6,9 +6,7 @@ import { showMessage, showNotification } from '@/ui/feedback/notifcation';
 
 import { RootState } from '../rootReducer';
 
-export default (store: Store<RootState>) => (next: any) => (
-    action: ApiAction
-) => {
+export default (store: Store<RootState>) => (next: any) => (action: ApiAction) => {
     // Check if this is an api request
     if (action.type !== "API") {
         return next(action);
@@ -37,13 +35,10 @@ export default (store: Store<RootState>) => (next: any) => (
 
     //console.log(endpoint, fetchOptions);
 
-    const showNotifications =
-        action.hideNotifications === undefined ||
-        action.hideNotifications !== true;
+    const showNotifications = action.hideNotifications === undefined || action.hideNotifications !== true;
 
     const showValidationNotifications =
-        action.hideValidationNotifications === undefined ||
-        action.hideValidationNotifications !== true;
+        action.hideValidationNotifications === undefined || action.hideValidationNotifications !== true;
 
     fetch(endpoint, requestInit)
         .then(resp => {
@@ -59,21 +54,17 @@ export default (store: Store<RootState>) => (next: any) => (
 
             //Call onSuccessBlob
             if (action.onSuccessBlob) {
-                resp.blob().then(blob => {
-                    if (action.onSuccessBlob)
-                        action.onSuccessBlob(blob, store.dispatch);
-                });
-                return;
+                if (resp.status === 200) {
+                    resp.blob().then(blob => {
+                        if (action.onSuccessBlob) action.onSuccessBlob(blob, store.dispatch);
+                    });
+                    return;
+                }
             }
 
             //Unauthorized, reload page
             if (resp.status === 401) {
-                showNotification(
-                    "error",
-                    "Unauthorized",
-                    `Unauthorized Api call to '${endpoint}'`,
-                    20
-                );
+                showNotification("error", "Unauthorized", `Unauthorized Api call to '${endpoint}'`, 20);
                 return;
             }
 
@@ -127,19 +118,9 @@ export default (store: Store<RootState>) => (next: any) => (
         });
 };
 
-const handleError = (
-    showNotifications: boolean,
-    store: any,
-    dispatchPrefix: string | undefined,
-    error: string
-) => {
+const handleError = (showNotifications: boolean, store: any, dispatchPrefix: string | undefined, error: string) => {
     if (showNotifications) {
-        showNotification(
-            "error",
-            "Server Error: Unhandled",
-            "A server error occured please reload the page",
-            10
-        );
+        showNotification("error", "Server Error: Unhandled", "A server error occured please reload the page", 10);
     }
     console.log(error);
 
@@ -178,11 +159,7 @@ const handleValidationError = (
     }
 
     if (showNotifications) {
-        showMessage(
-            "error",
-            "Data not saved, check form for validation errors",
-            6.5
-        );
+        showMessage("error", "Data not saved, check form for validation errors", 6.5);
     }
 
     //Validation Error

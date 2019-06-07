@@ -2,6 +2,11 @@
     cursor: pointer;
 }
 
+.downloadLink:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 .draggable {
     cursor: move;
 }

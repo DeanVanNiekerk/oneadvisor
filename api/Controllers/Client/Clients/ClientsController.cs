@@ -13,7 +13,6 @@ using OneAdvisor.Model.Account.Interface;
 
 namespace api.Controllers.Client.Clients
 {
-
     [ApiController]
     [Route("api/client/clients")]
     public class ClientsController : Controller

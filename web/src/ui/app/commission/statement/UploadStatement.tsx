@@ -9,6 +9,7 @@ import {
     CommissionStatementTemplate, commissionStatementTemplatesSelector, fetchCommissionStatementTemplates
 } from '@/state/app/commission/templates';
 import { tokenSelector } from '@/state/auth';
+import { downloadFile } from '@/state/file';
 import { RootState } from '@/state/rootReducer';
 import { FileInfo } from '@/state/types';
 import { Button, ContentLoader, Date, Form, FormField, FormSelect, TabPane, Tabs } from '@/ui/controls';
@@ -53,8 +54,8 @@ class UploadStatement extends Component<Props, State> {
 
     loadTemplates = () => {
         const filters = {
-            date: [ this.props.statement.date ],
-            companyId: [ this.props.companyId ],
+            date: [this.props.statement.date],
+            companyId: [this.props.companyId],
         };
         this.props.dispatch(fetchCommissionStatementTemplates(filters));
     };
@@ -85,6 +86,10 @@ class UploadStatement extends Component<Props, State> {
         this.setState({ activeTab });
     };
 
+    download = (url: string, fileName: string) => {
+        this.props.dispatch(downloadFile(fileName, url, () => {}));
+    };
+
     render() {
         let uploadForm = (
             <Form editUseCase="com_import_commissions">
@@ -104,8 +109,9 @@ class UploadStatement extends Component<Props, State> {
                         name="file"
                         listType="text"
                         onChange={this.onChange}
-                        action={`${commissionsImportApi}/${this.props.statement.id}?commissionStatementTemplateId=${this
-                            .state.templateId}`}
+                        action={`${commissionsImportApi}/${this.props.statement.id}?commissionStatementTemplateId=${
+                            this.state.templateId
+                        }`}
                         headers={{
                             Authorization: "Bearer " + this.props.token,
                         }}
@@ -134,10 +140,12 @@ class UploadStatement extends Component<Props, State> {
                     <ContentLoader isLoading={this.props.fetchingFiles}>
                         <Card>
                             <Timeline>
-                                {this.props.files.map((f) => {
+                                {this.props.files.map(f => {
                                     return (
                                         <Timeline.Item color={f.deleted ? "red" : "blue"}>
-                                            <Text delete={f.deleted}>{f.name}</Text> <Date date={f.created} />
+                                            <span className="downloadLink" onClick={() => this.download(f.url, f.name)}>
+                                                <Text delete={f.deleted}>{f.name}</Text> <Date date={f.created} />
+                                            </span>
                                         </Timeline.Item>
                                     );
                                 })}

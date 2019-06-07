@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using api.App.Token;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using OneAdvisor.Model.Account.Interface;
@@ -11,6 +12,7 @@ using OneAdvisor.Model.Email;
 
 namespace api.Controllers.Email
 {
+    [Authorize]
     [ApiController]
     [Route("api/email")]
     public class EmailController : Controller
