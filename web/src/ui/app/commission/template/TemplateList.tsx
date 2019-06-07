@@ -37,7 +37,7 @@ class TemplateList extends Component<Props, State> {
     }
 
     loadTemplates = () => {
-        this.props.dispatch(fetchCommissionStatementTemplates());
+        this.props.dispatch(fetchCommissionStatementTemplates({}));
     };
 
     newTemplate = () => {
@@ -62,9 +62,9 @@ class TemplateList extends Component<Props, State> {
                                 mappingTemplate: "",
                                 types: [],
                             },
-                        }
-                    }
-                ]
+                        },
+                    },
+                ],
             },
         };
         this.props.dispatch(receiveCommissionStatementTemplate(template));
@@ -132,10 +132,7 @@ class TemplateList extends Component<Props, State> {
                     loading={this.props.fetching}
                     onRowClick={org => this.editTemplate(org.id)}
                 />
-                <EditTemplate
-                    visible={this.state.editVisible}
-                    onClose={this.closeEditCompany}
-                />
+                <EditTemplate visible={this.state.editVisible} onClose={this.closeEditCompany} />
             </>
         );
     }

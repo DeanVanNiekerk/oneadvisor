@@ -42,6 +42,7 @@ describe("statementFiles list reducer", () => {
         };
 
         const file: FileInfo = {
+            name: "f1.xslx",
             storageName: "n1",
             contentType: "xlsx",
             created: "1999-01-01",
