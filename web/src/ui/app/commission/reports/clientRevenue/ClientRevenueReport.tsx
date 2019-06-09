@@ -44,7 +44,7 @@ class ClientRevenueReport extends Component<Props, State> {
 
         this.state = {
             editAllocationsClientId: null,
-            downloading: false
+            downloading: false,
         };
     }
 
@@ -70,8 +70,7 @@ class ClientRevenueReport extends Component<Props, State> {
             )
         );
 
-        if (this.props.branches.length === 0)
-            this.props.dispatch(fetchBranches(this.props.organisationId));
+        if (this.props.branches.length === 0) this.props.dispatch(fetchBranches(this.props.organisationId));
     };
 
     updateFilters = (filters: Filters): Filters => {
@@ -108,20 +107,12 @@ class ClientRevenueReport extends Component<Props, State> {
                     return <Age dateOfBirth={clientDateOfBirth} />;
                 },
             }),
-            getColumnEDS(
-                "monthlyAnnuityMonth",
-                "Monthly As & When Commission",
-                {
-                    type: "currency",
-                }
-            ),
-            getColumnEDS(
-                "annualAnnuityAverage",
-                "Annual Commissions Ave. Monthly",
-                {
-                    type: "currency",
-                }
-            ),
+            getColumnEDS("monthlyAnnuityMonth", "Monthly As & When Commission", {
+                type: "currency",
+            }),
+            getColumnEDS("annualAnnuityAverage", "Annual Commissions Avg Monthly", {
+                type: "currency",
+            }),
             getColumnEDS("totalMonthlyEarnings", "Total Monthly Earnings", {
                 type: "currency",
             }),
@@ -136,9 +127,7 @@ class ClientRevenueReport extends Component<Props, State> {
             }),
         ];
 
-        if (
-            hasUseCase("com_view_commission_allocations", this.props.useCases)
-        ) {
+        if (hasUseCase("com_view_commission_allocations", this.props.useCases)) {
             columns.push(
                 getColumnEDS("actions", "", {
                     sorter: undefined,
@@ -146,12 +135,7 @@ class ClientRevenueReport extends Component<Props, State> {
                     render: (value: any, record: ClientRevenueData) => {
                         return (
                             <Badge dot count={record.allocationsCount}>
-                                <Icon
-                                    type="share-alt"
-                                    onClick={() =>
-                                        this.editAllocations(record.clientId)
-                                    }
-                                />
+                                <Icon type="share-alt" onClick={() => this.editAllocations(record.clientId)} />
                             </Badge>
                         );
                     },
@@ -215,15 +199,9 @@ class ClientRevenueReport extends Component<Props, State> {
         );
     };
 
-    onTableChange = (
-        pageOptions: PageOptions,
-        sortOptions: SortOptions,
-        filters: Filters
-    ) => {
-        if (this.props.pageOptions != pageOptions)
-            this.props.dispatch(receiveClientRevenuePageOptions(pageOptions));
-        if (this.props.sortOptions != sortOptions)
-            this.props.dispatch(receiveClientRevenueSortOptions(sortOptions));
+    onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
+        if (this.props.pageOptions != pageOptions) this.props.dispatch(receiveClientRevenuePageOptions(pageOptions));
+        if (this.props.sortOptions != sortOptions) this.props.dispatch(receiveClientRevenueSortOptions(sortOptions));
         if (this.props.filters != filters)
             this.props.dispatch(
                 receiveClientRevenueFilters({
@@ -242,7 +220,9 @@ class ClientRevenueReport extends Component<Props, State> {
                     records.items.map(d => {
                         delete d.rowNumber;
                         delete d.clientId;
-                        d.clientDateOfBirth = d.clientDateOfBirth ? moment(d.clientDateOfBirth).format(DATE_FORMAT) : d.clientDateOfBirth;
+                        d.clientDateOfBirth = d.clientDateOfBirth
+                            ? moment(d.clientDateOfBirth).format(DATE_FORMAT)
+                            : d.clientDateOfBirth;
                         return d;
                     }),
                     `ClientRevenue_${getMonthName(this.selectedMonth())}_${this.selectedYear()}.xlsx`
@@ -259,7 +239,14 @@ class ClientRevenueReport extends Component<Props, State> {
                     actions={
                         <Row type="flex" gutter={10} align="middle">
                             <Col>
-                                <Button icon="download" onClick={this.download} loading={this.state.downloading} noLeftMargin={true} />
+                                <Button
+                                    icon="download"
+                                    onClick={this.download}
+                                    loading={this.state.downloading}
+                                    noLeftMargin={true}
+                                >
+                                    Download
+                                </Button>
                             </Col>
                         </Row>
                     }
@@ -270,17 +257,10 @@ class ClientRevenueReport extends Component<Props, State> {
                 <Row type="flex" gutter={10} align="middle" justify="start" className="mb-1">
                     <Col>Month Ending:</Col>
                     <Col>
-                        <Select
-                            value={this.selectedMonth()}
-                            onChange={this.handleMonthChange}
-                            style={{ width: 125 }}
-                        >
+                        <Select value={this.selectedMonth()} onChange={this.handleMonthChange} style={{ width: 125 }}>
                             {getMonthOptions().map(month => {
                                 return (
-                                    <Select.Option
-                                        key={month.number.toString()}
-                                        value={month.number}
-                                    >
+                                    <Select.Option key={month.number.toString()} value={month.number}>
                                         {month.name}
                                     </Select.Option>
                                 );
@@ -288,17 +268,10 @@ class ClientRevenueReport extends Component<Props, State> {
                         </Select>
                     </Col>
                     <Col>
-                        <Select
-                            value={this.selectedYear()}
-                            onChange={this.handleYearChange}
-                            style={{ width: 90 }}
-                        >
+                        <Select value={this.selectedYear()} onChange={this.handleYearChange} style={{ width: 90 }}>
                             {getYearOptions().map(year => {
                                 return (
-                                    <Select.Option
-                                        key={year.toString()}
-                                        value={year}
-                                    >
+                                    <Select.Option key={year.toString()} value={year}>
                                         {year}
                                     </Select.Option>
                                 );
@@ -318,10 +291,7 @@ class ClientRevenueReport extends Component<Props, State> {
                         >
                             {this.props.branches.map(branch => {
                                 return (
-                                    <Select.Option
-                                        key={branch.id}
-                                        value={branch.id}
-                                    >
+                                    <Select.Option key={branch.id} value={branch.id}>
                                         {branch.name}
                                     </Select.Option>
                                 );
@@ -340,15 +310,14 @@ class ClientRevenueReport extends Component<Props, State> {
                             style={{ width: 260 }}
                         >
                             {this.props.users
-                                .filter(u =>
-                                    this.selectedBranchIds().length === 0 ||
-                                    this.selectedBranchIds().some(id => id === u.branchId))
+                                .filter(
+                                    u =>
+                                        this.selectedBranchIds().length === 0 ||
+                                        this.selectedBranchIds().some(id => id === u.branchId)
+                                )
                                 .map(user => {
                                     return (
-                                        <Select.Option
-                                            key={user.id}
-                                            value={user.id}
-                                        >
+                                        <Select.Option key={user.id} value={user.id}>
                                             {user.fullName}
                                         </Select.Option>
                                     );
@@ -362,7 +331,7 @@ class ClientRevenueReport extends Component<Props, State> {
                     columns={this.getColumns()}
                     dataSource={this.props.records}
                     loading={this.props.fetching}
-                    onRowClick={() => { }}
+                    onRowClick={() => {}}
                     externalDataSource={true}
                     pageOptions={this.props.pageOptions}
                     totalRows={this.props.totalItems}
@@ -373,12 +342,7 @@ class ClientRevenueReport extends Component<Props, State> {
                 />
 
                 <Drawer
-                    title={
-                        <ClientName
-                            prefix="Allocations to "
-                            clientId={this.state.editAllocationsClientId}
-                        />
-                    }
+                    title={<ClientName prefix="Allocations to " clientId={this.state.editAllocationsClientId} />}
                     icon="share-alt"
                     noTopPadding={true}
                     visible={!!this.state.editAllocationsClientId}
@@ -386,13 +350,9 @@ class ClientRevenueReport extends Component<Props, State> {
                 >
                     {this.state.editAllocationsClientId && (
                         <>
-                            <AllocationList
-                                clientId={this.state.editAllocationsClientId}
-                            />
+                            <AllocationList clientId={this.state.editAllocationsClientId} />
                             <DrawerFooter>
-                                <Button onClick={this.closeEditAllocations}>
-                                    Close
-                                </Button>
+                                <Button onClick={this.closeEditAllocations}>Close</Button>
                             </DrawerFooter>
                         </>
                     )}

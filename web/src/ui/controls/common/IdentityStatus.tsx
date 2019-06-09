@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getScopeName } from '@/config/scope';
 import { TokenData, tokenSelector } from '@/state/auth';
 import { contextSelector } from '@/state/context/selectors';
 import { AppInfo } from '@/state/context/types';
@@ -21,11 +20,7 @@ class IdentityStatusComponent extends Component<Props> {
             <div>
                 <div>
                     <b>Id:</b>&nbsp;
-                    {
-                        tokenData[
-                            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-                        ]
-                    }
+                    {tokenData["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"]}
                 </div>
                 <div>
                     <b>Name:</b>&nbsp;
@@ -49,21 +44,15 @@ class IdentityStatusComponent extends Component<Props> {
                 </div>
                 <div>
                     <b>Scope:</b>&nbsp;
-                    {getScopeName(tokenData.scope)}
+                    {tokenData.scope}
                 </div>
                 <div>
                     <b>Roles:</b>&nbsp;
-                    {tokenData[
-                        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-                    ].join(", ")}
+                    {tokenData["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"].join(", ")}
                 </div>
                 <div>
                     <b>Token Expires:</b>&nbsp;
-                    <Date
-                        date={tokenData.exp}
-                        includeTime={true}
-                        isUnixSeconds={true}
-                    />
+                    <Date date={tokenData.exp} includeTime={true} isUnixSeconds={true} />
                 </div>
                 <div>
                     <b>App Version:</b>&nbsp;

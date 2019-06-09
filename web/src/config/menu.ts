@@ -86,13 +86,13 @@ export const menus: Menus = {
                 links: [
                     {
                         name: "Import",
-                        icon: "upload",
+                        icon: "import",
                         relativePath: "/import",
                         useCases: ["clt_import_clients"],
                     },
                     {
                         name: "Export",
-                        icon: "download",
+                        icon: "export",
                         relativePath: "/export",
                         useCases: ["clt_export_clients"],
                     },

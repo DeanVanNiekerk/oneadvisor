@@ -7,21 +7,15 @@ export const getScopes = (): Scope[] => {
     return [
         {
             id: 1,
-            name: 'Organisation'
+            name: "Organisation",
         },
         {
             id: 2,
-            name: 'Branch'
+            name: "Branch",
         },
         {
             id: 3,
-            name: 'User'
-        }
+            name: "User",
+        },
     ];
-};
-
-export const getScopeName = (scope: number): string => {
-    const match = getScopes().find(s => s.id >= scope);
-    if (!match) return 'No mapping';
-    return match.name;
 };
