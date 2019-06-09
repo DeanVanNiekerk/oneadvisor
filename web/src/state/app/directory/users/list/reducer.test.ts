@@ -52,6 +52,8 @@ describe("user list reducer", () => {
             branchName: "Branch1",
             scope: 1,
             emailConfirmed: true,
+            isLocked: false,
+            lockoutEnd: null,
         };
 
         const actualState = reducer(initalState, {

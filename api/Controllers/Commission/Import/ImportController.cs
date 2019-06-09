@@ -103,7 +103,7 @@ namespace api.Controllers.Commission.Import
             var files = await FileStorageService.GetFilesAsync(path);
 
             if (!files.Any())
-                return this.BadRequest("Reimport failed as there are no existing statement files.");
+                return this.BadRequestMessage("Reimport failed as there are no existing statement files.");
 
             var queryOptions = new CommissionStatementTemplateQueryOptions("", "", 0, 0);
             queryOptions.CompanyId.Add(statement.CompanyId.Value);
@@ -112,7 +112,7 @@ namespace api.Controllers.Commission.Import
             var templates = (await CommissionStatementTemplateService.GetTemplates(queryOptions)).Items;
 
             if (!templates.Any())
-                return this.BadRequest("Reimport failed as there are no valid templates.");
+                return this.BadRequestMessage("Reimport failed as there are no valid templates.");
 
             var template = await CommissionStatementTemplateService.GetTemplate(templates.First().Id);
 

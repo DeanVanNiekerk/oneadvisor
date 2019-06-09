@@ -20,5 +20,7 @@ namespace OneAdvisor.Model.Directory.Model.User
         public IEnumerable<string> Roles { get; set; }
         public Scope Scope { get; set; }
         public IEnumerable<string> Aliases { get; set; }
+        public bool IsLocked { get; set; }
+
     }
 }

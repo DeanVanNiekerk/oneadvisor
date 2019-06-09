@@ -22,7 +22,7 @@ namespace api.Test.Controllers.Directory
         [Fact]
         public void UserModelComposition()
         {
-            Assert.Equal(11, typeof(User).PropertyCount());
+            Assert.Equal(13, typeof(User).PropertyCount());
             Assert.True(typeof(User).HasProperty("Id"));
             Assert.True(typeof(User).HasProperty("FirstName"));
             Assert.True(typeof(User).HasProperty("LastName"));
@@ -34,12 +34,14 @@ namespace api.Test.Controllers.Directory
             Assert.True(typeof(User).HasProperty("BranchName"));
             Assert.True(typeof(User).HasProperty("Scope"));
             Assert.True(typeof(User).HasProperty("EmailConfirmed"));
+            Assert.True(typeof(User).HasProperty("LockoutEnd"));
+            Assert.True(typeof(User).HasProperty("IsLocked"));
         }
 
         [Fact]
         public void UserEditModelComposition()
         {
-            Assert.Equal(9, typeof(UserEdit).PropertyCount());
+            Assert.Equal(10, typeof(UserEdit).PropertyCount());
             Assert.True(typeof(UserEdit).HasProperty("Id"));
             Assert.True(typeof(UserEdit).HasProperty("FirstName"));
             Assert.True(typeof(UserEdit).HasProperty("LastName"));
@@ -49,6 +51,7 @@ namespace api.Test.Controllers.Directory
             Assert.True(typeof(UserEdit).HasProperty("Roles"));
             Assert.True(typeof(UserEdit).HasProperty("Aliases"));
             Assert.True(typeof(UserEdit).HasProperty("Scope"));
+            Assert.True(typeof(UserEdit).HasProperty("IsLocked"));
         }
 
         [Fact]

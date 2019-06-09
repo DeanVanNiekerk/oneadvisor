@@ -13,6 +13,7 @@ const defaultUser: UserEdit = {
     roles: ["role_1"],
     scope: 1,
     aliases: ["DJ"],
+    isLocked: false,
 };
 
 describe("user reducer", () => {

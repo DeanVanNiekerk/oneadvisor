@@ -12,7 +12,9 @@ import { Role } from '@/state/app/directory/roles';
 import { UserEdit } from '@/state/app/directory/users';
 import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
-import { Form, FormErrors, FormInput, FormSelect, FormSimpleList, Secure, TabPane, Tabs } from '@/ui/controls';
+import {
+    Form, FormErrors, FormInput, FormSelect, FormSimpleList, FormSwitch, Secure, TabPane, Tabs
+} from '@/ui/controls';
 
 import SplitRuleList from '../../commission/splitRule/SplitRuleList';
 import BranchSelect from './BranchSelect';
@@ -54,10 +56,7 @@ class UserForm extends Component<Props, State> {
         }
     }
 
-    handleChange = (
-        fieldName: keyof UserEdit,
-        value: string | number | string[]
-    ) => {
+    handleChange = (fieldName: keyof UserEdit, value: string | number | string[]) => {
         const user = {
             ...this.state.user,
             [fieldName]: value,
@@ -75,8 +74,7 @@ class UserForm extends Component<Props, State> {
     toggleRoleChange = (roleName: string) => {
         let roles = [...this.state.user.roles];
 
-        if (this.isRoleSelected(roleName))
-            roles = this.state.user.roles.filter(r => r !== roleName);
+        if (this.isRoleSelected(roleName)) roles = this.state.user.roles.filter(r => r !== roleName);
         else roles.push(roleName);
 
         this.handleChange("roles", roles);
@@ -94,11 +92,7 @@ class UserForm extends Component<Props, State> {
             <>
                 <FormErrors validationResults={validationResults} />
 
-                <Tabs
-                    onChange={this.onTabChange}
-                    activeKey={this.state.activeTab}
-                    sticky={true}
-                >
+                <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true}>
                     <TabPane tab="Details" key="details_tab">
                         <Form editUseCase="dir_edit_users">
                             <FormInput
@@ -134,9 +128,7 @@ class UserForm extends Component<Props, State> {
                                 branchId={user.branchId}
                                 organisations={this.props.organisations}
                                 validationResults={validationResults}
-                                onChange={(branchId: string) =>
-                                    this.handleChange("branchId", branchId)
-                                }
+                                onChange={(branchId: string) => this.handleChange("branchId", branchId)}
                             />
                             <FormSelect
                                 fieldName="scope"
@@ -148,38 +140,31 @@ class UserForm extends Component<Props, State> {
                                 optionsValue="id"
                                 optionsText="name"
                             />
+                            <FormSwitch
+                                fieldName="isLocked"
+                                label="Locked"
+                                value={user.isLocked}
+                                onChange={this.handleChange}
+                                validationResults={validationResults}
+                                className={user.isLocked ? "bg-error" : ""}
+                            />
                         </Form>
                     </TabPane>
                     <TabPane tab="Roles" key="roles_tab">
                         {this.props.applications.map(application => (
                             <List
                                 key={application.id}
-                                header={
-                                    <h4 className="mb-0">{application.name}</h4>
-                                }
+                                header={<h4 className="mb-0">{application.name}</h4>}
                                 bordered={true}
                                 size="small"
-                                dataSource={this.props.roles.filter(
-                                    r => r.applicationId === application.id
-                                )}
+                                dataSource={this.props.roles.filter(r => r.applicationId === application.id)}
                                 renderItem={(role: Role) => (
                                     <List.Item
                                         actions={[
                                             <Switch
-                                                disabled={
-                                                    !hasUseCase(
-                                                        "dir_edit_users",
-                                                        this.props.useCases
-                                                    )
-                                                }
-                                                checked={this.isRoleSelected(
-                                                    role.name
-                                                )}
-                                                onChange={() =>
-                                                    this.toggleRoleChange(
-                                                        role.name
-                                                    )
-                                                }
+                                                disabled={!hasUseCase("dir_edit_users", this.props.useCases)}
+                                                checked={this.isRoleSelected(role.name)}
+                                                onChange={() => this.toggleRoleChange(role.name)}
                                                 size="small"
                                             />,
                                         ]}
@@ -197,9 +182,7 @@ class UserForm extends Component<Props, State> {
                             fieldName="Aliases"
                             displayName="Alias"
                             values={user.aliases}
-                            onChange={(aliases: string[]) =>
-                                this.handleChange("aliases", aliases)
-                            }
+                            onChange={(aliases: string[]) => this.handleChange("aliases", aliases)}
                             validationResults={validationResults}
                         />
                     </TabPane>

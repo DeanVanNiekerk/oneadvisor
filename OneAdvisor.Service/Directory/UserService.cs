@@ -47,7 +47,8 @@ namespace OneAdvisor.Service.Directory
                             OrganisationId = organisation.Id,
                             OrganisationName = organisation.Name,
                             Scope = user.Scope,
-                            EmailConfirmed = user.EmailConfirmed
+                            EmailConfirmed = user.EmailConfirmed,
+                            LockoutEnd = user.LockoutEnd
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -116,6 +117,7 @@ namespace OneAdvisor.Service.Directory
         {
             var model = MapEntityToModel(entity);
             model.Roles = await _userManager.GetRolesAsync(entity);
+            model.IsLocked = await _userManager.IsLockedOutAsync(entity);
 
             return model;
         }
@@ -152,6 +154,7 @@ namespace OneAdvisor.Service.Directory
             }
 
             await UpdateRoles(entity, user.Roles);
+            await UpdateIsLocked(entity, user.IsLocked);
 
             return result;
         }
@@ -182,6 +185,7 @@ namespace OneAdvisor.Service.Directory
             }
 
             await UpdateRoles(entity, user.Roles);
+            await UpdateIsLocked(entity, user.IsLocked);
 
             return result;
         }
@@ -192,6 +196,17 @@ namespace OneAdvisor.Service.Directory
             var currentRoles = await _userManager.GetRolesAsync(entity);
             await _userManager.RemoveFromRolesAsync(entity, currentRoles);
             await _userManager.AddToRolesAsync(entity, roles);
+        }
+
+        private async Task UpdateIsLocked(UserEntity entity, bool isLocked)
+        {
+            var isCurrentlyLocked = await _userManager.IsLockedOutAsync(entity);
+
+            if (isCurrentlyLocked && !isLocked)
+                await _userManager.SetLockoutEndDateAsync(entity, null);
+
+            if (!isCurrentlyLocked && isLocked)
+                await _userManager.SetLockoutEndDateAsync(entity, DateTime.MaxValue);
         }
 
         private UserEntity MapModelToEntity(UserEdit model, UserEntity entity = null)

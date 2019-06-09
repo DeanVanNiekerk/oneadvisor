@@ -16,25 +16,16 @@ type Props = {
     validationResults?: ValidationResult[];
     layout?: FormLayout;
     readonly?: boolean;
+    className?: string;
 };
 
 class FormSwitch extends Component<Props> {
     onChange = (checked: boolean) => {
-        if (this.props.onChange)
-            this.props.onChange(this.props.fieldName, checked);
+        if (this.props.onChange) this.props.onChange(this.props.fieldName, checked);
     };
 
     render() {
-        const {
-            fieldName,
-            label,
-            value,
-            validationResults,
-            disabled = false,
-            layout,
-            readonly,
-            extra
-        } = this.props;
+        const { fieldName, label, value, validationResults, disabled = false, layout, readonly, extra } = this.props;
 
         return (
             <FormField
@@ -49,6 +40,7 @@ class FormSwitch extends Component<Props> {
                     disabled={disabled || readonly}
                     checked={value}
                     onChange={this.onChange}
+                    className={this.props.className}
                 />
             </FormField>
         );

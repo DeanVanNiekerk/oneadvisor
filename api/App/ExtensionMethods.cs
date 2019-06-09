@@ -24,7 +24,7 @@ namespace api
             return roles.Any(r => r == Role.SUPER_ADMINISTRATOR_ROLE);
         }
 
-        public static BadRequestObjectResult BadRequest(this Controller controller, string message)
+        public static BadRequestObjectResult BadRequestMessage(this Controller controller, string message)
         {
             return controller.BadRequest(new List<ValidationFailure>() { new ValidationFailure("", message) });
         }

@@ -6,10 +6,7 @@ type ApiActionType = "API";
 type ApiMethods = "GET" | "POST" | "DELETE";
 export type ApiOnSuccess = (result: any, dispatch: Dispatch) => void;
 export type ApiOnFailure = (result: any) => void;
-export type ApiOnValidationFailure = (
-    validationResults: ValidationResult[],
-    dispatch: Dispatch
-) => void;
+export type ApiOnValidationFailure = (validationResults: ValidationResult[], dispatch: Dispatch) => void;
 export type ApiOnSuccessBlob = (blob: Blob, dispatch: Dispatch) => void;
 export type ApiAction = {
     type: ApiActionType;
@@ -27,5 +24,7 @@ export type ApiAction = {
 
 export type Result<T = any> = {
     success: boolean;
+    errors: string[];
+    validationFailures: ValidationResult[];
     tag: T;
 };

@@ -13,6 +13,7 @@ const defaultUser: UserEdit = {
     roles: ["role_1"],
     scope: 1,
     aliases: ["DJ"],
+    isLocked: false,
 };
 
 describe("user actions", () => {
@@ -38,9 +39,7 @@ describe("user actions", () => {
             dispatchPrefix: "USERS_USER_EDIT",
         };
 
-        expect(actions.updateUser(defaultUser, onSuccess)).toEqual(
-            expectedAction
-        );
+        expect(actions.updateUser(defaultUser, onSuccess)).toEqual(expectedAction);
     });
 
     it("should dispatch API when insertUser is called", () => {
@@ -55,8 +54,6 @@ describe("user actions", () => {
             dispatchPrefix: "USERS_USER_EDIT",
         };
 
-        expect(actions.insertUser(defaultUser, onSuccess)).toEqual(
-            expectedAction
-        );
+        expect(actions.insertUser(defaultUser, onSuccess)).toEqual(expectedAction);
     });
 });

@@ -16,5 +16,13 @@ namespace OneAdvisor.Model.Directory.Model.User
         public string BranchName { get; set; }
         public Scope Scope { get; set; }
         public bool EmailConfirmed { get; set; }
+        public DateTimeOffset? LockoutEnd { get; set; }
+        public bool IsLocked
+        {
+            get
+            {
+                return LockoutEnd.HasValue && LockoutEnd.Value.LocalDateTime > DateTime.Now;
+            }
+        }
     }
 }

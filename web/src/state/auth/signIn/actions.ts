@@ -4,7 +4,6 @@ import { ApiAction, ApiOnSuccess } from '@/app/types';
 import { ValidationResult } from '@/app/validation';
 import { signInApi } from '@/config/api/account';
 
-import { setToken } from '../../storage';
 import { recieveToken } from '../token/actions';
 import { Credentials } from '../types';
 
@@ -23,23 +22,16 @@ type SignInValidationErrorAction = {
     payload: ValidationResult[];
 };
 
-export type SignInActions =
-    | SignInAction
-    | SigningInAction
-    | SigningInErrorAction
-    | SignInValidationErrorAction;
+export type SignInActions = SignInAction | SigningInAction | SigningInErrorAction | SignInValidationErrorAction;
 
-export const signIn = (
-    credentials: Credentials,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
+export const signIn = (credentials: Credentials, onSuccess: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${signInApi}`,
     method: "POST",
     payload: credentials,
     dispatchPrefix: "AUTH_SIGNIN",
     hideNotifications: true,
-    onSuccess: (result: any, dispatch: Dispatch) => {
+    onSuccess: (result: { token: string }, dispatch: Dispatch) => {
         dispatch(recieveToken(result.token));
         onSuccess(result, dispatch);
     },

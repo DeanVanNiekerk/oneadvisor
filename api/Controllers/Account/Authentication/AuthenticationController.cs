@@ -41,8 +41,11 @@ namespace api.Controllers.Account.Authentication
         {
             var result = await AuthenticationService.Authenticate(dto.UserName, dto.Password);
 
+            if (result.IsLocked)
+                return this.BadRequestMessage("Your account is locked. Please contact your administrator.");
+
             if (!result.Success)
-                return BadRequest(new Result("Invalid Username or Password"));
+                return this.BadRequestMessage("Invalid Username or Password");
 
             var token = await AuthenticationService.GenerateToken(dto.UserName, JwtOptions);
 

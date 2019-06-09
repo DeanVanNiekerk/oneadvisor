@@ -10,6 +10,8 @@ export type User = {
     branchName: string;
     scope: number;
     emailConfirmed: boolean;
+    lockoutEnd: string | null;
+    isLocked: boolean;
 };
 
 export type UserEdit = {
@@ -22,4 +24,5 @@ export type UserEdit = {
     roles: string[];
     scope: number;
     aliases: string[];
+    isLocked: boolean;
 };

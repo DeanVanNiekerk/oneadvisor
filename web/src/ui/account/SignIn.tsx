@@ -92,7 +92,6 @@ class SignIn extends React.Component<Props, State> {
                         size="large"
                         prefix={<Icon type="user" />}
                         onChange={this.handleUserNameChange}
-                        validationResults={validationResults}
                         autoFocus={true}
                         formFieldStyle={{
                             marginBottom: "10px",
@@ -106,7 +105,6 @@ class SignIn extends React.Component<Props, State> {
                         prefix={<Icon type="lock" />}
                         size="large"
                         onChange={this.handlePasswordChange}
-                        validationResults={validationResults}
                         formFieldStyle={{
                             marginBottom: "25px",
                         }}
@@ -116,18 +114,14 @@ class SignIn extends React.Component<Props, State> {
 
                     {this.props.failed && (
                         <p className="text-error text-center mb-2">
-                            <b>Invalid email or password</b>
+                            {validationResults.map(r => (
+                                <b>{r.errorMessage}</b>
+                            ))}
                         </p>
                     )}
 
                     <FormField>
-                        <Button
-                            size="large"
-                            noLeftMargin={true}
-                            onClick={this.signIn}
-                            type="primary"
-                            block={true}
-                        >
+                        <Button size="large" noLeftMargin={true} onClick={this.signIn} type="primary" block={true}>
                             Sign In
                         </Button>
                     </FormField>

@@ -55,6 +55,7 @@ class UserList extends Component<Props, State> {
             scope: 1,
             roles: [],
             aliases: [],
+            isLocked: false,
         };
 
         this.props.dispatch(receiveUser(user));
@@ -93,11 +94,12 @@ class UserList extends Component<Props, State> {
             getColumn("branchName", "Branch"),
             getColumn("emailConfirmed", "Activated", {
                 render: (emailConfirmed: boolean) => {
-                    return emailConfirmed ? (
-                        <Tag color="green">Yes</Tag>
-                    ) : (
-                        <Tag color="volcano">No</Tag>
-                    );
+                    return emailConfirmed ? <Tag color="green">Yes</Tag> : <Tag color="volcano">No</Tag>;
+                },
+            }),
+            getColumn("isLocked", "Locked", {
+                render: (isLocked: boolean) => {
+                    return !isLocked ? <Tag color="green">No</Tag> : <Tag color="volcano">Yes</Tag>;
                 },
             }),
             getColumn("scope", "Scope", {

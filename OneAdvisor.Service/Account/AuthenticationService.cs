@@ -67,6 +67,11 @@ namespace OneAdvisor.Service.Account
             if (user == null)
                 return result;
 
+            result.IsLocked = await _userManager.IsLockedOutAsync(user);
+
+            if (result.IsLocked)
+                return result;
+
             result.Success = await _userManager.CheckPasswordAsync(user, password ?? "");
 
             return result;
