@@ -43,6 +43,8 @@ describe("reset password reducer", () => {
             type: "AUTH_RESETPASSWORD_RECEIVE",
             payload: {
                 success: true,
+                errors: [],
+                validationFailures: [],
                 tag: null,
             },
         });
