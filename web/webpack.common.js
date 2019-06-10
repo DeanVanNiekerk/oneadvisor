@@ -1,9 +1,9 @@
 var path = require("path");
 var config = require("config");
 const webpack = require("webpack");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const { HtmlWebPackPlugin } = require("html-webpack-plugin");
+const { CopyWebpackPlugin } = require("copy-webpack-plugin");
 
 const oaBaseApi = config.get("baseApi");
 const environment = config.get("environment");

@@ -1,17 +1,18 @@
 import { Popconfirm } from 'antd';
+import { ColumnProps } from 'antd/lib/table';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { applyLike } from '@/app/query';
-import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
+import { Filters, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
 import {
     Client, ClientEdit, clientMergeReset, clientsSelector, deleteClient, fetchClients, fetchMergeClients, newClient,
     receiveClient, receiveClientPreview, receiveFilters, receivePageOptions, receiveSelectedClients, receiveSortOptions
 } from '@/state/app/client/clients';
 import { ClientType, clientTypesSelector } from '@/state/app/client/lookups';
 import { RootState } from '@/state/rootReducer';
-import { Button, ClientTypeIcon, Header, StopPropagation, Table } from '@/ui/controls';
+import { Button, ClientTypeIcon, getTable, Header, StopPropagation } from '@/ui/controls';
 
 import ClientMerge from '../merge/ClientMerge';
 import EditClient from './EditClient';
@@ -58,11 +59,7 @@ class ClientList extends Component<Props, State> {
 
     loadClients = () => {
         this.props.dispatch(
-            fetchClients(
-                this.props.pageOptions,
-                this.props.sortOptions,
-                this.updateFilters(this.props.filters)
-            )
+            fetchClients(this.props.pageOptions, this.props.sortOptions, this.updateFilters(this.props.filters))
         );
     };
 
@@ -90,10 +87,13 @@ class ClientList extends Component<Props, State> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<Client>(true, this.props.filters);
+
         return [
-            getColumnEDS(
+            getColumn(
                 "clientTypeId",
                 "Type",
+                {},
                 {
                     width: "110px",
                     align: "center",
@@ -104,67 +104,45 @@ class ClientList extends Component<Props, State> {
                         text: type.name,
                         value: type.id,
                     })),
-                },
-                this.props.filters
+                }
             ),
-            getColumnEDS(
-                "lastName",
-                "Last Name",
-                {
-                    showSearchFilter: true,
-                },
-                this.props.filters
-            ),
-            getColumnEDS(
-                "firstName",
-                "First Name",
-                { showSearchFilter: true },
-                this.props.filters
-            ),
-            getColumnEDS(
-                "idNumber",
-                "ID Number",
-                { showSearchFilter: true },
-                this.props.filters
-            ),
-            getColumnEDS("dateOfBirth", "Date of Birth", { type: "date" }),
-            getColumnEDS("id", "Actions", {
-                render: (id: string) => {
-                    return (
-                        <StopPropagation>
-                            <a
-                                href="#"
-                                className="mr-1"
-                                onClick={() => this.editClient(id)}
-                            >
-                                Edit
-                            </a>
-                            <Popconfirm
-                                title="Are you sure remove this client?"
-                                onConfirm={() => this.deleteClient(id)}
-                                okText="Yes"
-                                cancelText="No"
-                            >
-                                <a href="#">Remove</a>
-                            </Popconfirm>
-                        </StopPropagation>
-                    );
-                },
+            getColumn("lastName", "Last Name", {
+                showSearchFilter: true,
             }),
+            getColumn("firstName", "First Name", { showSearchFilter: true }),
+            getColumn("idNumber", "ID Number", { showSearchFilter: true }),
+            getColumn("dateOfBirth", "Date of Birth", { type: "date" }),
+            getColumn(
+                "id",
+                "Actions",
+                {},
+                {
+                    render: (id: string) => {
+                        return (
+                            <StopPropagation>
+                                <a href="#" className="mr-1" onClick={() => this.editClient(id)}>
+                                    Edit
+                                </a>
+                                <Popconfirm
+                                    title="Are you sure remove this client?"
+                                    onConfirm={() => this.deleteClient(id)}
+                                    okText="Yes"
+                                    cancelText="No"
+                                >
+                                    <a href="#">Remove</a>
+                                </Popconfirm>
+                            </StopPropagation>
+                        );
+                    },
+                }
+            ),
         ];
     };
 
-    onTableChange = (
-        pageOptions: PageOptions,
-        sortOptions: SortOptions,
-        filters: Filters
-    ) => {
-        if (this.props.pageOptions != pageOptions)
-            this.props.dispatch(receivePageOptions(pageOptions));
-        if (this.props.sortOptions != sortOptions)
-            this.props.dispatch(receiveSortOptions(sortOptions));
-        if (this.props.filters != filters)
-            this.props.dispatch(receiveFilters(filters));
+    onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
+        if (this.props.pageOptions != pageOptions) this.props.dispatch(receivePageOptions(pageOptions));
+        if (this.props.sortOptions != sortOptions) this.props.dispatch(receiveSortOptions(sortOptions));
+        if (this.props.filters != filters) this.props.dispatch(receiveFilters(filters));
     };
 
     onClientSelected = (selectedClientIds: string[]) => {
@@ -204,6 +182,8 @@ class ClientList extends Component<Props, State> {
     };
 
     render() {
+        const Table = getTable<Client>();
+
         return (
             <>
                 <Header
@@ -214,9 +194,7 @@ class ClientList extends Component<Props, State> {
                                 type="primary"
                                 icon="fork"
                                 onClick={this.openClientMerge}
-                                visible={
-                                    this.props.selectedClientIds.length > 1
-                                }
+                                visible={this.props.selectedClientIds.length > 1}
                                 requiredUseCase="clt_edit_clients"
                             >
                                 Merge
@@ -225,9 +203,7 @@ class ClientList extends Component<Props, State> {
                                 type="primary"
                                 icon="delete"
                                 onClick={this.clearAllSelectedClients}
-                                visible={
-                                    this.props.selectedClientIds.length > 0
-                                }
+                                visible={this.props.selectedClientIds.length > 0}
                             >
                                 Clear All Selected
                             </Button>
@@ -260,14 +236,8 @@ class ClientList extends Component<Props, State> {
                         selectedRowKeys: this.props.selectedClientIds,
                     }}
                 />
-                <EditClient
-                    onClose={this.closeClientEdit}
-                    visible={this.state.clientEditVisible}
-                />
-                <ClientMerge
-                    onClose={this.closeClientMerge}
-                    visible={this.state.clientMergeVisible}
-                />
+                <EditClient onClose={this.closeClientEdit} visible={this.state.clientEditVisible} />
+                <ClientMerge onClose={this.closeClientMerge} visible={this.state.clientMergeVisible} />
             </>
         );
     }

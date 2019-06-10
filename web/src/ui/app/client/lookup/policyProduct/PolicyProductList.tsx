@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import {
     fetchPolicyProducts, PolicyProduct, policyProductsSelector, PolicyProductType, policyProductTypesSelector,
-    PolicyType, policyTypesSelector, receivePolicyProduct
+    receivePolicyProduct
 } from '@/state/app/client/lookups';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
-import { Button, CompanyName, Header, PolicyProductTypeName, PolicyTypeName, Table } from '@/ui/controls';
+import { Button, CompanyName, getTable, Header, PolicyProductTypeName } from '@/ui/controls';
 
 import EditPolicyProduct from './EditPolicyProduct';
 
@@ -71,35 +71,45 @@ class PolicyProductList extends Component<Props, State> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<PolicyProduct>();
+
         return [
             getColumn("name", "Name", { showSearchFilter: true }),
             getColumn("code", "Code", { showSearchFilter: true }),
-            getColumn("policyProductTypeId", "Policy Type", {
-                render: (policyProductTypeId: string) => {
-                    return (
-                        <PolicyProductTypeName
-                            policyProductTypeId={policyProductTypeId}
-                        />
-                    );
-                },
-                filters: this.props.policyProductTypes.map(p => ({
-                    text: p.name,
-                    value: p.id,
-                })),
-            }),
-            getColumn("companyId", "Company", {
-                render: (companyId: string) => {
-                    return <CompanyName companyId={companyId} />;
-                },
-                filters: this.props.companies.map(c => ({
-                    text: c.name,
-                    value: c.id,
-                })),
-            }),
+            getColumn(
+                "policyProductTypeId",
+                "Policy Type",
+                {},
+                {
+                    render: (policyProductTypeId: string) => {
+                        return <PolicyProductTypeName policyProductTypeId={policyProductTypeId} />;
+                    },
+                    filters: this.props.policyProductTypes.map(p => ({
+                        text: p.name,
+                        value: p.id,
+                    })),
+                }
+            ),
+            getColumn(
+                "companyId",
+                "Company",
+                {},
+                {
+                    render: (companyId: string) => {
+                        return <CompanyName companyId={companyId} />;
+                    },
+                    filters: this.props.companies.map(c => ({
+                        text: c.name,
+                        value: c.id,
+                    })),
+                }
+            ),
         ];
     };
 
     render() {
+        const Table = getTable<PolicyProduct>();
+
         return (
             <>
                 <Header
@@ -125,10 +135,7 @@ class PolicyProductList extends Component<Props, State> {
                     loading={this.props.fetching}
                     onRowClick={p => this.editPolicyProduct(p.id)}
                 />
-                <EditPolicyProduct
-                    visible={this.state.editVisible}
-                    onClose={this.closeEditPolicyProduct}
-                />
+                <EditPolicyProduct visible={this.state.editVisible} onClose={this.closeEditPolicyProduct} />
             </>
         );
     }

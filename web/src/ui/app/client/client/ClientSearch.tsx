@@ -1,12 +1,13 @@
 import { Icon, Input } from 'antd';
+import { ColumnProps } from 'antd/lib/table';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { applyLike } from '@/app/query';
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import { Client, clientSearchSelector, searchClients } from '@/state/app/client/clients';
 import { RootState } from '@/state/rootReducer';
-import { Age, Table } from '@/ui/controls';
+import { Age, getTable } from '@/ui/controls';
 
 type Props = {
     clients: Client[];
@@ -47,22 +48,31 @@ class ClientSearch extends Component<Props, State> {
         this.setState({ searchText: e.target.value }, this.loadClients);
     };
 
-    getColumns = () => {
+    getColumns = (): ColumnProps<Client>[] => {
+        var getColumn = getColumnDefinition<Client>();
+
         return [
-            getColumn("lastName", "Last Name", { sorter: false }),
-            getColumn("initials", "Initials", { sorter: false }),
-            getColumn("dateOfBirth", "Age", {
-                sorter: false,
-                render: (dateOfBirth: string) => {
-                    return <Age dateOfBirth={dateOfBirth} />;
-                },
-            }),
-            getColumn("idNumber", "ID Number", { sorter: false }),
+            getColumn("lastName", "Last Name", {}, { sorter: false }),
+            getColumn("initials", "Initials", {}, { sorter: false }),
+            getColumn(
+                "dateOfBirth",
+                "Age",
+                {},
+                {
+                    sorter: false,
+                    render: (dateOfBirth: string) => {
+                        return <Age dateOfBirth={dateOfBirth} />;
+                    },
+                }
+            ),
+            getColumn("idNumber", "ID Number", {}, { sorter: false }),
         ];
     };
 
     render() {
         const { searchText } = this.state;
+
+        const Table = getTable<Client>();
 
         return (
             <>

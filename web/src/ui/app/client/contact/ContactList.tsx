@@ -1,13 +1,14 @@
 import { Popconfirm } from 'antd';
+import { ColumnProps } from 'antd/lib/table';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import {
     Contact, contactsSelector, deleteContact, fetchContact, fetchContacts, receiveContact
 } from '@/state/app/client/contacts';
 import { RootState } from '@/state/rootReducer';
-import { ContactTypeName, StopPropagation, Table } from '@/ui/controls';
+import { ContactTypeName, getTable, StopPropagation } from '@/ui/controls';
 
 import EditContact from './EditContact';
 
@@ -26,7 +27,7 @@ class ContactList extends Component<Props> {
     loadContacts = () => {
         this.props.dispatch(receiveContact(null));
         const filters = {
-            clientId: [this.props.clientId]
+            clientId: [this.props.clientId],
         };
 
         this.props.dispatch(fetchContacts(filters));
@@ -46,46 +47,53 @@ class ContactList extends Component<Props> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<Contact>();
+
         return [
-            getColumn('contactTypeId', 'Type', {
-                render: (contactTypeId: string) => {
-                    return <ContactTypeName contactTypeId={contactTypeId} />;
+            getColumn(
+                "contactTypeId",
+                "Type",
+                {},
+                {
+                    render: (contactTypeId: string) => {
+                        return <ContactTypeName contactTypeId={contactTypeId} />;
+                    },
                 }
-            }),
-            getColumn('value', 'Value'),
-            getColumn('id', 'Actions', {
-                render: (id: string) => {
-                    return (
-                        <StopPropagation>
-                            <a
-                                href="#"
-                                className="mr-1"
-                                onClick={() => this.editContact(id)}
-                            >
-                                Edit
-                            </a>
-                            <Popconfirm
-                                title="Are you sure remove this contact?"
-                                onConfirm={() => this.deleteContact(id)}
-                                okText="Yes"
-                                cancelText="No"
-                            >
-                                <a href="#">Remove</a>
-                            </Popconfirm>
-                        </StopPropagation>
-                    );
+            ),
+            getColumn("value", "Value"),
+            getColumn(
+                "id",
+                "Actions",
+                {},
+                {
+                    render: (id: string) => {
+                        return (
+                            <StopPropagation>
+                                <a href="#" className="mr-1" onClick={() => this.editContact(id)}>
+                                    Edit
+                                </a>
+                                <Popconfirm
+                                    title="Are you sure remove this contact?"
+                                    onConfirm={() => this.deleteContact(id)}
+                                    okText="Yes"
+                                    cancelText="No"
+                                >
+                                    <a href="#">Remove</a>
+                                </Popconfirm>
+                            </StopPropagation>
+                        );
+                    },
                 }
-            })
+            ),
         ];
     };
 
     render() {
+        const Table = getTable<Contact>();
+
         return (
             <>
-                <EditContact
-                    clientId={this.props.clientId}
-                    onSave={this.onSave}
-                />
+                <EditContact clientId={this.props.clientId} onSave={this.onSave} />
                 <Table
                     rowKey="id"
                     columns={this.getColumns()}
@@ -103,7 +111,7 @@ const mapStateToProps = (state: RootState) => {
 
     return {
         contacts: contactsState.items,
-        fetching: contactsState.fetching
+        fetching: contactsState.fetching,
     };
 };
 

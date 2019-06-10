@@ -1,18 +1,14 @@
 import { Icon } from 'antd';
+import { ColumnProps } from 'antd/lib/table';
 import * as React from 'react';
 
 import { ColumnSearch } from '@/ui/controls';
 
-export const getColumnSearchProps = fieldName => {
+function getColumnSearchProps<T>(fieldName): ColumnProps<T> {
     let visible: boolean = false;
 
     return {
-        filterDropdown: ({
-            setSelectedKeys,
-            selectedKeys,
-            confirm,
-            clearFilters
-        }) => (
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <ColumnSearch
                 fieldName={fieldName}
                 setSelectedKeys={setSelectedKeys}
@@ -25,11 +21,8 @@ export const getColumnSearchProps = fieldName => {
         onFilterDropdownVisibleChange: v => {
             visible = v;
         },
-        filterIcon: filtered => (
-            <Icon
-                type="search"
-                style={{ color: filtered ? '#1890ff' : undefined }}
-            />
-        )
+        filterIcon: filtered => <Icon type="search" style={{ color: filtered ? "#1890ff" : undefined }} />,
     };
-};
+}
+
+export { getColumnSearchProps };

@@ -1,3 +1,4 @@
+import { ColumnProps } from 'antd/lib/table';
 import moment from 'moment';
 
 import { ColumnOptions, Filters } from '@/app/table';
@@ -5,83 +6,72 @@ import { getColumnSearchProps } from '@/ui/controls';
 
 import { formatCurrency } from '../utils';
 
-const columnOptionDefaults: ColumnOptions = {
-    type: "string",
-    render: value => value,
-};
-
-export const getColumnEDS = (
-    key: string,
-    title: string,
-    options: ColumnOptions = {},
-    filters: Filters | null = null
-) => {
-    return getColumn(
-        key,
-        title,
-        {
+export const getColumnDefinition = <T>(externalDataSource: boolean = false, filters: Filters | null = null) => {
+    return (key: keyof T, title: string, options: ColumnOptions = {}, columnProps: ColumnProps<T> = {}) => {
+        options = {
+            externalDataSource: externalDataSource,
+            filters: filters,
             ...options,
-            externalDataSource: true,
-        },
-        filters
-    );
+        };
+        return getColumn<T>(key, title, options, columnProps);
+    };
 };
 
-export const getColumn = (
-    key: string,
+const getColumn = <T>(
+    key: keyof T,
     title: string,
-    options: ColumnOptions = {},
-    filters: Filters | null = null
-) => {
+    options: ColumnOptions = {
+        type: "string",
+        externalDataSource: false,
+        showSearchFilter: false,
+        filters: null,
+    },
+    columnProps: ColumnProps<T> = {}
+): ColumnProps<T> => {
+    const keyString = key.toString();
+
     const data = {
         title: title,
-        dataIndex: key,
-        key: key,
+        dataIndex: keyString,
+        key: keyString,
     };
 
-    options = {
-        ...columnOptionDefaults,
-        sorter: (a: any, b: any) => sort(a, b, key),
-        onFilter: (value: string, record: any) => filter(value, record, key),
-        ...options,
+    let props: ColumnProps<T> = {
+        render: value => value,
+        sorter: (a: any, b: any) => sort(a, b, keyString),
+        onFilter: (value: string, record: any) => filter(value, record, keyString),
+        ...columnProps,
     };
 
     if (options.externalDataSource) {
-        if (options.sorter) options.sorter = () => {};
-        options.onFilter = undefined;
+        props.sorter = undefined;
+        props.onFilter = undefined;
     }
 
-    if (options.type === "boolean") options.render = formatBool;
-
-    if (options.type === "date")
-        options.render = value => (value ? moment(value).format("ll") : "");
-
-    if (options.type === "long-date")
-        options.render = value => (value ? moment(value).format("lll") : "");
-
-    if (options.type === "currency")
-        options.render = value => formatCurrency(value);
+    if (options.type === "boolean") props.render = formatBool;
+    if (options.type === "date") props.render = value => (value ? moment(value).format("ll") : "");
+    if (options.type === "long-date") props.render = value => (value ? moment(value).format("lll") : "");
+    if (options.type === "currency") props.render = value => formatCurrency(value);
 
     if (options.showSearchFilter) {
-        options = {
-            ...options,
-            ...getColumnSearchProps(title),
+        props = {
+            ...props,
+            ...getColumnSearchProps<T>(title),
         };
     }
 
-    if (filters) {
-        let filter = filters[key];
+    if (options.filters) {
+        let filter = options.filters[keyString];
         if (filter && filter.length > 0)
-            options = {
-                ...options,
-                filtered: true,
+            props = {
+                ...props,
                 filteredValue: filter,
             };
     }
 
     return {
         ...data,
-        ...options,
+        ...props,
     };
 };
 

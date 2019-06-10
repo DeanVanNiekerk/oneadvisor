@@ -1,9 +1,9 @@
-import { TableRowSelection } from 'antd/lib/table';
+import { ColumnProps, TableRowSelection } from 'antd/lib/table';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { applyLike } from '@/app/query';
-import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
+import { Filters, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
 import { PolicyType, policyTypesSelector } from '@/state/app/client/lookups';
 import {
     fetchPolicies, fetchPolicy, newPolicy, policiesSelector, Policy, receiveFilters, receivePageOptions, receivePolicy,
@@ -12,7 +12,7 @@ import {
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
-import { Button, CompanyName, Header, PolicyTypeName, Table, UserName } from '@/ui/controls';
+import { Button, CompanyName, getTable, Header, PolicyTypeName, UserName } from '@/ui/controls';
 
 import EditPolicy from './EditPolicy';
 
@@ -56,13 +56,7 @@ class PolicyList extends Component<Props> {
 
         if (this.props.clientId) filters.clientId.push(this.props.clientId);
 
-        this.props.dispatch(
-            fetchPolicies(
-                this.props.pageOptions,
-                this.props.sortOptions,
-                this.updateFilters(filters)
-            )
-        );
+        this.props.dispatch(fetchPolicies(this.props.pageOptions, this.props.sortOptions, this.updateFilters(filters)));
     };
 
     updateFilters = (filters: Filters): Filters => {
@@ -90,10 +84,13 @@ class PolicyList extends Component<Props> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<Policy>(true, this.props.filters);
+
         const columns = [
-            getColumnEDS(
+            getColumn(
                 "companyId",
                 "Company",
+                {},
                 {
                     render: (companyId: string) => {
                         return <CompanyName companyId={companyId} />;
@@ -102,18 +99,13 @@ class PolicyList extends Component<Props> {
                         text: type.name,
                         value: type.id,
                     })),
-                },
-                this.props.filters
+                }
             ),
-            getColumnEDS(
-                "number",
-                "Number",
-                { showSearchFilter: true },
-                this.props.filters
-            ),
-            getColumnEDS(
+            getColumn("number", "Number", { showSearchFilter: true }),
+            getColumn(
                 "policyTypeId",
                 "Type",
+                {},
                 {
                     render: (policyTypeId: string) => {
                         return <PolicyTypeName policyTypeId={policyTypeId} />;
@@ -122,12 +114,12 @@ class PolicyList extends Component<Props> {
                         text: type.name,
                         value: type.id,
                     })),
-                },
-                this.props.filters
+                }
             ),
-            getColumnEDS(
+            getColumn(
                 "userId",
                 "Broker",
+                {},
                 {
                     render: (userId: string) => {
                         return <UserName userId={userId} />;
@@ -136,8 +128,7 @@ class PolicyList extends Component<Props> {
                         text: user.fullName,
                         value: user.id,
                     })),
-                },
-                this.props.filters
+                }
             ),
         ];
 
@@ -145,16 +136,11 @@ class PolicyList extends Component<Props> {
             columns.splice(
                 3,
                 0,
-                getColumnEDS(
-                    "clientLastName",
-                    "Last Name",
-                    {
-                        showSearchFilter: true,
-                    },
-                    this.props.filters
-                ),
-                getColumnEDS("clientInitials", "Initials"),
-                getColumnEDS("clientDateOfBirth", "Date of Birth", {
+                getColumn("clientLastName", "Last Name", {
+                    showSearchFilter: true,
+                }),
+                getColumn("clientInitials", "Initials"),
+                getColumn("clientDateOfBirth", "Date of Birth", {
                     type: "date",
                 })
             );
@@ -163,20 +149,15 @@ class PolicyList extends Component<Props> {
         return columns;
     };
 
-    onTableChange = (
-        pageOptions: PageOptions,
-        sortOptions: SortOptions,
-        filters: Filters
-    ) => {
-        if (this.props.pageOptions != pageOptions)
-            this.props.dispatch(receivePageOptions(pageOptions));
-        if (this.props.sortOptions != sortOptions)
-            this.props.dispatch(receiveSortOptions(sortOptions));
-        if (this.props.filters != filters)
-            this.props.dispatch(receiveFilters(filters));
+    onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
+        if (this.props.pageOptions != pageOptions) this.props.dispatch(receivePageOptions(pageOptions));
+        if (this.props.sortOptions != sortOptions) this.props.dispatch(receiveSortOptions(sortOptions));
+        if (this.props.filters != filters) this.props.dispatch(receiveFilters(filters));
     };
 
     render() {
+        const Table = getTable<Policy>();
+
         return (
             <>
                 <Header

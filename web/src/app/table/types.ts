@@ -1,9 +1,4 @@
-export type ColumnType =
-    | "string"
-    | "date"
-    | "long-date"
-    | "boolean"
-    | "currency";
+export type ColumnType = "string" | "date" | "long-date" | "boolean" | "currency";
 
 export type FilterOptions = {
     text: string;
@@ -12,18 +7,25 @@ export type FilterOptions = {
 
 export type ColumnOptions = {
     type?: ColumnType;
-    render?: (value: any, record: any, index: number) => any;
-    sorter?: ((a: any, b: any) => any) | boolean;
-    onFilter?: (value: string, record: any, property: string) => boolean;
-    filters?: FilterOptions[];
     showSearchFilter?: boolean;
     externalDataSource?: boolean;
-    fixed?: "left" | "right";
-    width?: string | number;
-    align?: "left" | "right" | "center";
-    filtered?: boolean;
-    filteredValue?: string[];
+    filters?: Filters | null;
 };
+
+// export type ColumnOptions = {
+//     type?: ColumnType;
+//     render?: (value: any, record: any, index: number) => any;
+//     sorter?: ((a: any, b: any) => any) | boolean;
+//     onFilter?: (value: string, record: any, property: string) => boolean;
+//     filters?: FilterOptions[];
+//     showSearchFilter?: boolean;
+//     externalDataSource?: boolean;
+//     fixed?: "left" | "right";
+//     width?: string | number;
+//     align?: "left" | "right" | "center";
+//     filtered?: boolean;
+//     filteredValue?: string[];
+// };
 
 export interface PagedItems<T> {
     totalItems: number;

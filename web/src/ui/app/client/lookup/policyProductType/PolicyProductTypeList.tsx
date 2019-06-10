@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import {
     fetchPolicyProductTypes, PolicyProductType, policyProductTypesSelector, PolicyType, policyTypesSelector,
     receivePolicyProductType
 } from '@/state/app/client/lookups';
 import { RootState } from '@/state/rootReducer';
-import { Button, Header, PolicyTypeName, Table } from '@/ui/controls';
+import { Button, getTable, Header, PolicyTypeName } from '@/ui/controls';
 
 import EditPolicyProductType from './EditPolicyProductType';
 
@@ -31,8 +31,7 @@ class PolicyProductTypeList extends Component<Props, State> {
     }
 
     componentDidMount() {
-        if (this.props.policyProductTypes.length === 0)
-            this.loadPolicyProductTypes();
+        if (this.props.policyProductTypes.length === 0) this.loadPolicyProductTypes();
     }
 
     loadPolicyProductTypes = () => {
@@ -50,11 +49,8 @@ class PolicyProductTypeList extends Component<Props, State> {
     };
 
     editPolicyProductType = (id: string) => {
-        const policyProductType = this.props.policyProductTypes.find(
-            u => u.id === id
-        );
-        if (policyProductType)
-            this.showEditPolicyProductType(policyProductType);
+        const policyProductType = this.props.policyProductTypes.find(u => u.id === id);
+        if (policyProductType) this.showEditPolicyProductType(policyProductType);
     };
 
     showEditPolicyProductType = (policyProductType: PolicyProductType) => {
@@ -72,22 +68,29 @@ class PolicyProductTypeList extends Component<Props, State> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<PolicyProductType>();
         return [
             getColumn("name", "Name", { showSearchFilter: true }),
             getColumn("code", "Code", { showSearchFilter: true }),
-            getColumn("policyTypeId", "Policy Type", {
-                render: (policyTypeId: string) => {
-                    return <PolicyTypeName policyTypeId={policyTypeId} />;
-                },
-                filters: this.props.policyTypes.map(p => ({
-                    text: p.name,
-                    value: p.id,
-                })),
-            }),
+            getColumn(
+                "policyTypeId",
+                "Policy Type",
+                {},
+                {
+                    render: (policyTypeId: string) => {
+                        return <PolicyTypeName policyTypeId={policyTypeId} />;
+                    },
+                    filters: this.props.policyTypes.map(p => ({
+                        text: p.name,
+                        value: p.id,
+                    })),
+                }
+            ),
         ];
     };
 
     render() {
+        const Table = getTable<PolicyProductType>();
         return (
             <>
                 <Header
@@ -113,10 +116,7 @@ class PolicyProductTypeList extends Component<Props, State> {
                     loading={this.props.fetching}
                     onRowClick={org => this.editPolicyProductType(org.id)}
                 />
-                <EditPolicyProductType
-                    visible={this.state.editVisible}
-                    onClose={this.closeEditPolicyProductType}
-                />
+                <EditPolicyProductType visible={this.state.editVisible} onClose={this.closeEditPolicyProductType} />
             </>
         );
     }
