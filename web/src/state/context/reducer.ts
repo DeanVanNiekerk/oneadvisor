@@ -1,6 +1,7 @@
 import { applications } from '@/config/application';
 import { menus } from '@/config/menu';
 
+import { setVersion } from '../storage';
 import { ContextActions } from './actions';
 import { AppInfo, Application, Menus } from './types';
 
@@ -16,10 +17,7 @@ export const defaultState: State = {
     menus: menus,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: ContextActions
-) => {
+export const reducer = (state: State = defaultState, action: ContextActions) => {
     switch (action.type) {
         case "CONTEXT_APP_INFO_RECEIVE":
             return {
