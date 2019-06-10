@@ -25,9 +25,8 @@ namespace OneAdvisor.Model.Common
             if (string.IsNullOrEmpty(sortColumn))
                 return false;
 
-            sortColumn = Char.ToUpperInvariant(sortColumn[0]) + sortColumn.Substring(1);
             var props = typeof(M).GetProperties();
-            return props.Any(p => p.Name == sortColumn);
+            return props.Any(p => p.Name.ToLower() == sortColumn.ToLower());
         }
 
         private List<Filter> GetFilters(string rawData)
