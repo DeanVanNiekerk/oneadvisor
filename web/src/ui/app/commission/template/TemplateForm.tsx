@@ -14,22 +14,14 @@ import RawConfig from './RawConfig';
 import EditSheetConfig from './sheet/EditSheetConfig';
 import SheetList from './sheet/SheetList';
 
-type TabKey =
-    | "details"
-    | "sheets"
-    | "sheet_config"
-    | "config_raw";
+type TabKey = "details" | "sheets" | "sheet_config" | "config_raw";
 
 type Props = {
     template: CommissionStatementTemplateEdit;
     validationResults: ValidationResult[];
     onChange: (template: CommissionStatementTemplateEdit) => void;
     companies: Company[];
-    saveTemplate: (
-        onSuccess?: ApiOnSuccess,
-        onFailure?: ApiOnFailure,
-        disableSuccessMessage?: boolean
-    ) => void;
+    saveTemplate: (onSuccess?: ApiOnSuccess, onFailure?: ApiOnFailure, disableSuccessMessage?: boolean) => void;
 };
 
 type State = {
@@ -56,14 +48,8 @@ class TemplateForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (
-        fieldName: keyof CommissionStatementTemplateEdit,
-        value: any
-    ) => {
-        const template = {
-            ...this.state.template,
-            [fieldName]: value,
-        };
+    handleChange = (fieldName: keyof CommissionStatementTemplateEdit, value: any) => {
+        const template = update(this.state.template, { [fieldName]: { $set: value } });
         this.setTemplateState(template);
     };
 
@@ -82,9 +68,9 @@ class TemplateForm extends Component<Props, State> {
         const template = {
             ...this.state.template,
             config: {
-                sheets: sheets
-            }
-        }
+                sheets: sheets,
+            },
+        };
         this.setTemplateState(template);
 
         this.setState({
@@ -101,8 +87,7 @@ class TemplateForm extends Component<Props, State> {
     };
 
     getTabTitle = (title: string, prefix: string, exactMatch: boolean = false) => {
-        const count = getValidationSubSet(prefix, this.props.validationResults, true, exactMatch)
-            .length;
+        const count = getValidationSubSet(prefix, this.props.validationResults, true, exactMatch).length;
         return (
             <Badge count={count} offset={[10, -2]}>
                 {title}
@@ -117,10 +102,9 @@ class TemplateForm extends Component<Props, State> {
     };
 
     onSheetConfigChange = (sheetConfig: SheetConfig) => {
-
         const sheet: Sheet = {
             ...this.state.template.config.sheets[this.state.selectedSheetIndex],
-            config: sheetConfig
+            config: sheetConfig,
         };
 
         const sheets = update(this.state.template.config.sheets, {
@@ -131,8 +115,8 @@ class TemplateForm extends Component<Props, State> {
 
         const config = {
             ...this.state.template.config,
-            sheets: sheets
-        }
+            sheets: sheets,
+        };
 
         this.handleChange("config", config);
     };
@@ -142,11 +126,7 @@ class TemplateForm extends Component<Props, State> {
         const { template } = this.state;
 
         return (
-            <Tabs
-                onChange={this.onTabChange}
-                activeKey={this.state.activeTab}
-                sticky={true}
-            >
+            <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true}>
                 <TabPane tab="Details" key="details">
                     <Form editUseCase="com_edit_commission_statement_templates">
                         <FormInput
@@ -185,25 +165,14 @@ class TemplateForm extends Component<Props, State> {
                         />
                     </Form>
                 </TabPane>
-                <TabPane
-                    tab={this.getSheetsTabTitle()}
-                    key="sheets"
-                >
+                <TabPane tab={this.getSheetsTabTitle()} key="sheets">
                     <SheetList
                         sheets={template.config.sheets}
                         onChange={this.onSheetsChange}
-                        validationResults={getValidationSubSet(
-                            `config.sheets`,
-                            validationResults,
-                            true,
-                            true
-                        )}
+                        validationResults={getValidationSubSet(`config.sheets`, validationResults, true, true)}
                     />
                 </TabPane>
-                <TabPane
-                    tab={this.getConfigTabTitle()}
-                    key="sheet_config"
-                >
+                <TabPane tab={this.getConfigTabTitle()} key="sheet_config">
                     <EditSheetConfig
                         config={template.config.sheets[this.state.selectedSheetIndex].config}
                         template={template}

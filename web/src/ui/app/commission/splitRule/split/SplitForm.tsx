@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -8,7 +9,7 @@ import { Button, Form, FormField, FormInputNumber, FormSelect } from '@/ui/contr
 
 type Props = {
     split: Split;
-    users: UserSimple[],
+    users: UserSimple[];
     onSave: (split: Split) => void;
     onCancel: () => void;
 };
@@ -34,17 +35,13 @@ class SplitForm extends Component<Props, State> {
     }
 
     handleChange = (fieldName: keyof Split, value: number) => {
-        const split = {
-            ...this.state.split,
-            [fieldName]: value,
-        };
+        const split = update(this.state.split, { [fieldName]: { $set: value } });
         this.setState({
             split: split,
         });
     };
 
     render() {
-
         const { split } = this.state;
 
         return (
@@ -70,9 +67,7 @@ class SplitForm extends Component<Props, State> {
                     precision={0}
                 />
                 <FormField className="mr-0">
-                    <Button onClick={() => this.props.onCancel()}>
-                        Cancel
-                    </Button>
+                    <Button onClick={() => this.props.onCancel()}>Cancel</Button>
                 </FormField>
                 <FormField>
                     <Button

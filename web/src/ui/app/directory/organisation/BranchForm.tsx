@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import React, { Component } from 'react';
 
 import { ValidationResult } from '@/app/validation';
@@ -32,10 +33,7 @@ class BranchForm extends Component<Props, State> {
     }
 
     handleChange = (fieldName: keyof Branch, value: string) => {
-        const branch = {
-            ...this.state.branch,
-            [fieldName]: value,
-        };
+        const branch = update(this.state.branch, { [fieldName]: { $set: value } });
         this.setState({
             branch: branch,
         });
@@ -56,15 +54,10 @@ class BranchForm extends Component<Props, State> {
                     autoFocus={true}
                 />
                 <FormField className="mr-0">
-                    <Button onClick={() => this.props.onCancel()}>
-                        Cancel
-                    </Button>
+                    <Button onClick={() => this.props.onCancel()}>Cancel</Button>
                 </FormField>
                 <FormField>
-                    <Button
-                        onClick={() => this.props.onSave(this.state.branch)}
-                        type="primary"
-                    >
+                    <Button onClick={() => this.props.onSave(this.state.branch)} type="primary">
                         {this.props.branch.id ? "Update Branch" : "Add Branch"}
                     </Button>
                 </FormField>

@@ -1,4 +1,5 @@
 import { CascaderOptionType } from 'antd/lib/cascader';
+import update from 'immutability-helper';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -44,14 +45,8 @@ class PolicyForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (
-        fieldName: keyof PolicyEdit,
-        value: string | number | null
-    ) => {
-        const policy = {
-            ...this.state.policy,
-            [fieldName]: value,
-        };
+    handleChange = (fieldName: keyof PolicyEdit, value: string | number | null) => {
+        const policy = update(this.state.policy, { [fieldName]: { $set: value } });
 
         //If the company changes we need to clear the PolicyProduct
         if (fieldName === "companyId") policy.policyProductId = null;

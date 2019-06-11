@@ -14,6 +14,7 @@ import {
     Button, ClientName, CommissionTypeName, Drawer, DrawerFooter, Form, FormReadOnly, FormText, PolicyName, TabPane,
     Tabs
 } from '@/ui/controls';
+import update from 'immutability-helper';
 
 type Props = {
     statement: Statement;
@@ -58,10 +59,7 @@ class MappingErrorForm extends Component<Props, State> {
     }
 
     handleChange = (fieldName: keyof CommissionErrorEdit, value: any) => {
-        const error = {
-            ...this.state.error,
-            [fieldName]: value,
-        };
+        const error = update(this.state.error, { [fieldName]: { $set: value } });
         this.setState({
             error: error,
         });

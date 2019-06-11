@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -34,10 +35,7 @@ class PolicyProductTypeForm extends Component<Props, State> {
     }
 
     handleChange = (fieldName: keyof PolicyProductType, value: string) => {
-        const policyProductType = {
-            ...this.state.policyProductType,
-            [fieldName]: value,
-        };
+        const policyProductType = update(this.state.policyProductType, { [fieldName]: { $set: value } });
         this.setState({
             policyProductType: policyProductType,
         });

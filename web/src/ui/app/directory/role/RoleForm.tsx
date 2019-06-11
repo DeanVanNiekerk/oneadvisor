@@ -1,4 +1,5 @@
 import { List, Switch } from 'antd';
+import update from 'immutability-helper';
 import React, { Component } from 'react';
 
 import { ValidationResult } from '@/app/validation';
@@ -41,10 +42,7 @@ class UserForm extends Component<Props, State> {
     }
 
     handleChange = (fieldName: keyof RoleEdit, value: string | string[]) => {
-        const role = {
-            ...this.state.role,
-            [fieldName]: value,
-        };
+        const role = update(this.state.role, { [fieldName]: { $set: value } });
         this.setState({
             role: role,
         });
@@ -73,10 +71,7 @@ class UserForm extends Component<Props, State> {
     toggleUseCaseChange = (useCaseId: string) => {
         let useCaseIds = [...this.state.role.useCaseIds];
 
-        if (this.isUseCaseSelected(useCaseId))
-            useCaseIds = this.state.role.useCaseIds.filter(
-                r => r !== useCaseId
-            );
+        if (this.isUseCaseSelected(useCaseId)) useCaseIds = this.state.role.useCaseIds.filter(r => r !== useCaseId);
         else useCaseIds.push(useCaseId);
 
         this.handleChange("useCaseIds", useCaseIds);
@@ -87,9 +82,7 @@ class UserForm extends Component<Props, State> {
     };
 
     getApplicationName = (applicationId: string) => {
-        const application = this.props.applications.find(
-            a => a.id === applicationId
-        );
+        const application = this.props.applications.find(a => a.id === applicationId);
         if (application) return application.name;
         return "";
     };
@@ -103,11 +96,7 @@ class UserForm extends Component<Props, State> {
         const { validationResults } = this.props;
 
         return (
-            <Tabs
-                onChange={this.onTabChange}
-                activeKey={this.state.activeTab}
-                sticky={true}
-            >
+            <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true}>
                 <TabPane tab="Details" key="details_tab">
                     <Form editUseCase="dir_edit_roles">
                         <FormInput
@@ -139,28 +128,17 @@ class UserForm extends Component<Props, State> {
                 </TabPane>
                 <TabPane tab="Use Cases" key="roles_tab">
                     <List
-                        header={
-                            <h4 className="mb-0">
-                                {this.getApplicationName(role.applicationId)}{" "}
-                                Use Cases
-                            </h4>
-                        }
+                        header={<h4 className="mb-0">{this.getApplicationName(role.applicationId)} Use Cases</h4>}
                         bordered={true}
                         size="small"
-                        dataSource={this.props.useCases.filter(
-                            u => u.applicationId === role.applicationId
-                        )}
+                        dataSource={this.props.useCases.filter(u => u.applicationId === role.applicationId)}
                         renderItem={(useCase: UseCase) => (
                             <List.Item
                                 actions={[
                                     <Switch
-                                        checked={this.isUseCaseSelected(
-                                            useCase.id
-                                        )}
+                                        checked={this.isUseCaseSelected(useCase.id)}
                                         size="small"
-                                        onChange={() =>
-                                            this.toggleUseCaseChange(useCase.id)
-                                        }
+                                        onChange={() => this.toggleUseCaseChange(useCase.id)}
                                     />,
                                 ]}
                             >

@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
@@ -30,10 +31,7 @@ class StatementForm extends Component<Props, State> {
     }
 
     handleChange = async (fieldName: string, value: any) => {
-        const statement = {
-            ...this.state.statement,
-            [fieldName]: value,
-        };
+        const statement = update(this.state.statement, { [fieldName]: { $set: value } });
         this.setState({
             statement: statement,
         });
@@ -41,10 +39,9 @@ class StatementForm extends Component<Props, State> {
     };
 
     handleAmountExclVATChange = async (fieldName: string, value: number) => {
-        const statement = {
-            ...this.state.statement,
-            amountIncludingVAT: value + this.state.statement.vat,
-        };
+        const statement = update(this.state.statement, {
+            amountIncludingVAT: { $set: value + this.state.statement.vat },
+        });
         this.setState({
             statement: statement,
         });
@@ -60,11 +57,7 @@ class StatementForm extends Component<Props, State> {
     companies = () => {
         if (this.state.companySearch === "") return this.props.companies;
         return this.props.companies.filter(c => {
-            return (
-                c.name
-                    .toLowerCase()
-                    .indexOf(this.state.companySearch.toLowerCase()) === 0
-            );
+            return c.name.toLowerCase().indexOf(this.state.companySearch.toLowerCase()) === 0;
         });
     };
 
@@ -108,9 +101,7 @@ class StatementForm extends Component<Props, State> {
                 <FormInputNumber
                     fieldName=""
                     label="Amount (excl VAT)"
-                    value={(
-                        statement.amountIncludingVAT - statement.vat
-                    ).toFixed(2)}
+                    value={(statement.amountIncludingVAT - statement.vat).toFixed(2)}
                     onChange={this.handleAmountExclVATChange}
                     min={0}
                 />

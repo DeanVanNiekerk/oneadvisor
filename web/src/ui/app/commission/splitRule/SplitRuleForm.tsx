@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
@@ -36,14 +37,8 @@ class SplitRuleForm extends Component<Props, State> {
         }
     }
 
-    handleChange = (
-        fieldName: keyof SplitRule,
-        value: string | Split[]
-    ) => {
-        const splitRule = {
-            ...this.state.splitRule,
-            [fieldName]: value,
-        };
+    handleChange = (fieldName: keyof SplitRule, value: string | Split[]) => {
+        const splitRule = update(this.state.splitRule, { [fieldName]: { $set: value } });
         this.setState({
             splitRule: splitRule,
         });
@@ -55,10 +50,7 @@ class SplitRuleForm extends Component<Props, State> {
         const { splitRule } = this.state;
 
         return (
-            <Form
-                editUseCase="com_edit_commission_split_rules"
-                className="mt-1"
-            >
+            <Form editUseCase="com_edit_commission_split_rules" className="mt-1">
                 <FormInput
                     fieldName="name"
                     label="Name"
@@ -79,13 +71,9 @@ class SplitRuleForm extends Component<Props, State> {
 
                 <SplitList
                     splits={splitRule.split}
-                    validationResults={getValidationSubSet(
-                        "split",
-                        validationResults
-                    )}
-                    onChange={(split) => this.handleChange("split", split)}
+                    validationResults={getValidationSubSet("split", validationResults)}
+                    onChange={split => this.handleChange("split", split)}
                 />
-
             </Form>
         );
     }

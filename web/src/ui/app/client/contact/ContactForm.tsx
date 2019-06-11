@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -36,10 +37,7 @@ class ContactForm extends Component<Props, State> {
     }
 
     handleChange = (fieldName: keyof Contact, value: string) => {
-        const contact = {
-            ...this.state.contact,
-            [fieldName]: value,
-        };
+        const contact = update(this.state.contact, { [fieldName]: { $set: value } });
         this.setState({
             contact: contact,
         });
@@ -70,18 +68,11 @@ class ContactForm extends Component<Props, State> {
                     optionsText="name"
                 />
                 <FormField className="mr-0">
-                    <Button onClick={() => this.props.onCancel()}>
-                        Cancel
-                    </Button>
+                    <Button onClick={() => this.props.onCancel()}>Cancel</Button>
                 </FormField>
                 <FormField>
-                    <Button
-                        onClick={() => this.props.onSave(this.state.contact)}
-                        type="primary"
-                    >
-                        {this.props.contact.id
-                            ? "Update Contact"
-                            : "Add Contact"}
+                    <Button onClick={() => this.props.onSave(this.state.contact)} type="primary">
+                        {this.props.contact.id ? "Update Contact" : "Add Contact"}
                     </Button>
                 </FormField>
             </Form>

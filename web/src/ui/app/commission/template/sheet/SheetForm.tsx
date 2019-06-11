@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import React, { Component } from 'react';
 
 import { Sheet } from '@/state/app/commission/templates';
@@ -30,17 +31,13 @@ class SheetForm extends Component<Props, State> {
     }
 
     handleChange = (fieldName: keyof Sheet, value: number) => {
-        const sheet = {
-            ...this.state.sheet,
-            [fieldName]: value,
-        };
+        const sheet = update(this.state.sheet, { [fieldName]: { $set: value } });
         this.setState({
             sheet: sheet,
         });
     };
 
     render() {
-
         const { sheet } = this.state;
 
         return (
@@ -57,15 +54,10 @@ class SheetForm extends Component<Props, State> {
                     precision={0}
                 />
                 <FormField className="mr-0">
-                    <Button onClick={() => this.props.onCancel()}>
-                        Cancel
-                    </Button>
+                    <Button onClick={() => this.props.onCancel()}>Cancel</Button>
                 </FormField>
                 <FormField>
-                    <Button
-                        onClick={() => this.props.onSave(this.state.sheet)}
-                        type="primary"
-                    >
+                    <Button onClick={() => this.props.onSave(this.state.sheet)} type="primary">
                         Save
                     </Button>
                 </FormField>

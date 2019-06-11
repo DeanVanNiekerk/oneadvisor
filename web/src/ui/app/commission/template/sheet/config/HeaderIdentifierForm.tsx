@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { ValidationResult } from '@/app/validation';
 import { HeaderIdentifier } from '@/state/app/commission/templates';
 import { Form, FormInput } from '@/ui/controls';
+import update from 'immutability-helper';
 
 type Props = {
     headerIdentifier: HeaderIdentifier;
@@ -31,10 +32,7 @@ class HeaderIdentifierForm extends Component<Props, State> {
     }
 
     handleChange = (fieldName: keyof HeaderIdentifier, value: string) => {
-        const headerIdentifier = {
-            ...this.state.headerIdentifier,
-            [fieldName]: value,
-        };
+        const headerIdentifier = update(this.state.headerIdentifier, { [fieldName]: { $set: value } });
         this.setState({
             headerIdentifier: headerIdentifier,
         });

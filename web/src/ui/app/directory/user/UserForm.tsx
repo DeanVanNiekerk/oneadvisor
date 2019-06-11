@@ -1,4 +1,5 @@
 import { List, Switch } from 'antd';
+import update from 'immutability-helper';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
@@ -57,10 +58,7 @@ class UserForm extends Component<Props, State> {
     }
 
     handleChange = (fieldName: keyof UserEdit, value: string | number | string[]) => {
-        const user = {
-            ...this.state.user,
-            [fieldName]: value,
-        };
+        const user = update(this.state.user, { [fieldName]: { $set: value } });
         this.setState({
             user: user,
         });

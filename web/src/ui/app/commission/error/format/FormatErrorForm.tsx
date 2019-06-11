@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { ValidationResult } from '@/app/validation';
 import { CommissionImportData } from '@/state/app/commission/errors';
 import { Form, FormInput } from '@/ui/controls';
+import update from 'immutability-helper';
 
 type Props = {
     error: CommissionImportData;
@@ -32,10 +33,7 @@ class FormatErrorForm extends Component<Props, State> {
     }
 
     handleChange = async (fieldName: string, value: any) => {
-        const error = {
-            ...this.state.error,
-            [fieldName]: value
-        };
+        const error = update(this.state.error, { [fieldName]: { $set: value } });
         this.setState({
             error: error
         });

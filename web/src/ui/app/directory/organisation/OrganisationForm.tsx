@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import React, { Component } from 'react';
 
 import { ValidationResult } from '@/app/validation';
@@ -31,10 +32,7 @@ class OrganisationForm extends Component<Props, State> {
     }
 
     handleChange = (fieldName: keyof Organisation, value: string) => {
-        const organisation = {
-            ...this.state.organisation,
-            [fieldName]: value,
-        };
+        const organisation = update(this.state.organisation, { [fieldName]: { $set: value } });
         this.setState({
             organisation: organisation,
         });

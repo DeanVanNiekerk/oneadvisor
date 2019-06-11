@@ -1,4 +1,5 @@
 import { Dropdown, Icon, Menu } from 'antd';
+import update from 'immutability-helper';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -42,10 +43,7 @@ class ClientForm extends Component<Props, State> {
     }
 
     handleChange = async (fieldName: string, value: any) => {
-        const client = {
-            ...this.state.client,
-            [fieldName]: value,
-        };
+        const client = update(this.state.client, { [fieldName]: { $set: value } });
 
         await this.updateClient(client);
 
@@ -90,10 +88,7 @@ class ClientForm extends Component<Props, State> {
         this.updateClient(client);
     };
 
-    onIdNumberChanged = (
-        value: string,
-        forceDateOfBirthUpdate: boolean = false
-    ) => {
+    onIdNumberChanged = (value: string, forceDateOfBirthUpdate: boolean = false) => {
         const result = parseIdNumber(value);
 
         if (result.dateOfBirth) {
@@ -136,9 +131,7 @@ class ClientForm extends Component<Props, State> {
             "b16cbd3b-cf50-4a74-8f38-a8ca6b1cb83f", //Married ANC (with Accrual)
         ];
 
-        return marriedStatus.some(
-            id => this.state.client.marritalStatusId === id
-        );
+        return marriedStatus.some(id => this.state.client.marritalStatusId === id);
     };
 
     render() {
@@ -247,10 +240,7 @@ class ClientForm extends Component<Props, State> {
                     value={client.marriageDate}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    hidden={
-                        client.clientTypeId !== ClientTypeId.Individual ||
-                        !this.isMarried()
-                    }
+                    hidden={client.clientTypeId !== ClientTypeId.Individual || !this.isMarried()}
                 />
             </Form>
         );

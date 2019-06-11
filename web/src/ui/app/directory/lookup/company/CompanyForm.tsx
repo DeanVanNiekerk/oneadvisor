@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import React, { Component } from 'react';
 
 import { ValidationResult } from '@/app/validation';
@@ -36,10 +37,7 @@ class CompanyForm extends Component<Props, State> {
     }
 
     handleChange = (fieldName: keyof Company, value: string | string[]) => {
-        const company = {
-            ...this.state.company,
-            [fieldName]: value,
-        };
+        const company = update(this.state.company, { [fieldName]: { $set: value } });
         this.setState({
             company: company,
         });
@@ -55,11 +53,7 @@ class CompanyForm extends Component<Props, State> {
         const { company } = this.state;
 
         return (
-            <Tabs
-                onChange={this.onTabChange}
-                activeKey={this.state.activeTab}
-                sticky={true}
-            >
+            <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true}>
                 <TabPane tab="Details" key="details_tab">
                     <Form editUseCase="dir_edit_lookups">
                         <FormInput
@@ -79,10 +73,7 @@ class CompanyForm extends Component<Props, State> {
                         displayName="Policy Number Prefix"
                         values={company.commissionPolicyNumberPrefixes}
                         onChange={(commissionPolicyNumberPrefixes: string[]) =>
-                            this.handleChange(
-                                "commissionPolicyNumberPrefixes",
-                                commissionPolicyNumberPrefixes
-                            )
+                            this.handleChange("commissionPolicyNumberPrefixes", commissionPolicyNumberPrefixes)
                         }
                         validationResults={validationResults}
                     />

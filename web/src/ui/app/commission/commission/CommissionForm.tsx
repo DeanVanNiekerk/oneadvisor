@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import React, { Component } from 'react';
 import JSONPretty from 'react-json-pretty';
 import { connect, DispatchProp } from 'react-redux';
@@ -51,11 +52,8 @@ class CommissionForm extends Component<Props, State> {
         }
     }
 
-    handleChange = async (fieldName: string, value: any) => {
-        const commission = {
-            ...this.state.commission,
-            [fieldName]: value,
-        };
+    handleChange = (fieldName: string, value: any) => {
+        const commission = update(this.state.commission, { [fieldName]: { $set: value } });
         this.setState({
             commission: commission,
         });
@@ -87,7 +85,7 @@ class CommissionForm extends Component<Props, State> {
 
     policySearch = (value: string) => {
         if (value === "") {
-            //Some reason when selecting 
+            //Some reason when selecting
             return;
         }
         if (value.length < 3) {
@@ -110,11 +108,7 @@ class CommissionForm extends Component<Props, State> {
         const { commission } = this.state;
 
         return (
-            <Tabs
-                onChange={this.onTabChange}
-                activeKey={this.state.activeTab}
-                sticky={true}
-            >
+            <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true}>
                 <TabPane tab="Commission" key="form_tab">
                     <Form editUseCase="com_edit_commissions">
                         <FormSelect
@@ -177,9 +171,7 @@ class CommissionForm extends Component<Props, State> {
 
                 <TabPane tab="Excel Data" key="data_tab">
                     {!commission.sourceData && <span>No Source Data</span>}
-                    {commission.sourceData && (
-                        <FormReadOnly data={commission.sourceData} />
-                    )}
+                    {commission.sourceData && <FormReadOnly data={commission.sourceData} />}
                 </TabPane>
             </Tabs>
         );

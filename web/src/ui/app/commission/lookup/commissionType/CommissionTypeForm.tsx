@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -37,10 +38,7 @@ class CommissionTypeForm extends Component<Props, State> {
     }
 
     handleChange = (fieldName: keyof CommissionType, value: string) => {
-        const commissionType = {
-            ...this.state.commissionType,
-            [fieldName]: value,
-        };
+        const commissionType = update(this.state.commissionType, { [fieldName]: { $set: value } });
         this.setState({
             commissionType: commissionType,
         });

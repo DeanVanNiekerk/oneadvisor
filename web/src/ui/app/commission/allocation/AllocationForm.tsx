@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
@@ -37,14 +38,8 @@ class AllocationForm extends Component<Props, State> {
         }
     }
 
-    handleChange = (
-        fieldName: keyof AllocationEdit,
-        value: string | string[]
-    ) => {
-        const allocation = {
-            ...this.state.allocation,
-            [fieldName]: value,
-        };
+    handleChange = (fieldName: keyof AllocationEdit, value: string | string[]) => {
+        const allocation = update(this.state.allocation, { [fieldName]: { $set: value } });
         this.setState({
             allocation: allocation,
         });
@@ -72,35 +67,23 @@ class AllocationForm extends Component<Props, State> {
 
         return (
             <>
-                <Form
-                    editUseCase="com_edit_commission_allocations"
-                    className="mt-1"
-                >
+                <Form editUseCase="com_edit_commission_allocations" className="mt-1">
                     <FormText
                         fieldName="fromClientId"
                         label="From Client"
                         value={
                             allocation.fromClientId ? (
-                                <ClientName
-                                    clientId={allocation.fromClientId}
-                                    className="text-success"
-                                />
+                                <ClientName clientId={allocation.fromClientId} className="text-success" />
                             ) : null
                         }
-                        emptyValueText={
-                            <span className="text-error">Select Client</span>
-                        }
+                        emptyValueText={<span className="text-error">Select Client</span>}
                         validationResults={validationResults}
                         extra={
                             <>
                                 <Button
                                     size="small"
                                     icon="search"
-                                    type={
-                                        this.state.allocation.fromClientId
-                                            ? "dashed"
-                                            : "primary"
-                                    }
+                                    type={this.state.allocation.fromClientId ? "dashed" : "primary"}
                                     onClick={this.toggleSearchClientVisible}
                                 >
                                     Find Client
@@ -123,8 +106,7 @@ class AllocationForm extends Component<Props, State> {
                             clientId={this.state.allocation.fromClientId}
                             rowSelection={{
                                 onChange: this.onPolicySelected,
-                                selectedRowKeys: this.state.allocation
-                                    .policyIds,
+                                selectedRowKeys: this.state.allocation.policyIds,
                             }}
                         />
                     </>
@@ -142,9 +124,7 @@ class AllocationForm extends Component<Props, State> {
                         }}
                     />
                     <DrawerFooter>
-                        <Button onClick={this.toggleSearchClientVisible}>
-                            Close
-                        </Button>
+                        <Button onClick={this.toggleSearchClientVisible}>Close</Button>
                     </DrawerFooter>
                 </Drawer>
             </>
