@@ -2,13 +2,13 @@ import { Tag } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
+import { Filters, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
 import {
     AuditLog, auditLogsSelector, fetchAuditLogs, receiveFilters, receivePageOptions, receiveSortOptions
 } from '@/state/app/directory/audit';
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
-import { Button, Header, Table, UserName } from '@/ui/controls';
+import { Button, getTable, Header, UserName } from '@/ui/controls';
 
 import AuditLogDetails from './AuditLogDetails';
 
@@ -49,13 +49,7 @@ class AuditLogList extends Component<Props, State> {
     }
 
     loadAuditLogs = () => {
-        this.props.dispatch(
-            fetchAuditLogs(
-                this.props.pageOptions,
-                this.props.sortOptions,
-                this.props.filters
-            )
-        );
+        this.props.dispatch(fetchAuditLogs(this.props.pageOptions, this.props.sortOptions, this.props.filters));
     };
 
     viewAuditLog = (log: AuditLog) => {
@@ -71,22 +65,23 @@ class AuditLogList extends Component<Props, State> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<AuditLog>(true, this.props.filters);
         return [
-            getColumnEDS("date", "Date", { type: "long-date" }),
-            getColumnEDS(
+            getColumn("date", "Date", { type: "long-date" }),
+            getColumn(
                 "entity",
                 "Entity",
+                { showSearchFilter: true },
                 {
                     render: (entity: string) => {
                         return entity.replace("Entity", "");
                     },
-                    showSearchFilter: true,
-                },
-                this.props.filters
+                }
             ),
-            getColumnEDS(
+            getColumn(
                 "action",
                 "Action",
+                {},
                 {
                     render: (action: string) => {
                         action = action.toUpperCase();
@@ -113,12 +108,12 @@ class AuditLogList extends Component<Props, State> {
                             value: "Delete",
                         },
                     ],
-                },
-                this.props.filters
+                }
             ),
-            getColumnEDS(
+            getColumn(
                 "userId",
                 "Broker",
+                {},
                 {
                     render: (userId: string) => {
                         return <UserName userId={userId} />;
@@ -127,26 +122,20 @@ class AuditLogList extends Component<Props, State> {
                         text: user.fullName,
                         value: user.id,
                     })),
-                },
-                this.props.filters
+                }
             ),
         ];
     };
 
-    onTableChange = (
-        pageOptions: PageOptions,
-        sortOptions: SortOptions,
-        filters: Filters
-    ) => {
-        if (this.props.pageOptions != pageOptions)
-            this.props.dispatch(receivePageOptions(pageOptions));
-        if (this.props.sortOptions != sortOptions)
-            this.props.dispatch(receiveSortOptions(sortOptions));
-        if (this.props.filters != filters)
-            this.props.dispatch(receiveFilters(filters));
+    onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
+        if (this.props.pageOptions != pageOptions) this.props.dispatch(receivePageOptions(pageOptions));
+        if (this.props.sortOptions != sortOptions) this.props.dispatch(receiveSortOptions(sortOptions));
+        if (this.props.filters != filters) this.props.dispatch(receiveFilters(filters));
     };
 
     render() {
+        const Table = getTable<AuditLog>();
+
         return (
             <>
                 <Header

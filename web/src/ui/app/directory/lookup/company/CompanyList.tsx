@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import { companiesSelector, Company, fetchCompanies, receiveCompany } from '@/state/app/directory/lookups/companies';
 import { RootState } from '@/state/rootReducer';
-import { Button, Header, Table } from '@/ui/controls';
+import { Button, getTable, Header } from '@/ui/controls';
 
 import EditCompany from './EditCompany';
 
@@ -63,10 +63,12 @@ class CompanyList extends Component<Props, State> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<Company>();
         return [getColumn("name", "Name", { showSearchFilter: true })];
     };
 
     render() {
+        const Table = getTable<Company>();
         return (
             <>
                 <Header
@@ -92,10 +94,7 @@ class CompanyList extends Component<Props, State> {
                     loading={this.props.fetching}
                     onRowClick={org => this.editCompany(org.id)}
                 />
-                <EditCompany
-                    visible={this.state.editVisible}
-                    onClose={this.closeEditCompany}
-                />
+                <EditCompany visible={this.state.editVisible} onClose={this.closeEditCompany} />
             </>
         );
     }

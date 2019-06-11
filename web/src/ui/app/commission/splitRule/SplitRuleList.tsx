@@ -2,12 +2,12 @@ import { Popconfirm } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import {
     deleteSplitRule, fetchSplitRule, fetchSplitRules, receiveSplitRule, Split, SplitRule, splitRulesSelector
 } from '@/state/app/commission/splitRules';
 import { RootState } from '@/state/rootReducer';
-import { Button, Header, StopPropagation, Table } from '@/ui/controls';
+import { Button, getTable, Header, StopPropagation } from '@/ui/controls';
 
 import EditSplitRule from './EditSplitRule';
 
@@ -49,8 +49,8 @@ class SplitRuleList extends Component<Props> {
                 split: [
                     {
                         userId: this.props.userId,
-                        percentage: 100
-                    }
+                        percentage: 100,
+                    },
                 ],
             })
         );
@@ -65,45 +65,54 @@ class SplitRuleList extends Component<Props> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<SplitRule>();
         return [
             getColumn("name", "Rule Name", {
-                showSearchFilter: true
+                showSearchFilter: true,
             }),
-            getColumn("split", "Split Count", {
-                render: (split: Split[]) => {
-                    return split.length;
-                },
-            }),
+            getColumn(
+                "split",
+                "Split Count",
+                {},
+                {
+                    render: (split: Split[]) => {
+                        return split.length;
+                    },
+                }
+            ),
             getColumn("isDefault", "Default", {
                 type: "boolean",
             }),
-            getColumn("id", "Actions", {
-                render: (id: string) => {
-                    return (
-                        <StopPropagation>
-                            <a
-                                href="#"
-                                className="mr-1"
-                                onClick={() => this.editSplitRule(id)}
-                            >
-                                Edit
-                            </a>
-                            <Popconfirm
-                                title="Are you sure remove this commission split rule?"
-                                onConfirm={() => this.deleteSplitRule(id)}
-                                okText="Yes"
-                                cancelText="No"
-                            >
-                                <a href="#">Remove</a>
-                            </Popconfirm>
-                        </StopPropagation>
-                    );
-                },
-            }),
+            getColumn(
+                "id",
+                "Actions",
+                {},
+                {
+                    render: (id: string) => {
+                        return (
+                            <StopPropagation>
+                                <a href="#" className="mr-1" onClick={() => this.editSplitRule(id)}>
+                                    Edit
+                                </a>
+                                <Popconfirm
+                                    title="Are you sure remove this commission split rule?"
+                                    onConfirm={() => this.deleteSplitRule(id)}
+                                    okText="Yes"
+                                    cancelText="No"
+                                >
+                                    <a href="#">Remove</a>
+                                </Popconfirm>
+                            </StopPropagation>
+                        );
+                    },
+                }
+            ),
         ];
     };
 
     render() {
+        const Table = getTable<SplitRule>();
+
         return (
             <>
                 <Header
@@ -128,9 +137,7 @@ class SplitRuleList extends Component<Props> {
                     columns={this.getColumns()}
                     dataSource={this.props.splitRules}
                     loading={this.props.fetching}
-                    onRowClick={splitRule =>
-                        this.editSplitRule(splitRule.id)
-                    }
+                    onRowClick={splitRule => this.editSplitRule(splitRule.id)}
                 />
             </>
         );

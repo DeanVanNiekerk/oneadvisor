@@ -2,11 +2,11 @@ import { Popconfirm } from 'antd';
 import update from 'immutability-helper';
 import React, { Component } from 'react';
 
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import { ValidationResult } from '@/app/validation';
 import { UNKNOWN_COMMISSION_TYPE_CODE } from '@/state/app/commission/lookups';
 import { Sheet } from '@/state/app/commission/templates';
-import { FormErrors, StopPropagation, Table } from '@/ui/controls';
+import { FormErrors, getTable, StopPropagation } from '@/ui/controls';
 
 import EditSheet from './EditSheet';
 
@@ -22,18 +22,16 @@ type State = {
 };
 
 class SheetList extends Component<Props, State> {
-
     constructor(props: Props) {
         super(props);
 
         this.state = {
             sheet: null,
-            sheetIndex: null
-        }
+            sheetIndex: null,
+        };
     }
 
     addSheet = (sheet: Sheet) => {
-
         let sheets: Sheet[] = [];
 
         if (this.state.sheetIndex !== null) {
@@ -42,8 +40,7 @@ class SheetList extends Component<Props, State> {
                     $set: sheet,
                 },
             });
-        }
-        else {
+        } else {
             sheets = update(this.props.sheets, {
                 $push: [sheet],
             });
@@ -54,7 +51,6 @@ class SheetList extends Component<Props, State> {
     };
 
     newSheet = () => {
-
         const sheet: Sheet = {
             position: this.props.sheets.length + 1,
             config: {
@@ -68,29 +64,27 @@ class SheetList extends Component<Props, State> {
                     mappingTemplate: "",
                     types: [],
                 },
-            }
-        }
+            },
+        };
 
         this.setState({
             sheet: sheet,
-            sheetIndex: null
-        })
+            sheetIndex: null,
+        });
     };
 
     editSheet = (index: number) => {
-
         this.setState({
             sheet: { ...this.props.sheets[index] },
-            sheetIndex: index
-        })
-
+            sheetIndex: index,
+        });
     };
 
     cancelEditSheet = () => {
         this.setState({
             sheet: null,
-            sheetIndex: null
-        })
+            sheetIndex: null,
+        });
     };
 
     deleteSheet = (index: number) => {
@@ -99,41 +93,49 @@ class SheetList extends Component<Props, State> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<Sheet>();
         return [
-            getColumn("position", "Position", {
-                render: (position: number) => {
-                    return `Sheet ${position}`
+            getColumn(
+                "position",
+                "Position",
+                {},
+                {
+                    render: (position: number) => {
+                        return `Sheet ${position}`;
+                    },
                 }
-            }),
-            getColumn('', 'Actions', {
-                render: (position: number, record: Sheet, index: number) => {
-                    return (
-                        <StopPropagation>
-                            <a
-                                href="#"
-                                className="mr-1"
-                                onClick={() => this.editSheet(index)}
-                            >
-                                Edit
-                            </a>
-                            {this.props.sheets.length > 1 &&
-                                <Popconfirm
-                                    title="Are you sure remove this sheet? All sheet config will be lost."
-                                    onConfirm={() => this.deleteSheet(index)}
-                                    okText="Yes"
-                                    cancelText="No"
-                                >
-                                    <a href="#">Remove</a>
-                                </Popconfirm>
-                            }
-                        </StopPropagation>
-                    );
+            ),
+            getColumn(
+                "position",
+                "Actions",
+                {},
+                {
+                    render: (position: number, record: Sheet, index: number) => {
+                        return (
+                            <StopPropagation>
+                                <a href="#" className="mr-1" onClick={() => this.editSheet(index)}>
+                                    Edit
+                                </a>
+                                {this.props.sheets.length > 1 && (
+                                    <Popconfirm
+                                        title="Are you sure remove this sheet? All sheet config will be lost."
+                                        onConfirm={() => this.deleteSheet(index)}
+                                        okText="Yes"
+                                        cancelText="No"
+                                    >
+                                        <a href="#">Remove</a>
+                                    </Popconfirm>
+                                )}
+                            </StopPropagation>
+                        );
+                    },
                 }
-            }),
+            ),
         ];
     };
 
     render() {
+        const Table = getTable<Sheet>();
 
         return (
             <>
@@ -153,9 +155,9 @@ class SheetList extends Component<Props, State> {
                     dataSource={this.props.sheets}
                     onRowClick={(sheet, index) => this.editSheet(index)}
                 />
-            </>)
+            </>
+        );
     }
-
 }
 
 export default SheetList;

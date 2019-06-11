@@ -1,9 +1,10 @@
 import { Col, Row } from 'antd';
+import { ColumnProps } from 'antd/lib/table';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { applyLike } from '@/app/query';
-import { Filters, formatBool, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
+import { Filters, formatBool, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
 import { formatCurrency } from '@/app/utils';
 import {
     Commission, CommissionEdit, commissionsSelector, fetchCommission, fetchCommissions, receiveCommission,
@@ -13,7 +14,7 @@ import { CommissionType, commissionTypesSelector } from '@/state/app/commission/
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
-import { Button, CommissionTypeName, CompanyName, Header, Table, UserName } from '@/ui/controls';
+import { Button, CommissionTypeName, CompanyName, getTable, Header, UserName } from '@/ui/controls';
 
 import EditCommission from './EditCommission';
 
@@ -57,18 +58,9 @@ class CommissionList extends Component<Props> {
             commissionStatementId: [] as string[],
         };
 
-        if (this.props.commissionStatementId)
-            filters.commissionStatementId.push(
-                this.props.commissionStatementId
-            );
+        if (this.props.commissionStatementId) filters.commissionStatementId.push(this.props.commissionStatementId);
 
-        this.props.dispatch(
-            fetchCommissions(
-                this.props.pageOptions,
-                this.props.sortOptions,
-                filters
-            )
-        );
+        this.props.dispatch(fetchCommissions(this.props.pageOptions, this.props.sortOptions, filters));
     };
 
     editCommission = (id: string) => {
@@ -78,8 +70,7 @@ class CommissionList extends Component<Props> {
     onFormClose = (cancelled: boolean) => {
         if (!cancelled) {
             this.loadCommissions();
-            if (this.props.onCommissionsUpdate)
-                this.props.onCommissionsUpdate();
+            if (this.props.onCommissionsUpdate) this.props.onCommissionsUpdate();
         }
     };
 
@@ -99,31 +90,35 @@ class CommissionList extends Component<Props> {
     };
 
     getColumns = () => {
-        const columns = [] as any[];
+        var getColumn = getColumnDefinition<Commission>(true, this.props.filters);
+
         const { hideColumns = [] } = this.props;
+
+        const columns: ColumnProps<Commission>[] = [];
 
         if (!hideColumns.some(c => c == "commissionStatementDate"))
             columns.push(
-                getColumnEDS("commissionStatementDate", "Date", {
+                getColumn("commissionStatementDate", "Date", {
                     type: "date",
                 })
             );
 
         if (!hideColumns.some(c => c == "policyClientLastName"))
             columns.push(
-                getColumnEDS("policyClientLastName", "Last Name", {
+                getColumn("policyClientLastName", "Last Name", {
                     showSearchFilter: true,
                 })
             );
 
         if (!hideColumns.some(c => c == "policyClientInitials"))
-            columns.push(getColumnEDS("policyClientInitials", "Initials"));
+            columns.push(getColumn("policyClientInitials", "Initials"));
 
         if (!hideColumns.some(c => c == "policyCompanyId"))
             columns.push(
-                getColumnEDS(
+                getColumn(
                     "policyCompanyId",
                     "Company",
+                    {},
                     {
                         render: (policyCompanyId: string) => {
                             return <CompanyName companyId={policyCompanyId} />;
@@ -132,65 +127,74 @@ class CommissionList extends Component<Props> {
                             text: type.name,
                             value: type.id,
                         })),
-                    },
-                    this.props.filters
+                    }
                 )
             );
 
         if (!hideColumns.some(c => c == "policyNumber"))
             columns.push(
-                getColumnEDS("policyNumber", "Policy Number", {
+                getColumn("policyNumber", "Policy Number", {
                     showSearchFilter: true,
                 })
             );
 
         if (!hideColumns.some(c => c == "commissionTypeId"))
             columns.push(
-                getColumnEDS("commissionTypeId", "Type", {
-                    render: (commissionTypeId: string) => {
-                        return (
-                            <CommissionTypeName
-                                commissionTypeId={commissionTypeId}
-                            />
-                        );
-                    },
-                    filters: this.props.commissionTypes.map(type => ({
-                        text: type.name,
-                        value: type.id,
-                    })),
-                })
+                getColumn(
+                    "commissionTypeId",
+                    "Type",
+                    {},
+                    {
+                        render: (commissionTypeId: string) => {
+                            return <CommissionTypeName commissionTypeId={commissionTypeId} />;
+                        },
+                        filters: this.props.commissionTypes.map(type => ({
+                            text: type.name,
+                            value: type.id,
+                        })),
+                    }
+                )
             );
 
         if (!hideColumns.some(c => c == "amountIncludingVAT"))
             columns.push(
-                getColumnEDS("amountIncludingVAT", "Amount (incl VAT)", {
+                getColumn("amountIncludingVAT", "Amount (incl VAT)", {
                     type: "currency",
                 })
             );
 
-        if (!hideColumns.some(c => c == "vat"))
-            columns.push(getColumnEDS("vat", "VAT", { type: "currency" }));
+        if (!hideColumns.some(c => c == "vat")) columns.push(getColumn("vat", "VAT", { type: "currency" }));
 
         if (!hideColumns.some(c => c == "splitGroupId"))
             columns.push(
-                getColumnEDS("splitGroupId", "Split", {
-                    render: (splitGroupId: string | null) => {
-                        return formatBool(!!splitGroupId);
-                    },
-                })
+                getColumn(
+                    "splitGroupId",
+                    "Split",
+                    {},
+                    {
+                        render: (splitGroupId: string | null) => {
+                            return formatBool(!!splitGroupId);
+                        },
+                    }
+                )
             );
 
         if (!hideColumns.some(c => c == "userId"))
             columns.push(
-                getColumnEDS("userId", "Broker", {
-                    render: (userId: string) => {
-                        return <UserName userId={userId} />;
-                    },
-                    filters: this.props.users.map(user => ({
-                        text: user.fullName,
-                        value: user.id,
-                    })),
-                })
+                getColumn(
+                    "userId",
+                    "Broker",
+                    {},
+                    {
+                        render: (userId: string) => {
+                            return <UserName userId={userId} />;
+                        },
+                        filters: this.props.users.map(user => ({
+                            text: user.fullName,
+                            value: user.id,
+                        })),
+                    }
+                )
             );
 
         return columns;
@@ -200,17 +204,10 @@ class CommissionList extends Component<Props> {
         return applyLike(filters, ["policyNumber", "policyClientLastName"]);
     };
 
-    onTableChange = (
-        pageOptions: PageOptions,
-        sortOptions: SortOptions,
-        filters: Filters
-    ) => {
-        if (this.props.pageOptions != pageOptions)
-            this.props.dispatch(receivePageOptions(pageOptions));
-        if (this.props.sortOptions != sortOptions)
-            this.props.dispatch(receiveSortOptions(sortOptions));
-        if (this.props.filters != filters)
-            this.props.dispatch(receiveFilters(this.updateFilters(filters)));
+    onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
+        if (this.props.pageOptions != pageOptions) this.props.dispatch(receivePageOptions(pageOptions));
+        if (this.props.sortOptions != sortOptions) this.props.dispatch(receiveSortOptions(sortOptions));
+        if (this.props.filters != filters) this.props.dispatch(receiveFilters(this.updateFilters(filters)));
     };
 
     tableFooter = () => {
@@ -229,6 +226,8 @@ class CommissionList extends Component<Props> {
     };
 
     render() {
+        const Table = getTable<Commission>();
+
         return (
             <>
                 <Header
@@ -257,9 +256,7 @@ class CommissionList extends Component<Props> {
                     columns={this.getColumns()}
                     dataSource={this.props.commissions}
                     loading={this.props.fetching}
-                    onRowClick={commission =>
-                        this.editCommission(commission.id)
-                    }
+                    onRowClick={commission => this.editCommission(commission.id)}
                     externalDataSource={true}
                     pageOptions={this.props.pageOptions}
                     totalRows={this.props.totalItems}

@@ -15,6 +15,7 @@ export type ImportClient = {
     lastName?: string | null;
     email?: string | null;
     cellphone?: string | null;
+    taxNumber?: string | null;
     dateOfBirth?: string | null;
     policyNumber?: string | null;
     policyCompanyId?: string | null;

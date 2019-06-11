@@ -2,12 +2,12 @@ import { Popconfirm } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import {
     Allocation, allocationsSelector, deleteAllocation, fetchAllocation, fetchAllocations, receiveAllocation
 } from '@/state/app/commission/allocations';
 import { RootState } from '@/state/rootReducer';
-import { Button, Header, StopPropagation, Table } from '@/ui/controls';
+import { Button, getTable, Header, StopPropagation } from '@/ui/controls';
 
 import EditAllocation from './EditAllocation';
 
@@ -59,46 +59,59 @@ class AllocationList extends Component<Props> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<Allocation>();
+
         return [
-            getColumn("fromClientId", "From Client", {
-                render: (fromClientId: string, allocation: Allocation) => {
-                    return `${allocation.fromClientFirstName} ${
-                        allocation.fromClientLastName
-                    }`;
-                },
-            }),
-            getColumn("policyIds", "Allocated Policies", {
-                render: (policyIds: string[]) => {
-                    return policyIds.length;
-                },
-            }),
-            getColumn("id", "Actions", {
-                render: (id: string) => {
-                    return (
-                        <StopPropagation>
-                            <a
-                                href="#"
-                                className="mr-1"
-                                onClick={() => this.editAllocation(id)}
-                            >
-                                Edit
-                            </a>
-                            <Popconfirm
-                                title="Are you sure remove this allocation?"
-                                onConfirm={() => this.deleteAllocation(id)}
-                                okText="Yes"
-                                cancelText="No"
-                            >
-                                <a href="#">Remove</a>
-                            </Popconfirm>
-                        </StopPropagation>
-                    );
-                },
-            }),
+            getColumn(
+                "fromClientId",
+                "From Client",
+                {},
+                {
+                    render: (fromClientId: string, allocation: Allocation) => {
+                        return `${allocation.fromClientFirstName} ${allocation.fromClientLastName}`;
+                    },
+                }
+            ),
+            getColumn(
+                "policyIds",
+                "Allocated Policies",
+                {},
+                {
+                    render: (policyIds: string[]) => {
+                        return policyIds.length;
+                    },
+                }
+            ),
+            getColumn(
+                "id",
+                "Actions",
+                {},
+                {
+                    render: (id: string) => {
+                        return (
+                            <StopPropagation>
+                                <a href="#" className="mr-1" onClick={() => this.editAllocation(id)}>
+                                    Edit
+                                </a>
+                                <Popconfirm
+                                    title="Are you sure remove this allocation?"
+                                    onConfirm={() => this.deleteAllocation(id)}
+                                    okText="Yes"
+                                    cancelText="No"
+                                >
+                                    <a href="#">Remove</a>
+                                </Popconfirm>
+                            </StopPropagation>
+                        );
+                    },
+                }
+            ),
         ];
     };
 
     render() {
+        const Table = getTable<Allocation>();
+
         return (
             <>
                 <Header
@@ -124,9 +137,7 @@ class AllocationList extends Component<Props> {
                     columns={this.getColumns()}
                     dataSource={this.props.allocations}
                     loading={this.props.fetching}
-                    onRowClick={allocation =>
-                        this.editAllocation(allocation.id)
-                    }
+                    onRowClick={allocation => this.editAllocation(allocation.id)}
                 />
             </>
         );

@@ -1,10 +1,10 @@
 import { Col, Row } from 'antd';
 import React, { Component } from 'react';
 
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import { formatCurrency } from '@/app/utils';
 import { UserEarningsTypeMonthlyCommissionData } from '@/state/app/commission/reports';
-import { CommissionEarningsTypeName, Table } from '@/ui/controls';
+import { CommissionEarningsTypeName, getTable } from '@/ui/controls';
 
 type Props = {
     earningsTypeRecords: UserEarningsTypeMonthlyCommissionData[];
@@ -13,18 +13,19 @@ type Props = {
 };
 
 class EarningsTypeTable extends Component<Props> {
-
     getColumns = () => {
+        var getColumn = getColumnDefinition<UserEarningsTypeMonthlyCommissionData>();
         return [
-            getColumn("commissionEarningsTypeId", "Type", {
-                render: (commissionEarningsTypeId: string) => {
-                    return (
-                        <CommissionEarningsTypeName
-                            commissionEarningsTypeId={commissionEarningsTypeId}
-                        />
-                    );
-                },
-            }),
+            getColumn(
+                "commissionEarningsTypeId",
+                "Type",
+                {},
+                {
+                    render: (commissionEarningsTypeId: string) => {
+                        return <CommissionEarningsTypeName commissionEarningsTypeId={commissionEarningsTypeId} />;
+                    },
+                }
+            ),
             getColumn("amountExcludingVAT", "Amount", {
                 type: "currency",
             }),
@@ -43,6 +44,7 @@ class EarningsTypeTable extends Component<Props> {
     };
 
     render() {
+        const Table = getTable<UserEarningsTypeMonthlyCommissionData>();
         return (
             <Table
                 header="By Commission Earnings Type"

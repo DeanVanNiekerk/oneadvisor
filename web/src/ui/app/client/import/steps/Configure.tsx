@@ -1,17 +1,17 @@
-import { Alert, Col, Icon, List, Row, Select } from 'antd';
+import { Col, List, Row, Select } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { arrayMove, SortableContainer, SortableElement, SortEnd } from 'react-sortable-hoc';
 import { v4 } from 'uuid';
 
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import {
-    ImportClient, ImportColumn, ImportTableRow, clientImportNextStep, clientImportPreviousStep,
-    clientImportSelectedColumnsSelector, clientImportSelector, clientImportTableRowsSelector,
-    receiveClientImportClients, receiveClientImportSelectedColumns
+    clientImportNextStep, clientImportPreviousStep, clientImportSelectedColumnsSelector, clientImportSelector,
+    clientImportTableRowsSelector, ImportClient, ImportColumn, ImportTableRow, receiveClientImportClients,
+    receiveClientImportSelectedColumns
 } from '@/state/app/client/import';
 import { RootState } from '@/state/rootReducer';
-import { Button, Table } from '@/ui/controls';
+import { getTable } from '@/ui/controls';
 
 import StepProgress from '../StepProgress';
 
@@ -29,11 +29,7 @@ const SortableList = SortableContainer((props: SortableListProps) => {
             bordered
             dataSource={props.items}
             renderItem={(item: ImportColumn, index: number) => (
-                <SortableItem
-                    key={`item-${index}`}
-                    index={index}
-                    value={item}
-                />
+                <SortableItem key={`item-${index}`} index={index} value={item} />
             )}
         />
     );
@@ -67,18 +63,13 @@ class Configure extends Component<Props> {
     };
 
     onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
-        const columns = arrayMove(
-            this.props.selectedColumns,
-            oldIndex,
-            newIndex
-        );
+        const columns = arrayMove(this.props.selectedColumns, oldIndex, newIndex);
         this.props.dispatch(receiveClientImportSelectedColumns(columns));
     };
 
     getColumns = () => {
-        return this.props.selectedImportColumns.map(c =>
-            getColumn(c.id, c.name, { sorter: undefined })
-        );
+        var getColumn = getColumnDefinition<ImportTableRow>();
+        return this.props.selectedImportColumns.map(c => getColumn(c.id, c.name, {}, { sorter: undefined }));
     };
 
     onSelectedColumnChange = (columns: string[]) => {
@@ -86,14 +77,10 @@ class Configure extends Component<Props> {
     };
 
     render() {
+        const Table = getTable<ImportTableRow>();
         return (
             <>
-                <StepProgress
-                    onPrevious={() =>
-                        this.props.dispatch(clientImportPreviousStep())
-                    }
-                    onNext={this.next}
-                />
+                <StepProgress onPrevious={() => this.props.dispatch(clientImportPreviousStep())} onNext={this.next} />
 
                 <Row>
                     <Col span={24}>
@@ -117,10 +104,7 @@ class Configure extends Component<Props> {
                     <Col span={8}>
                         <h4 className="mt-1">Column Order</h4>
 
-                        <SortableList
-                            items={this.props.selectedImportColumns}
-                            onSortEnd={this.onSortEnd}
-                        />
+                        <SortableList items={this.props.selectedImportColumns} onSortEnd={this.onSortEnd} />
                     </Col>
 
                     <Col span={16}>

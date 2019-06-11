@@ -1,10 +1,10 @@
 import { Col, Row } from 'antd';
 import React, { Component } from 'react';
 
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import { formatCurrency } from '@/app/utils';
 import { UserCompanyMonthlyCommissionData } from '@/state/app/commission/reports';
-import { CompanyName, Table } from '@/ui/controls';
+import { CompanyName, getTable } from '@/ui/controls';
 
 type Props = {
     companyRecords: UserCompanyMonthlyCommissionData[];
@@ -13,18 +13,19 @@ type Props = {
 };
 
 class CompanyTable extends Component<Props> {
-
     getColumns = () => {
+        var getColumn = getColumnDefinition<UserCompanyMonthlyCommissionData>();
         return [
-            getColumn("companyId", "Company", {
-                render: (companyId: string) => {
-                    return (
-                        <CompanyName
-                            companyId={companyId}
-                        />
-                    );
-                },
-            }),
+            getColumn(
+                "companyId",
+                "Company",
+                {},
+                {
+                    render: (companyId: string) => {
+                        return <CompanyName companyId={companyId} />;
+                    },
+                }
+            ),
             getColumn("amountExcludingVAT", "Amount", {
                 type: "currency",
             }),
@@ -43,6 +44,7 @@ class CompanyTable extends Component<Props> {
     };
 
     render() {
+        const Table = getTable<UserCompanyMonthlyCommissionData>();
         return (
             <Table
                 header="By Company"

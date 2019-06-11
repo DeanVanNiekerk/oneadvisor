@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
+import { Filters, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
 import { formatCurrency, getMonthDateRange, getMonthOptions, getYearOptions } from '@/app/utils';
 import {
     clearStatementPreview, fetchStatements, receiveFilterMonth, receiveFilters, receiveFilterYear, receivePageOptions,
@@ -12,7 +12,7 @@ import {
 } from '@/state/app/commission/statements';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
-import { Button, CompanyName, Header, Table } from '@/ui/controls';
+import { Button, CompanyName, getTable, Header } from '@/ui/controls';
 
 import EditStatement from './EditStatement';
 import { Processed } from './Processed';
@@ -51,10 +51,7 @@ class StatementList extends Component<Props> {
     }
 
     loadStatements = () => {
-        const dateRange = getMonthDateRange(
-            this.props.filterMonth,
-            this.props.filterYear
-        );
+        const dateRange = getMonthDateRange(this.props.filterMonth, this.props.filterYear);
 
         this.props.dispatch(
             fetchStatements(this.props.pageOptions, this.props.sortOptions, {
@@ -79,8 +76,7 @@ class StatementList extends Component<Props> {
         let date = moment()
             .year(this.props.filterYear)
             .month(this.props.filterMonth - 1);
-        if (today.year() !== date.year() || today.month() !== date.month())
-            date = date.date(1);
+        if (today.year() !== date.year() || today.month() !== date.month()) date = date.date(1);
 
         const statement: StatementEdit = {
             id: "",
@@ -94,10 +90,13 @@ class StatementList extends Component<Props> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<Statement>(true, this.props.filters);
+
         return [
-            getColumnEDS(
+            getColumn(
                 "companyId",
                 "Company",
+                {},
                 {
                     render: (companyId: string) => {
                         return <CompanyName companyId={companyId} />;
@@ -106,28 +105,23 @@ class StatementList extends Component<Props> {
                         text: type.name,
                         value: type.id,
                     })),
-                },
-                this.props.filters
+                }
             ),
-            getColumnEDS("date", "Date", { type: "date" }),
-            getColumnEDS(
+            getColumn("date", "Date", { type: "date" }),
+            getColumn(
                 "actualAmountIncludingVAT",
                 "Amount (excl VAT)",
+                {},
                 {
-                    render: (
-                        actualAmountIncludingVAT: number,
-                        record: Statement
-                    ) => {
-                        return formatCurrency(
-                            actualAmountIncludingVAT - record.actualVAT
-                        );
+                    render: (actualAmountIncludingVAT: number, record: Statement) => {
+                        return formatCurrency(actualAmountIncludingVAT - record.actualVAT);
                     },
-                },
-                this.props.filters
+                }
             ),
-            getColumnEDS(
+            getColumn(
                 "processed",
                 "Status",
+                {},
                 {
                     render: (processed: boolean) => {
                         return <Processed processed={processed} />;
@@ -142,8 +136,7 @@ class StatementList extends Component<Props> {
                             value: "false",
                         },
                     ],
-                },
-                this.props.filters
+                }
             ),
         ];
     };
@@ -157,19 +150,11 @@ class StatementList extends Component<Props> {
         }
     };
 
-    onTableChange = (
-        pageOptions: PageOptions,
-        sortOptions: SortOptions,
-        filters: Filters
-    ) => {
-        if (this.props.pageOptions != pageOptions)
-            this.props.dispatch(receivePageOptions(pageOptions));
+    onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
+        if (this.props.pageOptions != pageOptions) this.props.dispatch(receivePageOptions(pageOptions));
         if (this.props.sortOptions != sortOptions)
-            this.props.dispatch(
-                receiveSortOptions(this.mapSortColumns(sortOptions))
-            );
-        if (this.props.filters != filters)
-            this.props.dispatch(receiveFilters(filters));
+            this.props.dispatch(receiveSortOptions(this.mapSortColumns(sortOptions)));
+        if (this.props.filters != filters) this.props.dispatch(receiveFilters(filters));
     };
 
     handleMonthChange = (month: number) => {
@@ -203,15 +188,14 @@ class StatementList extends Component<Props> {
             <Row type="flex" justify="space-between">
                 <Col>
                     <b>Total Amount (excl VAT): </b>
-                    {formatCurrency(
-                        this.props.sumAmountIncludingVAT - this.props.sumVAT
-                    )}
+                    {formatCurrency(this.props.sumAmountIncludingVAT - this.props.sumVAT)}
                 </Col>
             </Row>
         );
     };
 
     render() {
+        const Table = getTable<Statement>();
         return (
             <>
                 <Header
@@ -249,10 +233,7 @@ class StatementList extends Component<Props> {
                         >
                             {getMonthOptions().map(month => {
                                 return (
-                                    <Option
-                                        key={month.number.toString()}
-                                        value={month.number}
-                                    >
+                                    <Option key={month.number.toString()} value={month.number}>
                                         {month.name}
                                     </Option>
                                 );
@@ -276,13 +257,7 @@ class StatementList extends Component<Props> {
                         </Select>
                     </Col>
                     <Col>
-                        <Button
-                            shape="circle"
-                            icon="right"
-                            size="large"
-                            onClick={this.nextMonth}
-                            noLeftMargin={true}
-                        />
+                        <Button shape="circle" icon="right" size="large" onClick={this.nextMonth} noLeftMargin={true} />
                     </Col>
                 </Row>
                 <Table

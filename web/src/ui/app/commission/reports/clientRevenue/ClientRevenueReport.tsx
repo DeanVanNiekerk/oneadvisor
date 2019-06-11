@@ -6,7 +6,7 @@ import { connect, DispatchProp } from 'react-redux';
 import { downloadExcel } from '@/app/excel/helpers';
 import { hasUseCase } from '@/app/identity';
 import { applyLike } from '@/app/query';
-import { Filters, getColumnEDS, PageOptions, SortOptions } from '@/app/table';
+import { Filters, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
 import { DATE_FORMAT, getMonthName, getMonthOptions, getYearOptions } from '@/app/utils';
 import {
     ClientRevenueData, clientRevenueSelector, fetchClientRevenueData, getClientRevenueData, receiveClientRevenueFilters,
@@ -16,7 +16,7 @@ import { Branch, branchesSelector, branchSelector, fetchBranches } from '@/state
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { useCaseSelector, userOrganisationIdSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
-import { Age, Button, ClientName, Drawer, DrawerFooter, Header, Table } from '@/ui/controls';
+import { Age, Button, ClientName, Drawer, DrawerFooter, getTable, Header } from '@/ui/controls';
 
 import AllocationList from '../../allocation/AllocationList';
 
@@ -91,55 +91,68 @@ class ClientRevenueReport extends Component<Props, State> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<ClientRevenueData>(true, this.props.filters);
+
         const columns = [
-            getColumnEDS(
+            getColumn(
                 "clientLastName",
                 "Last Name",
                 {
                     showSearchFilter: true,
+                },
+                {
                     fixed: "left",
-                },
-                this.props.filters
+                }
             ),
-            getColumnEDS("clientInitials", "Initials"),
-            getColumnEDS("clientDateOfBirth", "Age", {
-                render: (clientDateOfBirth: string) => {
-                    return <Age dateOfBirth={clientDateOfBirth} />;
-                },
-            }),
-            getColumnEDS("monthlyAnnuityMonth", "Monthly As & When Commission", {
+            getColumn("clientInitials", "Initials"),
+            getColumn(
+                "clientDateOfBirth",
+                "Age",
+                {},
+                {
+                    render: (clientDateOfBirth: string) => {
+                        return <Age dateOfBirth={clientDateOfBirth} />;
+                    },
+                }
+            ),
+            getColumn("monthlyAnnuityMonth", "Monthly As & When Commission", {
                 type: "currency",
             }),
-            getColumnEDS("annualAnnuityAverage", "Annual Commissions Avg Monthly", {
+            getColumn("annualAnnuityAverage", "Annual Commissions Avg Monthly", {
                 type: "currency",
             }),
-            getColumnEDS("totalMonthlyEarnings", "Total Monthly Earnings", {
+            getColumn("totalMonthlyEarnings", "Total Monthly Earnings", {
                 type: "currency",
             }),
-            getColumnEDS("lifeFirstYears", "Life Upfronts", {
+            getColumn("lifeFirstYears", "Life Upfronts", {
                 type: "currency",
             }),
-            getColumnEDS("onceOff", "Once Off Commissions", {
+            getColumn("onceOff", "Once Off Commissions", {
                 type: "currency",
             }),
-            getColumnEDS("grandTotal", "Grand Total Last 12 Months", {
+            getColumn("grandTotal", "Grand Total Last 12 Months", {
                 type: "currency",
             }),
         ];
 
         if (hasUseCase("com_view_commission_allocations", this.props.useCases)) {
             columns.push(
-                getColumnEDS("actions", "", {
-                    sorter: undefined,
-                    fixed: "right",
-                    render: (value: any, record: ClientRevenueData) => {
-                        return (
-                            <Badge dot count={record.allocationsCount}>
-                                <Icon type="share-alt" onClick={() => this.editAllocations(record.clientId)} />
-                            </Badge>
-                        );
-                    },
-                })
+                getColumn(
+                    "rowNumber",
+                    "",
+                    {},
+                    {
+                        sorter: undefined,
+                        fixed: "right",
+                        render: (value: any, record: ClientRevenueData) => {
+                            return (
+                                <Badge dot count={record.allocationsCount}>
+                                    <Icon type="share-alt" onClick={() => this.editAllocations(record.clientId)} />
+                                </Badge>
+                            );
+                        },
+                    }
+                )
             );
         }
 
@@ -232,6 +245,8 @@ class ClientRevenueReport extends Component<Props, State> {
     };
 
     render() {
+        const Table = getTable<ClientRevenueData>();
+
         return (
             <>
                 <Header

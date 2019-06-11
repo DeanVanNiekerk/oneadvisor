@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import { Application, applicationsSelector, fetchApplications } from '@/state/app/directory/applications';
 import { fetchRole, fetchRoles, receiveRole, Role, RoleEdit, rolesSelector } from '@/state/app/directory/roles';
 import { fetchUseCases, UseCase, useCasesSelector } from '@/state/app/directory/usecases';
 import { RootState } from '@/state/rootReducer';
-import { Button, Header, Table } from '@/ui/controls';
+import { Button, getTable, Header } from '@/ui/controls';
 
 import EditRole from './EditRole';
 
@@ -85,22 +85,29 @@ class RoleList extends Component<Props, State> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<Role>();
         return [
             getColumn("name", "Name"),
             getColumn("description", "Description"),
-            getColumn("applicationId", "Application", {
-                render: (applicationId: string) => {
-                    return this.getApplicationName(applicationId);
-                },
-                filters: this.props.applications.map(a => ({
-                    text: a.name,
-                    value: a.id,
-                })),
-            }),
+            getColumn(
+                "applicationId",
+                "Application",
+                {},
+                {
+                    render: (applicationId: string) => {
+                        return this.getApplicationName(applicationId);
+                    },
+                    filters: this.props.applications.map(a => ({
+                        text: a.name,
+                        value: a.id,
+                    })),
+                }
+            ),
         ];
     };
 
     render() {
+        const Table = getTable<Role>();
         return (
             <>
                 <Header
@@ -146,10 +153,7 @@ const mapStateToProps = (state: RootState) => {
         roles: rolesState.items,
         applications: applicationsState.items,
         useCases: useCaseState.items,
-        fetching:
-            rolesState.fetching ||
-            applicationsState.fetching ||
-            useCaseState.fetching,
+        fetching: rolesState.fetching || applicationsState.fetching || useCaseState.fetching,
     };
 };
 

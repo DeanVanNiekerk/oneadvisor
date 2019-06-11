@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { applyLike } from '@/app/query';
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import { Policy, policySearchSelector, searchPolicies } from '@/state/app/client/policies';
 import { RootState } from '@/state/rootReducer';
-import { CompanyName, PolicyTypeName, Table, UserName } from '@/ui/controls';
+import { CompanyName, getTable, PolicyTypeName, UserName } from '@/ui/controls';
 
 type Props = {
     policies: Policy[];
@@ -24,7 +24,7 @@ class PolicySearch extends Component<Props, State> {
     constructor(props) {
         super(props);
         this.state = {
-            searchText: ''
+            searchText: "",
         };
     }
 
@@ -36,14 +36,14 @@ class PolicySearch extends Component<Props, State> {
         let filters = {
             lastName: [this.state.searchText],
             clientId: [] as string[],
-            companyId: [] as string[]
+            companyId: [] as string[],
         };
 
         if (this.props.clientId) filters.clientId.push(this.props.clientId);
 
         if (this.props.companyId) filters.companyId.push(this.props.companyId);
 
-        this.props.dispatch(searchPolicies(applyLike(filters, ['number'])));
+        this.props.dispatch(searchPolicies(applyLike(filters, ["number"])));
     };
 
     selectPolicy = (id: string) => {
@@ -55,34 +55,56 @@ class PolicySearch extends Component<Props, State> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<Policy>();
         return [
-            getColumn('policyTypeId', 'Type', {
-                sorter: false,
-                render: (policyTypeId: string) => {
-                    return <PolicyTypeName policyTypeId={policyTypeId} />;
+            getColumn(
+                "policyTypeId",
+                "Type",
+                {},
+                {
+                    sorter: false,
+                    render: (policyTypeId: string) => {
+                        return <PolicyTypeName policyTypeId={policyTypeId} />;
+                    },
                 }
-            }),
-            getColumn('number', 'Number', { sorter: false }),
-            getColumn('premium', 'Premium', {
-                type: 'currency',
-                sorter: false
-            }),
-            getColumn('companyId', 'Company', {
-                sorter: false,
-                render: (companyId: string) => {
-                    return <CompanyName companyId={companyId} />;
+            ),
+            getColumn("number", "Number", {}, { sorter: false }),
+            getColumn(
+                "premium",
+                "Premium",
+                { type: "currency" },
+                {
+                    sorter: false,
                 }
-            }),
-            getColumn('userId', 'Broker', {
-                sorter: false,
-                render: (userId: string) => {
-                    return <UserName userId={userId} />;
+            ),
+            getColumn(
+                "companyId",
+                "Company",
+                {},
+                {
+                    sorter: false,
+                    render: (companyId: string) => {
+                        return <CompanyName companyId={companyId} />;
+                    },
                 }
-            })
+            ),
+            getColumn(
+                "userId",
+                "Broker",
+                {},
+                {
+                    sorter: false,
+                    render: (userId: string) => {
+                        return <UserName userId={userId} />;
+                    },
+                }
+            ),
         ];
     };
 
     render() {
+        const Table = getTable<Policy>();
+
         const { searchText } = this.state;
 
         return (
@@ -115,7 +137,7 @@ const mapStateToProps = (state: RootState) => {
 
     return {
         policies: policysState.items,
-        fetching: policysState.fetching
+        fetching: policysState.fetching,
     };
 };
 

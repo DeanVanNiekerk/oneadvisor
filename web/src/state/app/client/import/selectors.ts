@@ -15,19 +15,17 @@ export const clientImportSelector: (state: RootState) => State = createSelector(
     root => root
 );
 
-export const clientImportTableRowsSelector: (
-    state: RootState
-) => ImportTableRow[] = createSelector(
+export const clientImportTableRowsSelector: (state: RootState) => ImportTableRow[] = createSelector(
     rootSelector,
     root => {
         return root.data.map(d => {
             const record = {
-                _id: v4()
+                _id: v4(),
             };
 
             root.selectedColumns.forEach((column, index) => {
                 let value = d[index];
-                if (column === 'dateOfBirth' || column === 'policyStartDate') {
+                if (column === "dateOfBirth" || column === "policyStartDate") {
                     value = formatExcelDate(value);
                 }
 
@@ -38,27 +36,19 @@ export const clientImportTableRowsSelector: (
     }
 );
 
-export const clientImportSelectedColumnsSelector: (
-    state: RootState
-) => ImportColumn[] = createSelector(
+export const clientImportSelectedColumnsSelector: (state: RootState) => ImportColumn[] = createSelector(
     rootSelector,
     root => {
         return root.selectedColumns.map(sc => {
             const column = root.columns.find(c => c.id === sc);
-            return column ? column : { id: '0', name: 'no match' };
+            return column ? column : { id: "_id", name: "no match" };
         });
     }
 );
 
-export const clientImportProgressPercentSelector: (
-    state: RootState
-) => number = createSelector(
+export const clientImportProgressPercentSelector: (state: RootState) => number = createSelector(
     rootSelector,
     root => {
-        return Math.floor(
-            ((root.resultsSuccess.length + root.resultsFailure.length) /
-                root.clients.length) *
-                100
-        );
+        return Math.floor(((root.resultsSuccess.length + root.resultsFailure.length) / root.clients.length) * 100);
     }
 );

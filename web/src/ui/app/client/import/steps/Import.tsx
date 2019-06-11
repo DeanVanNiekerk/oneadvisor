@@ -1,16 +1,18 @@
 import { Card, Col, Collapse, Icon, Modal, Progress, Row } from 'antd';
+import { ColumnProps } from 'antd/lib/table';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { downloadExcel } from '@/app/excel/helpers';
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import { parseValidationErrors } from '@/app/validation';
 import {
-    ImportClient, ImportColumn, importClient, importClientClearResults, importClientReset, clientImportPreviousStep,
-    clientImportProgressPercentSelector, clientImportSelectedColumnsSelector, clientImportSelector, ResultFailure
+    clientImportPreviousStep, clientImportProgressPercentSelector, clientImportSelectedColumnsSelector,
+    clientImportSelector, ImportClient, importClient, importClientClearResults, importClientReset, ImportColumn,
+    ResultFailure
 } from '@/state/app/client/import';
 import { RootState } from '@/state/rootReducer';
-import { Button, Table } from '@/ui/controls';
+import { Button, getTable } from '@/ui/controls';
 
 import StepProgress from '../StepProgress';
 
@@ -28,8 +30,7 @@ type Props = {
 class Import extends Component<Props> {
     componentDidUpdate() {
         if (this.props.progressPercent === 100) {
-            if (this.props.resultsSuccess.length === this.props.clients.length)
-                this.success();
+            if (this.props.resultsSuccess.length === this.props.clients.length) this.success();
             else this.failure();
         }
     }
@@ -42,10 +43,7 @@ class Import extends Component<Props> {
     };
 
     isImporting = () => {
-        return (
-            this.props.progressPercent !== 0 &&
-            this.props.progressPercent !== 100
-        );
+        return this.props.progressPercent !== 0 && this.props.progressPercent !== 100;
     };
 
     success = () => {
@@ -77,16 +75,12 @@ class Import extends Component<Props> {
                                 return (
                                     <div key={result.propertyName}>
                                         <b>{result.propertyName}: </b>
-                                        <span className="text-error">
-                                            {result.errorMessage}
-                                        </span>
+                                        <span className="text-error">{result.errorMessage}</span>
                                     </div>
                                 );
                             })}
                             {validationErrors.length === 0 && (
-                                <span className="text-error">
-                                    Unhandled Server Error
-                                </span>
+                                <span className="text-error">Unhandled Server Error</span>
                             )}
                         </Panel>
                         <Panel header="Record Data" key="2">
@@ -110,39 +104,47 @@ class Import extends Component<Props> {
     };
 
     getColumns = () => {
-        const columns: any = [];
+        const columns: ColumnProps<ResultFailure>[] = [];
 
-        const idNumberColumn = getColumn("idNumber", "Record", {
-            sorter: undefined,
-            render: (value: any, record: ResultFailure) => {
-                {
-                    return this.props.columns.map(column => {
-                        return (
-                            <span key={column.id}>
-                                {record.importClient[column.id]};{" "}
-                            </span>
-                        );
-                    });
-                }
-            },
-        });
+        var getColumn = getColumnDefinition<ResultFailure>();
 
-        const actionColumn = getColumn("error", "Error Detail", {
-            sorter: undefined,
-            fixed: "right",
-            render: (value: any, record: ResultFailure) => {
-                return (
-                    <Button
-                        shape="circle"
-                        icon="exclamation"
-                        type="danger"
-                        onClick={() => {
-                            this.showError(record);
-                        }}
-                    />
-                );
-            },
-        });
+        const idNumberColumn = getColumn(
+            "_id",
+            "Record",
+            {},
+            {
+                sorter: undefined,
+                render: (value: any, record: ResultFailure) => {
+                    {
+                        return this.props.columns.map(column => {
+                            return <span key={column.id}>{record.importClient[column.id]}; </span>;
+                        });
+                    }
+                },
+            }
+        );
+
+        const actionColumn = getColumn(
+            "error",
+            "Error Detail",
+            {},
+            {
+                sorter: undefined,
+                fixed: "right",
+                render: (value: any, record: ResultFailure) => {
+                    return (
+                        <Button
+                            shape="circle"
+                            icon="exclamation"
+                            type="danger"
+                            onClick={() => {
+                                this.showError(record);
+                            }}
+                        />
+                    );
+                },
+            }
+        );
 
         columns.push(idNumberColumn);
         columns.push(actionColumn);
@@ -155,9 +157,7 @@ class Import extends Component<Props> {
     };
 
     downloadErrors = () => {
-        const errorIds = this.props.resultsFailure.map(
-            result => result.importClient._id
-        );
+        const errorIds = this.props.resultsFailure.map(result => result.importClient._id);
 
         const errorRows = this.props.clients.filter(m => {
             return errorIds.indexOf(m._id) !== -1;
@@ -172,53 +172,41 @@ class Import extends Component<Props> {
         const fileName = this.props.fileName;
         const index = fileName.lastIndexOf(".");
 
-        const errorFileName =
-            fileName.slice(0, index) + "_Errors" + fileName.slice(index);
+        const errorFileName = fileName.slice(0, index) + "_Errors" + fileName.slice(index);
 
         downloadExcel(data, errorFileName);
     };
 
     render() {
+        const Table = getTable<ResultFailure>();
+
         return (
             <>
                 <StepProgress
                     previousDisabled={this.isImporting()}
-                    onPrevious={() =>
-                        this.props.dispatch(clientImportPreviousStep())
-                    }
+                    onPrevious={() => this.props.dispatch(clientImportPreviousStep())}
                     onNext={this.startImport}
                     nextLoading={this.isImporting()}
-                    nextText={
-                        this.props.progressPercent === 100
-                            ? "Import Again"
-                            : "Start Import"
-                    }
+                    nextText={this.props.progressPercent === 100 ? "Import Again" : "Start Import"}
                     nextIcon="cloud-upload"
                 />
 
                 <Row gutter={24}>
                     <Col span={4}>
                         <Card title="Progress" className="text-center">
-                            <Progress
-                                type="circle"
-                                percent={this.props.progressPercent}
-                            />
+                            <Progress type="circle" percent={this.props.progressPercent} />
                         </Card>
                     </Col>
                     <Col span={6}>
                         <Card title="Results">
                             <p>
                                 <span>Successful imports: </span>
-                                <strong className="text-success">
-                                    {this.props.resultsSuccess.length}
-                                </strong>
+                                <strong className="text-success">{this.props.resultsSuccess.length}</strong>
                             </p>
                             {this.props.resultsFailure.length > 0 && (
                                 <p>
                                     <span>Import failures: </span>
-                                    <strong className="text-error">
-                                        {this.props.resultsFailure.length}
-                                    </strong>
+                                    <strong className="text-error">{this.props.resultsFailure.length}</strong>
                                 </p>
                             )}
                         </Card>
@@ -251,9 +239,7 @@ class Import extends Component<Props> {
                                 )
                             }
                         >
-                            {this.props.resultsFailure.length === 0 && (
-                                <p>No errors.</p>
-                            )}
+                            {this.props.resultsFailure.length === 0 && <p>No errors.</p>}
                             {this.props.resultsFailure.length > 0 && (
                                 <Table
                                     rowKey="_id"

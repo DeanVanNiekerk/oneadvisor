@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import { UNKNOWN_COMMISSION_TYPE_CODE } from '@/state/app/commission/lookups';
 import {
     CommissionStatementTemplate, CommissionStatementTemplateEdit, commissionStatementTemplatesSelector,
@@ -9,7 +9,7 @@ import {
 } from '@/state/app/commission/templates';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
-import { Button, CompanyName, Header, Table } from '@/ui/controls';
+import { Button, CompanyName, getTable, Header } from '@/ui/controls';
 
 import EditTemplate from './EditTemplate';
 
@@ -90,23 +90,30 @@ class TemplateList extends Component<Props, State> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<CommissionStatementTemplate>();
         return [
             getColumn("name", "Name", { showSearchFilter: true }),
-            getColumn("companyId", "Company", {
-                render: (companyId: string) => {
-                    return <CompanyName companyId={companyId} />;
-                },
-                filters: this.props.companies.map(type => ({
-                    text: type.name,
-                    value: type.id,
-                })),
-            }),
+            getColumn(
+                "companyId",
+                "Company",
+                {},
+                {
+                    render: (companyId: string) => {
+                        return <CompanyName companyId={companyId} />;
+                    },
+                    filters: this.props.companies.map(type => ({
+                        text: type.name,
+                        value: type.id,
+                    })),
+                }
+            ),
             getColumn("startDate", "Start", { type: "date" }),
             getColumn("endDate", "End", { type: "date" }),
         ];
     };
 
     render() {
+        const Table = getTable<CommissionStatementTemplate>();
         return (
             <>
                 <Header

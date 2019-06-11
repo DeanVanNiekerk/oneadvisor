@@ -1,4 +1,4 @@
-import { Col, Form, Icon, Popconfirm, Row, Select } from 'antd';
+import { Col, Form, Popconfirm, Row, Select } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';

@@ -4,12 +4,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { hasUseCase } from '@/app/identity';
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import { ValidationResult } from '@/app/validation';
 import { Split } from '@/state/app/commission/splitRules';
 import { useCaseSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
-import { FormErrors, StopPropagation, Table, UserName } from '@/ui/controls';
+import { FormErrors, getTable, StopPropagation, UserName } from '@/ui/controls';
 
 import EditSplit from './EditSplit';
 
@@ -26,18 +26,16 @@ type State = {
 };
 
 class SplitList extends Component<Props, State> {
-
     constructor(props: Props) {
         super(props);
 
         this.state = {
             split: null,
-            splitIndex: null
-        }
+            splitIndex: null,
+        };
     }
 
     addSplit = (split: Split) => {
-
         let splits: Split[] = [];
 
         if (this.state.splitIndex !== null) {
@@ -46,8 +44,7 @@ class SplitList extends Component<Props, State> {
                     $set: split,
                 },
             });
-        }
-        else {
+        } else {
             splits = update(this.props.splits, {
                 $push: [split],
             });
@@ -58,34 +55,31 @@ class SplitList extends Component<Props, State> {
     };
 
     newSplit = () => {
-
         const sum = this.props.splits.reduce((p, c) => c.percentage + p, 0);
 
         const split: Split = {
             userId: "",
             percentage: 100 - Math.min(sum, 100),
-        }
+        };
 
         this.setState({
             split: split,
-            splitIndex: null
-        })
+            splitIndex: null,
+        });
     };
 
     editSplit = (index: number) => {
-
         this.setState({
             split: { ...this.props.splits[index] },
-            splitIndex: index
-        })
-
+            splitIndex: index,
+        });
     };
 
     cancelEditSplit = () => {
         this.setState({
             split: null,
-            splitIndex: null
-        })
+            splitIndex: null,
+        });
     };
 
     deleteSplit = (index: number) => {
@@ -94,52 +88,66 @@ class SplitList extends Component<Props, State> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<Split>();
         const columns = [
-            getColumn("userId", "User", {
-                render: (userId: string) => {
-                    return <UserName userId={userId} />
+            getColumn(
+                "userId",
+                "User",
+                {},
+                {
+                    render: (userId: string) => {
+                        return <UserName userId={userId} />;
+                    },
                 }
-            }),
-            getColumn("percentage", "Percentage", {
-                render: (percentage: number) => {
-                    return `${percentage}%`;
+            ),
+            getColumn(
+                "percentage",
+                "Percentage",
+                {},
+                {
+                    render: (percentage: number) => {
+                        return `${percentage}%`;
+                    },
                 }
-            }),
-
+            ),
         ];
 
         if (hasUseCase("com_edit_commission_split_rules", this.props.useCases)) {
-            columns.push(getColumn('', 'Actions', {
-                render: (position: number, record: Split, index: number) => {
-                    return (
-                        <StopPropagation>
-                            <a
-                                href="#"
-                                className="mr-1"
-                                onClick={() => this.editSplit(index)}
-                            >
-                                Edit
-                            </a>
-                            {this.props.splits.length > 1 &&
-                                <Popconfirm
-                                    title="Are you sure remove this split?"
-                                    onConfirm={() => this.deleteSplit(index)}
-                                    okText="Yes"
-                                    cancelText="No"
-                                >
-                                    <a href="#">Remove</a>
-                                </Popconfirm>
-                            }
-                        </StopPropagation>
-                    );
-                }
-            }));
+            columns.push(
+                getColumn(
+                    "userId",
+                    "Actions",
+                    {},
+                    {
+                        render: (position: number, record: Split, index: number) => {
+                            return (
+                                <StopPropagation>
+                                    <a href="#" className="mr-1" onClick={() => this.editSplit(index)}>
+                                        Edit
+                                    </a>
+                                    {this.props.splits.length > 1 && (
+                                        <Popconfirm
+                                            title="Are you sure remove this split?"
+                                            onConfirm={() => this.deleteSplit(index)}
+                                            okText="Yes"
+                                            cancelText="No"
+                                        >
+                                            <a href="#">Remove</a>
+                                        </Popconfirm>
+                                    )}
+                                </StopPropagation>
+                            );
+                        },
+                    }
+                )
+            );
         }
 
         return columns;
     };
 
     render() {
+        const Table = getTable<Split>();
 
         return (
             <>
@@ -153,15 +161,15 @@ class SplitList extends Component<Props, State> {
                 />
 
                 <Table
+                    rowKey="userId"
                     className="mt-1"
-                    rowKey="position"
                     columns={this.getColumns()}
                     dataSource={this.props.splits}
                     onRowClick={(split, index) => this.editSplit(index)}
                 />
-            </>)
+            </>
+        );
     }
-
 }
 
 const mapStateToProps = (state: RootState) => {

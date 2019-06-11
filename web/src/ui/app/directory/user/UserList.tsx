@@ -2,12 +2,12 @@ import { Tag } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import { fetchOrganisations, Organisation, organisationsSelector } from '@/state/app/directory/organisations';
 import { fetchUser, fetchUsers, receiveUser, User, UserEdit, usersSelector } from '@/state/app/directory/users';
 import { fetchUsersSimple } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
-import { Button, Header, Table } from '@/ui/controls';
+import { Button, getTable, Header } from '@/ui/controls';
 
 import EditUser from './EditUser';
 
@@ -86,38 +86,55 @@ class UserList extends Component<Props, State> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<User>();
         return [
             getColumn("lastName", "Last Name"),
             getColumn("firstName", "First Name"),
             getColumn("email", "Email"),
             getColumn("organisationName", "Organisation"),
             getColumn("branchName", "Branch"),
-            getColumn("emailConfirmed", "Activated", {
-                render: (emailConfirmed: boolean) => {
-                    return emailConfirmed ? <Tag color="green">Yes</Tag> : <Tag color="volcano">No</Tag>;
-                },
-            }),
-            getColumn("isLocked", "Locked", {
-                render: (isLocked: boolean) => {
-                    return !isLocked ? <Tag color="green">No</Tag> : <Tag color="volcano">Yes</Tag>;
-                },
-            }),
-            getColumn("scope", "Scope", {
-                render: (scope: number) => {
-                    switch (scope) {
-                        case 1:
-                            return <Tag color="purple">Organisation</Tag>;
-                        case 2:
-                            return <Tag color="blue">Branch</Tag>;
-                        case 3:
-                            return <Tag color="magenta">User</Tag>;
-                    }
-                },
-            }),
+            getColumn(
+                "emailConfirmed",
+                "Activated",
+                {},
+                {
+                    render: (emailConfirmed: boolean) => {
+                        return emailConfirmed ? <Tag color="green">Yes</Tag> : <Tag color="volcano">No</Tag>;
+                    },
+                }
+            ),
+            getColumn(
+                "isLocked",
+                "Locked",
+                {},
+                {
+                    render: (isLocked: boolean) => {
+                        return !isLocked ? <Tag color="green">No</Tag> : <Tag color="volcano">Yes</Tag>;
+                    },
+                }
+            ),
+            getColumn(
+                "scope",
+                "Scope",
+                {},
+                {
+                    render: (scope: number) => {
+                        switch (scope) {
+                            case 1:
+                                return <Tag color="purple">Organisation</Tag>;
+                            case 2:
+                                return <Tag color="blue">Branch</Tag>;
+                            case 3:
+                                return <Tag color="magenta">User</Tag>;
+                        }
+                    },
+                }
+            ),
         ];
     };
 
     render() {
+        const Table = getTable<User>();
         return (
             <>
                 <Header

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import { ROLE_SUPER_ADMIN } from '@/config/role';
 import {
     fetchOrganisations, Organisation, organisationsSelector, receiveOrganisation
 } from '@/state/app/directory/organisations';
 import { RootState } from '@/state/rootReducer';
-import { Button, Header, Table } from '@/ui/controls';
+import { Button, getTable, Header } from '@/ui/controls';
 
 import EditOrganisation from './EditOrganisation';
 
@@ -65,10 +65,12 @@ class OrganisationList extends Component<Props, State> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<Organisation>();
         return [getColumn("name", "Name")];
     };
 
     render() {
+        const Table = getTable<Organisation>();
         return (
             <>
                 <Header
@@ -95,10 +97,7 @@ class OrganisationList extends Component<Props, State> {
                     loading={this.props.fetching}
                     onRowClick={org => this.editOrganisation(org.id)}
                 />
-                <EditOrganisation
-                    visible={this.state.editVisible}
-                    onClose={this.closeEditOrganisation}
-                />
+                <EditOrganisation visible={this.state.editVisible} onClose={this.closeEditOrganisation} />
             </>
         );
     }

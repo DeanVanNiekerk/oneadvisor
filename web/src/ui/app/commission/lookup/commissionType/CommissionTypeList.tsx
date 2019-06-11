@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { getColumn } from '@/app/table';
+import { getColumnDefinition } from '@/app/table';
 import { PolicyType, policyTypesSelector } from '@/state/app/client/lookups';
 import { CommissionEarningsType, commissionEarningsTypesSelector } from '@/state/app/commission/lookups';
 import {
     CommissionType, commissionTypesSelector, fetchCommissionTypes, receiveCommissionType
 } from '@/state/app/commission/lookups/commissionTypes';
 import { RootState } from '@/state/rootReducer';
-import { Button, CommissionEarningsTypeName, Header, PolicyTypeName, Table } from '@/ui/controls';
+import { Button, CommissionEarningsTypeName, getTable, Header, PolicyTypeName } from '@/ui/controls';
 
 import EditCommissionType from './EditCommissionType';
 
@@ -52,9 +52,7 @@ class CommissionTypeList extends Component<Props, State> {
     };
 
     editCommissionType = (id: string) => {
-        const commissionType = this.props.commissionTypes.find(
-            u => u.id === id
-        );
+        const commissionType = this.props.commissionTypes.find(u => u.id === id);
         if (commissionType) this.showEditCommissionType(commissionType);
     };
 
@@ -73,35 +71,44 @@ class CommissionTypeList extends Component<Props, State> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<CommissionType>();
         return [
             getColumn("name", "Name", { showSearchFilter: true }),
             getColumn("code", "Code", { showSearchFilter: true }),
-            getColumn("policyTypeId", "Policy Type", {
-                render: (policyTypeId: string) => {
-                    return <PolicyTypeName policyTypeId={policyTypeId} />;
-                },
-                filters: this.props.policyTypes.map(p => ({
-                    text: p.name,
-                    value: p.id,
-                })),
-            }),
-            getColumn("commissionEarningsTypeId", "Earnings Type", {
-                render: (commissionEarningsTypeId: string) => {
-                    return (
-                        <CommissionEarningsTypeName
-                            commissionEarningsTypeId={commissionEarningsTypeId}
-                        />
-                    );
-                },
-                filters: this.props.commissionEarningsTypes.map(c => ({
-                    text: c.name,
-                    value: c.id,
-                })),
-            }),
+            getColumn(
+                "policyTypeId",
+                "Policy Type",
+                {},
+                {
+                    render: (policyTypeId: string) => {
+                        return <PolicyTypeName policyTypeId={policyTypeId} />;
+                    },
+                    filters: this.props.policyTypes.map(p => ({
+                        text: p.name,
+                        value: p.id,
+                    })),
+                }
+            ),
+            getColumn(
+                "commissionEarningsTypeId",
+                "Earnings Type",
+                {},
+                {
+                    render: (commissionEarningsTypeId: string) => {
+                        return <CommissionEarningsTypeName commissionEarningsTypeId={commissionEarningsTypeId} />;
+                    },
+                    filters: this.props.commissionEarningsTypes.map(c => ({
+                        text: c.name,
+                        value: c.id,
+                    })),
+                }
+            ),
         ];
     };
 
     render() {
+        const Table = getTable<CommissionType>();
+
         return (
             <>
                 <Header
@@ -127,10 +134,7 @@ class CommissionTypeList extends Component<Props, State> {
                     loading={this.props.fetching}
                     onRowClick={org => this.editCommissionType(org.id)}
                 />
-                <EditCommissionType
-                    visible={this.state.editVisible}
-                    onClose={this.closeEditCommissionType}
-                />
+                <EditCommissionType visible={this.state.editVisible} onClose={this.closeEditCommissionType} />
             </>
         );
     }

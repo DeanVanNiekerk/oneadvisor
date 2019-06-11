@@ -2,7 +2,7 @@ import { Icon, Popconfirm, Popover } from 'antd';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { getColumnEDS, PageOptions, SortOptions } from '@/app/table';
+import { getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
 import { formatCurrency, splitCamelCase } from '@/app/utils';
 import {
     CommissionError, commissionErrorsSelector, CommissionImportData, deleteMappingError, fetchErrors, fetchMappingError,
@@ -10,7 +10,7 @@ import {
 } from '@/state/app/commission/errors';
 import { Statement } from '@/state/app/commission/statements';
 import { RootState } from '@/state/rootReducer';
-import { StopPropagation, Table } from '@/ui/controls';
+import { getTable, StopPropagation } from '@/ui/controls';
 
 import EditMappingError from '../mapping/EditMappingError';
 
@@ -30,17 +30,10 @@ class ErrorList extends Component<Props> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (
-            prevProps.pageOptions != this.props.pageOptions ||
-            prevProps.sortOptions != this.props.sortOptions
-        )
+        if (prevProps.pageOptions != this.props.pageOptions || prevProps.sortOptions != this.props.sortOptions)
             this.loadErrors();
 
-        if (
-            this.props.pageOptions.number !== 1 &&
-            this.props.errors.length === 0 &&
-            prevProps.errors.length !== 0
-        ) {
+        if (this.props.pageOptions.number !== 1 && this.props.errors.length === 0 && prevProps.errors.length !== 0) {
             this.props.dispatch(
                 receivePageOptions({
                     ...this.props.pageOptions,
@@ -51,24 +44,12 @@ class ErrorList extends Component<Props> {
     }
 
     loadErrors = () => {
-        this.props.dispatch(
-            fetchErrors(
-                this.props.statement.id,
-                this.props.pageOptions,
-                this.props.sortOptions
-            )
-        );
+        this.props.dispatch(fetchErrors(this.props.statement.id, this.props.pageOptions, this.props.sortOptions));
         this.props.onUpdate();
     };
 
     deleteError = (id: string) => {
-        this.props.dispatch(
-            deleteMappingError(
-                this.props.statement.id,
-                id,
-                this.loadErrors
-            )
-        );
+        this.props.dispatch(deleteMappingError(this.props.statement.id, id, this.loadErrors));
     };
 
     onFormClose = (cancelled: boolean) => {
@@ -99,70 +80,94 @@ class ErrorList extends Component<Props> {
     };
 
     getColumns = () => {
+        var getColumn = getColumnDefinition<CommissionError>(true);
+
         return [
-            getColumnEDS("data", "Excel", {
-                align: "center",
-                render: (data: CommissionImportData) => {
-                    return (
-                        <Popover
-                            content={this.errorData(data)}
-                            title="Excel Data"
-                            placement="leftTop"
-                            style={{
-                                width: "450px",
-                            }}
-                        >
-                            <Icon type="info-circle" />
-                        </Popover>
-                    );
-                },
-                sorter: false,
-            }),
-            getColumnEDS("data", "Policy Number", {
-                render: (data: CommissionImportData) => {
-                    return data.policyNumber;
-                },
-                sorter: false,
-            }),
-            getColumnEDS("data", "Amount Incl VAT", {
-                render: (data: CommissionImportData) => {
-                    return formatCurrency(data.amountIncludingVAT);
-                },
-                sorter: false,
-            }),
-            getColumnEDS("data", "VAT", {
-                render: (data: CommissionImportData) => {
-                    return formatCurrency(data.vat);
-                },
-                sorter: false,
-            }),
-
-            getColumnEDS("id", "Actions", {
-                render: (id: string) => {
-                    return (
-                        <StopPropagation>
-                            <Popconfirm
-                                title="Are you sure remove this commission record?"
-                                onConfirm={() => this.deleteError(id)}
-                                okText="Yes"
-                                cancelText="No"
+            getColumn(
+                "data",
+                "Excel",
+                {},
+                {
+                    align: "center",
+                    render: (data: CommissionImportData) => {
+                        return (
+                            <Popover
+                                content={this.errorData(data)}
+                                title="Excel Data"
+                                placement="leftTop"
+                                style={{
+                                    width: "450px",
+                                }}
                             >
-                                <a href="#">Remove</a>
-                            </Popconfirm>
-                        </StopPropagation>
-                    );
-                },
-                sorter: false,
-            }),
+                                <Icon type="info-circle" />
+                            </Popover>
+                        );
+                    },
+                    sorter: false,
+                }
+            ),
+            getColumn(
+                "data",
+                "Policy Number",
+                {},
+                {
+                    render: (data: CommissionImportData) => {
+                        return data.policyNumber;
+                    },
+                    sorter: false,
+                }
+            ),
+            getColumn(
+                "data",
+                "Amount Incl VAT",
+                {},
+                {
+                    render: (data: CommissionImportData) => {
+                        return formatCurrency(data.amountIncludingVAT);
+                    },
+                    sorter: false,
+                }
+            ),
+            getColumn(
+                "data",
+                "VAT",
+                {},
+                {
+                    render: (data: CommissionImportData) => {
+                        return formatCurrency(data.vat);
+                    },
+                    sorter: false,
+                }
+            ),
 
+            getColumn(
+                "id",
+                "Actions",
+                {},
+                {
+                    render: (id: string) => {
+                        return (
+                            <StopPropagation>
+                                <Popconfirm
+                                    title="Are you sure remove this commission record?"
+                                    onConfirm={() => this.deleteError(id)}
+                                    okText="Yes"
+                                    cancelText="No"
+                                >
+                                    <a href="#">Remove</a>
+                                </Popconfirm>
+                            </StopPropagation>
+                        );
+                    },
+                    sorter: false,
+                }
+            ),
         ];
     };
 
     onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions) => {
-        if (this.props.pageOptions != pageOptions)
-            this.props.dispatch(receivePageOptions(pageOptions));
-        if (this.props.sortOptions != sortOptions)
-            this.props.dispatch(receiveSortOptions(sortOptions));
+        if (this.props.pageOptions != pageOptions) this.props.dispatch(receivePageOptions(pageOptions));
+        if (this.props.sortOptions != sortOptions) this.props.dispatch(receiveSortOptions(sortOptions));
     };
 
     resolveError = (id: string) => {
@@ -171,6 +176,7 @@ class ErrorList extends Component<Props> {
     };
 
     render() {
+        const Table = getTable<CommissionError>();
         return (
             <>
                 <Table
@@ -186,11 +192,7 @@ class ErrorList extends Component<Props> {
                 />
                 <EditMappingError
                     statement={this.props.statement}
-                    remainingErrors={
-                        this.props.statement
-                            ? this.props.statement.mappingErrorCount
-                            : 0
-                    }
+                    remainingErrors={this.props.statement ? this.props.statement.mappingErrorCount : 0}
                     onUpdate={this.loadErrors}
                 />
             </>
