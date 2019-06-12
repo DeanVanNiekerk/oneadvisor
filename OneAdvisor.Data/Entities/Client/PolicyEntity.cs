@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using OneAdvisor.Data.Entities.Client.Lookup;
 using OneAdvisor.Data.Entities.Directory;
@@ -30,5 +31,7 @@ namespace OneAdvisor.Data.Entities.Client
         public virtual PolicyTypeEntity PolicyType { get; set; }
         public virtual PolicyProductTypeEntity PolicyProductType { get; set; }
         public virtual PolicyProductEntity PolicyProduct { get; set; }
+
+        public virtual ICollection<PolicyCommissionSplitRuleEntity> PolicyCommissionSplitRules { get; set; }
     }
 }

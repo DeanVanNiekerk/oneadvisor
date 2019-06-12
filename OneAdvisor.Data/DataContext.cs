@@ -37,6 +37,7 @@ namespace OneAdvisor.Data
 
         public DbSet<ClientEntity> Client { get; set; }
         public DbSet<PolicyEntity> Policy { get; set; }
+        public DbSet<PolicyCommissionSplitRuleEntity> PolicyCommissionSplitRule { get; set; }
         public DbSet<ContactEntity> Contact { get; set; }
         public DbSet<MarritalStatusEntity> MarritalStatus { get; set; }
         public DbSet<ContactTypeEntity> ContactType { get; set; }
@@ -98,6 +99,7 @@ namespace OneAdvisor.Data
 
             modelBuilder.Entity<ClientEntity>().ToTable("clt_Client");
             modelBuilder.Entity<PolicyEntity>().ToTable("clt_Policy");
+            modelBuilder.Entity<PolicyCommissionSplitRuleEntity>().ToTable("clt_PolicyCommissionSplitRule");
             modelBuilder.Entity<PolicyTypeEntity>().ToTable("clt_PolicyType").HasData(SeedData.GetPolicyTypes());
             modelBuilder.Entity<PolicyProductTypeEntity>().ToTable("clt_PolicyProductType").HasData(SeedData.GetPolicyProductTypes());
             modelBuilder.Entity<PolicyProductEntity>().ToTable("clt_PolicyProduct");
@@ -108,6 +110,7 @@ namespace OneAdvisor.Data
 
             //Custom mappings
             PolicyMap.Map(modelBuilder);
+            PolicyCommissionSplitRuleMap.Map(modelBuilder);
 
             #endregion
 
