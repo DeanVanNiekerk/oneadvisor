@@ -15,8 +15,8 @@ namespace OneAdvisor.Model.Commission.Interface
         Task<PagedItems<CommissionSplitRule>> GetCommissionSplitRules(CommissionSplitRuleQueryOptions options);
         Task<CommissionSplitRule> GetCommissionSplitRule(ScopeOptions scope, Guid id);
         Task<Result> DeleteCommissionSplitRule(ScopeOptions scope, Guid id);
-        Task<Result> UpdateCommissionSplitRule(ScopeOptions scope, CommissionSplitRule commissionAllocation);
-        Task<Result> InsertCommissionSplitRule(ScopeOptions scope, CommissionSplitRule commissionAllocation);
-        List<CommissionEdit> SplitCommission(CommissionEdit commission, Policy policy, ImportCommission sourceData, List<CommissionSplitRule> commissionSplitRules);
+        Task<Result> UpdateCommissionSplitRule(ScopeOptions scope, CommissionSplitRule commissionSplitRule);
+        Task<Result> InsertCommissionSplitRule(ScopeOptions scope, CommissionSplitRule commissionSplitRule);
+        List<CommissionEdit> SplitCommission(CommissionEdit commission, Policy policy, ImportCommission sourceData, List<CommissionSplitRule> commissionSplitRule);
     }
 }

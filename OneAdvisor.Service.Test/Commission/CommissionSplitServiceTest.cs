@@ -284,7 +284,7 @@ namespace OneAdvisor.Service.Test.Commission
                 scope = TestHelper.GetScopeOptions(user2, Scope.User);
                 result = await service.InsertCommissionSplitRule(scope, csr1);
                 Assert.False(result.Success);
-                Assert.Equal("User does not exist", result.ValidationFailures.First().ErrorMessage);
+                Assert.Equal("'User' does not exist.", result.ValidationFailures.First().ErrorMessage);
             }
         }
 
@@ -403,7 +403,7 @@ namespace OneAdvisor.Service.Test.Commission
                 scope = TestHelper.GetScopeOptions(user3, Scope.User);
                 result = await service.UpdateCommissionSplitRule(scope, csr2Updated);
                 Assert.False(result.Success);
-                Assert.Equal("User does not exist", result.ValidationFailures.First().ErrorMessage);
+                Assert.Equal("'User' does not exist.", result.ValidationFailures.First().ErrorMessage);
             }
         }
 

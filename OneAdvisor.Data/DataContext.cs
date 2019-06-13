@@ -37,7 +37,6 @@ namespace OneAdvisor.Data
 
         public DbSet<ClientEntity> Client { get; set; }
         public DbSet<PolicyEntity> Policy { get; set; }
-        public DbSet<PolicyCommissionSplitRuleEntity> PolicyCommissionSplitRule { get; set; }
         public DbSet<ContactEntity> Contact { get; set; }
         public DbSet<MarritalStatusEntity> MarritalStatus { get; set; }
         public DbSet<ContactTypeEntity> ContactType { get; set; }
@@ -58,6 +57,7 @@ namespace OneAdvisor.Data
         public DbSet<CommissionEarningsTypeEntity> CommissionEarningsType { get; set; }
         public DbSet<CommissionAllocationEntity> CommissionAllocation { get; set; }
         public DbSet<CommissionSplitRuleEntity> CommissionSplitRule { get; set; }
+        public DbSet<CommissionSplitRulePolicyEntity> CommissionSplitRulePolicy { get; set; }
 
         #endregion
 
@@ -99,7 +99,6 @@ namespace OneAdvisor.Data
 
             modelBuilder.Entity<ClientEntity>().ToTable("clt_Client");
             modelBuilder.Entity<PolicyEntity>().ToTable("clt_Policy");
-            modelBuilder.Entity<PolicyCommissionSplitRuleEntity>().ToTable("clt_PolicyCommissionSplitRule");
             modelBuilder.Entity<PolicyTypeEntity>().ToTable("clt_PolicyType").HasData(SeedData.GetPolicyTypes());
             modelBuilder.Entity<PolicyProductTypeEntity>().ToTable("clt_PolicyProductType").HasData(SeedData.GetPolicyProductTypes());
             modelBuilder.Entity<PolicyProductEntity>().ToTable("clt_PolicyProduct");
@@ -110,7 +109,6 @@ namespace OneAdvisor.Data
 
             //Custom mappings
             PolicyMap.Map(modelBuilder);
-            PolicyCommissionSplitRuleMap.Map(modelBuilder);
 
             #endregion
 
@@ -124,6 +122,7 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<CommissionAllocationEntity>().ToTable("com_CommissionAllocation");
             modelBuilder.Entity<CommissionEarningsTypeEntity>().ToTable("com_CommissionEarningsType").HasData(SeedData.GetCommissionEarningsTypes());
             modelBuilder.Entity<CommissionSplitRuleEntity>().ToTable("com_CommissionSplitRule");
+            modelBuilder.Entity<CommissionSplitRulePolicyEntity>().ToTable("com_CommissionSplitRulePolicy");
 
             //Custom mappings
             CommissionMap.Map(modelBuilder);
@@ -132,6 +131,7 @@ namespace OneAdvisor.Data
             CommissionStatementTemplateMap.Map(modelBuilder);
             CommissionAllocationMap.Map(modelBuilder);
             CommissionSplitRuleMap.Map(modelBuilder);
+            CommissionSplitRulePolicyMap.Map(modelBuilder);
 
             #endregion
 

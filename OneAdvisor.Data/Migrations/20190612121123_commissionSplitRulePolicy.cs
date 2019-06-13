@@ -3,29 +3,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OneAdvisor.Data.Migrations
 {
-    public partial class policyCommissionSplitRule : Migration
+    public partial class commissionSplitRulePolicy : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "clt_PolicyCommissionSplitRule",
+                name: "com_CommissionSplitRulePolicy",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    PolicyId = table.Column<Guid>(nullable: false),
-                    CommissionSplitRuleId = table.Column<Guid>(nullable: false)
+                    CommissionSplitRuleId = table.Column<Guid>(nullable: false),
+                    PolicyId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_clt_PolicyCommissionSplitRule", x => x.Id);
+                    table.PrimaryKey("PK_com_CommissionSplitRulePolicy", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_clt_PolicyCommissionSplitRule_com_CommissionSplitRule_CommissionSplitRuleId",
+                        name: "FK_com_CommissionSplitRulePolicy_com_CommissionSplitRule_CommissionSplitRuleId",
                         column: x => x.CommissionSplitRuleId,
                         principalTable: "com_CommissionSplitRule",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_clt_PolicyCommissionSplitRule_clt_Policy_PolicyId",
+                        name: "FK_com_CommissionSplitRulePolicy_clt_Policy_PolicyId",
                         column: x => x.PolicyId,
                         principalTable: "clt_Policy",
                         principalColumn: "Id",
@@ -33,13 +33,13 @@ namespace OneAdvisor.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_clt_PolicyCommissionSplitRule_CommissionSplitRuleId",
-                table: "clt_PolicyCommissionSplitRule",
+                name: "IX_com_CommissionSplitRulePolicy_CommissionSplitRuleId",
+                table: "com_CommissionSplitRulePolicy",
                 column: "CommissionSplitRuleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_clt_PolicyCommissionSplitRule_PolicyId",
-                table: "clt_PolicyCommissionSplitRule",
+                name: "IX_com_CommissionSplitRulePolicy_PolicyId",
+                table: "com_CommissionSplitRulePolicy",
                 column: "PolicyId",
                 unique: true);
         }
@@ -47,7 +47,7 @@ namespace OneAdvisor.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "clt_PolicyCommissionSplitRule");
+                name: "com_CommissionSplitRulePolicy");
         }
     }
 }

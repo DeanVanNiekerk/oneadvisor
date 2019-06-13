@@ -28,6 +28,6 @@ namespace OneAdvisor.Data.Entities.Commission
         public List<CommissionSplit> Split { get; set; }
 
         public virtual UserEntity User { get; set; }
-        public virtual ICollection<PolicyCommissionSplitRuleEntity> PolicyCommissionSplitRules { get; set; }
+        public virtual ICollection<CommissionSplitRulePolicyEntity> CommissionSplitRulePolicy { get; set; }
     }
 }

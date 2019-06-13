@@ -1,0 +1,12 @@
+using System;
+
+namespace OneAdvisor.Model.Commission.Model.CommissionSplitRulePolicy
+{
+    public class CommissionSplitRulePolicyInfo
+    {
+        public Guid PolicyId { get; set; }
+        public string PolicyNumber { get; set; }
+        public Guid PolicyCompanyId { get; set; }
+        public Guid PolicyUserId { get; set; }
+    }
+}

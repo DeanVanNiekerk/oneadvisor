@@ -10,8 +10,8 @@ using OneAdvisor.Data;
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190612112423_policyCommissionSplitRule")]
-    partial class policyCommissionSplitRule
+    [Migration("20190612121123_commissionSplitRulePolicy")]
+    partial class commissionSplitRulePolicy
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -514,25 +514,6 @@ namespace OneAdvisor.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Client.PolicyCommissionSplitRuleEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("CommissionSplitRuleId");
-
-                    b.Property<Guid>("PolicyId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CommissionSplitRuleId");
-
-                    b.HasIndex("PolicyId")
-                        .IsUnique();
-
-                    b.ToTable("clt_PolicyCommissionSplitRule");
-                });
-
             modelBuilder.Entity("OneAdvisor.Data.Entities.Client.PolicyEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -681,6 +662,25 @@ namespace OneAdvisor.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("com_CommissionSplitRule");
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Commission.CommissionSplitRulePolicyEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("CommissionSplitRuleId");
+
+                    b.Property<Guid>("PolicyId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommissionSplitRuleId");
+
+                    b.HasIndex("PolicyId")
+                        .IsUnique();
+
+                    b.ToTable("com_CommissionSplitRulePolicy");
                 });
 
             modelBuilder.Entity("OneAdvisor.Data.Entities.Commission.CommissionStatementEntity", b =>
@@ -1340,19 +1340,6 @@ namespace OneAdvisor.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("OneAdvisor.Data.Entities.Client.PolicyCommissionSplitRuleEntity", b =>
-                {
-                    b.HasOne("OneAdvisor.Data.Entities.Commission.CommissionSplitRuleEntity", "CommissionSplitRule")
-                        .WithMany("PolicyCommissionSplitRules")
-                        .HasForeignKey("CommissionSplitRuleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("OneAdvisor.Data.Entities.Client.PolicyEntity", "Policy")
-                        .WithMany("PolicyCommissionSplitRules")
-                        .HasForeignKey("PolicyId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
             modelBuilder.Entity("OneAdvisor.Data.Entities.Client.PolicyEntity", b =>
                 {
                     b.HasOne("OneAdvisor.Data.Entities.Client.ClientEntity", "Client")
@@ -1443,6 +1430,19 @@ namespace OneAdvisor.Data.Migrations
                         .WithMany("CommissionSplitRules")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Commission.CommissionSplitRulePolicyEntity", b =>
+                {
+                    b.HasOne("OneAdvisor.Data.Entities.Commission.CommissionSplitRuleEntity", "CommissionSplitRule")
+                        .WithMany("CommissionSplitRulePolicy")
+                        .HasForeignKey("CommissionSplitRuleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("OneAdvisor.Data.Entities.Client.PolicyEntity", "Policy")
+                        .WithMany("CommissionSplitRulePolicies")
+                        .HasForeignKey("PolicyId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("OneAdvisor.Data.Entities.Commission.CommissionStatementEntity", b =>

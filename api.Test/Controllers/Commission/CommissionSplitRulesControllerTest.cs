@@ -96,15 +96,6 @@ namespace api.Test.Controllers.Commission
                 Split = new List<CommissionSplit>(),
             };
 
-            var pagedItems = new PagedItems<CommissionSplitRule>()
-            {
-                TotalItems = 1,
-                Items = new List<CommissionSplitRule>()
-                {
-                    rule
-                }
-            };
-
             var service = new Mock<ICommissionSplitService>();
             var authService = TestHelper.MockAuthenticationService(Scope.Branch);
 
