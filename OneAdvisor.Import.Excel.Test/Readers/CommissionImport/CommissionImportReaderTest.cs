@@ -158,7 +158,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             actual = commissions[1];
             Assert.Equal("654321", actual.PolicyNumber);
             Assert.Equal("200", actual.AmountIncludingVAT);
-            Assert.Equal("26.09", actual.VAT);
+            Assert.Equal(26.09m, Decimal.Parse(actual.VAT));
         }
 
         [Fact]
@@ -199,13 +199,13 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             Assert.Equal(2, commissions.Count);
             var actual = commissions[0];
             Assert.Equal("123456", actual.PolicyNumber);
-            Assert.Equal("115.00", actual.AmountIncludingVAT);
-            Assert.Equal("15.00", actual.VAT);
+            Assert.Equal(115.00m, Decimal.Parse(actual.AmountIncludingVAT));
+            Assert.Equal(15.00m, Decimal.Parse(actual.VAT));
 
             actual = commissions[1];
             Assert.Equal("654321", actual.PolicyNumber);
-            Assert.Equal("230.00", actual.AmountIncludingVAT);
-            Assert.Equal("30.00", actual.VAT);
+            Assert.Equal(230.00m, Decimal.Parse(actual.AmountIncludingVAT));
+            Assert.Equal(30.00m, Decimal.Parse(actual.VAT));
         }
 
         [Fact]
@@ -252,7 +252,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             actual = commissions[1];
             Assert.Equal("654321", actual.PolicyNumber);
             Assert.Equal("200", actual.AmountIncludingVAT);
-            Assert.Equal("26.09", actual.VAT);
+            Assert.Equal(26.09m, Decimal.Parse(actual.VAT));
         }
     }
 }
