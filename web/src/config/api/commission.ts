@@ -9,6 +9,7 @@ export const statementTemplatesApi = `${statementsApi}/templates`;
 export const commissionReportsApi = `${commissionBaseApi}/report`;
 export const allocationsApi = `${commissionBaseApi}/allocations`;
 export const splitRulesApi = `${commissionBaseApi}/splitRules`;
+export const splitRulePoliciesApi = `${commissionBaseApi}/splitRulePolicies`;
 
 export const commissionLookupsApi = `${commissionBaseApi}/lookups`;
 export const allCommissionLookupsApi = `${commissionLookupsApi}/all`;

@@ -60,7 +60,13 @@ class CommissionList extends Component<Props> {
 
         if (this.props.commissionStatementId) filters.commissionStatementId.push(this.props.commissionStatementId);
 
-        this.props.dispatch(fetchCommissions(this.props.pageOptions, this.props.sortOptions, filters));
+        this.props.dispatch(
+            fetchCommissions(this.props.pageOptions, this.props.sortOptions, this.updateFilters(filters))
+        );
+    };
+
+    updateFilters = (filters: Filters): Filters => {
+        return applyLike(filters, ["policyNumber", "policyClientLastName"]);
     };
 
     editCommission = (id: string) => {
@@ -200,14 +206,10 @@ class CommissionList extends Component<Props> {
         return columns;
     };
 
-    updateFilters = (filters: Filters): Filters => {
-        return applyLike(filters, ["policyNumber", "policyClientLastName"]);
-    };
-
     onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
         if (this.props.pageOptions != pageOptions) this.props.dispatch(receivePageOptions(pageOptions));
         if (this.props.sortOptions != sortOptions) this.props.dispatch(receiveSortOptions(sortOptions));
-        if (this.props.filters != filters) this.props.dispatch(receiveFilters(this.updateFilters(filters)));
+        if (this.props.filters != filters) this.props.dispatch(receiveFilters(filters));
     };
 
     tableFooter = () => {

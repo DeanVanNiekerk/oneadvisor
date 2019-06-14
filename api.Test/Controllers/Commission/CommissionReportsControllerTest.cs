@@ -5,10 +5,7 @@ using System.Threading.Tasks;
 using api.Controllers.Commission.Commissions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Newtonsoft.Json;
-using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Commission.Interface;
-using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Model.Commission.Model.CommissionReport;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.User;
@@ -58,9 +55,8 @@ namespace api.Test.Controllers.Commission
             var pagedItems = new PagedItems<ClientRevenueData>()
             {
                 TotalItems = 1,
-                Items = new List<ClientRevenueData>()
-                {
-                    data
+                Items = new List<ClientRevenueData>() {
+                data
                 }
             };
 
@@ -91,8 +87,6 @@ namespace api.Test.Controllers.Commission
             Assert.Same(pagedItems, returnValue);
         }
 
-
-
         [Fact]
         public void UserEarningsTypeMonthlyCommissionDataModelComposition()
         {
@@ -110,10 +104,9 @@ namespace api.Test.Controllers.Commission
                 CommissionEarningsTypeId = Guid.NewGuid(),
             };
 
-            var items = new List<UserEarningsTypeMonthlyCommissionData>()
-                {
-                    data
-                };
+            var items = new List<UserEarningsTypeMonthlyCommissionData>() {
+                data
+            };
 
             var service = new Mock<ICommissionReportService>();
             var authService = TestHelper.MockAuthenticationService(Scope.Branch);
@@ -141,7 +134,6 @@ namespace api.Test.Controllers.Commission
             Assert.Same(items, returnValue);
         }
 
-
         [Fact]
         public void UserCompanyMonthlyCommissionDataModelComposition()
         {
@@ -159,8 +151,7 @@ namespace api.Test.Controllers.Commission
                 CompanyId = Guid.NewGuid(),
             };
 
-            var items = new List<UserCompanyMonthlyCommissionData>()
-            {
+            var items = new List<UserCompanyMonthlyCommissionData>() {
                 data
             };
 

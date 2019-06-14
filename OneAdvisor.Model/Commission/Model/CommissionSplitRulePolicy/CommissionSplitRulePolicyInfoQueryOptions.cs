@@ -12,14 +12,25 @@ namespace OneAdvisor.Model.Commission.Model.CommissionSplitRulePolicy
         {
             Scope = scope;
             PolicyUserId = new List<Guid>();
+            PolicyCompanyId = new List<Guid>();
+
+            var result = GetFilterValue<string>("PolicyNumber");
+            if (result.Success)
+                PolicyNumber = result.Value;
 
             var resultGuids = GetFilterValues<Guid>("PolicyUserId");
             if (resultGuids.Success)
                 PolicyUserId = resultGuids.Value;
+
+            resultGuids = GetFilterValues<Guid>("PolicyCompanyId");
+            if (resultGuids.Success)
+                PolicyCompanyId = resultGuids.Value;
         }
 
         public ScopeOptions Scope { get; set; }
 
+        public string PolicyNumber { get; set; }
         public List<Guid> PolicyUserId { get; set; }
+        public List<Guid> PolicyCompanyId { get; set; }
     }
 }

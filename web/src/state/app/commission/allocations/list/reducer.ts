@@ -7,20 +7,15 @@ export type State = {
     readonly totalItems: number;
     readonly items: Allocation[];
     readonly fetching: boolean;
-    readonly pageOptions: PageOptions;
 };
 
 export const defaultState: State = {
     totalItems: 0,
     items: [],
     fetching: false,
-    pageOptions: { number: 0, size: 0 },
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: AllocationListAction
-): State => {
+export const reducer = (state: State = defaultState, action: AllocationListAction): State => {
     switch (action.type) {
         case "ALLOCATIONS_LIST_RECEIVE": {
             return {

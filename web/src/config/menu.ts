@@ -138,6 +138,12 @@ export const menus: Menus = {
                         useCases: ["com_view_commissions"],
                     },
                     {
+                        name: "Commission Split Rules",
+                        icon: "apartment",
+                        relativePath: "/commissionSplitRulePolicies",
+                        useCases: ["com_view_commission_split_rules"],
+                    },
+                    {
                         name: "Templates",
                         icon: "block",
                         relativePath: "/templates",

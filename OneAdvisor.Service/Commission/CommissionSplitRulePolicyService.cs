@@ -32,6 +32,12 @@ namespace OneAdvisor.Service.Commission
             //Apply filters ----------------------------------------------------------------------------------------
             if (queryOptions.PolicyUserId.Any())
                 query = query.Where(c => queryOptions.PolicyUserId.Contains(c.PolicyUserId));
+
+            if (queryOptions.PolicyCompanyId.Any())
+                query = query.Where(c => queryOptions.PolicyCompanyId.Contains(c.PolicyCompanyId));
+
+            if (!string.IsNullOrWhiteSpace(queryOptions.PolicyNumber))
+                query = query.Where(c => EF.Functions.Like(c.PolicyNumber, queryOptions.PolicyNumber));
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedItems<CommissionSplitRulePolicyInfo>();
