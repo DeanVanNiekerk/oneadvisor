@@ -69,7 +69,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionSplitRulePolicyService(context);
+                var service = new CommissionSplitRulePolicyService(context, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -139,7 +139,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionSplitRulePolicyService(context);
+                var commissionSplitService = new CommissionSplitService(context);
+                var service = new CommissionSplitRulePolicyService(context, commissionSplitService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -153,7 +154,82 @@ namespace OneAdvisor.Service.Test.Commission
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user2);
                 actual = await service.GetCommissionSplitRulePolicy(scope, csr1.PolicyId);
-                Assert.Null(actual);
+                Assert.Null(actual.CommissionSplitRuleId);
+            }
+        }
+
+        [Fact]
+        public async Task GetCommissionSplitRulePolicy_UseDefault()
+        {
+            var options = TestHelper.GetDbContext("GetCommissionSplitRulePolicy_UseDefault");
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
+
+            var policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                ClientId = client1.Client.Id,
+                UserId = user1.User.Id,
+                Number = "123465",
+            };
+
+            var csr1 = new CommissionSplitRuleEntity
+            {
+                Id = Guid.NewGuid(),
+                UserId = user1.User.Id,
+                Name = "Com Split Rule 1",
+                IsDefault = true,
+                Split = new List<CommissionSplit>()
+                {
+                    new CommissionSplit()
+                    {
+                        UserId = user1.User.Id,
+                        Percentage = 100
+                    }
+                }
+            };
+
+            var csr2 = new CommissionSplitRuleEntity
+            {
+                Id = Guid.NewGuid(),
+                UserId = user1.User.Id,
+                Name = "Com Split Rule 2",
+                IsDefault = false,
+                Split = new List<CommissionSplit>()
+                {
+                    new CommissionSplit()
+                    {
+                        UserId = user1.User.Id,
+                        Percentage = 100
+                    }
+                }
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Policy.Add(policy1);
+
+                context.CommissionSplitRule.Add(csr2);
+                context.CommissionSplitRule.Add(csr1);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var commissionSplitService = new CommissionSplitService(context);
+                var service = new CommissionSplitRulePolicyService(context, commissionSplitService);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1);
+                var actual = await service.GetCommissionSplitRulePolicy(scope, policy1.Id);
+
+                //Then
+                Assert.Null(actual.Id);
+                Assert.Equal(policy1.Id, actual.PolicyId);
+                Assert.Equal(csr1.Id, actual.CommissionSplitRuleId);
             }
         }
 
@@ -181,7 +257,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 UserId = user1.User.Id,
                 Name = "Com Split Rule 1",
-                IsDefault = true,
+                IsDefault = false,
                 Split = new List<CommissionSplit>()
                 {
                     new CommissionSplit()
@@ -209,7 +285,8 @@ namespace OneAdvisor.Service.Test.Commission
                     CommissionSplitRuleId = csr1.Id
                 };
 
-                var service = new CommissionSplitRulePolicyService(context);
+                var commissionSplitService = new CommissionSplitService(context);
+                var service = new CommissionSplitRulePolicyService(context, commissionSplitService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -228,6 +305,73 @@ namespace OneAdvisor.Service.Test.Commission
                 result = await service.InsertCommissionSplitRulePolicy(scope, csrp1);
                 Assert.False(result.Success);
                 Assert.Equal("'Policy' does not exist.", result.ValidationFailures.First().ErrorMessage);
+            }
+        }
+
+        [Fact]
+        public async Task InsertCommissionSplitRulePolicy_IsDefault_NotInserted()
+        {
+            var options = TestHelper.GetDbContext("InsertCommissionSplitRulePolicy_IsDefault_NotInserted");
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
+
+            var user2 = TestHelper.InsertUserDetailed(options);
+
+            var policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                ClientId = client1.Client.Id,
+                UserId = user1.User.Id,
+                Number = "123465",
+            };
+
+            var csr1 = new CommissionSplitRuleEntity
+            {
+                Id = Guid.NewGuid(),
+                UserId = user1.User.Id,
+                Name = "Com Split Rule 1",
+                IsDefault = true, //Is default
+                Split = new List<CommissionSplit>()
+                {
+                    new CommissionSplit()
+                    {
+                        UserId = user1.User.Id,
+                        Percentage = 100
+                    }
+                }
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Policy.Add(policy1);
+                context.CommissionSplitRule.Add(csr1);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var csrp1 = new CommissionSplitRulePolicy
+                {
+                    Id = Guid.NewGuid(),
+                    PolicyId = policy1.Id,
+                    CommissionSplitRuleId = csr1.Id
+                };
+
+                var commissionSplitService = new CommissionSplitService(context);
+                var service = new CommissionSplitRulePolicyService(context, commissionSplitService);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1);
+                var result = await service.InsertCommissionSplitRulePolicy(scope, csrp1);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.CommissionSplitRulePolicy.FirstOrDefaultAsync();
+                Assert.Null(actual);
             }
         }
 
@@ -264,7 +408,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 UserId = user1.User.Id,
                 Name = "Com Split Rule 2",
-                IsDefault = true,
+                IsDefault = false,
                 Split = new List<CommissionSplit>()
                 {
                     new CommissionSplit()
@@ -311,7 +455,8 @@ namespace OneAdvisor.Service.Test.Commission
                     CommissionSplitRuleId = csr2.Id
                 };
 
-                var service = new CommissionSplitRulePolicyService(context);
+                var commissionSplitService = new CommissionSplitService(context);
+                var service = new CommissionSplitRulePolicyService(context, commissionSplitService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -330,6 +475,92 @@ namespace OneAdvisor.Service.Test.Commission
                 result = await service.InsertCommissionSplitRulePolicy(scope, csrp2Updated);
                 Assert.False(result.Success);
                 Assert.Equal("'Policy' does not exist.", result.ValidationFailures.First().ErrorMessage);
+            }
+        }
+
+        [Fact]
+        public async Task UpdateCommissionSplitRule_IsDefault_Deleted()
+        {
+            var options = TestHelper.GetDbContext("UpdateCommissionSplitRule_IsDefault_Deleted");
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
+
+            var policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+                ClientId = client1.Client.Id,
+                UserId = user1.User.Id,
+                Number = "123465",
+            };
+
+            var csr2 = new CommissionSplitRuleEntity
+            {
+                Id = Guid.NewGuid(),
+                UserId = user1.User.Id,
+                Name = "Com Split Rule 2",
+                IsDefault = true, //Is Default
+                Split = new List<CommissionSplit>()
+                {
+                    new CommissionSplit()
+                    {
+                        UserId = user1.User.Id,
+                        Percentage = 100
+                    }
+                }
+            };
+
+            var csrp1 = new CommissionSplitRulePolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = policy1.Id,
+                CommissionSplitRuleId = Guid.NewGuid()
+            };
+
+            var csrp2 = new CommissionSplitRulePolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = policy1.Id,
+                CommissionSplitRuleId = Guid.NewGuid()
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Policy.Add(policy1);
+
+                context.CommissionSplitRule.Add(csr2);
+
+                context.CommissionSplitRulePolicy.Add(csrp1);
+                context.CommissionSplitRulePolicy.Add(csrp2);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var csrp2Updated = new CommissionSplitRulePolicy
+                {
+                    Id = csrp2.Id,
+                    PolicyId = policy1.Id,
+                    CommissionSplitRuleId = csr2.Id
+                };
+
+                var commissionSplitService = new CommissionSplitService(context);
+                var service = new CommissionSplitRulePolicyService(context, commissionSplitService);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1);
+                var result = await service.UpdateCommissionSplitRulePolicy(scope, csrp2Updated);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.CommissionSplitRulePolicy.FindAsync(csrp2Updated.Id);
+                Assert.Null(actual);
+
+                actual = await context.CommissionSplitRulePolicy.FindAsync(csrp1.Id);
+                Assert.NotNull(actual);
             }
         }
 
@@ -387,7 +618,7 @@ namespace OneAdvisor.Service.Test.Commission
             }
             using (var context = new DataContext(options))
             {
-                var service = new CommissionSplitRulePolicyService(context);
+                var service = new CommissionSplitRulePolicyService(context, null);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);

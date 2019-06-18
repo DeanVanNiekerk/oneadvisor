@@ -8,5 +8,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionSplitRulePolicy
         public string PolicyNumber { get; set; }
         public Guid PolicyCompanyId { get; set; }
         public Guid PolicyUserId { get; set; }
+        public string PolicyClientFirstName { get; set; }
+        public string PolicyClientLastName { get; set; }
     }
 }

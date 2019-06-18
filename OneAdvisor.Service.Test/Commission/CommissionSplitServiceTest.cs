@@ -434,6 +434,13 @@ namespace OneAdvisor.Service.Test.Commission
                 }
             };
 
+            var csrp1 = new CommissionSplitRulePolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = Guid.NewGuid(),
+                CommissionSplitRuleId = csr1.Id
+            };
+
             var csr2 = new CommissionSplitRuleEntity
             {
                 Id = Guid.NewGuid(),
@@ -472,6 +479,8 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionSplitRule.Add(csr1);
                 context.CommissionSplitRule.Add(csr3);
 
+                context.CommissionSplitRulePolicy.Add(csrp1);
+
                 context.SaveChanges();
             }
 
@@ -488,6 +497,9 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var actual = await context.CommissionSplitRule.FindAsync(csr1.Id);
                 Assert.Null(actual);
+
+                var actualDep = await context.CommissionSplitRulePolicy.FindAsync(csrp1.Id);
+                Assert.Null(actualDep);
 
                 //Out of scope 
                 scope = TestHelper.GetScopeOptions(user3, Scope.User);

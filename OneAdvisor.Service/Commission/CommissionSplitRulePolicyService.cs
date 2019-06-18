@@ -13,16 +13,19 @@ using OneAdvisor.Service.Commission.Validators;
 using System.Collections;
 using System.Collections.Generic;
 using OneAdvisor.Model.Commission.Model.CommissionSplitRulePolicy;
+using OneAdvisor.Model.Commission.Model.CommissionSplitRule;
 
 namespace OneAdvisor.Service.Commission
 {
     public class CommissionSplitRulePolicyService : ICommissionSplitRulePolicyService
     {
         private readonly DataContext _context;
+        private readonly ICommissionSplitService _commissionSplitService;
 
-        public CommissionSplitRulePolicyService(DataContext context)
+        public CommissionSplitRulePolicyService(DataContext context, ICommissionSplitService commissionSplitService)
         {
             _context = context;
+            _commissionSplitService = commissionSplitService;
         }
 
         public async Task<PagedItems<CommissionSplitRulePolicyInfo>> GetCommissionSplitRulePolicies(CommissionSplitRulePolicyInfoQueryOptions queryOptions)
@@ -60,7 +63,32 @@ namespace OneAdvisor.Service.Commission
                         where rule.PolicyId == policyId
                         select rule;
 
-            return await query.FirstOrDefaultAsync();
+            var splitRulePolicy = await query.FirstOrDefaultAsync();
+
+            if (splitRulePolicy != null)
+                return splitRulePolicy;
+
+            //See if there is a default
+            var defaultRule = await GetDefaultCommissionSplitRule(scope, policyId);
+
+            return new CommissionSplitRulePolicy()
+            {
+                CommissionSplitRuleId = defaultRule != null ? defaultRule.Id : null,
+                PolicyId = policyId
+            };
+        }
+
+        private async Task<CommissionSplitRule> GetDefaultCommissionSplitRule(ScopeOptions scope, Guid policyId)
+        {
+            var policy = await _context.Policy.FindAsync(policyId);
+
+            if (policy == null)
+                return null;
+
+            var options = new CommissionSplitRuleQueryOptions(scope, "", "", 0, 0);
+            options.UserId.Add(policy.UserId);
+            var rules = await _commissionSplitService.GetCommissionSplitRules(options);
+            return rules.Items.FirstOrDefault(r => r.IsDefault);
         }
 
         public async Task<Result> DeleteCommissionSplitRulePolicy(ScopeOptions scope, Guid id)
@@ -87,6 +115,12 @@ namespace OneAdvisor.Service.Commission
             if (!result.Success)
                 return result;
 
+            var defaultRule = await GetDefaultCommissionSplitRule(scope, commissionSplitRulePolicy.PolicyId.Value);
+
+            //If the rule is already the default dont add it
+            if (defaultRule != null && commissionSplitRulePolicy.CommissionSplitRuleId == defaultRule.Id)
+                return result;
+
             var entity = MapModelToEntity(commissionSplitRulePolicy);
             await _context.CommissionSplitRulePolicy.AddAsync(entity);
             await _context.SaveChangesAsync();
@@ -110,6 +144,15 @@ namespace OneAdvisor.Service.Commission
             if (entity == null)
                 return new Result();
 
+            var defaultRule = await GetDefaultCommissionSplitRule(scope, commissionSplitRulePolicy.PolicyId.Value);
+
+            //If this is the default rule, then remove this instance
+            if (defaultRule != null && commissionSplitRulePolicy.CommissionSplitRuleId == defaultRule.Id)
+            {
+                await DeleteCommissionSplitRulePolicy(scope, commissionSplitRulePolicy.Id.Value);
+                return result;
+            }
+
             var commissionSplitRulePolicyEntity = MapModelToEntity(commissionSplitRulePolicy, entity);
 
             await _context.SaveChangesAsync();
@@ -124,12 +167,16 @@ namespace OneAdvisor.Service.Commission
             var query = from policy in _context.Policy
                         join user in userQuery
                             on policy.UserId equals user.Id
+                        join client in _context.Client
+                            on policy.ClientId equals client.Id
                         select new CommissionSplitRulePolicyInfo()
                         {
                             PolicyId = policy.Id,
                             PolicyUserId = policy.UserId,
                             PolicyCompanyId = policy.CompanyId,
-                            PolicyNumber = policy.Number
+                            PolicyNumber = policy.Number,
+                            PolicyClientFirstName = client.FirstName,
+                            PolicyClientLastName = client.LastName
                         };
 
             return query;

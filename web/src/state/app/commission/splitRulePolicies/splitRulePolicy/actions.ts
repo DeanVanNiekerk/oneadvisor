@@ -43,9 +43,9 @@ export const receiveSplitRulePolicy = (splitRulePolicy: SplitRulePolicy | null):
     payload: splitRulePolicy,
 });
 
-export const fetchSplitRulePolicy = (splitRulePolicyId: string): ApiAction => ({
+export const fetchSplitRulePolicy = (policyId: string): ApiAction => ({
     type: "API",
-    endpoint: `${splitRulePoliciesApi}/${splitRulePolicyId}`,
+    endpoint: `${splitRulePoliciesApi}/${policyId}`,
     dispatchPrefix: "SPLITRULEPOLICIES_SPLITRULEPOLICY",
 });
 

@@ -4,15 +4,16 @@ import { connect, DispatchProp } from 'react-redux';
 import { applyLike } from '@/app/query';
 import { Filters, formatBool, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
 import {
-    fetchSplitRulePolicies, receiveFilters, receivePageOptions, receiveSortOptions, splitRulePoliciesSelector,
-    SplitRulePolicyInfo
+    fetchSplitRulePolicies, fetchSplitRulePolicy, receiveFilters, receivePageOptions, receiveSortOptions,
+    splitRulePoliciesSelector, SplitRulePolicyInfo
 } from '@/state/app/commission/splitRulePolicies';
+import { splitRulesSelector } from '@/state/app/commission/splitRules';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
-import { Button, CompanyName, getTable, Header, UserName } from '@/ui/controls';
+import { Button, ClientName, CompanyName, getTable, Header, UserName } from '@/ui/controls';
 
-//import EditCommission from './EditCommission';
+import EditSplitRulePolicy from './EditSplitRulePolicy';
 
 type Props = {
     splitRulePolicies: SplitRulePolicyInfo[];
@@ -22,11 +23,22 @@ type Props = {
     filters: Filters;
     totalItems: number;
     users: UserSimple[];
-    //onCommissionsUpdate?: () => void;
     companies: Company[];
 } & DispatchProp;
 
-class SplitRulePolicyList extends Component<Props> {
+type State = {
+    selectedSplitRulePolicy: SplitRulePolicyInfo | null;
+};
+
+class SplitRulePolicyList extends Component<Props, State> {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            selectedSplitRulePolicy: null,
+        };
+    }
+
     componentDidMount() {
         this.loadSplitRulePolicies();
     }
@@ -54,31 +66,17 @@ class SplitRulePolicyList extends Component<Props> {
         return applyLike(filters, ["policyNumber"]);
     };
 
-    // editCommission = (id: string) => {
-    //     this.props.dispatch(fetchCommission(id));
-    // };
+    editSplitRulePolicy = (splitRulePolicyInfo: SplitRulePolicyInfo) => {
+        this.setState({ selectedSplitRulePolicy: splitRulePolicyInfo });
+        this.props.dispatch(fetchSplitRulePolicy(splitRulePolicyInfo.policyId));
+    };
 
-    // onFormClose = (cancelled: boolean) => {
-    //     if (!cancelled) {
-    //         this.loadCommissions();
-    //         if (this.props.onCommissionsUpdate) this.props.onCommissionsUpdate();
-    //     }
-    // };
-
-    // newCommission = () => {
-    //     const commission: CommissionEdit = {
-    //         id: "",
-    //         commissionStatementId: this.props.commissionStatementId || "",
-    //         amountIncludingVAT: 0,
-    //         vat: 0,
-    //         commissionTypeId: "",
-    //         policyId: "",
-    //         userId: "",
-    //         splitGroupId: null,
-    //         sourceData: null,
-    //     };
-    //     this.props.dispatch(receiveCommission(commission));
-    // };
+    onFormClose = (cancelled: boolean) => {
+        this.setState({ selectedSplitRulePolicy: null });
+        if (!cancelled) {
+            this.loadSplitRulePolicies();
+        }
+    };
 
     getColumns = () => {
         var getColumn = getColumnDefinition<SplitRulePolicyInfo>(true, this.props.filters);
@@ -112,6 +110,16 @@ class SplitRulePolicyList extends Component<Props> {
                     })),
                 }
             ),
+            getColumn(
+                "policyClientFirstName",
+                "Client",
+                {},
+                {
+                    render: (policyClientFirstName: string, rule: SplitRulePolicyInfo) => {
+                        return `${rule.policyClientFirstName || ""} ${rule.policyClientLastName}`;
+                    },
+                }
+            ),
             getColumn("policyNumber", "Policy Number", {
                 showSearchFilter: true,
             }),
@@ -137,7 +145,7 @@ class SplitRulePolicyList extends Component<Props> {
                     columns={this.getColumns()}
                     dataSource={this.props.splitRulePolicies}
                     loading={this.props.fetching}
-                    //onRowClick={commission => this.editCommission(commission.id)}
+                    onRowClick={rule => this.editSplitRulePolicy(rule)}
                     externalDataSource={true}
                     pageOptions={this.props.pageOptions}
                     totalRows={this.props.totalItems}
@@ -146,7 +154,10 @@ class SplitRulePolicyList extends Component<Props> {
                         x: true,
                     }}
                 />
-                {/* <EditCommission onClose={this.onFormClose} /> */}
+                <EditSplitRulePolicy
+                    onClose={this.onFormClose}
+                    splitRulePolicyInfo={this.state.selectedSplitRulePolicy}
+                />
             </>
         );
     }

@@ -69,6 +69,11 @@ namespace OneAdvisor.Service.Commission
             if (entity == null)
                 return new Result();
 
+            //Delete dependancies
+            var policyRules = await _context.CommissionSplitRulePolicy.Where(r => r.CommissionSplitRuleId == id).ToListAsync();
+            foreach (var policyRule in policyRules)
+                _context.CommissionSplitRulePolicy.Remove(policyRule);
+
             _context.CommissionSplitRule.Remove(entity);
 
             await _context.SaveChangesAsync();

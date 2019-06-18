@@ -17,6 +17,7 @@ type Props<T = SelectValue> = {
     options: any[];
     optionsValue: string;
     optionsText: string;
+    onOptionsText?: (value: any) => string;
     validationFieldName?: string;
     disabled?: boolean;
     defaultActiveFirstOption?: boolean;
@@ -41,18 +42,20 @@ type Props<T = SelectValue> = {
 
 class FormSelect<T> extends Component<Props<T>> {
     onChange = (value: T): void => {
-        if (this.props.onChange)
-            this.props.onChange(this.props.fieldName, value);
+        if (this.props.onChange) this.props.onChange(this.props.fieldName, value);
     };
 
     getValue = (): string => {
-        const item = this.props.options.find(
-            o => o[this.props.optionsValue] === this.props.value
-        );
+        const item = this.props.options.find(o => o[this.props.optionsValue] === this.props.value);
 
         if (!item) return "";
 
         return item[this.props.optionsText];
+    };
+
+    getOptionsText = (option: any): string => {
+        if (this.props.onOptionsText) return this.props.onOptionsText(option);
+        return option[this.props.optionsText];
     };
 
     render() {
@@ -69,14 +72,7 @@ class FormSelect<T> extends Component<Props<T>> {
             autoFocus = false,
         } = this.props;
 
-        if (readonly)
-            return (
-                <FormText
-                    label={label}
-                    value={this.getValue()}
-                    layout={layout}
-                />
-            );
+        if (readonly) return <FormText label={label} value={this.getValue()} layout={layout} />;
 
         if (this.props.hidden) return <></>;
 
@@ -114,11 +110,8 @@ class FormSelect<T> extends Component<Props<T>> {
                     onSelect={this.props.onSelect}
                 >
                     {this.props.options.map(option => (
-                        <Option
-                            key={option[this.props.optionsValue]}
-                            value={option[this.props.optionsValue]}
-                        >
-                            {option[this.props.optionsText]}
+                        <Option key={option[this.props.optionsValue]} value={option[this.props.optionsValue]}>
+                            {this.getOptionsText(option)}
                         </Option>
                     ))}
                 </Select>

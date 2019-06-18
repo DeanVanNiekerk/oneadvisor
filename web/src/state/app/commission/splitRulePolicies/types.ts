@@ -3,6 +3,8 @@ export type SplitRulePolicyInfo = {
     policyNumber: string;
     policyCompanyId: string;
     policyUserId: string;
+    policyClientFirstName: string;
+    policyClientLastName: string;
 };
 
 export type SplitRulePolicy = {
