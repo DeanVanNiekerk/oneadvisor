@@ -20,6 +20,8 @@ import { Age, Button, ClientName, Drawer, DrawerFooter, getTable, Header } from 
 
 import AllocationList from '../../allocation/AllocationList';
 
+const Table = getTable<ClientRevenueData>();
+
 type Props = {
     records: ClientRevenueData[];
     fetching: boolean;
@@ -245,7 +247,7 @@ class ClientRevenueReport extends Component<Props, State> {
     };
 
     render() {
-        const Table = getTable<ClientRevenueData>();
+
 
         return (
             <>

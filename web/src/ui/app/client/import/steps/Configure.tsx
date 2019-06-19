@@ -15,6 +15,8 @@ import { getTable } from '@/ui/controls';
 
 import StepProgress from '../StepProgress';
 
+const Table = getTable<ImportTableRow>();
+
 const Option = Select.Option;
 
 type SortableItemProps = { value: ImportColumn };
@@ -77,7 +79,6 @@ class Configure extends Component<Props> {
     };
 
     render() {
-        const Table = getTable<ImportTableRow>();
         return (
             <>
                 <StepProgress onPrevious={() => this.props.dispatch(clientImportPreviousStep())} onNext={this.next} />

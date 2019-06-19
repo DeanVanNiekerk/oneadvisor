@@ -18,6 +18,8 @@ import { Button, CommissionTypeName, CompanyName, getTable, Header, UserName } f
 
 import EditCommission from './EditCommission';
 
+const Table = getTable<Commission>();
+
 type Columns = keyof Commission;
 
 type Props = {
@@ -228,7 +230,7 @@ class CommissionList extends Component<Props> {
     };
 
     render() {
-        const Table = getTable<Commission>();
+
 
         return (
             <>

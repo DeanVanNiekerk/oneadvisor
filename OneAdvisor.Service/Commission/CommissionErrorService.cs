@@ -2,18 +2,14 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Commission;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Model.Commission.Model.CommissionError;
-using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Account.Model.Authentication;
-using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Commission.Validators;
 using OneAdvisor.Service.Common.Query;
 using System.Collections.Generic;
@@ -21,6 +17,7 @@ using OneAdvisor.Model.Client.Interface;
 using OneAdvisor.Service.Client.Validators;
 using OneAdvisor.Model.Client.Model.Policy;
 using OneAdvisor.Model.Commission.Model.CommissionSplitRule;
+using OneAdvisor.Model.Commission.Model.CommissionSplitRulePolicy;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -31,14 +28,22 @@ namespace OneAdvisor.Service.Commission
         private readonly IClientService _clientService;
         private readonly ICommissionSplitService _commissionSplitService;
         private readonly IPolicyService _policyService;
+        private readonly ICommissionSplitRulePolicyService _commissionSplitRulePolicyService;
 
-        public CommissionErrorService(DataContext context, ICommissionService commissionService, IClientService clientService, ICommissionSplitService commissionSplitService, IPolicyService policyService)
+        public CommissionErrorService(
+            DataContext context,
+            ICommissionService commissionService,
+            IClientService clientService,
+            ICommissionSplitService commissionSplitService,
+            IPolicyService policyService,
+            ICommissionSplitRulePolicyService commissionSplitRulePolicyService)
         {
             _context = context;
             _commissionService = commissionService;
             _clientService = clientService;
             _commissionSplitService = commissionSplitService;
             _policyService = policyService;
+            _commissionSplitRulePolicyService = commissionSplitRulePolicyService;
         }
 
         public async Task<PagedItems<CommissionError>> GetErrors(CommissionErrorQueryOptions queryOptions)
@@ -129,9 +134,13 @@ namespace OneAdvisor.Service.Commission
             policyQueryOptions.Id = error.PolicyId;
             var policy = (await _policyService.GetPolicies(policyQueryOptions)).Items.Single();
 
-            var splitRulesOptions = new CommissionSplitRuleQueryOptions(scope, "", "", 0, 0);
-            var rules = (await _commissionSplitService.GetCommissionSplitRules(splitRulesOptions)).Items.ToList();
-            var commissions = _commissionSplitService.SplitCommission(commission, policy, error.Data, rules);
+            var commissionSplitRulesOptions = new CommissionSplitRuleQueryOptions(scope, "", "", 0, 0);
+            var commissionSplitRules = (await _commissionSplitService.GetCommissionSplitRules(commissionSplitRulesOptions)).Items.ToList();
+
+            var commissionSplitRulePolicyQueryOptions = new CommissionSplitRulePolicyQueryOptions(scope, "", "", 0, 0);
+            var commissionSplitRulePolicies = (await _commissionSplitRulePolicyService.GetCommissionSplitRulePolicies(commissionSplitRulePolicyQueryOptions)).Items.ToList();
+
+            var commissions = _commissionSplitService.SplitCommission(commission, policy, error.Data, commissionSplitRules, commissionSplitRulePolicies);
 
             foreach (var c in commissions)
                 result = await _commissionService.InsertCommission(scope, c);

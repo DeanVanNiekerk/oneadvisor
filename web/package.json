@@ -21,7 +21,7 @@
         "@microsoft/applicationinsights-web": "^2.0.1",
         "@nivo/core": "0.59.0",
         "@nivo/pie": "0.59.0",
-        "antd": "3.19.3",
+        "antd": "3.19.6",
         "connected-react-router": "6.4.0",
         "currency.js": "1.2.2",
         "history": "4.9.0",

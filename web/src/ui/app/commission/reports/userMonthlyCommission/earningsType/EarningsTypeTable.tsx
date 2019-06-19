@@ -6,6 +6,8 @@ import { formatCurrency } from '@/app/utils';
 import { UserEarningsTypeMonthlyCommissionData } from '@/state/app/commission/reports';
 import { CommissionEarningsTypeName, getTable } from '@/ui/controls';
 
+const Table = getTable<UserEarningsTypeMonthlyCommissionData>();
+
 type Props = {
     earningsTypeRecords: UserEarningsTypeMonthlyCommissionData[];
     fetching: boolean;
@@ -44,7 +46,7 @@ class EarningsTypeTable extends Component<Props> {
     };
 
     render() {
-        const Table = getTable<UserEarningsTypeMonthlyCommissionData>();
+
         return (
             <Table
                 header="By Commission Earnings Type"

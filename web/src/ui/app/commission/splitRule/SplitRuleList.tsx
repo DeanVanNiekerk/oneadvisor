@@ -11,6 +11,8 @@ import { Button, getTable, Header, StopPropagation } from '@/ui/controls';
 
 import EditSplitRule from './EditSplitRule';
 
+const Table = getTable<SplitRule>();
+
 type Props = {
     userId: string;
     splitRules: SplitRule[];
@@ -111,7 +113,7 @@ class SplitRuleList extends Component<Props> {
     };
 
     render() {
-        const Table = getTable<SplitRule>();
+
 
         return (
             <>

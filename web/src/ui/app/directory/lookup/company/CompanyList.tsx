@@ -8,6 +8,8 @@ import { Button, getTable, Header } from '@/ui/controls';
 
 import EditCompany from './EditCompany';
 
+const Table = getTable<Company>();
+
 type Props = {
     companies: Company[];
     fetching: boolean;
@@ -68,7 +70,7 @@ class CompanyList extends Component<Props, State> {
     };
 
     render() {
-        const Table = getTable<Company>();
+
         return (
             <>
                 <Header

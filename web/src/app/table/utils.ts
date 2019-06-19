@@ -43,10 +43,10 @@ const getColumn = <T>(
         ...columnProps,
     };
 
-    if (options.externalDataSource) {
-        props.sorter = undefined;
-        props.onFilter = undefined;
-    }
+    // if (options.externalDataSource) {
+    //     props.sorter = true;
+    //     props.onFilter = undefined;
+    // }
 
     if (options.type === "boolean") props.render = formatBool;
     if (options.type === "date") props.render = value => (value ? moment(value).format("ll") : "");

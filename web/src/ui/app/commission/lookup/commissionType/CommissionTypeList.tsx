@@ -12,6 +12,8 @@ import { Button, CommissionEarningsTypeName, getTable, Header, PolicyTypeName } 
 
 import EditCommissionType from './EditCommissionType';
 
+const Table = getTable<CommissionType>();
+
 type Props = {
     commissionTypes: CommissionType[];
     fetching: boolean;
@@ -107,7 +109,7 @@ class CommissionTypeList extends Component<Props, State> {
     };
 
     render() {
-        const Table = getTable<CommissionType>();
+
 
         return (
             <>

@@ -2,6 +2,10 @@
     cursor: pointer;
 }
 
+.bold {
+    font-weight: bold;
+}
+
 .downloadLink:hover {
     cursor: pointer;
     text-decoration: underline;

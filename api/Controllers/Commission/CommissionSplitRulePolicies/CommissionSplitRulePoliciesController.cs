@@ -34,7 +34,7 @@ namespace api.Controllers.Commission.CommissionSplitRules
 
             var queryOptions = new CommissionSplitRulePolicyInfoQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
 
-            var commissions = await CommissionSplitRulePolicyService.GetCommissionSplitRulePolicies(queryOptions);
+            var commissions = await CommissionSplitRulePolicyService.GetCommissionSplitRulePolicyInfoList(queryOptions);
 
             return Ok(commissions);
         }

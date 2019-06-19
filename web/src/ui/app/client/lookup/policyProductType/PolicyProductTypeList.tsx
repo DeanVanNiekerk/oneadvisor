@@ -11,6 +11,8 @@ import { Button, getTable, Header, PolicyTypeName } from '@/ui/controls';
 
 import EditPolicyProductType from './EditPolicyProductType';
 
+const Table = getTable<PolicyProductType>();
+
 type Props = {
     policyProductTypes: PolicyProductType[];
     fetching: boolean;
@@ -90,7 +92,7 @@ class PolicyProductTypeList extends Component<Props, State> {
     };
 
     render() {
-        const Table = getTable<PolicyProductType>();
+
         return (
             <>
                 <Header

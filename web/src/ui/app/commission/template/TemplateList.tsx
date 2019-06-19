@@ -13,6 +13,8 @@ import { Button, CompanyName, getTable, Header } from '@/ui/controls';
 
 import EditTemplate from './EditTemplate';
 
+const Table = getTable<CommissionStatementTemplate>();
+
 type Props = {
     templates: CommissionStatementTemplate[];
     fetching: boolean;
@@ -113,7 +115,7 @@ class TemplateList extends Component<Props, State> {
     };
 
     render() {
-        const Table = getTable<CommissionStatementTemplate>();
+
         return (
             <>
                 <Header

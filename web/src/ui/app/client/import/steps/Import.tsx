@@ -16,6 +16,8 @@ import { Button, getTable } from '@/ui/controls';
 
 import StepProgress from '../StepProgress';
 
+const Table = getTable<ResultFailure>();
+
 const Panel = Collapse.Panel;
 
 type Props = {
@@ -178,8 +180,6 @@ class Import extends Component<Props> {
     };
 
     render() {
-        const Table = getTable<ResultFailure>();
-
         return (
             <>
                 <StepProgress

@@ -6,6 +6,8 @@ import { formatCurrency } from '@/app/utils';
 import { UserCompanyMonthlyCommissionData } from '@/state/app/commission/reports';
 import { CompanyName, getTable } from '@/ui/controls';
 
+const Table = getTable<UserCompanyMonthlyCommissionData>();
+
 type Props = {
     companyRecords: UserCompanyMonthlyCommissionData[];
     fetching: boolean;
@@ -44,7 +46,7 @@ class CompanyTable extends Component<Props> {
     };
 
     render() {
-        const Table = getTable<UserCompanyMonthlyCommissionData>();
+
         return (
             <Table
                 header="By Company"

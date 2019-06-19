@@ -17,6 +17,8 @@ import { Button, CompanyName, getTable, Header } from '@/ui/controls';
 import EditStatement from './EditStatement';
 import { Processed } from './Processed';
 
+const Table = getTable<Statement>();
+
 const Option = Select.Option;
 
 type Props = {
@@ -195,7 +197,7 @@ class StatementList extends Component<Props> {
     };
 
     render() {
-        const Table = getTable<Statement>();
+
         return (
             <>
                 <Header

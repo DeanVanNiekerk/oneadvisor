@@ -13,6 +13,8 @@ import { FormErrors, getTable, StopPropagation, UserName } from '@/ui/controls';
 
 import EditSplit from './EditSplit';
 
+const Table = getTable<Split>();
+
 type Props = {
     splits: Split[];
     onChange: (splits: Split[]) => void;
@@ -147,7 +149,7 @@ class SplitList extends Component<Props, State> {
     };
 
     render() {
-        const Table = getTable<Split>();
+
 
         return (
             <>

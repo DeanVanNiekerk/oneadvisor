@@ -8,6 +8,8 @@ import { Policy, policySearchSelector, searchPolicies } from '@/state/app/client
 import { RootState } from '@/state/rootReducer';
 import { CompanyName, getTable, PolicyTypeName, UserName } from '@/ui/controls';
 
+const Table = getTable<Policy>();
+
 type Props = {
     policies: Policy[];
     clientId?: string | null;
@@ -103,7 +105,7 @@ class PolicySearch extends Component<Props, State> {
     };
 
     render() {
-        const Table = getTable<Policy>();
+
 
         const { searchText } = this.state;
 

@@ -12,6 +12,8 @@ import { Button, getTable, Header, UserName } from '@/ui/controls';
 
 import AuditLogDetails from './AuditLogDetails';
 
+const Table = getTable<AuditLog>();
+
 type Props = {
     logs: AuditLog[];
     fetching: boolean;
@@ -134,7 +136,7 @@ class AuditLogList extends Component<Props, State> {
     };
 
     render() {
-        const Table = getTable<AuditLog>();
+
 
         return (
             <>

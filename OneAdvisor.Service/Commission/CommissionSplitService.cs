@@ -16,6 +16,7 @@ using OneAdvisor.Model.Commission.Model.CommissionSplitRule;
 using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Model.Client.Model.Policy;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
+using OneAdvisor.Model.Commission.Model.CommissionSplitRulePolicy;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -177,11 +178,11 @@ namespace OneAdvisor.Service.Commission
             return entity;
         }
 
-        public List<CommissionEdit> SplitCommission(CommissionEdit commission, Policy policy, ImportCommission sourceData, List<CommissionSplitRule> commissionSplitRules)
+        public List<CommissionEdit> SplitCommission(CommissionEdit commission, Policy policy, ImportCommission sourceData, List<CommissionSplitRule> commissionSplitRules, List<CommissionSplitRulePolicy> commissionSplitRulePolicies)
         {
             var commissions = new List<CommissionEdit>();
 
-            var splits = GetCommissionSplit(policy, commissionSplitRules);
+            var splits = GetCommissionSplit(policy, commissionSplitRules, commissionSplitRulePolicies);
 
             var splitGroupId = splits.Count > 1 ? (Guid?)Guid.NewGuid() : null;
 
@@ -205,13 +206,19 @@ namespace OneAdvisor.Service.Commission
             return commissions;
         }
 
-        private List<CommissionSplit> GetCommissionSplit(Policy policy, List<CommissionSplitRule> commissionSplitRules)
+        private List<CommissionSplit> GetCommissionSplit(Policy policy, List<CommissionSplitRule> commissionSplitRules, List<CommissionSplitRulePolicy> commissionSplitRulePolicies)
         {
             var split = new List<CommissionSplit>();
 
-            //TODO: check rule on policy
-
+            //This is the default rule
             var rule = commissionSplitRules.FirstOrDefault(r => r.IsDefault && r.UserId == policy.UserId);
+
+            //Check specific rule on policy
+            var rulePolicy = commissionSplitRulePolicies.FirstOrDefault(r => r.PolicyId == policy.Id);
+
+            //If there is a policy specific rule, use it
+            if (rulePolicy != null)
+                rule = commissionSplitRules.FirstOrDefault(r => r.Id == rulePolicy.CommissionSplitRuleId);
 
             if (rule == null)
                 split.Add(new CommissionSplit() { UserId = policy.UserId, Percentage = 100 });

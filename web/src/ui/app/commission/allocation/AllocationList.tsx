@@ -11,6 +11,8 @@ import { Button, getTable, Header, StopPropagation } from '@/ui/controls';
 
 import EditAllocation from './EditAllocation';
 
+const Table = getTable<Allocation>();
+
 type Props = {
     clientId: string;
     allocations: Allocation[];
@@ -110,7 +112,7 @@ class AllocationList extends Component<Props> {
     };
 
     render() {
-        const Table = getTable<Allocation>();
+
 
         return (
             <>

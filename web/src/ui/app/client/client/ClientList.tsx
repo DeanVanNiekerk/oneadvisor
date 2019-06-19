@@ -1,5 +1,4 @@
 import { Popconfirm } from 'antd';
-import { ColumnProps } from 'antd/lib/table';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -16,6 +15,8 @@ import { Button, ClientTypeIcon, getTable, Header, StopPropagation } from '@/ui/
 
 import ClientMerge from '../merge/ClientMerge';
 import EditClient from './EditClient';
+
+const Table = getTable<Client>();
 
 type Props = {
     clients: Client[];
@@ -182,8 +183,6 @@ class ClientList extends Component<Props, State> {
     };
 
     render() {
-        const Table = getTable<Client>();
-
         return (
             <>
                 <Header

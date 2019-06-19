@@ -14,6 +14,8 @@ import { getTable, StopPropagation } from '@/ui/controls';
 
 import EditMappingError from '../mapping/EditMappingError';
 
+const Table = getTable<CommissionError>();
+
 type Props = {
     statement: Statement;
     errors: CommissionError[];
@@ -176,7 +178,7 @@ class ErrorList extends Component<Props> {
     };
 
     render() {
-        const Table = getTable<CommissionError>();
+
         return (
             <>
                 <Table

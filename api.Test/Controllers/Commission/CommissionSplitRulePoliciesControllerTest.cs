@@ -20,11 +20,18 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void CommissionSplitRulePolicyInfoModelComposition()
         {
-            Assert.Equal(4, typeof(CommissionSplitRulePolicyInfo).PropertyCount());
+            Assert.Equal(11, typeof(CommissionSplitRulePolicyInfo).PropertyCount());
             Assert.True(typeof(CommissionSplitRulePolicyInfo).HasProperty("PolicyId"));
             Assert.True(typeof(CommissionSplitRulePolicyInfo).HasProperty("PolicyNumber"));
             Assert.True(typeof(CommissionSplitRulePolicyInfo).HasProperty("PolicyCompanyId"));
             Assert.True(typeof(CommissionSplitRulePolicyInfo).HasProperty("PolicyUserId"));
+            Assert.True(typeof(CommissionSplitRulePolicyInfo).HasProperty("PolicyClientId"));
+            Assert.True(typeof(CommissionSplitRulePolicyInfo).HasProperty("PolicyClientFirstName"));
+            Assert.True(typeof(CommissionSplitRulePolicyInfo).HasProperty("PolicyClientLastName"));
+            Assert.True(typeof(CommissionSplitRulePolicyInfo).HasProperty("DefaultCommissionSplitRuleId"));
+            Assert.True(typeof(CommissionSplitRulePolicyInfo).HasProperty("DefaultCommissionSplitRuleName"));
+            Assert.True(typeof(CommissionSplitRulePolicyInfo).HasProperty("CommissionSplitRuleId"));
+            Assert.True(typeof(CommissionSplitRulePolicyInfo).HasProperty("CommissionSplitRuleName"));
         }
 
         [Fact]
@@ -60,7 +67,7 @@ namespace api.Test.Controllers.Commission
             var authService = TestHelper.MockAuthenticationService(Scope.Branch);
 
             CommissionSplitRulePolicyInfoQueryOptions queryOptions = null;
-            service.Setup(c => c.GetCommissionSplitRulePolicies(It.IsAny<CommissionSplitRulePolicyInfoQueryOptions>()))
+            service.Setup(c => c.GetCommissionSplitRulePolicyInfoList(It.IsAny<CommissionSplitRulePolicyInfoQueryOptions>()))
                 .Callback((CommissionSplitRulePolicyInfoQueryOptions options) => queryOptions = options)
                 .ReturnsAsync(pagedItems);
 

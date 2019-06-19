@@ -9,6 +9,8 @@ import { Client, clientSearchSelector, searchClients } from '@/state/app/client/
 import { RootState } from '@/state/rootReducer';
 import { Age, getTable } from '@/ui/controls';
 
+const Table = getTable<Client>();
+
 type Props = {
     clients: Client[];
     fetching: boolean;
@@ -71,8 +73,6 @@ class ClientSearch extends Component<Props, State> {
 
     render() {
         const { searchText } = this.state;
-
-        const Table = getTable<Client>();
 
         return (
             <>

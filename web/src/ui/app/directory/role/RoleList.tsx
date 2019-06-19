@@ -10,6 +10,8 @@ import { Button, getTable, Header } from '@/ui/controls';
 
 import EditRole from './EditRole';
 
+const Table = getTable<Role>();
+
 type Props = {
     roles: Role[];
     applications: Application[];
@@ -107,7 +109,7 @@ class RoleList extends Component<Props, State> {
     };
 
     render() {
-        const Table = getTable<Role>();
+
         return (
             <>
                 <Header

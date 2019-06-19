@@ -11,6 +11,8 @@ import { Button, getTable, Header } from '@/ui/controls';
 
 import EditOrganisation from './EditOrganisation';
 
+const Table = getTable<Organisation>();
+
 type Props = {
     organisations: Organisation[];
     fetching: boolean;
@@ -70,7 +72,7 @@ class OrganisationList extends Component<Props, State> {
     };
 
     render() {
-        const Table = getTable<Organisation>();
+
         return (
             <>
                 <Header

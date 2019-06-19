@@ -28,7 +28,7 @@ namespace OneAdvisor.Service.Commission
             _commissionSplitService = commissionSplitService;
         }
 
-        public async Task<PagedItems<CommissionSplitRulePolicyInfo>> GetCommissionSplitRulePolicies(CommissionSplitRulePolicyInfoQueryOptions queryOptions)
+        public async Task<PagedItems<CommissionSplitRulePolicyInfo>> GetCommissionSplitRulePolicyInfoList(CommissionSplitRulePolicyInfoQueryOptions queryOptions)
         {
             var query = GetCommissionSplitRulePolicyInfoQuery(queryOptions.Scope);
 
@@ -39,11 +39,42 @@ namespace OneAdvisor.Service.Commission
             if (queryOptions.PolicyCompanyId.Any())
                 query = query.Where(c => queryOptions.PolicyCompanyId.Contains(c.PolicyCompanyId));
 
+            if (queryOptions.PolicyClientId.Any())
+                query = query.Where(c => queryOptions.PolicyClientId.Contains(c.PolicyClientId));
+
             if (!string.IsNullOrWhiteSpace(queryOptions.PolicyNumber))
                 query = query.Where(c => EF.Functions.Like(c.PolicyNumber, queryOptions.PolicyNumber));
+
+            if (!string.IsNullOrWhiteSpace(queryOptions.PolicyClientFirstName))
+                query = query.Where(c => EF.Functions.Like(c.PolicyClientFirstName, queryOptions.PolicyClientFirstName));
+
+            if (!string.IsNullOrWhiteSpace(queryOptions.PolicyClientLastName))
+                query = query.Where(c => EF.Functions.Like(c.PolicyClientLastName, queryOptions.PolicyClientLastName));
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedItems<CommissionSplitRulePolicyInfo>();
+
+            //Get total items
+            pagedItems.TotalItems = await query.CountAsync();
+
+            //Ordering
+            query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
+
+            //Paging
+            pagedItems.Items = await query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
+
+            return pagedItems;
+        }
+
+        public async Task<PagedItems<CommissionSplitRulePolicy>> GetCommissionSplitRulePolicies(CommissionSplitRulePolicyQueryOptions queryOptions)
+        {
+            var query = GetCommissionSplitRulePolicyQuery(queryOptions.Scope);
+
+            //Apply filters ----------------------------------------------------------------------------------------
+            //none so far..
+            //------------------------------------------------------------------------------------------------------
+
+            var pagedItems = new PagedItems<CommissionSplitRulePolicy>();
 
             //Get total items
             pagedItems.TotalItems = await query.CountAsync();
@@ -169,6 +200,15 @@ namespace OneAdvisor.Service.Commission
                             on policy.UserId equals user.Id
                         join client in _context.Client
                             on policy.ClientId equals client.Id
+
+                        join commissionSplitRulePolicy in _context.CommissionSplitRulePolicy
+                            on policy.Id equals commissionSplitRulePolicy.PolicyId into groupCommissionSplitRulePolicy
+                        from subCommissionSplitRulePolicy in groupCommissionSplitRulePolicy.DefaultIfEmpty()
+
+                        join commissionSplitRule in _context.CommissionSplitRule
+                            on new { Key1 = policy.UserId, Key2 = true } equals new { Key1 = commissionSplitRule.UserId, Key2 = commissionSplitRule.IsDefault } into groupCommissionSplitRule
+                        from subCommissionSplitRule in groupCommissionSplitRule.DefaultIfEmpty()
+
                         select new CommissionSplitRulePolicyInfo()
                         {
                             PolicyId = policy.Id,
@@ -176,7 +216,12 @@ namespace OneAdvisor.Service.Commission
                             PolicyCompanyId = policy.CompanyId,
                             PolicyNumber = policy.Number,
                             PolicyClientFirstName = client.FirstName,
-                            PolicyClientLastName = client.LastName
+                            PolicyClientLastName = client.LastName,
+                            PolicyClientId = client.Id,
+                            CommissionSplitRuleId = subCommissionSplitRulePolicy.CommissionSplitRuleId,
+                            CommissionSplitRuleName = subCommissionSplitRulePolicy.CommissionSplitRule.Name,
+                            DefaultCommissionSplitRuleId = subCommissionSplitRule.Id,
+                            DefaultCommissionSplitRuleName = subCommissionSplitRule.Name
                         };
 
             return query;

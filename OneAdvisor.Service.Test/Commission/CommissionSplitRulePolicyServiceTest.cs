@@ -53,9 +53,73 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
+                ClientId = client2.Client.Id,
+                UserId = user2.User.Id,
+                Number = "987654"
+            };
+
+            var policy4 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
                 ClientId = client3.Client.Id,
                 UserId = user3.User.Id,
                 Number = "987654"
+            };
+
+            var csr1 = new CommissionSplitRuleEntity
+            {
+                Id = Guid.NewGuid(),
+                UserId = user1.User.Id,
+                Name = "Com Split Rule 1",
+                IsDefault = true,
+                Split = new List<CommissionSplit>()
+                {
+                    new CommissionSplit()
+                    {
+                        UserId = user1.User.Id,
+                        Percentage = 100
+                    }
+                }
+            };
+
+            var csr2 = new CommissionSplitRuleEntity
+            {
+                Id = Guid.NewGuid(),
+                UserId = user2.User.Id,
+                Name = "Com Split Rule 2",
+                IsDefault = true,
+                Split = new List<CommissionSplit>()
+                {
+                    new CommissionSplit()
+                    {
+                        UserId = user2.User.Id,
+                        Percentage = 100
+                    }
+                }
+            };
+
+            var csr3 = new CommissionSplitRuleEntity
+            {
+                Id = Guid.NewGuid(),
+                UserId = user2.User.Id,
+                Name = "Com Split Rule 3",
+                IsDefault = false,
+                Split = new List<CommissionSplit>()
+                {
+                    new CommissionSplit()
+                    {
+                        UserId = user2.User.Id,
+                        Percentage = 100
+                    }
+                }
+            };
+
+            var csrp1 = new CommissionSplitRulePolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = policy2.Id,
+                CommissionSplitRuleId = csr3.Id
             };
 
             using (var context = new DataContext(options))
@@ -63,6 +127,13 @@ namespace OneAdvisor.Service.Test.Commission
                 context.Policy.Add(policy1);
                 context.Policy.Add(policy2);
                 context.Policy.Add(policy3);
+                context.Policy.Add(policy4);
+
+                context.CommissionSplitRule.Add(csr1);
+                context.CommissionSplitRule.Add(csr2);
+                context.CommissionSplitRule.Add(csr3);
+
+                context.CommissionSplitRulePolicy.Add(csrp1);
 
                 context.SaveChanges();
             }
@@ -74,11 +145,11 @@ namespace OneAdvisor.Service.Test.Commission
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
                 var queryOptions = new CommissionSplitRulePolicyInfoQueryOptions(scope, "", "", 0, 0);
-                var rules = await service.GetCommissionSplitRulePolicies(queryOptions);
+                var rules = await service.GetCommissionSplitRulePolicyInfoList(queryOptions);
 
                 //Then
-                Assert.Equal(2, rules.TotalItems);
-                Assert.Equal(2, rules.Items.Count());
+                Assert.Equal(3, rules.TotalItems);
+                Assert.Equal(3, rules.Items.Count());
 
                 var items = rules.Items.ToList();
                 var actual = items[0];
@@ -86,19 +157,45 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(policy1.Number, actual.PolicyNumber);
                 Assert.Equal(policy1.UserId, actual.PolicyUserId);
                 Assert.Equal(policy1.CompanyId, actual.PolicyCompanyId);
+                Assert.Equal(client1.Client.Id, actual.PolicyClientId);
+                Assert.Equal(client1.Client.FirstName, actual.PolicyClientFirstName);
+                Assert.Equal(client1.Client.LastName, actual.PolicyClientLastName);
+                Assert.Null(actual.CommissionSplitRuleId);
+                Assert.Null(actual.CommissionSplitRuleName);
+                Assert.Equal(csr1.Id, actual.DefaultCommissionSplitRuleId);
+                Assert.Equal(csr1.Name, actual.DefaultCommissionSplitRuleName);
 
                 actual = items[1];
                 Assert.Equal(policy2.Id, actual.PolicyId);
+                Assert.Equal(policy2.Number, actual.PolicyNumber);
+                Assert.Equal(policy2.UserId, actual.PolicyUserId);
+                Assert.Equal(policy2.CompanyId, actual.PolicyCompanyId);
+                Assert.Equal(client2.Client.Id, actual.PolicyClientId);
+                Assert.Equal(client2.Client.FirstName, actual.PolicyClientFirstName);
+                Assert.Equal(client2.Client.LastName, actual.PolicyClientLastName);
+                Assert.Equal(csrp1.CommissionSplitRuleId, actual.CommissionSplitRuleId);
+                Assert.Equal(csr3.Name, actual.CommissionSplitRuleName);
+                Assert.Equal(csr2.Id, actual.DefaultCommissionSplitRuleId);
+                Assert.Equal(csr2.Name, actual.DefaultCommissionSplitRuleName);
+
+                actual = items[2];
+                Assert.Equal(policy3.Id, actual.PolicyId);
+                Assert.Null(actual.CommissionSplitRuleId);
+                Assert.Null(actual.CommissionSplitRuleName);
+                Assert.Equal(csr2.Id, actual.DefaultCommissionSplitRuleId);
+                Assert.Equal(csr2.Name, actual.DefaultCommissionSplitRuleName);
 
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user3, Scope.Organisation);
                 queryOptions = new CommissionSplitRulePolicyInfoQueryOptions(scope, "", "", 0, 0);
-                rules = await service.GetCommissionSplitRulePolicies(queryOptions);
+                rules = await service.GetCommissionSplitRulePolicyInfoList(queryOptions);
 
                 Assert.Single(rules.Items);
 
                 actual = rules.Items.Single();
-                Assert.Equal(policy3.Id, actual.PolicyId);
+                Assert.Equal(policy4.Id, actual.PolicyId);
+                Assert.Null(actual.CommissionSplitRuleId);
+                Assert.Null(actual.DefaultCommissionSplitRuleId);
             }
         }
 

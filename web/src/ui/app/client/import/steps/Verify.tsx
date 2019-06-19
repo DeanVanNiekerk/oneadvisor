@@ -16,6 +16,8 @@ import { getTable } from '@/ui/controls';
 
 import StepProgress from '../StepProgress';
 
+const Table = getTable<ImportClient>();
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -100,8 +102,6 @@ class Verify extends Component<Props> {
     };
 
     render() {
-        const Table = getTable<ImportClient>();
-
         return (
             <>
                 <StepProgress

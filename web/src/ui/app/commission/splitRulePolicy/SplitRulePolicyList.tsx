@@ -2,18 +2,19 @@ import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
 import { applyLike } from '@/app/query';
-import { Filters, formatBool, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
+import { Filters, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
 import {
     fetchSplitRulePolicies, fetchSplitRulePolicy, receiveFilters, receivePageOptions, receiveSortOptions,
     splitRulePoliciesSelector, SplitRulePolicyInfo
 } from '@/state/app/commission/splitRulePolicies';
-import { splitRulesSelector } from '@/state/app/commission/splitRules';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { RootState } from '@/state/rootReducer';
-import { Button, ClientName, CompanyName, getTable, Header, UserName } from '@/ui/controls';
+import { CompanyName, getTable, Header, UserName } from '@/ui/controls';
 
 import EditSplitRulePolicy from './EditSplitRulePolicy';
+
+const Table = getTable<SplitRulePolicyInfo>();
 
 type Props = {
     splitRulePolicies: SplitRulePolicyInfo[];
@@ -110,19 +111,35 @@ class SplitRulePolicyList extends Component<Props, State> {
                     })),
                 }
             ),
-            getColumn(
-                "policyClientFirstName",
-                "Client",
-                {},
-                {
-                    render: (policyClientFirstName: string, rule: SplitRulePolicyInfo) => {
-                        return `${rule.policyClientFirstName || ""} ${rule.policyClientLastName}`;
-                    },
-                }
-            ),
+            getColumn("policyClientFirstName", "Client First Name", {
+                showSearchFilter: true,
+            }),
+            getColumn("policyClientLastName", "Client Last Name", {
+                showSearchFilter: true,
+            }),
             getColumn("policyNumber", "Policy Number", {
                 showSearchFilter: true,
             }),
+            getColumn(
+                "commissionSplitRuleName",
+                "Split",
+                {},
+                {
+                    render: (commissionSplitRuleName: string, splitRuleInfo: SplitRulePolicyInfo) => {
+                        if (splitRuleInfo.commissionSplitRuleId) return commissionSplitRuleName;
+
+                        if (splitRuleInfo.defaultCommissionSplitRuleId)
+                            return (
+                                <>
+                                    <span className="text-primary">Default Rule</span> (
+                                    {splitRuleInfo.defaultCommissionSplitRuleName})
+                                </>
+                            );
+
+                        return "";
+                    },
+                }
+            ),
         ];
     };
 
@@ -133,12 +150,10 @@ class SplitRulePolicyList extends Component<Props, State> {
     };
 
     render() {
-        const Table = getTable<SplitRulePolicyInfo>();
-
         return (
             <>
                 <Header className="mb-1" icon="apartment">
-                    Commission Split Rules
+                    Policy Commission Split Rules
                 </Header>
                 <Table
                     rowKey="policyNumber"

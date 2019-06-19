@@ -7,7 +7,6 @@ import {
     insertSplitRulePolicy, receiveSplitRulePolicy, SplitRulePolicy, SplitRulePolicyInfo, splitRulePolicySelector,
     updateSplitRulePolicy
 } from '@/state/app/commission/splitRulePolicies';
-import { fetchSplitRules, SplitRule, splitRulesSelector } from '@/state/app/commission/splitRules';
 import { RootState } from '@/state/rootReducer';
 import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
 import { showConfirm } from '@/ui/feedback/modal/confirm';
@@ -18,7 +17,6 @@ type Props = {
     onClose: (cancelled: boolean) => void;
     splitRulePolicyInfo: SplitRulePolicyInfo | null;
     splitRulePolicy: SplitRulePolicy | null;
-    splitRules: SplitRule[];
     fetching: boolean;
     updating: boolean;
     validationResults: ValidationResult[];
@@ -41,13 +39,6 @@ class EditSplitRulePolicy extends Component<Props, State> {
             this.setState({
                 splitRulePolicyEdited: this.props.splitRulePolicy,
             });
-        }
-
-        if (this.props.splitRulePolicyInfo != null && this.props.splitRulePolicyInfo != prevProps.splitRulePolicyInfo) {
-            const filters = {
-                userId: [this.props.splitRulePolicyInfo.policyUserId],
-            };
-            this.props.dispatch(fetchSplitRules(filters));
         }
     }
 
@@ -91,13 +82,13 @@ class EditSplitRulePolicy extends Component<Props, State> {
     };
 
     getTitle = () => {
-        if (this.props.fetching) return "Loading Commission Split Rule";
+        if (this.props.fetching) return "Loading Commission Split Rule for Policy";
 
-        return "Commission Split Rule";
+        return "Commission Split Rule for Policy";
     };
 
     render() {
-        const { splitRulePolicy, fetching, validationResults, splitRules, splitRulePolicyInfo } = this.props;
+        const { splitRulePolicy, fetching, validationResults, splitRulePolicyInfo } = this.props;
 
         return (
             <Drawer
@@ -111,7 +102,6 @@ class EditSplitRulePolicy extends Component<Props, State> {
                         <SplitRulePolicyForm
                             splitRulePolicy={splitRulePolicy}
                             splitRulePolicyInfo={splitRulePolicyInfo}
-                            splitRules={splitRules}
                             validationResults={validationResults}
                             onChange={this.onChange}
                         />
@@ -125,7 +115,7 @@ class EditSplitRulePolicy extends Component<Props, State> {
                         onClick={this.save}
                         type="primary"
                         disabled={this.isLoading()}
-                        requiredUseCase="com_edit_commissions"
+                        requiredUseCase="com_edit_commission_split_rules"
                     >
                         Save
                     </Button>
@@ -137,14 +127,12 @@ class EditSplitRulePolicy extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const splitRulePolicyState = splitRulePolicySelector(state);
-    const splitRulesState = splitRulesSelector(state);
 
     return {
         splitRulePolicy: splitRulePolicyState.splitRulePolicy,
         fetching: splitRulePolicyState.fetching || splitRulePolicyState.fetching,
         updating: splitRulePolicyState.updating,
         validationResults: splitRulePolicyState.validationResults,
-        splitRules: splitRulesState.items,
     };
 };
 

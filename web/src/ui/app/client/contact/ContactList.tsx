@@ -12,6 +12,8 @@ import { ContactTypeName, getTable, StopPropagation } from '@/ui/controls';
 
 import EditContact from './EditContact';
 
+const Table = getTable<Contact>();
+
 type Props = {
     clientId: string;
     contacts: Contact[];
@@ -89,7 +91,6 @@ class ContactList extends Component<Props> {
     };
 
     render() {
-        const Table = getTable<Contact>();
 
         return (
             <>

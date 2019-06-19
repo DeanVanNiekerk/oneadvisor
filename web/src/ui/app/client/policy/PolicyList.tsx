@@ -1,4 +1,4 @@
-import { ColumnProps, TableRowSelection } from 'antd/lib/table';
+import { TableRowSelection } from 'antd/lib/table';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
@@ -15,6 +15,8 @@ import { RootState } from '@/state/rootReducer';
 import { Button, CompanyName, getTable, Header, PolicyTypeName, UserName } from '@/ui/controls';
 
 import EditPolicy from './EditPolicy';
+
+const Table = getTable<Policy>();
 
 type Props = {
     clientId?: string;
@@ -156,7 +158,7 @@ class PolicyList extends Component<Props> {
     };
 
     render() {
-        const Table = getTable<Policy>();
+
 
         return (
             <>

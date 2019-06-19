@@ -11,6 +11,8 @@ import { Button, getTable, Header } from '@/ui/controls';
 
 import EditUser from './EditUser';
 
+const Table = getTable<User>();
+
 type Props = {
     users: User[];
     organisations: Organisation[];
@@ -134,7 +136,7 @@ class UserList extends Component<Props, State> {
     };
 
     render() {
-        const Table = getTable<User>();
+
         return (
             <>
                 <Header

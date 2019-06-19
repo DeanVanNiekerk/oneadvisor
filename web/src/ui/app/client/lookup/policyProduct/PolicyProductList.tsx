@@ -12,6 +12,8 @@ import { Button, CompanyName, getTable, Header, PolicyProductTypeName } from '@/
 
 import EditPolicyProduct from './EditPolicyProduct';
 
+const Table = getTable<PolicyProduct>();
+
 type Props = {
     policyProducts: PolicyProduct[];
     fetching: boolean;
@@ -108,7 +110,7 @@ class PolicyProductList extends Component<Props, State> {
     };
 
     render() {
-        const Table = getTable<PolicyProduct>();
+
 
         return (
             <>

@@ -10,6 +10,8 @@ import { FormErrors, getTable, StopPropagation } from '@/ui/controls';
 
 import EditSheet from './EditSheet';
 
+const Table = getTable<Sheet>();
+
 type Props = {
     sheets: Sheet[];
     onChange: (sheets: Sheet[]) => void;
@@ -135,7 +137,7 @@ class SheetList extends Component<Props, State> {
     };
 
     render() {
-        const Table = getTable<Sheet>();
+
 
         return (
             <>

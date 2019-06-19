@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 
 import { ValidationResult } from '@/app/validation';
 
+import { Button } from '../';
 import { FormText } from './';
 import { FormLayout } from './Form';
 import { FormField } from './FormField';
@@ -17,7 +18,7 @@ type Props<T = SelectValue> = {
     options: any[];
     optionsValue: string;
     optionsText: string;
-    onOptionsText?: (value: any) => string;
+    onOptionsText?: (value: any) => React.ReactNode;
     validationFieldName?: string;
     disabled?: boolean;
     defaultActiveFirstOption?: boolean;
@@ -38,6 +39,7 @@ type Props<T = SelectValue> = {
     width?: string;
     hidden?: boolean;
     allowClear?: boolean;
+    addonAfter?: React.ReactNode;
 };
 
 class FormSelect<T> extends Component<Props<T>> {
@@ -53,7 +55,7 @@ class FormSelect<T> extends Component<Props<T>> {
         return item[this.props.optionsText];
     };
 
-    getOptionsText = (option: any): string => {
+    getOptionsText = (option: any): React.ReactNode => {
         if (this.props.onOptionsText) return this.props.onOptionsText(option);
         return option[this.props.optionsText];
     };
@@ -115,6 +117,7 @@ class FormSelect<T> extends Component<Props<T>> {
                         </Option>
                     ))}
                 </Select>
+                {this.props.addonAfter}
             </FormField>
         );
     }
