@@ -10,7 +10,6 @@ using OneAdvisor.Service.Test;
 using OneAdvisor.Model.Commission.Model.CommissionReport;
 using OneAdvisor.Model.Client.Model.Lookup;
 using OneAdvisor.Model.Commission.Model.Lookup;
-using System.Collections.Generic;
 
 namespace OneAdvisor.Service.IntegrationTest.Commission
 {
@@ -758,8 +757,14 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 FromClientId = client1.Client.Id,
-                ToClientId = client2.Client.Id,
-                PolicyIds = new List<Guid>() { policy1.Id }
+                ToClientId = client2.Client.Id
+            };
+
+            var cap1 = new CommissionAllocationPolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionAllocationId = allocation1.Id,
+                PolicyId = policy1.Id
             };
 
             //Allocate Client3, Policy3b to Client2.
@@ -767,8 +772,14 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             {
                 Id = Guid.NewGuid(),
                 FromClientId = client3.Client.Id,
-                ToClientId = client2.Client.Id,
-                PolicyIds = new List<Guid>() { policy3b.Id }
+                ToClientId = client2.Client.Id
+            };
+
+            var cap2 = new CommissionAllocationPolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionAllocationId = allocation2.Id,
+                PolicyId = policy3b.Id
             };
 
 
@@ -790,6 +801,9 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
 
                 context.CommissionAllocation.Add(allocation1);
                 context.CommissionAllocation.Add(allocation2);
+
+                context.CommissionAllocationPolicy.Add(cap1);
+                context.CommissionAllocationPolicy.Add(cap2);
 
                 context.SaveChanges();
             }

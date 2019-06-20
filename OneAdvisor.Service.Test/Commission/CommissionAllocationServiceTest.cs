@@ -34,24 +34,42 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 FromClientId = client1.Client.Id,
-                ToClientId = client2.Client.Id,
-                PolicyIds = new List<Guid>() { Guid.NewGuid() }
+                ToClientId = client2.Client.Id
+            };
+
+            var cap1 = new CommissionAllocationPolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionAllocationId = ca1.Id,
+                PolicyId = Guid.NewGuid()
             };
 
             var ca2 = new CommissionAllocationEntity
             {
                 Id = Guid.NewGuid(),
                 FromClientId = client1.Client.Id,
-                ToClientId = client3.Client.Id,
-                PolicyIds = new List<Guid>() { Guid.NewGuid() }
+                ToClientId = client3.Client.Id
+            };
+
+            var cap2 = new CommissionAllocationPolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionAllocationId = ca2.Id,
+                PolicyId = Guid.NewGuid()
             };
 
             var ca3 = new CommissionAllocationEntity
             {
                 Id = Guid.NewGuid(),
                 FromClientId = client4.Client.Id,
-                ToClientId = client5.Client.Id,
-                PolicyIds = new List<Guid>() { Guid.NewGuid() }
+                ToClientId = client5.Client.Id
+            };
+
+            var cap3 = new CommissionAllocationPolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionAllocationId = ca3.Id,
+                PolicyId = Guid.NewGuid()
             };
 
             using (var context = new DataContext(options))
@@ -59,6 +77,10 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionAllocation.Add(ca1);
                 context.CommissionAllocation.Add(ca3);
                 context.CommissionAllocation.Add(ca2);
+
+                context.CommissionAllocationPolicy.Add(cap2);
+                context.CommissionAllocationPolicy.Add(cap1);
+                context.CommissionAllocationPolicy.Add(cap3);
 
                 context.SaveChanges();
             }
@@ -81,7 +103,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(ca1.Id, actual.Id);
                 Assert.Equal(ca1.FromClientId, actual.FromClientId);
                 Assert.Equal(ca1.ToClientId, actual.ToClientId);
-                Assert.Equal(ca1.PolicyIds, actual.PolicyIds);
+                Assert.Equal(1, actual.PolicyIdCount);
                 Assert.Equal(client1.Client.FirstName, actual.FromClientFirstName);
                 Assert.Equal(client1.Client.LastName, actual.FromClientLastName);
 
@@ -116,22 +138,37 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 FromClientId = client1.Client.Id,
-                ToClientId = client2.Client.Id,
-                PolicyIds = new List<Guid>() { Guid.NewGuid() }
+                ToClientId = client2.Client.Id
+            };
+
+            var cap1 = new CommissionAllocationPolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionAllocationId = ca1.Id,
+                PolicyId = Guid.NewGuid()
             };
 
             var ca2 = new CommissionAllocationEntity
             {
                 Id = Guid.NewGuid(),
                 FromClientId = client1.Client.Id,
-                ToClientId = client3.Client.Id,
-                PolicyIds = new List<Guid>() { Guid.NewGuid() }
+                ToClientId = client3.Client.Id
+            };
+
+            var cap2 = new CommissionAllocationPolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionAllocationId = ca2.Id,
+                PolicyId = Guid.NewGuid()
             };
 
             using (var context = new DataContext(options))
             {
                 context.CommissionAllocation.Add(ca1);
                 context.CommissionAllocation.Add(ca2);
+
+                context.CommissionAllocationPolicy.Add(cap2);
+                context.CommissionAllocationPolicy.Add(cap1);
 
                 context.SaveChanges();
             }
@@ -148,7 +185,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(ca2.Id, allocation.Id);
                 Assert.Equal(ca2.FromClientId, allocation.FromClientId);
                 Assert.Equal(ca2.ToClientId, allocation.ToClientId);
-                Assert.Equal(ca2.PolicyIds, allocation.PolicyIds);
+                Assert.Equal(new List<Guid>() { cap2.PolicyId }, allocation.PolicyIds);
 
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user2, Scope.Organisation);
@@ -204,7 +241,9 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(ca1.Id, actual.Id);
                 Assert.Equal(ca1.FromClientId, actual.FromClientId);
                 Assert.Equal(ca1.ToClientId, actual.ToClientId);
-                Assert.Equal(ca1.PolicyIds, actual.PolicyIds);
+
+                var policyIds = await context.CommissionAllocationPolicy.Where(p => p.CommissionAllocationId == actual.Id).Select(p => p.PolicyId).ToListAsync();
+                Assert.Equal(ca1.PolicyIds, policyIds);
 
                 //Out of scope 
                 scope = TestHelper.GetScopeOptions(user2, Scope.User);
@@ -241,29 +280,52 @@ namespace OneAdvisor.Service.Test.Commission
                 UserId = user1.User.Id
             };
 
+            var policy3 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                ClientId = client2.Client.Id,
+                UserId = user1.User.Id
+            };
+
             var ca1 = new CommissionAllocationEntity
             {
                 Id = Guid.NewGuid(),
                 FromClientId = client1.Client.Id,
-                ToClientId = client2.Client.Id,
-                PolicyIds = new List<Guid>() { Guid.NewGuid() }
+                ToClientId = client2.Client.Id
+            };
+
+            var cap1 = new CommissionAllocationPolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionAllocationId = ca1.Id,
+                PolicyId = Guid.NewGuid()
             };
 
             var ca2 = new CommissionAllocationEntity
             {
                 Id = Guid.NewGuid(),
                 FromClientId = client1.Client.Id,
-                ToClientId = client3.Client.Id,
-                PolicyIds = new List<Guid>() { policy1.Id }
+                ToClientId = client3.Client.Id
+            };
+
+            var cap2 = new CommissionAllocationPolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionAllocationId = ca2.Id,
+                PolicyId = policy1.Id
             };
 
             using (var context = new DataContext(options))
             {
                 context.Policy.Add(policy1);
                 context.Policy.Add(policy2);
+                context.Policy.Add(policy3);
 
                 context.CommissionAllocation.Add(ca1);
                 context.CommissionAllocation.Add(ca2);
+
+                context.CommissionAllocationPolicy.Add(cap2);
+                context.CommissionAllocationPolicy.Add(cap1);
 
                 context.SaveChanges();
             }
@@ -275,7 +337,7 @@ namespace OneAdvisor.Service.Test.Commission
                     Id = ca2.Id,
                     FromClientId = client2.Client.Id,
                     ToClientId = client4.Client.Id,
-                    PolicyIds = new List<Guid>() { policy2.Id }
+                    PolicyIds = new List<Guid>() { policy2.Id, policy3.Id }
                 };
 
                 var service = new CommissionAllocationService(context);
@@ -291,7 +353,9 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(ca2Updated.Id, actual.Id);
                 Assert.Equal(ca2Updated.FromClientId, actual.FromClientId);
                 Assert.Equal(ca2Updated.ToClientId, actual.ToClientId);
-                Assert.Equal(ca2Updated.PolicyIds, actual.PolicyIds);
+
+                var policyIds = await context.CommissionAllocationPolicy.Where(p => p.CommissionAllocationId == actual.Id).Select(p => p.PolicyId).ToListAsync();
+                Assert.Equal(ca2Updated.PolicyIds, policyIds);
 
                 //Out of scope 
                 scope = TestHelper.GetScopeOptions(user2, Scope.User);
@@ -317,22 +381,37 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 FromClientId = client1.Client.Id,
-                ToClientId = client2.Client.Id,
-                PolicyIds = new List<Guid>() { Guid.NewGuid() }
+                ToClientId = client2.Client.Id
+            };
+
+            var cap1 = new CommissionAllocationPolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionAllocationId = ca1.Id,
+                PolicyId = Guid.NewGuid()
             };
 
             var ca2 = new CommissionAllocationEntity
             {
                 Id = Guid.NewGuid(),
                 FromClientId = client1.Client.Id,
-                ToClientId = client3.Client.Id,
-                PolicyIds = new List<Guid>() { Guid.NewGuid() }
+                ToClientId = client3.Client.Id
+            };
+
+            var cap2 = new CommissionAllocationPolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionAllocationId = ca2.Id,
+                PolicyId = Guid.NewGuid()
             };
 
             using (var context = new DataContext(options))
             {
                 context.CommissionAllocation.Add(ca1);
                 context.CommissionAllocation.Add(ca2);
+
+                context.CommissionAllocationPolicy.Add(cap1);
+                context.CommissionAllocationPolicy.Add(cap2);
 
                 context.SaveChanges();
             }
@@ -350,6 +429,9 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var actual = await context.CommissionAllocation.FindAsync(ca2.Id);
                 Assert.Null(actual);
+
+                var anyPolicies = await context.CommissionAllocationPolicy.Where(c => c.CommissionAllocationId == ca2.Id).AnyAsync();
+                Assert.False(anyPolicies);
 
                 //Out of scope 
                 scope = TestHelper.GetScopeOptions(user2, Scope.User);

@@ -24,7 +24,7 @@ namespace api.Test.Controllers.Commission
             Assert.True(typeof(CommissionAllocation).HasProperty("Id"));
             Assert.True(typeof(CommissionAllocation).HasProperty("FromClientId"));
             Assert.True(typeof(CommissionAllocation).HasProperty("ToClientId"));
-            Assert.True(typeof(CommissionAllocation).HasProperty("PolicyIds"));
+            Assert.True(typeof(CommissionAllocation).HasProperty("PolicyIdCount"));
             Assert.True(typeof(CommissionAllocation).HasProperty("FromClientFirstName"));
             Assert.True(typeof(CommissionAllocation).HasProperty("FromClientLastName"));
         }
@@ -36,7 +36,7 @@ namespace api.Test.Controllers.Commission
             Assert.True(typeof(CommissionAllocationEdit).HasProperty("Id"));
             Assert.True(typeof(CommissionAllocationEdit).HasProperty("FromClientId"));
             Assert.True(typeof(CommissionAllocationEdit).HasProperty("ToClientId"));
-            Assert.True(typeof(CommissionAllocation).HasProperty("PolicyIds"));
+            Assert.True(typeof(CommissionAllocationEdit).HasProperty("PolicyIds"));
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace api.Test.Controllers.Commission
                 Id = Guid.NewGuid(),
                 FromClientId = Guid.NewGuid(),
                 ToClientId = Guid.NewGuid(),
-                PolicyIds = new List<Guid>() { Guid.NewGuid() },
+                PolicyIdCount = 1,
                 FromClientFirstName = "FN1",
                 FromClientLastName = "LN1",
             };

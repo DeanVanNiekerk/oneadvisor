@@ -43,7 +43,7 @@ describe("allocation list reducer", () => {
             id: "10",
             fromClientId: "12",
             toClientId: "13",
-            policyIds: ["14"],
+            policyIdCount: 14,
             fromClientFirstName: "FN1",
             fromClientLastName: "LN1",
         };

@@ -74,16 +74,7 @@ class AllocationList extends Component<Props> {
                     },
                 }
             ),
-            getColumn(
-                "policyIds",
-                "Allocated Policies",
-                {},
-                {
-                    render: (policyIds: string[]) => {
-                        return policyIds.length;
-                    },
-                }
-            ),
+            getColumn("policyIdCount", "Allocated Policies"),
             getColumn(
                 "id",
                 "Actions",
@@ -112,8 +103,6 @@ class AllocationList extends Component<Props> {
     };
 
     render() {
-
-
         return (
             <>
                 <Header

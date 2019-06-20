@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using OneAdvisor.Data;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Microsoft.Data.Sqlite;
 using Xunit;
 
 [assembly: CollectionBehavior(DisableTestParallelization = true)]
@@ -13,31 +12,7 @@ namespace OneAdvisor.Service.IntegrationTest
 {
     public abstract class TestBase : IDisposable
     {
-        private List<SqliteConnection> _connections = new List<SqliteConnection>();
         private List<DataContext> _contexts = new List<DataContext>();
-
-        /*
-        First prize is to use sqlite as its in memory and quicker. 
-        If sqlite has unsupported functionality like JSON_QUERY then you'll have to use the full blown sqlserver db.
-         */
-        protected DbContextOptions<DataContext> CreateDatabaseSqlite()
-        {
-            var connection = new SqliteConnection("DataSource=:memory:");
-            connection.Open();
-
-            var options = new DbContextOptionsBuilder<DataContext>()
-                    .UseSqlite(connection)
-                    .Options;
-
-            using (var context = new DataContext(options))
-            {
-                context.Database.EnsureCreated();
-            }
-
-            _connections.Add(connection);
-
-            return options;
-        }
 
         protected async Task<DbContextOptions<DataContext>> CreateDatabaseSqlServer()
         {
@@ -271,14 +246,8 @@ namespace OneAdvisor.Service.IntegrationTest
                 return 0
             ";
         }
-
         public void Dispose()
         {
-            foreach (var connection in _connections)
-            {
-                connection.Close();
-            }
-
             foreach (var context in _contexts)
             {
                 context.Database.CloseConnection();

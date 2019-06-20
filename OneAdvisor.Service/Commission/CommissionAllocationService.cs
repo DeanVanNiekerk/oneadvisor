@@ -40,7 +40,7 @@ namespace OneAdvisor.Service.Commission
                             Id = commissionAllocation.Id,
                             FromClientId = commissionAllocation.FromClientId,
                             ToClientId = commissionAllocation.ToClientId,
-                            PolicyIds = commissionAllocation.PolicyIds,
+                            PolicyIdCount = commissionAllocation.CommissionAllocationPolicies.Count(),
                             FromClientFirstName = fromClient.FirstName,
                             FromClientLastName = fromClient.LastName
                         };
@@ -69,11 +69,21 @@ namespace OneAdvisor.Service.Commission
 
         public async Task<CommissionAllocationEdit> GetCommissionAllocation(ScopeOptions scope, Guid id)
         {
-            var query = from allocation in GetCommissionAllocationQuery(scope)
-                        where allocation.Id == id
-                        select allocation;
+            var query = from a in GetCommissionAllocationQuery(scope)
+                        where a.Id == id
+                        select a;
 
-            return await query.FirstOrDefaultAsync();
+            var allocation = await query.FirstOrDefaultAsync();
+
+            if (allocation == null)
+                return null;
+
+            allocation.PolicyIds = await _context.CommissionAllocationPolicy
+                                            .Where(a => a.CommissionAllocationId == allocation.Id)
+                                            .Select(a => a.PolicyId)
+                                            .ToListAsync();
+
+            return allocation;
         }
 
         public async Task<Result> DeleteCommissionAllocation(ScopeOptions scope, Guid commissionAllocationId)
@@ -84,6 +94,9 @@ namespace OneAdvisor.Service.Commission
 
             if (entity == null)
                 return new Result();
+
+            //Delete dependancies
+            await DeleteCommissionAllocationPolicies(commissionAllocationId);
 
             _context.CommissionAllocation.Remove(entity);
 
@@ -107,7 +120,30 @@ namespace OneAdvisor.Service.Commission
             commissionAllocation.Id = entity.Id;
             result.Tag = commissionAllocation;
 
+            await InsertCommissionAllocationPolicies(commissionAllocation);
+
             return result;
+        }
+
+        private async Task InsertCommissionAllocationPolicies(CommissionAllocationEdit commissionAllocation)
+        {
+            foreach (var policyId in commissionAllocation.PolicyIds)
+            {
+                var allocationPolicy = BuildCommissionAllocationPolicyEntity(commissionAllocation.Id.Value, policyId);
+                await _context.CommissionAllocationPolicy.AddAsync(allocationPolicy);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task DeleteCommissionAllocationPolicies(Guid commissionAllocationId)
+        {
+            var allocationPolicies = await _context.CommissionAllocationPolicy.Where(a => a.CommissionAllocationId == commissionAllocationId).ToListAsync();
+
+            foreach (var allocationPolicy in allocationPolicies)
+                _context.CommissionAllocationPolicy.Remove(allocationPolicy);
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task<Result> UpdateCommissionAllocation(ScopeOptions scope, CommissionAllocationEdit commissionAllocation)
@@ -127,6 +163,9 @@ namespace OneAdvisor.Service.Commission
 
             await _context.SaveChangesAsync();
 
+            await DeleteCommissionAllocationPolicies(commissionAllocation.Id.Value);
+            await InsertCommissionAllocationPolicies(commissionAllocation);
+
             return result;
         }
 
@@ -138,7 +177,6 @@ namespace OneAdvisor.Service.Commission
                             Id = commissionAllocation.Id,
                             FromClientId = commissionAllocation.FromClientId,
                             ToClientId = commissionAllocation.ToClientId,
-                            PolicyIds = commissionAllocation.PolicyIds
                         };
 
             return query;
@@ -165,7 +203,16 @@ namespace OneAdvisor.Service.Commission
 
             entity.FromClientId = model.FromClientId.Value;
             entity.ToClientId = model.ToClientId.Value;
-            entity.PolicyIds = model.PolicyIds;
+
+            return entity;
+        }
+
+        private CommissionAllocationPolicyEntity BuildCommissionAllocationPolicyEntity(Guid commissionAllocationId, Guid policyId)
+        {
+            var entity = new CommissionAllocationPolicyEntity();
+
+            entity.CommissionAllocationId = commissionAllocationId;
+            entity.PolicyId = policyId;
 
             return entity;
         }

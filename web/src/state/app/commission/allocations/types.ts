@@ -2,7 +2,7 @@ export type Allocation = {
     id: string;
     fromClientId: string;
     toClientId: string;
-    policyIds: string[];
+    policyIdCount: number;
     fromClientFirstName: string;
     fromClientLastName: string;
 };

@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using OneAdvisor.Data.ValueConverters;
-using OneAdvisor.Model.Commission.Model.ImportCommission;
 
 namespace OneAdvisor.Data.Entities.Commission.Mappings
 {
@@ -10,12 +7,6 @@ namespace OneAdvisor.Data.Entities.Commission.Mappings
     {
         public static void Map(ModelBuilder modelBuilder)
         {
-            var jsonConverter = new JsonValueConverter<List<Guid>>();
-
-            modelBuilder.Entity<CommissionAllocationEntity>()
-                .Property(c => c.PolicyIds)
-                .HasConversion(jsonConverter);
-
             modelBuilder.Entity<CommissionAllocationEntity>()
                 .HasOne(a => a.FromClient)
                 .WithMany(c => c.FromCommissionAllocations)

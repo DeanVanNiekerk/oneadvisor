@@ -222,7 +222,8 @@ namespace OneAdvisor.Service.Commission
 
                 FROM clt_Client m
                 JOIN com_CommissionAllocation ca on m.Id = ca.ToClientId
-                JOIN clt_Policy p ON p.Id IN (SELECT value FROM OPENJSON(ca.PolicyIds))
+                JOIN com_CommissionAllocationPolicy cap on ca.Id = cap.CommissionAllocationId
+                JOIN clt_Policy p ON p.Id = cap.PolicyId
                 JOIN com_commission c ON p.Id = c.PolicyId
                 JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id 
                 JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id 
