@@ -14,12 +14,12 @@ namespace OneAdvisor.Service.Client.Validators
 {
     public class ContactValidator : AbstractValidator<Contact>
     {
-        public ContactValidator(bool isInsert)
+        public ContactValidator(DataContext dataContext, ScopeOptions scope, bool isInsert)
         {
             if (!isInsert)
                 RuleFor(c => c.Id).NotEmpty();
 
-            RuleFor(c => c.ClientId).NotEmpty().WithName("Client");
+            RuleFor(c => c.ClientId).ClientMustBeInScope(dataContext, scope);
             RuleFor(c => c.ContactTypeId).NotEmpty().WithName("Contact Type");
             RuleFor(c => c.Value).NotEmpty().MaximumLength(128);
         }

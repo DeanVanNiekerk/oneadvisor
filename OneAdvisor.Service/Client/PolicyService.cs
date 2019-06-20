@@ -133,11 +133,6 @@ namespace OneAdvisor.Service.Client
             if (!result.Success)
                 return result;
 
-            result = await ScopeQuery.CheckScope(_context, scope, policy.ClientId.Value, policy.UserId.Value);
-
-            if (!result.Success)
-                return result;
-
             var entity = MapModelToEntity(policy);
             await _context.Policy.AddAsync(entity);
             await _context.SaveChangesAsync();
@@ -156,12 +151,7 @@ namespace OneAdvisor.Service.Client
             if (!result.Success)
                 return result;
 
-            result = await ScopeQuery.CheckScope(_context, scope, policy.ClientId.Value, policy.UserId.Value);
-
-            if (!result.Success)
-                return result;
-
-            var entity = await _context.Policy.FindAsync(policy.Id);
+            var entity = await GetPolicyEntityQuery(scope).FirstOrDefaultAsync(p => p.Id == policy.Id);
 
             if (entity == null)
                 return new Result();

@@ -68,13 +68,8 @@ namespace OneAdvisor.Service.Client
 
         public async Task<Result> InsertContact(ScopeOptions scope, Contact contact)
         {
-            var validator = new ContactValidator(true);
+            var validator = new ContactValidator(_context, scope, true);
             var result = validator.Validate(contact).GetResult();
-
-            if (!result.Success)
-                return result;
-
-            result = await ScopeQuery.IsClientInOrganisation(_context, scope, contact.ClientId.Value);
 
             if (!result.Success)
                 return result;
@@ -91,7 +86,7 @@ namespace OneAdvisor.Service.Client
 
         public async Task<Result> UpdateContact(ScopeOptions scope, Contact contact)
         {
-            var validator = new ContactValidator(false);
+            var validator = new ContactValidator(_context, scope, false);
             var result = validator.Validate(contact).GetResult();
 
             if (!result.Success)

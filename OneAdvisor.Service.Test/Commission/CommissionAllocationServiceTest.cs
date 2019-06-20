@@ -210,7 +210,7 @@ namespace OneAdvisor.Service.Test.Commission
                 scope = TestHelper.GetScopeOptions(user2, Scope.User);
                 result = await service.InsertCommissionAllocation(scope, ca1);
                 Assert.False(result.Success);
-                Assert.Equal("Client does not exist", result.ValidationFailures.Single().ErrorMessage);
+                Assert.Equal("'Client' does not exist.", result.ValidationFailures.First().ErrorMessage);
             }
         }
 
@@ -297,7 +297,7 @@ namespace OneAdvisor.Service.Test.Commission
                 scope = TestHelper.GetScopeOptions(user2, Scope.User);
                 result = await service.UpdateCommissionAllocation(scope, ca2Updated);
                 Assert.False(result.Success);
-                Assert.Equal("Client does not exist", result.ValidationFailures.Single().ErrorMessage);
+                Assert.Equal("'Client' does not exist.", result.ValidationFailures.First().ErrorMessage);
             }
         }
 

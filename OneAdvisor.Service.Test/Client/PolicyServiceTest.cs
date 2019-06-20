@@ -446,7 +446,7 @@ namespace OneAdvisor.Service.Test.Client
                 scopeOptions = TestHelper.GetScopeOptions(user2);
                 result = await service.InsertPolicy(scopeOptions, policy1);
                 Assert.False(result.Success);
-                Assert.Equal("Client does not exist", result.ValidationFailures.Single().ErrorMessage);
+                Assert.Equal("'User' does not exist.", result.ValidationFailures.First().ErrorMessage);
             }
         }
 
@@ -522,7 +522,7 @@ namespace OneAdvisor.Service.Test.Client
                 scopeOptions = TestHelper.GetScopeOptions(user2);
                 result = await service.UpdatePolicy(scopeOptions, policy1);
                 Assert.False(result.Success);
-                Assert.Equal("Client does not exist", result.ValidationFailures.Single().ErrorMessage);
+                Assert.Equal("'User' does not exist.", result.ValidationFailures.First().ErrorMessage);
             }
         }
     }

@@ -111,7 +111,7 @@ namespace OneAdvisor.Service.Commission
             if (!result.Success)
                 return result;
 
-            var entity = await _context.CommissionSplitRule.FindAsync(commissionSplitRule.Id);
+            var entity = await GetCommissionSplitRuleEntityQuery(scope).FirstOrDefaultAsync(c => c.Id == commissionSplitRule.Id);
 
             if (entity == null)
                 return new Result();
@@ -126,7 +126,7 @@ namespace OneAdvisor.Service.Commission
             return result;
         }
 
-        public async Task ClearDefaults(Guid userId)
+        private async Task ClearDefaults(Guid userId)
         {
             var rules = await _context.CommissionSplitRule.Where(r => r.UserId == userId).ToListAsync();
 

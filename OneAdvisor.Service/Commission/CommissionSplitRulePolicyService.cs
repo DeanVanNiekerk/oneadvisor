@@ -170,7 +170,7 @@ namespace OneAdvisor.Service.Commission
             if (!result.Success)
                 return result;
 
-            var entity = await _context.CommissionSplitRulePolicy.FindAsync(commissionSplitRulePolicy.Id);
+            var entity = await GetCommissionSplitRulePolicyEntityQuery(scope).FirstOrDefaultAsync(b => b.Id == commissionSplitRulePolicy.Id);
 
             if (entity == null)
                 return new Result();

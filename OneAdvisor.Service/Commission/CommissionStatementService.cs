@@ -141,7 +141,7 @@ namespace OneAdvisor.Service.Commission
             if (!result.Success)
                 return result;
 
-            var entity = await _context.CommissionStatement.FindAsync(commissionStatement.Id);
+            var entity = await GetCommissionStatementEntityQuery(scope).FirstOrDefaultAsync(c => c.Id == commissionStatement.Id);
 
             if (entity == null || entity.OrganisationId != scope.OrganisationId)
                 return new Result();
@@ -169,9 +169,7 @@ namespace OneAdvisor.Service.Commission
         {
             var organisationQuery = ScopeQuery.GetOrganisationEntityQuery(_context, scope);
 
-            var query = from organisation in organisationQuery
-                        join commissionStatement in _context.CommissionStatement
-                            on organisation.Id equals commissionStatement.OrganisationId
+            var query = from commissionStatement in GetCommissionStatementEntityQuery(scope)
                         select new CommissionStatementEdit()
                         {
                             Id = commissionStatement.Id,
@@ -181,6 +179,18 @@ namespace OneAdvisor.Service.Commission
                             Date = commissionStatement.Date,
                             Processed = commissionStatement.Processed
                         };
+
+            return query;
+        }
+
+        private IQueryable<CommissionStatementEntity> GetCommissionStatementEntityQuery(ScopeOptions scope)
+        {
+            var organisationQuery = ScopeQuery.GetOrganisationEntityQuery(_context, scope);
+
+            var query = from organisation in organisationQuery
+                        join commissionStatement in _context.CommissionStatement
+                            on organisation.Id equals commissionStatement.OrganisationId
+                        select commissionStatement;
 
             return query;
         }

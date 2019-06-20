@@ -98,30 +98,24 @@ namespace OneAdvisor.Service.Common.Query
             return options.OrganisationId == organisationId;
         }
 
-        public static async Task<Result> IsClientInOrganisation(DataContext context, ScopeOptions options, Guid clientId)
+        public static async Task<bool> IsClientInOrganisation(DataContext context, ScopeOptions options, Guid clientId)
         {
-            var result = new Result();
-
             var client = await context.Client.FindAsync(clientId);
 
             if (client == null || client.IsDeleted || client.OrganisationId != options.OrganisationId)
-            {
-                result.AddValidationFailure("ClientId", "Client does not exist");
-                return result;
-            }
+                return false;
 
-            result.Success = true;
-            return result;
+            return true;
         }
 
-        public static async Task<Result> CheckScope(DataContext context, ScopeOptions scope, Guid clientId, Guid userId)
+        public static async Task<bool> CheckScope(DataContext context, ScopeOptions scope, Guid clientId, Guid userId)
         {
             var result = await ScopeQuery.IsClientInOrganisation(context, scope, clientId);
 
-            if (!result.Success)
+            if (!result)
                 return result;
 
-            return await ScopeQuery.IsUserInScopeResult(context, scope, userId);
+            return await ScopeQuery.IsUserInScope(context, scope, userId);
         }
 
         public static async Task<bool> IsUserInScope(DataContext context, ScopeOptions options, Guid userId)
@@ -136,22 +130,6 @@ namespace OneAdvisor.Service.Common.Query
                         select user;
 
             return await query.AnyAsync();
-        }
-
-        public static async Task<Result> IsUserInScopeResult(DataContext context, ScopeOptions options, Guid userId)
-        {
-            var result = new Result();
-
-            var inScope = await IsUserInScope(context, options, userId);
-
-            if (!inScope)
-            {
-                result.AddValidationFailure("UserId", "Out of scope");
-                return result;
-            }
-
-            result.Success = true;
-            return result;
         }
     }
 }

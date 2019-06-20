@@ -94,21 +94,9 @@ namespace OneAdvisor.Service.Commission
 
         public async Task<Result> InsertCommissionAllocation(ScopeOptions scope, CommissionAllocationEdit commissionAllocation)
         {
-            var validator = new CommissionAllocationValidator(true);
+            var validator = new CommissionAllocationValidator(_context, scope, true);
             var result = validator.Validate(commissionAllocation).GetResult();
 
-            if (!result.Success)
-                return result;
-
-            result = await ScopeQuery.CheckScope(_context, scope, commissionAllocation.FromClientId.Value, scope.UserId);
-            if (!result.Success)
-                return result;
-
-            result = await ScopeQuery.CheckScope(_context, scope, commissionAllocation.ToClientId.Value, scope.UserId);
-            if (!result.Success)
-                return result;
-
-            result = await ValidatePolicyIds(commissionAllocation.FromClientId.Value, commissionAllocation.PolicyIds);
             if (!result.Success)
                 return result;
 
@@ -124,25 +112,13 @@ namespace OneAdvisor.Service.Commission
 
         public async Task<Result> UpdateCommissionAllocation(ScopeOptions scope, CommissionAllocationEdit commissionAllocation)
         {
-            var validator = new CommissionAllocationValidator(false);
+            var validator = new CommissionAllocationValidator(_context, scope, false);
             var result = validator.Validate(commissionAllocation).GetResult();
 
             if (!result.Success)
                 return result;
 
-            result = await ScopeQuery.CheckScope(_context, scope, commissionAllocation.FromClientId.Value, scope.UserId);
-            if (!result.Success)
-                return result;
-
-            result = await ScopeQuery.CheckScope(_context, scope, commissionAllocation.ToClientId.Value, scope.UserId);
-            if (!result.Success)
-                return result;
-
-            result = await ValidatePolicyIds(commissionAllocation.FromClientId.Value, commissionAllocation.PolicyIds);
-            if (!result.Success)
-                return result;
-
-            var entity = await _context.CommissionAllocation.FindAsync(commissionAllocation.Id);
+            var entity = await GetCommissionAllocationEntityQuery(scope).FirstOrDefaultAsync(c => c.Id == commissionAllocation.Id);
 
             if (entity == null)
                 return new Result();
@@ -150,23 +126,6 @@ namespace OneAdvisor.Service.Commission
             var allocationEntity = MapModelToEntity(commissionAllocation, entity);
 
             await _context.SaveChangesAsync();
-
-            return result;
-        }
-
-        private async Task<Result> ValidatePolicyIds(Guid clientId, List<Guid> policyIds)
-        {
-            var result = new Result();
-
-            var existing = await _context.Policy
-                            .Where(p => p.ClientId == clientId)
-                            .Select(p => p.Id)
-                            .ToListAsync();
-
-            result.Success = policyIds.All(p => existing.Contains(p));
-
-            if (!result.Success)
-                result.AddValidationFailure("PolicyIds", "There are invalid Policy Ids");
 
             return result;
         }

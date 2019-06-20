@@ -166,7 +166,7 @@ namespace OneAdvisor.Service.Commission
             if (!result.Success)
                 return result;
 
-            var entity = await _context.Commission.FindAsync(commission.Id);
+            var entity = await GetCommissionEntityQuery(scope).FirstOrDefaultAsync(c => c.Id == commission.Id);
 
             if (entity == null)
                 return new Result();

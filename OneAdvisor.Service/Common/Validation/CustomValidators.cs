@@ -53,6 +53,24 @@ namespace OneAdvisor.Service
             .WithName("User");
         }
 
+        public static IRuleBuilderOptions<T, Guid> PolicyMustBeInScope<T>(this IRuleBuilder<T, Guid> ruleBuilder, DataContext dataContext, ScopeOptions scope)
+        {
+            return ruleBuilder.MustAsync(async (root, policyId, context) =>
+            {
+                var policy = await dataContext.Policy.FindAsync(policyId);
+
+                if (policy == null)
+                    return false;
+
+                return await ScopeQuery.IsUserInScope(dataContext, scope, policy.UserId);
+            })
+            .WithMessage((root, id) =>
+            {
+                return DOESNT_EXIST_MESSAGE;
+            })
+            .WithName("Policy");
+        }
+
         public static IRuleBuilderOptions<T, Guid?> PolicyMustBeInScope<T>(this IRuleBuilder<T, Guid?> ruleBuilder, DataContext dataContext, ScopeOptions scope)
         {
             return ruleBuilder.MustAsync(async (root, policyId, context) =>
@@ -74,6 +92,24 @@ namespace OneAdvisor.Service
                 return DOESNT_EXIST_MESSAGE;
             })
             .WithName("Policy");
+        }
+
+        public static IRuleBuilderOptions<T, Guid?> ClientMustBeInScope<T>(this IRuleBuilder<T, Guid?> ruleBuilder, DataContext dataContext, ScopeOptions scope)
+        {
+            return ruleBuilder.MustAsync(async (root, clientId, context) =>
+            {
+                if (!clientId.HasValue)
+                    return false;
+
+                return await ScopeQuery.IsClientInOrganisation(dataContext, scope, clientId.Value);
+            })
+            .WithMessage((root, commissionSplitRuleId) =>
+            {
+                if (!commissionSplitRuleId.HasValue)
+                    return NOT_EMPTY_MESSAGE;
+                return DOESNT_EXIST_MESSAGE;
+            })
+            .WithName("Client");
         }
 
         public static IRuleBuilderOptions<T, Guid?> CommissionSplitRuleMustBeInScope<T>(this IRuleBuilder<T, Guid?> ruleBuilder, DataContext dataContext, ScopeOptions scope)
