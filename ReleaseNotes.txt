@@ -1,10 +1,10 @@
-Release v0.4.0
+Release v0.5.0
 ===============
 
 New Features:
-- Commission > Statement > Reimport
-- Commission > Statement > Past Uploads (downloadable)
-- Directory > User > Set up Commission Split Rules
+- Commission > Split > Split on specific Policy
+- Directory > User > Lock User
+- General > Force Signout on new App Version
 
 Updates:
 - Commission > Statement > Import > Split commission if default set

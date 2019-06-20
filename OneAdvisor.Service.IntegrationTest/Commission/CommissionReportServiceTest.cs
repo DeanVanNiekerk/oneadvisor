@@ -3,26 +3,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using OneAdvisor.Data;
-using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Commission;
-using OneAdvisor.Model.Account.Model.Authentication;
-using OneAdvisor.Model.Directory.Model.User;
-using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Commission;
 using OneAdvisor.Data.Entities.Client;
-using Microsoft.EntityFrameworkCore;
-using OneAdvisor.Model.Directory.Model.Lookup;
-using Microsoft.Extensions.DependencyInjection;
 using OneAdvisor.Service.Test;
 using OneAdvisor.Model.Commission.Model.CommissionReport;
-using Microsoft.Data.Sqlite;
 using OneAdvisor.Model.Client.Model.Lookup;
 using OneAdvisor.Model.Commission.Model.Lookup;
 using System.Collections.Generic;
 
 namespace OneAdvisor.Service.IntegrationTest.Commission
 {
-
+    /*
     public class CommissionReportServiceTest : TestBase
     {
         [Fact]
@@ -964,5 +956,5 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             }
         }
     }
-
+ */
 }
