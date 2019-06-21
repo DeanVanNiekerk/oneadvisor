@@ -17,6 +17,11 @@ namespace api
             return builder.UseMiddleware<MaintainCorsHeader>();
         }
 
+        public static IApplicationBuilder UseHealthCheck(this IApplicationBuilder builder)
+        {
+            return builder.UseHealthChecks("/healthcheck");
+        }
+
         public static bool IsSuperAdmin(this ClaimsPrincipal principal)
         {
             var roles = principal.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);

@@ -8,6 +8,7 @@ export const menus: Menus = {
         groups: [
             {
                 name: "Organisation",
+                defaultOpen: true,
                 links: [
                     {
                         name: "Users",
@@ -26,6 +27,7 @@ export const menus: Menus = {
             },
             {
                 name: "Security",
+                defaultOpen: false,
                 links: [
                     {
                         name: "Roles",
@@ -37,6 +39,7 @@ export const menus: Menus = {
             },
             {
                 name: "Lookups",
+                defaultOpen: false,
                 links: [
                     {
                         name: "Companies",
@@ -48,6 +51,7 @@ export const menus: Menus = {
             },
             {
                 name: "Audit",
+                defaultOpen: false,
                 links: [
                     {
                         name: "Logs",
@@ -65,6 +69,7 @@ export const menus: Menus = {
         groups: [
             {
                 name: "Management",
+                defaultOpen: true,
                 links: [
                     {
                         name: "Clients",
@@ -83,6 +88,7 @@ export const menus: Menus = {
             },
             {
                 name: "Data",
+                defaultOpen: false,
                 links: [
                     {
                         name: "Import",
@@ -100,6 +106,7 @@ export const menus: Menus = {
             },
             {
                 name: "Lookups",
+                defaultOpen: false,
                 links: [
                     {
                         name: "Product Types",
@@ -123,6 +130,7 @@ export const menus: Menus = {
         groups: [
             {
                 name: "Statements",
+                defaultOpen: true,
                 links: [
                     {
                         name: "Statements",
@@ -153,6 +161,7 @@ export const menus: Menus = {
             },
             {
                 name: "Reports",
+                defaultOpen: true,
                 links: [
                     {
                         name: "Client Revenue",
@@ -170,6 +179,7 @@ export const menus: Menus = {
             },
             {
                 name: "Lookups",
+                defaultOpen: false,
                 links: [
                     {
                         name: "Commission Types",
@@ -183,10 +193,10 @@ export const menus: Menus = {
     },
 };
 
-export const allGroupNames = (): string[] => {
+export const defaultOpenGroupNames = (): string[] => {
     let groupNames: string[] = [];
     Object.keys(menus).forEach(appId => {
-        groupNames = groupNames.concat(menus[appId].groups.map(g => g.name));
+        groupNames = groupNames.concat(menus[appId].groups.filter(g => g.defaultOpen).map(g => g.name));
     });
     return groupNames;
 };

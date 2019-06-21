@@ -1,12 +1,8 @@
 
 using System.Linq;
-using System.Security.Claims;
-using api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using OneAdvisor.Model.Account.Model.Authentication;
-using OneAdvisor.Model.Directory.Interface;
-using OneAdvisor.Model.Directory.Model.Role;
 
 namespace api.App.Authorization
 {

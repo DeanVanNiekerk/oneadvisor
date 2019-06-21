@@ -40,6 +40,7 @@ namespace api
             //Confirgure services (DI)
             var serviceSetup = new ServiceSetup(Configuration, services);
             serviceSetup.ConfigureCors();
+            serviceSetup.ConfigureHealthCheck();
             serviceSetup.ConfigureAuthentication();
             serviceSetup.ConfigureServices();
             serviceSetup.ConfigureLogging();
@@ -74,6 +75,7 @@ namespace api
                 app.UseHsts();
             }
 
+            app.UseHealthCheck();
             app.UseMaintainCorsHeader();
             app.UseHttpsRedirection();
             app.UseAuthentication();

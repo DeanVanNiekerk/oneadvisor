@@ -6,7 +6,7 @@ import { ValidationResult } from '@/app/validation';
 import { Application } from '@/state/app/directory/applications/types';
 import { RoleEdit } from '@/state/app/directory/roles';
 import { UseCase } from '@/state/app/directory/usecases';
-import { Form, FormInput, FormSelect, FormText, TabPane, Tabs } from '@/ui/controls';
+import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
 
 type TabKey = "details_tab" | "usecases_tab";
 
@@ -126,9 +126,9 @@ class UserForm extends Component<Props, State> {
                         />
                     </Form>
                 </TabPane>
-                <TabPane tab="Use Cases" key="roles_tab">
+                <TabPane tab="Permissions" key="roles_tab">
                     <List
-                        header={<h4 className="mb-0">{this.getApplicationName(role.applicationId)} Use Cases</h4>}
+                        header={<h4 className="mb-0">{this.getApplicationName(role.applicationId)} Permissions</h4>}
                         bordered={true}
                         size="small"
                         dataSource={this.props.useCases.filter(u => u.applicationId === role.applicationId)}

@@ -23,6 +23,7 @@ export type Menu = {
 
 export type MenuGroup = {
     name: string;
+    defaultOpen: boolean;
     links: MenuLink[];
 };
 

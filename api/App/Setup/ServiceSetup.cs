@@ -60,6 +60,11 @@ namespace api.App.Setup
 
         }
 
+        public void ConfigureHealthCheck()
+        {
+            Services.AddHealthChecks();
+        }
+
         public void ConfigureAuthentication()
         {
             Services

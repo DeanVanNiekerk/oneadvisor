@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { hasUseCases, hasUseCasesMenuGroup } from '@/app/identity';
-import { allGroupNames } from '@/config/menu';
+import { defaultOpenGroupNames } from '@/config/menu';
 import { useCaseSelector } from '@/state/auth';
 import { currentApplicationSelector, currentMenuSelector } from '@/state/context/selectors';
 import { Application, Menu, MenuLink } from '@/state/context/types';
@@ -20,10 +20,7 @@ type Props = {
 };
 
 class SideMenu extends Component<Props> {
-    getMenuItemStyle = (
-        link: MenuLink,
-        application: Application
-    ): CSSProperties => {
+    getMenuItemStyle = (link: MenuLink, application: Application): CSSProperties => {
         if (!link.isCurrent) return {};
         return {
             backgroundColor: `${application.color}`,
@@ -36,39 +33,22 @@ class SideMenu extends Component<Props> {
                 <MenuAD
                     theme="dark"
                     mode="inline"
-                    defaultOpenKeys={allGroupNames()}
+                    defaultOpenKeys={defaultOpenGroupNames()}
                     style={{ height: "100%", borderRight: 0 }}
                     selectedKeys={[]}
                 >
                     {this.props.menu.groups
-                        .filter(group =>
-                            hasUseCasesMenuGroup(group, this.props.useCases)
-                        )
+                        .filter(group => hasUseCasesMenuGroup(group, this.props.useCases))
                         .map(group => (
-                            <SubMenu
-                                key={group.name}
-                                title={<span>{group.name}</span>}
-                            >
+                            <SubMenu key={group.name} title={<span>{group.name}</span>}>
                                 {group.links
-                                    .filter(link =>
-                                        hasUseCases(
-                                            link.useCases,
-                                            this.props.useCases
-                                        )
-                                    )
+                                    .filter(link => hasUseCases(link.useCases, this.props.useCases))
                                     .map(link => (
                                         <Item
                                             key={link.relativePath}
-                                            style={this.getMenuItemStyle(
-                                                link,
-                                                this.props.application
-                                            )}
+                                            style={this.getMenuItemStyle(link, this.props.application)}
                                         >
-                                            <Link
-                                                to={`${
-                                                    this.props.menu.relativePath
-                                                }${link.relativePath}`}
-                                            >
+                                            <Link to={`${this.props.menu.relativePath}${link.relativePath}`}>
                                                 <span>
                                                     <Icon type={link.icon} />
                                                     <span>{link.name}</span>
