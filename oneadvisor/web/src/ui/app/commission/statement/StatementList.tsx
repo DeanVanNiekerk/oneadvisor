@@ -1,4 +1,4 @@
-import { Col, Row, Select } from 'antd';
+import { Button as ButtonAD, Col, Dropdown, Icon, Menu, Row, Select } from 'antd';
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
@@ -6,6 +6,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 
 import { Filters, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
 import { formatCurrency, getMonthDateRange, getMonthOptions, getYearOptions } from '@/app/utils';
+import { CommissionErrorsFilters, downloadCommissionErrors, getCommissionErrors } from '@/state/app/commission/errors';
 import {
     clearStatementPreview, fetchStatements, receiveFilterMonth, receiveFilters, receiveFilterYear, receivePageOptions,
     receiveSortOptions, receiveStatement, Statement, StatementEdit, statementsSelector
@@ -196,22 +197,55 @@ class StatementList extends Component<Props> {
         );
     };
 
+    downloadMappingErrors = () => {
+        const filters: CommissionErrorsFilters = {
+            isFormatValid: [true.toString()],
+            commissionStatementMonth: [this.props.filterMonth.toString()],
+            commissionStatementYear: [this.props.filterYear.toString()],
+        };
+
+        this.props.dispatch(
+            getCommissionErrors(filters, errors => {
+                downloadCommissionErrors(
+                    errors,
+                    "",
+                    moment(`${this.props.filterYear}-${this.props.filterMonth}-01`).format("MMM-YYYY")
+                );
+            })
+        );
+    };
+
     render() {
+        const actionsMenu = (
+            <Menu>
+                <Menu.Item onClick={this.downloadMappingErrors}>
+                    <Icon type="file-exclamation" />
+                    Download Mapping Errors
+                </Menu.Item>
+            </Menu>
+        );
 
         return (
             <>
                 <Header
                     icon="reconciliation"
                     actions={
-                        <Button
-                            type="default"
-                            icon="plus"
-                            onClick={this.newStatement}
-                            disabled={this.props.fetching}
-                            requiredUseCase="com_edit_commission_statements"
-                        >
-                            Add Statement
-                        </Button>
+                        <>
+                            <Button
+                                type="default"
+                                icon="plus"
+                                onClick={this.newStatement}
+                                disabled={this.props.fetching}
+                                requiredUseCase="com_edit_commission_statements"
+                            >
+                                Add Statement
+                            </Button>
+                            <Dropdown overlay={actionsMenu}>
+                                <ButtonAD>
+                                    Actions <Icon type="down" />
+                                </ButtonAD>
+                            </Dropdown>
+                        </>
                     }
                 >
                     Commission Statements

@@ -1,6 +1,8 @@
+import { downloadExcel } from '@/app/excel/helpers';
 import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from '@/app/query';
 import { PagedItems, PageOptions, SortOptions } from '@/app/table';
 import { ApiAction } from '@/app/types';
+import { DATE_FORMAT } from '@/app/utils';
 import { statementsApi } from '@/config/api/commission';
 
 import { CommissionError, CommissionErrorsFilters } from '../types';
@@ -61,4 +63,22 @@ export const getCommissionErrors = (
         endpoint: api,
         onSuccess: onSuccess,
     };
+};
+
+export const downloadCommissionErrors = (errors: PagedItems<CommissionError>, companyName: string, date: string) => {
+    let fileName = "MappingErrors";
+
+    if (companyName) fileName += `_${companyName}`;
+
+    fileName += `_${date}.xlsx`;
+
+    downloadExcel(
+        errors.items.map(e => {
+            return {
+                ...e.data,
+                policyTypeCode: e.policyTypeCode,
+            };
+        }),
+        fileName
+    );
 };
