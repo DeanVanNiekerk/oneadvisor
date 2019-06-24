@@ -66,7 +66,7 @@ class SplitRuleForm extends Component<Props, State> {
                     value={splitRule.isDefault}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    extra="Setting the rule to 'Default' will causing this rule to be applied automatically during commission statement imports."
+                    extra="Setting the rule to 'Default' will cause this rule to be applied automatically to all future commission statement imports."
                 />
 
                 <SplitList

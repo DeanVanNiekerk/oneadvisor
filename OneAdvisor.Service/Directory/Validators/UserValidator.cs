@@ -12,7 +12,6 @@ namespace OneAdvisor.Service.Directory.Validators
             if (!isInsert)
                 RuleFor(u => u.Id).NotEmpty();
 
-            RuleFor(u => u.FirstName).NotEmpty().WithName("First Name");
             RuleFor(u => u.LastName).NotEmpty().WithName("Last Name");
             RuleFor(u => u.BranchId).NotEmpty().WithName("Branch");
             RuleFor(u => u.Email).NotEmpty().EmailAddress();
