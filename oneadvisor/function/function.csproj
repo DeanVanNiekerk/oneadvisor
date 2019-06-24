@@ -5,6 +5,12 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.28" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
@@ -14,5 +20,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\OneAdvisor.Data\OneAdvisor.Data.csproj" />
+    <ProjectReference Include="..\..\OneAdvisor.Model\OneAdvisor.Model.csproj" />
+    <ProjectReference Include="..\..\OneAdvisor.Service\OneAdvisor.Service.csproj" />
+    <ProjectReference Include="..\..\OneAdvisor.Service.Storage\OneAdvisor.Service.Storage.csproj" />
   </ItemGroup>
 </Project>

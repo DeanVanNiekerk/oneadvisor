@@ -7,6 +7,10 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using OneAdvisor.Data;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace OneAdvisor.Function
 {
@@ -17,6 +21,14 @@ namespace OneAdvisor.Function
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
+
+            string defaultConnection = "Server=127.0.0.1,1433;Database=OneAdvisor;User ID=sa;Password=2x&%bLn3c47Y!y&hv7";
+
+            var options = new DbContextOptionsBuilder<DataContext>();
+            options.UseSqlServer(defaultConnection);
+
+            var db = new DataContext(options.Options);
+
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             string name = req.Query["name"];
