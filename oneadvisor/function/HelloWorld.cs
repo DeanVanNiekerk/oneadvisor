@@ -30,13 +30,6 @@ namespace OneAdvisor.Function
             ILogger log)
         {
 
-            // string defaultConnection = "Server=127.0.0.1,1433;Database=OneAdvisor;User ID=sa;Password=2x&%bLn3c47Y!y&hv7";
-
-            // var options = new DbContextOptionsBuilder<DataContext>();
-            // options.UseSqlServer(defaultConnection);
-
-            // var db = new DataContext(options.Options);
-
             var scope = new ScopeOptions(Guid.Empty, Guid.Empty, Guid.Empty, Scope.Organisation, true);
             var statement = await CommissionStatementService.GetCommissionStatement(scope, Guid.Parse("7a4690f5-0e5d-4a1f-6b81-08d6c3066137"));
 

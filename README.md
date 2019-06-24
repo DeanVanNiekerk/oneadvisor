@@ -63,6 +63,12 @@
 -   dotnet-outdated oneadvisor.sln -u (will make updates)
 -   dotnet-outdated oneadvisor.sln -u:prompt (will prompt to make updates)
 
+#### NB!!!!
+
+Cant move off 2.2.0 until this is fixed
+https://github.com/Azure/azure-functions-host/issues/4006
+https://github.com/Azure/Azure-Functions/issues/878
+
 ### dotnet-search - seach nuget packages
 
 -   dotnet-search automapper
