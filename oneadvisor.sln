@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api", "api\api.csproj", "{EF57235F-7A9D-4CA8-841D-7589146FC23F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api", "oneadvisor\api\api.csproj", "{EF57235F-7A9D-4CA8-841D-7589146FC23F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Model", "OneAdvisor.Model\OneAdvisor.Model.csproj", "{9E1E8377-A5D7-4E58-93D2-CFD15B8E86A2}"
 EndProject
@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Import.Excel", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Import.Excel.Test", "OneAdvisor.Import.Excel.Test\OneAdvisor.Import.Excel.Test.csproj", "{82B224E8-0240-4B33-A044-0418587DDA96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api.Test", "api.Test\api.Test.csproj", "{D4A56685-C168-4E95-823D-14E844ABE869}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api.Test", "oneadvisor\api.Test\api.Test.csproj", "{D4A56685-C168-4E95-823D-14E844ABE869}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Email", "OneAdvisor.Email\OneAdvisor.Email.csproj", "{1068D321-60D5-4226-A342-8880F90C4247}"
 EndProject
