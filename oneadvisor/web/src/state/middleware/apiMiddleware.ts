@@ -16,12 +16,17 @@ export default (store: Store<RootState>) => (next: any) => (action: ApiAction) =
 
     const rootState = store.getState();
 
+    let headers: HeadersInit = {
+        "Content-Type": "application/json; charset=utf-8",
+    };
+
+    if (rootState.auth.token.token) {
+        headers.Authorization = "Bearer " + rootState.auth.token.token;
+    }
+
     const requestInit: RequestInit = {
         method: method ? method : "GET",
-        headers: {
-            Authorization: "Bearer " + rootState.auth.token.token,
-            "Content-Type": "application/json; charset=utf-8",
-        },
+        headers: headers,
     };
 
     if (payload) requestInit.body = JSON.stringify(payload);
