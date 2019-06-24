@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Service.Integrat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Service.Storage", "OneAdvisor.Service.Storage\OneAdvisor.Service.Storage.csproj", "{CD24AFD0-C659-403E-B933-B17A7CEF89A4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "oneadvisor", "oneadvisor", "{AEE994F6-8D7B-4DA6-92C3-8BF7110ABD63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "function", "oneadvisor\function\function.csproj", "{FB1619CF-66A2-4892-A0B7-4E83214DEAC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -208,5 +212,20 @@ Global
 		{CD24AFD0-C659-403E-B933-B17A7CEF89A4}.Release|x64.Build.0 = Release|Any CPU
 		{CD24AFD0-C659-403E-B933-B17A7CEF89A4}.Release|x86.ActiveCfg = Release|Any CPU
 		{CD24AFD0-C659-403E-B933-B17A7CEF89A4}.Release|x86.Build.0 = Release|Any CPU
+		{FB1619CF-66A2-4892-A0B7-4E83214DEAC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB1619CF-66A2-4892-A0B7-4E83214DEAC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB1619CF-66A2-4892-A0B7-4E83214DEAC9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FB1619CF-66A2-4892-A0B7-4E83214DEAC9}.Debug|x64.Build.0 = Debug|Any CPU
+		{FB1619CF-66A2-4892-A0B7-4E83214DEAC9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FB1619CF-66A2-4892-A0B7-4E83214DEAC9}.Debug|x86.Build.0 = Debug|Any CPU
+		{FB1619CF-66A2-4892-A0B7-4E83214DEAC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB1619CF-66A2-4892-A0B7-4E83214DEAC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB1619CF-66A2-4892-A0B7-4E83214DEAC9}.Release|x64.ActiveCfg = Release|Any CPU
+		{FB1619CF-66A2-4892-A0B7-4E83214DEAC9}.Release|x64.Build.0 = Release|Any CPU
+		{FB1619CF-66A2-4892-A0B7-4E83214DEAC9}.Release|x86.ActiveCfg = Release|Any CPU
+		{FB1619CF-66A2-4892-A0B7-4E83214DEAC9}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FB1619CF-66A2-4892-A0B7-4E83214DEAC9} = {AEE994F6-8D7B-4DA6-92C3-8BF7110ABD63}
 	EndGlobalSection
 EndGlobal

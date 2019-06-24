@@ -2,23 +2,10 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/oneadvisor/api/api.csproj"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
             "label": "clean",
             "command": "dotnet clean",
             "type": "shell",
-            "problemMatcher": "$msCompile",
-            "options": {
-                "cwd": "${workspaceFolder}/oneadvisor/function"
-            }
+            "problemMatcher": "$msCompile"
         },
         {
             "label": "build",
@@ -29,35 +16,26 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": "$msCompile",
-            "options": {
-                "cwd": "${workspaceFolder}/oneadvisor/function"
-            }
+            "problemMatcher": "$msCompile"
         },
         {
             "label": "clean release",
             "command": "dotnet clean --configuration Release",
             "type": "shell",
-            "problemMatcher": "$msCompile",
-            "options": {
-                "cwd": "${workspaceFolder}/oneadvisor/function"
-            }
+            "problemMatcher": "$msCompile"
         },
         {
             "label": "publish",
             "command": "dotnet publish --configuration Release",
             "type": "shell",
             "dependsOn": "clean release",
-            "problemMatcher": "$msCompile",
-            "options": {
-                "cwd": "${workspaceFolder}/oneadvisor/function"
-            }
+            "problemMatcher": "$msCompile"
         },
         {
             "type": "func",
             "dependsOn": "build",
             "options": {
-                "cwd": "${workspaceFolder}/oneadvisor/function/bin/Debug/netcoreapp2.1"
+                "cwd": "${workspaceFolder}/bin/Debug/netcoreapp2.2"
             },
             "command": "host start",
             "isBackground": true,

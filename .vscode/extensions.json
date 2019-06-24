@@ -1,10 +1,11 @@
 {
-    "recommendations": [
-        "ms-vscode.csharp",
-        "esbenp.prettier-vscode",
-        "mike-co.import-sorter",
-        "jchannon.csharpextensions",
-        "formulahendry.dotnet-test-explorer",
-        "eamodio.gitlens"
-    ]
+  "recommendations": [
+    "ms-azuretools.vscode-azurefunctions",
+    "ms-vscode.csharp",
+    "esbenp.prettier-vscode",
+    "mike-co.import-sorter",
+    "jchannon.csharpextensions",
+    "formulahendry.dotnet-test-explorer",
+    "eamodio.gitlens"
+  ]
 }

@@ -23,5 +23,10 @@
     "prettier.trailingComma": "es5",
     "prettier.singleQuote": false,
     "prettier.useTabs": false,
-    "prettier.tabWidth": 4
+    "prettier.tabWidth": 4,
+    "azureFunctions.deploySubpath": "oneadvisor/function/bin/Release/netcoreapp2.1/publish",
+    "azureFunctions.projectLanguage": "C#",
+    "azureFunctions.projectRuntime": "~2",
+    "debug.internalConsoleOptions": "neverOpen",
+    "azureFunctions.preDeployTask": "publish"
 }
