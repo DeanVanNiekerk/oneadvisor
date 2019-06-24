@@ -5,10 +5,7 @@
             "label": "build",
             "command": "dotnet",
             "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/api/api.csproj"
-            ],
+            "args": ["build", "${workspaceFolder}/oneadvisor/api/api.csproj"],
             "problemMatcher": "$msCompile"
         }
     ]
