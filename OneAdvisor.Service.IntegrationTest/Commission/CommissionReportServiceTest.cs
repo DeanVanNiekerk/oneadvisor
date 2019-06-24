@@ -282,7 +282,7 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 Assert.Equal(2100, actual.OnceOff); //300 + 700 + 1100
                 Assert.Equal(2400, actual.LifeFirstYears); //400 + 800 + 1200
 
-                Assert.Equal(8400, actual.GrandTotal); // (325 * 12) + 2100 + 2400
+                Assert.Equal(7800, actual.GrandTotal); // add up all commission entries
 
                 Assert.Equal(0, actual.AllocationsCount);
             }

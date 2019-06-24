@@ -34,8 +34,10 @@ WITH
 
                 SUM(CASE WHEN 
                     ct.CommissionEarningsTypeId = 'e7f98561-f018-3edd-2118-e3646c89e2a2'  
-                    THEN (c.AmountIncludingVAT - c.VAT) ELSE 0 END) AS 'LifeFirstYears'
-            ,
+                    THEN (c.AmountIncludingVAT - c.VAT) ELSE 0 END) AS 'LifeFirstYears',
+
+                SUM(c.AmountIncludingVAT - c.VAT) AS 'GrandTotal',
+
                 0 AS 'AllocationsCount'
 
             FROM clt_Client m
@@ -87,14 +89,16 @@ WITH
 
                 SUM(CASE WHEN 
                     ct.CommissionEarningsTypeId = 'e7f98561-f018-3edd-2118-e3646c89e2a2'  
-                    THEN (c.AmountIncludingVAT - c.VAT) ELSE 0 END) AS 'LifeFirstYears'
-            ,
+                    THEN (c.AmountIncludingVAT - c.VAT) ELSE 0 END) AS 'LifeFirstYears',
+
+                SUM(c.AmountIncludingVAT - c.VAT) AS 'GrandTotal',
+
                 COUNT(*) AS 'AllocationsCount'
 
             FROM clt_Client m
                 JOIN com_CommissionAllocation ca on m.Id = ca.ToClientId
-                JOIN clt_Policy p ON p.Id IN (SELECT value
-                FROM OPENJSON(ca.PolicyIds))
+                JOIN com_CommissionAllocationPolicy cap on ca.Id = cap.CommissionAllocationId
+                JOIN clt_Policy p ON p.Id = cap.PolicyId
                 JOIN com_commission c ON p.Id = c.PolicyId
                 JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id
                 JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id
@@ -131,7 +135,7 @@ WITH
             ((AnnualAnnuity / 12) + MonthlyAnnuityMonth) AS 'TotalMonthlyEarnings',
             LifeFirstYears,
             OnceOff,
-            ((((AnnualAnnuity / 12) + MonthlyAnnuityMonth) * 12) + LifeFirstYears + OnceOff) AS 'GrandTotal',
+            GrandTotal,
             AllocationsCount
         FROM CommissionQuery
     ),

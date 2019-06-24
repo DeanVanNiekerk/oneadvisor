@@ -182,7 +182,9 @@ namespace OneAdvisor.Service.Commission
 
                     SUM(CASE WHEN 
                     ct.CommissionEarningsTypeId = '{CommissionEarningsType.EARNINGS_TYPE_LIFE_FIRST_YEARS}'  
-                    THEN (c.AmountIncludingVAT - c.VAT) ELSE 0 END) AS 'LifeFirstYears'
+                    THEN (c.AmountIncludingVAT - c.VAT) ELSE 0 END) AS 'LifeFirstYears',
+
+                    SUM(c.AmountIncludingVAT - c.VAT) AS 'GrandTotal'
             ";
 
             builder.Append($@"
@@ -255,7 +257,7 @@ namespace OneAdvisor.Service.Commission
                     ((AnnualAnnuity / 12) + MonthlyAnnuityMonth) AS 'TotalMonthlyEarnings',
                     LifeFirstYears,
                     OnceOff,
-                    ((((AnnualAnnuity / 12) + MonthlyAnnuityMonth) * 12) + LifeFirstYears + OnceOff) AS 'GrandTotal',
+                    GrandTotal,
                     AllocationsCount
                 FROM CommissionQuery
             ),
