@@ -6,6 +6,8 @@ import { defaultState, reducer } from './reducer';
 const defaultCommissionError: CommissionError = {
     id: "10",
     commissionStatementId: "321",
+    commissionStatementMonth: 1,
+    commissionStatementYear: 1999,
     policyId: "12",
     clientId: "13",
     commissionTypeId: "14",

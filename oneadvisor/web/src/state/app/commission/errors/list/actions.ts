@@ -1,9 +1,9 @@
-import { appendPageOptionQuery, appendSortOptionQuery } from '@/app/query';
+import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from '@/app/query';
 import { PagedItems, PageOptions, SortOptions } from '@/app/table';
 import { ApiAction } from '@/app/types';
 import { statementsApi } from '@/config/api/commission';
 
-import { CommissionError } from '../types';
+import { CommissionError, CommissionErrorsFilters } from '../types';
 
 type ErrorListReceiveAction = {
     type: "COMMISSIONS_ERRORS_LIST_RECEIVE";
@@ -29,11 +29,7 @@ export type ErrorListAction =
     | ErrorListPageOptionsReceiveAction
     | ErrorListSortOptionsReceiveAction;
 
-export const fetchErrors = (
-    statementId: string,
-    pageOptions: PageOptions,
-    sortOptions: SortOptions
-): ApiAction => {
+export const fetchErrors = (statementId: string, pageOptions: PageOptions, sortOptions: SortOptions): ApiAction => {
     let api = `${statementsApi}/${statementId}/errors`;
     api = appendPageOptionQuery(api, pageOptions);
     api = appendSortOptionQuery(api, sortOptions);
@@ -44,26 +40,25 @@ export const fetchErrors = (
     };
 };
 
-export const receivePageOptions = (
-    pageOptions: PageOptions
-): ErrorListPageOptionsReceiveAction => ({
+export const receivePageOptions = (pageOptions: PageOptions): ErrorListPageOptionsReceiveAction => ({
     type: "COMMISSIONS_ERRORS_LIST_PAGE_OPTIONS_RECEIVE",
     payload: pageOptions,
 });
 
-export const receiveSortOptions = (
-    sortOptions: SortOptions
-): ErrorListSortOptionsReceiveAction => ({
+export const receiveSortOptions = (sortOptions: SortOptions): ErrorListSortOptionsReceiveAction => ({
     type: "COMMISSIONS_ERRORS_LIST_SORT_OPTIONS_RECEIVE",
     payload: sortOptions,
 });
 
 export const getCommissionErrors = (
-    statementId: string,
-    hasValidFormat: boolean,
+    filters: CommissionErrorsFilters,
     onSuccess: (errors: PagedItems<CommissionError>) => void
-): ApiAction => ({
-    type: "API",
-    endpoint: `${statementsApi}/${statementId}/errors?hasValidFormat=${hasValidFormat}`,
-    onSuccess: onSuccess,
-});
+): ApiAction => {
+    let api = `${statementsApi}/errors`;
+    api = appendFiltersQuery(api, filters);
+    return {
+        type: "API",
+        endpoint: api,
+        onSuccess: onSuccess,
+    };
+};

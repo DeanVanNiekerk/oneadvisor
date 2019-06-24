@@ -20,9 +20,11 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void CommissionErrorModelComposition()
         {
-            Assert.Equal(8, typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).PropertyCount());
+            Assert.Equal(10, typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).PropertyCount());
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("Id"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("CommissionStatementId"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("CommissionStatementYear"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("CommissionStatementMonth"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("PolicyId"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("ClientId"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("CommissionTypeId"));
@@ -82,7 +84,7 @@ namespace api.Test.Controllers.Commission
 
             var controller = new CommissionErrorController(service.Object, authService.Object);
 
-            var result = await controller.Index(error.CommissionStatementId, "commissionTypeId", "desc", 15, 2);
+            var result = await controller.Index("commissionTypeId", "desc", 15, 2);
 
             Assert.Equal(Scope.Branch, options.Scope.Scope);
             Assert.Equal(15, options.PageOptions.Size);

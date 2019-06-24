@@ -18,7 +18,7 @@
     },
     "importSorter.generalConfiguration.sortOnBeforeSave": true,
     "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 120,
-    "dotnet-test-explorer.testProjectPath": "*/*.Test.csproj",
+    "dotnet-test-explorer.testProjectPath": "**/*.Test.csproj",
     "prettier.printWidth": 120,
     "prettier.trailingComma": "es5",
     "prettier.singleQuote": false,

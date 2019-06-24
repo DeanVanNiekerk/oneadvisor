@@ -7,7 +7,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { downloadExcel } from '@/app/excel/helpers';
 import { hasUseCase } from '@/app/identity';
 import { DATE_FORMAT } from '@/app/utils';
-import { fetchNextFormatError } from '@/state/app/commission/errors';
+import { fetchNextFormatError, CommissionErrorsFilters } from '@/state/app/commission/errors';
 import { getCommissionErrors } from '@/state/app/commission/errors/list/actions';
 import {
     deleteCommissions, fetchStatement, fetchStatementPreview, reimportCommissions, Statement, statementPreviewSelector
@@ -203,8 +203,14 @@ class StatementPreviewComponent extends Component<Props, State> {
 
   downloadMappingErrors = () => {
     if (this.props.statement === null) return;
+
+    const filters: CommissionErrorsFilters = {
+         isFormatValid: [true.toString()],
+         commissionStatementId: [this.props.statement.id],
+    }
+
     this.props.dispatch(
-      getCommissionErrors(this.props.statement.id, true, errors => {
+      getCommissionErrors(filters, errors => {
         if (this.props.statement === null) return;
         downloadExcel(
           errors.items.map(e => {

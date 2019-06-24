@@ -19,11 +19,22 @@ namespace OneAdvisor.Model.Commission.Model.CommissionError
             var resultGuid = GetFilterValue<Guid>("CommissionStatementId");
             if (resultGuid.Success)
                 CommissionStatementId = resultGuid.Value;
+
+            var resultInt = GetFilterValue<int>("CommissionStatementYear");
+            if (resultInt.Success)
+                CommissionStatementYear = resultInt.Value;
+
+            resultInt = GetFilterValue<int>("CommissionStatementMonth");
+            if (resultInt.Success)
+                CommissionStatementMonth = resultInt.Value;
         }
 
         public ScopeOptions Scope { get; set; }
 
         public Guid? CommissionStatementId { get; set; }
         public bool? HasValidFormat { get; set; }
+
+        public int? CommissionStatementYear { get; set; }
+        public int? CommissionStatementMonth { get; set; }
     }
 }

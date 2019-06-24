@@ -29,4 +29,4 @@ export type SortOptions = {
     column: string;
 };
 
-export type Filters = Record<string, string[]>;
+export type Filters<T = any> = { [key in keyof T]?: string[] };

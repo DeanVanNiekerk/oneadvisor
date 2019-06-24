@@ -14,7 +14,7 @@ using OneAdvisor.Model.Directory.Interface;
 namespace api.Controllers.Commission.CommissionError
 {
     [ApiController]
-    [Route("api/commission/statements/{commissionStatementId}")]
+    [Route("api/commission/statements}")]
     public class CommissionErrorController : Controller
     {
         public CommissionErrorController(ICommissionErrorService commissionErrorService, IAuthenticationService authenticationService)
@@ -27,7 +27,7 @@ namespace api.Controllers.Commission.CommissionError
         private IAuthenticationService AuthenticationService { get; }
 
 
-        [HttpGet("errors/next")]
+        [HttpGet("{commissionStatementId}/errors/next")]
         [UseCaseAuthorize("com_edit_commission_statements")]
         public async Task<IActionResult> Next(Guid commissionStatementId, [FromQuery] bool hasValidFormat)
         {
@@ -41,7 +41,7 @@ namespace api.Controllers.Commission.CommissionError
             return Ok(error);
         }
 
-        [HttpGet("errors/{commissionErrorId}")]
+        [HttpGet("{commissionStatementId}/errors/{commissionErrorId}")]
         [UseCaseAuthorize("com_edit_commission_statements")]
         public async Task<IActionResult> Get(Guid commissionErrorId)
         {
@@ -55,7 +55,7 @@ namespace api.Controllers.Commission.CommissionError
             return Ok(error);
         }
 
-        [HttpPost("errors/resolve/format")]
+        [HttpPost("{commissionStatementId}/errors/resolve/format")]
         [UseCaseAuthorize("com_edit_commission_statements")]
         public async Task<IActionResult> ResolveFormatError([FromBody] OneAdvisor.Model.Commission.Model.CommissionError.CommissionErrorEdit commissionError)
         {
@@ -69,7 +69,7 @@ namespace api.Controllers.Commission.CommissionError
             return Ok(result);
         }
 
-        [HttpPost("errors/resolve/mapping")]
+        [HttpPost("{commissionStatementId}/errors/resolve/mapping")]
         [UseCaseAuthorize("com_edit_commission_statements")]
         public async Task<IActionResult> ResolveMappingError([FromBody] OneAdvisor.Model.Commission.Model.CommissionError.CommissionErrorEdit commissionError)
         {
@@ -88,19 +88,18 @@ namespace api.Controllers.Commission.CommissionError
 
         [HttpGet("errors")]
         [UseCaseAuthorize("com_edit_commission_statements")]
-        public async Task<IActionResult> Index(Guid commissionStatementId, string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
+        public async Task<IActionResult> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
             var scope = AuthenticationService.GetScope(User);
 
             var options = new CommissionErrorQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
-            options.CommissionStatementId = commissionStatementId;
 
             var results = await CommissionErrorService.GetErrors(options);
 
             return Ok(results);
         }
 
-        [HttpDelete("errors/{commissionErrorId}")]
+        [HttpDelete("{commissionStatementId}/errors/{commissionErrorId}")]
         [UseCaseAuthorize("com_edit_commission_statements")]
         public async Task<IActionResult> Delete(Guid commissionErrorId)
         {

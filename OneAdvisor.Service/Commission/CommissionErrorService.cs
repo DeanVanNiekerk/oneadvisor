@@ -57,6 +57,12 @@ namespace OneAdvisor.Service.Commission
 
             if (queryOptions.HasValidFormat.HasValue)
                 query = query.Where(c => c.IsFormatValid == queryOptions.HasValidFormat.Value);
+
+            if (queryOptions.CommissionStatementYear.HasValue)
+                query = query.Where(c => c.CommissionStatementYear == queryOptions.CommissionStatementYear.Value);
+
+            if (queryOptions.CommissionStatementMonth.HasValue)
+                query = query.Where(c => c.CommissionStatementMonth == queryOptions.CommissionStatementMonth.Value);
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedItems<CommissionError>();
@@ -250,6 +256,7 @@ namespace OneAdvisor.Service.Commission
         private IQueryable<CommissionError> GetCommissionErrorQuery(ScopeOptions scope)
         {
             var query = from entity in GetCommissionErrorEntityQuery(scope)
+                        join commissionStatement in _context.CommissionStatement on entity.CommissionStatementId equals commissionStatement.Id
                         join commissionType in _context.CommissionType on entity.CommissionTypeId equals commissionType.Id into commissionTypeGroup
                         from commissionType in commissionTypeGroup.DefaultIfEmpty()
                         join policyType in _context.PolicyType on commissionType.PolicyTypeId equals policyType.Id into policyTypeGroup
@@ -258,6 +265,8 @@ namespace OneAdvisor.Service.Commission
                         {
                             Id = entity.Id,
                             CommissionStatementId = entity.CommissionStatementId,
+                            CommissionStatementMonth = commissionStatement.DateMonth,
+                            CommissionStatementYear = commissionStatement.DateYear,
                             CommissionTypeId = entity.CommissionTypeId,
                             Data = entity.Data,
                             ClientId = entity.ClientId,
