@@ -3,17 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using OneAdvisor.Data;
-using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Commission;
-using OneAdvisor.Model.Account.Model.Authentication;
-using OneAdvisor.Model.Directory.Model.User;
-using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Commission;
 using OneAdvisor.Data.Entities.Client;
-using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Model.Commission.Model.Lookup;
 using OneAdvisor.Model.Commission.Model.CommissionReport;
-using System.Collections.Generic;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -267,8 +261,8 @@ namespace OneAdvisor.Service.Test.Commission
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
                 var queryOptions = new UserEarningsTypeMonthlyCommissionQueryOptions(scope, "", "", 0, 0);
-                queryOptions.Year = new List<int>() { lastMonth.Year };
-                queryOptions.Month = new List<int>() { lastMonth.Month };
+                queryOptions.StartDate = new DateTime(lastMonth.Year, lastMonth.Month, 1);
+                queryOptions.EndDate = lastMonth.AddMonths(1).AddDays(-1);
                 var items = (await service.GetUserEarningsTypeMonthlyCommissionData(queryOptions)).ToList();
 
                 //Then

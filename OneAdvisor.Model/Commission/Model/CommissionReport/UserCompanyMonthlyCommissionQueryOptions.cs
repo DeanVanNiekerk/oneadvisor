@@ -12,23 +12,16 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
         {
             Scope = scope;
 
-            Month = new List<int>();
-            Year = new List<int>();
             UserId = new List<Guid>();
             CompanyId = new List<Guid>();
 
-            //Defaults 
-            var thisMonth = DateTime.UtcNow;
-            Month.Add(thisMonth.Month);
-            Year.Add(thisMonth.Year);
+            var result = GetFilterValue<DateTime>("StartDate");
+            if (result.Success)
+                StartDate = result.Value;
 
-            var results = GetFilterValues<int>("Month");
-            if (results.Success)
-                Month = results.Value;
-
-            results = GetFilterValues<int>("Year");
-            if (results.Success)
-                Year = results.Value;
+            result = GetFilterValue<DateTime>("EndDate");
+            if (result.Success)
+                EndDate = result.Value;
 
             var resultsGuid = GetFilterValues<Guid>("UserId");
             if (resultsGuid.Success)
@@ -45,5 +38,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
         public List<int> Year { get; set; }
         public List<Guid> UserId { get; set; }
         public List<Guid> CompanyId { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

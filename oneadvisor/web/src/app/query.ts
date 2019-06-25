@@ -1,9 +1,6 @@
 import { Filters, PageOptions, SortOptions } from '@/app/table';
 
-export const appendPageOptionQuery = (
-    api: string,
-    options: PageOptions
-): string => {
+export const appendPageOptionQuery = (api: string, options: PageOptions): string => {
     const query: Param[] = [
         {
             key: "pageNumber",
@@ -18,10 +15,7 @@ export const appendPageOptionQuery = (
     return appendQueryString(api, query);
 };
 
-export const appendSortOptionQuery = (
-    api: string,
-    options: SortOptions
-): string => {
+export const appendSortOptionQuery = (api: string, options: SortOptions): string => {
     const query: Param[] = [
         {
             key: "sortColumn",
@@ -58,7 +52,8 @@ export const appendFiltersQuery = (api: string, filters: Filters): string => {
     return appendQueryString(api, query);
 };
 
-const cleanValues = (values: string[]): string[] => {
+const cleanValues = (values: string[] | undefined): string[] => {
+    if (!values) return [];
     return values.map(v => cleanValue(v));
 };
 
@@ -80,7 +75,10 @@ export const applyLike = (filters: Filters, fieldNames: string[]): Filters => {
 
     const newFilters: Filters = {};
     Object.keys(filters).forEach(key => {
-        newFilters[key] = filters[key].map(f => {
+        const value = filters[key];
+        if (!value) return;
+
+        newFilters[key] = value.map(f => {
             if (fieldNames.indexOf(key) !== -1) return applyLikeFormat(f);
             return f;
         });

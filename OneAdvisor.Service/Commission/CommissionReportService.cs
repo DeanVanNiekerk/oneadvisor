@@ -310,8 +310,7 @@ namespace OneAdvisor.Service.Commission
                         {
                             UserId = user.Id,
                             CompanyId = policy.CompanyId,
-                            Year = statement.DateYear,
-                            Month = statement.DateMonth,
+                            Date = statement.Date,
                             CommissionEarningsTypeId = commissionType.CommissionEarningsTypeId,
                             AmountIncludingVAT = commission.AmountIncludingVAT,
                             VAT = commission.VAT
@@ -325,11 +324,11 @@ namespace OneAdvisor.Service.Commission
             if (queryOptions.UserId.Any())
                 query = query.Where(d => queryOptions.UserId.Contains(d.UserId));
 
-            if (queryOptions.Year.Any())
-                query = query.Where(d => queryOptions.Year.Contains(d.Year));
+            if (queryOptions.StartDate.HasValue)
+                query = query.Where(d => queryOptions.StartDate.Value.Date <= d.Date);
 
-            if (queryOptions.Month.Any())
-                query = query.Where(d => queryOptions.Month.Contains(d.Month));
+            if (queryOptions.EndDate.HasValue)
+                query = query.Where(d => queryOptions.EndDate.Value.Date >= d.Date);
             //------------------------------------------------------------------------------------------------------
 
 
@@ -360,8 +359,7 @@ namespace OneAdvisor.Service.Commission
                         select new
                         {
                             UserId = user.Id,
-                            Month = statement.DateMonth,
-                            Year = statement.DateYear,
+                            Date = statement.Date,
                             CompanyId = policy.CompanyId,
                             AmountIncludingVAT = commission.AmountIncludingVAT,
                             VAT = commission.VAT
@@ -374,11 +372,11 @@ namespace OneAdvisor.Service.Commission
             if (queryOptions.UserId.Any())
                 query = query.Where(d => queryOptions.UserId.Contains(d.UserId));
 
-            if (queryOptions.Year.Any())
-                query = query.Where(d => queryOptions.Year.Contains(d.Year));
+            if (queryOptions.StartDate.HasValue)
+                query = query.Where(d => queryOptions.StartDate.Value.Date <= d.Date);
 
-            if (queryOptions.Month.Any())
-                query = query.Where(d => queryOptions.Month.Contains(d.Month));
+            if (queryOptions.EndDate.HasValue)
+                query = query.Where(d => queryOptions.EndDate.Value.Date >= d.Date);
             //------------------------------------------------------------------------------------------------------
 
             var groupQuery = from data in query

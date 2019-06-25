@@ -1,22 +1,22 @@
 import moment from 'moment';
 
-import { Filters } from '@/app/table';
+import { SERVER_DATE_FORMAT } from '@/app/utils';
 
 import { UserEarningsTypeMonthlyCommissionDataAction } from './actions';
-import { UserEarningsTypeMonthlyCommissionData } from './types';
+import { UserEarningsTypeMonthlyCommissionData, UserEarningsTypeMonthlyCommissionFilters } from './types';
 
 export type State = {
     readonly items: UserEarningsTypeMonthlyCommissionData[];
     readonly fetching: boolean;
-    readonly filters: Filters | null;
+    readonly filters: UserEarningsTypeMonthlyCommissionFilters;
 };
 
 const thisMonth = moment();
-const defaultFilters: Filters = {
+const defaultFilters: UserEarningsTypeMonthlyCommissionFilters = {
     userId: [],
     companyId: [],
-    year: [thisMonth.year().toString()],
-    month: [(thisMonth.month() + 1).toString()],
+    startDate: [thisMonth.startOf("month").format(SERVER_DATE_FORMAT)],
+    endDate: [thisMonth.endOf("month").format(SERVER_DATE_FORMAT)],
 };
 
 export const defaultState: State = {
@@ -25,10 +25,7 @@ export const defaultState: State = {
     filters: defaultFilters,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: UserEarningsTypeMonthlyCommissionDataAction
-): State => {
+export const reducer = (state: State = defaultState, action: UserEarningsTypeMonthlyCommissionDataAction): State => {
     switch (action.type) {
         case "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_RECEIVE": {
             return {

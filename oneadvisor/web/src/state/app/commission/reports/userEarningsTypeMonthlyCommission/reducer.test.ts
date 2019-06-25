@@ -1,13 +1,12 @@
 import { Filters, SortOptions } from '@/app/table';
 
 import { defaultState, reducer } from './reducer';
-import { UserEarningsTypeMonthlyCommissionData } from './types';
+import { UserEarningsTypeMonthlyCommissionData, UserEarningsTypeMonthlyCommissionFilters } from './types';
 
 describe("report user monthly commission reducer", () => {
     it("should handle COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type:
-                "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_FETCHING",
+            type: "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_FETCHING",
         });
 
         const expectedState = {
@@ -25,8 +24,7 @@ describe("report user monthly commission reducer", () => {
         };
 
         const actualState = reducer(initalState, {
-            type:
-                "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_FETCHING_ERROR",
+            type: "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_FETCHING_ERROR",
         });
 
         const expectedState = {
@@ -49,8 +47,7 @@ describe("report user monthly commission reducer", () => {
         };
 
         const actualState = reducer(initalState, {
-            type:
-                "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_RECEIVE",
+            type: "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_RECEIVE",
             payload: [data],
         });
 
@@ -68,13 +65,12 @@ describe("report user monthly commission reducer", () => {
             ...defaultState,
         };
 
-        const filters: Filters = {
-            firstName: ["sup"],
+        const filters: UserEarningsTypeMonthlyCommissionFilters = {
+            userId: ["1"],
         };
 
         const actualState = reducer(initalState, {
-            type:
-                "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_FILTERS_RECEIVE",
+            type: "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_FILTERS_RECEIVE",
             payload: filters,
         });
 

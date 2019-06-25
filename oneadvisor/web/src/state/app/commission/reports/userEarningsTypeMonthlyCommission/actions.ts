@@ -1,9 +1,8 @@
 import { appendFiltersQuery } from '@/app/query';
-import { Filters } from '@/app/table';
 import { ApiAction } from '@/app/types';
 import { commissionReportsApi } from '@/config/api/commission';
 
-import { UserEarningsTypeMonthlyCommissionData } from './types';
+import { UserEarningsTypeMonthlyCommissionData, UserEarningsTypeMonthlyCommissionFilters } from './types';
 
 type UserEarningsTypeMonthlyCommissionDataReceiveAction = {
     type: "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_RECEIVE";
@@ -17,7 +16,7 @@ type UserEarningsTypeMonthlyCommissionDataFetchingErrorAction = {
 };
 type UserEarningsTypeMonthlyCommissionDataFiltersReceiveAction = {
     type: "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_FILTERS_RECEIVE";
-    payload: Filters;
+    payload: UserEarningsTypeMonthlyCommissionFilters;
 };
 
 export type UserEarningsTypeMonthlyCommissionDataAction =
@@ -27,22 +26,20 @@ export type UserEarningsTypeMonthlyCommissionDataAction =
     | UserEarningsTypeMonthlyCommissionDataFiltersReceiveAction;
 
 export const fetchUserEarningsTypeMonthlyCommissionData = (
-    filters: Filters
+    filters: UserEarningsTypeMonthlyCommissionFilters
 ): ApiAction => {
     let api = `${commissionReportsApi}/userEarningsTypeMonthlyCommissionData`;
     api = appendFiltersQuery(api, filters);
     return {
         type: "API",
         endpoint: api,
-        dispatchPrefix:
-            "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION",
+        dispatchPrefix: "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION",
     };
 };
 
 export const receiveUserEarningsTypeMonthlyCommissionFilters = (
-    filters: Filters
+    filters: UserEarningsTypeMonthlyCommissionFilters
 ): UserEarningsTypeMonthlyCommissionDataFiltersReceiveAction => ({
-    type:
-        "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_FILTERS_RECEIVE",
+    type: "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_FILTERS_RECEIVE",
     payload: filters,
 });

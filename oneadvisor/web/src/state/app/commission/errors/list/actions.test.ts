@@ -15,9 +15,9 @@ describe("error: errors: list actions", () => {
             direction: "desc",
         };
 
-        const api = `${statementsApi}/99/errors?pageNumber=${
-            pageOptions.number
-        }&pageSize=${pageOptions.size}&sortColumn=number&sortDirection=desc`;
+        const api = `${statementsApi}/errors?pageNumber=${pageOptions.number}&pageSize=${
+            pageOptions.size
+        }&sortColumn=number&sortDirection=desc`;
 
         const expectedAction = {
             type: "API",
@@ -25,9 +25,7 @@ describe("error: errors: list actions", () => {
             dispatchPrefix: "COMMISSIONS_ERRORS_LIST",
         };
 
-        expect(actions.fetchErrors("99", pageOptions, sortOptions)).toEqual(
-            expectedAction
-        );
+        expect(actions.fetchErrors({}, pageOptions, sortOptions)).toEqual(expectedAction);
     });
 
     it("should dispatch COMMISSIONS_ERRORS_LIST_PAGE_OPTIONS_RECEIVE when receivePageOptions is called", () => {

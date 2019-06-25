@@ -7,15 +7,20 @@ import {
 import {
     reducer as userEarningsTypeMonthlyCommission, State as UserEarningsTypeMonthlyCommissionState
 } from './userEarningsTypeMonthlyCommission/reducer';
+import {
+    reducer as userMonthlyCommission, State as UsereMonthlyCommissionState
+} from './userMonthlyCommission/reducer';
 
 export type State = {
     clientRevenue: ClientRevenueState;
     userEarningsTypeMonthlyCommission: UserEarningsTypeMonthlyCommissionState;
     userCompanyMonthlyCommission: UserCompanyMonthlyCommissionState;
+    userMonthlyCommission: UsereMonthlyCommissionState;
 };
 
 export const reducer = combineReducers({
     clientRevenue: clientRevenue,
     userEarningsTypeMonthlyCommission: userEarningsTypeMonthlyCommission,
     userCompanyMonthlyCommission: userCompanyMonthlyCommission,
+    userMonthlyCommission: userMonthlyCommission,
 });

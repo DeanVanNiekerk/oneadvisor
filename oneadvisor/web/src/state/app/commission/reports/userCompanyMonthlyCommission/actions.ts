@@ -1,9 +1,8 @@
 import { appendFiltersQuery } from '@/app/query';
-import { Filters } from '@/app/table';
 import { ApiAction } from '@/app/types';
 import { commissionReportsApi } from '@/config/api/commission';
 
-import { UserCompanyMonthlyCommissionData } from './types';
+import { UserCompanyMonthlyCommissionData, UserCompanyMonthlyCommissionFilters } from './types';
 
 type UserCompanyMonthlyCommissionDataReceiveAction = {
     type: "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_RECEIVE";
@@ -17,7 +16,7 @@ type UserCompanyMonthlyCommissionDataFetchingErrorAction = {
 };
 type UserCompanyMonthlyCommissionDataFiltersReceiveAction = {
     type: "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FILTERS_RECEIVE";
-    payload: Filters;
+    payload: UserCompanyMonthlyCommissionFilters;
 };
 
 export type UserCompanyMonthlyCommissionDataAction =
@@ -26,9 +25,7 @@ export type UserCompanyMonthlyCommissionDataAction =
     | UserCompanyMonthlyCommissionDataFetchingErrorAction
     | UserCompanyMonthlyCommissionDataFiltersReceiveAction;
 
-export const fetchUserCompanyMonthlyCommissionData = (
-    filters: Filters
-): ApiAction => {
+export const fetchUserCompanyMonthlyCommissionData = (filters: UserCompanyMonthlyCommissionFilters): ApiAction => {
     let api = `${commissionReportsApi}/userCompanyMonthlyCommissionData`;
     api = appendFiltersQuery(api, filters);
     return {
@@ -39,7 +36,7 @@ export const fetchUserCompanyMonthlyCommissionData = (
 };
 
 export const receiveUserCompanyMonthlyCommissionFilters = (
-    filters: Filters
+    filters: UserCompanyMonthlyCommissionFilters
 ): UserCompanyMonthlyCommissionDataFiltersReceiveAction => ({
     type: "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FILTERS_RECEIVE",
     payload: filters,

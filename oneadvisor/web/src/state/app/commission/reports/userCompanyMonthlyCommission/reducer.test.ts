@@ -1,7 +1,7 @@
 import { Filters, SortOptions } from '@/app/table';
 
 import { defaultState, reducer } from './reducer';
-import { UserCompanyMonthlyCommissionData } from './types';
+import { UserCompanyMonthlyCommissionData, UserCompanyMonthlyCommissionFilters } from './types';
 
 describe("report user monthly commission reducer", () => {
     it("should handle COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FETCHING", () => {
@@ -24,8 +24,7 @@ describe("report user monthly commission reducer", () => {
         };
 
         const actualState = reducer(initalState, {
-            type:
-                "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FETCHING_ERROR",
+            type: "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FETCHING_ERROR",
         });
 
         const expectedState = {
@@ -66,13 +65,12 @@ describe("report user monthly commission reducer", () => {
             ...defaultState,
         };
 
-        const filters: Filters = {
-            firstName: ["sup"],
+        const filters: UserCompanyMonthlyCommissionFilters = {
+            userId: ["123"],
         };
 
         const actualState = reducer(initalState, {
-            type:
-                "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FILTERS_RECEIVE",
+            type: "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FILTERS_RECEIVE",
             payload: filters,
         });
 

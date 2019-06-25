@@ -4,7 +4,7 @@ import { commissionReportsApi } from '@/config/api/commission';
 import * as actions from './actions';
 
 describe("reports: client revenue: list actions", () => {
-    it("should dispatch API when fetchCommissions is called", () => {
+    it("should dispatch API when fetchClientRevenueData is called", () => {
         const pageOptions: PageOptions = {
             number: 2,
             size: 10,
@@ -19,9 +19,7 @@ describe("reports: client revenue: list actions", () => {
             number: ["123"],
         };
 
-        const api = `${commissionReportsApi}/clientRevenueData?pageNumber=${
-            pageOptions.number
-        }&pageSize=${
+        const api = `${commissionReportsApi}/clientRevenueData?pageNumber=${pageOptions.number}&pageSize=${
             pageOptions.size
         }&sortColumn=number&sortDirection=desc&filters=number%3D123`;
 
@@ -31,9 +29,7 @@ describe("reports: client revenue: list actions", () => {
             dispatchPrefix: "COMMISSIONS_REPORT_MEM_REVENUE",
         };
 
-        expect(
-            actions.fetchClientRevenueData(pageOptions, sortOptions, filters)
-        ).toEqual(expectedAction);
+        expect(actions.fetchClientRevenueData(pageOptions, sortOptions, filters)).toEqual(expectedAction);
     });
 
     it("should dispatch COMMISSIONS_REPORT_MEM_REVENUE_PAGE_OPTIONS_RECEIVE when receivePageOptions is called", () => {
@@ -47,9 +43,7 @@ describe("reports: client revenue: list actions", () => {
             payload: options,
         };
 
-        expect(actions.receiveClientRevenuePageOptions(options)).toEqual(
-            expectedAction
-        );
+        expect(actions.receiveClientRevenuePageOptions(options)).toEqual(expectedAction);
     });
 
     it("should dispatch COMMISSIONS_REPORT_MEM_REVENUE_PAGE_OPTIONS_RECEIVE when receivePageOptions is called", () => {
@@ -63,9 +57,7 @@ describe("reports: client revenue: list actions", () => {
             payload: options,
         };
 
-        expect(actions.receiveClientRevenueSortOptions(options)).toEqual(
-            expectedAction
-        );
+        expect(actions.receiveClientRevenueSortOptions(options)).toEqual(expectedAction);
     });
 
     it("should dispatch COMMISSIONS_REPORT_MEM_REVENUE_FILTERS_RECEIVE when receiveFilters is called", () => {
@@ -78,8 +70,6 @@ describe("reports: client revenue: list actions", () => {
             payload: filters,
         };
 
-        expect(actions.receiveClientRevenueFilters(filters)).toEqual(
-            expectedAction
-        );
+        expect(actions.receiveClientRevenueFilters(filters)).toEqual(expectedAction);
     });
 });

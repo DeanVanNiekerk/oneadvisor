@@ -1,41 +1,35 @@
-import { Filters } from '@/app/table';
 import { commissionReportsApi } from '@/config/api/commission';
 
+import { UserCompanyMonthlyCommissionFilters } from '../';
 import * as actions from './actions';
 
 describe("reports: user monthly commission: list actions", () => {
-    it("should dispatch API when fetchCommissions is called", () => {
-        const filters: Filters = {
-            number: ["123"],
+    it("should dispatch API when fetchUserCompanyMonthlyCommissionData is called", () => {
+        const filters: UserCompanyMonthlyCommissionFilters = {
+            userId: ["123"],
         };
 
-        const api = `${commissionReportsApi}/userCompanyMonthlyCommissionData?filters=number%3D123`;
+        const api = `${commissionReportsApi}/userCompanyMonthlyCommissionData?filters=userId%3D123`;
 
         const expectedAction = {
             type: "API",
             endpoint: api,
-            dispatchPrefix:
-                "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION",
+            dispatchPrefix: "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION",
         };
 
-        expect(actions.fetchUserCompanyMonthlyCommissionData(filters)).toEqual(
-            expectedAction
-        );
+        expect(actions.fetchUserCompanyMonthlyCommissionData(filters)).toEqual(expectedAction);
     });
 
     it("should dispatch COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FILTERS_RECEIVE when receiveFilters is called", () => {
-        const filters: Filters = {
-            firstName: ["sup"],
+        const filters: UserCompanyMonthlyCommissionFilters = {
+            userId: ["123"],
         };
 
         const expectedAction = {
-            type:
-                "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FILTERS_RECEIVE",
+            type: "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FILTERS_RECEIVE",
             payload: filters,
         };
 
-        expect(
-            actions.receiveUserCompanyMonthlyCommissionFilters(filters)
-        ).toEqual(expectedAction);
+        expect(actions.receiveUserCompanyMonthlyCommissionFilters(filters)).toEqual(expectedAction);
     });
 });

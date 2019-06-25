@@ -1,8 +1,6 @@
 export * from "./clientRevenue/actions";
 export * from "./clientRevenue/types";
-export {
-    listSelector as clientRevenueSelector,
-} from "./clientRevenue/selectors";
+export { listSelector as clientRevenueSelector } from "./clientRevenue/selectors";
 
 export * from "./userEarningsTypeMonthlyCommission/actions";
 export * from "./userEarningsTypeMonthlyCommission/types";
@@ -12,6 +10,8 @@ export {
 
 export * from "./userCompanyMonthlyCommission/actions";
 export * from "./userCompanyMonthlyCommission/types";
-export {
-    listSelector as userCompanyMonthlyCommissionSelector,
-} from "./userCompanyMonthlyCommission/selectors";
+export { listSelector as userCompanyMonthlyCommissionSelector } from "./userCompanyMonthlyCommission/selectors";
+
+export * from "./userMonthlyCommission/actions";
+export * from "./userMonthlyCommission/selectors";
+export * from "./userMonthlyCommission/types";

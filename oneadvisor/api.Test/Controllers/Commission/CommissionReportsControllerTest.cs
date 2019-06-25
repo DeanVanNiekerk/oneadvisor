@@ -118,7 +118,8 @@ namespace api.Test.Controllers.Commission
 
             var controller = new CommissionReportsController(service.Object, authService.Object);
 
-            var result = await controller.GetUserEarningsTypeMonthlyCommissionData("AmountExcludingVAT", "desc", 15, 2, $"month=9");
+            var companyId = Guid.NewGuid();
+            var result = await controller.GetUserEarningsTypeMonthlyCommissionData("AmountExcludingVAT", "desc", 15, 2, $"month=" + companyId.ToString());
 
             Assert.Equal(Scope.Branch, queryOptions.Scope.Scope);
             Assert.Equal("AmountExcludingVAT", queryOptions.SortOptions.Column);
@@ -126,7 +127,7 @@ namespace api.Test.Controllers.Commission
             Assert.Equal(15, queryOptions.PageOptions.Size);
             Assert.Equal(2, queryOptions.PageOptions.Number);
 
-            Assert.Equal(9, queryOptions.Month.Single());
+            Assert.Equal(companyId, queryOptions.CompanyId.Single());
 
             var okResult = Assert.IsType<OkObjectResult>(result);
             var returnValue = Assert.IsType<List<UserEarningsTypeMonthlyCommissionData>>(okResult.Value);

@@ -1,13 +1,17 @@
 import { Col, Row, Select } from 'antd';
+import moment from 'moment';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
 
-import { Filters } from '@/app/table';
-import { getMonthOptions, getYearOptions } from '@/app/utils';
+import { getMonthOptions, getYearOptions, SERVER_DATE_FORMAT } from '@/app/utils';
 import {
     fetchUserCompanyMonthlyCommissionData, fetchUserEarningsTypeMonthlyCommissionData,
-    receiveUserEarningsTypeMonthlyCommissionFilters, UserEarningsTypeMonthlyCommissionData,
-    userEarningsTypeMonthlyCommissionSelector
+    receiveUserCompanyMonthlyCommissionFilters, receiveUserEarningsTypeMonthlyCommissionFilters,
+    receiveUserMonthlyCommissionMonth, receiveUserMonthlyCommissionUserMonthlyCommissionType,
+    receiveUserMonthlyCommissionYear, UserCompanyMonthlyCommissionFilters, userCompanyMonthlyCommissionSelector,
+    UserEarningsTypeMonthlyCommissionData, UserEarningsTypeMonthlyCommissionFilters,
+    userEarningsTypeMonthlyCommissionSelector, userMonthlyCommissionSelector, UserMonthlyCommissionType,
+    UserMonthlyCommissionTypeOption
 } from '@/state/app/commission/reports';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
@@ -20,86 +24,159 @@ import EarningsTypeReport from './earningsType/EarningsTypeReport';
 type Props = {
     earningsTypeRecords: UserEarningsTypeMonthlyCommissionData[];
     fetchingEarningsTypeRecords: boolean;
-    filters: Filters;
+    userEarningsTypeMonthlyCommissionFilters: UserEarningsTypeMonthlyCommissionFilters;
+    userCompanyMonthlyMonthlyCommissionFilters: UserCompanyMonthlyCommissionFilters;
     users: UserSimple[];
     earningsTypeTotal: number;
     companies: Company[];
+    selectedMonth: number;
+    selectedYear: number;
+    selectedType: UserMonthlyCommissionType;
+    typeOptions: UserMonthlyCommissionTypeOption[];
 } & DispatchProp;
 
 class UserMonthlyCommissionReport extends Component<Props> {
     componentDidMount() {
-        this.loadData();
+        this.loadUserEarningsTypeMonthlyCommissionData();
+        this.loadUserCompanyMonthlyCommissionData();
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (prevProps.filters != this.props.filters) this.loadData();
+        if (prevProps.userEarningsTypeMonthlyCommissionFilters !== this.props.userEarningsTypeMonthlyCommissionFilters)
+            this.loadUserEarningsTypeMonthlyCommissionData();
+        if (
+            prevProps.userCompanyMonthlyMonthlyCommissionFilters !==
+            this.props.userCompanyMonthlyMonthlyCommissionFilters
+        )
+            this.loadUserCompanyMonthlyCommissionData();
+
+        if (prevProps.selectedType !== this.props.selectedType) {
+            switch (this.props.selectedType) {
+                case "Month":
+                    this.handleMonthYearChange();
+                    break;
+                case "YearToDate":
+                    this.handleYearToDateChange();
+                    break;
+                case "Last12Months":
+                    this.handleLast12MonthsChange();
+                    break;
+            }
+        }
+
+        if (
+            prevProps.selectedMonth !== this.props.selectedMonth ||
+            prevProps.selectedYear !== this.props.selectedYear
+        ) {
+            this.handleMonthYearChange();
+        }
     }
 
-    loadData = () => {
-        this.props.dispatch(fetchUserEarningsTypeMonthlyCommissionData(this.props.filters));
-        this.props.dispatch(fetchUserCompanyMonthlyCommissionData(this.props.filters));
+    loadUserEarningsTypeMonthlyCommissionData = () => {
+        this.props.dispatch(
+            fetchUserEarningsTypeMonthlyCommissionData(this.props.userEarningsTypeMonthlyCommissionFilters)
+        );
+    };
+
+    loadUserCompanyMonthlyCommissionData = () => {
+        this.props.dispatch(
+            fetchUserCompanyMonthlyCommissionData(this.props.userCompanyMonthlyMonthlyCommissionFilters)
+        );
     };
 
     handleUserChange = (userIds: string[]) => {
         this.props.dispatch(
             receiveUserEarningsTypeMonthlyCommissionFilters({
-                ...this.props.filters,
+                ...this.props.userEarningsTypeMonthlyCommissionFilters,
+                userId: userIds,
+            })
+        );
+        this.props.dispatch(
+            receiveUserCompanyMonthlyCommissionFilters({
+                ...this.props.userCompanyMonthlyMonthlyCommissionFilters,
                 userId: userIds,
             })
         );
     };
 
     selectedUserIds = (): string[] => {
-        return this.props.filters.userId;
+        return this.props.userEarningsTypeMonthlyCommissionFilters.userId || [];
     };
 
     handleCompanyChange = (companyIds: string[]) => {
         this.props.dispatch(
             receiveUserEarningsTypeMonthlyCommissionFilters({
-                ...this.props.filters,
+                ...this.props.userEarningsTypeMonthlyCommissionFilters,
+                companyId: companyIds,
+            })
+        );
+        this.props.dispatch(
+            receiveUserCompanyMonthlyCommissionFilters({
+                ...this.props.userCompanyMonthlyMonthlyCommissionFilters,
                 companyId: companyIds,
             })
         );
     };
 
     selectedCompanyIds = (): string[] => {
-        return this.props.filters.companyId;
+        return this.props.userEarningsTypeMonthlyCommissionFilters.companyId || [];
     };
 
     handleYearChange = (year: number) => {
-        this.props.dispatch(
-            receiveUserEarningsTypeMonthlyCommissionFilters({
-                ...this.props.filters,
-                year: [year.toString()],
-            })
-        );
-    };
-
-    selectedYear = (): number => {
-        return parseInt(this.props.filters.year[0]);
+        this.props.dispatch(receiveUserMonthlyCommissionYear(year));
     };
 
     handleMonthChange = (month: number) => {
-        this.props.dispatch(
-            receiveUserEarningsTypeMonthlyCommissionFilters({
-                ...this.props.filters,
-                month: [month.toString()],
-            })
-        );
+        this.props.dispatch(receiveUserMonthlyCommissionMonth(month));
     };
 
-    selectedMonth = (): number => {
-        return parseInt(this.props.filters.month[0]);
+    handleDateRangeOptionChange = (type: UserMonthlyCommissionType) => {
+        this.props.dispatch(receiveUserMonthlyCommissionUserMonthlyCommissionType(type));
+    };
+
+    handleMonthYearChange = () => {
+        const start = moment(`${this.props.selectedYear}-${this.props.selectedMonth}-01`);
+        const end = start.clone().endOf("month");
+        this.updateDateFilters(start, end);
+    };
+
+    handleYearToDateChange = () => {
+        const start = moment().startOf("year");
+        const end = moment().endOf("month");
+        this.updateDateFilters(start, end);
+    };
+
+    handleLast12MonthsChange = () => {
+        const start = moment()
+            .subtract(11, "months")
+            .startOf("month");
+        const end = moment().endOf("month");
+        this.updateDateFilters(start, end);
+    };
+
+    updateDateFilters = (start: moment.Moment, end: moment.Moment) => {
+        const startDate = start.format(SERVER_DATE_FORMAT);
+        const endDate = end.format(SERVER_DATE_FORMAT);
+        this.props.dispatch(
+            receiveUserEarningsTypeMonthlyCommissionFilters({
+                ...this.props.userEarningsTypeMonthlyCommissionFilters,
+                startDate: [startDate],
+                endDate: [endDate],
+            })
+        );
+        this.props.dispatch(
+            receiveUserCompanyMonthlyCommissionFilters({
+                ...this.props.userCompanyMonthlyMonthlyCommissionFilters,
+                startDate: [startDate],
+                endDate: [endDate],
+            })
+        );
     };
 
     render() {
         return (
             <>
-                <Header
-                    icon="pie-chart"
-                >
-                    Broker Monthly Commission Report
-                </Header>
+                <Header icon="pie-chart">Broker Monthly Commission Report</Header>
 
                 <Row type="flex" gutter={10} align="middle" justify="start">
                     <Col>
@@ -115,10 +192,7 @@ class UserMonthlyCommissionReport extends Component<Props> {
                         >
                             {this.props.users.map(user => {
                                 return (
-                                    <Select.Option
-                                        key={user.id}
-                                        value={user.id}
-                                    >
+                                    <Select.Option key={user.id} value={user.id}>
                                         {user.fullName}
                                     </Select.Option>
                                 );
@@ -138,10 +212,7 @@ class UserMonthlyCommissionReport extends Component<Props> {
                         >
                             {this.props.companies.map(company => {
                                 return (
-                                    <Select.Option
-                                        key={company.id}
-                                        value={company.id}
-                                    >
+                                    <Select.Option key={company.id} value={company.id}>
                                         {company.name}
                                     </Select.Option>
                                 );
@@ -149,41 +220,52 @@ class UserMonthlyCommissionReport extends Component<Props> {
                         </Select>
                     </Col>
                     <Col>
-                        <Select
-                            value={this.selectedMonth()}
-                            onChange={this.handleMonthChange}
-                            style={{ width: 125 }}
+                        <Select<UserMonthlyCommissionType>
+                            value={this.props.selectedType}
+                            onChange={this.handleDateRangeOptionChange}
+                            style={{ width: 150 }}
                         >
-                            {getMonthOptions().map(month => {
-                                return (
-                                    <Select.Option
-                                        key={month.number.toString()}
-                                        value={month.number}
-                                    >
-                                        {month.name}
-                                    </Select.Option>
-                                );
-                            })}
+                            {this.props.typeOptions.map(o => (
+                                <Select.Option key={o.key} value={o.key}>
+                                    {o.label}
+                                </Select.Option>
+                            ))}
                         </Select>
                     </Col>
-                    <Col>
-                        <Select
-                            value={this.selectedYear()}
-                            onChange={this.handleYearChange}
-                            style={{ width: 90 }}
-                        >
-                            {getYearOptions().map(year => {
-                                return (
-                                    <Select.Option
-                                        key={year.toString()}
-                                        value={year}
-                                    >
-                                        {year}
-                                    </Select.Option>
-                                );
-                            })}
-                        </Select>
-                    </Col>
+                    {this.props.selectedType === "Month" && (
+                        <Col>
+                            <Select<number>
+                                value={this.props.selectedMonth}
+                                onChange={this.handleMonthChange}
+                                style={{ width: 125 }}
+                            >
+                                {getMonthOptions().map(month => {
+                                    return (
+                                        <Select.Option key={month.number.toString()} value={month.number}>
+                                            {month.name}
+                                        </Select.Option>
+                                    );
+                                })}
+                            </Select>
+                        </Col>
+                    )}
+                    {this.props.selectedType === "Month" && (
+                        <Col>
+                            <Select<number>
+                                value={this.props.selectedYear}
+                                onChange={this.handleYearChange}
+                                style={{ width: 90 }}
+                            >
+                                {getYearOptions().map(year => {
+                                    return (
+                                        <Select.Option key={year.toString()} value={year}>
+                                            {year}
+                                        </Select.Option>
+                                    );
+                                })}
+                            </Select>
+                        </Col>
+                    )}
                 </Row>
 
                 <Row gutter={32}>
@@ -201,13 +283,20 @@ class UserMonthlyCommissionReport extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     const userEarningsTypeMonthlyCommissionState = userEarningsTypeMonthlyCommissionSelector(state);
+    const userCompanyMonthlyCommissionState = userCompanyMonthlyCommissionSelector(state);
+    const userMonthlyCommissionState = userMonthlyCommissionSelector(state);
     const usersState = usersSimpleSelector(state);
     const companiesState = companiesSelector(state);
 
     return {
-        filters: userEarningsTypeMonthlyCommissionState.filters,
+        userEarningsTypeMonthlyCommissionFilters: userEarningsTypeMonthlyCommissionState.filters,
+        userCompanyMonthlyMonthlyCommissionFilters: userCompanyMonthlyCommissionState.filters,
         users: usersState.items,
         companies: companiesState.items,
+        selectedMonth: userMonthlyCommissionState.month,
+        selectedYear: userMonthlyCommissionState.year,
+        selectedType: userMonthlyCommissionState.type,
+        typeOptions: userMonthlyCommissionState.typeOptions,
     };
 };
 

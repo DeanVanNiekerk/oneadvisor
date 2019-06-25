@@ -171,7 +171,8 @@ class ClientRevenueReport extends Component<Props, State> {
     };
 
     selectedYear = (): number => {
-        return parseInt(this.props.filters.yearEnding[0]);
+        const yearEnding = this.props.filters.yearEnding;
+        return parseInt(yearEnding ? yearEnding[0] : "");
     };
 
     handleMonthChange = (month: number) => {
@@ -184,11 +185,12 @@ class ClientRevenueReport extends Component<Props, State> {
     };
 
     selectedMonth = (): number => {
-        return parseInt(this.props.filters.monthEnding[0]);
+        const monthEnding = this.props.filters.monthEnding;
+        return parseInt(monthEnding ? monthEnding[0] : "");
     };
 
     selectedBranchIds = (): string[] => {
-        return this.props.filters.branchId;
+        return this.props.filters.branchId || [];
     };
 
     handleBranchChange = (branchIds: string[]) => {
@@ -202,7 +204,7 @@ class ClientRevenueReport extends Component<Props, State> {
     };
 
     selectedUserIds = (): string[] => {
-        return this.props.filters.userId;
+        return this.props.filters.userId || [];
     };
 
     handleUserChange = (userIds: string[]) => {
@@ -247,8 +249,6 @@ class ClientRevenueReport extends Component<Props, State> {
     };
 
     render() {
-
-
         return (
             <>
                 <Header
