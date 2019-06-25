@@ -4,7 +4,6 @@
         <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Audit.EntityFramework.Core" Version="14.5.3" />
         <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.0" />
         <PackageReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" />

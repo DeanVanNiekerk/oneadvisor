@@ -37,9 +37,6 @@ namespace api
             var identitySetup = new IdentitySetup(Configuration, services);
             identitySetup.Configure();
 
-            var auditSetup = new AuditSetup(services);
-            auditSetup.Setup();
-
             var emailSetup = new EmailSetup(Configuration, services);
             emailSetup.Configure();
 

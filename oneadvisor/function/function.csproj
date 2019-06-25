@@ -26,5 +26,6 @@
     <ProjectReference Include="..\..\OneAdvisor.Model\OneAdvisor.Model.csproj" />
     <ProjectReference Include="..\..\OneAdvisor.Service\OneAdvisor.Service.csproj" />
     <ProjectReference Include="..\..\OneAdvisor.Service.Storage\OneAdvisor.Service.Storage.csproj" />
+    <ProjectReference Include="..\..\OneAdvisor.Import.Excel\OneAdvisor.Import.Excel.csproj" />
   </ItemGroup>
 </Project>
