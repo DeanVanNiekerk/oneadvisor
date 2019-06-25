@@ -34,8 +34,6 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
 
         public ScopeOptions Scope { get; set; }
 
-        public List<int> Month { get; set; }
-        public List<int> Year { get; set; }
         public List<Guid> UserId { get; set; }
         public List<Guid> CompanyId { get; set; }
         public DateTime? StartDate { get; set; }
