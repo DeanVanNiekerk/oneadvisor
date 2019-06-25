@@ -31,10 +31,15 @@ export type ErrorListAction =
     | ErrorListPageOptionsReceiveAction
     | ErrorListSortOptionsReceiveAction;
 
-export const fetchErrors = (statementId: string, pageOptions: PageOptions, sortOptions: SortOptions): ApiAction => {
-    let api = `${statementsApi}/${statementId}/errors`;
+export const fetchErrors = (
+    filters: CommissionErrorsFilters,
+    pageOptions: PageOptions,
+    sortOptions: SortOptions
+): ApiAction => {
+    let api = `${statementsApi}/errors`;
     api = appendPageOptionQuery(api, pageOptions);
     api = appendSortOptionQuery(api, sortOptions);
+    api = appendFiltersQuery(api, filters);
     return {
         type: "API",
         endpoint: api,

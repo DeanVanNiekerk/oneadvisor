@@ -13,6 +13,8 @@ using OneAdvisor.Model.Storage.Model.Path.Commission;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate;
 using System.IO;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
+using OneAdvisor.Model.Commission.Model.CommissionStatement;
+using System.Collections.Generic;
 
 namespace api.Controllers.Commission.Import
 {
@@ -127,6 +129,26 @@ namespace api.Controllers.Commission.Import
             }
 
             return Ok(result);
+        }
+
+        [HttpPost("excel/reimport")]
+        [UseCaseAuthorize("com_import_commissions")]
+        public async Task<IActionResult> ReimportBulk([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
+        {
+            var scope = AuthenticationService.GetScope(User);
+
+            var queryOptions = new CommissionStatementQueryOptions(scope, "", "", 0, 0);
+            queryOptions.StartDate = startDate;
+            queryOptions.EndDate = endDate;
+            var pagedItems = await CommissionStatementService.GetCommissionStatements(queryOptions);
+
+            var results = new List<IActionResult>();
+            foreach (var statement in pagedItems.Items)
+            {
+                results.Add(await Reimport(statement.Id));
+            }
+
+            return Ok(results);
         }
     }
 }

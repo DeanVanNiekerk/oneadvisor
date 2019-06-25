@@ -46,7 +46,10 @@ class ErrorList extends Component<Props> {
     }
 
     loadErrors = () => {
-        this.props.dispatch(fetchErrors(this.props.statement.id, this.props.pageOptions, this.props.sortOptions));
+        const filters = {
+            commissionStatementId: [this.props.statement.id],
+        };
+        this.props.dispatch(fetchErrors(filters, this.props.pageOptions, this.props.sortOptions));
         this.props.onUpdate();
     };
 
@@ -178,7 +181,6 @@ class ErrorList extends Component<Props> {
     };
 
     render() {
-
         return (
             <>
                 <Table

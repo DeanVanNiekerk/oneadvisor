@@ -1,4 +1,4 @@
-import { Button as ButtonAD, Col, Dropdown, Icon, Menu, Row, Select } from 'antd';
+import { Button as ButtonAD, Col, Dropdown, Icon, Menu, Modal, Row, Select } from 'antd';
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect, DispatchProp } from 'react-redux';
@@ -8,15 +8,19 @@ import { Filters, getColumnDefinition, PageOptions, SortOptions } from '@/app/ta
 import { formatCurrency, getMonthDateRange, getMonthOptions, getYearOptions } from '@/app/utils';
 import { CommissionErrorsFilters, downloadCommissionErrors, getCommissionErrors } from '@/state/app/commission/errors';
 import {
-    clearStatementPreview, fetchStatements, receiveFilterMonth, receiveFilters, receiveFilterYear, receivePageOptions,
-    receiveSortOptions, receiveStatement, Statement, StatementEdit, statementsSelector
+    bulkReimportCommissions, clearStatementPreview, fetchStatements, receiveFilterMonth, receiveFilters,
+    receiveFilterYear, receivePageOptions, receiveSortOptions, receiveStatement, Statement, StatementEdit,
+    statementsSelector
 } from '@/state/app/commission/statements';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Button, CompanyName, getTable, Header } from '@/ui/controls';
+import { showMessage } from '@/ui/feedback/notifcation';
 
 import EditStatement from './EditStatement';
 import { Processed } from './Processed';
+
+const confirm = Modal.confirm;
 
 const Table = getTable<Statement>();
 
@@ -215,12 +219,43 @@ class StatementList extends Component<Props> {
         );
     };
 
+    reimportCommissions = () => {
+        confirm({
+            title: "Are you sure you want to reimport all commission entries for this month?",
+            content:
+                "All existing commission entries including any errors will be deleted before import, are you sure you wish to continue?",
+            onOk: () => {
+                showMessage("loading", "Reimporting commission entries", 200);
+                const dateRange = getMonthDateRange(this.props.filterMonth, this.props.filterYear);
+                this.props.dispatch(
+                    bulkReimportCommissions(
+                        dateRange.start,
+                        dateRange.end,
+                        //Success
+                        () => {
+                            showMessage("success", "Commission entries successfully imported", 5, true);
+                        },
+                        //Failure
+                        () => {
+                            this.setState({ reimportingCommissionEntries: false });
+                            showMessage("error", "Error importing commission entries", 5, true);
+                        }
+                    )
+                );
+            },
+        });
+    };
+
     render() {
         const actionsMenu = (
             <Menu>
                 <Menu.Item onClick={this.downloadMappingErrors}>
                     <Icon type="file-exclamation" />
                     Download Mapping Errors
+                </Menu.Item>
+                <Menu.Item onClick={this.reimportCommissions}>
+                    <Icon type="reload" />
+                    Reimport Commission Statements
                 </Menu.Item>
             </Menu>
         );
