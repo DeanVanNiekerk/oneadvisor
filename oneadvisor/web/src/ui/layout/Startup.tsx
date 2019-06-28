@@ -29,8 +29,7 @@ class Startup extends React.Component<Props> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.props.isAuthenticated && !prevProps.isAuthenticated)
-            this.loadSecureData();
+        if (this.props.isAuthenticated && !prevProps.isAuthenticated) this.loadSecureData();
     }
 
     loadSecureData() {
@@ -44,8 +43,7 @@ class Startup extends React.Component<Props> {
     };
 
     render() {
-        if (this.props.loading && !this.isAccountPage())
-            return <Loader text="loading application..." />;
+        if (this.props.loading && !this.isAccountPage()) return <Loader text="loading application..." />;
 
         return <>{this.props.children}</>;
     }
@@ -57,10 +55,7 @@ const mapStateToProps = (state: RootState) => {
     const clientLookupsState = clientLookupsSelector(state);
 
     return {
-        loading:
-            directoryLookupsState.fetching ||
-            commissionLookupsState.fetching ||
-            clientLookupsState.fetching,
+        loading: directoryLookupsState.fetching || commissionLookupsState.fetching || clientLookupsState.fetching,
         isAuthenticated: isAuthenticatedSelector(state),
     };
 };

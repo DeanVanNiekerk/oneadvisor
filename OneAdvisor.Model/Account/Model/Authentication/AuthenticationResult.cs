@@ -7,9 +7,11 @@ namespace OneAdvisor.Model.Account.Model.Authentication
         {
             Success = false;
             IsLocked = false;
+            NotActivated = false;
         }
 
         public bool Success { get; set; }
         public bool IsLocked { get; set; }
+        public bool NotActivated { get; set; }
     }
 }

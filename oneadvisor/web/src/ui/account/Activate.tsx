@@ -40,10 +40,6 @@ class Activate extends React.Component<Props, State> {
         };
     }
 
-    componentDidMount() {
-        this.props.dispatch(signOut());
-    }
-
     handlePasswordChange = (fieldName: string, value: any) => {
         this.setState({
             password: value,
@@ -57,6 +53,8 @@ class Activate extends React.Component<Props, State> {
     };
 
     activate = () => {
+        this.props.dispatch(signOut());
+
         const data: ResetPasswordData = {
             userName: this.state.userName,
             password: this.state.password,
@@ -65,11 +63,7 @@ class Activate extends React.Component<Props, State> {
         };
         this.props.dispatch(
             activate(data, () => {
-                showMessage(
-                    "success",
-                    "Activation Successful, Welcome to One Advisor",
-                    4
-                );
+                showMessage("success", "Activation Successful, Welcome to One Advisor", 4);
                 this.props.history.push("/");
             })
         );
@@ -138,13 +132,7 @@ class Activate extends React.Component<Props, State> {
                     />
 
                     <FormField>
-                        <Button
-                            size="large"
-                            noLeftMargin={true}
-                            onClick={this.activate}
-                            type="primary"
-                            block={true}
-                        >
+                        <Button size="large" noLeftMargin={true} onClick={this.activate} type="primary" block={true}>
                             Activate Account
                         </Button>
                     </FormField>

@@ -39,6 +39,9 @@ namespace api.Controllers.Account.Authentication
         {
             var result = await AuthenticationService.Authenticate(dto.UserName, dto.Password);
 
+            if (result.NotActivated)
+                return this.BadRequestMessage("Your account has not been activated yet. Please click on the link in your Welcome email.");
+
             if (result.IsLocked)
                 return this.BadRequestMessage("Your account is locked. Please contact your administrator.");
 

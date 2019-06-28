@@ -67,6 +67,11 @@ namespace OneAdvisor.Service.Account
             if (user == null)
                 return result;
 
+            result.NotActivated = !user.EmailConfirmed;
+
+            if (result.NotActivated)
+                return result;
+
             result.IsLocked = await _userManager.IsLockedOutAsync(user);
 
             if (result.IsLocked)
@@ -172,6 +177,12 @@ namespace OneAdvisor.Service.Account
             {
                 foreach (var error in activateResult.Errors)
                     result.AddValidationFailure("", error.Description);
+            }
+
+            if (!user.EmailConfirmed)
+            {
+                user.EmailConfirmed = true;
+                await _userManager.UpdateAsync(user);
             }
 
             return result;
