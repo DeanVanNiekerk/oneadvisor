@@ -24,9 +24,9 @@ namespace OneAdvisor.Service.IntegrationTest
 
             var dbName = "OneAdvisorTest";
 
-            //builder.UseSqlServer($"Server=tcp:oneadvisor-sql.database.windows.net,1433;Initial Catalog={dbName};User ID=oneadvisor@oneadvisor-dev-sql;Password=Ul7Q7VgNxWFWRi60;Connection Timeout=960")
+            builder.UseSqlServer($"Server=tcp:oneadvisor-dev-sql.database.windows.net,1433;Initial Catalog={dbName};User ID=oneadvisor@oneadvisor-dev-sql;Password=Ul7Q7VgNxWFWRi60;;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30")
             //Uncomment for quicker local testing
-            builder.UseSqlServer($"Server=127.0.0.1,1433;Database={dbName};User ID=sa;Password=2x&%bLn3c47Y!y&hv7;Connection Timeout=60")
+            //builder.UseSqlServer($"Server=127.0.0.1,1433;Database={dbName};User ID=sa;Password=2x&%bLn3c47Y!y&hv7;Connection Timeout=60")
                     .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning))
                     .UseInternalServiceProvider(serviceProvider);
 
