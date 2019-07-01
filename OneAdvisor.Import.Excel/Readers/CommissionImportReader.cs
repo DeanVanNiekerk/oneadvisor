@@ -71,7 +71,7 @@ namespace OneAdvisor.Import.Excel.Readers
 
                 var commission = new ImportCommission();
 
-                commission.PolicyNumber = GetValue(reader, FieldNames.PolicyNumber, config).Replace(" ", "");
+                commission.PolicyNumber = GetValue(reader, FieldNames.PolicyNumber, config);
 
                 var commissionTypeValue = GetCommissionTypeValue(reader, commissionTypeIndexes, config);
                 commission.CommissionTypeValue = commissionTypeValue;
@@ -90,7 +90,14 @@ namespace OneAdvisor.Import.Excel.Readers
 
                 if (string.IsNullOrEmpty(commission.AmountIncludingVAT))
                 {
-                    var amountExcludingVat = Convert.ToDecimal(GetValue(reader, FieldNames.AmountExcludingVAT, config));
+                    var amountExcludingVatString = GetValue(reader, FieldNames.AmountExcludingVAT, config);
+
+                    var amountExcludingVat = 0m;
+                    var success = Decimal.TryParse(amountExcludingVatString, out amountExcludingVat);
+
+                    if (!success)
+                        continue;
+
                     if (string.IsNullOrEmpty(commission.VAT))
                         commission.VAT = Decimal.Round(amountExcludingVat * 0.15m, 2).ToString();
 
@@ -100,7 +107,12 @@ namespace OneAdvisor.Import.Excel.Readers
                 {
                     if (string.IsNullOrEmpty(commission.VAT))
                     {
-                        var amountIncludingVat = Decimal.Parse(commission.AmountIncludingVAT);
+                        var amountIncludingVat = 0m;
+                        var success = Decimal.TryParse(commission.AmountIncludingVAT, out amountIncludingVat);
+
+                        if (!success)
+                            continue;
+
                         commission.VAT = Decimal.Round(amountIncludingVat - (amountIncludingVat / 1.15m), 2).ToString();
                     }
                 }
@@ -113,13 +125,13 @@ namespace OneAdvisor.Import.Excel.Readers
         {
             var index = GetFieldIndex(fieldName, config);
             var absolute = IsFieldValueAbsolute(fieldName, config);
-            return Utils.GetValue(reader, index, absolute);
+            return Utils.GetValue(reader, index, absolute).TrimWhiteSpace();
         }
 
         private string GetDate(IExcelDataReader reader, FieldNames fieldName, SheetConfig config)
         {
             var index = GetFieldIndex(fieldName, config);
-            return Utils.GetDate(reader, index);
+            return Utils.GetDate(reader, index).TrimWhiteSpace();
         }
 
         private int? GetFieldIndex(FieldNames fieldName, SheetConfig config)

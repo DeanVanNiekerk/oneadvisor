@@ -154,7 +154,7 @@ namespace OneAdvisor.Service.Client
                 return idNumber;
 
             //Remove emtpty spaces
-            idNumber = idNumber.Replace(" ", "");
+            idNumber = idNumber.TrimWhiteSpace(); ;
 
             //Check if missing leading zero
             if (idNumber.Length == 12)
@@ -344,7 +344,7 @@ namespace OneAdvisor.Service.Client
                 return result;
 
             //Clean
-            data.Cellphone = data.Cellphone.Replace(" ", "").Replace("-", "");
+            data.Cellphone = data.Cellphone.TrimWhiteSpace().Replace("-", "");
 
             //See if email exits
             var email = await _contactService.GetContact(scope, client.Id.Value, data.Cellphone);

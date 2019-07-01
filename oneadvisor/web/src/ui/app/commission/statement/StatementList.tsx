@@ -14,7 +14,7 @@ import {
 } from '@/state/app/commission/statements';
 import { companiesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
-import { Button, CompanyName, getTable, Header } from '@/ui/controls';
+import { Button, getTable, Header } from '@/ui/controls';
 import { showMessage } from '@/ui/feedback/notifcation';
 
 import EditStatement from './EditStatement';
@@ -101,13 +101,10 @@ class StatementList extends Component<Props> {
 
         return [
             getColumn(
-                "companyId",
+                "companyName",
                 "Company",
                 {},
                 {
-                    render: (companyId: string) => {
-                        return <CompanyName companyId={companyId} />;
-                    },
                     filters: this.props.companies.map(type => ({
                         text: type.name,
                         value: type.id,
@@ -148,19 +145,9 @@ class StatementList extends Component<Props> {
         ];
     };
 
-    mapSortColumns = (sort: SortOptions): SortOptions => {
-        switch (sort.column) {
-            case "companyId":
-                return { ...sort, column: "companyName" };
-            default:
-                return sort;
-        }
-    };
-
     onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
         if (this.props.pageOptions != pageOptions) this.props.dispatch(receivePageOptions(pageOptions));
-        if (this.props.sortOptions != sortOptions)
-            this.props.dispatch(receiveSortOptions(this.mapSortColumns(sortOptions)));
+        if (this.props.sortOptions != sortOptions) this.props.dispatch(receiveSortOptions(sortOptions));
         if (this.props.filters != filters) this.props.dispatch(receiveFilters(filters));
     };
 

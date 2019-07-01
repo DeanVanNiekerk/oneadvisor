@@ -90,18 +90,23 @@ See .vscode/extensions.json
 
 ## Release Notes Template
 
+:tada:
+:wrench:
+:beetle:
+
 ```
 Release v0.6.0
 ===============
 
 New Features:
-- Commission > Split > Split on specific Policy
-- Directory > User > Lock User
-- General > Force Signout on new App Version
+- Commission > Statments > Reimport All Commissions for Month
+- Commission > Statments > Download All Commissions Errors for Month
 
 Updates:
-- Commission > Statement > Import > Split commission if default set
+- Commission > Reports > Client Revenue > Grand Total is actual total (not avg)
+- Commission > Reports > Broker Revenue > Additional filters (YTD, Last 12 Months)
+- Menu > Some menu items are collapsed by default
 
 Bug Fixes:
--
+- Activate User Bug
 ```

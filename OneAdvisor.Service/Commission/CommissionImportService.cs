@@ -118,7 +118,7 @@ namespace OneAdvisor.Service.Commission
             var result = validator.Validate(importCommission).GetResult();
 
             //Cleanup
-            importCommission.PolicyNumber = importCommission.PolicyNumber.Replace(" ", "");
+            importCommission.PolicyNumber = importCommission.PolicyNumber.TrimWhiteSpace(); ;
 
             var error = new CommissionErrorEntity()
             {

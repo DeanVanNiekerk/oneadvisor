@@ -105,7 +105,14 @@ namespace OneAdvisor.Model
             var parts = str.Split(" ");
             var characters = parts.Select(p => p.Count() > 0 ? p[0].ToString().ToUpper() : "");
             return string.Join("", characters);
+        }
 
+        public static string TrimWhiteSpace(this string str)
+        {
+            if (str == null)
+                return null;
+
+            return Regex.Replace(str, @"\s", "");
         }
 
         public static DateTime LastDayOfMonth(this DateTime dateTime)

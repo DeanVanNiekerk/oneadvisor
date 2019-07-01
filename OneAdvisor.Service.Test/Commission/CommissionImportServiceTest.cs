@@ -15,6 +15,7 @@ using Moq;
 using OneAdvisor.Service.Common.BulkActions;
 using OneAdvisor.Data.Entities.Commission.Lookup;
 using OneAdvisor.Model.Commission.Model.CommissionSplitRule;
+using OneAdvisor.Model;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -216,7 +217,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 Assert.True(actual.IsFormatValid);
 
-                import1.PolicyNumber = import1.PolicyNumber.Replace(" ", "");
+                import1.PolicyNumber = import1.PolicyNumber.TrimWhiteSpace();
                 Assert.Equal(import1, actual.Data);
             }
         }

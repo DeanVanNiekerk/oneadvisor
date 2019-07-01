@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using OneAdvisor.Model;
 
 namespace OneAdvisor.Service.Client.Validators
 {
@@ -25,7 +26,7 @@ namespace OneAdvisor.Service.Client.Validators
         {
             try
             {
-                this.IdentityNumber = (identityNumber ?? string.Empty).Replace(" ", "");
+                this.IdentityNumber = (identityNumber ?? string.Empty).TrimWhiteSpace();
                 if (this.IdentityNumber.Length == 13)
                 {
                     var digits = new int[13];
