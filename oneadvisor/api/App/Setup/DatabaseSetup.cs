@@ -24,8 +24,16 @@ namespace api.App.Setup
         {
             //Db Context (Entity Framework)
             Services.AddDbContext<DataContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("OneAdvisorDb"))
-                    .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning))
+                options.UseSqlServer(Configuration.GetConnectionString("OneAdvisorDb"),
+                    sqlServerOptionsAction: sqlOptions =>
+                    {
+                        sqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: 10,
+                            maxRetryDelay: TimeSpan.FromSeconds(30),
+                            errorNumbersToAdd: null
+                        );
+                    })
+                .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning))
             );
 
             //Services.AddDbContext<AuditDbContext>();

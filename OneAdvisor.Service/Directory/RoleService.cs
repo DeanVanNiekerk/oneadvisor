@@ -125,6 +125,7 @@ namespace OneAdvisor.Service.Directory
                 entity = new RoleEntity();
 
             entity.Name = model.Name;
+            entity.NormalizedName = model.Name.ToUpper();
             entity.Description = model.Description;
             entity.ApplicationId = model.ApplicationId.Value;
 
