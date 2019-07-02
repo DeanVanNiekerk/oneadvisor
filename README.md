@@ -95,7 +95,16 @@ See .vscode/extensions.json
 :beetle:
 
 ```
-Release v0.6.0
+
+Release v0.6.1
+===============
+
+Bug Fixes:
+- Empty looksup bug on signin
+- Commission > Statements > Sorting on statments table
+
+
+Release v0.6.1
 ===============
 
 New Features:

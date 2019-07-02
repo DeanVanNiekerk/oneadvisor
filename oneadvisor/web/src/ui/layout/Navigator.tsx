@@ -63,13 +63,14 @@ class Navigator extends Component<Props> {
     };
 
     getEnvironmentName = (): string => {
+        const version = `v${this.props.appInfo ? this.props.appInfo.version : ""}`;
         switch (config.environment) {
             case "development":
                 return "Dev";
             case "staging":
-                return "Staging";
+                return `Staging ${version}`;
             default:
-                return `v${this.props.appInfo ? this.props.appInfo.version : ""}`;
+                return `${version}`;
         }
     };
 
@@ -128,30 +129,16 @@ class Navigator extends Component<Props> {
                     <div style={signoutStyle} onClick={this.signOut}>
                         Signout
                     </div>
-                    <Menu
-                        theme="dark"
-                        mode="horizontal"
-                        style={{ lineHeight: "64px" }}
-                    >
+                    <Menu theme="dark" mode="horizontal" style={{ lineHeight: "64px" }}>
                         {this.props.applications
-                            .filter(app =>
-                                hasUseCasesMenuGroups(
-                                    this.props.menus[app.id].groups,
-                                    this.props.useCases
-                                )
-                            )
+                            .filter(app => hasUseCasesMenuGroups(this.props.menus[app.id].groups, this.props.useCases))
                             .map(app => (
                                 <Item
                                     key={app.id}
                                     style={this.getMenuItemStyle(app)}
-                                    onClick={() =>
-                                        this.navigate(app.relativePath)
-                                    }
+                                    onClick={() => this.navigate(app.relativePath)}
                                 >
-                                    <Icon
-                                        type={app.icon}
-                                        style={{ fontSize: "16px" }}
-                                    />
+                                    <Icon type={app.icon} style={{ fontSize: "16px" }} />
                                     {app.name}
                                 </Item>
                             ))}
