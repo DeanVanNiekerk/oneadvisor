@@ -1,19 +1,19 @@
-import { Col, List, Row, Select } from 'antd';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
-import { arrayMove, SortableContainer, SortableElement, SortEnd } from 'react-sortable-hoc';
-import { v4 } from 'uuid';
+import { Col, List, Row, Select } from "antd";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
+import { arrayMove, SortableContainer, SortableElement, SortEnd } from "react-sortable-hoc";
+import { v4 } from "uuid";
 
-import { getColumnDefinition } from '@/app/table';
+import { getColumnDefinition } from "@/app/table";
 import {
     clientImportNextStep, clientImportPreviousStep, clientImportSelectedColumnsSelector, clientImportSelector,
     clientImportTableRowsSelector, ImportClient, ImportColumn, ImportTableRow, receiveClientImportClients,
     receiveClientImportSelectedColumns
-} from '@/state/app/client/import';
-import { RootState } from '@/state/rootReducer';
-import { getTable } from '@/ui/controls';
+} from "@/state/app/client/import";
+import { RootState } from "@/state/rootReducer";
+import { getTable } from "@/ui/controls";
 
-import StepProgress from '../StepProgress';
+import StepProgress from "../StepProgress";
 
 const Table = getTable<ImportTableRow>();
 
@@ -40,7 +40,7 @@ const SortableList = SortableContainer((props: SortableListProps) => {
 type Props = {
     columns: ImportColumn[];
     selectedImportColumns: ImportColumn[];
-    selectedColumns: string[];
+    selectedColumns: (keyof ImportClient)[];
     rows: ImportTableRow[];
 } & DispatchProp;
 
@@ -74,7 +74,7 @@ class Configure extends Component<Props> {
         return this.props.selectedImportColumns.map(c => getColumn(c.id, c.name, {}, { sorter: undefined }));
     };
 
-    onSelectedColumnChange = (columns: string[]) => {
+    onSelectedColumnChange = (columns: (keyof ImportClient)[]) => {
         this.props.dispatch(receiveClientImportSelectedColumns(columns));
     };
 

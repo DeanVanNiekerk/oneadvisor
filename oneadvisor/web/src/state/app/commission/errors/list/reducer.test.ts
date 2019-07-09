@@ -1,7 +1,7 @@
-import { Filters, SortOptions } from '@/app/table';
+import { SortOptions } from "@/app/table";
 
-import { CommissionError } from '../';
-import { defaultState, reducer } from './reducer';
+import { CommissionError } from "../";
+import { defaultState, reducer } from "./reducer";
 
 const defaultCommissionError: CommissionError = {
     id: "10",
@@ -19,6 +19,8 @@ const defaultCommissionError: CommissionError = {
     },
     isFormatValid: false,
     policyTypeCode: "med_cover",
+    companyId: "123",
+    companyName: "Hi there",
 };
 
 describe("error list reducer", () => {
