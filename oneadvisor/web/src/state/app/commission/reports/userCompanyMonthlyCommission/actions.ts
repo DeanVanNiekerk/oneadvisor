@@ -1,8 +1,8 @@
-import { appendFiltersQuery } from '@/app/query';
-import { ApiAction } from '@/app/types';
-import { commissionReportsApi } from '@/config/api/commission';
+import { appendFiltersQuery } from "@/app/query";
+import { ApiAction } from "@/app/types";
+import { commissionReportsApi } from "@/config/api/commission";
 
-import { UserCompanyMonthlyCommissionData, UserCompanyMonthlyCommissionFilters } from './types';
+import { UserCompanyMonthlyCommissionData, UserCompanyMonthlyCommissionFilters } from "./types";
 
 type UserCompanyMonthlyCommissionDataReceiveAction = {
     type: "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_RECEIVE";

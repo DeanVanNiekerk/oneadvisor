@@ -1,34 +1,40 @@
-import { Col, Row, Select } from 'antd';
-import moment from 'moment';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Col, Row, Select } from "antd";
+import moment from "moment";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { getMonthOptions, getYearOptions, SERVER_DATE_FORMAT } from '@/app/utils';
+import { downloadExcelSheets } from "@/app/excel/helpers";
+import { getMonthOptions, getYearOptions, SERVER_DATE_FORMAT } from "@/app/utils";
+import { CommissionEarningsType, commissionEarningsTypesSelector } from "@/state/app/commission/lookups";
 import {
     fetchUserCompanyMonthlyCommissionData, fetchUserEarningsTypeMonthlyCommissionData,
     receiveUserCompanyMonthlyCommissionFilters, receiveUserEarningsTypeMonthlyCommissionFilters,
     receiveUserMonthlyCommissionMonth, receiveUserMonthlyCommissionUserMonthlyCommissionType,
-    receiveUserMonthlyCommissionYear, UserCompanyMonthlyCommissionFilters, userCompanyMonthlyCommissionSelector,
-    UserEarningsTypeMonthlyCommissionData, UserEarningsTypeMonthlyCommissionFilters,
-    userEarningsTypeMonthlyCommissionSelector, userMonthlyCommissionSelector, UserMonthlyCommissionType,
-    UserMonthlyCommissionTypeOption
-} from '@/state/app/commission/reports';
-import { companiesSelector, Company } from '@/state/app/directory/lookups';
-import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
-import { RootState } from '@/state/rootReducer';
-import { Header } from '@/ui/controls';
+    receiveUserMonthlyCommissionYear, UserCompanyMonthlyCommissionData, UserCompanyMonthlyCommissionFilters,
+    userCompanyMonthlyCommissionSelector, UserEarningsTypeMonthlyCommissionData,
+    UserEarningsTypeMonthlyCommissionFilters, userEarningsTypeMonthlyCommissionSelector, userMonthlyCommissionSelector,
+    UserMonthlyCommissionType, UserMonthlyCommissionTypeOption
+} from "@/state/app/commission/reports";
+import {
+    userEarningsTypeMonthlyCommissionItemsSelector
+} from "@/state/app/commission/reports/userEarningsTypeMonthlyCommission/selectors";
+import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
+import { RootState } from "@/state/rootReducer";
+import { Button, Header } from "@/ui/controls";
 
-import CompanyReport from './company/CompanyReport';
-import EarningsTypeReport from './earningsType/EarningsTypeReport';
+import CompanyReport from "./company/CompanyReport";
+import EarningsTypeReport from "./earningsType/EarningsTypeReport";
 
 type Props = {
     earningsTypeRecords: UserEarningsTypeMonthlyCommissionData[];
-    fetchingEarningsTypeRecords: boolean;
+    companyRecords: UserCompanyMonthlyCommissionData[];
     userEarningsTypeMonthlyCommissionFilters: UserEarningsTypeMonthlyCommissionFilters;
     userCompanyMonthlyMonthlyCommissionFilters: UserCompanyMonthlyCommissionFilters;
     users: UserSimple[];
     earningsTypeTotal: number;
     companies: Company[];
+    commissionEarningsTypes: CommissionEarningsType[];
     selectedMonth: number;
     selectedYear: number;
     selectedType: UserMonthlyCommissionType;
@@ -173,10 +179,67 @@ class UserMonthlyCommissionReport extends Component<Props> {
         );
     };
 
+    download = () => {
+        let fileName = "BrokerCommission";
+
+        const startDate = this.props.userEarningsTypeMonthlyCommissionFilters.startDate;
+        const start = startDate ? startDate[0] : "";
+
+        const endDate = this.props.userEarningsTypeMonthlyCommissionFilters.endDate;
+        const end = endDate ? endDate[0] : "";
+
+        fileName += `_${start}_${end}.xlsx`;
+
+        downloadExcelSheets(
+            [
+                {
+                    name: "Earnings Types",
+                    data: this.props.earningsTypeRecords.map(d => ({
+                        earningsType: this.getEarningsTypeName(d.commissionEarningsTypeId),
+                        amountExcludingVAT: d.amountExcludingVAT,
+                    })),
+                },
+                {
+                    name: "Company",
+                    data: this.props.companyRecords.map(d => ({
+                        company: this.getCompanyName(d.companyId),
+                        amountExcludingVAT: d.amountExcludingVAT,
+                    })),
+                },
+            ],
+            fileName
+        );
+    };
+
+    getCompanyName = (companyId: string) => {
+        const company = this.props.companies.find(c => c.id === companyId);
+        if (company) return company.name;
+        return "";
+    };
+
+    getEarningsTypeName = (earningsTypeId: string) => {
+        const earningsType = this.props.commissionEarningsTypes.find(c => c.id === earningsTypeId);
+        if (earningsType) return earningsType.name;
+        return "";
+    };
+
     render() {
         return (
             <>
-                <Header icon="pie-chart">Broker Monthly Commission Report</Header>
+                <Header
+                    icon="pie-chart"
+                    actions={
+                        <Row type="flex" gutter={10} align="middle">
+                            <Col>
+                                <Button icon="download" onClick={this.download} noLeftMargin={true}>
+                                    Download
+                                </Button>
+                            </Col>
+                        </Row>
+                    }
+                >
+                    Broker Monthly Commission Report
+                </Header>
 
                 <Row type="flex" gutter={10} align="middle" justify="start">
                     <Col>
@@ -287,12 +350,16 @@ const mapStateToProps = (state: RootState) => {
     const userMonthlyCommissionState = userMonthlyCommissionSelector(state);
     const usersState = usersSimpleSelector(state);
     const companiesState = companiesSelector(state);
+    const commissionEarningsTypesState = commissionEarningsTypesSelector(state);
 
     return {
+        earningsTypeRecords: userEarningsTypeMonthlyCommissionItemsSelector(state),
         userEarningsTypeMonthlyCommissionFilters: userEarningsTypeMonthlyCommissionState.filters,
+        companyRecords: userCompanyMonthlyCommissionState.items,
         userCompanyMonthlyMonthlyCommissionFilters: userCompanyMonthlyCommissionState.filters,
         users: usersState.items,
         companies: companiesState.items,
+        commissionEarningsTypes: commissionEarningsTypesState.items,
         selectedMonth: userMonthlyCommissionState.month,
         selectedYear: userMonthlyCommissionState.year,
         selectedType: userMonthlyCommissionState.type,
