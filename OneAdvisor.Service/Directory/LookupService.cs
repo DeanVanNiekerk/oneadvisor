@@ -10,16 +10,14 @@ using OneAdvisor.Service.Directory.Validators.Lookup;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Data.Entities.Directory.Lookup;
-using System.Text.RegularExpressions;
-using OneAdvisor.Data.Entities.Commission.Lookup;
 
 namespace OneAdvisor.Service.Directory
 {
-    public class LookupService : ILookupService
+    public class DirectoryLookupService : IDirectoryLookupService
     {
         private readonly DataContext _context;
 
-        public LookupService(DataContext context)
+        public DirectoryLookupService(DataContext context)
         {
             _context = context;
         }

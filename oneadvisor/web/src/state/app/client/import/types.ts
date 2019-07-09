@@ -21,8 +21,9 @@ export type ImportClient = {
     policyCompanyId?: string | null;
     policyUserFullName?: string | null;
     policyPremium?: number | null;
-    policyType?: string | null;
+    policyTypeCode?: string | null;
     policyStartDate?: string | null;
+    clientTypeCode?: string | null;
 };
 
 export type ResultFailure = {

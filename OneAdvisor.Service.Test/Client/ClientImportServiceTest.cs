@@ -5,15 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 using OneAdvisor.Data;
-using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Client;
-using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Account.Model.Authentication;
-using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Client.Model.ImportClient;
-using OneAdvisor.Model.Client.Model.Client;
-using OneAdvisor.Model.Client.Model.Policy;
 using OneAdvisor.Service.Client;
 using OneAdvisor.Service.Directory;
 using OneAdvisor.Model.Client.Model.Lookup;
@@ -31,10 +25,14 @@ namespace OneAdvisor.Service.Test.Client
 
             var user1 = TestHelper.InsertUserDetailed(options);
 
+            var clientType = TestHelper.InsertClientTypeIndividual(options);
+
             using (var context = new DataContext(options))
             {
                 var clientService = new ClientService(context);
-                var service = new ClientImportService(context, clientService, null, null, null);
+                var lookupService = new ClientLookupService(context);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, null, null, lookupService, directoryLookupService);
 
                 //When
                 var data = new ImportClient()
@@ -43,7 +41,8 @@ namespace OneAdvisor.Service.Test.Client
                     FirstName = "FN",
                     LastName = "LN",
                     TaxNumber = "987654",
-                    DateOfBirth = DateTime.Now
+                    DateOfBirth = DateTime.Now,
+                    ClientTypeCode = clientType.Code
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -55,12 +54,51 @@ namespace OneAdvisor.Service.Test.Client
 
                 var actual = await context.Client.FirstOrDefaultAsync(m => m.IdNumber == "8210035032082");
                 Assert.Null(actual.AlternateIdNumber);
-                Assert.Equal(ClientType.CLIENT_TYPE_INDIVIDUAL, actual.ClientTypeId);
+                Assert.Equal(clientType.Id, actual.ClientTypeId);
                 Assert.Equal(user1.Organisation.Id, actual.OrganisationId);
                 Assert.Equal(data.LastName, actual.LastName);
                 Assert.Equal(data.FirstName, actual.FirstName);
                 Assert.Equal(data.TaxNumber, actual.TaxNumber);
                 Assert.Equal(data.DateOfBirth, actual.DateOfBirth);
+            }
+        }
+
+        [Fact]
+        public async Task ImportClient_InsertUnknownEntity()
+        {
+            var options = TestHelper.GetDbContext("ImportClient_InsertUnknownEntity");
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+
+            var clientType = TestHelper.InsertClientTypeUnknown(options);
+
+            using (var context = new DataContext(options))
+            {
+                var clientService = new ClientService(context);
+                var lookupService = new ClientLookupService(context);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, null, null, lookupService, directoryLookupService);
+
+                //When
+                var data = new ImportClient()
+                {
+                    LastName = "Unknown Here",
+                    ClientTypeCode = clientType.Code
+                };
+
+                var scope = TestHelper.GetScopeOptions(user1);
+
+                var result = await service.ImportClient(scope, data);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.Client.FirstOrDefaultAsync();
+                Assert.Null(actual.AlternateIdNumber);
+                Assert.Null(actual.FirstName);
+                Assert.Equal(clientType.Id, actual.ClientTypeId);
+                Assert.Equal(user1.Organisation.Id, actual.OrganisationId);
+                Assert.Equal(data.LastName, actual.LastName);
             }
         }
 
@@ -74,7 +112,9 @@ namespace OneAdvisor.Service.Test.Client
             using (var context = new DataContext(options))
             {
                 var clientService = new ClientService(context);
-                var service = new ClientImportService(context, clientService, null, null, null);
+                var lookupService = new ClientLookupService(context);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, null, null, lookupService, directoryLookupService);
 
                 //When
                 var data = new ImportClient()
@@ -104,7 +144,9 @@ namespace OneAdvisor.Service.Test.Client
             using (var context = new DataContext(options))
             {
                 var clientService = new ClientService(context);
-                var service = new ClientImportService(context, clientService, null, null, null);
+                var lookupService = new ClientLookupService(context);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, null, null, lookupService, directoryLookupService);
 
                 //When
                 var data = new ImportClient()
@@ -134,7 +176,9 @@ namespace OneAdvisor.Service.Test.Client
             using (var context = new DataContext(options))
             {
                 var clientService = new ClientService(context);
-                var service = new ClientImportService(context, clientService, null, null, null);
+                var lookupService = new ClientLookupService(context);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, null, null, lookupService, directoryLookupService);
 
                 //When
                 var data = new ImportClient()
@@ -165,7 +209,9 @@ namespace OneAdvisor.Service.Test.Client
             {
                 var clientService = new ClientService(context);
                 var contactService = new ContactService(context);
-                var service = new ClientImportService(context, clientService, null, contactService, null);
+                var lookupService = new ClientLookupService(context);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, null, contactService, lookupService, directoryLookupService);
 
                 //When
                 var data = new ImportClient()
@@ -199,7 +245,9 @@ namespace OneAdvisor.Service.Test.Client
             {
                 var clientService = new ClientService(context);
                 var contactService = new ContactService(context);
-                var service = new ClientImportService(context, clientService, null, contactService, null);
+                var lookupService = new ClientLookupService(context);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, null, contactService, lookupService, directoryLookupService);
 
                 //When
                 var data = new ImportClient()
@@ -229,13 +277,16 @@ namespace OneAdvisor.Service.Test.Client
 
             var user1 = TestHelper.InsertUserDetailed(options);
 
+            var company = TestHelper.InsertCompany(options);
+
             using (var context = new DataContext(options))
             {
                 var clientService = new ClientService(context);
                 var policyService = new PolicyService(context);
                 var contactService = new ContactService(context);
-                var clientLookupService = new ClientLookupService(context);
-                var service = new ClientImportService(context, clientService, policyService, contactService, clientLookupService);
+                var lookupService = new ClientLookupService(context);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, policyService, contactService, lookupService, directoryLookupService);
 
                 //When
                 var data = new ImportClient()
@@ -243,7 +294,7 @@ namespace OneAdvisor.Service.Test.Client
                     IdNumber = "",
                     PolicyNumber = "123456798",
                     LastName = "Some Business",
-                    PolicyCompanyId = Guid.NewGuid(),
+                    PolicyCompanyId = company.Id,
                     PolicyUserFullName = user1.User.FirstName + " " + user1.User.LastName
                 };
 
@@ -291,7 +342,9 @@ namespace OneAdvisor.Service.Test.Client
             using (var context = new DataContext(options))
             {
                 var clientService = new ClientService(context);
-                var service = new ClientImportService(context, clientService, null, null, null);
+                var lookupService = new ClientLookupService(context);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, null, null, lookupService, directoryLookupService);
 
                 //When
                 var data = new ImportClient()
@@ -347,7 +400,9 @@ namespace OneAdvisor.Service.Test.Client
             using (var context = new DataContext(options))
             {
                 var clientService = new ClientService(context);
-                var service = new ClientImportService(context, clientService, null, null, null);
+                var lookupService = new ClientLookupService(context);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, null, null, lookupService, directoryLookupService);
 
                 //When
                 var data = new ImportClient()
@@ -380,15 +435,18 @@ namespace OneAdvisor.Service.Test.Client
             var client2 = TestHelper.InsertClient(options, user1.Organisation);
             var client1 = TestHelper.InsertClient(options, user1.Organisation, "8210035032082");
 
-            var policy2 = TestHelper.InsertPolicy(options, client2, user1);
-            var policy1 = TestHelper.InsertPolicy(options, client1, user1);
+            var company = TestHelper.InsertCompany(options);
+
+            var policy2 = TestHelper.InsertPolicy(options, client2, user1, company.Id);
+            var policy1 = TestHelper.InsertPolicy(options, client1, user1, company.Id);
 
             using (var context = new DataContext(options))
             {
                 var clientService = new ClientService(context);
                 var policyService = new PolicyService(context);
-                var clientLookupService = new ClientLookupService(context);
-                var service = new ClientImportService(context, clientService, policyService, null, clientLookupService);
+                var lookupService = new ClientLookupService(context);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, policyService, null, lookupService, directoryLookupService);
 
                 //When
                 var data = new ImportClient()
@@ -396,7 +454,7 @@ namespace OneAdvisor.Service.Test.Client
                     IdNumber = "",
                     LastName = "LN updated",
                     PolicyNumber = policy1.Number,
-                    PolicyCompanyId = policy1.CompanyId,
+                    PolicyCompanyId = company.Id,
                     PolicyUserFullName = user1.User.FirstName + " " + user1.User.LastName
                 };
 
@@ -456,7 +514,9 @@ namespace OneAdvisor.Service.Test.Client
             {
                 var clientService = new ClientService(context);
                 var contactService = new ContactService(context);
-                var service = new ClientImportService(context, clientService, null, contactService, null);
+                var lookupService = new ClientLookupService(context);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, null, contactService, lookupService, directoryLookupService);
 
                 //When
                 var data = new ImportClient()
@@ -514,7 +574,9 @@ namespace OneAdvisor.Service.Test.Client
             using (var context = new DataContext(options))
             {
                 var clientService = new ClientService(context);
-                var service = new ClientImportService(context, clientService, null, null, null);
+                var lookupService = new ClientLookupService(context);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, null, null, lookupService, directoryLookupService);
 
                 //When
                 var data = new ImportClient()
@@ -571,7 +633,9 @@ namespace OneAdvisor.Service.Test.Client
             using (var context = new DataContext(options))
             {
                 var clientService = new ClientService(context);
-                var service = new ClientImportService(context, clientService, null, null, null);
+                var lookupService = new ClientLookupService(context);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, null, null, lookupService, directoryLookupService);
 
                 //When
                 var data = new ImportClient()
@@ -603,12 +667,15 @@ namespace OneAdvisor.Service.Test.Client
             var policyType1 = TestHelper.InsertPolicyType(options);
             var policyType2 = TestHelper.InsertPolicyType(options);
 
+            var company = TestHelper.InsertCompany(options);
+
             using (var context = new DataContext(options))
             {
                 var clientService = new ClientService(context);
                 var policyService = new PolicyService(context);
                 var lookupService = new ClientLookupService(context);
-                var service = new ClientImportService(context, clientService, policyService, null, lookupService);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, policyService, null, lookupService, directoryLookupService);
 
                 //When
                 var data = new ImportClient()
@@ -616,8 +683,8 @@ namespace OneAdvisor.Service.Test.Client
                     IdNumber = "12345",
                     LastName = "LN",
                     PolicyNumber = "987654",
-                    PolicyCompanyId = Guid.NewGuid(),
-                    PolicyType = policyType2.Code,
+                    PolicyCompanyId = company.Id,
+                    PolicyTypeCode = policyType2.Code,
                     PolicyPremium = 5000,
                     PolicyStartDate = DateTime.Now,
                     PolicyUserFullName = $"{user1.User.FirstName} {user1.User.LastName}"
@@ -656,12 +723,15 @@ namespace OneAdvisor.Service.Test.Client
 
             var user1 = TestHelper.InsertUserDetailed(options, organisation, user);
 
+            var company = TestHelper.InsertCompany(options);
+
             using (var context = new DataContext(options))
             {
                 var clientService = new ClientService(context);
                 var policyService = new PolicyService(context);
                 var lookupService = new ClientLookupService(context);
-                var service = new ClientImportService(context, clientService, policyService, null, lookupService);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, policyService, null, lookupService, directoryLookupService);
 
                 //When
                 var data = new ImportClient()
@@ -669,7 +739,7 @@ namespace OneAdvisor.Service.Test.Client
                     IdNumber = "12345",
                     LastName = "LN",
                     PolicyNumber = "987654",
-                    PolicyCompanyId = Guid.NewGuid(),
+                    PolicyCompanyId = company.Id,
                     PolicyUserFullName = "Dj van Niekerk"
                 };
 
@@ -700,11 +770,13 @@ namespace OneAdvisor.Service.Test.Client
             var policyType1 = TestHelper.InsertPolicyType(options);
             var policyType2 = TestHelper.InsertPolicyType(options);
 
+            var company = TestHelper.InsertCompany(options);
+
             //Given
             var policyEntity1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
-                CompanyId = Guid.NewGuid(),
+                CompanyId = company.Id,
                 ClientId = client1.Client.Id,
                 UserId = user2.User.Id,
                 PolicyTypeId = policyType2.Id,
@@ -725,7 +797,8 @@ namespace OneAdvisor.Service.Test.Client
                 var clientService = new ClientService(context);
                 var policyService = new PolicyService(context);
                 var lookupService = new ClientLookupService(context);
-                var service = new ClientImportService(context, clientService, policyService, null, lookupService);
+                var directoryLookupService = new DirectoryLookupService(context);
+                var service = new ClientImportService(context, clientService, policyService, null, lookupService, directoryLookupService);
 
                 //When
                 var data = new ImportClient()
@@ -734,7 +807,7 @@ namespace OneAdvisor.Service.Test.Client
                     LastName = "LN",
                     PolicyNumber = policyEntity1.Number,
                     PolicyCompanyId = policyEntity1.CompanyId,
-                    PolicyType = policyType1.Code,
+                    PolicyTypeCode = policyType1.Code,
                     PolicyPremium = 6000,
                     PolicyStartDate = DateTime.Now.AddDays(-100),
                     PolicyUserFullName = $"{user1.User.FirstName} {user1.User.LastName}"

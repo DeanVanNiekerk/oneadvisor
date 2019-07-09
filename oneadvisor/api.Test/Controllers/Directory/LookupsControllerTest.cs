@@ -37,7 +37,7 @@ namespace api.Test.Controllers.Directory
 
             var companies = new List<Company>() { company };
 
-            var service = new Mock<ILookupService>();
+            var service = new Mock<IDirectoryLookupService>();
             service.Setup(c => c.GetCompanies()).ReturnsAsync(companies);
 
             var controller = new LookupsController(service.Object);
@@ -71,7 +71,7 @@ namespace api.Test.Controllers.Directory
                 company
             };
 
-            var service = new Mock<ILookupService>();
+            var service = new Mock<IDirectoryLookupService>();
 
             service.Setup(c => c.GetCompanies())
                 .ReturnsAsync(companies);
@@ -95,7 +95,7 @@ namespace api.Test.Controllers.Directory
                 Name = "Name1"
             };
 
-            var service = new Mock<ILookupService>();
+            var service = new Mock<IDirectoryLookupService>();
 
             var result = new Result()
             {
@@ -131,7 +131,7 @@ namespace api.Test.Controllers.Directory
                 Name = "Name1"
             };
 
-            var service = new Mock<ILookupService>();
+            var service = new Mock<IDirectoryLookupService>();
 
             var result = new Result()
             {

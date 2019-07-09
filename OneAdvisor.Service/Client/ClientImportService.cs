@@ -8,7 +8,6 @@ using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Account.Model.Authentication;
-using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Client.Interface;
 using OneAdvisor.Model.Client.Model.Contact;
 using OneAdvisor.Model.Client.Model.ImportClient;
@@ -16,8 +15,8 @@ using OneAdvisor.Model.Client.Model.Client;
 using OneAdvisor.Model.Client.Model.Policy;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Client.Validators;
-using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Client.Model.Lookup;
+using OneAdvisor.Model.Directory.Interface;
 
 namespace OneAdvisor.Service.Client
 {
@@ -28,19 +27,31 @@ namespace OneAdvisor.Service.Client
         private readonly IPolicyService _policyService;
         private readonly IContactService _contactService;
         private readonly IClientLookupService _lookupService;
+        private readonly IDirectoryLookupService _directoryLookupService;
 
-        public ClientImportService(DataContext context, IClientService clientService, IPolicyService policyService, IContactService contactService, IClientLookupService lookupService)
+        public ClientImportService(
+            DataContext context,
+            IClientService clientService,
+            IPolicyService policyService,
+            IContactService contactService,
+            IClientLookupService lookupService,
+            IDirectoryLookupService directoryLookupService)
         {
             _context = context;
             _clientService = clientService;
             _policyService = policyService;
             _contactService = contactService;
             _lookupService = lookupService;
+            _directoryLookupService = directoryLookupService;
         }
 
         public async Task<Result> ImportClient(ScopeOptions scope, ImportClient data)
         {
-            var validator = new ImportClientValidator(_context);
+            var policyTypes = await _lookupService.GetPolicyTypes();
+            var clientTypes = await _lookupService.GetClientTypes();
+            var companies = await _directoryLookupService.GetCompanies();
+
+            var validator = new ImportClientValidator(policyTypes, clientTypes, companies);
             var result = validator.Validate(data).GetResult();
 
             if (!result.Success)
@@ -111,7 +122,7 @@ namespace OneAdvisor.Service.Client
 
                 client = LoadClientIdNumber(client, data);
 
-                client = MapClientProperties(client, data);
+                client = MapClientProperties(client, data, clientTypes);
 
                 result = await _clientService.UpdateClient(scope, client);
 
@@ -122,7 +133,7 @@ namespace OneAdvisor.Service.Client
             {
                 client = new ClientEdit();
                 client = LoadClientIdNumber(client, data);
-                client = MapClientProperties(client, data);
+                client = MapClientProperties(client, data, clientTypes);
                 client = LoadClientType(client, data);
 
                 result = await _clientService.InsertClient(scope, client);
@@ -143,7 +154,7 @@ namespace OneAdvisor.Service.Client
             if (!result.Success)
                 return result;
 
-            result = await ImportPolicy(scope, data, client, userId);
+            result = await ImportPolicy(scope, data, client, userId, policyTypes);
 
             return result;
         }
@@ -176,9 +187,9 @@ namespace OneAdvisor.Service.Client
             return idNumber;
         }
 
-        private ClientEdit MapClientProperties(ClientEdit client, ImportClient data)
+        private ClientEdit MapClientProperties(ClientEdit client, ImportClient data, List<ClientType> clientTypes)
         {
-            client.ClientTypeId = client.ClientTypeId.HasValue ? client.ClientTypeId : ClientType.CLIENT_TYPE_INDIVIDUAL;
+            client.ClientTypeId = GetClientTypeId(data.ClientTypeCode, client, clientTypes);
             client.FirstName = data.FirstName != null ? data.FirstName : client.FirstName;
             client.LastName = data.LastName != null ? data.LastName : client.LastName;
             client.Initials = data.FirstName != null ? data.FirstName.Acronym() : client.Initials;
@@ -271,7 +282,7 @@ namespace OneAdvisor.Service.Client
 
         }
 
-        private async Task<Result> ImportPolicy(ScopeOptions scope, ImportClient data, ClientEdit client, Guid userId)
+        private async Task<Result> ImportPolicy(ScopeOptions scope, ImportClient data, ClientEdit client, Guid userId, List<PolicyType> policyTypes)
         {
             var result = new Result(true);
 
@@ -279,7 +290,6 @@ namespace OneAdvisor.Service.Client
                 return result;
 
             var policy = await _policyService.GetPolicy(scope, client.Id.Value, data.PolicyCompanyId.Value, data.PolicyNumber);
-            var policyTypes = await _lookupService.GetPolicyTypes();
 
             //Policy exits, update
             if (policy != null)
@@ -369,7 +379,7 @@ namespace OneAdvisor.Service.Client
             policy.UserId = userId;
             policy.Premium = data.PolicyPremium != null ? data.PolicyPremium : policy.Premium;
             policy.StartDate = data.PolicyStartDate != null ? data.PolicyStartDate : policy.StartDate;
-            policy.PolicyTypeId = GetPolicyTypeId(data.PolicyType, policyTypes);
+            policy.PolicyTypeId = GetPolicyTypeId(data.PolicyTypeCode, policyTypes);
 
             return policy;
         }
@@ -382,6 +392,16 @@ namespace OneAdvisor.Service.Client
                 return null;
 
             return policyType.Id;
+        }
+
+        private Guid GetClientTypeId(string clientTypeCode, ClientEdit client, List<ClientType> clientTypes)
+        {
+            var clientType = clientTypes.FirstOrDefault(p => p.Code.IgnoreCaseEquals(clientTypeCode));
+
+            if (clientType == null)
+                return client.ClientTypeId.HasValue ? client.ClientTypeId.Value : ClientType.CLIENT_TYPE_INDIVIDUAL;
+
+            return clientType.Id;
         }
     }
 }

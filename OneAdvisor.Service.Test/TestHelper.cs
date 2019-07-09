@@ -135,12 +135,14 @@ namespace OneAdvisor.Service.Test
             };
         }
 
-        public static PolicyEntity InsertPolicy(DbContextOptions<DataContext> options, DefaultClient client, DefaultUser user)
+        public static PolicyEntity InsertPolicy(DbContextOptions<DataContext> options, DefaultClient client, DefaultUser user, Guid? companyId = null)
         {
+            companyId = companyId.HasValue ? companyId : Guid.NewGuid();
+
             var policy = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
-                CompanyId = Guid.NewGuid(),
+                CompanyId = companyId.Value,
                 ClientId = client.Client.Id,
                 UserId = user.User.Id,
                 Number = Guid.NewGuid().ToString(),
@@ -158,6 +160,42 @@ namespace OneAdvisor.Service.Test
             };
 
             return policy;
+        }
+
+        public static ClientTypeEntity InsertClientTypeIndividual(DbContextOptions<DataContext> options)
+        {
+            var type = new ClientTypeEntity
+            {
+                Id = ClientType.CLIENT_TYPE_INDIVIDUAL,
+                Name = "Individual",
+                Code = "individual"
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.ClientType.Add(type);
+                context.SaveChanges();
+            };
+
+            return type;
+        }
+
+        public static ClientTypeEntity InsertClientTypeUnknown(DbContextOptions<DataContext> options)
+        {
+            var type = new ClientTypeEntity
+            {
+                Id = ClientType.CLIENT_TYPE_UNKNOWN_ENTITY,
+                Name = "Unknown Entity",
+                Code = "unknown"
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.ClientType.Add(type);
+                context.SaveChanges();
+            };
+
+            return type;
         }
 
         public static PolicyTypeEntity InsertPolicyType(DbContextOptions<DataContext> options)

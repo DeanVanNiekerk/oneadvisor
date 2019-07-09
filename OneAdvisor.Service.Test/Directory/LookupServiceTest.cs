@@ -41,7 +41,7 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                var service = new LookupService(context);
+                var service = new DirectoryLookupService(context);
 
                 //When
                 var actual = await service.GetCompanies();
@@ -81,7 +81,7 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                var service = new LookupService(context);
+                var service = new DirectoryLookupService(context);
 
                 //When
                 var actual = await service.GetCompany(lkp2.Id);
@@ -107,7 +107,7 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                var service = new LookupService(context);
+                var service = new DirectoryLookupService(context);
 
                 //When
                 var result = await service.InsertCompany(model);
@@ -145,7 +145,7 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                var service = new LookupService(context);
+                var service = new DirectoryLookupService(context);
 
                 //When
                 var result = await service.UpdateCompany(model);

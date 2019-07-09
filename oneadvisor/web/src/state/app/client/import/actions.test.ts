@@ -1,6 +1,6 @@
-import { ImportData } from './';
-import * as actions from './actions';
-import { ImportClient, ImportColumn } from './types';
+import { ImportData } from "./";
+import * as actions from "./actions";
+import { ImportClient, ImportColumn } from "./types";
 
 describe("client: import: actions", () => {
     it("should dispatch CLIENTS_IMPORT_DATA_RECEIVE when receiveClientImportData is called", () => {
@@ -27,22 +27,18 @@ describe("client: import: actions", () => {
             payload: columns,
         };
 
-        expect(actions.receiveClientImportColumns(columns)).toEqual(
-            expectedAction
-        );
+        expect(actions.receiveClientImportColumns(columns)).toEqual(expectedAction);
     });
 
     it("should dispatch CLIENTS_IMPORT_SELECTED_COLUMNS_RECEIVE when receiveClientImportSelectedColumns is called", () => {
-        const columns: string[] = ["idNumber"];
+        const columns: (keyof ImportClient)[] = ["idNumber"];
 
         const expectedAction = {
             type: "CLIENTS_IMPORT_SELECTED_COLUMNS_RECEIVE",
             payload: columns,
         };
 
-        expect(actions.receiveClientImportSelectedColumns(columns)).toEqual(
-            expectedAction
-        );
+        expect(actions.receiveClientImportSelectedColumns(columns)).toEqual(expectedAction);
     });
 
     it("should dispatch CLIENTS_IMPORT_CLIENTS_RECEIVE when receiveClientImportClients is called", () => {
@@ -58,9 +54,7 @@ describe("client: import: actions", () => {
             payload: clients,
         };
 
-        expect(actions.receiveClientImportClients(clients)).toEqual(
-            expectedAction
-        );
+        expect(actions.receiveClientImportClients(clients)).toEqual(expectedAction);
     });
 
     it("should dispatch CLIENTS_IMPORT_CLIENTS_REMOVE when removeClientImportClient is called", () => {
@@ -78,9 +72,7 @@ describe("client: import: actions", () => {
             payload: "1",
         };
 
-        expect(actions.receiveClientImportPolicyCompany("1")).toEqual(
-            expectedAction
-        );
+        expect(actions.receiveClientImportPolicyCompany("1")).toEqual(expectedAction);
     });
 
     it("should dispatch CLIENTS_IMPORT_CLIENTS_NEXT_STEP when clientImportNextStep is called", () => {

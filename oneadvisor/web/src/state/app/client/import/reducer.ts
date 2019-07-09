@@ -1,7 +1,7 @@
-import update from 'immutability-helper';
+import update from "immutability-helper";
 
-import { ImportClientAction } from './actions';
-import { ImportClient, ImportColumn, ImportData, ResultFailure } from './types';
+import { ImportClientAction } from "./actions";
+import { ImportClient, ImportColumn, ImportData, ResultFailure } from "./types";
 
 export type State = {
     readonly fileName: string;
@@ -9,7 +9,7 @@ export type State = {
     readonly currentStepIndex: number;
     readonly steps: string[];
     readonly columns: ImportColumn[];
-    readonly selectedColumns: string[];
+    readonly selectedColumns: (keyof ImportClient)[];
     readonly clients: ImportClient[];
     readonly companyId: string | null;
     readonly resultsSuccess: ImportClient[];
@@ -34,10 +34,12 @@ export const defaultState: State = {
         "dateOfBirth",
         "taxNumber",
         "policyNumber",
+        "policyCompanyId",
         "policyUserFullName",
         "policyPremium",
-        "policyType",
+        "policyTypeCode",
         "policyStartDate",
+        "clientTypeCode",
     ],
     columns: [
         {
@@ -73,6 +75,10 @@ export const defaultState: State = {
             name: "Policy Number",
         },
         {
+            id: "policyCompanyId",
+            name: "Policy Company Id",
+        },
+        {
             id: "policyUserFullName",
             name: "Policy Broker",
         },
@@ -81,20 +87,21 @@ export const defaultState: State = {
             name: "Policy Premium",
         },
         {
-            id: "policyType",
-            name: "Policy Type",
+            id: "policyTypeCode",
+            name: "Policy Type Code",
         },
         {
             id: "policyStartDate",
             name: "Policy Start Date",
         },
+        {
+            id: "clientTypeCode",
+            name: "Client Type Code",
+        },
     ],
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: ImportClientAction
-): State => {
+export const reducer = (state: State = defaultState, action: ImportClientAction): State => {
     switch (action.type) {
         case "CLIENTS_IMPORT_FILE_NAME_RECEIVE": {
             return {

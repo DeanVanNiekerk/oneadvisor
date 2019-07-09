@@ -80,11 +80,11 @@ export const downloadCommissionErrors = (errors: PagedItems<CommissionError>, co
     downloadExcel(
         errors.items.map(e => {
             return {
-                companyName: e.companyName,
-                companyId: e.companyId,
                 ...e.data,
                 policyTypeCode: e.policyTypeCode,
                 clientTypeCode: "",
+                companyId: e.companyId,
+                companyName: e.companyName,
             };
         }),
         fileName

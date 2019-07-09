@@ -17,12 +17,12 @@ namespace api.Controllers.Directory.Lookups
     [Route("api/directory/lookups")]
     public class LookupsController : Controller
     {
-        public LookupsController(ILookupService lookupService)
+        public LookupsController(IDirectoryLookupService lookupService)
         {
             LookupService = lookupService;
         }
 
-        private ILookupService LookupService { get; }
+        private IDirectoryLookupService LookupService { get; }
 
         [HttpGet("all")]
         public async Task<IActionResult> All()

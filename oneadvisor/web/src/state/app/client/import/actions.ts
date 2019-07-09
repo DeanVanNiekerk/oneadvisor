@@ -1,8 +1,8 @@
-import { v4 } from 'uuid';
+import { v4 } from "uuid";
 
-import { clientsImportApi } from '@/config/api/client';
+import { clientsImportApi } from "@/config/api/client";
 
-import { ImportClient, ImportColumn, ImportData, ResultFailure } from './';
+import { ImportClient, ImportColumn, ImportData, ResultFailure } from "./";
 
 type ImportFileNameReceiveAction = {
     type: "CLIENTS_IMPORT_FILE_NAME_RECEIVE";
@@ -65,7 +65,7 @@ type ImportClientImportResetAction = {
 
 type ImportClientsSelectedColumnsReceiveAction = {
     type: "CLIENTS_IMPORT_SELECTED_COLUMNS_RECEIVE";
-    payload: string[];
+    payload: (keyof ImportClient)[];
 };
 
 export type ImportClientAction =
@@ -84,37 +84,27 @@ export type ImportClientAction =
     | ImportClientImportResetAction
     | ImportClientsSelectedColumnsReceiveAction;
 
-export const receiveClientImportFileName = (
-    fileName: string
-): ImportClientAction => ({
+export const receiveClientImportFileName = (fileName: string): ImportClientAction => ({
     type: "CLIENTS_IMPORT_FILE_NAME_RECEIVE",
     payload: fileName,
 });
 
-export const receiveClientImportData = (
-    data: ImportData
-): ImportClientAction => ({
+export const receiveClientImportData = (data: ImportData): ImportClientAction => ({
     type: "CLIENTS_IMPORT_DATA_RECEIVE",
     payload: data,
 });
 
-export const receiveClientImportColumns = (
-    columns: ImportColumn[]
-): ImportClientAction => ({
+export const receiveClientImportColumns = (columns: ImportColumn[]): ImportClientAction => ({
     type: "CLIENTS_IMPORT_COLUMNS_RECEIVE",
     payload: columns,
 });
 
-export const receiveClientImportSelectedColumns = (
-    columns: string[]
-): ImportClientAction => ({
+export const receiveClientImportSelectedColumns = (columns: (keyof ImportClient)[]): ImportClientAction => ({
     type: "CLIENTS_IMPORT_SELECTED_COLUMNS_RECEIVE",
     payload: columns,
 });
 
-export const receiveClientImportClients = (
-    data: ImportClient[]
-): ImportClientAction => ({
+export const receiveClientImportClients = (data: ImportClient[]): ImportClientAction => ({
     type: "CLIENTS_IMPORT_CLIENTS_RECEIVE",
     payload: data,
 });
@@ -124,9 +114,7 @@ export const removeClientImportClient = (id: string): ImportClientAction => ({
     payload: id,
 });
 
-export const receiveClientImportPolicyCompany = (
-    companyId: string
-): ImportClientAction => ({
+export const receiveClientImportPolicyCompany = (companyId: string): ImportClientAction => ({
     type: "CLIENTS_IMPORT_CLIENTS_POLICY_COMPANY_RECEIVE",
     payload: companyId,
 });
@@ -151,17 +139,12 @@ export const importClientReset = (): ImportClientAction => ({
     type: "CLIENTS_IMPORT_CLIENT_RESET",
 });
 
-export const importClientSuccess = (
-    importClient: ImportClient
-): ImportClientAction => ({
+export const importClientSuccess = (importClient: ImportClient): ImportClientAction => ({
     type: "CLIENTS_IMPORT_CLIENT_SUCCESS",
     payload: importClient,
 });
 
-export const importClientFailure = (
-    importClient: ImportClient,
-    error: string
-): ImportClientAction => ({
+export const importClientFailure = (importClient: ImportClient, error: string): ImportClientAction => ({
     type: "CLIENTS_IMPORT_CLIENT_FAILURE",
     payload: {
         _id: v4(),
@@ -185,12 +168,7 @@ export const importClient = (client: ImportClient): any => {
                     next();
                 },
                 onFailure: error => {
-                    dispatch(
-                        importClientFailure(
-                            client,
-                            JSON.stringify(error, null, 4)
-                        )
-                    );
+                    dispatch(importClientFailure(client, JSON.stringify(error, null, 4)));
                     next();
                 },
             });

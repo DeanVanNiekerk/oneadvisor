@@ -53,7 +53,7 @@ namespace OneAdvisor.Function
             services.AddScoped<IBranchService, BranchService>();
             services.AddScoped<IApplicationService, ApplicationService>();
             services.AddScoped<IUseCaseService, UseCaseService>();
-            services.AddScoped<ILookupService, LookupService>();
+            services.AddScoped<IDirectoryLookupService, DirectoryLookupService>();
             services.AddScoped<IAuditService, AuditService>();
 
             //CLIENT

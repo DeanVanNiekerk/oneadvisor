@@ -32,7 +32,7 @@ namespace OneAdvisor.Service.Commission
     {
         private readonly DataContext _context;
         private readonly IPolicyService _policyService;
-        private readonly ILookupService _lookupService;
+        private readonly IDirectoryLookupService _lookupService;
         private readonly IBulkActions _bulkActions;
         private readonly ICommissionStatementService _commissionStatementService;
         private readonly ICommissionLookupService _commissionLookupService;
@@ -42,7 +42,7 @@ namespace OneAdvisor.Service.Commission
         public CommissionImportService(DataContext context, IBulkActions bulkActions,
             ICommissionStatementService commissionStatementService,
             IPolicyService policyService,
-            ILookupService lookupService,
+            IDirectoryLookupService lookupService,
             ICommissionLookupService commissionLookupService,
             ICommissionSplitService commissionSplitService,
             ICommissionSplitRulePolicyService commissionSplitRulePolicyService)

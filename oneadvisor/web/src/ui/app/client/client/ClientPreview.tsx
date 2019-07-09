@@ -1,22 +1,22 @@
-import { Icon } from 'antd';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { Icon } from "antd";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router";
 
-import { hasUseCase } from '@/app/identity';
-import { ClientPreview, clientPreviewSelector, fetchClient, fetchClientPreview } from '@/state/app/client/clients';
-import { ClientTypeId } from '@/state/app/client/lookups';
-import { newPolicy, receivePolicy } from '@/state/app/client/policies';
-import { useCaseSelector } from '@/state/auth';
-import { RootState } from '@/state/rootReducer';
+import { hasUseCase } from "@/app/identity";
+import { ClientPreview, clientPreviewSelector, fetchClient, fetchClientPreview } from "@/state/app/client/clients";
+import { ClientTypeId } from "@/state/app/client/lookups";
+import { newPolicy, receivePolicy } from "@/state/app/client/policies";
+import { useCaseSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
 import {
     Age, Button, ClientTypeIcon, Drawer, DrawerFooter, Header, PreviewCard, PreviewCardContainer, PreviewCardRow
-} from '@/ui/controls';
+} from "@/ui/controls";
 
-import ContactList from '../contact/ContactList';
-import EditPolicy from '../policy/EditPolicy';
-import PolicyList from '../policy/PolicyList';
-import EditClient from './EditClient';
+import ContactList from "../contact/ContactList";
+import EditPolicy from "../policy/EditPolicy";
+import PolicyList from "../policy/PolicyList";
+import EditClient from "./EditClient";
 
 type Props = {
     client: ClientPreview | null;
@@ -98,9 +98,7 @@ class ClientPreviewComponent extends Component<Props, State> {
     };
 
     getPolicyActions = () => {
-        const actions = [
-            <Icon type="bars" onClick={this.togglePolicyListVisible} />,
-        ];
+        const actions = [<Icon type="bars" onClick={this.togglePolicyListVisible} />];
 
         if (hasUseCase("clt_edit_policies", this.props.useCases))
             actions.unshift(
@@ -120,8 +118,19 @@ class ClientPreviewComponent extends Component<Props, State> {
         return this.props.history.push("/client");
     };
 
+    getTitle = () => {
+        const { client } = this.props;
+        if (!client) return "";
+
+        let title = client.lastName;
+
+        if (client.firstName) title = `${title}, ${client.firstName}`;
+
+        return title;
+    };
+
     render() {
-        let { client } = this.props;
+        const { client } = this.props;
         const cardHeight = "100px";
 
         let icon = <span />;
@@ -131,14 +140,8 @@ class ClientPreviewComponent extends Component<Props, State> {
 
         return (
             <>
-                <Header
-                    icon={icon}
-                    loading={this.isLoading()}
-                    onBack={this.back}
-                >
-                    {`${client && client.lastName}${
-                        client && client.firstName ? ", " : ""
-                    } ${client && (client.firstName || "")}`}
+                <Header icon={icon} loading={this.isLoading()} onBack={this.back}>
+                    {this.getTitle()}
                 </Header>
 
                 <PreviewCardContainer>
@@ -147,49 +150,27 @@ class ClientPreviewComponent extends Component<Props, State> {
                         icon="profile"
                         onClick={this.editDetails}
                         isLoading={this.isLoading()}
-                        actions={[
-                            <Icon type="edit" onClick={this.editDetails} />,
-                        ]}
+                        actions={[<Icon type="edit" onClick={this.editDetails} />]}
                         rows={2}
                         height={cardHeight}
                     >
                         {client && (
                             <>
-                                {client.clientTypeId ===
-                                    ClientTypeId.Individual && (
+                                {client.clientTypeId === ClientTypeId.Individual && (
                                     <>
                                         <PreviewCardRow
                                             label="Id"
-                                            value={`${
-                                                client.idNumber
-                                                    ? client.idNumber
-                                                    : ""
-                                            }`}
+                                            value={`${client.idNumber ? client.idNumber : ""}`}
                                         />
-                                        <PreviewCardRow
-                                            label="Age"
-                                            value={
-                                                <Age
-                                                    dateOfBirth={
-                                                        client.dateOfBirth
-                                                    }
-                                                />
-                                            }
-                                        />
+                                        <PreviewCardRow label="Age" value={<Age dateOfBirth={client.dateOfBirth} />} />
                                     </>
                                 )}
-                                {(client.clientTypeId ===
-                                    ClientTypeId.Company ||
-                                    client.clientTypeId ===
-                                        ClientTypeId.Trust) && (
+                                {(client.clientTypeId === ClientTypeId.Company ||
+                                    client.clientTypeId === ClientTypeId.Trust) && (
                                     <>
                                         <PreviewCardRow
                                             label="Reg. Number"
-                                            value={`${
-                                                client.alternateIdNumber
-                                                    ? client.alternateIdNumber
-                                                    : ""
-                                            }`}
+                                            value={`${client.alternateIdNumber ? client.alternateIdNumber : ""}`}
                                         />
                                     </>
                                 )}
@@ -207,14 +188,8 @@ class ClientPreviewComponent extends Component<Props, State> {
                     >
                         {client && (
                             <>
-                                <PreviewCardRow
-                                    label="Policies"
-                                    value={`${client.policyCount}`}
-                                />
-                                <PreviewCardRow
-                                    label=""
-                                    value={<span>&nbsp;</span>}
-                                />
+                                <PreviewCardRow label="Policies" value={`${client.policyCount}`} />
+                                <PreviewCardRow label="" value={<span>&nbsp;</span>} />
                             </>
                         )}
                     </PreviewCard>
@@ -224,33 +199,19 @@ class ClientPreviewComponent extends Component<Props, State> {
                         onClick={this.toggleContactListVisible}
                         isLoading={this.isLoading()}
                         requiredUseCase="clt_view_contacts"
-                        actions={[
-                            <Icon
-                                type="bars"
-                                onClick={this.toggleContactListVisible}
-                            />,
-                        ]}
+                        actions={[<Icon type="bars" onClick={this.toggleContactListVisible} />]}
                         height={cardHeight}
                     >
                         {client && (
                             <>
-                                <PreviewCardRow
-                                    label="Contacts"
-                                    value={`${client.contactCount}`}
-                                />
-                                <PreviewCardRow
-                                    label=""
-                                    value={<span>&nbsp;</span>}
-                                />
+                                <PreviewCardRow label="Contacts" value={`${client.contactCount}`} />
+                                <PreviewCardRow label="" value={<span>&nbsp;</span>} />
                             </>
                         )}
                     </PreviewCard>
                 </PreviewCardContainer>
 
-                <EditClient
-                    onClose={this.closeClientEdit}
-                    visible={this.state.clientEditVisible}
-                />
+                <EditClient onClose={this.closeClientEdit} visible={this.state.clientEditVisible} />
                 <EditPolicy onClose={this.onFormClose} />
 
                 <Drawer
@@ -260,14 +221,9 @@ class ClientPreviewComponent extends Component<Props, State> {
                     visible={this.state.policyListVisible}
                     onClose={this.togglePolicyListVisible}
                 >
-                    <PolicyList
-                        clientId={this.getClientId()}
-                        onChange={this.load}
-                    />
+                    <PolicyList clientId={this.getClientId()} onChange={this.load} />
                     <DrawerFooter>
-                        <Button onClick={this.togglePolicyListVisible}>
-                            Close
-                        </Button>
+                        <Button onClick={this.togglePolicyListVisible}>Close</Button>
                     </DrawerFooter>
                 </Drawer>
 
@@ -278,14 +234,9 @@ class ClientPreviewComponent extends Component<Props, State> {
                     visible={this.state.contactListVisible}
                     onClose={this.toggleContactListVisible}
                 >
-                    <ContactList
-                        clientId={this.getClientId()}
-                        onSave={this.load}
-                    />
+                    <ContactList clientId={this.getClientId()} onSave={this.load} />
                     <DrawerFooter>
-                        <Button onClick={this.toggleContactListVisible}>
-                            Close
-                        </Button>
+                        <Button onClick={this.toggleContactListVisible}>Close</Button>
                     </DrawerFooter>
                 </Drawer>
             </>

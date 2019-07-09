@@ -17,8 +17,9 @@ namespace OneAdvisor.Model.Client.Model.ImportClient
         public Guid? PolicyCompanyId { get; set; }
         public string PolicyUserFullName { get; set; }
         public decimal? PolicyPremium { get; set; }
-        public string PolicyType { get; set; }
+        public string PolicyTypeCode { get; set; }
         public DateTime? PolicyStartDate { get; set; }
+        public string ClientTypeCode { get; set; }
 
     }
 }

@@ -17,7 +17,7 @@ namespace api.Test.Controllers.Client
         [Fact]
         public void ImportClientModelComposition()
         {
-            Assert.Equal(13, typeof(ImportClient).PropertyCount());
+            Assert.Equal(14, typeof(ImportClient).PropertyCount());
             Assert.True(typeof(ImportClient).HasProperty("IdNumber"));
             Assert.True(typeof(ImportClient).HasProperty("FirstName"));
             Assert.True(typeof(ImportClient).HasProperty("LastName"));
@@ -29,8 +29,9 @@ namespace api.Test.Controllers.Client
             Assert.True(typeof(ImportClient).HasProperty("PolicyCompanyId"));
             Assert.True(typeof(ImportClient).HasProperty("PolicyUserFullName"));
             Assert.True(typeof(ImportClient).HasProperty("PolicyPremium"));
-            Assert.True(typeof(ImportClient).HasProperty("PolicyType"));
+            Assert.True(typeof(ImportClient).HasProperty("PolicyTypeCode"));
             Assert.True(typeof(ImportClient).HasProperty("PolicyStartDate"));
+            Assert.True(typeof(ImportClient).HasProperty("ClientTypeCode"));
         }
 
         [Fact]
@@ -49,8 +50,9 @@ namespace api.Test.Controllers.Client
                 PolicyCompanyId = Guid.NewGuid(),
                 PolicyUserFullName = "7",
                 PolicyPremium = 1,
-                PolicyType = "8",
+                PolicyTypeCode = "8",
                 PolicyStartDate = DateTime.Now,
+                ClientTypeCode = "9",
             };
 
             var service = new Mock<IClientImportService>();

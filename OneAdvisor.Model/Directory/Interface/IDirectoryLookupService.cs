@@ -6,7 +6,7 @@ using OneAdvisor.Model.Directory.Model.Lookup;
 
 namespace OneAdvisor.Model.Directory.Interface
 {
-    public interface ILookupService
+    public interface IDirectoryLookupService
     {
         Task<List<Company>> GetCompanies();
         Task<Company> GetCompany(Guid id);

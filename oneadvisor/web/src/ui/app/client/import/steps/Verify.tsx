@@ -1,20 +1,20 @@
-import { Col, Form, Popconfirm, Row, Select } from 'antd';
-import { ColumnProps } from 'antd/lib/table';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Col, Form, Popconfirm, Row, Select } from "antd";
+import { ColumnProps } from "antd/lib/table";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { filterOption } from '@/app/controls/select';
-import { getColumnDefinition } from '@/app/table';
+import { filterOption } from "@/app/controls/select";
+import { getColumnDefinition } from "@/app/table";
 import {
     clientImportNextStep, clientImportPreviousStep, clientImportSelectedColumnsSelector, clientImportSelector,
     ImportClient, importClientClearResults, ImportColumn, receiveClientImportPolicyCompany, removeClientImportClient,
     updateClientImportPolicyCompanies
-} from '@/state/app/client/import';
-import { companiesSelector, Company, fetchCompanies } from '@/state/app/directory/lookups/companies';
-import { RootState } from '@/state/rootReducer';
-import { getTable } from '@/ui/controls';
+} from "@/state/app/client/import";
+import { companiesSelector, Company, fetchCompanies } from "@/state/app/directory/lookups/companies";
+import { RootState } from "@/state/rootReducer";
+import { getTable } from "@/ui/controls";
 
-import StepProgress from '../StepProgress';
+import StepProgress from "../StepProgress";
 
 const Table = getTable<ImportClient>();
 
@@ -98,7 +98,10 @@ class Verify extends Component<Props> {
     };
 
     policyCompanyRequired = () => {
-        return this.props.columns.some(c => c.id === "policyNumber");
+        return (
+            this.props.columns.some(c => c.id === "policyNumber") &&
+            !this.props.columns.some(c => c.id === "policyCompanyId")
+        );
     };
 
     render() {
@@ -108,7 +111,7 @@ class Verify extends Component<Props> {
                     onPrevious={() => this.props.dispatch(clientImportPreviousStep())}
                     nextDisabled={!this.nextEnabled()}
                     onNext={() => {
-                        this.props.dispatch(updateClientImportPolicyCompanies());
+                        if (this.policyCompanyRequired()) this.props.dispatch(updateClientImportPolicyCompanies());
                         this.props.dispatch(importClientClearResults());
                         this.props.dispatch(clientImportNextStep());
                     }}

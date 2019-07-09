@@ -1,21 +1,14 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Protocols;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
-using OneAdvisor.Data;
-using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Email;
 using OneAdvisor.Model.Account.Interface;
-using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Email;
@@ -114,7 +107,7 @@ namespace api.App.Setup
             Services.AddScoped<IBranchService, BranchService>();
             Services.AddScoped<IApplicationService, ApplicationService>();
             Services.AddScoped<IUseCaseService, UseCaseService>();
-            Services.AddScoped<ILookupService, LookupService>();
+            Services.AddScoped<IDirectoryLookupService, DirectoryLookupService>();
             Services.AddScoped<IAuditService, AuditService>();
 
             //CLIENT

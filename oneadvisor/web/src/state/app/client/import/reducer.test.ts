@@ -1,6 +1,5 @@
-import { Company } from '../../directory/lookups/companies';
-import { ImportClient, ImportColumn, ImportData } from './';
-import { defaultState, reducer } from './reducer';
+import { ImportClient, ImportColumn, ImportData } from "./";
+import { defaultState, reducer } from "./reducer";
 
 describe("client import reducer", () => {
     it("should handle CLIENTS_IMPORT_DATA_RECEIVE", () => {
@@ -54,7 +53,7 @@ describe("client import reducer", () => {
             selectedColumns: [],
         };
 
-        const columns: string[] = ["idNumber"];
+        const columns: (keyof ImportClient)[] = ["idNumber"];
 
         const actualState = reducer(initalState, {
             type: "CLIENTS_IMPORT_SELECTED_COLUMNS_RECEIVE",

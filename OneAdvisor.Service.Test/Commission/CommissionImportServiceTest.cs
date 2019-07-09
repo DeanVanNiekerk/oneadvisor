@@ -34,7 +34,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var lookupService = new LookupService(context);
+                var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
                 var policyService = new PolicyService(context);
                 var commissionSplitService = new CommissionSplitService(context);
@@ -92,7 +92,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var lookupService = new LookupService(context);
+                var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
                 var policyService = new PolicyService(context);
                 var commissionSplitService = new CommissionSplitService(context);
@@ -168,7 +168,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.SaveChanges();
 
                 var statementService = new CommissionStatementService(context, null);
-                var lookupService = new LookupService(context);
+                var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
                 var commissionSplitService = new CommissionSplitService(context);
                 var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService);
@@ -248,7 +248,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.SaveChanges();
 
                 var statementService = new CommissionStatementService(context, null);
-                var lookupService = new LookupService(context);
+                var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
                 var commissionSplitService = new CommissionSplitService(context);
                 var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService);
@@ -333,7 +333,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.SaveChanges();
 
                 var statementService = new CommissionStatementService(context, null);
-                var lookupService = new LookupService(context);
+                var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
                 var policyService = new PolicyService(context);
                 var commissionSplitService = new CommissionSplitService(context);
@@ -423,7 +423,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.SaveChanges();
 
                 var statementService = new CommissionStatementService(context, null);
-                var lookupService = new LookupService(context);
+                var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
                 var policyService = new PolicyService(context);
                 var commissionSplitService = new CommissionSplitService(context);
@@ -506,7 +506,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.SaveChanges();
 
                 var statementService = new CommissionStatementService(context, null);
-                var lookupService = new LookupService(context);
+                var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
                 var policyService = new PolicyService(context);
                 var commissionSplitService = new CommissionSplitService(context);
@@ -616,7 +616,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.SaveChanges();
 
                 var statementService = new CommissionStatementService(context, null);
-                var lookupService = new LookupService(context);
+                var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
                 var policyService = new PolicyService(context);
                 var commissionSplitService = new CommissionSplitService(context);
@@ -765,7 +765,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.SaveChanges();
 
                 var statementService = new CommissionStatementService(context, null);
-                var lookupService = new LookupService(context);
+                var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
                 var policyService = new PolicyService(context);
                 var commissionSplitService = new CommissionSplitService(context);
