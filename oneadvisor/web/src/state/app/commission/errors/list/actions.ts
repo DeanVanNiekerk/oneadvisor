@@ -1,11 +1,11 @@
-import { downloadExcel } from '@/app/excel/helpers';
-import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from '@/app/query';
-import { PagedItems, PageOptions, SortOptions } from '@/app/table';
-import { ApiAction } from '@/app/types';
-import { DATE_FORMAT } from '@/app/utils';
-import { statementsApi } from '@/config/api/commission';
+import { downloadExcel } from "@/app/excel/helpers";
+import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from "@/app/query";
+import { PagedItems, PageOptions, SortOptions } from "@/app/table";
+import { ApiAction } from "@/app/types";
+import { DATE_FORMAT } from "@/app/utils";
+import { statementsApi } from "@/config/api/commission";
 
-import { CommissionError, CommissionErrorsFilters } from '../types';
+import { CommissionError, CommissionErrorsFilters } from "../types";
 
 type ErrorListReceiveAction = {
     type: "COMMISSIONS_ERRORS_LIST_RECEIVE";
@@ -80,8 +80,11 @@ export const downloadCommissionErrors = (errors: PagedItems<CommissionError>, co
     downloadExcel(
         errors.items.map(e => {
             return {
+                companyName: e.companyName,
+                companyId: e.companyId,
                 ...e.data,
                 policyTypeCode: e.policyTypeCode,
+                clientTypeCode: "",
             };
         }),
         fileName

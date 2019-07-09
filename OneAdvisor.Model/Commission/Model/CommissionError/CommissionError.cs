@@ -16,5 +16,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionError
         public bool IsFormatValid { get; set; }
 
         public string PolicyTypeCode { get; set; }
+        public Guid CompanyId { get; set; }
+        public string CompanyName { get; set; }
     }
 }

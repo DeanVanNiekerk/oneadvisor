@@ -257,6 +257,7 @@ namespace OneAdvisor.Service.Commission
         {
             var query = from entity in GetCommissionErrorEntityQuery(scope)
                         join commissionStatement in _context.CommissionStatement on entity.CommissionStatementId equals commissionStatement.Id
+                        join company in _context.Company on commissionStatement.CompanyId equals company.Id
                         join commissionType in _context.CommissionType on entity.CommissionTypeId equals commissionType.Id into commissionTypeGroup
                         from commissionType in commissionTypeGroup.DefaultIfEmpty()
                         join policyType in _context.PolicyType on commissionType.PolicyTypeId equals policyType.Id into policyTypeGroup
@@ -272,7 +273,9 @@ namespace OneAdvisor.Service.Commission
                             ClientId = entity.ClientId,
                             PolicyId = entity.PolicyId,
                             IsFormatValid = entity.IsFormatValid,
-                            PolicyTypeCode = policyType.Code
+                            PolicyTypeCode = policyType.Code,
+                            CompanyId = company.Id,
+                            CompanyName = company.Name
                         };
 
             return query;

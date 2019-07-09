@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using api.Controllers.Commission.CommissionError;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Newtonsoft.Json;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.Commission;
@@ -20,7 +19,7 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void CommissionErrorModelComposition()
         {
-            Assert.Equal(10, typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).PropertyCount());
+            Assert.Equal(12, typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).PropertyCount());
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("Id"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("CommissionStatementId"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("CommissionStatementYear"));
@@ -31,6 +30,8 @@ namespace api.Test.Controllers.Commission
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("Data"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("IsFormatValid"));
             Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("PolicyTypeCode"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("CompanyId"));
+            Assert.True(typeof(OneAdvisor.Model.Commission.Model.CommissionError.CommissionError).HasProperty("CompanyName"));
         }
 
         [Fact]

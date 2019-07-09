@@ -21,6 +21,8 @@ export type CommissionError = {
     data: CommissionImportData;
     isFormatValid: boolean;
     policyTypeCode: string | null;
+    companyName: string;
+    companyId: string;
 };
 
 export type CommissionImportData = {

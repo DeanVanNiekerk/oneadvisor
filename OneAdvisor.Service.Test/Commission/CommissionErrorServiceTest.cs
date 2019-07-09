@@ -758,8 +758,9 @@ namespace OneAdvisor.Service.Test.Commission
 
             var user1 = TestHelper.InsertUserDetailed(options);
             var client1 = TestHelper.InsertClient(options, user1.Organisation);
+            var company = TestHelper.InsertCompany(options);
 
-            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
+            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation, company.Id);
 
             var user2 = TestHelper.InsertUserDetailed(options);
 
@@ -839,6 +840,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
                 Assert.Equal(error1.Data, actual.Data);
                 Assert.Equal(policyType.Code, actual.PolicyTypeCode);
+                Assert.Equal(company.Id, actual.CompanyId);
+                Assert.Equal(company.Name, actual.CompanyName);
 
                 actual = results.Items.ToList()[1];
                 Assert.Equal(error3.Id, actual.Id);
