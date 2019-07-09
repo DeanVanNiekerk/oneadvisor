@@ -8,7 +8,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatement
     public class CommissionStatementQueryOptions : QueryOptionsBase<CommissionStatement>
     {
         public CommissionStatementQueryOptions(ScopeOptions scope, string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
-        : base(!string.IsNullOrWhiteSpace(sortColumn) ? sortColumn : "Date", !string.IsNullOrWhiteSpace(sortDirection) ? sortDirection : "desc", pageSize, pageNumber, filters)
+        : base(!string.IsNullOrWhiteSpace(sortColumn) ? sortColumn : "CompanyName", !string.IsNullOrWhiteSpace(sortDirection) ? sortDirection : "asc", pageSize, pageNumber, filters)
         {
             Scope = scope;
             CompanyId = new List<Guid>();

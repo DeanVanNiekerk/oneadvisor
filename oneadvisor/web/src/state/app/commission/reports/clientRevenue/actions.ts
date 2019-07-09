@@ -1,9 +1,9 @@
 import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from '@/app/query';
-import { Filters, PagedItems, PageOptions, SortOptions } from '@/app/table';
+import { PagedItems, PageOptions, SortOptions } from '@/app/table';
 import { ApiAction } from '@/app/types';
 import { commissionReportsApi } from '@/config/api/commission';
 
-import { ClientRevenueData } from './types';
+import { ClientRevenueData, ClientRevenueDataFilters } from './types';
 
 type ClientRevenueDataReceiveAction = {
     type: "COMMISSIONS_REPORT_MEM_REVENUE_RECEIVE";
@@ -25,7 +25,7 @@ type ClientRevenueDataSortOptionsReceiveAction = {
 };
 type ClientRevenueDataFiltersReceiveAction = {
     type: "COMMISSIONS_REPORT_MEM_REVENUE_FILTERS_RECEIVE";
-    payload: Filters;
+    payload: ClientRevenueDataFilters;
 };
 
 export type ClientRevenueDataAction =
@@ -39,7 +39,7 @@ export type ClientRevenueDataAction =
 export const fetchClientRevenueData = (
     pageOptions: PageOptions,
     sortOptions: SortOptions,
-    filters: Filters
+    filters: ClientRevenueDataFilters
 ): ApiAction => {
     let api = `${commissionReportsApi}/clientRevenueData`;
     api = appendPageOptionQuery(api, pageOptions);
@@ -67,14 +67,14 @@ export const receiveClientRevenueSortOptions = (
 });
 
 export const receiveClientRevenueFilters = (
-    filters: Filters
+    filters: ClientRevenueDataFilters
 ): ClientRevenueDataFiltersReceiveAction => ({
     type: "COMMISSIONS_REPORT_MEM_REVENUE_FILTERS_RECEIVE",
     payload: filters,
 });
 
 export const getClientRevenueData = (
-    filters: Filters,
+    filters: ClientRevenueDataFilters,
     onSuccess: (records: PagedItems<ClientRevenueData>) => void
 ): ApiAction => {
     let api = `${commissionReportsApi}/clientRevenueData`;

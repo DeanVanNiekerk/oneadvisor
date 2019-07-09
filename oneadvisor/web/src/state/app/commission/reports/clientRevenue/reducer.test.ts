@@ -1,7 +1,7 @@
-import { Filters, SortOptions } from '@/app/table';
+import { SortOptions } from '@/app/table';
 
 import { defaultState, reducer } from './reducer';
-import { ClientRevenueData } from './types';
+import { ClientRevenueData, ClientRevenueDataFilters } from './types';
 
 describe("report client revenue reducer", () => {
     it("should handle COMMISSIONS_REPORT_MEM_REVENUE_FETCHING", () => {
@@ -129,8 +129,8 @@ describe("report client revenue reducer", () => {
             ...defaultState,
         };
 
-        const filters: Filters = {
-            firstName: ["sup"],
+        const filters: ClientRevenueDataFilters = {
+            userId: ["sup"],
         };
 
         const actualState = reducer(initalState, {

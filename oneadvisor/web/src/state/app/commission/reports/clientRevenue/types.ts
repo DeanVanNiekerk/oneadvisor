@@ -1,3 +1,5 @@
+import { Filters } from '@/app/table';
+
 export type ClientRevenueData = {
     rowNumber: number;
     clientId: string;
@@ -14,3 +16,12 @@ export type ClientRevenueData = {
 
     allocationsCount: number;
 };
+
+export type ClientRevenueDataFilters = Filters<{
+    yearEnding;
+    monthEnding;
+    clientLastName;
+    branchId;
+    userId;
+    policyTypeId;
+}>;

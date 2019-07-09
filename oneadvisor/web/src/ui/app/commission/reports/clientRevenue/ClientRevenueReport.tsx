@@ -8,11 +8,12 @@ import { hasUseCase } from '@/app/identity';
 import { applyLike } from '@/app/query';
 import { Filters, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
 import { DATE_FORMAT, getMonthName, getMonthOptions, getYearOptions } from '@/app/utils';
+import { PolicyType, policyTypesSelector } from '@/state/app/client/lookups';
 import {
     ClientRevenueData, clientRevenueSelector, fetchClientRevenueData, getClientRevenueData, receiveClientRevenueFilters,
     receiveClientRevenuePageOptions, receiveClientRevenueSortOptions
 } from '@/state/app/commission/reports';
-import { Branch, branchesSelector, branchSelector, fetchBranches } from '@/state/app/directory/branches';
+import { Branch, branchesSelector, fetchBranches } from '@/state/app/directory/branches';
 import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
 import { useCaseSelector, userOrganisationIdSelector } from '@/state/auth';
 import { RootState } from '@/state/rootReducer';
@@ -33,6 +34,7 @@ type Props = {
     branches: Branch[];
     organisationId: string;
     users: UserSimple[];
+    policyTypes: PolicyType[];
 } & DispatchProp;
 
 type State = {
@@ -216,6 +218,19 @@ class ClientRevenueReport extends Component<Props, State> {
         );
     };
 
+    selectedPolicyTypeIds = (): string[] => {
+        return this.props.filters.policyTypeId || [];
+    };
+
+    handlePolicyTypeChange = (policyTypeIds: string[]) => {
+        this.props.dispatch(
+            receiveClientRevenueFilters({
+                ...this.props.filters,
+                policyTypeId: policyTypeIds,
+            })
+        );
+    };
+
     onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
         if (this.props.pageOptions != pageOptions) this.props.dispatch(receiveClientRevenuePageOptions(pageOptions));
         if (this.props.sortOptions != sortOptions) this.props.dispatch(receiveClientRevenueSortOptions(sortOptions));
@@ -299,12 +314,12 @@ class ClientRevenueReport extends Component<Props, State> {
                         <Select
                             mode="multiple"
                             maxTagCount={1}
-                            maxTagTextLength={15}
+                            maxTagTextLength={9}
                             value={this.selectedBranchIds()}
                             onChange={this.handleBranchChange}
                             placeholder="Branch"
                             allowClear={true}
-                            style={{ width: 260 }}
+                            style={{ width: 220 }}
                         >
                             {this.props.branches.map(branch => {
                                 return (
@@ -319,12 +334,12 @@ class ClientRevenueReport extends Component<Props, State> {
                         <Select
                             mode="multiple"
                             maxTagCount={1}
-                            maxTagTextLength={15}
+                            maxTagTextLength={9}
                             value={this.selectedUserIds()}
                             onChange={this.handleUserChange}
                             placeholder="Broker"
                             allowClear={true}
-                            style={{ width: 260 }}
+                            style={{ width: 220 }}
                         >
                             {this.props.users
                                 .filter(
@@ -339,6 +354,26 @@ class ClientRevenueReport extends Component<Props, State> {
                                         </Select.Option>
                                     );
                                 })}
+                        </Select>
+                    </Col>
+                    <Col>
+                        <Select
+                            mode="multiple"
+                            maxTagCount={1}
+                            maxTagTextLength={9}
+                            value={this.selectedPolicyTypeIds()}
+                            onChange={this.handlePolicyTypeChange}
+                            placeholder="Policy Type"
+                            allowClear={true}
+                            style={{ width: 220 }}
+                        >
+                            {this.props.policyTypes.map(policyType => {
+                                return (
+                                    <Select.Option key={policyType.id} value={policyType.id}>
+                                        {policyType.name}
+                                    </Select.Option>
+                                );
+                            })}
                         </Select>
                     </Col>
                 </Row>
@@ -383,6 +418,7 @@ const mapStateToProps = (state: RootState) => {
     const clientRevenueState = clientRevenueSelector(state);
     const branchesState = branchesSelector(state);
     const usersState = usersSimpleSelector(state);
+    const policyTypesState = policyTypesSelector(state);
 
     return {
         records: clientRevenueState.items,
@@ -395,6 +431,7 @@ const mapStateToProps = (state: RootState) => {
         organisationId: userOrganisationIdSelector(state),
         branches: branchesState.items,
         users: usersState.items,
+        policyTypes: policyTypesState.items,
     };
 };
 

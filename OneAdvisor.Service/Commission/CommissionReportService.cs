@@ -5,12 +5,8 @@ using System.Threading.Tasks;
 using OneAdvisor.Data;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.CommissionReport;
-using OneAdvisor.Model.Directory.Model.User;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 using System.Data.SqlClient;
-using OneAdvisor.Model.Account.Model.Authentication;
-using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Commission.Model.Lookup;
@@ -65,7 +61,8 @@ namespace OneAdvisor.Service.Commission
                 Distinct(Count(m.Id) OVER ())
             FROM clt_Client m
             JOIN clt_Policy p ON m.Id = p.ClientId
-            JOIN com_commission c ON p.Id = c.PolicyId
+            JOIN com_Commission c ON p.Id = c.PolicyId
+            JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id 
             JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id");
 
             builder = AddBranchJoin(builder, options);
@@ -76,6 +73,7 @@ namespace OneAdvisor.Service.Commission
 
             builder = AddBranchFilter(builder, options);
             builder = AddUserFilter(builder, options);
+            builder = AddPolicyTypeFilter(builder, options);
             builder = AddFilters(builder, options);
 
             builder.Append($@"GROUP BY m.Id");
@@ -158,6 +156,28 @@ namespace OneAdvisor.Service.Commission
             return builder;
         }
 
+        private QueryBuilder AddPolicyTypeFilter(QueryBuilder builder, ClientRevenueQueryOptions options, bool addSqlParameters = true)
+        {
+            if (options.PolicyTypeId.Any())
+            {
+                var parameters = new List<SqlParameter>();
+
+                var index = 0;
+                options.PolicyTypeId.ForEach(u =>
+                {
+                    parameters.Add(new SqlParameter($"@PolicyType{index}", u.ToString()));
+                    index++;
+                });
+
+                builder.Append($@"
+                AND ct.PolicyTypeId IN ({String.Join(',', parameters.Select(p => p.ParameterName))})");
+
+                if (addSqlParameters)
+                    builder.SqlParameters.AddRange(parameters);
+            }
+            return builder;
+        }
+
         private QueryBuilder GetClientRevenueQuery(ClientRevenueQueryOptions options, string selectClause, string orderbyClause, string pagingClause)
         {
             var builder = new QueryBuilder();
@@ -210,6 +230,7 @@ namespace OneAdvisor.Service.Commission
 
             builder = AddBranchFilter(builder, options);
             builder = AddUserFilter(builder, options);
+            builder = AddPolicyTypeFilter(builder, options);
             builder = AddFilters(builder, options);
 
             builder.Append($@"     
@@ -239,6 +260,7 @@ namespace OneAdvisor.Service.Commission
 
             builder = AddBranchFilter(builder, options, false);
             builder = AddUserFilter(builder, options, false);
+            builder = AddPolicyTypeFilter(builder, options, false);
             builder = AddFilters(builder, options, false);
 
             builder.Append($@"

@@ -14,6 +14,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
 
             BranchId = new List<Guid>();
             UserId = new List<Guid>();
+            PolicyTypeId = new List<Guid>();
 
             //Defaults 
             var lastMonth = DateTime.UtcNow.AddMonths(-1);
@@ -40,6 +41,10 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
             if (resultGuids.Success)
                 UserId = resultGuids.Value;
 
+            resultGuids = GetFilterValues<Guid>("PolicyTypeId");
+            if (resultGuids.Success)
+                PolicyTypeId = resultGuids.Value;
+
             //Set start and end dates
             var date = new DateTime(YearEnding, MonthEnding, 1);
             EndDate = date.LastDayOfMonth();
@@ -53,6 +58,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
         public string ClientLastName { get; set; }
         public List<Guid> BranchId { get; set; }
         public List<Guid> UserId { get; set; }
+        public List<Guid> PolicyTypeId { get; set; }
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

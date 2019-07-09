@@ -1,7 +1,8 @@
-import { Filters, PageOptions, SortOptions } from '@/app/table';
-import { commissionReportsApi } from '@/config/api/commission';
+import { PageOptions, SortOptions } from "@/app/table";
+import { commissionReportsApi } from "@/config/api/commission";
 
-import * as actions from './actions';
+import { ClientRevenueDataFilters } from "../";
+import * as actions from "./actions";
 
 describe("reports: client revenue: list actions", () => {
     it("should dispatch API when fetchClientRevenueData is called", () => {
@@ -15,13 +16,13 @@ describe("reports: client revenue: list actions", () => {
             direction: "desc",
         };
 
-        const filters: Filters = {
-            number: ["123"],
+        const filters: ClientRevenueDataFilters = {
+            userId: ["sup"],
         };
 
         const api = `${commissionReportsApi}/clientRevenueData?pageNumber=${pageOptions.number}&pageSize=${
             pageOptions.size
-        }&sortColumn=number&sortDirection=desc&filters=number%3D123`;
+        }&sortColumn=number&sortDirection=desc&filters=userId%3Dsup`;
 
         const expectedAction = {
             type: "API",
@@ -61,8 +62,8 @@ describe("reports: client revenue: list actions", () => {
     });
 
     it("should dispatch COMMISSIONS_REPORT_MEM_REVENUE_FILTERS_RECEIVE when receiveFilters is called", () => {
-        const filters: Filters = {
-            firstName: ["sup"],
+        const filters: ClientRevenueDataFilters = {
+            userId: ["sup"],
         };
 
         const expectedAction = {

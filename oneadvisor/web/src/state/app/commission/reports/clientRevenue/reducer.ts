@@ -1,10 +1,10 @@
 import moment from 'moment';
 
-import { Filters, PageOptions, SortOptions } from '@/app/table';
+import { PageOptions, SortOptions } from '@/app/table';
 import { defaultPageOptions, defaultSortOptions } from '@/app/table/defaults';
 
 import { ClientRevenueDataAction } from './actions';
-import { ClientRevenueData } from './types';
+import { ClientRevenueData, ClientRevenueDataFilters } from './types';
 
 export type State = {
     readonly items: ClientRevenueData[];
@@ -12,15 +12,17 @@ export type State = {
     readonly fetching: boolean;
     readonly pageOptions: PageOptions;
     readonly sortOptions: SortOptions;
-    readonly filters: Filters | null;
+    readonly filters: ClientRevenueDataFilters | null;
 };
 
 const lastMonth = moment().subtract(1, "months");
-const defaultFilters: Filters = {
+const defaultFilters: ClientRevenueDataFilters = {
     yearEnding: [lastMonth.year().toString()],
     monthEnding: [(lastMonth.month() + 1).toString()],
     branchId: [],
     userId: [],
+    clientLastName: [],
+    policyTypeId: [],
 };
 
 export const defaultState: State = {
@@ -32,10 +34,7 @@ export const defaultState: State = {
     filters: defaultFilters,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: ClientRevenueDataAction
-): State => {
+export const reducer = (state: State = defaultState, action: ClientRevenueDataAction): State => {
     switch (action.type) {
         case "COMMISSIONS_REPORT_MEM_REVENUE_RECEIVE": {
             return {

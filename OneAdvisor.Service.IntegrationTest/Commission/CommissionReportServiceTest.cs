@@ -288,7 +288,6 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
             }
         }
 
-
         [Fact]
         [Trait("Category", "Integration")]
         public async Task GetClientRevenueData_Sorting()
@@ -966,6 +965,117 @@ namespace OneAdvisor.Service.IntegrationTest.Commission
                 actual = results[0];
                 Assert.Equal(client1.Client.Id, actual.ClientId);
                 Assert.Equal(100, actual.MonthlyAnnuityMonth);
+            }
+        }
+
+        [Fact]
+        [Trait("Category", "Integration")]
+        public async Task GetClientRevenueData_PolicyTypeFilter()
+        {
+            var options = await CreateDatabaseSqlServer();
+
+            var company = TestHelper.InsertCompany(options);
+            var commissionType1 = TestHelper.InsertCommissionType(options, PolicyType.POLICY_TYPE_INVESTMENT, CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY);
+            var commissionType2 = TestHelper.InsertCommissionType(options, PolicyType.POLICY_TYPE_LIFE_INSURANCE, CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY);
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation); //Same org different branch
+
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
+
+            var thisMonth = DateTime.Now.Date;
+
+            var cs1 = new CommissionStatementEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = company.Id,
+                AmountIncludingVAT = 0,
+                VAT = 0,
+                Date = thisMonth,
+                Processed = true,
+                OrganisationId = user1.Organisation.Id
+            };
+
+            //------------------------------------------------------------------------
+
+            var policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                Number = Guid.NewGuid().ToString(),
+                CompanyId = company.Id,
+                ClientId = client1.Client.Id,
+                UserId = user1.User.Id
+            };
+
+            var commission1 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = policy1.Id,
+                UserId = policy1.UserId,
+                CommissionTypeId = commissionType1.Id,
+                AmountIncludingVAT = 100,
+                VAT = 0,
+                CommissionStatementId = cs1.Id
+            };
+
+            //------------------------------------------------------------------------
+
+            var policy2 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                Number = Guid.NewGuid().ToString(),
+                CompanyId = company.Id,
+                ClientId = client1.Client.Id,
+                UserId = user2.User.Id
+            };
+
+            var commission2 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = policy2.Id,
+                UserId = policy2.UserId,
+                CommissionTypeId = commissionType2.Id,
+                AmountIncludingVAT = 200,
+                VAT = 0,
+                CommissionStatementId = cs1.Id
+            };
+
+            //------------------------------------------------------------------------
+
+
+            using (var context = new DataContext(options))
+            {
+                context.Policy.Add(policy2);
+                context.Policy.Add(policy1);
+
+                context.CommissionStatement.Add(cs1);
+
+                context.Commission.Add(commission1);
+                context.Commission.Add(commission2);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new CommissionReportService(context);
+
+                //When - Branch Filter
+                var scope = TestHelper.GetScopeOptions(user1);
+                var queryOptions = new ClientRevenueQueryOptions(scope, "", "", 0, 0, $"YearEnding={thisMonth.Year};MonthEnding={thisMonth.Month}");
+                queryOptions.PolicyTypeId.Add(commissionType2.PolicyTypeId);
+                var data = await service.GetClientRevenueData(queryOptions);
+
+                //Then
+                var results = data.Items.ToList();
+                Assert.Equal(1, data.TotalItems);
+
+                var resultsCount = results.Count();
+                Assert.Equal(1, resultsCount);
+
+                var actual = results[0];
+                Assert.Equal(client1.Client.Id, actual.ClientId);
+                Assert.Equal(200, actual.MonthlyAnnuityMonth);
             }
         }
     }

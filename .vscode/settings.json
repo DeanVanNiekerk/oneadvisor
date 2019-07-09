@@ -18,15 +18,16 @@
     },
     "importSorter.generalConfiguration.sortOnBeforeSave": true,
     "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 120,
+    "importSorter.importStringConfiguration.quoteMark": "double",
     "dotnet-test-explorer.testProjectPath": "**/*.Test.csproj",
     "prettier.printWidth": 120,
     "prettier.trailingComma": "es5",
     "prettier.singleQuote": false,
     "prettier.useTabs": false,
     "prettier.tabWidth": 4,
+    "debug.internalConsoleOptions": "neverOpen",
     "azureFunctions.deploySubpath": "oneadvisor/function/bin/Release/netcoreapp2.1/publish",
     "azureFunctions.projectLanguage": "C#",
     "azureFunctions.projectRuntime": "~2",
-    "debug.internalConsoleOptions": "neverOpen",
     "azureFunctions.preDeployTask": "publish"
 }
