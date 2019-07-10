@@ -96,15 +96,20 @@ See .vscode/extensions.json
 
 ```
 
-Release v0.6.1
+Release v0.7.0
 ===============
 
-Bug Fixes:
-- Empty looksup bug on signin
-- Commission > Statements > Sorting on statments table
+New Features:
+- Client > Import > Can now import Company and Client Type
+- Commission > Statments > Errors > Download includes CompanyName and Client Type
+- Commission > Broker Commission Report > Download to Excel (doesnt include chart)
+- Commission > Client Revenue Report > New Filter - Policy Type
+
+Updates:
+- Commission > Statments > Default ordering is by Company Name
 
 
-Release v0.6.1
+Release v0..
 ===============
 
 New Features:

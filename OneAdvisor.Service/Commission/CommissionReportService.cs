@@ -65,7 +65,7 @@ namespace OneAdvisor.Service.Commission
             JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id 
             JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id");
 
-            builder = AddBranchJoin(builder, options);
+            builder = AddUserJoin(builder, options);
 
             builder.Append($@"
             WHERE m.OrganisationId = '{options.Scope.OrganisationId}'
@@ -81,12 +81,12 @@ namespace OneAdvisor.Service.Commission
             return builder;
         }
 
-        private QueryBuilder AddBranchJoin(QueryBuilder builder, ClientRevenueQueryOptions options)
+        private QueryBuilder AddUserJoin(QueryBuilder builder, ClientRevenueQueryOptions options)
         {
             if (options.BranchId.Any())
             {
                 builder.Append(@"
-                JOIN idn_User u ON p.UserId = u.Id
+                JOIN idn_User u ON c.UserId = u.Id
                 ");
             }
             return builder;
@@ -208,25 +208,40 @@ namespace OneAdvisor.Service.Commission
             ";
 
             builder.Append($@"
-            WITH CommissionQuery AS 
-            ( 
-                SELECT
+
+            DROP TABLE IF EXISTS #CommissionQueryTemp
+
+            CREATE TABLE #CommissionQueryTemp
+            (
+                ClientId UNIQUEIDENTIFIER,
+                ClientLastName NVARCHAR(max),
+                ClientInitials NVARCHAR(max),
+                ClientDateOfBirth DATETIME2(7),
+                MonthlyAnnuityMonth MONEY,
+                AnnualAnnuity MONEY,
+                OnceOff MONEY,
+                LifeFirstYears MONEY,
+                GrandTotal MONEY,
+                AllocationsCount INT
+            )
+
+            INSERT INTO #CommissionQueryTemp
+            SELECT
                 
-                    {select},
-                    0 AS 'AllocationsCount'
+                {select},
+                0 AS 'AllocationsCount'
 
-                FROM clt_Client m
-                JOIN clt_Policy p ON m.Id = p.ClientId
-                JOIN com_commission c ON p.Id = c.PolicyId
-                JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id 
-                JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id 
-                JOIN com_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id");
+            FROM clt_Client m
+            JOIN clt_Policy p ON p.ClientId = m.Id
+            JOIN com_commission c ON c.PolicyId = p.Id
+            JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id
+            JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id");
 
-            builder = AddBranchJoin(builder, options);
+            builder = AddUserJoin(builder, options);
 
             builder.Append($@"  
-                WHERE m.OrganisationId = '{options.Scope.OrganisationId}'
-                AND m.IsDeleted = 0");
+            WHERE m.OrganisationId = '{options.Scope.OrganisationId}'
+            AND m.IsDeleted = 0");
 
             builder = AddBranchFilter(builder, options);
             builder = AddUserFilter(builder, options);
@@ -234,29 +249,28 @@ namespace OneAdvisor.Service.Commission
             builder = AddFilters(builder, options);
 
             builder.Append($@"     
-                GROUP BY m.Id, m.LastName, m.Initials, m.DateOfBirth
+            GROUP BY m.Id, m.LastName, m.Initials, m.DateOfBirth;
 
-                UNION
 
-                SELECT
+            INSERT INTO #CommissionQueryTemp
+            SELECT
                 
-                    {select},
-                    COUNT(*) AS 'AllocationsCount'
+                {select},
+                COUNT(*) AS 'AllocationsCount'
 
-                FROM clt_Client m
-                JOIN com_CommissionAllocation ca on m.Id = ca.ToClientId
-                JOIN com_CommissionAllocationPolicy cap on ca.Id = cap.CommissionAllocationId
-                JOIN clt_Policy p ON p.Id = cap.PolicyId
-                JOIN com_commission c ON p.Id = c.PolicyId
-                JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id 
-                JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id 
-                JOIN com_CommissionEarningsType cet ON ct.CommissionEarningsTypeId = cet.Id");
+            FROM clt_Client m
+            JOIN com_CommissionAllocation ca on m.Id = ca.ToClientId
+            JOIN com_CommissionAllocationPolicy cap on ca.Id = cap.CommissionAllocationId
+            JOIN clt_Policy p ON p.Id = cap.PolicyId
+            JOIN com_commission c ON c.PolicyId = p.Id
+            JOIN com_CommissionType ct ON c.CommissionTypeId = ct.id
+            JOIN com_CommissionStatement cs ON c.CommissionStatementId = cs.Id");
 
-            builder = AddBranchJoin(builder, options);
+            builder = AddUserJoin(builder, options);
 
             builder.Append($@"  
-                WHERE m.OrganisationId = '{options.Scope.OrganisationId}'
-                AND m.IsDeleted = 0");
+            WHERE m.OrganisationId = '{options.Scope.OrganisationId}'
+            AND m.IsDeleted = 0");
 
             builder = AddBranchFilter(builder, options, false);
             builder = AddUserFilter(builder, options, false);
@@ -264,8 +278,9 @@ namespace OneAdvisor.Service.Commission
             builder = AddFilters(builder, options, false);
 
             builder.Append($@"
-                GROUP BY m.Id, m.LastName, m.Initials, m.DateOfBirth
-            ),
+            GROUP BY m.Id, m.LastName, m.Initials, m.DateOfBirth;
+
+            WITH  
             CommissionQueryTotaled
             AS
             (
@@ -281,7 +296,7 @@ namespace OneAdvisor.Service.Commission
                     OnceOff,
                     GrandTotal,
                     AllocationsCount
-                FROM CommissionQuery
+                FROM #CommissionQueryTemp
             ),
             CommissionQueryTotalGrouped
             AS
