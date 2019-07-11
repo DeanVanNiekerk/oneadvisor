@@ -6,8 +6,6 @@ using OneAdvisor.Data;
 using OneAdvisor.Model.Common;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Model;
-using OneAdvisor.Data.Entities.Directory.Lookup;
-using System.Text.RegularExpressions;
 using OneAdvisor.Data.Entities.Commission.Lookup;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.Lookup;
@@ -135,6 +133,22 @@ namespace OneAdvisor.Service.Commission
             return Enum.GetNames(typeof(OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration.FieldNames))
                 .Select(f =>
                     new CommissionStatementTemplateFieldName()
+                    {
+                        Id = f,
+                        Name = f.SplitCamelCase()
+                    }
+                ).ToList();
+        }
+
+        #endregion
+
+        #region Commission Statement Template Group Field Name
+
+        public List<CommissionStatementTemplateGroupFieldName> GetCommissionStatementTemplateGroupFieldNames()
+        {
+            return Enum.GetNames(typeof(OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration.GroupFieldNames))
+                .Select(f =>
+                    new CommissionStatementTemplateGroupFieldName()
                     {
                         Id = f,
                         Name = f.SplitCamelCase()

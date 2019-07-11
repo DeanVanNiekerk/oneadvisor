@@ -1,13 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using api.App.Authorization;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.Lookup;
-using OneAdvisor.Model.Common;
 
 namespace api.Controllers.Commission.Lookups
 {
@@ -30,6 +26,7 @@ namespace api.Controllers.Commission.Lookups
                 CommissionTypes = await LookupService.GetCommissionTypes(),
                 CommissionEarningsTypes = await LookupService.GetCommissionEarningsTypes(),
                 CommissionStatementTemplateFieldNames = LookupService.GetCommissionStatementTemplateFieldNames(),
+                CommissionStatementTemplateGroupFieldNames = LookupService.GetCommissionStatementTemplateGroupFieldNames(),
             };
 
             return Ok(lookups);

@@ -25,14 +25,15 @@ export type Sheet = {
 };
 
 export type SheetConfig = {
-    headerIdentifier: HeaderIdentifier;
+    headerIdentifier: Identifier;
     fields: Field[];
     commissionTypes: CommissionTypes;
+    groups: Group[];
 };
 
-export type HeaderIdentifier = {
+export type Identifier = {
     column: string;
-    value: string;
+    value: string; //This is a regex expression
 };
 
 export type Field = {
@@ -50,4 +51,9 @@ export type CommissionTypes = {
 export type CommissionType = {
     commissionTypeCode: string;
     value: string;
+};
+
+export type Group = {
+    fieldName: string;
+    identifiers: Identifier[];
 };

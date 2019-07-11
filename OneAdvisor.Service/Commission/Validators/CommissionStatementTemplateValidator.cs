@@ -68,6 +68,9 @@ namespace OneAdvisor.Service.Commission.Validators
 
             RuleFor(t => t.CommissionTypes).NotNull();
             RuleFor(t => t.CommissionTypes).SetValidator(new CommissionTypesValidator());
+
+            RuleFor(t => t.Groups).Must(HaveUnqiueGroupFieldNames).WithMessage("There are duplicate Group Field Names");
+            RuleForEach(t => t.Groups).SetValidator(new GroupValidator());
         }
 
         private bool HaveUnqiueFieldNames(IEnumerable<Field> fields)
@@ -82,6 +85,12 @@ namespace OneAdvisor.Service.Commission.Validators
             return fieldColumns.Distinct().Count() == fieldColumns.Count();
         }
 
+        private bool HaveUnqiueGroupFieldNames(IEnumerable<Group> groups)
+        {
+            var groupsFieldNames = groups.Select(f => f.FieldName);
+            return groupsFieldNames.Distinct().Count() == groupsFieldNames.Count();
+        }
+
         private bool HaveRequiredFieldNames(IEnumerable<Field> fields)
         {
             var hasPolicyNumber = fields.Any(f => f.Name == "PolicyNumber");
@@ -92,7 +101,7 @@ namespace OneAdvisor.Service.Commission.Validators
         }
     }
 
-    internal class HeaderIdentifierValidator : AbstractValidator<HeaderIdentifier>
+    internal class HeaderIdentifierValidator : AbstractValidator<Identifier>
     {
         public HeaderIdentifierValidator()
         {
@@ -108,7 +117,7 @@ namespace OneAdvisor.Service.Commission.Validators
         public FieldValidator()
         {
             RuleFor(t => t.Column).MustBeValidExcelColumn().WithName("Column");
-            RuleFor(t => t.Name).Must(fieldName => _fieldNames.Any(f => f == fieldName)).WithMessage("Invalid Field Name");
+            RuleFor(t => t.Name).Must(BeValidFieldName).WithMessage("Invalid Field Name");
         }
 
         private bool BeValidFieldName(string fieldName)
@@ -145,7 +154,7 @@ namespace OneAdvisor.Service.Commission.Validators
         {
             foreach (var column in MappingTemplate.Parse(mappingTemplate))
             {
-                if (!Utils.IsValidExcelColumn((column)))
+                if (!Utils.IsValidExcelColumn((column)) && column != CommissionTypes.GROUP_COMMISSION_TYPE)
                     return false;
             }
             return true;
@@ -163,6 +172,39 @@ namespace OneAdvisor.Service.Commission.Validators
         public CommissionTypeValidator()
         {
             RuleFor(t => t.CommissionTypeCode).NotEmpty().WithName("Type");
+            RuleFor(t => t.Value).NotEmpty();
+        }
+    }
+
+    internal class GroupValidator : AbstractValidator<Group>
+    {
+        private IEnumerable<string> _fieldNames = Enum.GetNames(typeof(GroupFieldNames));
+
+        public GroupValidator()
+        {
+            RuleFor(t => t.FieldName).Must(BeValidFieldName).WithMessage("Invalid Field Name");
+            RuleFor(t => t.Identifiers).Must(HaveUnqiueIdentifierColumns).WithMessage("There are duplicate Column Mappings");
+            RuleForEach(t => t.Identifiers).SetValidator(new GroupIdentifierValidator());
+            RuleFor(t => t.Identifiers).NotEmpty().WithMessage("At least one identifier is required");
+        }
+
+        private bool HaveUnqiueIdentifierColumns(IEnumerable<Identifier> identifiers)
+        {
+            var identifierColumns = identifiers.Select(f => f.Column);
+            return identifierColumns.Distinct().Count() == identifierColumns.Count();
+        }
+
+        private bool BeValidFieldName(string fieldName)
+        {
+            return _fieldNames.Any(f => f == fieldName);
+        }
+    }
+
+    internal class GroupIdentifierValidator : AbstractValidator<Identifier>
+    {
+        public GroupIdentifierValidator()
+        {
+            RuleFor(t => t.Column).MustBeValidExcelColumn();
             RuleFor(t => t.Value).NotEmpty();
         }
     }

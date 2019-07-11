@@ -7,6 +7,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
     public class CommissionTypes
     {
         public static readonly string COMMISSION_TYPE_SEPARATOR = ";";
+        public static readonly string GROUP_COMMISSION_TYPE = "GRP_CT";
 
         public CommissionTypes()
         {

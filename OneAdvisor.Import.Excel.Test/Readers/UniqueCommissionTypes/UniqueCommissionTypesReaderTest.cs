@@ -21,7 +21,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.UniqueCommissionTypes
         {
             var sheetConfig = new SheetConfig()
             {
-                HeaderIdentifier = new HeaderIdentifier()
+                HeaderIdentifier = new Identifier()
                 {
                     Column = "A",
                     Value = "broker"

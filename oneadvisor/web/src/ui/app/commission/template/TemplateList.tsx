@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { getColumnDefinition } from '@/app/table';
-import { UNKNOWN_COMMISSION_TYPE_CODE } from '@/state/app/commission/lookups';
+import { getColumnDefinition } from "@/app/table";
+import { UNKNOWN_COMMISSION_TYPE_CODE } from "@/state/app/commission/lookups";
 import {
     CommissionStatementTemplate, CommissionStatementTemplateEdit, commissionStatementTemplatesSelector,
     fetchCommissionStatementTemplate, fetchCommissionStatementTemplates, receiveCommissionStatementTemplate
-} from '@/state/app/commission/templates';
-import { companiesSelector, Company } from '@/state/app/directory/lookups';
-import { RootState } from '@/state/rootReducer';
-import { Button, CompanyName, getTable, Header } from '@/ui/controls';
+} from "@/state/app/commission/templates";
+import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { RootState } from "@/state/rootReducer";
+import { Button, CompanyName, getTable, Header } from "@/ui/controls";
 
-import EditTemplate from './EditTemplate';
+import EditTemplate from "./EditTemplate";
 
 const Table = getTable<CommissionStatementTemplate>();
 
@@ -64,6 +64,7 @@ class TemplateList extends Component<Props, State> {
                                 mappingTemplate: "",
                                 types: [],
                             },
+                            groups: [],
                         },
                     },
                 ],
@@ -115,7 +116,6 @@ class TemplateList extends Component<Props, State> {
     };
 
     render() {
-
         return (
             <>
                 <Header

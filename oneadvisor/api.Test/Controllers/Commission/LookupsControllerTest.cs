@@ -30,6 +30,14 @@ namespace api.Test.Controllers.Commission
         }
 
         [Fact]
+        public void CommissionStatementTemplateGroupFieldNameModelComposition()
+        {
+            Assert.Equal(2, typeof(CommissionStatementTemplateGroupFieldName).PropertyCount());
+            Assert.True(typeof(CommissionStatementTemplateGroupFieldName).HasProperty("Id"));
+            Assert.True(typeof(CommissionStatementTemplateGroupFieldName).HasProperty("Name"));
+        }
+
+        [Fact]
         public void CommissionTypeModelComposition()
         {
             Assert.Equal(5, typeof(CommissionType).PropertyCount());
@@ -43,11 +51,12 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void LookupsModelComposition()
         {
-            Assert.Equal(3, typeof(api.Controllers.Commission.Lookups.Dto.Lookups).PropertyCount());
+            Assert.Equal(4, typeof(api.Controllers.Commission.Lookups.Dto.Lookups).PropertyCount());
 
             Assert.True(typeof(api.Controllers.Commission.Lookups.Dto.Lookups).HasProperty("CommissionTypes"));
             Assert.True(typeof(api.Controllers.Commission.Lookups.Dto.Lookups).HasProperty("CommissionEarningsTypes"));
             Assert.True(typeof(api.Controllers.Commission.Lookups.Dto.Lookups).HasProperty("CommissionStatementTemplateFieldNames"));
+            Assert.True(typeof(api.Controllers.Commission.Lookups.Dto.Lookups).HasProperty("CommissionStatementTemplateGroupFieldNames"));
         }
 
         [Fact]

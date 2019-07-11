@@ -1,14 +1,14 @@
-import { Popconfirm } from 'antd';
-import update from 'immutability-helper';
-import React, { Component } from 'react';
+import { Popconfirm } from "antd";
+import update from "immutability-helper";
+import React, { Component } from "react";
 
-import { getColumnDefinition } from '@/app/table';
-import { ValidationResult } from '@/app/validation';
-import { UNKNOWN_COMMISSION_TYPE_CODE } from '@/state/app/commission/lookups';
-import { Sheet } from '@/state/app/commission/templates';
-import { FormErrors, getTable, StopPropagation } from '@/ui/controls';
+import { getColumnDefinition } from "@/app/table";
+import { ValidationResult } from "@/app/validation";
+import { UNKNOWN_COMMISSION_TYPE_CODE } from "@/state/app/commission/lookups";
+import { Sheet } from "@/state/app/commission/templates";
+import { FormErrors, getTable, StopPropagation } from "@/ui/controls";
 
-import EditSheet from './EditSheet';
+import EditSheet from "./EditSheet";
 
 const Table = getTable<Sheet>();
 
@@ -66,6 +66,7 @@ class SheetList extends Component<Props, State> {
                     mappingTemplate: "",
                     types: [],
                 },
+                groups: [],
             },
         };
 
@@ -137,8 +138,6 @@ class SheetList extends Component<Props, State> {
     };
 
     render() {
-
-
         return (
             <>
                 <FormErrors validationResults={this.props.validationResults} />

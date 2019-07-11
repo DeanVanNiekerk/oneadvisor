@@ -415,7 +415,7 @@ namespace OneAdvisor.Service.Test.Commission
         {
             var sheetConfig = new SheetConfig()
             {
-                HeaderIdentifier = new HeaderIdentifier()
+                HeaderIdentifier = new Identifier()
                 {
                     Column = "A",
                     Value = "Broker"

@@ -23,7 +23,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var sheetConfig = new SheetConfig()
             {
                 //No header
-                HeaderIdentifier = new HeaderIdentifier()
+                HeaderIdentifier = new Identifier()
                 {
                     Column = "",
                     Value = ""
@@ -120,7 +120,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var sheetConfig = new SheetConfig()
             {
                 //No header
-                HeaderIdentifier = new HeaderIdentifier()
+                HeaderIdentifier = new Identifier()
                 {
                     Column = "",
                     Value = ""
@@ -167,7 +167,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var sheetConfig = new SheetConfig()
             {
                 //No header
-                HeaderIdentifier = new HeaderIdentifier()
+                HeaderIdentifier = new Identifier()
                 {
                     Column = "",
                     Value = ""
@@ -214,7 +214,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var sheetConfig = new SheetConfig()
             {
                 //No header
-                HeaderIdentifier = new HeaderIdentifier()
+                HeaderIdentifier = new Identifier()
                 {
                     Column = "",
                     Value = ""

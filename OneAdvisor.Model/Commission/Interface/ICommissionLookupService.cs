@@ -9,6 +9,7 @@ namespace OneAdvisor.Model.Commission.Interface
     public interface ICommissionLookupService
     {
         List<CommissionStatementTemplateFieldName> GetCommissionStatementTemplateFieldNames();
+        List<CommissionStatementTemplateGroupFieldName> GetCommissionStatementTemplateGroupFieldNames();
 
         Task<List<CommissionType>> GetCommissionTypes();
         Task<CommissionType> GetCommissionType(string code);

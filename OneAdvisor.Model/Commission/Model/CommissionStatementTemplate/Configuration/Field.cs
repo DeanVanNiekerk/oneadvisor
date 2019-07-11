@@ -12,7 +12,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
         DateOfBirth,
         IdNumber,
         FullName,
-        BrokerFullName
+        BrokerFullName,
     }
 
     public class Field

@@ -128,7 +128,7 @@ namespace OneAdvisor.Service.Commission
             var sheetConfig = new SheetConfig()
             {
                 //No header
-                HeaderIdentifier = new HeaderIdentifier()
+                HeaderIdentifier = new Identifier()
                 {
                     Column = "",
                     Value = ""

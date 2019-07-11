@@ -7,6 +7,7 @@ namespace api.Controllers.Commission.Lookups.Dto
     {
         public List<CommissionType> CommissionTypes { get; set; }
         public List<CommissionStatementTemplateFieldName> CommissionStatementTemplateFieldNames { get; set; }
+        public List<CommissionStatementTemplateGroupFieldName> CommissionStatementTemplateGroupFieldNames { get; set; }
         public List<CommissionEarningsType> CommissionEarningsTypes { get; set; }
     }
 }
