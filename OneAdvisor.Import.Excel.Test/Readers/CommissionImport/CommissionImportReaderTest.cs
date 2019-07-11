@@ -254,5 +254,116 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             Assert.Equal("200", actual.AmountIncludingVAT);
             Assert.Equal(26.09m, Decimal.Parse(actual.VAT));
         }
+
+        [Fact]
+        public void Read_Groupings()
+        {
+            var sheetConfig = new SheetConfig()
+            {
+                HeaderIdentifier = new Identifier()
+                {
+                    Column = "A",
+                    Value = "Policy Number"
+                },
+                Fields = new List<Field>() {
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.PolicyNumber), Column = "B" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.AmountIncludingVAT), Column = "C" },
+                },
+                CommissionTypes = new CommissionTypes()
+                {
+                    MappingTemplate = "GRP_CT;D",
+                    DefaultCommissionTypeCode = "unknown",
+                    Types = new List<CommissionType>()
+                    {
+                        new CommissionType() { CommissionTypeCode = "type_1", Value = "comType1;code_1" },
+                        new CommissionType() { CommissionTypeCode = "type_2", Value = "comType1;code_2" },
+                        new CommissionType() { CommissionTypeCode = "type_3", Value = "comType2;code_3" },
+                        new CommissionType() { CommissionTypeCode = "type_4", Value = "comType2;code_2" },
+                        new CommissionType() { CommissionTypeCode = "type_5", Value = ";code_2" },
+                        new CommissionType() { CommissionTypeCode = "type_6", Value = "comType1;code_3" },
+                    }
+                },
+                Groups = new List<Group>() {
+                    new Group() {
+                        FieldName = "BrokerFullName",
+                        Column= "A",
+                        Formatter=".+?(?= : Broker)", //Take everything before ': Broker'
+                        Identifiers = new List<Identifier>()
+                        {
+                            new Identifier() { Column = "A", Value = ": Broker" }, //Contains ': Broker'
+                            new Identifier() { Column = "B", Value = "^(?![\\s\\S])" }, //Empy text
+                        }
+                    },
+                    new Group() {
+                        FieldName = "CommissionType",
+                        Column= "A",
+                        Identifiers = new List<Identifier>()
+                        {
+                            new Identifier() { Column = "A", Value = "\\b" }, //Any word
+                            new Identifier() { Column = "B", Value = "\\d" }, //Any number
+                            new Identifier() { Column = "C", Value = "^(?![\\s\\S])" }, //Empy text
+                            new Identifier() { Column = "D", Value = "^(?![\\s\\S])" }, //Empy text
+                        }
+                    },
+                },
+            };
+
+            var sheet = new Sheet();
+            sheet.Position = 1;
+            sheet.Config = sheetConfig;
+
+            var config = new Config();
+            config.Sheets = new List<Sheet>() { sheet };
+
+            var bytes = System.Convert.FromBase64String(Groupings_Base64.STRING);
+            var stream = new MemoryStream(bytes);
+
+            var reader = new CommissionImportReader(config);
+            var commissions = reader.Read(stream).ToList();
+
+            Assert.Equal(7, commissions.Count);
+
+            var actual = commissions[0];
+            Assert.Equal("11111", actual.PolicyNumber);
+            Assert.Equal("100", actual.AmountIncludingVAT);
+            Assert.Equal("Dean van Niekerk", actual.BrokerFullName);
+            Assert.Equal("type_1", actual.CommissionTypeCode);
+
+            actual = commissions[1];
+            Assert.Equal("22222", actual.PolicyNumber);
+            Assert.Equal("200", actual.AmountIncludingVAT);
+            Assert.Equal("Dean van Niekerk", actual.BrokerFullName);
+            Assert.Equal("type_2", actual.CommissionTypeCode);
+
+            actual = commissions[2];
+            Assert.Equal("33333", actual.PolicyNumber);
+            Assert.Equal("300", actual.AmountIncludingVAT);
+            Assert.Equal("Dean van Niekerk", actual.BrokerFullName);
+            Assert.Equal("type_3", actual.CommissionTypeCode);
+
+            actual = commissions[3];
+            Assert.Equal("44444", actual.PolicyNumber);
+            Assert.Equal("400", actual.AmountIncludingVAT);
+            Assert.Equal("Dean van Niekerk", actual.BrokerFullName);
+            Assert.Equal("type_4", actual.CommissionTypeCode);
+
+            actual = commissions[4];
+            Assert.Equal("55555", actual.PolicyNumber);
+            Assert.Equal("500", actual.AmountIncludingVAT);
+            Assert.Equal("Marc Bormann", actual.BrokerFullName);
+            Assert.Equal("type_5", actual.CommissionTypeCode);
+
+            actual = commissions[5];
+            Assert.Equal("66666", actual.PolicyNumber);
+            Assert.Equal("600", actual.AmountIncludingVAT);
+            Assert.Equal("Marc Bormann", actual.BrokerFullName);
+            Assert.Equal("type_6", actual.CommissionTypeCode);
+
+            actual = commissions[6];
+            Assert.Equal("77777", actual.PolicyNumber);
+            Assert.Equal("700", actual.AmountIncludingVAT);
+            Assert.Equal("Marc Bormann", actual.BrokerFullName);
+            Assert.Equal("type_6", actual.CommissionTypeCode);
+        }
     }
 }

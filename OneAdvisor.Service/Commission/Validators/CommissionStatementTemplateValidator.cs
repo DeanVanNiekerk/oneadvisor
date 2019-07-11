@@ -183,6 +183,7 @@ namespace OneAdvisor.Service.Commission.Validators
         public GroupValidator()
         {
             RuleFor(t => t.FieldName).Must(BeValidFieldName).WithMessage("Invalid Field Name");
+            RuleFor(t => t.Column).MustBeValidExcelColumn();
             RuleFor(t => t.Identifiers).Must(HaveUnqiueIdentifierColumns).WithMessage("There are duplicate Column Mappings");
             RuleForEach(t => t.Identifiers).SetValidator(new GroupIdentifierValidator());
             RuleFor(t => t.Identifiers).NotEmpty().WithMessage("At least one identifier is required");

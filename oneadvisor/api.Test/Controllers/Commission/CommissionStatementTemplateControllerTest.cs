@@ -2,16 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using api.Controllers.Commission.CommissionStatements;
 using api.Controllers.Commission.CommissionStatementTemplates;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Directory.Model.User;
 using Xunit;
 
 namespace api.Test.Controllers.Commission

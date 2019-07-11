@@ -9,6 +9,8 @@ using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Helpers;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Model.Import.Excel;
 using OneAdvisor.Model.Import;
+using System.Text.RegularExpressions;
+using OneAdvisor.Model.Import.Commission;
 
 namespace OneAdvisor.Import.Excel.Readers
 {
@@ -47,7 +49,8 @@ namespace OneAdvisor.Import.Excel.Readers
 
             var headerColumnIndex = ExcelUtils.ColumnToIndex(config.HeaderIdentifier.Column);
             var headerFound = false || headerColumnIndex == -1;
-            var commissionTypeIndexes = GetCommissionIndexes(config);
+
+            var groupValues = new List<GroupValue>();
 
             while (reader.Read())
             {
@@ -57,6 +60,11 @@ namespace OneAdvisor.Import.Excel.Readers
                     headerFound = config.HeaderIdentifier.Value.IgnoreCaseEquals(currentValue);
                     continue;
                 }
+
+                var groupMatch = LoadGroupValues(reader, groupValues, config);
+
+                if (groupMatch)
+                    continue;
 
                 //Ignore row if any of the primary field values are empty
                 var requiredFields = config.Fields.Where(f => Fields.PrimaryFieldNames().Any(p => p == f.Name));
@@ -73,7 +81,7 @@ namespace OneAdvisor.Import.Excel.Readers
 
                 commission.PolicyNumber = GetValue(reader, FieldNames.PolicyNumber, config);
 
-                var commissionTypeValue = GetCommissionTypeValue(reader, commissionTypeIndexes, config);
+                var commissionTypeValue = GetCommissionTypeValue(reader, config, groupValues);
                 commission.CommissionTypeValue = commissionTypeValue;
                 commission.CommissionTypeCode = GetCommissionTypeCode(commissionTypeValue, config);
 
@@ -83,10 +91,14 @@ namespace OneAdvisor.Import.Excel.Readers
                 commission.IdNumber = GetValue(reader, FieldNames.IdNumber, config);
                 commission.Initials = GetValue(reader, FieldNames.Initials, config);
                 commission.FullName = GetValue(reader, FieldNames.FullName, config);
-                commission.BrokerFullName = GetValue(reader, FieldNames.BrokerFullName, config);
-
                 commission.AmountIncludingVAT = GetValue(reader, FieldNames.AmountIncludingVAT, config);
                 commission.VAT = GetValue(reader, FieldNames.VAT, config);
+
+                var brokerFullName = GetGroupValue(groupValues, GroupFieldNames.BrokerFullName);
+                if (string.IsNullOrEmpty(brokerFullName))
+                    brokerFullName = GetValue(reader, FieldNames.BrokerFullName, config);
+
+                commission.BrokerFullName = brokerFullName;
 
                 if (string.IsNullOrEmpty(commission.AmountIncludingVAT))
                 {
@@ -128,6 +140,12 @@ namespace OneAdvisor.Import.Excel.Readers
             return Utils.GetValue(reader, index, absolute).TrimWhiteSpace();
         }
 
+        public static string GetValue(IExcelDataReader reader, string column)
+        {
+            var index = ExcelUtils.ColumnToIndex(column);
+            return Utils.GetValue(reader, index);
+        }
+
         private string GetDate(IExcelDataReader reader, FieldNames fieldName, SheetConfig config)
         {
             var index = GetFieldIndex(fieldName, config);
@@ -152,14 +170,28 @@ namespace OneAdvisor.Import.Excel.Readers
             return field.AbsoluteValue;
         }
 
-        private string GetCommissionTypeValue(IExcelDataReader reader, List<int> commissionTypeIndexes, SheetConfig config)
+        public static string GetCommissionTypeValue(IExcelDataReader reader, SheetConfig config, List<GroupValue> groupValues)
         {
-            if (!commissionTypeIndexes.Any())
+            var parts = MappingTemplate.Parse(config.CommissionTypes.MappingTemplate);
+
+            if (!parts.Any())
                 return config.CommissionTypes.DefaultCommissionTypeCode;
 
             var values = new List<string>();
-            foreach (var index in commissionTypeIndexes)
-                values.Add(Utils.GetValue(reader, index));
+
+            foreach (var part in parts)
+            {
+                string value = "";
+                if (part == CommissionTypes.GROUP_COMMISSION_TYPE)
+                    value = GetGroupValue(groupValues, GroupFieldNames.CommissionType);
+                else
+                {
+                    var index = ExcelUtils.ColumnToIndex(part);
+                    value = Utils.GetValue(reader, index);
+                }
+
+                values.Add(value);
+            }
 
             return MappingTemplate.Format(values);
         }
@@ -173,16 +205,67 @@ namespace OneAdvisor.Import.Excel.Readers
             return config.CommissionTypes.DefaultCommissionTypeCode;
         }
 
-        private List<int> GetCommissionIndexes(SheetConfig config)
+        public static string GetGroupValue(List<GroupValue> groupValues, GroupFieldNames groupFieldName)
         {
-            var commissionTypeIndexes = new List<int>();
+            var groupValue = groupValues.FirstOrDefault(g => g.GroupFieldName == Enum.GetName(typeof(GroupFieldNames), groupFieldName));
+            if (groupValue == null)
+                return "";
+            return groupValue.Value;
+        }
 
-            if (string.IsNullOrEmpty(config.CommissionTypes.MappingTemplate))
-                return commissionTypeIndexes;
+        public static bool LoadGroupValues(IExcelDataReader reader, List<GroupValue> groupValues, SheetConfig config)
+        {
+            //Check groupings
+            foreach (var group in config.Groups)
+            {
+                //Check for match
+                var isMatch = true;
+                foreach (var identifier in group.Identifiers)
+                {
+                    var value = GetValue(reader, identifier.Column) ?? "";
+                    if (Regex.Matches(value, identifier.Value).Count == 0)
+                        isMatch = false;
+                }
 
-            return MappingTemplate.Parse(config.CommissionTypes.MappingTemplate)
-                .Select(c => ExcelUtils.ColumnToIndex(c))
-                .ToList();
+                if (isMatch)
+                {
+                    var value = GetValue(reader, group.Column) ?? "";
+
+                    if (!string.IsNullOrEmpty(group.Formatter))
+                    {
+                        var match = Regex.Match(value, group.Formatter);
+                        if (match.Success)
+                            value = match.Value;
+                    }
+
+                    var groupValue = new GroupValue()
+                    {
+                        GroupFieldName = group.FieldName,
+                        Value = value
+                    };
+
+                    var index = groupValues.FindIndex(g => g.GroupFieldName == group.FieldName);
+
+                    if (index == -1)
+                        groupValues.Add(groupValue);
+                    else
+                    {
+                        groupValues[index] = groupValue;
+
+                        //Reset sub group values
+                        index++;
+                        while (index < groupValues.Count)
+                        {
+                            groupValues[index].Value = "";
+                            index++;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

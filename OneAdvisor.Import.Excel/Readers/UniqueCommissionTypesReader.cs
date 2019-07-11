@@ -9,6 +9,7 @@ using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Helpers;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Model.Import.Excel;
 using OneAdvisor.Model.Import;
+using OneAdvisor.Model.Import.Commission;
 
 namespace OneAdvisor.Import.Excel.Readers
 {
@@ -39,7 +40,8 @@ namespace OneAdvisor.Import.Excel.Readers
 
                     var headerColumnIndex = ExcelUtils.ColumnToIndex(_sheet.Config.HeaderIdentifier.Column);
                     var headerFound = false || headerColumnIndex == -1;
-                    var commissionTypeIndexes = GetCommissionIndexes();
+
+                    var groupValues = new List<GroupValue>();
 
                     while (reader.Read())
                     {
@@ -49,6 +51,11 @@ namespace OneAdvisor.Import.Excel.Readers
                             headerFound = _sheet.Config.HeaderIdentifier.Value.IgnoreCaseEquals(currentValue);
                             continue;
                         }
+
+                        var groupMatch = CommissionImportReader.LoadGroupValues(reader, groupValues, _sheet.Config);
+
+                        if (groupMatch)
+                            continue;
 
                         //Ignore row if any of the primary field values are empty
                         var requiredFields = _sheet.Config.Fields.Where(f => Fields.PrimaryFieldNames().Any(p => p == f.Name));
@@ -61,11 +68,7 @@ namespace OneAdvisor.Import.Excel.Readers
                         if (anyMissingRequiredFields)
                             continue;
 
-                        var values = new List<string>();
-                        foreach (var index in commissionTypeIndexes)
-                            values.Add(Utils.GetValue(reader, index));
-
-                        var value = MappingTemplate.Format(values);
+                        var value = CommissionImportReader.GetCommissionTypeValue(reader, _sheet.Config, groupValues);
 
                         commissionTypes.Add(value);
                     }

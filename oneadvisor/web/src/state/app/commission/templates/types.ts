@@ -55,5 +55,7 @@ export type CommissionType = {
 
 export type Group = {
     fieldName: string;
+    column: string;
+    formatter: string;
     identifiers: Identifier[];
 };

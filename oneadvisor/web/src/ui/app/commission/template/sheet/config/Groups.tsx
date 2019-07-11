@@ -1,4 +1,4 @@
-import { Card, List, Popconfirm } from "antd";
+import { Card, Icon, List, Popconfirm, Tooltip } from "antd";
 import update from "immutability-helper";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -132,8 +132,8 @@ class Groups extends Component<Props, State> {
 							<Form
 								key={index}
 								editUseCase="com_edit_commission_statement_templates"
-								layout="inline"
 								className="mb-1"
+								layout="inline"
 							>
 								<FormSelect
 									fieldName="fieldName"
@@ -147,7 +147,34 @@ class Groups extends Component<Props, State> {
 									options={this.props.fieldNames}
 									optionsValue="id"
 									optionsText="name"
-									width="300px"
+									width="200px"
+								/>
+								<FormInput
+									fieldName="column"
+									validationFieldName={`[${index}].column`}
+									label="Column"
+									value={group.column}
+									onChange={(fieldName: string, value: string) => {
+										this.onChange(fieldName, value, index);
+									}}
+									validationResults={validationResults}
+									width="100px"
+								/>
+								<FormInput
+									fieldName="formatter"
+									validationFieldName={`[${index}].formatter`}
+									label="Formatter"
+									value={group.formatter}
+									onChange={(fieldName: string, value: string) => {
+										this.onChange(fieldName, value, index);
+									}}
+									validationResults={validationResults}
+									width="200px"
+									addonAfter={
+										<Tooltip title="This is a regular expression used to format the value">
+											<Icon type="info-circle" />
+										</Tooltip>
+									}
 								/>
 							</Form>
 
