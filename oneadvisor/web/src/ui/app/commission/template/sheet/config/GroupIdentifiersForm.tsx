@@ -89,6 +89,7 @@ class GroupIdentifiersForm extends Component<Props, State> {
 				onConfirm={() => this.remove(index)}
 				okText="Yes"
 				cancelText="No"
+				key="group-identifier-remove"
 			>
 				<a href="#">remove</a>
 			</Popconfirm>,

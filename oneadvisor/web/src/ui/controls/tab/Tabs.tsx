@@ -1,6 +1,6 @@
-import { Tabs as TabsAD } from 'antd';
-import { TabsPosition, TabsType } from 'antd/lib/tabs';
-import React, { ReactNode } from 'react';
+import { Tabs as TabsAD } from "antd";
+import { TabsPosition, TabsType } from "antd/lib/tabs";
+import React, { ReactNode } from "react";
 
 type Props = {
     activeKey: string;
@@ -9,7 +9,7 @@ type Props = {
     children: ReactNode;
     tabPosition?: TabsPosition;
     tabBarExtraContent?: React.ReactNode | null;
-    size?: 'large' | 'default' | 'small';
+    size?: "large" | "default" | "small";
     type?: TabsType;
     tabBarGutter?: number | undefined;
     clearTabsTopPadding?: boolean | undefined;
@@ -19,26 +19,25 @@ const Tabs = (props: Props) => {
     let style = {};
 
     let tabBarStyle: any = {
-        backgroundColor: '#FFF',
-        zIndex: 1
+        backgroundColor: "#FFF",
+        zIndex: 1,
     };
 
     if (props.sticky) {
         style = {
             ...style,
-            overflow: 'inherit'
+            overflow: "inherit",
         };
 
         tabBarStyle = {
             ...tabBarStyle,
-            position: 'sticky',
-            top: 0
+            position: "sticky",
+            top: 0,
         };
     }
 
     let className = "";
-    if (props.clearTabsTopPadding)
-        className = "clearTabsTopPadding"
+    if (props.clearTabsTopPadding) className = "clearTabsTopPadding";
 
     return (
         <TabsAD
@@ -59,7 +58,7 @@ const Tabs = (props: Props) => {
     );
 };
 Tabs.defaultProps = {
-    sticky: false
+    sticky: false,
 };
 
 export { Tabs };

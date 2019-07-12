@@ -96,6 +96,7 @@ class Groups extends Component<Props, State> {
 				onConfirm={() => this.remove(index)}
 				okText="Yes"
 				cancelText="No"
+				key="remove-group"
 			>
 				<a href="#">remove</a>
 			</Popconfirm>,
@@ -105,8 +106,6 @@ class Groups extends Component<Props, State> {
 	render() {
 		const { validationResults } = this.props;
 		const { groups } = this.state;
-
-		console.log(JSON.stringify(validationResults, null, 4));
 
 		return (
 			<>
@@ -130,6 +129,7 @@ class Groups extends Component<Props, State> {
 							extra={this.getActions(group, index)}
 							style={{ width: "100%" }}
 							className="mt-1"
+							key={`group-${index}`}
 						>
 							<Form
 								key={index}

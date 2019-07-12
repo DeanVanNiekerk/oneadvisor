@@ -1,18 +1,18 @@
-import { Badge, Col, Row, Select } from 'antd';
-import update from 'immutability-helper';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { Badge, Col, Row, Select } from "antd";
+import update from "immutability-helper";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { ApiOnFailure, ApiOnSuccess } from '@/app/types';
-import { getValidationSubSet, ValidationResult } from '@/app/validation';
-import { CommissionStatementTemplateEdit, Sheet, SheetConfig } from '@/state/app/commission/templates';
-import { companiesSelector, Company } from '@/state/app/directory/lookups';
-import { RootState } from '@/state/rootReducer';
-import { Form, FormDate, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
+import { ApiOnFailure, ApiOnSuccess } from "@/app/types";
+import { getValidationSubSet, ValidationResult } from "@/app/validation";
+import { CommissionStatementTemplateEdit, Sheet, SheetConfig } from "@/state/app/commission/templates";
+import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { RootState } from "@/state/rootReducer";
+import { Form, FormDate, FormInput, FormSelect, TabPane, Tabs } from "@/ui/controls";
 
-import RawConfig from './RawConfig';
-import EditSheetConfig from './sheet/EditSheetConfig';
-import SheetList from './sheet/SheetList';
+import RawConfig from "./RawConfig";
+import EditSheetConfig from "./sheet/EditSheetConfig";
+import SheetList from "./sheet/SheetList";
 
 type TabKey = "details" | "sheets" | "sheet_config" | "config_raw";
 

@@ -109,7 +109,7 @@ class SheetList extends Component<Props, State> {
                 }
             ),
             getColumn(
-                "position",
+                "",
                 "Actions",
                 {},
                 {

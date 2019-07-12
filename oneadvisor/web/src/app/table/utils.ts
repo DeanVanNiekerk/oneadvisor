@@ -1,13 +1,13 @@
-import { ColumnProps } from 'antd/lib/table';
-import moment from 'moment';
+import { ColumnProps } from "antd/lib/table";
+import moment from "moment";
 
-import { ColumnOptions, Filters } from '@/app/table';
-import { getColumnSearchProps } from '@/ui/controls';
+import { ColumnOptions, Filters } from "@/app/table";
+import { getColumnSearchProps } from "@/ui/controls";
 
-import { formatCurrency } from '../utils';
+import { formatCurrency } from "../utils";
 
 export const getColumnDefinition = <T>(externalDataSource: boolean = false, filters: Filters | null = null) => {
-    return (key: keyof T, title: string, options: ColumnOptions = {}, columnProps: ColumnProps<T> = {}) => {
+    return (key: keyof T | "", title: string, options: ColumnOptions = {}, columnProps: ColumnProps<T> = {}) => {
         options = {
             externalDataSource: externalDataSource,
             filters: filters,
@@ -18,7 +18,7 @@ export const getColumnDefinition = <T>(externalDataSource: boolean = false, filt
 };
 
 const getColumn = <T>(
-    key: keyof T,
+    key: keyof T | "",
     title: string,
     options: ColumnOptions = {
         type: "string",

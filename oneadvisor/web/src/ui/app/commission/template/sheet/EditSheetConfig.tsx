@@ -131,7 +131,7 @@ class EditSheetConfig extends Component<Props, State> {
                 value={this.props.selectedSheetIndex}
             >
                 {template.config.sheets.map((s, index) => {
-                    return <Select.Option value={index}>{`Sheet ${s.position}`}</Select.Option>;
+                    return <Select.Option key={index} value={index}>{`Sheet ${s.position}`}</Select.Option>;
                 })}
             </Select>
         );
@@ -142,7 +142,6 @@ class EditSheetConfig extends Component<Props, State> {
                 activeKey={this.state.activeTab}
                 sticky={true}
                 tabBarExtraContent={sheetDropdown}
-                size="small"
                 type="card"
             >
                 <TabPane tab={this.getHeaderIdentifierTabTitle()} key="config_header_identifier">
