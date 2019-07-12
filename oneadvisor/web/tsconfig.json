@@ -5,7 +5,7 @@
         "moduleResolution": "node",
         "noEmit": true,
         "target": "esnext",
-        "allowJs": true,
+        "allowJs": false,
         "jsx": "react",
         "baseUrl": "./",
         "paths": {
