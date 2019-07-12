@@ -53,6 +53,8 @@ class Groups extends Component<Props, State> {
 	add = () => {
 		const group: Group = {
 			fieldName: "",
+			column: "",
+			formatter: "",
 			identifiers: [] as Identifier[],
 		};
 		const groups = update(this.state.groups, {

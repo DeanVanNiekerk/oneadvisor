@@ -148,7 +148,7 @@ class CommissionTypesForm extends Component<Props, State> {
 		}
 	};
 
-	onBeforeFileUpload = () => {
+	onBeforeFileUpload = (): PromiseLike<void> => {
 		this.setState({ syncingCommissionTypes: true });
 
 		return new Promise((resolve, reject) => {

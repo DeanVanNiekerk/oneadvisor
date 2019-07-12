@@ -1,15 +1,12 @@
-import { OptionProps } from 'antd/lib/select';
+import { OptionProps } from "antd/lib/select";
 
-export const filterOption = (
-    input: string,
-    option: React.ReactElement<OptionProps>
-) => {
-    if (!option || !option.props || !option.props.children) return 0;
+export const filterOption = (inputValue: string, option: React.ReactElement<OptionProps>): boolean => {
+    if (!option || !option.props || !option.props.children) return false;
 
     return (
         option.props.children
             .toString()
             .toLowerCase()
-            .indexOf(input.toLowerCase()) >= 0
+            .indexOf(inputValue.toLowerCase()) >= 0
     );
 };
