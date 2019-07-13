@@ -1,36 +1,31 @@
-import { Badge, Col, Icon, Row, Select } from 'antd';
-import moment from 'moment';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Col, Icon, Row, Select } from "antd";
+import moment from "moment";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { downloadExcel } from '@/app/excel/helpers';
-import { hasUseCase } from '@/app/identity';
-import { applyLike } from '@/app/query';
-import { Filters, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
-import { DATE_FORMAT, getMonthName, getMonthOptions, getYearOptions } from '@/app/utils';
-import { PolicyType, policyTypesSelector } from '@/state/app/client/lookups';
+import { downloadExcel } from "@/app/excel/helpers";
+import { Filters, PageOptions, SortOptions } from "@/app/table";
+import { DATE_FORMAT, getMonthName, getMonthOptions, getYearOptions } from "@/app/utils";
+import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
 import {
-    ClientRevenueData, clientRevenueSelector, fetchClientRevenueData, getClientRevenueData, receiveClientRevenueFilters,
-    receiveClientRevenuePageOptions, receiveClientRevenueSortOptions
-} from '@/state/app/commission/reports';
-import { Branch, branchesSelector, fetchBranches } from '@/state/app/directory/branches';
-import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
-import { useCaseSelector, userOrganisationIdSelector } from '@/state/auth';
-import { RootState } from '@/state/rootReducer';
-import { Age, Button, ClientName, Drawer, DrawerFooter, getTable, Header } from '@/ui/controls';
+    clientRevenueSelector, fetchClientRevenueDataPaged, getClientRevenueData, receiveClientRevenueFilters
+} from "@/state/app/commission/reports";
+import { Branch, branchesSelector, fetchBranches } from "@/state/app/directory/branches";
+import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
+import { userOrganisationIdSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
+import { Button, ClientName, Drawer, DrawerFooter, Header, TabPane, Tabs } from "@/ui/controls";
 
-import AllocationList from '../../allocation/AllocationList';
+import AllocationList from "../../allocation/AllocationList";
+import ClientRevenueChart from "./ClientRevenueChart";
+import ClientRevenueTable from "./ClientRevenueTable";
 
-const Table = getTable<ClientRevenueData>();
+type TabKey = "table" | "chart";
 
 type Props = {
-    records: ClientRevenueData[];
-    fetching: boolean;
     pageOptions: PageOptions;
     sortOptions: SortOptions;
-    totalItems: number;
     filters: Filters;
-    useCases: string[];
     branches: Branch[];
     organisationId: string;
     users: UserSimple[];
@@ -40,6 +35,7 @@ type Props = {
 type State = {
     editAllocationsClientId: string | null;
     downloading: boolean;
+    activeTab: TabKey;
 };
 
 class ClientRevenueReport extends Component<Props, State> {
@@ -49,6 +45,7 @@ class ClientRevenueReport extends Component<Props, State> {
         this.state = {
             editAllocationsClientId: null,
             downloading: false,
+            activeTab: "table",
         };
     }
 
@@ -67,18 +64,14 @@ class ClientRevenueReport extends Component<Props, State> {
 
     loadData = () => {
         this.props.dispatch(
-            fetchClientRevenueData(
-                this.props.pageOptions,
-                this.props.sortOptions,
-                this.updateFilters(this.props.filters)
-            )
+            fetchClientRevenueDataPaged(this.props.pageOptions, this.props.sortOptions, this.props.filters)
         );
 
         if (this.props.branches.length === 0) this.props.dispatch(fetchBranches(this.props.organisationId));
     };
 
-    updateFilters = (filters: Filters): Filters => {
-        return applyLike(filters, ["clientLastName"]);
+    onTabChange = (activeTab: TabKey) => {
+        this.setState({ activeTab });
     };
 
     editAllocations = (clientId: string | null) => {
@@ -92,75 +85,6 @@ class ClientRevenueReport extends Component<Props, State> {
             editAllocationsClientId: null,
         });
         this.loadData();
-    };
-
-    getColumns = () => {
-        var getColumn = getColumnDefinition<ClientRevenueData>(true, this.props.filters);
-
-        const columns = [
-            getColumn(
-                "clientLastName",
-                "Last Name",
-                {
-                    showSearchFilter: true,
-                },
-                {
-                    fixed: "left",
-                }
-            ),
-            getColumn("clientInitials", "Initials"),
-            getColumn(
-                "clientDateOfBirth",
-                "Age",
-                {},
-                {
-                    render: (clientDateOfBirth: string) => {
-                        return <Age dateOfBirth={clientDateOfBirth} />;
-                    },
-                }
-            ),
-            getColumn("monthlyAnnuityMonth", "Monthly As & When Commission", {
-                type: "currency",
-            }),
-            getColumn("annualAnnuityAverage", "Annual Commissions Avg Monthly", {
-                type: "currency",
-            }),
-            getColumn("totalMonthlyEarnings", "Total Monthly Earnings", {
-                type: "currency",
-            }),
-            getColumn("lifeFirstYears", "Life Upfronts", {
-                type: "currency",
-            }),
-            getColumn("onceOff", "Once Off Commissions", {
-                type: "currency",
-            }),
-            getColumn("grandTotal", "Grand Total Last 12 Months", {
-                type: "currency",
-            }),
-        ];
-
-        if (hasUseCase("com_view_commission_allocations", this.props.useCases)) {
-            columns.push(
-                getColumn(
-                    "rowNumber",
-                    "",
-                    {},
-                    {
-                        sorter: undefined,
-                        fixed: "right",
-                        render: (value: any, record: ClientRevenueData) => {
-                            return (
-                                <Badge dot count={record.allocationsCount}>
-                                    <Icon type="share-alt" onClick={() => this.editAllocations(record.clientId)} />
-                                </Badge>
-                            );
-                        },
-                    }
-                )
-            );
-        }
-
-        return columns;
     };
 
     handleYearChange = (year: number) => {
@@ -231,22 +155,10 @@ class ClientRevenueReport extends Component<Props, State> {
         );
     };
 
-    onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
-        if (this.props.pageOptions != pageOptions) this.props.dispatch(receiveClientRevenuePageOptions(pageOptions));
-        if (this.props.sortOptions != sortOptions) this.props.dispatch(receiveClientRevenueSortOptions(sortOptions));
-        if (this.props.filters != filters)
-            this.props.dispatch(
-                receiveClientRevenueFilters({
-                    ...this.props.filters,
-                    ...filters,
-                })
-            );
-    };
-
     download = () => {
         this.setState({ downloading: true });
         this.props.dispatch(
-            getClientRevenueData(this.updateFilters(this.props.filters), records => {
+            getClientRevenueData(this.props.filters, records => {
                 this.setState({ downloading: false });
                 downloadExcel(
                     records.items.map(d => {
@@ -286,7 +198,7 @@ class ClientRevenueReport extends Component<Props, State> {
                     Client Revenue Report
                 </Header>
 
-                <Row type="flex" gutter={10} align="middle" justify="start" className="mb-1">
+                <Row type="flex" gutter={10} align="middle" justify="start">
                     <Col>Month Ending:</Col>
                     <Col>
                         <Select value={this.selectedMonth()} onChange={this.handleMonthChange} style={{ width: 125 }}>
@@ -378,20 +290,14 @@ class ClientRevenueReport extends Component<Props, State> {
                     </Col>
                 </Row>
 
-                <Table
-                    rowKey="rowNumber"
-                    columns={this.getColumns()}
-                    dataSource={this.props.records}
-                    loading={this.props.fetching}
-                    onRowClick={() => {}}
-                    externalDataSource={true}
-                    pageOptions={this.props.pageOptions}
-                    totalRows={this.props.totalItems}
-                    onTableChange={this.onTableChange}
-                    scroll={{
-                        x: true,
-                    }}
-                />
+                <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true} tabBarGutter={0}>
+                    <TabPane tab={<Icon type="table" className="mr-0" />} key="table">
+                        <ClientRevenueTable editAllocations={this.editAllocations} />
+                    </TabPane>
+                    <TabPane tab={<Icon type="bar-chart" className="mr-0" />} key="chart" className="pt-0">
+                        <ClientRevenueChart />
+                    </TabPane>
+                </Tabs>
 
                 <Drawer
                     title={<ClientName prefix="Allocations to " clientId={this.state.editAllocationsClientId} />}
@@ -421,13 +327,9 @@ const mapStateToProps = (state: RootState) => {
     const policyTypesState = policyTypesSelector(state);
 
     return {
-        records: clientRevenueState.items,
-        totalItems: clientRevenueState.totalItems,
-        fetching: clientRevenueState.fetching || branchesState.fetching,
         pageOptions: clientRevenueState.pageOptions,
         sortOptions: clientRevenueState.sortOptions,
         filters: clientRevenueState.filters,
-        useCases: useCaseSelector(state),
         organisationId: userOrganisationIdSelector(state),
         branches: branchesState.items,
         users: usersState.items,

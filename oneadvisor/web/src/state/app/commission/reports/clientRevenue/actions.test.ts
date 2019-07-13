@@ -6,6 +6,22 @@ import * as actions from "./actions";
 
 describe("reports: client revenue: list actions", () => {
     it("should dispatch API when fetchClientRevenueData is called", () => {
+        const filters: ClientRevenueDataFilters = {
+            userId: ["sup"],
+        };
+
+        const api = `${commissionReportsApi}/clientRevenueData?filters=userId%3Dsup`;
+
+        const expectedAction = {
+            type: "API",
+            endpoint: api,
+            dispatchPrefix: "COMMISSIONS_REPORT_MEM_REVENUE",
+        };
+
+        expect(actions.fetchClientRevenueData(filters)).toEqual(expectedAction);
+    });
+
+    it("should dispatch API when fetchClientRevenueDataPaged is called", () => {
         const pageOptions: PageOptions = {
             number: 2,
             size: 10,
@@ -30,7 +46,7 @@ describe("reports: client revenue: list actions", () => {
             dispatchPrefix: "COMMISSIONS_REPORT_MEM_REVENUE",
         };
 
-        expect(actions.fetchClientRevenueData(pageOptions, sortOptions, filters)).toEqual(expectedAction);
+        expect(actions.fetchClientRevenueDataPaged(pageOptions, sortOptions, filters)).toEqual(expectedAction);
     });
 
     it("should dispatch COMMISSIONS_REPORT_MEM_REVENUE_PAGE_OPTIONS_RECEIVE when receivePageOptions is called", () => {

@@ -1,6 +1,6 @@
 export * from "./clientRevenue/actions";
 export * from "./clientRevenue/types";
-export { listSelector as clientRevenueSelector } from "./clientRevenue/selectors";
+export { listSelector as clientRevenueSelector, clientRevenueBandsDataSelector } from "./clientRevenue/selectors";
 
 export * from "./userEarningsTypeMonthlyCommission/actions";
 export * from "./userEarningsTypeMonthlyCommission/types";

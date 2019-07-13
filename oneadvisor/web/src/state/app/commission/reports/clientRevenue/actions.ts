@@ -1,9 +1,9 @@
-import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from '@/app/query';
-import { PagedItems, PageOptions, SortOptions } from '@/app/table';
-import { ApiAction } from '@/app/types';
-import { commissionReportsApi } from '@/config/api/commission';
+import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery, applyLike } from "@/app/query";
+import { Filters, PagedItems, PageOptions, SortOptions } from "@/app/table";
+import { ApiAction } from "@/app/types";
+import { commissionReportsApi } from "@/config/api/commission";
 
-import { ClientRevenueData, ClientRevenueDataFilters } from './types';
+import { ClientRevenueData, ClientRevenueDataFilters } from "./types";
 
 type ClientRevenueDataReceiveAction = {
     type: "COMMISSIONS_REPORT_MEM_REVENUE_RECEIVE";
@@ -15,6 +15,18 @@ type ClientRevenueDataFetchingAction = {
 type ClientRevenueDataFetchingErrorAction = {
     type: "COMMISSIONS_REPORT_MEM_REVENUE_FETCHING_ERROR";
 };
+
+type ClientRevenueDataPagedReceiveAction = {
+    type: "COMMISSIONS_REPORT_MEM_REVENUE_PAGED_RECEIVE";
+    payload: PagedItems<ClientRevenueData>;
+};
+type ClientRevenueDataPagedFetchingAction = {
+    type: "COMMISSIONS_REPORT_MEM_REVENUE_PAGED_FETCHING";
+};
+type ClientRevenueDataPagedFetchingErrorAction = {
+    type: "COMMISSIONS_REPORT_MEM_REVENUE_PAGED_FETCHING_ERROR";
+};
+
 type ClientRevenueDataPageOptionsReceiveAction = {
     type: "COMMISSIONS_REPORT_MEM_REVENUE_PAGE_OPTIONS_RECEIVE";
     payload: PageOptions;
@@ -29,14 +41,27 @@ type ClientRevenueDataFiltersReceiveAction = {
 };
 
 export type ClientRevenueDataAction =
+    | ClientRevenueDataPagedReceiveAction
     | ClientRevenueDataReceiveAction
     | ClientRevenueDataFetchingAction
     | ClientRevenueDataFetchingErrorAction
     | ClientRevenueDataPageOptionsReceiveAction
     | ClientRevenueDataSortOptionsReceiveAction
-    | ClientRevenueDataFiltersReceiveAction;
+    | ClientRevenueDataFiltersReceiveAction
+    | ClientRevenueDataPagedFetchingAction
+    | ClientRevenueDataPagedFetchingErrorAction;
 
-export const fetchClientRevenueData = (
+export const fetchClientRevenueData = (filters: ClientRevenueDataFilters): ApiAction => {
+    let api = `${commissionReportsApi}/clientRevenueData`;
+    api = appendFiltersQuery(api, updateFilters(filters));
+    return {
+        type: "API",
+        endpoint: api,
+        dispatchPrefix: "COMMISSIONS_REPORT_MEM_REVENUE",
+    };
+};
+
+export const fetchClientRevenueDataPaged = (
     pageOptions: PageOptions,
     sortOptions: SortOptions,
     filters: ClientRevenueDataFilters
@@ -44,11 +69,11 @@ export const fetchClientRevenueData = (
     let api = `${commissionReportsApi}/clientRevenueData`;
     api = appendPageOptionQuery(api, pageOptions);
     api = appendSortOptionQuery(api, sortOptions);
-    api = appendFiltersQuery(api, filters);
+    api = appendFiltersQuery(api, updateFilters(filters));
     return {
         type: "API",
         endpoint: api,
-        dispatchPrefix: "COMMISSIONS_REPORT_MEM_REVENUE",
+        dispatchPrefix: "COMMISSIONS_REPORT_MEM_REVENUE_PAGED",
     };
 };
 
@@ -78,10 +103,14 @@ export const getClientRevenueData = (
     onSuccess: (records: PagedItems<ClientRevenueData>) => void
 ): ApiAction => {
     let api = `${commissionReportsApi}/clientRevenueData`;
-    api = appendFiltersQuery(api, filters);
+    api = appendFiltersQuery(api, updateFilters(filters));
     return {
         type: "API",
         endpoint: api,
         onSuccess: onSuccess,
     };
+};
+
+const updateFilters = (filters: Filters): Filters => {
+    return applyLike(filters, ["clientLastName"]);
 };

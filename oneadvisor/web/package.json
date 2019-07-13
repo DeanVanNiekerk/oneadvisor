@@ -19,8 +19,9 @@
     "dependencies": {
         "@microsoft/applicationinsights-react-js": "2.1.1",
         "@microsoft/applicationinsights-web": "2.1.0",
-        "@nivo/core": "0.59.1",
-        "@nivo/pie": "0.59.1",
+        "@nivo/bar": "0.59.2",
+        "@nivo/core": "0.59.2",
+        "@nivo/pie": "0.59.2",
         "antd": "3.20.1",
         "connected-react-router": "6.5.0",
         "currency.js": "1.2.2",

@@ -1,15 +1,17 @@
-import moment from 'moment';
+import moment from "moment";
 
-import { PageOptions, SortOptions } from '@/app/table';
-import { defaultPageOptions, defaultSortOptions } from '@/app/table/defaults';
+import { PageOptions, SortOptions } from "@/app/table";
+import { defaultPageOptions, defaultSortOptions } from "@/app/table/defaults";
 
-import { ClientRevenueDataAction } from './actions';
-import { ClientRevenueData, ClientRevenueDataFilters } from './types';
+import { ClientRevenueDataAction } from "./actions";
+import { ClientRevenueData, ClientRevenueDataFilters } from "./types";
 
 export type State = {
     readonly items: ClientRevenueData[];
-    readonly totalItems: number;
     readonly fetching: boolean;
+    readonly itemsPaged: ClientRevenueData[];
+    readonly totalItems: number;
+    readonly fetchingPaged: boolean;
     readonly pageOptions: PageOptions;
     readonly sortOptions: SortOptions;
     readonly filters: ClientRevenueDataFilters | null;
@@ -27,8 +29,10 @@ const defaultFilters: ClientRevenueDataFilters = {
 
 export const defaultState: State = {
     items: [],
-    totalItems: 0,
     fetching: false,
+    itemsPaged: [],
+    totalItems: 0,
+    fetchingPaged: false,
     pageOptions: defaultPageOptions(),
     sortOptions: defaultSortOptions("", "desc"),
     filters: defaultFilters,
@@ -39,7 +43,6 @@ export const reducer = (state: State = defaultState, action: ClientRevenueDataAc
         case "COMMISSIONS_REPORT_MEM_REVENUE_RECEIVE": {
             return {
                 ...state,
-                totalItems: action.payload.totalItems,
                 items: action.payload.items,
                 fetching: false,
             };
@@ -57,6 +60,29 @@ export const reducer = (state: State = defaultState, action: ClientRevenueDataAc
                 fetching: false,
             };
         }
+
+        case "COMMISSIONS_REPORT_MEM_REVENUE_PAGED_RECEIVE": {
+            return {
+                ...state,
+                totalItems: action.payload.totalItems,
+                itemsPaged: action.payload.items,
+                fetchingPaged: false,
+            };
+        }
+        case "COMMISSIONS_REPORT_MEM_REVENUE_PAGED_FETCHING": {
+            return {
+                ...state,
+                fetchingPaged: true,
+            };
+        }
+        case "COMMISSIONS_REPORT_MEM_REVENUE_PAGED_FETCHING_ERROR": {
+            return {
+                ...state,
+                itemsPaged: [],
+                fetchingPaged: false,
+            };
+        }
+
         case "COMMISSIONS_REPORT_MEM_REVENUE_PAGE_OPTIONS_RECEIVE": {
             return {
                 ...state,

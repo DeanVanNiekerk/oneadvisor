@@ -1,7 +1,7 @@
-import { SortOptions } from '@/app/table';
+import { SortOptions } from "@/app/table";
 
-import { defaultState, reducer } from './reducer';
-import { ClientRevenueData, ClientRevenueDataFilters } from './types';
+import { defaultState, reducer } from "./reducer";
+import { ClientRevenueData, ClientRevenueDataFilters } from "./types";
 
 describe("report client revenue reducer", () => {
     it("should handle COMMISSIONS_REPORT_MEM_REVENUE_FETCHING", () => {
@@ -69,6 +69,76 @@ describe("report client revenue reducer", () => {
             items: [data],
             totalItems: 1,
             fetching: false,
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle COMMISSIONS_REPORT_MEM_REVENUE_PAGED_FETCHING", () => {
+        const actualState = reducer(defaultState, {
+            type: "COMMISSIONS_REPORT_MEM_REVENUE_PAGED_FETCHING",
+        });
+
+        const expectedState = {
+            ...defaultState,
+            fetchingPaged: true,
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle COMMISSIONS_REPORT_MEM_REVENUE_PAGED_FETCHING_ERROR", () => {
+        const initalState = {
+            ...defaultState,
+            fetchingPaged: true,
+        };
+
+        const actualState = reducer(initalState, {
+            type: "COMMISSIONS_REPORT_MEM_REVENUE_PAGED_FETCHING_ERROR",
+        });
+
+        const expectedState = {
+            ...defaultState,
+            fetchingPaged: false,
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle COMMISSIONS_REPORT_MEM_REVENUE_PAGED_RECEIVE", () => {
+        const initalState = {
+            ...defaultState,
+            fetchingPaged: true,
+        };
+
+        const data: ClientRevenueData = {
+            rowNumber: 1,
+            clientId: "123321",
+            clientLastName: "van Niekerk",
+            clientInitials: "Dean",
+            clientDateOfBirth: "1982-10-03",
+            annualAnnuityAverage: 10,
+            grandTotal: 20,
+            lifeFirstYears: 30,
+            monthlyAnnuityMonth: 40,
+            onceOff: 50,
+            totalMonthlyEarnings: 60,
+            allocationsCount: 70,
+        };
+
+        const actualState = reducer(initalState, {
+            type: "COMMISSIONS_REPORT_MEM_REVENUE_PAGED_RECEIVE",
+            payload: {
+                totalItems: 1,
+                items: [data],
+            },
+        });
+
+        const expectedState = {
+            ...defaultState,
+            itemsPaged: [data],
+            totalItems: 1,
+            fetchingPaged: false,
         };
 
         expect(actualState).toEqual(expectedState);
