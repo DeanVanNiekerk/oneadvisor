@@ -67,7 +67,6 @@ describe("report client revenue reducer", () => {
         const expectedState = {
             ...defaultState,
             items: [data],
-            totalItems: 1,
             fetching: false,
         };
 

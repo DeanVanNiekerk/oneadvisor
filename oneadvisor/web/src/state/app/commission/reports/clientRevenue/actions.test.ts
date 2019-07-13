@@ -43,7 +43,7 @@ describe("reports: client revenue: list actions", () => {
         const expectedAction = {
             type: "API",
             endpoint: api,
-            dispatchPrefix: "COMMISSIONS_REPORT_MEM_REVENUE",
+            dispatchPrefix: "COMMISSIONS_REPORT_MEM_REVENUE_PAGED",
         };
 
         expect(actions.fetchClientRevenueDataPaged(pageOptions, sortOptions, filters)).toEqual(expectedAction);
