@@ -27,6 +27,14 @@ namespace api.Test.Controllers.Directory
         }
 
         [Fact]
+        public void BranchSimpleModelComposition()
+        {
+            Assert.Equal(2, typeof(BranchSimple).PropertyCount());
+            Assert.True(typeof(BranchSimple).HasProperty("Id"));
+            Assert.True(typeof(BranchSimple).HasProperty("Name"));
+        }
+
+        [Fact]
         public async Task Index()
         {
             var branch = new Branch()
@@ -184,5 +192,37 @@ namespace api.Test.Controllers.Directory
             Assert.Same(result, returnValue);
         }
 
+        [Fact]
+        public async Task GetBranchesSimple()
+        {
+            var branch = new BranchSimple()
+            {
+                Id = Guid.NewGuid(),
+                Name = "Branch1"
+            };
+
+            var branches = new List<BranchSimple>()
+            {
+                branch
+            };
+
+            var service = new Mock<IBranchService>();
+            var authService = TestHelper.MockAuthenticationService(Scope.Branch);
+
+            ScopeOptions queryOptions = null;
+            service.Setup(c => c.GetBranchesSimple(It.IsAny<ScopeOptions>()))
+                .Callback((ScopeOptions options) => queryOptions = options)
+                .ReturnsAsync(branches);
+
+            var controller = new BranchesController(service.Object, authService.Object);
+            controller.ControllerContext = TestHelper.GetControllerContext(new ClaimsPrincipal());
+
+            var result = await controller.GetBranchesSimple();
+
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<List<BranchSimple>>(okResult.Value);
+
+            Assert.Same(branches, returnValue);
+        }
     }
 }

@@ -1,15 +1,16 @@
-import React, { ReactNode } from 'react';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
+import React, { ReactNode } from "react";
+import { connect, DispatchProp } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router";
 
-import { clientLookupsSelector, fetchAllClientLookups } from '@/state/app/client/lookups';
-import { commissionLookupsSelector, fetchAllCommissionLookups } from '@/state/app/commission/lookups';
-import { directoryLookupsSelector, fetchAllDirectoryLookups } from '@/state/app/directory/lookups';
-import { fetchUsersSimple } from '@/state/app/directory/usersSimple';
-import { isAuthenticatedSelector } from '@/state/auth';
-import { fetchAppInfo } from '@/state/context/actions';
-import { RootState } from '@/state/rootReducer';
-import { Loader } from '@/ui/controls';
+import { clientLookupsSelector, fetchAllClientLookups } from "@/state/app/client/lookups";
+import { commissionLookupsSelector, fetchAllCommissionLookups } from "@/state/app/commission/lookups";
+import { fetchBranchesSimple } from "@/state/app/directory/branchesSimple";
+import { directoryLookupsSelector, fetchAllDirectoryLookups } from "@/state/app/directory/lookups";
+import { fetchUsersSimple } from "@/state/app/directory/usersSimple";
+import { isAuthenticatedSelector } from "@/state/auth";
+import { fetchAppInfo } from "@/state/context/actions";
+import { RootState } from "@/state/rootReducer";
+import { Loader } from "@/ui/controls";
 
 type Props = {
     isAuthenticated: boolean;
@@ -35,6 +36,7 @@ class Startup extends React.Component<Props> {
     loadSecureData() {
         if (this.props.isAuthenticated) {
             this.props.dispatch(fetchUsersSimple());
+            this.props.dispatch(fetchBranchesSimple());
         }
     }
 

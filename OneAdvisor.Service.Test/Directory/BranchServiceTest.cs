@@ -209,5 +209,63 @@ namespace OneAdvisor.Service.Test.Directory
             }
         }
 
+        [Fact]
+        public async Task GetBranchesSimple()
+        {
+            var options = TestHelper.GetDbContext("GetBranchesSimple");
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options);
+
+            //Given
+            var orgId1 = user1.Organisation.Id;
+            var orgId2 = user2.Organisation.Id;
+            var branch1 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = orgId1, Name = "A Branch 1" };
+            var branch2 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = orgId2, Name = "B Branch 2" };
+            var branch3 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = orgId1, Name = "C Branch 3" };
+            var branch4 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = orgId2, Name = "D Branch 4" };
+            var branch5 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = orgId1, Name = "E Branch 5" };
+            var branch6 = new BranchEntity { Id = Guid.NewGuid(), OrganisationId = orgId1, Name = "F Branch 6" };
+
+            using (var context = new DataContext(options))
+            {
+                //Jumbled order
+                context.Branch.Add(branch6);
+                context.Branch.Add(branch1);
+                context.Branch.Add(branch2);
+                context.Branch.Add(branch4);
+                context.Branch.Add(branch5);
+                context.Branch.Add(branch3);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new BranchService(context);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
+                var actual = await service.GetBranchesSimple(scope);
+
+                //Then
+                var branches = actual.ToArray();
+
+                Assert.Equal(5, branches.Count());
+
+                var actual1 = branches.First(b => b.Id == branch1.Id);
+                Assert.Equal(branch1.Name, actual1.Name);
+
+                var actual2 = branches.First(b => b.Id == branch3.Id);
+                Assert.Equal(branch3.Name, actual2.Name);
+
+                var actual5 = branches.First(b => b.Id == branch5.Id);
+                Assert.Equal(branch5.Name, actual5.Name);
+
+                var actual6 = branches.First(b => b.Id == branch6.Id);
+                Assert.Equal(branch6.Name, actual6.Name);
+            }
+        }
+
     }
 }

@@ -28,7 +28,7 @@ namespace api.Controllers.Directory.Branches
         private IAuthenticationService AuthenticationService { get; }
 
         [HttpGet("")]
-        [UseCaseAuthorize("dir_view_branches")]
+        [UseCaseAuthorize("dir_view_branches", "dir_edit_users")] //If you can edit a user you need a list of branches
         public async Task<IActionResult> Index(string filters = null)
         {
             var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
@@ -81,6 +81,17 @@ namespace api.Controllers.Directory.Branches
                 return BadRequest(result.ValidationFailures);
 
             return Ok(result);
+        }
+
+        [HttpGet("simple")]
+        [Authorize]
+        public async Task<IActionResult> GetBranchesSimple()
+        {
+            var scope = AuthenticationService.GetScope(User);
+
+            var branches = await BranchService.GetBranchesSimple(scope);
+
+            return Ok(branches);
         }
     }
 

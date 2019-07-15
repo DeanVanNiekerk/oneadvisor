@@ -116,5 +116,18 @@ namespace OneAdvisor.Service.Directory
 
             return entity;
         }
+
+        public async Task<List<BranchSimple>> GetBranchesSimple(ScopeOptions scope)
+        {
+            var query = from branch in ScopeQuery.GetBranchEntityQuery(_context, scope)
+                        orderby branch.Name
+                        select new BranchSimple()
+                        {
+                            Id = branch.Id,
+                            Name = branch.Name
+                        };
+
+            return await query.ToListAsync();
+        }
     }
 }

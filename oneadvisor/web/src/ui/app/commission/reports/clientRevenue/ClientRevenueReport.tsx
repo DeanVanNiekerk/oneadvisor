@@ -10,7 +10,7 @@ import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
 import {
     clientRevenueSelector, fetchClientRevenueDataPaged, getClientRevenueData, receiveClientRevenueFilters
 } from "@/state/app/commission/reports";
-import { Branch, branchesSelector, fetchBranches } from "@/state/app/directory/branches";
+import { branchesSimpleSelector, BranchSimple } from "@/state/app/directory/branchesSimple";
 import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
 import { userOrganisationIdSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
@@ -26,7 +26,7 @@ type Props = {
     pageOptions: PageOptions;
     sortOptions: SortOptions;
     filters: Filters;
-    branches: Branch[];
+    branches: BranchSimple[];
     organisationId: string;
     users: UserSimple[];
     policyTypes: PolicyType[];
@@ -66,8 +66,6 @@ class ClientRevenueReport extends Component<Props, State> {
         this.props.dispatch(
             fetchClientRevenueDataPaged(this.props.pageOptions, this.props.sortOptions, this.props.filters)
         );
-
-        if (this.props.branches.length === 0) this.props.dispatch(fetchBranches(this.props.organisationId));
     };
 
     onTabChange = (activeTab: TabKey) => {
@@ -322,7 +320,7 @@ class ClientRevenueReport extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const clientRevenueState = clientRevenueSelector(state);
-    const branchesState = branchesSelector(state);
+    const branchesState = branchesSimpleSelector(state);
     const usersState = usersSimpleSelector(state);
     const policyTypesState = policyTypesSelector(state);
 

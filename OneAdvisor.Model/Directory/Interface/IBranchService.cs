@@ -13,5 +13,6 @@ namespace OneAdvisor.Model.Directory.Interface
         Task<Branch> GetBranch(ScopeOptions scope, Guid branchId);
         Task<Result> UpdateBranch(ScopeOptions scope, Branch branch);
         Task<Result> InsertBranch(ScopeOptions scope, Branch branch);
+        Task<List<BranchSimple>> GetBranchesSimple(ScopeOptions scope);
     }
 }

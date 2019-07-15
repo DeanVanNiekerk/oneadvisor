@@ -1,25 +1,24 @@
-import { List, Switch } from 'antd';
-import update from 'immutability-helper';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { List, Switch } from "antd";
+import update from "immutability-helper";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { hasUseCase } from '@/app/identity';
-import { ValidationResult } from '@/app/validation';
-import { getScopes } from '@/config/scope';
-import { Application } from '@/state/app/directory/applications';
-import { branchesSelector, branchSelector } from '@/state/app/directory/branches';
-import { Organisation } from '@/state/app/directory/organisations';
-import { Role } from '@/state/app/directory/roles';
-import { UserEdit } from '@/state/app/directory/users';
-import { useCaseSelector } from '@/state/auth';
-import { RootState } from '@/state/rootReducer';
+import { hasUseCase } from "@/app/identity";
+import { ValidationResult } from "@/app/validation";
+import { getScopes } from "@/config/scope";
+import { Application } from "@/state/app/directory/applications";
+import { Organisation } from "@/state/app/directory/organisations";
+import { Role } from "@/state/app/directory/roles";
+import { UserEdit } from "@/state/app/directory/users";
+import { useCaseSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
 import {
     Form, FormErrors, FormInput, FormSelect, FormSimpleList, FormSwitch, Secure, TabPane, Tabs
-} from '@/ui/controls';
+} from "@/ui/controls";
 
-import SplitRuleList from '../../commission/splitRule/SplitRuleList';
-import BranchSelect from './BranchSelect';
-import Emails from './Emails';
+import SplitRuleList from "../../commission/splitRule/SplitRuleList";
+import BranchSelect from "./BranchSelect";
+import Emails from "./Emails";
 
 type TabKey = "details_tab" | "roles_tab" | "aliases_tab" | "emails_tab" | "commission_tab";
 
@@ -201,12 +200,7 @@ class UserForm extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const branchState = branchSelector(state);
-    const branchesState = branchesSelector(state);
-
     return {
-        branch: branchState.branch,
-        branches: branchesState.items,
         useCases: useCaseSelector(state),
     };
 };
