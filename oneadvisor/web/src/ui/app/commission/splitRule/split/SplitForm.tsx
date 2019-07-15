@@ -1,11 +1,11 @@
-import update from 'immutability-helper';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import update from "immutability-helper";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { Split } from '@/state/app/commission/splitRules';
-import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
-import { RootState } from '@/state/rootReducer';
-import { Button, Form, FormField, FormInputNumber, FormSelect } from '@/ui/controls';
+import { Split } from "@/state/app/commission/splitRules";
+import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
+import { RootState } from "@/state/rootReducer";
+import { Button, Form, FormField, FormInputNumber, FormSelect } from "@/ui/controls";
 
 type Props = {
     split: Split;
@@ -75,7 +75,7 @@ class SplitForm extends Component<Props, State> {
                         type="primary"
                         disabled={!split.userId || !split.percentage || split.percentage < 1 || split.percentage > 100}
                     >
-                        Save
+                        Add Split
                     </Button>
                 </FormField>
             </Form>

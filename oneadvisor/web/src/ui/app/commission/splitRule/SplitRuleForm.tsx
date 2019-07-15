@@ -1,12 +1,15 @@
-import update from 'immutability-helper';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Divider, Typography } from "antd";
+import update from "immutability-helper";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { getValidationSubSet, ValidationResult } from '@/app/validation';
-import { Split, SplitRule } from '@/state/app/commission/splitRules';
-import { Form, FormInput, FormSwitch } from '@/ui/controls';
+import { getValidationSubSet, ValidationResult } from "@/app/validation";
+import { Split, SplitRule } from "@/state/app/commission/splitRules";
+import { Form, FormInput, FormSwitch } from "@/ui/controls";
 
-import SplitList from './split/SplitList';
+import SplitList from "./split/SplitList";
+
+const { Title } = Typography;
 
 type Props = {
     splitRule: SplitRule;
@@ -68,6 +71,9 @@ class SplitRuleForm extends Component<Props, State> {
                     validationResults={validationResults}
                     extra="Setting the rule to 'Default' will cause this rule to be applied automatically to all future commission statement imports."
                 />
+
+                <b className="mt-1">Split Percentages</b>
+                <Divider orientation="left" className="mt-1" />
 
                 <SplitList
                     splits={splitRule.split}
