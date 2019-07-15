@@ -181,21 +181,11 @@ namespace OneAdvisor.Service.Client
             if (!result.Success)
                 return result;
 
-            var mergeValidator = new MergeClientsValidator(_context);
+            var mergeValidator = new MergeClientsValidator(_context, scope);
             result = mergeValidator.Validate(merge).GetResult();
 
             if (!result.Success)
                 return result;
-
-            //Scope check ------
-            var options = new ClientQueryOptions(scope, "", "", 0, 0);
-            options.ClientId = merge.SourceClientIds;
-
-            var clients = await GetClients(options);
-
-            if (clients.TotalItems != merge.SourceClientIds.Count)
-                return new Result("SourceClientIds", "Invalid Source Client Ids");
-            //--------------------
 
             //Insert the 'new' client
             var entity = MapModelToEntity(merge.TargetClient);

@@ -58,18 +58,11 @@ namespace OneAdvisor.Service.Directory
 
         public async Task<Result> InsertBranch(ScopeOptions scope, Branch branch)
         {
-            var validator = new BranchValidator(true);
+            var validator = new BranchValidator(_context, scope, true);
             var result = validator.Validate(branch).GetResult();
 
             if (!result.Success)
                 return result;
-
-            //Only organisation scope
-            if (scope.Scope == Scope.Branch || scope.Scope == Scope.User)
-                return new Result();
-
-            if (!ScopeQuery.IsOrganisationInScope(scope, branch.OrganisationId.Value))
-                return new Result();
 
             var entity = MapModelToEntity(branch);
             entity.OrganisationId = branch.OrganisationId.Value;
@@ -84,14 +77,11 @@ namespace OneAdvisor.Service.Directory
 
         public async Task<Result> UpdateBranch(ScopeOptions scope, Branch branch)
         {
-            var validator = new BranchValidator(false);
+            var validator = new BranchValidator(_context, scope, false);
             var result = validator.Validate(branch).GetResult();
 
             if (!result.Success)
                 return result;
-
-            if (scope.Scope == Scope.User)
-                return new Result();
 
             var entity = await ScopeQuery.GetBranchEntityQuery(_context, scope).FirstOrDefaultAsync(b => b.Id == branch.Id);
 

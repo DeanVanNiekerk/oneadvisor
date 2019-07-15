@@ -116,7 +116,7 @@ namespace OneAdvisor.Service.Commission
 
         public async Task<Result> InsertCommissionStatement(ScopeOptions scope, CommissionStatementEdit commissionStatement)
         {
-            var validator = new CommissionStatementValidator(true);
+            var validator = new CommissionStatementValidator(_context, scope, true);
             var result = validator.Validate(commissionStatement).GetResult();
 
             if (!result.Success)
@@ -135,7 +135,7 @@ namespace OneAdvisor.Service.Commission
 
         public async Task<Result> UpdateCommissionStatement(ScopeOptions scope, CommissionStatementEdit commissionStatement)
         {
-            var validator = new CommissionStatementValidator(false);
+            var validator = new CommissionStatementValidator(_context, scope, false);
             var result = validator.Validate(commissionStatement).GetResult();
 
             if (!result.Success)
@@ -143,7 +143,7 @@ namespace OneAdvisor.Service.Commission
 
             var entity = await GetCommissionStatementEntityQuery(scope).FirstOrDefaultAsync(c => c.Id == commissionStatement.Id);
 
-            if (entity == null || entity.OrganisationId != scope.OrganisationId)
+            if (entity == null)
                 return new Result();
 
             entity = MapModelToEntity(commissionStatement, entity);

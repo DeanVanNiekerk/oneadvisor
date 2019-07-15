@@ -129,16 +129,11 @@ namespace OneAdvisor.Service.Directory
 
         public async Task<Result> InsertUser(ScopeOptions scope, UserEdit user, string password, bool emailConfirmed)
         {
-            var validator = new UserValidator(scope, true);
+            var validator = new UserValidator(_context, scope, true);
             var result = validator.Validate(user).GetResult();
 
             if (!result.Success)
                 return result;
-
-            //Check scope
-            var branch = await ScopeQuery.GetBranchEntityQuery(_context, scope).FirstOrDefaultAsync(b => b.Id == user.BranchId);
-            if (scope.Scope == Scope.User || branch == null)
-                return new Result();
 
             var entity = MapModelToEntity(user);
 
@@ -161,7 +156,7 @@ namespace OneAdvisor.Service.Directory
 
         public async Task<Result> UpdateUser(ScopeOptions scope, UserEdit user)
         {
-            var validator = new UserValidator(scope, false);
+            var validator = new UserValidator(_context, scope, false);
             var result = validator.Validate(user).GetResult();
 
             if (!result.Success)

@@ -96,17 +96,12 @@ See .vscode/extensions.json
 
 ```
 
-Release v0.7.0
+Release v0.8.0
 ===============
 
 New Features:
-- Client > Import > Can now import Company and Client Type
-- Commission > Statments > Errors > Download includes CompanyName and Client Type
-- Commission > Broker Commission Report > Download to Excel (doesnt include chart)
-- Commission > Client Revenue Report > New Filter - Policy Type
-
-Updates:
-- Commission > Statments > Default ordering is by Company Name
+- Commission > Templates > Added Groups (allows for support of Old Mutual files)
+- Commission > Reports > Client Revenue > Commission Bands Bar Chart.
 
 
 Release v0..

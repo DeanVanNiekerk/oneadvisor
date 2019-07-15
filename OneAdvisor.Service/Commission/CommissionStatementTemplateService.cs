@@ -6,16 +6,11 @@ using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Commission;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Commission.Interface;
-using OneAdvisor.Model.Commission.Model.Commission;
-using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Commission.Validators;
-using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 using System.Collections.Generic;
-using OneAdvisor.Model.Directory.Interface;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -67,7 +62,6 @@ namespace OneAdvisor.Service.Commission
             return pagedItems;
         }
 
-
         public async Task<CommissionStatementTemplateEdit> GetTemplate(Guid templateId)
         {
             var query = from template in _context.CommissionStatementTemplate
@@ -84,7 +78,6 @@ namespace OneAdvisor.Service.Commission
 
             return await query.FirstOrDefaultAsync();
         }
-
 
         public async Task<Result> InsertTemplate(CommissionStatementTemplateEdit template)
         {

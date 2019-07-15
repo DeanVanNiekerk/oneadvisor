@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using FluentValidation;
-using FluentValidation.Results;
-using FluentValidation.Validators;
+using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Service.Common.Query;
@@ -51,6 +48,39 @@ namespace OneAdvisor.Service
             })
             .WithMessage(DOESNT_EXIST_MESSAGE)
             .WithName("User");
+        }
+
+        public static IRuleBuilderOptions<T, Guid?> OrganisationMustBeInScope<T>(this IRuleBuilder<T, Guid?> ruleBuilder, DataContext dataContext, ScopeOptions scope)
+        {
+            return ruleBuilder.Must((root, organisationId, context) =>
+            {
+                if (!organisationId.HasValue)
+                    return false;
+
+                return ScopeQuery.IsOrganisationInScope(scope, organisationId.Value);
+            })
+            .WithMessage(DOESNT_EXIST_MESSAGE)
+            .WithName("Organisation");
+        }
+
+        public static IRuleBuilderOptions<T, Guid?> BranchMustBeInScope<T>(this IRuleBuilder<T, Guid?> ruleBuilder, DataContext dataContext, ScopeOptions scope)
+        {
+            return ruleBuilder.MustAsync(async (root, branchId, context) =>
+            {
+                if (!branchId.HasValue)
+                    return false;
+
+                var branch = await ScopeQuery.GetBranchEntityQuery(dataContext, scope).FirstOrDefaultAsync(b => b.Id == branchId);
+
+                return branch != null;
+            })
+            .WithMessage((root, branchId) =>
+            {
+                if (!branchId.HasValue)
+                    return NOT_EMPTY_MESSAGE;
+                return DOESNT_EXIST_MESSAGE;
+            })
+            .WithName("Branch");
         }
 
         public static IRuleBuilderOptions<T, Guid> PolicyMustBeInScope<T>(this IRuleBuilder<T, Guid> ruleBuilder, DataContext dataContext, ScopeOptions scope)
@@ -103,9 +133,9 @@ namespace OneAdvisor.Service
 
                 return await ScopeQuery.IsClientInOrganisation(dataContext, scope, clientId.Value);
             })
-            .WithMessage((root, commissionSplitRuleId) =>
+            .WithMessage((root, clientId) =>
             {
-                if (!commissionSplitRuleId.HasValue)
+                if (!clientId.HasValue)
                     return NOT_EMPTY_MESSAGE;
                 return DOESNT_EXIST_MESSAGE;
             })
