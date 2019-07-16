@@ -1,10 +1,10 @@
-import { Switch } from 'antd';
-import React, { Component } from 'react';
+import { Switch } from "antd";
+import React, { Component } from "react";
 
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { FormLayout } from './Form';
-import { FormField } from './FormField';
+import { FormLayout } from "./Form";
+import { FormField } from "./FormField";
 
 type Props = {
     fieldName: string;
@@ -12,7 +12,7 @@ type Props = {
     extra?: React.ReactNode;
     value: boolean | undefined;
     disabled?: boolean;
-    onChange?: (fieldName: string, value: any) => void;
+    onChange?: (fieldName: string, value: boolean) => void;
     validationResults?: ValidationResult[];
     layout?: FormLayout;
     readonly?: boolean;

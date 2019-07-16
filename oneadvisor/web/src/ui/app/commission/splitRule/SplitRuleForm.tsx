@@ -40,7 +40,7 @@ class SplitRuleForm extends Component<Props, State> {
         }
     }
 
-    handleChange = (fieldName: keyof SplitRule, value: string | Split[]) => {
+    handleChange = (fieldName: keyof SplitRule, value: string | Split[] | boolean) => {
         const splitRule = update(this.state.splitRule, { [fieldName]: { $set: value } });
         this.setState({
             splitRule: splitRule,

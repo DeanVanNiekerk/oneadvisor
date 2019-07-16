@@ -18,6 +18,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
         public string FieldName { get; set; }
         public string Column { get; set; }
         public string Formatter { get; set; }
+        public bool ReverseOrder { get; set; }
         public IEnumerable<Identifier> Identifiers { get; set; }
     }
 }

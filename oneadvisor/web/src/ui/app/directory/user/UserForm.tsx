@@ -56,7 +56,7 @@ class UserForm extends Component<Props, State> {
         }
     }
 
-    handleChange = (fieldName: keyof UserEdit, value: string | number | string[]) => {
+    handleChange = (fieldName: keyof UserEdit, value: string | number | string[] | boolean) => {
         const user = update(this.state.user, { [fieldName]: { $set: value } });
         this.setState({
             user: user,

@@ -11,7 +11,7 @@ import {
 import { Group, Identifier } from "@/state/app/commission/templates";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
-import { Button, Form, FormErrors, FormInput, FormSelect } from "@/ui/controls";
+import { Button, Form, FormErrors, FormInput, FormSelect, FormSwitch } from "@/ui/controls";
 
 import GroupIdentifiersForm from "./GroupIdentifiersForm";
 
@@ -55,6 +55,7 @@ class Groups extends Component<Props, State> {
 			fieldName: "",
 			column: "",
 			formatter: "",
+			reverseOrder: false,
 			identifiers: [] as Identifier[],
 		};
 		const groups = update(this.state.groups, {
@@ -149,7 +150,7 @@ class Groups extends Component<Props, State> {
 									options={this.props.fieldNames}
 									optionsValue="id"
 									optionsText="name"
-									width="200px"
+									width="150px"
 								/>
 								<FormInput
 									fieldName="column"
@@ -160,7 +161,7 @@ class Groups extends Component<Props, State> {
 										this.onChange(fieldName, value, index);
 									}}
 									validationResults={validationResults}
-									width="100px"
+									width="60px"
 								/>
 								<FormInput
 									fieldName="formatter"
@@ -171,12 +172,20 @@ class Groups extends Component<Props, State> {
 										this.onChange(fieldName, value, index);
 									}}
 									validationResults={validationResults}
-									width="200px"
+									width="180px"
 									addonAfter={
 										<Tooltip title="This is a regular expression used to format the value">
 											<Icon type="info-circle" />
 										</Tooltip>
 									}
+								/>
+								<FormSwitch
+									fieldName="reverseOrder"
+									label="Rev. Order"
+									value={group.reverseOrder}
+									onChange={(fieldName: string, value: boolean) => {
+										this.onChange(fieldName, value, index);
+									}}
 								/>
 							</Form>
 

@@ -70,7 +70,7 @@ class FieldsForm extends Component<Props, State> {
 		this.setFieldsState(fields);
 	};
 
-	onChange = (fieldName: string, value: string, index: number) => {
+	onChange = (fieldName: string, value: string | boolean, index: number) => {
 		const field = {
 			...this.state.fields[index],
 			[fieldName]: value,
@@ -157,7 +157,7 @@ class FieldsForm extends Component<Props, State> {
 									label="Abs."
 									value={field.absoluteValue}
 									validationResults={validationResults}
-									onChange={(fieldName: string, value: string) => {
+									onChange={(fieldName: string, value: boolean) => {
 										this.onChange(fieldName, value, index);
 									}}
 								/>

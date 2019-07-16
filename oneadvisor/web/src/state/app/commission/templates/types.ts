@@ -57,5 +57,6 @@ export type Group = {
     fieldName: string;
     column: string;
     formatter: string;
+    reverseOrder: boolean;
     identifiers: Identifier[];
 };
