@@ -9,7 +9,6 @@ using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Helpers;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Model.Import.Excel;
 using OneAdvisor.Model.Import;
-using System.Text.RegularExpressions;
 using OneAdvisor.Model.Import.Commission;
 
 namespace OneAdvisor.Import.Excel.Readers
@@ -25,6 +24,9 @@ namespace OneAdvisor.Import.Excel.Readers
 
         public IEnumerable<ImportCommission> Read(Stream stream)
         {
+            var groupLoader = new CommissionGroupLoader();
+            var sheetGroups = groupLoader.Load(_config, stream);
+
             using (var reader = ExcelReaderFactory.CreateReader(stream))
             {
                 var sheetNumber = 0;
@@ -36,34 +38,36 @@ namespace OneAdvisor.Import.Excel.Readers
 
                     var sheet = _config.Sheets.FirstOrDefault(s => s.Position == sheetNumber);
                     if (sheet != null)
-                        foreach (var commission in Read(reader, sheet))
+                        foreach (var commission in Read(reader, sheet, sheetGroups.FirstOrDefault(s => s.SheetNumber == sheetNumber)))
                             yield return commission;
 
                 } while (reader.NextResult());
             }
         }
 
-        private IEnumerable<ImportCommission> Read(IExcelDataReader reader, Sheet sheet)
+        private IEnumerable<ImportCommission> Read(IExcelDataReader reader, Sheet sheet, SheetGroups sheetGroups)
         {
             var config = sheet.Config;
 
-            var headerColumnIndex = ExcelUtils.ColumnToIndex(config.HeaderIdentifier.Column);
-            var headerFound = false || headerColumnIndex == -1;
-
-            var groupValues = new List<GroupValue>();
+            var rowNumber = 0;
+            var header = new HeaderLocator(config.HeaderIdentifier);
 
             while (reader.Read())
             {
-                if (!headerFound)
+                rowNumber++;
+
+                if (!header.Found)
                 {
-                    var currentValue = Utils.GetValue(reader, headerColumnIndex);
-                    headerFound = config.HeaderIdentifier.Value.IgnoreCaseEquals(currentValue);
+                    header.Check(reader);
                     continue;
                 }
 
-                var groupMatch = LoadGroupValues(reader, groupValues, config);
+                var groupValues = new List<GroupValue>();
+                if (sheetGroups != null)
+                    groupValues = sheetGroups.RowGroups.Single(r => r.RowNumber == rowNumber).GroupValues;
 
-                if (groupMatch)
+                //Continue if this is a section row
+                if (groupValues.Any(v => !v.IsInherited))
                     continue;
 
                 //Ignore row if any of the primary field values are empty
@@ -213,59 +217,5 @@ namespace OneAdvisor.Import.Excel.Readers
             return groupValue.Value;
         }
 
-        public static bool LoadGroupValues(IExcelDataReader reader, List<GroupValue> groupValues, SheetConfig config)
-        {
-            //Check groupings
-            foreach (var group in config.Groups)
-            {
-                //Check for match
-                var isMatch = true;
-                foreach (var identifier in group.Identifiers)
-                {
-                    var value = GetValue(reader, identifier.Column) ?? "";
-                    if (Regex.Matches(value, identifier.Value).Count == 0)
-                        isMatch = false;
-                }
-
-                if (isMatch)
-                {
-                    var value = GetValue(reader, group.Column) ?? "";
-
-                    if (!string.IsNullOrEmpty(group.Formatter))
-                    {
-                        var match = Regex.Match(value, group.Formatter);
-                        if (match.Success)
-                            value = match.Value;
-                    }
-
-                    var groupValue = new GroupValue()
-                    {
-                        GroupFieldName = group.FieldName,
-                        Value = value
-                    };
-
-                    var index = groupValues.FindIndex(g => g.GroupFieldName == group.FieldName);
-
-                    if (index == -1)
-                        groupValues.Add(groupValue);
-                    else
-                    {
-                        groupValues[index] = groupValue;
-
-                        //Reset sub group values
-                        index++;
-                        while (index < groupValues.Count)
-                        {
-                            groupValues[index].Value = "";
-                            index++;
-                        }
-                    }
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
     }
 }

@@ -24,6 +24,9 @@ namespace OneAdvisor.Import.Excel.Readers
 
         public IEnumerable<string> Read(Stream stream)
         {
+            var groupLoader = new CommissionGroupLoader();
+            var sheetGroups = groupLoader.LoadForSheet(_sheet, stream);
+
             var commissionTypes = new List<string>();
 
             using (var reader = ExcelReaderFactory.CreateReader(stream))
@@ -38,24 +41,22 @@ namespace OneAdvisor.Import.Excel.Readers
                     if (_sheet.Position != sheetNumber)
                         continue;
 
-                    var headerColumnIndex = ExcelUtils.ColumnToIndex(_sheet.Config.HeaderIdentifier.Column);
-                    var headerFound = false || headerColumnIndex == -1;
-
-                    var groupValues = new List<GroupValue>();
+                    var rowNumber = 0;
+                    var header = new HeaderLocator(_sheet.Config.HeaderIdentifier);
 
                     while (reader.Read())
                     {
-                        if (!headerFound)
+                        rowNumber++;
+
+                        if (!header.Found)
                         {
-                            var currentValue = Utils.GetValue(reader, headerColumnIndex);
-                            headerFound = _sheet.Config.HeaderIdentifier.Value.IgnoreCaseEquals(currentValue);
+                            header.Check(reader);
                             continue;
                         }
 
-                        var groupMatch = CommissionImportReader.LoadGroupValues(reader, groupValues, _sheet.Config);
-
-                        if (groupMatch)
-                            continue;
+                        var groupValues = new List<GroupValue>();
+                        if (sheetGroups != null)
+                            groupValues = sheetGroups.RowGroups.Single(r => r.RowNumber == rowNumber).GroupValues;
 
                         //Ignore row if any of the primary field values are empty
                         var requiredFields = _sheet.Config.Fields.Where(f => Fields.PrimaryFieldNames().Any(p => p == f.Name));
