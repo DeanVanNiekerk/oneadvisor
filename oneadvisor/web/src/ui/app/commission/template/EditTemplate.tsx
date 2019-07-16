@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { ApiOnFailure, ApiOnSuccess } from '@/app/types';
-import { areEqual } from '@/app/utils';
-import { ValidationResult } from '@/app/validation';
+import { ApiOnFailure, ApiOnSuccess } from "@/app/types";
+import { areEqual } from "@/app/utils";
+import { ValidationResult } from "@/app/validation";
 import {
     CommissionStatementTemplateEdit, commissionStatementTemplateSelector, insertCommissionStatementTemplate,
     receiveCommissionStatementTemplate, updateCommissionStatementTemplate
-} from '@/state/app/commission/templates';
-import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
-import { showConfirm } from '@/ui/feedback/modal/confirm';
-import { showMessage } from '@/ui/feedback/notifcation';
+} from "@/state/app/commission/templates";
+import { RootState } from "@/state/rootReducer";
+import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
+import { showMessage } from "@/ui/feedback/notifcation";
 
-import TemplateForm from './TemplateForm';
+import TemplateForm from "./TemplateForm";
 
 type Props = {
     visible: boolean;
@@ -37,10 +37,11 @@ class EditTemplate extends Component<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.props.template != prevProps.template)
+        if (this.props.template != prevProps.template) {
             this.setState({
                 templateEdited: this.props.template,
             });
+        }
     }
 
     close = () => {
@@ -48,8 +49,7 @@ class EditTemplate extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (!areEqual(this.props.template, this.state.templateEdited))
-            return showConfirm({ onOk: this.cancel });
+        if (!areEqual(this.props.template, this.state.templateEdited)) return showConfirm({ onOk: this.cancel });
 
         this.cancel();
     };
@@ -58,11 +58,7 @@ class EditTemplate extends Component<Props, State> {
         this.props.onClose(true);
     };
 
-    save = (
-        onSuccess?: ApiOnSuccess,
-        onFailure?: ApiOnFailure,
-        disableSuccessMessage?: boolean
-    ) => {
+    save = (onSuccess?: ApiOnSuccess, onFailure?: ApiOnFailure, disableSuccessMessage?: boolean) => {
         if (!this.state.templateEdited) {
             //this.close();
             return;
@@ -74,17 +70,9 @@ class EditTemplate extends Component<Props, State> {
                     this.state.templateEdited,
                     (result, dispatch) => {
                         if (!disableSuccessMessage) {
-                            showMessage(
-                                "success",
-                                "Template Successfully Saved",
-                                3
-                            );
+                            showMessage("success", "Template Successfully Saved", 3);
                         }
-                        this.props.dispatch(
-                            receiveCommissionStatementTemplate(
-                                this.state.templateEdited
-                            )
-                        );
+                        this.props.dispatch(receiveCommissionStatementTemplate(this.state.templateEdited));
                         if (onSuccess) onSuccess(result, dispatch);
                     },
                     onFailure
@@ -144,10 +132,7 @@ class EditTemplate extends Component<Props, State> {
                     )}
                 </ContentLoader>
                 <DrawerFooter>
-                    <Button
-                        onClick={this.confirmCancel}
-                        disabled={this.isLoading()}
-                    >
+                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Close
                     </Button>
                     <Button

@@ -42,7 +42,7 @@ class TemplateForm extends Component<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.props.template.id != prevProps.template.id)
+        if (this.props.template != prevProps.template)
             this.setState({
                 template: this.props.template,
             });

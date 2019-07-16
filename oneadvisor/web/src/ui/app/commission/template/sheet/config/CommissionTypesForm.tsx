@@ -118,10 +118,11 @@ class CommissionTypesForm extends Component<Props, State> {
 
 		return [
 			<Popconfirm
+                key="remove_mapping"
 				title="Are you sure remove this mapping?"
 				onConfirm={() => this.remove(index)}
 				okText="Yes"
-				cancelText="No"
+                cancelText="No"
 			>
 				<a href="#">remove</a>
 			</Popconfirm>,
