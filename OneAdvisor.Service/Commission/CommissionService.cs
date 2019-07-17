@@ -224,7 +224,5 @@ namespace OneAdvisor.Service.Commission
 
             return entity;
         }
-
-
     }
 }

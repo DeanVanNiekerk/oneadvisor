@@ -34,7 +34,9 @@ namespace OneAdvisor.Service.Commission
         private readonly ICommissionSplitService _commissionSplitService;
         private readonly ICommissionSplitRulePolicyService _commissionSplitRulePolicyService;
 
-        public CommissionImportService(DataContext context, IBulkActions bulkActions,
+        public CommissionImportService(
+            DataContext context,
+            IBulkActions bulkActions,
             ICommissionStatementService commissionStatementService,
             IPolicyService policyService,
             IDirectoryLookupService lookupService,

@@ -11,6 +11,7 @@ using OneAdvisor.Service.Commission.Validators;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 using System.Collections.Generic;
+using OneAdvisor.Service.Common.BulkActions;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -18,11 +19,13 @@ namespace OneAdvisor.Service.Commission
     {
         private readonly DataContext _context;
         private readonly ICommissionLookupService _lookupService;
+        private readonly IBulkActions _bulkActions;
 
-        public CommissionStatementTemplateService(DataContext context, ICommissionLookupService lookupService)
+        public CommissionStatementTemplateService(DataContext context, ICommissionLookupService lookupService, IBulkActions bulkActions)
         {
             _context = context;
             _lookupService = lookupService;
+            _bulkActions = bulkActions;
         }
 
         public async Task<PagedItems<CommissionStatementTemplate>> GetTemplates(CommissionStatementTemplateQueryOptions queryOptions)
@@ -181,5 +184,37 @@ namespace OneAdvisor.Service.Commission
         }
 
 
+        public async Task UpdateUnknownCommissionTypes(Guid commissionStatementTemplateId)
+        {
+            var template = await _context.CommissionStatementTemplate.FindAsync(commissionStatementTemplateId);
+
+            //Get all commissions for this company that have unknown commission types
+            var query = from statement in _context.CommissionStatement
+                        join commission in _context.Commission
+                            on statement.Id equals commission.CommissionStatementId
+                        where statement.CompanyId == template.CompanyId
+                        && commission.CommissionTypeId == OneAdvisor.Model.Commission.Model.Lookup.CommissionType.COMMISSION_TYPE_UNKNOWN_ID
+                        select commission;
+
+            var commissionTypes = await _context.CommissionType.ToListAsync();
+            var commissionTypeIndex = commissionTypes.ToDictionary(c => c.Code, c => c.Id);
+
+            var commissionTypeMap = template.Config.Sheets.Select(s => s.Config.CommissionTypes.Types).SelectMany(t => t).ToList();
+
+            var updatedCommissions = new List<CommissionEntity>();
+
+            foreach (var commission in query)
+            {
+                //Check if there is a mapping for this commission type now
+                var map = commissionTypeMap.FirstOrDefault(t => t.Value.IgnoreCaseEquals(commission.SourceData.CommissionTypeValue));
+                if (map != null && commissionTypeIndex.ContainsKey(map.CommissionTypeCode))
+                {
+                    commission.CommissionTypeId = commissionTypeIndex[map.CommissionTypeCode];
+                    updatedCommissions.Add(commission);
+                }
+            }
+
+            await _bulkActions.BulkUpdateCommissionsAsync(_context, updatedCommissions);
+        }
     }
 }

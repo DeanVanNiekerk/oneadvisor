@@ -29,5 +29,10 @@ namespace OneAdvisor.Service.Common.BulkActions
         {
             await context.BulkInsertAsync(items);
         }
+
+        public async Task BulkUpdateCommissionsAsync(DataContext context, IList<CommissionEntity> items)
+        {
+            await context.BulkUpdateAsync(items);
+        }
     }
 }

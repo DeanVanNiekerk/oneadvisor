@@ -9,6 +9,7 @@ namespace OneAdvisor.Service.Common.BulkActions
     public interface IBulkActions
     {
         Task BulkInsertCommissionsAsync(DataContext context, IList<CommissionEntity> items);
+        Task BulkUpdateCommissionsAsync(DataContext context, IList<CommissionEntity> items);
         Task BulkInsertCommissionErrorsAsync(DataContext context, IList<CommissionErrorEntity> items);
 
         Task BatchDeleteCommissionsAsync(DataContext context, Guid commissionStatementId);

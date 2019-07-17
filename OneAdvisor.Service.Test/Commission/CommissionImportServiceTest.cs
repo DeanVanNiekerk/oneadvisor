@@ -70,15 +70,17 @@ namespace OneAdvisor.Service.Test.Commission
                 var result = await service.ImportCommissions(scope, statement.Id, imports);
 
                 //Then
-                Assert.Equal(result.ImportCount, 0);
-                Assert.Equal(result.ErrorCount, 0);
+                Assert.Equal(0, result.ImportCount);
+                Assert.Equal(0, result.ErrorCount);
+                Assert.Empty(result.Results);
 
                 scope = TestHelper.GetScopeOptions(user1);
                 result = await service.ImportCommissions(scope, statement.Id, imports);
 
                 //Then
-                Assert.Equal(result.ImportCount, 1);
-                Assert.Equal(result.ErrorCount, 0);
+                Assert.Equal(0, result.ImportCount);
+                Assert.Equal(1, result.ErrorCount);
+                Assert.Single(result.Results);
             }
         }
 

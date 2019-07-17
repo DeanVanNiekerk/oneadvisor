@@ -3,16 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using OneAdvisor.Data;
-using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Commission;
-using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
-using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Commission;
-using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
-using Microsoft.EntityFrameworkCore;
-using OneAdvisor.Model.Commission.Model.ImportCommission;
 using Moq;
 using OneAdvisor.Service.Common.BulkActions;
 
