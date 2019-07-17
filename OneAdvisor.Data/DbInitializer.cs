@@ -65,7 +65,7 @@ namespace OneAdvisor.Data
             var commissionTypes = await _context.CommissionType.ToListAsync();
             if (!commissionTypes.Any())
             {
-                _context.CommissionType.Add(new CommissionTypeEntity() { Id = CommissionType.COMMISSION_TYPE_UNKNOWN, Name = "Unknown", Code = "unknown", PolicyTypeId = SeedData.policyTypeMed, CommissionEarningsTypeId = SeedData.earningsMonthAn });
+                _context.CommissionType.Add(new CommissionTypeEntity() { Id = CommissionType.COMMISSION_TYPE_UNKNOWN_ID, Name = "Unknown", Code = CommissionType.COMMISSION_TYPE_UNKNOWN_CODE, PolicyTypeId = SeedData.policyTypeMed, CommissionEarningsTypeId = SeedData.earningsMonthAn });
                 _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Gap Cover", Code = "gap_cover", PolicyTypeId = SeedData.policyTypeMed, CommissionEarningsTypeId = SeedData.earningsMonthAn });
                 _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Health", Code = "health", PolicyTypeId = SeedData.policyTypeMed, CommissionEarningsTypeId = SeedData.earningsMonthAn });
                 _context.CommissionType.Add(new CommissionTypeEntity() { Id = Guid.NewGuid(), Name = "Investment Advice Fee", Code = "inv_advise_fee", PolicyTypeId = SeedData.policyTypeInv, CommissionEarningsTypeId = SeedData.earningsMonthAn });

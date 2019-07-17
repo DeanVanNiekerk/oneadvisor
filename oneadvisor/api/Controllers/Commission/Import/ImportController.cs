@@ -7,7 +7,6 @@ using api.App.Authorization;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Import.Excel.Readers;
 using OneAdvisor.Model.Account.Interface;
-using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 using OneAdvisor.Model.Storage.Interface;
 using OneAdvisor.Model.Storage.Model.Path.Commission;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate;
@@ -15,6 +14,11 @@ using System.IO;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using System.Collections.Generic;
+using OneAdvisor.Model.Account.Model.Authentication;
+using OneAdvisor.Model.Email;
+using OneAdvisor.Model.Directory.Interface;
+using api.App;
+using OneAdvisor.Model.Email.Model;
 
 namespace api.Controllers.Commission.Import
 {
@@ -27,13 +31,21 @@ namespace api.Controllers.Commission.Import
             ICommissionStatementService commissionStatementService,
             ICommissionStatementTemplateService commissionStatementTemplateService,
             IAuthenticationService authenticationService,
-            IFileStorageService fileStorageService)
+            IFileStorageService fileStorageService,
+            IEmailService emailService,
+            IOrganisationService organisationService,
+            IUserService userService,
+            IDirectoryLookupService directoryLookupService)
         {
             CommissionImportService = commissionImportService;
             CommissionStatementService = commissionStatementService;
             AuthenticationService = authenticationService;
             CommissionStatementTemplateService = commissionStatementTemplateService;
             FileStorageService = fileStorageService;
+            EmailService = emailService;
+            OrganisationService = organisationService;
+            UserService = userService;
+            DirectoryLookupService = directoryLookupService;
         }
 
         private ICommissionImportService CommissionImportService { get; }
@@ -41,10 +53,14 @@ namespace api.Controllers.Commission.Import
         private IAuthenticationService AuthenticationService { get; }
         private ICommissionStatementTemplateService CommissionStatementTemplateService { get; }
         private IFileStorageService FileStorageService { get; }
+        private IEmailService EmailService { get; }
+        private IOrganisationService OrganisationService { get; }
+        private IUserService UserService { get; }
+        public IDirectoryLookupService DirectoryLookupService { get; set; }
 
         [HttpPost("excel/{commissionStatementId}")]
         [UseCaseAuthorize("com_import_commissions")]
-        public async Task<IActionResult> Import(Guid commissionStatementId, [FromQuery] Guid? commissionStatementTemplateId = null)
+        public async Task<IActionResult> Import(Guid commissionStatementId, [FromQuery] Guid commissionStatementTemplateId)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -53,14 +69,8 @@ namespace api.Controllers.Commission.Import
             if (file == null)
                 return BadRequest();
 
-            Config config;
-            if (commissionStatementTemplateId.HasValue)
-            {
-                var template = await CommissionStatementTemplateService.GetTemplate(commissionStatementTemplateId.Value);
-                config = template.Config;
-            }
-            else
-                config = await CommissionStatementTemplateService.GetDefaultConfig();
+            var template = await CommissionStatementTemplateService.GetTemplate(commissionStatementTemplateId);
+            var config = template.Config;
 
             var result = new ImportResult();
 
@@ -69,8 +79,17 @@ namespace api.Controllers.Commission.Import
                 var reader = new CommissionImportReader(config);
                 var items = reader.Read(stream);
 
-                var results = await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
-                result.ImportCount = results.Count;
+                result = await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
+
+                //Dont hold up the thread whilst sending the email
+                if (result.UnknownCommissionTypeValues.Any())
+                {
+                    var attachment = new Attachment();
+                    attachment.FileName = file.FileName;
+                    attachment.ContentType = file.ContentType;
+                    attachment.Data = file.OpenReadStream();
+                    await SendUnkownCommissionTypesEmail(result, scope, commissionStatementId, template, attachment).ConfigureAwait(false);
+                }
             }
 
             using (var stream = file.OpenReadStream())
@@ -123,8 +142,18 @@ namespace api.Controllers.Commission.Import
                     var reader = new CommissionImportReader(template.Config);
                     var items = reader.Read(stream);
 
-                    var results = await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
-                    result.ImportCount += results.Count;
+                    result = await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
+
+                    //Dont hold up the thread whilst sending the email
+                    stream.Position = 0;
+                    if (result.UnknownCommissionTypeValues.Any())
+                    {
+                        var attachment = new Attachment();
+                        attachment.FileName = fileInfo.Name;
+                        attachment.ContentType = fileInfo.ContentType;
+                        attachment.Data = stream;
+                        await SendUnkownCommissionTypesEmail(result, scope, commissionStatementId, template, attachment).ConfigureAwait(false);
+                    }
                 }
             }
 
@@ -149,6 +178,21 @@ namespace api.Controllers.Commission.Import
             }
 
             return Ok(results);
+        }
+
+        private async Task SendUnkownCommissionTypesEmail(
+            ImportResult result,
+            ScopeOptions scope,
+            Guid commissionStatementId,
+            CommissionStatementTemplateEdit template,
+            Attachment attachment)
+        {
+            var organisation = await OrganisationService.GetOrganisation(scope, scope.OrganisationId);
+            var user = await UserService.GetUser(scope, scope.UserId);
+            var statement = await CommissionStatementService.GetCommissionStatement(scope, commissionStatementId);
+            var company = await DirectoryLookupService.GetCompany(statement.CompanyId.Value);
+
+            await EmailService.SendUnkownCommissionTypesEmail(Utils.GetEnvironment(), organisation, user, company, statement, template, result.UnknownCommissionTypeValues, attachment);
         }
     }
 }

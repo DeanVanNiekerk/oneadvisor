@@ -1,8 +1,9 @@
-namespace OneAdvisor.Email.Templates
+namespace OneAdvisor.Email.Templates.Directory
 {
-    public class Welcome
+    public class ResetPassword
     {
         public static readonly string Template = @"
+
 <!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">
 <html style=""width:100%;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0;"">
  <head> 
@@ -11,7 +12,7 @@ namespace OneAdvisor.Email.Templates
   <meta name=""x-apple-disable-message-reformatting""> 
   <meta http-equiv=""X-UA-Compatible"" content=""IE=edge""> 
   <meta content=""telephone=no"" name=""format-detection""> 
-  <title>Welcome </title> 
+  <title>Reset Password</title> 
   <!--[if (mso 16)]>
     <style type=""text/css"">
     a {text-decoration: none;}
@@ -106,13 +107,10 @@ a[x-apple-data-detectors] {
                   <td width=""520"" valign=""top"" align=""center"" style=""padding:0;Margin:0;""> 
                    <table width=""100%"" cellspacing=""0"" cellpadding=""0"" style=""mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;""> 
                      <tr style=""border-collapse:collapse;""> 
-                      <td align=""center"" style=""padding:0;Margin:0;padding-bottom:10px;padding-top:40px;""> <h1 style=""Margin:0;line-height:36px;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;font-size:30px;font-style:normal;font-weight:bold;color:#FFFFFF;"">WELCOME @Model.FirstName</h1> </td> 
+                      <td align=""center"" style=""padding:0;Margin:0;padding-top:40px;padding-bottom:40px;""> <h1 style=""Margin:0;line-height:36px;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;font-size:30px;font-style:normal;font-weight:bold;color:#FFFFFF;"">Hi @Model.FirstName</h1> </td> 
                      </tr> 
                      <tr style=""border-collapse:collapse;""> 
-                      <td esdev-links-color=""#757575"" align=""center"" style=""Margin:0;padding-top:10px;padding-bottom:20px;padding-left:30px;padding-right:30px;""> <p style=""Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:15px;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#757575;"">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p> </td> 
-                     </tr> 
-                     <tr style=""border-collapse:collapse;""> 
-                      <td align=""center"" style=""padding:0;Margin:0;padding-top:10px;padding-bottom:20px;""> <span class=""es-button-border"" style=""border-style:solid;border-color:#1890FF;background:#1890FF;border-width:0px;display:inline-block;border-radius:50px;width:auto;""> <a href=""@Model.ActivateUrl"" class=""es-button"" target=""_blank"" style=""mso-style-priority:100 !important;text-decoration:none;transition:all 100ms ease-in;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;font-size:14px;color:#FFFFFF;border-style:solid;border-color:#1890FF;border-width:15px 30px 15px 30px;display:inline-block;background:#1890FF;border-radius:50px;font-weight:bold;font-style:normal;line-height:17px;width:auto;text-align:center;"">ACTIVATE ACCOUNT</a> </span> </td> 
+                      <td align=""center"" style=""padding:0;Margin:0;padding-top:10px;padding-bottom:20px;""> <span class=""es-button-border"" style=""border-style:solid;border-color:#1890FF;background:#1890FF;border-width:0px;display:inline-block;border-radius:50px;width:auto;""> <a href=""@Model.ResetPasswordUrl"" class=""es-button"" target=""_blank"" style=""mso-style-priority:100 !important;text-decoration:none;transition:all 100ms ease-in;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;font-size:14px;color:#FFFFFF;border-style:solid;border-color:#1890FF;border-width:15px 30px 15px 30px;display:inline-block;background:#1890FF;border-radius:50px;font-weight:bold;font-style:normal;line-height:17px;width:auto;text-align:center;"">RESET PASSWORD</a> </span> </td> 
                      </tr> 
                    </table> </td> 
                  </tr> 
@@ -126,53 +124,17 @@ a[x-apple-data-detectors] {
           <td align=""center"" style=""padding:0;Margin:0;""> 
            <table class=""es-content-body"" width=""600"" cellspacing=""0"" cellpadding=""0"" bgcolor=""#ffffff"" align=""center"" style=""mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;""> 
              <tr style=""border-collapse:collapse;""> 
-              <td align=""left"" style=""padding:0;Margin:0;padding-top:40px;padding-left:40px;padding-right:40px;""> 
+              <td align=""left"" style=""Margin:0;padding-top:40px;padding-bottom:40px;padding-left:40px;padding-right:40px;""> 
                <table width=""100%"" cellspacing=""0"" cellpadding=""0"" style=""mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;""> 
                  <tr style=""border-collapse:collapse;""> 
                   <td width=""520"" valign=""top"" align=""center"" style=""padding:0;Margin:0;""> 
                    <table width=""100%"" cellspacing=""0"" cellpadding=""0"" style=""mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;""> 
                      <tr style=""border-collapse:collapse;""> 
-                      <td align=""left"" style=""padding:0;Margin:0;padding-bottom:10px;""> <p style=""Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:15px;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;""><strong>Your Username is: @Model.UserName. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</strong></p> </td> 
-                     </tr> 
-                     <tr style=""border-collapse:collapse;""> 
-                      <td align=""left"" style=""padding:0;Margin:0;padding-top:10px;padding-bottom:10px;""> <p style=""Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:15px;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;"">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p> </td> 
-                     </tr> 
-                     <tr style=""border-collapse:collapse;""> 
-                      <td align=""left"" style=""padding:0;Margin:0;padding-top:10px;padding-bottom:10px;""> <p style=""Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:15px;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;"">Yours sincerely,</p> </td> 
+                      <td align=""left"" style=""padding:0;Margin:0;padding-top:10px;padding-bottom:10px;""> <p style=""Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:15px;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;"">You are receiving this email because you requested for your password to be reset. Please click on the above button to choose your new password.</p><p style=""Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:15px;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;""><br></p><p style=""Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:15px;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:23px;color:#555555;"">If you did not request for your password to be reset then please ignore this email.</p> </td> 
                      </tr> 
                    </table> </td> 
                  </tr> 
                </table> </td> 
-             </tr> 
-             <tr style=""border-collapse:collapse;""> 
-              <td align=""left"" style=""Margin:0;padding-top:10px;padding-bottom:40px;padding-left:40px;padding-right:40px;""> 
-               <!--[if mso]><table width=""520"" cellpadding=""0""
-                            cellspacing=""0""><tr><td width=""40"" valign=""top""><![endif]--> 
-               <table class=""es-left"" cellspacing=""0"" cellpadding=""0"" align=""left"" style=""mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left;""> 
-                 <tr style=""border-collapse:collapse;""> 
-                  <td class=""es-m-p0r es-m-p20b"" width=""40"" valign=""top"" align=""center"" style=""padding:0;Margin:0;""> 
-                   <table width=""100%"" cellspacing=""0"" cellpadding=""0"" style=""mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;""> 
-                     <tr style=""border-collapse:collapse;""> 
-                      <td align=""left"" style=""padding:0;Margin:0;""> <img src=""https://ldqet.stripocdn.email/content/guids/videoImgGuid/images/55061552569171814.png"" alt="""" style=""display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;"" width=""40"" height=""41.88""></td> 
-                     </tr> 
-                   </table> </td> 
-                 </tr> 
-               </table> 
-               <!--[if mso]></td><td width=""20""></td><td width=""460"" valign=""top""><![endif]--> 
-               <table cellspacing=""0"" cellpadding=""0"" align=""right"" style=""mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;""> 
-                 <tr style=""border-collapse:collapse;""> 
-                  <td width=""460"" align=""left"" style=""padding:0;Margin:0;""> 
-                   <table width=""100%"" cellspacing=""0"" cellpadding=""0"" style=""mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;""> 
-                     <tr style=""border-collapse:collapse;""> 
-                      <td align=""left"" style=""padding:0;Margin:0;padding-top:10px;""> <p style=""Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:21px;color:#222222;""><strong>Marc Bormann</strong></p> </td> 
-                     </tr> 
-                     <tr style=""border-collapse:collapse;""> 
-                      <td align=""left"" style=""padding:0;Margin:0;""> <p style=""Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:21px;color:#666666;"">CEO</p> </td> 
-                     </tr> 
-                   </table> </td> 
-                 </tr> 
-               </table> 
-               <!--[if mso]></td></tr></table><![endif]--> </td> 
              </tr> 
            </table> </td> 
          </tr> 

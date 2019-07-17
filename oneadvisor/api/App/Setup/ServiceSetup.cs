@@ -84,6 +84,8 @@ namespace api.App.Setup
             Services.Configure<JwtOptions>(Configuration.GetSection("Auth:Jwt"));
             Services.Configure<AppOptions>(Configuration.GetSection("App"));
             Services.Configure<ConnectionOptions>(Configuration.GetSection("ConnectionStrings"));
+            Services.Configure<EmailOptions>(Configuration.GetSection("Email"));
+
             Services.Configure<IdentityOptions>(options => options.ClaimsIdentity.RoleClaimType = ClaimTypes.Role);
         }
 

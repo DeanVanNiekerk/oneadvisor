@@ -86,8 +86,7 @@ namespace OneAdvisor.Function
                     var reader = new CommissionImportReader(template.Config);
                     var items = reader.Read(stream);
 
-                    var results = await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
-                    result.ImportCount += results.Count;
+                    result = await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
                 }
             }
 

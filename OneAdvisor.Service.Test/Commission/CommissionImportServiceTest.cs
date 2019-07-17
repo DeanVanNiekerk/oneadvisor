@@ -67,16 +67,18 @@ namespace OneAdvisor.Service.Test.Commission
                 var imports = new List<ImportCommission>() { import1 };
 
                 var scope = TestHelper.GetScopeOptions(user2);
-                var results = await service.ImportCommissions(scope, statement.Id, imports);
+                var result = await service.ImportCommissions(scope, statement.Id, imports);
 
                 //Then
-                Assert.Empty(results);
+                Assert.Equal(result.ImportCount, 0);
+                Assert.Equal(result.ErrorCount, 0);
 
                 scope = TestHelper.GetScopeOptions(user1);
-                results = await service.ImportCommissions(scope, statement.Id, imports);
+                result = await service.ImportCommissions(scope, statement.Id, imports);
 
                 //Then
-                Assert.Single(results);
+                Assert.Equal(result.ImportCount, 1);
+                Assert.Equal(result.ErrorCount, 0);
             }
         }
 
@@ -125,7 +127,9 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1);
-                var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
+                var importResult = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 }));
+
+                var result = importResult.Results.Single();
 
                 //Then
                 Assert.False(result.Success);
@@ -200,7 +204,9 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1);
-                var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
+                var importResult = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 }));
+
+                var result = importResult.Results.Single();
 
                 //Then
                 Assert.False(result.Success);
@@ -280,7 +286,9 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1);
-                var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
+                var importResult = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 }));
+
+                var result = importResult.Results.Single();
 
                 //Then
                 Assert.False(result.Success);
@@ -366,7 +374,9 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1);
-                var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
+                var importResult = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 }));
+
+                var result = importResult.Results.Single();
 
                 //Then
                 Assert.True(result.Success);
@@ -456,7 +466,9 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1);
-                var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
+                var importResult = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 }));
+
+                var result = importResult.Results.Single();
 
                 //Then
                 Assert.True(result.Success);
@@ -539,7 +551,9 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1);
-                var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
+                var importResult = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 }));
+
+                var result = importResult.Results.Single();
 
                 //Then
                 Assert.True(result.Success);
@@ -649,7 +663,9 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1);
-                var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
+                var importResult = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 }));
+
+                var result = importResult.Results.Single();
 
                 //Then
                 Assert.True(result.Success);
@@ -798,7 +814,9 @@ namespace OneAdvisor.Service.Test.Commission
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1);
-                var result = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 })).Single();
+                var importResult = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 }));
+
+                var result = importResult.Results.Single();
 
                 //Then
                 Assert.True(result.Success);

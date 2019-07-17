@@ -55,9 +55,9 @@ namespace OneAdvisor.Service.Commission
         private List<CommissionEntity> CommissionsToInsert { get; set; }
         private List<CommissionErrorEntity> CommissionErrorsToInsert { get; set; }
 
-        public async Task<List<Result>> ImportCommissions(ScopeOptions scope, Guid commissionStatementId, IEnumerable<ImportCommission> importData)
+        public async Task<ImportResult> ImportCommissions(ScopeOptions scope, Guid commissionStatementId, IEnumerable<ImportCommission> importData)
         {
-            var results = new List<Result>();
+            var importResult = new ImportResult();
 
             CommissionsToInsert = new List<CommissionEntity>();
             CommissionErrorsToInsert = new List<CommissionErrorEntity>();
@@ -67,7 +67,7 @@ namespace OneAdvisor.Service.Commission
             queryOptions.CommissionStatementId = commissionStatementId;
             var statements = await _commissionStatementService.GetCommissionStatements(queryOptions);
             if (!statements.Items.Any())
-                return results;
+                return importResult;
 
             var statement = statements.Items.Single();
 
@@ -87,7 +87,11 @@ namespace OneAdvisor.Service.Commission
             foreach (var data in importData)
             {
                 var result = ImportCommission(scope, statement, data, policies, commissionTypes, company, commissionSplitRules, commissionSplitRulePolicies);
-                results.Add(result);
+
+                importResult.Results.Add(result);
+
+                if (data.CommissionTypeCode == CommissionType.COMMISSION_TYPE_UNKNOWN_CODE)
+                    importResult.AddUnknownCommissionTypeValue(data.CommissionTypeValue);
             }
 
             if (CommissionsToInsert.Any())
@@ -96,7 +100,7 @@ namespace OneAdvisor.Service.Commission
             if (CommissionErrorsToInsert.Any())
                 await _bulkActions.BulkInsertCommissionErrorsAsync(_context, CommissionErrorsToInsert);
 
-            return results;
+            return importResult;
         }
 
         private Result ImportCommission(
