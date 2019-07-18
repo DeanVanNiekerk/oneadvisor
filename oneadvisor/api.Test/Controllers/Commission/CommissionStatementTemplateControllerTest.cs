@@ -188,7 +188,7 @@ namespace api.Test.Controllers.Commission
 
             var controller = new CommissionStatementTemplateController(service.Object);
 
-            var actual = await controller.Update(template.Id.Value, template);
+            var actual = await controller.Update(template.Id.Value, false, template);
 
             Assert.Same(template, updated);
 

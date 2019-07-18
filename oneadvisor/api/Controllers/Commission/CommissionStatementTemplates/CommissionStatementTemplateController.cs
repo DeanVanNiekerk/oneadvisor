@@ -2,18 +2,10 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using api.App.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Import.Excel.Readers;
-using OneAdvisor.Model;
-using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Commission.Interface;
-using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate;
-using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
-using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Directory.Interface;
-using OneAdvisor.Service.Commission.Validators;
 
 namespace api.Controllers.Commission.CommissionStatementTemplates
 {
@@ -66,7 +58,7 @@ namespace api.Controllers.Commission.CommissionStatementTemplates
 
         [HttpPost("{templateId}")]
         [UseCaseAuthorize("com_edit_commission_statement_templates")]
-        public async Task<IActionResult> Update(Guid templateId, [FromBody] CommissionStatementTemplateEdit template)
+        public async Task<IActionResult> Update(Guid templateId, [FromQuery] bool updateUnknownCommissionTypes, [FromBody] CommissionStatementTemplateEdit template)
         {
             template.Id = templateId;
 
@@ -74,6 +66,9 @@ namespace api.Controllers.Commission.CommissionStatementTemplates
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);
+
+            if (updateUnknownCommissionTypes)
+                await CommissionStatementTemplateService.UpdateUnknownCommissionTypes(template.Id.Value);
 
             return Ok(result);
         }

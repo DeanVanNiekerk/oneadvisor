@@ -1,3 +1,4 @@
+import { Dropdown, Icon, Menu } from "antd";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
@@ -9,7 +10,7 @@ import {
     receiveCommissionStatementTemplate, updateCommissionStatementTemplate
 } from "@/state/app/commission/templates";
 import { RootState } from "@/state/rootReducer";
-import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { Button, ContentLoader, Drawer, DrawerFooter, DropdownButton } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 import { showMessage } from "@/ui/feedback/notifcation";
 
@@ -58,7 +59,12 @@ class EditTemplate extends Component<Props, State> {
         this.props.onClose(true);
     };
 
-    save = (onSuccess?: ApiOnSuccess, onFailure?: ApiOnFailure, disableSuccessMessage?: boolean) => {
+    save = (
+        updateUnknownCommissionTypes: boolean,
+        onSuccess?: ApiOnSuccess,
+        onFailure?: ApiOnFailure,
+        disableSuccessMessage?: boolean
+    ) => {
         if (!this.state.templateEdited) {
             //this.close();
             return;
@@ -68,6 +74,7 @@ class EditTemplate extends Component<Props, State> {
             this.props.dispatch(
                 updateCommissionStatementTemplate(
                     this.state.templateEdited,
+                    updateUnknownCommissionTypes,
                     (result, dispatch) => {
                         if (!disableSuccessMessage) {
                             showMessage("success", "Template Successfully Saved", 3);
@@ -110,8 +117,21 @@ class EditTemplate extends Component<Props, State> {
         return "New Template";
     };
 
+    handleMenuClick = e => {
+        console.log("click", e);
+    };
+
     render() {
         const { template, validationResults, visible } = this.props;
+
+        const menu = (
+            <Menu>
+                <Menu.Item key="save_and_update" onClick={() => this.save(true)}>
+                    <Icon type="tool" />
+                    Save {"&"} Update Unknown Commission Types
+                </Menu.Item>
+            </Menu>
+        );
 
         return (
             <Drawer
@@ -127,7 +147,11 @@ class EditTemplate extends Component<Props, State> {
                             template={template}
                             validationResults={validationResults}
                             onChange={this.onChange}
-                            saveTemplate={this.save}
+                            saveTemplate={(
+                                onSuccess?: ApiOnSuccess,
+                                onFailure?: ApiOnFailure,
+                                disableSuccessMessage?: boolean
+                            ) => this.save(false, onSuccess, onFailure, disableSuccessMessage)}
                         />
                     )}
                 </ContentLoader>
@@ -135,14 +159,16 @@ class EditTemplate extends Component<Props, State> {
                     <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Close
                     </Button>
-                    <Button
-                        onClick={() => this.save()}
+
+                    <DropdownButton
                         type="primary"
-                        disabled={this.isLoading()}
+                        overlay={menu}
+                        icon={<Icon type="down" />}
+                        onClick={() => this.save(false)}
                         requiredUseCase="com_edit_commission_statement_templates"
                     >
                         Save
-                    </Button>
+                    </DropdownButton>
                 </DrawerFooter>
             </Drawer>
         );

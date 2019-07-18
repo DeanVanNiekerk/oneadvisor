@@ -188,33 +188,65 @@ namespace OneAdvisor.Service.Commission
         {
             var template = await _context.CommissionStatementTemplate.FindAsync(commissionStatementTemplateId);
 
-            //Get all commissions for this company that have unknown commission types
-            var query = from statement in _context.CommissionStatement
-                        join commission in _context.Commission
-                            on statement.Id equals commission.CommissionStatementId
-                        where statement.CompanyId == template.CompanyId
-                        && commission.CommissionTypeId == OneAdvisor.Model.Commission.Model.Lookup.CommissionType.COMMISSION_TYPE_UNKNOWN_ID
-                        select commission;
+
 
             var commissionTypes = await _context.CommissionType.ToListAsync();
             var commissionTypeIndex = commissionTypes.ToDictionary(c => c.Code, c => c.Id);
 
             var commissionTypeMap = template.Config.Sheets.Select(s => s.Config.CommissionTypes.Types).SelectMany(t => t).ToList();
 
-            var updatedCommissions = new List<CommissionEntity>();
 
-            foreach (var commission in query)
+
+            //Get all commissions for this company that have unknown commission types ------------------------
+            var commissionQuery = from statement in _context.CommissionStatement
+                                  join commission in _context.Commission
+                                      on statement.Id equals commission.CommissionStatementId
+                                  where statement.CompanyId == template.CompanyId
+                                  && commission.CommissionTypeId == OneAdvisor.Model.Commission.Model.Lookup.CommissionType.COMMISSION_TYPE_UNKNOWN_ID
+                                  select commission;
+
+            var updatedCommissions = new List<CommissionEntity>();
+            foreach (var commission in commissionQuery)
             {
                 //Check if there is a mapping for this commission type now
                 var map = commissionTypeMap.FirstOrDefault(t => t.Value.IgnoreCaseEquals(commission.SourceData.CommissionTypeValue));
                 if (map != null && commissionTypeIndex.ContainsKey(map.CommissionTypeCode))
                 {
                     commission.CommissionTypeId = commissionTypeIndex[map.CommissionTypeCode];
+                    commission.SourceData.CommissionTypeCode = map.CommissionTypeCode;
                     updatedCommissions.Add(commission);
                 }
             }
 
-            await _bulkActions.BulkUpdateCommissionsAsync(_context, updatedCommissions);
+            if (updatedCommissions.Any())
+                await _bulkActions.BulkUpdateCommissionsAsync(_context, updatedCommissions);
+            //----------------------------------------------------------------------------------------------------
+
+
+            //Get all commission errors for this company that have unknown commission types ----------------------
+            var errorQuery = from statement in _context.CommissionStatement
+                             join error in _context.CommissionError
+                                 on statement.Id equals error.CommissionStatementId
+                             where statement.CompanyId == template.CompanyId
+                             && error.CommissionTypeId == OneAdvisor.Model.Commission.Model.Lookup.CommissionType.COMMISSION_TYPE_UNKNOWN_ID
+                             select error;
+
+            var updatedErrors = new List<CommissionErrorEntity>();
+            foreach (var error in errorQuery)
+            {
+                //Check if there is a mapping for this commission type now
+                var map = commissionTypeMap.FirstOrDefault(t => t.Value.IgnoreCaseEquals(error.Data.CommissionTypeValue));
+                if (map != null && commissionTypeIndex.ContainsKey(map.CommissionTypeCode))
+                {
+                    error.CommissionTypeId = commissionTypeIndex[map.CommissionTypeCode];
+                    error.Data.CommissionTypeCode = map.CommissionTypeCode;
+                    updatedErrors.Add(error);
+                }
+            }
+
+            if (updatedErrors.Any())
+                await _bulkActions.BulkUpdateCommissionErrorsAsync(_context, updatedErrors);
+            //----------------------------------------------------------------------------------------------------
         }
     }
 }

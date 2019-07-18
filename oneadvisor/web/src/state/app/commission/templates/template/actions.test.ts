@@ -1,7 +1,7 @@
-import { statementTemplatesApi } from '@/config/api/commission';
+import { statementTemplatesApi } from "@/config/api/commission";
 
-import { CommissionStatementTemplateEdit } from '../';
-import * as actions from './actions';
+import { CommissionStatementTemplateEdit } from "../";
+import * as actions from "./actions";
 
 describe("commission statement template actions", () => {
     it("should dispatch API when fetchCommissionStatementTemplate is called", () => {
@@ -11,9 +11,7 @@ describe("commission statement template actions", () => {
             dispatchPrefix: "COMMISSIONS_STATEMENT_TEMPLATE",
         };
 
-        expect(actions.fetchCommissionStatementTemplate("99")).toEqual(
-            expectedAction
-        );
+        expect(actions.fetchCommissionStatementTemplate("99")).toEqual(expectedAction);
     });
 
     it("should dispatch API when updateCommissionStatementTemplate is called", () => {
@@ -32,15 +30,13 @@ describe("commission statement template actions", () => {
 
         const expectedAction = {
             type: "API",
-            endpoint: `${statementTemplatesApi}/10`,
+            endpoint: `${statementTemplatesApi}/10?updateUnknownCommissionTypes=true`,
             method: "POST",
             payload: template,
             onSuccess: onSuccess,
             dispatchPrefix: "COMMISSIONS_STATEMENT_TEMPLATE_EDIT",
         };
 
-        expect(
-            actions.updateCommissionStatementTemplate(template, onSuccess)
-        ).toEqual(expectedAction);
+        expect(actions.updateCommissionStatementTemplate(template, true, onSuccess)).toEqual(expectedAction);
     });
 });

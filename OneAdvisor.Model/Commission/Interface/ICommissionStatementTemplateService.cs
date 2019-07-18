@@ -1,9 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate;
-using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 
 namespace OneAdvisor.Model.Commission.Interface
 {
@@ -14,5 +12,6 @@ namespace OneAdvisor.Model.Commission.Interface
         Task<Result> UpdateTemplate(CommissionStatementTemplateEdit template);
         Task<Result> InsertTemplate(CommissionStatementTemplateEdit template);
         Task<OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration.Config> GetDefaultConfig();
+        Task UpdateUnknownCommissionTypes(Guid commissionStatementTemplateId);
     }
 }

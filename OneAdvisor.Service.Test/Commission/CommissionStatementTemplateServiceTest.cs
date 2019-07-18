@@ -410,9 +410,9 @@ namespace OneAdvisor.Service.Test.Commission
         }
 
         [Fact]
-        public async Task UpdateUnknownCommissionTypes()
+        public async Task UpdateUnknownCommissionTypes_Commissions()
         {
-            var options = TestHelper.GetDbContext("UpdateUnknownCommissionTypes");
+            var options = TestHelper.GetDbContext("UpdateUnknownCommissionTypes_Commissions");
 
             var user1 = TestHelper.InsertUserDetailed(options);
             var company = TestHelper.InsertCompany(options);
@@ -512,6 +512,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.Commission.Add(commission1);
                 context.Commission.Add(commission2);
                 context.Commission.Add(commission3);
+                context.Commission.Add(commission4);
 
                 context.SaveChanges();
             }
@@ -537,9 +538,148 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(2, updatedCommission.Count);
                 Assert.Equal(commission1.Id, updatedCommission[0].Id);
                 Assert.Equal(commissionType1.Id, updatedCommission[0].CommissionTypeId);
+                Assert.Equal(commissionType1.Code, updatedCommission[0].SourceData.CommissionTypeCode);
 
                 Assert.Equal(commission3.Id, updatedCommission[1].Id);
                 Assert.Equal(commissionType2.Id, updatedCommission[1].CommissionTypeId);
+                Assert.Equal(commissionType2.Code, updatedCommission[1].SourceData.CommissionTypeCode);
+            }
+        }
+
+        [Fact]
+        public async Task UpdateUnknownCommissionTypes_CommissionErrors()
+        {
+            var options = TestHelper.GetDbContext("UpdateUnknownCommissionTypes_CommissionErrors");
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var company = TestHelper.InsertCompany(options);
+
+            var commissionType1 = TestHelper.InsertCommissionType(options);
+            var commissionType2 = TestHelper.InsertCommissionType(options);
+
+            var template1 = new CommissionStatementTemplateEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = company.Id,
+                Config = new Config()
+                {
+                    Sheets = new List<Sheet>()
+                    {
+                        new Sheet()
+                        {
+                            Config = new SheetConfig()
+                            {
+                                CommissionTypes = new CommissionTypes()
+                                {
+                                    Types = new List<CommissionType>()
+                                    {
+                                        new CommissionType() { CommissionTypeCode = commissionType1.Code, Value = "abc" },
+                                        new CommissionType() { CommissionTypeCode = commissionType2.Code, Value = "xyz" }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            var statement1 = new CommissionStatementEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = company.Id,
+            };
+
+            var statement2 = new CommissionStatementEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = Guid.NewGuid(),
+            };
+
+            var commission1 = new CommissionErrorEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionTypeId = OneAdvisor.Model.Commission.Model.Lookup.CommissionType.COMMISSION_TYPE_UNKNOWN_ID,
+                CommissionStatementId = statement1.Id,
+                Data = new ImportCommission()
+                {
+                    CommissionTypeValue = "abc"
+                }
+            };
+
+            var commission2 = new CommissionErrorEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
+                CommissionStatementId = statement1.Id,
+                Data = new ImportCommission()
+                {
+                    CommissionTypeValue = "abc"
+                }
+            };
+
+            var commission3 = new CommissionErrorEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionTypeId = OneAdvisor.Model.Commission.Model.Lookup.CommissionType.COMMISSION_TYPE_UNKNOWN_ID,
+                CommissionStatementId = statement1.Id,
+                Data = new ImportCommission()
+                {
+                    CommissionTypeValue = "xyz"
+                }
+            };
+
+            //Different company
+            var commission4 = new CommissionErrorEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionTypeId = OneAdvisor.Model.Commission.Model.Lookup.CommissionType.COMMISSION_TYPE_UNKNOWN_ID,
+                CommissionStatementId = statement2.Id,
+                Data = new ImportCommission()
+                {
+                    CommissionTypeValue = "abc"
+                }
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.CommissionStatementTemplate.Add(template1);
+
+                context.CommissionStatement.Add(statement1);
+
+                context.CommissionError.Add(commission1);
+                context.CommissionError.Add(commission2);
+                context.CommissionError.Add(commission3);
+                context.CommissionError.Add(commission4);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                List<CommissionErrorEntity> updatedCommissionErrors = null;
+
+                var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
+                bulkActions.Setup(c => c.BulkUpdateCommissionErrorsAsync(It.IsAny<DataContext>(), It.IsAny<IList<CommissionErrorEntity>>()))
+                    .Callback((DataContext dc, IList<CommissionErrorEntity> errors) =>
+                    {
+                        updatedCommissionErrors = errors.ToList();
+                    })
+                    .Returns(Task.CompletedTask);
+
+                var service = new CommissionStatementTemplateService(context, null, bulkActions.Object);
+
+                //When
+                await service.UpdateUnknownCommissionTypes(template1.Id);
+
+                //Then
+                Assert.Equal(2, updatedCommissionErrors.Count);
+                Assert.Equal(commission1.Id, updatedCommissionErrors[0].Id);
+                Assert.Equal(commissionType1.Id, updatedCommissionErrors[0].CommissionTypeId);
+                Assert.Equal(commissionType1.Code, updatedCommissionErrors[0].Data.CommissionTypeCode);
+
+                Assert.Equal(commission3.Id, updatedCommissionErrors[1].Id);
+                Assert.Equal(commissionType2.Id, updatedCommissionErrors[1].CommissionTypeId);
+                Assert.Equal(commissionType2.Code, updatedCommissionErrors[1].Data.CommissionTypeCode);
             }
         }
 
