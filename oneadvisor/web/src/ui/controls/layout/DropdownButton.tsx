@@ -28,6 +28,10 @@ class DropdownButtonComponent extends React.Component<Props> {
             <>
                 {visible && (
                     <Dropdown.Button
+                        style={{
+                            marginLeft: this.props.noLeftMargin ? 0 : 8,
+                            ...this.props.style,
+                        }}
                         overlay={this.props.overlay}
                         type={this.props.type}
                         icon={this.props.icon}

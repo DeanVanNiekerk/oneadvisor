@@ -96,13 +96,18 @@ See .vscode/extensions.json
 
 ```
 
-Release v0.8.0
+Release v0.9.0
 ===============
 
 New Features:
-- Commission > Templates > Added Groups (allows for support of Old Mutual files)
-- Commission > Reports > Client Revenue > Commission Bands Bar Chart.
+- Commission > Templates > Save and Update Unknown Commission Types
+- Commission > Import > Send Email if the are any Unknown Commission Types found
 
+Updates:
+- Commission > Templates > Config > Groupings > Can now support a reverse ordering
+
+Bug Fixes:
+- Commission > Templates > Copy Config was broken
 
 Release v0..
 ===============
