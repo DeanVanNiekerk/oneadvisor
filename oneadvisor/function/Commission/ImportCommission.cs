@@ -4,8 +4,6 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.Azure.WebJobs.Hosting;
-using OneAdvisor.Function;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
@@ -19,7 +17,6 @@ using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Import.Excel.Readers;
 using function;
 
-[assembly: WebJobsStartup(typeof(Startup))]
 namespace OneAdvisor.Function
 {
     public class ImportCommission
