@@ -1,18 +1,19 @@
-import { CascaderOptionType } from 'antd/lib/cascader';
-import update from 'immutability-helper';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { CascaderOptionType } from "antd/lib/cascader";
+import update from "immutability-helper";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { ValidationResult } from '@/app/validation';
+import { filterOption } from "@/app/controls/select";
+import { ValidationResult } from "@/app/validation";
 import {
     PolicyProduct, policyProductCascade, policyProductsSelector, PolicyProductType, policyProductTypesSelector,
     PolicyType, policyTypesSelector
-} from '@/state/app/client/lookups';
-import { PolicyEdit } from '@/state/app/client/policies';
-import { companiesSelector, Company } from '@/state/app/directory/lookups';
-import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
-import { RootState } from '@/state/rootReducer';
-import { Form, FormCascade, FormDate, FormInput, FormInputNumber, FormSelect } from '@/ui/controls';
+} from "@/state/app/client/lookups";
+import { PolicyEdit } from "@/state/app/client/policies";
+import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
+import { RootState } from "@/state/rootReducer";
+import { Form, FormCascade, FormDate, FormInput, FormInputNumber, FormSelect } from "@/ui/controls";
 
 type Props = {
     policy: PolicyEdit;
@@ -122,6 +123,7 @@ class PolicyForm extends Component<Props, State> {
                     options={this.props.companies}
                     optionsValue="id"
                     optionsText="name"
+                    filterOption={filterOption}
                 />
                 <FormCascade
                     fieldName="policyTypeId"
@@ -141,6 +143,7 @@ class PolicyForm extends Component<Props, State> {
                     options={this.props.users}
                     optionsValue="id"
                     optionsText="fullName"
+                    filterOption={filterOption}
                 />
                 <FormInput
                     fieldName="number"

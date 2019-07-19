@@ -3,6 +3,7 @@ import moment from "moment";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
+import { filterOption } from "@/app/controls/select";
 import { downloadExcelSheets } from "@/app/excel/helpers";
 import { getMonthOptions, getYearOptions, SERVER_DATE_FORMAT } from "@/app/utils";
 import { CommissionEarningsType, commissionEarningsTypesSelector } from "@/state/app/commission/lookups";
@@ -251,6 +252,7 @@ class UserMonthlyCommissionReport extends Component<Props> {
                             onChange={this.handleUserChange}
                             style={{ width: 260 }}
                             allowClear={true}
+                            filterOption={filterOption}
                             placeholder="Broker"
                         >
                             {this.props.users.map(user => {
@@ -272,6 +274,7 @@ class UserMonthlyCommissionReport extends Component<Props> {
                             style={{ width: 260 }}
                             allowClear={true}
                             placeholder="Company"
+                            filterOption={filterOption}
                         >
                             {this.props.companies.map(company => {
                                 return (

@@ -1,12 +1,13 @@
-import update from 'immutability-helper';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import update from "immutability-helper";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { ValidationResult } from '@/app/validation';
-import { StatementEdit } from '@/state/app/commission/statements';
-import { companiesSelector, Company } from '@/state/app/directory/lookups';
-import { RootState } from '@/state/rootReducer';
-import { Form, FormDate, FormInputNumber, FormSelect, FormSwitch } from '@/ui/controls';
+import { filterOption } from "@/app/controls/select";
+import { ValidationResult } from "@/app/validation";
+import { StatementEdit } from "@/state/app/commission/statements";
+import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { RootState } from "@/state/rootReducer";
+import { Form, FormDate, FormInputNumber, FormSelect, FormSwitch } from "@/ui/controls";
 
 type Props = {
     statement: StatementEdit;
@@ -81,6 +82,7 @@ class StatementForm extends Component<Props, State> {
                     onSelect={() => this.companySearch("")}
                     showSearch
                     allowClear
+                    filterOption={filterOption}
                 />
                 <FormInputNumber
                     fieldName="amountIncludingVAT"

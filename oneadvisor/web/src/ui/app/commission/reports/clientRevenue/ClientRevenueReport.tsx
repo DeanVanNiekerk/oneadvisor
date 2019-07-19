@@ -3,6 +3,7 @@ import moment from "moment";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
+import { filterOption } from "@/app/controls/select";
 import { downloadExcel } from "@/app/excel/helpers";
 import { Filters, PageOptions, SortOptions } from "@/app/table";
 import { DATE_FORMAT, getMonthName, getMonthOptions, getYearOptions } from "@/app/utils";
@@ -229,6 +230,7 @@ class ClientRevenueReport extends Component<Props, State> {
                             onChange={this.handleBranchChange}
                             placeholder="Branch"
                             allowClear={true}
+                            filterOption={filterOption}
                             style={{ width: 220 }}
                         >
                             {this.props.branches.map(branch => {
@@ -249,6 +251,7 @@ class ClientRevenueReport extends Component<Props, State> {
                             onChange={this.handleUserChange}
                             placeholder="Broker"
                             allowClear={true}
+                            filterOption={filterOption}
                             style={{ width: 220 }}
                         >
                             {this.props.users
@@ -275,6 +278,7 @@ class ClientRevenueReport extends Component<Props, State> {
                             onChange={this.handlePolicyTypeChange}
                             placeholder="Policy Type"
                             allowClear={true}
+                            filterOption={filterOption}
                             style={{ width: 220 }}
                         >
                             {this.props.policyTypes.map(policyType => {

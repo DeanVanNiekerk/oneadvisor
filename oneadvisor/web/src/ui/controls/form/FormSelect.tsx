@@ -1,13 +1,13 @@
-import { Select } from 'antd';
-import { SelectValue } from 'antd/lib/select';
-import React, { Component } from 'react';
+import { Select } from "antd";
+import { OptionProps, SelectValue } from "antd/lib/select";
+import React, { Component } from "react";
 
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { Button } from '../';
-import { FormText } from './';
-import { FormLayout } from './Form';
-import { FormField } from './FormField';
+import { Button } from "../";
+import { FormText } from "./";
+import { FormLayout } from "./Form";
+import { FormField } from "./FormField";
 
 const Option = Select.Option;
 
@@ -32,7 +32,7 @@ type Props<T = SelectValue> = {
     placeholder?: React.ReactNode;
     showSearch?: boolean;
     showArrow?: boolean;
-    filterOption?: boolean;
+    filterOption?: boolean | ((inputValue: string, option: React.ReactElement<OptionProps>) => boolean);
     onSearch?: (value: string) => any;
     onSelect?: (value: SelectValue, option: React.ReactElement<any>) => any;
     minWidth?: string;
