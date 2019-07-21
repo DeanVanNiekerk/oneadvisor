@@ -1,31 +1,32 @@
-import { Icon, Modal } from 'antd';
-import moment from 'moment';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { Modal } from "antd";
+import moment from "moment";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router";
 
-import { hasUseCase } from '@/app/identity';
-import { DATE_FORMAT } from '@/app/utils';
-import { CommissionErrorsFilters, fetchNextFormatError } from '@/state/app/commission/errors';
-import { downloadCommissionErrors, getCommissionErrors } from '@/state/app/commission/errors/list/actions';
+import { hasUseCase } from "@/app/identity";
+import { DATE_FORMAT } from "@/app/utils";
+import { CommissionErrorsFilters, fetchNextFormatError } from "@/state/app/commission/errors";
+import { downloadCommissionErrors, getCommissionErrors } from "@/state/app/commission/errors/list/actions";
 import {
     deleteCommissions, fetchStatement, fetchStatementPreview, reimportCommissions, Statement, statementPreviewSelector
-} from '@/state/app/commission/statements';
-import { companiesSelector, Company } from '@/state/app/directory/lookups';
-import { useCaseSelector } from '@/state/auth';
-import { RootState } from '@/state/rootReducer';
+} from "@/state/app/commission/statements";
+import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { useCaseSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
 import {
-    Button, CompanyName, Currency, Date, Drawer, DrawerFooter, Header, PreviewCard, PreviewCardContainer, PreviewCardRow
-} from '@/ui/controls';
-import { showMessage } from '@/ui/feedback/notifcation';
+    Button, CompanyName, Currency, Date, Drawer, DrawerFooter, Header, Icon, PreviewCard, PreviewCardContainer,
+    PreviewCardRow
+} from "@/ui/controls";
+import { showMessage } from "@/ui/feedback/notifcation";
 
-import CommissionList from '../commission/CommissionList';
-import EditFormatError from '../error/format/EditFormatError';
-import ErrorList from '../error/list/ErrorList';
-import EditStatement from './EditStatement';
-import { Processed } from './Processed';
-import { StatementPreviewErrorCount } from './StatementPreviewErrorCount';
-import UploadStatement from './UploadStatement';
+import CommissionList from "../commission/CommissionList";
+import EditFormatError from "../error/format/EditFormatError";
+import ErrorList from "../error/list/ErrorList";
+import EditStatement from "./EditStatement";
+import { Processed } from "./Processed";
+import { StatementPreviewErrorCount } from "./StatementPreviewErrorCount";
+import UploadStatement from "./UploadStatement";
 
 const confirm = Modal.confirm;
 
@@ -157,11 +158,14 @@ class StatementPreviewComponent extends Component<Props, State> {
     };
 
     getCommissionEntriesActions = () => {
-        const actions = [<Icon type="bars" onClick={this.toggleCommissionListVisible} />];
+        const actions = [
+            <Icon tooltip="View Commission Entries" type="bars" onClick={this.toggleCommissionListVisible} />,
+        ];
 
         if (hasUseCase("com_edit_commission_statements", this.props.useCases))
             actions.unshift(
                 <Icon
+                    tooltip="Delete Commission Entries"
                     type={this.state.deletingCommissionEntries ? "loading-3-quarters" : "delete"}
                     className="text-error"
                     spin={this.state.deletingCommissionEntries}
@@ -176,11 +180,14 @@ class StatementPreviewComponent extends Component<Props, State> {
     };
 
     getStatementFilesActions = () => {
-        const actions = [<Icon type="upload" onClick={this.toggleUploadStatementVisible} />];
+        const actions = [
+            <Icon tooltip="Upload Commission Statement" type="upload" onClick={this.toggleUploadStatementVisible} />,
+        ];
 
         if (this.props.statement && this.props.statement.commissionCount > 0)
             actions.unshift(
                 <Icon
+                    tooltip="Reimport Commission Statement File"
                     type={this.state.reimportingCommissionEntries ? "loading-3-quarters" : "reload"}
                     spin={this.state.reimportingCommissionEntries}
                     className="text-primary"
@@ -253,7 +260,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                         icon="profile"
                         onClick={this.editDetails}
                         isLoading={this.isLoading()}
-                        actions={[<Icon type="edit" onClick={this.editDetails} />]}
+                        actions={[<Icon tooltip="Edit Commission Statement" type="edit" onClick={this.editDetails} />]}
                         rows={3}
                         height={cardHeight}
                     >

@@ -4,3 +4,4 @@ export { Currency } from "./Currency";
 export { IdentityStatus } from "./IdentityStatus";
 export { StopPropagation } from "./StopPropagation";
 export { Secure } from "./Secure";
+export { Icon } from "./Icon";

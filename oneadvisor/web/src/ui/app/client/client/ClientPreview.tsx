@@ -1,4 +1,3 @@
-import { Icon } from "antd";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -10,7 +9,7 @@ import { newPolicy, receivePolicy } from "@/state/app/client/policies";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import {
-    Age, Button, ClientTypeIcon, Drawer, DrawerFooter, Header, PreviewCard, PreviewCardContainer, PreviewCardRow
+    Age, Button, ClientTypeIcon, Drawer, DrawerFooter, Header, Icon, PreviewCard, PreviewCardContainer, PreviewCardRow
 } from "@/ui/controls";
 
 import ContactList from "../contact/ContactList";
@@ -98,11 +97,12 @@ class ClientPreviewComponent extends Component<Props, State> {
     };
 
     getPolicyActions = () => {
-        const actions = [<Icon type="bars" onClick={this.togglePolicyListVisible} />];
+        const actions = [<Icon tooltip="View Policies" type="bars" onClick={this.togglePolicyListVisible} />];
 
         if (hasUseCase("clt_edit_policies", this.props.useCases))
             actions.unshift(
                 <Icon
+                    tooltip="New Policy"
                     type="plus"
                     onClick={e => {
                         e.stopPropagation();
@@ -150,7 +150,7 @@ class ClientPreviewComponent extends Component<Props, State> {
                         icon="profile"
                         onClick={this.editDetails}
                         isLoading={this.isLoading()}
-                        actions={[<Icon type="edit" onClick={this.editDetails} />]}
+                        actions={[<Icon tooltip="Edit Client Details" type="edit" onClick={this.editDetails} />]}
                         rows={2}
                         height={cardHeight}
                     >
@@ -199,7 +199,7 @@ class ClientPreviewComponent extends Component<Props, State> {
                         onClick={this.toggleContactListVisible}
                         isLoading={this.isLoading()}
                         requiredUseCase="clt_view_contacts"
-                        actions={[<Icon type="bars" onClick={this.toggleContactListVisible} />]}
+                        actions={[<Icon tooltip="View Contacts" type="bars" onClick={this.toggleContactListVisible} />]}
                         height={cardHeight}
                     >
                         {client && (
