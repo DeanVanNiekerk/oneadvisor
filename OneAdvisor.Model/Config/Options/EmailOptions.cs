@@ -9,7 +9,7 @@ namespace OneAdvisor.Model.Config.Options
 
     public class Emails
     {
-        public Email AlertUnknownCommissionTypes { get; set; }
+        public Email CommissionImportAlerts { get; set; }
     }
 
     public class Email

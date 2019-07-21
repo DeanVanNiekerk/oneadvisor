@@ -70,7 +70,7 @@ namespace OneAdvisor.Email
             return result;
         }
 
-        public async Task<Result> SendUnkownCommissionTypesEmail(
+        public async Task<Result> SendImportCommissionUnknownCommissionTypesEmail(
             string environment,
             Organisation organisation,
             UserEdit user,
@@ -83,8 +83,8 @@ namespace OneAdvisor.Email
             var result = new Result();
 
             var response = await _email
-                .To(_options.Emails.AlertUnknownCommissionTypes.To)
-                .Subject("One Advisor - Unknown Commission Types Found")
+                .To(_options.Emails.CommissionImportAlerts.To)
+                .Subject("One Advisor - ALERT: Unknown Commission Types Found")
                 .UsingTemplate(ImportUnknownCommissionTypes.Template,
                     new
                     {
@@ -99,6 +99,54 @@ namespace OneAdvisor.Email
                         StatementStatus = statement.Processed.Value ? "Processed" : "Processing",
                         StatementTemplateName = template.Name,
                         CommissionTypes = unknownCommissionTypes
+                    }
+                )
+                .Attach(new FluentEmail.Core.Models.Attachment()
+                {
+                    Filename = attachment.FileName,
+                    ContentType = attachment.ContentType,
+                    Data = attachment.Data
+                })
+                .SendAsync();
+
+            result.Success = response.Successful;
+
+            if (!result.Success)
+            {
+                result.Errors = response.ErrorMessages;
+                return result;
+            }
+
+            return result;
+        }
+
+        public async Task<Result> SendImportCommissionZeroEntriesEmail(
+            string environment,
+            Organisation organisation,
+            UserEdit user,
+            Company company,
+            CommissionStatementEdit statement,
+            CommissionStatementTemplateEdit template,
+            Attachment attachment)
+        {
+            var result = new Result();
+
+            var response = await _email
+                .To(_options.Emails.CommissionImportAlerts.To)
+                .Subject("One Advisor - ALERT: Zero Commission Entries Imported")
+                .UsingTemplate(ImportCommissionZeroEntries.Template,
+                    new
+                    {
+                        Environment = environment,
+                        OrganisationName = organisation.Name,
+                        UserFirstName = user.FirstName,
+                        UserLastName = user.LastName,
+                        Username = user.UserName,
+                        UserEmail = user.Email,
+                        CompanyName = company.Name,
+                        StatementDate = statement.Date.Value.ToLongDateString(),
+                        StatementStatus = statement.Processed.Value ? "Processed" : "Processing",
+                        StatementTemplateName = template.Name
                     }
                 )
                 .Attach(new FluentEmail.Core.Models.Attachment()

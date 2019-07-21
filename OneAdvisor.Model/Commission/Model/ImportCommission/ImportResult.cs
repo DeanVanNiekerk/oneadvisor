@@ -27,6 +27,7 @@ namespace OneAdvisor.Model.Commission.Model.ImportCommission
                 return Results.Where(r => !r.Success).Count();
             }
         }
+
         public List<Result> Results { get; set; }
         public List<string> UnknownCommissionTypeValues { get; }
 

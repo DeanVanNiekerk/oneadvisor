@@ -19,6 +19,8 @@ using OneAdvisor.Model.Email;
 using OneAdvisor.Model.Directory.Interface;
 using api.App;
 using OneAdvisor.Model.Email.Model;
+using OneAdvisor.Model.Storage.Model.File;
+using Microsoft.AspNetCore.Http;
 
 namespace api.Controllers.Commission.Import
 {
@@ -80,22 +82,35 @@ namespace api.Controllers.Commission.Import
                 var items = reader.Read(stream);
 
                 result = await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
+            }
 
-                //Dont hold up the thread whilst sending the email
-                if (result.UnknownCommissionTypeValues.Any())
+            if (result.UnknownCommissionTypeValues.Any())
+            {
+                using (var stream = file.OpenReadStream())
                 {
-                    var attachment = new Attachment();
-                    attachment.FileName = file.FileName;
-                    attachment.ContentType = file.ContentType;
-                    attachment.Data = file.OpenReadStream();
+                    var attachment = GetEmailAttachment(file, stream);
+                    //Dont hold up the thread whilst sending the email
                     await SendUnkownCommissionTypesEmail(result, scope, commissionStatementId, template, attachment).ConfigureAwait(false);
                 }
             }
 
-            using (var stream = file.OpenReadStream())
+            if (!result.Results.Any())
             {
-                var path = new CommissionStatementPath(scope.OrganisationId, commissionStatementId, file.FileName);
-                var storageName = await FileStorageService.AddFileAsync(path, stream);
+                using (var stream = file.OpenReadStream())
+                {
+                    var attachment = GetEmailAttachment(file, stream);
+                    //Dont hold up the thread whilst sending the email
+                    await SendZeroEntriesEmail(scope, commissionStatementId, template, attachment).ConfigureAwait(false);
+                }
+            }
+
+            if (result.Results.Any())
+            {
+                using (var stream = file.OpenReadStream())
+                {
+                    var path = new CommissionStatementPath(scope.OrganisationId, commissionStatementId, file.FileName);
+                    var storageName = await FileStorageService.AddFileAsync(path, stream);
+                }
             }
 
             return Ok(result);
@@ -144,15 +159,20 @@ namespace api.Controllers.Commission.Import
 
                     result = await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
 
-                    //Dont hold up the thread whilst sending the email
-                    stream.Position = 0;
                     if (result.UnknownCommissionTypeValues.Any())
                     {
-                        var attachment = new Attachment();
-                        attachment.FileName = fileInfo.Name;
-                        attachment.ContentType = fileInfo.ContentType;
-                        attachment.Data = stream;
+                        stream.Position = 0;
+                        var attachment = GetEmailAttachmentFromCloud(fileInfo, stream);
+                        //Dont hold up the thread whilst sending the email
                         await SendUnkownCommissionTypesEmail(result, scope, commissionStatementId, template, attachment).ConfigureAwait(false);
+                    }
+
+                    if (!result.Results.Any())
+                    {
+                        stream.Position = 0;
+                        var attachment = GetEmailAttachmentFromCloud(fileInfo, stream);
+                        //Dont hold up the thread whilst sending the email
+                        await SendZeroEntriesEmail(scope, commissionStatementId, template, attachment).ConfigureAwait(false);
                     }
                 }
             }
@@ -192,7 +212,41 @@ namespace api.Controllers.Commission.Import
             var statement = await CommissionStatementService.GetCommissionStatement(scope, commissionStatementId);
             var company = await DirectoryLookupService.GetCompany(statement.CompanyId.Value);
 
-            await EmailService.SendUnkownCommissionTypesEmail(Utils.GetEnvironment(), organisation, user, company, statement, template, result.UnknownCommissionTypeValues, attachment);
+            await EmailService.SendImportCommissionUnknownCommissionTypesEmail(Utils.GetEnvironment(), organisation, user, company, statement, template, result.UnknownCommissionTypeValues, attachment);
+        }
+
+        private async Task SendZeroEntriesEmail(
+            ScopeOptions scope,
+            Guid commissionStatementId,
+            CommissionStatementTemplateEdit template,
+            Attachment attachment)
+        {
+            var organisation = await OrganisationService.GetOrganisation(scope, scope.OrganisationId);
+            var user = await UserService.GetUser(scope, scope.UserId);
+            var statement = await CommissionStatementService.GetCommissionStatement(scope, commissionStatementId);
+            var company = await DirectoryLookupService.GetCompany(statement.CompanyId.Value);
+
+            await EmailService.SendImportCommissionZeroEntriesEmail(Utils.GetEnvironment(), organisation, user, company, statement, template, attachment);
+        }
+
+        private Attachment GetEmailAttachment(IFormFile file, Stream stream)
+        {
+            var attachment = new Attachment();
+            attachment.FileName = file.FileName;
+            attachment.ContentType = file.ContentType;
+            attachment.Data = stream;
+
+            return attachment;
+        }
+
+        private Attachment GetEmailAttachmentFromCloud(CloudFileInfo fileInfo, Stream stream)
+        {
+            var attachment = new Attachment();
+            attachment.FileName = fileInfo.Name;
+            attachment.ContentType = fileInfo.ContentType;
+            attachment.Data = stream;
+
+            return attachment;
         }
     }
 }

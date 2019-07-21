@@ -14,6 +14,22 @@ namespace OneAdvisor.Model.Email
     {
         Task<Result> SendWelcomeEmail(UserEdit user, string activateUrl);
         Task<Result> SendResetPasswordEmail(UserEdit user, string resetPasswordUrl);
-        Task<Result> SendUnkownCommissionTypesEmail(string environment, Organisation organisation, UserEdit user, Company company, CommissionStatementEdit statement, CommissionStatementTemplateEdit template, List<string> unknownCommissionTypes, Attachment attachment);
+        Task<Result> SendImportCommissionUnknownCommissionTypesEmail(
+            string environment,
+            Organisation organisation,
+            UserEdit user,
+            Company company,
+            CommissionStatementEdit statement,
+            CommissionStatementTemplateEdit template,
+            List<string> unknownCommissionTypes,
+            Attachment attachment);
+        Task<Result> SendImportCommissionZeroEntriesEmail(
+            string environment,
+            Organisation organisation,
+            UserEdit user,
+            Company company,
+            CommissionStatementEdit statement,
+            CommissionStatementTemplateEdit template,
+            Attachment attachment);
     }
 }

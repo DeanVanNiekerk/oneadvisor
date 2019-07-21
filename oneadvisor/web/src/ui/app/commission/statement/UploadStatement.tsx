@@ -1,19 +1,19 @@
-import { Alert, Card, Icon, Timeline, Typography, Upload } from 'antd';
-import { UploadChangeParam } from 'antd/lib/upload';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Alert, Card, Icon, Timeline, Typography, Upload } from "antd";
+import { UploadChangeParam } from "antd/lib/upload";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { commissionsImportApi } from '@/config/api/commission';
-import { fetchStatementFiles, Statement, statementFilesSelector } from '@/state/app/commission/statements';
+import { commissionsImportApi } from "@/config/api/commission";
+import { fetchStatementFiles, Statement, statementFilesSelector } from "@/state/app/commission/statements";
 import {
     CommissionStatementTemplate, commissionStatementTemplatesSelector, fetchCommissionStatementTemplates
-} from '@/state/app/commission/templates';
-import { tokenSelector } from '@/state/auth';
-import { downloadFile } from '@/state/file';
-import { RootState } from '@/state/rootReducer';
-import { FileInfo } from '@/state/types';
-import { Button, ContentLoader, Date, Form, FormField, FormSelect, TabPane, Tabs } from '@/ui/controls';
-import { showMessage } from '@/ui/feedback/notifcation';
+} from "@/state/app/commission/templates";
+import { tokenSelector } from "@/state/auth";
+import { downloadFile } from "@/state/file";
+import { RootState } from "@/state/rootReducer";
+import { FileInfo } from "@/state/types";
+import { Button, ContentLoader, Date, Form, FormField, FormSelect, TabPane, Tabs } from "@/ui/controls";
+import { showMessage } from "@/ui/feedback/notifcation";
 
 const { Text } = Typography;
 
@@ -75,7 +75,12 @@ class UploadStatement extends Component<Props, State> {
             this.setState({ loading: true });
         }
         if (info.file.status === "done") {
-            showMessage("success", "Commission Statement Imported Successfully", 5);
+            console.log(JSON.stringify(info, null, 4));
+
+            if (info.file.response.results.length === 0)
+                showMessage("warning", "There where no commission entries imported, please check commission file.", 10);
+            else showMessage("success", "Commission Statement Imported Successfully", 5);
+
             this.props.onSuccess();
         } else if (info.file.status === "error") {
             showMessage("error", "Commission Statement Imported Failed", 5);
