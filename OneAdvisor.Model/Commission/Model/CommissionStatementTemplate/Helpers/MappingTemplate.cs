@@ -27,5 +27,27 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Helpers
         {
             return ParseCount(value1) == ParseCount(value2);
         }
+
+        public static string GetColumn(string part)
+        {
+            var index = part.IndexOf('(');
+            if (index == -1)
+                return part;
+
+            return part.Substring(0, index);
+        }
+
+        public static List<int> GetSubStringIndex(string part)
+        {
+            var index = part.IndexOf('(');
+            if (index == -1)
+                return new List<int>();
+
+            var range = part.Substring(index + 1, part.Length - index - 2);
+
+            var parts = range.Split('-');
+
+            return parts.Select(p => Convert.ToInt32(p)).ToList();
+        }
     }
 }

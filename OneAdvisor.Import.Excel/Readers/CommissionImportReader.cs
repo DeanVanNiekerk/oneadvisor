@@ -190,8 +190,22 @@ namespace OneAdvisor.Import.Excel.Readers
                     value = GetGroupValue(groupValues, GroupFieldNames.CommissionType);
                 else
                 {
-                    var index = ExcelUtils.ColumnToIndex(part);
+                    var column = MappingTemplate.GetColumn(part);
+                    var subStringIndex = MappingTemplate.GetSubStringIndex(part);
+
+                    var index = ExcelUtils.ColumnToIndex(column);
                     value = Utils.GetValue(reader, index);
+
+                    if (subStringIndex.Count == 2)
+                    {
+                        try
+                        {
+                            var startIndex = subStringIndex[0] - 1;
+                            var length = subStringIndex[1] - subStringIndex[0] + 1;
+                            value = value.Substring(startIndex, length);
+                        }
+                        catch { }
+                    }
                 }
 
                 values.Add(value);

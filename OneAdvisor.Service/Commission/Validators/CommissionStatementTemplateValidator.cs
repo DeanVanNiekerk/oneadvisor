@@ -152,10 +152,29 @@ namespace OneAdvisor.Service.Commission.Validators
 
         private bool HaveValidExcelColumnIdentifiers(string mappingTemplate)
         {
-            foreach (var column in MappingTemplate.Parse(mappingTemplate))
+            foreach (var part in MappingTemplate.Parse(mappingTemplate))
             {
-                if (!Utils.IsValidExcelColumn((column)) && column != CommissionTypes.GROUP_COMMISSION_TYPE)
+                try
+                {
+                    var column = MappingTemplate.GetColumn(part);
+                    var subStringIndex = MappingTemplate.GetSubStringIndex(part);
+
+                    if (subStringIndex.Count != 0 && subStringIndex.Count != 2)
+                        return false;
+
+                    if (subStringIndex.Count == 2)
+                    {
+                        if (subStringIndex[0] >= subStringIndex[1])
+                            return false;
+                    }
+
+                    if (!Utils.IsValidExcelColumn((column)) && column != CommissionTypes.GROUP_COMMISSION_TYPE)
+                        return false;
+                }
+                catch
+                {
                     return false;
+                }
             }
             return true;
         }

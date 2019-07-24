@@ -480,5 +480,74 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             Assert.Equal("Marc Bormann", actual.BrokerFullName);
             Assert.Equal("type_1", actual.CommissionTypeCode);
         }
+
+        [Fact]
+        public void Read_CommissionTypeSubstring()
+        {
+            var sheetConfig = new SheetConfig()
+            {
+                //No header
+                HeaderIdentifier = new Identifier()
+                {
+                    Column = "",
+                    Value = ""
+                },
+                Fields = new List<Field>() {
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.PolicyNumber), Column = "A" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.AmountIncludingVAT), Column = "B" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.VAT), Column = "C" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.BrokerFullName), Column = "K" }
+                },
+                CommissionTypes = new CommissionTypes()
+                {
+                    MappingTemplate = "D(1-6)",
+                    DefaultCommissionTypeCode = "unknown",
+                    Types = new List<CommissionType>()
+                    {
+                        new CommissionType() { CommissionTypeCode = "code_1", Value = "code_1" },
+                        new CommissionType() { CommissionTypeCode = "code_2", Value = "code_2" },
+                        new CommissionType() { CommissionTypeCode = "code_3", Value = "code_3" }
+                    }
+                }
+            };
+
+            var sheet = new Sheet();
+            sheet.Position = 1;
+            sheet.Config = sheetConfig;
+
+            var config = new Config();
+            config.Sheets = new List<Sheet>() { sheet };
+
+            var bytes = System.Convert.FromBase64String(CommissionTypeSubstring_Base64.STRING);
+            var stream = new MemoryStream(bytes);
+
+            var reader = new CommissionImportReader(config);
+            var commissions = reader.Read(stream).ToList();
+
+            Assert.Equal(3, commissions.Count);
+            var actual = commissions[0];
+            Assert.Equal("123456", actual.PolicyNumber);
+            Assert.Equal("100", actual.AmountIncludingVAT);
+            Assert.Equal("14", actual.VAT);
+            Assert.Equal("code_1", actual.CommissionTypeCode);
+            Assert.Equal("code_1", actual.CommissionTypeValue);
+            Assert.Equal("brokerFullName_1", actual.BrokerFullName);
+
+            actual = commissions[1];
+            Assert.Equal("654321", actual.PolicyNumber);
+            Assert.Equal("200", actual.AmountIncludingVAT);
+            Assert.Equal("15", actual.VAT);
+            Assert.Equal("code_2", actual.CommissionTypeCode);
+            Assert.Equal("code_2", actual.CommissionTypeValue);
+            Assert.Equal("brokerFullName_2", actual.BrokerFullName);
+
+            actual = commissions[2];
+            Assert.Equal("987654", actual.PolicyNumber);
+            Assert.Equal("300", actual.AmountIncludingVAT);
+            Assert.Equal("16", actual.VAT);
+            Assert.Equal("code_3", actual.CommissionTypeCode);
+            Assert.Equal("code_3", actual.CommissionTypeValue);
+            Assert.Equal("brokerFullName_3", actual.BrokerFullName);
+        }
     }
 }

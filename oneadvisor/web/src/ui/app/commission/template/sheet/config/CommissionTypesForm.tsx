@@ -118,11 +118,11 @@ class CommissionTypesForm extends Component<Props, State> {
 
 		return [
 			<Popconfirm
-                key="remove_mapping"
+				key="remove_mapping"
 				title="Are you sure remove this mapping?"
 				onConfirm={() => this.remove(index)}
 				okText="Yes"
-                cancelText="No"
+				cancelText="No"
 			>
 				<a href="#">remove</a>
 			</Popconfirm>,
@@ -169,17 +169,20 @@ class CommissionTypesForm extends Component<Props, State> {
 	mappingInfo = () => {
 		return (
 			<div>
-				<p>
-					{`{'Column' | GRP_CT}`};{`{'Column' | GRP_CT}`}
-				</p>
+				<p>{`{'Column'(start-end) | GRP_CT}`};</p>
 				<p>
 					<b>Examples</b>
 				</p>
 				<p>A;B;D</p>
 				<p>GRP_CT;C;D</p>
+				<p>A(1-3);B;D</p>
 				<p>
 					<small>
 						<i>* GRP_CT = Commission Type Group</i>
+					</small>
+					<br />
+					<small>
+						<i>* (start-end) = Set to pull out a specific part of the column only</i>
 					</small>
 				</p>
 			</div>
