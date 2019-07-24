@@ -21,7 +21,7 @@ jobs:
                 dotnet test --filter Category!=Integration
             displayName: "run tests"
           - script: |
-                dotnet publish --configuration $(buildConfiguration) /p:Version=0.10.0
+                dotnet publish --configuration $(buildConfiguration) /p:Version=0.11.0
             displayName: "publish for $(buildConfiguration)"
           - task: CopyFiles@2
             inputs:

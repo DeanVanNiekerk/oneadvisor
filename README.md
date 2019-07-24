@@ -96,15 +96,17 @@ See .vscode/extensions.json
 
 ```
 
-Release v0.9.0
+Release v0.10.0
 ===============
 
 New Features:
-- Commission > Templates > Save and Update Unknown Commission Types
-- Commission > Import > Send Email if the are any Unknown Commission Types found
+- Commission > Import > Alert Email if the are no commission entries imported
+- Commission > Import > Commission Type Prefixes
 
 Updates:
-- Commission > Templates > Config > Groupings > Can now support a reverse ordering
+- Commission > Dropdowns > Now searchable
+- Commission > Statement > Preview page now as tooltips for icons
+- Client > Details > Preview page now as tooltips for icons
 
 Bug Fixes:
 - Commission > Templates > Copy Config was broken
