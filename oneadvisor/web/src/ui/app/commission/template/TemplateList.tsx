@@ -35,7 +35,7 @@ class TemplateList extends Component<Props, State> {
     }
 
     componentDidMount() {
-        if (this.props.templates.length === 0) this.loadTemplates();
+        this.loadTemplates();
     }
 
     loadTemplates = () => {

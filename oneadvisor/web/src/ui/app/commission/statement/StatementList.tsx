@@ -1,24 +1,24 @@
-import { Button as ButtonAD, Col, Dropdown, Icon, Menu, Modal, Row, Select } from 'antd';
-import moment from 'moment';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { Button as ButtonAD, Col, Dropdown, Icon, Menu, Modal, Row, Select } from "antd";
+import moment from "moment";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router";
 
-import { Filters, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
-import { formatCurrency, getMonthDateRange, getMonthOptions, getYearOptions } from '@/app/utils';
-import { CommissionErrorsFilters, downloadCommissionErrors, getCommissionErrors } from '@/state/app/commission/errors';
+import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
+import { formatCurrency, getMonthDateRange, getMonthOptions, getYearOptions } from "@/app/utils";
+import { CommissionErrorsFilters, downloadCommissionErrors, getCommissionErrors } from "@/state/app/commission/errors";
 import {
     bulkReimportCommissions, clearStatementPreview, fetchStatements, receiveFilterMonth, receiveFilters,
     receiveFilterYear, receivePageOptions, receiveSortOptions, receiveStatement, Statement, StatementEdit,
     statementsSelector
-} from '@/state/app/commission/statements';
-import { companiesSelector, Company } from '@/state/app/directory/lookups';
-import { RootState } from '@/state/rootReducer';
-import { Button, getTable, Header } from '@/ui/controls';
-import { showMessage } from '@/ui/feedback/notifcation';
+} from "@/state/app/commission/statements";
+import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { RootState } from "@/state/rootReducer";
+import { Button, getTable, Header } from "@/ui/controls";
+import { showMessage } from "@/ui/feedback/notifcation";
 
-import EditStatement from './EditStatement';
-import { Processed } from './Processed';
+import EditStatement from "./EditStatement";
+import { Processed } from "./Processed";
 
 const confirm = Modal.confirm;
 
@@ -122,6 +122,7 @@ class StatementList extends Component<Props> {
                     },
                 }
             ),
+            getColumn("mappingErrorCount", "Error Count"),
             getColumn(
                 "processed",
                 "Status",
