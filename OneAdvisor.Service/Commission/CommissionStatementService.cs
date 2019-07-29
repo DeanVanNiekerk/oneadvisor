@@ -91,8 +91,7 @@ namespace OneAdvisor.Service.Commission
                                  ActualAmountIncludingVAT = commissionStatement.Commissions.Select(c => c.AmountIncludingVAT).Sum(),
                                  ActualVAT = commissionStatement.Commissions.Select(c => c.VAT).Sum(),
                                  CommissionCount = commissionStatement.Commissions.Count(),
-                                 FormatErrorCount = commissionStatement.CommissionErrors.Count(e => !e.IsFormatValid),
-                                 MappingErrorCount = commissionStatement.CommissionErrors.Count(e => e.IsFormatValid),
+                                 MappingErrorCount = commissionStatement.CommissionErrors.Count(),
                                  CompanyName = commissionStatement.Company.Name
                              };
 

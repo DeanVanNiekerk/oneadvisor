@@ -7,7 +7,6 @@ export type CommissionErrorEdit = {
     clientId: string | null;
     commissionTypeId: string | null;
     data: CommissionImportData;
-    isFormatValid: boolean;
 };
 
 export type CommissionError = {
@@ -19,7 +18,6 @@ export type CommissionError = {
     clientId: string | null;
     commissionTypeId: string | null;
     data: CommissionImportData;
-    isFormatValid: boolean;
     policyTypeCode: string | null;
     companyName: string;
     companyId: string;
@@ -40,4 +38,6 @@ export type CommissionImportData = {
     brokerFullName?: string | null;
 };
 
-export type CommissionErrorsFilters = Filters<Pick<CommissionError, "commissionStatementId" | "commissionStatementYear" | "commissionStatementMonth" | "isFormatValid">>;
+export type CommissionErrorsFilters = Filters<
+    Pick<CommissionError, "commissionStatementId" | "commissionStatementYear" | "commissionStatementMonth">
+>;

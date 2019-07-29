@@ -15,7 +15,6 @@ const defaultCommissionError: CommissionErrorEdit = {
         vat: "5",
         commissionTypeCode: "gap_cover",
     },
-    isFormatValid: true,
 };
 
 describe("commission mapping error reducer", () => {

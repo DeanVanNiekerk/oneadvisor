@@ -13,7 +13,6 @@ namespace OneAdvisor.Model.Commission.Model.CommissionError
         public Guid? ClientId { get; set; }
         public Guid? CommissionTypeId { get; set; }
         public OneAdvisor.Model.Commission.Model.ImportCommission.ImportCommission Data { get; set; }
-        public bool IsFormatValid { get; set; }
 
         public string PolicyTypeCode { get; set; }
         public Guid CompanyId { get; set; }

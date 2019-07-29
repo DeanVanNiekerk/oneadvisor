@@ -6,7 +6,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 
 import { hasUseCase } from "@/app/identity";
 import { DATE_FORMAT } from "@/app/utils";
-import { CommissionErrorsFilters, fetchNextFormatError } from "@/state/app/commission/errors";
+import { CommissionErrorsFilters } from "@/state/app/commission/errors";
 import { downloadCommissionErrors, getCommissionErrors } from "@/state/app/commission/errors/list/actions";
 import {
     deleteCommissions, fetchStatement, fetchStatementPreview, reimportCommissions, Statement, statementPreviewSelector
@@ -21,7 +21,6 @@ import {
 import { showMessage } from "@/ui/feedback/notifcation";
 
 import CommissionList from "../commission/CommissionList";
-import EditFormatError from "../error/format/EditFormatError";
 import ErrorList from "../error/list/ErrorList";
 import EditStatement from "./EditStatement";
 import { Processed } from "./Processed";
@@ -201,17 +200,10 @@ class StatementPreviewComponent extends Component<Props, State> {
         return actions;
     };
 
-    getNextFormatError = () => {
-        if (this.props.statement === null) return;
-
-        this.props.dispatch(fetchNextFormatError(this.props.statement.id));
-    };
-
     downloadMappingErrors = () => {
         if (this.props.statement === null) return;
 
         const filters: CommissionErrorsFilters = {
-            isFormatValid: [true.toString()],
             commissionStatementId: [this.props.statement.id],
         };
 
@@ -315,21 +307,6 @@ class StatementPreviewComponent extends Component<Props, State> {
                             />
                         </div>
                     </PreviewCard>
-                    {statement && statement.formatErrorCount > 0 && (
-                        <PreviewCard
-                            title="Format Errors"
-                            icon="file-exclamation"
-                            isLoading={this.isLoading()}
-                            rows={3}
-                            onClick={this.getNextFormatError}
-                            actions={[<Icon type="tool" />]}
-                            height={cardHeight}
-                        >
-                            {statement && (
-                                <StatementPreviewErrorCount count={statement.formatErrorCount} errorType="format" />
-                            )}
-                        </PreviewCard>
-                    )}
                     {statement && statement.mappingErrorCount > 0 && (
                         <PreviewCard
                             title="Mapping Errors"
@@ -349,19 +326,12 @@ class StatementPreviewComponent extends Component<Props, State> {
                             ]}
                             height={cardHeight}
                         >
-                            {statement && (
-                                <StatementPreviewErrorCount count={statement.mappingErrorCount} errorType="mapping" />
-                            )}
+                            {statement && <StatementPreviewErrorCount count={statement.mappingErrorCount} />}
                         </PreviewCard>
                     )}
                 </PreviewCardContainer>
 
                 <EditStatement onClose={this.onFormClose} />
-                <EditFormatError
-                    statementId={this.props.statement ? this.props.statement.id : ""}
-                    remainingErrors={this.props.statement ? this.props.statement.formatErrorCount : 0}
-                    onUpdate={this.load}
-                />
 
                 <Drawer
                     title="Commission Entries"

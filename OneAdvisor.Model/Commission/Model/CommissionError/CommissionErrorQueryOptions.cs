@@ -12,10 +12,6 @@ namespace OneAdvisor.Model.Commission.Model.CommissionError
         {
             Scope = scope;
 
-            var resultBool = GetFilterValue<bool>("HasValidFormat");
-            if (resultBool.Success)
-                HasValidFormat = resultBool.Value;
-
             var resultGuid = GetFilterValue<Guid>("CommissionStatementId");
             if (resultGuid.Success)
                 CommissionStatementId = resultGuid.Value;
@@ -32,7 +28,6 @@ namespace OneAdvisor.Model.Commission.Model.CommissionError
         public ScopeOptions Scope { get; set; }
 
         public Guid? CommissionStatementId { get; set; }
-        public bool? HasValidFormat { get; set; }
 
         public int? CommissionStatementYear { get; set; }
         public int? CommissionStatementMonth { get; set; }

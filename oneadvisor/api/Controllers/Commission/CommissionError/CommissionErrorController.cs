@@ -26,11 +26,11 @@ namespace api.Controllers.Commission.CommissionError
 
         [HttpGet("{commissionStatementId}/errors/next")]
         [UseCaseAuthorize("com_edit_commission_statements")]
-        public async Task<IActionResult> Next(Guid commissionStatementId, [FromQuery] bool hasValidFormat)
+        public async Task<IActionResult> Next(Guid commissionStatementId)
         {
             var scope = AuthenticationService.GetScope(User);
 
-            var error = await CommissionErrorService.GetNextError(scope, commissionStatementId, hasValidFormat);
+            var error = await CommissionErrorService.GetNextError(scope, commissionStatementId);
 
             if (error == null)
                 return NotFound();
@@ -50,20 +50,6 @@ namespace api.Controllers.Commission.CommissionError
                 return NotFound();
 
             return Ok(error);
-        }
-
-        [HttpPost("{commissionStatementId}/errors/resolve/format")]
-        [UseCaseAuthorize("com_edit_commission_statements")]
-        public async Task<IActionResult> ResolveFormatError([FromBody] OneAdvisor.Model.Commission.Model.CommissionError.CommissionErrorEdit commissionError)
-        {
-            var scope = AuthenticationService.GetScope(User);
-
-            var result = await CommissionErrorService.ResolveFormatError(scope, commissionError);
-
-            if (!result.Success)
-                return BadRequest(result.ValidationFailures);
-
-            return Ok(result);
         }
 
         [HttpPost("{commissionStatementId}/errors/resolve/mapping")]

@@ -118,6 +118,9 @@ namespace OneAdvisor.Service.Commission
             var validator = new ImportCommissionValidator();
             var result = validator.Validate(importCommission).GetResult();
 
+            if (!result.Success)
+                return result;
+
             //Cleanup
             importCommission.PolicyNumber = importCommission.PolicyNumber.TrimWhiteSpace(); ;
 
@@ -126,7 +129,6 @@ namespace OneAdvisor.Service.Commission
                 Id = Guid.NewGuid(),
                 CommissionStatementId = commissionStatement.Id,
                 Data = importCommission,
-                IsFormatValid = true
             };
 
             var commissionType = commissionTypes.FirstOrDefault(c => c.Code.ToLower() == importCommission.CommissionTypeCode.ToLower());
@@ -143,17 +145,10 @@ namespace OneAdvisor.Service.Commission
                 error.PolicyId = policy.Id;
             }
 
-            if (!result.Success)
-            {
-                error.IsFormatValid = false;
-                CommissionErrorsToInsert.Add(error);
-                return result;
-            }
-
             if (!IsCommissionErrorValid(error))
             {
                 CommissionErrorsToInsert.Add(error);
-                return new Result();
+                return new Result(true);
             }
 
             var commission = LoadCommissionEdit(commissionStatement.Id, policy, commissionType, importCommission);

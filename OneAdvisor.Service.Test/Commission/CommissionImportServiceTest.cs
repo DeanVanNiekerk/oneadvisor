@@ -85,76 +85,6 @@ namespace OneAdvisor.Service.Test.Commission
         }
 
         [Fact]
-        public async Task ImportCommission_BadFormat_InsertError()
-        {
-            var options = TestHelper.GetDbContext("ImportCommission_BadFormat_InsertError");
-
-            var user1 = TestHelper.InsertUserDetailed(options);
-            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
-
-            var user2 = TestHelper.InsertUserDetailed(options);
-
-            using (var context = new DataContext(options))
-            {
-                var lookupService = new DirectoryLookupService(context);
-                var commissionLookupService = new CommissionLookupService(context);
-                var policyService = new PolicyService(context);
-                var commissionSplitService = new CommissionSplitService(context);
-                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService);
-                var statementService = new CommissionStatementService(context, null);
-
-                var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
-                var insertedErrors = new List<CommissionErrorEntity>();
-                bulkActions.Setup(c => c.BulkInsertCommissionErrorsAsync(It.IsAny<DataContext>(), It.IsAny<IList<CommissionErrorEntity>>()))
-                    .Callback((DataContext c, IList<CommissionErrorEntity> l) => insertedErrors = l.ToList())
-                    .Returns(Task.CompletedTask);
-
-                var service = new CommissionImportService(
-                    context,
-                    bulkActions.Object,
-                    statementService,
-                    policyService,
-                    lookupService,
-                    commissionLookupService,
-                    commissionSplitService,
-                    commissionSplitRulePolicyService);
-
-                //When
-                var import1 = new ImportCommission
-                {
-                    PolicyNumber = "123456",
-                    CommissionTypeCode = "gap_cover",
-                    AmountIncludingVAT = "abc", //Bad format
-                    VAT = "zzz" //Bad format
-                };
-
-                var scope = TestHelper.GetScopeOptions(user1);
-                var importResult = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 }));
-
-                var result = importResult.Results.Single();
-
-                //Then
-                Assert.False(result.Success);
-                Assert.Equal(2, result.ValidationFailures.Count);
-                Assert.Equal("'Amount' must be a number", result.ValidationFailures[0].ErrorMessage);
-                Assert.Equal("'VAT' must be a number", result.ValidationFailures[1].ErrorMessage);
-
-                //Check error record
-                var actual = insertedErrors.Single();
-
-                Assert.Null(actual.ClientId);
-                Assert.Null(actual.PolicyId);
-                Assert.Null(actual.CommissionTypeId);
-
-                Assert.Equal(statement.Id, actual.CommissionStatementId);
-
-                Assert.False(actual.IsFormatValid);
-                Assert.Equal(import1, actual.Data);
-            }
-        }
-
-
-        [Fact]
         public async Task ImportCommission_NoMapping_SetCommisionType()
         {
             var options = TestHelper.GetDbContext("ImportCommission_SetCommisionType");
@@ -222,8 +152,6 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(commissionType.Id, actual.CommissionTypeId);
 
                 Assert.Equal(statement.Id, actual.CommissionStatementId);
-
-                Assert.True(actual.IsFormatValid);
 
                 import1.PolicyNumber = import1.PolicyNumber.TrimWhiteSpace();
                 Assert.Equal(import1, actual.Data);
@@ -305,7 +233,6 @@ namespace OneAdvisor.Service.Test.Commission
 
                 Assert.Equal(statement.Id, actual.CommissionStatementId);
 
-                Assert.True(actual.IsFormatValid);
                 Assert.Equal(import1, actual.Data);
             }
         }

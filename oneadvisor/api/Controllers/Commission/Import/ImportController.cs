@@ -94,7 +94,7 @@ namespace api.Controllers.Commission.Import
                 }
             }
 
-            if (!result.Results.Any())
+            if (!result.Results.Any(r => r.Success))
             {
                 using (var stream = file.OpenReadStream())
                 {
@@ -167,7 +167,7 @@ namespace api.Controllers.Commission.Import
                         await SendUnkownCommissionTypesEmail(result, scope, commissionStatementId, template, attachment).ConfigureAwait(false);
                     }
 
-                    if (!result.Results.Any())
+                    if (!result.Results.Any(r => r.Success))
                     {
                         stream.Position = 0;
                         var attachment = GetEmailAttachmentFromCloud(fileInfo, stream);

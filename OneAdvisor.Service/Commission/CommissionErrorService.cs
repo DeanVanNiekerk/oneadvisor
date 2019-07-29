@@ -55,9 +55,6 @@ namespace OneAdvisor.Service.Commission
             if (queryOptions.CommissionStatementId.HasValue)
                 query = query.Where(c => c.CommissionStatementId == queryOptions.CommissionStatementId.Value);
 
-            if (queryOptions.HasValidFormat.HasValue)
-                query = query.Where(c => c.IsFormatValid == queryOptions.HasValidFormat.Value);
-
             if (queryOptions.CommissionStatementYear.HasValue)
                 query = query.Where(c => c.CommissionStatementYear == queryOptions.CommissionStatementYear.Value);
 
@@ -80,11 +77,10 @@ namespace OneAdvisor.Service.Commission
 
         }
 
-        public async Task<CommissionErrorEdit> GetNextError(ScopeOptions scope, Guid commissionStatementId, bool hasValidFormat)
+        public async Task<CommissionErrorEdit> GetNextError(ScopeOptions scope, Guid commissionStatementId)
         {
             var query = from commissionError in GetCommissionErrorEditQuery(scope)
                         where commissionError.CommissionStatementId == commissionStatementId
-                        && commissionError.IsFormatValid == hasValidFormat
                         select commissionError;
 
             return await query.FirstOrDefaultAsync();
@@ -97,26 +93,6 @@ namespace OneAdvisor.Service.Commission
                         select commissionError;
 
             return await query.FirstOrDefaultAsync();
-        }
-
-        public async Task<Result> ResolveFormatError(ScopeOptions scope, CommissionErrorEdit error)
-        {
-            var validator = new ImportCommissionValidator();
-            var result = validator.Validate(error.Data).GetResult();
-
-            if (!result.Success)
-                return result;
-
-            var entity = await GetCommissionErrorEntityQuery(scope).FirstOrDefaultAsync(e => e.Id == error.Id);
-
-            entity.IsFormatValid = true;
-            entity.Data = error.Data;
-            await _context.SaveChangesAsync();
-
-            //Check if we can resove mapping
-            await ResolveMappingError(scope, error);
-
-            return result;
         }
 
         public async Task<Result> ResolveMappingError(ScopeOptions scope, CommissionErrorEdit error)
@@ -192,7 +168,6 @@ namespace OneAdvisor.Service.Commission
 
             var query = from commissionError in GetCommissionErrorEditQuery(scope)
                         where commissionError.CommissionStatementId == commissionStatementId
-                        && commissionError.IsFormatValid == true
                         select commissionError;
 
             var errors = await query.ToListAsync();
@@ -247,7 +222,6 @@ namespace OneAdvisor.Service.Commission
                             Data = entity.Data,
                             ClientId = entity.ClientId,
                             PolicyId = entity.PolicyId,
-                            IsFormatValid = entity.IsFormatValid
                         };
 
             return query;
@@ -272,7 +246,6 @@ namespace OneAdvisor.Service.Commission
                             Data = entity.Data,
                             ClientId = entity.ClientId,
                             PolicyId = entity.PolicyId,
-                            IsFormatValid = entity.IsFormatValid,
                             PolicyTypeCode = policyType.Code,
                             CompanyId = company.Id,
                             CompanyName = company.Name

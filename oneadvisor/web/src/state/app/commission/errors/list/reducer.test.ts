@@ -17,7 +17,6 @@ const defaultCommissionError: CommissionError = {
         vat: "5",
         commissionTypeCode: "gap_cover",
     },
-    isFormatValid: false,
     policyTypeCode: "med_cover",
     companyId: "123",
     companyName: "Hi there",

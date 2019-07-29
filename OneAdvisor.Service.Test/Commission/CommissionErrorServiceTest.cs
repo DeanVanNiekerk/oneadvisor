@@ -20,17 +20,19 @@ namespace OneAdvisor.Service.Test.Commission
     public class CommissionErrorServiceTest
     {
         [Fact]
-        public async Task GetNextError_ValidFormat()
+        public async Task GetNextError()
         {
-            var options = TestHelper.GetDbContext("GetNextError_ValidFormat");
+            var options = TestHelper.GetDbContext("GetNextError");
 
             var user1 = TestHelper.InsertUserDetailed(options);
             var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
+            var user2 = TestHelper.InsertUserDetailed(options);
+            var statement2 = TestHelper.InsertCommissionStatement(options, user2.Organisation);
+
             var error1 = new CommissionErrorEntity
             {
                 CommissionStatementId = statement.Id,
-                IsFormatValid = true,
                 PolicyId = Guid.NewGuid(),
                 ClientId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
@@ -39,7 +41,11 @@ namespace OneAdvisor.Service.Test.Commission
 
             var error2 = new CommissionErrorEntity
             {
-                IsFormatValid = false
+                CommissionStatementId = statement2.Id,
+                PolicyId = Guid.NewGuid(),
+                ClientId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
+                Data = new ImportCommission()
             };
 
             using (var context = new DataContext(options))
@@ -52,54 +58,14 @@ namespace OneAdvisor.Service.Test.Commission
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
-                var actual = await service.GetNextError(scope, statement.Id, true);
+                var actual = await service.GetNextError(scope, statement.Id);
 
                 //Then
                 Assert.Equal(error1.CommissionStatementId, actual.CommissionStatementId);
-                Assert.Equal(error1.IsFormatValid, actual.IsFormatValid);
                 Assert.Equal(error1.PolicyId, actual.PolicyId);
                 Assert.Equal(error1.ClientId, actual.ClientId);
                 Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
                 Assert.Equal(error1.Data, actual.Data);
-            }
-        }
-
-        [Fact]
-        public async Task GetNextError_InvalidFormat()
-        {
-            var options = TestHelper.GetDbContext("GetNextError_InvalidFormat");
-
-            var user1 = TestHelper.InsertUserDetailed(options);
-            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
-
-            var error1 = new CommissionErrorEntity
-            {
-                Id = Guid.NewGuid(),
-                CommissionStatementId = statement.Id,
-                IsFormatValid = true,
-            };
-
-            var error2 = new CommissionErrorEntity
-            {
-                Id = Guid.NewGuid(),
-                CommissionStatementId = statement.Id,
-                IsFormatValid = false
-            };
-
-            using (var context = new DataContext(options))
-            {
-                context.CommissionError.Add(error2);
-                context.CommissionError.Add(error1);
-                context.SaveChanges();
-
-                var service = new CommissionErrorService(context, null, null, null, null, null);
-
-                //When
-                var scope = TestHelper.GetScopeOptions(user1);
-                var actual = await service.GetNextError(scope, statement.Id, false);
-
-                //Then
-                Assert.Equal(error2.Id, actual.Id);
             }
         }
 
@@ -115,7 +81,6 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CommissionStatementId = statement.Id,
-                IsFormatValid = true,
                 PolicyId = Guid.NewGuid(),
                 ClientId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
@@ -124,7 +89,12 @@ namespace OneAdvisor.Service.Test.Commission
 
             var error2 = new CommissionErrorEntity
             {
-                IsFormatValid = false
+                Id = Guid.NewGuid(),
+                CommissionStatementId = statement.Id,
+                PolicyId = Guid.NewGuid(),
+                ClientId = Guid.NewGuid(),
+                CommissionTypeId = Guid.NewGuid(),
+                Data = new ImportCommission()
             };
 
             using (var context = new DataContext(options))
@@ -141,108 +111,9 @@ namespace OneAdvisor.Service.Test.Commission
 
                 //Then
                 Assert.Equal(error1.CommissionStatementId, actual.CommissionStatementId);
-                Assert.Equal(error1.IsFormatValid, actual.IsFormatValid);
                 Assert.Equal(error1.PolicyId, actual.PolicyId);
                 Assert.Equal(error1.ClientId, actual.ClientId);
                 Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
-                Assert.Equal(error1.Data, actual.Data);
-            }
-        }
-
-        [Fact]
-        public async Task ResolveFormatError_Fail()
-        {
-            var options = TestHelper.GetDbContext("ResolveFormatError_Fail");
-
-            var user1 = TestHelper.InsertUserDetailed(options);
-            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
-
-            var ic1 = new ImportCommission
-            {
-                PolicyNumber = "123456",
-                CommissionTypeCode = "gap_cover",
-                AmountIncludingVAT = "abc", //Bad format
-                VAT = "zzz" //Bad format
-            };
-
-            var error1 = new CommissionErrorEdit
-            {
-                CommissionStatementId = statement.Id,
-                IsFormatValid = true,
-                PolicyId = Guid.NewGuid(),
-                ClientId = Guid.NewGuid(),
-                CommissionTypeId = Guid.NewGuid(),
-                Data = ic1
-            };
-
-            using (var context = new DataContext(options))
-            {
-                var service = new CommissionErrorService(context, null, null, null, null, null);
-
-                //When
-                var scope = TestHelper.GetScopeOptions(user1);
-                var result = await service.ResolveFormatError(scope, error1);
-
-                //Then
-                Assert.False(result.Success);
-
-                Assert.Equal(2, result.ValidationFailures.Count);
-                Assert.Equal("'Amount' must be a number", result.ValidationFailures[0].ErrorMessage);
-            }
-        }
-
-        [Fact]
-        public async Task ResolveFormatError_Pass()
-        {
-            var options = TestHelper.GetDbContext("ResolveFormatError_Pass");
-
-            var user1 = TestHelper.InsertUserDetailed(options);
-            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
-
-            var ic1 = new ImportCommission
-            {
-                PolicyNumber = "123456",
-                CommissionTypeCode = "gap_cover",
-                AmountIncludingVAT = "bad",
-                VAT = "33"
-            };
-
-            var err = new CommissionErrorEntity
-            {
-                Id = Guid.NewGuid(),
-                CommissionStatementId = statement.Id,
-                IsFormatValid = false,
-                Data = new ImportCommission()
-            };
-
-            using (var context = new DataContext(options))
-            {
-                context.CommissionError.Add(err);
-                context.SaveChanges();
-
-                ic1.AmountIncludingVAT = "22"; //Fixed
-
-                var error1 = new CommissionErrorEdit
-                {
-                    Id = err.Id,
-                    CommissionStatementId = statement.Id,
-                    IsFormatValid = false,
-                    Data = ic1
-                };
-
-                var commissionService = new CommissionService(context);
-                var service = new CommissionErrorService(context, commissionService, null, null, null, null);
-
-                //When
-                var scope = TestHelper.GetScopeOptions(user1);
-                var result = await service.ResolveFormatError(scope, error1);
-
-                //Then
-                Assert.True(result.Success);
-
-                var actual = context.CommissionError.Find(err.Id);
-
-                Assert.True(actual.IsFormatValid);
                 Assert.Equal(error1.Data, actual.Data);
             }
         }
@@ -261,7 +132,6 @@ namespace OneAdvisor.Service.Test.Commission
                 {
                     Id = Guid.NewGuid(),
                     CommissionStatementId = statement.Id,
-                    IsFormatValid = true,
                     Data = new ImportCommission()
                 };
 
@@ -317,7 +187,6 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CommissionStatementId = statement.Id,
-                IsFormatValid = true,
                 Data = ic1
             };
 
@@ -325,7 +194,6 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CommissionStatementId = statement.Id,
-                IsFormatValid = false,
                 Data = new ImportCommission()
             };
 
@@ -342,7 +210,6 @@ namespace OneAdvisor.Service.Test.Commission
                 {
                     Id = err1.Id,
                     CommissionStatementId = statement.Id,
-                    IsFormatValid = true,
                     PolicyId = policy1.Id,
                     ClientId = policy1.ClientId,
                     CommissionTypeId = Guid.NewGuid(),
@@ -434,7 +301,6 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CommissionStatementId = statement.Id,
-                IsFormatValid = true,
                 Data = ic1
             };
 
@@ -452,7 +318,6 @@ namespace OneAdvisor.Service.Test.Commission
                 {
                     Id = err1.Id,
                     CommissionStatementId = statement.Id,
-                    IsFormatValid = true,
                     PolicyId = policy1.Id,
                     ClientId = policy1.ClientId,
                     CommissionTypeId = Guid.NewGuid(),
@@ -492,97 +357,6 @@ namespace OneAdvisor.Service.Test.Commission
         }
 
         [Fact]
-        public async Task ResolveFormatAndMappingError_Pass()
-        {
-            var options = TestHelper.GetDbContext("ResolveFormatAndMappingError_Pass");
-
-            var user1 = TestHelper.InsertUserDetailed(options);
-            var client1 = TestHelper.InsertClient(options, user1.Organisation);
-
-            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
-
-            var policy1 = new PolicyEntity
-            {
-                Id = Guid.NewGuid(),
-                CompanyId = Guid.NewGuid(),
-                ClientId = client1.Client.Id,
-                UserId = user1.User.Id
-            };
-
-            var ic1 = new ImportCommission
-            {
-                PolicyNumber = "123456",
-                CommissionTypeCode = "gap_cover",
-                AmountIncludingVAT = "aa",
-                VAT = "33"
-            };
-
-            var err1 = new CommissionErrorEntity
-            {
-                Id = Guid.NewGuid(),
-                CommissionStatementId = statement.Id,
-                IsFormatValid = true,
-                Data = ic1
-            };
-
-            using (var context = new DataContext(options))
-            {
-                context.CommissionError.Add(err1);
-
-                context.Policy.Add(policy1);
-
-                context.SaveChanges();
-
-                var ic2 = new ImportCommission
-                {
-                    PolicyNumber = "123456",
-                    CommissionTypeCode = "gap_cover",
-                    AmountIncludingVAT = "55",
-                    VAT = "33"
-                };
-
-                var error1 = new CommissionErrorEdit
-                {
-                    Id = err1.Id,
-                    CommissionStatementId = statement.Id,
-                    IsFormatValid = true,
-                    PolicyId = policy1.Id,
-                    ClientId = policy1.ClientId,
-                    CommissionTypeId = Guid.NewGuid(),
-                    Data = ic2
-                };
-
-                var commissionService = new CommissionService(context);
-                var clientService = new ClientService(context);
-                var policyService = new PolicyService(context);
-                var commissionSplitService = new CommissionSplitService(context);
-                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService);
-                var service = new CommissionErrorService(context, commissionService, clientService, commissionSplitService, policyService, commissionSplitRulePolicyService);
-
-                //When
-                var scope = TestHelper.GetScopeOptions(user1);
-                var result = await service.ResolveFormatError(scope, error1);
-
-                //Then
-                Assert.True(result.Success);
-
-                var actualError = context.CommissionError.FirstOrDefault();
-                Assert.Null(actualError);
-
-                var actual = context.Commission.Single();
-
-                Assert.Equal(error1.PolicyId, actual.PolicyId);
-                Assert.Equal(error1.CommissionStatementId, actual.CommissionStatementId);
-                Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
-                Assert.Equal(55, actual.AmountIncludingVAT);
-                Assert.Equal(33, actual.VAT);
-                Assert.Equal(error1.Data, actual.SourceData);
-
-            }
-        }
-
-
-        [Fact]
         public async Task AutoResolveMappingErrors_4Entries_AutoResolve3()
         {
             var options = TestHelper.GetDbContext("AutoResolveMappingErrors_4Entries_AutoResolve3");
@@ -617,7 +391,6 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 CommissionStatementId = statement.Id,
                 CommissionTypeId = commissionTypeId,
-                IsFormatValid = true,
                 Data = ic1a
             };
             //------------------------------------------
@@ -637,7 +410,6 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 CommissionStatementId = statement.Id,
                 CommissionTypeId = commissionTypeId,
-                IsFormatValid = true,
                 Data = ic1b
             };
             //------------------------------------------
@@ -657,7 +429,6 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 CommissionStatementId = statement.Id,
                 CommissionTypeId = commissionTypeId,
-                IsFormatValid = false,
                 Data = ic2
             };
             //------------------------------------------
@@ -676,7 +447,6 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 CommissionStatementId = statement.Id,
                 CommissionTypeId = commissionTypeId,
-                IsFormatValid = true,
                 Data = ic1c
             };
             //------------------------------------------
@@ -697,7 +467,6 @@ namespace OneAdvisor.Service.Test.Commission
                 {
                     Id = err1a.Id,
                     CommissionStatementId = statement.Id,
-                    IsFormatValid = true,
                     PolicyId = policy1.Id,
                     ClientId = policy1.ClientId,
                     CommissionTypeId = err1a.CommissionTypeId,
@@ -772,7 +541,6 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CommissionStatementId = statement.Id,
-                IsFormatValid = true,
                 PolicyId = Guid.NewGuid(),
                 ClientId = Guid.NewGuid(),
                 CommissionTypeId = commissionType.Id,
@@ -782,8 +550,7 @@ namespace OneAdvisor.Service.Test.Commission
             var error2 = new CommissionErrorEntity
             {
                 Id = Guid.NewGuid(),
-                CommissionStatementId = statement.Id,
-                IsFormatValid = false,
+                CommissionStatementId = Guid.NewGuid(),
                 PolicyId = Guid.NewGuid(),
                 ClientId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
@@ -794,7 +561,6 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CommissionStatementId = statement.Id,
-                IsFormatValid = true,
                 PolicyId = Guid.NewGuid(),
                 ClientId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
@@ -805,7 +571,6 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CommissionStatementId = Guid.NewGuid(),
-                IsFormatValid = true,
                 PolicyId = Guid.NewGuid(),
                 ClientId = Guid.NewGuid(),
                 CommissionTypeId = Guid.NewGuid(),
@@ -824,7 +589,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
-                var queryOptions = new CommissionErrorQueryOptions(scope, "", "", 10, 1, $"commissionStatementId={statement.Id};hasValidFormat=true");
+                var queryOptions = new CommissionErrorQueryOptions(scope, "", "", 10, 1, $"commissionStatementId={statement.Id}");
                 var results = await service.GetErrors(queryOptions);
 
                 //Then
@@ -834,7 +599,6 @@ namespace OneAdvisor.Service.Test.Commission
                 var actual = results.Items.ToList()[0];
                 Assert.Equal(error1.Id, actual.Id);
                 Assert.Equal(error1.CommissionStatementId, actual.CommissionStatementId);
-                Assert.Equal(error1.IsFormatValid, actual.IsFormatValid);
                 Assert.Equal(error1.PolicyId, actual.PolicyId);
                 Assert.Equal(error1.ClientId, actual.ClientId);
                 Assert.Equal(error1.CommissionTypeId, actual.CommissionTypeId);
@@ -875,7 +639,6 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CommissionStatementId = statement1.Id,
-                IsFormatValid = true,
                 PolicyId = policy1.Id,
                 ClientId = client1.Client.Id,
                 CommissionTypeId = Guid.NewGuid(),
@@ -886,7 +649,6 @@ namespace OneAdvisor.Service.Test.Commission
             {
                 Id = Guid.NewGuid(),
                 CommissionStatementId = statement2.Id,
-                IsFormatValid = false,
                 PolicyId = policy2.Id,
                 ClientId = client2.Client.Id,
                 CommissionTypeId = Guid.NewGuid(),

@@ -191,7 +191,6 @@ class StatementList extends Component<Props> {
 
     downloadMappingErrors = () => {
         const filters: CommissionErrorsFilters = {
-            isFormatValid: [true.toString()],
             commissionStatementMonth: [this.props.filterMonth.toString()],
             commissionStatementYear: [this.props.filterYear.toString()],
         };

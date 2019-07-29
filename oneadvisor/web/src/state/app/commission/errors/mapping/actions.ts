@@ -1,8 +1,8 @@
-import { ApiAction, ApiOnSuccess } from '@/app/types';
-import { ValidationResult } from '@/app/validation';
-import { statementsApi } from '@/config/api/commission';
+import { ApiAction, ApiOnSuccess } from "@/app/types";
+import { ValidationResult } from "@/app/validation";
+import { statementsApi } from "@/config/api/commission";
 
-import { CommissionErrorEdit } from '../types';
+import { CommissionErrorEdit } from "../types";
 
 type CommissionErrorReceiveAction = {
     type: "COMMISSIONS_ERROR_MAPPING_RECEIVE";
@@ -38,10 +38,7 @@ export type CommissionMappingErrorAction =
     | CommissionErrorValidationErrorAction
     | CommissionErrorUpdatedAction;
 
-export const fetchMappingError = (
-    statementId: string,
-    commissionErrorId: string
-): ApiAction => ({
+export const fetchMappingError = (statementId: string, commissionErrorId: string): ApiAction => ({
     type: "API",
     endpoint: `${statementsApi}/${statementId}/errors/${commissionErrorId}`,
     dispatchPrefix: "COMMISSIONS_ERROR_MAPPING",
@@ -49,13 +46,11 @@ export const fetchMappingError = (
 
 export const fetchNextMappingError = (statementId: string): ApiAction => ({
     type: "API",
-    endpoint: `${statementsApi}/${statementId}/errors/next?hasValidFormat=true`,
+    endpoint: `${statementsApi}/${statementId}/errors/next`,
     dispatchPrefix: "COMMISSIONS_ERROR_MAPPING",
 });
 
-export const receiveMappingError = (
-    error: CommissionErrorEdit | null
-): CommissionErrorReceiveAction => ({
+export const receiveMappingError = (error: CommissionErrorEdit | null): CommissionErrorReceiveAction => ({
     type: "COMMISSIONS_ERROR_MAPPING_RECEIVE",
     payload: error,
 });
