@@ -240,10 +240,12 @@ class StatementList extends Component<Props> {
                     <Icon type="file-exclamation" />
                     Download Mapping Errors
                 </Menu.Item>
+                {/* 
+                Disabled until we work out how to handle template selection (what if there is more than one template?)
                 <Menu.Item onClick={this.reimportCommissions}>
                     <Icon type="reload" />
                     Reimport Commission Statements
-                </Menu.Item>
+                </Menu.Item> */}
             </Menu>
         );
 

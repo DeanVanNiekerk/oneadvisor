@@ -8,10 +8,8 @@ using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Commission.Interface;
-using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Commission.Validators;
-using System.Collections;
 using System.Collections.Generic;
 using OneAdvisor.Model.Commission.Model.CommissionAllocation;
 
