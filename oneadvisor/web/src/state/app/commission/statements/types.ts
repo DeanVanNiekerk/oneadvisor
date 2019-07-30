@@ -1,4 +1,4 @@
-import { PagedItems } from '@/app/table';
+import { PagedItems } from "@/app/table";
 
 export type Statement = {
     id: string;
@@ -8,7 +8,6 @@ export type Statement = {
     vat: number;
     processed: boolean;
 
-    formatErrorCount: number;
     mappingErrorCount: number;
     commissionCount: number;
 

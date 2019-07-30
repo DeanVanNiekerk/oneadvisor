@@ -109,7 +109,7 @@ namespace api.Controllers.Commission.Import
                 using (var stream = file.OpenReadStream())
                 {
                     var path = new CommissionStatementPath(scope.OrganisationId, commissionStatementId, file.FileName);
-                    var storageName = await FileStorageService.AddFileAsync(path, stream);
+                    await FileStorageService.AddFileAsync(path, stream).ConfigureAwait(false);
                 }
             }
 
@@ -118,7 +118,7 @@ namespace api.Controllers.Commission.Import
 
         [HttpPost("excel/{commissionStatementId}/reimport")]
         [UseCaseAuthorize("com_import_commissions")]
-        public async Task<IActionResult> Reimport(Guid commissionStatementId)
+        public async Task<IActionResult> Reimport(Guid commissionStatementId, [FromQuery] Guid commissionStatementTemplateId)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -139,10 +139,10 @@ namespace api.Controllers.Commission.Import
 
             var templates = (await CommissionStatementTemplateService.GetTemplates(queryOptions)).Items;
 
-            if (!templates.Any())
-                return this.BadRequestMessage("Reimport failed as there are no valid templates.");
+            if (!templates.Any(t => t.Id == commissionStatementTemplateId))
+                return this.BadRequestMessage("Reimport failed as the commissionStatementTemplateId is not valid.");
 
-            var template = await CommissionStatementTemplateService.GetTemplate(templates.First().Id);
+            var template = await CommissionStatementTemplateService.GetTemplate(commissionStatementTemplateId);
 
             await CommissionStatementService.DeleteCommissions(scope, commissionStatementId);
 
@@ -162,17 +162,29 @@ namespace api.Controllers.Commission.Import
                     if (result.UnknownCommissionTypeValues.Any())
                     {
                         stream.Position = 0;
-                        var attachment = GetEmailAttachmentFromCloud(fileInfo, stream);
-                        //Dont hold up the thread whilst sending the email
-                        await SendUnkownCommissionTypesEmail(result, scope, commissionStatementId, template, attachment).ConfigureAwait(false);
+                        using (var copy = new MemoryStream())
+                        {
+                            await stream.CopyToAsync(copy);
+                            copy.Position = 0;
+
+                            var attachment = GetEmailAttachmentFromCloud(fileInfo, copy);
+                            //Dont hold up the thread whilst sending the email
+                            await SendUnkownCommissionTypesEmail(result, scope, commissionStatementId, template, attachment).ConfigureAwait(false);
+                        }
                     }
 
                     if (!result.Results.Any(r => r.Success))
                     {
                         stream.Position = 0;
-                        var attachment = GetEmailAttachmentFromCloud(fileInfo, stream);
-                        //Dont hold up the thread whilst sending the email
-                        await SendZeroEntriesEmail(scope, commissionStatementId, template, attachment).ConfigureAwait(false);
+                        using (var copy = new MemoryStream())
+                        {
+                            await stream.CopyToAsync(copy);
+                            copy.Position = 0;
+
+                            var attachment = GetEmailAttachmentFromCloud(fileInfo, copy);
+                            //Dont hold up the thread whilst sending the email
+                            await SendZeroEntriesEmail(scope, commissionStatementId, template, attachment).ConfigureAwait(false);
+                        }
                     }
                 }
             }
@@ -180,25 +192,25 @@ namespace api.Controllers.Commission.Import
             return Ok(result);
         }
 
-        [HttpPost("excel/reimport")]
-        [UseCaseAuthorize("com_import_commissions")]
-        public async Task<IActionResult> ReimportBulk([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
-        {
-            var scope = AuthenticationService.GetScope(User);
+        // [HttpPost("excel/reimport")]
+        // [UseCaseAuthorize("com_import_commissions")]
+        // public async Task<IActionResult> ReimportBulk([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
+        // {
+        //     var scope = AuthenticationService.GetScope(User);
 
-            var queryOptions = new CommissionStatementQueryOptions(scope, "", "", 0, 0);
-            queryOptions.StartDate = startDate;
-            queryOptions.EndDate = endDate;
-            var pagedItems = await CommissionStatementService.GetCommissionStatements(queryOptions);
+        //     var queryOptions = new CommissionStatementQueryOptions(scope, "", "", 0, 0);
+        //     queryOptions.StartDate = startDate;
+        //     queryOptions.EndDate = endDate;
+        //     var pagedItems = await CommissionStatementService.GetCommissionStatements(queryOptions);
 
-            var results = new List<IActionResult>();
-            foreach (var statement in pagedItems.Items)
-            {
-                results.Add(await Reimport(statement.Id));
-            }
+        //     var results = new List<IActionResult>();
+        //     foreach (var statement in pagedItems.Items)
+        //     {
+        //         results.Add(await Reimport(statement.Id));
+        //     }
 
-            return Ok(results);
-        }
+        //     return Ok(results);
+        // }
 
         private async Task SendUnkownCommissionTypesEmail(
             ImportResult result,

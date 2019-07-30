@@ -9,7 +9,7 @@ import { DATE_FORMAT } from "@/app/utils";
 import { CommissionErrorsFilters } from "@/state/app/commission/errors";
 import { downloadCommissionErrors, getCommissionErrors } from "@/state/app/commission/errors/list/actions";
 import {
-    deleteCommissions, fetchStatement, fetchStatementPreview, reimportCommissions, Statement, statementPreviewSelector
+    deleteCommissions, fetchStatement, fetchStatementPreview, Statement, statementPreviewSelector
 } from "@/state/app/commission/statements";
 import { companiesSelector, Company } from "@/state/app/directory/lookups";
 import { useCaseSelector } from "@/state/auth";
@@ -24,6 +24,7 @@ import CommissionList from "../commission/CommissionList";
 import ErrorList from "../error/list/ErrorList";
 import EditStatement from "./EditStatement";
 import { Processed } from "./Processed";
+import ReimportStatement from "./ReimportStatement";
 import { StatementPreviewErrorCount } from "./StatementPreviewErrorCount";
 import UploadStatement from "./UploadStatement";
 
@@ -42,7 +43,7 @@ type State = {
     uploadStatementVisible: boolean;
     errorListVisible: boolean;
     deletingCommissionEntries: boolean;
-    reimportingCommissionEntries: boolean;
+    reimportStatementVisible: boolean;
 };
 
 class StatementPreviewComponent extends Component<Props, State> {
@@ -54,7 +55,7 @@ class StatementPreviewComponent extends Component<Props, State> {
             uploadStatementVisible: false,
             errorListVisible: false,
             deletingCommissionEntries: false,
-            reimportingCommissionEntries: false,
+            reimportStatementVisible: false,
         };
     }
 
@@ -71,6 +72,12 @@ class StatementPreviewComponent extends Component<Props, State> {
     toggleUploadStatementVisible = () => {
         this.setState({
             uploadStatementVisible: !this.state.uploadStatementVisible,
+        });
+    };
+
+    toggleReimportStatementVisible = () => {
+        this.setState({
+            reimportStatementVisible: !this.state.reimportStatementVisible,
         });
     };
 
@@ -102,7 +109,7 @@ class StatementPreviewComponent extends Component<Props, State> {
             content:
                 "All commission entries including any errors will be permanenty deleted, are you sure you wish to continue?",
             onOk: () => {
-                showMessage("loading", "Deleting commission entries", 5);
+                showMessage("loading", "Deleting commission entries", 60);
                 this.setState({ deletingCommissionEntries: true });
                 this.props.dispatch(
                     deleteCommissions(
@@ -117,34 +124,6 @@ class StatementPreviewComponent extends Component<Props, State> {
                         () => {
                             this.setState({ deletingCommissionEntries: false });
                             showMessage("error", "Error deleting commission entries", 5, true);
-                        }
-                    )
-                );
-            },
-        });
-    };
-
-    reimportCommissions = () => {
-        confirm({
-            title: "Are you sure you want to reimport all commission entries?",
-            content:
-                "All existing commission entries including any errors will be deleted before import, are you sure you wish to continue?",
-            onOk: () => {
-                showMessage("loading", "Reimporting commission entries", 5);
-                this.setState({ reimportingCommissionEntries: true });
-                this.props.dispatch(
-                    reimportCommissions(
-                        this.getCommissionStatementId(),
-                        //Success
-                        () => {
-                            this.setState({ reimportingCommissionEntries: false });
-                            showMessage("success", "Commission entries successfully imported", 5, true);
-                            this.load();
-                        },
-                        //Failure
-                        () => {
-                            this.setState({ reimportingCommissionEntries: false });
-                            showMessage("error", "Error importing commission entries", 5, true);
                         }
                     )
                 );
@@ -183,15 +162,17 @@ class StatementPreviewComponent extends Component<Props, State> {
             <Icon tooltip="Upload Commission Statement" type="upload" onClick={this.toggleUploadStatementVisible} />,
         ];
 
-        if (this.props.statement && this.props.statement.commissionCount > 0)
+        if (
+            this.props.statement &&
+            (this.props.statement.commissionCount > 0 || this.props.statement.mappingErrorCount > 0)
+        )
             actions.unshift(
                 <Icon
                     tooltip="Reimport Commission Statement File"
-                    type={this.state.reimportingCommissionEntries ? "loading-3-quarters" : "reload"}
-                    spin={this.state.reimportingCommissionEntries}
+                    type="reload"
                     className="text-primary"
                     onClick={event => {
-                        this.reimportCommissions();
+                        this.toggleReimportStatementVisible();
                         event.stopPropagation();
                     }}
                 />
@@ -364,6 +345,28 @@ class StatementPreviewComponent extends Component<Props, State> {
                             onSuccess={() => {
                                 this.load();
                                 this.toggleUploadStatementVisible();
+                            }}
+                        />
+                    )}
+
+                    <DrawerFooter>
+                        <Button onClick={this.toggleUploadStatementVisible}>Close</Button>
+                    </DrawerFooter>
+                </Drawer>
+
+                <Drawer
+                    title="Reimport Statement"
+                    icon="file-excel"
+                    visible={this.state.reimportStatementVisible}
+                    onClose={this.toggleReimportStatementVisible}
+                >
+                    {statement && (
+                        <ReimportStatement
+                            statement={statement}
+                            companyId={statement.companyId}
+                            onSuccess={() => {
+                                this.load();
+                                this.toggleReimportStatementVisible();
                             }}
                         />
                     )}

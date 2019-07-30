@@ -27,22 +27,21 @@ namespace OneAdvisor.Import.Excel.Readers
             var groupLoader = new CommissionGroupLoader();
             var sheetGroups = groupLoader.Load(_config, stream);
 
-            using (var reader = ExcelReaderFactory.CreateReader(stream))
+            var reader = ExcelReaderFactory.CreateReader(stream);
+
+            var sheetNumber = 0;
+
+            do
             {
-                var sheetNumber = 0;
+                //Increment the sheet number
+                sheetNumber++;
 
-                do
-                {
-                    //Increment the sheet number
-                    sheetNumber++;
+                var sheet = _config.Sheets.FirstOrDefault(s => s.Position == sheetNumber);
+                if (sheet != null)
+                    foreach (var commission in Read(reader, sheet, sheetGroups.FirstOrDefault(s => s.SheetNumber == sheetNumber)))
+                        yield return commission;
 
-                    var sheet = _config.Sheets.FirstOrDefault(s => s.Position == sheetNumber);
-                    if (sheet != null)
-                        foreach (var commission in Read(reader, sheet, sheetGroups.FirstOrDefault(s => s.SheetNumber == sheetNumber)))
-                            yield return commission;
-
-                } while (reader.NextResult());
-            }
+            } while (reader.NextResult());
         }
 
         private IEnumerable<ImportCommission> Read(IExcelDataReader reader, Sheet sheet, SheetGroups sheetGroups)

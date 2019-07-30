@@ -1,8 +1,8 @@
-import { ApiAction, ApiOnFailure, ApiOnSuccess } from '@/app/types';
-import { ValidationResult } from '@/app/validation';
-import { commissionsImportApi, statementsApi } from '@/config/api/commission';
+import { ApiAction, ApiOnFailure, ApiOnSuccess } from "@/app/types";
+import { ValidationResult } from "@/app/validation";
+import { commissionsImportApi, statementsApi } from "@/config/api/commission";
 
-import { StatementEdit } from '../types';
+import { StatementEdit } from "../types";
 
 type StatementReceiveAction = {
     type: "STATEMENTS_STATEMENT_RECEIVE";
@@ -77,11 +77,12 @@ export const deleteCommissions = (
 
 export const reimportCommissions = (
     commissionStatementId: string,
+    commissionStatementTemplateId: string,
     onSuccess: ApiOnSuccess,
     onFailure: ApiOnFailure
 ): ApiAction => ({
     type: "API",
-    endpoint: `${commissionsImportApi}/${commissionStatementId}/reimport`,
+    endpoint: `${commissionsImportApi}/${commissionStatementId}/reimport?commissionStatementTemplateId=${commissionStatementTemplateId}`,
     method: "POST",
     onSuccess: onSuccess,
     onFailure: onFailure,

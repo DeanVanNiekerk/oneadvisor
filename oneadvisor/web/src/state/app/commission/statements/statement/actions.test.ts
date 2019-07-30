@@ -1,7 +1,7 @@
-import { statementsApi } from '@/config/api/commission';
+import { statementsApi } from "@/config/api/commission";
 
-import { StatementEdit } from '../';
-import * as actions from './actions';
+import { StatementEdit } from "../";
+import * as actions from "./actions";
 
 describe("statement actions", () => {
     it("should dispatch API when fetchStatement is called", () => {
@@ -38,7 +38,7 @@ describe("statement actions", () => {
         expect(actions.updateStatement(statement, onSuccess)).toEqual(expectedAction);
     });
 
-    it("should dispatch API when deleteContact is called", () => {
+    it("should dispatch API when deleteCommissions is called", () => {
         const onSuccess = () => {};
         const onFailure = () => {};
 

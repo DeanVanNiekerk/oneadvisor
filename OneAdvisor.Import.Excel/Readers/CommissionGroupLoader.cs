@@ -20,6 +20,7 @@ namespace OneAdvisor.Import.Excel.Readers
                 return sheetGroups;
 
             var reader = ExcelReaderFactory.CreateReader(stream);
+
             var sheetNumber = 0;
 
             do
