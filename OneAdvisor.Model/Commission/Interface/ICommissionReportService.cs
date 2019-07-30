@@ -13,5 +13,6 @@ namespace OneAdvisor.Model.Commission.Interface
         Task<PagedItems<ClientRevenueData>> GetClientRevenueData(ClientRevenueQueryOptions options);
         Task<IEnumerable<UserEarningsTypeMonthlyCommissionData>> GetUserEarningsTypeMonthlyCommissionData(UserEarningsTypeMonthlyCommissionQueryOptions queryOptions);
         Task<IEnumerable<UserCompanyMonthlyCommissionData>> GetUserCompanyMonthlyCommissionData(UserCompanyMonthlyCommissionQueryOptions queryOptions);
+        Task<IEnumerable<PastRevenueCommissionData>> GetPastRevenueCommissionData(PastRevenueCommissionQueryOptions queryOptions);
     }
 }

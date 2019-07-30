@@ -643,5 +643,221 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(900, actual.AmountExcludingVAT); //200 + 300 + 400
             }
         }
+
+        [Fact]
+        public async Task GetPastRevenueCommissionData_Basic()
+        {
+            var options = TestHelper.GetDbContext("GetPastRevenueCommissionData_Basic");
+
+            TestHelper.InsertCommissionEarningsTypes(options);
+
+            var comTypeMonth = TestHelper.InsertCommissionType(options, Guid.NewGuid(), CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY);
+            var comTypeAnnual = TestHelper.InsertCommissionType(options, Guid.NewGuid(), CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY);
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var user2 = TestHelper.InsertUserDetailed(options, user1.Organisation);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
+            var client2 = TestHelper.InsertClient(options, user1.Organisation);
+
+            var policyTypeId1 = Guid.NewGuid();
+            var policyTypeId2 = Guid.NewGuid();
+
+            var statement1 = TestHelper.InsertCommissionStatement(options, user1.Organisation);
+            var statement2 = TestHelper.InsertCommissionStatement(options, user1.Organisation);
+            var statement4 = TestHelper.InsertCommissionStatement(options, user1.Organisation, statement1.CompanyId, statement1.Date.AddMonths(-1));
+
+            var user3 = TestHelper.InsertUserDetailed(options);
+            var client3 = TestHelper.InsertClient(options, user3.Organisation);
+            var statement3 = TestHelper.InsertCommissionStatement(options, user3.Organisation);
+
+            var usr1_policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                Number = Guid.NewGuid().ToString(),
+                CompanyId = statement1.CompanyId,
+                ClientId = client1.Client.Id,
+                UserId = user1.User.Id,
+                PolicyTypeId = policyTypeId1,
+            };
+
+            var usr2_policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = statement1.CompanyId,
+                ClientId = client2.Client.Id,
+                UserId = user2.User.Id,
+                PolicyTypeId = policyTypeId1,
+            };
+
+            var usr2_policy2 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = statement1.CompanyId,
+                ClientId = client2.Client.Id,
+                UserId = user2.User.Id,
+                PolicyTypeId = policyTypeId2,
+            };
+
+            var usr3_policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = statement3.CompanyId,
+                ClientId = client3.Client.Id,
+                UserId = user3.User.Id,
+                PolicyTypeId = policyTypeId1,
+            };
+
+            //Given
+            var usr1_policy1_comm1 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = usr1_policy1.Id,
+                UserId = user1.User.Id,
+                CommissionTypeId = comTypeMonth.Id,
+                AmountIncludingVAT = 110,
+                VAT = 10,
+                CommissionStatementId = statement1.Id
+            };
+
+            var usr2_policy1_comm1 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = usr2_policy1.Id,
+                UserId = user2.User.Id,
+                CommissionTypeId = comTypeMonth.Id,
+                AmountIncludingVAT = 220,
+                VAT = 20,
+                CommissionStatementId = statement1.Id
+            };
+
+            var usr2_policy1_comm2 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = usr2_policy1.Id,
+                UserId = user2.User.Id,
+                CommissionTypeId = comTypeMonth.Id,
+                AmountIncludingVAT = 330,
+                VAT = 30,
+                CommissionStatementId = statement1.Id
+            };
+
+            var usr2_policy1_comm3 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = usr2_policy1.Id,
+                UserId = user2.User.Id,
+                CommissionTypeId = comTypeAnnual.Id,
+                AmountIncludingVAT = 440,
+                VAT = 40,
+                CommissionStatementId = statement1.Id
+            };
+
+            var usr2_policy1_comm4 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = usr2_policy1.Id,
+                UserId = user2.User.Id,
+                CommissionTypeId = comTypeAnnual.Id,
+                AmountIncludingVAT = 660,
+                VAT = 60,
+                CommissionStatementId = statement4.Id
+            };
+
+            var usr2_policy2_comm5 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = usr2_policy2.Id,
+                UserId = user2.User.Id,
+                CommissionTypeId = comTypeAnnual.Id,
+                AmountIncludingVAT = 770,
+                VAT = 70,
+                CommissionStatementId = statement4.Id
+            };
+
+            var usr3_policy1_comm1 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = usr3_policy1.Id,
+                UserId = user3.User.Id,
+                CommissionTypeId = comTypeMonth.Id,
+                AmountIncludingVAT = 550,
+                VAT = 50,
+                CommissionStatementId = statement3.Id
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Policy.Add(usr1_policy1);
+                context.Policy.Add(usr2_policy1);
+                context.Policy.Add(usr3_policy1);
+                context.Policy.Add(usr2_policy2);
+
+                context.Commission.Add(usr1_policy1_comm1);
+                context.Commission.Add(usr2_policy1_comm1);
+                context.Commission.Add(usr2_policy1_comm2);
+                context.Commission.Add(usr2_policy1_comm3);
+                context.Commission.Add(usr3_policy1_comm1);
+                context.Commission.Add(usr2_policy1_comm4);
+                context.Commission.Add(usr2_policy2_comm5);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new CommissionReportService(context);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1);
+                var queryOptions = new PastRevenueCommissionQueryOptions(scope, "", "", 0, 0);
+                var items = (await service.GetPastRevenueCommissionData(queryOptions)).ToList();
+
+                //Then
+                Assert.Equal(4, items.Count());
+
+                var actual = items[0];
+                Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
+                Assert.Equal(statement1.CompanyId, actual.CompanyId);
+                Assert.Equal(policyTypeId1, actual.PolicyTypeId);
+                Assert.Equal(statement1.DateYear, actual.DateYear);
+                Assert.Equal(statement1.DateMonth, actual.DateMonth);
+                Assert.Equal(600, actual.AmountExcludingVAT); //100 + 200 + 300
+
+                actual = items[1];
+                Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY, actual.CommissionEarningsTypeId);
+                Assert.Equal(statement1.CompanyId, actual.CompanyId);
+                Assert.Equal(policyTypeId1, actual.PolicyTypeId);
+                Assert.Equal(statement1.DateYear, actual.DateYear);
+                Assert.Equal(statement1.DateMonth, actual.DateMonth);
+                Assert.Equal(400, actual.AmountExcludingVAT);
+
+                actual = items[2];
+                Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY, actual.CommissionEarningsTypeId);
+                Assert.Equal(statement4.CompanyId, actual.CompanyId);
+                Assert.Equal(policyTypeId1, actual.PolicyTypeId);
+                Assert.Equal(statement4.DateYear, actual.DateYear);
+                Assert.Equal(statement4.DateMonth, actual.DateMonth);
+                Assert.Equal(600, actual.AmountExcludingVAT);
+
+                actual = items[3];
+                Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_ANNUAL_ANNUITY, actual.CommissionEarningsTypeId);
+                Assert.Equal(statement4.CompanyId, actual.CompanyId);
+                Assert.Equal(policyTypeId2, actual.PolicyTypeId);
+                Assert.Equal(statement4.DateYear, actual.DateYear);
+                Assert.Equal(statement4.DateMonth, actual.DateMonth);
+                Assert.Equal(700, actual.AmountExcludingVAT);
+
+                //Check scope
+                scope = TestHelper.GetScopeOptions(user3);
+                queryOptions = new PastRevenueCommissionQueryOptions(scope, "", "", 0, 0);
+                items = (await service.GetPastRevenueCommissionData(queryOptions)).ToList();
+
+                Assert.Single(items);
+
+                actual = items[0];
+                Assert.Equal(CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, actual.CommissionEarningsTypeId);
+                Assert.Equal(500, actual.AmountExcludingVAT);
+            }
+        }
     }
 }

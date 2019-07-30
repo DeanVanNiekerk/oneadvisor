@@ -15,3 +15,7 @@ export { listSelector as userCompanyMonthlyCommissionSelector } from "./userComp
 export * from "./userMonthlyCommission/actions";
 export * from "./userMonthlyCommission/selectors";
 export * from "./userMonthlyCommission/types";
+
+export * from "./projections/actions";
+export { listSelector as commissionProjectionsSelector } from "./projections/selectors";
+export * from "./projections/types";

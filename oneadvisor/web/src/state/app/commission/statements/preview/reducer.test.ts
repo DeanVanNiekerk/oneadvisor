@@ -1,5 +1,5 @@
-import { Statement } from '../';
-import { defaultState, reducer } from './reducer';
+import { Statement } from "../";
+import { defaultState, reducer } from "./reducer";
 
 const defaultStatement: Statement = {
     id: "10",
@@ -8,7 +8,6 @@ const defaultStatement: Statement = {
     amountIncludingVAT: 100,
     vat: 14,
     date: "2001-01-01",
-    formatErrorCount: 1,
     mappingErrorCount: 2,
     actualAmountIncludingVAT: 200,
     actualVAT: 16,

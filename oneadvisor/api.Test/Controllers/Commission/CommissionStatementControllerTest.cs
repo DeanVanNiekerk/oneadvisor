@@ -29,7 +29,6 @@ namespace api.Test.Controllers.Commission
             Assert.True(typeof(CommissionStatement).HasProperty("CompanyId"));
             Assert.True(typeof(CommissionStatement).HasProperty("CompanyName"));
             Assert.True(typeof(CommissionStatement).HasProperty("Date"));
-            Assert.True(typeof(CommissionStatement).HasProperty("FormatErrorCount"));
             Assert.True(typeof(CommissionStatement).HasProperty("MappingErrorCount"));
             Assert.True(typeof(CommissionStatement).HasProperty("Processed"));
         }
@@ -70,7 +69,6 @@ namespace api.Test.Controllers.Commission
                 CompanyId = Guid.NewGuid(),
                 CompanyName = "Comp 1",
                 Date = DateTime.Now,
-                FormatErrorCount = 200,
                 MappingErrorCount = 100,
                 Processed = true
             };

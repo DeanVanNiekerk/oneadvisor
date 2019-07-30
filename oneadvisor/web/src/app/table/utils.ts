@@ -6,7 +6,7 @@ import { getColumnSearchProps } from "@/ui/controls";
 
 import { formatCurrency } from "../utils";
 
-export const getColumnDefinition = <T>(externalDataSource: boolean = false, filters: Filters | null = null) => {
+export const getColumnDefinition = <T = any>(externalDataSource: boolean = false, filters: Filters | null = null) => {
     return (key: keyof T | "", title: string, options: ColumnOptions = {}, columnProps: ColumnProps<T> = {}) => {
         options = {
             externalDataSource: externalDataSource,

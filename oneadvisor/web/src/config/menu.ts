@@ -1,6 +1,6 @@
-import { Menus } from '@/state/context/types';
+import { Menus } from "@/state/context/types";
 
-import { CLIENT_ID, COMMISSION_ID, DIRECTORY_ID } from './application';
+import { CLIENT_ID, COMMISSION_ID, DIRECTORY_ID } from "./application";
 
 export const menus: Menus = {
     [DIRECTORY_ID]: {
@@ -174,6 +174,12 @@ export const menus: Menus = {
                         icon: "pie-chart",
                         relativePath: "/reports/userMonthlyCommission",
                         useCases: ["com_view_report_user_monthly_commission"],
+                    },
+                    {
+                        name: "Projections",
+                        icon: "history",
+                        relativePath: "/reports/projections",
+                        useCases: ["com_view_report_past_revenue_commission"],
                     },
                 ],
             },

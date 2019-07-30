@@ -11,7 +11,6 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatement
         public DateTime Date { get; set; }
         public bool Processed { get; set; }
 
-        public int FormatErrorCount { get; set; }
         public int MappingErrorCount { get; set; }
         public int CommissionCount { get; set; }
 

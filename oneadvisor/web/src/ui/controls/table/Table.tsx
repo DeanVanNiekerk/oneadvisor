@@ -1,13 +1,13 @@
-import { Table as TableAD } from 'antd';
-import { ColumnProps, PaginationConfig, TableRowSelection } from 'antd/lib/table';
-import * as React from 'react';
-import { connect } from 'react-redux';
+import { Table as TableAD } from "antd";
+import { ColumnProps, PaginationConfig, TableRowSelection } from "antd/lib/table";
+import * as React from "react";
+import { connect } from "react-redux";
 
-import { hasUseCase } from '@/app/identity';
-import { Filters, PageOptions, SortOptions } from '@/app/table';
-import { defaultPageOptions } from '@/app/table/defaults';
-import { useCaseSelector } from '@/state/auth';
-import { RootState } from '@/state/rootReducer';
+import { hasUseCase } from "@/app/identity";
+import { Filters, PageOptions, SortOptions } from "@/app/table";
+import { defaultPageOptions } from "@/app/table/defaults";
+import { useCaseSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
 
 type Props<T> = {
     columns: ColumnProps<T>[];
@@ -120,7 +120,7 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-function getTable<T>() {
+function getTable<T = any>() {
     return connect(mapStateToProps)(TableComponent as new (props: Props<T>) => TableComponent<T>);
 }
 

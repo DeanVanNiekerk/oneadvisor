@@ -428,5 +428,72 @@ namespace OneAdvisor.Service.Commission
 
             return await groupQuery.ToListAsync();
         }
+
+        public async Task<IEnumerable<PastRevenueCommissionData>> GetPastRevenueCommissionData(PastRevenueCommissionQueryOptions queryOptions)
+        {
+            var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
+
+            var query = from statement in _context.CommissionStatement
+                        join commission in _context.Commission
+                            on statement.Id equals commission.CommissionStatementId
+                        join commissionType in _context.CommissionType
+                            on commission.CommissionTypeId equals commissionType.Id
+                        join policy in _context.Policy
+                            on commission.PolicyId equals policy.Id
+                        join user in userQuery
+                            on commission.UserId equals user.Id
+                        select new
+                        {
+                            UserId = user.Id,
+                            BranchId = user.BranchId,
+                            Date = statement.Date,
+                            DateYear = statement.DateYear,
+                            DateMonth = statement.DateMonth,
+                            CompanyId = policy.CompanyId,
+                            CommissionEarningsTypeId = commissionType.CommissionEarningsTypeId,
+                            PolicyTypeId = policy.PolicyTypeId,
+                            AmountIncludingVAT = commission.AmountIncludingVAT,
+                            VAT = commission.VAT
+                        };
+
+            //Apply filters ----------------------------------------------------------------------------------------
+            if (queryOptions.BranchId.Any())
+                query = query.Where(d => queryOptions.BranchId.Contains(d.BranchId));
+
+            if (queryOptions.CompanyId.Any())
+                query = query.Where(d => queryOptions.CompanyId.Contains(d.CompanyId));
+
+            if (queryOptions.UserId.Any())
+                query = query.Where(d => queryOptions.UserId.Contains(d.UserId));
+
+            if (queryOptions.CommissionEarningsTypeId.Any())
+                query = query.Where(d => queryOptions.CommissionEarningsTypeId.Contains(d.CommissionEarningsTypeId));
+
+            if (queryOptions.PolicyTypeId.Any())
+                query = query.Where(d => queryOptions.PolicyTypeId.Contains(d.PolicyTypeId.Value));
+
+            if (queryOptions.StartDate.HasValue)
+                query = query.Where(d => queryOptions.StartDate.Value.Date <= d.Date);
+
+            if (queryOptions.EndDate.HasValue)
+                query = query.Where(d => queryOptions.EndDate.Value.Date >= d.Date);
+            //------------------------------------------------------------------------------------------------------
+
+            var groupQuery = from data in query
+                             group new { data.AmountIncludingVAT, data.VAT } by new { data.CompanyId, data.PolicyTypeId, data.CommissionEarningsTypeId, data.DateYear, data.DateMonth } into g
+                             select new PastRevenueCommissionData()
+                             {
+                                 CompanyId = g.Key.CompanyId,
+                                 PolicyTypeId = g.Key.PolicyTypeId,
+                                 CommissionEarningsTypeId = g.Key.CommissionEarningsTypeId,
+                                 DateYear = g.Key.DateYear,
+                                 DateMonth = g.Key.DateMonth,
+                                 AmountExcludingVAT = g.Sum(c => (c.AmountIncludingVAT - c.VAT)),
+                             };
+
+            groupQuery = groupQuery.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
+
+            return await groupQuery.ToListAsync();
+        }
     }
 }

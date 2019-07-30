@@ -1,32 +1,33 @@
-import React from 'react';
-import { Route, Switch } from 'react-router';
+import React from "react";
+import { Route, Switch } from "react-router";
 
-import Activate from '@/ui/account/Activate';
-import ResetPassword from '@/ui/account/ResetPassword';
-import ResetPasswordRequest from '@/ui/account/ResetPasswordRequest';
-import SignIn from '@/ui/account/SignIn';
-import ClientList from '@/ui/app/client/client/ClientList';
-import ClientPreview from '@/ui/app/client/client/ClientPreview';
-import ClientExport from '@/ui/app/client/export/ClientExport';
-import ClientImport from '@/ui/app/client/import/ClientImport';
-import PolicyProductList from '@/ui/app/client/lookup/policyProduct/PolicyProductList';
-import PolicyProductTypeList from '@/ui/app/client/lookup/policyProductType/PolicyProductTypeList';
-import PolicyList from '@/ui/app/client/policy/PolicyList';
-import CommissionList from '@/ui/app/commission/commission/CommissionList';
-import CommissionTypeList from '@/ui/app/commission/lookup/commissionType/CommissionTypeList';
-import ClientRevenueReport from '@/ui/app/commission/reports/clientRevenue/ClientRevenueReport';
-import UserMonthlyCommissionReport from '@/ui/app/commission/reports/userMonthlyCommission/UserMonthlyCommissionReport';
-import SplitRulePolicyList from '@/ui/app/commission/splitRulePolicy/SplitRulePolicyList';
-import StatementList from '@/ui/app/commission/statement/StatementList';
-import StatementPreview from '@/ui/app/commission/statement/StatementPreview';
-import CommissionStatementTemplateList from '@/ui/app/commission/template/TemplateList';
-import AuditLogList from '@/ui/app/directory/audit/logs/AuditLogList';
-import CompanyList from '@/ui/app/directory/lookup/company/CompanyList';
-import OrganisationList from '@/ui/app/directory/organisation/OrganisationList';
-import RoleList from '@/ui/app/directory/role/RoleList';
-import UserList from '@/ui/app/directory/user/UserList';
+import Activate from "@/ui/account/Activate";
+import ResetPassword from "@/ui/account/ResetPassword";
+import ResetPasswordRequest from "@/ui/account/ResetPasswordRequest";
+import SignIn from "@/ui/account/SignIn";
+import ClientList from "@/ui/app/client/client/ClientList";
+import ClientPreview from "@/ui/app/client/client/ClientPreview";
+import ClientExport from "@/ui/app/client/export/ClientExport";
+import ClientImport from "@/ui/app/client/import/ClientImport";
+import PolicyProductList from "@/ui/app/client/lookup/policyProduct/PolicyProductList";
+import PolicyProductTypeList from "@/ui/app/client/lookup/policyProductType/PolicyProductTypeList";
+import PolicyList from "@/ui/app/client/policy/PolicyList";
+import CommissionList from "@/ui/app/commission/commission/CommissionList";
+import CommissionTypeList from "@/ui/app/commission/lookup/commissionType/CommissionTypeList";
+import ClientRevenueReport from "@/ui/app/commission/reports/clientRevenue/ClientRevenueReport";
+import ProjectionsReport from "@/ui/app/commission/reports/projections/ProjectionsReport";
+import UserMonthlyCommissionReport from "@/ui/app/commission/reports/userMonthlyCommission/UserMonthlyCommissionReport";
+import SplitRulePolicyList from "@/ui/app/commission/splitRulePolicy/SplitRulePolicyList";
+import StatementList from "@/ui/app/commission/statement/StatementList";
+import StatementPreview from "@/ui/app/commission/statement/StatementPreview";
+import CommissionStatementTemplateList from "@/ui/app/commission/template/TemplateList";
+import AuditLogList from "@/ui/app/directory/audit/logs/AuditLogList";
+import CompanyList from "@/ui/app/directory/lookup/company/CompanyList";
+import OrganisationList from "@/ui/app/directory/organisation/OrganisationList";
+import RoleList from "@/ui/app/directory/role/RoleList";
+import UserList from "@/ui/app/directory/user/UserList";
 
-import SecureRoute from '../SecureRoute';
+import SecureRoute from "../SecureRoute";
 
 const Routes = () => (
     <Switch>
@@ -56,6 +57,7 @@ const Routes = () => (
         <SecureRoute exact path="/commission/commissionSplitRulePolicies" component={SplitRulePolicyList} />
         <SecureRoute exact path="/commission/reports/revenueClient" component={ClientRevenueReport} />
         <SecureRoute exact path="/commission/reports/userMonthlyCommission" component={UserMonthlyCommissionReport} />
+        <SecureRoute exact path="/commission/reports/projections" component={ProjectionsReport} />
         <SecureRoute exact path="/commission/lookups/commTypes" component={CommissionTypeList} />
         {/* ------------------------------------------------------------------------------------- */}
         {/* DIRECTORY --------------------------------------------------------------------------- */}

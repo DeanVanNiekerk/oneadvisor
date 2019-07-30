@@ -1,7 +1,7 @@
-import { Filters, SortOptions } from '@/app/table';
+import { Filters, SortOptions } from "@/app/table";
 
-import { Statement } from '../';
-import { defaultState, reducer } from './reducer';
+import { Statement } from "../";
+import { defaultState, reducer } from "./reducer";
 
 describe("statement list reducer", () => {
     it("should handle STATEMENTS_LIST_FETCHING", () => {
@@ -49,7 +49,6 @@ describe("statement list reducer", () => {
             amountIncludingVAT: 100,
             vat: 14,
             date: "2001-01-01",
-            formatErrorCount: 1,
             mappingErrorCount: 2,
             actualAmountIncludingVAT: 200,
             actualVAT: 16,

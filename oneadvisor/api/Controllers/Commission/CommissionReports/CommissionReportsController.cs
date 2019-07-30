@@ -67,5 +67,18 @@ namespace api.Controllers.Commission.Commissions
 
             return Ok(data);
         }
+
+        [HttpGet("pastRevenueCommissionData")]
+        [UseCaseAuthorize("com_view_report_past_revenue_commission")]
+        public async Task<IActionResult> GetPastRevenueCommissionData(string sortColumn = "AmountExcludingVAT", string sortDirection = "desc", int pageSize = 0, int pageNumber = 0, string filters = null)
+        {
+            var scope = AuthenticationService.GetScope(User);
+
+            var queryOptions = new PastRevenueCommissionQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
+
+            var data = await CommissionReportService.GetPastRevenueCommissionData(queryOptions);
+
+            return Ok(data);
+        }
     }
 }

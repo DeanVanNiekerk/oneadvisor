@@ -13,7 +13,6 @@ import {
 } from "@/state/app/commission/reports";
 import { branchesSimpleSelector, BranchSimple } from "@/state/app/directory/branchesSimple";
 import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
-import { userOrganisationIdSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Button, ClientName, Drawer, DrawerFooter, Header, TabPane, Tabs } from "@/ui/controls";
 
@@ -28,7 +27,6 @@ type Props = {
     sortOptions: SortOptions;
     filters: Filters;
     branches: BranchSimple[];
-    organisationId: string;
     users: UserSimple[];
     policyTypes: PolicyType[];
 } & DispatchProp;
@@ -332,7 +330,6 @@ const mapStateToProps = (state: RootState) => {
         pageOptions: clientRevenueState.pageOptions,
         sortOptions: clientRevenueState.sortOptions,
         filters: clientRevenueState.filters,
-        organisationId: userOrganisationIdSelector(state),
         branches: branchesState.items,
         users: usersState.items,
         policyTypes: policyTypesState.items,

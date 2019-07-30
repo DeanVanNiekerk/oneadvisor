@@ -182,5 +182,58 @@ namespace api.Test.Controllers.Commission
 
             Assert.Same(items, returnValue);
         }
+
+
+        [Fact]
+        public void PastRevenueCommissionDataModelComposition()
+        {
+            Assert.Equal(6, typeof(PastRevenueCommissionData).PropertyCount());
+            Assert.True(typeof(PastRevenueCommissionData).HasProperty("AmountExcludingVAT"));
+            Assert.True(typeof(PastRevenueCommissionData).HasProperty("CommissionEarningsTypeId"));
+            Assert.True(typeof(PastRevenueCommissionData).HasProperty("PolicyTypeId"));
+            Assert.True(typeof(PastRevenueCommissionData).HasProperty("CompanyId"));
+            Assert.True(typeof(PastRevenueCommissionData).HasProperty("DateYear"));
+            Assert.True(typeof(PastRevenueCommissionData).HasProperty("DateMonth"));
+        }
+
+        [Fact]
+        public async Task GetPastRevenueCommissionData()
+        {
+            var data = new PastRevenueCommissionData()
+            {
+                AmountExcludingVAT = 100,
+                CommissionEarningsTypeId = Guid.NewGuid(),
+            };
+
+            var items = new List<PastRevenueCommissionData>() {
+                data
+            };
+
+            var service = new Mock<ICommissionReportService>();
+            var authService = TestHelper.MockAuthenticationService(Scope.Branch);
+
+            PastRevenueCommissionQueryOptions queryOptions = null;
+            service.Setup(c => c.GetPastRevenueCommissionData(It.IsAny<PastRevenueCommissionQueryOptions>()))
+                .Callback((PastRevenueCommissionQueryOptions options) => queryOptions = options)
+                .ReturnsAsync(items);
+
+            var controller = new CommissionReportsController(service.Object, authService.Object);
+
+            var companyId = Guid.NewGuid();
+            var result = await controller.GetPastRevenueCommissionData("AmountExcludingVAT", "desc", 15, 2, $"companyId=" + companyId.ToString());
+
+            Assert.Equal(Scope.Branch, queryOptions.Scope.Scope);
+            Assert.Equal("AmountExcludingVAT", queryOptions.SortOptions.Column);
+            Assert.Equal(SortDirection.Descending, queryOptions.SortOptions.Direction);
+            Assert.Equal(15, queryOptions.PageOptions.Size);
+            Assert.Equal(2, queryOptions.PageOptions.Number);
+
+            Assert.Equal(companyId, queryOptions.CompanyId.Single());
+
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<List<PastRevenueCommissionData>>(okResult.Value);
+
+            Assert.Same(items, returnValue);
+        }
     }
 }
