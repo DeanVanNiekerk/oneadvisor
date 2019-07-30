@@ -89,8 +89,7 @@ namespace api.Controllers.Commission.Import
                 using (var stream = file.OpenReadStream())
                 {
                     var attachment = GetEmailAttachment(file, stream);
-                    //Dont hold up the thread whilst sending the email
-                    await SendUnkownCommissionTypesEmail(result, scope, commissionStatementId, template, attachment).ConfigureAwait(false);
+                    await SendUnkownCommissionTypesEmail(result, scope, commissionStatementId, template, attachment);
                 }
             }
 
@@ -99,8 +98,7 @@ namespace api.Controllers.Commission.Import
                 using (var stream = file.OpenReadStream())
                 {
                     var attachment = GetEmailAttachment(file, stream);
-                    //Dont hold up the thread whilst sending the email
-                    await SendZeroEntriesEmail(scope, commissionStatementId, template, attachment).ConfigureAwait(false);
+                    await SendZeroEntriesEmail(scope, commissionStatementId, template, attachment);
                 }
             }
 
@@ -109,7 +107,7 @@ namespace api.Controllers.Commission.Import
                 using (var stream = file.OpenReadStream())
                 {
                     var path = new CommissionStatementPath(scope.OrganisationId, commissionStatementId, file.FileName);
-                    await FileStorageService.AddFileAsync(path, stream).ConfigureAwait(false);
+                    await FileStorageService.AddFileAsync(path, stream);
                 }
             }
 
@@ -168,8 +166,7 @@ namespace api.Controllers.Commission.Import
                             copy.Position = 0;
 
                             var attachment = GetEmailAttachmentFromCloud(fileInfo, copy);
-                            //Dont hold up the thread whilst sending the email
-                            await SendUnkownCommissionTypesEmail(result, scope, commissionStatementId, template, attachment).ConfigureAwait(false);
+                            await SendUnkownCommissionTypesEmail(result, scope, commissionStatementId, template, attachment);
                         }
                     }
 
@@ -182,8 +179,7 @@ namespace api.Controllers.Commission.Import
                             copy.Position = 0;
 
                             var attachment = GetEmailAttachmentFromCloud(fileInfo, copy);
-                            //Dont hold up the thread whilst sending the email
-                            await SendZeroEntriesEmail(scope, commissionStatementId, template, attachment).ConfigureAwait(false);
+                            await SendZeroEntriesEmail(scope, commissionStatementId, template, attachment);
                         }
                     }
                 }
