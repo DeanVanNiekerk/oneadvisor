@@ -19,7 +19,7 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void CommissionStatementModelComposition()
         {
-            Assert.Equal(12, typeof(CommissionStatement).PropertyCount());
+            Assert.Equal(11, typeof(CommissionStatement).PropertyCount());
             Assert.True(typeof(CommissionStatement).HasProperty("Id"));
             Assert.True(typeof(CommissionStatement).HasProperty("AmountIncludingVAT"));
             Assert.True(typeof(CommissionStatement).HasProperty("VAT"));

@@ -1,4 +1,4 @@
-import { listSelector } from "./selectors";
+import { commissionProjectionsSelector } from "./selectors";
 
 describe("report commission projections selectors", () => {
     it("listSelector", () => {
@@ -19,7 +19,7 @@ describe("report commission projections selectors", () => {
         };
 
         //@ts-ignore
-        const actual = listSelector(state);
+        const actual = commissionProjectionsSelector(state);
 
         expect(actual).toEqual(expected);
     });
