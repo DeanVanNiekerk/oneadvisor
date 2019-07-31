@@ -1,14 +1,14 @@
-import { Icon, Layout, Menu as MenuAD } from 'antd';
-import React, { Component, CSSProperties } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Icon, Layout, Menu as MenuAD } from "antd";
+import React, { Component, CSSProperties } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
-import { hasUseCases, hasUseCasesMenuGroup } from '@/app/identity';
-import { defaultOpenGroupNames } from '@/config/menu';
-import { useCaseSelector } from '@/state/auth';
-import { currentApplicationSelector, currentMenuSelector } from '@/state/context/selectors';
-import { Application, Menu, MenuLink } from '@/state/context/types';
-import { RootState } from '@/state/rootReducer';
+import { hasUseCases, hasUseCasesMenuGroup } from "@/app/identity";
+import { defaultOpenGroupNames } from "@/config/menu";
+import { useCaseSelector } from "@/state/auth";
+import { currentApplicationSelector, currentMenuSelector } from "@/state/context/selectors";
+import { Application, Menu, MenuLink } from "@/state/context/types";
+import { RootState } from "@/state/rootReducer";
 
 const { SubMenu, Item } = MenuAD;
 const { Sider } = Layout;
@@ -19,7 +19,23 @@ type Props = {
     useCases: string[];
 };
 
-class SideMenu extends Component<Props> {
+type State = {
+    collapsed: boolean;
+};
+
+class SideMenu extends Component<Props, State> {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            collapsed: false,
+        };
+    }
+
+    onCollapse = collapsed => {
+        this.setState({ collapsed });
+    };
+
     getMenuItemStyle = (link: MenuLink, application: Application): CSSProperties => {
         if (!link.isCurrent) return {};
         return {
@@ -29,7 +45,13 @@ class SideMenu extends Component<Props> {
 
     render() {
         return (
-            <Sider width={225} style={{ background: "#fff" }}>
+            <Sider
+                collapsible
+                collapsed={this.state.collapsed}
+                onCollapse={this.onCollapse}
+                width={225}
+                style={{ background: "#fff" }}
+            >
                 <MenuAD
                     theme="dark"
                     mode="inline"
@@ -40,7 +62,15 @@ class SideMenu extends Component<Props> {
                     {this.props.menu.groups
                         .filter(group => hasUseCasesMenuGroup(group, this.props.useCases))
                         .map(group => (
-                            <SubMenu key={group.name} title={<span>{group.name}</span>}>
+                            <SubMenu
+                                key={group.name}
+                                title={
+                                    <span>
+                                        <Icon type={group.icon} />
+                                        <span>{group.name}</span>
+                                    </span>
+                                }
+                            >
                                 {group.links
                                     .filter(link => hasUseCases(link.useCases, this.props.useCases))
                                     .map(link => (
@@ -49,10 +79,7 @@ class SideMenu extends Component<Props> {
                                             style={this.getMenuItemStyle(link, this.props.application)}
                                         >
                                             <Link to={`${this.props.menu.relativePath}${link.relativePath}`}>
-                                                <span>
-                                                    <Icon type={link.icon} />
-                                                    <span>{link.name}</span>
-                                                </span>
+                                                <span>{link.name}</span>
                                             </Link>
                                         </Item>
                                     ))}

@@ -18,3 +18,22 @@ export type PastRevenueCommissionDataFilters = Filters<{
     endDate: string;
     userId: string;
 }>;
+
+export type TotalsTableRecord = {
+    earningsType: string;
+    [key: string]: any;
+};
+
+export type GroupTableRecord = {
+    key: string;
+    sortKey: string;
+    earningsTypeGroupKey: string;
+    policyTypeRowSpan: number;
+    earningsTypeRowSpan: number;
+    policyTypeId?: string | null;
+    commissionEarningsTypeId?: string;
+    companyId?: string;
+    [key: string]: any;
+};
+
+export type Group = "Policy Type" | "Earnings Type" | "Company";

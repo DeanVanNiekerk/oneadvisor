@@ -5,14 +5,14 @@ import { createSelector } from "reselect";
 
 import { getColumnDefinition } from "@/app/table";
 import { DATE_FORMAT } from "@/app/utils";
-import { policyTypesSelector } from "@/state/app/client/lookups";
+import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
 import { State as PolicyTypesState } from "@/state/app/client/lookups/policyTypes/list/reducer";
-import { companiesSelector } from "@/state/app/directory/lookups";
+import { companiesSelector, Company } from "@/state/app/directory/lookups";
 import { State as CompaniesState } from "@/state/app/directory/lookups/companies/list/reducer";
 import { RootState } from "@/state/rootReducer";
 
-import { PastRevenueCommissionData } from "../";
-import { commissionEarningsTypesSelector } from "../../lookups";
+import { GroupTableRecord, PastRevenueCommissionData, TotalsTableRecord } from "../";
+import { CommissionEarningsType, commissionEarningsTypesSelector } from "../../lookups";
 import { State as CommissionEarningsTypesState } from "../../lookups/commissionEarningsTypes/list/reducer";
 import { State } from "./reducer";
 
@@ -38,7 +38,7 @@ export const projectionTotalsTableColumnsSelector: (state: RootState) => ColumnP
     rootSelector,
     pastMonthsCountSelector,
     (root: State, pastMonthsCount: number) => {
-        var getColumn = getColumnDefinition();
+        var getColumn = getColumnDefinition<TotalsTableRecord>();
 
         const columns = [
             getColumn(
@@ -48,7 +48,7 @@ export const projectionTotalsTableColumnsSelector: (state: RootState) => ColumnP
                 {
                     fixed: "left",
                     sorter: false,
-                    width: "510px",
+                    width: `${root.groups.length * 170}px`,
                 }
             ),
         ];
@@ -64,7 +64,7 @@ export const projectionTotalsTableRowsSelector: (state: RootState) => object[] =
     (root: State, pastMonthsCount: number, commissionEarningsTypesState: CommissionEarningsTypesState) => {
         const now = new Date();
 
-        const rows: object[] = [];
+        const rows: TotalsTableRecord[] = [];
 
         let totalRow = { earningsType: "Total Commission" };
         totalRow = getTableRow(totalRow, pastMonthsCount, now, root.items);
@@ -96,73 +96,79 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
         policyTypesState: PolicyTypesState,
         companiesState: CompaniesState
     ) => {
-        var getColumn = getColumnDefinition();
+        const { groups } = root;
 
-        const columns = [
-            getColumn(
-                "policyTypeId",
-                "Policy Type",
-                {},
-                {
-                    fixed: "left",
-                    width: "170px",
-                    sorter: false,
-                    render: (policyTypeId: string, row: any) => {
-                        let name = "Unknown";
-                        const type = policyTypesState.items.find(c => c.id === policyTypeId);
-                        if (type) name = type.name;
+        var getColumn = getColumnDefinition<GroupTableRecord>();
 
-                        const obj = {
-                            children: name,
-                            props: {
-                                rowSpan: row.policyTypeRowSpan,
-                            },
-                        };
+        const columns: ColumnProps<GroupTableRecord>[] = [];
 
-                        return obj;
-                    },
-                }
-            ),
-            getColumn(
-                "commissionEarningsTypeId",
-                "Earnings Type",
-                {},
-                {
-                    fixed: "left",
-                    width: "170px",
-                    sorter: false,
-                    render: (commissionEarningsTypeId: string, row: any) => {
-                        let name = "";
-                        const type = commissionEarningsTypesState.items.find(c => c.id === commissionEarningsTypeId);
-                        if (type) name = type.name;
+        if (groups.some(g => g === "Policy Type"))
+            columns.push(
+                getColumn(
+                    "policyTypeId",
+                    "Policy Type",
+                    {},
+                    {
+                        fixed: "left",
+                        width: "170px",
+                        sorter: false,
+                        render: (policyTypeId: string, row: any) => {
+                            const obj = {
+                                children: getPolicyTypeName(policyTypeId, policyTypesState.items),
+                                props: {
+                                    rowSpan: row.policyTypeRowSpan,
+                                },
+                            };
 
-                        const obj = {
-                            children: name,
-                            props: {
-                                rowSpan: row.earningsTypeRowSpan,
-                            },
-                        };
+                            return obj;
+                        },
+                    }
+                )
+            );
 
-                        return obj;
-                    },
-                }
-            ),
-            getColumn(
-                "companyId",
-                "Company",
-                {},
-                {
-                    fixed: "left",
-                    width: "170px",
-                    sorter: false,
-                    render: (companyId: string) => {
-                        const company = companiesState.items.find(c => c.id === companyId);
-                        if (!company) return "";
-                        return company.name;
-                    },
-                }
-            ),
-        ];
+        if (groups.some(g => g === "Earnings Type"))
+            columns.push(
+                getColumn(
+                    "commissionEarningsTypeId",
+                    "Earnings Type",
+                    {},
+                    {
+                        fixed: "left",
+                        width: "170px",
+                        sorter: false,
+                        render: (commissionEarningsTypeId: string, row: any) => {
+                            const obj = {
+                                children: getEarningsTypeName(
+                                    commissionEarningsTypeId,
+                                    commissionEarningsTypesState.items
+                                ),
+                                props: {
+                                    rowSpan: row.earningsTypeRowSpan,
+                                },
+                            };
+
+                            return obj;
+                        },
+                    }
+                )
+            );
+
+        if (groups.some(g => g === "Company"))
+            columns.push(
+                getColumn(
+                    "companyId",
+                    "Company",
+                    {},
+                    {
+                        fixed: "left",
+                        width: "170px",
+                        sorter: false,
+                        render: (companyId: string) => {
+                            return getCompanyName(companyId, companiesState.items);
+                        },
+                    }
+                )
+            );
 
         return columns.concat(getMonthColumns(pastMonthsCount));
     }
@@ -171,69 +177,118 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
 export const projectionGroupTableRowsSelector: (state: RootState) => object[] = createSelector(
     rootSelector,
     pastMonthsCountSelector,
-    (root: State, pastMonthsCount: number) => {
+    commissionEarningsTypesSelector,
+    policyTypesSelector,
+    companiesSelector,
+    (
+        root: State,
+        pastMonthsCount: number,
+        commissionEarningsTypesState: CommissionEarningsTypesState,
+        policyTypesState: PolicyTypesState,
+        companiesState: CompaniesState
+    ) => {
         const now = new Date();
 
-        const rows: object[] = [];
+        const { items, groups } = root;
 
-        let index: number = 0;
+        let rows: GroupTableRecord[] = [];
 
-        let uniquePolicyTypeIds = [...new Set(root.items.map(i => i.policyTypeId))];
+        if (groups.length === 0) return rows;
 
-        let newPolicyType: boolean = true;
-        let newCommissionEarningsType: boolean = true;
+        items.forEach(data => {
+            let key = "";
+            let sortKey = "";
+            let earningsTypeGroupKey = "";
+            if (groups.some(g => g === "Policy Type")) {
+                key = key.concat(data.policyTypeId || "unknown");
+                earningsTypeGroupKey = earningsTypeGroupKey.concat(data.policyTypeId || "unknown");
+                sortKey = sortKey.concat(getPolicyTypeName(data.policyTypeId, policyTypesState.items));
+            }
 
-        uniquePolicyTypeIds.forEach(policyTypeId => {
-            newPolicyType = true;
+            if (groups.some(g => g === "Earnings Type")) {
+                key = key.concat(data.commissionEarningsTypeId);
+                earningsTypeGroupKey = earningsTypeGroupKey.concat(data.commissionEarningsTypeId);
+                sortKey = sortKey.concat(
+                    getEarningsTypeName(data.commissionEarningsTypeId, commissionEarningsTypesState.items)
+                );
+            }
 
-            let uniqueCommissionEarningsTypeIds = [
-                ...new Set(
-                    root.items.filter(i => i.policyTypeId === policyTypeId).map(i => i.commissionEarningsTypeId)
-                ),
-            ];
+            if (groups.some(g => g === "Company")) {
+                key = key.concat(data.companyId);
+                sortKey = sortKey.concat(getCompanyName(data.companyId, companiesState.items));
+            }
 
-            uniqueCommissionEarningsTypeIds.forEach(commissionEarningsTypeId => {
-                newCommissionEarningsType = true;
+            if (rows.some(r => r.key === key)) return;
 
-                let companyIds = [
-                    ...new Set(
-                        root.items
-                            .filter(
-                                i =>
-                                    i.policyTypeId === policyTypeId &&
-                                    i.commissionEarningsTypeId === commissionEarningsTypeId
-                            )
-                            .map(i => i.companyId)
-                    ),
-                ];
+            const filter: TableRowFilter = d => {
+                if (groups.some(g => g === "Policy Type") && d.policyTypeId !== data.policyTypeId) return false;
 
-                companyIds.forEach(companyId => {
-                    const filter: TableRowFilter = d =>
-                        d.commissionEarningsTypeId === commissionEarningsTypeId &&
-                        d.policyTypeId === policyTypeId &&
-                        d.companyId === companyId;
+                if (
+                    groups.some(g => g === "Earnings Type") &&
+                    d.commissionEarningsTypeId !== data.commissionEarningsTypeId
+                )
+                    return false;
 
-                    let row = {
-                        index: index,
-                        earningsTypeRowSpan: newCommissionEarningsType ? companyIds.length : 0,
-                        policyTypeRowSpan: newPolicyType
-                            ? getPolicyTypeRowSpan(policyTypeId, uniqueCommissionEarningsTypeIds, root.items)
-                            : 0,
-                        policyTypeId: policyTypeId,
-                        commissionEarningsTypeId: commissionEarningsTypeId,
-                        companyId: companyId,
-                    };
-                    row = getTableRow(row, pastMonthsCount, now, root.items, filter);
+                if (groups.some(g => g === "Company") && d.companyId !== data.companyId) return false;
 
-                    index = index + 1;
+                return true;
+            };
 
-                    newPolicyType = false;
-                    newCommissionEarningsType = false;
+            let row: GroupTableRecord = {
+                key: key,
+                sortKey: sortKey,
+                earningsTypeGroupKey: earningsTypeGroupKey,
+                earningsTypeRowSpan: 1,
+                policyTypeRowSpan: 1,
+                policyTypeId: data.policyTypeId,
+                commissionEarningsTypeId: data.commissionEarningsTypeId,
+                companyId: data.companyId,
+            };
+            row = getTableRow(row, pastMonthsCount, now, root.items, filter);
 
-                    rows.push(row);
-                });
+            rows.push(row);
+        });
+
+        rows = rows.sort((a, b) => {
+            if (a.sortKey > b.sortKey) return 1;
+            else if (a.sortKey < b.sortKey) return -1;
+
+            return 0;
+        });
+
+        //Calculate Policy Type Row Span ---------------------------------------------------
+        let policyTypeIds = [...new Set(rows.map(i => i.policyTypeId))];
+
+        policyTypeIds.forEach(policyTypeId => {
+            let index = 0;
+            const count = rows.filter(r => r.policyTypeId === policyTypeId).length;
+
+            rows.forEach((r, i) => {
+                if (r.policyTypeId !== policyTypeId || count === 1) return;
+
+                rows[i].policyTypeRowSpan = index === 0 ? count : 0;
+
+                index = index + 1;
             });
         });
+        //------------------------------------------------------------------------------------
+
+        //Calculate Earnings Type Row Span ---------------------------------------------------
+        let earningsTypeGroupKeys = [...new Set(rows.map(i => i.earningsTypeGroupKey))];
+
+        earningsTypeGroupKeys.forEach(earningsTypeGroupKey => {
+            let index = 0;
+            const count = rows.filter(r => r.earningsTypeGroupKey === earningsTypeGroupKey).length;
+
+            rows.forEach((r, i) => {
+                if (r.earningsTypeGroupKey !== earningsTypeGroupKey || count === 1) return;
+
+                rows[i].earningsTypeRowSpan = index === 0 ? count : 0;
+
+                index = index + 1;
+            });
+        });
+        //------------------------------------------------------------------------------------
 
         return rows;
     }
@@ -321,4 +376,23 @@ const getMonthColumns = (monthsBack: number): ColumnProps<any>[] => {
     }
 
     return columns;
+};
+
+const getPolicyTypeName = (policyTypeId: string | null, types: PolicyType[]): string => {
+    let name = "Unknown";
+    const type = types.find(c => c.id === policyTypeId);
+    if (type) name = type.name;
+    return name;
+};
+
+const getEarningsTypeName = (commissionEarningsTypeId: string, types: CommissionEarningsType[]): string => {
+    const type = types.find(c => c.id === commissionEarningsTypeId);
+    if (!type) return "";
+    return type.name;
+};
+
+const getCompanyName = (companyId: string, companies: Company[]): string => {
+    const company = companies.find(c => c.id === companyId);
+    if (!company) return "";
+    return company.name;
 };

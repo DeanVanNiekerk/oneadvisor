@@ -14,12 +14,6 @@
     right: 0px !important;
 }
 
-/* MENU */
-.ant-menu-inline .ant-menu-item,
-.ant-menu-dark.ant-menu-inline .ant-menu-submenu-title {
-    padding-left: 25px !important;
-}
-
 /* TABLE */
 .ant-table td,
 .ant-table th {

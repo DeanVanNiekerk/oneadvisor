@@ -18,6 +18,8 @@ type Props = {
 
 class GroupsTable extends Component<Props> {
     render() {
+        if (this.props.rows.length === 0) return <></>;
+
         return (
             <Table
                 rowKey="index"

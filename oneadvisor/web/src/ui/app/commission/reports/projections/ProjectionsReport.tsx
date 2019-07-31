@@ -8,8 +8,8 @@ import { DATE_FORMAT } from "@/app/utils";
 import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
 import { CommissionEarningsType, commissionEarningsTypesSelector } from "@/state/app/commission/lookups";
 import {
-    commissionProjectionsSelector, fetchPastRevenueCommissionData, pastMonthsCountSelector,
-    PastRevenueCommissionDataFilters, receivePastRevenueCommissionFilters
+    commissionProjectionsSelector, fetchPastRevenueCommissionData, Group, pastMonthsCountSelector,
+    PastRevenueCommissionDataFilters, receivePastRevenueCommissionFilters, receivePastRevenueCommissionGroups
 } from "@/state/app/commission/reports";
 import { branchesSimpleSelector, BranchSimple } from "@/state/app/directory/branchesSimple";
 import { companiesSelector, Company } from "@/state/app/directory/lookups";
@@ -28,6 +28,7 @@ type Props = {
     commissionEarningsTypes: CommissionEarningsType[];
     companies: Company[];
     pastMonthsCount: number;
+    groups: Group[];
 } & DispatchProp;
 
 class ProjectionsReport extends Component<Props> {
@@ -127,8 +128,13 @@ class ProjectionsReport extends Component<Props> {
         );
     };
 
+    handleGroupsChange = (groups: Group[]) => {
+        this.props.dispatch(receivePastRevenueCommissionGroups(groups));
+    };
+
     render() {
         const cellClass = "pb-05";
+        const allGroups: Group[] = ["Policy Type", "Earnings Type", "Company"];
 
         return (
             <>
@@ -152,6 +158,26 @@ class ProjectionsReport extends Component<Props> {
                             <Select.Option key="12" value="12">
                                 12 Months
                             </Select.Option>
+                        </Select>
+                    </Col>
+                    <Col className={cellClass}>Group By</Col>
+                    <Col className={cellClass}>
+                        <Select
+                            mode="multiple"
+                            maxTagCount={1}
+                            maxTagTextLength={9}
+                            value={this.props.groups}
+                            onChange={this.handleGroupsChange}
+                            allowClear={true}
+                            style={{ width: 220 }}
+                        >
+                            {allGroups.map(group => {
+                                return (
+                                    <Select.Option key={group} value={group}>
+                                        {group}
+                                    </Select.Option>
+                                );
+                            })}
                         </Select>
                     </Col>
                     <Col className={cellClass}>
@@ -293,6 +319,7 @@ const mapStateToProps = (state: RootState) => {
         pastMonthsCount: pastMonthsCountSelector(state),
         commissionEarningsTypes: commissionEarningsTypesState.items,
         companies: companiesState.items,
+        groups: projectionsState.groups,
     };
 };
 

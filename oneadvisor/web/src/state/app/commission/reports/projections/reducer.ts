@@ -3,12 +3,13 @@ import moment from "moment";
 import { DATE_FORMAT } from "@/app/utils";
 
 import { CommissionProjectionsDataAction } from "./actions";
-import { PastRevenueCommissionData, PastRevenueCommissionDataFilters } from "./types";
+import { Group, PastRevenueCommissionData, PastRevenueCommissionDataFilters } from "./types";
 
 export type State = {
     readonly items: PastRevenueCommissionData[];
     readonly fetching: boolean;
     readonly filters: PastRevenueCommissionDataFilters | null;
+    readonly groups: Group[];
 };
 
 const defaultFilters: PastRevenueCommissionDataFilters = {
@@ -29,6 +30,7 @@ export const defaultState: State = {
     items: [],
     fetching: false,
     filters: defaultFilters,
+    groups: ["Policy Type", "Earnings Type", "Company"],
 };
 
 export const reducer = (state: State = defaultState, action: CommissionProjectionsDataAction): State => {
@@ -59,6 +61,12 @@ export const reducer = (state: State = defaultState, action: CommissionProjectio
                 filters: {
                     ...action.payload,
                 },
+            };
+        }
+        case "COMMISSIONS_REPORT_PROJECTIONS_GROUPS_RECEIVE": {
+            return {
+                ...state,
+                groups: [...action.payload],
             };
         }
         default:

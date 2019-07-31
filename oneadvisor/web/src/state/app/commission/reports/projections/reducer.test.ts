@@ -1,5 +1,5 @@
 import { defaultState, reducer } from "./reducer";
-import { PastRevenueCommissionData, PastRevenueCommissionDataFilters } from "./types";
+import { Group, PastRevenueCommissionData, PastRevenueCommissionDataFilters } from "./types";
 
 describe("report client revenue reducer", () => {
     it("should handle COMMISSIONS_REPORT_PROJECTIONS_FETCHING", () => {
@@ -81,6 +81,26 @@ describe("report client revenue reducer", () => {
             filters: {
                 ...filters,
             },
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle COMMISSIONS_REPORT_PROJECTIONS_GROUPS_RECEIVE", () => {
+        const initalState = {
+            ...defaultState,
+        };
+
+        const groups: Group[] = ["Policy Type"];
+
+        const actualState = reducer(initalState, {
+            type: "COMMISSIONS_REPORT_PROJECTIONS_GROUPS_RECEIVE",
+            payload: groups,
+        });
+
+        const expectedState = {
+            ...defaultState,
+            groups: [...groups],
         };
 
         expect(actualState).toEqual(expectedState);

@@ -9,17 +9,16 @@ export const menus: Menus = {
             {
                 name: "Organisation",
                 defaultOpen: true,
+                icon: "team",
                 links: [
                     {
                         name: "Users",
-                        icon: "team",
                         relativePath: "/users",
                         isDefault: true,
                         useCases: ["dir_view_users"],
                     },
                     {
                         name: "Organisations",
-                        icon: "bank",
                         relativePath: "/organisations",
                         useCases: ["dir_view_organisations"],
                     },
@@ -28,10 +27,10 @@ export const menus: Menus = {
             {
                 name: "Security",
                 defaultOpen: false,
+                icon: "safety-certificate",
                 links: [
                     {
                         name: "Roles",
-                        icon: "safety-certificate",
                         relativePath: "/roles",
                         useCases: ["dir_view_roles"],
                     },
@@ -40,10 +39,10 @@ export const menus: Menus = {
             {
                 name: "Lookups",
                 defaultOpen: false,
+                icon: "setting",
                 links: [
                     {
                         name: "Companies",
-                        icon: "database",
                         relativePath: "/lookups/companies",
                         useCases: ["dir_edit_lookups"],
                     },
@@ -52,10 +51,10 @@ export const menus: Menus = {
             {
                 name: "Audit",
                 defaultOpen: false,
+                icon: "video-camera",
                 links: [
                     {
                         name: "Logs",
-                        icon: "video-camera",
                         relativePath: "/audit/logs",
                         useCases: ["dir_view_audit_logs"],
                     },
@@ -70,17 +69,16 @@ export const menus: Menus = {
             {
                 name: "Management",
                 defaultOpen: true,
+                icon: "user",
                 links: [
                     {
                         name: "Clients",
-                        icon: "user",
                         relativePath: "/clients",
                         isDefault: true,
                         useCases: ["clt_view_clients"],
                     },
                     {
                         name: "Policies",
-                        icon: "file-text",
                         relativePath: "/policies",
                         useCases: ["clt_view_policies"],
                     },
@@ -89,16 +87,15 @@ export const menus: Menus = {
             {
                 name: "Data",
                 defaultOpen: false,
+                icon: "import",
                 links: [
                     {
                         name: "Import",
-                        icon: "import",
                         relativePath: "/import",
                         useCases: ["clt_import_clients"],
                     },
                     {
                         name: "Export",
-                        icon: "export",
                         relativePath: "/export",
                         useCases: ["clt_export_clients"],
                     },
@@ -107,16 +104,15 @@ export const menus: Menus = {
             {
                 name: "Lookups",
                 defaultOpen: false,
+                icon: "setting",
                 links: [
                     {
                         name: "Product Types",
-                        icon: "database",
                         relativePath: "/lookups/policyProductTypes",
                         useCases: ["dir_edit_lookups"],
                     },
                     {
                         name: "Products",
-                        icon: "database",
                         relativePath: "/lookups/policyProducts",
                         useCases: ["dir_edit_lookups"],
                     },
@@ -131,29 +127,26 @@ export const menus: Menus = {
             {
                 name: "Statements",
                 defaultOpen: true,
+                icon: "reconciliation",
                 links: [
                     {
                         name: "Statements",
-                        icon: "reconciliation",
                         relativePath: "/statements",
                         isDefault: true,
                         useCases: ["com_view_commission_statements"],
                     },
                     {
                         name: "Commission Entries",
-                        icon: "dollar",
                         relativePath: "/commissionEntries",
                         useCases: ["com_view_commissions"],
                     },
                     {
                         name: "Commission Split Rules",
-                        icon: "apartment",
                         relativePath: "/commissionSplitRulePolicies",
                         useCases: ["com_view_commission_split_rules"],
                     },
                     {
                         name: "Templates",
-                        icon: "block",
                         relativePath: "/templates",
                         useCases: ["com_view_commission_statement_templates"],
                     },
@@ -162,22 +155,20 @@ export const menus: Menus = {
             {
                 name: "Reports",
                 defaultOpen: true,
+                icon: "line-chart",
                 links: [
                     {
                         name: "Client Revenue",
-                        icon: "line-chart",
                         relativePath: "/reports/revenueClient",
                         useCases: ["com_view_report_client_revenue"],
                     },
                     {
                         name: "Broker Commission",
-                        icon: "pie-chart",
                         relativePath: "/reports/userMonthlyCommission",
                         useCases: ["com_view_report_user_monthly_commission"],
                     },
                     {
                         name: "Projections",
-                        icon: "history",
                         relativePath: "/reports/projections",
                         useCases: ["com_view_report_past_revenue_commission"],
                     },
@@ -186,10 +177,10 @@ export const menus: Menus = {
             {
                 name: "Lookups",
                 defaultOpen: false,
+                icon: "setting",
                 links: [
                     {
                         name: "Commission Types",
-                        icon: "database",
                         relativePath: "/lookups/commTypes",
                         useCases: ["dir_edit_lookups"],
                     },

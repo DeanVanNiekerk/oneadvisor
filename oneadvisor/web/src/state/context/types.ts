@@ -24,12 +24,12 @@ export type Menu = {
 export type MenuGroup = {
     name: string;
     defaultOpen: boolean;
+    icon: string;
     links: MenuLink[];
 };
 
 export type MenuLink = {
     name: string;
-    icon: string;
     relativePath: string;
     isDefault?: boolean;
     isCurrent?: boolean;
