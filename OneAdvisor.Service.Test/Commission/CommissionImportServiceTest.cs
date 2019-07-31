@@ -141,7 +141,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var result = importResult.Results.Single();
 
                 //Then
-                Assert.False(result.Success);
+                Assert.True(result.Success);
                 Assert.Empty(result.ValidationFailures);
 
                 //Check error record
@@ -221,7 +221,7 @@ namespace OneAdvisor.Service.Test.Commission
                 var result = importResult.Results.Single();
 
                 //Then
-                Assert.False(result.Success);
+                Assert.True(result.Success);
                 Assert.Empty(result.ValidationFailures);
 
                 //Check error record
