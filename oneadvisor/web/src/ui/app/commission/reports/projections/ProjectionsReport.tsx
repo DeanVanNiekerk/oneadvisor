@@ -6,11 +6,13 @@ import { connect, DispatchProp } from "react-redux";
 import { filterOption } from "@/app/controls/select";
 import { DATE_FORMAT } from "@/app/utils";
 import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
+import { CommissionEarningsType, commissionEarningsTypesSelector } from "@/state/app/commission/lookups";
 import {
     commissionProjectionsSelector, fetchPastRevenueCommissionData, pastMonthsCountSelector,
     PastRevenueCommissionDataFilters, receivePastRevenueCommissionFilters
 } from "@/state/app/commission/reports";
 import { branchesSimpleSelector, BranchSimple } from "@/state/app/directory/branchesSimple";
+import { companiesSelector, Company } from "@/state/app/directory/lookups";
 import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Button, Header } from "@/ui/controls";
@@ -23,12 +25,18 @@ type Props = {
     branches: BranchSimple[];
     users: UserSimple[];
     policyTypes: PolicyType[];
+    commissionEarningsTypes: CommissionEarningsType[];
+    companies: Company[];
     pastMonthsCount: number;
 } & DispatchProp;
 
 class ProjectionsReport extends Component<Props> {
     componentDidMount() {
         this.loadData();
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.filters != this.props.filters) this.loadData();
     }
 
     loadData = () => {
@@ -75,6 +83,32 @@ class ProjectionsReport extends Component<Props> {
         );
     };
 
+    selectedCommissionEarningsTypeIds = (): string[] => {
+        return this.props.filters.commissionEarningsTypeId || [];
+    };
+
+    handleCommissionEarningsTypeChange = (commissionEarningsTypeIds: string[]) => {
+        this.props.dispatch(
+            receivePastRevenueCommissionFilters({
+                ...this.props.filters,
+                commissionEarningsTypeId: commissionEarningsTypeIds,
+            })
+        );
+    };
+
+    selectedCompanyIds = (): string[] => {
+        return this.props.filters.companyId || [];
+    };
+
+    handleCompanyChange = (companyIds: string[]) => {
+        this.props.dispatch(
+            receivePastRevenueCommissionFilters({
+                ...this.props.filters,
+                companyId: companyIds,
+            })
+        );
+    };
+
     selectedPastMonthsCount = (): string => {
         return this.props.pastMonthsCount.toString();
     };
@@ -94,13 +128,15 @@ class ProjectionsReport extends Component<Props> {
     };
 
     render() {
+        const cellClass = "pb-05";
+
         return (
             <>
                 <Header icon="history">Projections Report</Header>
 
                 <Row type="flex" gutter={10} align="middle" justify="start" className="mb-1">
-                    <Col>Past</Col>
-                    <Col>
+                    <Col className={cellClass}>Past</Col>
+                    <Col className={cellClass}>
                         <Select
                             value={this.selectedPastMonthsCount()}
                             onChange={this.handlePastMonthsCountChange}
@@ -118,7 +154,7 @@ class ProjectionsReport extends Component<Props> {
                             </Select.Option>
                         </Select>
                     </Col>
-                    <Col>
+                    <Col className={cellClass}>
                         <Select
                             mode="multiple"
                             maxTagCount={1}
@@ -139,7 +175,7 @@ class ProjectionsReport extends Component<Props> {
                             })}
                         </Select>
                     </Col>
-                    <Col>
+                    <Col className={cellClass}>
                         <Select
                             mode="multiple"
                             maxTagCount={1}
@@ -166,7 +202,7 @@ class ProjectionsReport extends Component<Props> {
                                 })}
                         </Select>
                     </Col>
-                    <Col>
+                    <Col className={cellClass}>
                         <Select
                             mode="multiple"
                             maxTagCount={1}
@@ -187,16 +223,53 @@ class ProjectionsReport extends Component<Props> {
                             })}
                         </Select>
                     </Col>
-                    <Col>
-                        <Button onClick={this.loadData} icon="reload">
-                            Reload
-                        </Button>
+                    <Col className={cellClass}>
+                        <Select
+                            mode="multiple"
+                            maxTagCount={1}
+                            maxTagTextLength={9}
+                            value={this.selectedCommissionEarningsTypeIds()}
+                            onChange={this.handleCommissionEarningsTypeChange}
+                            placeholder="Earnings Type"
+                            allowClear={true}
+                            filterOption={filterOption}
+                            style={{ width: 220 }}
+                        >
+                            {this.props.commissionEarningsTypes.map(commissionEarningsType => {
+                                return (
+                                    <Select.Option key={commissionEarningsType.id} value={commissionEarningsType.id}>
+                                        {commissionEarningsType.name}
+                                    </Select.Option>
+                                );
+                            })}
+                        </Select>
+                    </Col>
+                    <Col className={cellClass}>
+                        <Select
+                            mode="multiple"
+                            maxTagCount={1}
+                            maxTagTextLength={9}
+                            value={this.selectedCompanyIds()}
+                            onChange={this.handleCompanyChange}
+                            placeholder="Company"
+                            allowClear={true}
+                            filterOption={filterOption}
+                            style={{ width: 220 }}
+                        >
+                            {this.props.companies.map(company => {
+                                return (
+                                    <Select.Option key={company.id} value={company.id}>
+                                        {company.name}
+                                    </Select.Option>
+                                );
+                            })}
+                        </Select>
                     </Col>
                 </Row>
 
                 <TotalsTable />
 
-                <div className="mb-1" />
+                <div className="mb-2" />
 
                 <GroupsTable />
             </>
@@ -208,6 +281,8 @@ const mapStateToProps = (state: RootState) => {
     const branchesState = branchesSimpleSelector(state);
     const usersState = usersSimpleSelector(state);
     const policyTypesState = policyTypesSelector(state);
+    const commissionEarningsTypesState = commissionEarningsTypesSelector(state);
+    const companiesState = companiesSelector(state);
     const projectionsState = commissionProjectionsSelector(state);
 
     return {
@@ -216,6 +291,8 @@ const mapStateToProps = (state: RootState) => {
         users: usersState.items,
         policyTypes: policyTypesState.items,
         pastMonthsCount: pastMonthsCountSelector(state),
+        commissionEarningsTypes: commissionEarningsTypesState.items,
+        companies: companiesState.items,
     };
 };
 

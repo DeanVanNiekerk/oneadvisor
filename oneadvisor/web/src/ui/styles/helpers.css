@@ -73,6 +73,14 @@ PADDING
     padding-top: 3rem !important;
 }
 
+.pb-05 {
+    padding-bottom: 0.5rem !important;
+}
+
+.pb-1 {
+    padding-bottom: 1rem !important;
+}
+
 /* 
 COLORS
 */

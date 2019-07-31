@@ -48,7 +48,7 @@ export const projectionTotalsTableColumnsSelector: (state: RootState) => ColumnP
                 {
                     fixed: "left",
                     sorter: false,
-                    width: "600px",
+                    width: "510px",
                 }
             ),
         ];
@@ -105,11 +105,21 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
                 {},
                 {
                     fixed: "left",
-                    width: "200px",
-                    render: (policyTypeId: string) => {
+                    width: "170px",
+                    sorter: false,
+                    render: (policyTypeId: string, row: any) => {
+                        let name = "Unknown";
                         const type = policyTypesState.items.find(c => c.id === policyTypeId);
-                        if (!type) return "Unknown";
-                        return type.name;
+                        if (type) name = type.name;
+
+                        const obj = {
+                            children: name,
+                            props: {
+                                rowSpan: row.policyTypeRowSpan,
+                            },
+                        };
+
+                        return obj;
                     },
                 }
             ),
@@ -119,11 +129,21 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
                 {},
                 {
                     fixed: "left",
-                    width: "200px",
-                    render: (commissionEarningsTypeId: string) => {
+                    width: "170px",
+                    sorter: false,
+                    render: (commissionEarningsTypeId: string, row: any) => {
+                        let name = "";
                         const type = commissionEarningsTypesState.items.find(c => c.id === commissionEarningsTypeId);
-                        if (!type) return "";
-                        return type.name;
+                        if (type) name = type.name;
+
+                        const obj = {
+                            children: name,
+                            props: {
+                                rowSpan: row.earningsTypeRowSpan,
+                            },
+                        };
+
+                        return obj;
                     },
                 }
             ),
@@ -133,7 +153,8 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
                 {},
                 {
                     fixed: "left",
-                    width: "200px",
+                    width: "170px",
+                    sorter: false,
                     render: (companyId: string) => {
                         const company = companiesState.items.find(c => c.id === companyId);
                         if (!company) return "";
@@ -159,7 +180,12 @@ export const projectionGroupTableRowsSelector: (state: RootState) => object[] = 
 
         let uniquePolicyTypeIds = [...new Set(root.items.map(i => i.policyTypeId))];
 
+        let newPolicyType: boolean = true;
+        let newCommissionEarningsType: boolean = true;
+
         uniquePolicyTypeIds.forEach(policyTypeId => {
+            newPolicyType = true;
+
             let uniqueCommissionEarningsTypeIds = [
                 ...new Set(
                     root.items.filter(i => i.policyTypeId === policyTypeId).map(i => i.commissionEarningsTypeId)
@@ -167,6 +193,8 @@ export const projectionGroupTableRowsSelector: (state: RootState) => object[] = 
             ];
 
             uniqueCommissionEarningsTypeIds.forEach(commissionEarningsTypeId => {
+                newCommissionEarningsType = true;
+
                 let companyIds = [
                     ...new Set(
                         root.items
@@ -187,6 +215,10 @@ export const projectionGroupTableRowsSelector: (state: RootState) => object[] = 
 
                     let row = {
                         index: index,
+                        earningsTypeRowSpan: newCommissionEarningsType ? companyIds.length : 0,
+                        policyTypeRowSpan: newPolicyType
+                            ? getPolicyTypeRowSpan(policyTypeId, uniqueCommissionEarningsTypeIds, root.items)
+                            : 0,
                         policyTypeId: policyTypeId,
                         commissionEarningsTypeId: commissionEarningsTypeId,
                         companyId: companyId,
@@ -194,6 +226,9 @@ export const projectionGroupTableRowsSelector: (state: RootState) => object[] = 
                     row = getTableRow(row, pastMonthsCount, now, root.items, filter);
 
                     index = index + 1;
+
+                    newPolicyType = false;
+                    newCommissionEarningsType = false;
 
                     rows.push(row);
                 });
@@ -234,6 +269,28 @@ const getTableRow = (
     return row;
 };
 
+const getPolicyTypeRowSpan = (
+    policyTypeId: string | null,
+    commissionEarningsTypeIds: string[],
+    items: PastRevenueCommissionData[]
+): number => {
+    let count = 0;
+    commissionEarningsTypeIds.forEach(commissionEarningsTypeId => {
+        let companyIds = [
+            ...new Set(
+                items
+                    .filter(
+                        i => i.policyTypeId === policyTypeId && i.commissionEarningsTypeId === commissionEarningsTypeId
+                    )
+                    .map(i => i.companyId)
+            ),
+        ];
+        count = count + companyIds.length;
+    });
+
+    return count;
+};
+
 const getMonthColumns = (monthsBack: number): ColumnProps<any>[] => {
     var getColumn = getColumnDefinition();
 
@@ -253,7 +310,9 @@ const getMonthColumns = (monthsBack: number): ColumnProps<any>[] => {
             {
                 type: "currency",
             },
-            {}
+            {
+                sorter: false,
+            }
         );
 
         columns.push(column);

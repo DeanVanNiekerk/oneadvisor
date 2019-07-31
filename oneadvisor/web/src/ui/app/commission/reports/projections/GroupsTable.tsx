@@ -18,9 +18,6 @@ type Props = {
 
 class GroupsTable extends Component<Props> {
     render() {
-        console.log(JSON.stringify(this.props.columnDefinitions, null, 4));
-        console.log(JSON.stringify(this.props.rows, null, 4));
-
         return (
             <Table
                 rowKey="index"
