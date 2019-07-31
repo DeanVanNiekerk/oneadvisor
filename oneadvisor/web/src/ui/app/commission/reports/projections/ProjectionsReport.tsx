@@ -1,4 +1,4 @@
-import { Col, Row, Select } from "antd";
+import { Col, Divider, Row, Select } from "antd";
 import moment from "moment";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
@@ -7,14 +7,15 @@ import { filterOption } from "@/app/controls/select";
 import { DATE_FORMAT } from "@/app/utils";
 import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
 import {
-    commissionProjectionsSelector, fetchPastRevenueCommissionData, PastRevenueCommissionDataFilters,
-    receivePastRevenueCommissionFilters
+    commissionProjectionsSelector, fetchPastRevenueCommissionData, pastMonthsCountSelector,
+    PastRevenueCommissionDataFilters, receivePastRevenueCommissionFilters
 } from "@/state/app/commission/reports";
 import { branchesSimpleSelector, BranchSimple } from "@/state/app/directory/branchesSimple";
 import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { Button, getTable, Header } from "@/ui/controls";
+import { Button, Header } from "@/ui/controls";
 
+import GroupsTable from "./GroupsTable";
 import TotalsTable from "./TotalsTable";
 
 type Props = {
@@ -22,6 +23,7 @@ type Props = {
     branches: BranchSimple[];
     users: UserSimple[];
     policyTypes: PolicyType[];
+    pastMonthsCount: number;
 } & DispatchProp;
 
 class ProjectionsReport extends Component<Props> {
@@ -74,11 +76,7 @@ class ProjectionsReport extends Component<Props> {
     };
 
     selectedPastMonthsCount = (): string => {
-        if (!this.props.filters.startDate) return "";
-        const startDate = this.props.filters.startDate[0];
-        return moment()
-            .diff(startDate, "months")
-            .toString();
+        return this.props.pastMonthsCount.toString();
     };
 
     handlePastMonthsCountChange = (pastMonthsCount: string) => {
@@ -197,6 +195,10 @@ class ProjectionsReport extends Component<Props> {
                 </Row>
 
                 <TotalsTable />
+
+                <div className="mb-1" />
+
+                <GroupsTable />
             </>
         );
     }
@@ -213,6 +215,7 @@ const mapStateToProps = (state: RootState) => {
         branches: branchesState.items,
         users: usersState.items,
         policyTypes: policyTypesState.items,
+        pastMonthsCount: pastMonthsCountSelector(state),
     };
 };
 

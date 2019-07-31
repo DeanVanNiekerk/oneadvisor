@@ -51,7 +51,7 @@ const getColumn = <T>(
     if (options.type === "boolean") props.render = formatBool;
     if (options.type === "date") props.render = value => (value ? moment(value).format("ll") : "");
     if (options.type === "long-date") props.render = value => (value ? moment(value).format("lll") : "");
-    if (options.type === "currency") props.render = value => formatCurrency(value);
+    if (options.type === "currency") props.render = value => formatCurrency(value, 0);
 
     if (options.showSearchFilter) {
         props = {

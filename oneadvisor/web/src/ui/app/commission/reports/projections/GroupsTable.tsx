@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import {
-    commissionProjectionsSelector, projectionTotalsTableColumnsSelector, projectionTotalsTableRowsSelector
+    commissionProjectionsSelector, projectionGroupsTableColumnsSelector, projectionGroupTableRowsSelector
 } from "@/state/app/commission/reports";
 import { RootState } from "@/state/rootReducer";
 import { getTable } from "@/ui/controls";
@@ -16,11 +16,15 @@ type Props = {
     rows: object[];
 } & DispatchProp;
 
-class TotalsTable extends Component<Props> {
+class GroupsTable extends Component<Props> {
     render() {
+        console.log(JSON.stringify(this.props.columnDefinitions, null, 4));
+        console.log(JSON.stringify(this.props.rows, null, 4));
+
         return (
             <Table
-                rowKey="earningsType"
+                rowKey="index"
+                header="Grouped"
                 columns={this.props.columnDefinitions}
                 dataSource={this.props.rows}
                 loading={this.props.fetching}
@@ -38,9 +42,9 @@ const mapStateToProps = (state: RootState) => {
 
     return {
         fetching: projectionsState.fetching,
-        columnDefinitions: projectionTotalsTableColumnsSelector(state),
-        rows: projectionTotalsTableRowsSelector(state),
+        columnDefinitions: projectionGroupsTableColumnsSelector(state),
+        rows: projectionGroupTableRowsSelector(state),
     };
 };
 
-export default connect(mapStateToProps)(TotalsTable);
+export default connect(mapStateToProps)(GroupsTable);
