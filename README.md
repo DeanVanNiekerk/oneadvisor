@@ -96,20 +96,20 @@ See .vscode/extensions.json
 
 ```
 
-Release v0.10.0
+Release v0.11.0
 ===============
 
 New Features:
-- Commission > Import > Alert Email if the are no commission entries imported
-- Commission > Import > Commission Type Prefixes
+- General > Side Menu is now Collapsible
+- Commission > Projections Report > First Pass done
 
 Updates:
-- Commission > Dropdowns > Now searchable
-- Commission > Statement > Preview page now as tooltips for icons
-- Client > Details > Preview page now as tooltips for icons
+- Commission > Statment > Reimport > Now opens dialog to select template
+- Commission > Statement > List > Shows mapping error count
 
 Bug Fixes:
-- Commission > Templates > Copy Config was broken
+- Commission > Templates > Was being filtered after uploading a statment file
+- Commission > Broker Commission Report > wrong labeling (amounts are excluding VAT)
 
 Release v0..
 ===============
