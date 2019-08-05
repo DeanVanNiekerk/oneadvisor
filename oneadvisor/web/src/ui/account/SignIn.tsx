@@ -1,14 +1,14 @@
-import { Form, Icon } from 'antd';
-import React from 'react';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { Form, Icon } from "antd";
+import React from "react";
+import { connect, DispatchProp } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router";
 
-import { ValidationResult } from '@/app/validation';
-import { Credentials, isAuthenticatedSelector, signIn, signInSelector } from '@/state/auth';
-import { RootState } from '@/state/rootReducer';
-import { Button, FormField, FormInput } from '@/ui/controls';
+import { ValidationResult } from "@/app/validation";
+import { Credentials, isAuthenticatedSelector, roleSelector, signIn, signInSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
+import { Button, FormField, FormInput } from "@/ui/controls";
 
-import Layout from './Layout';
+import Layout from "./Layout";
 
 type Props = {
     isAuthenticated: boolean;
@@ -21,6 +21,7 @@ type Props = {
 type State = {
     userName: string;
     password: string;
+    organisationId: string;
 };
 
 class SignIn extends React.Component<Props, State> {
@@ -30,6 +31,7 @@ class SignIn extends React.Component<Props, State> {
         this.state = {
             userName: "",
             password: "",
+            organisationId: "",
         };
     }
 
@@ -49,22 +51,19 @@ class SignIn extends React.Component<Props, State> {
         this.props.history.push("/");
     };
 
-    handleUserNameChange = (fieldName: string, value: any) => {
-        this.setState({
-            userName: value,
-        });
-    };
-
-    handlePasswordChange = (fieldName: string, value: any) => {
-        this.setState({
-            password: value,
-        });
+    handleFieldChange = (fieldName: keyof State, value: string) => {
+        const state = {
+            ...this.state,
+            [fieldName]: value,
+        };
+        this.setState(state);
     };
 
     signIn = () => {
         const credentials: Credentials = {
             userName: this.state.userName,
             password: this.state.password,
+            organisationId: this.state.organisationId,
         };
         this.props.dispatch(signIn(credentials, () => {}));
     };
@@ -79,6 +78,10 @@ class SignIn extends React.Component<Props, State> {
         this.props.history.push("/resetPasswordRequest");
     };
 
+    organisationInputVisible = () => {
+        return this.props.match.url.indexOf("admin") !== -1;
+    };
+
     render() {
         const { validationResults } = this.props;
 
@@ -91,7 +94,7 @@ class SignIn extends React.Component<Props, State> {
                         value={this.state.userName}
                         size="large"
                         prefix={<Icon type="user" />}
-                        onChange={this.handleUserNameChange}
+                        onChange={this.handleFieldChange}
                         autoFocus={true}
                         formFieldStyle={{
                             marginBottom: "10px",
@@ -104,11 +107,24 @@ class SignIn extends React.Component<Props, State> {
                         value={this.state.password}
                         prefix={<Icon type="lock" />}
                         size="large"
-                        onChange={this.handlePasswordChange}
+                        onChange={this.handleFieldChange}
                         formFieldStyle={{
-                            marginBottom: "25px",
+                            marginBottom: "10px",
                         }}
                         type="password"
+                        onKeyPress={this.onKeyPress}
+                    />
+                    <FormInput
+                        placeholder="Organisation Id"
+                        fieldName="organisationId"
+                        value={this.state.organisationId}
+                        prefix={<Icon type="bank" />}
+                        size="large"
+                        onChange={this.handleFieldChange}
+                        hidden={!this.organisationInputVisible()}
+                        formFieldStyle={{
+                            marginBottom: "10px",
+                        }}
                         onKeyPress={this.onKeyPress}
                     />
 
@@ -121,7 +137,14 @@ class SignIn extends React.Component<Props, State> {
                     )}
 
                     <FormField>
-                        <Button size="large" noLeftMargin={true} onClick={this.signIn} type="primary" block={true}>
+                        <Button
+                            size="large"
+                            className="mt-1"
+                            noLeftMargin={true}
+                            onClick={this.signIn}
+                            type="primary"
+                            block={true}
+                        >
                             Sign In
                         </Button>
                     </FormField>

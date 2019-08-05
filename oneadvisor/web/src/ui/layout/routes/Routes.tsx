@@ -32,7 +32,7 @@ import SecureRoute from "../SecureRoute";
 const Routes = () => (
     <Switch>
         {/* ACCOUNT ----------------------------------------------------------------------------- */}
-        <Route exact path="/signin" component={SignIn} />
+        <Route exact path={["/signin", "/signin/admin"]} component={SignIn} />
         <Route exact path="/activate" component={Activate} />
         <Route exact path="/resetPasswordRequest" component={ResetPasswordRequest} />
         <Route exact path="/resetPassword" component={ResetPassword} />

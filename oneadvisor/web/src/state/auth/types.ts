@@ -1,6 +1,7 @@
 export type Credentials = {
     userName: string;
     password: string;
+    organisationId: string;
 };
 
 export type TokenData = {

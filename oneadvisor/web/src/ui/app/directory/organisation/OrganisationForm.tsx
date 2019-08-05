@@ -1,9 +1,9 @@
-import update from 'immutability-helper';
-import React, { Component } from 'react';
+import update from "immutability-helper";
+import React, { Component } from "react";
 
-import { ValidationResult } from '@/app/validation';
-import { Organisation } from '@/state/app/directory/organisations';
-import { Form, FormInput } from '@/ui/controls';
+import { ValidationResult } from "@/app/validation";
+import { Organisation } from "@/state/app/directory/organisations";
+import { Form, FormInput } from "@/ui/controls";
 
 type Props = {
     organisation: Organisation;
@@ -45,6 +45,7 @@ class OrganisationForm extends Component<Props, State> {
 
         return (
             <Form editUseCase="dir_edit_organisations">
+                <FormInput fieldName="id" label="Id" value={organisation.id} disabled={true} />
                 <FormInput
                     fieldName="name"
                     label="Name"

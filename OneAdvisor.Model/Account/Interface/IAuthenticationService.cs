@@ -15,6 +15,7 @@ namespace OneAdvisor.Model.Account.Interface
         ScopeOptions GetIgnoreScope();
         Task<AuthenticationResult> Authenticate(string userName, string password);
         Task<string> GenerateToken(string userName, JwtOptions options);
+        Task<string> GenerateToken(string userName, Guid? organisationId, JwtOptions options);
         Task<Result> GeneratePasswordResetToken(string userName);
         Task<Result> ResetPassword(ResetPassword resetPassword);
         Task<bool> IsUserActive(string userName);

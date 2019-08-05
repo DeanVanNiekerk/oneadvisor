@@ -48,7 +48,7 @@ namespace api.Controllers.Account.Authentication
             if (!result.Success)
                 return this.BadRequestMessage("Invalid Username or Password");
 
-            var token = await AuthenticationService.GenerateToken(dto.UserName, JwtOptions);
+            var token = await AuthenticationService.GenerateToken(dto.UserName, dto.OrganisationId, JwtOptions);
 
             return Ok(new { token = token });
         }

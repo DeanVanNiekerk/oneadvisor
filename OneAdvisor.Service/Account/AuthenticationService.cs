@@ -84,6 +84,11 @@ namespace OneAdvisor.Service.Account
 
         public async Task<string> GenerateToken(string userName, JwtOptions options)
         {
+            return await GenerateToken(userName, null, options);
+        }
+
+        public async Task<string> GenerateToken(string userName, Guid? organisationId, JwtOptions options)
+        {
             var user = await _userManager.FindByNameAsync(userName);
 
             var userDetails = await (from entity in _context.Users
@@ -101,11 +106,37 @@ namespace OneAdvisor.Service.Account
                                          OrganisationName = organisation.Name
                                      }).FirstOrDefaultAsync();
 
+            var organisationIdClaim = userDetails.OrganisationId;
+            var organisationNameClaim = userDetails.OrganisationName;
+            var branchIdClaim = userDetails.BranchId;
+            var branchNameClaim = userDetails.BranchName;
+
+            //Organisation override is supplied, only for super admin
+            if (organisationId.HasValue)
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+
+                if (userRoles.Any(r => r == Role.SUPER_ADMINISTRATOR_ROLE))
+                {
+                    var organisation = await _context.Organisation.Where(o => o.Id == organisationId).Include(o => o.Branches).FirstOrDefaultAsync();
+                    if (organisation != null)
+                    {
+                        organisationIdClaim = organisation.Id;
+                        organisationNameClaim = organisation.Name;
+
+                        var branch = organisation.Branches.FirstOrDefault();
+                        branchIdClaim = branch.Id;
+                        branchNameClaim = branch.Name;
+                    }
+
+                }
+            }
+
             //Generate and issue a JWT token
             var claims = new List<Claim>() {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(Claims.OrganisationIdClaimName, userDetails.OrganisationId.ToString()),
-                new Claim(Claims.BranchIdClaimName, userDetails.BranchId.ToString()),
+                new Claim(Claims.OrganisationIdClaimName, organisationIdClaim.ToString()),
+                new Claim(Claims.BranchIdClaimName, branchIdClaim.ToString()),
                 new Claim(Claims.ScopeClaimName, Enum.GetName(typeof(Scope), userDetails.Scope))
             };
 
@@ -122,8 +153,8 @@ namespace OneAdvisor.Service.Account
             claims.Add(new Claim("userName", user.UserName));
             claims.Add(new Claim("firstName", user.FirstName));
             claims.Add(new Claim("lastName", user.LastName));
-            claims.Add(new Claim("branchName", userDetails.BranchName));
-            claims.Add(new Claim("organisationName", userDetails.OrganisationName));
+            claims.Add(new Claim("branchName", branchNameClaim));
+            claims.Add(new Claim("organisationName", organisationNameClaim));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Secret));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
