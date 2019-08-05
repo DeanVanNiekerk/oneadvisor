@@ -14,6 +14,7 @@ using OneAdvisor.Model;
 using OneAdvisor.Service.Directory.Validators;
 using System.Collections.Generic;
 using FluentValidation.Results;
+using OneAdvisor.Model.Directory.Model.Role;
 
 namespace OneAdvisor.Service.Directory
 {
@@ -190,6 +191,11 @@ namespace OneAdvisor.Service.Directory
             //Update roles
             var currentRoles = await _userManager.GetRolesAsync(entity);
             await _userManager.RemoveFromRolesAsync(entity, currentRoles);
+
+            //Filter out super admin (should not be settable via the UI)
+            if (!currentRoles.Any(r => r == Role.SUPER_ADMINISTRATOR_ROLE))
+                roles = roles.Where(r => r != Role.SUPER_ADMINISTRATOR_ROLE);
+
             await _userManager.AddToRolesAsync(entity, roles);
         }
 
