@@ -30,9 +30,17 @@ namespace OneAdvisor.Service.Directory.Validators
                 .NotEmpty()
                 .EmailAddress();
 
+            RuleFor(x => x.Roles)
+                .NotEmpty()
+                .WithMessage("Please add at least 1 role");
+
             RuleForEach(x => x.Roles)
                 .NotEmpty()
                 .WithName("Roles");
+
+            RuleForEach(x => x.Aliases)
+               .NotEmpty()
+               .WithName("Aliases");
         }
 
         private void MustNotBeUserScope(UserEdit user, CustomContext context)

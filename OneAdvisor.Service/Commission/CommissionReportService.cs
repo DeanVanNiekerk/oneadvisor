@@ -11,6 +11,7 @@ using OneAdvisor.Model.Common;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Commission.Model.Lookup;
 using OneAdvisor.Service.Common.Query;
+using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -25,6 +26,14 @@ namespace OneAdvisor.Service.Commission
 
         public async Task<PagedItems<ClientRevenueData>> GetClientRevenueData(ClientRevenueQueryOptions options)
         {
+            //Apply scope ------------------------------------------------------------
+            if (options.Scope.Scope == Scope.User)
+                options.UserId = new List<Guid>() { options.Scope.UserId };
+
+            if (options.Scope.Scope == Scope.Branch)
+                options.BranchId = new List<Guid>() { options.Scope.BranchId };
+            //-------------------------------------------------------------------------
+
             var orderbyClause = "ORDER BY MonthlyAnnuityMonth DESC";
             if (!string.IsNullOrEmpty(options.SortOptions.Column))
             {

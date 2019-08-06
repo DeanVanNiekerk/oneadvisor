@@ -1,10 +1,10 @@
-import { List, Switch } from "antd";
+import { Badge, List, Switch } from "antd";
 import update from "immutability-helper";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { hasUseCase } from "@/app/identity";
-import { ValidationResult } from "@/app/validation";
+import { getValidationSubSet, ValidationResult } from "@/app/validation";
 import { getScopes } from "@/config/scope";
 import { Application } from "@/state/app/directory/applications";
 import { Organisation } from "@/state/app/directory/organisations";
@@ -81,6 +81,23 @@ class UserForm extends Component<Props, State> {
         this.setState({ activeTab });
     };
 
+    getRolesTabTitle = () => {
+        return this.getTabTitle("Roles", "Roles");
+    };
+
+    getAliasesTabTitle = () => {
+        return this.getTabTitle("Aliases", "Aliases");
+    };
+
+    getTabTitle = (title: string, prefix: string) => {
+        const count = getValidationSubSet(prefix, this.props.validationResults, true, false).length;
+        return (
+            <Badge count={count} offset={[10, -2]}>
+                {title}
+            </Badge>
+        );
+    };
+
     render() {
         const { validationResults } = this.props;
         const { user } = this.state;
@@ -147,7 +164,10 @@ class UserForm extends Component<Props, State> {
                             />
                         </Form>
                     </TabPane>
-                    <TabPane tab="Roles" key="roles_tab">
+                    <TabPane tab={this.getRolesTabTitle()} key="roles_tab">
+                        <FormErrors
+                            validationResults={getValidationSubSet("Roles", this.props.validationResults, true, true)}
+                        />
                         {this.props.applications.map(application => (
                             <List
                                 key={application.id}
@@ -173,7 +193,10 @@ class UserForm extends Component<Props, State> {
                             />
                         ))}
                     </TabPane>
-                    <TabPane tab="Aliases" key="aliases_tab">
+                    <TabPane tab={this.getAliasesTabTitle()} key="aliases_tab">
+                        <FormErrors
+                            validationResults={getValidationSubSet("Aliases", this.props.validationResults, true, true)}
+                        />
                         <FormSimpleList
                             editUseCase="dir_edit_users"
                             fieldName="Aliases"

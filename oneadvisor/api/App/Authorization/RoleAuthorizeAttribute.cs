@@ -1,11 +1,8 @@
 
 using System.Linq;
 using System.Security.Claims;
-using api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using OneAdvisor.Model.Directory.Interface;
-using OneAdvisor.Model.Directory.Model.Role;
 
 namespace api.App.Authorization
 {
@@ -36,7 +33,7 @@ namespace api.App.Authorization
 
     public class RoleAuthorizeAttribute : TypeFilterAttribute
     {
-        public RoleAuthorizeAttribute(params string[] roles) : base(typeof(UseCaseAuthorizeFilter))
+        public RoleAuthorizeAttribute(params string[] roles) : base(typeof(RoleAuthorizeAttributeFilter))
         {
             Arguments = new object[] { roles };
         }

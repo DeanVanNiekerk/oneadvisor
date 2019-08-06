@@ -1,16 +1,16 @@
-import { List, Popconfirm } from 'antd';
-import update from 'immutability-helper';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { List, Popconfirm } from "antd";
+import update from "immutability-helper";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { hasUseCase } from '@/app/identity';
-import { getErrorMessage, ValidationResult } from '@/app/validation';
-import { useCaseSelector } from '@/state/auth';
-import { RootState } from '@/state/rootReducer';
+import { hasUseCase } from "@/app/identity";
+import { getErrorMessage, ValidationResult } from "@/app/validation";
+import { useCaseSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
 
-import { Button, FormInput } from '../';
-import { Form } from './Form';
-import { FormField } from './FormField';
+import { Button, FormInput } from "../";
+import { Form } from "./Form";
+import { FormField } from "./FormField";
 
 type Props = {
     values: string[];
@@ -112,11 +112,7 @@ class FormSimpleListComponent extends Component<Props, State> {
     };
 
     getActions = (value: string, index: number) => {
-        if (
-            this.props.editUseCase &&
-            !hasUseCase(this.props.editUseCase, this.props.useCases)
-        )
-            return [];
+        if (this.props.editUseCase && !hasUseCase(this.props.editUseCase, this.props.useCases)) return [];
 
         return [
             <a onClick={() => this.edit(value, index)}>edit</a>,
@@ -156,22 +152,14 @@ class FormSimpleListComponent extends Component<Props, State> {
                             fieldName={this.props.fieldName}
                             label={this.props.displayName}
                             value={this.state.editValue}
-                            onChange={(fieldName: string, value: string) =>
-                                this.update(value)
-                            }
+                            onChange={(fieldName: string, value: string) => this.update(value)}
                             autoFocus={true}
                         />
                         <FormField className="mr-0">
-                            <Button onClick={() => this.cancel()}>
-                                Cancel
-                            </Button>
+                            <Button onClick={() => this.cancel()}>Cancel</Button>
                         </FormField>
                         <FormField>
-                            <Button
-                                onClick={this.save}
-                                type="primary"
-                                disabled={!this.state.editValue}
-                            >
+                            <Button onClick={this.save} type="primary" disabled={!this.state.editValue}>
                                 {this.state.mode === "edit"
                                     ? `Update ${this.props.displayName}`
                                     : `Add ${this.props.displayName}`}
@@ -187,11 +175,7 @@ class FormSimpleListComponent extends Component<Props, State> {
                     renderItem={(value: string, index: any) => (
                         <List.Item actions={this.getActions(value, index)}>
                             <List.Item.Meta
-                                title={
-                                    <span className="font-weight-normal">
-                                        {value}
-                                    </span>
-                                }
+                                title={<span className="font-weight-normal">{value}</span>}
                                 description={
                                     <span className="text-error">
                                         {getErrorMessage(
