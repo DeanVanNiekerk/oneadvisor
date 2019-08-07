@@ -1,16 +1,18 @@
-import { Popconfirm } from 'antd';
-import { ColumnProps } from 'antd/lib/table';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Popconfirm } from "antd";
+import { ColumnProps } from "antd/lib/table";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { getColumnDefinition } from '@/app/table';
+import { hasUseCase } from "@/app/identity";
+import { getColumnDefinition } from "@/app/table";
 import {
     Contact, contactsSelector, deleteContact, fetchContact, fetchContacts, receiveContact
-} from '@/state/app/client/contacts';
-import { RootState } from '@/state/rootReducer';
-import { ContactTypeName, getTable, StopPropagation } from '@/ui/controls';
+} from "@/state/app/client/contacts";
+import { useCaseSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
+import { ContactTypeName, getTable, StopPropagation } from "@/ui/controls";
 
-import EditContact from './EditContact';
+import EditContact from "./EditContact";
 
 const Table = getTable<Contact>();
 
@@ -19,6 +21,7 @@ type Props = {
     contacts: Contact[];
     fetching: boolean;
     onSave?: () => void;
+    useCases: string[];
 } & DispatchProp;
 
 class ContactList extends Component<Props> {
@@ -71,17 +74,16 @@ class ContactList extends Component<Props> {
                     render: (id: string) => {
                         return (
                             <StopPropagation>
-                                <a href="#" className="mr-1" onClick={() => this.editContact(id)}>
-                                    Edit
-                                </a>
-                                <Popconfirm
-                                    title="Are you sure remove this contact?"
-                                    onConfirm={() => this.deleteContact(id)}
-                                    okText="Yes"
-                                    cancelText="No"
-                                >
-                                    <a href="#">Remove</a>
-                                </Popconfirm>
+                                {hasUseCase("clt_edit_contacts", this.props.useCases) && (
+                                    <Popconfirm
+                                        title="Are you sure remove this contact?"
+                                        onConfirm={() => this.deleteContact(id)}
+                                        okText="Yes"
+                                        cancelText="No"
+                                    >
+                                        <a href="#">Remove</a>
+                                    </Popconfirm>
+                                )}
                             </StopPropagation>
                         );
                     },
@@ -91,7 +93,6 @@ class ContactList extends Component<Props> {
     };
 
     render() {
-
         return (
             <>
                 <EditContact clientId={this.props.clientId} onSave={this.onSave} />
@@ -101,6 +102,7 @@ class ContactList extends Component<Props> {
                     dataSource={this.props.contacts}
                     loading={this.props.fetching}
                     onRowClick={contact => this.editContact(contact.id)}
+                    onRowClickRequiredUseCase="clt_edit_contacts"
                 />
             </>
         );
@@ -113,6 +115,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         contacts: contactsState.items,
         fetching: contactsState.fetching,
+        useCases: useCaseSelector(state),
     };
 };
 

@@ -18,7 +18,6 @@ import { RootState } from "@/state/rootReducer";
 import { Button, Header } from "@/ui/controls";
 
 import GroupsTable from "./GroupsTable";
-import TotalsTable from "./TotalsTable";
 
 type Props = {
     filters: PastRevenueCommissionDataFilters;
@@ -292,10 +291,6 @@ class ProjectionsReport extends Component<Props> {
                         </Select>
                     </Col>
                 </Row>
-
-                <TotalsTable />
-
-                <div className="mb-2" />
 
                 <GroupsTable />
             </>

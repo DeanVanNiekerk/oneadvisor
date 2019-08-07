@@ -1,22 +1,22 @@
-import { Col, Row } from 'antd';
-import { ColumnProps } from 'antd/lib/table';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Col, Row } from "antd";
+import { ColumnProps } from "antd/lib/table";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { applyLike } from '@/app/query';
-import { Filters, formatBool, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
-import { formatCurrency } from '@/app/utils';
+import { applyLike } from "@/app/query";
+import { Filters, formatBool, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
+import { formatCurrency } from "@/app/utils";
 import {
     Commission, CommissionEdit, commissionsSelector, fetchCommission, fetchCommissions, receiveCommission,
     receiveFilters, receivePageOptions, receiveSortOptions
-} from '@/state/app/commission/commissions';
-import { CommissionType, commissionTypesSelector } from '@/state/app/commission/lookups';
-import { companiesSelector, Company } from '@/state/app/directory/lookups';
-import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
-import { RootState } from '@/state/rootReducer';
-import { Button, CommissionTypeName, CompanyName, getTable, Header, UserName } from '@/ui/controls';
+} from "@/state/app/commission/commissions";
+import { CommissionType, commissionTypesSelector } from "@/state/app/commission/lookups";
+import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
+import { RootState } from "@/state/rootReducer";
+import { Button, CommissionTypeName, CompanyName, getTable, Header, UserName } from "@/ui/controls";
 
-import EditCommission from './EditCommission';
+import EditCommission from "./EditCommission";
 
 const Table = getTable<Commission>();
 
@@ -52,6 +52,15 @@ class CommissionList extends Component<Props> {
             prevProps.filters != this.props.filters
         )
             this.loadCommissions();
+
+        if (this.props.commissions.length === 0 && this.props.pageOptions.number !== 1) {
+            this.props.dispatch(
+                receivePageOptions({
+                    ...this.props.pageOptions,
+                    number: 1,
+                })
+            );
+        }
     }
 
     loadCommissions = () => {
@@ -230,8 +239,6 @@ class CommissionList extends Component<Props> {
     };
 
     render() {
-
-
         return (
             <>
                 <Header

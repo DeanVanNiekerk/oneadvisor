@@ -29,15 +29,15 @@ namespace OneAdvisor.Service.Commission
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
 
-            var query = from user in userQuery
+            var query = from commission in _context.Commission
+                        join user in userQuery
+                            on commission.UserId equals user.Id
                         join policy in _context.Policy
-                            on user.Id equals policy.UserId
-                        join commission in _context.Commission
-                            on policy.Id equals commission.PolicyId
+                             on commission.PolicyId equals policy.Id
+                        join client in _context.Client
+                             on policy.ClientId equals client.Id
                         join statement in _context.CommissionStatement
                             on commission.CommissionStatementId equals statement.Id
-                        join client in _context.Client
-                            on policy.ClientId equals client.Id
                         select new OneAdvisor.Model.Commission.Model.Commission.Commission()
                         {
                             Id = commission.Id,
@@ -109,11 +109,11 @@ namespace OneAdvisor.Service.Commission
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
 
-            var query = from user in userQuery
+            var query = from commission in _context.Commission
+                        join user in userQuery
+                            on commission.UserId equals user.Id
                         join policy in _context.Policy
-                            on user.Id equals policy.UserId
-                        join commission in _context.Commission
-                            on policy.Id equals commission.PolicyId
+                             on commission.PolicyId equals policy.Id
                         select new OneAdvisor.Model.Commission.Model.Commission.Commission()
                         {
                             Id = commission.Id,

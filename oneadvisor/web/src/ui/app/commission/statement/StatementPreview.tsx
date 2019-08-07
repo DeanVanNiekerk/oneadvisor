@@ -295,6 +295,7 @@ class StatementPreviewComponent extends Component<Props, State> {
                             isLoading={this.isLoading()}
                             rows={3}
                             onClick={this.toggleErrorListVisible}
+                            requiredUseCase="com_edit_commission_statements"
                             actions={[
                                 <Icon type="tool" />,
                                 <Icon

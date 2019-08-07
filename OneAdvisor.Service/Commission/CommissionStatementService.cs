@@ -60,10 +60,19 @@ namespace OneAdvisor.Service.Commission
             pagedItems.TotalItems = await query.CountAsync();
 
             //Aggregations
-            var commissionQuery = from commission in _context.Commission
-                                  join statement in query
-                                       on commission.CommissionStatementId equals statement.Id
-                                  select commission;
+            var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
+
+            var commissionQuery = from user in userQuery
+                                  join commission in _context.Commission
+                                    on user.Id equals commission.UserId
+                                  join commissionStatement in query
+                                    on commission.CommissionStatementId equals commissionStatement.Id
+                                  select new
+                                  {
+                                      CommissionStatementId = commission.CommissionStatementId,
+                                      AmountIncludingVAT = commission.AmountIncludingVAT,
+                                      VAT = commission.VAT,
+                                  };
 
             var aggQuery = from commission in commissionQuery
                            select new
@@ -88,9 +97,9 @@ namespace OneAdvisor.Service.Commission
                                  VAT = commissionStatement.VAT,
                                  Date = commissionStatement.Date,
                                  Processed = commissionStatement.Processed,
-                                 ActualAmountIncludingVAT = commissionStatement.Commissions.Select(c => c.AmountIncludingVAT).Sum(),
-                                 ActualVAT = commissionStatement.Commissions.Select(c => c.VAT).Sum(),
-                                 CommissionCount = commissionStatement.Commissions.Count(),
+                                 ActualAmountIncludingVAT = commissionQuery.Where(c => c.CommissionStatementId == commissionStatement.Id).Select(c => c.AmountIncludingVAT).Sum(),
+                                 ActualVAT = commissionQuery.Where(c => c.CommissionStatementId == commissionStatement.Id).Select(c => c.VAT).Sum(),
+                                 CommissionCount = commissionQuery.Where(c => c.CommissionStatementId == commissionStatement.Id).Count(),
                                  MappingErrorCount = commissionStatement.CommissionErrors.Count(),
                                  CompanyName = commissionStatement.Company.Name
                              };

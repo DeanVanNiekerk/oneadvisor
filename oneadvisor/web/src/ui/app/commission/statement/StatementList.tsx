@@ -122,6 +122,7 @@ class StatementList extends Component<Props> {
                     },
                 }
             ),
+            getColumn("commissionCount", "Commission Count"),
             getColumn("mappingErrorCount", "Error Count"),
             getColumn(
                 "processed",

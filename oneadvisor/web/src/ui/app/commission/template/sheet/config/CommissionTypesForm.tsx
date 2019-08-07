@@ -232,7 +232,7 @@ class CommissionTypesForm extends Component<Props, State> {
 					{`Add Mapping`}
 				</Button>
 
-				{this.props.commissionStatementTemplateId && (
+				{this.state.hasUseCase && this.props.commissionStatementTemplateId && (
 					<Upload
 						name="file"
 						listType="text"
@@ -246,7 +246,7 @@ class CommissionTypesForm extends Component<Props, State> {
 							Authorization: "Bearer " + this.props.token,
 						}}
 						showUploadList={false}
-						disabled={!this.state.hasUseCase || this.state.syncingCommissionTypes}
+						disabled={this.state.syncingCommissionTypes}
 					>
 						<Button loading={this.state.syncingCommissionTypes}>
 							{!this.state.syncingCommissionTypes && <Icon type="upload" />}

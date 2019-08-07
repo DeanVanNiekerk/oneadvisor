@@ -1,12 +1,12 @@
-import { Alert, Form, Icon } from 'antd';
-import React from 'react';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { Alert, Form, Icon } from "antd";
+import React from "react";
+import { connect, DispatchProp } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router";
 
-import { resetPasswordRequest, ResetPasswordRequestData, signOut } from '@/state/auth';
-import { Button, FormField, FormInput } from '@/ui/controls';
+import { resetPasswordRequest, ResetPasswordRequestData, signOut } from "@/state/auth";
+import { Button, FormField, FormInput } from "@/ui/controls";
 
-import Layout from './Layout';
+import Layout from "./Layout";
 
 type Props = {} & DispatchProp & RouteComponentProps;
 
@@ -78,19 +78,13 @@ class ResetPasswordRequest extends React.Component<Props, State> {
                 {this.state.emailSent && (
                     <>
                         <Alert
-                            message="if an account exists with the username you entered, we will email you instructions for resetting your password.
+                            message="If an account exists with the username you entered, we will email you instructions for resetting your password.
                             If you don't receive an email, please make sure you've entered the username you registered with."
                             type="info"
                             className="mb-1"
                         />
 
-                        <Button
-                            size="large"
-                            noLeftMargin={true}
-                            onClick={this.signIn}
-                            type="primary"
-                            block={true}
-                        >
+                        <Button size="large" noLeftMargin={true} onClick={this.signIn} type="primary" block={true}>
                             Sign In
                         </Button>
                     </>

@@ -1,12 +1,11 @@
-import { Cascader } from 'antd';
-import { CascaderOptionType } from 'antd/lib/cascader';
-import React, { Component } from 'react';
+import { Cascader } from "antd";
+import { CascaderOptionType } from "antd/lib/cascader";
+import React, { Component } from "react";
 
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { FormText } from './';
-import { FormLayout } from './Form';
-import { FormField } from './FormField';
+import { FormLayout } from "./Form";
+import { FormField } from "./FormField";
 
 type Props = {
     fieldName: string;
@@ -23,61 +22,20 @@ type Props = {
 };
 
 class FormCascade extends Component<Props> {
-    getTest = (): string => {
-        return "TODO";
-    };
-
     filter = (inputValue: string, path: CascaderOptionType[]) => {
         return path.some(
-            option =>
-                (option.label ? option.label.toString() : "")
-                    .toLowerCase()
-                    .indexOf(inputValue.toLowerCase()) > -1
+            option => (option.label ? option.label.toString() : "").toLowerCase().indexOf(inputValue.toLowerCase()) > -1
         );
     };
 
-    // getValues = (): string[] => {
-
-    // };
-
-    // findValue = (path: CascaderOptionType[], value: string): string => {
-
-    //     var match = path.find(p => {
-    //         return p.value === value;
-    //     })
-
-    //     if(!match)
-    //         return "";
-
-    //     return match.value
-
-    // }
-
     render() {
-        const {
-            fieldName,
-            label,
-            value,
-            validationResults,
-            layout,
-            readonly,
-        } = this.props;
-
-        if (readonly)
-            return (
-                <FormText
-                    label={label}
-                    value={this.getTest()}
-                    layout={layout}
-                />
-            );
+        const { fieldName, label, validationResults, layout, readonly } = this.props;
 
         return (
             <FormField
                 label={label}
                 fieldName={fieldName}
                 validationResults={validationResults}
-                //value={value}
                 layout={layout}
                 validationFieldName={this.props.validationFieldName}
             >
@@ -85,11 +43,10 @@ class FormCascade extends Component<Props> {
                     options={this.props.options}
                     onChange={this.props.onChange}
                     placeholder=""
-                    showSearch={
-                        this.props.showSearch ? { filter: this.filter } : false
-                    }
+                    showSearch={this.props.showSearch ? { filter: this.filter } : false}
                     changeOnSelect={this.props.changeOnSelect}
                     value={this.props.value}
+                    disabled={readonly}
                 />
             </FormField>
         );

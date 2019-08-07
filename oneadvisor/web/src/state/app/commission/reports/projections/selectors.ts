@@ -11,7 +11,7 @@ import { companiesSelector, Company } from "@/state/app/directory/lookups";
 import { State as CompaniesState } from "@/state/app/directory/lookups/companies/list/reducer";
 import { RootState } from "@/state/rootReducer";
 
-import { GroupTableRecord, PastRevenueCommissionData, TotalsTableRecord } from "../";
+import { Group, GroupTableRecord, PastRevenueCommissionData } from "../";
 import { CommissionEarningsType, commissionEarningsTypesSelector } from "../../lookups";
 import { State as CommissionEarningsTypesState } from "../../lookups/commissionEarningsTypes/list/reducer";
 import { State } from "./reducer";
@@ -34,55 +34,6 @@ export const pastMonthsCountSelector: (state: RootState) => number = createSelec
     }
 );
 
-export const projectionTotalsTableColumnsSelector: (state: RootState) => ColumnProps<any>[] = createSelector(
-    rootSelector,
-    pastMonthsCountSelector,
-    (root: State, pastMonthsCount: number) => {
-        var getColumn = getColumnDefinition<TotalsTableRecord>();
-
-        const columns = [
-            getColumn(
-                "earningsType",
-                "",
-                {},
-                {
-                    fixed: "left",
-                    sorter: false,
-                    width: `${root.groups.length * 170}px`,
-                }
-            ),
-        ];
-
-        return columns.concat(getMonthColumns(pastMonthsCount));
-    }
-);
-
-export const projectionTotalsTableRowsSelector: (state: RootState) => object[] = createSelector(
-    rootSelector,
-    pastMonthsCountSelector,
-    commissionEarningsTypesSelector,
-    (root: State, pastMonthsCount: number, commissionEarningsTypesState: CommissionEarningsTypesState) => {
-        const now = new Date();
-
-        const rows: TotalsTableRecord[] = [];
-
-        let totalRow = { earningsType: "Total Commission" };
-        totalRow = getTableRow(totalRow, pastMonthsCount, now, root.items);
-        rows.push(totalRow);
-
-        commissionEarningsTypesState.items.forEach(earningsType => {
-            const filter: TableRowFilter = d => d.commissionEarningsTypeId === earningsType.id;
-
-            let row = { earningsType: earningsType.name };
-            row = getTableRow(row, pastMonthsCount, now, root.items, filter);
-
-            rows.push(row);
-        });
-
-        return rows;
-    }
-);
-
 export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnProps<any>[] = createSelector(
     rootSelector,
     pastMonthsCountSelector,
@@ -102,6 +53,8 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
 
         const columns: ColumnProps<GroupTableRecord>[] = [];
 
+        const totalsText = "Totals";
+
         if (groups.some(g => g === "Policy Type"))
             columns.push(
                 getColumn(
@@ -112,11 +65,14 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
                         fixed: "left",
                         width: "170px",
                         sorter: false,
-                        render: (policyTypeId: string, row: any) => {
+                        render: (policyTypeId: string, row: GroupTableRecord) => {
+                            let value = getPolicyTypeName(policyTypeId, policyTypesState.items);
+                            if (row.isTotalRow && row.policyTypeColSpan >= 1) value = totalsText;
                             const obj = {
-                                children: getPolicyTypeName(policyTypeId, policyTypesState.items),
+                                children: value,
                                 props: {
                                     rowSpan: row.policyTypeRowSpan,
+                                    colSpan: row.policyTypeColSpan,
                                 },
                             };
 
@@ -136,14 +92,17 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
                         fixed: "left",
                         width: "170px",
                         sorter: false,
-                        render: (commissionEarningsTypeId: string, row: any) => {
+                        render: (commissionEarningsTypeId: string, row: GroupTableRecord) => {
+                            let value = getEarningsTypeName(
+                                commissionEarningsTypeId,
+                                commissionEarningsTypesState.items
+                            );
+                            if (row.isTotalRow && row.earningsTypeColSpan >= 1) value = totalsText;
                             const obj = {
-                                children: getEarningsTypeName(
-                                    commissionEarningsTypeId,
-                                    commissionEarningsTypesState.items
-                                ),
+                                children: value,
                                 props: {
                                     rowSpan: row.earningsTypeRowSpan,
+                                    colSpan: row.earningsTypeColSpan,
                                 },
                             };
 
@@ -163,8 +122,17 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
                         fixed: "left",
                         width: "170px",
                         sorter: false,
-                        render: (companyId: string) => {
-                            return getCompanyName(companyId, companiesState.items);
+                        render: (companyId: string, row: GroupTableRecord) => {
+                            let value = getCompanyName(companyId, companiesState.items);
+                            if (row.isTotalRow && row.companyColSpan >= 1) value = totalsText;
+                            const obj = {
+                                children: value,
+                                props: {
+                                    colSpan: row.companyColSpan,
+                                },
+                            };
+
+                            return obj;
                         },
                     }
                 )
@@ -173,6 +141,26 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
         return columns.concat(getMonthColumns(pastMonthsCount));
     }
 );
+
+const getPolicyTypeColSpan = (groups: Group[]) => {
+    if (!groups.some(g => g === "Policy Type")) return 1;
+
+    return groups.length;
+};
+
+const getEarningsTypeColSpan = (groups: Group[]) => {
+    if (groups.some(g => g === "Policy Type")) return 0;
+
+    if (!groups.some(g => g === "Earnings Type")) return 1;
+
+    return groups.length;
+};
+
+const getCompanyColSpan = (groups: Group[]) => {
+    if (groups.some(g => g === "Policy Type" || g === "Earnings Type")) return 0;
+
+    return 1;
+};
 
 export const projectionGroupTableRowsSelector: (state: RootState) => object[] = createSelector(
     rootSelector,
@@ -192,6 +180,20 @@ export const projectionGroupTableRowsSelector: (state: RootState) => object[] = 
         const { items, groups } = root;
 
         let rows: GroupTableRecord[] = [];
+
+        let totalRow = {
+            key: "",
+            sortKey: "",
+            earningsTypeGroupKey: "",
+            earningsTypeRowSpan: 1,
+            policyTypeRowSpan: 1,
+            earningsTypeColSpan: getEarningsTypeColSpan(groups),
+            policyTypeColSpan: getPolicyTypeColSpan(groups),
+            companyColSpan: getCompanyColSpan(groups),
+            isTotalRow: true,
+        };
+        totalRow = getTableRow(totalRow, pastMonthsCount, now, root.items);
+        rows.push(totalRow);
 
         if (groups.length === 0) return rows;
 
@@ -240,6 +242,8 @@ export const projectionGroupTableRowsSelector: (state: RootState) => object[] = 
                 earningsTypeGroupKey: earningsTypeGroupKey,
                 earningsTypeRowSpan: 1,
                 policyTypeRowSpan: 1,
+                earningsTypeColSpan: 1,
+                policyTypeColSpan: 1,
                 policyTypeId: data.policyTypeId,
                 commissionEarningsTypeId: data.commissionEarningsTypeId,
                 companyId: data.companyId,
@@ -322,28 +326,6 @@ const getTableRow = (
     }
 
     return row;
-};
-
-const getPolicyTypeRowSpan = (
-    policyTypeId: string | null,
-    commissionEarningsTypeIds: string[],
-    items: PastRevenueCommissionData[]
-): number => {
-    let count = 0;
-    commissionEarningsTypeIds.forEach(commissionEarningsTypeId => {
-        let companyIds = [
-            ...new Set(
-                items
-                    .filter(
-                        i => i.policyTypeId === policyTypeId && i.commissionEarningsTypeId === commissionEarningsTypeId
-                    )
-                    .map(i => i.companyId)
-            ),
-        ];
-        count = count + companyIds.length;
-    });
-
-    return count;
 };
 
 const getMonthColumns = (monthsBack: number): ColumnProps<any>[] => {

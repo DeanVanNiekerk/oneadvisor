@@ -1,11 +1,15 @@
 import { Popconfirm } from "antd";
 import update from "immutability-helper";
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
+import { hasUseCase } from "@/app/identity";
 import { getColumnDefinition } from "@/app/table";
 import { ValidationResult } from "@/app/validation";
 import { UNKNOWN_COMMISSION_TYPE_CODE } from "@/state/app/commission/lookups";
 import { Sheet } from "@/state/app/commission/templates";
+import { useCaseSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
 import { FormErrors, getTable, StopPropagation } from "@/ui/controls";
 
 import EditSheet from "./EditSheet";
@@ -16,6 +20,7 @@ type Props = {
     sheets: Sheet[];
     onChange: (sheets: Sheet[]) => void;
     validationResults: ValidationResult[];
+    useCases: string[];
 };
 
 type State = {
@@ -116,19 +121,22 @@ class SheetList extends Component<Props, State> {
                     render: (position: number, record: Sheet, index: number) => {
                         return (
                             <StopPropagation>
-                                <a href="#" className="mr-1" onClick={() => this.editSheet(index)}>
-                                    Edit
-                                </a>
-                                {this.props.sheets.length > 1 && (
-                                    <Popconfirm
-                                        title="Are you sure remove this sheet? All sheet config will be lost."
-                                        onConfirm={() => this.deleteSheet(index)}
-                                        okText="Yes"
-                                        cancelText="No"
-                                    >
-                                        <a href="#">Remove</a>
-                                    </Popconfirm>
+                                {hasUseCase("com_edit_commission_statement_templates", this.props.useCases) && (
+                                    <a href="#" className="mr-1" onClick={() => this.editSheet(index)}>
+                                        Edit
+                                    </a>
                                 )}
+                                {this.props.sheets.length > 1 &&
+                                    hasUseCase("com_edit_commission_statement_templates", this.props.useCases) && (
+                                        <Popconfirm
+                                            title="Are you sure remove this sheet? All sheet config will be lost."
+                                            onConfirm={() => this.deleteSheet(index)}
+                                            okText="Yes"
+                                            cancelText="No"
+                                        >
+                                            <a href="#">Remove</a>
+                                        </Popconfirm>
+                                    )}
                             </StopPropagation>
                         );
                     },
@@ -154,6 +162,7 @@ class SheetList extends Component<Props, State> {
                     rowKey="position"
                     columns={this.getColumns()}
                     dataSource={this.props.sheets}
+                    onRowClickRequiredUseCase="com_edit_commission_statement_templates"
                     onRowClick={(sheet, index) => this.editSheet(index)}
                 />
             </>
@@ -161,4 +170,10 @@ class SheetList extends Component<Props, State> {
     }
 }
 
-export default SheetList;
+const mapStateToProps = (state: RootState) => {
+    return {
+        useCases: useCaseSelector(state),
+    };
+};
+
+export default connect(mapStateToProps)(SheetList);

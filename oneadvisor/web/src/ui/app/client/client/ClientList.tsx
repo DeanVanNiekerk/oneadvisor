@@ -1,20 +1,22 @@
-import { Popconfirm } from 'antd';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { Popconfirm } from "antd";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router";
 
-import { applyLike } from '@/app/query';
-import { Filters, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
+import { hasUseCase } from "@/app/identity";
+import { applyLike } from "@/app/query";
+import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import {
     Client, ClientEdit, clientMergeReset, clientsSelector, deleteClient, fetchClients, fetchMergeClients, newClient,
     receiveClient, receiveClientPreview, receiveFilters, receivePageOptions, receiveSelectedClients, receiveSortOptions
-} from '@/state/app/client/clients';
-import { ClientType, clientTypesSelector } from '@/state/app/client/lookups';
-import { RootState } from '@/state/rootReducer';
-import { Button, ClientTypeIcon, getTable, Header, StopPropagation } from '@/ui/controls';
+} from "@/state/app/client/clients";
+import { ClientType, clientTypesSelector } from "@/state/app/client/lookups";
+import { useCaseSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
+import { Button, ClientTypeIcon, getTable, Header, StopPropagation } from "@/ui/controls";
 
-import ClientMerge from '../merge/ClientMerge';
-import EditClient from './EditClient';
+import ClientMerge from "../merge/ClientMerge";
+import EditClient from "./EditClient";
 
 const Table = getTable<Client>();
 
@@ -27,6 +29,7 @@ type Props = {
     filters: Filters;
     selectedClientIds: string[];
     clientTypes: ClientType[];
+    useCases: string[];
 } & RouteComponentProps &
     DispatchProp;
 
@@ -121,17 +124,16 @@ class ClientList extends Component<Props, State> {
                     render: (id: string) => {
                         return (
                             <StopPropagation>
-                                <a href="#" className="mr-1" onClick={() => this.editClient(id)}>
-                                    Edit
-                                </a>
-                                <Popconfirm
-                                    title="Are you sure remove this client?"
-                                    onConfirm={() => this.deleteClient(id)}
-                                    okText="Yes"
-                                    cancelText="No"
-                                >
-                                    <a href="#">Remove</a>
-                                </Popconfirm>
+                                {hasUseCase("clt_edit_clients", this.props.useCases) && (
+                                    <Popconfirm
+                                        title="Are you sure remove this client?"
+                                        onConfirm={() => this.deleteClient(id)}
+                                        okText="Yes"
+                                        cancelText="No"
+                                    >
+                                        <a href="#">Remove</a>
+                                    </Popconfirm>
+                                )}
                             </StopPropagation>
                         );
                     },
@@ -255,6 +257,7 @@ const mapStateToProps = (state: RootState) => {
         filters: clientsState.filters,
         selectedClientIds: clientsState.selectedClientIds,
         clientTypes: clientTypesState.items,
+        useCases: useCaseSelector(state),
     };
 };
 

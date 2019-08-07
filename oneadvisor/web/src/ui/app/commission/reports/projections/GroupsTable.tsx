@@ -23,7 +23,6 @@ class GroupsTable extends Component<Props> {
         return (
             <Table
                 rowKey="index"
-                header="Grouped"
                 columns={this.props.columnDefinitions}
                 dataSource={this.props.rows}
                 loading={this.props.fetching}

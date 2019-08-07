@@ -67,7 +67,8 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 100,
                 VAT = 10,
-                CommissionStatementId = statement1.Id
+                CommissionStatementId = statement1.Id,
+                UserId = user1.User.Id,
             };
 
             var commission2 = new CommissionEntity
@@ -77,7 +78,8 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 200,
                 VAT = 20,
-                CommissionStatementId = statement1.Id
+                CommissionStatementId = statement1.Id,
+                UserId = user2.User.Id,
             };
 
             var commission3 = new CommissionEntity
@@ -87,7 +89,8 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 300,
                 VAT = 30,
-                CommissionStatementId = statement1.Id
+                CommissionStatementId = statement1.Id,
+                UserId = user2.User.Id,
             };
 
             var commission4 = new CommissionEntity
@@ -97,7 +100,8 @@ namespace OneAdvisor.Service.Test.Commission
                 CommissionTypeId = Guid.NewGuid(),
                 AmountIncludingVAT = 40,
                 VAT = 400,
-                CommissionStatementId = statement2.Id
+                CommissionStatementId = statement2.Id,
+                UserId = user3.User.Id,
             };
 
             using (var context = new DataContext(options))
