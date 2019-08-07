@@ -29,6 +29,7 @@ namespace OneAdvisor.Data
         public DbSet<BranchEntity> Branch { get; set; }
         public DbSet<AuditLogEntity> AuditLog { get; set; }
         public DbSet<CompanyEntity> Company { get; set; }
+        public DbSet<ChangeLogEntity> ChangeLog { get; set; }
 
         #endregion
 
@@ -86,6 +87,7 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<BranchEntity>().ToTable("dir_Branch");
             modelBuilder.Entity<AuditLogEntity>().ToTable("dir_AuditLog");
             modelBuilder.Entity<CompanyEntity>().ToTable("dir_Company");
+            modelBuilder.Entity<ChangeLogEntity>().ToTable("dir_ChangeLog");
 
             //Custom mappings
             UserMap.Map(modelBuilder);

@@ -180,6 +180,7 @@ namespace OneAdvisor.Data
             list.Add(new UseCaseEntity() { Id = "dir_view_applications", Name = "View Applications", ApplicationId = dirGuid });
             list.Add(new UseCaseEntity() { Id = "dir_view_usecases", Name = "View UseCases", ApplicationId = dirGuid });
             list.Add(new UseCaseEntity() { Id = "dir_view_audit_logs", Name = "View Audit Logs", ApplicationId = dirGuid });
+            list.Add(new UseCaseEntity() { Id = "dir_edit_change_logs", Name = "Edit Change Logs", ApplicationId = dirGuid });
 
             //Directory - Lookup Use Cases
             list.Add(new UseCaseEntity() { Id = "dir_view_lookups", Name = "View Lookups", ApplicationId = dirGuid });

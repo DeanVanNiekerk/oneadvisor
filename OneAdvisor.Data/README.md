@@ -5,6 +5,7 @@
 -   Check the connection string in the `OneAdvisor.Data/DataContextFactory.cs` file is pointing to the appropriate dev db
 -   Update Entities in the OneAdvisor.Data project
 -   `cd` into the `OneAdvisor.Data` directory and run `dotnet ef migrations add {migrationDescription}`
+-   NB: make sure oneadvisor/api is not running in watch mode otherwise the migration will be applied automatically.
 -   For example `dotnet ef migrations add addMiddleNameToClientTable`
 -   A migration should now have been added to the Migrations folder, review the migration and make any nessisary changes
 -   Now apply the migration to the database by running `dotnet ef database update`

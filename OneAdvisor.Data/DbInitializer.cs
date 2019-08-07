@@ -138,6 +138,7 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_view_lookups" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_edit_lookups" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_view_audit_logs" });
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole1.Id, UseCaseId = "dir_edit_change_logs" });
 
                 //Readonly 
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = dirRole2.Id, UseCaseId = "dir_view_users" });
