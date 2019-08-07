@@ -96,20 +96,21 @@ See .vscode/extensions.json
 
 ```
 
-Release v0.11.0
+Release v0.12.0
 ===============
 
 New Features:
-- General > Side Menu is now Collapsible
-- Commission > Projections Report > First Pass done
+- General > Admin Login Page (https://app.oneadvisor.net/signin/admin)
 
 Updates:
-- Commission > Statment > Reimport > Now opens dialog to select template
-- Commission > Statement > List > Shows mapping error count
+- Commission > Reports > Client Revenue > Apply user scope
+- Commission > Reports > Projections > Remove top table (was basically a duplicate of the bottom one)
+- Commission > List & Preview > Apply user scope to commission totals
+- Email > Welcome Email > Updated wording
 
 Bug Fixes:
-- Commission > Templates > Was being filtered after uploading a statment file
-- Commission > Broker Commission Report > wrong labeling (amounts are excluding VAT)
+- General > Readonly Form View Issues
+- Directory > Create Organisation bug fix
 
 Release v0..
 ===============

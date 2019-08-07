@@ -1,5 +1,4 @@
 import { ColumnProps } from "antd/lib/table";
-import { format, getMonth, getYear, subMonths } from "date-fns";
 import moment from "moment";
 import { createSelector } from "reselect";
 
@@ -307,12 +306,12 @@ const getTableRow = (
     filter?: TableRowFilter
 ) => {
     while (monthsBack >= 0) {
-        const current = subMonths(now, monthsBack);
+        const current = moment(now).subtract(monthsBack, "months");
 
-        const key = format(current, DATE_FORMAT);
+        const key = current.format(DATE_FORMAT);
 
-        const year = getYear(current);
-        const month = getMonth(current) + 1;
+        const year = current.year();
+        const month = current.month() + 1;
 
         let filtered = items.filter(d => d.dateYear === year && d.dateMonth === month);
 
@@ -336,10 +335,10 @@ const getMonthColumns = (monthsBack: number): ColumnProps<any>[] => {
     const now = new Date();
 
     while (monthsBack >= 0) {
-        const current = subMonths(now, monthsBack);
+        const current = moment(now).subtract(monthsBack, "months");
 
-        const key = format(current, DATE_FORMAT);
-        const title = monthsBack === 0 ? "Current" : format(current, "MMM");
+        const key = current.format(DATE_FORMAT);
+        const title = monthsBack === 0 ? "Current" : current.format("MMM");
 
         const column = getColumn(
             key,
