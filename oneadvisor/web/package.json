@@ -1,6 +1,7 @@
 {
-    "name": "web2",
+    "name": "web",
     "version": "1.0.0",
+    "private": true,
     "description": "",
     "main": "index.js",
     "scripts": {
@@ -15,8 +16,8 @@
         "check-types": "tsc"
     },
     "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "author": "Dean van Niekerk",
+    "license": "",
     "dependencies": {
         "@microsoft/applicationinsights-react-js": "2.1.1",
         "@microsoft/applicationinsights-web": "2.1.1",
