@@ -1,16 +1,16 @@
-import { Alert, Form, Icon } from 'antd';
-import queryString from 'query-string';
-import React from 'react';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { Alert, Form, Icon } from "antd";
+import queryString from "query-string";
+import React from "react";
+import { connect, DispatchProp } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router";
 
-import { ValidationResult } from '@/app/validation';
-import { resetPassword, ResetPasswordData, resetPasswordSelector, signOut } from '@/state/auth';
-import { RootState } from '@/state/rootReducer';
-import { Button, FormErrors, FormField, FormInput } from '@/ui/controls';
+import { ValidationResult } from "@/app/validation";
+import { resetPassword, ResetPasswordData, resetPasswordSelector, signOut } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
+import { Button, FormErrors, FormField, FormInput, FormInputPassword } from "@/ui/controls";
 
-import { showMessage } from '../feedback/notifcation';
-import Layout from './Layout';
+import { showMessage } from "../feedback/notifcation";
+import Layout from "./Layout";
 
 type Props = {
     fetching: boolean;
@@ -65,11 +65,7 @@ class ResetPassword extends React.Component<Props, State> {
         };
         this.props.dispatch(
             resetPassword(data, () => {
-                showMessage(
-                    "success",
-                    "Your Password has been Successfully Reset",
-                    4
-                );
+                showMessage("success", "Your Password has been Successfully Reset", 4);
                 this.props.history.push("/");
             })
         );
@@ -86,11 +82,7 @@ class ResetPassword extends React.Component<Props, State> {
 
         return (
             <Layout header="Reset Password" loading={this.props.fetching}>
-                <Alert
-                    message="Please choose a new password."
-                    type="info"
-                    className="mb-1"
-                />
+                <Alert message="Please choose a new password." type="info" className="mb-1" />
 
                 <FormErrors validationResults={validationResults} />
 
@@ -107,7 +99,7 @@ class ResetPassword extends React.Component<Props, State> {
                         }}
                         disabled={true}
                     />
-                    <FormInput
+                    <FormInputPassword
                         placeholder="Password"
                         fieldName="password"
                         value={this.state.password}
@@ -119,7 +111,6 @@ class ResetPassword extends React.Component<Props, State> {
                         formFieldStyle={{
                             marginBottom: "10px",
                         }}
-                        type="password"
                         onKeyPress={this.onKeyPress}
                     />
                     <FormInput
