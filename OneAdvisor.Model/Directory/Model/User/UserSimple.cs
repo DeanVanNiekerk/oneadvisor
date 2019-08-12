@@ -8,6 +8,7 @@ namespace OneAdvisor.Model.Directory.Model.User
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Guid BranchId { get; set; }
+        public Guid UserTypeId { get; set; }
         public string FullName
         {
             get

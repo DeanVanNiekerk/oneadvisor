@@ -160,5 +160,52 @@ namespace OneAdvisor.Service.Test.Directory
         }
 
         #endregion
+
+        #region User Type
+
+        [Fact]
+        public async Task GetUserTypes()
+        {
+            var options = TestHelper.GetDbContext("GetUserTypes");
+
+            //Given
+            var lkp1 = new UserTypeEntity { Id = Guid.NewGuid(), Name = "A", DisplayOrder = 1 };
+            var lkp2 = new UserTypeEntity { Id = Guid.NewGuid(), Name = "B", DisplayOrder = 2 };
+            var lkp3 = new UserTypeEntity { Id = Guid.NewGuid(), Name = "C", DisplayOrder = 3 };
+
+            using (var context = new DataContext(options))
+            {
+                //Jumbled order
+                context.UserType.Add(lkp2);
+                context.UserType.Add(lkp1);
+                context.UserType.Add(lkp3);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new DirectoryLookupService(context);
+
+                //When
+                var actual = await service.GetUserTypes();
+
+                //Then
+                Assert.Equal(3, actual.Count);
+
+                var actual1 = actual[0];
+                Assert.Equal(lkp1.Id, actual1.Id);
+                Assert.Equal(lkp1.Name, actual1.Name);
+                Assert.Equal(lkp1.DisplayOrder, actual1.DisplayOrder);
+
+                var actual2 = actual[1];
+                Assert.Equal(lkp2.Id, actual2.Id);
+
+                var actual3 = actual[2];
+                Assert.Equal(lkp3.Id, actual3.Id);
+            }
+        }
+
+        #endregion
     }
 }

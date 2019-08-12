@@ -49,7 +49,8 @@ namespace OneAdvisor.Service.Directory
                             OrganisationName = organisation.Name,
                             Scope = user.Scope,
                             EmailConfirmed = user.EmailConfirmed,
-                            LockoutEnd = user.LockoutEnd
+                            LockoutEnd = user.LockoutEnd,
+                            UserTypeId = user.UserTypeId,
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -70,6 +71,9 @@ namespace OneAdvisor.Service.Directory
 
             if (queryOptions.BranchId.Any())
                 query = query.Where(m => queryOptions.BranchId.Contains(m.BranchId));
+
+            if (queryOptions.UserTypeId.Any())
+                query = query.Where(m => queryOptions.UserTypeId.Contains(m.UserTypeId));
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedItems<User>();
@@ -222,6 +226,7 @@ namespace OneAdvisor.Service.Directory
             entity.BranchId = model.BranchId.Value;
             entity.Scope = model.Scope;
             entity.Aliases = model.Aliases;
+            entity.UserTypeId = model.UserTypeId.Value;
 
             return entity;
         }
@@ -238,6 +243,7 @@ namespace OneAdvisor.Service.Directory
             model.BranchId = entity.BranchId;
             model.Scope = entity.Scope;
             model.Aliases = entity.Aliases;
+            model.UserTypeId = entity.UserTypeId;
 
             return model;
         }
@@ -272,7 +278,8 @@ namespace OneAdvisor.Service.Directory
                             Id = user.Id,
                             FirstName = user.FirstName,
                             LastName = user.LastName,
-                            BranchId = user.BranchId
+                            BranchId = user.BranchId,
+                            UserTypeId = user.UserTypeId,
                         };
 
             return query;

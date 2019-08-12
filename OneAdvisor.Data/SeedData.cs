@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using OneAdvisor.Data.Entities.Client.Lookup;
 using OneAdvisor.Data.Entities.Commission.Lookup;
 using OneAdvisor.Data.Entities.Directory;
+using OneAdvisor.Data.Entities.Directory.Lookup;
 
 namespace OneAdvisor.Data
 {
@@ -160,6 +161,17 @@ namespace OneAdvisor.Data
 
             list.Add(new ContactTypeEntity() { Id = Guid.Parse("d6349e22-3e27-404a-8584-58e420510834"), Name = "Cellphone Number" });
             list.Add(new ContactTypeEntity() { Id = Guid.Parse("b3c261d0-4e1d-4dd8-b944-6d6afd1795e0"), Name = "Email Address" });
+
+            return list;
+        }
+
+        public static List<UserTypeEntity> GetUserTypes()
+        {
+            var list = new List<UserTypeEntity>();
+
+            list.Add(new UserTypeEntity() { Id = Guid.Parse("70a67bcf-f8d3-8fe7-9c3e-b4b8b9bf9cc8"), Name = "Broker", DisplayOrder = 1 });
+            list.Add(new UserTypeEntity() { Id = Guid.Parse("442f9050-bde4-9aa6-75f5-a9a7e5f84a5c"), Name = "Admin", DisplayOrder = 2 });
+            list.Add(new UserTypeEntity() { Id = Guid.Parse("d3155541-8b53-64d7-343e-57d6e5c959db"), Name = "Support", DisplayOrder = 3 });
 
             return list;
         }

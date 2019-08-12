@@ -14,6 +14,7 @@ namespace OneAdvisor.Model.Directory.Model.User
 
             OrganisationId = new List<Guid>();
             BranchId = new List<Guid>();
+            UserTypeId = new List<Guid>();
 
             var result = GetFilterValue<string>("LastName");
             if (result.Success)
@@ -38,6 +39,10 @@ namespace OneAdvisor.Model.Directory.Model.User
             resultGuids = GetFilterValues<Guid>("BranchId");
             if (resultGuids.Success)
                 BranchId = resultGuids.Value;
+
+            resultGuids = GetFilterValues<Guid>("UserTypeId");
+            if (resultGuids.Success)
+                UserTypeId = resultGuids.Value;
         }
 
         public ScopeOptions Scope { get; set; }
@@ -48,6 +53,7 @@ namespace OneAdvisor.Model.Directory.Model.User
         public bool? EmailConfirmed { get; set; }
         public List<Guid> OrganisationId { get; set; }
         public List<Guid> BranchId { get; set; }
+        public List<Guid> UserTypeId { get; set; }
 
 
     }

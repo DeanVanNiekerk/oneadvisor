@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Newtonsoft.Json;
-using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.ValueConverters;
+using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Data.Entities.Directory.Mappings
@@ -28,6 +27,10 @@ namespace OneAdvisor.Data.Entities.Directory.Mappings
                 .HasOne(u => u.Branch)
                 .WithMany(b => b.Users)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserEntity>()
+                .Property(u => u.UserTypeId)
+                .HasDefaultValueSql($"'{UserType.BROKER.ToString()}'");
         }
     }
 }

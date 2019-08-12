@@ -20,6 +20,7 @@ namespace OneAdvisor.Service.Directory.Validators
                 RuleFor(u => u.Id).NotEmpty();
 
             RuleFor(u => u.LastName).NotEmpty().WithName("Last Name");
+            RuleFor(u => u.UserTypeId).NotEmpty().WithName("User Type");
             RuleFor(u => u.BranchId).BranchMustBeInScope(dataContext, scope);
             RuleFor(u => u.Email).NotEmpty().EmailAddress();
             RuleFor(u => u.Scope).IsInEnum();
