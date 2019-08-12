@@ -11,7 +11,7 @@ import {
 } from "@/state/app/client/lookups";
 import { PolicyEdit } from "@/state/app/client/policies";
 import { companiesSelector, Company } from "@/state/app/directory/lookups";
-import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
+import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormCascade, FormDate, FormInput, FormInputNumber, FormSelect } from "@/ui/controls";
 
@@ -173,14 +173,13 @@ class PolicyForm extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const usersState = usersSimpleSelector(state);
     const companiesState = companiesSelector(state);
     const policyTypeState = policyTypesSelector(state);
     const policyProductTypeState = policyProductTypesSelector(state);
     const policyProductState = policyProductsSelector(state);
 
     return {
-        users: usersState.items,
+        users: brokersSelector(state),
         companies: companiesState.items,
         policyTypes: policyTypeState.items,
         policyProductTypes: policyProductTypeState.items,

@@ -1,7 +1,7 @@
-import { getValidationResult } from '@/test';
+import { getValidationResult } from "@/test";
 
-import { UserEdit } from '../';
-import { defaultState, reducer } from './reducer';
+import { UserEdit } from "../";
+import { defaultState, reducer } from "./reducer";
 
 const defaultUser: UserEdit = {
     id: "10",
@@ -14,6 +14,7 @@ const defaultUser: UserEdit = {
     scope: 1,
     aliases: ["DJ"],
     isLocked: false,
+    userTypeId: "123",
 };
 
 describe("user reducer", () => {

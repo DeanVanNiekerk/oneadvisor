@@ -7,6 +7,7 @@ import { hasUseCase } from "@/app/identity";
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
 import { getScopes } from "@/config/scope";
 import { Application } from "@/state/app/directory/applications";
+import { UserType, userTypesSelector } from "@/state/app/directory/lookups";
 import { Organisation } from "@/state/app/directory/organisations";
 import { Role } from "@/state/app/directory/roles";
 import { UserEdit } from "@/state/app/directory/users";
@@ -27,6 +28,7 @@ type Props = {
     organisations: Organisation[];
     applications: Application[];
     roles: Role[];
+    userTypes: UserType[];
     validationResults: ValidationResult[];
     onChange: (user: UserEdit) => void;
     useCases: string[];
@@ -154,6 +156,16 @@ class UserForm extends Component<Props, State> {
                                 optionsValue="id"
                                 optionsText="name"
                             />
+                            <FormSelect
+                                fieldName="userTypeId"
+                                label="Type"
+                                value={user.userTypeId}
+                                onChange={this.handleChange}
+                                validationResults={validationResults}
+                                options={this.props.userTypes}
+                                optionsValue="id"
+                                optionsText="name"
+                            />
                             <FormSwitch
                                 fieldName="isLocked"
                                 label="Locked"
@@ -225,6 +237,7 @@ class UserForm extends Component<Props, State> {
 const mapStateToProps = (state: RootState) => {
     return {
         useCases: useCaseSelector(state),
+        userTypes: userTypesSelector(state).items,
     };
 };
 

@@ -6,7 +6,6 @@ describe("userType list reducer", () => {
     it("should handle USERTYPES_LIST_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            fetching: true,
         };
 
         const userType: UserType = {
@@ -23,7 +22,6 @@ describe("userType list reducer", () => {
         const expectedState = {
             ...defaultState,
             items: [userType],
-            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);

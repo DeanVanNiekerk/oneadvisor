@@ -4,4 +4,5 @@ export type UserSimple = {
     lastName: string;
     fullName: string;
     branchId: string;
+    userTypeId: string;
 };

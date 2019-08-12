@@ -12,7 +12,7 @@ import {
     clientRevenueSelector, fetchClientRevenueDataPaged, getClientRevenueData, receiveClientRevenueFilters
 } from "@/state/app/commission/reports";
 import { branchesSimpleSelector, BranchSimple } from "@/state/app/directory/branchesSimple";
-import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
+import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Button, ClientName, Drawer, DrawerFooter, Header, TabPane, Tabs } from "@/ui/controls";
 
@@ -323,7 +323,6 @@ class ClientRevenueReport extends Component<Props, State> {
 const mapStateToProps = (state: RootState) => {
     const clientRevenueState = clientRevenueSelector(state);
     const branchesState = branchesSimpleSelector(state);
-    const usersState = usersSimpleSelector(state);
     const policyTypesState = policyTypesSelector(state);
 
     return {
@@ -331,7 +330,7 @@ const mapStateToProps = (state: RootState) => {
         sortOptions: clientRevenueState.sortOptions,
         filters: clientRevenueState.filters,
         branches: branchesState.items,
-        users: usersState.items,
+        users: brokersSelector(state),
         policyTypes: policyTypesState.items,
     };
 };

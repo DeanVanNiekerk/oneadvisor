@@ -12,6 +12,7 @@ export type User = {
     emailConfirmed: boolean;
     lockoutEnd: string | null;
     isLocked: boolean;
+    userTypeId: string;
 };
 
 export type UserEdit = {
@@ -25,4 +26,5 @@ export type UserEdit = {
     scope: number;
     aliases: string[];
     isLocked: boolean;
+    userTypeId: string;
 };

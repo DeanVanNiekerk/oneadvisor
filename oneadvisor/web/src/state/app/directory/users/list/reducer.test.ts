@@ -1,5 +1,5 @@
-import { User } from '../';
-import { defaultState, reducer } from './reducer';
+import { User } from "../";
+import { defaultState, reducer } from "./reducer";
 
 describe("user list reducer", () => {
     it("should handle USERS_LIST_FETCHING", () => {
@@ -54,6 +54,7 @@ describe("user list reducer", () => {
             emailConfirmed: true,
             isLocked: false,
             lockoutEnd: null,
+            userTypeId: "123",
         };
 
         const actualState = reducer(initalState, {
