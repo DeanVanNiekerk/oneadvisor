@@ -1,5 +1,0 @@
-{
-    "environment": "staging",
-    "baseApi": "https://staging-api.oneadvisor.net",
-    "appInsightsKey": "d6a6493c-18e7-4368-b44e-b0d9ac3d3151"
-}
