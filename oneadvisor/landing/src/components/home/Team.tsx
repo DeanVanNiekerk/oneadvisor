@@ -19,7 +19,7 @@ const Team: React.FC = () => {
                     <div className="col-md-6 text-center pt-1">
                         <p>
                             A <span className="text-secondary">world-class</span> team across many disciplines including
-                            financial advise, data analysis and application development.
+                            financial advice, data analysis and application development.
                         </p>
                     </div>
                 </div>

@@ -34,7 +34,7 @@ const Modules: React.FC = () => {
                         <div className="col text-center">
                             <p className="text-directory font-weight-bold pt-4 mb-0">DIRECTORY</p>
                             <p className="pt-2 px-5 small">
-                                Manager system Users, Organisational Stucture, Roles as well as view Audit Trails.
+                                Manage System Users, Organisational Stuctures and Roles, as well as view Audit Trails.
                             </p>
                         </div>
                     </div>
