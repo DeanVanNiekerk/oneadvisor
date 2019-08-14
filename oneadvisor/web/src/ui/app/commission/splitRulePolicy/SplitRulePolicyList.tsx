@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { applyLike } from '@/app/query';
-import { Filters, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
+import { applyLike } from "@/app/query";
+import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import {
     fetchSplitRulePolicies, fetchSplitRulePolicy, receiveFilters, receivePageOptions, receiveSortOptions,
     splitRulePoliciesSelector, SplitRulePolicyInfo
-} from '@/state/app/commission/splitRulePolicies';
-import { companiesSelector, Company } from '@/state/app/directory/lookups';
-import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
-import { RootState } from '@/state/rootReducer';
-import { CompanyName, getTable, Header, UserName } from '@/ui/controls';
+} from "@/state/app/commission/splitRulePolicies";
+import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
+import { RootState } from "@/state/rootReducer";
+import { CompanyName, getTable, Header, UserName } from "@/ui/controls";
 
-import EditSplitRulePolicy from './EditSplitRulePolicy';
+import EditSplitRulePolicy from "./EditSplitRulePolicy";
 
 const Table = getTable<SplitRulePolicyInfo>();
 
@@ -180,7 +180,6 @@ class SplitRulePolicyList extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const splitRulePoliciesState = splitRulePoliciesSelector(state);
-    const usersState = usersSimpleSelector(state);
     const companiesState = companiesSelector(state);
 
     return {
@@ -190,7 +189,7 @@ const mapStateToProps = (state: RootState) => {
         sortOptions: splitRulePoliciesState.sortOptions,
         totalItems: splitRulePoliciesState.totalItems,
         filters: splitRulePoliciesState.filters,
-        users: usersState.items,
+        users: brokersSelector(state),
         companies: companiesState.items,
     };
 };

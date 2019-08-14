@@ -12,5 +12,7 @@ namespace OneAdvisor.Model.Directory.Interface
         Task<Company> GetCompany(Guid id);
         Task<Result> UpdateCompany(Company model);
         Task<Result> InsertCompany(Company model);
+
+        Task<List<UserType>> GetUserTypes();
     }
 }

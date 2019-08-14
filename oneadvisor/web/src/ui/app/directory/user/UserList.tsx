@@ -1,15 +1,15 @@
-import { Tag } from 'antd';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Tag } from "antd";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { getColumnDefinition } from '@/app/table';
-import { fetchOrganisations, Organisation, organisationsSelector } from '@/state/app/directory/organisations';
-import { fetchUser, fetchUsers, receiveUser, User, UserEdit, usersSelector } from '@/state/app/directory/users';
-import { fetchUsersSimple } from '@/state/app/directory/usersSimple';
-import { RootState } from '@/state/rootReducer';
-import { Button, getTable, Header } from '@/ui/controls';
+import { getColumnDefinition } from "@/app/table";
+import { fetchOrganisations, Organisation, organisationsSelector } from "@/state/app/directory/organisations";
+import { fetchUser, fetchUsers, receiveUser, User, UserEdit, usersSelector } from "@/state/app/directory/users";
+import { fetchUsersSimple } from "@/state/app/directory/usersSimple";
+import { RootState } from "@/state/rootReducer";
+import { Button, getTable, Header } from "@/ui/controls";
 
-import EditUser from './EditUser';
+import EditUser from "./EditUser";
 
 const Table = getTable<User>();
 
@@ -58,6 +58,7 @@ class UserList extends Component<Props, State> {
             roles: [],
             aliases: [],
             isLocked: false,
+            userTypeId: "",
         };
 
         this.props.dispatch(receiveUser(user));
@@ -136,7 +137,6 @@ class UserList extends Component<Props, State> {
     };
 
     render() {
-
         return (
             <>
                 <Header

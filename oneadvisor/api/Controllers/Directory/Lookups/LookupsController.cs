@@ -1,13 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using api.App.Authorization;
-using api.Controllers.Directory.Lookups.Dto;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OneAdvisor.Model.Client.Interface;
-using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Lookup;
 
@@ -29,7 +23,8 @@ namespace api.Controllers.Directory.Lookups
         {
             var lookups = new api.Controllers.Directory.Lookups.Dto.Lookups()
             {
-                Companies = await LookupService.GetCompanies()
+                Companies = await LookupService.GetCompanies(),
+                UserTypes = await LookupService.GetUserTypes(),
             };
 
             return Ok(lookups);

@@ -12,7 +12,7 @@ import {
 } from "@/state/app/commission/commissions";
 import { CommissionType, commissionTypesSelector } from "@/state/app/commission/lookups";
 import { companiesSelector, Company } from "@/state/app/directory/lookups";
-import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
+import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Button, CommissionTypeName, CompanyName, getTable, Header, UserName } from "@/ui/controls";
 
@@ -285,7 +285,6 @@ class CommissionList extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     const commissionsState = commissionsSelector(state);
-    const usersState = usersSimpleSelector(state);
     const commissionTypesState = commissionTypesSelector(state);
     const companiesState = companiesSelector(state);
 
@@ -298,7 +297,7 @@ const mapStateToProps = (state: RootState) => {
         sumAmountIncludingVAT: commissionsState.sumAmountIncludingVAT,
         sumVAT: commissionsState.sumVAT,
         filters: commissionsState.filters,
-        users: usersState.items,
+        users: brokersSelector(state),
         commissionTypes: commissionTypesState.items,
         companies: companiesState.items,
     };

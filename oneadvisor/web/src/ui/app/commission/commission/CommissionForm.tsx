@@ -1,17 +1,17 @@
-import update from 'immutability-helper';
-import React, { Component } from 'react';
-import JSONPretty from 'react-json-pretty';
-import { connect, DispatchProp } from 'react-redux';
+import update from "immutability-helper";
+import React, { Component } from "react";
+import JSONPretty from "react-json-pretty";
+import { connect, DispatchProp } from "react-redux";
 
-import { applyLikeFormat } from '@/app/query';
-import { Filters } from '@/app/table';
-import { ValidationResult } from '@/app/validation';
-import { getPolicies, Policy } from '@/state/app/client/policies';
-import { CommissionEdit } from '@/state/app/commission/commissions';
-import { CommissionType, commissionTypesSelector } from '@/state/app/commission/lookups';
-import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
-import { RootState } from '@/state/rootReducer';
-import { Form, FormInputNumber, FormReadOnly, FormSelect, TabPane, Tabs } from '@/ui/controls';
+import { applyLikeFormat } from "@/app/query";
+import { Filters } from "@/app/table";
+import { ValidationResult } from "@/app/validation";
+import { getPolicies, Policy } from "@/state/app/client/policies";
+import { CommissionEdit } from "@/state/app/commission/commissions";
+import { CommissionType, commissionTypesSelector } from "@/state/app/commission/lookups";
+import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
+import { RootState } from "@/state/rootReducer";
+import { Form, FormInputNumber, FormReadOnly, FormSelect, TabPane, Tabs } from "@/ui/controls";
 
 type TabKey = "form_tab" | "data_tab";
 
@@ -180,11 +180,10 @@ class CommissionForm extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const commissionTypeState = commissionTypesSelector(state);
-    const usersState = usersSimpleSelector(state);
 
     return {
         commissionTypes: commissionTypeState.items,
-        users: usersState.items,
+        users: brokersSelector(state),
     };
 };
 

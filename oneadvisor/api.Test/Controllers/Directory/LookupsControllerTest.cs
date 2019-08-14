@@ -16,9 +16,10 @@ namespace api.Test.Controllers.Directory
         [Fact]
         public void LookupsModelComposition()
         {
-            Assert.Equal(1, typeof(api.Controllers.Directory.Lookups.Dto.Lookups).PropertyCount());
+            Assert.Equal(2, typeof(api.Controllers.Directory.Lookups.Dto.Lookups).PropertyCount());
 
             Assert.True(typeof(api.Controllers.Directory.Lookups.Dto.Lookups).HasProperty("Companies"));
+            Assert.True(typeof(api.Controllers.Directory.Lookups.Dto.Lookups).HasProperty("UserTypes"));
         }
 
         [Fact]
@@ -31,14 +32,26 @@ namespace api.Test.Controllers.Directory
         }
 
         [Fact]
+        public void UserTypeModelComposition()
+        {
+            Assert.Equal(3, typeof(UserType).PropertyCount());
+            Assert.True(typeof(UserType).HasProperty("Id"));
+            Assert.True(typeof(UserType).HasProperty("Name"));
+            Assert.True(typeof(UserType).HasProperty("DisplayOrder"));
+        }
+
+        [Fact]
         public async Task All()
         {
             var company = new Company() { Id = Guid.NewGuid(), Name = "Name2" };
+            var userType = new UserType() { Id = Guid.NewGuid(), Name = "Name2" };
 
             var companies = new List<Company>() { company };
+            var userTypes = new List<UserType>() { userType };
 
             var service = new Mock<IDirectoryLookupService>();
             service.Setup(c => c.GetCompanies()).ReturnsAsync(companies);
+            service.Setup(c => c.GetUserTypes()).ReturnsAsync(userTypes);
 
             var controller = new LookupsController(service.Object);
 
@@ -49,7 +62,8 @@ namespace api.Test.Controllers.Directory
 
             var all = new api.Controllers.Directory.Lookups.Dto.Lookups()
             {
-                Companies = companies
+                Companies = companies,
+                UserTypes = userTypes,
             };
 
             Assert.NotStrictEqual(all, returnValue);

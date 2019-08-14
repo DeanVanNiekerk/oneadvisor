@@ -31,7 +31,8 @@ namespace OneAdvisor.Service.Test.Directory
                 LastName = "Jones",
                 Email = "bobjones@gmail.com",
                 Scope = Scope.Organisation,
-                BranchId = userDetailed1.Branch.Id
+                BranchId = userDetailed1.Branch.Id,
+                UserTypeId = Guid.NewGuid(),
             };
 
             var user2 = new UserEntity()
@@ -41,7 +42,8 @@ namespace OneAdvisor.Service.Test.Directory
                 LastName = "Reacher",
                 Email = "jreacher@gmail.com",
                 Scope = Scope.Organisation,
-                BranchId = userDetailed1.Branch.Id
+                BranchId = userDetailed1.Branch.Id,
+                UserTypeId = Guid.NewGuid(),
             };
 
             var user3 = new UserEntity()
@@ -51,7 +53,8 @@ namespace OneAdvisor.Service.Test.Directory
                 LastName = "Soap",
                 Email = "js@gmail.com",
                 Scope = Scope.Organisation,
-                BranchId = userDetailed2.Branch.Id
+                BranchId = userDetailed2.Branch.Id,
+                UserTypeId = Guid.NewGuid(),
             };
 
             using (var context = new DataContext(options))
@@ -87,9 +90,11 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.Equal(user1.Email, actual2.Email);
                 Assert.Equal(user1.Scope, actual2.Scope);
                 Assert.Equal(user1.BranchId, actual2.BranchId);
+                Assert.Equal(user1.UserTypeId, actual2.UserTypeId);
                 Assert.Equal(userDetailed1.Branch.Name, actual2.BranchName);
                 Assert.Equal(userDetailed1.Organisation.Id, actual2.OrganisationId);
                 Assert.Equal(userDetailed1.Organisation.Name, actual2.OrganisationName);
+
 
                 var actual3 = users.Items.ToArray()[2];
                 Assert.Equal(user2.Id, actual3.Id);
@@ -122,7 +127,8 @@ namespace OneAdvisor.Service.Test.Directory
                 Email = "jreacher@gmail.com",
                 Scope = Scope.Organisation,
                 BranchId = userDetailed1.Branch.Id,
-                Aliases = new List<string>() { "dean " }
+                Aliases = new List<string>() { "dean " },
+                UserTypeId = Guid.NewGuid(),
             };
 
             using (var context = new DataContext(options))
@@ -151,6 +157,7 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.Equal(user2.Email, user.Email);
                 Assert.Equal(user2.Scope, user.Scope);
                 Assert.Equal(user2.BranchId, user.BranchId);
+                Assert.Equal(user2.UserTypeId, user.UserTypeId);
                 Assert.Equal(user2.Aliases, user.Aliases);
                 Assert.Equal(roles, user.Roles);
 
@@ -185,7 +192,8 @@ namespace OneAdvisor.Service.Test.Directory
                 Scope = Scope.Organisation,
                 BranchId = userDetailed1.Branch.Id,
                 Aliases = new List<string>() { "dean " },
-                Roles = roles
+                Roles = roles,
+                UserTypeId = Guid.NewGuid(),
             };
 
             using (var context = new DataContext(options))
@@ -227,6 +235,7 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.Equal(user.UserName, addedUser.UserName);
                 Assert.Equal(user.Scope, addedUser.Scope);
                 Assert.Equal(user.BranchId, addedUser.BranchId);
+                Assert.Equal(user.UserTypeId, addedUser.UserTypeId);
                 Assert.Equal(user.Aliases, addedUser.Aliases);
                 Assert.Equal("Test@123!", addedPassword);
                 Assert.Equal(roles, addedRoles);
@@ -255,7 +264,7 @@ namespace OneAdvisor.Service.Test.Directory
             var userEntity = new UserEntity()
             {
                 Id = Guid.NewGuid(),
-                BranchId = userDetailed1.Branch.Id
+                BranchId = userDetailed1.Branch.Id,
             };
 
             using (var context = new DataContext(options))
@@ -299,7 +308,8 @@ namespace OneAdvisor.Service.Test.Directory
                     Scope = Scope.Organisation,
                     BranchId = userDetailed1.Branch.Id,
                     Aliases = new List<string>() { "dean " },
-                    Roles = roles
+                    Roles = roles,
+                    UserTypeId = Guid.NewGuid(),
                 };
 
 
@@ -315,6 +325,7 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.Equal(user.UserName, updatedUser.UserName);
                 Assert.Equal(user.Scope, updatedUser.Scope);
                 Assert.Equal(user.BranchId, updatedUser.BranchId);
+                Assert.Equal(user.UserTypeId, updatedUser.UserTypeId);
                 Assert.Equal(user.Aliases, updatedUser.Aliases);
                 Assert.Equal(roles, addedRoles);
 
@@ -338,7 +349,8 @@ namespace OneAdvisor.Service.Test.Directory
                 Id = Guid.NewGuid(),
                 FirstName = "Bob",
                 LastName = "Jones",
-                BranchId = userDetailed1.Branch.Id
+                BranchId = userDetailed1.Branch.Id,
+                UserTypeId = Guid.NewGuid(),
             };
 
             var user2 = new UserEntity()
@@ -346,7 +358,8 @@ namespace OneAdvisor.Service.Test.Directory
                 Id = Guid.NewGuid(),
                 FirstName = "Jack",
                 LastName = "Reacher",
-                BranchId = userDetailed1.Branch.Id
+                BranchId = userDetailed1.Branch.Id,
+                UserTypeId = Guid.NewGuid(),
             };
 
             var user3 = new UserEntity()
@@ -354,7 +367,8 @@ namespace OneAdvisor.Service.Test.Directory
                 Id = Guid.NewGuid(),
                 FirstName = "Joe",
                 LastName = "Soap",
-                BranchId = userDetailed2.Branch.Id
+                BranchId = userDetailed2.Branch.Id,
+                UserTypeId = Guid.NewGuid(),
             };
 
             using (var context = new DataContext(options))
@@ -386,6 +400,7 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.Equal(user1.Id, actual2.Id);
                 Assert.Equal(user1.FirstName, actual2.FirstName);
                 Assert.Equal(user1.LastName, actual2.LastName);
+                Assert.Equal(user1.UserTypeId, actual2.UserTypeId);
 
                 var actual3 = users.Items.ToArray()[2];
                 Assert.Equal(user2.Id, actual3.Id);
@@ -411,7 +426,8 @@ namespace OneAdvisor.Service.Test.Directory
                 Id = Guid.NewGuid(),
                 FirstName = "Jack",
                 LastName = "Reacher",
-                BranchId = userDetailed1.Branch.Id
+                BranchId = userDetailed1.Branch.Id,
+                UserTypeId = Guid.NewGuid(),
             };
 
             using (var context = new DataContext(options))
@@ -436,6 +452,7 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.Equal(user2.FirstName, user.FirstName);
                 Assert.Equal(user2.LastName, user.LastName);
                 Assert.Equal(user2.BranchId, user.BranchId);
+                Assert.Equal(user2.UserTypeId, user.UserTypeId);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(userDetailed2, Scope.Organisation);

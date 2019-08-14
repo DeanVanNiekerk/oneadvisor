@@ -21,6 +21,7 @@ namespace OneAdvisor.Model.Directory.Model.User
         public Scope Scope { get; set; }
         public IEnumerable<string> Aliases { get; set; }
         public bool IsLocked { get; set; }
+        public Guid? UserTypeId { get; set; }
 
     }
 }

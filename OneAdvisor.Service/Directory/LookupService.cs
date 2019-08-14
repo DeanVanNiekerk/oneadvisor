@@ -104,5 +104,30 @@ namespace OneAdvisor.Service.Directory
 
         #endregion
 
+        #region User Type
+
+        public async Task<List<UserType>> GetUserTypes()
+        {
+            var query = GetUserTypeQuery();
+
+            return await query.ToListAsync();
+        }
+
+        private IQueryable<UserType> GetUserTypeQuery()
+        {
+            var query = from userType in _context.UserType
+                        orderby userType.DisplayOrder ascending
+                        select new UserType()
+                        {
+                            Id = userType.Id,
+                            Name = userType.Name,
+                            DisplayOrder = userType.DisplayOrder
+                        };
+
+            return query;
+        }
+
+        #endregion
+
     }
 }

@@ -17,6 +17,7 @@ namespace OneAdvisor.Model.Directory.Model.User
         public Scope Scope { get; set; }
         public bool EmailConfirmed { get; set; }
         public DateTimeOffset? LockoutEnd { get; set; }
+        public Guid UserTypeId { get; set; }
         public bool IsLocked
         {
             get

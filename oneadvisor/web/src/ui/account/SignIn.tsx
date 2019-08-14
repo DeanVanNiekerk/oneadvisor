@@ -6,7 +6,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { ValidationResult } from "@/app/validation";
 import { Credentials, isAuthenticatedSelector, roleSelector, signIn, signInSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
-import { Button, FormField, FormInput } from "@/ui/controls";
+import { Button, FormField, FormInput, FormInputPassword } from "@/ui/controls";
 
 import Layout from "./Layout";
 
@@ -101,7 +101,7 @@ class SignIn extends React.Component<Props, State> {
                         }}
                         onKeyPress={this.onKeyPress}
                     />
-                    <FormInput
+                    <FormInputPassword
                         placeholder="Password"
                         fieldName="password"
                         value={this.state.password}
@@ -111,7 +111,6 @@ class SignIn extends React.Component<Props, State> {
                         formFieldStyle={{
                             marginBottom: "10px",
                         }}
-                        type="password"
                         onKeyPress={this.onKeyPress}
                     />
                     <FormInput

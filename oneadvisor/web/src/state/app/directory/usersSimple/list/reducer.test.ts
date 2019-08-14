@@ -1,5 +1,5 @@
-import { UserSimple } from '../';
-import { defaultState, reducer } from './reducer';
+import { UserSimple } from "../";
+import { defaultState, reducer } from "./reducer";
 
 describe("user list reducer", () => {
     it("should handle USERSSIMPLE_LIST_FETCHING", () => {
@@ -46,6 +46,7 @@ describe("user list reducer", () => {
             lastName: "Jackson",
             fullName: "DJ",
             branchId: "321321",
+            userTypeId: "123",
         };
 
         const actualState = reducer(initalState, {

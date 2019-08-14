@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { Split } from "@/state/app/commission/splitRules";
-import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
+import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormField, FormInputNumber, FormSelect } from "@/ui/controls";
 
@@ -84,10 +84,8 @@ class SplitForm extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const usersState = usersSimpleSelector(state);
-
     return {
-        users: usersState.items,
+        users: brokersSelector(state),
     };
 };
 

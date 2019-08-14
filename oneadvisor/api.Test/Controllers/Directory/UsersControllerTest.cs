@@ -22,7 +22,7 @@ namespace api.Test.Controllers.Directory
         [Fact]
         public void UserModelComposition()
         {
-            Assert.Equal(13, typeof(User).PropertyCount());
+            Assert.Equal(14, typeof(User).PropertyCount());
             Assert.True(typeof(User).HasProperty("Id"));
             Assert.True(typeof(User).HasProperty("FirstName"));
             Assert.True(typeof(User).HasProperty("LastName"));
@@ -36,12 +36,13 @@ namespace api.Test.Controllers.Directory
             Assert.True(typeof(User).HasProperty("EmailConfirmed"));
             Assert.True(typeof(User).HasProperty("LockoutEnd"));
             Assert.True(typeof(User).HasProperty("IsLocked"));
+            Assert.True(typeof(User).HasProperty("UserTypeId"));
         }
 
         [Fact]
         public void UserEditModelComposition()
         {
-            Assert.Equal(10, typeof(UserEdit).PropertyCount());
+            Assert.Equal(11, typeof(UserEdit).PropertyCount());
             Assert.True(typeof(UserEdit).HasProperty("Id"));
             Assert.True(typeof(UserEdit).HasProperty("FirstName"));
             Assert.True(typeof(UserEdit).HasProperty("LastName"));
@@ -52,17 +53,19 @@ namespace api.Test.Controllers.Directory
             Assert.True(typeof(UserEdit).HasProperty("Aliases"));
             Assert.True(typeof(UserEdit).HasProperty("Scope"));
             Assert.True(typeof(UserEdit).HasProperty("IsLocked"));
+            Assert.True(typeof(UserEdit).HasProperty("UserTypeId"));
         }
 
         [Fact]
         public void UserSimpleComposition()
         {
-            Assert.Equal(5, typeof(UserSimple).PropertyCount());
+            Assert.Equal(6, typeof(UserSimple).PropertyCount());
             Assert.True(typeof(UserSimple).HasProperty("Id"));
             Assert.True(typeof(UserSimple).HasProperty("FirstName"));
             Assert.True(typeof(UserSimple).HasProperty("LastName"));
             Assert.True(typeof(UserSimple).HasProperty("FullName"));
             Assert.True(typeof(UserSimple).HasProperty("BranchId"));
+            Assert.True(typeof(UserSimple).HasProperty("UserTypeId"));
         }
 
         [Fact]
@@ -79,7 +82,8 @@ namespace api.Test.Controllers.Directory
                 OrganisationName = "5",
                 BranchId = Guid.NewGuid(),
                 BranchName = "6",
-                Scope = Scope.Branch
+                Scope = Scope.Branch,
+                UserTypeId = Guid.NewGuid(),
             };
 
             var pagedItems = new PagedItems<User>()

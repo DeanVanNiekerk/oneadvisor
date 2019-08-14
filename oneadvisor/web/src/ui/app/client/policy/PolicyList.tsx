@@ -1,20 +1,20 @@
-import { TableRowSelection } from 'antd/lib/table';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { TableRowSelection } from "antd/lib/table";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { applyLike } from '@/app/query';
-import { Filters, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
-import { PolicyType, policyTypesSelector } from '@/state/app/client/lookups';
+import { applyLike } from "@/app/query";
+import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
+import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
 import {
     fetchPolicies, fetchPolicy, newPolicy, policiesSelector, Policy, receiveFilters, receivePageOptions, receivePolicy,
     receiveSortOptions
-} from '@/state/app/client/policies';
-import { companiesSelector, Company } from '@/state/app/directory/lookups';
-import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
-import { RootState } from '@/state/rootReducer';
-import { Button, CompanyName, getTable, Header, PolicyTypeName, UserName } from '@/ui/controls';
+} from "@/state/app/client/policies";
+import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
+import { RootState } from "@/state/rootReducer";
+import { Button, CompanyName, getTable, Header, PolicyTypeName, UserName } from "@/ui/controls";
 
-import EditPolicy from './EditPolicy';
+import EditPolicy from "./EditPolicy";
 
 const Table = getTable<Policy>();
 
@@ -158,8 +158,6 @@ class PolicyList extends Component<Props> {
     };
 
     render() {
-
-
         return (
             <>
                 <Header
@@ -213,7 +211,6 @@ const mapStateToProps = (state: RootState) => {
     const policiesState = policiesSelector(state);
     const companiesState = companiesSelector(state);
     const policyTypesState = policyTypesSelector(state);
-    const usersState = usersSimpleSelector(state);
 
     return {
         policies: policiesState.items,
@@ -224,7 +221,7 @@ const mapStateToProps = (state: RootState) => {
         filters: policiesState.filters,
         companies: companiesState.items,
         policyTypes: policyTypesState.items,
-        users: usersState.items,
+        users: brokersSelector(state),
     };
 };
 

@@ -30,6 +30,7 @@ namespace OneAdvisor.Data
         public DbSet<AuditLogEntity> AuditLog { get; set; }
         public DbSet<CompanyEntity> Company { get; set; }
         public DbSet<ChangeLogEntity> ChangeLog { get; set; }
+        public DbSet<UserTypeEntity> UserType { get; set; }
 
         #endregion
 
@@ -68,7 +69,7 @@ namespace OneAdvisor.Data
 
             #region Identity
 
-            modelBuilder.Entity<UserEntity>().ToTable("idn_User"); ;
+            modelBuilder.Entity<UserEntity>().ToTable("idn_User");
             modelBuilder.Entity<RoleEntity>().ToTable("idn_Role");
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("idn_UserClaim");
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("idn_UserRole");
@@ -88,6 +89,7 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<AuditLogEntity>().ToTable("dir_AuditLog");
             modelBuilder.Entity<CompanyEntity>().ToTable("dir_Company");
             modelBuilder.Entity<ChangeLogEntity>().ToTable("dir_ChangeLog");
+            modelBuilder.Entity<UserTypeEntity>().ToTable("dir_UserType").HasData(SeedData.GetUserTypes());
 
             //Custom mappings
             UserMap.Map(modelBuilder);

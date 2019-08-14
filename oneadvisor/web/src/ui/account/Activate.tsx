@@ -1,16 +1,16 @@
-import { Alert, Form, Icon } from 'antd';
-import queryString from 'query-string';
-import React from 'react';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { Alert, Form, Icon } from "antd";
+import queryString from "query-string";
+import React from "react";
+import { connect, DispatchProp } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router";
 
-import { ValidationResult } from '@/app/validation';
-import { activate, ResetPasswordData, resetPasswordSelector, signOut } from '@/state/auth';
-import { RootState } from '@/state/rootReducer';
-import { Button, FormErrors, FormField, FormInput } from '@/ui/controls';
+import { ValidationResult } from "@/app/validation";
+import { activate, ResetPasswordData, resetPasswordSelector, signOut } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
+import { Button, FormErrors, FormField, FormInput, FormInputPassword } from "@/ui/controls";
 
-import { showMessage } from '../feedback/notifcation';
-import Layout from './Layout';
+import { showMessage } from "../feedback/notifcation";
+import Layout from "./Layout";
 
 type Props = {
     fetching: boolean;
@@ -101,7 +101,7 @@ class Activate extends React.Component<Props, State> {
                         }}
                         disabled={true}
                     />
-                    <FormInput
+                    <FormInputPassword
                         placeholder="Password"
                         fieldName="password"
                         value={this.state.password}
@@ -113,10 +113,9 @@ class Activate extends React.Component<Props, State> {
                         formFieldStyle={{
                             marginBottom: "10px",
                         }}
-                        type="password"
                         onKeyPress={this.onKeyPress}
                     />
-                    <FormInput
+                    <FormInputPassword
                         placeholder="Confirm Password"
                         fieldName="confirmPassword"
                         value={this.state.confirmPassword}
@@ -127,7 +126,6 @@ class Activate extends React.Component<Props, State> {
                         formFieldStyle={{
                             marginBottom: "25px",
                         }}
-                        type="password"
                         onKeyPress={this.onKeyPress}
                     />
 

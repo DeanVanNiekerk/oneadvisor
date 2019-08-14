@@ -13,7 +13,7 @@ import {
 } from "@/state/app/commission/reports";
 import { branchesSimpleSelector, BranchSimple } from "@/state/app/directory/branchesSimple";
 import { companiesSelector, Company } from "@/state/app/directory/lookups";
-import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
+import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Button, Header } from "@/ui/controls";
 
@@ -300,7 +300,6 @@ class ProjectionsReport extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     const branchesState = branchesSimpleSelector(state);
-    const usersState = usersSimpleSelector(state);
     const policyTypesState = policyTypesSelector(state);
     const commissionEarningsTypesState = commissionEarningsTypesSelector(state);
     const companiesState = companiesSelector(state);
@@ -309,7 +308,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         filters: projectionsState.filters,
         branches: branchesState.items,
-        users: usersState.items,
+        users: brokersSelector(state),
         policyTypes: policyTypesState.items,
         pastMonthsCount: pastMonthsCountSelector(state),
         commissionEarningsTypes: commissionEarningsTypesState.items,

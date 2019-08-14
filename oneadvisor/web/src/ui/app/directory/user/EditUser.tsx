@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { areEqual } from '@/app/utils';
-import { ValidationResult } from '@/app/validation';
-import { Application, applicationsSelector, fetchApplications } from '@/state/app/directory/applications';
-import { Organisation } from '@/state/app/directory/organisations';
-import { fetchRoles, Role, rolesSelector } from '@/state/app/directory/roles';
-import { insertUser, updateUser, UserEdit, userSelector } from '@/state/app/directory/users';
-import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
-import { showConfirm } from '@/ui/feedback/modal/confirm';
+import { areEqual } from "@/app/utils";
+import { ValidationResult } from "@/app/validation";
+import { Application, applicationsSelector, fetchApplications } from "@/state/app/directory/applications";
+import { Organisation } from "@/state/app/directory/organisations";
+import { fetchRoles, Role, rolesSelector } from "@/state/app/directory/roles";
+import { insertUser, updateUser, UserEdit, userSelector } from "@/state/app/directory/users";
+import { RootState } from "@/state/rootReducer";
+import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import UserForm from './UserForm';
+import UserForm from "./UserForm";
 
 type Props = {
     visible: boolean;
@@ -33,18 +33,17 @@ class EditUser extends Component<Props, State> {
         super(props);
 
         this.state = {
-            userEdited: props.user
+            userEdited: props.user,
         };
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.user != prevProps.user) {
             this.setState({
-                userEdited: this.props.user
+                userEdited: this.props.user,
             });
         }
-        if (this.props.visible != prevProps.visible && this.props.visible)
-            this.loadLookupData();
+        if (this.props.visible != prevProps.visible && this.props.visible) this.loadLookupData();
     }
 
     loadLookupData() {
@@ -66,8 +65,7 @@ class EditUser extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (!areEqual(this.props.user, this.state.userEdited))
-            return showConfirm({ onOk: this.cancel });
+        if (!areEqual(this.props.user, this.state.userEdited)) return showConfirm({ onOk: this.cancel });
 
         this.cancel();
     };
@@ -91,7 +89,7 @@ class EditUser extends Component<Props, State> {
 
     onChange = (user: UserEdit) => {
         this.setState({
-            userEdited: user
+            userEdited: user,
         });
     };
 
@@ -100,13 +98,13 @@ class EditUser extends Component<Props, State> {
     };
 
     getTitle = () => {
-        if (this.props.fetching) return 'Loading User';
+        if (this.props.fetching) return "Loading User";
 
         const { user } = this.props;
 
         if (user && user.id) return `User: ${user.firstName} ${user.lastName}`;
 
-        return 'New User';
+        return "New User";
     };
 
     render() {
@@ -133,10 +131,7 @@ class EditUser extends Component<Props, State> {
                     )}
                 </ContentLoader>
                 <DrawerFooter>
-                    <Button
-                        onClick={this.confirmCancel}
-                        disabled={this.isLoading()}
-                    >
+                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Cancel
                     </Button>
                     <Button
@@ -162,12 +157,9 @@ const mapStateToProps = (state: RootState) => {
         user: userState.user,
         applications: applicationsState.items,
         roles: rolesState.items,
-        fetching:
-            userState.fetching ||
-            applicationsState.fetching ||
-            rolesState.fetching,
+        fetching: userState.fetching || applicationsState.fetching || rolesState.fetching,
         updating: userState.updating,
-        validationResults: userState.validationResults
+        validationResults: userState.validationResults,
     };
 };
 

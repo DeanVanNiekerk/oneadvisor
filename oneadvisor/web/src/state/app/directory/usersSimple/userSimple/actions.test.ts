@@ -1,6 +1,6 @@
-import { usersApi } from '@/config/api/directory';
+import { usersApi } from "@/config/api/directory";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("user simple actions", () => {
     it("should dispatch API when fetchUserSimple is called", () => {
@@ -20,6 +20,7 @@ describe("user simple actions", () => {
             lastName: "van",
             fullName: "DJ",
             branchId: "321321",
+            userTypeId: "123",
         };
 
         const expectedAction = {

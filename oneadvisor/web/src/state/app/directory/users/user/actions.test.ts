@@ -1,7 +1,7 @@
-import { usersApi } from '@/config/api/directory';
+import { usersApi } from "@/config/api/directory";
 
-import { UserEdit } from '../';
-import * as actions from './actions';
+import { UserEdit } from "../";
+import * as actions from "./actions";
 
 const defaultUser: UserEdit = {
     id: "10",
@@ -14,6 +14,7 @@ const defaultUser: UserEdit = {
     scope: 1,
     aliases: ["DJ"],
     isLocked: false,
+    userTypeId: "123",
 };
 
 describe("user actions", () => {
@@ -28,7 +29,7 @@ describe("user actions", () => {
     });
 
     it("should dispatch API when updateUser is called", () => {
-        const onSuccess = () => {};
+        const onSuccess = () => { };
 
         const expectedAction = {
             type: "API",
@@ -43,7 +44,7 @@ describe("user actions", () => {
     });
 
     it("should dispatch API when insertUser is called", () => {
-        const onSuccess = () => {};
+        const onSuccess = () => { };
 
         const expectedAction = {
             type: "API",
