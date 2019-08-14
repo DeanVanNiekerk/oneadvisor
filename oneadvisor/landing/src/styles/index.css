@@ -24,9 +24,19 @@
     color: #00152a !important;
 }
 
-.main-navbar-dark {
+.main-navbar-transparent {
     transition: height 0.3s ease, background-color 1.2s ease;
     background-color: transparent !important;
+    height: 100px;
+}
+
+.main-navbar-transparent .nav-link {
+    color: #ffffff !important;
+}
+
+.main-navbar-dark {
+    transition: height 0.3s ease, background-color 1.2s ease;
+    background-color: #00152a !important;
     height: 100px;
 }
 
@@ -48,4 +58,8 @@
 
 .text-commission {
     color: #2a2a72 !important;
+}
+
+.clickable {
+    cursor: pointer;
 }

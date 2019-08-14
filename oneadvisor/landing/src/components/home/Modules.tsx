@@ -1,8 +1,8 @@
 import React from "react";
 
-import clientModel from "../../media/modules/client_module.png";
-import commissionModel from "../../media/modules/commission_module.png";
-import directoryModel from "../../media/modules/directory_module.png";
+import clientModel from "@/media/modules/client_module.png";
+import commissionModel from "@/media/modules/commission_module.png";
+import directoryModel from "@/media/modules/directory_module.png";
 
 const Modules: React.FC = () => {
     return (

@@ -1,21 +1,21 @@
 import React from "react";
-import { ScrollArea } from "react-scroll-to";
+import { Element } from "react-scroll";
 
 const RequestDemo: React.FC = () => {
     return (
         <div className="container section">
             <div className="row">
                 <div className="col text-center pb-5">
-                    {/* <ScrollArea id="foo"> */}
-                    <h2 className="border-bottom border-secondary d-inline border-width-2">DEMO</h2>
-                    {/* </ScrollArea> */}
+                    <Element name="request-demo-section">
+                        <h2 className="border-bottom border-secondary d-inline border-width-2">DEMO</h2>
+                    </Element>
                 </div>
             </div>
             <div className="row">
                 <div className="col text-center pb-5">
                     <p>
                         If you are interested in <span className="text-secondary">One Advisor</span> please let us know
-                        and we will contact you to set up a demo at a convenient time for you
+                        and we will contact you to set up a demo at your convenience
                     </p>
                 </div>
             </div>

@@ -1,9 +1,12 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
-import logoDark from "../../media/logo-dark.svg";
-import logoLight from "../../media/logo-light.svg";
+import logoDark from "@/media/logo-dark.svg";
+import logoLight from "@/media/logo-light.svg";
 
-type Props = {};
+type Props = {
+    static?: boolean;
+};
 
 type State = {
     atTop: boolean;
@@ -19,6 +22,8 @@ class Navbar extends Component<Props, State> {
     }
 
     componentDidMount() {
+        if (this.props.static) return;
+
         document.addEventListener("scroll", () => {
             const atTop = window.scrollY === 0;
             this.setState({ atTop });
@@ -26,17 +31,20 @@ class Navbar extends Component<Props, State> {
     }
 
     render() {
-        const classNames = `navbar fixed-top navbar-expand-lg navbar-light ${
-            this.state.atTop ? "main-navbar-dark" : "main-navbar-white bg-white"
+        let navBarDarkClass = "main-navbar-transparent";
+        if (this.props.static) navBarDarkClass = "main-navbar-dark";
+
+        const classNames = `navbar fixed-top navbar-expand-lg ${
+            this.state.atTop || this.props.static ? navBarDarkClass : "main-navbar-white bg-white"
         }`;
-        const logo = this.state.atTop ? logoLight : logoDark;
+        const logo = this.state.atTop || this.props.static ? logoLight : logoDark;
 
         return (
             <nav className={classNames}>
                 <div className="container">
-                    <a className="navbar-brand" href="#">
+                    <Link className="navbar-brand" to="/">
                         <img src={logo} height="50px" />
-                    </a>
+                    </Link>
                     <button
                         className="navbar-toggler"
                         type="button"
@@ -51,19 +59,19 @@ class Navbar extends Component<Props, State> {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav ml-auto">
                             <li className="nav-item">
-                                <a className="nav-link" href="#">
-                                    Documentation
-                                </a>
+                                <Link className="nav-link" to="/contact-us">
+                                    Contact
+                                </Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">
-                                    Team
-                                </a>
+                                <Link className="nav-link" to="/documentation">
+                                    Docs
+                                </Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">
+                                <Link className="nav-link" to="/change-log">
                                     Change Log
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>

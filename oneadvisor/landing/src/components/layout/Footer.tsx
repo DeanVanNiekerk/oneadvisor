@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-import logoLight from "../../media/logo-light.svg";
+import logoLight from "@/media/logo-light.svg";
 
 const Footer: React.FC = () => {
     return (
@@ -17,19 +18,19 @@ const Footer: React.FC = () => {
                     <div className="col-md-3 font-weight-light ">
                         <p className="text-secondary">ONE ADVISOR</p>
                         <p>
-                            <a href="https://ant.design/" target="_blank" className="text-white small">
+                            <Link to="/contact-us" className="text-white small">
                                 Contact Us
-                            </a>
+                            </Link>
                         </p>
                         <p>
-                            <a href="https://reactjs.org/" target="_blank" className="text-white small">
+                            <Link to="/documentation" className="text-white small">
                                 Documentation
-                            </a>
+                            </Link>
                         </p>
                         <p>
-                            <a href="https://www.typescriptlang.org/" target="_blank" className="text-white small">
-                                Request Demo
-                            </a>
+                            <Link to="/change-log" className="text-white small">
+                                Change Log
+                            </Link>
                         </p>
                     </div>
                     <div className="col-md-3 font-weight-light ">

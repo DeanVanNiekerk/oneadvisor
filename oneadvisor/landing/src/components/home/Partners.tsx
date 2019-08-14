@@ -12,7 +12,7 @@ const Partners: React.FC = () => {
                         <h2>PARTNERS</h2>
                     </div>
                 </div>
-                <div className="row mt-5 justify-content-md-center">
+                <div className="row mt-5 mb-3 justify-content-md-center">
                     <div className="col-auto">
                         <a href="https://hvm.co.za/" target="_blank">
                             <img alt="HVM" src={hvm} height="50px" />

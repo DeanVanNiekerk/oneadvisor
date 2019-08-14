@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-scroll";
 
 import backgroundImage from "../../media/background.svg";
 import logoLight from "../../media/logo-light.svg";
@@ -23,11 +24,18 @@ const Jumbotron: React.FC = () => {
                             </p>
                             <p className="mt-5">
                                 <a role="button" href="https://app.oneadvisor.net" className="btn btn-secondary mr-3">
-                                    Sign In
+                                    SIGN IN
                                 </a>
-                                <button type="button" className="btn btn-secondary">
-                                    Request Demo
-                                </button>
+                                <Link
+                                    to="request-demo-section"
+                                    smooth={true}
+                                    duration={500}
+                                    offset={-120}
+                                    role="button"
+                                    className="btn btn-secondary clickable text-white"
+                                >
+                                    REQUEST DEMO
+                                </Link>
                             </p>
                         </div>
                         <div className="col-md-6">

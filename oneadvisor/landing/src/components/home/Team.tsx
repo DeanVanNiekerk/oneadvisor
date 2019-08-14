@@ -1,4 +1,5 @@
 import React from "react";
+import { Element } from "react-scroll";
 
 import deanVanNiekerk from "../../media/team/dean_van_niekerk.png";
 import marcBormann from "../../media/team/marc_bormann.png";
@@ -9,7 +10,9 @@ const Team: React.FC = () => {
             <div className="container section">
                 <div className="row">
                     <div className="col text-center">
-                        <h2>TEAM</h2>
+                        <Element name="team-section">
+                            <h2>TEAM</h2>
+                        </Element>
                     </div>
                 </div>
                 <div className="row justify-content-md-center">
