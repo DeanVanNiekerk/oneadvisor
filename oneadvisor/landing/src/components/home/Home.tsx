@@ -1,28 +1,23 @@
 import React from "react";
 
-import backgroundImage from "../../media/background.svg";
+import ChangeLog from "./ChangeLog";
+import Footer from "./Footer";
 import Jumbotron from "./Jumbotron";
+import Modules from "./Modules";
+import Partners from "./Partners";
+import RequestDemo from "./RequestDemo";
 import Team from "./Team";
 
 const Home: React.FC = () => {
     return (
         <>
-            <div
-                style={{
-                    backgroundImage: `url(${backgroundImage})`,
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                }}
-            >
-                <div className="container main">
-                    <Jumbotron />
-                </div>
-            </div>
-            <div>
-                <div className="container">
-                    <Team />
-                </div>
-            </div>
+            <Jumbotron />
+            <Modules />
+            <Team />
+            <ChangeLog />
+            <Partners />
+            <RequestDemo />
+            <Footer />
         </>
     );
 };

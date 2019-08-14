@@ -27,7 +27,7 @@ class Navbar extends Component<Props, State> {
 
     render() {
         const classNames = `navbar fixed-top navbar-expand-lg navbar-light ${
-            this.state.atTop ? "bg-dark" : "bg-light"
+            this.state.atTop ? "main-navbar-dark" : "main-navbar-white bg-white"
         }`;
         const logo = this.state.atTop ? logoLight : logoDark;
 
