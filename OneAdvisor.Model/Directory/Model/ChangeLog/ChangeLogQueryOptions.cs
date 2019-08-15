@@ -4,8 +4,8 @@ namespace OneAdvisor.Model.Directory.Model.ChangeLog
 {
     public class ChangeLogQueryOptions : QueryOptionsBase<ChangeLog>
     {
-        public ChangeLogQueryOptions()
-         : base("ReleaseDate", "desc", 0, 0)
+        public ChangeLogQueryOptions(string sortColumn, string sortDirection, int pageSize, int pageNumber)
+         : base(sortColumn = "ReleaseDate", sortDirection = "desc", pageSize, pageNumber)
         { }
     }
 }

@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using api.App.Authorization;
-using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Client.Interface;
 using OneAdvisor.Model.Client.Model.Client;
-using Microsoft.AspNetCore.Http;
 using OneAdvisor.Model.Account.Interface;
 
 namespace api.Controllers.Client.Clients

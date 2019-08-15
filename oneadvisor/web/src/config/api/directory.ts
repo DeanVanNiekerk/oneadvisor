@@ -1,4 +1,4 @@
-import config from '@/config/config';
+import config from "@/config/config";
 
 const directoryBaseApi = `${config.baseApi}/api/directory`;
 
@@ -10,6 +10,7 @@ export const applicationsApi = `${directoryBaseApi}/applications`;
 export const useCasesApi = `${directoryBaseApi}/usecases`;
 export const branchesApi = `${directoryBaseApi}/branches`;
 export const auditApi = `${directoryBaseApi}/audit`;
+export const changeLogsApi = `${directoryBaseApi}/changeLogs`;
 
 export const directoryLookupsApi = `${directoryBaseApi}/lookups`;
 export const allDirectoryLookupsApi = `${directoryLookupsApi}/all`;

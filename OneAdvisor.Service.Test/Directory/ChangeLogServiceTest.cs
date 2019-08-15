@@ -39,7 +39,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var service = new ChangeLogService(context);
 
                 //When
-                var queryOptions = new ChangeLogQueryOptions();
+                var queryOptions = new ChangeLogQueryOptions("", "", 0, 0);
                 var actual = await service.GetChangeLogs(queryOptions);
 
                 //Then

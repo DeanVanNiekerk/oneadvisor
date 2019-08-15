@@ -4,6 +4,7 @@ import { reducer as applications, State as ApplicationsState } from "./applicati
 import { reducer as audit, State as AuditState } from "./audit/reducer";
 import { reducer as branches, State as BranchesState } from "./branches/reducer";
 import { reducer as branchesSimple, State as BranchesSimpleState } from "./branchesSimple/reducer";
+import { reducer as changeLogs, State as ChangeLogsState } from "./changeLogs/reducer";
 import { reducer as lookups, State as LookupsState } from "./lookups/reducer";
 import { reducer as organisations, State as OrganisationsState } from "./organisations/reducer";
 import { reducer as roles, State as RolesState } from "./roles/reducer";
@@ -22,6 +23,7 @@ export type State = {
     branchesSimple: BranchesSimpleState;
     lookups: LookupsState;
     audit: AuditState;
+    changeLogs: ChangeLogsState;
 };
 
 export const reducer = combineReducers({
@@ -35,4 +37,5 @@ export const reducer = combineReducers({
     branchesSimple: branchesSimple,
     lookups: lookups,
     audit: audit,
+    changeLogs: changeLogs,
 });

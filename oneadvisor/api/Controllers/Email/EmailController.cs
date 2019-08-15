@@ -55,7 +55,6 @@ namespace api.Controllers.Email
             return Ok(result);
         }
 
-        [Authorize]
         [HttpGet("requestDemo")]
         public async Task<ActionResult> SendRequestDemoEmail([FromQuery] string emailAddress)
         {

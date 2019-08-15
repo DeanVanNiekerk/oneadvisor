@@ -48,15 +48,27 @@ export const menus: Menus = {
                     },
                 ],
             },
+            // {
+            //     name: "Audit",
+            //     defaultOpen: false,
+            //     icon: "video-camera",
+            //     links: [
+            //         {
+            //             name: "Logs",
+            //             relativePath: "/audit/logs",
+            //             useCases: ["dir_view_audit_logs"],
+            //         },
+            //     ],
+            // },
             {
-                name: "Audit",
+                name: "Logs",
                 defaultOpen: false,
-                icon: "video-camera",
+                icon: "profile",
                 links: [
                     {
-                        name: "Logs",
-                        relativePath: "/audit/logs",
-                        useCases: ["dir_view_audit_logs"],
+                        name: "Change Logs",
+                        relativePath: "/logs/changeLogs",
+                        useCases: ["dir_edit_change_logs"],
                     },
                 ],
             },
