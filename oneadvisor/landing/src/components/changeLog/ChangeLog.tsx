@@ -1,21 +1,21 @@
 import React from "react";
+import ReactMarkdown from "react-markdown";
 
-import Navbar from "@/components/layout/Navbar";
+import { ChangeLog as ChangeLogModel } from "@/app/types";
 
-import Footer from "../layout/Footer";
+type Props = {
+    changeLog: ChangeLogModel;
+};
 
-const ChangeLog: React.FC = () => {
+const ChangeLog: React.FC<Props> = ({ changeLog }) => {
     return (
         <>
-            <Navbar static={true} />
-            <div className="container main">
-                <div className="row">
-                    <div className="col text-center pb-5">
-                        <h2 className="border-bottom border-secondary d-inline border-width-2">CHANGE LOG</h2>
-                    </div>
-                </div>
+            <div className="mb-5">
+                <h3 className="mb-3">{changeLog.versionNumber}</h3>
+                <p className="text-monospace mb-3">{changeLog.releaseDate.substr(0, 10)}</p>
+                <ReactMarkdown source={changeLog.log} escapeHtml={false} />
             </div>
-            <Footer />
+            <hr className="mb-5" />
         </>
     );
 };

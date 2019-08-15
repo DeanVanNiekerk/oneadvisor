@@ -38,7 +38,7 @@
         "react-dom": "16.8.6",
         "react-flexbox-grid": "2.1.2",
         "react-json-pretty": "2.1.0",
-        "react-markdown": "^4.1.0",
+        "react-markdown": "4.1.0",
         "react-redux": "7.1.0",
         "react-router": "5.0.1",
         "react-router-dom": "5.0.1",

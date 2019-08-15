@@ -3,8 +3,8 @@ import React from "react";
 import Navbar from "@/components/layout/Navbar";
 
 import Footer from "../layout/Footer";
-import ChangeLog from "./ChangeLog";
 import Jumbotron from "./Jumbotron";
+import LatestChangeLog from "./LatestChangeLog";
 import Modules from "./Modules";
 import Partners from "./Partners";
 import RequestDemo from "./RequestDemo";
@@ -17,7 +17,7 @@ const Home: React.FC = () => {
             <Jumbotron />
             <Modules />
             <Team />
-            <ChangeLog />
+            <LatestChangeLog />
             <Partners />
             <RequestDemo />
             <Footer />
