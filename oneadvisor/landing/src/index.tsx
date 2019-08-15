@@ -14,9 +14,6 @@ if (__APP_INSIGHTS_KEY__ != "") {
         config: {
             instrumentationKey: __APP_INSIGHTS_KEY__,
             extensions: [reactPlugin],
-            extensionConfig: {
-                [reactPlugin.identifier]: { history: history },
-            },
         },
     });
     appInsights.loadAppInsights();
