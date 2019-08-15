@@ -4,6 +4,7 @@ namespace OneAdvisor.Model.Config.Options
     {
         public string SendGridApiKey { get; set; }
         public string DefaultFromAddress { get; set; }
+        public string DefaultToAddress { get; set; }
         public Emails Emails { get; set; }
     }
 

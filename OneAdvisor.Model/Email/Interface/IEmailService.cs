@@ -31,5 +31,6 @@ namespace OneAdvisor.Model.Email
             CommissionStatementEdit statement,
             CommissionStatementTemplateEdit template,
             Attachment attachment);
+        Task<Result> SendRequestDemoEmail(string emailAddress);
     }
 }

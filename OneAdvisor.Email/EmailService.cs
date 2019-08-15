@@ -167,5 +167,26 @@ namespace OneAdvisor.Email
 
             return result;
         }
+
+        public async Task<Result> SendRequestDemoEmail(string emailAddress)
+        {
+            var result = new Result();
+
+            var response = await _email
+                .To(_options.DefaultToAddress)
+                .Subject("One Advisor - Demo Request")
+                .Body($"Demo requested by: {emailAddress}")
+                .SendAsync();
+
+            result.Success = response.Successful;
+
+            if (!result.Success)
+            {
+                result.Errors = response.ErrorMessages;
+                return result;
+            }
+
+            return result;
+        }
     }
 }
