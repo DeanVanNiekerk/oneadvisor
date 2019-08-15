@@ -111,6 +111,7 @@ namespace api.App.Setup
             Services.AddScoped<IUseCaseService, UseCaseService>();
             Services.AddScoped<IDirectoryLookupService, DirectoryLookupService>();
             Services.AddScoped<IAuditService, AuditService>();
+            Services.AddScoped<IChangeLogService, ChangeLogService>();
 
             //CLIENT
             Services.AddScoped<IClientService, ClientService>();

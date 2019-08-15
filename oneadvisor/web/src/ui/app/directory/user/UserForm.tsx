@@ -13,9 +13,7 @@ import { Role } from "@/state/app/directory/roles";
 import { UserEdit } from "@/state/app/directory/users";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
-import {
-    Form, FormErrors, FormInput, FormSelect, FormSimpleList, FormSwitch, Secure, TabPane, Tabs
-} from "@/ui/controls";
+import { Form, FormErrors, FormInput, FormSelect, FormSimpleList, FormSwitch, TabPane, Tabs } from "@/ui/controls";
 
 import SplitRuleList from "../../commission/splitRule/SplitRuleList";
 import BranchSelect from "./BranchSelect";

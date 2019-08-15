@@ -6,7 +6,7 @@ using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Directory.Model.ChangeLog;
 
-namespace api.Controllers.Directory.Organisations
+namespace api.Controllers.Directory.ChangeLogs
 {
     [ApiController]
     [Route("api/directory/changeLogs")]
@@ -53,7 +53,7 @@ namespace api.Controllers.Directory.Organisations
             return Ok(result);
         }
 
-        [HttpPost("{organisationId}")]
+        [HttpPost("{changeLogId}")]
         [UseCaseAuthorize("dir_edit_change_logs")]
         public async Task<IActionResult> Update(Guid changeLogId, [FromBody] ChangeLog changeLog)
         {

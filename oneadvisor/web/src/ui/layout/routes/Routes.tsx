@@ -21,7 +21,7 @@ import SplitRulePolicyList from "@/ui/app/commission/splitRulePolicy/SplitRulePo
 import StatementList from "@/ui/app/commission/statement/StatementList";
 import StatementPreview from "@/ui/app/commission/statement/StatementPreview";
 import CommissionStatementTemplateList from "@/ui/app/commission/template/TemplateList";
-import AuditLogList from "@/ui/app/directory/audit/logs/AuditLogList";
+import ChangeLogList from "@/ui/app/directory/changeLogs/ChangeLogList";
 import CompanyList from "@/ui/app/directory/lookup/company/CompanyList";
 import OrganisationList from "@/ui/app/directory/organisation/OrganisationList";
 import RoleList from "@/ui/app/directory/role/RoleList";
@@ -66,7 +66,7 @@ const Routes = () => (
         <SecureRoute exact path="/directory/organisations" component={OrganisationList} />
         <SecureRoute exact path="/directory/roles" component={RoleList} />
         <SecureRoute exact path="/directory/lookups/companies" component={CompanyList} />
-        <SecureRoute exact path="/directory/audit/logs" component={AuditLogList} />
+        <SecureRoute exact path="/directory/logs/changeLogs" component={ChangeLogList} />
         {/* ------------------------------------------------------------------------------------- */}
     </Switch>
 );
