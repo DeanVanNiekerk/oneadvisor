@@ -7,6 +7,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const oaBaseApi = config.get("baseApi");
 const appInsightsKey = config.get("appInsightsKey");
+const googleAnalyticsKey = config.get("googleAnalyticsKey");
 
 // console.log("Config Settings");
 // console.log("========================================");
@@ -81,6 +82,7 @@ module.exports = {
         new webpack.DefinePlugin({
             __OA_BASE_API__: JSON.stringify(oaBaseApi),
             __APP_INSIGHTS_KEY__: JSON.stringify(appInsightsKey),
+            __GOOGLE_ANALYTICS_KEY__: JSON.stringify(googleAnalyticsKey),
         }),
     ],
 };

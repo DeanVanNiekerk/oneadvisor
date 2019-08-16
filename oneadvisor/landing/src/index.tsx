@@ -4,6 +4,7 @@ import "./styles/index.css";
 
 import React from "react";
 import ReactDOM from "react-dom";
+import ReactGA from "react-ga";
 
 import { ReactPlugin } from "@microsoft/applicationinsights-react-js";
 import { ApplicationInsights } from "@microsoft/applicationinsights-web";
@@ -17,6 +18,11 @@ if (__APP_INSIGHTS_KEY__ != "") {
         },
     });
     appInsights.loadAppInsights();
+}
+
+if (__GOOGLE_ANALYTICS_KEY__ != "") {
+    ReactGA.initialize(__GOOGLE_ANALYTICS_KEY__);
+    ReactGA.pageview(window.location.pathname + window.location.search);
 }
 
 // Save a reference to the root element for reuse

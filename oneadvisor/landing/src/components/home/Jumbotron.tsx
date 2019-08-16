@@ -35,7 +35,7 @@ const Jumbotron: React.FC = () => {
                             <div className="col-md-6">
                                 <img alt="One Advisor" src={logoLight} width="100%" style={{ marginLeft: "-15px" }} />
                                 <p className="mt-5 text-light lead">
-                                    Management tools designed for financial advisors, enabling educated business
+                                    Management tools designed for financial advisors, enabling informed business
                                     decisions.
                                 </p>
                                 <p className="mt-5">
