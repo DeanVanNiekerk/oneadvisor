@@ -48,9 +48,18 @@ class ChangeLogList extends Component<Props> {
     newChangeLog = () => {
         const changeLog: ChangeLog = {
             id: "",
-            versionNumber: "",
+            versionNumber: "0.x.0",
             releaseDate: "",
-            log: "",
+            log: `
+#### General
+- 🌟 
+- 🔥
+- 🐞
+- 💄
+- 📖
+
+[here](http://oneadvisor.net)
+            `,
         };
         this.props.dispatch(receiveChangeLog(changeLog));
     };
