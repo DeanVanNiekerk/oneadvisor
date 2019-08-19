@@ -14,5 +14,6 @@ namespace OneAdvisor.Data.Entities.Directory
 
         public virtual ICollection<BranchEntity> Branches { get; set; }
         public virtual ICollection<ClientEntity> Clients { get; set; }
+        public virtual ICollection<OrganisationToCompanyEntity> OrganisationToCompanies { get; set; }
     }
 }

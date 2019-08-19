@@ -16,7 +16,7 @@ namespace OneAdvisor.Model.Email
         Task<Result> SendResetPasswordEmail(UserEdit user, string resetPasswordUrl);
         Task<Result> SendImportCommissionUnknownCommissionTypesEmail(
             string environment,
-            Organisation organisation,
+            OrganisationEdit organisation,
             UserEdit user,
             Company company,
             CommissionStatementEdit statement,
@@ -25,7 +25,7 @@ namespace OneAdvisor.Model.Email
             Attachment attachment);
         Task<Result> SendImportCommissionZeroEntriesEmail(
             string environment,
-            Organisation organisation,
+            OrganisationEdit organisation,
             UserEdit user,
             Company company,
             CommissionStatementEdit statement,

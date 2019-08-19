@@ -20,5 +20,6 @@ namespace OneAdvisor.Data.Entities.Directory.Lookup
         public IEnumerable<string> CommissionPolicyNumberPrefixes { get; set; }
 
         public virtual ICollection<PolicyEntity> ClientPolicies { get; set; }
+        public virtual ICollection<OrganisationToCompanyEntity> OrganisationToCompanies { get; set; }
     }
 }

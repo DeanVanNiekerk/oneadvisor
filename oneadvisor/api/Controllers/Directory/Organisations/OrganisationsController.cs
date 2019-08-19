@@ -51,7 +51,7 @@ namespace api.Controllers.Directory.Organisations
         [HttpPost]
         [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         [UseCaseAuthorize("dir_edit_organisations")]
-        public async Task<IActionResult> Insert([FromBody] Organisation organisation)
+        public async Task<IActionResult> Insert([FromBody] OrganisationEdit organisation)
         {
             var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
@@ -65,7 +65,7 @@ namespace api.Controllers.Directory.Organisations
 
         [HttpPost("{organisationId}")]
         [UseCaseAuthorize("dir_edit_organisations")]
-        public async Task<IActionResult> Update(Guid organisationId, [FromBody] Organisation organisation)
+        public async Task<IActionResult> Update(Guid organisationId, [FromBody] OrganisationEdit organisation)
         {
             var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 

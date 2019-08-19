@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using api.Controllers.Directory.Organisations;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Newtonsoft.Json;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
@@ -23,6 +22,15 @@ namespace api.Test.Controllers.Directory
             Assert.Equal(2, typeof(Organisation).PropertyCount());
             Assert.True(typeof(Organisation).HasProperty("Id"));
             Assert.True(typeof(Organisation).HasProperty("Name"));
+        }
+
+        [Fact]
+        public void OrganisationEditModelComposition()
+        {
+            Assert.Equal(3, typeof(OrganisationEdit).PropertyCount());
+            Assert.True(typeof(OrganisationEdit).HasProperty("Id"));
+            Assert.True(typeof(OrganisationEdit).HasProperty("Name"));
+            Assert.True(typeof(OrganisationEdit).HasProperty("OrganisationCompanyIds"));
         }
 
         [Fact]
@@ -74,7 +82,7 @@ namespace api.Test.Controllers.Directory
         [Fact]
         public async Task Get()
         {
-            var organisation = new Organisation()
+            var organisation = new OrganisationEdit()
             {
                 Id = Guid.NewGuid(),
                 Name = "organisation_1"
@@ -92,7 +100,7 @@ namespace api.Test.Controllers.Directory
             var result = await controller.Get(organisation.Id.Value);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var returnValue = Assert.IsType<Organisation>(okResult.Value);
+            var returnValue = Assert.IsType<OrganisationEdit>(okResult.Value);
 
             Assert.Same(organisation, returnValue);
         }
@@ -101,7 +109,7 @@ namespace api.Test.Controllers.Directory
         [Fact]
         public async Task Insert()
         {
-            var organisation = new Organisation()
+            var organisation = new OrganisationEdit()
             {
                 Id = Guid.NewGuid(),
                 Name = "organisation_1",
@@ -116,9 +124,9 @@ namespace api.Test.Controllers.Directory
             };
 
             ScopeOptions options = null;
-            Organisation inserted = null;
-            service.Setup(c => c.InsertOrganisation(It.IsAny<ScopeOptions>(), It.Is<Organisation>(m => m == organisation)))
-                .Callback((ScopeOptions o, Organisation i) =>
+            OrganisationEdit inserted = null;
+            service.Setup(c => c.InsertOrganisation(It.IsAny<ScopeOptions>(), It.Is<OrganisationEdit>(m => m == organisation)))
+                .Callback((ScopeOptions o, OrganisationEdit i) =>
                 {
                     inserted = i;
                     options = o;
@@ -142,7 +150,7 @@ namespace api.Test.Controllers.Directory
         [Fact]
         public async Task Update()
         {
-            var organisation = new Organisation()
+            var organisation = new OrganisationEdit()
             {
                 Id = Guid.NewGuid(),
                 Name = "organisation_1",
@@ -157,9 +165,9 @@ namespace api.Test.Controllers.Directory
             };
 
             ScopeOptions options = null;
-            Organisation updated = null;
-            service.Setup(c => c.UpdateOrganisation(It.IsAny<ScopeOptions>(), It.Is<Organisation>(m => m == organisation)))
-                .Callback((ScopeOptions o, Organisation u) =>
+            OrganisationEdit updated = null;
+            service.Setup(c => c.UpdateOrganisation(It.IsAny<ScopeOptions>(), It.Is<OrganisationEdit>(m => m == organisation)))
+                .Callback((ScopeOptions o, OrganisationEdit u) =>
                 {
                     updated = u;
                     options = o;

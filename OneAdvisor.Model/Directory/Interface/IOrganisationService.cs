@@ -10,8 +10,8 @@ namespace OneAdvisor.Model.Directory.Interface
     public interface IOrganisationService
     {
         Task<PagedItems<Organisation>> GetOrganisations(OrganisationQueryOptions queryOptions);
-        Task<Organisation> GetOrganisation(ScopeOptions scope, Guid id);
-        Task<Result> UpdateOrganisation(ScopeOptions scope, Organisation user);
-        Task<Result> InsertOrganisation(ScopeOptions scope, Organisation user);
+        Task<OrganisationEdit> GetOrganisation(ScopeOptions scope, Guid id);
+        Task<Result> UpdateOrganisation(ScopeOptions scope, OrganisationEdit organisation);
+        Task<Result> InsertOrganisation(ScopeOptions scope, OrganisationEdit organisation);
     }
 }

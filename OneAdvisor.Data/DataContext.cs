@@ -23,6 +23,7 @@ namespace OneAdvisor.Data
         #region Directory
 
         public DbSet<OrganisationEntity> Organisation { get; set; }
+        public DbSet<OrganisationToCompanyEntity> OrganisationToCompany { get; set; }
         public DbSet<ApplicationEntity> Application { get; set; }
         public DbSet<UseCaseEntity> UseCase { get; set; }
         public DbSet<RoleToUseCaseEntity> RoleToUseCase { get; set; }
@@ -83,6 +84,7 @@ namespace OneAdvisor.Data
 
             modelBuilder.Entity<ApplicationEntity>().ToTable("dir_Application").HasData(SeedData.GetApplications());
             modelBuilder.Entity<OrganisationEntity>().ToTable("dir_Organisation");
+            modelBuilder.Entity<OrganisationToCompanyEntity>().ToTable("dir_OrganisationToCompany");
             modelBuilder.Entity<UseCaseEntity>().ToTable("dir_UseCase").HasData(SeedData.GetUseCases());
             modelBuilder.Entity<RoleToUseCaseEntity>().ToTable("dir_RoleToUseCase");
             modelBuilder.Entity<BranchEntity>().ToTable("dir_Branch");
@@ -93,6 +95,7 @@ namespace OneAdvisor.Data
 
             //Custom mappings
             UserMap.Map(modelBuilder);
+            OrganisationToCompanyMap.Map(modelBuilder);
             RoleToUseCaseMap.Map(modelBuilder);
             CommissionTypeMap.Map(modelBuilder);
             CompanyMap.Map(modelBuilder);

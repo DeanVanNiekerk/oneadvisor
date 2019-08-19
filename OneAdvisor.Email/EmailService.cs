@@ -72,7 +72,7 @@ namespace OneAdvisor.Email
 
         public async Task<Result> SendImportCommissionUnknownCommissionTypesEmail(
             string environment,
-            Organisation organisation,
+            OrganisationEdit organisation,
             UserEdit user,
             Company company,
             CommissionStatementEdit statement,
@@ -122,7 +122,7 @@ namespace OneAdvisor.Email
 
         public async Task<Result> SendImportCommissionZeroEntriesEmail(
             string environment,
-            Organisation organisation,
+            OrganisationEdit organisation,
             UserEdit user,
             Company company,
             CommissionStatementEdit statement,

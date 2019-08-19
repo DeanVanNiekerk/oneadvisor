@@ -119,10 +119,16 @@ namespace OneAdvisor.Service.Test.Directory
             var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 1" };
             var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 2" };
 
+            var orgCo1 = new OrganisationToCompanyEntity { OrganisationId = org1.Id, CompanyId = Guid.NewGuid() };
+            var orgCo2 = new OrganisationToCompanyEntity { OrganisationId = org2.Id, CompanyId = Guid.NewGuid() };
+
             using (var context = new DataContext(options))
             {
                 context.Organisation.Add(org1);
                 context.Organisation.Add(org2);
+
+                context.OrganisationToCompany.Add(orgCo1);
+                context.OrganisationToCompany.Add(orgCo2);
 
                 context.SaveChanges();
             }
@@ -138,6 +144,8 @@ namespace OneAdvisor.Service.Test.Directory
                 //Then
                 Assert.Equal(org2.Id, actual.Id);
                 Assert.Equal(org2.Name, actual.Name);
+                Assert.Single(actual.OrganisationCompanyIds);
+                Assert.Equal(orgCo2.CompanyId, actual.OrganisationCompanyIds.Single());
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(org1.Id);
@@ -153,9 +161,10 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("InsertOrganisation");
 
             //Given
-            var organisation = new Organisation()
+            var organisation = new OrganisationEdit()
             {
-                Name = "Organsation 1"
+                Name = "Organsation 1",
+                OrganisationCompanyIds = new List<Guid>() { Guid.NewGuid() }
             };
 
             using (var context = new DataContext(options))
@@ -170,8 +179,12 @@ namespace OneAdvisor.Service.Test.Directory
                 //Then
                 Assert.True(result.Success);
 
-                var actual = await context.Organisation.FindAsync(((Organisation)result.Tag).Id);
+                var actual = await context.Organisation.FindAsync(((OrganisationEdit)result.Tag).Id);
                 Assert.Equal(organisation.Name, actual.Name);
+
+                var actualCompanies = await context.OrganisationToCompany.Where(o => o.OrganisationId == actual.Id).ToListAsync();
+                Assert.Single(actualCompanies);
+                Assert.Equal(organisation.OrganisationCompanyIds.Single(), actualCompanies.Single().CompanyId);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(Guid.NewGuid());
@@ -191,17 +204,24 @@ namespace OneAdvisor.Service.Test.Directory
             //Given
             var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 2" };
 
+            var orgCo1 = new OrganisationToCompanyEntity { OrganisationId = org2.Id, CompanyId = Guid.NewGuid() };
+            var orgCo2 = new OrganisationToCompanyEntity { OrganisationId = Guid.NewGuid(), CompanyId = Guid.NewGuid() };
+
             using (var context = new DataContext(options))
             {
                 context.Organisation.Add(org2);
 
+                context.OrganisationToCompany.Add(orgCo1);
+                context.OrganisationToCompany.Add(orgCo2);
+
                 context.SaveChanges();
             }
 
-            var organisation = new Organisation()
+            var organisation = new OrganisationEdit()
             {
                 Id = user1.Organisation.Id,
-                Name = "Org 1 Updated"
+                Name = "Org 1 Updated",
+                OrganisationCompanyIds = new List<Guid>() { Guid.NewGuid() }
             };
 
             using (var context = new DataContext(options))
@@ -217,6 +237,14 @@ namespace OneAdvisor.Service.Test.Directory
 
                 var actual = await context.Organisation.FindAsync(organisation.Id);
                 Assert.Equal(organisation.Name, actual.Name);
+
+                var actualCompanies = await context.OrganisationToCompany.Where(o => o.OrganisationId == actual.Id).ToListAsync();
+                Assert.Single(actualCompanies);
+                Assert.Equal(organisation.OrganisationCompanyIds.Single(), actualCompanies.Single().CompanyId);
+
+                //Not deleted
+                actualCompanies = await context.OrganisationToCompany.Where(o => o.OrganisationId == orgCo2.OrganisationId).ToListAsync();
+                Assert.Single(actualCompanies);
 
                 //Scope check
                 organisation.Id = org2.Id;

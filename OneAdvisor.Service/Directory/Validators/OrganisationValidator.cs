@@ -1,13 +1,10 @@
 
-using System.Collections.Generic;
-using System.Linq;
 using FluentValidation;
 using OneAdvisor.Model.Directory.Model.Organisation;
-using OneAdvisor.Service.Common;
 
 namespace OneAdvisor.Service.Directory.Validators
 {
-    public class OrganisationValidator : AbstractValidator<Organisation>
+    public class OrganisationValidator : AbstractValidator<OrganisationEdit>
     {
         public OrganisationValidator(bool isInsert)
         {
@@ -15,6 +12,7 @@ namespace OneAdvisor.Service.Directory.Validators
                 RuleFor(o => o.Id).NotEmpty();
 
             RuleFor(o => o.Name).NotEmpty().MaximumLength(32);
+            RuleFor(o => o.OrganisationCompanyIds).NotEmpty().WithName("Company");
         }
     }
 }

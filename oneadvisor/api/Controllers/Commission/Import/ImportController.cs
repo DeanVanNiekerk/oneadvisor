@@ -12,8 +12,6 @@ using OneAdvisor.Model.Storage.Model.Path.Commission;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate;
 using System.IO;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
-using OneAdvisor.Model.Commission.Model.CommissionStatement;
-using System.Collections.Generic;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Email;
 using OneAdvisor.Model.Directory.Interface;
