@@ -9,6 +9,7 @@ using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Organisation;
+using OneAdvisor.Model.Directory.Model.Organisation.Configuration;
 using OneAdvisor.Model.Directory.Model.User;
 using Xunit;
 
@@ -30,7 +31,7 @@ namespace api.Test.Controllers.Directory
             Assert.Equal(3, typeof(OrganisationEdit).PropertyCount());
             Assert.True(typeof(OrganisationEdit).HasProperty("Id"));
             Assert.True(typeof(OrganisationEdit).HasProperty("Name"));
-            Assert.True(typeof(OrganisationEdit).HasProperty("OrganisationCompanyIds"));
+            Assert.True(typeof(OrganisationEdit).HasProperty("Config"));
         }
 
         [Fact]
@@ -85,7 +86,8 @@ namespace api.Test.Controllers.Directory
             var organisation = new OrganisationEdit()
             {
                 Id = Guid.NewGuid(),
-                Name = "organisation_1"
+                Name = "organisation_1",
+                Config = new Config()
             };
 
             var service = new Mock<IOrganisationService>();
@@ -113,6 +115,7 @@ namespace api.Test.Controllers.Directory
             {
                 Id = Guid.NewGuid(),
                 Name = "organisation_1",
+                Config = new Config()
             };
 
             var service = new Mock<IOrganisationService>();
@@ -154,6 +157,7 @@ namespace api.Test.Controllers.Directory
             {
                 Id = Guid.NewGuid(),
                 Name = "organisation_1",
+                Config = new Config()
             };
 
             var service = new Mock<IOrganisationService>();

@@ -39,7 +39,7 @@ namespace OneAdvisor.Service.Test
 
         public static OrganisationEntity InsertOrganisation(DbContextOptions<DataContext> options)
         {
-            var organisation = new OrganisationEntity { Id = Guid.NewGuid(), Name = "A Org 1" };
+            var organisation = new OrganisationEntity { Id = Guid.NewGuid(), Name = "A Org 1", Config = new Model.Directory.Model.Organisation.Configuration.Config() };
 
             using (var context = new DataContext(options))
             {

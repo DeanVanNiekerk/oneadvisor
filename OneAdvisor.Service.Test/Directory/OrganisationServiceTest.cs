@@ -6,10 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
-using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Organisation;
-using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Directory;
+using OneAdvisor.Model.Directory.Model.Organisation.Configuration;
 
 namespace OneAdvisor.Service.Test.Directory
 {
@@ -115,20 +114,24 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("GetOrganisation");
 
-            //Given
-            var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 1" };
-            var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 2" };
+            var config1 = new Config()
+            {
+                CompanyIds = new List<Guid>() { Guid.NewGuid() }
+            };
 
-            var orgCo1 = new OrganisationToCompanyEntity { OrganisationId = org1.Id, CompanyId = Guid.NewGuid() };
-            var orgCo2 = new OrganisationToCompanyEntity { OrganisationId = org2.Id, CompanyId = Guid.NewGuid() };
+            var config2 = new Config()
+            {
+                CompanyIds = new List<Guid>() { Guid.NewGuid() }
+            };
+
+            //Given
+            var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 1", Config = config1 };
+            var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 2", Config = config2 };
 
             using (var context = new DataContext(options))
             {
                 context.Organisation.Add(org1);
                 context.Organisation.Add(org2);
-
-                context.OrganisationToCompany.Add(orgCo1);
-                context.OrganisationToCompany.Add(orgCo2);
 
                 context.SaveChanges();
             }
@@ -144,8 +147,8 @@ namespace OneAdvisor.Service.Test.Directory
                 //Then
                 Assert.Equal(org2.Id, actual.Id);
                 Assert.Equal(org2.Name, actual.Name);
-                Assert.Single(actual.OrganisationCompanyIds);
-                Assert.Equal(orgCo2.CompanyId, actual.OrganisationCompanyIds.Single());
+                Assert.Single(actual.Config.CompanyIds);
+                Assert.Equal(org2.Config.CompanyIds.Single(), actual.Config.CompanyIds.Single());
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(org1.Id);
@@ -160,11 +163,18 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("InsertOrganisation");
 
+            var company1 = TestHelper.InsertCompany(options);
+
+            var config1 = new Config()
+            {
+                CompanyIds = new List<Guid>() { company1.Id }
+            };
+
             //Given
             var organisation = new OrganisationEdit()
             {
                 Name = "Organsation 1",
-                OrganisationCompanyIds = new List<Guid>() { Guid.NewGuid() }
+                Config = config1
             };
 
             using (var context = new DataContext(options))
@@ -181,10 +191,8 @@ namespace OneAdvisor.Service.Test.Directory
 
                 var actual = await context.Organisation.FindAsync(((OrganisationEdit)result.Tag).Id);
                 Assert.Equal(organisation.Name, actual.Name);
-
-                var actualCompanies = await context.OrganisationToCompany.Where(o => o.OrganisationId == actual.Id).ToListAsync();
-                Assert.Single(actualCompanies);
-                Assert.Equal(organisation.OrganisationCompanyIds.Single(), actualCompanies.Single().CompanyId);
+                Assert.Single(actual.Config.CompanyIds);
+                Assert.Equal(organisation.Config.CompanyIds.Single(), actual.Config.CompanyIds.Single());
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(Guid.NewGuid());
@@ -199,29 +207,43 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("UpdateOrganisation");
 
-            var user1 = TestHelper.InsertUserDetailed(options);
+            var company1 = TestHelper.InsertCompany(options);
+            var company2 = TestHelper.InsertCompany(options);
+
+            var config1 = new Config()
+            {
+                CompanyIds = new List<Guid>() { company1.Id }
+            };
+
+            var config2 = new Config()
+            {
+                CompanyIds = new List<Guid>() { company1.Id }
+            };
 
             //Given
-            var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 2" };
-
-            var orgCo1 = new OrganisationToCompanyEntity { OrganisationId = org2.Id, CompanyId = Guid.NewGuid() };
-            var orgCo2 = new OrganisationToCompanyEntity { OrganisationId = Guid.NewGuid(), CompanyId = Guid.NewGuid() };
+            var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 1", Config = config1 };
+            var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 2", Config = config2 };
 
             using (var context = new DataContext(options))
             {
+                context.Organisation.Add(org1);
                 context.Organisation.Add(org2);
-
-                context.OrganisationToCompany.Add(orgCo1);
-                context.OrganisationToCompany.Add(orgCo2);
 
                 context.SaveChanges();
             }
 
+            var user1 = TestHelper.InsertUserDetailed(options, org2);
+
+            var config2Updated = new Config()
+            {
+                CompanyIds = new List<Guid>() { company2.Id }
+            };
+
             var organisation = new OrganisationEdit()
             {
-                Id = user1.Organisation.Id,
-                Name = "Org 1 Updated",
-                OrganisationCompanyIds = new List<Guid>() { Guid.NewGuid() }
+                Id = org2.Id,
+                Name = "Org 2 Updated",
+                Config = config2Updated
             };
 
             using (var context = new DataContext(options))
@@ -237,17 +259,12 @@ namespace OneAdvisor.Service.Test.Directory
 
                 var actual = await context.Organisation.FindAsync(organisation.Id);
                 Assert.Equal(organisation.Name, actual.Name);
+                Assert.Single(actual.Config.CompanyIds);
+                Assert.Equal(organisation.Config.CompanyIds.Single(), actual.Config.CompanyIds.Single());
 
-                var actualCompanies = await context.OrganisationToCompany.Where(o => o.OrganisationId == actual.Id).ToListAsync();
-                Assert.Single(actualCompanies);
-                Assert.Equal(organisation.OrganisationCompanyIds.Single(), actualCompanies.Single().CompanyId);
-
-                //Not deleted
-                actualCompanies = await context.OrganisationToCompany.Where(o => o.OrganisationId == orgCo2.OrganisationId).ToListAsync();
-                Assert.Single(actualCompanies);
 
                 //Scope check
-                organisation.Id = org2.Id;
+                organisation.Id = org1.Id;
                 result = await service.UpdateOrganisation(scope, organisation);
 
                 //Then
