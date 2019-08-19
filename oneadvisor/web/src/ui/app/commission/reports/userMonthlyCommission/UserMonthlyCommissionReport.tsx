@@ -19,7 +19,7 @@ import {
 import {
     userEarningsTypeMonthlyCommissionItemsSelector
 } from "@/state/app/commission/reports/userEarningsTypeMonthlyCommission/selectors";
-import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Button, Header } from "@/ui/controls";
@@ -351,7 +351,7 @@ const mapStateToProps = (state: RootState) => {
     const userEarningsTypeMonthlyCommissionState = userEarningsTypeMonthlyCommissionSelector(state);
     const userCompanyMonthlyCommissionState = userCompanyMonthlyCommissionSelector(state);
     const userMonthlyCommissionState = userMonthlyCommissionSelector(state);
-    const companiesState = companiesSelector(state);
+    const companiesState = organisationCompaniesSelector(state);
     const commissionEarningsTypesState = commissionEarningsTypesSelector(state);
 
     return {
@@ -360,7 +360,7 @@ const mapStateToProps = (state: RootState) => {
         companyRecords: userCompanyMonthlyCommissionState.items,
         userCompanyMonthlyMonthlyCommissionFilters: userCompanyMonthlyCommissionState.filters,
         users: brokersSelector(state),
-        companies: companiesState.items,
+        companies: companiesState,
         commissionEarningsTypes: commissionEarningsTypesState.items,
         selectedMonth: userMonthlyCommissionState.month,
         selectedYear: userMonthlyCommissionState.year,

@@ -5,7 +5,7 @@ import { connect, DispatchProp } from "react-redux";
 import { filterOption } from "@/app/controls/select";
 import { ValidationResult } from "@/app/validation";
 import { StatementEdit } from "@/state/app/commission/statements";
-import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInputNumber, FormSelect, FormSwitch } from "@/ui/controls";
 
@@ -127,10 +127,10 @@ class StatementForm extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const companiesState = companiesSelector(state);
+    const companiesState = organisationCompaniesSelector(state);
 
     return {
-        companies: companiesState.items,
+        companies: companiesState,
     };
 };
 

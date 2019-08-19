@@ -1,7 +1,7 @@
-import { listSelector } from './selectors';
+import { companiesSelector } from "./selectors";
 
 describe('company list selectors', () => {
-    it('listSelector', () => {
+    it('companiesSelector', () => {
         const state = {
             app: {
                 directory: {
@@ -21,7 +21,7 @@ describe('company list selectors', () => {
         };
 
         //@ts-ignore
-        const actual = listSelector(state);
+        const actual = companiesSelector(state);
 
         expect(actual).toEqual(expected);
     });

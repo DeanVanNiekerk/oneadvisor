@@ -1,18 +1,23 @@
-import { Dispatch } from 'redux';
+import { Dispatch } from "redux";
 
-import { ApiAction } from '@/app/types';
-import config from '@/config/config';
+import { ApiAction } from "@/app/types";
+import { organisationsApi } from "@/config/api/directory";
+import config from "@/config/config";
 
-import { signOut } from '../auth';
-import { getVersion, setVersion } from '../storage';
-import { AppInfo } from './types';
+import { signOut } from "../auth";
+import { getVersion, setVersion } from "../storage";
+import { AppInfo } from "./types";
 
 type ReceiveAppInfoAction = {
     type: "CONTEXT_APP_INFO_RECEIVE";
     payload: AppInfo;
 };
+type ReceiveUserOrganisationAction = {
+    type: "CONTEXT_ORGANISATION_RECEIVE";
+    payload: AppInfo;
+};
 
-export type ContextActions = ReceiveAppInfoAction;
+export type ContextActions = ReceiveAppInfoAction | ReceiveUserOrganisationAction;
 
 export const fetchAppInfo = (): ApiAction => {
     return {
@@ -32,3 +37,9 @@ export const fetchAppInfo = (): ApiAction => {
         },
     };
 };
+
+export const fetchUserOrganisation = (organisationId: string): ApiAction => ({
+    type: 'API',
+    endpoint: `${organisationsApi}/${organisationId}`,
+    dispatchPrefix: 'CONTEXT_ORGANISATION'
+});

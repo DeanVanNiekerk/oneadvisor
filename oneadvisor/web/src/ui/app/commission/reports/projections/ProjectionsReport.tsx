@@ -12,10 +12,10 @@ import {
     PastRevenueCommissionDataFilters, receivePastRevenueCommissionFilters, receivePastRevenueCommissionGroups
 } from "@/state/app/commission/reports";
 import { branchesSimpleSelector, BranchSimple } from "@/state/app/directory/branchesSimple";
-import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { Button, Header } from "@/ui/controls";
+import { Header } from "@/ui/controls";
 
 import GroupsTable from "./GroupsTable";
 
@@ -302,7 +302,7 @@ const mapStateToProps = (state: RootState) => {
     const branchesState = branchesSimpleSelector(state);
     const policyTypesState = policyTypesSelector(state);
     const commissionEarningsTypesState = commissionEarningsTypesSelector(state);
-    const companiesState = companiesSelector(state);
+    const companiesState = organisationCompaniesSelector(state);
     const projectionsState = commissionProjectionsSelector(state);
 
     return {
@@ -312,7 +312,7 @@ const mapStateToProps = (state: RootState) => {
         policyTypes: policyTypesState.items,
         pastMonthsCount: pastMonthsCountSelector(state),
         commissionEarningsTypes: commissionEarningsTypesState.items,
-        companies: companiesState.items,
+        companies: companiesState,
         groups: projectionsState.groups,
     };
 };

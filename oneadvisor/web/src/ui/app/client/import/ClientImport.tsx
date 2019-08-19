@@ -1,15 +1,14 @@
-import { Steps } from 'antd';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { clientImportSelector } from '@/state/app/client/import';
-import { RootState } from '@/state/rootReducer';
-import { Header } from '@/ui/controls';
+import { clientImportSelector } from "@/state/app/client/import";
+import { RootState } from "@/state/rootReducer";
+import { Header } from "@/ui/controls";
 
-import Configure from './steps/Configure';
-import Import from './steps/Import';
-import Upload from './steps/Upload';
-import Verify from './steps/Verify';
+import Configure from "./steps/Configure";
+import Import from "./steps/Import";
+import Upload from "./steps/Upload";
+import Verify from "./steps/Verify";
 
 type Props = {
     currentStepIndex: number;

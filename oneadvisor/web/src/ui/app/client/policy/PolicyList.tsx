@@ -9,7 +9,7 @@ import {
     fetchPolicies, fetchPolicy, newPolicy, policiesSelector, Policy, receiveFilters, receivePageOptions, receivePolicy,
     receiveSortOptions
 } from "@/state/app/client/policies";
-import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Button, CompanyName, getTable, Header, PolicyTypeName, UserName } from "@/ui/controls";
@@ -209,7 +209,7 @@ class PolicyList extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     const policiesState = policiesSelector(state);
-    const companiesState = companiesSelector(state);
+    const companiesState = organisationCompaniesSelector(state);
     const policyTypesState = policyTypesSelector(state);
 
     return {
@@ -219,7 +219,7 @@ const mapStateToProps = (state: RootState) => {
         sortOptions: policiesState.sortOptions,
         totalItems: policiesState.totalItems,
         filters: policiesState.filters,
-        companies: companiesState.items,
+        companies: companiesState,
         policyTypes: policyTypesState.items,
         users: brokersSelector(state),
     };

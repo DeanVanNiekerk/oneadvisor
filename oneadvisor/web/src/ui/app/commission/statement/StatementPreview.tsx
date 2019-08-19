@@ -11,7 +11,7 @@ import { downloadCommissionErrors, getCommissionErrors } from "@/state/app/commi
 import {
     deleteCommissions, fetchStatement, fetchStatementPreview, Statement, statementPreviewSelector
 } from "@/state/app/commission/statements";
-import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import {
@@ -397,13 +397,13 @@ class StatementPreviewComponent extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const statementState = statementPreviewSelector(state);
-    const companiesState = companiesSelector(state);
+    const companiesState = organisationCompaniesSelector(state);
 
     return {
         statement: statementState.statement,
         fetching: statementState.fetching,
         useCases: useCaseSelector(state),
-        companies: companiesState.items,
+        companies: companiesState,
     };
 };
 

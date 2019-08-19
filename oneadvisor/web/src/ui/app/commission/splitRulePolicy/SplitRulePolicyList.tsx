@@ -7,7 +7,7 @@ import {
     fetchSplitRulePolicies, fetchSplitRulePolicy, receiveFilters, receivePageOptions, receiveSortOptions,
     splitRulePoliciesSelector, SplitRulePolicyInfo
 } from "@/state/app/commission/splitRulePolicies";
-import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { CompanyName, getTable, Header, UserName } from "@/ui/controls";
@@ -180,7 +180,7 @@ class SplitRulePolicyList extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const splitRulePoliciesState = splitRulePoliciesSelector(state);
-    const companiesState = companiesSelector(state);
+    const companiesState = organisationCompaniesSelector(state);
 
     return {
         splitRulePolicies: splitRulePoliciesState.items,
@@ -190,7 +190,7 @@ const mapStateToProps = (state: RootState) => {
         totalItems: splitRulePoliciesState.totalItems,
         filters: splitRulePoliciesState.filters,
         users: brokersSelector(state),
-        companies: companiesState.items,
+        companies: companiesState,
     };
 };
 

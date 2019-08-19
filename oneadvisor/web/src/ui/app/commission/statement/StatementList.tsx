@@ -12,7 +12,7 @@ import {
     receiveFilterYear, receivePageOptions, receiveSortOptions, receiveStatement, Statement, StatementEdit,
     statementsSelector
 } from "@/state/app/commission/statements";
-import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";
@@ -341,7 +341,7 @@ class StatementList extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     const statementsState = statementsSelector(state);
-    const companiesState = companiesSelector(state);
+    const companiesState = organisationCompaniesSelector(state);
 
     return {
         statements: statementsState.items,
@@ -354,7 +354,7 @@ const mapStateToProps = (state: RootState) => {
         filterMonth: statementsState.filterMonth,
         filterYear: statementsState.filterYear,
         filters: statementsState.filters,
-        companies: companiesState.items,
+        companies: companiesState,
     };
 };
 

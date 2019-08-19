@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { ApiOnFailure, ApiOnSuccess } from "@/app/types";
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
 import { CommissionStatementTemplateEdit, Sheet, SheetConfig } from "@/state/app/commission/templates";
-import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInput, FormSelect, TabPane, Tabs } from "@/ui/controls";
 
@@ -195,10 +195,10 @@ class TemplateForm extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const companiesState = companiesSelector(state);
+    const companiesState = organisationCompaniesSelector(state);
 
     return {
-        companies: companiesState.items,
+        companies: companiesState,
     };
 };
 

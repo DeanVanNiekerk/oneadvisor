@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { getColumnDefinition } from '@/app/table';
-import { companiesSelector, Company, fetchCompanies, receiveCompany } from '@/state/app/directory/lookups/companies';
-import { RootState } from '@/state/rootReducer';
-import { Button, getTable, Header } from '@/ui/controls';
+import { getColumnDefinition } from "@/app/table";
+import { companiesSelector, Company, fetchCompanies, receiveCompany } from "@/state/app/directory/lookups/companies";
+import { RootState } from "@/state/rootReducer";
+import { Button, getTable, Header } from "@/ui/controls";
 
-import EditCompany from './EditCompany';
+import EditCompany from "./EditCompany";
 
 const Table = getTable<Company>();
 
@@ -70,7 +70,6 @@ class CompanyList extends Component<Props, State> {
     };
 
     render() {
-
         return (
             <>
                 <Header

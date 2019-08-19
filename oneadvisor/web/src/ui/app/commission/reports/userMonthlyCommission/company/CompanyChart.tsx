@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { formatCurrency } from '@/app/utils';
 import { UserCompanyMonthlyCommissionData } from '@/state/app/commission/reports';
-import { companiesSelector, Company, getCompanyName } from '@/state/app/directory/lookups';
+import { organisationCompaniesSelector, Company, getCompanyName } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Pie } from '@/ui/controls';
 import { PieDatum } from '@nivo/pie';
@@ -52,10 +52,10 @@ class CompanyChart extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const companiesState = companiesSelector(state);
+    const companiesState = organisationCompaniesSelector(state);
 
     return {
-        companies: companiesState.items,
+        companies: companiesState,
     };
 };
 

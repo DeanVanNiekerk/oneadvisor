@@ -6,7 +6,7 @@ import {
     fetchPolicyProducts, PolicyProduct, policyProductsSelector, PolicyProductType, policyProductTypesSelector,
     receivePolicyProduct
 } from '@/state/app/client/lookups';
-import { companiesSelector, Company } from '@/state/app/directory/lookups';
+import { organisationCompaniesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Button, CompanyName, getTable, Header, PolicyProductTypeName } from '@/ui/controls';
 
@@ -146,11 +146,11 @@ class PolicyProductList extends Component<Props, State> {
 const mapStateToProps = (state: RootState) => {
     const policyProductsState = policyProductsSelector(state);
     const policyProductTypesState = policyProductTypesSelector(state);
-    const companiesState = companiesSelector(state);
+    const companiesState = organisationCompaniesSelector(state);
 
     return {
         policyProducts: policyProductsState.items,
-        companies: companiesState.items,
+        companies: companiesState,
         policyProductTypes: policyProductTypesState.items,
         fetching: policyProductsState.fetching,
     };

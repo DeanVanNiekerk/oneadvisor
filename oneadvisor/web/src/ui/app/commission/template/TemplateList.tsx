@@ -7,7 +7,7 @@ import {
     CommissionStatementTemplate, CommissionStatementTemplateEdit, commissionStatementTemplatesSelector,
     fetchCommissionStatementTemplate, fetchCommissionStatementTemplates, receiveCommissionStatementTemplate
 } from "@/state/app/commission/templates";
-import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, CompanyName, getTable, Header } from "@/ui/controls";
 
@@ -149,12 +149,12 @@ class TemplateList extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     const templatesState = commissionStatementTemplatesSelector(state);
-    const companiesState = companiesSelector(state);
+    const companiesState = organisationCompaniesSelector(state);
 
     return {
         templates: templatesState.items,
         fetching: templatesState.fetching,
-        companies: companiesState.items,
+        companies: companiesState,
     };
 };
 

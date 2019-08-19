@@ -47,7 +47,7 @@ class FormSelect<T> extends Component<Props<T>> {
         if (this.props.onChange) this.props.onChange(this.props.fieldName, value);
     };
 
-    getValue = (): string => {
+    getLabelValue = (): string => {
         const item = this.props.options.find(o => o[this.props.optionsValue] === this.props.value);
 
         if (!item) return "";
@@ -64,7 +64,6 @@ class FormSelect<T> extends Component<Props<T>> {
         const {
             fieldName,
             label,
-            value,
             disabled = false,
             validationResults,
             layout,
@@ -74,7 +73,13 @@ class FormSelect<T> extends Component<Props<T>> {
             autoFocus = false,
         } = this.props;
 
-        if (readonly) return <FormText label={label} value={this.getValue()} layout={layout} />;
+        let { value } = this.props;
+
+        const labelValue = this.getLabelValue();
+
+        if (readonly) return <FormText label={label} value={labelValue} layout={layout} />;
+
+        if (labelValue === "") value = "";
 
         if (this.props.hidden) return <></>;
 

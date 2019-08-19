@@ -6,8 +6,7 @@ import { getColumnDefinition } from "@/app/table";
 import { DATE_FORMAT } from "@/app/utils";
 import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
 import { State as PolicyTypesState } from "@/state/app/client/lookups/policyTypes/list/reducer";
-import { companiesSelector, Company } from "@/state/app/directory/lookups";
-import { State as CompaniesState } from "@/state/app/directory/lookups/companies/list/reducer";
+import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 
 import { Group, GroupTableRecord, PastRevenueCommissionData } from "../";
@@ -38,13 +37,13 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
     pastMonthsCountSelector,
     commissionEarningsTypesSelector,
     policyTypesSelector,
-    companiesSelector,
+    organisationCompaniesSelector,
     (
         root: State,
         pastMonthsCount: number,
         commissionEarningsTypesState: CommissionEarningsTypesState,
         policyTypesState: PolicyTypesState,
-        companiesState: CompaniesState
+        companies: Company[]
     ) => {
         const { groups } = root;
 
@@ -122,7 +121,7 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
                         width: "170px",
                         sorter: false,
                         render: (companyId: string, row: GroupTableRecord) => {
-                            let value = getCompanyName(companyId, companiesState.items);
+                            let value = getCompanyName(companyId, companies);
                             if (row.isTotalRow && row.companyColSpan >= 1) value = totalsText;
                             const obj = {
                                 children: value,
@@ -166,13 +165,13 @@ export const projectionGroupTableRowsSelector: (state: RootState) => object[] = 
     pastMonthsCountSelector,
     commissionEarningsTypesSelector,
     policyTypesSelector,
-    companiesSelector,
+    organisationCompaniesSelector,
     (
         root: State,
         pastMonthsCount: number,
         commissionEarningsTypesState: CommissionEarningsTypesState,
         policyTypesState: PolicyTypesState,
-        companiesState: CompaniesState
+        companies: Company[]
     ) => {
         const now = new Date();
 
@@ -216,7 +215,7 @@ export const projectionGroupTableRowsSelector: (state: RootState) => object[] = 
 
             if (groups.some(g => g === "Company")) {
                 key = key.concat(data.companyId);
-                sortKey = sortKey.concat(getCompanyName(data.companyId, companiesState.items));
+                sortKey = sortKey.concat(getCompanyName(data.companyId, companies));
             }
 
             if (rows.some(r => r.key === key)) return;

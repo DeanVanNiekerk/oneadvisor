@@ -7,6 +7,8 @@ import { ValidationResult } from "@/app/validation";
 import {
     insertOrganisation, OrganisationEdit, organisationSelector, updateOrganisation
 } from "@/state/app/directory/organisations";
+import { userOrganisationIdSelector } from "@/state/auth";
+import { fetchUserOrganisation } from "@/state/context/actions";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer, DrawerFooter, TabPane, Tabs } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
@@ -24,6 +26,7 @@ type Props = {
     fetching: boolean;
     updating: boolean;
     validationResults: ValidationResult[];
+    organisationId: string;
 } & DispatchProp;
 
 type State = {
@@ -70,7 +73,12 @@ class EditOrganisation extends Component<Props, State> {
         }
 
         if (this.state.organisationEdited.id) {
-            this.props.dispatch(updateOrganisation(this.state.organisationEdited, this.close));
+            this.props.dispatch(
+                updateOrganisation(this.state.organisationEdited, () => {
+                    this.props.dispatch(fetchUserOrganisation(this.props.organisationId));
+                    this.close();
+                })
+            );
         } else {
             this.props.dispatch(insertOrganisation(this.state.organisationEdited, this.close));
         }
@@ -173,6 +181,7 @@ const mapStateToProps = (state: RootState) => {
         fetching: organisationState.fetching,
         updating: organisationState.updating,
         validationResults: organisationState.validationResults,
+        organisationId: userOrganisationIdSelector(state),
     };
 };
 

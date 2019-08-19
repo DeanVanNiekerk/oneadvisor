@@ -6,7 +6,7 @@ import { ValidationResult } from '@/app/validation';
 import {
     PolicyProduct, PolicyProductType, policyProductTypesSelector, policyTypesSelector
 } from '@/state/app/client/lookups';
-import { companiesSelector, Company } from '@/state/app/directory/lookups';
+import { organisationCompaniesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
 import { Form, FormInput, FormSelect } from '@/ui/controls';
 
@@ -94,11 +94,11 @@ class PolicyProductForm extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const companiesState = companiesSelector(state);
+    const companiesState = organisationCompaniesSelector(state);
     const policyProductTypeState = policyProductTypesSelector(state);
 
     return {
-        companies: companiesState.items,
+        companies: companiesState,
         policyProductTypes: policyProductTypeState.items,
     };
 };

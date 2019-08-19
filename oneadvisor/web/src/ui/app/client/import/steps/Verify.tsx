@@ -10,7 +10,7 @@ import {
     ImportClient, importClientClearResults, ImportColumn, receiveClientImportPolicyCompany, removeClientImportClient,
     updateClientImportPolicyCompanies
 } from "@/state/app/client/import";
-import { companiesSelector, Company, fetchCompanies } from "@/state/app/directory/lookups/companies";
+import { Company, fetchCompanies, organisationCompaniesSelector } from "@/state/app/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
 import { getTable } from "@/ui/controls";
 
@@ -26,7 +26,6 @@ type Props = {
     clients: ImportClient[];
     companies: Company[];
     selectedCompanyId: string;
-    loading: boolean;
 } & DispatchProp;
 
 class Verify extends Component<Props> {
@@ -128,7 +127,6 @@ class Verify extends Component<Props> {
                                 help={this.props.selectedCompanyId === null ? "Please select a policy company" : ""}
                             >
                                 <Select
-                                    loading={this.props.loading}
                                     showSearch={true}
                                     style={{ width: "100%" }}
                                     filterOption={filterOption}
@@ -162,14 +160,13 @@ class Verify extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     const importState = clientImportSelector(state);
-    const companiesState = companiesSelector(state);
+    const companiesState = organisationCompaniesSelector(state);
 
     return {
         columns: clientImportSelectedColumnsSelector(state),
         clients: importState.clients,
-        companies: companiesState.items,
+        companies: companiesState,
         selectedCompanyId: importState.companyId,
-        loading: companiesState.fetching,
     };
 };
 

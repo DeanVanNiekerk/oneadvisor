@@ -1,8 +1,7 @@
-import { PagedItems } from '@/app/table';
-import { ApiAction } from '@/app/types';
-import { companiesApi } from '@/config/api/directory';
+import { ApiAction } from "@/app/types";
+import { companiesApi } from "@/config/api/directory";
 
-import { Company } from '../types';
+import { Company } from "../types";
 
 type CompanyListReceiveAction = {
     type: 'COMPANIES_LIST_RECEIVE';

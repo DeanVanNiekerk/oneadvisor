@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { companiesSelector, Company } from '@/state/app/directory/lookups';
+import { organisationCompaniesSelector, Company } from '@/state/app/directory/lookups';
 import { RootState } from '@/state/rootReducer';
 
 type Props = {
@@ -22,10 +22,10 @@ class CompanyNameComponent extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const companiesState = companiesSelector(state);
+    const companiesState = organisationCompaniesSelector(state);
 
     return {
-        companies: companiesState.items
+        companies: companiesState
     };
 };
 

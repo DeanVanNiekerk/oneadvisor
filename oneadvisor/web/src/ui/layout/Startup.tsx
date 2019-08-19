@@ -7,8 +7,8 @@ import { commissionLookupsSelector, fetchAllCommissionLookups } from "@/state/ap
 import { fetchBranchesSimple } from "@/state/app/directory/branchesSimple";
 import { directoryLookupsSelector, fetchAllDirectoryLookups } from "@/state/app/directory/lookups";
 import { fetchUsersSimple } from "@/state/app/directory/usersSimple";
-import { isAuthenticatedSelector } from "@/state/auth";
-import { fetchAppInfo } from "@/state/context/actions";
+import { isAuthenticatedSelector, userOrganisationIdSelector } from "@/state/auth";
+import { fetchAppInfo, fetchUserOrganisation } from "@/state/context/actions";
 import { RootState } from "@/state/rootReducer";
 import { Loader } from "@/ui/controls";
 
@@ -16,6 +16,7 @@ type Props = {
     isAuthenticated: boolean;
     loading: boolean;
     children: ReactNode;
+    organisationId: string;
 } & DispatchProp &
     RouteComponentProps;
 
@@ -26,17 +27,26 @@ class Startup extends React.Component<Props> {
         this.props.dispatch(fetchAllClientLookups());
 
         this.props.dispatch(fetchAppInfo());
+
         this.loadSecureData();
+        this.loadOrganisationData();
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.isAuthenticated && !prevProps.isAuthenticated) this.loadSecureData();
+        if (this.props.organisationId && !prevProps.organisationId) this.loadOrganisationData();
     }
 
     loadSecureData() {
         if (this.props.isAuthenticated) {
             this.props.dispatch(fetchUsersSimple());
             this.props.dispatch(fetchBranchesSimple());
+        }
+    }
+
+    loadOrganisationData() {
+        if (this.props.organisationId) {
+            this.props.dispatch(fetchUserOrganisation(this.props.organisationId));
         }
     }
 
@@ -59,6 +69,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         loading: directoryLookupsState.fetching || commissionLookupsState.fetching || clientLookupsState.fetching,
         isAuthenticated: isAuthenticatedSelector(state),
+        organisationId: userOrganisationIdSelector(state),
     };
 };
 

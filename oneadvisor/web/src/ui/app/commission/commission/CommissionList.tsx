@@ -11,7 +11,7 @@ import {
     receiveFilters, receivePageOptions, receiveSortOptions
 } from "@/state/app/commission/commissions";
 import { CommissionType, commissionTypesSelector } from "@/state/app/commission/lookups";
-import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Button, CommissionTypeName, CompanyName, getTable, Header, UserName } from "@/ui/controls";
@@ -286,7 +286,7 @@ class CommissionList extends Component<Props> {
 const mapStateToProps = (state: RootState) => {
     const commissionsState = commissionsSelector(state);
     const commissionTypesState = commissionTypesSelector(state);
-    const companiesState = companiesSelector(state);
+    const companiesState = organisationCompaniesSelector(state);
 
     return {
         commissions: commissionsState.items,
@@ -299,7 +299,7 @@ const mapStateToProps = (state: RootState) => {
         filters: commissionsState.filters,
         users: brokersSelector(state),
         commissionTypes: commissionTypesState.items,
-        companies: companiesState.items,
+        companies: companiesState,
     };
 };
 
