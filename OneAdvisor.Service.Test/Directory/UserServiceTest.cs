@@ -10,6 +10,7 @@ using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Directory;
+using OneAdvisor.Model.Directory.Model.Application;
 
 namespace OneAdvisor.Service.Test.Directory
 {
@@ -176,10 +177,22 @@ namespace OneAdvisor.Service.Test.Directory
             var userDetailed1 = TestHelper.InsertUserDetailed(options);
             var userDetailed2 = TestHelper.InsertUserDetailed(options);
 
+            //Given
+            var role1 = new RoleEntity { Id = Guid.NewGuid(), Name = "role1", Description = "Role 1", ApplicationId = Application.CLIENT_ID };
+            var role2 = new RoleEntity { Id = Guid.NewGuid(), Name = "role2", Description = "Role 2", ApplicationId = Application.CLIENT_ID };
+
+            using (var context = new DataContext(options))
+            {
+                context.Roles.Add(role1);
+                context.Roles.Add(role2);
+
+                context.SaveChanges();
+            }
+
             var noRoles = new List<string>();
 
             var roles = new List<string>() {
-                "role1", "role2"
+                role1.Name, role2.Name
             };
 
             var user = new UserEdit()
@@ -255,10 +268,21 @@ namespace OneAdvisor.Service.Test.Directory
             var userDetailed1 = TestHelper.InsertUserDetailed(options);
             var userDetailed2 = TestHelper.InsertUserDetailed(options);
 
+            var role1 = new RoleEntity { Id = Guid.NewGuid(), Name = "role1", Description = "Role 1", ApplicationId = Application.CLIENT_ID };
+            var role2 = new RoleEntity { Id = Guid.NewGuid(), Name = "role2", Description = "Role 2", ApplicationId = Application.CLIENT_ID };
+
+            using (var context = new DataContext(options))
+            {
+                context.Roles.Add(role1);
+                context.Roles.Add(role2);
+
+                context.SaveChanges();
+            }
+
             var noRoles = new List<string>();
 
             var roles = new List<string>() {
-                "role1", "role2"
+                role1.Name, role2.Name
             };
 
             var userEntity = new UserEntity()

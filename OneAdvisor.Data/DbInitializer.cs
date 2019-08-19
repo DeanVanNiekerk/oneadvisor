@@ -1,16 +1,12 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Directory.Lookup;
-using OneAdvisor.Data.Entities.Client;
-using OneAdvisor.Model.Directory.Model.Lookup;
-using OneAdvisor.Data.Entities.Client.Lookup;
 using OneAdvisor.Data.Entities.Commission.Lookup;
-using System.Collections.Generic;
 using OneAdvisor.Model.Commission.Model.Lookup;
+using OneAdvisor.Model.Directory.Model.Application;
 
 namespace OneAdvisor.Data
 {
@@ -95,16 +91,16 @@ namespace OneAdvisor.Data
             var saRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "super_administrator", NormalizedName = "SUPER_ADMINISTRATOR", Description = "Super Administrator", ApplicationId = null };
 
             //Directory Roles
-            var dirRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "dir_administrator", NormalizedName = "DIR_ADMINISTRATOR", Description = "Administrator", ApplicationId = SeedData.dirGuid };
-            var dirRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "dir_readonly", NormalizedName = "DIR_READONLY", Description = "Readonly", ApplicationId = SeedData.dirGuid };
+            var dirRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "dir_administrator", NormalizedName = "DIR_ADMINISTRATOR", Description = "Administrator", ApplicationId = Application.DIRECTORY_ID };
+            var dirRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "dir_readonly", NormalizedName = "DIR_READONLY", Description = "Readonly", ApplicationId = Application.DIRECTORY_ID };
 
             //Client Roles
-            var cltRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "clt_administrator", NormalizedName = "CLT_ADMINISTRATOR", Description = "Administrator", ApplicationId = SeedData.cltGuid };
-            var cltRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "clt_readonly", NormalizedName = "CLT_READONLY", Description = "Readonly", ApplicationId = SeedData.cltGuid };
+            var cltRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "clt_administrator", NormalizedName = "CLT_ADMINISTRATOR", Description = "Administrator", ApplicationId = Application.CLIENT_ID };
+            var cltRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "clt_readonly", NormalizedName = "CLT_READONLY", Description = "Readonly", ApplicationId = Application.CLIENT_ID };
 
             //Commision Roles
-            var comRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "com_administrator", NormalizedName = "COM_ADMINISTRATOR", Description = "Administrator", ApplicationId = SeedData.comGuid };
-            var comRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "com_readonly", NormalizedName = "COM_READONLY", Description = "Readonly", ApplicationId = SeedData.comGuid };
+            var comRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "com_administrator", NormalizedName = "COM_ADMINISTRATOR", Description = "Administrator", ApplicationId = Application.COMMISSION_ID };
+            var comRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "com_readonly", NormalizedName = "COM_READONLY", Description = "Readonly", ApplicationId = Application.COMMISSION_ID };
 
             if (!roles.Any())
             {

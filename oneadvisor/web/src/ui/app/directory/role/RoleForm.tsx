@@ -1,12 +1,12 @@
-import { List, Switch } from 'antd';
-import update from 'immutability-helper';
-import React, { Component } from 'react';
+import { Badge, List, Switch } from "antd";
+import update from "immutability-helper";
+import React, { Component } from "react";
 
-import { ValidationResult } from '@/app/validation';
-import { Application } from '@/state/app/directory/applications/types';
-import { RoleEdit } from '@/state/app/directory/roles';
-import { UseCase } from '@/state/app/directory/usecases';
-import { Form, FormInput, FormSelect, TabPane, Tabs } from '@/ui/controls';
+import { getValidationSubSet, ValidationResult } from "@/app/validation";
+import { Application } from "@/state/app/directory/applications/types";
+import { RoleEdit } from "@/state/app/directory/roles";
+import { UseCase } from "@/state/app/directory/usecases";
+import { Form, FormErrors, FormInput, FormSelect, TabPane, Tabs } from "@/ui/controls";
 
 type TabKey = "details_tab" | "usecases_tab";
 
@@ -91,6 +91,15 @@ class UserForm extends Component<Props, State> {
         return !!this.state.role.id;
     };
 
+    getTabTitle = (title: string, prefix: string) => {
+        const count = getValidationSubSet(prefix, this.props.validationResults).length;
+        return (
+            <Badge count={count} offset={[10, -2]}>
+                {title}
+            </Badge>
+        );
+    };
+
     render() {
         const { role } = this.state;
         const { validationResults } = this.props;
@@ -126,7 +135,8 @@ class UserForm extends Component<Props, State> {
                         />
                     </Form>
                 </TabPane>
-                <TabPane tab="Permissions" key="roles_tab">
+                <TabPane tab={this.getTabTitle("Permissions", "useCaseIds")} key="roles_tab">
+                    <FormErrors validationResults={getValidationSubSet("useCaseIds", validationResults)} />
                     <List
                         header={<h4 className="mb-0">{this.getApplicationName(role.applicationId)} Permissions</h4>}
                         bordered={true}
