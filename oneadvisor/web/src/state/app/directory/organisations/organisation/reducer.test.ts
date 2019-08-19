@@ -1,8 +1,6 @@
-import { getValidationResult } from '@/test';
+import { getValidationResult } from "@/test";
 
-import { defaultState, reducer } from './reducer';
-
-
+import { defaultState, reducer } from "./reducer";
 
 describe('organisation reducer', () => {
     it('should handle ORGANISATIONS_ORGANISATION_FETCHING', () => {
@@ -36,7 +34,7 @@ describe('organisation reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            
+
             fetching: false
         };
 
@@ -52,7 +50,10 @@ describe('organisation reducer', () => {
 
         const organisation = {
             id: '10',
-            name: 'Org1'
+            name: 'Org1',
+            config: {
+                companyIds: []
+            }
         };
 
         const actualState = reducer(initalState, {
@@ -95,7 +96,7 @@ describe('organisation reducer', () => {
 
         const expectedState = {
             ...defaultState,
-            
+
             updating: false
         };
 

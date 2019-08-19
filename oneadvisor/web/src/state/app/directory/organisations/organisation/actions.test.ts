@@ -1,8 +1,6 @@
-import { organisationsApi } from '@/config/api/directory';
+import { organisationsApi } from "@/config/api/directory";
 
-import * as actions from './actions';
-
-
+import * as actions from "./actions";
 
 describe('organisation actions', () => {
     it('should dispatch API when fetchOrganisation is called', () => {
@@ -18,10 +16,13 @@ describe('organisation actions', () => {
     it('should dispatch API when updateOrganisation is called', () => {
         const organisation = {
             id: '10',
-            name: 'Org1'
+            name: 'Org1',
+            config: {
+                companyIds: []
+            }
         };
 
-        const onSuccess = () => {};
+        const onSuccess = () => { };
 
         const expectedAction = {
             type: 'API',

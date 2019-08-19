@@ -1,10 +1,10 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { Organisation } from '../types';
-import { OrganisationAction } from './actions';
+import { OrganisationEdit } from "../types";
+import { OrganisationAction } from "./actions";
 
 export type State = {
-    readonly organisation: Organisation | null;
+    readonly organisation: OrganisationEdit | null;
     readonly fetching: boolean;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];

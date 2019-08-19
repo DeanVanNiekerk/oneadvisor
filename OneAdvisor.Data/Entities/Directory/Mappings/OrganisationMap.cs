@@ -16,7 +16,7 @@ namespace OneAdvisor.Data.Entities.Directory.Mappings
 
             modelBuilder.Entity<OrganisationEntity>()
                 .Property(u => u.Config)
-                .HasDefaultValueSql("{ }");
+                .HasDefaultValueSql("'{ }'");
         }
     }
 }

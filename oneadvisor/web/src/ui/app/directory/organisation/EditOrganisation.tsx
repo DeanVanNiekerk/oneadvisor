@@ -1,31 +1,33 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import update from "immutability-helper";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { areEqual } from '@/app/utils';
-import { ValidationResult } from '@/app/validation';
+import { areEqual } from "@/app/utils";
+import { ValidationResult } from "@/app/validation";
 import {
-    insertOrganisation, Organisation, organisationSelector, updateOrganisation
-} from '@/state/app/directory/organisations';
-import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter, TabPane, Tabs } from '@/ui/controls';
-import { showConfirm } from '@/ui/feedback/modal/confirm';
+    insertOrganisation, OrganisationEdit, organisationSelector, updateOrganisation
+} from "@/state/app/directory/organisations";
+import { RootState } from "@/state/rootReducer";
+import { Button, ContentLoader, Drawer, DrawerFooter, TabPane, Tabs } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import BranchList from './BranchList';
-import OrganisationForm from './OrganisationForm';
+import BranchList from "./BranchList";
+import CompaniesForm from "./config/CompaniesForm";
+import OrganisationForm from "./OrganisationForm";
 
-type TabKey = 'details_tab' | 'branches_tab';
+type TabKey = "details_tab" | "branches_tab" | "companies_tab";
 
 type Props = {
     visible: boolean;
     onClose: (cancelled: boolean) => void;
-    organisation: Organisation | null;
+    organisation: OrganisationEdit | null;
     fetching: boolean;
     updating: boolean;
     validationResults: ValidationResult[];
 } & DispatchProp;
 
 type State = {
-    organisationEdited: Organisation | null;
+    organisationEdited: OrganisationEdit | null;
     activeTab: TabKey;
 };
 class EditOrganisation extends Component<Props, State> {
@@ -34,7 +36,7 @@ class EditOrganisation extends Component<Props, State> {
 
         this.state = {
             organisationEdited: props.organisation,
-            activeTab: 'details_tab'
+            activeTab: "details_tab",
         };
     }
 
@@ -42,7 +44,7 @@ class EditOrganisation extends Component<Props, State> {
         if (this.props.organisation != prevProps.organisation)
             this.setState({
                 organisationEdited: this.props.organisation,
-                activeTab: 'details_tab'
+                activeTab: "details_tab",
             });
     }
 
@@ -68,20 +70,22 @@ class EditOrganisation extends Component<Props, State> {
         }
 
         if (this.state.organisationEdited.id) {
-            this.props.dispatch(
-                updateOrganisation(this.state.organisationEdited, this.close)
-            );
+            this.props.dispatch(updateOrganisation(this.state.organisationEdited, this.close));
         } else {
-            this.props.dispatch(
-                insertOrganisation(this.state.organisationEdited, this.close)
-            );
+            this.props.dispatch(insertOrganisation(this.state.organisationEdited, this.close));
         }
     };
 
-    onChange = (organisation: Organisation) => {
+    onChange = (organisation: OrganisationEdit) => {
         this.setState({
-            organisationEdited: organisation
+            organisationEdited: organisation,
         });
+    };
+
+    onCompaniesChange = (companyIds: string[]) => {
+        if (!this.state.organisationEdited) return;
+        const organisation = update(this.state.organisationEdited, { config: { companyIds: { $set: companyIds } } });
+        this.onChange(organisation);
     };
 
     isLoading = () => {
@@ -98,18 +102,18 @@ class EditOrganisation extends Component<Props, State> {
     };
 
     getTitle = () => {
-        if (this.props.fetching) return 'Loading Organisation';
+        if (this.props.fetching) return "Loading Organisation";
 
         const { organisation } = this.props;
 
-        if (this.isNew())
-            return `Organisation: ${organisation && organisation.name}`;
+        if (!this.isNew()) return `Organisation: ${organisation && organisation.name}`;
 
-        return 'New Organisation';
+        return "New Organisation";
     };
 
     render() {
         const { organisation, validationResults, visible } = this.props;
+        const { organisationEdited } = this.state;
 
         return (
             <Drawer
@@ -120,12 +124,8 @@ class EditOrganisation extends Component<Props, State> {
                 noTopPadding={true}
             >
                 <ContentLoader isLoading={this.isLoading()}>
-                    {organisation && (
-                        <Tabs
-                            onChange={this.onTabChange}
-                            activeKey={this.state.activeTab}
-                            sticky={true}
-                        >
+                    {organisation && organisationEdited && (
+                        <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true}>
                             <TabPane tab="Details" key="details_tab">
                                 <OrganisationForm
                                     organisation={organisation}
@@ -135,19 +135,20 @@ class EditOrganisation extends Component<Props, State> {
                             </TabPane>
                             {!this.isNew() && (
                                 <TabPane tab="Branches" key="branches_tab">
-                                    <BranchList
-                                        organisationId={organisation.id}
-                                    />
+                                    <BranchList organisationId={organisation.id} />
                                 </TabPane>
                             )}
+                            <TabPane tab="Companies" key="companies_tab">
+                                <CompaniesForm
+                                    companyIds={organisationEdited.config.companyIds}
+                                    onChange={this.onCompaniesChange}
+                                />
+                            </TabPane>
                         </Tabs>
                     )}
                 </ContentLoader>
                 <DrawerFooter>
-                    <Button
-                        onClick={this.confirmCancel}
-                        disabled={this.isLoading()}
-                    >
+                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Cancel
                     </Button>
                     <Button
@@ -171,7 +172,7 @@ const mapStateToProps = (state: RootState) => {
         organisation: organisationState.organisation,
         fetching: organisationState.fetching,
         updating: organisationState.updating,
-        validationResults: organisationState.validationResults
+        validationResults: organisationState.validationResults,
     };
 };
 

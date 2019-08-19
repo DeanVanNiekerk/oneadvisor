@@ -1,12 +1,12 @@
-import { ApiAction, ApiOnSuccess } from '@/app/types';
-import { ValidationResult } from '@/app/validation';
-import { organisationsApi } from '@/config/api/directory';
+import { ApiAction, ApiOnSuccess } from "@/app/types";
+import { ValidationResult } from "@/app/validation";
+import { organisationsApi } from "@/config/api/directory";
 
-import { Organisation } from '../types';
+import { OrganisationEdit } from "../types";
 
 type OrganisationReceiveAction = {
     type: 'ORGANISATIONS_ORGANISATION_RECEIVE';
-    payload: Organisation;
+    payload: OrganisationEdit;
 };
 type OrganisationFetchingAction = {
     type: 'ORGANISATIONS_ORGANISATION_FETCHING';
@@ -39,7 +39,7 @@ export type OrganisationAction =
     | OrganisationValidationErrorAction;
 
 export const receiveOrganisation = (
-    organisation: Organisation
+    organisation: OrganisationEdit
 ): OrganisationReceiveAction => ({
     type: 'ORGANISATIONS_ORGANISATION_RECEIVE',
     payload: organisation
@@ -52,7 +52,7 @@ export const fetchOrganisation = (organisationId: string): ApiAction => ({
 });
 
 export const updateOrganisation = (
-    organisation: Organisation,
+    organisation: OrganisationEdit,
     onSuccess: ApiOnSuccess
 ): ApiAction => ({
     type: 'API',
@@ -64,7 +64,7 @@ export const updateOrganisation = (
 });
 
 export const insertOrganisation = (
-    organisation: Organisation,
+    organisation: OrganisationEdit,
     onSuccess: ApiOnSuccess
 ): ApiAction => ({
     type: 'API',

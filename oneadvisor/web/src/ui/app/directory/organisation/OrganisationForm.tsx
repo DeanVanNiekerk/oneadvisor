@@ -2,17 +2,17 @@ import update from "immutability-helper";
 import React, { Component } from "react";
 
 import { ValidationResult } from "@/app/validation";
-import { Organisation } from "@/state/app/directory/organisations";
+import { OrganisationEdit } from "@/state/app/directory/organisations";
 import { Form, FormInput } from "@/ui/controls";
 
 type Props = {
-    organisation: Organisation;
+    organisation: OrganisationEdit;
     validationResults: ValidationResult[];
-    onChange: (organisation: Organisation) => void;
+    onChange: (organisation: OrganisationEdit) => void;
 };
 
 type State = {
-    organisation: Organisation;
+    organisation: OrganisationEdit;
 };
 
 class OrganisationForm extends Component<Props, State> {
@@ -31,7 +31,7 @@ class OrganisationForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: keyof Organisation, value: string) => {
+    handleChange = (fieldName: keyof OrganisationEdit, value: string) => {
         const organisation = update(this.state.organisation, { [fieldName]: { $set: value } });
         this.setState({
             organisation: organisation,

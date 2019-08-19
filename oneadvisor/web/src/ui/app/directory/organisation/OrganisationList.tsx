@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { getColumnDefinition } from '@/app/table';
-import { ROLE_SUPER_ADMIN } from '@/config/role';
+import { getColumnDefinition } from "@/app/table";
+import { ROLE_SUPER_ADMIN } from "@/config/role";
 import {
-    fetchOrganisations, Organisation, organisationsSelector, receiveOrganisation
-} from '@/state/app/directory/organisations';
-import { RootState } from '@/state/rootReducer';
-import { Button, getTable, Header } from '@/ui/controls';
+    fetchOrganisation, fetchOrganisations, Organisation, OrganisationEdit, organisationsSelector, receiveOrganisation
+} from "@/state/app/directory/organisations";
+import { RootState } from "@/state/rootReducer";
+import { Button, getTable, Header } from "@/ui/controls";
 
-import EditOrganisation from './EditOrganisation';
+import EditOrganisation from "./EditOrganisation";
 
 const Table = getTable<Organisation>();
 
@@ -43,17 +43,18 @@ class OrganisationList extends Component<Props, State> {
         const organisation = {
             id: "",
             name: "",
+            config: {
+                companyIds: [],
+            },
         };
-        this.showEditOrganisation(organisation);
+        this.props.dispatch(receiveOrganisation(organisation));
+        this.setState({
+            editVisible: true,
+        });
     };
 
     editOrganisation = (id: string) => {
-        const organisation = this.props.organisations.find(u => u.id === id);
-        if (organisation) this.showEditOrganisation(organisation);
-    };
-
-    showEditOrganisation = (organisation: Organisation) => {
-        this.props.dispatch(receiveOrganisation(organisation));
+        this.props.dispatch(fetchOrganisation(id));
         this.setState({
             editVisible: true,
         });
@@ -72,7 +73,6 @@ class OrganisationList extends Component<Props, State> {
     };
 
     render() {
-
         return (
             <>
                 <Header
