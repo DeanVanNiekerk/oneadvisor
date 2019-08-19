@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { areEqual } from '@/app/utils';
-import { ValidationResult } from '@/app/validation';
+import { areEqual } from "@/app/utils";
+import { ValidationResult } from "@/app/validation";
 import {
     CommissionType, commissionTypeSelector, insertCommissionType, updateCommissionType
-} from '@/state/app/commission/lookups';
-import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
-import { showConfirm } from '@/ui/feedback/modal/confirm';
+} from "@/state/app/commission/lookups";
+import { RootState } from "@/state/rootReducer";
+import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import CommissionTypeForm from './CommissionTypeForm';
+import CommissionTypeForm from "./CommissionTypeForm";
 
 type Props = {
     visible: boolean;
@@ -45,12 +45,7 @@ class EditCommissionType extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (
-            !areEqual(
-                this.props.commissionType,
-                this.state.commissionTypeEdited
-            )
-        )
+        if (!areEqual(this.props.commissionType, this.state.commissionTypeEdited))
             return showConfirm({ onOk: this.cancel });
 
         this.cancel();
@@ -67,19 +62,9 @@ class EditCommissionType extends Component<Props, State> {
         }
 
         if (this.state.commissionTypeEdited.id) {
-            this.props.dispatch(
-                updateCommissionType(
-                    this.state.commissionTypeEdited,
-                    this.close
-                )
-            );
+            this.props.dispatch(updateCommissionType(this.state.commissionTypeEdited, this.close));
         } else {
-            this.props.dispatch(
-                insertCommissionType(
-                    this.state.commissionTypeEdited,
-                    this.close
-                )
-            );
+            this.props.dispatch(insertCommissionType(this.state.commissionTypeEdited, this.close));
         }
     };
 
@@ -96,8 +81,7 @@ class EditCommissionType extends Component<Props, State> {
     getTitle = () => {
         const { commissionType } = this.props;
 
-        if (commissionType && commissionType.id)
-            return `Commission Type: ${commissionType.name}`;
+        if (commissionType && commissionType.id) return `Commission Type: ${commissionType.name}`;
 
         return "New Commission Type";
     };
@@ -106,12 +90,7 @@ class EditCommissionType extends Component<Props, State> {
         const { commissionType, validationResults, visible } = this.props;
 
         return (
-            <Drawer
-                title={this.getTitle()}
-                icon="database"
-                visible={visible}
-                onClose={this.confirmCancel}
-            >
+            <Drawer title={this.getTitle()} icon="database" visible={visible} onClose={this.confirmCancel}>
                 <ContentLoader isLoading={this.isLoading()}>
                     {commissionType && (
                         <CommissionTypeForm
@@ -122,18 +101,10 @@ class EditCommissionType extends Component<Props, State> {
                     )}
                 </ContentLoader>
                 <DrawerFooter>
-                    <Button
-                        onClick={this.confirmCancel}
-                        disabled={this.isLoading()}
-                    >
+                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Cancel
                     </Button>
-                    <Button
-                        onClick={this.save}
-                        type="primary"
-                        disabled={this.isLoading()}
-                        requiredUseCase="dir_edit_lookups"
-                    >
+                    <Button onClick={this.save} type="primary" disabled={this.isLoading()}>
                         Save
                     </Button>
                 </DrawerFooter>

@@ -1,11 +1,11 @@
-import update from 'immutability-helper';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import update from "immutability-helper";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { ValidationResult } from '@/app/validation';
-import { PolicyProductType, PolicyType, policyTypesSelector } from '@/state/app/client/lookups';
-import { RootState } from '@/state/rootReducer';
-import { Form, FormInput, FormSelect } from '@/ui/controls';
+import { ValidationResult } from "@/app/validation";
+import { PolicyProductType, PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
+import { RootState } from "@/state/rootReducer";
+import { Form, FormInput, FormSelect } from "@/ui/controls";
 
 type Props = {
     policyProductType: PolicyProductType;
@@ -47,7 +47,7 @@ class PolicyProductTypeForm extends Component<Props, State> {
         const { policyProductType } = this.state;
 
         return (
-            <Form editUseCase="dir_edit_lookups">
+            <Form>
                 <FormInput
                     fieldName="name"
                     label="Name"

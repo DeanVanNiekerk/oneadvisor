@@ -186,14 +186,7 @@ namespace OneAdvisor.Data
             list.Add(new UseCaseEntity() { Id = "dir_edit_branches", Name = "Edit Branches", ApplicationId = Application.DIRECTORY_ID });
             list.Add(new UseCaseEntity() { Id = "dir_view_roles", Name = "View Roles", ApplicationId = Application.DIRECTORY_ID });
             list.Add(new UseCaseEntity() { Id = "dir_edit_roles", Name = "Edit Roles", ApplicationId = Application.DIRECTORY_ID });
-            list.Add(new UseCaseEntity() { Id = "dir_view_applications", Name = "View Applications", ApplicationId = Application.DIRECTORY_ID });
-            list.Add(new UseCaseEntity() { Id = "dir_view_usecases", Name = "View UseCases", ApplicationId = Application.DIRECTORY_ID });
             list.Add(new UseCaseEntity() { Id = "dir_view_audit_logs", Name = "View Audit Logs", ApplicationId = Application.DIRECTORY_ID });
-            list.Add(new UseCaseEntity() { Id = "dir_edit_change_logs", Name = "Edit Change Logs", ApplicationId = Application.DIRECTORY_ID });
-
-            //Directory - Lookup Use Cases
-            list.Add(new UseCaseEntity() { Id = "dir_view_lookups", Name = "View Lookups", ApplicationId = Application.DIRECTORY_ID });
-            list.Add(new UseCaseEntity() { Id = "dir_edit_lookups", Name = "Edit Lookups", ApplicationId = Application.DIRECTORY_ID });
 
             //Client Use Cases
             list.Add(new UseCaseEntity() { Id = "clt_view_clients", Name = "View Clients", ApplicationId = Application.CLIENT_ID });
@@ -211,8 +204,6 @@ namespace OneAdvisor.Data
             list.Add(new UseCaseEntity() { Id = "com_edit_commissions", Name = "Edit Commissions", ApplicationId = Application.COMMISSION_ID });
             list.Add(new UseCaseEntity() { Id = "com_view_commission_statements", Name = "View Commission Statements", ApplicationId = Application.COMMISSION_ID });
             list.Add(new UseCaseEntity() { Id = "com_edit_commission_statements", Name = "Edit Commission Statements", ApplicationId = Application.COMMISSION_ID });
-            list.Add(new UseCaseEntity() { Id = "com_view_commission_statement_templates", Name = "View Commission Statement Templates", ApplicationId = Application.COMMISSION_ID });
-            list.Add(new UseCaseEntity() { Id = "com_edit_commission_statement_templates", Name = "Edit Commission Statement Templates", ApplicationId = Application.COMMISSION_ID });
             list.Add(new UseCaseEntity() { Id = "com_view_report_client_revenue", Name = "View Commission Client Revenue Report", ApplicationId = Application.COMMISSION_ID });
             list.Add(new UseCaseEntity() { Id = "com_view_commission_allocations", Name = "View Commission Allocations", ApplicationId = Application.COMMISSION_ID });
             list.Add(new UseCaseEntity() { Id = "com_edit_commission_allocations", Name = "Edit Commission Allocations", ApplicationId = Application.COMMISSION_ID });

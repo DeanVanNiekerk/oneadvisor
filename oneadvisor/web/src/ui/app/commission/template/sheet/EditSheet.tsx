@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { Sheet } from '@/state/app/commission/templates';
-import { Button, Form, FormField } from '@/ui/controls';
+import { Sheet } from "@/state/app/commission/templates";
+import { Button, Form, FormField } from "@/ui/controls";
 
-import SheetForm from './SheetForm';
+import SheetForm from "./SheetForm";
 
 type Props = {
     onSave: (sheet: Sheet) => void;
@@ -13,7 +13,6 @@ type Props = {
 };
 
 class EditSheet extends Component<Props> {
-
     save = (sheet: Sheet) => {
         this.props.onSave(sheet);
     };
@@ -23,25 +22,13 @@ class EditSheet extends Component<Props> {
 
         return (
             <>
-                {sheet && (
-                    <SheetForm
-                        sheet={sheet}
-                        onSave={this.save}
-                        onCancel={this.props.cancel}
-                    />
-                )}
+                {sheet && <SheetForm sheet={sheet} onSave={this.save} onCancel={this.props.cancel} />}
                 {!sheet && (
                     <Form layout="inline">
                         <FormField>
-                            <Button
-                                icon="plus"
-                                type="dashed"
-                                onClick={this.props.newSheet}
-                                noLeftMargin={true}
-                                requiredUseCase="com_edit_commission_statement_templates"
-                            >
+                            <Button icon="plus" type="dashed" onClick={this.props.newSheet} noLeftMargin={true}>
                                 Add Sheet
-                                </Button>
+                            </Button>
                         </FormField>
                     </Form>
                 )}

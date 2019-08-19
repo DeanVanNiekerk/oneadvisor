@@ -44,7 +44,7 @@ class HeaderIdentifierForm extends Component<Props, State> {
 		const { headerIdentifier } = this.state;
 
 		return (
-			<Form editUseCase="com_edit_commission_statement_templates">
+			<Form>
 				<FormInput
 					fieldName="column"
 					label="Column"

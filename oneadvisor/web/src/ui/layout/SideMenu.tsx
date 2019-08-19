@@ -3,9 +3,9 @@ import React, { Component, CSSProperties } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { hasUseCases, hasUseCasesMenuGroup } from "@/app/identity";
+import { hasRoles, hasRolesMenuGroup, hasUseCases, hasUseCasesMenuGroup } from "@/app/identity";
 import { defaultOpenGroupNames } from "@/config/menu";
-import { useCaseSelector } from "@/state/auth";
+import { roleSelector, useCaseSelector } from "@/state/auth";
 import { currentApplicationSelector, currentMenuSelector } from "@/state/context/selectors";
 import { Application, Menu, MenuLink } from "@/state/context/types";
 import { RootState } from "@/state/rootReducer";
@@ -17,6 +17,7 @@ type Props = {
     menu: Menu;
     application: Application;
     useCases: string[];
+    roles: string[];
 };
 
 type State = {
@@ -60,7 +61,11 @@ class SideMenu extends Component<Props, State> {
                     selectedKeys={[]}
                 >
                     {this.props.menu.groups
-                        .filter(group => hasUseCasesMenuGroup(group, this.props.useCases))
+                        .filter(
+                            group =>
+                                hasUseCasesMenuGroup(group, this.props.useCases) &&
+                                hasRolesMenuGroup(group, this.props.roles)
+                        )
                         .map(group => (
                             <SubMenu
                                 key={group.name}
@@ -72,7 +77,11 @@ class SideMenu extends Component<Props, State> {
                                 }
                             >
                                 {group.links
-                                    .filter(link => hasUseCases(link.useCases, this.props.useCases))
+                                    .filter(
+                                        link =>
+                                            hasUseCases(link.useCases, this.props.useCases) &&
+                                            hasRoles(link.roles, this.props.roles)
+                                    )
                                     .map(link => (
                                         <Item
                                             key={link.relativePath}
@@ -96,6 +105,7 @@ const mapStateToProps = (state: RootState) => {
         menu: currentMenuSelector(state),
         application: currentApplicationSelector(state),
         useCases: useCaseSelector(state),
+        roles: roleSelector(state),
     };
 };
 

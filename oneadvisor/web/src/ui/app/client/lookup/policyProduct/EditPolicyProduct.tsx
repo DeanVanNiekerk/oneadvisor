@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { areEqual } from '@/app/utils';
-import { ValidationResult } from '@/app/validation';
+import { areEqual } from "@/app/utils";
+import { ValidationResult } from "@/app/validation";
 import {
     insertPolicyProduct, PolicyProduct, policyProductSelector, updatePolicyProduct
-} from '@/state/app/client/lookups';
-import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
-import { showConfirm } from '@/ui/feedback/modal/confirm';
+} from "@/state/app/client/lookups";
+import { RootState } from "@/state/rootReducer";
+import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import PolicyProductForm from './PolicyProductForm';
+import PolicyProductForm from "./PolicyProductForm";
 
 type Props = {
     visible: boolean;
@@ -62,13 +62,9 @@ class EditPolicyProduct extends Component<Props, State> {
         }
 
         if (this.state.policyProductEdited.id) {
-            this.props.dispatch(
-                updatePolicyProduct(this.state.policyProductEdited, this.close)
-            );
+            this.props.dispatch(updatePolicyProduct(this.state.policyProductEdited, this.close));
         } else {
-            this.props.dispatch(
-                insertPolicyProduct(this.state.policyProductEdited, this.close)
-            );
+            this.props.dispatch(insertPolicyProduct(this.state.policyProductEdited, this.close));
         }
     };
 
@@ -85,8 +81,7 @@ class EditPolicyProduct extends Component<Props, State> {
     getTitle = () => {
         const { policyProduct } = this.props;
 
-        if (policyProduct && policyProduct.id)
-            return `Policy Product: ${policyProduct.name}`;
+        if (policyProduct && policyProduct.id) return `Policy Product: ${policyProduct.name}`;
 
         return "New Policy Product";
     };
@@ -95,12 +90,7 @@ class EditPolicyProduct extends Component<Props, State> {
         const { policyProduct, validationResults, visible } = this.props;
 
         return (
-            <Drawer
-                title={this.getTitle()}
-                icon="database"
-                visible={visible}
-                onClose={this.confirmCancel}
-            >
+            <Drawer title={this.getTitle()} icon="database" visible={visible} onClose={this.confirmCancel}>
                 <ContentLoader isLoading={this.isLoading()}>
                     {policyProduct && (
                         <PolicyProductForm
@@ -111,18 +101,10 @@ class EditPolicyProduct extends Component<Props, State> {
                     )}
                 </ContentLoader>
                 <DrawerFooter>
-                    <Button
-                        onClick={this.confirmCancel}
-                        disabled={this.isLoading()}
-                    >
+                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Cancel
                     </Button>
-                    <Button
-                        onClick={this.save}
-                        type="primary"
-                        disabled={this.isLoading()}
-                        requiredUseCase="dir_edit_lookups"
-                    >
+                    <Button onClick={this.save} type="primary" disabled={this.isLoading()}>
                         Save
                     </Button>
                 </DrawerFooter>

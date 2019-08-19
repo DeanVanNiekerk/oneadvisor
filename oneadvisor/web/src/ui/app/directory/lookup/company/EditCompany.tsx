@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { areEqual } from '@/app/utils';
-import { ValidationResult } from '@/app/validation';
-import { Company, companySelector, insertCompany, updateCompany } from '@/state/app/directory/lookups/companies';
-import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
-import { showConfirm } from '@/ui/feedback/modal/confirm';
+import { areEqual } from "@/app/utils";
+import { ValidationResult } from "@/app/validation";
+import { Company, companySelector, insertCompany, updateCompany } from "@/state/app/directory/lookups/companies";
+import { RootState } from "@/state/rootReducer";
+import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import CompanyForm from './CompanyForm';
+import CompanyForm from "./CompanyForm";
 
 type Props = {
     visible: boolean;
@@ -43,8 +43,7 @@ class EditCompany extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (!areEqual(this.props.company, this.state.companyEdited))
-            return showConfirm({ onOk: this.cancel });
+        if (!areEqual(this.props.company, this.state.companyEdited)) return showConfirm({ onOk: this.cancel });
 
         this.cancel();
     };
@@ -60,13 +59,9 @@ class EditCompany extends Component<Props, State> {
         }
 
         if (this.state.companyEdited.id) {
-            this.props.dispatch(
-                updateCompany(this.state.companyEdited, this.close)
-            );
+            this.props.dispatch(updateCompany(this.state.companyEdited, this.close));
         } else {
-            this.props.dispatch(
-                insertCompany(this.state.companyEdited, this.close)
-            );
+            this.props.dispatch(insertCompany(this.state.companyEdited, this.close));
         }
     };
 
@@ -101,26 +96,14 @@ class EditCompany extends Component<Props, State> {
             >
                 <ContentLoader isLoading={this.isLoading()}>
                     {company && (
-                        <CompanyForm
-                            company={company}
-                            validationResults={validationResults}
-                            onChange={this.onChange}
-                        />
+                        <CompanyForm company={company} validationResults={validationResults} onChange={this.onChange} />
                     )}
                 </ContentLoader>
                 <DrawerFooter>
-                    <Button
-                        onClick={this.confirmCancel}
-                        disabled={this.isLoading()}
-                    >
+                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Cancel
                     </Button>
-                    <Button
-                        onClick={this.save}
-                        type="primary"
-                        disabled={this.isLoading()}
-                        requiredUseCase="dir_edit_lookups"
-                    >
+                    <Button onClick={this.save} type="primary" disabled={this.isLoading()}>
                         Save
                     </Button>
                 </DrawerFooter>

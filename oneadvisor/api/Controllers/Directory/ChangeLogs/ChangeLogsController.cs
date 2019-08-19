@@ -5,6 +5,7 @@ using api.App.Authorization;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Directory.Model.ChangeLog;
+using OneAdvisor.Model.Directory.Model.Role;
 
 namespace api.Controllers.Directory.ChangeLogs
 {
@@ -42,7 +43,7 @@ namespace api.Controllers.Directory.ChangeLogs
         }
 
         [HttpPost]
-        [UseCaseAuthorize("dir_edit_change_logs")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         public async Task<IActionResult> Insert([FromBody] ChangeLog changeLog)
         {
             var result = await ChangeLogService.InsertChangeLog(changeLog);
@@ -54,7 +55,7 @@ namespace api.Controllers.Directory.ChangeLogs
         }
 
         [HttpPost("{changeLogId}")]
-        [UseCaseAuthorize("dir_edit_change_logs")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         public async Task<IActionResult> Update(Guid changeLogId, [FromBody] ChangeLog changeLog)
         {
             changeLog.Id = changeLogId;

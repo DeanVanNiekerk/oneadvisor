@@ -1,17 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using api.App.Authorization;
 using OneAdvisor.Model.Directory.Interface;
-using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Directory.Model.Application;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api.Controllers.Directory.Applications
 {
-
+    [Authorize]
     [ApiController]
     [Route("api/directory/applications")]
     public class ApplicationsController : Controller
@@ -24,7 +19,6 @@ namespace api.Controllers.Directory.Applications
         private IApplicationService ApplicationService { get; }
 
         [HttpGet("")]
-        [UseCaseAuthorize("dir_view_applications")]
         public async Task<IActionResult> Index()
         {
             var applications = await ApplicationService.GetApplications();

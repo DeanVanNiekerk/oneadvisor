@@ -165,7 +165,6 @@ class EditTemplate extends Component<Props, State> {
                         overlay={menu}
                         icon={<Icon type="down" />}
                         onClick={() => this.save(false)}
-                        requiredUseCase="com_edit_commission_statement_templates"
                     >
                         Save
                     </DropdownButton>

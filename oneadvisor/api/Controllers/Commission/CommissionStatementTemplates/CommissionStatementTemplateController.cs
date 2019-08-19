@@ -2,10 +2,12 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using api.App.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Import.Excel.Readers;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate;
+using OneAdvisor.Model.Directory.Model.Role;
 
 namespace api.Controllers.Commission.CommissionStatementTemplates
 {
@@ -22,7 +24,7 @@ namespace api.Controllers.Commission.CommissionStatementTemplates
 
 
         [HttpGet("")]
-        [UseCaseAuthorize("com_view_commission_statement_templates")]
+        [Authorize]
         public async Task<IActionResult> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
             var queryOptions = new CommissionStatementTemplateQueryOptions(sortColumn, sortDirection, pageSize, pageNumber, filters);
@@ -33,7 +35,7 @@ namespace api.Controllers.Commission.CommissionStatementTemplates
         }
 
         [HttpGet("{templateId}")]
-        [UseCaseAuthorize("com_view_commission_statement_templates")]
+        [Authorize]
         public async Task<IActionResult> Get(Guid templateId)
         {
             var model = await CommissionStatementTemplateService.GetTemplate(templateId);
@@ -45,7 +47,7 @@ namespace api.Controllers.Commission.CommissionStatementTemplates
         }
 
         [HttpPost]
-        [UseCaseAuthorize("com_edit_commission_statement_templates")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         public async Task<IActionResult> Insert([FromBody] CommissionStatementTemplateEdit template)
         {
             var result = await CommissionStatementTemplateService.InsertTemplate(template);
@@ -57,7 +59,7 @@ namespace api.Controllers.Commission.CommissionStatementTemplates
         }
 
         [HttpPost("{templateId}")]
-        [UseCaseAuthorize("com_edit_commission_statement_templates")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         public async Task<IActionResult> Update(Guid templateId, [FromQuery] bool updateUnknownCommissionTypes, [FromBody] CommissionStatementTemplateEdit template)
         {
             template.Id = templateId;
@@ -74,7 +76,7 @@ namespace api.Controllers.Commission.CommissionStatementTemplates
         }
 
         [HttpPost("{templateId}/{sheetPosition}/excel/uniqueCommissionTypes")]
-        [UseCaseAuthorize("com_edit_commission_statement_templates")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         public async Task<IActionResult> UniqueCommissionTypes(Guid templateId, int sheetPosition)
         {
             var file = Request.Form.Files.FirstOrDefault();

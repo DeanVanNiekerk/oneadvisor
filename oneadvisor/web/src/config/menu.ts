@@ -44,7 +44,7 @@ export const menus: Menus = {
                     {
                         name: "Companies",
                         relativePath: "/lookups/companies",
-                        useCases: ["dir_edit_lookups"],
+                        roles: ["super_administrator"],
                     },
                 ],
             },
@@ -68,7 +68,7 @@ export const menus: Menus = {
                     {
                         name: "Change Logs",
                         relativePath: "/logs/changeLogs",
-                        useCases: ["dir_edit_change_logs"],
+                        roles: ["super_administrator"],
                     },
                 ],
             },
@@ -121,12 +121,12 @@ export const menus: Menus = {
                     {
                         name: "Product Types",
                         relativePath: "/lookups/policyProductTypes",
-                        useCases: ["dir_edit_lookups"],
+                        roles: ["super_administrator"],
                     },
                     {
                         name: "Products",
                         relativePath: "/lookups/policyProducts",
-                        useCases: ["dir_edit_lookups"],
+                        roles: ["super_administrator"],
                     },
                 ],
             },
@@ -160,7 +160,7 @@ export const menus: Menus = {
                     {
                         name: "Templates",
                         relativePath: "/templates",
-                        useCases: ["com_view_commission_statement_templates"],
+                        roles: ["super_administrator"],
                     },
                 ],
             },
@@ -194,7 +194,7 @@ export const menus: Menus = {
                     {
                         name: "Commission Types",
                         relativePath: "/lookups/commTypes",
-                        useCases: ["dir_edit_lookups"],
+                        roles: ["super_administrator"],
                     },
                 ],
             },

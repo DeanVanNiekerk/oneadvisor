@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OneAdvisor.Data;
 
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190819183517_dropSuperAdminPerms")]
+    partial class dropSuperAdminPerms
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1095,6 +1097,18 @@ namespace OneAdvisor.Data.Migrations
                             Id = "dir_view_audit_logs",
                             ApplicationId = new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"),
                             Name = "View Audit Logs"
+                        },
+                        new
+                        {
+                            Id = "dir_view_lookups",
+                            ApplicationId = new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"),
+                            Name = "View Lookups"
+                        },
+                        new
+                        {
+                            Id = "dir_edit_lookups",
+                            ApplicationId = new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"),
+                            Name = "Edit Lookups"
                         },
                         new
                         {

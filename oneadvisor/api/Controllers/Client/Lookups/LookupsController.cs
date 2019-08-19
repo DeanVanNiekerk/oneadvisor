@@ -13,6 +13,7 @@ using OneAdvisor.Model.Client.Model.Policy;
 using OneAdvisor.Model.Client.Model.Contact;
 using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Client.Model.Lookup;
+using OneAdvisor.Model.Directory.Model.Role;
 
 namespace api.Controllers.Client.Contacts
 {
@@ -54,7 +55,7 @@ namespace api.Controllers.Client.Contacts
         }
 
         [HttpPost("policyProducts")]
-        [UseCaseAuthorize("dir_edit_lookups")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         public async Task<IActionResult> InsertPolicyProduct([FromBody] PolicyProduct policyProduct)
         {
             var result = await LookupService.InsertPolicyProduct(policyProduct);
@@ -66,7 +67,7 @@ namespace api.Controllers.Client.Contacts
         }
 
         [HttpPost("policyProducts/{policyProductId}")]
-        [UseCaseAuthorize("dir_edit_lookups")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         public async Task<IActionResult> UpdatePolicyProduct(Guid policyProductId, [FromBody] PolicyProduct policyProduct)
         {
             policyProduct.Id = policyProductId;
@@ -92,7 +93,7 @@ namespace api.Controllers.Client.Contacts
         }
 
         [HttpPost("policyProductTypes")]
-        [UseCaseAuthorize("dir_edit_lookups")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         public async Task<IActionResult> InsertPolicyProductType([FromBody] PolicyProductType policyProductType)
         {
             var result = await LookupService.InsertPolicyProductType(policyProductType);
@@ -104,7 +105,7 @@ namespace api.Controllers.Client.Contacts
         }
 
         [HttpPost("policyProductTypes/{policyProductTypeId}")]
-        [UseCaseAuthorize("dir_edit_lookups")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         public async Task<IActionResult> UpdatePolicyProductType(Guid policyProductTypeId, [FromBody] PolicyProductType policyProductType)
         {
             policyProductType.Id = policyProductTypeId;

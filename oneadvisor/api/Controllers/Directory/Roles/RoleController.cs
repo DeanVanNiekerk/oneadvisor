@@ -45,7 +45,8 @@ namespace api.Controllers.Directory.Roles
         }
 
         [HttpPost]
-        [UseCaseAuthorize("dir_edit_roles")]
+        //[UseCaseAuthorize("dir_edit_roles")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         public async Task<IActionResult> Insert([FromBody] RoleEdit role)
         {
             var result = await RoleService.InsertRole(role);
@@ -57,7 +58,8 @@ namespace api.Controllers.Directory.Roles
         }
 
         [HttpPost("{roleId}")]
-        [UseCaseAuthorize("dir_edit_roles")]
+        //[UseCaseAuthorize("dir_edit_roles")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         public async Task<IActionResult> Update(Guid roleId, [FromBody] RoleEdit role)
         {
             role.Id = roleId;

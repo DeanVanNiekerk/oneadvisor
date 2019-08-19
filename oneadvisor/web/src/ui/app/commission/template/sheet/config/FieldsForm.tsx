@@ -17,13 +17,11 @@ type Props = {
 	fields: Field[];
 	validationResults: ValidationResult[];
 	onChange: (fields: Field[]) => void;
-	useCases: string[];
 	fieldNames: CommissionStatementTemplateFieldName[];
 };
 
 type State = {
 	fields: Field[];
-	hasUseCase: boolean;
 };
 
 class FieldsForm extends Component<Props, State> {
@@ -32,7 +30,6 @@ class FieldsForm extends Component<Props, State> {
 
 		this.state = {
 			fields: props.fields,
-			hasUseCase: hasUseCase("com_edit_commission_statement_templates", props.useCases),
 		};
 	}
 
@@ -86,8 +83,6 @@ class FieldsForm extends Component<Props, State> {
 	};
 
 	getActions = (field: Field, index: number) => {
-		if (!this.state.hasUseCase) return [];
-
 		return [
 			<Popconfirm
 				title="Are you sure remove this mapping?"
@@ -109,13 +104,7 @@ class FieldsForm extends Component<Props, State> {
 			<>
 				<FormErrors validationResults={validationResults} />
 
-				<Button
-					icon="plus"
-					type="dashed"
-					onClick={this.add}
-					noLeftMargin={true}
-					visible={this.state.hasUseCase}
-				>
+				<Button icon="plus" type="dashed" onClick={this.add} noLeftMargin={true}>
 					{`Add Mapping`}
 				</Button>
 
@@ -125,7 +114,7 @@ class FieldsForm extends Component<Props, State> {
 					dataSource={fields}
 					renderItem={(field: Field, index: any) => (
 						<List.Item actions={[this.getActions(field, index)]}>
-							<Form key={index} editUseCase="com_edit_commission_statement_templates" layout="inline">
+							<Form key={index} layout="inline">
 								<FormInput
 									fieldName="column"
 									validationFieldName={`[${index}].column`}
@@ -175,7 +164,6 @@ const mapStateToProps = (state: RootState) => {
 
 	return {
 		fieldNames: fieldNamesState.items,
-		useCases: useCaseSelector(state),
 	};
 };
 

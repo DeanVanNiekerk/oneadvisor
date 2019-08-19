@@ -60,7 +60,7 @@ class ChangeLogForm extends Component<Props, State> {
         return (
             <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true} clearTabsTopPadding={true}>
                 <TabPane tab="Details" key="details_tab">
-                    <Form editUseCase="dir_edit_change_logs">
+                    <Form>
                         <FormInput
                             fieldName="versionNumber"
                             label="Version Number"

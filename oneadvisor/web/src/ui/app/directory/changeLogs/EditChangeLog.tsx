@@ -104,12 +104,7 @@ class EditChangeLog extends Component<Props, State> {
                     <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Cancel
                     </Button>
-                    <Button
-                        onClick={this.save}
-                        type="primary"
-                        disabled={this.isLoading()}
-                        requiredUseCase="dir_edit_change_logs"
-                    >
+                    <Button onClick={this.save} type="primary" disabled={this.isLoading()}>
                         Save
                     </Button>
                 </DrawerFooter>

@@ -1,16 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using api.App.Authorization;
 using OneAdvisor.Model.Directory.Interface;
-using OneAdvisor.Model.Common;
-using OneAdvisor.Model.Directory.Model.UseCase;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api.Controllers.Directory.UseCases
 {
+    [Authorize]
     [ApiController]
     [Route("api/directory/usecases")]
     public class UseCasesController : Controller
@@ -23,7 +19,6 @@ namespace api.Controllers.Directory.UseCases
         private IUseCaseService UseCaseService { get; }
 
         [HttpGet("")]
-        [UseCaseAuthorize("dir_view_usecases")]
         public async Task<IActionResult> Index()
         {
             var useCases = await UseCaseService.GetUseCases();

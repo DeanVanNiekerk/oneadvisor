@@ -19,13 +19,11 @@ type Props = {
 	groups: Group[];
 	validationResults: ValidationResult[];
 	onChange: (groups: Group[]) => void;
-	useCases: string[];
 	fieldNames: CommissionStatementTemplateGroupFieldName[];
 };
 
 type State = {
 	groups: Group[];
-	hasUseCase: boolean;
 };
 
 class Groups extends Component<Props, State> {
@@ -34,7 +32,6 @@ class Groups extends Component<Props, State> {
 
 		this.state = {
 			groups: props.groups,
-			hasUseCase: hasUseCase("com_edit_commission_statement_templates", props.useCases),
 		};
 	}
 
@@ -89,8 +86,6 @@ class Groups extends Component<Props, State> {
 	};
 
 	getActions = (group: Group, index: number) => {
-		if (!this.state.hasUseCase) return [];
-
 		return [
 			<Popconfirm
 				title="Are you sure remove this group?"
@@ -112,13 +107,7 @@ class Groups extends Component<Props, State> {
 			<>
 				<FormErrors validationResults={validationResults} />
 
-				<Button
-					icon="plus"
-					type="dashed"
-					onClick={this.add}
-					noLeftMargin={true}
-					visible={this.state.hasUseCase}
-				>
+				<Button icon="plus" type="dashed" onClick={this.add} noLeftMargin={true}>
 					{`Add Group`}
 				</Button>
 
@@ -132,12 +121,7 @@ class Groups extends Component<Props, State> {
 							className="mt-1"
 							key={`group-${index}`}
 						>
-							<Form
-								key={index}
-								editUseCase="com_edit_commission_statement_templates"
-								className="mb-1"
-								layout="inline"
-							>
+							<Form key={index} className="mb-1" layout="inline">
 								<FormSelect
 									fieldName="fieldName"
 									validationFieldName={`[${index}].fieldName`}
@@ -213,7 +197,6 @@ const mapStateToProps = (state: RootState) => {
 
 	return {
 		fieldNames: fieldNamesState.items,
-		useCases: useCaseSelector(state),
 	};
 };
 

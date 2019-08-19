@@ -1,18 +1,18 @@
-import { Icon, Layout, Menu, Popover, Tag } from 'antd';
-import React, { Component, CSSProperties } from 'react';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Icon, Layout, Menu, Popover, Tag } from "antd";
+import React, { Component, CSSProperties } from "react";
+import { connect, DispatchProp } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 
-import { hasUseCasesMenuGroups } from '@/app/identity';
-import config from '@/config/config';
-import { signOut, useCaseSelector } from '@/state/auth';
+import { hasRolesMenuGroups, hasUseCasesMenuGroups } from "@/app/identity";
+import config from "@/config/config";
+import { roleSelector, signOut, useCaseSelector } from "@/state/auth";
 import {
     applicationsSelector, contextSelector, currentApplicationSelector, menusSelector
-} from '@/state/context/selectors';
-import { AppInfo, Application, Menus } from '@/state/context/types';
-import { RootState } from '@/state/rootReducer';
+} from "@/state/context/selectors";
+import { AppInfo, Application, Menus } from "@/state/context/types";
+import { RootState } from "@/state/rootReducer";
 
-import { IdentityStatus } from '../controls';
+import { IdentityStatus } from "../controls";
 
 const { Header } = Layout;
 const { Item } = Menu;
@@ -39,6 +39,7 @@ type Props = {
     applications: Application[];
     currentApplication: Application;
     useCases: string[];
+    roles: string[];
     appInfo: AppInfo;
 } & RouteComponentProps &
     DispatchProp;
@@ -131,7 +132,11 @@ class Navigator extends Component<Props> {
                     </div>
                     <Menu theme="dark" mode="horizontal" style={{ lineHeight: "64px" }}>
                         {this.props.applications
-                            .filter(app => hasUseCasesMenuGroups(this.props.menus[app.id].groups, this.props.useCases))
+                            .filter(
+                                app =>
+                                    hasUseCasesMenuGroups(this.props.menus[app.id].groups, this.props.useCases) &&
+                                    hasRolesMenuGroups(this.props.menus[app.id].groups, this.props.roles)
+                            )
                             .map(app => (
                                 <Item
                                     key={app.id}
@@ -158,6 +163,7 @@ const mapStateToProps = (state: RootState) => {
         applications: applicationsSelector(state),
         currentApplication: currentApplicationSelector(state) || {},
         useCases: useCaseSelector(state),
+        roles: roleSelector(state),
         appInfo: contextState.appInfo,
     };
 };

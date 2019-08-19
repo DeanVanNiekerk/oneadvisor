@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { getColumnDefinition } from '@/app/table';
+import { getColumnDefinition } from "@/app/table";
 import {
     fetchPolicyProductTypes, PolicyProductType, policyProductTypesSelector, PolicyType, policyTypesSelector,
     receivePolicyProductType
-} from '@/state/app/client/lookups';
-import { RootState } from '@/state/rootReducer';
-import { Button, getTable, Header, PolicyTypeName } from '@/ui/controls';
+} from "@/state/app/client/lookups";
+import { RootState } from "@/state/rootReducer";
+import { Button, getTable, Header, PolicyTypeName } from "@/ui/controls";
 
-import EditPolicyProductType from './EditPolicyProductType';
+import EditPolicyProductType from "./EditPolicyProductType";
 
 const Table = getTable<PolicyProductType>();
 
@@ -92,7 +92,6 @@ class PolicyProductTypeList extends Component<Props, State> {
     };
 
     render() {
-
         return (
             <>
                 <Header
@@ -103,7 +102,6 @@ class PolicyProductTypeList extends Component<Props, State> {
                             icon="plus"
                             onClick={this.newPolicyProductType}
                             disabled={this.props.fetching}
-                            requiredUseCase="dir_edit_lookups"
                         >
                             New Policy Product Type
                         </Button>

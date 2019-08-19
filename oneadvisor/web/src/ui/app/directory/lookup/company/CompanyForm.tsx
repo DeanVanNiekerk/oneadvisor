@@ -1,9 +1,9 @@
-import update from 'immutability-helper';
-import React, { Component } from 'react';
+import update from "immutability-helper";
+import React, { Component } from "react";
 
-import { ValidationResult } from '@/app/validation';
-import { Company } from '@/state/app/directory/lookups/companies';
-import { Form, FormInput, FormSimpleList, TabPane, Tabs } from '@/ui/controls';
+import { ValidationResult } from "@/app/validation";
+import { Company } from "@/state/app/directory/lookups/companies";
+import { Form, FormInput, FormSimpleList, TabPane, Tabs } from "@/ui/controls";
 
 type TabKey = "details_tab" | "commission_tab";
 
@@ -55,7 +55,7 @@ class CompanyForm extends Component<Props, State> {
         return (
             <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true}>
                 <TabPane tab="Details" key="details_tab">
-                    <Form editUseCase="dir_edit_lookups">
+                    <Form>
                         <FormInput
                             fieldName="name"
                             label="Name"
@@ -68,7 +68,6 @@ class CompanyForm extends Component<Props, State> {
                 </TabPane>
                 <TabPane tab="Commission" key="commission_tab">
                     <FormSimpleList
-                        editUseCase="dir_edit_lookups"
                         fieldName="commissionPolicyNumberPrefixes"
                         displayName="Policy Number Prefix"
                         values={company.commissionPolicyNumberPrefixes}

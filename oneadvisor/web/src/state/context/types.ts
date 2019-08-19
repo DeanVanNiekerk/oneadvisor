@@ -34,4 +34,5 @@ export type MenuLink = {
     isDefault?: boolean;
     isCurrent?: boolean;
     useCases?: string[];
+    roles?: string[];
 };

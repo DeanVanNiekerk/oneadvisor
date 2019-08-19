@@ -1,11 +1,15 @@
 import { Badge, List, Switch } from "antd";
 import update from "immutability-helper";
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
+import { hasRole, ROLE_SUPER_ADMIN } from "@/config/role";
 import { Application } from "@/state/app/directory/applications/types";
 import { RoleEdit } from "@/state/app/directory/roles";
 import { UseCase } from "@/state/app/directory/usecases";
+import { roleSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
 import { Form, FormErrors, FormInput, FormSelect, TabPane, Tabs } from "@/ui/controls";
 
 type TabKey = "details_tab" | "usecases_tab";
@@ -15,6 +19,7 @@ type Props = {
     applications: Application[];
     useCases: UseCase[];
     onChange: (role: RoleEdit) => void;
+    roles: string[];
     validationResults: ValidationResult[];
 };
 
@@ -23,7 +28,7 @@ type State = {
     activeTab: TabKey;
 };
 
-class UserForm extends Component<Props, State> {
+class RoleForm extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
@@ -107,7 +112,7 @@ class UserForm extends Component<Props, State> {
         return (
             <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true}>
                 <TabPane tab="Details" key="details_tab">
-                    <Form editUseCase="dir_edit_roles">
+                    <Form editRole={ROLE_SUPER_ADMIN}>
                         <FormInput
                             fieldName="name"
                             label="Name"
@@ -149,6 +154,7 @@ class UserForm extends Component<Props, State> {
                                         checked={this.isUseCaseSelected(useCase.id)}
                                         size="small"
                                         onChange={() => this.toggleUseCaseChange(useCase.id)}
+                                        disabled={!hasRole(ROLE_SUPER_ADMIN, this.props.roles)}
                                     />,
                                 ]}
                             >
@@ -163,4 +169,12 @@ class UserForm extends Component<Props, State> {
     }
 }
 
-export default UserForm;
+const mapStateToProps = (state: RootState) => {
+    const roleState = roleSelector(state);
+
+    return {
+        roles: roleState,
+    };
+};
+
+export default connect(mapStateToProps)(RoleForm);

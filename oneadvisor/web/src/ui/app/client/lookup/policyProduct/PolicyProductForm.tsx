@@ -1,14 +1,14 @@
-import update from 'immutability-helper';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import update from "immutability-helper";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 import {
     PolicyProduct, PolicyProductType, policyProductTypesSelector, policyTypesSelector
-} from '@/state/app/client/lookups';
-import { organisationCompaniesSelector, Company } from '@/state/app/directory/lookups';
-import { RootState } from '@/state/rootReducer';
-import { Form, FormInput, FormSelect } from '@/ui/controls';
+} from "@/state/app/client/lookups";
+import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { RootState } from "@/state/rootReducer";
+import { Form, FormInput, FormSelect } from "@/ui/controls";
 
 type Props = {
     policyProduct: PolicyProduct;
@@ -51,7 +51,7 @@ class PolicyProductForm extends Component<Props, State> {
         const { policyProduct } = this.state;
 
         return (
-            <Form editUseCase="dir_edit_lookups">
+            <Form>
                 <FormInput
                     fieldName="name"
                     label="Name"
@@ -94,11 +94,11 @@ class PolicyProductForm extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const companiesState = organisationCompaniesSelector(state);
+    const companiesState = companiesSelector(state);
     const policyProductTypeState = policyProductTypesSelector(state);
 
     return {
-        companies: companiesState,
+        companies: companiesState.items,
         policyProductTypes: policyProductTypeState.items,
     };
 };

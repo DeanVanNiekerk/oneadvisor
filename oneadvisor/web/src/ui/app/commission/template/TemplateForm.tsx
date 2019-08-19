@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { ApiOnFailure, ApiOnSuccess } from "@/app/types";
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
 import { CommissionStatementTemplateEdit, Sheet, SheetConfig } from "@/state/app/commission/templates";
-import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
+import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInput, FormSelect, TabPane, Tabs } from "@/ui/controls";
 
@@ -128,7 +128,7 @@ class TemplateForm extends Component<Props, State> {
         return (
             <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true}>
                 <TabPane tab="Details" key="details">
-                    <Form editUseCase="com_edit_commission_statement_templates">
+                    <Form>
                         <FormInput
                             fieldName="name"
                             label="Name"

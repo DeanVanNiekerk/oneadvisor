@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { getColumnDefinition } from '@/app/table';
-import { Application, applicationsSelector, fetchApplications } from '@/state/app/directory/applications';
-import { fetchRole, fetchRoles, receiveRole, Role, RoleEdit, rolesSelector } from '@/state/app/directory/roles';
-import { fetchUseCases, UseCase, useCasesSelector } from '@/state/app/directory/usecases';
-import { RootState } from '@/state/rootReducer';
-import { Button, getTable, Header } from '@/ui/controls';
+import { getColumnDefinition } from "@/app/table";
+import { ROLE_SUPER_ADMIN } from "@/config/role";
+import { Application, applicationsSelector, fetchApplications } from "@/state/app/directory/applications";
+import { fetchRole, fetchRoles, receiveRole, Role, RoleEdit, rolesSelector } from "@/state/app/directory/roles";
+import { fetchUseCases, UseCase, useCasesSelector } from "@/state/app/directory/usecases";
+import { RootState } from "@/state/rootReducer";
+import { Button, getTable, Header } from "@/ui/controls";
 
-import EditRole from './EditRole';
+import EditRole from "./EditRole";
 
 const Table = getTable<Role>();
 
@@ -109,7 +110,6 @@ class RoleList extends Component<Props, State> {
     };
 
     render() {
-
         return (
             <>
                 <Header
@@ -120,7 +120,7 @@ class RoleList extends Component<Props, State> {
                             icon="plus"
                             onClick={this.newRole}
                             disabled={this.props.fetching}
-                            requiredUseCase="dir_edit_roles"
+                            requiredRole={ROLE_SUPER_ADMIN}
                         >
                             New Role
                         </Button>

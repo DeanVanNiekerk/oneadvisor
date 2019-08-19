@@ -14,12 +14,10 @@ type Props = {
 	identifiers: Identifier[];
 	validationResults: ValidationResult[];
 	onChange: (identifiers: Identifier[]) => void;
-	useCases: string[];
 };
 
 type State = {
 	identifiers: Identifier[];
-	hasUseCase: boolean;
 };
 
 class GroupIdentifiersForm extends Component<Props, State> {
@@ -28,7 +26,6 @@ class GroupIdentifiersForm extends Component<Props, State> {
 
 		this.state = {
 			identifiers: props.identifiers,
-			hasUseCase: hasUseCase("com_edit_commission_statement_templates", props.useCases),
 		};
 	}
 
@@ -81,8 +78,6 @@ class GroupIdentifiersForm extends Component<Props, State> {
 	};
 
 	getActions = (identifier: Identifier, index: number) => {
-		if (!this.state.hasUseCase) return [];
-
 		return [
 			<Popconfirm
 				title="Are you sure remove this identifier?"
@@ -104,13 +99,7 @@ class GroupIdentifiersForm extends Component<Props, State> {
 			<>
 				<FormErrors validationResults={validationResults} />
 
-				<Button
-					icon="plus"
-					type="dashed"
-					onClick={this.add}
-					noLeftMargin={true}
-					visible={this.state.hasUseCase}
-				>
+				<Button icon="plus" type="dashed" onClick={this.add} noLeftMargin={true}>
 					{`Add Identifier`}
 				</Button>
 
@@ -120,7 +109,7 @@ class GroupIdentifiersForm extends Component<Props, State> {
 					dataSource={identifiers}
 					renderItem={(identifier: Identifier, index: any) => (
 						<List.Item actions={[this.getActions(identifier, index)]}>
-							<Form key={index} editUseCase="com_edit_commission_statement_templates" layout="inline">
+							<Form key={index} layout="inline">
 								<FormInput
 									fieldName="column"
 									validationFieldName={`[${index}].column`}

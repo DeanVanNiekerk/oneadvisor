@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { getColumnDefinition } from '@/app/table';
+import { getColumnDefinition } from "@/app/table";
 import {
     fetchPolicyProducts, PolicyProduct, policyProductsSelector, PolicyProductType, policyProductTypesSelector,
     receivePolicyProduct
-} from '@/state/app/client/lookups';
-import { organisationCompaniesSelector, Company } from '@/state/app/directory/lookups';
-import { RootState } from '@/state/rootReducer';
-import { Button, CompanyName, getTable, Header, PolicyProductTypeName } from '@/ui/controls';
+} from "@/state/app/client/lookups";
+import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
+import { RootState } from "@/state/rootReducer";
+import { Button, CompanyName, getTable, Header, PolicyProductTypeName } from "@/ui/controls";
 
-import EditPolicyProduct from './EditPolicyProduct';
+import EditPolicyProduct from "./EditPolicyProduct";
 
 const Table = getTable<PolicyProduct>();
 
@@ -110,8 +110,6 @@ class PolicyProductList extends Component<Props, State> {
     };
 
     render() {
-
-
         return (
             <>
                 <Header
@@ -122,7 +120,6 @@ class PolicyProductList extends Component<Props, State> {
                             icon="plus"
                             onClick={this.newPolicyProduct}
                             disabled={this.props.fetching}
-                            requiredUseCase="dir_edit_lookups"
                         >
                             New Policy Product
                         </Button>

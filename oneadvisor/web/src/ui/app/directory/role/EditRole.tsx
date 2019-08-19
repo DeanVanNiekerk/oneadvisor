@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { areEqual } from '@/app/utils';
-import { ValidationResult } from '@/app/validation';
-import { Application } from '@/state/app/directory/applications/types';
-import { insertRole, RoleEdit, roleSelector, updateRole } from '@/state/app/directory/roles';
-import { UseCase } from '@/state/app/directory/usecases';
-import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
-import { showConfirm } from '@/ui/feedback/modal/confirm';
+import { areEqual } from "@/app/utils";
+import { ValidationResult } from "@/app/validation";
+import { ROLE_SUPER_ADMIN } from "@/config/role";
+import { Application } from "@/state/app/directory/applications/types";
+import { insertRole, RoleEdit, roleSelector, updateRole } from "@/state/app/directory/roles";
+import { UseCase } from "@/state/app/directory/usecases";
+import { RootState } from "@/state/rootReducer";
+import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import RoleForm from './RoleForm';
+import RoleForm from "./RoleForm";
 
 type Props = {
     visible: boolean;
@@ -49,8 +50,7 @@ class EditRole extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (!areEqual(this.props.role, this.state.roleEdited))
-            return showConfirm({ onOk: this.cancel });
+        if (!areEqual(this.props.role, this.state.roleEdited)) return showConfirm({ onOk: this.cancel });
 
         this.cancel();
     };
@@ -115,17 +115,15 @@ class EditRole extends Component<Props, State> {
                     )}
                 </ContentLoader>
                 <DrawerFooter>
-                    <Button
-                        onClick={this.confirmCancel}
-                        disabled={this.isLoading()}
-                    >
+                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Cancel
                     </Button>
                     <Button
                         onClick={this.save}
                         type="primary"
                         disabled={this.isLoading()}
-                        requiredUseCase="dir_edit_roles"
+                        //requiredUseCase="dir_edit_roles"
+                        requiredRole={ROLE_SUPER_ADMIN}
                     >
                         Save
                     </Button>

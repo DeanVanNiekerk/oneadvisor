@@ -4,7 +4,6 @@ import update from "immutability-helper";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
-import { hasUseCase } from "@/app/identity";
 import { ApiOnFailure, ApiOnSuccess } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { statementTemplatesApi } from "@/config/api/commission";
@@ -24,7 +23,6 @@ type Props = {
 	commissionStatementTemplateId: string | null;
 	validationResults: ValidationResult[];
 	onChange: (commissionTypes: CommissionTypes) => void;
-	useCases: string[];
 	lookupCommissionTypes: LookupCommissionType[];
 	saveTemplate: (onSuccess?: ApiOnSuccess, onFailure?: ApiOnFailure, disableSuccessMessage?: boolean) => void;
 	selectedSheet: Sheet;
@@ -32,7 +30,6 @@ type Props = {
 
 type State = {
 	commissionTypes: CommissionTypes;
-	hasUseCase: boolean;
 	syncingCommissionTypes: boolean;
 };
 
@@ -42,7 +39,6 @@ class CommissionTypesForm extends Component<Props, State> {
 
 		this.state = {
 			commissionTypes: props.commissionTypes,
-			hasUseCase: hasUseCase("com_edit_commission_statement_templates", props.useCases),
 			syncingCommissionTypes: false,
 		};
 	}
@@ -114,8 +110,6 @@ class CommissionTypesForm extends Component<Props, State> {
 	};
 
 	getActions = (type: CommissionType, index: number) => {
-		if (!this.state.hasUseCase) return [];
-
 		return [
 			<Popconfirm
 				key="remove_mapping"
@@ -197,7 +191,7 @@ class CommissionTypesForm extends Component<Props, State> {
 			<>
 				<FormErrors validationResults={validationResults} />
 
-				<Form editUseCase="com_edit_commission_statement_templates">
+				<Form>
 					<FormSelect
 						fieldName="defaultCommissionTypeCode"
 						label="Default Commission Type"
@@ -222,17 +216,11 @@ class CommissionTypesForm extends Component<Props, State> {
 					/>
 				</Form>
 
-				<Button
-					icon="plus"
-					type="dashed"
-					onClick={() => this.add()}
-					noLeftMargin={true}
-					visible={this.state.hasUseCase}
-				>
+				<Button icon="plus" type="dashed" onClick={() => this.add()} noLeftMargin={true}>
 					{`Add Mapping`}
 				</Button>
 
-				{this.state.hasUseCase && this.props.commissionStatementTemplateId && (
+				{this.props.commissionStatementTemplateId && (
 					<Upload
 						name="file"
 						listType="text"
@@ -261,7 +249,7 @@ class CommissionTypesForm extends Component<Props, State> {
 					dataSource={commissionTypes.types}
 					renderItem={(type: CommissionType, index: any) => (
 						<List.Item key={index} actions={[this.getActions(type, index)]}>
-							<Form editUseCase="com_edit_commission_statement_templates" layout="inline">
+							<Form layout="inline">
 								<FormInput
 									fieldName="value"
 									validationFieldName={`types[${index}].value`}
@@ -306,7 +294,6 @@ const mapStateToProps = (state: RootState) => {
 		token: tokenState.token,
 		lookupCommissionTypes: lookupCommissionTypesState.items,
 		fieldNames: fieldNamesState.items,
-		useCases: useCaseSelector(state),
 	};
 };
 

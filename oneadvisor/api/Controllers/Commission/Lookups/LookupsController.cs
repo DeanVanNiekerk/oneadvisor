@@ -4,6 +4,7 @@ using api.App.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.Lookup;
+using OneAdvisor.Model.Directory.Model.Role;
 
 namespace api.Controllers.Commission.Lookups
 {
@@ -43,7 +44,7 @@ namespace api.Controllers.Commission.Lookups
         }
 
         [HttpPost("commissionTypes")]
-        [UseCaseAuthorize("dir_edit_lookups")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         public async Task<IActionResult> InsertCommissionType([FromBody] CommissionType model)
         {
             var result = await LookupService.InsertCommissionType(model);
@@ -55,7 +56,7 @@ namespace api.Controllers.Commission.Lookups
         }
 
         [HttpPost("commissionTypes/{commissionTypeId}")]
-        [UseCaseAuthorize("dir_edit_lookups")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         public async Task<IActionResult> UpdateCommissionType(Guid commissionTypeId, [FromBody] CommissionType model)
         {
             var result = await LookupService.UpdateCommissionType(model);

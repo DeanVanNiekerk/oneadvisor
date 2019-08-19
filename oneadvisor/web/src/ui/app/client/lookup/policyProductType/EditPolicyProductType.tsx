@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { areEqual } from '@/app/utils';
-import { ValidationResult } from '@/app/validation';
+import { areEqual } from "@/app/utils";
+import { ValidationResult } from "@/app/validation";
 import {
     insertPolicyProductType, PolicyProductType, policyProductTypeSelector, updatePolicyProductType
-} from '@/state/app/client/lookups';
-import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
-import { showConfirm } from '@/ui/feedback/modal/confirm';
+} from "@/state/app/client/lookups";
+import { RootState } from "@/state/rootReducer";
+import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import PolicyProductTypeForm from './PolicyProductTypeForm';
+import PolicyProductTypeForm from "./PolicyProductTypeForm";
 
 type Props = {
     visible: boolean;
@@ -45,12 +45,7 @@ class EditPolicyProductType extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (
-            !areEqual(
-                this.props.policyProductType,
-                this.state.policyProductTypeEdited
-            )
-        )
+        if (!areEqual(this.props.policyProductType, this.state.policyProductTypeEdited))
             return showConfirm({ onOk: this.cancel });
 
         this.cancel();
@@ -67,19 +62,9 @@ class EditPolicyProductType extends Component<Props, State> {
         }
 
         if (this.state.policyProductTypeEdited.id) {
-            this.props.dispatch(
-                updatePolicyProductType(
-                    this.state.policyProductTypeEdited,
-                    this.close
-                )
-            );
+            this.props.dispatch(updatePolicyProductType(this.state.policyProductTypeEdited, this.close));
         } else {
-            this.props.dispatch(
-                insertPolicyProductType(
-                    this.state.policyProductTypeEdited,
-                    this.close
-                )
-            );
+            this.props.dispatch(insertPolicyProductType(this.state.policyProductTypeEdited, this.close));
         }
     };
 
@@ -96,8 +81,7 @@ class EditPolicyProductType extends Component<Props, State> {
     getTitle = () => {
         const { policyProductType } = this.props;
 
-        if (policyProductType && policyProductType.id)
-            return `Policy Product Type: ${policyProductType.name}`;
+        if (policyProductType && policyProductType.id) return `Policy Product Type: ${policyProductType.name}`;
 
         return "New Policy Product Type";
     };
@@ -106,12 +90,7 @@ class EditPolicyProductType extends Component<Props, State> {
         const { policyProductType, validationResults, visible } = this.props;
 
         return (
-            <Drawer
-                title={this.getTitle()}
-                icon="database"
-                visible={visible}
-                onClose={this.confirmCancel}
-            >
+            <Drawer title={this.getTitle()} icon="database" visible={visible} onClose={this.confirmCancel}>
                 <ContentLoader isLoading={this.isLoading()}>
                     {policyProductType && (
                         <PolicyProductTypeForm
@@ -122,18 +101,10 @@ class EditPolicyProductType extends Component<Props, State> {
                     )}
                 </ContentLoader>
                 <DrawerFooter>
-                    <Button
-                        onClick={this.confirmCancel}
-                        disabled={this.isLoading()}
-                    >
+                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Cancel
                     </Button>
-                    <Button
-                        onClick={this.save}
-                        type="primary"
-                        disabled={this.isLoading()}
-                        requiredUseCase="dir_edit_lookups"
-                    >
+                    <Button onClick={this.save} type="primary" disabled={this.isLoading()}>
                         Save
                     </Button>
                 </DrawerFooter>

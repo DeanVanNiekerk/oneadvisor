@@ -1,10 +1,10 @@
-import { Form as FormAD } from 'antd';
-import React from 'react';
-import { connect } from 'react-redux';
+import { Form as FormAD } from "antd";
+import React from "react";
+import { connect } from "react-redux";
 
-import { hasUseCase } from '@/app/identity';
-import { useCaseSelector } from '@/state/auth';
-import { RootState } from '@/state/rootReducer';
+import { hasRole, hasUseCase } from "@/app/identity";
+import { roleSelector, useCaseSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
 
 export type FormLayout = "horizontal" | "vertical" | "inline";
 
@@ -14,18 +14,21 @@ type Props = {
     readonly?: boolean;
     editUseCase?: string;
     useCases: string[];
+    editRole?: string;
+    roles: string[];
     className?: string;
     style?: React.CSSProperties;
 };
 
 class FormComponent extends React.Component<Props> {
     render() {
-        const { children, layout = "horizontal", editUseCase } = this.props;
+        const { children, layout = "horizontal", editUseCase, editRole } = this.props;
 
         let readonly = this.props.readonly || false;
 
-        if (editUseCase)
-            readonly = !hasUseCase(this.props.editUseCase, this.props.useCases);
+        if (editUseCase) readonly = !hasUseCase(this.props.editUseCase, this.props.useCases);
+
+        if (editRole) readonly = !hasRole(this.props.editRole, this.props.roles);
 
         const childrenWithProps = React.Children.map(children, child =>
             child
@@ -37,11 +40,7 @@ class FormComponent extends React.Component<Props> {
         );
 
         return (
-            <FormAD
-                className={this.props.className}
-                layout={this.props.layout}
-                style={this.props.style}
-            >
+            <FormAD className={this.props.className} layout={this.props.layout} style={this.props.style}>
                 {childrenWithProps}
             </FormAD>
         );
@@ -51,6 +50,7 @@ class FormComponent extends React.Component<Props> {
 const mapStateToProps = (state: RootState) => {
     return {
         useCases: useCaseSelector(state),
+        roles: roleSelector(state),
     };
 };
 

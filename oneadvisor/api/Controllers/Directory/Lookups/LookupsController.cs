@@ -4,6 +4,7 @@ using api.App.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Lookup;
+using OneAdvisor.Model.Directory.Model.Role;
 
 namespace api.Controllers.Directory.Lookups
 {
@@ -41,7 +42,7 @@ namespace api.Controllers.Directory.Lookups
         }
 
         [HttpPost("companies")]
-        [UseCaseAuthorize("dir_edit_lookups")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         public async Task<IActionResult> InsertCompany([FromBody] Company model)
         {
             var result = await LookupService.InsertCompany(model);
@@ -53,7 +54,7 @@ namespace api.Controllers.Directory.Lookups
         }
 
         [HttpPost("companies/{companyId}")]
-        [UseCaseAuthorize("dir_edit_lookups")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
         public async Task<IActionResult> UpdateCompany(Guid companyId, [FromBody] Company model)
         {
             model.Id = companyId;

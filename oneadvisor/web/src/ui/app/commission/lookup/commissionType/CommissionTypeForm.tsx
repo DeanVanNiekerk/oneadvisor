@@ -1,13 +1,13 @@
-import update from 'immutability-helper';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import update from "immutability-helper";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { ValidationResult } from '@/app/validation';
-import { PolicyType, policyTypesSelector } from '@/state/app/client/lookups';
-import { CommissionEarningsType, commissionEarningsTypesSelector } from '@/state/app/commission/lookups';
-import { CommissionType } from '@/state/app/commission/lookups/commissionTypes';
-import { RootState } from '@/state/rootReducer';
-import { Form, FormInput, FormSelect } from '@/ui/controls';
+import { ValidationResult } from "@/app/validation";
+import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
+import { CommissionEarningsType, commissionEarningsTypesSelector } from "@/state/app/commission/lookups";
+import { CommissionType } from "@/state/app/commission/lookups/commissionTypes";
+import { RootState } from "@/state/rootReducer";
+import { Form, FormInput, FormSelect } from "@/ui/controls";
 
 type Props = {
     commissionType: CommissionType;
@@ -50,7 +50,7 @@ class CommissionTypeForm extends Component<Props, State> {
         const { commissionType } = this.state;
 
         return (
-            <Form editUseCase="dir_edit_lookups">
+            <Form>
                 <FormInput
                     fieldName="name"
                     label="Name"

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { organisationCompaniesSelector, Company } from '@/state/app/directory/lookups';
-import { RootState } from '@/state/rootReducer';
+import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { RootState } from "@/state/rootReducer";
 
 type Props = {
     companies: Company[];
@@ -22,10 +22,10 @@ class CompanyNameComponent extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const companiesState = organisationCompaniesSelector(state);
+    const companiesState = companiesSelector(state);
 
     return {
-        companies: companiesState
+        companies: companiesState.items,
     };
 };
 

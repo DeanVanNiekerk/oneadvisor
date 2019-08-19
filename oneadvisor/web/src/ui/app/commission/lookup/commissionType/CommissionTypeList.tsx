@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { getColumnDefinition } from '@/app/table';
-import { PolicyType, policyTypesSelector } from '@/state/app/client/lookups';
-import { CommissionEarningsType, commissionEarningsTypesSelector } from '@/state/app/commission/lookups';
+import { getColumnDefinition } from "@/app/table";
+import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
+import { CommissionEarningsType, commissionEarningsTypesSelector } from "@/state/app/commission/lookups";
 import {
     CommissionType, commissionTypesSelector, fetchCommissionTypes, receiveCommissionType
-} from '@/state/app/commission/lookups/commissionTypes';
-import { RootState } from '@/state/rootReducer';
-import { Button, CommissionEarningsTypeName, getTable, Header, PolicyTypeName } from '@/ui/controls';
+} from "@/state/app/commission/lookups/commissionTypes";
+import { RootState } from "@/state/rootReducer";
+import { Button, CommissionEarningsTypeName, getTable, Header, PolicyTypeName } from "@/ui/controls";
 
-import EditCommissionType from './EditCommissionType';
+import EditCommissionType from "./EditCommissionType";
 
 const Table = getTable<CommissionType>();
 
@@ -109,8 +109,6 @@ class CommissionTypeList extends Component<Props, State> {
     };
 
     render() {
-
-
         return (
             <>
                 <Header
@@ -121,7 +119,6 @@ class CommissionTypeList extends Component<Props, State> {
                             icon="plus"
                             onClick={this.newCommissionType}
                             disabled={this.props.fetching}
-                            requiredUseCase="dir_edit_lookups"
                         >
                             New Commission Type
                         </Button>

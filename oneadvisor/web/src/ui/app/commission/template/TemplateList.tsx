@@ -7,7 +7,7 @@ import {
     CommissionStatementTemplate, CommissionStatementTemplateEdit, commissionStatementTemplatesSelector,
     fetchCommissionStatementTemplate, fetchCommissionStatementTemplates, receiveCommissionStatementTemplate
 } from "@/state/app/commission/templates";
-import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
+import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, CompanyName, getTable, Header } from "@/ui/controls";
 
@@ -121,13 +121,7 @@ class TemplateList extends Component<Props, State> {
                 <Header
                     icon="block"
                     actions={
-                        <Button
-                            type="default"
-                            icon="plus"
-                            onClick={this.newTemplate}
-                            disabled={this.props.fetching}
-                            requiredUseCase="com_edit_commission_statement_templates"
-                        >
+                        <Button type="default" icon="plus" onClick={this.newTemplate} disabled={this.props.fetching}>
                             New Template
                         </Button>
                     }

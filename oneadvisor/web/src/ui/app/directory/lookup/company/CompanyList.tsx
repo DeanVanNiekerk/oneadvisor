@@ -75,13 +75,7 @@ class CompanyList extends Component<Props, State> {
                 <Header
                     icon="database"
                     actions={
-                        <Button
-                            type="default"
-                            icon="plus"
-                            onClick={this.newCompany}
-                            disabled={this.props.fetching}
-                            requiredUseCase="dir_edit_lookups"
-                        >
+                        <Button type="default" icon="plus" onClick={this.newCompany} disabled={this.props.fetching}>
                             New Company
                         </Button>
                     }

@@ -90,7 +90,6 @@ class ChangeLogList extends Component<Props> {
                                 icon="plus"
                                 onClick={this.newChangeLog}
                                 disabled={this.props.fetching}
-                                requiredUseCase="dir_edit_change_logs"
                             >
                                 New Change Log
                             </Button>
