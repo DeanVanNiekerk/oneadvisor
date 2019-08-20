@@ -6,6 +6,7 @@ using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Organisation;
 using OneAdvisor.Model.Directory.Model.Role;
 using OneAdvisor.Model.Account.Interface;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api.Controllers.Directory.Organisations
 {
@@ -35,7 +36,7 @@ namespace api.Controllers.Directory.Organisations
         }
 
         [HttpGet("{organisationId}")]
-        [UseCaseAuthorize("dir_view_organisations")]
+        [Authorize]
         public async Task<IActionResult> Get(Guid organisationId)
         {
             var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
