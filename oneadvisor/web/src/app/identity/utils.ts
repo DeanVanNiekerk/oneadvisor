@@ -1,72 +1,62 @@
 import { MenuGroup } from "@/state/context/types";
 
 export const hasUseCase = (
-    useCase: string | undefined,
+    sourceUseCase: string | undefined,
     useCases: string[]
 ): boolean => {
     let found = true;
-    if (useCase) found = useCases.indexOf(useCase) !== -1;
+    if (sourceUseCase) found = useCases.indexOf(sourceUseCase) !== -1;
     return found;
 };
 
 export const hasUseCases = (
-    useCases: string[] | undefined,
-    allUseCases: string[]
+    sourceUseCases: string[] | undefined,
+    useCases: string[]
 ): boolean => {
     let found = true;
-    if (useCases)
-        found = useCases.some(useCase => hasUseCase(useCase, allUseCases));
+    if (sourceUseCases)
+        found = sourceUseCases.some(sourceUseCase => hasUseCase(sourceUseCase, useCases));
     return found;
 };
 
-export const hasUseCasesMenuGroup = (
-    menuGroup: MenuGroup,
-    allUseCases: string[]
-): boolean => {
-    return menuGroup.links.some(link =>
-        hasUseCases(link.useCases, allUseCases)
-    );
-};
 
-export const hasUseCasesMenuGroups = (
-    menuGroups: MenuGroup[],
-    allUseCases: string[]
-): boolean => {
-    return menuGroups.some(group => hasUseCasesMenuGroup(group, allUseCases));
-};
 
 
 export const hasRole = (
-    role: string | undefined,
+    sourceRole: string | undefined,
     roles: string[]
 ): boolean => {
     let found = true;
-    if (role) found = roles.indexOf(role) !== -1;
+    if (sourceRole) found = roles.indexOf(sourceRole) !== -1;
     return found;
 };
 
 export const hasRoles = (
-    roles: string[] | undefined,
-    allRoles: string[]
+    sourceRoles: string[] | undefined,
+    roles: string[]
 ): boolean => {
     let found = true;
-    if (roles)
-        found = roles.some(role => hasRole(role, allRoles));
+    if (sourceRoles)
+        found = sourceRoles.some(sourceRole => hasRole(sourceRole, roles));
     return found;
 };
 
-export const hasRolesMenuGroup = (
+
+
+export const hasPermissionsMenuGroup = (
     menuGroup: MenuGroup,
-    allRoles: string[]
+    useCases: string[],
+    roles: string[]
 ): boolean => {
     return menuGroup.links.some(link =>
-        hasRoles(link.roles, allRoles)
+        hasUseCases(link.useCases, useCases) && hasRoles(link.roles, roles)
     );
 };
 
-export const hasRolesMenuGroups = (
+export const hasPermissionsMenuGroups = (
     menuGroups: MenuGroup[],
-    allRoles: string[]
+    useCases: string[],
+    roles: string[]
 ): boolean => {
-    return menuGroups.some(group => hasRolesMenuGroup(group, allRoles));
+    return menuGroups.some(group => hasPermissionsMenuGroup(group, useCases, roles));
 };

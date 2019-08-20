@@ -3,7 +3,7 @@ import React, { Component, CSSProperties } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { hasRoles, hasRolesMenuGroup, hasUseCases, hasUseCasesMenuGroup } from "@/app/identity";
+import { hasPermissionsMenuGroup, hasRoles, hasUseCases } from "@/app/identity";
 import { defaultOpenGroupNames } from "@/config/menu";
 import { roleSelector, useCaseSelector } from "@/state/auth";
 import { currentApplicationSelector, currentMenuSelector } from "@/state/context/selectors";
@@ -61,11 +61,7 @@ class SideMenu extends Component<Props, State> {
                     selectedKeys={[]}
                 >
                     {this.props.menu.groups
-                        .filter(
-                            group =>
-                                hasUseCasesMenuGroup(group, this.props.useCases) &&
-                                hasRolesMenuGroup(group, this.props.roles)
-                        )
+                        .filter(group => hasPermissionsMenuGroup(group, this.props.useCases, this.props.roles))
                         .map(group => (
                             <SubMenu
                                 key={group.name}

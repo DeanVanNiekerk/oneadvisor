@@ -3,7 +3,7 @@ import React, { Component, CSSProperties } from "react";
 import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 
-import { hasRolesMenuGroups, hasUseCasesMenuGroups } from "@/app/identity";
+import { hasPermissionsMenuGroups } from "@/app/identity";
 import config from "@/config/config";
 import { roleSelector, signOut, useCaseSelector } from "@/state/auth";
 import {
@@ -91,6 +91,9 @@ class Navigator extends Component<Props> {
     };
 
     render() {
+        console.log(this.props.roles);
+        console.log(this.props.useCases);
+
         return (
             <>
                 <Header>
@@ -132,10 +135,12 @@ class Navigator extends Component<Props> {
                     </div>
                     <Menu theme="dark" mode="horizontal" style={{ lineHeight: "64px" }}>
                         {this.props.applications
-                            .filter(
-                                app =>
-                                    hasUseCasesMenuGroups(this.props.menus[app.id].groups, this.props.useCases) &&
-                                    hasRolesMenuGroups(this.props.menus[app.id].groups, this.props.roles)
+                            .filter(app =>
+                                hasPermissionsMenuGroups(
+                                    this.props.menus[app.id].groups,
+                                    this.props.useCases,
+                                    this.props.roles
+                                )
                             )
                             .map(app => (
                                 <Item
