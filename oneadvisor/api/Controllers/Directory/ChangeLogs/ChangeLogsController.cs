@@ -23,9 +23,9 @@ namespace api.Controllers.Directory.ChangeLogs
         private IAuthenticationService AuthenticationService { get; }
 
         [HttpGet("")]
-        public async Task<IActionResult> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0)
+        public async Task<IActionResult> Index(string sortColumn, string sortDirection, int pageSize = 0, int pageNumber = 0, string filters = null)
         {
-            var queryOptions = new ChangeLogQueryOptions(sortColumn, sortDirection, pageSize, pageNumber);
+            var queryOptions = new ChangeLogQueryOptions(sortColumn, sortDirection, pageSize, pageNumber, filters);
             var pagedItems = await ChangeLogService.GetChangeLogs(queryOptions);
 
             return Ok(pagedItems);

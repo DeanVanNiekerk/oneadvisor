@@ -50,6 +50,7 @@ class ChangeLogList extends Component<Props> {
             id: "",
             versionNumber: "0.x.0",
             releaseDate: "",
+            published: false,
             log: `
 #### General
 - 🌟 
@@ -70,6 +71,7 @@ class ChangeLogList extends Component<Props> {
         return [
             getColumn("versionNumber", "Version Number"),
             getColumn("releaseDate", "Release Date", { type: "date" }),
+            getColumn("published", "Published", { type: "boolean" }),
         ];
     };
 

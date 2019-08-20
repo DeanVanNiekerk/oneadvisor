@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown";
 
 import { ValidationResult } from "@/app/validation";
 import { ChangeLog } from "@/state/app/directory/changeLogs";
-import { Form, FormDate, FormInput, FormTextArea, TabPane, Tabs } from "@/ui/controls";
+import { Form, FormDate, FormInput, FormSwitch, FormTextArea, TabPane, Tabs } from "@/ui/controls";
 
 type TabKey = "details_tab" | "preview_tab";
 
@@ -37,7 +37,7 @@ class ChangeLogForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: keyof ChangeLog, value: string) => {
+    handleChange = (fieldName: keyof ChangeLog, value: string | boolean) => {
         const changeLog = update(this.state.changeLog, { [fieldName]: { $set: value } });
         this.updateState(changeLog);
     };
@@ -72,6 +72,13 @@ class ChangeLogForm extends Component<Props, State> {
                             fieldName="releaseDate"
                             label="Release Date"
                             value={changeLog.releaseDate}
+                            onChange={this.handleChange}
+                            validationResults={validationResults}
+                        />
+                        <FormSwitch
+                            fieldName="published"
+                            label="Published"
+                            value={changeLog.published}
                             onChange={this.handleChange}
                             validationResults={validationResults}
                         />

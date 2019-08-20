@@ -15,6 +15,7 @@ describe('changeLog reducer', () => {
             id: '10',
             versionNumber: '12',
             releaseDate: '14',
+            published: true,
             log: 'A log here'
         };
 

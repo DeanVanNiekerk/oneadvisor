@@ -12,6 +12,8 @@ namespace OneAdvisor.Data.Entities.Directory
         [Required]
         public DateTime ReleaseDate { get; set; }
         [Required]
+        public bool Published { get; set; }
+        [Required]
         public string Log { get; set; }
     }
 }

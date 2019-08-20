@@ -25,6 +25,11 @@ namespace OneAdvisor.Service.Directory
         {
             var query = GetChangeLogQuery();
 
+            //Apply filters ----------------------------------------------------------------------------------------
+            if (queryOptions.Published.HasValue)
+                query = query.Where(l => l.Published == queryOptions.Published);
+            //------------------------------------------------------------------------------------------------------
+
             var pagedItems = new PagedItems<ChangeLog>();
 
             //Get total items
@@ -42,6 +47,7 @@ namespace OneAdvisor.Service.Directory
         public async Task<ChangeLog> GetLatestChangeLog()
         {
             var query = from changeLog in GetChangeLogQuery()
+                        where changeLog.Published == true
                         orderby changeLog.ReleaseDate descending
                         select changeLog;
 
@@ -92,6 +98,7 @@ namespace OneAdvisor.Service.Directory
 
             entity.VersionNumber = model.VersionNumber;
             entity.ReleaseDate = model.ReleaseDate.Value;
+            entity.Published = model.Published;
             entity.Log = model.Log;
 
             return entity;
@@ -105,6 +112,7 @@ namespace OneAdvisor.Service.Directory
                             Id = changeLog.Id,
                             VersionNumber = changeLog.VersionNumber,
                             ReleaseDate = changeLog.ReleaseDate,
+                            Published = changeLog.Published,
                             Log = changeLog.Log
                         };
 
