@@ -1,8 +1,8 @@
-import { Application } from '@/state/context/types';
+import { Application } from "@/state/context/types";
 
-export const DIRECTORY_ID = "DIRECTORY";
-export const CLIENT_ID = "CLIENT";
-export const COMMISSION_ID = "COMMISSION";
+export const DIRECTORY_ID = "66c3b4e8-8a30-4a4b-be4d-3928d12fefe9";
+export const CLIENT_ID = "605ea52c-3627-48e2-8f7c-4819c5ea555b";
+export const COMMISSION_ID = "2fca4500-9142-4940-aaf4-b18925c96d66";
 
 export const DEFAULT_APPLICATION_ID = CLIENT_ID;
 

@@ -1,7 +1,9 @@
+import { Tag } from "antd";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { getColumnDefinition } from "@/app/table";
+import { applications } from "@/config/application";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
 import { Application, applicationsSelector, fetchApplications } from "@/state/app/directory/applications";
 import { fetchRole, fetchRoles, receiveRole, Role, RoleEdit, rolesSelector } from "@/state/app/directory/roles";
@@ -61,6 +63,11 @@ class RoleList extends Component<Props, State> {
         if (application) return application.name;
     };
 
+    getApplicationColor = (id: string) => {
+        const application = applications.find(u => u.id === id);
+        if (application) return application.color;
+    };
+
     showEditRole = () => {
         this.setState({
             editVisible: true,
@@ -98,7 +105,11 @@ class RoleList extends Component<Props, State> {
                 {},
                 {
                     render: (applicationId: string) => {
-                        return this.getApplicationName(applicationId);
+                        return (
+                            <Tag color={this.getApplicationColor(applicationId)}>
+                                {this.getApplicationName(applicationId)}
+                            </Tag>
+                        );
                     },
                     filters: this.props.applications.map(a => ({
                         text: a.name,

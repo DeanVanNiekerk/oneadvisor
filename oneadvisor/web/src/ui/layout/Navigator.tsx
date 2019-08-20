@@ -91,9 +91,6 @@ class Navigator extends Component<Props> {
     };
 
     render() {
-        console.log(this.props.roles);
-        console.log(this.props.useCases);
-
         return (
             <>
                 <Header>
