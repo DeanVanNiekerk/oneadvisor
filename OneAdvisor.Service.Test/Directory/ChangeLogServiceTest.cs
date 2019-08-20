@@ -20,9 +20,9 @@ namespace OneAdvisor.Service.Test.Directory
             var now = DateTime.Now;
 
             //Given
-            var cl1 = new ChangeLogEntity { Id = Guid.NewGuid(), VersionNumber = "1.0", ReleaseDate = now.AddMonths(-2), Log = "Log 1" };
-            var cl2 = new ChangeLogEntity { Id = Guid.NewGuid(), VersionNumber = "2.0", ReleaseDate = now.AddMonths(-1), Log = "Log 2" };
-            var cl3 = new ChangeLogEntity { Id = Guid.NewGuid(), VersionNumber = "3.0", ReleaseDate = now, Log = "Log 3" };
+            var cl1 = new ChangeLogEntity { Id = Guid.NewGuid(), VersionNumber = "1.0", ReleaseDate = now.AddMonths(-2), Published = true, Log = "Log 1" };
+            var cl2 = new ChangeLogEntity { Id = Guid.NewGuid(), VersionNumber = "2.0", ReleaseDate = now.AddMonths(-1), Published = true, Log = "Log 2" };
+            var cl3 = new ChangeLogEntity { Id = Guid.NewGuid(), VersionNumber = "3.0", ReleaseDate = now, Published = true, Log = "Log 3" };
 
             using (var context = new DataContext(options))
             {
@@ -52,6 +52,7 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.Equal(cl3.Id, actual1.Id);
                 Assert.Equal(cl3.VersionNumber, actual1.VersionNumber);
                 Assert.Equal(cl3.ReleaseDate, actual1.ReleaseDate);
+                Assert.Equal(cl3.Published, actual1.Published);
                 Assert.Equal(cl3.Log, actual1.Log);
 
                 var actual2 = items[1];
@@ -70,9 +71,9 @@ namespace OneAdvisor.Service.Test.Directory
             var now = DateTime.Now;
 
             //Given
-            var cl1 = new ChangeLogEntity { Id = Guid.NewGuid(), VersionNumber = "1.0", ReleaseDate = now.AddMonths(-2), Log = "Log 1" };
-            var cl2 = new ChangeLogEntity { Id = Guid.NewGuid(), VersionNumber = "2.0", ReleaseDate = now.AddMonths(-1), Log = "Log 2" };
-            var cl3 = new ChangeLogEntity { Id = Guid.NewGuid(), VersionNumber = "3.0", ReleaseDate = now, Log = "Log 3" };
+            var cl1 = new ChangeLogEntity { Id = Guid.NewGuid(), VersionNumber = "1.0", ReleaseDate = now.AddMonths(-2), Published = true, Log = "Log 1" };
+            var cl2 = new ChangeLogEntity { Id = Guid.NewGuid(), VersionNumber = "2.0", ReleaseDate = now.AddMonths(-1), Published = true, Log = "Log 2" };
+            var cl3 = new ChangeLogEntity { Id = Guid.NewGuid(), VersionNumber = "3.0", ReleaseDate = now, Published = false, Log = "Log 3" };
 
             using (var context = new DataContext(options))
             {
@@ -92,10 +93,11 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await service.GetLatestChangeLog();
 
                 //Then
-                Assert.Equal(cl3.Id, actual.Id);
-                Assert.Equal(cl3.VersionNumber, actual.VersionNumber);
-                Assert.Equal(cl3.ReleaseDate, actual.ReleaseDate);
-                Assert.Equal(cl3.Log, actual.Log);
+                Assert.Equal(cl2.Id, actual.Id);
+                Assert.Equal(cl2.VersionNumber, actual.VersionNumber);
+                Assert.Equal(cl2.ReleaseDate, actual.ReleaseDate);
+                Assert.Equal(cl2.Published, actual.Published);
+                Assert.Equal(cl2.Log, actual.Log);
             }
         }
 
@@ -109,7 +111,8 @@ namespace OneAdvisor.Service.Test.Directory
             {
                 VersionNumber = "1.0",
                 ReleaseDate = DateTime.Now.AddMonths(-2),
-                Log = "Log 1"
+                Log = "Log 1",
+                Published = true
             };
 
             using (var context = new DataContext(options))
@@ -125,6 +128,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await context.ChangeLog.FindAsync(((ChangeLog)result.Tag).Id);
                 Assert.Equal(model.VersionNumber, actual.VersionNumber);
                 Assert.Equal(model.ReleaseDate, actual.ReleaseDate);
+                Assert.Equal(model.Published, actual.Published);
                 Assert.Equal(model.Log, actual.Log);
             }
         }
@@ -135,8 +139,8 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("UpdateChangeLog");
 
             //Given
-            var cl1 = new ChangeLogEntity { Id = Guid.NewGuid(), VersionNumber = "1.0", ReleaseDate = DateTime.Now.AddMonths(-2), Log = "Log 1" };
-            var cl2 = new ChangeLogEntity { Id = Guid.NewGuid(), VersionNumber = "2.0", ReleaseDate = DateTime.Now.AddMonths(-1), Log = "Log 2" };
+            var cl1 = new ChangeLogEntity { Id = Guid.NewGuid(), VersionNumber = "1.0", ReleaseDate = DateTime.Now.AddMonths(-2), Published = false, Log = "Log 1" };
+            var cl2 = new ChangeLogEntity { Id = Guid.NewGuid(), VersionNumber = "2.0", ReleaseDate = DateTime.Now.AddMonths(-1), Published = false, Log = "Log 2" };
 
             using (var context = new DataContext(options))
             {
@@ -152,7 +156,8 @@ namespace OneAdvisor.Service.Test.Directory
                 Id = cl2.Id,
                 VersionNumber = "2.1",
                 ReleaseDate = DateTime.Now.AddMonths(-3),
-                Log = "Log 2 updated"
+                Log = "Log 2 updated",
+                Published = true
             };
 
             using (var context = new DataContext(options))
@@ -168,6 +173,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await context.ChangeLog.FindAsync(model.Id);
                 Assert.Equal(model.VersionNumber, actual.VersionNumber);
                 Assert.Equal(model.ReleaseDate, actual.ReleaseDate);
+                Assert.Equal(model.Published, actual.Published);
                 Assert.Equal(model.Log, actual.Log);
             }
         }
