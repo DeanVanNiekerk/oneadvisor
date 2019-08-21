@@ -41,11 +41,12 @@ namespace OneAdvisor.Function
 
         [FunctionName("com_import_commission")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest request,
             ILogger log)
         {
-            Guid organisationId = Guid.Parse(req.Query["organisationId"]);
-            Guid commissionStatementId = Guid.Parse(req.Query["commissionStatementId"]);
+            Guid organisationId = Guid.Parse(request.Query["organisationId"]);
+            Guid commissionStatementId = Guid.Parse(request.Query["commissionStatementId"]);
+            Guid commissionStatementTemplateId = Guid.Parse(request.Query["commissionStatementTemplateId"]);
 
             var scope = new ScopeOptions(organisationId, Guid.Empty, Guid.Empty, Scope.Organisation);
             var statement = await CommissionStatementService.GetCommissionStatement(scope, commissionStatementId);
@@ -65,10 +66,10 @@ namespace OneAdvisor.Function
 
             var templates = (await CommissionStatementTemplateService.GetTemplates(queryOptions)).Items;
 
-            if (!templates.Any())
-                return Utils.GetBadRequestObject("Reimport failed as there are no valid templates.", commissionStatementId.ToString());
+            if (!templates.Any(t => t.Id == commissionStatementTemplateId))
+                return Utils.GetBadRequestObject("Reimport failed as the commissionStatementTemplateId is not valid.", commissionStatementTemplateId.ToString());
 
-            var template = await CommissionStatementTemplateService.GetTemplate(templates.First().Id);
+            var template = await CommissionStatementTemplateService.GetTemplate(commissionStatementTemplateId);
 
             await CommissionStatementService.DeleteCommissions(scope, commissionStatementId);
 

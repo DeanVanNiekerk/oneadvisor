@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api", "oneadvisor\api\api.c
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Model.Test", "OneAdvisor.Model.Test\OneAdvisor.Model.Test.csproj", "{19B3B6EB-40FE-4EB9-BEDD-CDD1FDE00BDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneAdvisor.Service.Function", "OneAdvisor.Service.Function\OneAdvisor.Service.Function.csproj", "{5C8C9221-AB25-4C58-A845-BAD7ABD86401}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -238,6 +240,18 @@ Global
 		{19B3B6EB-40FE-4EB9-BEDD-CDD1FDE00BDA}.Release|x64.Build.0 = Release|Any CPU
 		{19B3B6EB-40FE-4EB9-BEDD-CDD1FDE00BDA}.Release|x86.ActiveCfg = Release|Any CPU
 		{19B3B6EB-40FE-4EB9-BEDD-CDD1FDE00BDA}.Release|x86.Build.0 = Release|Any CPU
+		{5C8C9221-AB25-4C58-A845-BAD7ABD86401}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C8C9221-AB25-4C58-A845-BAD7ABD86401}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C8C9221-AB25-4C58-A845-BAD7ABD86401}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5C8C9221-AB25-4C58-A845-BAD7ABD86401}.Debug|x64.Build.0 = Debug|Any CPU
+		{5C8C9221-AB25-4C58-A845-BAD7ABD86401}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5C8C9221-AB25-4C58-A845-BAD7ABD86401}.Debug|x86.Build.0 = Debug|Any CPU
+		{5C8C9221-AB25-4C58-A845-BAD7ABD86401}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C8C9221-AB25-4C58-A845-BAD7ABD86401}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C8C9221-AB25-4C58-A845-BAD7ABD86401}.Release|x64.ActiveCfg = Release|Any CPU
+		{5C8C9221-AB25-4C58-A845-BAD7ABD86401}.Release|x64.Build.0 = Release|Any CPU
+		{5C8C9221-AB25-4C58-A845-BAD7ABD86401}.Release|x86.ActiveCfg = Release|Any CPU
+		{5C8C9221-AB25-4C58-A845-BAD7ABD86401}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FB1619CF-66A2-4892-A0B7-4E83214DEAC9} = {AEE994F6-8D7B-4DA6-92C3-8BF7110ABD63}
