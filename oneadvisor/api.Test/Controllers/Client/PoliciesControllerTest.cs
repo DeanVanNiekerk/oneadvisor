@@ -19,7 +19,7 @@ namespace api.Test.Controllers.Client
         [Fact]
         public void PolicyModelComposition()
         {
-            Assert.Equal(13, typeof(Policy).PropertyCount());
+            Assert.Equal(14, typeof(Policy).PropertyCount());
             Assert.True(typeof(Policy).HasProperty("Id"));
             Assert.True(typeof(Policy).HasProperty("ClientId"));
             Assert.True(typeof(Policy).HasProperty("CompanyId"));
@@ -33,22 +33,24 @@ namespace api.Test.Controllers.Client
             Assert.True(typeof(Policy).HasProperty("ClientLastName"));
             Assert.True(typeof(Policy).HasProperty("ClientInitials"));
             Assert.True(typeof(Policy).HasProperty("ClientDateOfBirth"));
+            Assert.True(typeof(Policy).HasProperty("IsActive"));
         }
 
         [Fact]
         public void PolicyEditModelComposition()
         {
-            Assert.Equal(10, typeof(PolicyEdit).PropertyCount());
-            Assert.True(typeof(Policy).HasProperty("Id"));
-            Assert.True(typeof(Policy).HasProperty("ClientId"));
-            Assert.True(typeof(Policy).HasProperty("CompanyId"));
-            Assert.True(typeof(Policy).HasProperty("UserId"));
-            Assert.True(typeof(Policy).HasProperty("Number"));
-            Assert.True(typeof(Policy).HasProperty("StartDate"));
-            Assert.True(typeof(Policy).HasProperty("Premium"));
-            Assert.True(typeof(Policy).HasProperty("PolicyTypeId"));
-            Assert.True(typeof(Policy).HasProperty("PolicyProductTypeId"));
-            Assert.True(typeof(Policy).HasProperty("PolicyProductId"));
+            Assert.Equal(11, typeof(PolicyEdit).PropertyCount());
+            Assert.True(typeof(PolicyEdit).HasProperty("Id"));
+            Assert.True(typeof(PolicyEdit).HasProperty("ClientId"));
+            Assert.True(typeof(PolicyEdit).HasProperty("CompanyId"));
+            Assert.True(typeof(PolicyEdit).HasProperty("UserId"));
+            Assert.True(typeof(PolicyEdit).HasProperty("Number"));
+            Assert.True(typeof(PolicyEdit).HasProperty("StartDate"));
+            Assert.True(typeof(PolicyEdit).HasProperty("Premium"));
+            Assert.True(typeof(PolicyEdit).HasProperty("PolicyTypeId"));
+            Assert.True(typeof(PolicyEdit).HasProperty("PolicyProductTypeId"));
+            Assert.True(typeof(PolicyEdit).HasProperty("PolicyProductId"));
+            Assert.True(typeof(PolicyEdit).HasProperty("IsActive"));
         }
 
         [Fact]

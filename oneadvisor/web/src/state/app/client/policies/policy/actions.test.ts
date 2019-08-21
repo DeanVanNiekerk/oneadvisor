@@ -1,7 +1,7 @@
-import { policiesApi } from '@/config/api/client';
+import { policiesApi } from "@/config/api/client";
 
-import { PolicyEdit } from '../';
-import * as actions from './actions';
+import { PolicyEdit } from "../";
+import * as actions from "./actions";
 
 describe("policy actions", () => {
     it("should dispatch API when fetchPolicy is called", () => {
@@ -26,9 +26,10 @@ describe("policy actions", () => {
             policyTypeId: "123321",
             policyProductTypeId: "00111",
             policyProductId: "99988777",
+            isActive: true,
         };
 
-        const onSuccess = () => {};
+        const onSuccess = () => { };
 
         const expectedAction = {
             type: "API",

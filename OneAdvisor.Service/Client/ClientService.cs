@@ -42,7 +42,7 @@ namespace OneAdvisor.Service.Client
                             DateOfBirth = client.DateOfBirth,
                             TaxNumber = client.TaxNumber,
                             MarritalStatusId = client.MarritalStatusId,
-                            MarriageDate = client.MarriageDate
+                            MarriageDate = client.MarriageDate,
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------

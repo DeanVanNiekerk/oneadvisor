@@ -13,6 +13,7 @@ export type Policy = {
     clientLastName: string;
     clientInitials: string;
     clientDateOfBirth: string | null;
+    isActive: boolean;
 };
 
 export type PolicyEdit = {
@@ -26,4 +27,5 @@ export type PolicyEdit = {
     policyTypeId: string | null;
     policyProductTypeId: string | null;
     policyProductId: string | null;
+    isActive: boolean;
 };

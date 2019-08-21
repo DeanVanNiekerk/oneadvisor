@@ -3,13 +3,13 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { applyLike } from "@/app/query";
-import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
+import { Filters, getBooleanOptions, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
 import {
     fetchPolicies, fetchPolicy, newPolicy, policiesSelector, Policy, receiveFilters, receivePageOptions, receivePolicy,
     receiveSortOptions
 } from "@/state/app/client/policies";
-import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
+import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Button, CompanyName, getTable, Header, PolicyTypeName, UserName } from "@/ui/controls";
@@ -130,6 +130,16 @@ class PolicyList extends Component<Props> {
                         text: user.fullName,
                         value: user.id,
                     })),
+                }
+            ),
+            getColumn(
+                "isActive",
+                "Active",
+                {
+                    type: "boolean",
+                },
+                {
+                    filters: getBooleanOptions(),
                 }
             ),
         ];

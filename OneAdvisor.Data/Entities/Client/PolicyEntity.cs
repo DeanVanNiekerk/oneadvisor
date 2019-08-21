@@ -25,6 +25,7 @@ namespace OneAdvisor.Data.Entities.Client
         public Guid? PolicyTypeId { get; set; }
         public Guid? PolicyProductTypeId { get; set; }
         public Guid? PolicyProductId { get; set; }
+        public bool IsActive { get; set; }
 
         public virtual ClientEntity Client { get; set; }
         public virtual CompanyEntity Company { get; set; }

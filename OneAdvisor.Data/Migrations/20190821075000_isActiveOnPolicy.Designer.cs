@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OneAdvisor.Data;
 
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190821075000_isActiveOnPolicy")]
+    partial class isActiveOnPolicy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -521,7 +523,9 @@ namespace OneAdvisor.Data.Migrations
 
                     b.Property<Guid>("CompanyId");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("1");
 
                     b.Property<string>("Number")
                         .IsRequired();
@@ -901,7 +905,9 @@ namespace OneAdvisor.Data.Migrations
                     b.Property<string>("Log")
                         .IsRequired();
 
-                    b.Property<bool>("Published");
+                    b.Property<bool>("Published")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("0");
 
                     b.Property<DateTime>("ReleaseDate");
 

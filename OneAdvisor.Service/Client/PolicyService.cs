@@ -47,6 +47,7 @@ namespace OneAdvisor.Service.Client
                             ClientLastName = client.LastName,
                             ClientInitials = client.Initials,
                             ClientDateOfBirth = client.DateOfBirth,
+                            IsActive = policy.IsActive,
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -70,6 +71,9 @@ namespace OneAdvisor.Service.Client
 
             if (!string.IsNullOrWhiteSpace(queryOptions.ClientLastName))
                 query = query.Where(m => EF.Functions.Like(m.ClientLastName, queryOptions.ClientLastName));
+
+            if (queryOptions.IsActive.HasValue)
+                query = query.Where(m => m.IsActive == queryOptions.IsActive.Value);
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedItems<Policy>();
@@ -177,7 +181,8 @@ namespace OneAdvisor.Service.Client
                             StartDate = policy.StartDate,
                             PolicyTypeId = policy.PolicyTypeId,
                             PolicyProductTypeId = policy.PolicyProductTypeId,
-                            PolicyProductId = policy.PolicyProductId
+                            PolicyProductId = policy.PolicyProductId,
+                            IsActive = policy.IsActive,
                         };
 
             return query;
@@ -209,6 +214,7 @@ namespace OneAdvisor.Service.Client
             entity.PolicyTypeId = model.PolicyTypeId;
             entity.PolicyProductTypeId = model.PolicyProductTypeId;
             entity.PolicyProductId = model.PolicyProductId;
+            entity.IsActive = model.IsActive;
 
             return entity;
         }

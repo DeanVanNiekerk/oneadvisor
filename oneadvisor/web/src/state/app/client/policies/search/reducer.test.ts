@@ -1,5 +1,5 @@
-import { Policy } from '../';
-import { defaultState, reducer } from './reducer';
+import { Policy } from "../";
+import { defaultState, reducer } from "./reducer";
 
 describe("policy search reducer", () => {
     it("should handle POLICIES_SEARCH_FETCHING", () => {
@@ -55,6 +55,7 @@ describe("policy search reducer", () => {
             clientLastName: "Jones",
             clientInitials: "DJ",
             clientDateOfBirth: "1982-10-03",
+            isActive: true,
         };
 
         const actualState = reducer(initalState, {

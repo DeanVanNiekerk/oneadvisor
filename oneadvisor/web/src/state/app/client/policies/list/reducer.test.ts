@@ -1,7 +1,7 @@
-import { Filters, SortOptions } from '@/app/table';
+import { Filters, SortOptions } from "@/app/table";
 
-import { Policy } from '../';
-import { defaultState, reducer } from './reducer';
+import { Policy } from "../";
+import { defaultState, reducer } from "./reducer";
 
 describe("policy list reducer", () => {
     it("should handle POLICIES_LIST_FETCHING", () => {
@@ -57,6 +57,7 @@ describe("policy list reducer", () => {
             clientLastName: "Jones",
             clientInitials: "DJ",
             clientDateOfBirth: "1982-10-03",
+            isActive: true,
         };
 
         const actualState = reducer(initalState, {

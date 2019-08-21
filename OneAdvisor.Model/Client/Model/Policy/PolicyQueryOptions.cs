@@ -42,6 +42,10 @@ namespace OneAdvisor.Model.Client.Model.Policy
             resultGuids = GetFilterValues<Guid>("UserId");
             if (resultGuids.Success)
                 UserId = resultGuids.Value;
+
+            var resultBool = GetFilterValue<bool>("IsActive");
+            if (resultBool.Success)
+                IsActive = resultBool.Value;
         }
 
         public ScopeOptions Scope { get; set; }
@@ -53,5 +57,6 @@ namespace OneAdvisor.Model.Client.Model.Policy
         public string Number { get; set; }
         public List<Guid> UserId { get; set; }
         public string ClientLastName { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

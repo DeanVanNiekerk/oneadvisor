@@ -14,6 +14,7 @@ namespace OneAdvisor.Model.Client.Model.Policy
         public Guid? PolicyTypeId { get; set; }
         public Guid? PolicyProductTypeId { get; set; }
         public Guid? PolicyProductId { get; set; }
+        public bool IsActive { get; set; }
 
         public string ClientLastName { get; set; }
         public string ClientInitials { get; set; }

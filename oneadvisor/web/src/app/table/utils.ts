@@ -85,7 +85,7 @@ export const sort = (item1: any, item2: any, property: string) => {
 };
 
 export const filter = (value: string, record: any, property: string) => {
-    return record[property].toLowerCase().indexOf(value.toLowerCase()) !== -1;
+    return record[property].toString().toLowerCase().indexOf(value.toString().toLowerCase()) !== -1;
 };
 
 export const formatBool = (value: boolean) => {

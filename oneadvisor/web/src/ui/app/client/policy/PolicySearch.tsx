@@ -1,12 +1,12 @@
-import { Icon, Input } from 'antd';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Icon, Input } from "antd";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { applyLike } from '@/app/query';
-import { getColumnDefinition } from '@/app/table';
-import { Policy, policySearchSelector, searchPolicies } from '@/state/app/client/policies';
-import { RootState } from '@/state/rootReducer';
-import { CompanyName, getTable, PolicyTypeName, UserName } from '@/ui/controls';
+import { applyLike } from "@/app/query";
+import { getColumnDefinition } from "@/app/table";
+import { Policy, policySearchSelector, searchPolicies } from "@/state/app/client/policies";
+import { RootState } from "@/state/rootReducer";
+import { CompanyName, getTable, PolicyTypeName, UserName } from "@/ui/controls";
 
 const Table = getTable<Policy>();
 
@@ -101,12 +101,20 @@ class PolicySearch extends Component<Props, State> {
                     },
                 }
             ),
+            getColumn(
+                "isActive",
+                "Active",
+                {
+                    type: "boolean",
+                },
+                {
+                    sorter: false,
+                }
+            ),
         ];
     };
 
     render() {
-
-
         const { searchText } = this.state;
 
         return (

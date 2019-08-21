@@ -1,7 +1,7 @@
-import { getValidationResult } from '@/test';
+import { getValidationResult } from "@/test";
 
-import { PolicyEdit } from '../';
-import { defaultState, reducer } from './reducer';
+import { PolicyEdit } from "../";
+import { defaultState, reducer } from "./reducer";
 
 const defaultPolicy: PolicyEdit = {
     id: "10",
@@ -14,6 +14,7 @@ const defaultPolicy: PolicyEdit = {
     policyTypeId: "123321",
     policyProductTypeId: "00111",
     policyProductId: "99988777",
+    isActive: true,
 };
 
 describe("policy reducer", () => {

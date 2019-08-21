@@ -41,7 +41,8 @@ namespace OneAdvisor.Service.Test.Client
                 Premium = 500,
                 PolicyTypeId = Guid.NewGuid(),
                 PolicyProductTypeId = Guid.NewGuid(),
-                PolicyProductId = Guid.NewGuid()
+                PolicyProductId = Guid.NewGuid(),
+                IsActive = true,
             };
 
             var policy2 = new PolicyEntity
@@ -53,7 +54,8 @@ namespace OneAdvisor.Service.Test.Client
                 Number = "654321",
                 PolicyTypeId = Guid.NewGuid(),
                 PolicyProductTypeId = Guid.NewGuid(),
-                PolicyProductId = Guid.NewGuid()
+                PolicyProductId = Guid.NewGuid(),
+                IsActive = false,
             };
 
             var policy3 = new PolicyEntity
@@ -97,9 +99,11 @@ namespace OneAdvisor.Service.Test.Client
                 Assert.Equal(policy1.PolicyTypeId, actual.PolicyTypeId);
                 Assert.Equal(policy1.PolicyProductTypeId, actual.PolicyProductTypeId);
                 Assert.Equal(policy1.PolicyProductId, actual.PolicyProductId);
+                Assert.Equal(policy1.IsActive, actual.IsActive);
 
                 actual = policies.Items.Last();
                 Assert.Equal(policy2.Id, actual.Id);
+                Assert.Equal(policy2.IsActive, actual.IsActive);
 
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user1, Scope.User);
@@ -128,7 +132,8 @@ namespace OneAdvisor.Service.Test.Client
                 CompanyId = Guid.NewGuid(),
                 ClientId = client1.Client.Id,
                 UserId = user1.User.Id,
-                Number = "123465"
+                Number = "123465",
+                IsActive = false,
             };
 
             var policy2 = new PolicyEntity
@@ -142,7 +147,8 @@ namespace OneAdvisor.Service.Test.Client
                 Premium = 500,
                 PolicyTypeId = Guid.NewGuid(),
                 PolicyProductTypeId = Guid.NewGuid(),
-                PolicyProductId = Guid.NewGuid()
+                PolicyProductId = Guid.NewGuid(),
+                IsActive = false,
             };
 
             using (var context = new DataContext(options))
@@ -172,6 +178,7 @@ namespace OneAdvisor.Service.Test.Client
                 Assert.Equal(policy2.PolicyTypeId, actual.PolicyTypeId);
                 Assert.Equal(policy2.PolicyProductTypeId, actual.PolicyProductTypeId);
                 Assert.Equal(policy2.PolicyProductId, actual.PolicyProductId);
+                Assert.Equal(policy2.IsActive, actual.IsActive);
             }
         }
 
@@ -417,7 +424,8 @@ namespace OneAdvisor.Service.Test.Client
                 Premium = 500,
                 PolicyTypeId = Guid.NewGuid(),
                 PolicyProductTypeId = Guid.NewGuid(),
-                PolicyProductId = Guid.NewGuid()
+                PolicyProductId = Guid.NewGuid(),
+                IsActive = true,
             };
 
             using (var context = new DataContext(options))
@@ -441,6 +449,7 @@ namespace OneAdvisor.Service.Test.Client
                 Assert.Equal(policy1.PolicyTypeId, actual.PolicyTypeId);
                 Assert.Equal(policy1.PolicyProductTypeId, actual.PolicyProductTypeId);
                 Assert.Equal(policy1.PolicyProductId, actual.PolicyProductId);
+                Assert.Equal(policy1.IsActive, actual.IsActive);
 
                 //Out of scope 
                 scopeOptions = TestHelper.GetScopeOptions(user2);
@@ -472,7 +481,8 @@ namespace OneAdvisor.Service.Test.Client
                 Premium = 500,
                 PolicyTypeId = Guid.NewGuid(),
                 PolicyProductTypeId = Guid.NewGuid(),
-                PolicyProductId = Guid.NewGuid()
+                PolicyProductId = Guid.NewGuid(),
+                IsActive = true,
             };
 
             using (var context = new DataContext(options))
@@ -493,7 +503,8 @@ namespace OneAdvisor.Service.Test.Client
                 Premium = 600,
                 PolicyTypeId = Guid.NewGuid(),
                 PolicyProductTypeId = Guid.NewGuid(),
-                PolicyProductId = Guid.NewGuid()
+                PolicyProductId = Guid.NewGuid(),
+                IsActive = false,
             };
 
             using (var context = new DataContext(options))
@@ -517,6 +528,8 @@ namespace OneAdvisor.Service.Test.Client
                 Assert.Equal(policy1.PolicyTypeId, actual.PolicyTypeId);
                 Assert.Equal(policy1.PolicyProductTypeId, actual.PolicyProductTypeId);
                 Assert.Equal(policy1.PolicyProductId, actual.PolicyProductId);
+                Assert.Equal(policy1.IsActive, actual.IsActive);
+
 
                 //Out of scope 
                 scopeOptions = TestHelper.GetScopeOptions(user2);

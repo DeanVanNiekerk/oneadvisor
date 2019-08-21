@@ -7,9 +7,7 @@ namespace OneAdvisor.Data.Entities.Directory.Mappings
     {
         public static void Map(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ChangeLogEntity>()
-                .Property(u => u.Published)
-                .HasDefaultValueSql($"0");
+
         }
     }
 }

@@ -10,10 +10,10 @@ import {
     PolicyType, policyTypesSelector
 } from "@/state/app/client/lookups";
 import { PolicyEdit } from "@/state/app/client/policies";
-import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
+import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { Form, FormCascade, FormDate, FormInput, FormInputNumber, FormSelect } from "@/ui/controls";
+import { Form, FormCascade, FormDate, FormInput, FormInputNumber, FormSelect, FormSwitch } from "@/ui/controls";
 
 type Props = {
     policy: PolicyEdit;
@@ -46,7 +46,7 @@ class PolicyForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: keyof PolicyEdit, value: string | number | null) => {
+    handleChange = (fieldName: keyof PolicyEdit, value: string | number | boolean | null) => {
         const policy = update(this.state.policy, { [fieldName]: { $set: value } });
 
         //If the company changes we need to clear the PolicyProduct
@@ -164,6 +164,13 @@ class PolicyForm extends Component<Props, State> {
                     fieldName="startDate"
                     label="Start Date"
                     value={policy.startDate}
+                    onChange={this.handleChange}
+                    validationResults={validationResults}
+                />
+                <FormSwitch
+                    fieldName="isActive"
+                    label="Active"
+                    value={policy.isActive}
                     onChange={this.handleChange}
                     validationResults={validationResults}
                 />
