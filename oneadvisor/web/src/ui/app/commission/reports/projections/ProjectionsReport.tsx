@@ -1,18 +1,16 @@
-import { Col, Divider, Row, Select } from "antd";
-import moment from "moment";
+import { Col, Row, Select } from "antd";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { filterOption } from "@/app/controls/select";
-import { DATE_FORMAT } from "@/app/utils";
 import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
 import { CommissionEarningsType, commissionEarningsTypesSelector } from "@/state/app/commission/lookups";
 import {
-    commissionProjectionsSelector, fetchPastRevenueCommissionData, Group, pastMonthsCountSelector,
-    PastRevenueCommissionDataFilters, receivePastRevenueCommissionFilters, receivePastRevenueCommissionGroups
+    commissionProjectionsSelector, fetchPastRevenueCommissionData, Group, PastRevenueCommissionDataFilters,
+    receivePastRevenueCommissionFilters, receivePastRevenueCommissionGroups, receivePastRevenueCommissionMonthsBack
 } from "@/state/app/commission/reports";
 import { branchesSimpleSelector, BranchSimple } from "@/state/app/directory/branchesSimple";
-import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
+import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Header } from "@/ui/controls";
@@ -26,7 +24,8 @@ type Props = {
     policyTypes: PolicyType[];
     commissionEarningsTypes: CommissionEarningsType[];
     companies: Company[];
-    pastMonthsCount: number;
+    monthsBack: number;
+    monthsForward: number;
     groups: Group[];
 } & DispatchProp;
 
@@ -109,22 +108,8 @@ class ProjectionsReport extends Component<Props> {
         );
     };
 
-    selectedPastMonthsCount = (): string => {
-        return this.props.pastMonthsCount.toString();
-    };
-
-    handlePastMonthsCountChange = (pastMonthsCount: string) => {
-        this.props.dispatch(
-            receivePastRevenueCommissionFilters({
-                ...this.props.filters,
-                startDate: [
-                    moment()
-                        .subtract(parseInt(pastMonthsCount), "months")
-                        .startOf("month")
-                        .format(DATE_FORMAT),
-                ],
-            })
-        );
+    handlePastMonthsCountChange = (pastMonthsCount: number) => {
+        this.props.dispatch(receivePastRevenueCommissionMonthsBack(pastMonthsCount));
     };
 
     handleGroupsChange = (groups: Group[]) => {
@@ -143,18 +128,18 @@ class ProjectionsReport extends Component<Props> {
                     <Col className={cellClass}>Past</Col>
                     <Col className={cellClass}>
                         <Select
-                            value={this.selectedPastMonthsCount()}
+                            value={this.props.monthsBack}
                             onChange={this.handlePastMonthsCountChange}
                             allowClear={false}
                             style={{ width: 120 }}
                         >
-                            <Select.Option key="3" value="3">
+                            <Select.Option key="3" value={3}>
                                 3 Months
                             </Select.Option>
-                            <Select.Option key="6" value="6">
+                            <Select.Option key="6" value={6}>
                                 6 Months
                             </Select.Option>
-                            <Select.Option key="12" value="12">
+                            <Select.Option key="12" value={12}>
                                 12 Months
                             </Select.Option>
                         </Select>
@@ -310,7 +295,8 @@ const mapStateToProps = (state: RootState) => {
         branches: branchesState.items,
         users: brokersSelector(state),
         policyTypes: policyTypesState.items,
-        pastMonthsCount: pastMonthsCountSelector(state),
+        monthsBack: projectionsState.monthsBack,
+        monthsForward: projectionsState.monthsForward,
         commissionEarningsTypes: commissionEarningsTypesState.items,
         companies: companiesState,
         groups: projectionsState.groups,

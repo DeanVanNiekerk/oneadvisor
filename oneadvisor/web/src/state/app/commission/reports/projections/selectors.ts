@@ -6,7 +6,8 @@ import { getColumnDefinition } from "@/app/table";
 import { DATE_FORMAT } from "@/app/utils";
 import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
 import { State as PolicyTypesState } from "@/state/app/client/lookups/policyTypes/list/reducer";
-import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
+import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { State as CompaniesState } from "@/state/app/directory/lookups/companies/list/reducer";
 import { RootState } from "@/state/rootReducer";
 
 import { Group, GroupTableRecord, PastRevenueCommissionData } from "../";
@@ -21,31 +22,23 @@ export const commissionProjectionsSelector: (state: RootState) => State = create
     root => root
 );
 
-export const pastMonthsCountSelector: (state: RootState) => number = createSelector(
+const todaySelector: (state: RootState) => Date = createSelector(
     rootSelector,
-    root => {
-        if (!root.filters || !root.filters.startDate) return 0;
-
-        const startDate = root.filters.startDate[0];
-
-        return moment().diff(startDate, "months");
-    }
+    () => new Date()
 );
 
 export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnProps<any>[] = createSelector(
     rootSelector,
-    pastMonthsCountSelector,
     commissionEarningsTypesSelector,
     policyTypesSelector,
-    organisationCompaniesSelector,
+    companiesSelector,
     (
         root: State,
-        pastMonthsCount: number,
         commissionEarningsTypesState: CommissionEarningsTypesState,
         policyTypesState: PolicyTypesState,
-        companies: Company[]
+        companies: CompaniesState
     ) => {
-        const { groups } = root;
+        const { groups, monthsBack } = root;
 
         var getColumn = getColumnDefinition<GroupTableRecord>();
 
@@ -121,7 +114,7 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
                         width: "170px",
                         sorter: false,
                         render: (companyId: string, row: GroupTableRecord) => {
-                            let value = getCompanyName(companyId, companies);
+                            let value = getCompanyName(companyId, companies.items);
                             if (row.isTotalRow && row.companyColSpan >= 1) value = totalsText;
                             const obj = {
                                 children: value,
@@ -136,7 +129,7 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
                 )
             );
 
-        return columns.concat(getMonthColumns(pastMonthsCount));
+        return columns.concat(getMonthColumns(monthsBack));
     }
 );
 
@@ -160,22 +153,25 @@ const getCompanyColSpan = (groups: Group[]) => {
     return 1;
 };
 
-export const projectionGroupTableRowsSelector: (state: RootState) => object[] = createSelector(
+export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableRecord[] = createSelector(
     rootSelector,
-    pastMonthsCountSelector,
     commissionEarningsTypesSelector,
     policyTypesSelector,
-    organisationCompaniesSelector,
+    companiesSelector,
+    todaySelector,
     (
         root: State,
-        pastMonthsCount: number,
         commissionEarningsTypesState: CommissionEarningsTypesState,
         policyTypesState: PolicyTypesState,
-        companies: Company[]
+        companies: CompaniesState,
+        now: Date,
     ) => {
-        const now = new Date();
 
-        const { items, groups } = root;
+        const { items, groups, monthsBack } = root;
+
+        const monthsBackDate = moment().subtract(monthsBack, 'months').startOf("month");
+
+        let filteredItems = items.filter(d => moment(new Date(d.dateYear, d.dateMonth - 1, 1)).isSameOrAfter(monthsBackDate));
 
         let rows: GroupTableRecord[] = [];
 
@@ -190,12 +186,12 @@ export const projectionGroupTableRowsSelector: (state: RootState) => object[] = 
             companyColSpan: getCompanyColSpan(groups),
             isTotalRow: true,
         };
-        totalRow = getTableRow(totalRow, pastMonthsCount, now, root.items);
+        totalRow = getTableRow(totalRow, monthsBack, now, filteredItems);
         rows.push(totalRow);
 
         if (groups.length === 0) return rows;
 
-        items.forEach(data => {
+        filteredItems.forEach(data => {
             let key = "";
             let sortKey = "";
             let earningsTypeGroupKey = "";
@@ -215,7 +211,7 @@ export const projectionGroupTableRowsSelector: (state: RootState) => object[] = 
 
             if (groups.some(g => g === "Company")) {
                 key = key.concat(data.companyId);
-                sortKey = sortKey.concat(getCompanyName(data.companyId, companies));
+                sortKey = sortKey.concat(getCompanyName(data.companyId, companies.items));
             }
 
             if (rows.some(r => r.key === key)) return;
@@ -246,7 +242,7 @@ export const projectionGroupTableRowsSelector: (state: RootState) => object[] = 
                 commissionEarningsTypeId: data.commissionEarningsTypeId,
                 companyId: data.companyId,
             };
-            row = getTableRow(row, pastMonthsCount, now, root.items, filter);
+            row = getTableRow(row, monthsBack, now, root.items, filter);
 
             rows.push(row);
         });
