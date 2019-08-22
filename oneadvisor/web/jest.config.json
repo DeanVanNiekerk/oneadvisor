@@ -3,7 +3,7 @@
     "testEnvironment": "node",
     "roots": ["<rootDir>/src"],
     "transform": {
-        "^.+\\.tsx?$": "ts-jest"
+        "^.+\\.[t|j]sx?$": "babel-jest"
     },
     "setupFiles": ["<rootDir>/src/test/setupTests.js"],
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
