@@ -208,6 +208,8 @@ namespace OneAdvisor.Service.Account
             {
                 foreach (var error in activateResult.Errors)
                     result.AddValidationFailure("", error.Description);
+
+                return result;
             }
 
             if (!user.EmailConfirmed)
