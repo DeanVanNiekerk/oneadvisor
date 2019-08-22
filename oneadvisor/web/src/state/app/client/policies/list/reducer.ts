@@ -1,8 +1,8 @@
-import { Filters, PageOptions, SortOptions } from '@/app/table';
-import { defaultPageOptions, defaultSortOptions } from '@/app/table/defaults';
+import { Filters, PageOptions, SortOptions } from "@/app/table";
+import { defaultPageOptions, defaultSortOptions } from "@/app/table/defaults";
 
-import { Policy } from '../types';
-import { PolicyListAction } from './actions';
+import { Policy } from "../types";
+import { PolicyListAction } from "./actions";
 
 export type State = {
     readonly items: Policy[];
@@ -38,12 +38,15 @@ export const reducer = (
         case "POLICIES_LIST_FETCHING": {
             return {
                 ...state,
+                totalItems: 0,
+                items: [],
                 fetching: true,
             };
         }
         case "POLICIES_LIST_FETCHING_ERROR": {
             return {
                 ...state,
+                totalItems: 0,
                 items: [],
                 fetching: false,
             };
