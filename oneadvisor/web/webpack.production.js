@@ -1,26 +1,24 @@
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const TerserPlugin = require('terser-webpack-plugin');
-const common = require('./webpack.common.js');
+const webpack = require("webpack");
+const merge = require("webpack-merge");
+const TerserPlugin = require("terser-webpack-plugin");
+const common = require("./webpack.common.js");
 
 module.exports = merge(common, {
     output: {
-        filename: 'dist/[name].[contenthash].js'
+        filename: "dist/[name].[contenthash].js",
     },
 
-    plugins: [new webpack.HashedModuleIdsPlugin()],
+    plugins: [
+        new webpack.HashedModuleIdsPlugin(),
+        // Ignore all locale files of moment.js
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    ],
 
     optimization: {
         minimizer: [new TerserPlugin()],
-        runtimeChunk: 'single',
+        runtimeChunk: "single",
         splitChunks: {
-            cacheGroups: {
-                vendor: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendors',
-                    chunks: 'all'
-                }
-            }
-        }
-    }
+            chunks: 'all'
+        },
+    },
 });

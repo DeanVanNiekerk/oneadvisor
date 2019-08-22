@@ -1,11 +1,13 @@
-import { utils, writeFile } from "xlsx";
 
 export type Sheet = {
     name?: string;
     data: any;
 };
 
-export const downloadExcel = (data: any, fileName: string) => {
+export const downloadExcel = async (data: any, fileName: string) => {
+
+    const { utils, writeFile } = await import(/* webpackChunkName: "xlsx" */ 'xlsx');
+
     const workbook = utils.book_new();
     const sheet = utils.json_to_sheet(data);
     utils.book_append_sheet(workbook, sheet);
@@ -13,7 +15,10 @@ export const downloadExcel = (data: any, fileName: string) => {
     writeFile(workbook, fileName);
 };
 
-export const downloadExcelSheets = (sheets: Sheet[], fileName: string) => {
+export const downloadExcelSheets = async (sheets: Sheet[], fileName: string) => {
+
+    const { utils, writeFile } = await import(/* webpackChunkName: "xlsx" */ 'xlsx');
+
     const workbook = utils.book_new();
 
     sheets.forEach(s => {
@@ -22,4 +27,19 @@ export const downloadExcelSheets = (sheets: Sheet[], fileName: string) => {
     });
 
     writeFile(workbook, fileName);
+};
+
+export const readExcel = async <T>(reader: FileReader): Promise<T[]> => {
+
+    const { utils, read } = await import(/* webpackChunkName: "xlsx" */ "xlsx");
+
+    const fileContents = reader.result;
+    const workbook = read(fileContents, { type: "array" });
+
+    const sheetName1 = workbook.SheetNames[0];
+    const sheet1 = workbook.Sheets[sheetName1];
+
+    return utils.sheet_to_json<T>(sheet1, {
+        header: 1,
+    });
 };

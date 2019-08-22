@@ -1,14 +1,15 @@
-import { Icon, Upload as UploadAD } from 'antd';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
-import { read, utils } from 'xlsx';
+import { Icon, Upload as UploadAD } from "antd";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
+import { readExcel } from "@/app/excel/helpers";
 import {
-    ImportData, clientImportNextStep, clientImportSelector, receiveClientImportData, receiveClientImportFileName
-} from '@/state/app/client/import';
-import { RootState } from '@/state/rootReducer';
+    clientImportNextStep, clientImportSelector, ImportData, ImportRow, receiveClientImportData,
+    receiveClientImportFileName
+} from "@/state/app/client/import";
+import { RootState } from "@/state/rootReducer";
 
-import StepProgress from '../StepProgress';
+import StepProgress from "../StepProgress";
 
 const Dragger = UploadAD.Dragger;
 
@@ -24,22 +25,14 @@ class Upload extends Component<Props> {
 
         this.props.dispatch(receiveClientImportFileName(file.name));
 
-        reader.onload = () => {
-            const fileContents = reader.result;
-            const workbook = read(fileContents, { type: 'array' });
-
-            const sheetName1 = workbook.SheetNames[0];
-            const sheet1 = workbook.Sheets[sheetName1];
-
-            let data = utils.sheet_to_json(sheet1, {
-                header: 1
-            }) as ImportData;
+        reader.onload = async () => {
+            let data = await readExcel<ImportRow>(reader);
 
             data = data.filter(d => d.some(value => !!value));
 
             this.props.dispatch(receiveClientImportData(data));
 
-            onSuccess('done', file);
+            onSuccess("done", file);
         };
     };
 
@@ -51,17 +44,11 @@ class Upload extends Component<Props> {
                     onNext={() => this.props.dispatch(clientImportNextStep())}
                 />
 
-                <Dragger
-                    multiple={false}
-                    accept=".xlsx"
-                    customRequest={this.customRequest}
-                >
+                <Dragger multiple={false} accept=".xlsx" customRequest={this.customRequest}>
                     <p className="ant-upload-drag-icon">
                         <Icon type="inbox" />
                     </p>
-                    <p className="ant-upload-text">
-                        Click or drag file to this area to upload
-                    </p>
+                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
                 </Dragger>
             </>
         );
@@ -72,7 +59,7 @@ const mapStateToProps = (state: RootState) => {
     const importState = clientImportSelector(state);
 
     return {
-        data: importState.data
+        data: importState.data,
     };
 };
 

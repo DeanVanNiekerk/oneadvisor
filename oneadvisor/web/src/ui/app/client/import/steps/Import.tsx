@@ -1,20 +1,20 @@
-import { Card, Col, Collapse, Icon, Modal, Progress, Row } from 'antd';
-import { ColumnProps } from 'antd/lib/table';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Card, Col, Collapse, Icon, Modal, Progress, Row } from "antd";
+import { ColumnProps } from "antd/lib/table";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { downloadExcel } from '@/app/excel/helpers';
-import { getColumnDefinition } from '@/app/table';
-import { parseValidationErrors } from '@/app/validation';
+import { downloadExcel } from "@/app/excel/helpers";
+import { getColumnDefinition } from "@/app/table";
+import { parseValidationErrors } from "@/app/validation";
 import {
     clientImportPreviousStep, clientImportProgressPercentSelector, clientImportSelectedColumnsSelector,
     clientImportSelector, ImportClient, importClient, importClientClearResults, importClientReset, ImportColumn,
     ResultFailure
-} from '@/state/app/client/import';
-import { RootState } from '@/state/rootReducer';
-import { Button, getTable } from '@/ui/controls';
+} from "@/state/app/client/import";
+import { RootState } from "@/state/rootReducer";
+import { Button, getTable } from "@/ui/controls";
 
-import StepProgress from '../StepProgress';
+import StepProgress from "../StepProgress";
 
 const Table = getTable<ResultFailure>();
 
