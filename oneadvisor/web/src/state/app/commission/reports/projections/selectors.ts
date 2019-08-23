@@ -11,7 +11,10 @@ import { State as CompaniesState } from "@/state/app/directory/lookups/companies
 import { RootState } from "@/state/rootReducer";
 
 import { Group, GroupTableRecord, PastRevenueCommissionData } from "../";
-import { CommissionEarningsType, commissionEarningsTypesSelector } from "../../lookups";
+import {
+    ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID, CommissionEarningsType, commissionEarningsTypesSelector,
+    MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID
+} from "../../lookups";
 import { State as CommissionEarningsTypesState } from "../../lookups/commissionEarningsTypes/list/reducer";
 import { State } from "./reducer";
 
@@ -38,7 +41,7 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
         policyTypesState: PolicyTypesState,
         companies: CompaniesState
     ) => {
-        const { groups, monthsBack } = root;
+        const { groups, monthsBack, monthsForward } = root;
 
         var getColumn = getColumnDefinition<GroupTableRecord>();
 
@@ -129,7 +132,7 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
                 )
             );
 
-        return columns.concat(getMonthColumns(monthsBack));
+        return columns.concat(getMonthColumns(monthsBack, monthsForward));
     }
 );
 
@@ -167,11 +170,14 @@ export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableR
         now: Date,
     ) => {
 
-        const { items, groups, monthsBack } = root;
+        let { items } = root;
+        const { groups, monthsBack, monthsForward } = root;
+
+        items = appendProjectedValues(now, items);
 
         const monthsBackDate = moment().subtract(monthsBack, 'months').startOf("month");
 
-        let filteredItems = items.filter(d => moment(new Date(d.dateYear, d.dateMonth - 1, 1)).isSameOrAfter(monthsBackDate));
+        items = items.filter(d => moment(new Date(d.dateYear, d.dateMonth - 1, 1)).isSameOrAfter(monthsBackDate));
 
         let rows: GroupTableRecord[] = [];
 
@@ -186,12 +192,12 @@ export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableR
             companyColSpan: getCompanyColSpan(groups),
             isTotalRow: true,
         };
-        totalRow = getTableRow(totalRow, monthsBack, now, filteredItems);
+        totalRow = getTableRow(totalRow, monthsBack, monthsForward, now, items);
         rows.push(totalRow);
 
         if (groups.length === 0) return rows;
 
-        filteredItems.forEach(data => {
+        items.forEach(data => {
             let key = "";
             let sortKey = "";
             let earningsTypeGroupKey = "";
@@ -242,7 +248,7 @@ export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableR
                 commissionEarningsTypeId: data.commissionEarningsTypeId,
                 companyId: data.companyId,
             };
-            row = getTableRow(row, monthsBack, now, root.items, filter);
+            row = getTableRow(row, monthsBack, monthsForward, now, items, filter);
 
             rows.push(row);
         });
@@ -296,12 +302,16 @@ type TableRowFilter = (data: PastRevenueCommissionData) => boolean;
 const getTableRow = (
     row: any,
     monthsBack: number,
+    monthsForward: number,
     now: Date,
     items: PastRevenueCommissionData[],
     filter?: TableRowFilter
 ) => {
-    while (monthsBack >= 0) {
-        const current = moment(now).subtract(monthsBack, "months");
+
+    let monthIndex = 0;
+    const current = moment(now).subtract(monthsBack, "months");
+
+    while (monthsBack + monthsForward >= monthIndex) {
 
         const key = current.format(DATE_FORMAT);
 
@@ -316,13 +326,66 @@ const getTableRow = (
 
         row[key] = value;
 
-        monthsBack = monthsBack - 1;
+        current.add(1, "months");
+        monthIndex = monthIndex + 1;
     }
 
     return row;
 };
 
-const getMonthColumns = (monthsBack: number): ColumnProps<any>[] => {
+const appendProjectedValues = (now: Date, items: PastRevenueCommissionData[]): PastRevenueCommissionData[] => {
+
+    const itemsWithProjected = [...items];
+
+    const lastMonth = moment(now).subtract(1, "months");
+
+    //Add monthly annuity values
+    const monthlyAnnuityItems = items.filter(i =>
+        i.commissionEarningsTypeId === MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID
+        && i.dateYear === lastMonth.year()
+        && i.dateMonth === lastMonth.month() + 1
+    );
+
+    monthlyAnnuityItems.forEach(item => {
+
+        let monthIndex = 1;
+        while (monthIndex <= 12) {
+
+            const current = moment(now).add(monthIndex, "months");
+
+            itemsWithProjected.push({
+                policyTypeId: item.policyTypeId,
+                commissionEarningsTypeId: item.commissionEarningsTypeId,
+                companyId: item.companyId,
+                dateYear: current.year(),
+                dateMonth: current.month() + 1,
+                amountExcludingVAT: item.amountExcludingVAT,
+            })
+            monthIndex++;
+        }
+    });
+
+    //Add annual annuity values
+    const annualAnnuityItems = items.filter(i => i.commissionEarningsTypeId === ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID);
+
+    annualAnnuityItems.forEach(item => {
+
+        const current = moment(new Date(item.dateYear, item.dateMonth - 1, 1)).add(1, "year");
+
+        itemsWithProjected.push({
+            policyTypeId: item.policyTypeId,
+            commissionEarningsTypeId: item.commissionEarningsTypeId,
+            companyId: item.companyId,
+            dateYear: current.year(),
+            dateMonth: current.month() + 1,
+            amountExcludingVAT: item.amountExcludingVAT,
+        })
+    });
+
+    return itemsWithProjected;
+}
+
+const getMonthColumns = (monthsBack: number, monthsForward: number): ColumnProps<any>[] => {
     var getColumn = getColumnDefinition();
 
     const columns: ColumnProps<any>[] = [];
@@ -349,6 +412,29 @@ const getMonthColumns = (monthsBack: number): ColumnProps<any>[] => {
         columns.push(column);
 
         monthsBack = monthsBack - 1;
+    }
+
+    let monthIndex = 1;
+    while (monthIndex <= monthsForward) {
+        const current = moment(now).add(monthIndex, "months");
+
+        const key = current.format(DATE_FORMAT);
+        const title = current.format("MMM");
+
+        const column = getColumn(
+            key,
+            title,
+            {
+                type: "currency",
+            },
+            {
+                sorter: false,
+            }
+        );
+
+        columns.push(column);
+
+        monthIndex = monthIndex + 1;
     }
 
     return columns;

@@ -7,7 +7,8 @@ import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
 import { CommissionEarningsType, commissionEarningsTypesSelector } from "@/state/app/commission/lookups";
 import {
     commissionProjectionsSelector, fetchPastRevenueCommissionData, Group, PastRevenueCommissionDataFilters,
-    receivePastRevenueCommissionFilters, receivePastRevenueCommissionGroups, receivePastRevenueCommissionMonthsBack
+    receivePastRevenueCommissionFilters, receivePastRevenueCommissionGroups, receivePastRevenueCommissionMonthsBack,
+    receivePastRevenueCommissionMonthsForward
 } from "@/state/app/commission/reports";
 import { branchesSimpleSelector, BranchSimple } from "@/state/app/directory/branchesSimple";
 import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
@@ -108,8 +109,12 @@ class ProjectionsReport extends Component<Props> {
         );
     };
 
-    handlePastMonthsCountChange = (pastMonthsCount: number) => {
-        this.props.dispatch(receivePastRevenueCommissionMonthsBack(pastMonthsCount));
+    handlePastMonthsCountChange = (monthsBack: number) => {
+        this.props.dispatch(receivePastRevenueCommissionMonthsBack(monthsBack));
+    };
+
+    handleFutureMonthsCountChange = (monthsForward: number) => {
+        this.props.dispatch(receivePastRevenueCommissionMonthsForward(monthsForward));
     };
 
     handleGroupsChange = (groups: Group[]) => {
@@ -130,6 +135,25 @@ class ProjectionsReport extends Component<Props> {
                         <Select
                             value={this.props.monthsBack}
                             onChange={this.handlePastMonthsCountChange}
+                            allowClear={false}
+                            style={{ width: 120 }}
+                        >
+                            <Select.Option key="3" value={3}>
+                                3 Months
+                            </Select.Option>
+                            <Select.Option key="6" value={6}>
+                                6 Months
+                            </Select.Option>
+                            <Select.Option key="12" value={12}>
+                                12 Months
+                            </Select.Option>
+                        </Select>
+                    </Col>
+                    <Col className={cellClass}>Future</Col>
+                    <Col className={cellClass}>
+                        <Select
+                            value={this.props.monthsForward}
+                            onChange={this.handleFutureMonthsCountChange}
                             allowClear={false}
                             style={{ width: 120 }}
                         >

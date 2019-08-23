@@ -20,8 +20,8 @@ import { projectionGroupTableRowsSelector } from "./selectors";
     Can check if the issue has been resolved here: https://github.com/facebook/jest/issues/7957
 */
 
-it("mock", () => { expect(true).toBe(true); })
-/*
+//it("mock", () => { expect(true).toBe(true); })
+
 describe("report commission projects selectors", () => {
 
     describe("projectionGroupTableRowsSelector", () => {
@@ -38,9 +38,7 @@ describe("report commission projects selectors", () => {
             items: [] as PastRevenueCommissionData[],
             groups: [] as Group[],
             fetching: false,
-            filters: {
-                startDate: [now.clone().subtract(3, "months").format(DATE_FORMAT)]
-            },
+            filters: {},
             monthsBack: 3,
             monthsForward: 3
         }
@@ -89,7 +87,7 @@ describe("report commission projects selectors", () => {
             ]
         };
 
-        it("no items - only total record", () => {
+        fit("no items - only total record", () => {
 
             const state = { ...projectionsState };
 
@@ -110,27 +108,58 @@ describe("report commission projects selectors", () => {
                     '2019-05-22': 0,
                     '2019-06-22': 0,
                     '2019-07-22': 0,
-                    '2019-08-22': 0
+                    '2019-08-22': 0,
+                    '2019-09-22': 0,
+                    '2019-10-22': 0,
+                    '2019-11-22': 0,
                 }
             ];
 
             expect(actual).toEqual(expected);
         });
 
-        it("has items - no groups - only total record", () => {
+        fit("has items - no groups - only total record", () => {
+
+            const lastMonth = now.clone().subtract(1, "month");
+            const threeMonthsAgo = now.clone().subtract(3, "month");
 
             const items: PastRevenueCommissionData[] = [
                 {
                     policyTypeId: null,
                     commissionEarningsTypeId: MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
-                    companyId: "comp_1",
+                    companyId: companyId1,
+                    dateYear: lastMonth.year(),
+                    dateMonth: lastMonth.month() + 1,
+                    amountExcludingVAT: 100
+                },
+                {
+                    policyTypeId: null,
+                    commissionEarningsTypeId: MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
+                    companyId: companyId1,
                     dateYear: now.year(),
                     dateMonth: now.month() + 1,
-                    amountExcludingVAT: 100
+                    amountExcludingVAT: 50
+                },
+                {
+                    policyTypeId: null,
+                    commissionEarningsTypeId: ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
+                    companyId: companyId1,
+                    dateYear: lastMonth.year(),
+                    dateMonth: lastMonth.month() + 1,
+                    amountExcludingVAT: 90
+                },
+                {
+                    policyTypeId: null,
+                    commissionEarningsTypeId: ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
+                    companyId: companyId1,
+                    dateYear: threeMonthsAgo.year(),
+                    dateMonth: threeMonthsAgo.month() + 1,
+                    amountExcludingVAT: 80
                 }
             ];
 
             const state = { ...projectionsState };
+            state.monthsForward = 12;
             state.items = items;
 
             //@ts-ignore
@@ -147,10 +176,22 @@ describe("report commission projects selectors", () => {
                     policyTypeColSpan: 1,
                     companyColSpan: 1,
                     isTotalRow: true,
-                    '2019-05-22': 0,
+                    '2019-05-22': 80, //80 - AA
                     '2019-06-22': 0,
-                    '2019-07-22': 0,
-                    '2019-08-22': 100
+                    '2019-07-22': 190, //100 + 90 (MA + AA)
+                    '2019-08-22': 50, //50 - MA
+                    '2019-09-22': 100,
+                    '2019-10-22': 100,
+                    '2019-11-22': 100,
+                    '2019-12-22': 100,
+                    '2020-01-22': 100,
+                    '2020-02-22': 100,
+                    '2020-03-22': 100,
+                    '2020-04-22': 100,
+                    '2020-05-22': 180, //100 + 80 (MA + AA)
+                    '2020-06-22': 100,
+                    '2020-07-22': 190, //100 + 90 (MA + AA)
+                    '2020-08-22': 100,
                 }
             ];
 
@@ -636,4 +677,3 @@ describe("report commission projects selectors", () => {
 
 
 });
-*/
