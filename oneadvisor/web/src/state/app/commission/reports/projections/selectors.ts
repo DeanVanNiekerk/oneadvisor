@@ -13,7 +13,7 @@ import { RootState } from "@/state/rootReducer";
 import { Group, GroupTableRecord, PastRevenueCommissionData } from "../";
 import {
     ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID, CommissionEarningsType, commissionEarningsTypesSelector,
-    MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID
+    LIFE_FIRST_YEARS_COMMISSION_EARNINGS_TYPE_ID, MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID
 } from "../../lookups";
 import { State as CommissionEarningsTypesState } from "../../lookups/commissionEarningsTypes/list/reducer";
 import { State } from "./reducer";
@@ -382,6 +382,23 @@ const appendProjectedValues = (now: Date, items: PastRevenueCommissionData[]): P
         })
     });
 
+    //Add annual annuity values
+    const lifeFirstYearsItems = items.filter(i => i.commissionEarningsTypeId === LIFE_FIRST_YEARS_COMMISSION_EARNINGS_TYPE_ID);
+
+    lifeFirstYearsItems.forEach(item => {
+
+        const current = moment(new Date(item.dateYear, item.dateMonth - 1, 1)).add(1, "year");
+
+        itemsWithProjected.push({
+            policyTypeId: item.policyTypeId,
+            commissionEarningsTypeId: item.commissionEarningsTypeId,
+            companyId: item.companyId,
+            dateYear: current.year(),
+            dateMonth: current.month() + 1,
+            amountExcludingVAT: item.amountExcludingVAT / 3,
+        })
+    });
+
     return itemsWithProjected;
 }
 
@@ -406,6 +423,7 @@ const getMonthColumns = (monthsBack: number, monthsForward: number): ColumnProps
             },
             {
                 sorter: false,
+                className: monthsBack === 0 ? "projections-report-current-month" : ""
             }
         );
 

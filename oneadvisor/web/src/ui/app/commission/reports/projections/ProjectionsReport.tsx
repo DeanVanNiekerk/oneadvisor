@@ -1,4 +1,5 @@
-import { Col, Row, Select } from "antd";
+import { Col, Row, Select, Slider } from "antd";
+import { SliderValue } from "antd/lib/slider";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
@@ -109,12 +110,17 @@ class ProjectionsReport extends Component<Props> {
         );
     };
 
-    handlePastMonthsCountChange = (monthsBack: number) => {
-        this.props.dispatch(receivePastRevenueCommissionMonthsBack(monthsBack));
-    };
+    // handlePastMonthsCountChange = (monthsBack: number) => {
+    //     this.props.dispatch(receivePastRevenueCommissionMonthsBack(monthsBack));
+    // };
 
-    handleFutureMonthsCountChange = (monthsForward: number) => {
-        this.props.dispatch(receivePastRevenueCommissionMonthsForward(monthsForward));
+    // handleFutureMonthsCountChange = (monthsForward: number) => {
+    //     this.props.dispatch(receivePastRevenueCommissionMonthsForward(monthsForward));
+    // };
+
+    handleMonthsRangeChange = (value: SliderValue) => {
+        this.props.dispatch(receivePastRevenueCommissionMonthsBack(value as number));
+        this.props.dispatch(receivePastRevenueCommissionMonthsForward(value as number));
     };
 
     handleGroupsChange = (groups: Group[]) => {
@@ -130,7 +136,18 @@ class ProjectionsReport extends Component<Props> {
                 <Header icon="history">Projections Report</Header>
 
                 <Row type="flex" gutter={10} align="middle" justify="start" className="mb-1">
-                    <Col className={cellClass}>Past</Col>
+                    <Col className={cellClass}>Month Range</Col>
+                    <Col className={cellClass}>
+                        <Slider
+                            defaultValue={this.props.monthsBack}
+                            min={1}
+                            max={12}
+                            step={1}
+                            style={{ width: "150px" }}
+                            onChange={this.handleMonthsRangeChange}
+                        />
+                    </Col>
+                    {/* <Col className={cellClass}>Past</Col>
                     <Col className={cellClass}>
                         <Select
                             value={this.props.monthsBack}
@@ -167,7 +184,7 @@ class ProjectionsReport extends Component<Props> {
                                 12 Months
                             </Select.Option>
                         </Select>
-                    </Col>
+                    </Col> */}
                     <Col className={cellClass}>Group By</Col>
                     <Col className={cellClass}>
                         <Select

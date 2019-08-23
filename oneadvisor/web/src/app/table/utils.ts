@@ -2,8 +2,8 @@ import { ColumnProps } from "antd/lib/table";
 import moment from "moment";
 
 import { ColumnOptions, Filters } from "@/app/table";
+import { getColumnSearchProps } from "@/ui/controls";
 
-//import { getColumnSearchProps } from "@/ui/controls";
 import { formatCurrency } from "../utils";
 
 export const getColumnDefinition = <T = any>(externalDataSource: boolean = false, filters: Filters | null = null) => {
@@ -56,7 +56,7 @@ const getColumn = <T>(
     if (options.showSearchFilter) {
         props = {
             ...props,
-            //...getColumnSearchProps<T>(title),
+            ...getColumnSearchProps<T>(title),
         };
     }
 
