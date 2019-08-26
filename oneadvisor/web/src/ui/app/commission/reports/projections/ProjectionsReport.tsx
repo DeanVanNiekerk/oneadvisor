@@ -110,17 +110,12 @@ class ProjectionsReport extends Component<Props> {
         );
     };
 
-    // handlePastMonthsCountChange = (monthsBack: number) => {
-    //     this.props.dispatch(receivePastRevenueCommissionMonthsBack(monthsBack));
-    // };
+    handlePastMonthsCountChange = (monthsBack: number) => {
+        this.props.dispatch(receivePastRevenueCommissionMonthsBack(monthsBack));
+    };
 
-    // handleFutureMonthsCountChange = (monthsForward: number) => {
-    //     this.props.dispatch(receivePastRevenueCommissionMonthsForward(monthsForward));
-    // };
-
-    handleMonthsRangeChange = (value: SliderValue) => {
-        this.props.dispatch(receivePastRevenueCommissionMonthsBack(value as number));
-        this.props.dispatch(receivePastRevenueCommissionMonthsForward(value as number));
+    handleFutureMonthsCountChange = (monthsForward: number) => {
+        this.props.dispatch(receivePastRevenueCommissionMonthsForward(monthsForward));
     };
 
     handleGroupsChange = (groups: Group[]) => {
@@ -136,7 +131,7 @@ class ProjectionsReport extends Component<Props> {
                 <Header icon="history">Projections Report</Header>
 
                 <Row type="flex" gutter={10} align="middle" justify="start" className="mb-1">
-                    <Col className={cellClass}>Month Range</Col>
+                    <Col className={cellClass}>Months Back</Col>
                     <Col className={cellClass}>
                         <Slider
                             defaultValue={this.props.monthsBack}
@@ -144,7 +139,18 @@ class ProjectionsReport extends Component<Props> {
                             max={12}
                             step={1}
                             style={{ width: "150px" }}
-                            onChange={this.handleMonthsRangeChange}
+                            onChange={this.handlePastMonthsCountChange}
+                        />
+                    </Col>
+                    <Col className={cellClass}>Months Ahead</Col>
+                    <Col className={cellClass}>
+                        <Slider
+                            defaultValue={this.props.monthsForward}
+                            min={1}
+                            max={12}
+                            step={1}
+                            style={{ width: "150px" }}
+                            onChange={this.handleFutureMonthsCountChange}
                         />
                     </Col>
                     {/* <Col className={cellClass}>Past</Col>
@@ -318,7 +324,7 @@ class ProjectionsReport extends Component<Props> {
                     </Col>
                 </Row>
 
-                <GroupsTable />
+                <GroupsTable monthsBack={this.props.monthsBack} monthsForward={this.props.monthsForward} />
             </>
         );
     }

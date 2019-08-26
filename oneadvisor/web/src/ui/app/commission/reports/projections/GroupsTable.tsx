@@ -14,6 +14,8 @@ type Props = {
     fetching: boolean;
     columnDefinitions: ColumnProps<any>[];
     rows: object[];
+    monthsBack: number;
+    monthsForward: number;
 } & DispatchProp;
 
 class GroupsTable extends Component<Props> {
@@ -22,13 +24,13 @@ class GroupsTable extends Component<Props> {
 
         return (
             <Table
-                rowKey="index"
+                rowKey="key"
                 columns={this.props.columnDefinitions}
                 dataSource={this.props.rows}
                 loading={this.props.fetching}
                 hidePagination={true}
                 scroll={{
-                    x: true,
+                    x: (this.props.monthsBack + this.props.monthsForward) * 100,
                 }}
             />
         );
