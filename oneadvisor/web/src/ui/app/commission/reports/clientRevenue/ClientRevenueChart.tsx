@@ -4,29 +4,19 @@ import { connect, DispatchProp } from "react-redux";
 import { Filters } from "@/app/table";
 import { formatCurrency } from "@/app/utils";
 import {
-    clientRevenueBandsDataSelector, ClientRevenueData, clientRevenueSelector, fetchClientRevenueData
+    clientRevenueBandsDataSelector, clientRevenueSelector, fetchClientRevenueData
 } from "@/state/app/commission/reports";
 import { RootState } from "@/state/rootReducer";
 import { Bar } from "@/ui/controls";
+import { BarDatum } from "@nivo/bar";
 
 type Props = {
-    records: ClientRevenueData[];
+    records: BarDatum[];
     filters: Filters;
     fetching: boolean;
 } & DispatchProp;
 
-type State = {
-    loading: boolean;
-};
-
-class ClientRevenueChart extends Component<Props, State> {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            loading: false,
-        };
-    }
+class ClientRevenueChart extends Component<Props> {
 
     componentDidMount() {
         this.loadData();

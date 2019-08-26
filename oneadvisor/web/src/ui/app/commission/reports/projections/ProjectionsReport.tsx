@@ -15,9 +15,12 @@ import { branchesSimpleSelector, BranchSimple } from "@/state/app/directory/bran
 import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { Header } from "@/ui/controls";
+import { Header, Icon, TabPane, Tabs } from "@/ui/controls";
 
 import GroupsTable from "./GroupsTable";
+import TotalsBarChart from "./TotalsBarChart";
+
+type TabKey = "table" | "chart";
 
 type Props = {
     filters: PastRevenueCommissionDataFilters;
@@ -31,7 +34,19 @@ type Props = {
     groups: Group[];
 } & DispatchProp;
 
-class ProjectionsReport extends Component<Props> {
+type State = {
+    activeTab: TabKey;
+};
+
+class ProjectionsReport extends Component<Props, State> {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            activeTab: "table",
+        };
+    }
+
     componentDidMount() {
         this.loadData();
     }
@@ -42,6 +57,10 @@ class ProjectionsReport extends Component<Props> {
 
     loadData = () => {
         this.props.dispatch(fetchPastRevenueCommissionData(this.props.filters));
+    };
+
+    onTabChange = (activeTab: TabKey) => {
+        this.setState({ activeTab });
     };
 
     selectedBranchIds = (): string[] => {
@@ -130,7 +149,7 @@ class ProjectionsReport extends Component<Props> {
             <>
                 <Header icon="history">Projections Report</Header>
 
-                <Row type="flex" gutter={10} align="middle" justify="start" className="mb-1">
+                <Row type="flex" gutter={10} align="middle" justify="start">
                     <Col className={cellClass}>Months Back</Col>
                     <Col className={cellClass}>
                         <Slider
@@ -139,7 +158,7 @@ class ProjectionsReport extends Component<Props> {
                             max={12}
                             step={1}
                             style={{ width: "150px" }}
-                            onChange={this.handlePastMonthsCountChange}
+                            onAfterChange={this.handlePastMonthsCountChange}
                         />
                     </Col>
                     <Col className={cellClass}>Months Ahead</Col>
@@ -150,7 +169,7 @@ class ProjectionsReport extends Component<Props> {
                             max={12}
                             step={1}
                             style={{ width: "150px" }}
-                            onChange={this.handleFutureMonthsCountChange}
+                            onAfterChange={this.handleFutureMonthsCountChange}
                         />
                     </Col>
                     {/* <Col className={cellClass}>Past</Col>
@@ -324,7 +343,14 @@ class ProjectionsReport extends Component<Props> {
                     </Col>
                 </Row>
 
-                <GroupsTable monthsBack={this.props.monthsBack} monthsForward={this.props.monthsForward} />
+                <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true} tabBarGutter={0}>
+                    <TabPane tab={<Icon type="table" className="mr-0" />} key="table">
+                        <GroupsTable monthsBack={this.props.monthsBack} monthsForward={this.props.monthsForward} />
+                    </TabPane>
+                    <TabPane tab={<Icon type="bar-chart" className="mr-0" />} key="chart" className="pt-0">
+                        <TotalsBarChart />
+                    </TabPane>
+                </Tabs>
             </>
         );
     }

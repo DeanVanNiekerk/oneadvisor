@@ -32,7 +32,7 @@ export const defaultState: State = {
     items: [],
     fetching: false,
     filters: defaultFilters,
-    groups: ["Policy Type", "Earnings Type", "Company"],
+    groups: ["Earnings Type"],
     monthsBack: 3,
     monthsForward: 3,
 };

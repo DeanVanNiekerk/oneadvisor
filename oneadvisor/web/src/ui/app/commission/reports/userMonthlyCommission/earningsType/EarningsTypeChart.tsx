@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { formatCurrency } from '@/app/utils';
+import { formatCurrency } from "@/app/utils";
 import {
     CommissionEarningsType, commissionEarningsTypesSelector, getCommissionEarningsTypeName
-} from '@/state/app/commission/lookups';
-import { UserEarningsTypeMonthlyCommissionData } from '@/state/app/commission/reports';
-import { RootState } from '@/state/rootReducer';
-import { Pie } from '@/ui/controls';
-import { PieDatum } from '@nivo/pie';
+} from "@/state/app/commission/lookups";
+import { UserEarningsTypeMonthlyCommissionData } from "@/state/app/commission/reports";
+import { RootState } from "@/state/rootReducer";
+import { Pie } from "@/ui/controls";
+import { PieDatum } from "@nivo/pie";
 
 type Props = {
     earningsTypeRecords: UserEarningsTypeMonthlyCommissionData[];
@@ -18,14 +18,13 @@ type Props = {
 };
 
 class EarningsTypeChart extends Component<Props> {
-
     total = () => {
         return this.props.earningsTypeRecords.reduce((p, c) => p + c.amountExcludingVAT, 0);
-    }
+    };
 
     percent = (value: number) => {
-        return value / this.total() * 100;
-    }
+        return (value / this.total()) * 100;
+    };
 
     data = (): PieDatum[] => {
         return this.props.earningsTypeRecords
@@ -33,22 +32,24 @@ class EarningsTypeChart extends Component<Props> {
             .map(r => {
                 return {
                     id: r.commissionEarningsTypeId,
-                    label: getCommissionEarningsTypeName(r.commissionEarningsTypeId, this.props.commissionEarningsTypes),
+                    label: getCommissionEarningsTypeName(
+                        r.commissionEarningsTypeId,
+                        this.props.commissionEarningsTypes
+                    ),
                     value: r.amountExcludingVAT,
-                }
-            })
-
-    }
+                };
+            });
+    };
 
     render() {
-
         return (
             <Pie
                 isLoading={this.props.fetching}
                 data={this.data()}
-                sliceLabel={(d) => this.percent(d.value) > 10 ? formatCurrency(d.value, 0) : ""}
+                sliceLabel={d => (this.percent(d.value) > 10 ? formatCurrency(d.value, 0) : "")}
                 tooltipFormat={value => formatCurrency(value, 0)}
                 startAngle={-45}
+                radialLabelsSkipAngle={8}
             />
         );
     }

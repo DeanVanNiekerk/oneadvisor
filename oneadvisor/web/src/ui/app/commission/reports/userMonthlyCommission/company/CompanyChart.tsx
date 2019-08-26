@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { formatCurrency } from '@/app/utils';
-import { UserCompanyMonthlyCommissionData } from '@/state/app/commission/reports';
-import { organisationCompaniesSelector, Company, getCompanyName } from '@/state/app/directory/lookups';
-import { RootState } from '@/state/rootReducer';
-import { Pie } from '@/ui/controls';
-import { PieDatum } from '@nivo/pie';
+import { formatCurrency } from "@/app/utils";
+import { UserCompanyMonthlyCommissionData } from "@/state/app/commission/reports";
+import { companiesSelector, Company, getCompanyName } from "@/state/app/directory/lookups";
+import { RootState } from "@/state/rootReducer";
+import { Pie } from "@/ui/controls";
+import { PieDatum } from "@nivo/pie";
 
 type Props = {
     companyRecords: UserCompanyMonthlyCommissionData[];
@@ -16,14 +16,13 @@ type Props = {
 };
 
 class CompanyChart extends Component<Props> {
-
     total = () => {
         return this.props.companyRecords.reduce((p, c) => p + c.amountExcludingVAT, 0);
-    }
+    };
 
     percent = (value: number) => {
-        return value / this.total() * 100;
-    }
+        return (value / this.total()) * 100;
+    };
 
     data = (): PieDatum[] => {
         return this.props.companyRecords
@@ -33,29 +32,29 @@ class CompanyChart extends Component<Props> {
                     id: r.companyId,
                     label: getCompanyName(r.companyId, this.props.companies),
                     value: r.amountExcludingVAT,
-                }
-            })
-    }
+                };
+            });
+    };
 
     render() {
-
         return (
             <Pie
                 isLoading={this.props.fetching}
                 data={this.data()}
-                sliceLabel={(d) => this.percent(d.value) > 10 ? formatCurrency(d.value, 0) : ""}
+                sliceLabel={d => (this.percent(d.value) > 10 ? formatCurrency(d.value, 0) : "")}
                 tooltipFormat={value => formatCurrency(value, 0)}
                 startAngle={-45}
+                radialLabelsSkipAngle={8}
             />
         );
     }
 }
 
 const mapStateToProps = (state: RootState) => {
-    const companiesState = organisationCompaniesSelector(state);
+    const companiesState = companiesSelector(state);
 
     return {
-        companies: companiesState,
+        companies: companiesState.items,
     };
 };
 
