@@ -480,6 +480,18 @@ const getCompanyName = (companyId: string, companies: Company[]): string => {
 };
 
 
+const projectionPolicyTypeChartDateFormat = "MMM YY"
+
+export const projectionPolicyTypeChartCurrentLabelSelector: (state: RootState) => string = createSelector(
+    todaySelector,
+    (
+        now: Date,
+    ) => {
+
+        return `value.${moment(now).format(projectionPolicyTypeChartDateFormat)}`;
+    }
+);
+
 export const projectionPolicyTypeChartDataSelector: (state: RootState) => BarDatum[] = createSelector(
     rootSelector,
     todaySelector,
@@ -512,7 +524,7 @@ export const projectionPolicyTypeChartDataSelector: (state: RootState) => BarDat
             const value = filtered.reduce((p, c) => c.amountExcludingVAT + p, 0);
 
             data.push({
-                id: current.format("MMM YY"),
+                id: current.format(projectionPolicyTypeChartDateFormat),
                 value: value,
             })
 
