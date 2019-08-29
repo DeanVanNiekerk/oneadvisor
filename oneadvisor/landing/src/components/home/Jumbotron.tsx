@@ -6,19 +6,6 @@ import curve from "../../media/curve.svg";
 import logoLight from "../../media/logo-light.svg";
 import macbook from "../../media/macbook_2.png";
 
-class SvgBackground extends React.Component {
-    render() {
-        return (
-            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 1920 956">
-                <path
-                    fill="#6494b7"
-                    d="M-0.1,3c0,0,153.8,650.4,186,710.7c14.3,26.8,19.5,54.3,96,76C387.5,819.7,1918,956,1918,956H0L-0.1,3z"
-                />
-            </svg>
-        );
-    }
-}
-
 const Jumbotron: React.FC = () => {
     return (
         <>
