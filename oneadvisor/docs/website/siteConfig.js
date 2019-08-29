@@ -19,10 +19,10 @@ const siteConfig = {
     organizationName: "One Advisor",
 
     // For no header links in the top nav bar -> headerLinks: [],
-    headerLinks: [{ doc: "doc1", label: "Docs" }],
+    headerLinks: [{ doc: "getting-started/overview", label: "Docs" }],
 
     /* path to images for header/footer */
-    headerIcon: "img/favicon.png",
+    headerIcon: "img/logo-light.svg",
     footerIcon: "img/favicon.png",
     favicon: "img/favicon.png",
 
@@ -53,7 +53,7 @@ const siteConfig = {
 
     // For sites with a sizable amount of content, set collapsible to true.
     // Expand/collapse the links and subcategories under categories.
-    // docsSideNavCollapsible: true,
+    docsSideNavCollapsible: true,
 
     // Show documentation's last contributor's name.
     // enableUpdateBy: true,
