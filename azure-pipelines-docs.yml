@@ -1,0 +1,40 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+jobs:
+    - job: docs_build
+      pool:
+          vmImage: "Ubuntu 16.04"
+      steps:
+          - script: |
+                npm install
+            displayName: "install client packages"
+            workingDirectory: "oneadvisor/docs/website"
+          - script: |
+                npm run build
+            displayName: "build website"
+            workingDirectory: "oneadvisor/docs/website"
+          - script: |
+                npm install
+            displayName: "install server packages"
+            workingDirectory: "oneadvisor/docs/website/server"
+          - script: |
+                mkdir -p dist
+            displayName: "create dist directory"
+            workingDirectory: "oneadvisor/docs/website/server"
+          - task: CopyFiles@2
+            inputs:
+                sourceFolder: "oneadvisor/docs/website/build/oneadvisor-docs-site"
+                targetFolder: "oneadvisor/docs/website/server/dist"
+                cleanTargetFolder: true
+          - task: CopyFiles@2
+            inputs:
+                sourceFolder: "oneadvisor/docs/website/server"
+                targetFolder: $(Build.ArtifactStagingDirectory)
+                cleanTargetFolder: true
+          - task: PublishBuildArtifacts@1
+            inputs:
+                pathtoPublish: $(Build.ArtifactStagingDirectory)
+                artifactName: docs.production
