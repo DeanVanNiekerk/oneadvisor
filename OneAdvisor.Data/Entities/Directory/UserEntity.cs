@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
+using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Data.Entities.Commission;
 using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Model.Directory.Model.User;
@@ -27,5 +28,7 @@ namespace OneAdvisor.Data.Entities.Directory
         public virtual UserTypeEntity UserType { get; set; }
         public virtual ICollection<CommissionSplitRuleEntity> CommissionSplitRules { get; set; }
         public virtual ICollection<CommissionEntity> Commissions { get; set; }
+        public virtual ICollection<PolicyEntity> Policies { get; set; }
+        public virtual ICollection<AuditLogEntity> AuditLogs { get; set; }
     }
 }

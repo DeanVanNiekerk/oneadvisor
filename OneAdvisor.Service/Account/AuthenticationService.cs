@@ -17,6 +17,7 @@ using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Config.Options;
 using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Directory.Model.Audit;
 using OneAdvisor.Model.Directory.Model.Role;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Account.Validators;
@@ -28,13 +29,15 @@ namespace OneAdvisor.Service.Account
         private readonly DataContext _context;
         private readonly UserManager<UserEntity> _userManager;
         private readonly IUseCaseService _useCaseService;
+        private readonly IAuditService _auditService;
 
 
-        public AuthenticationService(DataContext context, UserManager<UserEntity> userManager, IUseCaseService useCaseService)
+        public AuthenticationService(DataContext context, UserManager<UserEntity> userManager, IUseCaseService useCaseService, IAuditService auditService)
         {
             _context = context;
             _userManager = userManager;
             _useCaseService = useCaseService;
+            _auditService = auditService;
         }
 
         public ScopeOptions GetScope(ClaimsPrincipal principle, bool ignoreScope = false)
@@ -62,22 +65,57 @@ namespace OneAdvisor.Service.Account
         {
             var result = new AuthenticationResult();
 
+            dynamic data = new
+            {
+                success = false,
+                userName = userName,
+            };
+
+            var log = new AuditLog()
+            {
+                Action = "Authenticate",
+                Entity = "User",
+                Data = data,
+            };
+
+
             var user = await _userManager.FindByNameAsync(userName);
 
             if (user == null)
+            {
+                log.Data.message = "Invalid username";
+                await _auditService.InsertAuditLog(log);
                 return result;
+            }
+
+            log.UserId = user.Id;
 
             result.NotActivated = !user.EmailConfirmed;
 
             if (result.NotActivated)
+            {
+                log.Data.message = "Not activated";
+                await _auditService.InsertAuditLog(log);
                 return result;
+            }
 
             result.IsLocked = await _userManager.IsLockedOutAsync(user);
 
             if (result.IsLocked)
+            {
+                log.Data.message = "Locked";
+                await _auditService.InsertAuditLog(log);
                 return result;
+            }
 
             result.Success = await _userManager.CheckPasswordAsync(user, password ?? "");
+
+            if (!result.Success)
+                log.Data.message = "Invalid password";
+            else
+                log.Data.success = true;
+
+            await _auditService.InsertAuditLog(log);
 
             return result;
         }
