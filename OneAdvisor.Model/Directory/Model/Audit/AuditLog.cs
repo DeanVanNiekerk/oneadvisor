@@ -1,4 +1,5 @@
 using System;
+using System.Dynamic;
 
 namespace OneAdvisor.Model.Directory.Model.Audit
 {

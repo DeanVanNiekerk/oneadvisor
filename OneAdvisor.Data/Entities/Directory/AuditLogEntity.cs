@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Dynamic;
 
 namespace OneAdvisor.Data.Entities.Directory
 {

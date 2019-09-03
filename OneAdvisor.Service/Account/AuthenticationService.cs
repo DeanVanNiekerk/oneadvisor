@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -65,11 +66,10 @@ namespace OneAdvisor.Service.Account
         {
             var result = new AuthenticationResult();
 
-            dynamic data = new
-            {
-                success = false,
-                userName = userName,
-            };
+            dynamic data = new ExpandoObject();
+            data.success = false;
+            data.userName = userName;
+            data.message = "";
 
             var log = new AuditLog()
             {
