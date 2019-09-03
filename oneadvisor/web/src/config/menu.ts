@@ -177,6 +177,11 @@ export const menus: Menus = {
                         relativePath: "/reports/projections",
                         useCases: ["com_view_report_past_revenue_commission"],
                     },
+                    {
+                        name: "Lapse",
+                        relativePath: "/reports/commissionLapse",
+                        useCases: ["com_view_report_commission_lapse"],
+                    },
                 ],
             },
             {

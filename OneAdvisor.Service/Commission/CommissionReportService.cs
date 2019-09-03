@@ -504,5 +504,78 @@ namespace OneAdvisor.Service.Commission
 
             return await groupQuery.ToListAsync();
         }
+
+        public async Task<PagedItems<CommissionLapseData>> GetCommissionLapseData(CommissionLapseQueryOptions queryOptions)
+        {
+            var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
+
+            var thisMonth = queryOptions.Date.Month + 1;
+            var thisYear = queryOptions.Date.Year;
+
+            var thisMonthPolicies = from statement in _context.CommissionStatement
+                                    join commission in _context.Commission
+                                        on statement.Id equals commission.CommissionStatementId
+                                    join user in userQuery
+                                        on commission.UserId equals user.Id
+                                    where statement.DateMonth == thisMonth
+                                    && statement.DateYear == thisYear
+                                    select commission.PolicyId;
+
+            var lastMonthDate = queryOptions.Date.AddMonths(-1);
+
+            var lastMonth = lastMonthDate.Month + 1;
+            var lastYear = lastMonthDate.Year;
+
+            var query = from statement in _context.CommissionStatement
+                        join commission in _context.Commission
+                            on statement.Id equals commission.CommissionStatementId
+                        join policy in _context.Policy
+                            on commission.PolicyId equals policy.Id
+                        join client in _context.Client
+                            on policy.ClientId equals client.Id
+                        join user in userQuery
+                            on commission.UserId equals user.Id
+                        where statement.DateMonth == lastMonth
+                        && statement.DateYear == lastYear
+                        && thisMonthPolicies.Contains(commission.PolicyId) == false
+                        select new CommissionLapseData()
+                        {
+                            PolicyId = policy.Id,
+                            ClientId = policy.ClientId,
+                            Number = policy.Number,
+                            CompanyId = policy.CompanyId,
+                            UserId = policy.UserId,
+                            Premium = policy.Premium,
+                            StartDate = policy.StartDate,
+                            PolicyTypeId = policy.PolicyTypeId,
+                            ClientLastName = client.LastName,
+                            ClientInitials = client.Initials,
+                            IsActive = policy.IsActive,
+                        };
+
+            //Apply filters ----------------------------------------------------------------------------------------
+            if (queryOptions.CompanyId.Any())
+                query = query.Where(d => queryOptions.CompanyId.Contains(d.CompanyId));
+
+            if (queryOptions.UserId.Any())
+                query = query.Where(d => queryOptions.UserId.Contains(d.UserId));
+
+            if (queryOptions.PolicyTypeId.Any())
+                query = query.Where(d => queryOptions.PolicyTypeId.Contains(d.PolicyTypeId.Value));
+            //------------------------------------------------------------------------------------------------------
+
+            var pagedItems = new PagedItems<CommissionLapseData>();
+
+            //Get total items
+            pagedItems.TotalItems = await query.CountAsync();
+
+            //Ordering
+            query = query.OrderBy(queryOptions.SortOptions.Column, queryOptions.SortOptions.Direction);
+
+            //Paging
+            pagedItems.Items = await query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
+
+            return pagedItems;
+        }
     }
 }

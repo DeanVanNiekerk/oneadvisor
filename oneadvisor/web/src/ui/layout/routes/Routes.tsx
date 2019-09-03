@@ -15,6 +15,7 @@ import PolicyList from "@/ui/app/client/policy/PolicyList";
 import CommissionList from "@/ui/app/commission/commission/CommissionList";
 import CommissionTypeList from "@/ui/app/commission/lookup/commissionType/CommissionTypeList";
 import ClientRevenueReport from "@/ui/app/commission/reports/clientRevenue/ClientRevenueReport";
+import CommissionLapseReport from "@/ui/app/commission/reports/commissionLapse/CommissionLapseReport";
 import ProjectionsReport from "@/ui/app/commission/reports/projections/ProjectionsReport";
 import UserMonthlyCommissionReport from "@/ui/app/commission/reports/userMonthlyCommission/UserMonthlyCommissionReport";
 import SplitRulePolicyList from "@/ui/app/commission/splitRulePolicy/SplitRulePolicyList";
@@ -59,6 +60,7 @@ const Routes = () => (
         <SecureRoute exact path="/commission/reports/revenueClient" component={ClientRevenueReport} />
         <SecureRoute exact path="/commission/reports/userMonthlyCommission" component={UserMonthlyCommissionReport} />
         <SecureRoute exact path="/commission/reports/projections" component={ProjectionsReport} />
+        <SecureRoute exact path="/commission/reports/commissionLapse" component={CommissionLapseReport} />
         <SecureRoute exact path="/commission/lookups/commTypes" component={CommissionTypeList} />
         {/* ------------------------------------------------------------------------------------- */}
         {/* DIRECTORY --------------------------------------------------------------------------- */}

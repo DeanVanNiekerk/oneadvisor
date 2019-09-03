@@ -12,6 +12,10 @@ export * from "./userCompanyMonthlyCommission/actions";
 export * from "./userCompanyMonthlyCommission/types";
 export { listSelector as userCompanyMonthlyCommissionSelector } from "./userCompanyMonthlyCommission/selectors";
 
+export * from "./commissionLapse/actions";
+export * from "./commissionLapse/types";
+export { listSelector as commissionLapseSelector } from "./commissionLapse/selectors";
+
 export * from "./userMonthlyCommission/actions";
 export * from "./userMonthlyCommission/selectors";
 export * from "./userMonthlyCommission/types";
