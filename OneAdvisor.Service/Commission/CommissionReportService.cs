@@ -562,7 +562,18 @@ namespace OneAdvisor.Service.Commission
 
             if (queryOptions.PolicyTypeId.Any())
                 query = query.Where(d => queryOptions.PolicyTypeId.Contains(d.PolicyTypeId.Value));
+
+            if (!string.IsNullOrWhiteSpace(queryOptions.Number))
+                query = query.Where(m => EF.Functions.Like(m.Number, queryOptions.Number));
+
+            if (!string.IsNullOrWhiteSpace(queryOptions.ClientLastName))
+                query = query.Where(m => EF.Functions.Like(m.ClientLastName, queryOptions.ClientLastName));
+
+            if (queryOptions.IsActive.HasValue)
+                query = query.Where(m => m.IsActive == queryOptions.IsActive.Value);
             //------------------------------------------------------------------------------------------------------
+
+            query = query.Distinct();
 
             var pagedItems = new PagedItems<CommissionLapseData>();
 

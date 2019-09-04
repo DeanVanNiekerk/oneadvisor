@@ -1,7 +1,7 @@
-import { defaultPageOptions, defaultSortOptions, Filters, PageOptions, SortOptions } from '@/app/table';
+import { defaultPageOptions, defaultSortOptions, Filters, PageOptions, SortOptions } from "@/app/table";
 
-import { AuditLog } from '../types';
-import { AuditLogListAction } from './actions';
+import { AuditLog } from "../types";
+import { AuditLogListAction } from "./actions";
 
 export type State = {
     readonly items: AuditLog[];
@@ -17,7 +17,7 @@ export const defaultState: State = {
     totalItems: 0,
     fetching: false,
     pageOptions: defaultPageOptions(),
-    sortOptions: defaultSortOptions("", "desc"),
+    sortOptions: defaultSortOptions("Date", "desc"),
     filters: null,
 };
 

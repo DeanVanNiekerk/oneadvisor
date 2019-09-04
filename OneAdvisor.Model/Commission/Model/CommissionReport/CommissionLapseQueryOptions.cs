@@ -8,7 +8,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
     public class CommissionLapseQueryOptions : QueryOptionsBase<CommissionLapseData>
     {
         public CommissionLapseQueryOptions(ScopeOptions scope, string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
-        : base(sortColumn, sortDirection, pageSize, pageNumber, filters)
+        : base(string.IsNullOrEmpty(sortColumn) ? "Number" : sortColumn, sortDirection, pageSize, pageNumber, filters)
         {
             Scope = scope;
 
@@ -18,9 +18,17 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
             CompanyId = new List<Guid>();
             PolicyTypeId = new List<Guid>();
 
-            var result = GetFilterValue<DateTime>("Date");
+            var result = GetFilterValue<string>("Number");
             if (result.Success)
-                Date = result.Value;
+                Number = result.Value;
+
+            result = GetFilterValue<string>("ClientLastName");
+            if (result.Success)
+                ClientLastName = result.Value;
+
+            var resultDateTime = GetFilterValue<DateTime>("Date");
+            if (resultDateTime.Success)
+                Date = resultDateTime.Value;
 
             var resultsGuid = GetFilterValues<Guid>("UserId");
             if (resultsGuid.Success)
@@ -33,6 +41,10 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
             resultsGuid = GetFilterValues<Guid>("PolicyTypeId");
             if (resultsGuid.Success)
                 PolicyTypeId = resultsGuid.Value;
+
+            var resultBool = GetFilterValue<bool>("IsActive");
+            if (resultBool.Success)
+                IsActive = resultBool.Value;
         }
 
         public ScopeOptions Scope { get; set; }
@@ -41,5 +53,8 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
         public List<Guid> CompanyId { get; set; }
         public List<Guid> PolicyTypeId { get; set; }
         public DateTime Date { get; set; }
+        public string Number { get; set; }
+        public string ClientLastName { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

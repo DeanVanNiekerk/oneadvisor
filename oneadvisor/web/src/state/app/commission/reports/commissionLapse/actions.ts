@@ -1,4 +1,4 @@
-import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from "@/app/query";
+import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery, applyLike } from "@/app/query";
 import { PagedItems, PageOptions, SortOptions } from "@/app/table";
 import { ApiAction } from "@/app/types";
 import { commissionReportsApi } from "@/config/api/commission";
@@ -42,12 +42,16 @@ export const fetchCommissionLapseData = (pageOptions: PageOptions,
     let api = `${commissionReportsApi}/commissionLapseData`;
     api = appendPageOptionQuery(api, pageOptions);
     api = appendSortOptionQuery(api, sortOptions);
-    api = appendFiltersQuery(api, filters);
+    api = appendFiltersQuery(api, updateFilters(filters));
     return {
         type: "API",
         endpoint: api,
         dispatchPrefix: "COMMISSIONS_REPORT_COMMISSIONLAPSE",
     };
+};
+
+const updateFilters = (filters: CommissionLapseDataFilters): CommissionLapseDataFilters => {
+    return applyLike(filters, ["number", "clientLastName"]);
 };
 
 export const receiveCommissionLapseFilters = (

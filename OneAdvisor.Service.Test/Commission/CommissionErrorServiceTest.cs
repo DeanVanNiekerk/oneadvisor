@@ -13,6 +13,7 @@ using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Commission;
 using OneAdvisor.Service.Client;
 using OneAdvisor.Model.Client.Model.Lookup;
+using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -216,8 +217,9 @@ namespace OneAdvisor.Service.Test.Commission
                     Data = ic1
                 };
 
+                var auditService = new AuditService(context);
                 var commissionService = new CommissionService(context);
-                var clientService = new ClientService(context);
+                var clientService = new ClientService(context, auditService);
                 var policyService = new PolicyService(context);
                 var commissionSplitService = new CommissionSplitService(context);
                 var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService);
@@ -324,8 +326,9 @@ namespace OneAdvisor.Service.Test.Commission
                     Data = ic1
                 };
 
+                var auditService = new AuditService(context);
                 var commissionService = new CommissionService(context);
-                var clientService = new ClientService(context);
+                var clientService = new ClientService(context, auditService);
                 var policyService = new PolicyService(context);
                 var commissionSplitService = new CommissionSplitService(context);
                 var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService);
@@ -473,8 +476,9 @@ namespace OneAdvisor.Service.Test.Commission
                     Data = ic1a
                 };
 
+                var auditService = new AuditService(context);
                 var commissionService = new CommissionService(context);
-                var clientService = new ClientService(context);
+                var clientService = new ClientService(context, auditService);
                 var policyService = new PolicyService(context);
                 var commissionSplitService = new CommissionSplitService(context);
                 var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService);

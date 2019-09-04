@@ -15,6 +15,7 @@ using OneAdvisor.Model.Client.Model.Client;
 using OneAdvisor.Service.Client;
 using OneAdvisor.Model.Client.Model.Merge;
 using OneAdvisor.Model.Client.Model.Lookup;
+using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Client
 {
@@ -71,7 +72,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ClientService(context);
+                var auditService = new AuditService(context);
+                var service = new ClientService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(orgId1);
@@ -123,7 +125,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ClientService(context);
+                var auditService = new AuditService(context);
+                var service = new ClientService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(orgId1);
@@ -174,7 +177,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ClientService(context);
+                var auditService = new AuditService(context);
+                var service = new ClientService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(orgId1);
@@ -239,7 +243,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ClientService(context);
+                var auditService = new AuditService(context);
+                var service = new ClientService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user2);
@@ -330,7 +335,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ClientService(context);
+                var auditService = new AuditService(context);
+                var service = new ClientService(context, auditService);
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1);
@@ -374,7 +380,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ClientService(context);
+                var auditService = new AuditService(context);
+                var service = new ClientService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1, Scope.User);
@@ -453,7 +460,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ClientService(context);
+                var auditService = new AuditService(context);
+                var service = new ClientService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user2);
@@ -499,7 +507,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ClientService(context);
+                var auditService = new AuditService(context);
+                var service = new ClientService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -554,7 +563,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ClientService(context);
+                var auditService = new AuditService(context);
+                var service = new ClientService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(orgId1);
@@ -607,7 +617,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ClientService(context);
+                var auditService = new AuditService(context);
+                var service = new ClientService(context, auditService);
 
                 var merge = new MergeClients()
                 {
@@ -679,7 +690,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ClientService(context);
+                var auditService = new AuditService(context);
+                var service = new ClientService(context, auditService);
 
                 var merge = new MergeClients()
                 {

@@ -17,7 +17,7 @@ export type State = {
 
 const defaultFilters: CommissionLapseDataFilters = {
     date: [
-        moment().subtract(3, "months").format(DATE_FORMAT),
+        moment().format(DATE_FORMAT),
     ],
 };
 
@@ -27,7 +27,7 @@ export const defaultState: State = {
     totalItems: 0,
     filters: defaultFilters,
     pageOptions: defaultPageOptions(),
-    sortOptions: defaultSortOptions("", "desc"),
+    sortOptions: defaultSortOptions("Number", "desc"),
 };
 
 export const reducer = (state: State = defaultState, action: CommissionCommissionLapseDataAction): State => {

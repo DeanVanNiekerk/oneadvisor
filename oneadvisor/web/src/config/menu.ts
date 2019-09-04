@@ -178,7 +178,7 @@ export const menus: Menus = {
                         useCases: ["com_view_report_past_revenue_commission"],
                     },
                     {
-                        name: "Lapse",
+                        name: "Policy Lapse",
                         relativePath: "/reports/commissionLapse",
                         useCases: ["com_view_report_commission_lapse"],
                     },
