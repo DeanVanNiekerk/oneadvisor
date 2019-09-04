@@ -10,6 +10,7 @@ using OneAdvisor.Model.Commission.Model.CommissionAllocation;
 using OneAdvisor.Model.Directory.Model.User;
 using System.Collections.Generic;
 using OneAdvisor.Data.Entities.Client;
+using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -87,7 +88,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionAllocationService(context);
+                var auditService = new AuditService(context);
+                var service = new CommissionAllocationService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -175,7 +177,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionAllocationService(context);
+                var auditService = new AuditService(context);
+                var service = new CommissionAllocationService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -228,7 +231,8 @@ namespace OneAdvisor.Service.Test.Commission
                     PolicyIds = new List<Guid>() { policy1.Id }
                 };
 
-                var service = new CommissionAllocationService(context);
+                var auditService = new AuditService(context);
+                var service = new CommissionAllocationService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -340,7 +344,8 @@ namespace OneAdvisor.Service.Test.Commission
                     PolicyIds = new List<Guid>() { policy2.Id, policy3.Id }
                 };
 
-                var service = new CommissionAllocationService(context);
+                var auditService = new AuditService(context);
+                var service = new CommissionAllocationService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -418,7 +423,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionAllocationService(context);
+                var auditService = new AuditService(context);
+                var service = new CommissionAllocationService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);

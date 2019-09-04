@@ -34,12 +34,13 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
+                var auditService = new AuditService(context);
                 var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
-                var policyService = new PolicyService(context);
-                var commissionSplitService = new CommissionSplitService(context);
-                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService);
-                var statementService = new CommissionStatementService(context, null);
+                var policyService = new PolicyService(context, auditService);
+                var commissionSplitService = new CommissionSplitService(context, auditService);
+                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService, auditService);
+                var statementService = new CommissionStatementService(context, null, auditService);
 
                 var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
                 bulkActions.Setup(c => c.BulkInsertCommissionErrorsAsync(It.IsAny<DataContext>(), It.IsAny<IList<CommissionErrorEntity>>()))
@@ -53,7 +54,8 @@ namespace OneAdvisor.Service.Test.Commission
                     lookupService,
                     commissionLookupService,
                     commissionSplitService,
-                    commissionSplitRulePolicyService);
+                    commissionSplitRulePolicyService,
+                    auditService);
 
                 //When
                 var import1 = new ImportCommission
@@ -103,12 +105,13 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionType.Add(commissionType);
                 context.SaveChanges();
 
-                var statementService = new CommissionStatementService(context, null);
+                var auditService = new AuditService(context);
+                var statementService = new CommissionStatementService(context, null, auditService);
                 var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
-                var commissionSplitService = new CommissionSplitService(context);
-                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService);
-                var policyService = new PolicyService(context);
+                var commissionSplitService = new CommissionSplitService(context, auditService);
+                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService, auditService);
+                var policyService = new PolicyService(context, auditService);
 
                 var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
                 var insertedErrors = new List<CommissionErrorEntity>();
@@ -124,7 +127,8 @@ namespace OneAdvisor.Service.Test.Commission
                     lookupService,
                     commissionLookupService,
                     commissionSplitService,
-                    commissionSplitRulePolicyService);
+                    commissionSplitRulePolicyService,
+                    auditService);
 
                 //When
                 var import1 = new ImportCommission
@@ -183,12 +187,13 @@ namespace OneAdvisor.Service.Test.Commission
                 context.Policy.Add(policy1);
                 context.SaveChanges();
 
-                var statementService = new CommissionStatementService(context, null);
+                var auditService = new AuditService(context);
+                var statementService = new CommissionStatementService(context, null, auditService);
                 var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
-                var commissionSplitService = new CommissionSplitService(context);
-                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService);
-                var policyService = new PolicyService(context);
+                var commissionSplitService = new CommissionSplitService(context, auditService);
+                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService, auditService);
+                var policyService = new PolicyService(context, auditService);
 
                 var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
                 var insertedErrors = new List<CommissionErrorEntity>();
@@ -204,7 +209,8 @@ namespace OneAdvisor.Service.Test.Commission
                     lookupService,
                     commissionLookupService,
                     commissionSplitService,
-                    commissionSplitRulePolicyService);
+                    commissionSplitRulePolicyService,
+                    auditService);
 
                 //When
                 var import1 = new ImportCommission
@@ -269,13 +275,14 @@ namespace OneAdvisor.Service.Test.Commission
                 context.Policy.Add(policy1);
                 context.SaveChanges();
 
-                var statementService = new CommissionStatementService(context, null);
+                var auditService = new AuditService(context);
+                var statementService = new CommissionStatementService(context, null, auditService);
                 var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
-                var policyService = new PolicyService(context);
-                var commissionSplitService = new CommissionSplitService(context);
-                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService);
-                var commissionService = new CommissionService(context);
+                var policyService = new PolicyService(context, auditService);
+                var commissionSplitService = new CommissionSplitService(context, auditService);
+                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService, auditService);
+                var commissionService = new CommissionService(context, auditService);
 
                 var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
                 var insertedCommissions = new List<CommissionEntity>();
@@ -291,7 +298,8 @@ namespace OneAdvisor.Service.Test.Commission
                     lookupService,
                     commissionLookupService,
                     commissionSplitService,
-                    commissionSplitRulePolicyService);
+                    commissionSplitRulePolicyService,
+                    auditService);
 
                 //When
                 var import1 = new ImportCommission
@@ -361,13 +369,14 @@ namespace OneAdvisor.Service.Test.Commission
                 context.Policy.Add(policy1);
                 context.SaveChanges();
 
-                var statementService = new CommissionStatementService(context, null);
+                var auditService = new AuditService(context);
+                var statementService = new CommissionStatementService(context, null, auditService);
                 var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
-                var policyService = new PolicyService(context);
-                var commissionSplitService = new CommissionSplitService(context);
-                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService);
-                var commissionService = new CommissionService(context);
+                var policyService = new PolicyService(context, auditService);
+                var commissionSplitService = new CommissionSplitService(context, auditService);
+                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService, auditService);
+                var commissionService = new CommissionService(context, auditService);
 
                 var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
                 var insertedCommissions = new List<CommissionEntity>();
@@ -383,7 +392,8 @@ namespace OneAdvisor.Service.Test.Commission
                     lookupService,
                     commissionLookupService,
                     commissionSplitService,
-                    commissionSplitRulePolicyService);
+                    commissionSplitRulePolicyService,
+                    auditService);
 
                 //When
                 var import1 = new ImportCommission
@@ -446,13 +456,14 @@ namespace OneAdvisor.Service.Test.Commission
                 context.Policy.Add(policy1);
                 context.SaveChanges();
 
-                var statementService = new CommissionStatementService(context, null);
+                var auditService = new AuditService(context);
+                var statementService = new CommissionStatementService(context, null, auditService);
                 var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
-                var policyService = new PolicyService(context);
-                var commissionSplitService = new CommissionSplitService(context);
-                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService);
-                var commissionService = new CommissionService(context);
+                var policyService = new PolicyService(context, auditService);
+                var commissionSplitService = new CommissionSplitService(context, auditService);
+                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService, auditService);
+                var commissionService = new CommissionService(context, auditService);
 
                 var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
                 var insertedCommissions = new List<CommissionEntity>();
@@ -468,7 +479,8 @@ namespace OneAdvisor.Service.Test.Commission
                     lookupService,
                     commissionLookupService,
                     commissionSplitService,
-                    commissionSplitRulePolicyService);
+                    commissionSplitRulePolicyService,
+                    auditService);
 
                 //When
                 var import1 = new ImportCommission
@@ -558,13 +570,14 @@ namespace OneAdvisor.Service.Test.Commission
 
                 context.SaveChanges();
 
-                var statementService = new CommissionStatementService(context, null);
+                var auditService = new AuditService(context);
+                var statementService = new CommissionStatementService(context, null, auditService);
                 var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
-                var policyService = new PolicyService(context);
-                var commissionSplitService = new CommissionSplitService(context);
-                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService);
-                var commissionService = new CommissionService(context);
+                var policyService = new PolicyService(context, auditService);
+                var commissionSplitService = new CommissionSplitService(context, auditService);
+                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService, auditService);
+                var commissionService = new CommissionService(context, auditService);
 
                 var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
                 var insertedCommissions = new List<CommissionEntity>();
@@ -580,7 +593,8 @@ namespace OneAdvisor.Service.Test.Commission
                     lookupService,
                     commissionLookupService,
                     commissionSplitService,
-                    commissionSplitRulePolicyService);
+                    commissionSplitRulePolicyService,
+                    auditService);
 
                 //When
                 var import1 = new ImportCommission
@@ -709,13 +723,14 @@ namespace OneAdvisor.Service.Test.Commission
 
                 context.SaveChanges();
 
-                var statementService = new CommissionStatementService(context, null);
+                var auditService = new AuditService(context);
+                var statementService = new CommissionStatementService(context, null, auditService);
                 var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
-                var policyService = new PolicyService(context);
-                var commissionSplitService = new CommissionSplitService(context);
-                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService);
-                var commissionService = new CommissionService(context);
+                var policyService = new PolicyService(context, auditService);
+                var commissionSplitService = new CommissionSplitService(context, auditService);
+                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService, auditService);
+                var commissionService = new CommissionService(context, auditService);
 
                 var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
                 var insertedCommissions = new List<CommissionEntity>();
@@ -731,7 +746,8 @@ namespace OneAdvisor.Service.Test.Commission
                     lookupService,
                     commissionLookupService,
                     commissionSplitService,
-                    commissionSplitRulePolicyService);
+                    commissionSplitRulePolicyService,
+                    auditService);
 
                 //When
                 var import1 = new ImportCommission

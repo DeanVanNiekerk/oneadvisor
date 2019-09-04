@@ -15,6 +15,7 @@ using OneAdvisor.Service.Directory.Validators;
 using System.Collections.Generic;
 using FluentValidation.Results;
 using OneAdvisor.Model.Directory.Model.Role;
+using OneAdvisor.Model.Directory.Model.Audit;
 
 namespace OneAdvisor.Service.Directory
 {
@@ -22,11 +23,13 @@ namespace OneAdvisor.Service.Directory
     {
         private readonly DataContext _context;
         private readonly UserManager<UserEntity> _userManager;
+        private readonly IAuditService _auditService;
 
-        public UserService(DataContext context, UserManager<UserEntity> userManager)
+        public UserService(DataContext context, UserManager<UserEntity> userManager, IAuditService auditService)
         {
             _context = context;
             _userManager = userManager;
+            _auditService = auditService;
         }
 
         public async Task<PagedItems<User>> GetUsers(UserQueryOptions queryOptions)
@@ -156,6 +159,8 @@ namespace OneAdvisor.Service.Directory
             await UpdateRoles(entity, user.Roles);
             await UpdateIsLocked(entity, user.IsLocked);
 
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "User", user);
+
             return result;
         }
 
@@ -186,6 +191,8 @@ namespace OneAdvisor.Service.Directory
 
             await UpdateRoles(entity, user.Roles);
             await UpdateIsLocked(entity, user.IsLocked);
+
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "User", user);
 
             return result;
         }
@@ -302,7 +309,7 @@ namespace OneAdvisor.Service.Directory
             "abcdefghijkmnopqrstuvwxyz",    // lowercase
             "0123456789",                   // digits
             "!@$?_-"                        // non-alphanumeric
-        };
+            };
 
             Random rand = new Random(Environment.TickCount);
             List<char> chars = new List<char>();

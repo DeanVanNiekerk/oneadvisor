@@ -12,17 +12,19 @@ using OneAdvisor.Model;
 using OneAdvisor.Service.Directory.Validators;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Model.Account.Model.Authentication;
-using OneAdvisor.Model.Directory.Model.User;
+using OneAdvisor.Model.Directory.Model.Audit;
 
 namespace OneAdvisor.Service.Directory
 {
     public class BranchService : IBranchService
     {
         private readonly DataContext _context;
+        private readonly IAuditService _auditService;
 
-        public BranchService(DataContext context)
+        public BranchService(DataContext context, IAuditService auditService)
         {
             _context = context;
+            _auditService = auditService;
         }
 
         public async Task<PagedItems<Branch>> GetBranches(BranchQueryOptions queryOptions)
@@ -72,6 +74,8 @@ namespace OneAdvisor.Service.Directory
             branch.Id = entity.Id;
             result.Tag = branch;
 
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "Branch", branch);
+
             return result;
         }
 
@@ -90,6 +94,8 @@ namespace OneAdvisor.Service.Directory
 
             entity = MapModelToEntity(branch, entity);
             await _context.SaveChangesAsync();
+
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "Branch", branch);
 
             return result;
         }

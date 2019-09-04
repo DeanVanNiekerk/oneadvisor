@@ -13,16 +13,20 @@ using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Commission.Validators;
 using System.Collections;
 using System.Collections.Generic;
+using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Directory.Model.Audit;
 
 namespace OneAdvisor.Service.Commission
 {
     public class CommissionService : ICommissionService
     {
         private readonly DataContext _context;
+        private readonly IAuditService _auditService;
 
-        public CommissionService(DataContext context)
+        public CommissionService(DataContext context, IAuditService auditService)
         {
             _context = context;
+            _auditService = auditService;
         }
 
         public async Task<PagedCommissions> GetCommissions(CommissionQueryOptions queryOptions)
@@ -155,6 +159,8 @@ namespace OneAdvisor.Service.Commission
             commission.Id = entity.Id;
             result.Tag = commission;
 
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "Commission", commission);
+
             return result;
         }
 
@@ -174,6 +180,8 @@ namespace OneAdvisor.Service.Commission
             var commissionEntity = MapModelToEntity(commission, entity);
 
             await _context.SaveChangesAsync();
+
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "Commission", commission);
 
             return result;
         }

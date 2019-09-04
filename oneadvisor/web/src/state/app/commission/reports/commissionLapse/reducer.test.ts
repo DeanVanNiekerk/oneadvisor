@@ -1,4 +1,4 @@
-import { SortOptions } from "@/app/table";
+import { PageOptions, SortOptions } from "@/app/table/types";
 
 import { defaultState, reducer } from "./reducer";
 import { CommissionLapseData, CommissionLapseDataFilters } from "./types";
@@ -66,6 +66,7 @@ describe("report client revenue reducer", () => {
         const expectedState = {
             ...defaultState,
             items: [data],
+            totalItems: 1,
             fetching: false,
         };
 
@@ -101,7 +102,7 @@ describe("report client revenue reducer", () => {
             ...defaultState,
         };
 
-        const options = {
+        const options: PageOptions = {
             number: 9,
             size: 20,
         };

@@ -8,12 +8,12 @@ using OneAdvisor.Model;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Commission.Interface;
-using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Commission.Validators;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
-using EFCore.BulkExtensions;
 using OneAdvisor.Service.Common.BulkActions;
+using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Directory.Model.Audit;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -21,11 +21,13 @@ namespace OneAdvisor.Service.Commission
     {
         private readonly DataContext _context;
         private readonly IBulkActions _bulkActions;
+        private readonly IAuditService _auditService;
 
-        public CommissionStatementService(DataContext context, IBulkActions bulkActions)
+        public CommissionStatementService(DataContext context, IBulkActions bulkActions, IAuditService auditService)
         {
             _context = context;
             _bulkActions = bulkActions;
+            _auditService = auditService;
         }
 
         public async Task<PagedCommissionStatements> GetCommissionStatements(CommissionStatementQueryOptions queryOptions)
@@ -138,6 +140,8 @@ namespace OneAdvisor.Service.Commission
             commissionStatement.Id = entity.Id;
             result.Tag = commissionStatement;
 
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "CommissionStatement", commissionStatement);
+
             return result;
         }
 
@@ -158,6 +162,8 @@ namespace OneAdvisor.Service.Commission
 
             await _context.SaveChangesAsync();
 
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "CommissionStatement", commissionStatement);
+
             return result;
         }
 
@@ -171,6 +177,8 @@ namespace OneAdvisor.Service.Commission
 
             await _bulkActions.BatchDeleteCommissionsAsync(_context, commissionStatementId);
             await _bulkActions.BatchDeleteCommissionErrorsAsync(_context, commissionStatementId);
+
+            await _auditService.InsertAuditLog(scope, "BulkDelete", "Commission", new { commissionStatementId = commissionStatementId });
         }
 
         private IQueryable<CommissionStatementEdit> GetCommissionStatementEditQuery(ScopeOptions scope)

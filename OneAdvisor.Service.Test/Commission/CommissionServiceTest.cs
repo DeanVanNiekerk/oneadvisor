@@ -11,6 +11,7 @@ using OneAdvisor.Model.Commission.Model.Commission;
 using OneAdvisor.Service.Commission;
 using OneAdvisor.Data.Entities.Client;
 using Microsoft.EntityFrameworkCore;
+using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -120,7 +121,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionService(context);
+                var auditService = new AuditService(context);
+                var service = new CommissionService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -216,7 +218,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionService(context);
+                var auditService = new AuditService(context);
+                var service = new CommissionService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -288,7 +291,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionService(context);
+                var auditService = new AuditService(context);
+                var service = new CommissionService(context, auditService);
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1);
@@ -382,7 +386,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionService(context);
+                var auditService = new AuditService(context);
+                var service = new CommissionService(context, auditService);
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1);

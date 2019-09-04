@@ -10,6 +10,7 @@ using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Client.Model.Contact;
 using OneAdvisor.Service.Client;
+using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Client
 {
@@ -51,7 +52,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ContactService(context);
+                var auditService = new AuditService(context);
+                var service = new ContactService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -114,7 +116,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ContactService(context);
+                var auditService = new AuditService(context);
+                var service = new ContactService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -160,7 +163,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ContactService(context);
+                var auditService = new AuditService(context);
+                var service = new ContactService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -202,7 +206,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ContactService(context);
+                var auditService = new AuditService(context);
+                var service = new ContactService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -259,7 +264,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ContactService(context);
+                var auditService = new AuditService(context);
+                var service = new ContactService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -308,7 +314,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new ContactService(context);
+                var auditService = new AuditService(context);
+                var service = new ContactService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);

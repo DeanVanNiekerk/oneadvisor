@@ -12,16 +12,20 @@ using OneAdvisor.Model.Client.Model.Contact;
 using OneAdvisor.Service.Client.Validators;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Data.Entities.Client;
+using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Directory.Model.Audit;
 
 namespace OneAdvisor.Service.Client
 {
     public class ContactService : IContactService
     {
         private readonly DataContext _context;
+        private readonly IAuditService _auditService;
 
-        public ContactService(DataContext context)
+        public ContactService(DataContext context, IAuditService auditService)
         {
             _context = context;
+            _auditService = auditService;
         }
 
         public async Task<PagedItems<Contact>> GetContacts(ContactQueryOptions queryOptions)
@@ -81,6 +85,8 @@ namespace OneAdvisor.Service.Client
             contact.Id = entity.Id;
             result.Tag = contact;
 
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "Contact", contact);
+
             return result;
         }
 
@@ -100,6 +106,8 @@ namespace OneAdvisor.Service.Client
             entity = MapModelToEntity(contact, entity);
             await _context.SaveChangesAsync();
 
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "Contact", contact);
+
             return result;
         }
 
@@ -113,6 +121,8 @@ namespace OneAdvisor.Service.Client
             _context.Contact.Remove(entity);
 
             await _context.SaveChangesAsync();
+
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "Contact", entity);
 
             return new Result(true);
         }

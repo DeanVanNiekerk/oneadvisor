@@ -18,6 +18,8 @@ using OneAdvisor.Service.Client.Validators;
 using OneAdvisor.Model.Client.Model.Policy;
 using OneAdvisor.Model.Commission.Model.CommissionSplitRule;
 using OneAdvisor.Model.Commission.Model.CommissionSplitRulePolicy;
+using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Directory.Model.Audit;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -29,6 +31,7 @@ namespace OneAdvisor.Service.Commission
         private readonly ICommissionSplitService _commissionSplitService;
         private readonly IPolicyService _policyService;
         private readonly ICommissionSplitRulePolicyService _commissionSplitRulePolicyService;
+        private readonly IAuditService _auditService;
 
         public CommissionErrorService(
             DataContext context,
@@ -36,7 +39,8 @@ namespace OneAdvisor.Service.Commission
             IClientService clientService,
             ICommissionSplitService commissionSplitService,
             IPolicyService policyService,
-            ICommissionSplitRulePolicyService commissionSplitRulePolicyService)
+            ICommissionSplitRulePolicyService commissionSplitRulePolicyService,
+            IAuditService auditService)
         {
             _context = context;
             _commissionService = commissionService;
@@ -44,6 +48,7 @@ namespace OneAdvisor.Service.Commission
             _commissionSplitService = commissionSplitService;
             _policyService = policyService;
             _commissionSplitRulePolicyService = commissionSplitRulePolicyService;
+            _auditService = auditService;
         }
 
         public async Task<PagedItems<CommissionError>> GetErrors(CommissionErrorQueryOptions queryOptions)
@@ -193,6 +198,8 @@ namespace OneAdvisor.Service.Commission
 
             _context.CommissionError.Remove(entity);
             await _context.SaveChangesAsync();
+
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "CommissionError", entity);
 
             return new Result(true);
         }

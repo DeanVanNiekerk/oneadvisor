@@ -1,6 +1,7 @@
 import moment from "moment";
 
-import { defaultPageOptions, defaultSortOptions, PageOptions, SortOptions } from "@/app/table";
+import { defaultPageOptions, defaultSortOptions } from "@/app/table/defaults";
+import { PageOptions, SortOptions } from "@/app/table/types";
 import { DATE_FORMAT } from "@/app/utils";
 
 import { CommissionCommissionLapseDataAction } from "./actions";

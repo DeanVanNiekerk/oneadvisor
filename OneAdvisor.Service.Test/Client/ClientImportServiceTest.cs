@@ -214,7 +214,7 @@ namespace OneAdvisor.Service.Test.Client
             {
                 var auditService = new AuditService(context);
                 var clientService = new ClientService(context, auditService);
-                var contactService = new ContactService(context);
+                var contactService = new ContactService(context, auditService);
                 var lookupService = new ClientLookupService(context);
                 var directoryLookupService = new DirectoryLookupService(context);
                 var service = new ClientImportService(context, clientService, null, contactService, lookupService, directoryLookupService);
@@ -251,7 +251,7 @@ namespace OneAdvisor.Service.Test.Client
             {
                 var auditService = new AuditService(context);
                 var clientService = new ClientService(context, auditService);
-                var contactService = new ContactService(context);
+                var contactService = new ContactService(context, auditService);
                 var lookupService = new ClientLookupService(context);
                 var directoryLookupService = new DirectoryLookupService(context);
                 var service = new ClientImportService(context, clientService, null, contactService, lookupService, directoryLookupService);
@@ -290,8 +290,8 @@ namespace OneAdvisor.Service.Test.Client
             {
                 var auditService = new AuditService(context);
                 var clientService = new ClientService(context, auditService);
-                var policyService = new PolicyService(context);
-                var contactService = new ContactService(context);
+                var policyService = new PolicyService(context, auditService);
+                var contactService = new ContactService(context, auditService);
                 var lookupService = new ClientLookupService(context);
                 var directoryLookupService = new DirectoryLookupService(context);
                 var service = new ClientImportService(context, clientService, policyService, contactService, lookupService, directoryLookupService);
@@ -454,7 +454,7 @@ namespace OneAdvisor.Service.Test.Client
             {
                 var auditService = new AuditService(context);
                 var clientService = new ClientService(context, auditService);
-                var policyService = new PolicyService(context);
+                var policyService = new PolicyService(context, auditService);
                 var lookupService = new ClientLookupService(context);
                 var directoryLookupService = new DirectoryLookupService(context);
                 var service = new ClientImportService(context, clientService, policyService, null, lookupService, directoryLookupService);
@@ -525,7 +525,7 @@ namespace OneAdvisor.Service.Test.Client
             {
                 var auditService = new AuditService(context);
                 var clientService = new ClientService(context, auditService);
-                var contactService = new ContactService(context);
+                var contactService = new ContactService(context, auditService);
                 var lookupService = new ClientLookupService(context);
                 var directoryLookupService = new DirectoryLookupService(context);
                 var service = new ClientImportService(context, clientService, null, contactService, lookupService, directoryLookupService);
@@ -687,7 +687,7 @@ namespace OneAdvisor.Service.Test.Client
             {
                 var auditService = new AuditService(context);
                 var clientService = new ClientService(context, auditService);
-                var policyService = new PolicyService(context);
+                var policyService = new PolicyService(context, auditService);
                 var lookupService = new ClientLookupService(context);
                 var directoryLookupService = new DirectoryLookupService(context);
                 var service = new ClientImportService(context, clientService, policyService, null, lookupService, directoryLookupService);
@@ -744,7 +744,7 @@ namespace OneAdvisor.Service.Test.Client
             {
                 var auditService = new AuditService(context);
                 var clientService = new ClientService(context, auditService);
-                var policyService = new PolicyService(context);
+                var policyService = new PolicyService(context, auditService);
                 var lookupService = new ClientLookupService(context);
                 var directoryLookupService = new DirectoryLookupService(context);
                 var service = new ClientImportService(context, clientService, policyService, null, lookupService, directoryLookupService);
@@ -812,7 +812,7 @@ namespace OneAdvisor.Service.Test.Client
             {
                 var auditService = new AuditService(context);
                 var clientService = new ClientService(context, auditService);
-                var policyService = new PolicyService(context);
+                var policyService = new PolicyService(context, auditService);
                 var lookupService = new ClientLookupService(context);
                 var directoryLookupService = new DirectoryLookupService(context);
                 var service = new ClientImportService(context, clientService, policyService, null, lookupService, directoryLookupService);

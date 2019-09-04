@@ -48,7 +48,8 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                var service = new BranchService(context);
+                var auditService = new AuditService(context);
+                var service = new BranchService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -99,7 +100,8 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                var service = new BranchService(context);
+                var auditService = new AuditService(context);
+                var service = new BranchService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -135,7 +137,8 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                var service = new BranchService(context);
+                var auditService = new AuditService(context);
+                var service = new BranchService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -185,7 +188,8 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                var service = new BranchService(context);
+                var auditService = new AuditService(context);
+                var service = new BranchService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -242,7 +246,8 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                var service = new BranchService(context);
+                var auditService = new AuditService(context);
+                var service = new BranchService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1, Scope.Organisation);
