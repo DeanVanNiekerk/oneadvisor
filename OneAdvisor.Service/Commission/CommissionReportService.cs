@@ -509,7 +509,7 @@ namespace OneAdvisor.Service.Commission
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
 
-            var thisMonth = queryOptions.Date.Month + 1;
+            var thisMonth = queryOptions.Date.Month;
             var thisYear = queryOptions.Date.Year;
 
             var thisMonthPolicies = from statement in _context.CommissionStatement
@@ -523,7 +523,7 @@ namespace OneAdvisor.Service.Commission
 
             var lastMonthDate = queryOptions.Date.AddMonths(-1);
 
-            var lastMonth = lastMonthDate.Month + 1;
+            var lastMonth = lastMonthDate.Month;
             var lastYear = lastMonthDate.Year;
 
             var query = from statement in _context.CommissionStatement
