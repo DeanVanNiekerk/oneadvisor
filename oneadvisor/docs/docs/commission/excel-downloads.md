@@ -9,7 +9,7 @@ Lorem ipsum dolor sit amet, consectet
 - item one
 - item two
 
-You need to be registered on secure services
+- 4 Scroll up slightly and ensure excel file report is selected and then click "Submit"
 
 
 ## Discovery
