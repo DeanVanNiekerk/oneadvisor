@@ -9,7 +9,7 @@ Lorem ipsum dolor sit amet, consectet
 - item one
 - item two
 
-You need to be registered on 
+You need to be registered on secure services
 
 
 ## Discovery
