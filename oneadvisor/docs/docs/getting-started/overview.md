@@ -3,10 +3,9 @@ id: overview
 title: Overview
 ---
 
-Check the [documentation](https://docusaurus.io) for how to use Docusaurus.
+This document section has been created to help show you how to navigate not only One Advisor but also how to source your own commission statements from the providers, in Excel.
 
-## Lorem
+## Commission Statements
 
-Forgot Password?
+Most of the product providers have online platforms where you can access your client information and commission statements. Click the Excel Downloads button below -  for a step by step visual demonsration of how to source your own commission statements.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum massa eget nulla aliquet sagittis. Proin odio tortor, vulputate ut odio in, ultrices ultricies augue. Cras ornare ultrices lorem malesuada iaculis. Etiam sit amet libero tempor, pulvinar mauris sed, sollicitudin sapien. ????
