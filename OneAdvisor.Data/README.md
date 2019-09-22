@@ -30,7 +30,6 @@ INSERT INTO dir_RoleToUseCase
     SELECT Id, 'com_view_commission_allocations'
     FROM idn_Role
     WHERE Name = 'com_administrator'
-    OR Name = 'com_readonly'
 
 INSERT INTO dir_RoleToUseCase
     SELECT Id, 'com_edit_commission_allocations'

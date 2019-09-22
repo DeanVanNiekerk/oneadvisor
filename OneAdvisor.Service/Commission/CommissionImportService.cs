@@ -33,6 +33,7 @@ namespace OneAdvisor.Service.Commission
         private readonly ICommissionLookupService _commissionLookupService;
         private readonly ICommissionSplitService _commissionSplitService;
         private readonly ICommissionSplitRulePolicyService _commissionSplitRulePolicyService;
+        private readonly IAuditService _auditService;
 
         public CommissionImportService(
             DataContext context,
@@ -42,7 +43,8 @@ namespace OneAdvisor.Service.Commission
             IDirectoryLookupService lookupService,
             ICommissionLookupService commissionLookupService,
             ICommissionSplitService commissionSplitService,
-            ICommissionSplitRulePolicyService commissionSplitRulePolicyService)
+            ICommissionSplitRulePolicyService commissionSplitRulePolicyService,
+            IAuditService auditService)
         {
             _context = context;
             _policyService = policyService;
@@ -52,6 +54,7 @@ namespace OneAdvisor.Service.Commission
             _commissionLookupService = commissionLookupService;
             _commissionSplitService = commissionSplitService;
             _commissionSplitRulePolicyService = commissionSplitRulePolicyService;
+            _auditService = auditService;
         }
 
         private List<CommissionEntity> CommissionsToInsert { get; set; }
@@ -101,6 +104,8 @@ namespace OneAdvisor.Service.Commission
 
             if (CommissionErrorsToInsert.Any())
                 await _bulkActions.BulkInsertCommissionErrorsAsync(_context, CommissionErrorsToInsert);
+
+            await _auditService.InsertAuditLog(scope, "Import", "Commission", new { commissionStatementId = commissionStatementId, result = importResult });
 
             return importResult;
         }

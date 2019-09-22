@@ -80,5 +80,18 @@ namespace api.Controllers.Commission.Commissions
 
             return Ok(data);
         }
+
+        [HttpGet("commissionLapseData")]
+        [UseCaseAuthorize("com_view_report_commission_lapse")]
+        public async Task<IActionResult> GetCommissionLapseData(string sortColumn = "", string sortDirection = "", int pageSize = 0, int pageNumber = 0, string filters = null)
+        {
+            var scope = AuthenticationService.GetScope(User);
+
+            var queryOptions = new CommissionLapseQueryOptions(scope, sortColumn, sortDirection, pageSize, pageNumber, filters);
+
+            var data = await CommissionReportService.GetCommissionLapseData(queryOptions);
+
+            return Ok(data);
+        }
     }
 }

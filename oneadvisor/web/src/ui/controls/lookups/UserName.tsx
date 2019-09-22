@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
-import { RootState } from '@/state/rootReducer';
+import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
+import { RootState } from "@/state/rootReducer";
 
 type Props = {
     users: UserSimple[];
-    userId: string;
+    userId: string | null;
     prefix?: string;
 };
 

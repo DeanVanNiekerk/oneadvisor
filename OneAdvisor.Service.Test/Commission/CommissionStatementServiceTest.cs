@@ -9,6 +9,7 @@ using OneAdvisor.Service.Commission;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using Moq;
 using OneAdvisor.Service.Common.BulkActions;
+using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -142,7 +143,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionStatementService(context, null);
+                var auditService = new AuditService(context);
+                var service = new CommissionStatementService(context, null, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -240,7 +242,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionStatementService(context, null);
+                var auditService = new AuditService(context);
+                var service = new CommissionStatementService(context, null, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -317,7 +320,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionStatementService(context, null);
+                var auditService = new AuditService(context);
+                var service = new CommissionStatementService(context, null, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -360,7 +364,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionStatementService(context, null);
+                var auditService = new AuditService(context);
+                var service = new CommissionStatementService(context, null, auditService);
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1);
@@ -422,7 +427,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionStatementService(context, null);
+                var auditService = new AuditService(context);
+                var service = new CommissionStatementService(context, null, auditService);
 
                 var model = new CommissionStatementEdit
                 {
@@ -470,7 +476,6 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-
                 var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
 
                 var actualCommissionStatementId1 = Guid.Empty;
@@ -483,7 +488,8 @@ namespace OneAdvisor.Service.Test.Commission
                     .Callback((DataContext c, Guid g1) => actualCommissionStatementId2 = g1)
                     .Returns(Task.CompletedTask);
 
-                var service = new CommissionStatementService(context, bulkActions.Object);
+                var auditService = new AuditService(context);
+                var service = new CommissionStatementService(context, bulkActions.Object, auditService);
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1);

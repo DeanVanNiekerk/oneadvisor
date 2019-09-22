@@ -12,16 +12,20 @@ using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Commission.Validators;
 using System.Collections.Generic;
 using OneAdvisor.Model.Commission.Model.CommissionAllocation;
+using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Directory.Model.Audit;
 
 namespace OneAdvisor.Service.Commission
 {
     public class CommissionAllocationService : ICommissionAllocationService
     {
         private readonly DataContext _context;
+        private readonly IAuditService _auditService;
 
-        public CommissionAllocationService(DataContext context)
+        public CommissionAllocationService(DataContext context, IAuditService auditService)
         {
             _context = context;
+            _auditService = auditService;
         }
 
         public async Task<PagedItems<CommissionAllocation>> GetCommissionAllocations(CommissionAllocationQueryOptions queryOptions)
@@ -100,6 +104,8 @@ namespace OneAdvisor.Service.Commission
 
             await _context.SaveChangesAsync();
 
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "CommissionAllocation", entity);
+
             return new Result(true);
         }
 
@@ -119,6 +125,8 @@ namespace OneAdvisor.Service.Commission
             result.Tag = commissionAllocation;
 
             await InsertCommissionAllocationPolicies(commissionAllocation);
+
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "CommissionAllocation", entity);
 
             return result;
         }
@@ -163,6 +171,8 @@ namespace OneAdvisor.Service.Commission
 
             await DeleteCommissionAllocationPolicies(commissionAllocation.Id.Value);
             await InsertCommissionAllocationPolicies(commissionAllocation);
+
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "CommissionAllocation", entity);
 
             return result;
         }

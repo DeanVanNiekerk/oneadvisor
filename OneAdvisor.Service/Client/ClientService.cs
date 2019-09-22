@@ -13,16 +13,20 @@ using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Client.Validators;
 using FluentValidation;
 using OneAdvisor.Model.Client.Model.Merge;
+using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Directory.Model.Audit;
 
 namespace OneAdvisor.Service.Client
 {
     public class ClientService : IClientService
     {
         private readonly DataContext _context;
+        private readonly IAuditService _auditService;
 
-        public ClientService(DataContext context)
+        public ClientService(DataContext context, IAuditService auditService)
         {
             _context = context;
+            _auditService = auditService;
         }
 
         public async Task<PagedItems<Model.Client.Model.Client.Client>> GetClients(ClientQueryOptions queryOptions)
@@ -136,6 +140,8 @@ namespace OneAdvisor.Service.Client
             client.Id = entity.Id;
             result.Tag = client;
 
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "Client", client);
+
             return result;
         }
 
@@ -156,6 +162,8 @@ namespace OneAdvisor.Service.Client
 
             await _context.SaveChangesAsync();
 
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "Client", client);
+
             return result;
         }
 
@@ -169,6 +177,8 @@ namespace OneAdvisor.Service.Client
             entity.IsDeleted = true;
 
             await _context.SaveChangesAsync();
+
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "Client", entity);
 
             return new Result(true);
         }
@@ -217,6 +227,8 @@ namespace OneAdvisor.Service.Client
             await _context.SaveChangesAsync();
 
             result.Tag = merge.TargetClient;
+
+            await _auditService.InsertAuditLog(scope, "Merge", "Client", merge);
 
             return result;
         }

@@ -1,12 +1,13 @@
-import { Badge, Col, Row, Select } from "antd";
+import { Badge } from "antd";
 import update from "immutability-helper";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
+import { filterOption } from "@/app/controls/select";
 import { ApiOnFailure, ApiOnSuccess } from "@/app/types";
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
 import { CommissionStatementTemplateEdit, Sheet, SheetConfig } from "@/state/app/commission/templates";
-import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
+import { companiesSelector, Company } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInput, FormSelect, TabPane, Tabs } from "@/ui/controls";
 
@@ -140,6 +141,8 @@ class TemplateForm extends Component<Props, State> {
                         <FormSelect
                             fieldName="companyId"
                             label="Company"
+                            showSearch={true}
+                            filterOption={filterOption}
                             value={template.companyId}
                             onChange={this.handleChange}
                             validationResults={validationResults}
@@ -195,10 +198,10 @@ class TemplateForm extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-    const companiesState = organisationCompaniesSelector(state);
+    const companiesState = companiesSelector(state);
 
     return {
-        companies: companiesState,
+        companies: companiesState.items,
     };
 };
 

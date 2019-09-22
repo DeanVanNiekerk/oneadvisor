@@ -7,6 +7,9 @@ using OneAdvisor.Model.Directory.Model.Audit;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Data.Entities.Directory;
+using OneAdvisor.Service.Directory.Validators;
+using OneAdvisor.Model.Account.Model.Authentication;
 
 namespace OneAdvisor.Service.Directory
 {
@@ -39,7 +42,7 @@ namespace OneAdvisor.Service.Directory
                 query = query.Where(b => queryOptions.Action.Contains(b.Action));
 
             if (queryOptions.UserId.Any())
-                query = query.Where(b => queryOptions.UserId.Contains(b.UserId));
+                query = query.Where(b => queryOptions.UserId.Contains(b.UserId.Value));
 
             if (!string.IsNullOrEmpty(queryOptions.Entity))
                 query = query.Where(m => EF.Functions.Like(m.Entity, $"{queryOptions.Entity}"));
@@ -57,6 +60,50 @@ namespace OneAdvisor.Service.Directory
             pagedItems.Items = await query.TakePage(queryOptions.PageOptions.Number, queryOptions.PageOptions.Size).ToListAsync();
 
             return pagedItems;
+        }
+
+        public async Task<Result> InsertAuditLog(ScopeOptions scope, string action, string entity, dynamic data)
+        {
+            var log = new AuditLog()
+            {
+                UserId = scope.UserId,
+                Action = action,
+                Entity = entity,
+                Data = data,
+            };
+            return await InsertAuditLog(log);
+        }
+
+        public async Task<Result> InsertAuditLog(AuditLog model)
+        {
+            var validator = new AuditLogValidator();
+            var result = validator.Validate(model).GetResult();
+
+            if (!result.Success)
+                return result;
+
+            var entity = MapCompanyModelToEntity(model);
+            await _context.AuditLog.AddAsync(entity);
+            await _context.SaveChangesAsync();
+
+            model.Id = entity.Id;
+            result.Tag = model;
+
+            return result;
+        }
+
+        private AuditLogEntity MapCompanyModelToEntity(AuditLog model, AuditLogEntity entity = null)
+        {
+            if (entity == null)
+                entity = new AuditLogEntity();
+
+            entity.UserId = model.UserId;
+            entity.Date = model.Date;
+            entity.Action = model.Action;
+            entity.Entity = model.Entity;
+            entity.Data = model.Data;
+
+            return entity;
         }
     }
 }

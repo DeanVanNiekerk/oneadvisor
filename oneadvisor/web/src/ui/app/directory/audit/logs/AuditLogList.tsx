@@ -1,16 +1,16 @@
-import { Tag } from 'antd';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Tag } from "antd";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { Filters, getColumnDefinition, PageOptions, SortOptions } from '@/app/table';
+import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import {
     AuditLog, auditLogsSelector, fetchAuditLogs, receiveFilters, receivePageOptions, receiveSortOptions
-} from '@/state/app/directory/audit';
-import { UserSimple, usersSimpleSelector } from '@/state/app/directory/usersSimple';
-import { RootState } from '@/state/rootReducer';
-import { Button, getTable, Header, UserName } from '@/ui/controls';
+} from "@/state/app/directory/audit";
+import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
+import { RootState } from "@/state/rootReducer";
+import { Button, getTable, Header, UserName } from "@/ui/controls";
 
-import AuditLogDetails from './AuditLogDetails';
+import AuditLogDetails from "./AuditLogDetails";
 
 const Table = getTable<AuditLog>();
 
@@ -38,7 +38,7 @@ class AuditLogList extends Component<Props, State> {
     }
 
     componentDidMount() {
-        if (this.props.logs.length === 0) this.loadAuditLogs();
+        this.loadAuditLogs();
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -92,6 +92,8 @@ class AuditLogList extends Component<Props, State> {
                                 return <Tag color="red">{action}</Tag>;
                             case "INSERT":
                                 return <Tag color="green">{action}</Tag>;
+                            case "UPDATE":
+                                return <Tag color="orange">{action}</Tag>;
                             default:
                                 return <Tag color="blue">{action}</Tag>;
                         }
@@ -109,6 +111,10 @@ class AuditLogList extends Component<Props, State> {
                             text: "Delete",
                             value: "Delete",
                         },
+                        {
+                            text: "Authenticate",
+                            value: "Authenticate",
+                        },
                     ],
                 }
             ),
@@ -117,7 +123,7 @@ class AuditLogList extends Component<Props, State> {
                 "Broker",
                 {},
                 {
-                    render: (userId: string) => {
+                    render: (userId: string | null) => {
                         return <UserName userId={userId} />;
                     },
                     filters: this.props.users.map(user => ({

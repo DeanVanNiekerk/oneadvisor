@@ -10,10 +10,11 @@ using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Commission.Validators;
-using System.Collections;
 using System.Collections.Generic;
 using OneAdvisor.Model.Commission.Model.CommissionSplitRulePolicy;
 using OneAdvisor.Model.Commission.Model.CommissionSplitRule;
+using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Directory.Model.Audit;
 
 namespace OneAdvisor.Service.Commission
 {
@@ -21,11 +22,13 @@ namespace OneAdvisor.Service.Commission
     {
         private readonly DataContext _context;
         private readonly ICommissionSplitService _commissionSplitService;
+        private readonly IAuditService _auditService;
 
-        public CommissionSplitRulePolicyService(DataContext context, ICommissionSplitService commissionSplitService)
+        public CommissionSplitRulePolicyService(DataContext context, ICommissionSplitService commissionSplitService, IAuditService auditService)
         {
             _context = context;
             _commissionSplitService = commissionSplitService;
+            _auditService = auditService;
         }
 
         public async Task<PagedItems<CommissionSplitRulePolicyInfo>> GetCommissionSplitRulePolicyInfoList(CommissionSplitRulePolicyInfoQueryOptions queryOptions)
@@ -135,6 +138,8 @@ namespace OneAdvisor.Service.Commission
 
             await _context.SaveChangesAsync();
 
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "CommissionSplitRulePolicy", entity);
+
             return new Result(true);
         }
 
@@ -158,6 +163,8 @@ namespace OneAdvisor.Service.Commission
 
             commissionSplitRulePolicy.Id = entity.Id;
             result.Tag = commissionSplitRulePolicy;
+
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "CommissionSplitRulePolicy", commissionSplitRulePolicy);
 
             return result;
         }
@@ -187,6 +194,8 @@ namespace OneAdvisor.Service.Commission
             var commissionSplitRulePolicyEntity = MapModelToEntity(commissionSplitRulePolicy, entity);
 
             await _context.SaveChangesAsync();
+
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "CommissionSplitRulePolicy", commissionSplitRulePolicy);
 
             return result;
         }

@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 
 import { reducer as clientRevenue, State as ClientRevenueState } from "./clientRevenue/reducer";
+import { reducer as commissionLapse, State as CommissionLapseState } from "./commissionLapse/reducer";
 import { reducer as projections, State as ProjectionsState } from "./projections/reducer";
 import {
     reducer as userCompanyMonthlyCommission, State as UserCompanyMonthlyCommissionState
@@ -18,6 +19,7 @@ export type State = {
     userCompanyMonthlyCommission: UserCompanyMonthlyCommissionState;
     userMonthlyCommission: UsereMonthlyCommissionState;
     projections: ProjectionsState;
+    commissionLapse: CommissionLapseState;
 };
 
 export const reducer = combineReducers({
@@ -26,4 +28,5 @@ export const reducer = combineReducers({
     userCompanyMonthlyCommission: userCompanyMonthlyCommission,
     userMonthlyCommission: userMonthlyCommission,
     projections: projections,
+    commissionLapse: commissionLapse,
 });

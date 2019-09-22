@@ -5,7 +5,7 @@ import { connect, DispatchProp } from "react-redux";
 import { filterOption } from "@/app/controls/select";
 import { ValidationResult } from "@/app/validation";
 import { StatementEdit } from "@/state/app/commission/statements";
-import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
+import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInputNumber, FormSelect, FormSwitch } from "@/ui/controls";
 
@@ -18,7 +18,6 @@ type Props = {
 
 type State = {
     statement: StatementEdit;
-    companySearch: string;
 };
 
 class StatementForm extends Component<Props, State> {
@@ -27,7 +26,6 @@ class StatementForm extends Component<Props, State> {
 
         this.state = {
             statement: props.statement,
-            companySearch: "",
         };
     }
 
@@ -49,19 +47,6 @@ class StatementForm extends Component<Props, State> {
         this.props.onChange(statement);
     };
 
-    companySearch = (value: string) => {
-        this.setState({
-            companySearch: value,
-        });
-    };
-
-    companies = () => {
-        if (this.state.companySearch === "") return this.props.companies;
-        return this.props.companies.filter(c => {
-            return c.name.toLowerCase().indexOf(this.state.companySearch.toLowerCase()) === 0;
-        });
-    };
-
     render() {
         const { validationResults } = this.props;
         const { statement } = this.state;
@@ -74,13 +59,11 @@ class StatementForm extends Component<Props, State> {
                     value={statement.companyId}
                     onChange={this.handleChange}
                     validationResults={validationResults}
-                    options={this.companies()}
+                    options={this.props.companies}
                     optionsValue="id"
                     optionsText="name"
                     autoFocus={true}
-                    onSearch={this.companySearch}
-                    onSelect={() => this.companySearch("")}
-                    showSearch
+                    showSearch={true}
                     allowClear
                     filterOption={filterOption}
                 />

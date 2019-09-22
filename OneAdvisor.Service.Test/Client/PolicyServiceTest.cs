@@ -9,6 +9,7 @@ using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Client.Model.Policy;
 using OneAdvisor.Service.Client;
+using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Client
 {
@@ -78,7 +79,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new PolicyService(context);
+                var auditService = new AuditService(context);
+                var service = new PolicyService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -161,7 +163,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new PolicyService(context);
+                var auditService = new AuditService(context);
+                var service = new PolicyService(context, auditService);
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1);
@@ -235,7 +238,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new PolicyService(context);
+                var auditService = new AuditService(context);
+                var service = new PolicyService(context, auditService);
 
                 //When
 
@@ -313,7 +317,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new PolicyService(context);
+                var auditService = new AuditService(context);
+                var service = new PolicyService(context, auditService);
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1);
@@ -351,7 +356,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new PolicyService(context);
+                var auditService = new AuditService(context);
+                var service = new PolicyService(context, auditService);
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1);
@@ -389,7 +395,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new PolicyService(context);
+                var auditService = new AuditService(context);
+                var service = new PolicyService(context, auditService);
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1);
@@ -430,7 +437,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new PolicyService(context);
+                var auditService = new AuditService(context);
+                var service = new PolicyService(context, auditService);
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1);
@@ -509,7 +517,8 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var service = new PolicyService(context);
+                var auditService = new AuditService(context);
+                var service = new PolicyService(context, auditService);
 
                 //When
                 var scopeOptions = TestHelper.GetScopeOptions(user1);

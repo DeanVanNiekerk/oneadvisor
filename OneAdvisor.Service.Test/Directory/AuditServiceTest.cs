@@ -76,5 +76,39 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.Equal(al3.Id, actual3.Id);
             }
         }
+
+        [Fact]
+        public async Task InsertAuditLog()
+        {
+            var options = TestHelper.GetDbContext("InsertAuditLog");
+
+            //Given
+            var model = new AuditLog()
+            {
+                Date = DateTime.UtcNow,
+                UserId = Guid.NewGuid(),
+                Action = "Action 1",
+                Entity = "Entity 1",
+                Data = "Data 1"
+            };
+
+            using (var context = new DataContext(options))
+            {
+                var service = new AuditService(context);
+
+                //When
+                var result = await service.InsertAuditLog(model);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.AuditLog.FindAsync(((AuditLog)result.Tag).Id);
+                Assert.Equal(model.Date, actual.Date);
+                Assert.Equal(model.UserId, actual.UserId);
+                Assert.Equal(model.Action, actual.Action);
+                Assert.Equal(model.Entity, actual.Entity);
+                Assert.Equal(model.Data, actual.Data);
+            }
+        }
     }
 }

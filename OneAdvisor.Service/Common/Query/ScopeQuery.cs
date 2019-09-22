@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Client;
-using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 

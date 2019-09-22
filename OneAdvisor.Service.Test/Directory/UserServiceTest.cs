@@ -70,7 +70,8 @@ namespace OneAdvisor.Service.Test.Directory
             using (var context = new DataContext(options))
             {
                 var userManager = TestHelper.MockUserManager(context.Users.ToList());
-                var service = new UserService(context, userManager.Object);
+                var auditService = new AuditService(context);
+                var service = new UserService(context, userManager.Object, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(userDetailed1, Scope.Organisation);
@@ -145,7 +146,8 @@ namespace OneAdvisor.Service.Test.Directory
                 var userManager = TestHelper.MockUserManager(context.Users.ToList());
                 userManager.Setup(x => x.GetRolesAsync(It.IsAny<UserEntity>())).ReturnsAsync(roles);
 
-                var service = new UserService(context, userManager.Object);
+                var auditService = new AuditService(context);
+                var service = new UserService(context, userManager.Object, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(userDetailed1, Scope.Organisation);
@@ -234,7 +236,8 @@ namespace OneAdvisor.Service.Test.Directory
                         addedPassword = p;
                     });
 
-                var service = new UserService(context, userManager.Object);
+                var auditService = new AuditService(context);
+                var service = new UserService(context, userManager.Object, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(userDetailed1, Scope.Organisation);
@@ -321,7 +324,8 @@ namespace OneAdvisor.Service.Test.Directory
                         updatedUser = u;
                     });
 
-                var service = new UserService(context, userManager.Object);
+                var auditService = new AuditService(context);
+                var service = new UserService(context, userManager.Object, auditService);
 
                 var user = new UserEdit()
                 {
@@ -407,7 +411,8 @@ namespace OneAdvisor.Service.Test.Directory
             using (var context = new DataContext(options))
             {
                 var userManager = TestHelper.MockUserManager(context.Users.ToList());
-                var service = new UserService(context, userManager.Object);
+                var auditService = new AuditService(context);
+                var service = new UserService(context, userManager.Object, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(userDetailed1, Scope.Organisation);
@@ -465,7 +470,8 @@ namespace OneAdvisor.Service.Test.Directory
             using (var context = new DataContext(options))
             {
                 var userManager = TestHelper.MockUserManager(context.Users.ToList());
-                var service = new UserService(context, userManager.Object);
+                var auditService = new AuditService(context);
+                var service = new UserService(context, userManager.Object, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(userDetailed1, Scope.Organisation);

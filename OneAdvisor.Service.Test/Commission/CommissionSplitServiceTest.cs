@@ -10,6 +10,7 @@ using OneAdvisor.Model.Directory.Model.User;
 using System.Collections.Generic;
 using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Commission.Model.CommissionSplitRule;
+using OneAdvisor.Service.Directory;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -102,7 +103,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionSplitService(context);
+                var auditService = new AuditService(context);
+                var service = new CommissionSplitService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -220,7 +222,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionSplitService(context);
+                var auditService = new AuditService(context);
+                var service = new CommissionSplitService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -264,7 +267,8 @@ namespace OneAdvisor.Service.Test.Commission
                     }
                 };
 
-                var service = new CommissionSplitService(context);
+                var auditService = new AuditService(context);
+                var service = new CommissionSplitService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -379,7 +383,8 @@ namespace OneAdvisor.Service.Test.Commission
                     }
                 };
 
-                var service = new CommissionSplitService(context);
+                var auditService = new AuditService(context);
+                var service = new CommissionSplitService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);
@@ -486,7 +491,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var service = new CommissionSplitService(context);
+                var auditService = new AuditService(context);
+                var service = new CommissionSplitService(context, auditService);
 
                 //When
                 var scope = TestHelper.GetScopeOptions(user1);

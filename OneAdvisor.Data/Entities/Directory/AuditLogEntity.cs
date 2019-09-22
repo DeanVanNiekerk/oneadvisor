@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Dynamic;
 
 namespace OneAdvisor.Data.Entities.Directory
 {
@@ -7,10 +8,14 @@ namespace OneAdvisor.Data.Entities.Directory
     {
         [Key]
         public Guid Id { get; set; }
-        public string Data { get; set; }
-        public string Entity { get; set; }
-        public string Action { get; set; }
+        public Guid? UserId { get; set; }
+        [Required]
         public DateTime Date { get; set; }
-        public Guid UserId { get; set; }
+        [Required]
+        public string Action { get; set; }
+        public string Entity { get; set; }
+        public dynamic Data { get; set; }
+
+        public virtual UserEntity User { get; set; }
     }
 }

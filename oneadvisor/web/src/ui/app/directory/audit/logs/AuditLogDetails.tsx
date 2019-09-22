@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import JSONPretty from 'react-json-pretty';
+import React, { Component } from "react";
+import JSONPretty from "react-json-pretty";
 
-import { AuditLog } from '@/state/app/directory/audit';
-import { Button, Date, Drawer, DrawerFooter, UserName } from '@/ui/controls';
+import { AuditLog } from "@/state/app/directory/audit";
+import { Button, Date, Drawer, DrawerFooter, UserName } from "@/ui/controls";
 
 type Props = {
     visible: boolean;
@@ -29,7 +29,7 @@ class AuditLogDetails extends Component<Props> {
                         </p>
                         <p>
                             <b>Entity: </b>
-                            {auditLog.entity.replace('Entity', '')}
+                            {auditLog.entity}
                         </p>
                         <p>
                             <b>Action: </b>
@@ -43,7 +43,7 @@ class AuditLogDetails extends Component<Props> {
                             <b>Raw Data: </b>
                         </p>
 
-                        <JSONPretty json={JSON.parse(auditLog.data)} />
+                        <JSONPretty json={auditLog.data} />
                     </>
                 )}
                 <DrawerFooter>

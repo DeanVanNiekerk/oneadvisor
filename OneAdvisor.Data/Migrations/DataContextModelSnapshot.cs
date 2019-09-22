@@ -861,7 +861,8 @@ namespace OneAdvisor.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Action");
+                    b.Property<string>("Action")
+                        .IsRequired();
 
                     b.Property<string>("Data");
 
@@ -869,9 +870,11 @@ namespace OneAdvisor.Data.Migrations
 
                     b.Property<string>("Entity");
 
-                    b.Property<Guid>("UserId");
+                    b.Property<Guid?>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("dir_AuditLog");
                 });
@@ -1219,6 +1222,12 @@ namespace OneAdvisor.Data.Migrations
                             Id = "com_view_report_past_revenue_commission",
                             ApplicationId = new Guid("2fca4500-9142-4940-aaf4-b18925c96d66"),
                             Name = "View Commission Projections Report"
+                        },
+                        new
+                        {
+                            Id = "com_view_report_commission_lapse",
+                            ApplicationId = new Guid("2fca4500-9142-4940-aaf4-b18925c96d66"),
+                            Name = "View Commission Lapse Report"
                         });
                 });
 
@@ -1416,7 +1425,7 @@ namespace OneAdvisor.Data.Migrations
                         .HasForeignKey("PolicyTypeId");
 
                     b.HasOne("OneAdvisor.Data.Entities.Directory.UserEntity", "User")
-                        .WithMany()
+                        .WithMany("Policies")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -1533,6 +1542,13 @@ namespace OneAdvisor.Data.Migrations
                         .WithMany("CommissionTypes")
                         .HasForeignKey("PolicyTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.AuditLogEntity", b =>
+                {
+                    b.HasOne("OneAdvisor.Data.Entities.Directory.UserEntity", "User")
+                        .WithMany("AuditLogs")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.BranchEntity", b =>

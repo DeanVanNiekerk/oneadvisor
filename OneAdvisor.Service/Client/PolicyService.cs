@@ -11,16 +11,20 @@ using OneAdvisor.Model.Client.Interface;
 using OneAdvisor.Model.Client.Model.Policy;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Client.Validators;
+using OneAdvisor.Model.Directory.Interface;
+using OneAdvisor.Model.Directory.Model.Audit;
 
 namespace OneAdvisor.Service.Client
 {
     public class PolicyService : IPolicyService
     {
         private readonly DataContext _context;
+        private readonly IAuditService _auditService;
 
-        public PolicyService(DataContext context)
+        public PolicyService(DataContext context, IAuditService auditService)
         {
             _context = context;
+            _auditService = auditService;
         }
 
         public async Task<PagedItems<Policy>> GetPolicies(PolicyQueryOptions queryOptions)
@@ -144,6 +148,8 @@ namespace OneAdvisor.Service.Client
             policy.Id = entity.Id;
             result.Tag = policy;
 
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "Policy", policy);
+
             return result;
         }
 
@@ -163,6 +169,8 @@ namespace OneAdvisor.Service.Client
             var clientEntity = MapModelToEntity(policy, entity);
 
             await _context.SaveChangesAsync();
+
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "Policy", policy);
 
             return result;
         }

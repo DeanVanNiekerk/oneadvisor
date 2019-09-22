@@ -1,8 +1,8 @@
 export type AuditLog = {
     id: string;
-    data: string;
-    entity: string;
-    action: string;
+    userId: string | null;
     date: string;
-    userId: string;
+    action: string;
+    entity: string | null;
+    data: any | null;
 };
