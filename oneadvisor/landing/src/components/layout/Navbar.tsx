@@ -64,7 +64,7 @@ class Navbar extends Component<Props, State> {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/documentation">
+                                <Link className="nav-link" to="http://docs.oneadvisor.net">
                                     Docs
                                 </Link>
                             </li>
