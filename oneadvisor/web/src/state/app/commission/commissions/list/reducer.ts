@@ -1,8 +1,8 @@
-import { Filters, PageOptions, SortOptions } from '@/app/table';
-import { defaultPageOptions, defaultSortOptions } from '@/app/table/defaults';
+import { Filters, PageOptions, SortOptions } from "@/app/table";
+import { defaultPageOptions, defaultSortOptions } from "@/app/table/defaults";
 
-import { Commission } from '../types';
-import { CommissionListAction } from './actions';
+import { Commission } from "../types";
+import { CommissionListAction } from "./actions";
 
 export type State = {
     readonly items: Commission[];
@@ -22,7 +22,7 @@ export const defaultState: State = {
     sumVAT: 0,
     fetching: false,
     pageOptions: defaultPageOptions(),
-    sortOptions: defaultSortOptions("", "desc"),
+    sortOptions: defaultSortOptions("commissionStatementDate", "asc"),
     filters: null,
 };
 

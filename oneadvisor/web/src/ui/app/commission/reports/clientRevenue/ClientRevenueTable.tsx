@@ -28,7 +28,7 @@ type Props = {
 
 class ClientRevenueTable extends Component<Props> {
     getColumns = () => {
-        var getColumn = getColumnDefinition<ClientRevenueData>(true, this.props.filters);
+        var getColumn = getColumnDefinition<ClientRevenueData>(true, this.props.filters, this.props.sortOptions);
 
         const columns = [
             getColumn(

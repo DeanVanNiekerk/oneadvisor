@@ -67,7 +67,7 @@ class AuditLogList extends Component<Props, State> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<AuditLog>(true, this.props.filters);
+        var getColumn = getColumnDefinition<AuditLog>(true, this.props.filters, this.props.sortOptions);
         return [
             getColumn("date", "Date", { type: "long-date" }),
             getColumn(
@@ -142,8 +142,6 @@ class AuditLogList extends Component<Props, State> {
     };
 
     render() {
-
-
         return (
             <>
                 <Header

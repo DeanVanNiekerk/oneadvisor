@@ -53,6 +53,7 @@ describe("report client revenue reducer", () => {
             premium: 100,
             startDate: "888888",
             userId: "99999",
+            companyName: "c1",
         };
 
         const actualState = reducer(initalState, {

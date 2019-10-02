@@ -7,7 +7,7 @@ import {
     fetchSplitRulePolicies, fetchSplitRulePolicy, receiveFilters, receivePageOptions, receiveSortOptions,
     splitRulePoliciesSelector, SplitRulePolicyInfo
 } from "@/state/app/commission/splitRulePolicies";
-import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
+import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { CompanyName, getTable, Header, UserName } from "@/ui/controls";
@@ -80,7 +80,7 @@ class SplitRulePolicyList extends Component<Props, State> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<SplitRulePolicyInfo>(true, this.props.filters);
+        var getColumn = getColumnDefinition<SplitRulePolicyInfo>(true, this.props.filters, this.props.sortOptions);
 
         return [
             getColumn(

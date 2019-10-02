@@ -17,7 +17,7 @@ export const defaultState: State = {
     totalItems: 0,
     fetching: false,
     pageOptions: defaultPageOptions(),
-    sortOptions: defaultSortOptions("Date", "desc"),
+    sortOptions: defaultSortOptions("date", "desc"),
     filters: null,
 };
 

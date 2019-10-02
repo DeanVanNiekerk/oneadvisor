@@ -66,7 +66,7 @@ class ChangeLogList extends Component<Props> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<ChangeLog>(true);
+        var getColumn = getColumnDefinition<ChangeLog>(true, null, this.props.sortOptions);
 
         return [
             getColumn("versionNumber", "Version Number"),

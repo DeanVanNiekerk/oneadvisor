@@ -58,7 +58,19 @@ class PolicyList extends Component<Props> {
 
         if (this.props.clientId) filters.clientId.push(this.props.clientId);
 
-        this.props.dispatch(fetchPolicies(this.props.pageOptions, this.props.sortOptions, this.updateFilters(filters)));
+        const sortOptions = this.mapSortOptions(this.props.sortOptions);
+
+        this.props.dispatch(fetchPolicies(this.props.pageOptions, sortOptions, this.updateFilters(filters)));
+    };
+
+    mapSortOptions = (sortOptions: SortOptions): SortOptions => {
+        if (sortOptions.column === "companyId") {
+            return {
+                ...sortOptions,
+                column: "companyName",
+            };
+        }
+        return sortOptions;
     };
 
     updateFilters = (filters: Filters): Filters => {
@@ -86,7 +98,7 @@ class PolicyList extends Component<Props> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<Policy>(true, this.props.filters);
+        var getColumn = getColumnDefinition<Policy>(true, this.props.filters, this.props.sortOptions);
 
         const columns = [
             getColumn(

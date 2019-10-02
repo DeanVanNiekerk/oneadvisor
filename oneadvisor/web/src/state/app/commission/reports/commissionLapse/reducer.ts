@@ -28,7 +28,7 @@ export const defaultState: State = {
     totalItems: 0,
     filters: defaultFilters,
     pageOptions: defaultPageOptions(),
-    sortOptions: defaultSortOptions("Number", "desc"),
+    sortOptions: defaultSortOptions("companyId", "asc"),
 };
 
 export const reducer = (state: State = defaultState, action: CommissionCommissionLapseDataAction): State => {

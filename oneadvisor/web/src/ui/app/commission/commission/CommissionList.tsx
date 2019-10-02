@@ -11,7 +11,7 @@ import {
     receiveFilters, receivePageOptions, receiveSortOptions
 } from "@/state/app/commission/commissions";
 import { CommissionType, commissionTypesSelector } from "@/state/app/commission/lookups";
-import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
+import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Button, CommissionTypeName, CompanyName, getTable, Header, UserName } from "@/ui/controls";
@@ -107,7 +107,7 @@ class CommissionList extends Component<Props> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<Commission>(true, this.props.filters);
+        var getColumn = getColumnDefinition<Commission>(true, this.props.filters, this.props.sortOptions);
 
         const { hideColumns = [] } = this.props;
 

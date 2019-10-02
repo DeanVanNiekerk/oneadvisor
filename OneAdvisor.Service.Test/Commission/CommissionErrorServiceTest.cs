@@ -161,10 +161,12 @@ namespace OneAdvisor.Service.Test.Commission
 
             var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
+            var company1 = TestHelper.InsertCompany(options);
+
             var policy1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
-                CompanyId = Guid.NewGuid(),
+                CompanyId = company1.Id,
                 ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };
@@ -265,6 +267,8 @@ namespace OneAdvisor.Service.Test.Commission
 
             var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
 
+            var company1 = TestHelper.InsertCompany(options);
+
             var client1 = new ClientEntity
             {
                 Id = Guid.NewGuid(),
@@ -281,7 +285,7 @@ namespace OneAdvisor.Service.Test.Commission
             var policy1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
-                CompanyId = Guid.NewGuid(),
+                CompanyId = company1.Id,
                 ClientId = client1.Id,
                 UserId = user1.User.Id
             };
@@ -371,11 +375,13 @@ namespace OneAdvisor.Service.Test.Commission
 
             var commissionTypeId = Guid.NewGuid();
 
+            var company1 = TestHelper.InsertCompany(options);
+
             var policy1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
                 Number = "123456",
-                CompanyId = Guid.NewGuid(),
+                CompanyId = company1.Id,
                 ClientId = client1.Client.Id,
                 UserId = user1.User.Id
             };

@@ -2,6 +2,7 @@ export type Policy = {
     id: string;
     clientId: string;
     companyId: string;
+    companyName: string;
     userId: string;
     number: string;
     userFullName: string;

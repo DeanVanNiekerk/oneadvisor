@@ -529,6 +529,8 @@ namespace OneAdvisor.Service.Commission
             var query = from statement in _context.CommissionStatement
                         join commission in _context.Commission
                             on statement.Id equals commission.CommissionStatementId
+                        join company in _context.Company
+                            on statement.CompanyId equals company.Id
                         join policy in _context.Policy
                             on commission.PolicyId equals policy.Id
                         join client in _context.Client
@@ -551,6 +553,7 @@ namespace OneAdvisor.Service.Commission
                             ClientLastName = client.LastName,
                             ClientInitials = client.Initials,
                             IsActive = policy.IsActive,
+                            CompanyName = company.Name,
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------

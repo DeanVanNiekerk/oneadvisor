@@ -16,5 +16,6 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
 
         public string ClientLastName { get; set; }
         public string ClientInitials { get; set; }
+        public string CompanyName { get; set; }
     }
 }

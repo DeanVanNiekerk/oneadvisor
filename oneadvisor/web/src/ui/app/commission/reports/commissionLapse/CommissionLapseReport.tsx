@@ -20,7 +20,6 @@ type Props = {
 } & DispatchProp;
 
 class CommissionLapseReport extends Component<Props> {
-
     componentDidMount() {
         this.loadData();
     }
@@ -35,20 +34,33 @@ class CommissionLapseReport extends Component<Props> {
     }
 
     loadData = () => {
-        this.props.dispatch(
-            fetchCommissionLapseData(this.props.pageOptions, this.props.sortOptions, this.props.filters)
-        );
+        const sortOptions = this.mapSortOptions(this.props.sortOptions);
+        this.props.dispatch(fetchCommissionLapseData(this.props.pageOptions, sortOptions, this.props.filters));
+    };
+
+    mapSortOptions = (sortOptions: SortOptions): SortOptions => {
+        if (sortOptions.column === "companyId") {
+            return {
+                ...sortOptions,
+                column: "companyName",
+            };
+        }
+        return sortOptions;
     };
 
     currentFilterDate = () => {
         return moment(this.props.filters.date ? this.props.filters.date[0] : undefined);
-    }
+    };
 
     handleYearChange = (year: number) => {
         this.props.dispatch(
             receiveCommissionLapseFilters({
                 ...this.props.filters,
-                date: [this.currentFilterDate().year(year).format(DATE_FORMAT)],
+                date: [
+                    this.currentFilterDate()
+                        .year(year)
+                        .format(DATE_FORMAT),
+                ],
             })
         );
     };
@@ -61,7 +73,11 @@ class CommissionLapseReport extends Component<Props> {
         this.props.dispatch(
             receiveCommissionLapseFilters({
                 ...this.props.filters,
-                date: [this.currentFilterDate().month(month - 1).format(DATE_FORMAT)],
+                date: [
+                    this.currentFilterDate()
+                        .month(month - 1)
+                        .format(DATE_FORMAT),
+                ],
             })
         );
     };
@@ -73,11 +89,7 @@ class CommissionLapseReport extends Component<Props> {
     render() {
         return (
             <>
-                <Header
-                    icon="alert"
-                >
-                    Policy Lapse Report
-                </Header>
+                <Header icon="alert">Policy Lapse Report</Header>
 
                 <Row type="flex" gutter={10} align="middle" justify="start" className="mb-1">
                     <Col>Month Ending:</Col>
