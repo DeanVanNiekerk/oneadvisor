@@ -28,7 +28,7 @@ type Props = {
 
 class CommissionLapseTable extends Component<Props> {
     getColumns = () => {
-        var getColumn = getColumnDefinition<CommissionLapseData>(true, this.props.filters);
+        var getColumn = getColumnDefinition<CommissionLapseData>(true, this.props.filters, this.props.sortOptions);
 
         const columns = [
             getColumn(
@@ -112,7 +112,7 @@ class CommissionLapseTable extends Component<Props> {
                 columns={this.getColumns()}
                 dataSource={this.props.records}
                 loading={this.props.fetching}
-                onRowClick={() => { }}
+                onRowClick={() => {}}
                 externalDataSource={true}
                 pageOptions={this.props.pageOptions}
                 totalRows={this.props.totalItems}

@@ -19,5 +19,6 @@ namespace OneAdvisor.Model.Client.Model.Policy
         public string ClientLastName { get; set; }
         public string ClientInitials { get; set; }
         public DateTime? ClientDateOfBirth { get; set; }
+        public string CompanyName { get; set; }
     }
 }

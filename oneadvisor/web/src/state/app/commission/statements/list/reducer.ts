@@ -1,10 +1,10 @@
-import moment from 'moment';
+import moment from "moment";
 
-import { Filters, PageOptions, SortOptions } from '@/app/table';
-import { defaultPageOptions, defaultSortOptions } from '@/app/table/defaults';
+import { Filters, PageOptions, SortOptions } from "@/app/table";
+import { defaultPageOptions, defaultSortOptions } from "@/app/table/defaults";
 
-import { Statement } from '../types';
-import { StatementListAction } from './actions';
+import { Statement } from "../types";
+import { StatementListAction } from "./actions";
 
 export type State = {
     readonly items: Statement[];
@@ -26,7 +26,7 @@ export const defaultState: State = {
     sumVAT: 0,
     fetching: false,
     pageOptions: defaultPageOptions(),
-    sortOptions: defaultSortOptions("", "desc"),
+    sortOptions: defaultSortOptions("companyId", "asc"),
     filterMonth: moment().month() + 1,
     filterYear: moment().year(),
     filters: null,

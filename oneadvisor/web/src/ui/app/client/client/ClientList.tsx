@@ -91,7 +91,7 @@ class ClientList extends Component<Props, State> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<Client>(true, this.props.filters);
+        var getColumn = getColumnDefinition<Client>(true, this.props.filters, this.props.sortOptions);
 
         return [
             getColumn(

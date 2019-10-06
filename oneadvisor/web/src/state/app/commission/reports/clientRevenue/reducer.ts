@@ -34,7 +34,7 @@ export const defaultState: State = {
     totalItems: 0,
     fetchingPaged: false,
     pageOptions: defaultPageOptions(),
-    sortOptions: defaultSortOptions("", "desc"),
+    sortOptions: defaultSortOptions("monthlyAnnuityMonth", "desc"),
     filters: defaultFilters,
 };
 

@@ -58,6 +58,7 @@ describe("policy list reducer", () => {
             clientInitials: "DJ",
             clientDateOfBirth: "1982-10-03",
             isActive: true,
+            companyName: "c1",
         };
 
         const actualState = reducer(initalState, {

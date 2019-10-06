@@ -5,14 +5,24 @@ import { ColumnOptions, Filters } from "@/app/table";
 import { getColumnSearchProps } from "@/ui/controls";
 
 import { formatCurrency } from "../utils";
+import { SortOptions } from "./types";
 
-export const getColumnDefinition = <T = any>(externalDataSource: boolean = false, filters: Filters | null = null) => {
+export const getColumnDefinition = <T = any>(
+    externalDataSource: boolean = false,
+    filters: Filters | null = null,
+    sortOptions: SortOptions | null = null
+) => {
     return (key: keyof T | "", title: string, options: ColumnOptions = {}, columnProps: ColumnProps<T> = {}) => {
         options = {
             externalDataSource: externalDataSource,
             filters: filters,
             ...options,
         };
+
+        if (sortOptions && sortOptions.column === key) {
+            columnProps.defaultSortOrder = sortOptions.direction === "asc" ? "ascend" : "descend";
+        }
+
         return getColumn<T>(key, title, options, columnProps);
     };
 };
@@ -43,10 +53,10 @@ const getColumn = <T>(
         ...columnProps,
     };
 
-    // if (options.externalDataSource) {
-    //     props.sorter = true;
-    //     props.onFilter = undefined;
-    // }
+    if (options.externalDataSource) {
+        props.sorter = true;
+        props.onFilter = undefined;
+    }
 
     if (options.type === "boolean") props.render = formatBool;
     if (options.type === "date") props.render = value => (value ? moment(value).format("ll") : "");
@@ -85,7 +95,12 @@ export const sort = (item1: any, item2: any, property: string) => {
 };
 
 export const filter = (value: string, record: any, property: string) => {
-    return record[property].toString().toLowerCase().indexOf(value.toString().toLowerCase()) !== -1;
+    return (
+        record[property]
+            .toString()
+            .toLowerCase()
+            .indexOf(value.toString().toLowerCase()) !== -1
+    );
 };
 
 export const formatBool = (value: boolean) => {

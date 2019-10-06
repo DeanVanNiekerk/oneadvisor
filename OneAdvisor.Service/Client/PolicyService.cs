@@ -36,6 +36,8 @@ namespace OneAdvisor.Service.Client
                             on user.Id equals policy.UserId
                         join client in _context.Client
                             on policy.ClientId equals client.Id
+                        join company in _context.Company
+                            on policy.CompanyId equals company.Id
                         select new Policy()
                         {
                             Id = policy.Id,
@@ -52,6 +54,7 @@ namespace OneAdvisor.Service.Client
                             ClientInitials = client.Initials,
                             ClientDateOfBirth = client.DateOfBirth,
                             IsActive = policy.IsActive,
+                            CompanyName = company.Name,
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------

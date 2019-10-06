@@ -4,6 +4,7 @@ export type CommissionLapseData = {
     policyId: string;
     clientId: string;
     companyId: string;
+    companyName: string;
     userId: string;
     number: string;
     startDate: string | null;

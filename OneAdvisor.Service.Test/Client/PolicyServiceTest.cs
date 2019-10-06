@@ -30,11 +30,13 @@ namespace OneAdvisor.Service.Test.Client
             var user3 = TestHelper.InsertUserDetailed(options);
             var client3 = TestHelper.InsertClient(options, user3.Organisation);
 
+            var company1 = TestHelper.InsertCompany(options);
+
             //Given
             var policy1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
-                CompanyId = Guid.NewGuid(),
+                CompanyId = company1.Id,
                 ClientId = client1.Client.Id,
                 UserId = user1.User.Id,
                 Number = "123465",
@@ -49,7 +51,7 @@ namespace OneAdvisor.Service.Test.Client
             var policy2 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
-                CompanyId = Guid.NewGuid(),
+                CompanyId = company1.Id,
                 ClientId = client2.Client.Id,
                 UserId = user2.User.Id,
                 Number = "654321",
@@ -62,7 +64,7 @@ namespace OneAdvisor.Service.Test.Client
             var policy3 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
-                CompanyId = Guid.NewGuid(),
+                CompanyId = company1.Id,
                 ClientId = client3.Client.Id,
                 UserId = user3.User.Id,
                 Number = "987654"

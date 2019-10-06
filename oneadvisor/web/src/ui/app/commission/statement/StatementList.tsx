@@ -12,9 +12,9 @@ import {
     receiveFilterYear, receivePageOptions, receiveSortOptions, receiveStatement, Statement, StatementEdit,
     statementsSelector
 } from "@/state/app/commission/statements";
-import { organisationCompaniesSelector, Company } from "@/state/app/directory/lookups";
+import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
-import { Button, getTable, Header } from "@/ui/controls";
+import { Button, CompanyName, getTable, Header } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";
 
 import EditStatement from "./EditStatement";
@@ -59,14 +59,25 @@ class StatementList extends Component<Props> {
 
     loadStatements = () => {
         const dateRange = getMonthDateRange(this.props.filterMonth, this.props.filterYear);
+        const sortOptions = this.mapSortOptions(this.props.sortOptions);
 
         this.props.dispatch(
-            fetchStatements(this.props.pageOptions, this.props.sortOptions, {
+            fetchStatements(this.props.pageOptions, sortOptions, {
                 ...this.props.filters,
                 startDate: [dateRange.start],
                 endDate: [dateRange.end],
             })
         );
+    };
+
+    mapSortOptions = (sortOptions: SortOptions): SortOptions => {
+        if (sortOptions.column === "companyId") {
+            return {
+                ...sortOptions,
+                column: "companyName",
+            };
+        }
+        return sortOptions;
     };
 
     editStatement = (id: string) => {
@@ -97,14 +108,17 @@ class StatementList extends Component<Props> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<Statement>(true, this.props.filters);
+        var getColumn = getColumnDefinition<Statement>(true, this.props.filters, this.props.sortOptions);
 
         return [
             getColumn(
-                "companyName",
+                "companyId",
                 "Company",
                 {},
                 {
+                    render: (companyId: string) => {
+                        return <CompanyName companyId={companyId} />;
+                    },
                     filters: this.props.companies.map(type => ({
                         text: type.name,
                         value: type.id,

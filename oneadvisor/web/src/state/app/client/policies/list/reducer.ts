@@ -18,7 +18,7 @@ export const defaultState: State = {
     totalItems: 0,
     fetching: false,
     pageOptions: defaultPageOptions(),
-    sortOptions: defaultSortOptions("", "desc"),
+    sortOptions: defaultSortOptions("companyId", "asc"),
     filters: null,
 };
 

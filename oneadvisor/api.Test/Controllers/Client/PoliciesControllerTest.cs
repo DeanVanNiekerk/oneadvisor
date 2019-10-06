@@ -19,7 +19,7 @@ namespace api.Test.Controllers.Client
         [Fact]
         public void PolicyModelComposition()
         {
-            Assert.Equal(14, typeof(Policy).PropertyCount());
+            Assert.Equal(15, typeof(Policy).PropertyCount());
             Assert.True(typeof(Policy).HasProperty("Id"));
             Assert.True(typeof(Policy).HasProperty("ClientId"));
             Assert.True(typeof(Policy).HasProperty("CompanyId"));
@@ -34,6 +34,7 @@ namespace api.Test.Controllers.Client
             Assert.True(typeof(Policy).HasProperty("ClientInitials"));
             Assert.True(typeof(Policy).HasProperty("ClientDateOfBirth"));
             Assert.True(typeof(Policy).HasProperty("IsActive"));
+            Assert.True(typeof(Policy).HasProperty("CompanyName"));
         }
 
         [Fact]
