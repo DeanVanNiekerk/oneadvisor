@@ -859,5 +859,173 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(500, actual.AmountExcludingVAT);
             }
         }
+
+        [Fact]
+        public async Task GetCommissionLapseData_Basic()
+        {
+            var options = TestHelper.GetDbContext("GetCommissionLapseData_Basic");
+
+            TestHelper.InsertCommissionEarningsTypes(options);
+
+            var comTypeMonth = TestHelper.InsertCommissionType(options, Guid.NewGuid(), CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY);
+            var company = TestHelper.InsertCompany(options);
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
+
+            var now = DateTime.UtcNow;
+            var lastMonth = DateTime.UtcNow.AddMonths(-1);
+            var twoMonthsAgo = DateTime.UtcNow.AddMonths(-2);
+
+            var statement1 = TestHelper.InsertCommissionStatement(options, user1.Organisation, company.Id, now);
+            var statement2 = TestHelper.InsertCommissionStatement(options, user1.Organisation, company.Id, lastMonth);
+            var statement4 = TestHelper.InsertCommissionStatement(options, user1.Organisation, company.Id, twoMonthsAgo);
+
+            var user2 = TestHelper.InsertUserDetailed(options);
+            var client2 = TestHelper.InsertClient(options, user2.Organisation);
+            var statement3 = TestHelper.InsertCommissionStatement(options, user2.Organisation, company.Id, lastMonth);
+
+            var usr1_policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                Number = Guid.NewGuid().ToString(),
+                CompanyId = company.Id,
+                ClientId = client1.Client.Id,
+                UserId = user1.User.Id,
+                PolicyTypeId = Guid.NewGuid(),
+            };
+
+            var usr1_policy2 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                Number = Guid.NewGuid().ToString(),
+                CompanyId = company.Id,
+                ClientId = client1.Client.Id,
+                UserId = user1.User.Id,
+                PolicyTypeId = Guid.NewGuid(),
+            };
+
+            var usr2_policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                CompanyId = company.Id,
+                ClientId = client2.Client.Id,
+                UserId = user2.User.Id,
+                PolicyTypeId = Guid.NewGuid(),
+            };
+
+            //This month commmission
+            var usr1_policy1_comm1 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = usr1_policy1.Id,
+                UserId = user1.User.Id,
+                CommissionTypeId = comTypeMonth.Id,
+                AmountIncludingVAT = 110,
+                VAT = 10,
+                CommissionStatementId = statement1.Id
+            };
+
+            //Last month Commission
+            var usr1_policy1_comm2 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = usr1_policy1.Id,
+                UserId = user1.User.Id,
+                CommissionTypeId = comTypeMonth.Id,
+                AmountIncludingVAT = 220,
+                VAT = 20,
+                CommissionStatementId = statement2.Id
+            };
+
+            var usr1_policy2_comm1 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = usr1_policy2.Id,
+                UserId = user1.User.Id,
+                CommissionTypeId = comTypeMonth.Id,
+                AmountIncludingVAT = 330,
+                VAT = 30,
+                CommissionStatementId = statement2.Id
+            };
+
+            //Two months ago commission
+            var usr1_policy2_comm2 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = usr1_policy2.Id,
+                UserId = user1.User.Id,
+                CommissionTypeId = comTypeMonth.Id,
+                AmountIncludingVAT = 440,
+                VAT = 40,
+                CommissionStatementId = statement4.Id
+            };
+
+            //Last month commission - different company
+            var usr2_policy1_comm1 = new CommissionEntity
+            {
+                Id = Guid.NewGuid(),
+                PolicyId = usr2_policy1.Id,
+                UserId = user2.User.Id,
+                CommissionTypeId = comTypeMonth.Id,
+                AmountIncludingVAT = 660,
+                VAT = 60,
+                CommissionStatementId = statement3.Id
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Policy.Add(usr1_policy1);
+                context.Policy.Add(usr1_policy2);
+                context.Policy.Add(usr2_policy1);
+
+                context.Commission.Add(usr1_policy1_comm1);
+                context.Commission.Add(usr1_policy1_comm2);
+                context.Commission.Add(usr1_policy2_comm1);
+                context.Commission.Add(usr1_policy2_comm2);
+                context.Commission.Add(usr2_policy1_comm1);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new CommissionReportService(context);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1);
+                var queryOptions = new CommissionLapseQueryOptions(scope, "", "", 0, 0);
+                var result = await service.GetCommissionLapseData(queryOptions);
+
+                //Then
+                var items = result.Items.ToList();
+                Assert.Single(items);
+
+                var actual = items[0];
+                Assert.Equal(usr1_policy2.Id, actual.PolicyId);
+                Assert.Equal(client1.Client.Id, actual.ClientId);
+                Assert.Equal(usr1_policy2.Number, actual.Number);
+                Assert.Equal(usr1_policy2.CompanyId, actual.CompanyId);
+                Assert.Equal(usr1_policy2.UserId, actual.UserId);
+                Assert.Equal(usr1_policy2.Premium, actual.Premium);
+                Assert.Equal(usr1_policy2.StartDate, actual.StartDate);
+                Assert.Equal(usr1_policy2.PolicyTypeId, actual.PolicyTypeId);
+                Assert.Equal(client1.Client.LastName, actual.ClientLastName);
+                Assert.Equal(client1.Client.Initials, actual.ClientInitials);
+                Assert.Equal(company.Name, actual.CompanyName);
+
+                //Check scope
+                scope = TestHelper.GetScopeOptions(user2);
+                queryOptions = new CommissionLapseQueryOptions(scope, "", "", 0, 0);
+                result = (await service.GetCommissionLapseData(queryOptions));
+
+                items = result.Items.ToList();
+
+                Assert.Single(items);
+
+                actual = items[0];
+                Assert.Equal(usr2_policy1.Id, actual.PolicyId);
+            }
+        }
     }
 }
