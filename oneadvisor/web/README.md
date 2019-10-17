@@ -8,7 +8,7 @@
 
 **Current upgrade issues**
 
-None!
+Upgrade to typescript 3.6 causing type conflicts with node types
 
 ## Babel Version Check
 
