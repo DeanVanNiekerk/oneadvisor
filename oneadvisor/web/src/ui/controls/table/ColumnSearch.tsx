@@ -1,10 +1,10 @@
-import { Button, Input } from 'antd';
-import * as React from 'react';
+import { Button, Input } from "antd";
+import * as React from "react";
 
 type Props = {
     fieldName: string;
     setSelectedKeys?: (selectedKeys: string[]) => void;
-    selectedKeys?: string[];
+    selectedKeys?: React.ReactText[];
     confirm?: () => void;
     clearFilters?: (selectedKeys: string[]) => void;
     visible: boolean;
