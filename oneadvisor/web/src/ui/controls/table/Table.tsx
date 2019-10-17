@@ -84,7 +84,7 @@ class TableComponent<T> extends React.Component<Props<T>, State> {
         if (this.props.hidePagination) pagination = false;
 
         return (
-            <TableAD
+            <TableAD<T>
                 title={this.props.header ? () => this.props.header : undefined}
                 bordered
                 scroll={this.props.scroll}
