@@ -1,5 +1,5 @@
 import { Switch } from "antd";
-import React, { Component } from "react";
+import React from "react";
 
 import { ValidationResult } from "@/app/validation";
 
@@ -19,32 +19,30 @@ type Props = {
     className?: string;
 };
 
-class FormSwitch extends Component<Props> {
-    onChange = (checked: boolean) => {
-        if (this.props.onChange) this.props.onChange(this.props.fieldName, checked);
+const FormSwitch: React.FC<Props> = (props: Props) => {
+    const onChange = (checked: boolean) => {
+        if (props.onChange) props.onChange(props.fieldName, checked);
     };
 
-    render() {
-        const { fieldName, label, value, validationResults, disabled = false, layout, readonly, extra } = this.props;
+    const { fieldName, label, value, validationResults, disabled = false, layout, readonly, extra } = props;
 
-        return (
-            <FormField
-                label={label}
-                extra={extra}
-                fieldName={fieldName}
-                validationResults={validationResults}
-                value={value}
-                layout={layout}
-            >
-                <Switch
-                    disabled={disabled || readonly}
-                    checked={value}
-                    onChange={this.onChange}
-                    className={this.props.className}
-                />
-            </FormField>
-        );
-    }
+    return (
+        <FormField
+            label={label}
+            extra={extra}
+            fieldName={fieldName}
+            validationResults={validationResults}
+            value={value}
+            layout={layout}
+        >
+            <Switch
+                disabled={disabled || readonly}
+                checked={value}
+                onChange={onChange}
+                className={props.className}
+            />
+        </FormField>
+    );
 }
 
 export { FormSwitch };

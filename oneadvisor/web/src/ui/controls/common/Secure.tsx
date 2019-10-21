@@ -1,36 +1,30 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 
-import { hasUseCase } from '@/app/identity';
-import { hasRole } from '@/config/role';
-import { roleSelector, useCaseSelector } from '@/state/auth';
-import { RootState } from '@/state/rootReducer';
+import { hasUseCase } from "@/app/identity";
+import { hasRole } from "@/config/role";
+import { roleSelector, useCaseSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
 
 type Props = {
     requiredUseCase?: string;
     requiredRole?: string;
-    useCases: string[];
-    roles: string[];
-};
+} & PropsFromState;
 
-class SecureComponent extends React.Component<Props> {
-    render() {
+const SecureComponent: React.FC<Props> = ({ requiredRole, requiredUseCase, useCases, roles, children }) => {
 
-        let { requiredRole, requiredUseCase } = this.props;
+    let visible = true;
 
-        let visible = true;
+    if (requiredUseCase)
+        visible = hasUseCase(requiredUseCase, useCases) && visible;
 
-        if (requiredUseCase)
-            visible =
-                hasUseCase(requiredUseCase, this.props.useCases) && visible;
+    if (requiredRole)
+        visible = hasRole(requiredRole, roles) && visible;
 
-        if (requiredRole)
-            visible = hasRole(requiredRole, this.props.roles) && visible;
-
-        return visible ? this.props.children : "";
-    }
+    return visible ? <>{children}</> : <React.Fragment />;
 }
 
+type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     return {
         useCases: useCaseSelector(state),

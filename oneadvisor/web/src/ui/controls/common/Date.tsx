@@ -1,7 +1,7 @@
-import moment from 'moment';
-import React from 'react';
+import moment from "moment";
+import React from "react";
 
-import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/app/utils';
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "@/app/utils";
 
 type Props = {
     date: string | number | null;
@@ -9,7 +9,7 @@ type Props = {
     isUnixSeconds?: boolean;
 };
 
-const Date = (props: Props) => {
+const Date: React.FC<Props> = (props: Props) => {
     if (!props.date) return <span />;
 
     let format = DATE_FORMAT;

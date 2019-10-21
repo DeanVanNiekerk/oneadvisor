@@ -1,6 +1,6 @@
 import { List, Popconfirm } from "antd";
-import update from "immutability-helper";
-import React, { Component } from "react";
+import updateImmutable from "immutability-helper";
+import React, { Component, useState } from "react";
 import { connect } from "react-redux";
 
 import { hasUseCase } from "@/app/identity";
@@ -19,106 +19,79 @@ type Props = {
     onChange: (values: string[]) => void;
     validationResults?: ValidationResult[];
     editUseCase?: string;
-    useCases: string[];
-};
+} & PropsFromState;
 
 type Mode = "add" | "edit";
 
-type State = {
-    values: string[];
-    editing: boolean;
-    editValue: string;
-    editIndex: number | null;
-    mode: Mode;
-};
+const FormSimpleListComponent: React.FC<Props> = (props: Props) => {
 
-class FormSimpleListComponent extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
+    const [mode, setMode] = useState("add");
+    const [values, setValues] = useState(props.values);
+    const [editing, setEditing] = useState(false);
+    const [editValue, setEditValue] = useState("");
+    const [editIndex, setEditIndex] = useState<number | null>(null);
 
-        this.state = {
-            values: props.values,
-            editing: false,
-            editValue: "",
-            editIndex: null,
-            mode: "add",
-        };
-    }
-
-    add = () => {
-        this.setState({
-            editing: true,
-            editValue: "",
-            editIndex: null,
-            mode: "add",
-        });
+    const add = () => {
+        setEditing(true);
+        setEditValue("");
+        setEditIndex(null);
+        setMode("add");
     };
 
-    edit = (value: string, index: number) => {
-        this.setState({
-            editing: true,
-            editValue: value,
-            editIndex: index,
-            mode: "edit",
-        });
+    const edit = (value: string, index: number) => {
+        setEditing(true);
+        setEditValue(value);
+        setEditIndex(index);
+        setMode("edit");
     };
 
-    remove = (index: number) => {
-        const values = update(this.state.values, { $splice: [[index, 1]] });
-        this.setState(
-            {
-                values: values,
-            },
-            () => this.props.onChange(values)
-        );
+    const remove = (index: number) => {
+        const vals = updateImmutable(values, { $splice: [[index, 1]] });
+        setValues(vals);
+        props.onChange(values)
     };
 
-    cancel = () => {
-        this.setState({
-            editing: false,
-            editValue: "",
-            editIndex: null,
-        });
+    const cancel = () => {
+        setEditing(false);
+        setEditValue("");
+        setEditIndex(null);
     };
 
-    update = (value: string) => {
-        this.setState({
-            editValue: value,
-        });
+    const update = (value: string) => {
+        setEditValue(value);
     };
 
-    save = () => {
-        let values: string[] = [];
-        if (this.state.editIndex === null)
-            values = update(this.state.values, {
-                $push: [this.state.editValue],
+    const save = () => {
+        let vals: string[] = [];
+        if (editIndex === null) {
+            vals = updateImmutable(values, {
+                $push: [editValue],
             });
-        else
-            values = update(this.state.values, {
-                [this.state.editIndex]: {
-                    $set: this.state.editValue,
+        }
+        else {
+            vals = updateImmutable(values, {
+                [editIndex]: {
+                    $set: editValue,
                 },
             });
+        }
 
-        this.setState(
-            {
-                values: values,
-                editing: false,
-                editValue: "",
-                editIndex: null,
-            },
-            () => this.props.onChange(values)
-        );
+        setValues(vals);
+        setEditing(false);
+        setEditValue("");
+        setEditIndex(null);
+
+        props.onChange(vals);
     };
 
-    getActions = (value: string, index: number) => {
-        if (this.props.editUseCase && !hasUseCase(this.props.editUseCase, this.props.useCases)) return [];
+    const getActions = (value: string, index: number) => {
+        if (props.editUseCase && !hasUseCase(props.editUseCase, props.useCases)) return [];
 
         return [
-            <a onClick={() => this.edit(value, index)}>edit</a>,
+            <a onClick={() => edit(value, index)}>edit</a>,
             <Popconfirm
                 title="Are you sure remove this record?"
-                onConfirm={() => this.remove(index)}
+                onConfirm={() => remove(index)}
                 okText="Yes"
                 cancelText="No"
             >
@@ -127,74 +100,73 @@ class FormSimpleListComponent extends Component<Props, State> {
         ];
     };
 
-    render() {
-        return (
-            <>
-                {!this.state.editing && (
-                    <Form layout="inline">
-                        <FormField>
-                            <Button
-                                icon="plus"
-                                type="dashed"
-                                onClick={this.add}
-                                noLeftMargin={true}
-                                requiredUseCase={this.props.editUseCase}
-                            >
-                                {`Add ${this.props.displayName}`}
-                            </Button>
-                        </FormField>
-                    </Form>
-                )}
+    return (
+        <>
+            {!editing && (
+                <Form layout="inline">
+                    <FormField>
+                        <Button
+                            icon="plus"
+                            type="dashed"
+                            onClick={add}
+                            noLeftMargin={true}
+                            requiredUseCase={props.editUseCase}
+                        >
+                            {`Add ${props.displayName}`}
+                        </Button>
+                    </FormField>
+                </Form>
+            )}
 
-                {this.state.editing && (
-                    <Form layout="inline">
-                        <FormInput
-                            fieldName={this.props.fieldName}
-                            label={this.props.displayName}
-                            value={this.state.editValue}
-                            onChange={(fieldName: string, value: string) => this.update(value)}
-                            autoFocus={true}
+            {editing && (
+                <Form layout="inline">
+                    <FormInput
+                        fieldName={props.fieldName}
+                        label={props.displayName}
+                        value={editValue}
+                        onChange={(fieldName: string, value: string) => update(value)}
+                        autoFocus={true}
+                    />
+                    <FormField className="mr-0">
+                        <Button onClick={() => cancel()}>Cancel</Button>
+                    </FormField>
+                    <FormField>
+                        <Button onClick={save} type="primary" disabled={!editValue}>
+                            {mode === "edit"
+                                ? `Update ${props.displayName}`
+                                : `Add ${props.displayName}`}
+                        </Button>
+                    </FormField>
+                </Form>
+            )}
+
+            <List
+                bordered
+                className="mt-1"
+                dataSource={values}
+                renderItem={(value: string, index: any) => (
+                    <List.Item actions={getActions(value, index)}>
+                        <List.Item.Meta
+                            title={<span className="font-weight-normal">{value}</span>}
+                            description={
+                                <span className="text-error">
+                                    {getErrorMessage(
+                                        props.fieldName,
+                                        value,
+                                        index,
+                                        props.validationResults
+                                    )}
+                                </span>
+                            }
                         />
-                        <FormField className="mr-0">
-                            <Button onClick={() => this.cancel()}>Cancel</Button>
-                        </FormField>
-                        <FormField>
-                            <Button onClick={this.save} type="primary" disabled={!this.state.editValue}>
-                                {this.state.mode === "edit"
-                                    ? `Update ${this.props.displayName}`
-                                    : `Add ${this.props.displayName}`}
-                            </Button>
-                        </FormField>
-                    </Form>
+                    </List.Item>
                 )}
+            />
+        </>
+    )
+};
 
-                <List
-                    bordered
-                    className="mt-1"
-                    dataSource={this.state.values}
-                    renderItem={(value: string, index: any) => (
-                        <List.Item actions={this.getActions(value, index)}>
-                            <List.Item.Meta
-                                title={<span className="font-weight-normal">{value}</span>}
-                                description={
-                                    <span className="text-error">
-                                        {getErrorMessage(
-                                            this.props.fieldName,
-                                            value,
-                                            index,
-                                            this.props.validationResults
-                                        )}
-                                    </span>
-                                }
-                            />
-                        </List.Item>
-                    )}
-                />
-            </>
-        );
-    }
-}
-
+type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     return {
         useCases: useCaseSelector(state),

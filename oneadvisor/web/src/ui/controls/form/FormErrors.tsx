@@ -1,7 +1,7 @@
-import { Alert } from 'antd';
-import React from 'react';
+import { Alert } from "antd";
+import React from "react";
 
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
 type Props = {
     propertyName?: string;
@@ -9,7 +9,7 @@ type Props = {
     message?: string;
 };
 
-const FormErrors = (props: Props) => {
+const FormErrors: React.FC<Props> = (props: Props) => {
     const { propertyName = "", validationResults } = props;
 
     const results = validationResults
@@ -26,8 +26,8 @@ const FormErrors = (props: Props) => {
             className="mb-1"
         />
     ) : (
-        <></>
-    );
+            <React.Fragment />
+        );
 };
 
 export { FormErrors };

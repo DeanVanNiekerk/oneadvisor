@@ -31,7 +31,7 @@ const EditCompany: React.FC<Props> = ({ saveCompany, confirmCancel, visible, upd
     );
 }
 
-type PropsFromState = ReturnType<typeof mapStateToProps>
+type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     return {
         visible: companyIsModifyingSelector(state),

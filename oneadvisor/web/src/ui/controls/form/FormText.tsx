@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { FormLayout } from './Form';
-import { FormField } from './FormField';
+import { FormLayout } from "./Form";
+import { FormField } from "./FormField";
 
 type Props = {
     label: string;
@@ -16,7 +16,7 @@ type Props = {
     emptyValueText?: React.ReactNode;
 };
 
-const FormText = (props: Props) => (
+const FormText: React.FC<Props> = (props: Props) => (
     <FormField
         label={props.label}
         value={props.value}

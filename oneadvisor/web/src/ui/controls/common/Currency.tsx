@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import { formatCurrency } from '@/app/utils';
+import { formatCurrency } from "@/app/utils";
 
 type Props = {
     amount: number | null;
 };
 
-const Currency = (props: Props) => {
+const Currency: React.FC<Props> = (props: Props) => {
     if (props.amount === null || props.amount === undefined) return <span />;
 
     return <span>{formatCurrency(props.amount)}</span>;

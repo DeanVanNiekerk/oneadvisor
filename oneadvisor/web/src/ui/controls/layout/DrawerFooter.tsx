@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactNode } from 'react';
+import React, { CSSProperties, ReactNode } from "react";
 
 const style: CSSProperties = {
     position: "absolute",
@@ -12,12 +12,8 @@ const style: CSSProperties = {
     borderRadius: "0 0 4px 4px",
 };
 
-type Props = {
-    children: ReactNode;
-};
-
-const DrawerFooter = (props: Props) => (
-    <div style={style}>{props.children}</div>
+const DrawerFooter: React.FC = ({ children }) => (
+    <div style={style}>{children}</div>
 );
 
 export { DrawerFooter };

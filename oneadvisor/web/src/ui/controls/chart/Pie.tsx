@@ -10,7 +10,7 @@ type Props = {
     isLoading?: boolean;
 } & PieSvgProps;
 
-const Pie = (props: Props) => {
+const Pie: React.FC<Props> = (props: Props) => {
     const p: PieSvgProps = {
         radialLabel: "label",
         margin: { top: 30, right: 30, bottom: 30, left: 30 },

@@ -1,6 +1,6 @@
-import React, { CSSProperties, ReactNode } from 'react';
+import React, { CSSProperties } from "react";
 
-import config from '@/config/config';
+import config from "@/config/config";
 
 const style: CSSProperties = {
     display: "flex",
@@ -15,13 +15,9 @@ const style: CSSProperties = {
     height: `${config.ui.footerHeight}px`,
 };
 
-type Props = {
-    children: ReactNode;
-};
-
-const Footer = (props: Props) => (
+const Footer: React.FC = ({ children }) => (
     <div style={style} className="px-3">
-        {props.children}
+        {children}
     </div>
 );
 

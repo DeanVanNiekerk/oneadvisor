@@ -10,7 +10,7 @@ type Props = {
     isLoading?: boolean;
 } & BarSvgProps;
 
-const Bar = (props: Props) => {
+const Bar: React.FC<Props> = (props: Props) => {
     const p: BarSvgProps = {
         margin: { top: 30, right: 30, bottom: 30, left: 60 },
         colors: { scheme: "set3" },

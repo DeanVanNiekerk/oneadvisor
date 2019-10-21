@@ -1,12 +1,12 @@
-import { Col, Row } from 'antd';
-import React, { ReactNode } from 'react';
+import { Col, Row } from "antd";
+import React, { ReactNode } from "react";
 
 type Props = {
     label: ReactNode;
     value: ReactNode;
 };
 
-const PreviewCardRow = (props: Props) => (
+const PreviewCardRow: React.FC<Props> = (props: Props) => (
     <Row
         type="flex"
         justify="space-between"

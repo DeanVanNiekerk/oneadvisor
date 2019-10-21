@@ -1,12 +1,12 @@
-import { InputNumber } from 'antd';
-import React, { Component } from 'react';
+import { InputNumber } from "antd";
+import React, { Component } from "react";
 
-import { formatCurrency, parseCurrency } from '@/app/utils';
-import { ValidationResult } from '@/app/validation';
+import { formatCurrency, parseCurrency } from "@/app/utils";
+import { ValidationResult } from "@/app/validation";
 
-import { FormText } from './';
-import { FormLayout } from './Form';
-import { FormField } from './FormField';
+import { FormText } from "./";
+import { FormLayout } from "./Form";
+import { FormField } from "./FormField";
 
 type Props = {
     fieldName: string;
@@ -24,56 +24,55 @@ type Props = {
     precision?: number;
 };
 
-class FormInputNumber extends Component<Props> {
-    onChange = (value: number | undefined) => {
-        if (this.props.onChange)
-            this.props.onChange(this.props.fieldName, value);
+const FormInputNumber: React.FC<Props> = (props: Props) => {
+
+    const onChange = (value: number | undefined) => {
+        if (props.onChange)
+            props.onChange(props.fieldName, value);
     };
 
-    render() {
-        const {
-            fieldName,
-            label,
-            value,
-            validationResults,
-            disabled = false,
-            layout,
-            readonly,
-            autoFocus,
-            step,
-            precision = 2,
-        } = this.props;
+    const {
+        fieldName,
+        label,
+        value,
+        validationResults,
+        disabled = false,
+        layout,
+        readonly,
+        autoFocus,
+        step,
+        precision = 2,
+    } = props;
 
-        if (readonly)
-            return <FormText label={label} value={value} layout={layout} />;
+    if (readonly)
+        return <FormText label={label} value={value} layout={layout} />;
 
-        return (
-            <FormField
-                label={label}
-                fieldName={fieldName}
-                validationResults={validationResults}
+    return (
+        <FormField
+            label={label}
+            fieldName={fieldName}
+            validationResults={validationResults}
+            value={value}
+            layout={layout}
+        >
+            <InputNumber
+                disabled={disabled}
+                name={fieldName}
+                id={fieldName}
                 value={value}
-                layout={layout}
-            >
-                <InputNumber
-                    disabled={disabled}
-                    name={fieldName}
-                    id={fieldName}
-                    value={value}
-                    onChange={this.onChange}
-                    decimalSeparator="."
-                    precision={precision}
-                    style={{
-                        width: "100%",
-                    }}
-                    autoFocus={autoFocus}
-                    step={step}
-                    min={this.props.min}
-                    max={this.props.max}
-                />
-            </FormField>
-        );
-    }
+                onChange={onChange}
+                decimalSeparator="."
+                precision={precision}
+                style={{
+                    width: "100%",
+                }}
+                autoFocus={autoFocus}
+                step={step}
+                min={props.min}
+                max={props.max}
+            />
+        </FormField>
+    );
 }
 
 export { FormInputNumber };

@@ -13,40 +13,37 @@ type Props = {
     layout?: FormLayout;
     readonly?: boolean;
     editUseCase?: string;
-    useCases: string[];
     editRole?: string;
-    roles: string[];
     className?: string;
     style?: React.CSSProperties;
-};
+} & PropsFromState;
 
-class FormComponent extends React.Component<Props> {
-    render() {
-        const { children, layout = "horizontal", editUseCase, editRole } = this.props;
+const FormComponent: React.FC<Props> = (props: Props) => {
+    const { children, layout = "horizontal", editUseCase, editRole } = props;
 
-        let readonly = this.props.readonly || false;
+    let readonly = props.readonly || false;
 
-        if (editUseCase) readonly = !hasUseCase(this.props.editUseCase, this.props.useCases);
+    if (editUseCase) readonly = !hasUseCase(props.editUseCase, props.useCases);
 
-        if (editRole) readonly = !hasRole(this.props.editRole, this.props.roles);
+    if (editRole) readonly = !hasRole(props.editRole, props.roles);
 
-        const childrenWithProps = React.Children.map(children, child =>
-            child
-                ? React.cloneElement(child, {
-                      layout: layout,
-                      readonly: readonly,
-                  })
-                : null
-        );
+    const childrenWithProps = React.Children.map(children, child =>
+        child
+            ? React.cloneElement(child, {
+                layout: layout,
+                readonly: readonly,
+            })
+            : null
+    );
 
-        return (
-            <FormAD className={this.props.className} layout={this.props.layout} style={this.props.style}>
-                {childrenWithProps}
-            </FormAD>
-        );
-    }
+    return (
+        <FormAD className={props.className} layout={props.layout} style={props.style}>
+            {childrenWithProps}
+        </FormAD>
+    );
 }
 
+type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     return {
         useCases: useCaseSelector(state),

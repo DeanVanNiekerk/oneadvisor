@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import { getAge } from '@/app/utils';
+import { getAge } from "@/app/utils";
 
 type Props = {
     dateOfBirth: string | null;
 };
 
-const Age = (props: Props) => {
+const Age: React.FC<Props> = (props: Props) => {
     return <span>{getAge(props.dateOfBirth)}</span>;
 };
 

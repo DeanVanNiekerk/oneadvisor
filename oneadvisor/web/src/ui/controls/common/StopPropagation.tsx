@@ -1,11 +1,7 @@
-import React, { ReactNode } from 'react';
+import React from "react";
 
-type Props = {
-    children: ReactNode;
-};
-
-const StopPropagation = (props: Props) => {
-    return <div onClick={e => e.stopPropagation()}>{props.children}</div>;
+const StopPropagation: React.FC = ({ children }) => {
+    return <div onClick={e => e.stopPropagation()}>{children}</div>;
 };
 
 export { StopPropagation };

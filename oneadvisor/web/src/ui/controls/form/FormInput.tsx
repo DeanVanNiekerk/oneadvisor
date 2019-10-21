@@ -1,11 +1,11 @@
-import { Input } from 'antd';
-import React, { Component, KeyboardEventHandler } from 'react';
+import { Input } from "antd";
+import React, { Component, KeyboardEventHandler } from "react";
 
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { FormText } from './';
-import { FormLayout } from './Form';
-import { FormField } from './FormField';
+import { FormText } from "./";
+import { FormLayout } from "./Form";
+import { FormField } from "./FormField";
 
 declare const InputSizes: ["small", "default", "large"];
 
@@ -31,61 +31,59 @@ type Props = {
     hidden?: boolean;
 };
 
-class FormInput extends Component<Props> {
-    onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (this.props.onChange)
-            this.props.onChange(this.props.fieldName, event.target.value);
+const FormInput: React.FC<Props> = (props: Props) => {
+    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (props.onChange)
+            props.onChange(props.fieldName, event.target.value);
     };
 
-    render() {
-        const {
-            fieldName,
-            label = "",
-            value,
-            validationResults,
-            disabled = false,
-            layout,
-            addonAfter,
-        } = this.props;
+    const {
+        fieldName,
+        label = "",
+        value,
+        validationResults,
+        disabled = false,
+        layout,
+        addonAfter,
+    } = props;
 
-        if (this.props.readonly)
-            return <FormText label={label} value={value} layout={layout} />;
+    if (props.readonly)
+        return <FormText label={label} value={value} layout={layout} />;
 
-        if (this.props.hidden) return <></>;
+    if (props.hidden) return <React.Fragment />;
 
-        const style: any = {};
-        if (this.props.width) {
-            style.width = this.props.width;
-        }
-
-        return (
-            <FormField
-                label={label}
-                fieldName={fieldName}
-                validationResults={validationResults}
-                value={value}
-                layout={layout}
-                style={this.props.formFieldStyle}
-                validationFieldName={this.props.validationFieldName}
-            >
-                <Input
-                    onKeyPress={this.props.onKeyPress}
-                    size={this.props.size}
-                    type={this.props.type}
-                    placeholder={this.props.placeholder}
-                    prefix={this.props.prefix}
-                    autoFocus={this.props.autoFocus}
-                    disabled={disabled}
-                    name={fieldName}
-                    id={fieldName}
-                    value={value}
-                    onChange={this.onChange}
-                    addonAfter={addonAfter}
-                    style={style}
-                />
-            </FormField>
-        );
+    const style: any = {};
+    if (props.width) {
+        style.width = props.width;
     }
+
+    return (
+        <FormField
+            label={label}
+            fieldName={fieldName}
+            validationResults={validationResults}
+            value={value}
+            layout={layout}
+            style={props.formFieldStyle}
+            validationFieldName={props.validationFieldName}
+        >
+            <Input
+                onKeyPress={props.onKeyPress}
+                size={props.size}
+                type={props.type}
+                placeholder={props.placeholder}
+                prefix={props.prefix}
+                autoFocus={props.autoFocus}
+                disabled={disabled}
+                name={fieldName}
+                id={fieldName}
+                value={value}
+                onChange={onChange}
+                addonAfter={addonAfter}
+                style={style}
+            />
+        </FormField>
+    );
 }
 
 export { FormInput };

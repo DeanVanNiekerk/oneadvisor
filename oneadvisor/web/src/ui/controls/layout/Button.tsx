@@ -1,12 +1,12 @@
-import { Button as ButtonAD } from 'antd';
-import { ButtonSize, ButtonType } from 'antd/lib/button';
-import React, { CSSProperties, ReactNode } from 'react';
-import { connect } from 'react-redux';
+import { Button as ButtonAD } from "antd";
+import { ButtonSize, ButtonType } from "antd/lib/button";
+import React, { CSSProperties, ReactNode } from "react";
+import { connect } from "react-redux";
 
-import { hasUseCase } from '@/app/identity';
-import { hasRole } from '@/config/role';
-import { roleSelector, useCaseSelector } from '@/state/auth';
-import { RootState } from '@/state/rootReducer';
+import { hasUseCase } from "@/app/identity";
+import { hasRole } from "@/config/role";
+import { roleSelector, useCaseSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
 
 type Props = {
     type?: ButtonType;
@@ -16,8 +16,6 @@ type Props = {
     children?: ReactNode;
     requiredUseCase?: string;
     requiredRole?: string;
-    useCases: string[];
-    roles: string[];
     className?: string;
     noLeftMargin?: boolean;
     visible?: boolean;
@@ -26,45 +24,44 @@ type Props = {
     size?: ButtonSize;
     block?: boolean;
     style?: CSSProperties;
-};
+} & PropsFromState;
 
-class ButtonComponent extends React.Component<Props> {
-    render() {
-        let { requiredRole, requiredUseCase, visible = true } = this.props;
+const ButtonComponent: React.FC<Props> = (props: Props) => {
+    let { requiredRole, requiredUseCase, visible = true } = props;
 
-        if (requiredUseCase)
-            visible =
-                hasUseCase(requiredUseCase, this.props.useCases) && visible;
+    if (requiredUseCase)
+        visible =
+            hasUseCase(requiredUseCase, props.useCases) && visible;
 
-        if (requiredRole)
-            visible = hasRole(requiredRole, this.props.roles) && visible;
+    if (requiredRole)
+        visible = hasRole(requiredRole, props.roles) && visible;
 
-        return (
-            <>
-                {visible && (
-                    <ButtonAD
-                        style={{
-                            marginLeft: this.props.noLeftMargin ? 0 : 8,
-                            ...this.props.style,
-                        }}
-                        block={this.props.block}
-                        type={this.props.type}
-                        icon={this.props.icon}
-                        onClick={this.props.onClick}
-                        disabled={this.props.disabled || false}
-                        className={this.props.className}
-                        loading={this.props.loading}
-                        shape={this.props.shape}
-                        size={this.props.size}
-                    >
-                        {this.props.children}
-                    </ButtonAD>
-                )}
-            </>
-        );
-    }
+    return (
+        <>
+            {visible && (
+                <ButtonAD
+                    style={{
+                        marginLeft: props.noLeftMargin ? 0 : 8,
+                        ...props.style,
+                    }}
+                    block={props.block}
+                    type={props.type}
+                    icon={props.icon}
+                    onClick={props.onClick}
+                    disabled={props.disabled || false}
+                    className={props.className}
+                    loading={props.loading}
+                    shape={props.shape}
+                    size={props.size}
+                >
+                    {props.children}
+                </ButtonAD>
+            )}
+        </>
+    );
 }
 
+type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     return {
         useCases: useCaseSelector(state),

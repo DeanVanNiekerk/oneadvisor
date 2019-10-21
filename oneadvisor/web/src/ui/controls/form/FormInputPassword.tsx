@@ -31,51 +31,50 @@ type Props = {
     hidden?: boolean;
 };
 
-class FormInputPassword extends Component<Props> {
-    onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (this.props.onChange) this.props.onChange(this.props.fieldName, event.target.value);
+const FormInputPassword: React.FC<Props> = (props: Props) => {
+
+    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (props.onChange) props.onChange(props.fieldName, event.target.value);
     };
 
-    render() {
-        const { fieldName, label = "", value, validationResults, disabled = false, layout, addonAfter } = this.props;
+    const { fieldName, label = "", value, validationResults, disabled = false, layout, addonAfter } = props;
 
-        if (this.props.readonly) return <FormText label={label} value={value} layout={layout} />;
+    if (props.readonly) return <FormText label={label} value={value} layout={layout} />;
 
-        if (this.props.hidden) return <></>;
+    if (props.hidden) return <React.Fragment />;
 
-        const style: any = {};
-        if (this.props.width) {
-            style.width = this.props.width;
-        }
-
-        return (
-            <FormField
-                label={label}
-                fieldName={fieldName}
-                validationResults={validationResults}
-                value={value}
-                layout={layout}
-                style={this.props.formFieldStyle}
-                validationFieldName={this.props.validationFieldName}
-            >
-                <Input.Password
-                    onKeyPress={this.props.onKeyPress}
-                    size={this.props.size}
-                    type={this.props.type}
-                    placeholder={this.props.placeholder}
-                    prefix={this.props.prefix}
-                    autoFocus={this.props.autoFocus}
-                    disabled={disabled}
-                    name={fieldName}
-                    id={fieldName}
-                    value={value}
-                    onChange={this.onChange}
-                    addonAfter={addonAfter}
-                    style={style}
-                />
-            </FormField>
-        );
+    const style: any = {};
+    if (props.width) {
+        style.width = props.width;
     }
+
+    return (
+        <FormField
+            label={label}
+            fieldName={fieldName}
+            validationResults={validationResults}
+            value={value}
+            layout={layout}
+            style={props.formFieldStyle}
+            validationFieldName={props.validationFieldName}
+        >
+            <Input.Password
+                onKeyPress={props.onKeyPress}
+                size={props.size}
+                type={props.type}
+                placeholder={props.placeholder}
+                prefix={props.prefix}
+                autoFocus={props.autoFocus}
+                disabled={disabled}
+                name={fieldName}
+                id={fieldName}
+                value={value}
+                onChange={onChange}
+                addonAfter={addonAfter}
+                style={style}
+            />
+        </FormField>
+    );
 }
 
 export { FormInputPassword };

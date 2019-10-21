@@ -23,37 +23,36 @@ type Props = {
     rows?: number;
 };
 
-class FormTextArea extends Component<Props> {
-    onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        if (this.props.onChange) this.props.onChange(this.props.fieldName, event.target.value);
+const FormText: React.FC<Props> = (props: Props) => {
+
+    const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        if (props.onChange) props.onChange(props.fieldName, event.target.value);
     };
 
-    render() {
-        const { fieldName, label = "", value, validationResults, disabled = false, layout, rows } = this.props;
+    const { fieldName, label = "", value, validationResults, disabled = false, layout, rows } = props;
 
-        if (this.props.hidden) return <></>;
+    if (props.hidden) return <React.Fragment />;
 
-        return (
-            <FormField
-                label={label}
-                fieldName={fieldName}
-                validationResults={validationResults}
+    return (
+        <FormField
+            label={label}
+            fieldName={fieldName}
+            validationResults={validationResults}
+            value={value}
+            layout={layout}
+            validationFieldName={props.validationFieldName}
+        >
+            <TextArea
+                autoFocus={props.autoFocus}
+                disabled={disabled || props.readonly}
+                name={fieldName}
+                id={fieldName}
                 value={value}
-                layout={layout}
-                validationFieldName={this.props.validationFieldName}
-            >
-                <TextArea
-                    autoFocus={this.props.autoFocus}
-                    disabled={disabled || this.props.readonly}
-                    name={fieldName}
-                    id={fieldName}
-                    value={value}
-                    onChange={this.onChange}
-                    rows={rows}
-                />
-            </FormField>
-        );
-    }
+                onChange={onChange}
+                rows={rows}
+            />
+        </FormField>
+    );
 }
 
-export { FormTextArea };
+export { FormText };

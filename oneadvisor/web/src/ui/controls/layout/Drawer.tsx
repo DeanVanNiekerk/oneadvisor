@@ -1,5 +1,5 @@
-import { Drawer as DrawerAD, Icon } from 'antd';
-import React, { ReactNode } from 'react';
+import { Drawer as DrawerAD, Icon } from "antd";
+import React, { ReactNode } from "react";
 
 type Props = {
     title: string | ReactNode;
@@ -12,7 +12,7 @@ type Props = {
     noTopPadding?: boolean;
 };
 
-const Drawer = (props: Props) => {
+const Drawer: React.FC<Props> = (props: Props) => {
     let icon: ReactNode = <span />;
 
     if (props.icon) {

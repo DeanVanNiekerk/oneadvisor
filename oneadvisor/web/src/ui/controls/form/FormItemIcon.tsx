@@ -1,24 +1,22 @@
-import { Icon } from 'antd';
-import React, { Component } from 'react';
+import { Icon } from "antd";
+import React from "react";
 
 type Props = {
     type: string;
 };
 
-class FormItemIcon extends Component<Props> {
-    render() {
-        return (
-            <div
-                className="ant-row ant-form-item"
-                style={{
-                    paddingTop: '8px',
-                    fontSize: '16px'
-                }}
-            >
-                <Icon type={this.props.type} />
-            </div>
-        );
-    }
+const FormItemIcon: React.FC<Props> = ({ type }) => {
+    return (
+        <div
+            className="ant-row ant-form-item"
+            style={{
+                paddingTop: '8px',
+                fontSize: '16px'
+            }}
+        >
+            <Icon type={type} />
+        </div>
+    );
 }
 
 export { FormItemIcon };

@@ -1,13 +1,13 @@
-import { DatePicker } from 'antd';
-import moment from 'moment';
-import React, { Component } from 'react';
+import { DatePicker } from "antd";
+import moment from "moment";
+import React, { Component } from "react";
 
-import { DATE_FORMAT } from '@/app/utils';
-import { ValidationResult } from '@/app/validation';
+import { DATE_FORMAT } from "@/app/utils";
+import { ValidationResult } from "@/app/validation";
 
-import { FormText } from './';
-import { FormLayout } from './Form';
-import { FormField } from './FormField';
+import { FormText } from "./";
+import { FormLayout } from "./Form";
+import { FormField } from "./FormField";
 
 type Props = {
     fieldName: string;
@@ -22,53 +22,52 @@ type Props = {
     hidden?: boolean;
 };
 
-class FormDate extends Component<Props> {
-    onChange = (date: moment.Moment, dateString: string) => {
-        if (this.props.onChange)
-            this.props.onChange(this.props.fieldName, dateString);
+const FormDate: React.FC<Props> = (props: Props) => {
+
+    const onChange = (date: moment.Moment, dateString: string) => {
+        if (props.onChange)
+            props.onChange(props.fieldName, dateString);
     };
 
-    render() {
-        const {
-            fieldName,
-            label,
-            value,
-            validationResults,
-            disabled = false,
-            layout,
-            readonly,
-            extra,
-        } = this.props;
+    const {
+        fieldName,
+        label,
+        value,
+        validationResults,
+        disabled = false,
+        layout,
+        readonly,
+        extra,
+    } = props;
 
-        if (readonly)
-            return (
-                <FormText
-                    label={label}
-                    value={value ? moment(value).format(DATE_FORMAT) : ""}
-                    layout={layout}
-                />
-            );
-
-        if (this.props.hidden) return <></>;
-
+    if (readonly)
         return (
-            <FormField
+            <FormText
                 label={label}
-                fieldName={fieldName}
-                validationResults={validationResults}
-                value={value}
+                value={value ? moment(value).format(DATE_FORMAT) : ""}
                 layout={layout}
-                extra={extra}
-            >
-                <DatePicker
-                    disabled={disabled}
-                    id={fieldName}
-                    value={value ? moment(value) : undefined}
-                    onChange={this.onChange}
-                />
-            </FormField>
+            />
         );
-    }
+
+    if (props.hidden) return <React.Fragment />;
+
+    return (
+        <FormField
+            label={label}
+            fieldName={fieldName}
+            validationResults={validationResults}
+            value={value}
+            layout={layout}
+            extra={extra}
+        >
+            <DatePicker
+                disabled={disabled}
+                id={fieldName}
+                value={value ? moment(value) : undefined}
+                onChange={onChange}
+            />
+        </FormField>
+    );
 }
 
 export { FormDate };

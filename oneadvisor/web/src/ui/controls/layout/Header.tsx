@@ -1,5 +1,5 @@
-import { Icon, PageHeader, Skeleton } from 'antd';
-import React, { ReactNode } from 'react';
+import { Icon, PageHeader, Skeleton } from "antd";
+import React, { ReactNode } from "react";
 
 type Props = {
     icon?: string | ReactNode;
@@ -12,7 +12,7 @@ type Props = {
     textHidden?: boolean;
 };
 
-const Header = (props: Props) => {
+const Header: React.FC<Props> = (props: Props) => {
     let icon: ReactNode = <span />;
 
     if (props.icon) {
@@ -23,7 +23,7 @@ const Header = (props: Props) => {
         }
     }
 
-    if (props.hidden) return <></>;
+    if (props.hidden) return <React.Fragment />;
 
     return (
         <Skeleton
@@ -46,8 +46,8 @@ const Header = (props: Props) => {
                             </span>
                         </>
                     ) : (
-                        <></>
-                    )
+                            <></>
+                        )
                 }
                 //subTitle="This is a subtitle"
                 style={{

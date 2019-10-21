@@ -1,6 +1,6 @@
 import { Cascader } from "antd";
 import { CascaderOptionType } from "antd/lib/cascader";
-import React, { Component } from "react";
+import React from "react";
 
 import { ValidationResult } from "@/app/validation";
 
@@ -21,36 +21,35 @@ type Props = {
     changeOnSelect?: boolean;
 };
 
-class FormCascade extends Component<Props> {
-    filter = (inputValue: string, path: CascaderOptionType[]) => {
-        return path.some(
-            option => (option.label ? option.label.toString() : "").toLowerCase().indexOf(inputValue.toLowerCase()) > -1
-        );
-    };
+const filter = (inputValue: string, path: CascaderOptionType[]) => {
+    return path.some(
+        option => (option.label ? option.label.toString() : "").toLowerCase().indexOf(inputValue.toLowerCase()) > -1
+    );
+};
 
-    render() {
-        const { fieldName, label, validationResults, layout, readonly } = this.props;
+const FormCascade: React.FC<Props> = (props: Props) => {
 
-        return (
-            <FormField
-                label={label}
-                fieldName={fieldName}
-                validationResults={validationResults}
-                layout={layout}
-                validationFieldName={this.props.validationFieldName}
-            >
-                <Cascader
-                    options={this.props.options}
-                    onChange={this.props.onChange}
-                    placeholder=""
-                    showSearch={this.props.showSearch ? { filter: this.filter } : false}
-                    changeOnSelect={this.props.changeOnSelect}
-                    value={this.props.value}
-                    disabled={readonly}
-                />
-            </FormField>
-        );
-    }
+    const { fieldName, label, validationResults, layout, readonly } = props;
+
+    return (
+        <FormField
+            label={label}
+            fieldName={fieldName}
+            validationResults={validationResults}
+            layout={layout}
+            validationFieldName={props.validationFieldName}
+        >
+            <Cascader
+                options={props.options}
+                onChange={props.onChange}
+                placeholder=""
+                showSearch={props.showSearch ? { filter: filter } : false}
+                changeOnSelect={props.changeOnSelect}
+                value={props.value}
+                disabled={readonly}
+            />
+        </FormField>
+    );
 }
 
 export { FormCascade };
