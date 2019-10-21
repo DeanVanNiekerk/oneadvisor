@@ -1,16 +1,18 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { Company } from '../types';
-import { CompanyAction } from './actions';
+import { Company } from "../types";
+import { CompanyAction } from "./actions";
 
 export type State = {
     readonly company: Company | null;
+    readonly companyOriginal: Company | null;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];
 };
 
 export const defaultState: State = {
     company: null,
+    companyOriginal: null,
     updating: false,
     validationResults: [],
 };
@@ -24,7 +26,14 @@ export const reducer = (
             return {
                 ...state,
                 company: action.payload,
+                companyOriginal: action.payload,
                 validationResults: [],
+            };
+        }
+        case "COMPANIES_COMPANY_MODIFIED": {
+            return {
+                ...state,
+                company: action.payload
             };
         }
         case "COMPANIES_COMPANY_EDIT_FETCHING": {

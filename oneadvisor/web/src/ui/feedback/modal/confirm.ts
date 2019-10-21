@@ -1,13 +1,6 @@
-import { Modal } from 'antd';
+import { Modal } from "antd";
 
-type ConfirmOptions = {
-    title?: string,
-    content?: string,
-    okText?: string,
-    cancelText?: string,
-    onCancel?: () => void,
-    onOk: () => void
-};
+import { ConfirmOptions } from "@/app/types";
 
 const defaultOptions: Partial<ConfirmOptions> = {
     title: 'Confirm',

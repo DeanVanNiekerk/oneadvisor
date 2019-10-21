@@ -4,6 +4,7 @@ export { Header } from "./Header";
 export { DrawerFooter } from "./DrawerFooter";
 export { Button } from "./Button";
 export { Drawer } from "./Drawer";
+export { EditDrawer } from "./EditDrawer";
 export { PreviewCard } from "./PreviewCard";
 export { PreviewCardContainer } from "./PreviewCardContainer";
 export { PreviewCardRow } from "./PreviewCardRow";

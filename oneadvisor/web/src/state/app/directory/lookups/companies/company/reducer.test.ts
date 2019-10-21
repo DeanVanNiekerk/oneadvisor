@@ -1,6 +1,6 @@
-import { getValidationResult } from '@/test';
+import { getValidationResult } from "@/test";
 
-import { defaultState, reducer } from './reducer';
+import { defaultState, reducer } from "./reducer";
 
 describe("company reducer", () => {
     it("should handle COMPANIES_COMPANY_RECEIVE", () => {
@@ -23,6 +23,7 @@ describe("company reducer", () => {
         const expectedState = {
             ...defaultState,
             company: { ...company },
+            companyOriginal: { ...company },
             validationResults: [],
         };
 

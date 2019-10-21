@@ -1,8 +1,11 @@
-import React, { Component } from "react";
-import { connect, DispatchProp } from "react-redux";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
 
 import { getColumnDefinition } from "@/app/table";
-import { companiesSelector, Company, fetchCompanies, receiveCompany } from "@/state/app/directory/lookups/companies";
+import {
+    companiesSelector, Company, fetchCompanies, newCompany, receiveCompany
+} from "@/state/app/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header } from "@/ui/controls";
 
@@ -10,98 +13,66 @@ import EditCompany from "./EditCompany";
 
 const Table = getTable<Company>();
 
-type Props = {
-    companies: Company[];
-    fetching: boolean;
-} & DispatchProp;
-
-type State = {
-    editVisible: boolean;
+const getColumns = () => {
+    var getColumn = getColumnDefinition<Company>();
+    return [getColumn("name", "Name", { showSearchFilter: true })];
 };
 
-class CompanyList extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
+type Props = PropsFromState & PropsFromDispatch;
 
-        this.state = {
-            editVisible: false,
-        };
-    }
+const CompanyList: React.FC<Props> = (props) => {
 
-    componentDidMount() {
-        if (this.props.companies.length === 0) this.loadCompanies();
-    }
+    useEffect(() => {
+        if (props.companies.length === 0)
+            props.fetchCompanies();
+    }, []);
 
-    loadCompanies = () => {
-        this.props.dispatch(fetchCompanies());
+    const editCompany = (id: string) => {
+        const company = props.companies.find(u => u.id === id);
+        if (company) props.editCompany(company);
     };
 
-    newCompany = () => {
-        const company = {
-            id: "",
-            name: "",
-            commissionPolicyNumberPrefixes: [""],
-        };
-        this.showEditCompany(company);
-    };
-
-    editCompany = (id: string) => {
-        const company = this.props.companies.find(u => u.id === id);
-        if (company) this.showEditCompany(company);
-    };
-
-    showEditCompany = (company: Company) => {
-        this.props.dispatch(receiveCompany(company));
-        this.setState({
-            editVisible: true,
-        });
-    };
-
-    closeEditCompany = (cancelled: boolean) => {
-        this.setState({
-            editVisible: false,
-        });
-        if (!cancelled) this.loadCompanies();
-    };
-
-    getColumns = () => {
-        var getColumn = getColumnDefinition<Company>();
-        return [getColumn("name", "Name", { showSearchFilter: true })];
-    };
-
-    render() {
-        return (
-            <>
-                <Header
-                    icon="database"
-                    actions={
-                        <Button type="default" icon="plus" onClick={this.newCompany} disabled={this.props.fetching}>
-                            New Company
-                        </Button>
-                    }
-                >
-                    Companies
-                </Header>
-                <Table
-                    rowKey="id"
-                    columns={this.getColumns()}
-                    dataSource={this.props.companies}
-                    loading={this.props.fetching}
-                    onRowClick={org => this.editCompany(org.id)}
-                />
-                <EditCompany visible={this.state.editVisible} onClose={this.closeEditCompany} />
-            </>
-        );
-    }
+    return (
+        <>
+            <Header
+                icon="database"
+                actions={
+                    <Button type="default" icon="plus" onClick={props.newCompany} disabled={props.fetching}>
+                        New Company
+                    </Button>
+                }
+            >
+                Companies
+            </Header>
+            <Table
+                rowKey="id"
+                columns={getColumns()}
+                dataSource={props.companies}
+                loading={props.fetching}
+                onRowClick={company => editCompany(company.id)}
+            />
+            <EditCompany />
+        </>
+    );
 }
 
+type PropsFromState = ReturnType<typeof mapStateToProps>
 const mapStateToProps = (state: RootState) => {
     const companiesState = companiesSelector(state);
-
     return {
         companies: companiesState.items,
         fetching: companiesState.fetching,
     };
 };
 
-export default connect(mapStateToProps)(CompanyList);
+type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
+const mapDispatchToProps = (dispatch: Dispatch) => {
+    return {
+        ...bindActionCreators({ fetchCompanies, newCompany }, dispatch),
+        editCompany: (company: Company) => {
+            dispatch(receiveCompany(company));
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CompanyList);

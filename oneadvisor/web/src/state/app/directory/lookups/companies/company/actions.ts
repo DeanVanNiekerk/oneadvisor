@@ -1,12 +1,21 @@
-import { ApiAction, ApiOnSuccess } from '@/app/types';
-import { ValidationResult } from '@/app/validation';
-import { companiesApi } from '@/config/api/directory';
+import { Dispatch } from "redux";
 
-import { Company } from '../types';
+import { ApiAction, ApiOnSuccess, ShowConfirm } from "@/app/types";
+import { ValidationResult } from "@/app/validation";
+import { companiesApi } from "@/config/api/directory";
+import { RootState } from "@/state/rootReducer";
+
+import { companyIsModifiedSelector, companySelector, fetchCompanies } from "../";
+import { Company } from "../types";
 
 type CompanyReceiveAction = {
     type: 'COMPANIES_COMPANY_RECEIVE';
-    payload: Company;
+    payload: Company | null;
+};
+
+type CompanyModifiedAction = {
+    type: 'COMPANIES_COMPANY_MODIFIED';
+    payload: Company
 };
 
 type CompanyUpdatedAction = {
@@ -24,6 +33,7 @@ type CompanyValidationErrorAction = {
 };
 
 export type CompanyAction =
+    | CompanyModifiedAction
     | CompanyReceiveAction
     | CompanyUpdatedAction
     | CompanyUpdatingAction
@@ -34,6 +44,56 @@ export const receiveCompany = (company: Company): CompanyReceiveAction => ({
     type: 'COMPANIES_COMPANY_RECEIVE',
     payload: company
 });
+
+export const modifyCompany = (company: Company): CompanyModifiedAction => ({
+    type: 'COMPANIES_COMPANY_MODIFIED',
+    payload: company
+});
+
+export const clearCompany = (): CompanyReceiveAction => ({
+    type: 'COMPANIES_COMPANY_RECEIVE',
+    payload: null
+});
+
+export const newCompany = (): CompanyReceiveAction => ({
+    type: 'COMPANIES_COMPANY_RECEIVE',
+    payload: {
+        id: "",
+        name: "",
+        commissionPolicyNumberPrefixes: [""],
+    }
+});
+
+export const saveCompany = () => {
+    return (dispatch: Dispatch, getState: () => RootState) => {
+        const { company } = companySelector(getState());
+        if (!company) return;
+
+        const onSuccess = () => {
+            dispatch(clearCompany());
+            dispatch(fetchCompanies());
+        }
+
+        if (company.id) {
+            dispatch(updateCompany(company, onSuccess));
+        } else {
+            dispatch(insertCompany(company, onSuccess));
+        }
+    };
+}
+
+export const confirmCancel = (showConfirm: ShowConfirm) => {
+    return (dispatch: Dispatch, getState: () => RootState) => {
+        const modifed = companyIsModifiedSelector(getState());
+
+        const close = () => dispatch(clearCompany());
+
+        if (modifed)
+            return showConfirm({ onOk: () => { close(); } });
+
+        close();
+    };
+}
 
 export const updateCompany = (
     company: Company,
