@@ -19,8 +19,8 @@ import CommissionLapseReport from "@/ui/app/commission/reports/commissionLapse/C
 import ProjectionsReport from "@/ui/app/commission/reports/projections/ProjectionsReport";
 import UserMonthlyCommissionReport from "@/ui/app/commission/reports/userMonthlyCommission/UserMonthlyCommissionReport";
 import SplitRulePolicyList from "@/ui/app/commission/splitRulePolicy/SplitRulePolicyList";
-import StatementList from "@/ui/app/commission/statement/StatementList";
-import StatementPreview from "@/ui/app/commission/statement/StatementPreview";
+import StatementList from "@/ui/app/commission/statement/list/StatementList";
+import StatementPreview from "@/ui/app/commission/statement/preview/StatementPreview";
 import CommissionStatementTemplateList from "@/ui/app/commission/template/TemplateList";
 import AuditLogList from "@/ui/app/directory/audit/logs/AuditLogList";
 import ChangeLogList from "@/ui/app/directory/changeLogs/ChangeLogList";

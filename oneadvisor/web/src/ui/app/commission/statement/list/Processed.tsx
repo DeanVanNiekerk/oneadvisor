@@ -1,16 +1,15 @@
-import { Tag } from 'antd';
-import React from 'react';
+import { Tag } from "antd";
+import React from "react";
 
 type Props = {
     processed: boolean;
 };
 
-const Processed = (props: Props) => {
-    const style = {
-        marginRight: '0px'
-    };
+const Processed: React.FC<Props> = ({ processed }) => {
 
-    if (props.processed)
+    const style = { marginRight: '0px' };
+
+    if (processed)
         return (
             <Tag style={style} color="green">
                 Processed

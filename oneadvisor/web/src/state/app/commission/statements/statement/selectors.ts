@@ -1,8 +1,9 @@
-import { createSelector } from 'reselect';
+import { createSelector } from "reselect";
 
-import { RootState } from '@/state/rootReducer';
+import { areEqual } from "@/app/utils";
+import { RootState } from "@/state/rootReducer";
 
-import { State } from './reducer';
+import { State } from "./reducer";
 
 const rootSelector = (state: RootState): State =>
     state.app.commission.statements.statement;
@@ -10,4 +11,14 @@ const rootSelector = (state: RootState): State =>
 export const statementSelector: (state: RootState) => State = createSelector(
     rootSelector,
     root => root
+);
+
+export const statementIsModifiedSelector: (state: RootState) => boolean = createSelector(
+    rootSelector,
+    root => !areEqual(root.statement, root.statementOriginal)
+);
+
+export const statementIsModifyingSelector: (state: RootState) => boolean = createSelector(
+    rootSelector,
+    root => (!!root.statement || root.fetching)
 );

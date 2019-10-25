@@ -4,14 +4,14 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    companyIsModifyingSelector, companySelector, confirmCancelCompany, saveCompany
-} from "@/state/app/directory/lookups/companies";
+    confirmCancelStatement, saveStatement, statementIsModifyingSelector, statementSelector
+} from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import CompanyForm from "./CompanyForm";
-import EditCompanyTitle from "./EditCompanyTitle";
+import EditStatementTitle from "./EditStatementTitle";
+import StatementForm from "./StatementForm";
 
 type Props = {
     onSaved?: () => void;
@@ -19,30 +19,32 @@ type Props = {
     & PropsFromState
     & PropsFromDispatch;
 
-const EditCompany: React.FC<Props> = (props: Props) => {
+const EditStatement: React.FC<Props> = (props: Props) => {
 
     return (
         <EditDrawer
-            title={<EditCompanyTitle />}
+            title={<EditStatementTitle />}
             icon="database"
             visible={props.visible}
-            updating={props.updating}
+            updating={props.loading}
             noTopPadding={true}
+            saveRequiredUseCase="com_edit_commission_statements"
             onClose={props.confirmCancel}
             onSave={() => {
-                props.saveCompany(props.onSaved)
+                props.saveStatement(props.onSaved)
             }}
         >
-            <CompanyForm />
+            <StatementForm />
         </EditDrawer>
     );
 }
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
+    const statementState = statementSelector(state);
     return {
-        visible: companyIsModifyingSelector(state),
-        updating: companySelector(state).updating,
+        visible: statementIsModifyingSelector(state),
+        loading: statementState.updating || statementState.fetching,
     };
 };
 
@@ -50,12 +52,12 @@ type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
         confirmCancel: () => {
-            dispatch(confirmCancelCompany(showConfirm));
+            dispatch(confirmCancelStatement(showConfirm));
         },
-        saveCompany: (onSaved?: () => void) => {
-            dispatch(saveCompany(onSaved));
+        saveStatement: (onSaved?: () => void) => {
+            dispatch(saveStatement(onSaved));
         },
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditCompany);
+export default connect(mapStateToProps, mapDispatchToProps)(EditStatement);

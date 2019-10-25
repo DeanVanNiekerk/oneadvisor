@@ -1,10 +1,11 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { StatementEdit } from '../types';
-import { StatementAction } from './actions';
+import { StatementEdit } from "../types";
+import { StatementAction } from "./actions";
 
 export type State = {
     readonly statement: StatementEdit | null;
+    readonly statementOriginal: StatementEdit | null;
     readonly fetching: boolean;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];
@@ -12,6 +13,7 @@ export type State = {
 
 export const defaultState: State = {
     statement: null,
+    statementOriginal: null,
     fetching: false,
     updating: false,
     validationResults: [],
@@ -26,8 +28,15 @@ export const reducer = (
             return {
                 ...state,
                 statement: action.payload,
+                statementOriginal: action.payload,
                 fetching: false,
                 validationResults: [],
+            };
+        }
+        case "STATEMENTS_STATEMENT_MODIFIED": {
+            return {
+                ...state,
+                statement: action.payload
             };
         }
         case "STATEMENTS_STATEMENT_FETCHING": {
@@ -42,6 +51,7 @@ export const reducer = (
             return {
                 ...state,
                 statement: null,
+                statementOriginal: null,
                 fetching: false,
             };
         }

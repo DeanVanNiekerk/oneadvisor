@@ -51,7 +51,7 @@ const CompanyList: React.FC<Props> = (props) => {
                 loading={props.fetching}
                 onRowClick={company => editCompany(company.id)}
             />
-            <EditCompany />
+            <EditCompany onSaved={props.fetchCompanies} />
         </>
     );
 }

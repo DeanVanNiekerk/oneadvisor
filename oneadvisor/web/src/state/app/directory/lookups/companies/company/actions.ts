@@ -1,4 +1,5 @@
 import { Dispatch } from "redux";
+import { ThunkAction } from "redux-thunk";
 
 import { ApiAction, ApiOnSuccess, ShowConfirm } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
@@ -40,7 +41,7 @@ export type CompanyAction =
     | CompanyUpdatingErrorAction
     | CompanyValidationErrorAction;
 
-export const receiveCompany = (company: Company): CompanyReceiveAction => ({
+export const receiveCompany = (company: Company | null): CompanyReceiveAction => ({
     type: 'COMPANIES_COMPANY_RECEIVE',
     payload: company
 });
@@ -50,28 +51,27 @@ export const modifyCompany = (company: Company): CompanyModifiedAction => ({
     payload: company
 });
 
-export const clearCompany = (): CompanyReceiveAction => ({
-    type: 'COMPANIES_COMPANY_RECEIVE',
-    payload: null
-});
+export const clearCompany = (): CompanyReceiveAction => receiveCompany(null);
 
-export const newCompany = (): CompanyReceiveAction => ({
-    type: 'COMPANIES_COMPANY_RECEIVE',
-    payload: {
+export const newCompany = (): CompanyReceiveAction => {
+
+    const company: Company = {
         id: "",
         name: "",
         commissionPolicyNumberPrefixes: [""],
-    }
-});
+    };
 
-export const saveCompany = () => {
-    return (dispatch: Dispatch, getState: () => RootState) => {
+    return receiveCompany(company);
+};
+
+export const saveCompany = (onSaved?: () => void): ThunkAction<void, RootState, {}, CompanyReceiveAction | ApiAction> => {
+    return (dispatch, getState) => {
         const { company } = companySelector(getState());
         if (!company) return;
 
         const onSuccess = () => {
             dispatch(clearCompany());
-            dispatch(fetchCompanies());
+            if (onSaved) onSaved();
         }
 
         if (company.id) {
@@ -82,8 +82,8 @@ export const saveCompany = () => {
     };
 }
 
-export const confirmCancel = (showConfirm: ShowConfirm) => {
-    return (dispatch: Dispatch, getState: () => RootState) => {
+export const confirmCancelCompany = (showConfirm: ShowConfirm): ThunkAction<void, RootState, {}, CompanyReceiveAction> => {
+    return (dispatch, getState) => {
         const modifed = companyIsModifiedSelector(getState());
 
         const close = () => dispatch(clearCompany());

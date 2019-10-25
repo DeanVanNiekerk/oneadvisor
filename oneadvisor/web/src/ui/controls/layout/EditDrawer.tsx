@@ -6,13 +6,14 @@ type Props = {
     title: string | ReactNode;
     icon?: string | ReactNode;
     noTopPadding?: boolean;
+    saveRequiredUseCase?: string;
     visible: boolean;
     updating: boolean;
     onSave: () => void;
     onClose: () => void;
 };
 
-const EditDrawer: React.FC<Props> = ({ title, icon, visible, updating, onSave, noTopPadding, onClose, children }) => {
+const EditDrawer: React.FC<Props> = ({ title, icon, visible, updating, onSave, noTopPadding, saveRequiredUseCase, onClose, children }) => {
 
     return (
         <Drawer
@@ -29,7 +30,7 @@ const EditDrawer: React.FC<Props> = ({ title, icon, visible, updating, onSave, n
                 <Button onClick={onClose} disabled={updating}>
                     Cancel
                 </Button>
-                <Button onClick={onSave} type="primary" disabled={updating}>
+                <Button onClick={onSave} type="primary" disabled={updating} requiredUseCase={saveRequiredUseCase}>
                     Save
                 </Button>
             </DrawerFooter>

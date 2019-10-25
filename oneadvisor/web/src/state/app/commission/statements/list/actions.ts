@@ -1,9 +1,14 @@
-import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from '@/app/query';
-import { Filters, PageOptions, SortOptions } from '@/app/table';
-import { ApiAction } from '@/app/types';
-import { statementsApi } from '@/config/api/commission';
+import { ThunkAction } from "redux-thunk";
 
-import { PagedStatements } from '../types';
+import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from "@/app/query";
+import { Filters, PageOptions, SortOptions } from "@/app/table";
+import { ApiAction } from "@/app/types";
+import { getMonthDateRange } from "@/app/utils";
+import { statementsApi } from "@/config/api/commission";
+import { RootState } from "@/state/rootReducer";
+
+import { statementsSelector } from "../";
+import { PagedStatements } from "../types";
 
 type StatementListReceiveAction = {
     type: 'STATEMENTS_LIST_RECEIVE';
@@ -44,20 +49,73 @@ export type StatementListAction =
     | StatementListFiltersMonthReceiveAction
     | StatementListFiltersYearReceiveAction;
 
-export const fetchStatements = (
-    pageOptions: PageOptions,
-    sortOptions: SortOptions,
-    filters: Filters
-): ApiAction => {
-    let api = statementsApi;
-    api = appendPageOptionQuery(api, pageOptions);
-    api = appendSortOptionQuery(api, sortOptions);
-    api = appendFiltersQuery(api, filters);
-    return {
-        type: 'API',
-        endpoint: api,
-        dispatchPrefix: 'STATEMENTS_LIST'
+export const fetchStatements = (): ThunkAction<void, RootState, {}, ApiAction> => {
+
+    return (dispatch, getState) => {
+
+        let { pageOptions, sortOptions, filters, filterMonth, filterYear } = statementsSelector(getState());
+
+        const dateRange = getMonthDateRange(filterMonth, filterYear);
+        filters = {
+            ...filters,
+            startDate: [dateRange.start],
+            endDate: [dateRange.end],
+        }
+
+        sortOptions = mapSortOptions(sortOptions);
+
+        let api = statementsApi;
+
+        api = appendPageOptionQuery(api, pageOptions);
+        api = appendSortOptionQuery(api, sortOptions);
+        api = appendFiltersQuery(api, filters);
+
+        dispatch({
+            type: 'API',
+            endpoint: api,
+            dispatchPrefix: 'STATEMENTS_LIST'
+        });
     };
+};
+
+const mapSortOptions = (sortOptions: SortOptions): SortOptions => {
+    if (sortOptions.column === "companyId") {
+        return {
+            ...sortOptions,
+            column: "companyName",
+        };
+    }
+    return sortOptions;
+};
+
+export const updateMonthFilterNext = (): ThunkAction<void, RootState, {}, StatementListFiltersMonthReceiveAction | StatementListFiltersYearReceiveAction> => {
+
+    return (dispatch, getState) => {
+
+        const statementsState = statementsSelector(getState());
+
+        let month = statementsState.filterMonth + 1;
+        if (month > 12) {
+            month = 1;
+            dispatch(receiveFilterYear(statementsState.filterYear + 1));
+        }
+        dispatch(receiveFilterMonth(month));
+    }
+};
+
+export const updateMonthFilterPrevious = (): ThunkAction<void, RootState, {}, StatementListFiltersMonthReceiveAction | StatementListFiltersYearReceiveAction> => {
+
+    return (dispatch, getState) => {
+
+        const statementsState = statementsSelector(getState());
+
+        let month = statementsState.filterMonth - 1;
+        if (month < 1) {
+            month = 12;
+            dispatch(receiveFilterYear(statementsState.filterYear - 1));
+        }
+        dispatch(receiveFilterMonth(month));
+    }
 };
 
 export const receivePageOptions = (

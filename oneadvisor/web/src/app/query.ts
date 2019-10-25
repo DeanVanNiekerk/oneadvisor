@@ -1,4 +1,4 @@
-import { Filters, PageOptions, SortOptions } from '@/app/table';
+import { Filters, PageOptions, SortOptions } from "@/app/table";
 
 export const appendPageOptionQuery = (api: string, options: PageOptions): string => {
     const query: Param[] = [
@@ -30,7 +30,7 @@ export const appendSortOptionQuery = (api: string, options: SortOptions): string
     return appendQueryString(api, query);
 };
 
-export const appendFiltersQuery = (api: string, filters: Filters): string => {
+export const appendFiltersQuery = (api: string, filters: Filters | null): string => {
     if (!filters) return api;
 
     let filtersValues: string[] = [];

@@ -23,7 +23,7 @@ type Props = {
     rows?: number;
 };
 
-const FormText: React.FC<Props> = (props: Props) => {
+const FormTextArea: React.FC<Props> = (props: Props) => {
 
     const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         if (props.onChange) props.onChange(props.fieldName, event.target.value);
@@ -55,4 +55,4 @@ const FormText: React.FC<Props> = (props: Props) => {
     );
 }
 
-export { FormText };
+export { FormTextArea };

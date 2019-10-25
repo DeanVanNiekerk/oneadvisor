@@ -32,7 +32,6 @@ const CompanyDetails: React.FC<Props> = ({ company, validationResults, handleCha
 }
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
-
 const mapStateToProps = (state: RootState) => {
     const companyState = companySelector(state);
     return {
@@ -42,7 +41,6 @@ const mapStateToProps = (state: RootState) => {
 };
 
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
-
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         handleChange: (company: Company, fieldName: keyof Company, value: string) => {
