@@ -16,7 +16,7 @@ const StatementForm: React.FC<Props> = ({ statement, validationResults, handleCh
 
     const onChange = (fieldName: keyof StatementEdit, value: string | number | boolean) => {
         handleChange(statement, fieldName, value);
-    }
+    };
 
     const handleAmountExclVATChange = async (fieldName: string, value: number) => {
         onChange("amountIncludingVAT", value + statement.vat);
@@ -77,7 +77,7 @@ const StatementForm: React.FC<Props> = ({ statement, validationResults, handleCh
             />
         </Form>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
@@ -94,10 +94,13 @@ type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         handleChange: (statement: StatementEdit, fieldName: keyof StatementEdit, value: string | number | boolean) => {
-            const statementyModified = update(statement, { [fieldName]: { $set: value } });
-            dispatch(modifyStatement(statementyModified));
-        }
-    }
-}
+            const statementModified = update(statement, { [fieldName]: { $set: value } });
+            dispatch(modifyStatement(statementModified));
+        },
+    };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(StatementForm);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(StatementForm);

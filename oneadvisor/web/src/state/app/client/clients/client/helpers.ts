@@ -1,7 +1,7 @@
-import { ClientEdit } from '../';
-import { ClientTypeId } from '../../lookups';
+import { ClientEdit } from "../";
+import { ClientTypeId } from "../../lookups";
 
-export const newClient = (client: Partial<ClientEdit> = {}): ClientEdit => ({
+export const createClient = (client: Partial<ClientEdit> = {}): ClientEdit => ({
     id: "",
     clientTypeId: ClientTypeId.Individual,
     firstName: "",

@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { Result } from '@/app/types';
-import { areEqual } from '@/app/utils';
-import { ValidationResult } from '@/app/validation';
-import { ClientEdit, clientSelector, insertClient, receiveClient, updateClient } from '@/state/app/client/clients';
-import { RootState } from '@/state/rootReducer';
-import { Button, ClientTypeIcon, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
-import { showConfirm } from '@/ui/feedback/modal/confirm';
+import { Result } from "@/app/types";
+import { areEqual } from "@/app/utils";
+import { ValidationResult } from "@/app/validation";
+import { ClientEdit, clientSelector, insertClient, receiveClient, updateClient } from "@/state/app/client/clients";
+import { RootState } from "@/state/rootReducer";
+import { Button, ClientTypeIcon, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import ClientForm from './ClientForm';
+import ClientForm from "./ClientForm";
 
 type Props = {
     onClose?: (cancelled: boolean) => void;
-    onClientInserted?: (client: ClientEdit) => void;
     client: ClientEdit | null;
     fetching: boolean;
     updating: boolean;
@@ -47,8 +46,7 @@ class EditClient extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (!areEqual(this.props.client, this.state.clientEdited))
-            return showConfirm({ onOk: this.cancel });
+        if (!areEqual(this.props.client, this.state.clientEdited)) return showConfirm({ onOk: this.cancel });
 
         this.cancel();
     };
@@ -64,14 +62,10 @@ class EditClient extends Component<Props, State> {
         }
 
         if (this.state.clientEdited.id) {
-            this.props.dispatch(
-                updateClient(this.state.clientEdited, () => this.close())
-            );
+            this.props.dispatch(updateClient(this.state.clientEdited, () => this.close()));
         } else {
             this.props.dispatch(
                 insertClient(this.state.clientEdited, (result: Result) => {
-                    if (this.props.onClientInserted)
-                        this.props.onClientInserted(result.tag as ClientEdit);
                     this.close();
                 })
             );
@@ -94,8 +88,7 @@ class EditClient extends Component<Props, State> {
         const { clientEdited } = this.state;
 
         if (clientEdited && clientEdited.id)
-            return `Client: ${clientEdited.firstName ||
-                ""} ${clientEdited.lastName || ""}`;
+            return `Client: ${clientEdited.firstName || ""} ${clientEdited.lastName || ""}`;
 
         return "New Client";
     };
@@ -116,20 +109,9 @@ class EditClient extends Component<Props, State> {
                 visible={this.props.visible && !fetching}
                 onClose={this.confirmCancel}
             >
-                <ContentLoader isLoading={this.isLoading()}>
-                    {client && (
-                        <ClientForm
-                            client={client}
-                            validationResults={validationResults}
-                            onChange={this.onChange}
-                        />
-                    )}
-                </ContentLoader>
+                <ContentLoader isLoading={this.isLoading()}>{client && <ClientForm />}</ContentLoader>
                 <DrawerFooter>
-                    <Button
-                        onClick={this.confirmCancel}
-                        disabled={this.isLoading()}
-                    >
+                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Cancel
                     </Button>
                     <Button

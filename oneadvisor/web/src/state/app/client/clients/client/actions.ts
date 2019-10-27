@@ -1,11 +1,19 @@
-import { ApiAction, ApiOnSuccess } from '@/app/types';
-import { ValidationResult } from '@/app/validation';
-import { clientsApi } from '@/config/api/client';
+import { ThunkAction } from "redux-thunk";
 
-import { ClientEdit } from '../types';
+import { ApiAction, ApiOnSuccess, ShowConfirm } from "@/app/types";
+import { ValidationResult } from "@/app/validation";
+import { clientsApi } from "@/config/api/client";
+import { RootState } from "@/state/rootReducer";
+
+import { clientIsModifiedSelector, clientSelector, createClient } from "../";
+import { ClientEdit } from "../types";
 
 type ClientReceiveAction = {
     type: "CLIENTS_CLIENT_RECEIVE";
+    payload: ClientEdit | null;
+};
+type ClientModifiedAction = {
+    type: "CLIENTS_CLIENT_MODIFIED";
     payload: ClientEdit | null;
 };
 type ClientFetchingAction = { type: "CLIENTS_CLIENT_FETCHING" };
@@ -21,6 +29,7 @@ type ClientValidationErrorAction = {
 
 export type ClientAction =
     | ClientReceiveAction
+    | ClientModifiedAction
     | ClientFetchingAction
     | ClientFetchingErrorAction
     | ClientUpdatedAction
@@ -49,6 +58,46 @@ export const fetchClient = (clientId: string): ApiAction => ({
     endpoint: `${clientsApi}/${clientId}`,
     dispatchPrefix: "CLIENTS_CLIENT",
 });
+
+export const modifyClient = (client: ClientEdit): ClientModifiedAction => ({
+    type: 'CLIENTS_CLIENT_MODIFIED',
+    payload: client
+});
+
+export const clearClient = (): ClientReceiveAction => receiveClient(null);
+
+export const newClient = (): ClientReceiveAction => receiveClient(createClient());
+
+export const saveClient = (onSaved?: () => void): ThunkAction<void, RootState, {}, ClientReceiveAction | ApiAction> => {
+    return (dispatch, getState) => {
+        const { client } = clientSelector(getState());
+        if (!client) return;
+
+        const onSuccess = () => {
+            dispatch(clearClient());
+            if (onSaved) onSaved();
+        }
+
+        if (client.id) {
+            dispatch(updateClient(client, onSuccess));
+        } else {
+            dispatch(insertClient(client, onSuccess));
+        }
+    };
+}
+
+export const confirmCancelStatement = (showConfirm: ShowConfirm): ThunkAction<void, RootState, {}, ClientReceiveAction> => {
+    return (dispatch, getState) => {
+        const modifed = clientIsModifiedSelector(getState());
+
+        const close = () => dispatch(clearClient());
+
+        if (modifed)
+            return showConfirm({ onOk: () => { close(); } });
+
+        close();
+    };
+}
 
 export const updateClient = (
     client: ClientEdit,

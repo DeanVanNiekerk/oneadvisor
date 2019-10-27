@@ -1,10 +1,11 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { ClientEdit } from '../types';
-import { ClientAction } from './actions';
+import { ClientEdit } from "../types";
+import { ClientAction } from "./actions";
 
 export type State = {
     readonly client: ClientEdit | null;
+    readonly clientOriginal: ClientEdit | null;
     readonly fetching: boolean;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];
@@ -12,6 +13,7 @@ export type State = {
 
 export const defaultState: State = {
     client: null,
+    clientOriginal: null,
     fetching: false,
     updating: false,
     validationResults: [],
@@ -26,8 +28,15 @@ export const reducer = (
             return {
                 ...state,
                 client: action.payload,
+                clientOriginal: action.payload,
                 fetching: false,
                 validationResults: [],
+            };
+        }
+        case "CLIENTS_CLIENT_MODIFIED": {
+            return {
+                ...state,
+                client: action.payload
             };
         }
         case "CLIENTS_CLIENT_FETCHING": {
@@ -42,6 +51,7 @@ export const reducer = (
             return {
                 ...state,
                 client: null,
+                clientOriginal: null,
                 fetching: false,
             };
         }

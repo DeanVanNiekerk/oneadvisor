@@ -7,7 +7,7 @@ import { ValidationResult } from "@/app/validation";
 import { commissionsImportApi, statementsApi } from "@/config/api/commission";
 import { RootState } from "@/state/rootReducer";
 
-import { fetchStatements, statementIsModifiedSelector, statementSelector, statementsSelector } from "../";
+import { statementIsModifiedSelector, statementSelector, statementsSelector } from "../";
 import { StatementEdit } from "../types";
 
 type StatementReceiveAction = {
@@ -107,7 +107,7 @@ export const saveStatement = (onSaved?: () => void): ThunkAction<void, RootState
 }
 
 export const confirmCancelStatement = (showConfirm: ShowConfirm): ThunkAction<void, RootState, {}, StatementReceiveAction> => {
-    return (dispatch: Dispatch, getState: () => RootState) => {
+    return (dispatch, getState) => {
         const modifed = statementIsModifiedSelector(getState());
 
         const close = () => dispatch(clearStatement());
