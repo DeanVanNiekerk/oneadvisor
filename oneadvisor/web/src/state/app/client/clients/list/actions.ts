@@ -1,9 +1,13 @@
-import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from '@/app/query';
-import { Filters, PagedItems, PageOptions, SortOptions } from '@/app/table';
-import { ApiAction } from '@/app/types';
-import { clientsApi } from '@/config/api/client';
+import { ThunkAction } from "redux-thunk";
 
-import { Client } from '../types';
+import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery, applyLike } from "@/app/query";
+import { Filters, PagedItems, PageOptions, SortOptions } from "@/app/table";
+import { ApiAction } from "@/app/types";
+import { clientsApi } from "@/config/api/client";
+import { RootState } from "@/state/rootReducer";
+
+import { clientsSelector } from "../";
+import { Client } from "../types";
 
 type ClientListReceiveAction = {
     type: "CLIENTS_LIST_RECEIVE";
@@ -37,20 +41,30 @@ export type ClientListAction =
     | ClientListFiltersReceiveAction
     | ClientListSelectedReceiveAction;
 
-export const fetchClients = (
-    pageOptions: PageOptions,
-    sortOptions: SortOptions,
-    filters: Filters
-): ApiAction => {
-    let api = clientsApi;
-    api = appendPageOptionQuery(api, pageOptions);
-    api = appendSortOptionQuery(api, sortOptions);
-    api = appendFiltersQuery(api, filters);
-    return {
-        type: "API",
-        endpoint: api,
-        dispatchPrefix: "CLIENTS_LIST",
+export const fetchClients = (): ThunkAction<void, RootState, {}, ApiAction> => {
+
+    return (dispatch, getState) => {
+
+        let { pageOptions, sortOptions, filters } = clientsSelector(getState());
+
+        filters = updateFilters(filters);
+
+        let api = clientsApi;
+
+        api = appendPageOptionQuery(api, pageOptions);
+        api = appendSortOptionQuery(api, sortOptions);
+        api = appendFiltersQuery(api, filters);
+
+        dispatch({
+            type: 'API',
+            endpoint: api,
+            dispatchPrefix: 'CLIENTS_LIST'
+        });
     };
+};
+
+const updateFilters = (filters: Filters | null): Filters | null => {
+    return applyLike(filters, ["firstName", "lastName", "idNumber"]);
 };
 
 export const receivePageOptions = (

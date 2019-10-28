@@ -1,7 +1,7 @@
-import { ApiAction } from '@/app/types';
-import { clientsApi } from '@/config/api/client';
+import { ApiAction } from "@/app/types";
+import { clientsApi } from "@/config/api/client";
 
-import { ClientPreview } from '../types';
+import { ClientPreview } from "../types";
 
 type ClientPreviewReceiveAction = {
     type: 'CLIENTS_CLIENT_PREVIEW_RECEIVE';
@@ -29,3 +29,5 @@ export const fetchClientPreview = (clientId: string): ApiAction => ({
     endpoint: `${clientsApi}/${clientId}/preview`,
     dispatchPrefix: 'CLIENTS_CLIENT_PREVIEW'
 });
+
+export const clearClientPreview = (): ClientPreviewReceiveAction => receiveClientPreview(null);

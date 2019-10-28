@@ -86,7 +86,7 @@ export const saveClient = (onSaved?: () => void): ThunkAction<void, RootState, {
     };
 }
 
-export const confirmCancelStatement = (showConfirm: ShowConfirm): ThunkAction<void, RootState, {}, ClientReceiveAction> => {
+export const confirmCancelClient = (showConfirm: ShowConfirm): ThunkAction<void, RootState, {}, ClientReceiveAction> => {
     return (dispatch, getState) => {
         const modifed = clientIsModifiedSelector(getState());
 

@@ -15,7 +15,7 @@ import {
 import ContactList from "../contact/ContactList";
 import EditPolicy from "../policy/EditPolicy";
 import PolicyList from "../policy/PolicyList";
-import EditClient from "./EditClient";
+import EditClient from "./form/EditClient";
 
 type Props = {
     client: ClientPreview | null;
@@ -211,7 +211,7 @@ class ClientPreviewComponent extends Component<Props, State> {
                     </PreviewCard>
                 </PreviewCardContainer>
 
-                <EditClient onClose={this.closeClientEdit} visible={this.state.clientEditVisible} />
+                {/* <EditClient onSaved={this.closeClientEdit} visible={this.state.clientEditVisible} /> */}
                 <EditPolicy onClose={this.onFormClose} />
 
                 <Drawer

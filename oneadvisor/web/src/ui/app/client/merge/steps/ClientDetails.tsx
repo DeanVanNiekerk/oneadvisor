@@ -1,16 +1,16 @@
-import { Alert, Divider } from 'antd';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Alert, Divider } from "antd";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 import {
     Client, ClientEdit, clientMergeNextStep, clientMergePreviousStep, clientMergeSelector, clientSelector, MergeClients,
     mergeClients, receiveClient, receiveSelectedClients
-} from '@/state/app/client/clients';
-import { RootState } from '@/state/rootReducer';
+} from "@/state/app/client/clients";
+import { RootState } from "@/state/rootReducer";
 
-import ClientForm from '../../client/ClientForm';
-import ClientMergeSteps from '../ClientMergeSteps';
+import ClientForm from "../../client/form/ClientForm";
+import ClientMergeSteps from "../ClientMergeSteps";
 
 type Props = {
     client: ClientEdit | null;
@@ -61,8 +61,7 @@ class ClientDetails extends Component<Props, State> {
         clients.forEach(m => {
             for (let property in m) {
                 const value = m[property];
-                if (value != undefined && value != null && value != "")
-                    client[property] = value;
+                if (value != undefined && value != null && value != "") client[property] = value;
             }
         });
         client.id = "";
@@ -98,9 +97,7 @@ class ClientDetails extends Component<Props, State> {
                     onNext={() => this.save()}
                     nextIcon="fork"
                     nextText="Merge"
-                    onPrevious={() =>
-                        this.props.dispatch(clientMergePreviousStep())
-                    }
+                    onPrevious={() => this.props.dispatch(clientMergePreviousStep())}
                 />
 
                 <Divider />
@@ -114,9 +111,9 @@ class ClientDetails extends Component<Props, State> {
 
                 {this.props.client && (
                     <ClientForm
-                        client={this.props.client}
-                        validationResults={this.props.validationResults}
-                        onChange={this.onChange}
+                    // client={this.props.client}
+                    //validationResults={this.props.validationResults}
+                    //onChange={this.onChange}
                     />
                 )}
             </>

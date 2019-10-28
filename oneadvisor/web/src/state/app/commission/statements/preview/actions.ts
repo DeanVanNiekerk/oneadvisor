@@ -1,8 +1,8 @@
-import { appendFiltersQuery } from '@/app/query';
-import { ApiAction } from '@/app/types';
-import { statementsApi } from '@/config/api/commission';
+import { appendFiltersQuery } from "@/app/query";
+import { ApiAction } from "@/app/types";
+import { statementsApi } from "@/config/api/commission";
 
-import { PagedStatements, Statement } from '../types';
+import { PagedStatements } from "../types";
 
 type StatementPreviewReceiveAction = {
     type: 'STATEMENTS_STATEMENT_PREVIEW_RECEIVE';

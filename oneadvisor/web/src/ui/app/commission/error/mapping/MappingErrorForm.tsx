@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import update from "immutability-helper";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { ValidationResult } from '@/app/validation';
-import { ClientEdit, newClient, receiveClient } from '@/state/app/client/clients';
-import { newPolicy, PolicyEdit, receivePolicy } from '@/state/app/client/policies';
-import { CommissionErrorEdit, CommissionImportData } from '@/state/app/commission/errors';
-import { Statement } from '@/state/app/commission/statements';
-import ClientSearch from '@/ui/app/client/client/ClientSearch';
-import EditClient from '@/ui/app/client/client/EditClient';
-import EditPolicy from '@/ui/app/client/policy/EditPolicy';
-import PolicySearch from '@/ui/app/client/policy/PolicySearch';
+import { ValidationResult } from "@/app/validation";
+import { ClientEdit, newClient, receiveClient } from "@/state/app/client/clients";
+import { newPolicy, PolicyEdit, receivePolicy } from "@/state/app/client/policies";
+import { CommissionErrorEdit, CommissionImportData } from "@/state/app/commission/errors";
+import { Statement } from "@/state/app/commission/statements";
+import ClientSearch from "@/ui/app/client/client/ClientSearch";
+import EditClient from "@/ui/app/client/client/form/EditClient";
+import EditPolicy from "@/ui/app/client/policy/EditPolicy";
+import PolicySearch from "@/ui/app/client/policy/PolicySearch";
 import {
     Button, ClientName, CommissionTypeName, Drawer, DrawerFooter, Form, FormReadOnly, FormText, PolicyName, TabPane,
     Tabs
-} from '@/ui/controls';
-import update from 'immutability-helper';
+} from "@/ui/controls";
 
 type Props = {
     statement: Statement;
@@ -67,17 +67,16 @@ class MappingErrorForm extends Component<Props, State> {
     };
 
     newClient = () => {
-        const { errorData } = this.state;
-
-        const client = newClient({
-            firstName: errorData.firstName || "",
-            lastName: errorData.lastName || errorData.fullName || "",
-            dateOfBirth: errorData.dateOfBirth || "",
-            idNumber: errorData.idNumber || "",
-            initials: errorData.initials || "",
-        });
-        this.props.dispatch(receiveClient(client));
-        this.toggleClientEditVisible();
+        // const { errorData } = this.state;
+        // const client = newClient({
+        //     firstName: errorData.firstName || "",
+        //     lastName: errorData.lastName || errorData.fullName || "",
+        //     dateOfBirth: errorData.dateOfBirth || "",
+        //     idNumber: errorData.idNumber || "",
+        //     initials: errorData.initials || "",
+        // });
+        // this.props.dispatch(receiveClient(client));
+        // this.toggleClientEditVisible();
     };
 
     newPolicy = () => {
@@ -138,11 +137,7 @@ class MappingErrorForm extends Component<Props, State> {
 
         return (
             <>
-                <Tabs
-                    onChange={this.onTabChange}
-                    activeKey={this.state.activeTab}
-                    sticky={true}
-                >
+                <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true}>
                     <TabPane tab="Mapping" key="form_tab">
                         <Form editUseCase="com_edit_commission_statements">
                             <FormText
@@ -150,42 +145,25 @@ class MappingErrorForm extends Component<Props, State> {
                                 label="Client"
                                 value={
                                     error.clientId ? (
-                                        <ClientName
-                                            clientId={error.clientId}
-                                            className="text-success"
-                                        />
+                                        <ClientName clientId={error.clientId} className="text-success" />
                                     ) : null
                                 }
-                                emptyValueText={
-                                    <span className="text-error">
-                                        No Mapped Client
-                                    </span>
-                                }
+                                emptyValueText={<span className="text-error">No Mapped Client</span>}
                                 validationResults={validationResults}
                                 extra={
                                     <>
                                         <Button
                                             size="small"
                                             icon="search"
-                                            type={
-                                                this.state.error.clientId
-                                                    ? "dashed"
-                                                    : "primary"
-                                            }
-                                            onClick={
-                                                this.toggleSearchClientVisible
-                                            }
+                                            type={this.state.error.clientId ? "dashed" : "primary"}
+                                            onClick={this.toggleSearchClientVisible}
                                         >
                                             Find Client
                                         </Button>
                                         <Button
                                             size="small"
                                             icon="plus"
-                                            type={
-                                                this.state.error.clientId
-                                                    ? "dashed"
-                                                    : "primary"
-                                            }
+                                            type={this.state.error.clientId ? "dashed" : "primary"}
                                             onClick={this.newClient}
                                         >
                                             New Client
@@ -198,49 +176,28 @@ class MappingErrorForm extends Component<Props, State> {
                                 label="Policy"
                                 value={
                                     error.policyId ? (
-                                        <PolicyName
-                                            policyId={error.policyId}
-                                            className="text-success"
-                                        />
+                                        <PolicyName policyId={error.policyId} className="text-success" />
                                     ) : null
                                 }
-                                emptyValueText={
-                                    <span className="text-error">
-                                        No Mapped Policy
-                                    </span>
-                                }
+                                emptyValueText={<span className="text-error">No Mapped Policy</span>}
                                 validationResults={validationResults}
                                 extra={
                                     <>
                                         <Button
                                             size="small"
                                             icon="search"
-                                            type={
-                                                this.state.error.policyId
-                                                    ? "dashed"
-                                                    : "primary"
-                                            }
-                                            onClick={
-                                                this.toggleSearchPolicyVisible
-                                            }
-                                            disabled={
-                                                !this.state.error.clientId
-                                            }
+                                            type={this.state.error.policyId ? "dashed" : "primary"}
+                                            onClick={this.toggleSearchPolicyVisible}
+                                            disabled={!this.state.error.clientId}
                                         >
                                             Find Policy
                                         </Button>
                                         <Button
                                             size="small"
                                             icon="plus"
-                                            type={
-                                                this.state.error.policyId
-                                                    ? "dashed"
-                                                    : "primary"
-                                            }
+                                            type={this.state.error.policyId ? "dashed" : "primary"}
                                             onClick={this.newPolicy}
-                                            disabled={
-                                                !this.state.error.clientId
-                                            }
+                                            disabled={!this.state.error.clientId}
                                         >
                                             New Policy
                                         </Button>
@@ -252,18 +209,10 @@ class MappingErrorForm extends Component<Props, State> {
                                 label="Commission Type"
                                 value={
                                     error.commissionTypeId ? (
-                                        <CommissionTypeName
-                                            commissionTypeId={
-                                                error.commissionTypeId
-                                            }
-                                        />
+                                        <CommissionTypeName commissionTypeId={error.commissionTypeId} />
                                     ) : null
                                 }
-                                emptyValueText={
-                                    <span className="text-error">
-                                        No Mapped Commission Type
-                                    </span>
-                                }
+                                emptyValueText={<span className="text-error">No Mapped Commission Type</span>}
                                 validationResults={validationResults}
                             />
                         </Form>
@@ -274,11 +223,11 @@ class MappingErrorForm extends Component<Props, State> {
                     </TabPane>
                 </Tabs>
 
-                <EditClient
+                {/* <EditClient
                     onClientInserted={this.clientInserted}
                     visible={this.state.clientEditVisible}
                     onClose={this.toggleClientEditVisible}
-                />
+                /> */}
                 <EditPolicy onPolicyInserted={this.policyInserted} />
 
                 <Drawer
@@ -294,9 +243,7 @@ class MappingErrorForm extends Component<Props, State> {
                         }}
                     />
                     <DrawerFooter>
-                        <Button onClick={this.toggleSearchClientVisible}>
-                            Close
-                        </Button>
+                        <Button onClick={this.toggleSearchClientVisible}>Close</Button>
                     </DrawerFooter>
                 </Drawer>
 
@@ -314,9 +261,7 @@ class MappingErrorForm extends Component<Props, State> {
                         companyId={this.props.statement.companyId}
                     />
                     <DrawerFooter>
-                        <Button onClick={this.toggleSearchPolicyVisible}>
-                            Close
-                        </Button>
+                        <Button onClick={this.toggleSearchPolicyVisible}>Close</Button>
                     </DrawerFooter>
                 </Drawer>
             </>

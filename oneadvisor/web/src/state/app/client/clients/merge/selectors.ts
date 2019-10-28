@@ -1,8 +1,8 @@
-import { createSelector } from 'reselect';
+import { createSelector } from "reselect";
 
-import { RootState } from '@/state/rootReducer';
+import { RootState } from "@/state/rootReducer";
 
-import { State } from './reducer';
+import { State } from "./reducer";
 
 const rootSelector = (state: RootState): State =>
     state.app.client.clients.merge;
@@ -10,4 +10,9 @@ const rootSelector = (state: RootState): State =>
 export const clientMergeSelector: (state: RootState) => State = createSelector(
     rootSelector,
     root => root
+);
+
+export const clientsMergingSelector: (state: RootState) => boolean = createSelector(
+    rootSelector,
+    root => (!!(root.clients.length > 0) || root.fetching)
 );

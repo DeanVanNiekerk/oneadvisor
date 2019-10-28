@@ -70,7 +70,7 @@ export const appendQueryString = (url: string, params: Param[]): string => {
     return formatUrl(parsed);
 };
 
-export const applyLike = (filters: Filters, fieldNames: string[]): Filters => {
+export const applyLike = (filters: Filters | null, fieldNames: string[]): Filters | null => {
     if (!filters) return filters;
 
     const newFilters: Filters = {};

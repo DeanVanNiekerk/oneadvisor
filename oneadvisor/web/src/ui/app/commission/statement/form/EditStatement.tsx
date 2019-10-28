@@ -15,12 +15,10 @@ import StatementForm from "./StatementForm";
 
 type Props = {
     onSaved?: () => void;
-}
-    & PropsFromState
-    & PropsFromDispatch;
+} & PropsFromState &
+    PropsFromDispatch;
 
 const EditStatement: React.FC<Props> = (props: Props) => {
-
     return (
         <EditDrawer
             title={<EditStatementTitle />}
@@ -31,13 +29,13 @@ const EditStatement: React.FC<Props> = (props: Props) => {
             saveRequiredUseCase="com_edit_commission_statements"
             onClose={props.confirmCancel}
             onSave={() => {
-                props.saveStatement(props.onSaved)
+                props.saveStatement(props.onSaved);
             }}
         >
             <StatementForm />
         </EditDrawer>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
@@ -57,7 +55,10 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
         saveStatement: (onSaved?: () => void) => {
             dispatch(saveStatement(onSaved));
         },
-    }
-}
+    };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditStatement);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(EditStatement);

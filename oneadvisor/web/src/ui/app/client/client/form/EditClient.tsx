@@ -1,142 +1,73 @@
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
 import { Result } from "@/app/types";
 import { areEqual } from "@/app/utils";
 import { ValidationResult } from "@/app/validation";
-import { ClientEdit, clientSelector, insertClient, receiveClient, updateClient } from "@/state/app/client/clients";
+import {
+    ClientEdit, clientIsModifyingSelector, clientSelector, confirmCancelClient, insertClient, receiveClient, saveClient,
+    updateClient
+} from "@/state/app/client/clients";
 import { RootState } from "@/state/rootReducer";
-import { Button, ClientTypeIcon, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { Button, ClientTypeIcon, ContentLoader, Drawer, DrawerFooter, EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 
 import ClientForm from "./ClientForm";
+import EditClientTitle from "./EditClientTitle";
 
 type Props = {
-    onClose?: (cancelled: boolean) => void;
-    client: ClientEdit | null;
-    fetching: boolean;
-    updating: boolean;
-    validationResults: ValidationResult[];
-    visible: boolean;
-} & DispatchProp;
+    onSaved?: () => void;
+} & PropsFromState &
+    PropsFromDispatch;
 
 type State = {
     clientEdited: ClientEdit | null;
 };
-class EditClient extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
 
-        this.state = {
-            clientEdited: props.client,
-        };
-    }
+const EditClient: React.FC<Props> = (props: Props) => {
+    return (
+        <EditDrawer
+            title={<EditClientTitle />}
+            icon={<ClientTypeIcon clientTypeId={props.clientTypeId} />}
+            visible={props.visible}
+            updating={props.loading}
+            noTopPadding={true}
+            saveRequiredUseCase="clt_edit_clients"
+            onClose={props.confirmCancel}
+            onSave={() => {
+                props.saveClient(props.onSaved);
+            }}
+        >
+            <ClientForm />
+        </EditDrawer>
+    );
+};
 
-    componentDidUpdate(prevProps: Props) {
-        if (this.props.client != prevProps.client) {
-            this.setState({
-                clientEdited: this.props.client,
-            });
-        }
-    }
-
-    close = (cancelled: boolean = false) => {
-        this.props.dispatch(receiveClient(null));
-        if (this.props.onClose) this.props.onClose(cancelled);
-    };
-
-    confirmCancel = () => {
-        if (!areEqual(this.props.client, this.state.clientEdited)) return showConfirm({ onOk: this.cancel });
-
-        this.cancel();
-    };
-
-    cancel = () => {
-        this.close(true);
-    };
-
-    save = () => {
-        if (!this.state.clientEdited) {
-            this.close();
-            return;
-        }
-
-        if (this.state.clientEdited.id) {
-            this.props.dispatch(updateClient(this.state.clientEdited, () => this.close()));
-        } else {
-            this.props.dispatch(
-                insertClient(this.state.clientEdited, (result: Result) => {
-                    this.close();
-                })
-            );
-        }
-    };
-
-    onChange = (client: ClientEdit) => {
-        this.setState({
-            clientEdited: client,
-        });
-    };
-
-    isLoading = () => {
-        return this.props.fetching || this.props.updating;
-    };
-
-    getTitle = () => {
-        if (this.props.fetching) return "Loading Client";
-
-        const { clientEdited } = this.state;
-
-        if (clientEdited && clientEdited.id)
-            return `Client: ${clientEdited.firstName || ""} ${clientEdited.lastName || ""}`;
-
-        return "New Client";
-    };
-
-    render() {
-        const { client, fetching, validationResults } = this.props;
-        const { clientEdited } = this.state;
-
-        let icon = <span />;
-        if (clientEdited) {
-            icon = <ClientTypeIcon clientTypeId={clientEdited.clientTypeId} />;
-        }
-
-        return (
-            <Drawer
-                title={this.getTitle()}
-                icon={icon}
-                visible={this.props.visible && !fetching}
-                onClose={this.confirmCancel}
-            >
-                <ContentLoader isLoading={this.isLoading()}>{client && <ClientForm />}</ContentLoader>
-                <DrawerFooter>
-                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
-                        Cancel
-                    </Button>
-                    <Button
-                        onClick={this.save}
-                        type="primary"
-                        disabled={this.isLoading()}
-                        requiredUseCase="clt_edit_clients"
-                    >
-                        Save
-                    </Button>
-                </DrawerFooter>
-            </Drawer>
-        );
-    }
-}
-
+type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const clientState = clientSelector(state);
-
     return {
-        client: clientState.client,
-        fetching: clientState.fetching,
-        updating: clientState.updating,
-        validationResults: clientState.validationResults,
+        visible: clientIsModifyingSelector(state),
+        loading: clientState.updating || clientState.fetching,
+        clientTypeId: clientState.client ? clientState.client.clientTypeId : "",
     };
 };
 
-export default connect(mapStateToProps)(EditClient);
+type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
+    return {
+        confirmCancel: () => {
+            dispatch(confirmCancelClient(showConfirm));
+        },
+        saveClient: (onSaved?: () => void) => {
+            dispatch(saveClient(onSaved));
+        },
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(EditClient);

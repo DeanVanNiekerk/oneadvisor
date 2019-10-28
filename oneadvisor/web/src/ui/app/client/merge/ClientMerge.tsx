@@ -1,18 +1,19 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { clientMergeSelector, clientSelector } from '@/state/app/client/clients';
-import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
+import { clientMergeSelector, clientSelector, clientsMergingSelector } from "@/state/app/client/clients";
+import { RootState } from "@/state/rootReducer";
+import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
 
-import ClientDetails from './steps/ClientDetails';
-import Result from './steps/Result';
-import SourceClients from './steps/SourceClients';
+import ClientDetails from "./steps/ClientDetails";
+import Result from "./steps/Result";
+import SourceClients from "./steps/SourceClients";
 
 type Props = {
     fetching: boolean;
     visible: boolean;
-    onClose: (cancelled: boolean) => void;
+    //onClose: (cancelled: boolean) => void;
+    onMerged: () => void;
     currentStepIndex: number;
 } & DispatchProp;
 
@@ -30,7 +31,7 @@ class ClientMerge extends Component<Props, State> {
     }
 
     cancel = () => {
-        this.props.onClose(this.props.currentStepIndex != 2);
+        //this.props.onMerged(this.props.currentStepIndex != 2);
     };
 
     isLoading = () => {
@@ -41,22 +42,14 @@ class ClientMerge extends Component<Props, State> {
         const { visible, currentStepIndex } = this.props;
 
         return (
-            <Drawer
-                title="Merge Clients"
-                icon="fork"
-                visible={visible}
-                onClose={this.cancel}
-            >
+            <Drawer title="Merge Clients" icon="fork" visible={visible} onClose={this.cancel}>
                 <ContentLoader isLoading={this.isLoading()}>
                     {this.state.steps.map((step, index) => {
                         return (
                             <div
                                 key={index}
                                 style={{
-                                    display:
-                                        index === currentStepIndex
-                                            ? "inline"
-                                            : "none",
+                                    display: index === currentStepIndex ? "inline" : "none",
                                 }}
                             >
                                 {step}
@@ -79,11 +72,9 @@ const mapStateToProps = (state: RootState) => {
     const clientState = clientSelector(state);
 
     return {
-        fetching:
-            clientMergeState.fetching ||
-            clientState.fetching ||
-            clientState.updating,
+        fetching: clientMergeState.fetching || clientState.fetching || clientState.updating,
         currentStepIndex: clientMergeState.currentStepIndex,
+        visible: clientsMergingSelector(state),
     };
 };
 
