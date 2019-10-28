@@ -18,11 +18,6 @@ export const clientIsModifiedSelector: (state: RootState) => boolean = createSel
     root => !areEqual(root.client, root.clientOriginal)
 );
 
-export const clientIsModifyingSelector: (state: RootState) => boolean = createSelector(
-    rootSelector,
-    root => (!!root.client || root.fetching)
-);
-
 export const clientIsMarried: (state: RootState) => boolean = createSelector(
     rootSelector,
     root => {

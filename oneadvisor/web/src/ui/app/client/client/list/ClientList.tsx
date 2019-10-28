@@ -1,5 +1,5 @@
 import { Popconfirm } from "antd";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { bindActionCreators, Dispatch } from "redux";
@@ -8,8 +8,8 @@ import { hasUseCase } from "@/app/identity";
 import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import { areEqual } from "@/app/utils";
 import {
-    clearClientPreview, Client, clientMergeReset, clientsSelector, deleteClient, fetchClients, fetchMergeClients,
-    newClient, receiveFilters, receivePageOptions, receiveSelectedClients, receiveSortOptions
+    clearClientPreview, Client, clientMergeReset, clientsSelector, clientVisible, deleteClient, fetchClients,
+    fetchMergeClients, newClient, receiveFilters, receivePageOptions, receiveSelectedClients, receiveSortOptions
 } from "@/state/app/client/clients";
 import { clientTypesSelector } from "@/state/app/client/lookups";
 import { useCaseSelector } from "@/state/auth";
@@ -24,6 +24,7 @@ const Table = getTable<Client>();
 type Props = PropsFromState & PropsFromDispatch & RouteComponentProps;
 
 const ClientList: React.FC<Props> = props => {
+
     useEffect(() => {
         props.fetchClients();
     }, [props.pageOptions, props.sortOptions, props.filters]);
@@ -170,7 +171,11 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        ...bindActionCreators({ fetchClients, newClient, clearClientPreview }, dispatch),
+        ...bindActionCreators({ fetchClients, clearClientPreview }, dispatch),
+        newClient: () => {
+            dispatch(newClient());
+            dispatch(clientVisible(true));
+        },
         updatePageOptions: (pageOptions: PageOptions) => {
             dispatch(receivePageOptions(pageOptions));
         },

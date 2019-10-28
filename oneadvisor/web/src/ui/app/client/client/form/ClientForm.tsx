@@ -171,9 +171,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         handleChange: (client: ClientEdit, fieldName: keyof ClientEdit, value: string) => {
             let clientModified = update(client, { [fieldName]: { $set: value } });
 
-            if (fieldName === "idNumber") clientModified = idNumberChanged(client, value, false);
+            if (fieldName === "idNumber") clientModified = idNumberChanged(clientModified, value, false);
 
-            if (fieldName === "firstName") clientModified = firstNameChanged(client, value);
+            if (fieldName === "firstName") clientModified = firstNameChanged(clientModified, value);
 
             dispatch(modifyClient(clientModified));
         },

@@ -18,18 +18,7 @@ type Props = {
     validationResults: ValidationResult[];
 } & DispatchProp;
 
-type State = {
-    clientEdited: ClientEdit | null;
-};
-
-class ClientDetails extends Component<Props, State> {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            clientEdited: null,
-        };
-    }
+class ClientDetails extends Component<Props> {
 
     componentDidMount() {
         const client = this.mergeClients(this.props.clients);
@@ -41,18 +30,7 @@ class ClientDetails extends Component<Props, State> {
             const client = this.mergeClients(this.props.clients);
             this.props.dispatch(receiveClient(client));
         }
-        if (this.props.client != prevProps.client) {
-            this.setState({
-                clientEdited: this.props.client,
-            });
-        }
     }
-
-    onChange = (client: ClientEdit) => {
-        this.setState({
-            clientEdited: client,
-        });
-    };
 
     mergeClients = (clients: Client[]): Client => {
         const client = {
@@ -69,12 +47,11 @@ class ClientDetails extends Component<Props, State> {
     };
 
     save = () => {
-        if (!this.state.clientEdited) {
-            return;
-        }
+
+        if (!this.props.client) return;
 
         var merge: MergeClients = {
-            targetClient: this.state.clientEdited,
+            targetClient: this.props.client,
             sourceClientIds: this.props.clients.map(m => m.id),
         };
 
@@ -111,9 +88,6 @@ class ClientDetails extends Component<Props, State> {
 
                 {this.props.client && (
                     <ClientForm
-                    // client={this.props.client}
-                    //validationResults={this.props.validationResults}
-                    //onChange={this.onChange}
                     />
                 )}
             </>

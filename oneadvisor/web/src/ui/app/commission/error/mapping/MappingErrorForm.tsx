@@ -7,8 +7,8 @@ import { ClientEdit, newClient, receiveClient } from "@/state/app/client/clients
 import { newPolicy, PolicyEdit, receivePolicy } from "@/state/app/client/policies";
 import { CommissionErrorEdit, CommissionImportData } from "@/state/app/commission/errors";
 import { Statement } from "@/state/app/commission/statements";
-import ClientSearch from "@/ui/app/client/client/ClientSearch";
 import EditClient from "@/ui/app/client/client/form/EditClient";
+import ClientSearch from "@/ui/app/client/client/search/ClientSearch";
 import EditPolicy from "@/ui/app/client/policy/EditPolicy";
 import PolicySearch from "@/ui/app/client/policy/PolicySearch";
 import {

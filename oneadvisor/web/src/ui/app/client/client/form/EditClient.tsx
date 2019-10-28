@@ -1,17 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { connect, DispatchProp } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
-import { Result } from "@/app/types";
-import { areEqual } from "@/app/utils";
-import { ValidationResult } from "@/app/validation";
-import {
-    ClientEdit, clientIsModifyingSelector, clientSelector, confirmCancelClient, insertClient, receiveClient, saveClient,
-    updateClient
-} from "@/state/app/client/clients";
+import { clientSelector, clientVisible, confirmCancelClient, saveClient } from "@/state/app/client/clients";
 import { RootState } from "@/state/rootReducer";
-import { Button, ClientTypeIcon, ContentLoader, Drawer, DrawerFooter, EditDrawer } from "@/ui/controls";
+import { ClientTypeIcon, EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 
 import ClientForm from "./ClientForm";
@@ -22,11 +16,10 @@ type Props = {
 } & PropsFromState &
     PropsFromDispatch;
 
-type State = {
-    clientEdited: ClientEdit | null;
-};
-
 const EditClient: React.FC<Props> = (props: Props) => {
+
+    const close = () => props.setVisible(false);
+
     return (
         <EditDrawer
             title={<EditClientTitle />}
@@ -35,9 +28,12 @@ const EditClient: React.FC<Props> = (props: Props) => {
             updating={props.loading}
             noTopPadding={true}
             saveRequiredUseCase="clt_edit_clients"
-            onClose={props.confirmCancel}
+            onClose={() => {
+                props.confirmCancel(close);
+            }}
             onSave={() => {
                 props.saveClient(props.onSaved);
+                close();
             }}
         >
             <ClientForm />
@@ -49,8 +45,8 @@ type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const clientState = clientSelector(state);
     return {
-        visible: clientIsModifyingSelector(state),
         loading: clientState.updating || clientState.fetching,
+        visible: clientState.visible,
         clientTypeId: clientState.client ? clientState.client.clientTypeId : "",
     };
 };
@@ -58,11 +54,14 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
-        confirmCancel: () => {
-            dispatch(confirmCancelClient(showConfirm));
+        confirmCancel: (onCancelled: () => void) => {
+            dispatch(confirmCancelClient(showConfirm, onCancelled));
         },
         saveClient: (onSaved?: () => void) => {
             dispatch(saveClient(onSaved));
+        },
+        setVisible: (visible: boolean) => {
+            dispatch(clientVisible(visible));
         },
     };
 };

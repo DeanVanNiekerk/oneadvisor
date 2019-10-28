@@ -9,6 +9,7 @@ export type State = {
     readonly fetching: boolean;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];
+    readonly visible: boolean;
 };
 
 export const defaultState: State = {
@@ -17,6 +18,7 @@ export const defaultState: State = {
     fetching: false,
     updating: false,
     validationResults: [],
+    visible: false,
 };
 
 export const reducer = (
@@ -79,6 +81,12 @@ export const reducer = (
                 ...state,
                 updating: false,
                 validationResults: action.payload,
+            };
+        }
+        case "CLIENTS_CLIENT_VISIBLE": {
+            return {
+                ...state,
+                visible: action.payload,
             };
         }
         default:

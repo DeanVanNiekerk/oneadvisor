@@ -1,13 +1,13 @@
-import update from 'immutability-helper';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import update from "immutability-helper";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { ValidationResult } from '@/app/validation';
-import { AllocationEdit } from '@/state/app/commission/allocations';
-import ClientSearch from '@/ui/app/client/client/ClientSearch';
-import { Button, ClientName, Drawer, DrawerFooter, Form, FormErrors, FormText } from '@/ui/controls';
+import { ValidationResult } from "@/app/validation";
+import { AllocationEdit } from "@/state/app/commission/allocations";
+import ClientSearch from "@/ui/app/client/client/search/ClientSearch";
+import { Button, ClientName, Drawer, DrawerFooter, Form, FormErrors, FormText } from "@/ui/controls";
 
-import PolicyList from '../../client/policy/PolicyList';
+import PolicyList from "../../client/policy/PolicyList";
 
 type Props = {
     allocation: AllocationEdit;

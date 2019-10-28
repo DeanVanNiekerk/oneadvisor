@@ -16,6 +16,10 @@ type ClientModifiedAction = {
     type: "CLIENTS_CLIENT_MODIFIED";
     payload: ClientEdit | null;
 };
+type ClientVisibleAction = {
+    type: "CLIENTS_CLIENT_VISIBLE";
+    payload: boolean;
+};
 type ClientFetchingAction = { type: "CLIENTS_CLIENT_FETCHING" };
 type ClientFetchingErrorAction = { type: "CLIENTS_CLIENT_FETCHING_ERROR" };
 
@@ -29,6 +33,7 @@ type ClientValidationErrorAction = {
 
 export type ClientAction =
     | ClientReceiveAction
+    | ClientVisibleAction
     | ClientModifiedAction
     | ClientFetchingAction
     | ClientFetchingErrorAction
@@ -64,6 +69,11 @@ export const modifyClient = (client: ClientEdit): ClientModifiedAction => ({
     payload: client
 });
 
+export const clientVisible = (visible: boolean): ClientVisibleAction => ({
+    type: "CLIENTS_CLIENT_VISIBLE",
+    payload: visible,
+});
+
 export const clearClient = (): ClientReceiveAction => receiveClient(null);
 
 export const newClient = (): ClientReceiveAction => receiveClient(createClient());
@@ -86,16 +96,19 @@ export const saveClient = (onSaved?: () => void): ThunkAction<void, RootState, {
     };
 }
 
-export const confirmCancelClient = (showConfirm: ShowConfirm): ThunkAction<void, RootState, {}, ClientReceiveAction> => {
+export const confirmCancelClient = (showConfirm: ShowConfirm, onCancelled: () => void): ThunkAction<void, RootState, {}, ClientReceiveAction> => {
     return (dispatch, getState) => {
         const modifed = clientIsModifiedSelector(getState());
 
-        const close = () => dispatch(clearClient());
+        const cancel = () => {
+            dispatch(clearClient());
+            onCancelled();
+        }
 
         if (modifed)
-            return showConfirm({ onOk: () => { close(); } });
+            return showConfirm({ onOk: () => { cancel(); } });
 
-        close();
+        cancel();
     };
 }
 
