@@ -1,38 +1,9 @@
-import { Filters, PageOptions, SortOptions } from '@/app/table';
-import { policiesApi } from '@/config/api/client';
+import { Filters, PageOptions, SortOptions } from "@/app/table";
+import { policiesApi } from "@/config/api/client";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe('policy: policies: list actions', () => {
-    it('should dispatch API when fetchPolicies is called', () => {
-        const pageOptions: PageOptions = {
-            number: 2,
-            size: 10
-        };
-
-        const sortOptions: SortOptions = {
-            column: 'number',
-            direction: 'desc'
-        };
-
-        const filters: Filters = {
-            number: ['123']
-        };
-
-        const api = `${policiesApi}?pageNumber=${pageOptions.number}&pageSize=${
-            pageOptions.size
-        }&sortColumn=number&sortDirection=desc&filters=number%3D123`;
-
-        const expectedAction = {
-            type: 'API',
-            endpoint: api,
-            dispatchPrefix: 'POLICIES_LIST'
-        };
-
-        expect(
-            actions.fetchPolicies(pageOptions, sortOptions, filters)
-        ).toEqual(expectedAction);
-    });
 
     it('should dispatch POLICIES_LIST_PAGE_OPTIONS_RECEIVE when receivePageOptions is called', () => {
         const options = {

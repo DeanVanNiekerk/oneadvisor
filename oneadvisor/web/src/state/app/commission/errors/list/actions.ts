@@ -1,10 +1,14 @@
+import { ThunkAction } from "redux-thunk";
+
 import { downloadExcel } from "@/app/excel/helpers";
 import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from "@/app/query";
-import { PagedItems, PageOptions, SortOptions } from "@/app/table";
+import { Filters, PagedItems, PageOptions, SortOptions } from "@/app/table";
 import { ApiAction } from "@/app/types";
 import { DATE_FORMAT } from "@/app/utils";
 import { statementsApi } from "@/config/api/commission";
+import { RootState } from "@/state/rootReducer";
 
+import { commissionErrorsSelector } from "../";
 import { CommissionError, CommissionErrorsFilters } from "../types";
 
 type ErrorListReceiveAction = {
@@ -31,19 +35,27 @@ export type ErrorListAction =
     | ErrorListPageOptionsReceiveAction
     | ErrorListSortOptionsReceiveAction;
 
-export const fetchErrors = (
-    filters: CommissionErrorsFilters,
-    pageOptions: PageOptions,
-    sortOptions: SortOptions
-): ApiAction => {
-    let api = `${statementsApi}/errors`;
-    api = appendPageOptionQuery(api, pageOptions);
-    api = appendSortOptionQuery(api, sortOptions);
-    api = appendFiltersQuery(api, filters);
-    return {
-        type: "API",
-        endpoint: api,
-        dispatchPrefix: "COMMISSIONS_ERRORS_LIST",
+export const fetchCommissionErrors = (statementId?: string): ThunkAction<void, RootState, {}, ApiAction> => {
+
+    return (dispatch, getState) => {
+
+        let { pageOptions, sortOptions } = commissionErrorsSelector(getState());
+
+        const filters: Filters = {};
+
+        if (statementId)
+            filters.commissionStatementId = [statementId];
+
+        let api = `${statementsApi}/errors`;
+        api = appendPageOptionQuery(api, pageOptions);
+        api = appendSortOptionQuery(api, sortOptions);
+        api = appendFiltersQuery(api, filters);
+
+        dispatch({
+            type: 'API',
+            endpoint: api,
+            dispatchPrefix: 'COMMISSIONS_ERRORS_LIST'
+        });
     };
 };
 

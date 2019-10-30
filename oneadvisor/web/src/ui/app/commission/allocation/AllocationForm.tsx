@@ -4,10 +4,10 @@ import { connect, DispatchProp } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
 import { AllocationEdit } from "@/state/app/commission/allocations";
-import ClientSearch from "@/ui/app/client/client/search/ClientSearch";
+import ClientSearch from "@/ui/app/client/client/list/ClientSearch";
 import { Button, ClientName, Drawer, DrawerFooter, Form, FormErrors, FormText } from "@/ui/controls";
 
-import PolicyList from "../../client/policy/PolicyList";
+import PolicyList from "../../client/policy/list/PolicyList";
 
 type Props = {
     allocation: AllocationEdit;

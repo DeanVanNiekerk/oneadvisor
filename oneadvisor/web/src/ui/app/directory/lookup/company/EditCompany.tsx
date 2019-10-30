@@ -10,8 +10,8 @@ import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import CompanyForm from "./CompanyForm";
 import EditCompanyTitle from "./EditCompanyTitle";
+import CompanyForm from "./form/CompanyForm";
 
 type Props = {
     onSaved?: () => void;

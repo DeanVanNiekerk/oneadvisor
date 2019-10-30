@@ -1,32 +1,9 @@
-import { Filters, PageOptions, SortOptions } from '@/app/table';
-import { statementsApi } from '@/config/api/commission';
+import { Filters, PageOptions, SortOptions } from "@/app/table";
+import { statementsApi } from "@/config/api/commission";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("error: errors: list actions", () => {
-    it("should dispatch API when fetchErrors is called", () => {
-        const pageOptions: PageOptions = {
-            number: 2,
-            size: 10,
-        };
-
-        const sortOptions: SortOptions = {
-            column: "number",
-            direction: "desc",
-        };
-
-        const api = `${statementsApi}/errors?pageNumber=${pageOptions.number}&pageSize=${
-            pageOptions.size
-        }&sortColumn=number&sortDirection=desc`;
-
-        const expectedAction = {
-            type: "API",
-            endpoint: api,
-            dispatchPrefix: "COMMISSIONS_ERRORS_LIST",
-        };
-
-        expect(actions.fetchErrors({}, pageOptions, sortOptions)).toEqual(expectedAction);
-    });
 
     it("should dispatch COMMISSIONS_ERRORS_LIST_PAGE_OPTIONS_RECEIVE when receivePageOptions is called", () => {
         const options = {

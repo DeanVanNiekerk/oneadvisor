@@ -1,8 +1,8 @@
-import { getValidationResult } from '@/test';
+import { getValidationResult } from "@/test";
 
-import { ClientEdit } from '../';
-import { ClientTypeId } from '../../lookups';
-import { defaultState, reducer } from './reducer';
+import { ClientEdit } from "../";
+import { ClientTypeId } from "../../lookups";
+import { defaultState, reducer } from "./reducer";
 
 const defaultClient: ClientEdit = {
     id: "10",
@@ -76,6 +76,7 @@ describe("client reducer", () => {
         const expectedState = {
             ...defaultState,
             client: { ...defaultClient },
+            clientOriginal: { ...defaultClient },
             fetching: false,
             validationResults: [],
         };

@@ -11,7 +11,7 @@ import ClientExport from "@/ui/app/client/export/ClientExport";
 import ClientImport from "@/ui/app/client/import/ClientImport";
 import PolicyProductList from "@/ui/app/client/lookup/policyProduct/PolicyProductList";
 import PolicyProductTypeList from "@/ui/app/client/lookup/policyProductType/PolicyProductTypeList";
-import PolicyList from "@/ui/app/client/policy/PolicyList";
+import PolicyList from "@/ui/app/client/policy/list/PolicyList";
 import CommissionList from "@/ui/app/commission/commission/CommissionList";
 import CommissionTypeList from "@/ui/app/commission/lookup/commissionType/CommissionTypeList";
 import ClientRevenueReport from "@/ui/app/commission/reports/clientRevenue/ClientRevenueReport";

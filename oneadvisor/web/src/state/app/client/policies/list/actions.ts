@@ -1,9 +1,13 @@
-import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from '@/app/query';
-import { Filters, PagedItems, PageOptions, SortOptions } from '@/app/table';
-import { ApiAction } from '@/app/types';
-import { policiesApi } from '@/config/api/client';
+import { ThunkAction } from "redux-thunk";
 
-import { Policy } from '../types';
+import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery, applyLike } from "@/app/query";
+import { Filters, PagedItems, PageOptions, SortOptions } from "@/app/table";
+import { ApiAction } from "@/app/types";
+import { policiesApi } from "@/config/api/client";
+import { RootState } from "@/state/rootReducer";
+
+import { policiesSelector } from "../";
+import { Policy } from "../types";
 
 type PolicyListReceiveAction = {
     type: 'POLICIES_LIST_RECEIVE';
@@ -32,20 +36,44 @@ export type PolicyListAction =
     | PolicyListSortOptionsReceiveAction
     | PolicyListFiltersReceiveAction;
 
-export const fetchPolicies = (
-    pageOptions: PageOptions,
-    sortOptions: SortOptions,
-    filters: Filters
-): ApiAction => {
-    let api = policiesApi;
-    api = appendPageOptionQuery(api, pageOptions);
-    api = appendSortOptionQuery(api, sortOptions);
-    api = appendFiltersQuery(api, filters);
-    return {
-        type: 'API',
-        endpoint: api,
-        dispatchPrefix: 'POLICIES_LIST'
+export const fetchPolicies = (clientId?: string): ThunkAction<void, RootState, {}, ApiAction> => {
+
+    return (dispatch, getState) => {
+
+        let { pageOptions, sortOptions, filters } = policiesSelector(getState());
+
+        sortOptions = mapSortOptions(sortOptions);
+
+        filters = updateFilters(filters);
+
+        if (clientId)
+            filters.clientId = [clientId];
+
+        let api = policiesApi;
+        api = appendPageOptionQuery(api, pageOptions);
+        api = appendSortOptionQuery(api, sortOptions);
+        api = appendFiltersQuery(api, filters);
+
+        dispatch({
+            type: 'API',
+            endpoint: api,
+            dispatchPrefix: 'POLICIES_LIST'
+        });
     };
+};
+
+const mapSortOptions = (sortOptions: SortOptions): SortOptions => {
+    if (sortOptions.column === "companyId") {
+        return {
+            ...sortOptions,
+            column: "companyName",
+        };
+    }
+    return sortOptions;
+};
+
+const updateFilters = (filters: Filters | null): Filters => {
+    return applyLike(filters, ["number", "clientLastName"]);
 };
 
 export const receivePageOptions = (

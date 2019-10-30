@@ -87,8 +87,7 @@ class ClientDetails extends Component<Props> {
                 />
 
                 {this.props.client && (
-                    <ClientForm
-                    />
+                    <ClientForm />
                 )}
             </>
         );

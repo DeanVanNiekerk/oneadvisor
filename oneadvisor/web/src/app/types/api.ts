@@ -1,11 +1,11 @@
-import { Dispatch } from 'redux';
+import { Dispatch } from "redux";
 
-import { ValidationResult } from '../validation';
+import { ValidationResult } from "../validation";
 
 type ApiActionType = "API";
 type ApiMethods = "GET" | "POST" | "DELETE";
-export type ApiOnSuccess = (result: any, dispatch: Dispatch) => void;
-export type ApiOnFailure = (result: any) => void;
+export type ApiOnSuccess<T = any> = (result: T, dispatch: Dispatch) => void;
+export type ApiOnFailure<T = any> = (result: T) => void;
 export type ApiOnValidationFailure = (validationResults: ValidationResult[], dispatch: Dispatch) => void;
 export type ApiOnSuccessBlob = (blob: Blob, dispatch: Dispatch) => void;
 export type ApiAction = {

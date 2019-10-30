@@ -3,51 +3,53 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
-import { ClientEdit, clientSelector, clientVisible, confirmCancelClient, saveClient } from "@/state/app/client/clients";
+import {
+    confirmCancelPolicy, PolicyEdit, policySelector, policyVisible, savePolicy
+} from "@/state/app/client/policies";
 import { RootState } from "@/state/rootReducer";
-import { ClientTypeIcon, EditDrawer } from "@/ui/controls";
+import { EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import ClientForm from "./ClientForm";
-import EditClientTitle from "./EditClientTitle";
+import EditPolicyTitle from "./EditPolicyTitle";
+import PolicyForm from "./PolicyForm";
 
 type Props = {
-    onSaved?: (client: ClientEdit) => void;
+    onSaved?: (policy: PolicyEdit) => void;
 } & PropsFromState &
     PropsFromDispatch;
 
-const EditClient: React.FC<Props> = (props: Props) => {
+const EditPolicy: React.FC<Props> = (props: Props) => {
 
     const close = () => props.setVisible(false);
 
     return (
         <EditDrawer
-            title={<EditClientTitle />}
-            icon={<ClientTypeIcon clientTypeId={props.clientTypeId} />}
+            title={<EditPolicyTitle />}
+            icon="file-text"
             visible={props.visible}
             updating={props.loading}
             noTopPadding={true}
-            saveRequiredUseCase="clt_edit_clients"
+            saveRequiredUseCase="clt_edit_policies"
             onClose={() => {
                 props.confirmCancel(close);
             }}
             onSave={() => {
-                props.saveClient(props.onSaved);
+                props.savePolicy(props.onSaved);
                 close();
             }}
         >
-            <ClientForm />
+            <PolicyForm />
         </EditDrawer>
     );
 };
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
-    const clientState = clientSelector(state);
+    const policyState = policySelector(state);
     return {
-        loading: clientState.updating || clientState.fetching,
-        visible: clientState.visible,
-        clientTypeId: clientState.client ? clientState.client.clientTypeId : "",
+        loading: policyState.updating || policyState.fetching,
+        visible: policyState.visible,
+        policyTypeId: policyState.policy ? policyState.policy.policyTypeId : "",
     };
 };
 
@@ -55,13 +57,13 @@ type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
         confirmCancel: (onCancelled: () => void) => {
-            dispatch(confirmCancelClient(showConfirm, onCancelled));
+            dispatch(confirmCancelPolicy(showConfirm, onCancelled));
         },
-        saveClient: (onSaved?: (client: ClientEdit) => void) => {
-            dispatch(saveClient(onSaved));
+        savePolicy: (onSaved?: (policy: PolicyEdit) => void) => {
+            dispatch(savePolicy(onSaved));
         },
         setVisible: (visible: boolean) => {
-            dispatch(clientVisible(visible));
+            dispatch(policyVisible(visible));
         },
     };
 };
@@ -69,4 +71,4 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(EditClient);
+)(EditPolicy);

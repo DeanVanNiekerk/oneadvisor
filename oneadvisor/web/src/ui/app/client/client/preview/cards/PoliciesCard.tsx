@@ -4,12 +4,12 @@ import { Dispatch } from "redux";
 
 import { hasUseCase } from "@/app/identity";
 import { clientPreviewSelector } from "@/state/app/client/clients";
-import { newPolicy, receivePolicy } from "@/state/app/client/policies";
+import { newPolicy, policyVisible, receivePolicy } from "@/state/app/client/policies";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Button, Drawer, DrawerFooter, Icon, PreviewCard, PreviewCardRow } from "@/ui/controls";
 
-import PolicyList from "../../../policy/PolicyList";
+import PolicyList from "../../../policy/list/PolicyList";
 
 type Props = {
     cardHeight: string;
@@ -68,7 +68,7 @@ const PoliciesCardComponent: React.FC<Props> = (props: Props) => {
                 onClose={() => setPolicyListVisible(false)}
             >
                 {props.client && (
-                    <PolicyList clientId={props.client.id} onChange={props.onSaved} />
+                    <PolicyList clientId={props.client.id} onSaved={props.onSaved} />
                 )}
                 <DrawerFooter>
                     <Button onClick={() => setPolicyListVisible(false)}>Close</Button>
@@ -93,10 +93,8 @@ type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         newPolicy: (clientId: string) => {
-            const policy = newPolicy({
-                clientId: clientId,
-            });
-            dispatch(receivePolicy(policy));
+            dispatch(newPolicy({ clientId: clientId }));
+            dispatch(policyVisible(true));
         },
     }
 }

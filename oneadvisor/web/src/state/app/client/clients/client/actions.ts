@@ -1,6 +1,6 @@
 import { ThunkAction } from "redux-thunk";
 
-import { ApiAction, ApiOnSuccess, ShowConfirm } from "@/app/types";
+import { ApiAction, ApiOnSuccess, Result, ShowConfirm } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { clientsApi } from "@/config/api/client";
 import { RootState } from "@/state/rootReducer";
@@ -76,22 +76,26 @@ export const clientVisible = (visible: boolean): ClientVisibleAction => ({
 
 export const clearClient = (): ClientReceiveAction => receiveClient(null);
 
-export const newClient = (): ClientReceiveAction => receiveClient(createClient());
+export const newClient = (client?: Partial<ClientEdit>): ClientReceiveAction => receiveClient(createClient(client));
 
-export const saveClient = (onSaved?: () => void): ThunkAction<void, RootState, {}, ClientReceiveAction | ApiAction> => {
+export const saveClient = (onSaved?: (client: ClientEdit) => void): ThunkAction<void, RootState, {}, ClientReceiveAction | ApiAction> => {
     return (dispatch, getState) => {
         const { client } = clientSelector(getState());
         if (!client) return;
 
-        const onSuccess = () => {
+        const onSuccess = (clientEdit: ClientEdit) => {
             dispatch(clearClient());
-            if (onSaved) onSaved();
+            if (onSaved) onSaved(clientEdit);
         }
 
         if (client.id) {
-            dispatch(updateClient(client, onSuccess));
+            dispatch(updateClient(client, () => {
+                onSuccess(client);
+            }));
         } else {
-            dispatch(insertClient(client, onSuccess));
+            dispatch(insertClient(client, (result) => {
+                onSuccess(result.tag);
+            }));
         }
     };
 }
@@ -114,7 +118,7 @@ export const confirmCancelClient = (showConfirm: ShowConfirm, onCancelled: () =>
 
 export const updateClient = (
     client: ClientEdit,
-    onSuccess: ApiOnSuccess
+    onSuccess: ApiOnSuccess<Result<null>>
 ): ApiAction => ({
     type: "API",
     endpoint: `${clientsApi}/${client.id}`,
@@ -126,7 +130,7 @@ export const updateClient = (
 
 export const insertClient = (
     client: ClientEdit,
-    onSuccess: ApiOnSuccess
+    onSuccess: ApiOnSuccess<Result<ClientEdit>>
 ): ApiAction => ({
     type: "API",
     endpoint: `${clientsApi}`,

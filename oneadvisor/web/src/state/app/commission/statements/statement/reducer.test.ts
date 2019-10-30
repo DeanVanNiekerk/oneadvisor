@@ -1,7 +1,7 @@
-import { getValidationResult } from '@/test';
+import { getValidationResult } from "@/test";
 
-import { StatementEdit } from '../';
-import { defaultState, reducer } from './reducer';
+import { StatementEdit } from "../";
+import { defaultState, reducer } from "./reducer";
 
 const defaultStatement: StatementEdit = {
     id: "10",
@@ -46,7 +46,6 @@ describe("statement reducer", () => {
 
         const expectedState = {
             ...defaultState,
-
             fetching: false,
         };
 
@@ -68,6 +67,7 @@ describe("statement reducer", () => {
         const expectedState = {
             ...defaultState,
             statement: { ...defaultStatement },
+            statementOriginal: { ...defaultStatement },
             fetching: false,
             validationResults: [],
         };

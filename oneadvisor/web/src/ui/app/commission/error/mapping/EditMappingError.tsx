@@ -1,180 +1,135 @@
-import { Icon } from 'antd';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Icon } from "antd";
+import React from "react";
+import { connect } from "react-redux";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
-import { areEqual } from '@/app/utils';
-import { ValidationResult } from '@/app/validation';
 import {
-    CommissionErrorEdit, fetchNextMappingError, mappingErrorSelector, receiveMappingError, resolveMappingError
-} from '@/state/app/commission/errors';
-import { Statement } from '@/state/app/commission/statements';
-import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
-import { showConfirm } from '@/ui/feedback/modal/confirm';
+    confirmCancelMappingError, fetchNextMappingError, mappingErrorSelector, mappingErrorVisible, saveMappingError
+} from "@/state/app/commission/errors";
+import { Statement } from "@/state/app/commission/statements";
+import { RootState } from "@/state/rootReducer";
+import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import MappingErrorForm from './MappingErrorForm';
+import MappingErrorForm from "./form/MappingErrorForm";
 
 type Props = {
     statement: Statement;
-    remainingErrors: number;
-    onUpdate: () => void;
-    error: CommissionErrorEdit | null;
-    fetching: boolean;
-    updating: boolean;
-    validationResults: ValidationResult[];
-} & DispatchProp;
+    onSaved?: () => void;
+} & PropsFromState &
+    PropsFromDispatch;
 
-type State = {
-    errorEdited: CommissionErrorEdit | null;
-};
-class EditMappingError extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
+const EditMappingError: React.FC<Props> = (props: Props) => {
 
-        this.state = {
-            errorEdited: props.error,
-        };
-    }
+    const close = () => props.setVisible(false);
+    const cancel = () => () => props.confirmCancel(close);
 
-    componentDidUpdate(prevProps: Props) {
-        if (this.props.error != prevProps.error) {
-            this.setState({
-                errorEdited: this.props.error,
-            });
-        }
-    }
+    const save = (resolveNext: boolean) => {
 
-    close = () => {
-        this.props.dispatch(receiveMappingError(null));
-    };
+        props.saveMappingError(
+            props.statement.id,
+            // OnSaved
+            () => {
+                if (props.onSaved) props.onSaved();
 
-    confirmCancel = () => {
-        if (!areEqual(this.props.error, this.state.errorEdited))
-            return showConfirm({ onOk: this.cancel });
-
-        this.cancel();
-    };
-
-    cancel = () => {
-        this.close();
-    };
-
-    save = (resolveNext: boolean) => {
-        if (this.state.errorEdited === null) return;
-
-        this.props.dispatch(
-            resolveMappingError(
-                this.props.statement.id,
-                this.state.errorEdited,
-                //on success
-                () => {
-                    this.props.onUpdate();
-
-                    if (resolveNext) {
-                        this.props.dispatch(
-                            fetchNextMappingError(this.props.statement.id)
-                        );
-                    } else {
-                        this.close();
-                    }
+                if (resolveNext) {
+                    props.fetchNextMappingError(this.props.statement.id);
+                } else {
+                    close();
                 }
-            )
+            }
         );
     };
 
-    onChange = (error: CommissionErrorEdit) => {
-        this.setState({
-            errorEdited: error,
-        });
+    const getTitle = () => {
+        if (props.loading) return "Loading Mapping Error";
+
+        return `Resolve Mapping Error - ${props.statement.mappingErrorCount} remaining`;
     };
 
-    isLoading = () => {
-        return this.props.fetching || this.props.updating;
-    };
-
-    getTitle = () => {
-        if (this.props.fetching) return "Loading Mapping Error";
-
-        return `Resolve Mapping Error - ${
-            this.props.remainingErrors
-            } remaining`;
-    };
-
-    canSave = () => {
-        if (this.state.errorEdited === null || this.isLoading()) return false;
-
-        return (
-            !!this.state.errorEdited.policyId &&
-            !!this.state.errorEdited.clientId
-        );
-    };
-
-    render() {
-        const { error, fetching, validationResults, statement } = this.props;
-
-        return (
-            <>
-                <Drawer
-                    title={this.getTitle()}
-                    visible={!!error || fetching}
-                    onClose={this.confirmCancel}
-                    noTopPadding={true}
-                    icon="file-exclamation"
-                >
-                    <ContentLoader isLoading={this.isLoading()}>
-                        {error && (
-                            <MappingErrorForm
-                                statement={statement}
-                                error={error}
-                                validationResults={validationResults}
-                                onChange={this.onChange}
-                            />
-                        )}
-                    </ContentLoader>
-                    <DrawerFooter>
-                        <Button
-                            onClick={this.confirmCancel}
-                            disabled={this.isLoading()}
-                        >
-                            Cancel
+    return (
+        <>
+            <Drawer
+                title={getTitle()}
+                visible={props.visible}
+                onClose={cancel}
+                noTopPadding={true}
+                icon="file-exclamation"
+            >
+                <ContentLoader isLoading={props.loading}>
+                    <MappingErrorForm statement={props.statement} />
+                </ContentLoader>
+                <DrawerFooter>
+                    <Button
+                        onClick={cancel}
+                        disabled={props.loading}
+                    >
+                        Cancel
                         </Button>
+                    <Button
+                        onClick={() => save(false)}
+                        type="primary"
+                        disabled={!props.canSave()}
+                        requiredUseCase="com_edit_commission_statements"
+                    >
+                        Save
+                        </Button>
+                    {props.statement.mappingErrorCount > 1 && (
                         <Button
-                            onClick={() => this.save(false)}
+                            onClick={() => save(true)}
                             type="primary"
-                            disabled={!this.canSave()}
+                            disabled={!props.canSave()}
                             requiredUseCase="com_edit_commission_statements"
                         >
-                            Save
+                            <span>
+                                {"Save & Resolve Next "}
+                                <Icon type="right" />
+                            </span>
                         </Button>
-                        {this.props.remainingErrors > 1 && (
-                            <Button
-                                onClick={() => this.save(true)}
-                                type="primary"
-                                disabled={!this.canSave()}
-                                requiredUseCase="com_edit_commission_statements"
-                            >
-                                <span>
-                                    {"Save & Resolve Next "}
-                                    <Icon type="right" />
-                                </span>
-                            </Button>
-                        )}
-                    </DrawerFooter>
-                </Drawer>
-            </>
-        );
-    }
+                    )}
+                </DrawerFooter>
+            </Drawer>
+        </>
+    );
 }
 
+type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const mappingErrorState = mappingErrorSelector(state);
-
+    const loading = mappingErrorState.updating || mappingErrorState.fetching;
     return {
-        error: mappingErrorState.commissionError,
-        fetching: mappingErrorState.fetching,
-        updating: mappingErrorState.updating,
-        validationResults: mappingErrorState.validationResults,
+        loading: loading,
+        visible: mappingErrorState.visible,
+        canSave: () => {
+            if (mappingErrorState.commissionError === null || loading) return false;
+            return (
+                !!mappingErrorState.commissionError.policyId &&
+                !!mappingErrorState.commissionError.clientId
+            );
+        },
     };
 };
 
-export default connect(mapStateToProps)(EditMappingError);
+type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
+    return {
+        fetchNextMappingError: (statementId: string) => {
+            dispatch(fetchNextMappingError(statementId));
+        },
+        confirmCancel: (onCancelled: () => void) => {
+            dispatch(confirmCancelMappingError(showConfirm, onCancelled));
+        },
+        saveMappingError: (statementId: string, onSaved?: () => void) => {
+            dispatch(saveMappingError(statementId, onSaved));
+        },
+        setVisible: (visible: boolean) => {
+            dispatch(mappingErrorVisible(visible));
+        },
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(EditMappingError);

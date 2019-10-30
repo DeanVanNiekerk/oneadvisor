@@ -1,38 +1,9 @@
-import { Filters, PageOptions, SortOptions } from '@/app/table';
-import { clientsApi } from '@/config/api/client';
+import { Filters, PageOptions, SortOptions } from "@/app/table";
+import { clientsApi } from "@/config/api/client";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("client: clients: list actions", () => {
-    it("should dispatch API when fetchClients is called", () => {
-        const pageOptions: PageOptions = {
-            number: 2,
-            size: 10,
-        };
-
-        const sortOptions: SortOptions = {
-            column: "firstName",
-            direction: "desc",
-        };
-
-        const filters: Filters = {
-            lastName: ["van"],
-        };
-
-        const api = `${clientsApi}?pageNumber=${pageOptions.number}&pageSize=${
-            pageOptions.size
-        }&sortColumn=firstName&sortDirection=desc&filters=lastName%3Dvan`;
-
-        const expectedAction = {
-            type: "API",
-            endpoint: api,
-            dispatchPrefix: "CLIENTS_LIST",
-        };
-
-        expect(actions.fetchClients(pageOptions, sortOptions, filters)).toEqual(
-            expectedAction
-        );
-    });
 
     it("should dispatch CLIENTS_LIST_PAGE_OPTIONS_RECEIVE when receivePageOptions is called", () => {
         const options = {

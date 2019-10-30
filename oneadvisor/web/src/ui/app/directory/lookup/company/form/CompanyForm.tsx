@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import { TabPane, Tabs } from "@/ui/controls";
 
-import CompanyCommission from "./form/CompanyCommission";
-import CompanyDetails from "./form/CompanyDetails";
+import CompanyCommission from "./CompanyCommission";
+import CompanyDetails from "./CompanyDetails";
 
 const CompanyForm: React.FC = () => {
 

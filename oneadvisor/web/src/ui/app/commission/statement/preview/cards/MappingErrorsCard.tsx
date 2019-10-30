@@ -83,7 +83,7 @@ const MappingErrorsCardComponent: React.FC<Props> = (props: Props) => {
                 visible={errorListVisible}
                 onClose={() => setErrorListVisible(false)}
             >
-                <ErrorList statement={props.statement} onUpdate={() => props.onErrorChanged} />
+                <ErrorList statement={props.statement} onSaved={() => props.onErrorChanged} />
                 <DrawerFooter>
                     <Button onClick={() => setErrorListVisible(false)}>Close</Button>
                 </DrawerFooter>

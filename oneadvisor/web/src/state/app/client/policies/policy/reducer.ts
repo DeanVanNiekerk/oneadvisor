@@ -1,20 +1,24 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { PolicyEdit } from '../types';
-import { PolicyAction } from './actions';
+import { PolicyEdit } from "../types";
+import { PolicyAction } from "./actions";
 
 export type State = {
     readonly policy: PolicyEdit | null;
+    readonly policyOriginal: PolicyEdit | null;
     readonly fetching: boolean;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];
+    readonly visible: boolean;
 };
 
 export const defaultState: State = {
     policy: null,
+    policyOriginal: null,
     fetching: false,
     updating: false,
     validationResults: [],
+    visible: false,
 };
 
 export const reducer = (
@@ -26,8 +30,15 @@ export const reducer = (
             return {
                 ...state,
                 policy: action.payload,
+                policyOriginal: action.payload,
                 fetching: false,
                 validationResults: [],
+            };
+        }
+        case "POLICIES_POLICY_MODIFIED": {
+            return {
+                ...state,
+                policy: action.payload
             };
         }
         case "POLICIES_POLICY_FETCHING": {
@@ -35,6 +46,7 @@ export const reducer = (
                 ...state,
                 fetching: true,
                 policy: null,
+                policyOriginal: null,
                 validationResults: [],
             };
         }
@@ -42,6 +54,7 @@ export const reducer = (
             return {
                 ...state,
                 policy: null,
+                policyOriginal: null,
                 fetching: false,
             };
         }
@@ -69,6 +82,12 @@ export const reducer = (
                 ...state,
                 updating: false,
                 validationResults: action.payload,
+            };
+        }
+        case "POLICIES_POLICY_VISIBLE": {
+            return {
+                ...state,
+                visible: action.payload,
             };
         }
         default:
