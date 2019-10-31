@@ -22,7 +22,7 @@ export type ApiAction = {
     onValidationFailure?: ApiOnValidationFailure;
 };
 
-export type Result<T = any> = {
+export type Result<T = null> = {
     success: boolean;
     errors: string[];
     validationFailures: ValidationResult[];

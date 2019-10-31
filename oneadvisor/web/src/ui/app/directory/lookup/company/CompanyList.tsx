@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
+import { AnyAction, bindActionCreators } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
 import { getColumnDefinition } from "@/app/table";
 import {
-    companiesSelector, Company, fetchCompanies, newCompany, receiveCompany
+    companiesSelector, Company, companyVisible, fetchCompanies, newCompany, receiveCompany
 } from "@/state/app/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header } from "@/ui/controls";
@@ -66,11 +67,16 @@ const mapStateToProps = (state: RootState) => {
 };
 
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
-        ...bindActionCreators({ fetchCompanies, newCompany }, dispatch),
+        ...bindActionCreators({ fetchCompanies }, dispatch),
+        newCompany: () => {
+            dispatch(newCompany());
+            dispatch(companyVisible(true));
+        },
         editCompany: (company: Company) => {
             dispatch(receiveCompany(company));
+            dispatch(companyVisible(true));
         },
     }
 }

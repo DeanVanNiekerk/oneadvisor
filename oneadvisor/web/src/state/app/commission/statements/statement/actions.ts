@@ -18,6 +18,10 @@ type StatementModifiedAction = {
     type: "STATEMENTS_STATEMENT_MODIFIED";
     payload: StatementEdit | null;
 };
+type StatementVisibleAction = {
+    type: "STATEMENTS_STATEMENT_VISIBLE";
+    payload: boolean;
+};
 type StatementFetchingAction = { type: "STATEMENTS_STATEMENT_FETCHING" };
 type StatementFetchingErrorAction = {
     type: "STATEMENTS_STATEMENT_FETCHING_ERROR";
@@ -37,6 +41,7 @@ type StatementValidationErrorAction = {
 
 export type StatementAction =
     | StatementModifiedAction
+    | StatementVisibleAction
     | StatementReceiveAction
     | StatementFetchingAction
     | StatementFetchingErrorAction
@@ -59,6 +64,11 @@ export const fetchStatement = (statementId: string): ApiAction => ({
 export const modifyStatement = (statement: StatementEdit): StatementModifiedAction => ({
     type: 'STATEMENTS_STATEMENT_MODIFIED',
     payload: statement
+});
+
+export const statementVisible = (visible: boolean): StatementVisibleAction => ({
+    type: "STATEMENTS_STATEMENT_VISIBLE",
+    payload: visible,
 });
 
 export const clearStatement = (): StatementReceiveAction => receiveStatement(null);
@@ -106,16 +116,19 @@ export const saveStatement = (onSaved?: () => void): ThunkAction<void, RootState
     };
 }
 
-export const confirmCancelStatement = (showConfirm: ShowConfirm): ThunkAction<void, RootState, {}, StatementReceiveAction> => {
+export const confirmCancelStatement = (showConfirm: ShowConfirm, onCancelled: () => void): ThunkAction<void, RootState, {}, StatementReceiveAction> => {
     return (dispatch, getState) => {
         const modifed = statementIsModifiedSelector(getState());
 
-        const close = () => dispatch(clearStatement());
+        const cancel = () => {
+            dispatch(clearStatement());
+            onCancelled();
+        }
 
         if (modifed)
-            return showConfirm({ onOk: () => { close(); } });
+            return showConfirm({ onOk: () => { cancel(); } });
 
-        close();
+        cancel();
     };
 }
 

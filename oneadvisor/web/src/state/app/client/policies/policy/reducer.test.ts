@@ -73,6 +73,7 @@ describe("policy reducer", () => {
         const expectedState = {
             ...defaultState,
             policy: { ...defaultPolicy },
+            policyOriginal: { ...defaultPolicy },
             fetching: false,
             validationResults: [],
         };

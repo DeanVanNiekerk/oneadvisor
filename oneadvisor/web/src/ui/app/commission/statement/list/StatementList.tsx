@@ -3,14 +3,15 @@ import moment from "moment";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
-import { bindActionCreators, Dispatch } from "redux";
+import { AnyAction, bindActionCreators, Dispatch } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
 import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import { areEqual, formatCurrency, getMonthOptions, getYearOptions } from "@/app/utils";
 import { CommissionErrorsFilters, downloadCommissionErrors, getCommissionErrors } from "@/state/app/commission/errors";
 import {
     clearStatementPreview, fetchStatements, newStatement, receiveFilterMonth, receiveFilters, receiveFilterYear,
-    receivePageOptions, receiveSortOptions, Statement, statementsSelector, updateMonthFilterNext,
+    receivePageOptions, receiveSortOptions, Statement, statementsSelector, statementVisible, updateMonthFilterNext,
     updateMonthFilterPrevious
 } from "@/state/app/commission/statements";
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
@@ -259,9 +260,13 @@ const mapStateToProps = (state: RootState) => {
 };
 
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
-        ...bindActionCreators({ fetchStatements, newStatement, clearStatementPreview, updateMonthFilterNext, updateMonthFilterPrevious }, dispatch),
+        ...bindActionCreators({ fetchStatements, clearStatementPreview, updateMonthFilterNext, updateMonthFilterPrevious }, dispatch),
+        newStatement: () => {
+            dispatch(newStatement());
+            dispatch(statementVisible(true));
+        },
         updatePageOptions: (pageOptions: PageOptions) => {
             dispatch(receivePageOptions(pageOptions));
         },

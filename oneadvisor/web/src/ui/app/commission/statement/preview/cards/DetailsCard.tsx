@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { fetchStatement, statementPreviewSelector } from "@/state/app/commission/statements";
+import { fetchStatement, statementPreviewSelector, statementVisible } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { Currency, Icon, PreviewCard, PreviewCardRow } from "@/ui/controls";
 
@@ -66,6 +66,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         fetchStatement: (commissionStatementId: string) => {
             dispatch(fetchStatement(commissionStatementId));
+            dispatch(statementVisible(true));
         },
     }
 }

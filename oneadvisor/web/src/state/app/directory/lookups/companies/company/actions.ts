@@ -13,12 +13,14 @@ type CompanyReceiveAction = {
     type: 'COMPANIES_COMPANY_RECEIVE';
     payload: Company | null;
 };
-
 type CompanyModifiedAction = {
     type: 'COMPANIES_COMPANY_MODIFIED';
     payload: Company
 };
-
+type CompanyVisibleAction = {
+    type: "COMPANIES_COMPANY_VISIBLE";
+    payload: boolean;
+};
 type CompanyUpdatedAction = {
     type: 'COMPANIES_COMPANY_EDIT_RECEIVE';
 };
@@ -35,6 +37,7 @@ type CompanyValidationErrorAction = {
 
 export type CompanyAction =
     | CompanyModifiedAction
+    | CompanyVisibleAction
     | CompanyReceiveAction
     | CompanyUpdatedAction
     | CompanyUpdatingAction
@@ -49,6 +52,11 @@ export const receiveCompany = (company: Company | null): CompanyReceiveAction =>
 export const modifyCompany = (company: Company): CompanyModifiedAction => ({
     type: 'COMPANIES_COMPANY_MODIFIED',
     payload: company
+});
+
+export const companyVisible = (visible: boolean): CompanyVisibleAction => ({
+    type: "COMPANIES_COMPANY_VISIBLE",
+    payload: visible,
 });
 
 export const clearCompany = (): CompanyReceiveAction => receiveCompany(null);
@@ -82,16 +90,19 @@ export const saveCompany = (onSaved?: () => void): ThunkAction<void, RootState, 
     };
 }
 
-export const confirmCancelCompany = (showConfirm: ShowConfirm): ThunkAction<void, RootState, {}, CompanyReceiveAction> => {
+export const confirmCancelCompany = (showConfirm: ShowConfirm, onCancelled: () => void): ThunkAction<void, RootState, {}, CompanyReceiveAction> => {
     return (dispatch, getState) => {
         const modifed = companyIsModifiedSelector(getState());
 
-        const close = () => dispatch(clearCompany());
+        const cancel = () => {
+            dispatch(clearCompany());
+            onCancelled();
+        };
 
         if (modifed)
-            return showConfirm({ onOk: () => { close(); } });
+            return showConfirm({ onOk: () => { cancel(); } });
 
-        close();
+        cancel();
     };
 }
 

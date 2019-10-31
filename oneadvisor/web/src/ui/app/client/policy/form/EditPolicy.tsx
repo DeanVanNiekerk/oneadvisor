@@ -35,7 +35,6 @@ const EditPolicy: React.FC<Props> = (props: Props) => {
             }}
             onSave={() => {
                 props.savePolicy(props.onSaved);
-                close();
             }}
         >
             <PolicyForm />
@@ -60,7 +59,10 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
             dispatch(confirmCancelPolicy(showConfirm, onCancelled));
         },
         savePolicy: (onSaved?: (policy: PolicyEdit) => void) => {
-            dispatch(savePolicy(onSaved));
+            dispatch(savePolicy((policy: PolicyEdit) => {
+                if (onSaved) onSaved(policy);
+                dispatch(policyVisible(false));
+            }));
         },
         setVisible: (visible: boolean) => {
             dispatch(policyVisible(visible));

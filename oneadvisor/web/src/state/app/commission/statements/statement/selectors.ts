@@ -17,8 +17,3 @@ export const statementIsModifiedSelector: (state: RootState) => boolean = create
     rootSelector,
     root => !areEqual(root.statement, root.statementOriginal)
 );
-
-export const statementIsModifyingSelector: (state: RootState) => boolean = createSelector(
-    rootSelector,
-    root => (!!root.statement || root.fetching)
-);

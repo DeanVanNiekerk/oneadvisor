@@ -5,16 +5,17 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import { getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
-import { areEqual, formatCurrency, splitCamelCase } from "@/app/utils";
+import { areEqual, formatCurrency } from "@/app/utils";
 import {
-    CommissionError, commissionErrorsSelector, CommissionImportData, fetchCommissionErrors, fetchMappingError,
-    mappingErrorVisible, receivePageOptions, receiveSortOptions
+    CommissionError, commissionErrorsSelector, CommissionImportData, deleteMappingError, fetchCommissionErrors,
+    fetchMappingError, mappingErrorVisible, receivePageOptions, receiveSortOptions
 } from "@/state/app/commission/errors";
 import { Statement } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { getTable, StopPropagation } from "@/ui/controls";
 
 import EditMappingError from "../mapping/EditMappingError";
+import ErrorData from "./ErrorData";
 
 const Table = getTable<CommissionError>();
 
@@ -26,54 +27,33 @@ type Props = {
 const ErrorList: React.FC<Props> = (props: Props) => {
 
     useEffect(() => {
+        load();
+
+        //If we are NOT on the first page and there are no errors, move to first page
+        if (props.pageOptions.number !== 1 && props.errors.length === 0) {
+            props.updatePageOptions({
+                ...props.pageOptions,
+                number: props.pageOptions.number - 1,
+            })
+        }
+
+    }, [props.pageOptions, props.sortOptions, props.errors]);
+
+    const load = () => {
         props.fetchCommissionErrors(props.statement.id);
-    }, [props.pageOptions, props.sortOptions]);
+    };
 
-
-    // componentDidUpdate(prevProps: Props) {
-    //     if (prevProps.pageOptions != this.props.pageOptions || prevProps.sortOptions != this.props.sortOptions)
-    //         this.loadErrors();
-
-    //     if (this.props.pageOptions.number !== 1 && this.props.errors.length === 0 && prevProps.errors.length !== 0) {
-    //         this.props.dispatch(
-    //             receivePageOptions({
-    //                 ...this.props.pageOptions,
-    //                 number: this.props.pageOptions.number - 1,
-    //             })
-    //         );
-    //     }
-    // }
+    const editMappingError = (id: string) => {
+        props.editMappingError(props.statement.id, id);
+    };
 
     const deleteError = (id: string) => {
-        //this.props.dispatch(deleteMappingError(this.props.statement.id, id, this.loadErrors));
+        props.deleteMappingError(props.statement.id, id, load);
     };
 
     const onSaved = () => {
-        props.fetchCommissionErrors(props.statement.id);
+        load();
         if (props.onSaved) props.onSaved();
-    };
-
-    const errorData = (data: CommissionImportData) => {
-        return (
-            <div>
-                {Object.keys(data)
-                    .filter(key => {
-                        const value = data[key];
-                        return value !== "" && value !== null;
-                    })
-                    .map(key => {
-                        return (
-                            <p>
-                                <b>
-                                    {splitCamelCase(key)}
-                                    {": "}
-                                </b>
-                                {data[key]}
-                            </p>
-                        );
-                    })}
-            </div>
-        );
     };
 
     const getColumns = () => {
@@ -89,7 +69,7 @@ const ErrorList: React.FC<Props> = (props: Props) => {
                     render: (data: CommissionImportData) => {
                         return (
                             <Popover
-                                content={errorData(data)}
+                                content={<ErrorData data={data} />}
                                 title="Excel Data"
                                 placement="leftTop"
                                 style={{
@@ -167,10 +147,6 @@ const ErrorList: React.FC<Props> = (props: Props) => {
         if (!areEqual(props.sortOptions, sortOptions)) props.updateSortOptions(sortOptions);
     };
 
-    const editMappingError = (id: string) => {
-        props.editMappingError(props.statement.id, id);
-    };
-
     return (
         <>
             <Table
@@ -214,6 +190,9 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
         editMappingError: (statementId: string, commissionErrorId: string) => {
             dispatch(fetchMappingError(statementId, commissionErrorId));
             dispatch(mappingErrorVisible(true));
+        },
+        deleteMappingError: (statementId: string, commissionErrorId: string, onDeleted: () => void) => {
+            dispatch(deleteMappingError(statementId, commissionErrorId, onDeleted));
         },
         updatePageOptions: (pageOptions: PageOptions) => {
             dispatch(receivePageOptions(pageOptions));

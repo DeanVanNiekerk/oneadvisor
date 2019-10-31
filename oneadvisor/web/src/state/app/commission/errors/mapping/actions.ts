@@ -1,6 +1,6 @@
 import { ThunkAction } from "redux-thunk";
 
-import { ApiAction, ApiOnSuccess, ShowConfirm } from "@/app/types";
+import { ApiAction, ApiOnSuccess, Result, ShowConfirm } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { statementsApi } from "@/config/api/commission";
 import { RootState } from "@/state/rootReducer";
@@ -113,7 +113,7 @@ export const confirmCancelMappingError = (showConfirm: ShowConfirm, onCancelled:
 export const resolveMappingError = (
     statementId: string,
     error: CommissionErrorEdit,
-    onSuccess: ApiOnSuccess
+    onSuccess: ApiOnSuccess<Result<CommissionErrorEdit>>
 ): ApiAction => ({
     type: "API",
     endpoint: `${statementsApi}/${statementId}/errors/resolve/mapping`,
@@ -126,7 +126,7 @@ export const resolveMappingError = (
 export const deleteMappingError = (
     statementId: string,
     commissionErrorId: string,
-    onSuccess: ApiOnSuccess
+    onSuccess: ApiOnSuccess<Result>
 ): ApiAction => ({
     type: "API",
     endpoint: `${statementsApi}/${statementId}/errors/${commissionErrorId}`,

@@ -8,6 +8,7 @@ export type State = {
     readonly companyOriginal: Company | null;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];
+    readonly visible: boolean;
 };
 
 export const defaultState: State = {
@@ -15,6 +16,7 @@ export const defaultState: State = {
     companyOriginal: null,
     updating: false,
     validationResults: [],
+    visible: false,
 };
 
 export const reducer = (
@@ -60,6 +62,12 @@ export const reducer = (
                 ...state,
                 updating: false,
                 validationResults: action.payload,
+            };
+        }
+        case "COMPANIES_COMPANY_VISIBLE": {
+            return {
+                ...state,
+                visible: action.payload,
             };
         }
         default:

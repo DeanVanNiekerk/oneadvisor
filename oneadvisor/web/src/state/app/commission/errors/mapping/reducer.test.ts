@@ -1,7 +1,7 @@
-import { getValidationResult } from '@/test';
+import { getValidationResult } from "@/test";
 
-import { CommissionErrorEdit } from '../types';
-import { defaultState, reducer } from './reducer';
+import { CommissionErrorEdit } from "../types";
+import { defaultState, reducer } from "./reducer";
 
 const defaultCommissionError: CommissionErrorEdit = {
     id: "10",
@@ -73,6 +73,7 @@ describe("commission mapping error reducer", () => {
         const expectedState = {
             ...defaultState,
             commissionError: { ...defaultCommissionError },
+            commissionErrorOriginal: { ...defaultCommissionError },
             fetching: false,
             validationResults: [],
         };

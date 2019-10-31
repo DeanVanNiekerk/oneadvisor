@@ -4,7 +4,7 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    companyIsModifyingSelector, companySelector, confirmCancelCompany, saveCompany
+    companySelector, companyVisible, confirmCancelCompany, saveCompany
 } from "@/state/app/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
@@ -21,6 +21,8 @@ type Props = {
 
 const EditCompany: React.FC<Props> = (props: Props) => {
 
+    const close = () => props.setVisible(false);
+
     return (
         <EditDrawer
             title={<EditCompanyTitle />}
@@ -28,9 +30,12 @@ const EditCompany: React.FC<Props> = (props: Props) => {
             visible={props.visible}
             updating={props.updating}
             noTopPadding={true}
-            onClose={props.confirmCancel}
+            onClose={() => {
+                props.confirmCancel(close);
+            }}
             onSave={() => {
-                props.saveCompany(props.onSaved)
+                props.saveCompany(props.onSaved);
+                close();
             }}
         >
             <CompanyForm />
@@ -40,20 +45,24 @@ const EditCompany: React.FC<Props> = (props: Props) => {
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
+    const companyState = companySelector(state);
     return {
-        visible: companyIsModifyingSelector(state),
-        updating: companySelector(state).updating,
+        visible: companyState.visible,
+        updating: companyState.updating,
     };
 };
 
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
-        confirmCancel: () => {
-            dispatch(confirmCancelCompany(showConfirm));
+        confirmCancel: (onCancelled: () => void) => {
+            dispatch(confirmCancelCompany(showConfirm, onCancelled));
         },
         saveCompany: (onSaved?: () => void) => {
             dispatch(saveCompany(onSaved));
+        },
+        setVisible: (visible: boolean) => {
+            dispatch(companyVisible(visible));
         },
     }
 }

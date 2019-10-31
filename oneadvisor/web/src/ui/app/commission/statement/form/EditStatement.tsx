@@ -4,7 +4,7 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    confirmCancelStatement, saveStatement, statementIsModifyingSelector, statementSelector
+    confirmCancelStatement, saveStatement, statementSelector, statementVisible
 } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
@@ -19,6 +19,9 @@ type Props = {
     PropsFromDispatch;
 
 const EditStatement: React.FC<Props> = (props: Props) => {
+
+    const close = () => props.setVisible(false);
+
     return (
         <EditDrawer
             title={<EditStatementTitle />}
@@ -27,9 +30,12 @@ const EditStatement: React.FC<Props> = (props: Props) => {
             updating={props.loading}
             noTopPadding={true}
             saveRequiredUseCase="com_edit_commission_statements"
-            onClose={props.confirmCancel}
+            onClose={() => {
+                props.confirmCancel(close);
+            }}
             onSave={() => {
                 props.saveStatement(props.onSaved);
+                close();
             }}
         >
             <StatementForm />
@@ -41,7 +47,7 @@ type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const statementState = statementSelector(state);
     return {
-        visible: statementIsModifyingSelector(state),
+        visible: statementState.visible,
         loading: statementState.updating || statementState.fetching,
     };
 };
@@ -49,11 +55,14 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
-        confirmCancel: () => {
-            dispatch(confirmCancelStatement(showConfirm));
+        confirmCancel: (onCancelled: () => void) => {
+            dispatch(confirmCancelStatement(showConfirm, onCancelled));
         },
         saveStatement: (onSaved?: () => void) => {
             dispatch(saveStatement(onSaved));
+        },
+        setVisible: (visible: boolean) => {
+            dispatch(statementVisible(visible));
         },
     };
 };

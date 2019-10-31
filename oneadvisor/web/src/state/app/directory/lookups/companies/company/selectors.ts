@@ -17,8 +17,3 @@ export const companyIsModifiedSelector: (state: RootState) => boolean = createSe
     rootSelector,
     root => !areEqual(root.company, root.companyOriginal)
 );
-
-export const companyIsModifyingSelector: (state: RootState) => boolean = createSelector(
-    rootSelector,
-    root => !!root.company
-);
