@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import { clientPreviewSelector } from "@/state/app/client/clients";
+import { clientPreviewIsLoadingSelector, clientPreviewSelector } from "@/state/app/client/clients";
 import { RootState } from "@/state/rootReducer";
 import { ClientTypeIcon, Header } from "@/ui/controls";
 
@@ -42,7 +42,7 @@ const mapStateToProps = (state: RootState) => {
     const clientState = clientPreviewSelector(state);
     return {
         client: clientState.client,
-        loading: clientState.fetching || !clientState.client,
+        loading: clientPreviewIsLoadingSelector(state),
     };
 };
 

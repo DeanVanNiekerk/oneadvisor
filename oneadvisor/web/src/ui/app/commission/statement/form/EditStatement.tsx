@@ -4,7 +4,7 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    confirmCancelStatement, saveStatement, statementSelector, statementVisible
+    confirmCancelStatement, saveStatement, statementIsLoadingSelector, statementSelector, statementVisible
 } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
@@ -48,7 +48,7 @@ const mapStateToProps = (state: RootState) => {
     const statementState = statementSelector(state);
     return {
         visible: statementState.visible,
-        loading: statementState.updating || statementState.fetching,
+        loading: statementIsLoadingSelector(state),
     };
 };
 

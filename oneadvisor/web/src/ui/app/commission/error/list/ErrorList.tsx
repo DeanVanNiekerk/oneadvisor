@@ -28,7 +28,9 @@ const ErrorList: React.FC<Props> = (props: Props) => {
 
     useEffect(() => {
         load();
+    }, [props.pageOptions, props.sortOptions]);
 
+    useEffect(() => {
         //If we are NOT on the first page and there are no errors, move to first page
         if (props.pageOptions.number !== 1 && props.errors.length === 0) {
             props.updatePageOptions({
@@ -37,7 +39,7 @@ const ErrorList: React.FC<Props> = (props: Props) => {
             })
         }
 
-    }, [props.pageOptions, props.sortOptions, props.errors]);
+    }, [props.errors]);
 
     const load = () => {
         props.fetchCommissionErrors(props.statement.id);
@@ -57,11 +59,12 @@ const ErrorList: React.FC<Props> = (props: Props) => {
     };
 
     const getColumns = () => {
-        var getColumn = getColumnDefinition<CommissionError>(true);
+
+        var getColumn = getColumnDefinition<CommissionError & { info: string, policyNumber: string, amountIncludingVAT: number, vat: number }>(true);
 
         return [
             getColumn(
-                "data",
+                "info",
                 "Excel",
                 {},
                 {
@@ -84,39 +87,38 @@ const ErrorList: React.FC<Props> = (props: Props) => {
                 }
             ),
             getColumn(
-                "data",
+                "policyNumber",
                 "Policy Number",
                 {},
                 {
-                    render: (data: CommissionImportData) => {
-                        return data.policyNumber;
+                    render: (data: CommissionImportData, error: CommissionError) => {
+                        return error.data.policyNumber;
                     },
                     sorter: false,
                 }
             ),
             getColumn(
-                "data",
+                "amountIncludingVAT",
                 "Amount Incl VAT",
                 {},
                 {
-                    render: (data: CommissionImportData) => {
-                        return formatCurrency(data.amountIncludingVAT);
+                    render: (data: CommissionImportData, error: CommissionError) => {
+                        return formatCurrency(error.data.amountIncludingVAT);
                     },
                     sorter: false,
                 }
             ),
             getColumn(
-                "data",
+                "vat",
                 "VAT",
                 {},
                 {
-                    render: (data: CommissionImportData) => {
-                        return formatCurrency(data.vat);
+                    render: (data: CommissionImportData, error: CommissionError) => {
+                        return formatCurrency(error.data.vat);
                     },
                     sorter: false,
                 }
             ),
-
             getColumn(
                 "id",
                 "Actions",

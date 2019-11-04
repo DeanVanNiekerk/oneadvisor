@@ -5,7 +5,7 @@ import { Dispatch } from "redux";
 
 import { DATE_FORMAT } from "@/app/utils";
 import { CommissionErrorsFilters, downloadCommissionErrors, getCommissionErrors } from "@/state/app/commission/errors";
-import { statementPreviewSelector } from "@/state/app/commission/statements";
+import { statementPreviewIsLoadingSelector, statementPreviewSelector } from "@/state/app/commission/statements";
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, Drawer, DrawerFooter, Icon, PreviewCard } from "@/ui/controls";
@@ -83,7 +83,7 @@ const MappingErrorsCardComponent: React.FC<Props> = (props: Props) => {
                 visible={errorListVisible}
                 onClose={() => setErrorListVisible(false)}
             >
-                <ErrorList statement={props.statement} onSaved={() => props.onErrorChanged} />
+                <ErrorList statement={props.statement} onSaved={props.onErrorChanged} />
                 <DrawerFooter>
                     <Button onClick={() => setErrorListVisible(false)}>Close</Button>
                 </DrawerFooter>
@@ -99,7 +99,7 @@ const mapStateToProps = (state: RootState) => {
     const companiesState = organisationCompaniesSelector(state);
     return {
         statement: statementState.statement,
-        loading: statementState.fetching || !statementState.statement,
+        loading: statementPreviewIsLoadingSelector(state),
         companies: companiesState,
     };
 };

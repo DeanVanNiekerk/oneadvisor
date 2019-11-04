@@ -31,7 +31,7 @@ const StatementHistory: React.FC<Props> = (props: Props) => {
             <Timeline>
                 {props.files.map(f => {
                     return (
-                        <Timeline.Item color={f.deleted ? "red" : "blue"}>
+                        <Timeline.Item key={f.url} color={f.deleted ? "red" : "blue"}>
                             <span className="downloadLink" onClick={() => download(f.url, f.name)}>
                                 <Text delete={f.deleted}>{f.name}</Text> <Date date={f.created} />
                             </span>

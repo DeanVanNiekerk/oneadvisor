@@ -1,3 +1,4 @@
+import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
 
 import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from "@/app/query";
@@ -88,7 +89,7 @@ const mapSortOptions = (sortOptions: SortOptions): SortOptions => {
     return sortOptions;
 };
 
-export const updateMonthFilterNext = (): ThunkAction<void, RootState, {}, StatementListFiltersMonthReceiveAction | StatementListFiltersYearReceiveAction> => {
+export const updateMonthFilterNext = (): ThunkAction<void, RootState, {}, AnyAction> => {
 
     return (dispatch, getState) => {
 
@@ -100,10 +101,18 @@ export const updateMonthFilterNext = (): ThunkAction<void, RootState, {}, Statem
             dispatch(receiveFilterYear(statementsState.filterYear + 1));
         }
         dispatch(receiveFilterMonth(month));
+
+        //Move to first page if not on first page
+        if (statementsState.pageOptions.number !== 1) {
+            dispatch(receivePageOptions({
+                ...statementsState.pageOptions,
+                number: 1
+            }));
+        }
     }
 };
 
-export const updateMonthFilterPrevious = (): ThunkAction<void, RootState, {}, StatementListFiltersMonthReceiveAction | StatementListFiltersYearReceiveAction> => {
+export const updateMonthFilterPrevious = (): ThunkAction<void, RootState, {}, AnyAction> => {
 
     return (dispatch, getState) => {
 
@@ -115,6 +124,14 @@ export const updateMonthFilterPrevious = (): ThunkAction<void, RootState, {}, St
             dispatch(receiveFilterYear(statementsState.filterYear - 1));
         }
         dispatch(receiveFilterMonth(month));
+
+        //Move to first page if not on first page
+        if (statementsState.pageOptions.number !== 1) {
+            dispatch(receivePageOptions({
+                ...statementsState.pageOptions,
+                number: 1
+            }));
+        }
     }
 };
 

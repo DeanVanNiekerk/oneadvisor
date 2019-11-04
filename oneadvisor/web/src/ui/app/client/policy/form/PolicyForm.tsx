@@ -1,4 +1,3 @@
-import { CascaderOptionType } from "antd/lib/cascader";
 import update from "immutability-helper";
 import React, { useState } from "react";
 import { connect } from "react-redux";
@@ -8,9 +7,8 @@ import { ThunkDispatch } from "redux-thunk";
 import { filterOption } from "@/app/controls/select";
 import { fetchClients } from "@/state/app/client/clients";
 import {
-    policyProductCascade, policyProductsSelector, policyProductTypesSelector, policyTypesSelector
-} from "@/state/app/client/lookups";
-import { modifyPolicy, PolicyEdit, policySelector } from "@/state/app/client/policies";
+    modifyPolicy, PolicyEdit, policyProductCascaseSelector, policyProductCascaseValuesSelector, policySelector
+} from "@/state/app/client/policies";
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
@@ -71,10 +69,10 @@ const PolicyForm: React.FC<Props> = (props: Props) => {
                 <FormCascade
                     fieldName="policyTypeId"
                     label="Type / Product / Name"
-                    value={props.getPolicyProductCascaseValues()}
+                    value={props.policyProductCascaseValues}
                     onChange={(values: string[]) => props.handlePolicyProductCascaseChange(policy, values)}
                     validationResults={validationResults}
-                    options={props.getPolicyProductCascase()}
+                    options={props.policyProductCascase}
                     changeOnSelect={true}
                 />
                 <FormSelect
@@ -147,35 +145,8 @@ const mapStateToProps = (state: RootState) => {
         validationResults: policyState.validationResults,
         companies: organisationCompaniesSelector(state),
         users: brokersSelector(state),
-        getPolicyProductCascase: (): CascaderOptionType[] => {
-            return policyProductCascade(
-                policyTypesSelector(state).items,
-                policyProductTypesSelector(state).items,
-                policyProductsSelector(state).items,
-                policyState.policy ? policyState.policy.companyId : ""
-            );
-        },
-        getPolicyProductCascaseValues: (): string[] => {
-
-            const values: string[] = [];
-            const policy = policyState.policy;
-
-            if (!policy) return values;
-
-            if (policy.policyTypeId) {
-                values.push(policy.policyTypeId);
-
-                if (policy.policyProductTypeId) {
-                    values.push(policy.policyProductTypeId);
-
-                    if (policy.policyProductId) {
-                        values.push(policy.policyProductId);
-                    }
-                }
-            }
-
-            return values;
-        },
+        policyProductCascase: policyProductCascaseSelector(state),
+        policyProductCascaseValues: policyProductCascaseValuesSelector(state),
     };
 };
 

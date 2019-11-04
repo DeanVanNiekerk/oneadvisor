@@ -2,7 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { fetchStatement, statementPreviewSelector, statementVisible } from "@/state/app/commission/statements";
+import {
+    fetchStatement, statementPreviewIsLoadingSelector, statementPreviewSelector, statementVisible
+} from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { Currency, Icon, PreviewCard, PreviewCardRow } from "@/ui/controls";
 
@@ -57,7 +59,7 @@ const mapStateToProps = (state: RootState) => {
     const statementState = statementPreviewSelector(state);
     return {
         statement: statementState.statement,
-        loading: statementState.fetching || !statementState.statement,
+        loading: statementPreviewIsLoadingSelector(state),
     };
 };
 

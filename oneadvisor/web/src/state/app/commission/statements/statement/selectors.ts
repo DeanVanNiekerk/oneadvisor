@@ -17,3 +17,8 @@ export const statementIsModifiedSelector: (state: RootState) => boolean = create
     rootSelector,
     root => !areEqual(root.statement, root.statementOriginal)
 );
+
+export const statementIsLoadingSelector: (state: RootState) => boolean = createSelector(
+    rootSelector,
+    root => (root.updating || root.fetching)
+);

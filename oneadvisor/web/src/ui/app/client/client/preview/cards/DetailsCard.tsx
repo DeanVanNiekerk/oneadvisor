@@ -2,7 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { clientPreviewSelector, clientVisible, fetchClient } from "@/state/app/client/clients";
+import {
+    clientPreviewIsLoadingSelector, clientPreviewSelector, clientVisible, fetchClient
+} from "@/state/app/client/clients";
 import { ClientTypeId } from "@/state/app/client/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Age, Icon, PreviewCard, PreviewCardRow } from "@/ui/controls";
@@ -69,7 +71,7 @@ const mapStateToProps = (state: RootState) => {
     const clientState = clientPreviewSelector(state);
     return {
         client: clientState.client,
-        loading: clientState.fetching || !clientState.client,
+        loading: clientPreviewIsLoadingSelector(state),
     };
 };
 

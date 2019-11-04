@@ -17,3 +17,20 @@ export const mappingErrorIsModifiedSelector: (state: RootState) => boolean = cre
     rootSelector,
     root => !areEqual(root.commissionError, root.commissionErrorOriginal)
 );
+
+export const mappingErrorIsLoadingSelector: (state: RootState) => boolean = createSelector(
+    rootSelector,
+    root => (root.updating || root.fetching)
+);
+
+export const mappingErrorCanSaveSelector: (state: RootState) => boolean = createSelector(
+    rootSelector,
+    mappingErrorIsLoadingSelector,
+    (root, isLoading) => {
+        if (root.commissionError === null || isLoading) return false;
+        return (
+            !!root.commissionError.policyId &&
+            !!root.commissionError.clientId
+        );
+    }
+);

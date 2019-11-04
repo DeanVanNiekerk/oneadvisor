@@ -4,7 +4,7 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    confirmCancelPolicy, PolicyEdit, policySelector, policyVisible, savePolicy
+    confirmCancelPolicy, PolicyEdit, policyIsLoadingSelector, policySelector, policyVisible, savePolicy
 } from "@/state/app/client/policies";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
@@ -45,7 +45,7 @@ type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const policyState = policySelector(state);
     return {
-        loading: policyState.updating || policyState.fetching,
+        loading: policyIsLoadingSelector(state),
         visible: policyState.visible,
         policyTypeId: policyState.policy ? policyState.policy.policyTypeId : "",
     };

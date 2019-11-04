@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
-import { ClientEdit, clientSelector, clientVisible, confirmCancelClient, saveClient } from "@/state/app/client/clients";
+import {
+    ClientEdit, clientIsLoadingSelector, clientSelector, clientVisible, confirmCancelClient, saveClient
+} from "@/state/app/client/clients";
 import { RootState } from "@/state/rootReducer";
 import { ClientTypeIcon, EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
@@ -45,7 +47,7 @@ type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const clientState = clientSelector(state);
     return {
-        loading: clientState.updating || clientState.fetching,
+        loading: clientIsLoadingSelector(state),
         visible: clientState.visible,
         clientTypeId: clientState.client ? clientState.client.clientTypeId : "",
     };

@@ -144,7 +144,7 @@ const ClientList: React.FC<Props> = props => {
                     selectedRowKeys: props.selectedClientIds,
                 }}
             />
-            <EditClient onSaved={props.fetchClients} />
+            <EditClient onSaved={() => props.fetchClients()} />
             <ClientMerge onMerged={props.fetchClients} />
         </>
     );

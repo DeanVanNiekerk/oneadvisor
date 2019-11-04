@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import { statementPreviewSelector } from "@/state/app/commission/statements";
+import { statementPreviewIsLoadingSelector, statementPreviewSelector } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { CompanyName, Date, Header } from "@/ui/controls";
 
@@ -35,7 +35,7 @@ const mapStateToProps = (state: RootState) => {
     const statementState = statementPreviewSelector(state);
     return {
         statement: statementState.statement,
-        loading: statementState.fetching || !statementState.statement,
+        loading: statementPreviewIsLoadingSelector(state),
     };
 };
 

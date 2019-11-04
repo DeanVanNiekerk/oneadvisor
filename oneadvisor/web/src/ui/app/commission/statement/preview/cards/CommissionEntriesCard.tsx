@@ -4,7 +4,9 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { hasUseCase } from "@/app/identity";
-import { deleteCommissions, statementPreviewSelector } from "@/state/app/commission/statements";
+import {
+    deleteCommissions, statementPreviewIsLoadingSelector, statementPreviewSelector
+} from "@/state/app/commission/statements";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Button, Currency, Drawer, DrawerFooter, Icon, PreviewCard, PreviewCardRow } from "@/ui/controls";
@@ -124,7 +126,7 @@ const mapStateToProps = (state: RootState) => {
     const statementState = statementPreviewSelector(state);
     return {
         statement: statementState.statement,
-        loading: statementState.fetching || !statementState.statement,
+        loading: statementPreviewIsLoadingSelector(state),
         useCases: useCaseSelector(state),
     };
 };
