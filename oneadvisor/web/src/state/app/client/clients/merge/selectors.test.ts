@@ -1,4 +1,4 @@
-import { clientMergeSelector } from './selectors';
+import { clientMergeSelector } from "./selectors";
 
 describe("client list selectors", () => {
     it("clientMergeSelector", () => {

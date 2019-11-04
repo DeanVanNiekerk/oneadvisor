@@ -1,14 +1,14 @@
-import { Modal } from 'antd';
-import moment from 'moment';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, RouteProps, withRouter } from 'react-router';
-import { Redirect, Route } from 'react-router-dom';
+import { Modal } from "antd";
+import moment from "moment";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
+import { RouteComponentProps, RouteProps, withRouter } from "react-router";
+import { Redirect, Route } from "react-router-dom";
 
-import { isAuthenticatedSelector, signOut, TokenData, tokenSelector } from '@/state/auth';
-import { RootState } from '@/state/rootReducer';
+import { isAuthenticatedSelector, signOut, TokenData, tokenSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
 
-import Layout from './Layout';
+import Layout from "./Layout";
 
 type Props = {
     isAuthenticated: boolean;
@@ -42,10 +42,7 @@ class SecureRoute extends Component<Props> {
                 title: "Session has Expired",
                 content: (
                     <div>
-                        <p>
-                            Your session has expired, please click OK to sign in
-                            again
-                        </p>
+                        <p>Your session has expired, please click OK to sign in again</p>
                     </div>
                 ),
                 onOk: () => {

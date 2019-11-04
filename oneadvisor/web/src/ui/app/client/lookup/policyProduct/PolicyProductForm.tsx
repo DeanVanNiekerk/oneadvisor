@@ -4,7 +4,10 @@ import { connect } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
 import {
-    PolicyProduct, PolicyProductType, policyProductTypesSelector, policyTypesSelector
+    PolicyProduct,
+    PolicyProductType,
+    policyProductTypesSelector,
+    policyTypesSelector,
 } from "@/state/app/client/lookups";
 import { companiesSelector, Company } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";

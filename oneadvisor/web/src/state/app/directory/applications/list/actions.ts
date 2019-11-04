@@ -1,15 +1,15 @@
-import { ApiAction } from '@/app/types';
-import { applicationsApi } from '@/config/api/directory';
+import { ApiAction } from "@/app/types";
+import { applicationsApi } from "@/config/api/directory";
 
-import { Application } from '../types';
+import { Application } from "../types";
 
 type ApplicationListReceiveAction = {
-    type: 'APPLICATIONS_LIST_RECEIVE';
+    type: "APPLICATIONS_LIST_RECEIVE";
     payload: Application[];
 };
-type ApplicationListFetchingAction = { type: 'APPLICATIONS_LIST_FETCHING' };
+type ApplicationListFetchingAction = { type: "APPLICATIONS_LIST_FETCHING" };
 type ApplicationListFetchingErrorAction = {
-    type: 'APPLICATIONS_LIST_FETCHING_ERROR';
+    type: "APPLICATIONS_LIST_FETCHING_ERROR";
 };
 
 export type ApplicationListAction =
@@ -18,7 +18,7 @@ export type ApplicationListAction =
     | ApplicationListFetchingErrorAction;
 
 export const fetchApplications = (): ApiAction => ({
-    type: 'API',
+    type: "API",
     endpoint: applicationsApi,
-    dispatchPrefix: 'APPLICATIONS_LIST'
+    dispatchPrefix: "APPLICATIONS_LIST",
 });

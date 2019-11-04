@@ -1,6 +1,6 @@
-import { allocationsApi } from '@/config/api/commission';
+import { allocationsApi } from "@/config/api/commission";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("allocation actions", () => {
     it("should dispatch API when fetchAllocation is called", () => {
@@ -32,9 +32,7 @@ describe("allocation actions", () => {
             dispatchPrefix: "ALLOCATIONS_ALLOCATION_EDIT",
         };
 
-        expect(actions.updateAllocation(allocation, onSuccess)).toEqual(
-            expectedAction
-        );
+        expect(actions.updateAllocation(allocation, onSuccess)).toEqual(expectedAction);
     });
 
     it("should dispatch API when deleteAllocation is called", () => {
@@ -47,8 +45,6 @@ describe("allocation actions", () => {
             onSuccess: onSuccess,
         };
 
-        expect(actions.deleteAllocation("10", onSuccess)).toEqual(
-            expectedAction
-        );
+        expect(actions.deleteAllocation("10", onSuccess)).toEqual(expectedAction);
     });
 });

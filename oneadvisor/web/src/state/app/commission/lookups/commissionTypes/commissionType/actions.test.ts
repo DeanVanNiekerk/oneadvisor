@@ -1,7 +1,7 @@
-import { commissionTypesApi } from '@/config/api/commission';
+import { commissionTypesApi } from "@/config/api/commission";
 
-import { CommissionType } from '../';
-import * as actions from './actions';
+import { CommissionType } from "../";
+import * as actions from "./actions";
 
 describe("commissionType actions", () => {
     it("should dispatch API when updateCommissionType is called", () => {
@@ -24,8 +24,6 @@ describe("commissionType actions", () => {
             dispatchPrefix: "COMMISSIONTYPES_COMMISSIONTYPE_EDIT",
         };
 
-        expect(actions.updateCommissionType(commissionType, onSuccess)).toEqual(
-            expectedAction
-        );
+        expect(actions.updateCommissionType(commissionType, onSuccess)).toEqual(expectedAction);
     });
 });

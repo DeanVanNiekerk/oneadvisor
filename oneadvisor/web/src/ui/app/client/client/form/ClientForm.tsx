@@ -6,8 +6,13 @@ import { Dispatch } from "redux";
 
 import { parseIdNumber } from "@/app/parsers/id";
 import {
-    ClientEdit, clientIsMarried, clientSelector, getAlternateIdNumberLabel, getDateOfBirthLabel, getLastNameLabel,
-    modifyClient
+    ClientEdit,
+    clientIsMarried,
+    clientSelector,
+    getAlternateIdNumberLabel,
+    getDateOfBirthLabel,
+    getLastNameLabel,
+    modifyClient,
 } from "@/state/app/client/clients";
 import { ClientTypeId, clientTypesSelector, marritalStatusSelector } from "@/state/app/client/lookups";
 import { RootState } from "@/state/rootReducer";

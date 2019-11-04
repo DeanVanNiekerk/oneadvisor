@@ -4,7 +4,10 @@ import { connect, DispatchProp } from "react-redux";
 import { areEqual } from "@/app/utils";
 import { ValidationResult } from "@/app/validation";
 import {
-    CommissionType, commissionTypeSelector, insertCommissionType, updateCommissionType
+    CommissionType,
+    commissionTypeSelector,
+    insertCommissionType,
+    updateCommissionType,
 } from "@/state/app/commission/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";

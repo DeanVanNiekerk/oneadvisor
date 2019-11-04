@@ -4,7 +4,12 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    confirmCancelPolicy, PolicyEdit, policyIsLoadingSelector, policySelector, policyVisible, savePolicy
+    confirmCancelPolicy,
+    PolicyEdit,
+    policyIsLoadingSelector,
+    policySelector,
+    policyVisible,
+    savePolicy,
 } from "@/state/app/client/policies";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
@@ -19,7 +24,6 @@ type Props = {
     PropsFromDispatch;
 
 const EditPolicy: React.FC<Props> = (props: Props) => {
-
     const close = () => props.setVisible(false);
 
     return (
@@ -58,10 +62,12 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
             dispatch(confirmCancelPolicy(showConfirm, onCancelled));
         },
         savePolicy: (onSaved?: (policy: PolicyEdit) => void) => {
-            dispatch(savePolicy((policy: PolicyEdit) => {
-                if (onSaved) onSaved(policy);
-                dispatch(policyVisible(false));
-            }));
+            dispatch(
+                savePolicy((policy: PolicyEdit) => {
+                    if (onSaved) onSaved(policy);
+                    dispatch(policyVisible(false));
+                })
+            );
         },
         setVisible: (visible: boolean) => {
             dispatch(policyVisible(visible));

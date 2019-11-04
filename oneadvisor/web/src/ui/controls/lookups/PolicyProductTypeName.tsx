@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { PolicyProductType, policyProductTypesSelector } from '@/state/app/client/lookups';
-import { RootState } from '@/state/rootReducer';
+import { PolicyProductType, policyProductTypesSelector } from "@/state/app/client/lookups";
+import { RootState } from "@/state/rootReducer";
 
 type Props = {
     policyProductTypes: PolicyProductType[];
@@ -13,9 +13,7 @@ class PolicyProductTypeNameComponent extends Component<Props> {
     render() {
         const { policyProductTypes, policyProductTypeId } = this.props;
 
-        const policyProductType = policyProductTypes.find(
-            u => u.id === policyProductTypeId
-        );
+        const policyProductType = policyProductTypes.find(u => u.id === policyProductTypeId);
 
         if (!policyProductType) return <span />;
 
@@ -31,8 +29,6 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-const PolicyProductTypeName = connect(mapStateToProps)(
-    PolicyProductTypeNameComponent
-);
+const PolicyProductTypeName = connect(mapStateToProps)(PolicyProductTypeNameComponent);
 
 export { PolicyProductTypeName };

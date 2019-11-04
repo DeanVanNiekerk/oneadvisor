@@ -6,8 +6,7 @@ type Props = {
 };
 
 const Processed: React.FC<Props> = ({ processed }) => {
-
-    const style = { marginRight: '0px' };
+    const style = { marginRight: "0px" };
 
     if (processed)
         return (

@@ -7,8 +7,8 @@ import { RootState } from "@/state/rootReducer";
 type Props = PropsFromState;
 
 const EditStatementTitle: React.FC<Props> = ({ statement }) => {
-    return <>{(statement && statement.id) ? `Edit Statement` : "New Statement"}</>;
-}
+    return <>{statement && statement.id ? `Edit Statement` : "New Statement"}</>;
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 

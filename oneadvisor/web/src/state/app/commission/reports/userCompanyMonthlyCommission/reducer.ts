@@ -1,9 +1,9 @@
-import moment from 'moment';
+import moment from "moment";
 
-import { SERVER_DATE_FORMAT } from '@/app/utils';
+import { SERVER_DATE_FORMAT } from "@/app/utils";
 
-import { UserCompanyMonthlyCommissionDataAction } from './actions';
-import { UserCompanyMonthlyCommissionData, UserCompanyMonthlyCommissionFilters } from './types';
+import { UserCompanyMonthlyCommissionDataAction } from "./actions";
+import { UserCompanyMonthlyCommissionData, UserCompanyMonthlyCommissionFilters } from "./types";
 
 export type State = {
     readonly items: UserCompanyMonthlyCommissionData[];

@@ -1,6 +1,6 @@
-import { getValidationResult } from '@/test';
+import { getValidationResult } from "@/test";
 
-import { defaultState, reducer } from './reducer';
+import { defaultState, reducer } from "./reducer";
 
 describe("policyProductType reducer", () => {
     it("should handle POLICYPRODUCTTYPES_POLICYPRODUCTTYPE_RECEIVE", () => {

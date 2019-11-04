@@ -1,4 +1,4 @@
-import { userMonthlyCommissionSelector } from './selectors';
+import { userMonthlyCommissionSelector } from "./selectors";
 
 describe("report user monthly commission selectors", () => {
     it("userMonthlyCommissionSelector", () => {

@@ -7,8 +7,15 @@ import { ThunkDispatch } from "redux-thunk";
 import { getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import { areEqual, formatCurrency } from "@/app/utils";
 import {
-    CommissionError, commissionErrorsSelector, CommissionImportData, deleteMappingError, fetchCommissionErrors,
-    fetchMappingError, mappingErrorVisible, receivePageOptions, receiveSortOptions
+    CommissionError,
+    commissionErrorsSelector,
+    CommissionImportData,
+    deleteMappingError,
+    fetchCommissionErrors,
+    fetchMappingError,
+    mappingErrorVisible,
+    receivePageOptions,
+    receiveSortOptions,
 } from "@/state/app/commission/errors";
 import { Statement } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
@@ -22,10 +29,10 @@ const Table = getTable<CommissionError>();
 type Props = {
     statement: Statement;
     onSaved?: () => void;
-} & PropsFromState & PropsFromDispatch;
+} & PropsFromState &
+    PropsFromDispatch;
 
 const ErrorList: React.FC<Props> = (props: Props) => {
-
     useEffect(() => {
         load();
     }, [props.pageOptions, props.sortOptions]);
@@ -36,9 +43,8 @@ const ErrorList: React.FC<Props> = (props: Props) => {
             props.updatePageOptions({
                 ...props.pageOptions,
                 number: props.pageOptions.number - 1,
-            })
+            });
         }
-
     }, [props.errors]);
 
     const load = () => {
@@ -59,8 +65,9 @@ const ErrorList: React.FC<Props> = (props: Props) => {
     };
 
     const getColumns = () => {
-
-        var getColumn = getColumnDefinition<CommissionError & { info: string, policyNumber: string, amountIncludingVAT: number, vat: number }>(true);
+        var getColumn = getColumnDefinition<
+            CommissionError & { info: string; policyNumber: string; amountIncludingVAT: number; vat: number }
+        >(true);
 
         return [
             getColumn(
@@ -162,13 +169,10 @@ const ErrorList: React.FC<Props> = (props: Props) => {
                 totalRows={props.totalItems}
                 onTableChange={onTableChange}
             />
-            <EditMappingError
-                statement={props.statement}
-                onSaved={onSaved}
-            />
+            <EditMappingError statement={props.statement} onSaved={onSaved} />
         </>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {

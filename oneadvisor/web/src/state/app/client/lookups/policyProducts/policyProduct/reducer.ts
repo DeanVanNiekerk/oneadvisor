@@ -1,7 +1,7 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { PolicyProduct } from '../types';
-import { PolicyProductAction } from './actions';
+import { PolicyProduct } from "../types";
+import { PolicyProductAction } from "./actions";
 
 export type State = {
     readonly policyProduct: PolicyProduct | null;
@@ -15,10 +15,7 @@ export const defaultState: State = {
     validationResults: [],
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: PolicyProductAction
-): State => {
+export const reducer = (state: State = defaultState, action: PolicyProductAction): State => {
     switch (action.type) {
         case "POLICYPRODUCTS_POLICYPRODUCT_RECEIVE": {
             return {

@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { Split } from '@/state/app/commission/splitRules';
-import { Button, Form, FormField } from '@/ui/controls';
+import { Split } from "@/state/app/commission/splitRules";
+import { Button, Form, FormField } from "@/ui/controls";
 
-import SplitForm from './SplitForm';
+import SplitForm from "./SplitForm";
 
 type Props = {
     onSave: (split: Split) => void;
@@ -13,7 +13,6 @@ type Props = {
 };
 
 class EditSplit extends Component<Props> {
-
     save = (split: Split) => {
         this.props.onSave(split);
     };
@@ -23,13 +22,7 @@ class EditSplit extends Component<Props> {
 
         return (
             <>
-                {split && (
-                    <SplitForm
-                        split={split}
-                        onSave={this.save}
-                        onCancel={this.props.cancel}
-                    />
-                )}
+                {split && <SplitForm split={split} onSave={this.save} onCancel={this.props.cancel} />}
                 {!split && (
                     <Form layout="inline">
                         <FormField>
@@ -41,7 +34,7 @@ class EditSplit extends Component<Props> {
                                 requiredUseCase="com_edit_commission_split_rules"
                             >
                                 Add Split
-                                </Button>
+                            </Button>
                         </FormField>
                     </Form>
                 )}

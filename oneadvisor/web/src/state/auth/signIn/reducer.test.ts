@@ -1,4 +1,4 @@
-import { defaultState, reducer } from './reducer';
+import { defaultState, reducer } from "./reducer";
 
 describe("sign in reducer", () => {
     it("should handle AUTH_SIGNIN_FETCHING", () => {

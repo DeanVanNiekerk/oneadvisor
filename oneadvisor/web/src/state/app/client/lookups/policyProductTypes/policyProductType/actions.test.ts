@@ -1,7 +1,7 @@
-import { policyProductTypesApi } from '@/config/api/client';
+import { policyProductTypesApi } from "@/config/api/client";
 
-import { PolicyProductType } from '../';
-import * as actions from './actions';
+import { PolicyProductType } from "../";
+import * as actions from "./actions";
 
 describe("policyProductType actions", () => {
     it("should dispatch API when updatePolicyProductType is called", () => {
@@ -23,8 +23,6 @@ describe("policyProductType actions", () => {
             dispatchPrefix: "POLICYPRODUCTTYPES_POLICYPRODUCTTYPE_EDIT",
         };
 
-        expect(
-            actions.updatePolicyProductType(policyProductType, onSuccess)
-        ).toEqual(expectedAction);
+        expect(actions.updatePolicyProductType(policyProductType, onSuccess)).toEqual(expectedAction);
     });
 });

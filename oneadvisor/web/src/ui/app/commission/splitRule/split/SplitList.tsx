@@ -1,17 +1,17 @@
-import { Popconfirm } from 'antd';
-import update from 'immutability-helper';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { Popconfirm } from "antd";
+import update from "immutability-helper";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { hasUseCase } from '@/app/identity';
-import { getColumnDefinition } from '@/app/table';
-import { ValidationResult } from '@/app/validation';
-import { Split } from '@/state/app/commission/splitRules';
-import { useCaseSelector } from '@/state/auth';
-import { RootState } from '@/state/rootReducer';
-import { FormErrors, getTable, StopPropagation, UserName } from '@/ui/controls';
+import { hasUseCase } from "@/app/identity";
+import { getColumnDefinition } from "@/app/table";
+import { ValidationResult } from "@/app/validation";
+import { Split } from "@/state/app/commission/splitRules";
+import { useCaseSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
+import { FormErrors, getTable, StopPropagation, UserName } from "@/ui/controls";
 
-import EditSplit from './EditSplit';
+import EditSplit from "./EditSplit";
 
 const Table = getTable<Split>();
 
@@ -149,8 +149,6 @@ class SplitList extends Component<Props, State> {
     };
 
     render() {
-
-
         return (
             <>
                 <FormErrors validationResults={this.props.validationResults} />

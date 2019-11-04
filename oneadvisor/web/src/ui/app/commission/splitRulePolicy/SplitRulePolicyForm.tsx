@@ -1,14 +1,14 @@
-import update from 'immutability-helper';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import update from "immutability-helper";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { ValidationResult } from '@/app/validation';
-import { fetchSplitRulePolicy, SplitRulePolicy, SplitRulePolicyInfo } from '@/state/app/commission/splitRulePolicies';
-import { fetchSplitRules, SplitRule, splitRulesSelector } from '@/state/app/commission/splitRules';
-import { RootState } from '@/state/rootReducer';
-import { Button, CompanyName, Drawer, DrawerFooter, Form, FormSelect, FormText, UserName } from '@/ui/controls';
+import { ValidationResult } from "@/app/validation";
+import { fetchSplitRulePolicy, SplitRulePolicy, SplitRulePolicyInfo } from "@/state/app/commission/splitRulePolicies";
+import { fetchSplitRules, SplitRule, splitRulesSelector } from "@/state/app/commission/splitRules";
+import { RootState } from "@/state/rootReducer";
+import { Button, CompanyName, Drawer, DrawerFooter, Form, FormSelect, FormText, UserName } from "@/ui/controls";
 
-import SplitRuleList from '../splitRule/SplitRuleList';
+import SplitRuleList from "../splitRule/SplitRuleList";
 
 type Props = {
     splitRulePolicy: SplitRulePolicy;

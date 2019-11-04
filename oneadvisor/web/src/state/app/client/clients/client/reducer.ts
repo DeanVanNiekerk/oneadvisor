@@ -21,10 +21,7 @@ export const defaultState: State = {
     visible: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: ClientAction
-): State => {
+export const reducer = (state: State = defaultState, action: ClientAction): State => {
     switch (action.type) {
         case "CLIENTS_CLIENT_RECEIVE": {
             return {
@@ -38,7 +35,7 @@ export const reducer = (
         case "CLIENTS_CLIENT_MODIFIED": {
             return {
                 ...state,
-                client: action.payload
+                client: action.payload,
             };
         }
         case "CLIENTS_CLIENT_FETCHING": {

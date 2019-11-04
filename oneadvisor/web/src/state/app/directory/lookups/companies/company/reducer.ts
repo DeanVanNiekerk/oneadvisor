@@ -19,10 +19,7 @@ export const defaultState: State = {
     visible: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: CompanyAction
-): State => {
+export const reducer = (state: State = defaultState, action: CompanyAction): State => {
     switch (action.type) {
         case "COMPANIES_COMPANY_RECEIVE": {
             return {
@@ -35,7 +32,7 @@ export const reducer = (
         case "COMPANIES_COMPANY_MODIFIED": {
             return {
                 ...state,
-                company: action.payload
+                company: action.payload,
             };
         }
         case "COMPANIES_COMPANY_EDIT_FETCHING": {

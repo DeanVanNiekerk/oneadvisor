@@ -5,17 +5,17 @@ import { statementsApi } from "@/config/api/commission";
 import { PagedStatements } from "../types";
 
 type StatementPreviewReceiveAction = {
-    type: 'STATEMENTS_STATEMENT_PREVIEW_RECEIVE';
+    type: "STATEMENTS_STATEMENT_PREVIEW_RECEIVE";
     payload: PagedStatements;
 };
 type StatementPreviewFetchingAction = {
-    type: 'STATEMENTS_STATEMENT_PREVIEW_FETCHING';
+    type: "STATEMENTS_STATEMENT_PREVIEW_FETCHING";
 };
 type StatementPreviewFetchingErrorAction = {
-    type: 'STATEMENTS_STATEMENT_PREVIEW_FETCHING_ERROR';
+    type: "STATEMENTS_STATEMENT_PREVIEW_FETCHING_ERROR";
 };
 type StatementPreviewClearAction = {
-    type: 'STATEMENTS_STATEMENT_PREVIEW_CLEAR';
+    type: "STATEMENTS_STATEMENT_PREVIEW_CLEAR";
 };
 
 export type StatementPreviewAction =
@@ -27,15 +27,15 @@ export type StatementPreviewAction =
 export const fetchStatementPreview = (statementId: string): ApiAction => {
     let api = statementsApi;
     api = appendFiltersQuery(api, {
-        commissionStatementId: [statementId]
+        commissionStatementId: [statementId],
     });
     return {
-        type: 'API',
+        type: "API",
         endpoint: api,
-        dispatchPrefix: 'STATEMENTS_STATEMENT_PREVIEW'
+        dispatchPrefix: "STATEMENTS_STATEMENT_PREVIEW",
     };
 };
 
 export const clearStatementPreview = (): StatementPreviewClearAction => ({
-    type: 'STATEMENTS_STATEMENT_PREVIEW_CLEAR'
+    type: "STATEMENTS_STATEMENT_PREVIEW_CLEAR",
 });

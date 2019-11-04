@@ -1,8 +1,8 @@
-import { Icon } from 'antd';
-import { ColumnProps } from 'antd/lib/table';
-import * as React from 'react';
+import { Icon } from "antd";
+import { ColumnProps } from "antd/lib/table";
+import * as React from "react";
 
-import { ColumnSearch } from '@/ui/controls';
+import { ColumnSearch } from "@/ui/controls";
 
 function getColumnSearchProps<T>(fieldName): ColumnProps<T> {
     let visible: boolean = false;

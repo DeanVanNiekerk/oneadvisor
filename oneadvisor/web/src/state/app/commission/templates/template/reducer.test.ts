@@ -1,7 +1,7 @@
-import { getValidationResult } from '@/test';
+import { getValidationResult } from "@/test";
 
-import { CommissionStatementTemplateEdit } from '../';
-import { defaultState, reducer } from './reducer';
+import { CommissionStatementTemplateEdit } from "../";
+import { defaultState, reducer } from "./reducer";
 
 const template: CommissionStatementTemplateEdit = {
     id: "10",

@@ -13,10 +13,7 @@ export const defaultState: State = {
     fetching: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: ContactListAction
-): State => {
+export const reducer = (state: State = defaultState, action: ContactListAction): State => {
     switch (action.type) {
         case "CONTACTS_LIST_RECEIVE": {
             return {

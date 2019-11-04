@@ -1,15 +1,20 @@
-import { Popconfirm } from 'antd';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Popconfirm } from "antd";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { getColumnDefinition } from '@/app/table';
+import { getColumnDefinition } from "@/app/table";
 import {
-    Allocation, allocationsSelector, deleteAllocation, fetchAllocation, fetchAllocations, receiveAllocation
-} from '@/state/app/commission/allocations';
-import { RootState } from '@/state/rootReducer';
-import { Button, getTable, Header, StopPropagation } from '@/ui/controls';
+    Allocation,
+    allocationsSelector,
+    deleteAllocation,
+    fetchAllocation,
+    fetchAllocations,
+    receiveAllocation,
+} from "@/state/app/commission/allocations";
+import { RootState } from "@/state/rootReducer";
+import { Button, getTable, Header, StopPropagation } from "@/ui/controls";
 
-import EditAllocation from './EditAllocation';
+import EditAllocation from "./EditAllocation";
 
 const Table = getTable<Allocation>();
 

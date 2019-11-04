@@ -9,12 +9,9 @@ import { PreviewCardContainer } from "@/ui/controls";
 import { CommissionEntriesCard, DetailsCard, MappingErrorsCard, StatementFilesCard } from "./cards";
 import StatementPreviewHeader from "./StatementPreviewHeader";
 
-type Props =
-    & PropsFromDispatch
-    & RouteComponentProps<{ commissionStatementId: string }>;
+type Props = PropsFromDispatch & RouteComponentProps<{ commissionStatementId: string }>;
 
 const StatementPreview: React.FC<Props> = (props: Props) => {
-
     const cardHeight = "130px";
 
     useEffect(() => {
@@ -23,7 +20,7 @@ const StatementPreview: React.FC<Props> = (props: Props) => {
 
     const load = () => {
         props.fetchStatementPreview(props.match.params.commissionStatementId);
-    }
+    };
 
     return (
         <>
@@ -35,10 +32,9 @@ const StatementPreview: React.FC<Props> = (props: Props) => {
                 <StatementFilesCard cardHeight={cardHeight} onCommissionsChanged={load} />
                 <MappingErrorsCard cardHeight={cardHeight} onErrorChanged={load} />
             </PreviewCardContainer>
-
         </>
     );
-}
+};
 
 const mapStateToProps = () => ({});
 
@@ -48,7 +44,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         fetchStatementPreview: (commissionStatementId: string) => {
             dispatch(fetchStatementPreview(commissionStatementId));
         },
-    }
-}
+    };
+};
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(StatementPreview));
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(StatementPreview)
+);

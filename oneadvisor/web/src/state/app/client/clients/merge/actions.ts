@@ -1,12 +1,12 @@
-import { Dispatch } from 'redux';
+import { Dispatch } from "redux";
 
-import { appendFiltersQuery } from '@/app/query';
-import { Filters, PagedItems } from '@/app/table';
-import { ApiAction, ApiOnSuccess, Result } from '@/app/types';
-import { ValidationResult } from '@/app/validation';
-import { clientsApi, mergeApi } from '@/config/api/client';
+import { appendFiltersQuery } from "@/app/query";
+import { Filters, PagedItems } from "@/app/table";
+import { ApiAction, ApiOnSuccess, Result } from "@/app/types";
+import { ValidationResult } from "@/app/validation";
+import { clientsApi, mergeApi } from "@/config/api/client";
 
-import { ClientEdit, Client, MergeClients, receiveClientValidationResults } from '../';
+import { ClientEdit, Client, MergeClients, receiveClientValidationResults } from "../";
 
 type ClientMergeSourceReceiveAction = {
     type: "CLIENTS_MERGE_SOURCE_RECEIVE";
@@ -82,10 +82,7 @@ export const clientMergeReset = (): ClientMergeAction => ({
     type: "CLIENTS_MERGE_RESET",
 });
 
-export const mergeClients = (
-    merge: MergeClients,
-    onSuccess: ApiOnSuccess
-): ApiAction => {
+export const mergeClients = (merge: MergeClients, onSuccess: ApiOnSuccess): ApiAction => {
     return {
         type: "API",
         method: "POST",
@@ -93,10 +90,7 @@ export const mergeClients = (
         payload: merge,
         dispatchPrefix: "CLIENTS_MERGE",
         onSuccess: onSuccess,
-        onValidationFailure: (
-            validationResults: ValidationResult[],
-            dispatch: Dispatch
-        ) => {
+        onValidationFailure: (validationResults: ValidationResult[], dispatch: Dispatch) => {
             dispatch(receiveClientValidationResults(validationResults));
         },
     };

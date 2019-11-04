@@ -36,9 +36,7 @@ describe("reports: client revenue: list actions", () => {
             userId: ["sup"],
         };
 
-        const api = `${commissionReportsApi}/clientRevenueData?pageNumber=${pageOptions.number}&pageSize=${
-            pageOptions.size
-        }&sortColumn=number&sortDirection=desc&filters=userId%3Dsup`;
+        const api = `${commissionReportsApi}/clientRevenueData?pageNumber=${pageOptions.number}&pageSize=${pageOptions.size}&sortColumn=number&sortDirection=desc&filters=userId%3Dsup`;
 
         const expectedAction = {
             type: "API",

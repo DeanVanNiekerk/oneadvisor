@@ -13,19 +13,20 @@ type Props = {
     onClose: () => void;
 };
 
-const EditDrawer: React.FC<Props> = ({ title, icon, visible, updating, onSave, noTopPadding, saveRequiredUseCase, onClose, children }) => {
-
+const EditDrawer: React.FC<Props> = ({
+    title,
+    icon,
+    visible,
+    updating,
+    onSave,
+    noTopPadding,
+    saveRequiredUseCase,
+    onClose,
+    children,
+}) => {
     return (
-        <Drawer
-            title={title}
-            icon={icon}
-            visible={visible}
-            onClose={onClose}
-            noTopPadding={noTopPadding}
-        >
-            <ContentLoader isLoading={updating}>
-                {children}
-            </ContentLoader>
+        <Drawer title={title} icon={icon} visible={visible} onClose={onClose} noTopPadding={noTopPadding}>
+            <ContentLoader isLoading={updating}>{children}</ContentLoader>
             <DrawerFooter>
                 <Button onClick={onClose} disabled={updating}>
                     Cancel
@@ -36,6 +37,6 @@ const EditDrawer: React.FC<Props> = ({ title, icon, visible, updating, onSave, n
             </DrawerFooter>
         </Drawer>
     );
-}
+};
 
 export { EditDrawer };

@@ -25,10 +25,8 @@ const FormText: React.FC<Props> = (props: Props) => (
         fieldName={props.fieldName}
         validationResults={props.validationResults}
     >
-        <span className="ant-form-text">
-            {!props.value ? props.emptyValueText : props.value}
-        </span>
-        <span style={{ float: 'right' }}>{props.extra}</span>
+        <span className="ant-form-text">{!props.value ? props.emptyValueText : props.value}</span>
+        <span style={{ float: "right" }}>{props.extra}</span>
     </FormField>
 );
 

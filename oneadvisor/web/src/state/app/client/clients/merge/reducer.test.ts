@@ -1,6 +1,6 @@
-import { Client } from '../';
-import { ClientTypeId } from '../../lookups';
-import { defaultState, reducer } from './reducer';
+import { Client } from "../";
+import { ClientTypeId } from "../../lookups";
+import { defaultState, reducer } from "./reducer";
 
 const defaultClient: Client = {
     id: "10",

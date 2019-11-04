@@ -1,21 +1,21 @@
-import { userSelector } from './selectors';
+import { userSelector } from "./selectors";
 
-describe('user selectors', () => {
-    it('userSelector', () => {
+describe("user selectors", () => {
+    it("userSelector", () => {
         const state = {
             app: {
                 directory: {
                     users: {
                         user: {
-                            property: '1'
-                        }
-                    }
-                }
-            }
+                            property: "1",
+                        },
+                    },
+                },
+            },
         };
 
         const expected = {
-            property: '1'
+            property: "1",
         };
 
         //@ts-ignore

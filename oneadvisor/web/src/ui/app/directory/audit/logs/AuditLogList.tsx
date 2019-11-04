@@ -4,7 +4,12 @@ import { connect, DispatchProp } from "react-redux";
 
 import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import {
-    AuditLog, auditLogsSelector, fetchAuditLogs, receiveFilters, receivePageOptions, receiveSortOptions
+    AuditLog,
+    auditLogsSelector,
+    fetchAuditLogs,
+    receiveFilters,
+    receivePageOptions,
+    receiveSortOptions,
 } from "@/state/app/directory/audit";
 import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";

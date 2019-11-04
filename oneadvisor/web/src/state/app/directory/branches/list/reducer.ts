@@ -1,5 +1,5 @@
-import { Branch } from '../types';
-import { BranchListAction } from './actions';
+import { Branch } from "../types";
+import { BranchListAction } from "./actions";
 
 export type State = {
     readonly items: Branch[];
@@ -11,10 +11,7 @@ export const defaultState: State = {
     fetching: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: BranchListAction
-): State => {
+export const reducer = (state: State = defaultState, action: BranchListAction): State => {
     switch (action.type) {
         case "BRANCHES_LIST_RECEIVE": {
             return {

@@ -1,21 +1,21 @@
-import { contactSelector } from './selectors';
+import { contactSelector } from "./selectors";
 
-describe('contact selectors', () => {
-    it('contactSelector', () => {
+describe("contact selectors", () => {
+    it("contactSelector", () => {
         const state = {
             app: {
                 client: {
                     contacts: {
                         contact: {
-                            property: '1'
-                        }
-                    }
-                }
-            }
+                            property: "1",
+                        },
+                    },
+                },
+            },
         };
 
         const expected = {
-            property: '1'
+            property: "1",
         };
 
         //@ts-ignore

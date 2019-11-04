@@ -3,7 +3,12 @@ import { connect, DispatchProp } from "react-redux";
 
 import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import {
-    ChangeLog, changeLogsSelector, fetchChangeLogs, receiveChangeLog, receivePageOptions, receiveSortOptions
+    ChangeLog,
+    changeLogsSelector,
+    fetchChangeLogs,
+    receiveChangeLog,
+    receivePageOptions,
+    receiveSortOptions,
 } from "@/state/app/directory/changeLogs";
 import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header } from "@/ui/controls";

@@ -1,7 +1,7 @@
-import moment from 'moment';
+import moment from "moment";
 
-import { UserMonthlyCommissionAction } from './actions';
-import { UserMonthlyCommissionType, UserMonthlyCommissionTypeOption } from './types';
+import { UserMonthlyCommissionAction } from "./actions";
+import { UserMonthlyCommissionType, UserMonthlyCommissionTypeOption } from "./types";
 
 export type State = {
     readonly year: number;

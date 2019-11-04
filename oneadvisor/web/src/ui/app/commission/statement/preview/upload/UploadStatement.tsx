@@ -12,7 +12,6 @@ type Props = {
 };
 
 const UploadStatement: React.FC<Props> = (props: Props) => {
-
     const [activeTab, setActiveTab] = useState("uploads_tab");
 
     return (
@@ -25,6 +24,6 @@ const UploadStatement: React.FC<Props> = (props: Props) => {
             </TabPane>
         </Tabs>
     );
-}
+};
 
 export default UploadStatement;

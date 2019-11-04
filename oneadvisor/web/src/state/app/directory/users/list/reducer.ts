@@ -1,8 +1,8 @@
-import { PageOptions } from '@/app/table';
-import { defaultPageOptions } from '@/app/table/defaults';
+import { PageOptions } from "@/app/table";
+import { defaultPageOptions } from "@/app/table/defaults";
 
-import { User } from '../types';
-import { UserListAction } from './actions';
+import { User } from "../types";
+import { UserListAction } from "./actions";
 
 export type State = {
     readonly totalItems: number;
@@ -18,10 +18,7 @@ export const defaultState: State = {
     pageOptions: defaultPageOptions(),
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: UserListAction
-): State => {
+export const reducer = (state: State = defaultState, action: UserListAction): State => {
     switch (action.type) {
         case "USERS_LIST_RECEIVE": {
             return {

@@ -1,120 +1,120 @@
-import { getValidationResult } from '@/test';
+import { getValidationResult } from "@/test";
 
-import { defaultState, reducer } from './reducer';
+import { defaultState, reducer } from "./reducer";
 
-describe('contact reducer', () => {
-    it('should handle CONTACTS_CONTACT_FETCHING', () => {
+describe("contact reducer", () => {
+    it("should handle CONTACTS_CONTACT_FETCHING", () => {
         const initalState = {
             ...defaultState,
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const actualState = reducer(initalState, {
-            type: 'CONTACTS_CONTACT_FETCHING'
+            type: "CONTACTS_CONTACT_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
             fetching: true,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle CONTACTS_CONTACT_FETCHING_ERROR', () => {
+    it("should handle CONTACTS_CONTACT_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'CONTACTS_CONTACT_FETCHING_ERROR'
+            type: "CONTACTS_CONTACT_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            
-            fetching: false
+
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle CONTACTS_CONTACT_RECEIVE', () => {
+    it("should handle CONTACTS_CONTACT_RECEIVE", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const contact = {
-            id: '10',
-            clientId: '12',
-            contactTypeId: '14',
-            value: '0825728997'
+            id: "10",
+            clientId: "12",
+            contactTypeId: "14",
+            value: "0825728997",
         };
 
         const actualState = reducer(initalState, {
-            type: 'CONTACTS_CONTACT_RECEIVE',
-            payload: { ...contact }
+            type: "CONTACTS_CONTACT_RECEIVE",
+            payload: { ...contact },
         });
 
         const expectedState = {
             ...defaultState,
             contact: { ...contact },
             fetching: false,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle CONTACTS_CONTACT_EDIT_FETCHING', () => {
+    it("should handle CONTACTS_CONTACT_EDIT_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'CONTACTS_CONTACT_EDIT_FETCHING'
+            type: "CONTACTS_CONTACT_EDIT_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle CONTACTS_CONTACT_EDIT_FETCHING_ERROR', () => {
+    it("should handle CONTACTS_CONTACT_EDIT_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'CONTACTS_CONTACT_EDIT_FETCHING_ERROR'
+            type: "CONTACTS_CONTACT_EDIT_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            
-            updating: false
+
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle CONTACTS_CONTACT_EDIT_RECEIVE', () => {
+    it("should handle CONTACTS_CONTACT_EDIT_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'CONTACTS_CONTACT_EDIT_RECEIVE'
+            type: "CONTACTS_CONTACT_EDIT_RECEIVE",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: false
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);

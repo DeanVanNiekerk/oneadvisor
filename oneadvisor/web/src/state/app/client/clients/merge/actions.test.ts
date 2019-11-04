@@ -1,6 +1,6 @@
-import { clientsApi } from '@/config/api/client';
+import { clientsApi } from "@/config/api/client";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("client: merge: actions", () => {
     it("should dispatch API when fetchMergeClients is called", () => {

@@ -17,10 +17,7 @@ export const defaultState: State = {
     validationResults: [],
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: OrganisationAction
-): State => {
+export const reducer = (state: State = defaultState, action: OrganisationAction): State => {
     switch (action.type) {
         case "ORGANISATIONS_ORGANISATION_RECEIVE": {
             return {

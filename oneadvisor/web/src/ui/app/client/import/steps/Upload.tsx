@@ -4,8 +4,12 @@ import { connect, DispatchProp } from "react-redux";
 
 import { readExcel } from "@/app/excel/helpers";
 import {
-    clientImportNextStep, clientImportSelector, ImportData, ImportRow, receiveClientImportData,
-    receiveClientImportFileName
+    clientImportNextStep,
+    clientImportSelector,
+    ImportData,
+    ImportRow,
+    receiveClientImportData,
+    receiveClientImportFileName,
 } from "@/state/app/client/import";
 import { RootState } from "@/state/rootReducer";
 

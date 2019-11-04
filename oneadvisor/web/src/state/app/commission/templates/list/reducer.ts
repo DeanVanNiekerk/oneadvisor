@@ -1,5 +1,5 @@
-import { CommissionStatementTemplate } from '../types';
-import { TemplateListAction } from './actions';
+import { CommissionStatementTemplate } from "../types";
+import { TemplateListAction } from "./actions";
 
 export type State = {
     readonly items: CommissionStatementTemplate[];
@@ -13,10 +13,7 @@ export const defaultState: State = {
     fetching: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: TemplateListAction
-): State => {
+export const reducer = (state: State = defaultState, action: TemplateListAction): State => {
     switch (action.type) {
         case "COMMISSIONS_STATEMENT_TEMPLATES_LIST_RECEIVE": {
             return {

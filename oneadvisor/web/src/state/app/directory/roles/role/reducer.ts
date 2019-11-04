@@ -1,7 +1,7 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { Role } from '../types';
-import { RoleAction } from './actions';
+import { Role } from "../types";
+import { RoleAction } from "./actions";
 
 export type State = {
     readonly role: Role | null;
@@ -17,10 +17,7 @@ export const defaultState: State = {
     validationResults: [],
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: RoleAction
-): State => {
+export const reducer = (state: State = defaultState, action: RoleAction): State => {
     switch (action.type) {
         case "ROLES_ROLE_RECEIVE": {
             return {

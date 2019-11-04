@@ -1,11 +1,10 @@
-import { createSelector } from 'reselect';
+import { createSelector } from "reselect";
 
-import { RootState } from '@/state/rootReducer';
+import { RootState } from "@/state/rootReducer";
 
-import { State } from './reducer';
+import { State } from "./reducer";
 
-const rootSelector = (state: RootState): State =>
-    state.app.commission.commissions.commission;
+const rootSelector = (state: RootState): State => state.app.commission.commissions.commission;
 
 export const commissionSelector: (state: RootState) => State = createSelector(
     rootSelector,

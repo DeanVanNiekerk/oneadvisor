@@ -1,7 +1,7 @@
-import { commissionsApi } from '@/config/api/commission';
+import { commissionsApi } from "@/config/api/commission";
 
-import { CommissionEdit } from '../';
-import * as actions from './actions';
+import { CommissionEdit } from "../";
+import * as actions from "./actions";
 
 describe("commission actions", () => {
     it("should dispatch API when fetchCommission is called", () => {
@@ -38,8 +38,6 @@ describe("commission actions", () => {
             dispatchPrefix: "COMMISSIONS_COMMISSION_EDIT",
         };
 
-        expect(actions.updateCommission(commission, onSuccess)).toEqual(
-            expectedAction
-        );
+        expect(actions.updateCommission(commission, onSuccess)).toEqual(expectedAction);
     });
 });

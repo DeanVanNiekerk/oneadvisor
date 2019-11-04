@@ -1,21 +1,21 @@
-import { clientPreviewSelector } from './selectors';
+import { clientPreviewSelector } from "./selectors";
 
-describe('client selectors', () => {
-    it('clientSelector', () => {
+describe("client selectors", () => {
+    it("clientSelector", () => {
         const state = {
             app: {
                 client: {
                     clients: {
                         preview: {
-                            property: '1'
-                        }
-                    }
-                }
-            }
+                            property: "1",
+                        },
+                    },
+                },
+            },
         };
 
         const expected = {
-            property: '1'
+            property: "1",
         };
 
         //@ts-ignore

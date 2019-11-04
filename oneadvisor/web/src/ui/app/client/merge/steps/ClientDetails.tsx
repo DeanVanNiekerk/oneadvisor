@@ -4,8 +4,16 @@ import { connect, DispatchProp } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
 import {
-    Client, ClientEdit, clientMergeNextStep, clientMergePreviousStep, clientMergeSelector, clientSelector, MergeClients,
-    mergeClients, receiveClient, receiveSelectedClients
+    Client,
+    ClientEdit,
+    clientMergeNextStep,
+    clientMergePreviousStep,
+    clientMergeSelector,
+    clientSelector,
+    MergeClients,
+    mergeClients,
+    receiveClient,
+    receiveSelectedClients,
 } from "@/state/app/client/clients";
 import { RootState } from "@/state/rootReducer";
 
@@ -19,7 +27,6 @@ type Props = {
 } & DispatchProp;
 
 class ClientDetails extends Component<Props> {
-
     componentDidMount() {
         const client = this.mergeClients(this.props.clients);
         this.props.dispatch(receiveClient(client));
@@ -47,7 +54,6 @@ class ClientDetails extends Component<Props> {
     };
 
     save = () => {
-
         if (!this.props.client) return;
 
         var merge: MergeClients = {
@@ -86,9 +92,7 @@ class ClientDetails extends Component<Props> {
                     className="mb-1"
                 />
 
-                {this.props.client && (
-                    <ClientForm />
-                )}
+                {this.props.client && <ClientForm />}
             </>
         );
     }

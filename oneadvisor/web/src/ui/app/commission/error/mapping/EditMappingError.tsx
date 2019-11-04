@@ -5,8 +5,13 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    confirmCancelMappingError, fetchNextMappingError, mappingErrorCanSaveSelector, mappingErrorIsLoadingSelector,
-    mappingErrorSelector, mappingErrorVisible, saveMappingError
+    confirmCancelMappingError,
+    fetchNextMappingError,
+    mappingErrorCanSaveSelector,
+    mappingErrorIsLoadingSelector,
+    mappingErrorSelector,
+    mappingErrorVisible,
+    saveMappingError,
 } from "@/state/app/commission/errors";
 import { Statement } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
@@ -22,12 +27,10 @@ type Props = {
     PropsFromDispatch;
 
 const EditMappingError: React.FC<Props> = (props: Props) => {
-
     const close = () => props.setVisible(false);
     const cancel = () => props.confirmCancel(close);
 
     const save = (resolveNext: boolean) => {
-
         props.saveMappingError(
             props.statement.id,
             // OnSaved
@@ -62,10 +65,7 @@ const EditMappingError: React.FC<Props> = (props: Props) => {
                     <MappingErrorForm statement={props.statement} />
                 </ContentLoader>
                 <DrawerFooter>
-                    <Button
-                        onClick={cancel}
-                        disabled={props.loading}
-                    >
+                    <Button onClick={cancel} disabled={props.loading}>
                         Cancel
                     </Button>
                     <Button
@@ -93,7 +93,7 @@ const EditMappingError: React.FC<Props> = (props: Props) => {
             </Drawer>
         </>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {

@@ -1,5 +1,5 @@
-import { Client } from '../types';
-import { ClientSearchAction } from './actions';
+import { Client } from "../types";
+import { ClientSearchAction } from "./actions";
 
 export type State = {
     readonly items: Client[];
@@ -11,10 +11,7 @@ export const defaultState: State = {
     fetching: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: ClientSearchAction
-): State => {
+export const reducer = (state: State = defaultState, action: ClientSearchAction): State => {
     switch (action.type) {
         case "CLIENTS_SEARCH_RECEIVE": {
             return {

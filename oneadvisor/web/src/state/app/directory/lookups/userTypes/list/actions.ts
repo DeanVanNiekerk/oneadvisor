@@ -1,16 +1,13 @@
 import { UserType } from "../types";
 
 type UserTypeListReceiveAction = {
-    type: 'USERTYPES_LIST_RECEIVE';
+    type: "USERTYPES_LIST_RECEIVE";
     payload: UserType[];
 };
 
-export type UserTypeListAction =
-    | UserTypeListReceiveAction;
+export type UserTypeListAction = UserTypeListReceiveAction;
 
 export const receiveUserTypes = (payload: UserType[]): UserTypeListAction => ({
-    type: 'USERTYPES_LIST_RECEIVE',
-    payload
+    type: "USERTYPES_LIST_RECEIVE",
+    payload,
 });
-
-

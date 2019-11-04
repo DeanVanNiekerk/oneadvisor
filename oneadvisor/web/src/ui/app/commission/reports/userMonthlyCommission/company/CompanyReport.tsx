@@ -1,20 +1,16 @@
-import { Icon } from 'antd';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { Icon } from "antd";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { UserCompanyMonthlyCommissionData, userCompanyMonthlyCommissionSelector } from '@/state/app/commission/reports';
-import {
-    userCompanyMonthlyCommissionTotalSelector
-} from '@/state/app/commission/reports/userCompanyMonthlyCommission/selectors';
-import { RootState } from '@/state/rootReducer';
-import { TabPane, Tabs } from '@/ui/controls';
+import { UserCompanyMonthlyCommissionData, userCompanyMonthlyCommissionSelector } from "@/state/app/commission/reports";
+import { userCompanyMonthlyCommissionTotalSelector } from "@/state/app/commission/reports/userCompanyMonthlyCommission/selectors";
+import { RootState } from "@/state/rootReducer";
+import { TabPane, Tabs } from "@/ui/controls";
 
-import CompanyChart from './CompanyChart';
-import CompanyTable from './CompanyTable';
+import CompanyChart from "./CompanyChart";
+import CompanyTable from "./CompanyTable";
 
-type TabKey =
-    | "table"
-    | "chart";
+type TabKey = "table" | "chart";
 
 type Props = {
     companyRecords: UserCompanyMonthlyCommissionData[];
@@ -27,7 +23,6 @@ type State = {
 };
 
 class CompanyReport extends Component<Props, State> {
-
     constructor(props: Props) {
         super(props);
 
@@ -50,10 +45,18 @@ class CompanyReport extends Component<Props, State> {
                 //clearTabsTopPadding={true}
             >
                 <TabPane tab={<Icon type="table" className="mr-0" />} key="table">
-                    <CompanyTable companyRecords={this.props.companyRecords} fetching={this.props.fetching} companyTotal={this.props.companyTotal} />
+                    <CompanyTable
+                        companyRecords={this.props.companyRecords}
+                        fetching={this.props.fetching}
+                        companyTotal={this.props.companyTotal}
+                    />
                 </TabPane>
                 <TabPane tab={<Icon type="pie-chart" className="mr-0" />} key="chart" className="pt-0">
-                    <CompanyChart companyRecords={this.props.companyRecords} fetching={this.props.fetching} companyTotal={this.props.companyTotal} />
+                    <CompanyChart
+                        companyRecords={this.props.companyRecords}
+                        fetching={this.props.fetching}
+                        companyTotal={this.props.companyTotal}
+                    />
                 </TabPane>
             </Tabs>
         );

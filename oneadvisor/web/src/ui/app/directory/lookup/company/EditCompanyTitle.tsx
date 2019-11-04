@@ -7,8 +7,8 @@ import { RootState } from "@/state/rootReducer";
 type Props = PropsFromState;
 
 const EditCompanyTitle: React.FC<Props> = ({ company }) => {
-    return <>{(company && company.id) ? `Company: ${company.name}` : "New Company"}</>;
-}
+    return <>{company && company.id ? `Company: ${company.name}` : "New Company"}</>;
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 

@@ -1,9 +1,9 @@
-import { Icon, Tooltip } from 'antd';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { Icon, Tooltip } from "antd";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { ClientType, ClientTypeId, clientTypesSelector } from '@/state/app/client/lookups';
-import { RootState } from '@/state/rootReducer';
+import { ClientType, ClientTypeId, clientTypesSelector } from "@/state/app/client/lookups";
+import { RootState } from "@/state/rootReducer";
 
 type Props = {
     clientTypes: ClientType[];
@@ -13,9 +13,7 @@ type Props = {
 
 class ClientTypeIconComponent extends Component<Props> {
     getIcon = (clientTypeId: string, icon: string, colour: string) => {
-        const clientType = this.props.clientTypes.find(
-            u => u.id === clientTypeId
-        );
+        const clientType = this.props.clientTypes.find(u => u.id === clientTypeId);
 
         if (!clientType) return <span />;
 

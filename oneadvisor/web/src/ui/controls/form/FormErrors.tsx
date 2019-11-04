@@ -12,22 +12,15 @@ type Props = {
 const FormErrors: React.FC<Props> = (props: Props) => {
     const { propertyName = "", validationResults } = props;
 
-    const results = validationResults
-        .filter(r => r.propertyName === propertyName)
-        .map(r => r.errorMessage);
+    const results = validationResults.filter(r => r.propertyName === propertyName).map(r => r.errorMessage);
 
     const message = results.join(",");
 
     return message ? (
-        <Alert
-            message={props.message || message}
-            type="error"
-            showIcon
-            className="mb-1"
-        />
+        <Alert message={props.message || message} type="error" showIcon className="mb-1" />
     ) : (
-            <React.Fragment />
-        );
+        <React.Fragment />
+    );
 };
 
 export { FormErrors };

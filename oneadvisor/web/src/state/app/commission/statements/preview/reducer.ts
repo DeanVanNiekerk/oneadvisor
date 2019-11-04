@@ -1,5 +1,5 @@
-import { Statement } from '../types';
-import { StatementPreviewAction } from './actions';
+import { Statement } from "../types";
+import { StatementPreviewAction } from "./actions";
 
 export type State = {
     readonly statement: Statement | null;
@@ -11,10 +11,7 @@ export const defaultState: State = {
     fetching: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: StatementPreviewAction
-): State => {
+export const reducer = (state: State = defaultState, action: StatementPreviewAction): State => {
     switch (action.type) {
         case "STATEMENTS_STATEMENT_PREVIEW_RECEIVE": {
             return {

@@ -1,9 +1,9 @@
-import { appendFiltersQuery } from '@/app/query';
-import { Filters, PagedItems } from '@/app/table';
-import { ApiAction } from '@/app/types';
-import { statementTemplatesApi } from '@/config/api/commission';
+import { appendFiltersQuery } from "@/app/query";
+import { Filters, PagedItems } from "@/app/table";
+import { ApiAction } from "@/app/types";
+import { statementTemplatesApi } from "@/config/api/commission";
 
-import { CommissionStatementTemplate } from '../types';
+import { CommissionStatementTemplate } from "../types";
 
 type TemplateListReceiveAction = {
     type: "COMMISSIONS_STATEMENT_TEMPLATES_LIST_RECEIVE";
@@ -21,9 +21,7 @@ export type TemplateListAction =
     | TemplateListFetchingAction
     | TemplateListFetchingErrorAction;
 
-export const fetchCommissionStatementTemplates = (
-    filters: Filters
-): ApiAction => {
+export const fetchCommissionStatementTemplates = (filters: Filters): ApiAction => {
     let api = statementTemplatesApi;
     api = appendFiltersQuery(api, filters);
     return {

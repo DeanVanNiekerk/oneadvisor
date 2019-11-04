@@ -10,9 +10,19 @@ import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/ta
 import { areEqual, formatCurrency, getMonthOptions, getYearOptions } from "@/app/utils";
 import { CommissionErrorsFilters, downloadCommissionErrors, getCommissionErrors } from "@/state/app/commission/errors";
 import {
-    clearStatementPreview, fetchStatements, newStatement, receiveFilterMonth, receiveFilters, receiveFilterYear,
-    receivePageOptions, receiveSortOptions, Statement, statementsSelector, statementVisible, updateMonthFilterNext,
-    updateMonthFilterPrevious
+    clearStatementPreview,
+    fetchStatements,
+    newStatement,
+    receiveFilterMonth,
+    receiveFilters,
+    receiveFilterYear,
+    receivePageOptions,
+    receiveSortOptions,
+    Statement,
+    statementsSelector,
+    statementVisible,
+    updateMonthFilterNext,
+    updateMonthFilterPrevious,
 } from "@/state/app/commission/statements";
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
@@ -25,22 +35,12 @@ const Table = getTable<Statement>();
 
 const Option = Select.Option;
 
-type Props =
-    PropsFromState &
-    PropsFromDispatch &
-    RouteComponentProps;
+type Props = PropsFromState & PropsFromDispatch & RouteComponentProps;
 
-const StatementList: React.FC<Props> = (props) => {
-
+const StatementList: React.FC<Props> = props => {
     useEffect(() => {
         props.fetchStatements();
-    }, [
-        props.pageOptions,
-        props.sortOptions,
-        props.filters,
-        props.filterMonth,
-        props.filterYear
-    ]);
+    }, [props.pageOptions, props.sortOptions, props.filters, props.filterMonth, props.filterYear]);
 
     const editStatement = (id: string) => {
         props.clearStatementPreview();
@@ -187,12 +187,7 @@ const StatementList: React.FC<Props> = (props) => {
                     />
                 </Col>
                 <Col>
-                    <Select
-                        size="large"
-                        value={props.filterMonth}
-                        onChange={handleMonthChange}
-                        style={{ width: 200 }}
-                    >
+                    <Select size="large" value={props.filterMonth} onChange={handleMonthChange} style={{ width: 200 }}>
                         {getMonthOptions().map(month => {
                             return (
                                 <Option key={month.number.toString()} value={month.number}>
@@ -203,12 +198,7 @@ const StatementList: React.FC<Props> = (props) => {
                     </Select>
                 </Col>
                 <Col>
-                    <Select
-                        size="large"
-                        value={props.filterYear}
-                        onChange={handleYearChange}
-                        style={{ width: 200 }}
-                    >
+                    <Select size="large" value={props.filterYear} onChange={handleYearChange} style={{ width: 200 }}>
                         {getYearOptions().map(year => {
                             return (
                                 <Option key={year.toString()} value={year}>
@@ -219,7 +209,13 @@ const StatementList: React.FC<Props> = (props) => {
                     </Select>
                 </Col>
                 <Col>
-                    <Button shape="circle" icon="right" size="large" onClick={props.updateMonthFilterNext} noLeftMargin={true} />
+                    <Button
+                        shape="circle"
+                        icon="right"
+                        size="large"
+                        onClick={props.updateMonthFilterNext}
+                        noLeftMargin={true}
+                    />
                 </Col>
             </Row>
             <Table
@@ -237,9 +233,9 @@ const StatementList: React.FC<Props> = (props) => {
             <EditStatement onSaved={props.fetchStatements} />
         </>
     );
-}
+};
 
-type PropsFromState = ReturnType<typeof mapStateToProps>
+type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const statementsState = statementsSelector(state);
     const companiesState = organisationCompaniesSelector(state);
@@ -262,7 +258,10 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
-        ...bindActionCreators({ fetchStatements, clearStatementPreview, updateMonthFilterNext, updateMonthFilterPrevious }, dispatch),
+        ...bindActionCreators(
+            { fetchStatements, clearStatementPreview, updateMonthFilterNext, updateMonthFilterPrevious },
+            dispatch
+        ),
         newStatement: () => {
             dispatch(newStatement());
             dispatch(statementVisible(true));
@@ -285,13 +284,9 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
         downloadMappingErrors: (filters: CommissionErrorsFilters, date: string) => {
             dispatch(
                 getCommissionErrors(filters, errors => {
-                    downloadCommissionErrors(
-                        errors,
-                        "",
-                        moment(date).format("MMM-YYYY")
-                    );
+                    downloadCommissionErrors(errors, "", moment(date).format("MMM-YYYY"));
                 })
-            )
+            );
         },
         /*
         reimportCommissions = () => {
@@ -321,7 +316,12 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
             });
         };
         */
-    }
-}
+    };
+};
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(StatementList));
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(StatementList)
+);

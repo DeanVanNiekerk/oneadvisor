@@ -7,14 +7,28 @@ import { ThunkDispatch } from "redux-thunk";
 import { filterOption } from "@/app/controls/select";
 import { fetchClients } from "@/state/app/client/clients";
 import {
-    modifyPolicy, PolicyEdit, policyProductCascaseSelector, policyProductCascaseValuesSelector, policySelector
+    modifyPolicy,
+    PolicyEdit,
+    policyProductCascaseSelector,
+    policyProductCascaseValuesSelector,
+    policySelector,
 } from "@/state/app/client/policies";
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import {
-    Button, ClientName, Drawer, DrawerFooter, Form, FormCascade, FormDate, FormInput, FormInputNumber, FormSelect,
-    FormSwitch, FormText
+    Button,
+    ClientName,
+    Drawer,
+    DrawerFooter,
+    Form,
+    FormCascade,
+    FormDate,
+    FormInput,
+    FormInputNumber,
+    FormSelect,
+    FormSwitch,
+    FormText,
 } from "@/ui/controls";
 
 import ClientSearch from "../../client/list/ClientSearch";
@@ -22,7 +36,6 @@ import ClientSearch from "../../client/list/ClientSearch";
 type Props = PropsFromState & PropsFromDispatch;
 
 const PolicyForm: React.FC<Props> = (props: Props) => {
-
     const { policy, handleChange, validationResults } = props;
 
     if (!policy) return <React.Fragment />;
@@ -50,7 +63,7 @@ const PolicyForm: React.FC<Props> = (props: Props) => {
                                 type={policy.clientId ? "dashed" : "primary"}
                                 onClick={() => setClientSearchVisible(true)}
                             >
-                                {policy.clientId ? 'Change Client' : 'Select Client'}
+                                {policy.clientId ? "Change Client" : "Select Client"}
                             </Button>
                         </>
                     }
@@ -117,11 +130,7 @@ const PolicyForm: React.FC<Props> = (props: Props) => {
                 />
             </Form>
 
-            <Drawer
-                title="Client Search"
-                visible={clientSearchVisible}
-                onClose={() => setClientSearchVisible(false)}
-            >
+            <Drawer title="Client Search" visible={clientSearchVisible} onClose={() => setClientSearchVisible(false)}>
                 <ClientSearch
                     defaultSearchText={""}
                     onSelect={(clientId: string) => {
@@ -135,7 +144,7 @@ const PolicyForm: React.FC<Props> = (props: Props) => {
             </Drawer>
         </>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
@@ -183,4 +192,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PolicyForm);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(PolicyForm);

@@ -1,4 +1,4 @@
-import { defaultState, reducer } from './reducer';
+import { defaultState, reducer } from "./reducer";
 
 describe("report user monthly commission reducer", () => {
     it("should handle COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_YEAR_RECEIVE", () => {

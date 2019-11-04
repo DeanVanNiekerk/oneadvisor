@@ -1,23 +1,23 @@
 import { companiesSelector } from "./selectors";
 
-describe('company list selectors', () => {
-    it('companiesSelector', () => {
+describe("company list selectors", () => {
+    it("companiesSelector", () => {
         const state = {
             app: {
                 directory: {
                     lookups: {
                         companies: {
                             list: {
-                                property: '1'
-                            }
-                        }
-                    }
-                }
-            }
+                                property: "1",
+                            },
+                        },
+                    },
+                },
+            },
         };
 
         const expected = {
-            property: '1'
+            property: "1",
         };
 
         //@ts-ignore

@@ -1,4 +1,4 @@
-import { defaultState, reducer } from './reducer';
+import { defaultState, reducer } from "./reducer";
 
 describe("policyProduct list reducer", () => {
     it("should handle POLICYPRODUCTS_LIST_FETCHING", () => {

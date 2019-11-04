@@ -1,6 +1,6 @@
-import { CascaderOptionType } from 'antd/lib/cascader';
+import { CascaderOptionType } from "antd/lib/cascader";
 
-import { PolicyProduct, PolicyProductType, PolicyType } from '../..';
+import { PolicyProduct, PolicyProductType, PolicyType } from "../..";
 
 export const policyProductCascade = (
     policyTypes: PolicyType[],
@@ -13,24 +13,15 @@ export const policyProductCascade = (
             value: policyType.id,
             label: policyType.name,
             children: policyProductTypes
-                .filter(
-                    productType => productType.policyTypeId === policyType.id
-                )
+                .filter(productType => productType.policyTypeId === policyType.id)
                 .map(productType => {
                     const item = {
                         value: productType.id,
                         label: productType.name,
                         children: policyProducts
                             .filter(product => {
-                                if (
-                                    product.policyProductTypeId ===
-                                    productType.id
-                                ) {
-                                    if (
-                                        companyId === "" ||
-                                        companyId !== product.companyId
-                                    )
-                                        return false;
+                                if (product.policyProductTypeId === productType.id) {
+                                    if (companyId === "" || companyId !== product.companyId) return false;
 
                                     return true;
                                 }

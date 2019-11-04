@@ -26,10 +26,7 @@ export const defaultState: State = {
     filters: null,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: CommissionListAction
-): State => {
+export const reducer = (state: State = defaultState, action: CommissionListAction): State => {
     switch (action.type) {
         case "COMMISSIONS_LIST_RECEIVE": {
             return {

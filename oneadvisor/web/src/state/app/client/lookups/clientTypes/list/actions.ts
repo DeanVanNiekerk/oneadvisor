@@ -1,4 +1,4 @@
-import { ClientType } from '../types';
+import { ClientType } from "../types";
 
 type ClientTypeListReceiveAction = {
     type: "CLIENTTYPES_LIST_RECEIVE";
@@ -7,9 +7,7 @@ type ClientTypeListReceiveAction = {
 
 export type ClientTypeListAction = ClientTypeListReceiveAction;
 
-export const receiveClientTypes = (
-    payload: ClientType[]
-): ClientTypeListAction => ({
+export const receiveClientTypes = (payload: ClientType[]): ClientTypeListAction => ({
     type: "CLIENTTYPES_LIST_RECEIVE",
     payload,
 });

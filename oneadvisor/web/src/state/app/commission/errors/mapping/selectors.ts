@@ -5,8 +5,7 @@ import { RootState } from "@/state/rootReducer";
 
 import { State } from "./reducer";
 
-const rootSelector = (state: RootState): State =>
-    state.app.commission.errors.mapping;
+const rootSelector = (state: RootState): State => state.app.commission.errors.mapping;
 
 export const mappingErrorSelector: (state: RootState) => State = createSelector(
     rootSelector,
@@ -20,7 +19,7 @@ export const mappingErrorIsModifiedSelector: (state: RootState) => boolean = cre
 
 export const mappingErrorIsLoadingSelector: (state: RootState) => boolean = createSelector(
     rootSelector,
-    root => (root.updating || root.fetching)
+    root => root.updating || root.fetching
 );
 
 export const mappingErrorCanSaveSelector: (state: RootState) => boolean = createSelector(
@@ -28,9 +27,6 @@ export const mappingErrorCanSaveSelector: (state: RootState) => boolean = create
     mappingErrorIsLoadingSelector,
     (root, isLoading) => {
         if (root.commissionError === null || isLoading) return false;
-        return (
-            !!root.commissionError.policyId &&
-            !!root.commissionError.clientId
-        );
+        return !!root.commissionError.policyId && !!root.commissionError.clientId;
     }
 );

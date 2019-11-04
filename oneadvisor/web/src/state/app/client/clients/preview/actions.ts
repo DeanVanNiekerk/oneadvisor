@@ -4,12 +4,12 @@ import { clientsApi } from "@/config/api/client";
 import { ClientPreview } from "../types";
 
 type ClientPreviewReceiveAction = {
-    type: 'CLIENTS_CLIENT_PREVIEW_RECEIVE';
+    type: "CLIENTS_CLIENT_PREVIEW_RECEIVE";
     payload: ClientPreview | null;
 };
-type ClientPreviewFetchingAction = { type: 'CLIENTS_CLIENT_PREVIEW_FETCHING' };
+type ClientPreviewFetchingAction = { type: "CLIENTS_CLIENT_PREVIEW_FETCHING" };
 type ClientPreviewFetchingErrorAction = {
-    type: 'CLIENTS_CLIENT_PREVIEW_FETCHING_ERROR';
+    type: "CLIENTS_CLIENT_PREVIEW_FETCHING_ERROR";
 };
 
 export type ClientPreviewAction =
@@ -17,17 +17,15 @@ export type ClientPreviewAction =
     | ClientPreviewFetchingAction
     | ClientPreviewFetchingErrorAction;
 
-export const receiveClientPreview = (
-    client: ClientPreview | null
-): ClientPreviewReceiveAction => ({
-    type: 'CLIENTS_CLIENT_PREVIEW_RECEIVE',
-    payload: client
+export const receiveClientPreview = (client: ClientPreview | null): ClientPreviewReceiveAction => ({
+    type: "CLIENTS_CLIENT_PREVIEW_RECEIVE",
+    payload: client,
 });
 
 export const fetchClientPreview = (clientId: string): ApiAction => ({
-    type: 'API',
+    type: "API",
     endpoint: `${clientsApi}/${clientId}/preview`,
-    dispatchPrefix: 'CLIENTS_CLIENT_PREVIEW'
+    dispatchPrefix: "CLIENTS_CLIENT_PREVIEW",
 });
 
 export const clearClientPreview = (): ClientPreviewReceiveAction => receiveClientPreview(null);

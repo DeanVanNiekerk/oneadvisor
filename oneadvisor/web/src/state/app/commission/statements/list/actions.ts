@@ -12,31 +12,31 @@ import { statementsSelector } from "../";
 import { PagedStatements } from "../types";
 
 type StatementListReceiveAction = {
-    type: 'STATEMENTS_LIST_RECEIVE';
+    type: "STATEMENTS_LIST_RECEIVE";
     payload: PagedStatements;
 };
-type StatementListFetchingAction = { type: 'STATEMENTS_LIST_FETCHING' };
+type StatementListFetchingAction = { type: "STATEMENTS_LIST_FETCHING" };
 type StatementListFetchingErrorAction = {
-    type: 'STATEMENTS_LIST_FETCHING_ERROR';
+    type: "STATEMENTS_LIST_FETCHING_ERROR";
 };
 type StatementListPageOptionsReceiveAction = {
-    type: 'STATEMENTS_LIST_PAGE_OPTIONS_RECEIVE';
+    type: "STATEMENTS_LIST_PAGE_OPTIONS_RECEIVE";
     payload: PageOptions;
 };
 type StatementListSortOptionsReceiveAction = {
-    type: 'STATEMENTS_LIST_SORT_OPTIONS_RECEIVE';
+    type: "STATEMENTS_LIST_SORT_OPTIONS_RECEIVE";
     payload: SortOptions;
 };
 type StatementListFiltersReceiveAction = {
-    type: 'STATEMENTS_LIST_FILTERS_RECEIVE';
+    type: "STATEMENTS_LIST_FILTERS_RECEIVE";
     payload: Filters;
 };
 type StatementListFiltersMonthReceiveAction = {
-    type: 'STATEMENTS_LIST_FILTERS_MONTH_RECEIVE';
+    type: "STATEMENTS_LIST_FILTERS_MONTH_RECEIVE";
     payload: number;
 };
 type StatementListFiltersYearReceiveAction = {
-    type: 'STATEMENTS_LIST_FILTERS_YEAR_RECEIVE';
+    type: "STATEMENTS_LIST_FILTERS_YEAR_RECEIVE";
     payload: number;
 };
 
@@ -51,9 +51,7 @@ export type StatementListAction =
     | StatementListFiltersYearReceiveAction;
 
 export const fetchStatements = (): ThunkAction<void, RootState, {}, ApiAction> => {
-
     return (dispatch, getState) => {
-
         let { pageOptions, sortOptions, filters, filterMonth, filterYear } = statementsSelector(getState());
 
         const dateRange = getMonthDateRange(filterMonth, filterYear);
@@ -61,7 +59,7 @@ export const fetchStatements = (): ThunkAction<void, RootState, {}, ApiAction> =
             ...filters,
             startDate: [dateRange.start],
             endDate: [dateRange.end],
-        }
+        };
 
         sortOptions = mapSortOptions(sortOptions);
 
@@ -72,9 +70,9 @@ export const fetchStatements = (): ThunkAction<void, RootState, {}, ApiAction> =
         api = appendFiltersQuery(api, filters);
 
         dispatch({
-            type: 'API',
+            type: "API",
             endpoint: api,
-            dispatchPrefix: 'STATEMENTS_LIST'
+            dispatchPrefix: "STATEMENTS_LIST",
         });
     };
 };
@@ -90,9 +88,7 @@ const mapSortOptions = (sortOptions: SortOptions): SortOptions => {
 };
 
 export const updateMonthFilterNext = (): ThunkAction<void, RootState, {}, AnyAction> => {
-
     return (dispatch, getState) => {
-
         const statementsState = statementsSelector(getState());
 
         let month = statementsState.filterMonth + 1;
@@ -104,18 +100,18 @@ export const updateMonthFilterNext = (): ThunkAction<void, RootState, {}, AnyAct
 
         //Move to first page if not on first page
         if (statementsState.pageOptions.number !== 1) {
-            dispatch(receivePageOptions({
-                ...statementsState.pageOptions,
-                number: 1
-            }));
+            dispatch(
+                receivePageOptions({
+                    ...statementsState.pageOptions,
+                    number: 1,
+                })
+            );
         }
-    }
+    };
 };
 
 export const updateMonthFilterPrevious = (): ThunkAction<void, RootState, {}, AnyAction> => {
-
     return (dispatch, getState) => {
-
         const statementsState = statementsSelector(getState());
 
         let month = statementsState.filterMonth - 1;
@@ -127,45 +123,37 @@ export const updateMonthFilterPrevious = (): ThunkAction<void, RootState, {}, An
 
         //Move to first page if not on first page
         if (statementsState.pageOptions.number !== 1) {
-            dispatch(receivePageOptions({
-                ...statementsState.pageOptions,
-                number: 1
-            }));
+            dispatch(
+                receivePageOptions({
+                    ...statementsState.pageOptions,
+                    number: 1,
+                })
+            );
         }
-    }
+    };
 };
 
-export const receivePageOptions = (
-    pageOptions: PageOptions
-): StatementListPageOptionsReceiveAction => ({
-    type: 'STATEMENTS_LIST_PAGE_OPTIONS_RECEIVE',
-    payload: pageOptions
+export const receivePageOptions = (pageOptions: PageOptions): StatementListPageOptionsReceiveAction => ({
+    type: "STATEMENTS_LIST_PAGE_OPTIONS_RECEIVE",
+    payload: pageOptions,
 });
 
-export const receiveSortOptions = (
-    sortOptions: SortOptions
-): StatementListSortOptionsReceiveAction => ({
-    type: 'STATEMENTS_LIST_SORT_OPTIONS_RECEIVE',
-    payload: sortOptions
+export const receiveSortOptions = (sortOptions: SortOptions): StatementListSortOptionsReceiveAction => ({
+    type: "STATEMENTS_LIST_SORT_OPTIONS_RECEIVE",
+    payload: sortOptions,
 });
 
-export const receiveFilters = (
-    filters: Filters
-): StatementListFiltersReceiveAction => ({
-    type: 'STATEMENTS_LIST_FILTERS_RECEIVE',
-    payload: filters
+export const receiveFilters = (filters: Filters): StatementListFiltersReceiveAction => ({
+    type: "STATEMENTS_LIST_FILTERS_RECEIVE",
+    payload: filters,
 });
 
-export const receiveFilterMonth = (
-    month: number
-): StatementListFiltersMonthReceiveAction => ({
-    type: 'STATEMENTS_LIST_FILTERS_MONTH_RECEIVE',
-    payload: month
+export const receiveFilterMonth = (month: number): StatementListFiltersMonthReceiveAction => ({
+    type: "STATEMENTS_LIST_FILTERS_MONTH_RECEIVE",
+    payload: month,
 });
 
-export const receiveFilterYear = (
-    year: number
-): StatementListFiltersYearReceiveAction => ({
-    type: 'STATEMENTS_LIST_FILTERS_YEAR_RECEIVE',
-    payload: year
+export const receiveFilterYear = (year: number): StatementListFiltersYearReceiveAction => ({
+    type: "STATEMENTS_LIST_FILTERS_YEAR_RECEIVE",
+    payload: year,
 });

@@ -1,21 +1,21 @@
-import { clientSelector } from './selectors';
+import { clientSelector } from "./selectors";
 
-describe('client selectors', () => {
-    it('clientSelector', () => {
+describe("client selectors", () => {
+    it("clientSelector", () => {
         const state = {
             app: {
                 client: {
                     clients: {
                         client: {
-                            property: '1'
-                        }
-                    }
-                }
-            }
+                            property: "1",
+                        },
+                    },
+                },
+            },
         };
 
         const expected = {
-            property: '1'
+            property: "1",
         };
 
         //@ts-ignore

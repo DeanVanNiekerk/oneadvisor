@@ -3,7 +3,10 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import {
-    fetchStatement, statementPreviewIsLoadingSelector, statementPreviewSelector, statementVisible
+    fetchStatement,
+    statementPreviewIsLoadingSelector,
+    statementPreviewSelector,
+    statementVisible,
 } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { Currency, Icon, PreviewCard, PreviewCardRow } from "@/ui/controls";
@@ -14,12 +17,10 @@ import { Processed } from "../../list/Processed";
 type Props = {
     cardHeight: string;
     onSaved: () => void;
-}
-    & PropsFromState
-    & PropsFromDispatch;
+} & PropsFromState &
+    PropsFromDispatch;
 
 const DetailsCardComponent: React.FC<Props> = (props: Props) => {
-
     const editDetails = () => {
         if (!props.statement) return;
         props.fetchStatement(props.statement.id);
@@ -50,9 +51,8 @@ const DetailsCardComponent: React.FC<Props> = (props: Props) => {
 
             <EditStatement onSaved={props.onSaved} />
         </>
-
-    )
-}
+    );
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
@@ -70,9 +70,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             dispatch(fetchStatement(commissionStatementId));
             dispatch(statementVisible(true));
         },
-    }
-}
+    };
+};
 
-const DetailsCard = connect(mapStateToProps, mapDispatchToProps)(DetailsCardComponent);
+const DetailsCard = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(DetailsCardComponent);
 
 export { DetailsCard };

@@ -4,7 +4,6 @@ import { statementsApi } from "@/config/api/commission";
 import * as actions from "./actions";
 
 describe("error: errors: list actions", () => {
-
     it("should dispatch COMMISSIONS_ERRORS_LIST_PAGE_OPTIONS_RECEIVE when receivePageOptions is called", () => {
         const options = {
             number: 10,

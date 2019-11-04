@@ -1,8 +1,8 @@
-import { ApiAction, ApiOnSuccess } from '@/app/types';
-import { ValidationResult } from '@/app/validation';
-import { allocationsApi } from '@/config/api/commission';
+import { ApiAction, ApiOnSuccess } from "@/app/types";
+import { ValidationResult } from "@/app/validation";
+import { allocationsApi } from "@/config/api/commission";
 
-import { AllocationEdit } from '../types';
+import { AllocationEdit } from "../types";
 
 type AllocationReceiveAction = {
     type: "ALLOCATIONS_ALLOCATION_RECEIVE";
@@ -38,9 +38,7 @@ export type AllocationAction =
     | AllocationUpdatingErrorAction
     | AllocationValidationErrorAction;
 
-export const receiveAllocation = (
-    allocation: AllocationEdit | null
-): AllocationReceiveAction => ({
+export const receiveAllocation = (allocation: AllocationEdit | null): AllocationReceiveAction => ({
     type: "ALLOCATIONS_ALLOCATION_RECEIVE",
     payload: allocation,
 });
@@ -51,10 +49,7 @@ export const fetchAllocation = (allocationId: string): ApiAction => ({
     dispatchPrefix: "ALLOCATIONS_ALLOCATION",
 });
 
-export const updateAllocation = (
-    allocation: AllocationEdit,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
+export const updateAllocation = (allocation: AllocationEdit, onSuccess: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${allocationsApi}/${allocation.id}`,
     method: "POST",
@@ -63,10 +58,7 @@ export const updateAllocation = (
     dispatchPrefix: "ALLOCATIONS_ALLOCATION_EDIT",
 });
 
-export const insertAllocation = (
-    allocation: AllocationEdit,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
+export const insertAllocation = (allocation: AllocationEdit, onSuccess: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${allocationsApi}`,
     method: "POST",
@@ -75,10 +67,7 @@ export const insertAllocation = (
     dispatchPrefix: "ALLOCATIONS_ALLOCATION_EDIT",
 });
 
-export const deleteAllocation = (
-    allocationId: string,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
+export const deleteAllocation = (allocationId: string, onSuccess: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${allocationsApi}/${allocationId}`,
     method: "DELETE",

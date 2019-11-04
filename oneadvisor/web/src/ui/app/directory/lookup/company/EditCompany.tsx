@@ -4,7 +4,10 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    companySelector, companyVisible, confirmCancelCompany, saveCompany
+    companySelector,
+    companyVisible,
+    confirmCancelCompany,
+    saveCompany,
 } from "@/state/app/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
@@ -15,12 +18,10 @@ import CompanyForm from "./form/CompanyForm";
 
 type Props = {
     onSaved?: () => void;
-}
-    & PropsFromState
-    & PropsFromDispatch;
+} & PropsFromState &
+    PropsFromDispatch;
 
 const EditCompany: React.FC<Props> = (props: Props) => {
-
     const close = () => props.setVisible(false);
 
     return (
@@ -41,7 +42,7 @@ const EditCompany: React.FC<Props> = (props: Props) => {
             <CompanyForm />
         </EditDrawer>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
@@ -64,7 +65,10 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
         setVisible: (visible: boolean) => {
             dispatch(companyVisible(visible));
         },
-    }
-}
+    };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditCompany);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(EditCompany);

@@ -1,4 +1,4 @@
-import { defaultState, reducer } from './reducer';
+import { defaultState, reducer } from "./reducer";
 
 describe("commission lookups reducer", () => {
     it("should handle COMMISSION_LOOKUPS_FETCHING", () => {

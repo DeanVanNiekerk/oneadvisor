@@ -1,6 +1,6 @@
-import { ApiAction } from '@/app/types';
-import { statementsApi } from '@/config/api/commission';
-import { FileInfo } from '@/state/types';
+import { ApiAction } from "@/app/types";
+import { statementsApi } from "@/config/api/commission";
+import { FileInfo } from "@/state/types";
 
 type StatementFilesListReceiveAction = {
     type: "STATEMENTS_FILES_LIST_RECEIVE";
@@ -18,9 +18,7 @@ export type StatementFilesListAction =
     | StatementFilesListFetchingAction
     | StatementFilesListFetchingErrorAction;
 
-export const fetchStatementFiles = (
-    commissionStatementId: string
-): ApiAction => {
+export const fetchStatementFiles = (commissionStatementId: string): ApiAction => {
     return {
         type: "API",
         endpoint: `${statementsApi}/${commissionStatementId}/files`,

@@ -9,12 +9,9 @@ import { PreviewCardContainer } from "@/ui/controls";
 import { ContactsCard, DetailsCard, PoliciesCard } from "./cards";
 import ClientPreviewHeader from "./ClientPreviewHeader";
 
-type Props =
-    & PropsFromDispatch
-    & RouteComponentProps<{ clientId: string }>;
+type Props = PropsFromDispatch & RouteComponentProps<{ clientId: string }>;
 
 const ClientPreview: React.FC<Props> = (props: Props) => {
-
     const cardHeight = "100px";
 
     useEffect(() => {
@@ -23,7 +20,7 @@ const ClientPreview: React.FC<Props> = (props: Props) => {
 
     const load = () => {
         props.fetchClientPreview(props.match.params.clientId);
-    }
+    };
 
     return (
         <>
@@ -36,7 +33,7 @@ const ClientPreview: React.FC<Props> = (props: Props) => {
             </PreviewCardContainer>
         </>
     );
-}
+};
 
 const mapStateToProps = () => ({});
 
@@ -46,7 +43,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         fetchClientPreview: (clientId: string) => {
             dispatch(fetchClientPreview(clientId));
         },
-    }
-}
+    };
+};
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ClientPreview));
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(ClientPreview)
+);

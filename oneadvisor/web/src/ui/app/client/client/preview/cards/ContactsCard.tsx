@@ -10,11 +10,9 @@ import ContactList from "../../../contact/ContactList";
 type Props = {
     cardHeight: string;
     onSaved: () => void;
-}
-    & PropsFromState;
+} & PropsFromState;
 
 const ContactsCardComponent: React.FC<Props> = (props: Props) => {
-
     const [contactListVisible, setContactListVisible] = useState<boolean>(false);
 
     return (
@@ -43,17 +41,14 @@ const ContactsCardComponent: React.FC<Props> = (props: Props) => {
                 visible={contactListVisible}
                 onClose={() => setContactListVisible(false)}
             >
-                {props.client && (
-                    <ContactList clientId={props.client.id} onSave={props.onSaved} />
-                )}
+                {props.client && <ContactList clientId={props.client.id} onSave={props.onSaved} />}
                 <DrawerFooter>
                     <Button onClick={() => setContactListVisible(false)}>Close</Button>
                 </DrawerFooter>
             </Drawer>
         </>
-
-    )
-}
+    );
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {

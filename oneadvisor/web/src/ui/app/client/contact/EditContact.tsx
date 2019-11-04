@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { ValidationResult } from '@/app/validation';
-import { Contact, contactSelector, insertContact, receiveContact, updateContact } from '@/state/app/client/contacts';
-import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Form, FormField } from '@/ui/controls';
+import { ValidationResult } from "@/app/validation";
+import { Contact, contactSelector, insertContact, receiveContact, updateContact } from "@/state/app/client/contacts";
+import { RootState } from "@/state/rootReducer";
+import { Button, ContentLoader, Form, FormField } from "@/ui/controls";
 
-import ContactForm from './ContactForm';
+import ContactForm from "./ContactForm";
 
 type Props = {
     contact: Contact | null;
@@ -33,10 +33,10 @@ class EditContact extends Component<Props> {
     newContact = () => {
         this.props.dispatch(
             receiveContact({
-                id: '',
+                id: "",
                 clientId: this.props.clientId,
-                contactTypeId: '',
-                value: ''
+                contactTypeId: "",
+                value: "",
             })
         );
     };
@@ -85,7 +85,7 @@ const mapStateToProps = (state: RootState) => {
         contact: contactState.contact,
         fetching: contactState.fetching,
         updating: contactState.updating,
-        validationResults: contactState.validationResults
+        validationResults: contactState.validationResults,
     };
 };
 

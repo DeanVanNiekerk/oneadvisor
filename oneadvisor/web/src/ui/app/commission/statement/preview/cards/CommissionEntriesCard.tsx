@@ -5,7 +5,9 @@ import { Dispatch } from "redux";
 
 import { hasUseCase } from "@/app/identity";
 import {
-    deleteCommissions, statementPreviewIsLoadingSelector, statementPreviewSelector
+    deleteCommissions,
+    statementPreviewIsLoadingSelector,
+    statementPreviewSelector,
 } from "@/state/app/commission/statements";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
@@ -19,12 +21,10 @@ const confirm = Modal.confirm;
 type Props = {
     cardHeight: string;
     onCommissionsChanged: () => void;
-}
-    & PropsFromState
-    & PropsFromDispatch;
+} & PropsFromState &
+    PropsFromDispatch;
 
 const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
-
     const [commissionListVisible, setCommissionListVisible] = useState<boolean>(false);
     const [deletingCommissionEntries, setDeletingCommissionEntries] = useState<boolean>(false);
 
@@ -51,7 +51,7 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
                         showMessage("error", "Error deleting commission entries", 5, true);
                     }
                 );
-            }
+            },
         });
     };
 
@@ -117,9 +117,8 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
                 </DrawerFooter>
             </Drawer>
         </>
-
-    )
-}
+    );
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
@@ -134,16 +133,15 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        deleteCommissions: (
-            commissionStatementId: string,
-            onSuccess: () => void,
-            onFailure: () => void
-        ) => {
+        deleteCommissions: (commissionStatementId: string, onSuccess: () => void, onFailure: () => void) => {
             dispatch(deleteCommissions(commissionStatementId, onSuccess, onFailure));
         },
-    }
-}
+    };
+};
 
-const CommissionEntriesCard = connect(mapStateToProps, mapDispatchToProps)(CommissionEntriesCardComponent);
+const CommissionEntriesCard = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CommissionEntriesCardComponent);
 
 export { CommissionEntriesCard };

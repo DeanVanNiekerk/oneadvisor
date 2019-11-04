@@ -14,19 +14,19 @@ type Props = {
 } & PropsFromState;
 
 const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
-
     const [uploadStatementVisible, setUploadStatementVisible] = useState<boolean>(false);
     const [reimportStatementVisible, setReimportStatementVisible] = useState<boolean>(false);
 
     const getStatementFilesActions = () => {
         const actions = [
-            <Icon tooltip="Upload Commission Statement" type="upload" onClick={() => setUploadStatementVisible(true)} />,
+            <Icon
+                tooltip="Upload Commission Statement"
+                type="upload"
+                onClick={() => setUploadStatementVisible(true)}
+            />,
         ];
 
-        if (
-            props.statement &&
-            (props.statement.commissionCount > 0 || props.statement.mappingErrorCount > 0)
-        )
+        if (props.statement && (props.statement.commissionCount > 0 || props.statement.mappingErrorCount > 0))
             actions.unshift(
                 <Icon
                     tooltip="Reimport Commission Statement File"
@@ -107,9 +107,8 @@ const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
                 </DrawerFooter>
             </Drawer>
         </>
-
-    )
-}
+    );
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {

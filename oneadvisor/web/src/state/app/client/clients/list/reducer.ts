@@ -1,8 +1,8 @@
-import { Filters, PageOptions, SortOptions } from '@/app/table';
-import { defaultPageOptions, defaultSortOptions } from '@/app/table/defaults';
+import { Filters, PageOptions, SortOptions } from "@/app/table";
+import { defaultPageOptions, defaultSortOptions } from "@/app/table/defaults";
 
-import { Client } from '../types';
-import { ClientListAction } from './actions';
+import { Client } from "../types";
+import { ClientListAction } from "./actions";
 
 export type State = {
     readonly items: Client[];
@@ -24,10 +24,7 @@ export const defaultState: State = {
     selectedClientIds: [],
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: ClientListAction
-): State => {
+export const reducer = (state: State = defaultState, action: ClientListAction): State => {
     switch (action.type) {
         case "CLIENTS_LIST_RECEIVE": {
             return {

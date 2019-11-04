@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
-import { reducer as listReducer, State as ListState } from './list/reducer';
+import { reducer as listReducer, State as ListState } from "./list/reducer";
 
 export type State = {
     list: ListState;

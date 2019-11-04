@@ -1,16 +1,20 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { areEqual } from '@/app/utils';
-import { ValidationResult } from '@/app/validation';
+import { areEqual } from "@/app/utils";
+import { ValidationResult } from "@/app/validation";
 import {
-    CommissionEdit, commissionSelector, insertCommission, receiveCommission, updateCommission
-} from '@/state/app/commission/commissions';
-import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
-import { showConfirm } from '@/ui/feedback/modal/confirm';
+    CommissionEdit,
+    commissionSelector,
+    insertCommission,
+    receiveCommission,
+    updateCommission,
+} from "@/state/app/commission/commissions";
+import { RootState } from "@/state/rootReducer";
+import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import CommissionForm from './CommissionForm';
+import CommissionForm from "./CommissionForm";
 
 type Props = {
     onClose: (cancelled: boolean) => void;
@@ -46,8 +50,7 @@ class EditCommission extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (!areEqual(this.props.commission, this.state.commissionEdited))
-            return showConfirm({ onOk: this.cancel });
+        if (!areEqual(this.props.commission, this.state.commissionEdited)) return showConfirm({ onOk: this.cancel });
 
         this.cancel();
     };
@@ -63,17 +66,9 @@ class EditCommission extends Component<Props, State> {
         }
 
         if (this.state.commissionEdited.id) {
-            this.props.dispatch(
-                updateCommission(this.state.commissionEdited, () =>
-                    this.close()
-                )
-            );
+            this.props.dispatch(updateCommission(this.state.commissionEdited, () => this.close()));
         } else {
-            this.props.dispatch(
-                insertCommission(this.state.commissionEdited, () =>
-                    this.close()
-                )
-            );
+            this.props.dispatch(insertCommission(this.state.commissionEdited, () => this.close()));
         }
     };
 
@@ -118,10 +113,7 @@ class EditCommission extends Component<Props, State> {
                     )}
                 </ContentLoader>
                 <DrawerFooter>
-                    <Button
-                        onClick={this.confirmCancel}
-                        disabled={this.isLoading()}
-                    >
+                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Cancel
                     </Button>
                     <Button

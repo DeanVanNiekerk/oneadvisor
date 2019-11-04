@@ -6,11 +6,6 @@ export const debounce = (a, b, c = false) => {
         }
         var f = this,
             g = arguments;
-        return (
-            clearTimeout(d),
-            (d = setTimeout(h, b)),
-            c && !d && (e = a.apply(f, g)),
-            e
-        );
+        return clearTimeout(d), (d = setTimeout(h, b)), c && !d && (e = a.apply(f, g)), e;
     };
 };

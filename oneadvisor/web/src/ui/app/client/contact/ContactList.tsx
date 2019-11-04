@@ -6,7 +6,12 @@ import { connect, DispatchProp } from "react-redux";
 import { hasUseCase } from "@/app/identity";
 import { getColumnDefinition } from "@/app/table";
 import {
-    Contact, contactsSelector, deleteContact, fetchContact, fetchContacts, receiveContact
+    Contact,
+    contactsSelector,
+    deleteContact,
+    fetchContact,
+    fetchContacts,
+    receiveContact,
 } from "@/state/app/client/contacts";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";

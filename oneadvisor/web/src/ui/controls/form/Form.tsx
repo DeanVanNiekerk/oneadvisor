@@ -30,9 +30,9 @@ const FormComponent: React.FC<Props> = (props: Props) => {
     const childrenWithProps = React.Children.map(children, child =>
         child
             ? React.cloneElement(child, {
-                layout: layout,
-                readonly: readonly,
-            })
+                  layout: layout,
+                  readonly: readonly,
+              })
             : null
     );
 
@@ -41,7 +41,7 @@ const FormComponent: React.FC<Props> = (props: Props) => {
             {childrenWithProps}
         </FormAD>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {

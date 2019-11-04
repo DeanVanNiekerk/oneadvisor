@@ -1,7 +1,7 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { Branch } from '../types';
-import { BranchAction } from './actions';
+import { Branch } from "../types";
+import { BranchAction } from "./actions";
 
 export type State = {
     readonly branch: Branch | null;
@@ -17,10 +17,7 @@ export const defaultState: State = {
     validationResults: [],
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: BranchAction
-): State => {
+export const reducer = (state: State = defaultState, action: BranchAction): State => {
     switch (action.type) {
         case "BRANCHES_BRANCH_RECEIVE": {
             return {

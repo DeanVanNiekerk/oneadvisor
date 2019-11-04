@@ -5,7 +5,11 @@ import { Result } from "@/app/types";
 import { areEqual } from "@/app/utils";
 import { ValidationResult } from "@/app/validation";
 import {
-    ChangeLog, changeLogSelector, insertChangeLog, receiveChangeLog, updateChangeLog
+    ChangeLog,
+    changeLogSelector,
+    insertChangeLog,
+    receiveChangeLog,
+    updateChangeLog,
 } from "@/state/app/directory/changeLogs";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";

@@ -24,7 +24,6 @@ type Props = {
 type Mode = "add" | "edit";
 
 const FormSimpleListComponent: React.FC<Props> = (props: Props) => {
-
     const [mode, setMode] = useState("add");
     const [values, setValues] = useState(props.values);
     const [editing, setEditing] = useState(false);
@@ -48,7 +47,7 @@ const FormSimpleListComponent: React.FC<Props> = (props: Props) => {
     const remove = (index: number) => {
         const vals = updateImmutable(values, { $splice: [[index, 1]] });
         setValues(vals);
-        props.onChange(values)
+        props.onChange(values);
     };
 
     const cancel = () => {
@@ -67,8 +66,7 @@ const FormSimpleListComponent: React.FC<Props> = (props: Props) => {
             vals = updateImmutable(values, {
                 $push: [editValue],
             });
-        }
-        else {
+        } else {
             vals = updateImmutable(values, {
                 [editIndex]: {
                     $set: editValue,
@@ -132,9 +130,7 @@ const FormSimpleListComponent: React.FC<Props> = (props: Props) => {
                     </FormField>
                     <FormField>
                         <Button onClick={save} type="primary" disabled={!editValue}>
-                            {mode === "edit"
-                                ? `Update ${props.displayName}`
-                                : `Add ${props.displayName}`}
+                            {mode === "edit" ? `Update ${props.displayName}` : `Add ${props.displayName}`}
                         </Button>
                     </FormField>
                 </Form>
@@ -150,12 +146,7 @@ const FormSimpleListComponent: React.FC<Props> = (props: Props) => {
                             title={<span className="font-weight-normal">{value}</span>}
                             description={
                                 <span className="text-error">
-                                    {getErrorMessage(
-                                        props.fieldName,
-                                        value,
-                                        index,
-                                        props.validationResults
-                                    )}
+                                    {getErrorMessage(props.fieldName, value, index, props.validationResults)}
                                 </span>
                             }
                         />
@@ -163,7 +154,7 @@ const FormSimpleListComponent: React.FC<Props> = (props: Props) => {
                 )}
             />
         </>
-    )
+    );
 };
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;

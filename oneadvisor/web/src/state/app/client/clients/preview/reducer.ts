@@ -1,5 +1,5 @@
-import { ClientPreview } from '../types';
-import { ClientPreviewAction } from './actions';
+import { ClientPreview } from "../types";
+import { ClientPreviewAction } from "./actions";
 
 export type State = {
     readonly client: ClientPreview | null;
@@ -11,10 +11,7 @@ export const defaultState: State = {
     fetching: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: ClientPreviewAction
-): State => {
+export const reducer = (state: State = defaultState, action: ClientPreviewAction): State => {
     switch (action.type) {
         case "CLIENTS_CLIENT_PREVIEW_RECEIVE": {
             return {

@@ -15,14 +15,11 @@ import ErrorList from "../../../error/list/ErrorList";
 type Props = {
     cardHeight: string;
     onErrorChanged: () => void;
-}
-    & PropsFromState
-    & PropsFromDispatch;
+} & PropsFromState &
+    PropsFromDispatch;
 
 const MappingErrorsCardComponent: React.FC<Props> = (props: Props) => {
-
-    if (!props.statement || props.statement.mappingErrorCount === 0)
-        return <React.Fragment />;
+    if (!props.statement || props.statement.mappingErrorCount === 0) return <React.Fragment />;
 
     const [errorListVisible, setErrorListVisible] = useState<boolean>(false);
 
@@ -73,7 +70,8 @@ const MappingErrorsCardComponent: React.FC<Props> = (props: Props) => {
                         padding: "17px",
                     }}
                 >
-                    <Icon type="warning" /> There are <b>{props.statement.mappingErrorCount}</b> mapping errors, please click here to resolve them
+                    <Icon type="warning" /> There are <b>{props.statement.mappingErrorCount}</b> mapping errors, please
+                    click here to resolve them
                 </div>
             </PreviewCard>
 
@@ -89,9 +87,8 @@ const MappingErrorsCardComponent: React.FC<Props> = (props: Props) => {
                 </DrawerFooter>
             </Drawer>
         </>
-
-    )
-}
+    );
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
@@ -108,18 +105,18 @@ type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         downloadCommissionErrors: (date: string, companyName: string, filters: CommissionErrorsFilters) => {
-            dispatch(getCommissionErrors(filters, errors => {
-                downloadCommissionErrors(
-                    errors,
-                    companyName,
-                    moment(date).format(DATE_FORMAT)
-                );
-            })
-            )
+            dispatch(
+                getCommissionErrors(filters, errors => {
+                    downloadCommissionErrors(errors, companyName, moment(date).format(DATE_FORMAT));
+                })
+            );
         },
-    }
-}
+    };
+};
 
-const MappingErrorsCard = connect(mapStateToProps, mapDispatchToProps)(MappingErrorsCardComponent);
+const MappingErrorsCard = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(MappingErrorsCardComponent);
 
 export { MappingErrorsCard };

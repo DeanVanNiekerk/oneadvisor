@@ -18,17 +18,10 @@ const FormReadOnly: React.FC<Props> = ({ data, layout }) => {
                     return value !== "" && value !== null;
                 })
                 .map(key => {
-                    return (
-                        <FormText
-                            key={key}
-                            fieldName={key}
-                            label={splitCamelCase(key)}
-                            value={data[key]}
-                        />
-                    );
+                    return <FormText key={key} fieldName={key} label={splitCamelCase(key)} value={data[key]} />;
                 })}
         </Form>
     );
-}
+};
 
 export { FormReadOnly };

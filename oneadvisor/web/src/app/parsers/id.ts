@@ -1,6 +1,6 @@
-import moment from 'moment';
+import moment from "moment";
 
-type Gender = 'M' | 'F';
+type Gender = "M" | "F";
 
 type Result = {
     success: boolean;
@@ -10,33 +10,33 @@ type Result = {
 
 export const parseIdNumber = (input: string): Result => {
     let result = {
-        success: false
+        success: false,
     };
 
     if (isNaN(parseInt(input))) return { success: false };
 
     if (input.length < 6) return { success: false };
 
-    const dateOfBirth = moment(input.substring(0, 6), 'YYMMDD');
+    const dateOfBirth = moment(input.substring(0, 6), "YYMMDD");
 
     if (!dateOfBirth.isValid()) return { success: false };
 
-    const dateOfBirthFormatted = dateOfBirth.format('YYYY-MM-DD');
+    const dateOfBirthFormatted = dateOfBirth.format("YYYY-MM-DD");
 
     if (input.length < 10)
         return {
             success: false,
-            dateOfBirth: dateOfBirthFormatted
+            dateOfBirth: dateOfBirthFormatted,
         };
 
     const genderCode = input.substring(6, 10);
-    const gender = parseInt(genderCode) < 5000 ? 'F' : 'M';
+    const gender = parseInt(genderCode) < 5000 ? "F" : "M";
 
     if (input.length < 13)
         return {
             success: false,
             dateOfBirth: dateOfBirthFormatted,
-            gender: gender
+            gender: gender,
         };
 
     //Apply Luhn formula for check-digits
@@ -46,9 +46,7 @@ export const parseIdNumber = (input: string): Result => {
     for (let i = 0; i < 13; ++i) {
         tempTotal = parseInt(input.charAt(i)) * multiplier;
         if (tempTotal > 9) {
-            tempTotal =
-                parseInt(tempTotal.toString().charAt(0)) +
-                parseInt(tempTotal.toString().charAt(1));
+            tempTotal = parseInt(tempTotal.toString().charAt(0)) + parseInt(tempTotal.toString().charAt(1));
         }
         checkSum = checkSum + tempTotal;
         multiplier = multiplier % 2 == 0 ? 1 : 2;
@@ -59,14 +57,14 @@ export const parseIdNumber = (input: string): Result => {
         return {
             success: false,
             dateOfBirth: dateOfBirthFormatted,
-            gender: gender
+            gender: gender,
         };
     }
 
     return {
         success: true,
         dateOfBirth: dateOfBirthFormatted,
-        gender: gender
+        gender: gender,
     };
 
     return result;

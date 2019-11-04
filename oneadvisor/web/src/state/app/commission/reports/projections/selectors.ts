@@ -13,9 +13,12 @@ import { BarDatum } from "@nivo/bar";
 
 import { Group, GroupTableRecord, PastRevenueCommissionData } from "../";
 import {
-    ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID, CommissionEarningsType, commissionEarningsTypesSelector,
-    LIFE_FIRST_YEARS_COMMISSION_EARNINGS_TYPE_ID, MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
-    ONCE_OFF_COMMISSION_EARNINGS_TYPE_ID
+    ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
+    CommissionEarningsType,
+    commissionEarningsTypesSelector,
+    LIFE_FIRST_YEARS_COMMISSION_EARNINGS_TYPE_ID,
+    MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
+    ONCE_OFF_COMMISSION_EARNINGS_TYPE_ID,
 } from "../../lookups";
 import { State as CommissionEarningsTypesState } from "../../lookups/commissionEarningsTypes/list/reducer";
 import { State } from "./reducer";
@@ -169,15 +172,16 @@ export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableR
         commissionEarningsTypesState: CommissionEarningsTypesState,
         policyTypesState: PolicyTypesState,
         companies: CompaniesState,
-        now: Date,
+        now: Date
     ) => {
-
         let { items } = root;
         const { groups, monthsBack, monthsForward } = root;
 
         items = appendProjectedValues(now, items);
 
-        const monthsBackDate = moment().subtract(monthsBack, 'months').startOf("month");
+        const monthsBackDate = moment()
+            .subtract(monthsBack, "months")
+            .startOf("month");
 
         items = items.filter(d => moment(new Date(d.dateYear, d.dateMonth - 1, 1)).isSameOrAfter(monthsBackDate));
 
@@ -309,12 +313,10 @@ const getTableRow = (
     items: PastRevenueCommissionData[],
     filter?: TableRowFilter
 ) => {
-
     let monthIndex = 0;
     const current = moment(now).subtract(monthsBack, "months");
 
     while (monthsBack + monthsForward >= monthIndex) {
-
         const key = current.format(DATE_FORMAT);
 
         const year = current.year();
@@ -336,23 +338,21 @@ const getTableRow = (
 };
 
 const appendProjectedValues = (now: Date, items: PastRevenueCommissionData[]): PastRevenueCommissionData[] => {
-
     const itemsWithProjected = [...items];
 
     const lastMonth = moment(now).subtract(1, "months");
 
     //Add monthly annuity values
-    const monthlyAnnuityItems = items.filter(i =>
-        i.commissionEarningsTypeId === MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID
-        && i.dateYear === lastMonth.year()
-        && i.dateMonth === lastMonth.month() + 1
+    const monthlyAnnuityItems = items.filter(
+        i =>
+            i.commissionEarningsTypeId === MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID &&
+            i.dateYear === lastMonth.year() &&
+            i.dateMonth === lastMonth.month() + 1
     );
 
     monthlyAnnuityItems.forEach(item => {
-
         let monthIndex = 1;
         while (monthIndex <= 12) {
-
             const current = moment(now).add(monthIndex, "months");
 
             itemsWithProjected.push({
@@ -362,16 +362,17 @@ const appendProjectedValues = (now: Date, items: PastRevenueCommissionData[]): P
                 dateYear: current.year(),
                 dateMonth: current.month() + 1,
                 amountExcludingVAT: item.amountExcludingVAT,
-            })
+            });
             monthIndex++;
         }
     });
 
     //Add annual annuity values
-    const annualAnnuityItems = items.filter(i => i.commissionEarningsTypeId === ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID);
+    const annualAnnuityItems = items.filter(
+        i => i.commissionEarningsTypeId === ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID
+    );
 
     annualAnnuityItems.forEach(item => {
-
         const current = moment(new Date(item.dateYear, item.dateMonth - 1, 1)).add(1, "year");
 
         itemsWithProjected.push({
@@ -381,14 +382,15 @@ const appendProjectedValues = (now: Date, items: PastRevenueCommissionData[]): P
             dateYear: current.year(),
             dateMonth: current.month() + 1,
             amountExcludingVAT: item.amountExcludingVAT,
-        })
+        });
     });
 
     //Add once off values
-    const lifeFirstYearsItems = items.filter(i => i.commissionEarningsTypeId === LIFE_FIRST_YEARS_COMMISSION_EARNINGS_TYPE_ID);
+    const lifeFirstYearsItems = items.filter(
+        i => i.commissionEarningsTypeId === LIFE_FIRST_YEARS_COMMISSION_EARNINGS_TYPE_ID
+    );
 
     lifeFirstYearsItems.forEach(item => {
-
         const current = moment(new Date(item.dateYear, item.dateMonth - 1, 1)).add(1, "year");
 
         itemsWithProjected.push({
@@ -398,11 +400,11 @@ const appendProjectedValues = (now: Date, items: PastRevenueCommissionData[]): P
             dateYear: current.year(),
             dateMonth: current.month() + 1,
             amountExcludingVAT: item.amountExcludingVAT / 3,
-        })
+        });
     });
 
     return itemsWithProjected;
-}
+};
 
 const getMonthColumns = (monthsBack: number, monthsForward: number): ColumnProps<any>[] => {
     var getColumn = getColumnDefinition();
@@ -425,7 +427,7 @@ const getMonthColumns = (monthsBack: number, monthsForward: number): ColumnProps
             },
             {
                 sorter: false,
-                className: monthsBack === 0 ? "projections-report-current-month" : ""
+                className: monthsBack === 0 ? "projections-report-current-month" : "",
             }
         );
 
@@ -479,15 +481,11 @@ const getCompanyName = (companyId: string, companies: Company[]): string => {
     return company.name;
 };
 
-
-const projectionPolicyTypeChartDateFormat = "MMM YY"
+const projectionPolicyTypeChartDateFormat = "MMM YY";
 
 export const projectionPolicyTypeChartCurrentLabelSelector: (state: RootState) => string = createSelector(
     todaySelector,
-    (
-        now: Date,
-    ) => {
-
+    (now: Date) => {
         return `value.${moment(now).format(projectionPolicyTypeChartDateFormat)}`;
     }
 );
@@ -495,17 +493,15 @@ export const projectionPolicyTypeChartCurrentLabelSelector: (state: RootState) =
 export const projectionPolicyTypeChartDataSelector: (state: RootState) => BarDatum[] = createSelector(
     rootSelector,
     todaySelector,
-    (
-        root: State,
-        now: Date,
-    ) => {
-
+    (root: State, now: Date) => {
         let { items } = root;
         const { monthsBack, monthsForward } = root;
 
         items = appendProjectedValues(now, items);
 
-        const monthsBackDate = moment().subtract(monthsBack, 'months').startOf("month");
+        const monthsBackDate = moment()
+            .subtract(monthsBack, "months")
+            .startOf("month");
 
         items = items.filter(d => moment(new Date(d.dateYear, d.dateMonth - 1, 1)).isSameOrAfter(monthsBackDate));
 
@@ -515,7 +511,6 @@ export const projectionPolicyTypeChartDataSelector: (state: RootState) => BarDat
         const data: BarDatum[] = [];
 
         while (monthsBack + monthsForward >= monthIndex) {
-
             const year = current.year();
             const month = current.month() + 1;
 
@@ -526,7 +521,7 @@ export const projectionPolicyTypeChartDataSelector: (state: RootState) => BarDat
             data.push({
                 id: current.format(projectionPolicyTypeChartDateFormat),
                 value: value,
-            })
+            });
 
             current.add(1, "months");
             monthIndex = monthIndex + 1;

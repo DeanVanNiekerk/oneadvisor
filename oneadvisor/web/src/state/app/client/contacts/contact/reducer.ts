@@ -1,7 +1,7 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { Contact } from '../types';
-import { ContactAction } from './actions';
+import { Contact } from "../types";
+import { ContactAction } from "./actions";
 
 export type State = {
     readonly contact: Contact | null;
@@ -17,10 +17,7 @@ export const defaultState: State = {
     validationResults: [],
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: ContactAction
-): State => {
+export const reducer = (state: State = defaultState, action: ContactAction): State => {
     switch (action.type) {
         case "CONTACTS_CONTACT_RECEIVE": {
             return {

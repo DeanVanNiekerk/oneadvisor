@@ -1,8 +1,8 @@
-import { PagedItems } from '@/app/table';
-import { ApiAction } from '@/app/types';
-import { commissionTypesApi } from '@/config/api/commission';
+import { PagedItems } from "@/app/table";
+import { ApiAction } from "@/app/types";
+import { commissionTypesApi } from "@/config/api/commission";
 
-import { CommissionType } from '../types';
+import { CommissionType } from "../types";
 
 type CommissionTypeListReceiveAction = {
     type: "COMMISSIONTYPES_LIST_RECEIVE";
@@ -20,9 +20,7 @@ export type CommissionTypeListAction =
     | CommissionTypeListFetchingAction
     | CommissionTypeListFetchingErrorAction;
 
-export const receiveCommissionTypes = (
-    payload: CommissionType[]
-): CommissionTypeListAction => ({
+export const receiveCommissionTypes = (payload: CommissionType[]): CommissionTypeListAction => ({
     type: "COMMISSIONTYPES_LIST_RECEIVE",
     payload,
 });

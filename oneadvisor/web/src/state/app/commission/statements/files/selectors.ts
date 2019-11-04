@@ -1,11 +1,10 @@
-import { createSelector } from 'reselect';
+import { createSelector } from "reselect";
 
-import { RootState } from '@/state/rootReducer';
+import { RootState } from "@/state/rootReducer";
 
-import { State } from './reducer';
+import { State } from "./reducer";
 
-const rootSelector = (state: RootState): State =>
-    state.app.commission.statements.files;
+const rootSelector = (state: RootState): State => state.app.commission.statements.files;
 
 export const listSelector: (state: RootState) => State = createSelector(
     rootSelector,

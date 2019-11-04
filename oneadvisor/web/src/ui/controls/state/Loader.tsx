@@ -1,6 +1,6 @@
-import { Spin } from 'antd';
-import * as React from 'react';
-import { Col, Grid, Row } from 'react-flexbox-grid';
+import { Spin } from "antd";
+import * as React from "react";
+import { Col, Grid, Row } from "react-flexbox-grid";
 
 type Props = {
     text?: string;
@@ -12,7 +12,7 @@ const Loader = (props: Props) => (
             <Col xs={12}>
                 <Row center="xs">
                     <Col>
-                        <Spin spinning={true} style={{ marginTop: '50px' }} />
+                        <Spin spinning={true} style={{ marginTop: "50px" }} />
                     </Col>
                 </Row>
                 {props.text && (

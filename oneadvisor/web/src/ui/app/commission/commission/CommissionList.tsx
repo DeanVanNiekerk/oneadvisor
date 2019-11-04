@@ -7,8 +7,15 @@ import { applyLike } from "@/app/query";
 import { Filters, formatBool, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import { formatCurrency } from "@/app/utils";
 import {
-    Commission, CommissionEdit, commissionsSelector, fetchCommission, fetchCommissions, receiveCommission,
-    receiveFilters, receivePageOptions, receiveSortOptions
+    Commission,
+    CommissionEdit,
+    commissionsSelector,
+    fetchCommission,
+    fetchCommissions,
+    receiveCommission,
+    receiveFilters,
+    receivePageOptions,
+    receiveSortOptions,
 } from "@/state/app/commission/commissions";
 import { CommissionType, commissionTypesSelector } from "@/state/app/commission/lookups";
 import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
@@ -226,11 +233,7 @@ class CommissionList extends Component<Props> {
     render() {
         return (
             <>
-                <Header
-                    className="mb-1"
-                    icon="dollar"
-                    hidden={this.props.hideHeaderText}
-                >
+                <Header className="mb-1" icon="dollar" hidden={this.props.hideHeaderText}>
                     Commission Entries
                 </Header>
                 <Table

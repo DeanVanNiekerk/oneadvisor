@@ -1,5 +1,5 @@
-import { SplitRule } from '../';
-import { defaultState, reducer } from './reducer';
+import { SplitRule } from "../";
+import { defaultState, reducer } from "./reducer";
 
 describe("splitRule list reducer", () => {
     it("should handle SPLITRULES_LIST_FETCHING", () => {

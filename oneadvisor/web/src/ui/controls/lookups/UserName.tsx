@@ -26,7 +26,7 @@ const mapStateToProps = (state: RootState) => {
     const usersState = usersSimpleSelector(state);
 
     return {
-        users: usersState.items
+        users: usersState.items,
     };
 };
 

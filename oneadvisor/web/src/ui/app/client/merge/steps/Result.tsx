@@ -1,13 +1,13 @@
-import { Alert, Divider } from 'antd';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { Alert, Divider } from "antd";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
+import { RouteComponentProps, withRouter } from "react-router";
 
-import { ClientEdit, clientMergeSelector } from '@/state/app/client/clients';
-import { RootState } from '@/state/rootReducer';
-import { Button } from '@/ui/controls';
+import { ClientEdit, clientMergeSelector } from "@/state/app/client/clients";
+import { RootState } from "@/state/rootReducer";
+import { Button } from "@/ui/controls";
 
-import ClientMergeSteps from '../ClientMergeSteps';
+import ClientMergeSteps from "../ClientMergeSteps";
 
 type Props = {
     insertedClient: ClientEdit;
@@ -16,9 +16,7 @@ type Props = {
 
 class Result extends Component<Props> {
     preview = () => {
-        this.props.history.push(
-            `/client/clients/${this.props.insertedClient.id}`
-        );
+        this.props.history.push(`/client/clients/${this.props.insertedClient.id}`);
     };
 
     render() {
@@ -28,19 +26,9 @@ class Result extends Component<Props> {
 
                 <Divider />
 
-                <Alert
-                    message="Clients have been successfully merged."
-                    type="success"
-                    showIcon
-                    className="mb-1"
-                />
+                <Alert message="Clients have been successfully merged." type="success" showIcon className="mb-1" />
 
-                <Button
-                    icon="user"
-                    onClick={this.preview}
-                    type="primary"
-                    noLeftMargin={true}
-                >
+                <Button icon="user" onClick={this.preview} type="primary" noLeftMargin={true}>
                     Preview Merged Client
                 </Button>
             </>

@@ -1,17 +1,21 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { areEqual } from '@/app/utils';
-import { ValidationResult } from '@/app/validation';
+import { areEqual } from "@/app/utils";
+import { ValidationResult } from "@/app/validation";
 import {
-    insertSplitRulePolicy, receiveSplitRulePolicy, SplitRulePolicy, SplitRulePolicyInfo, splitRulePolicySelector,
-    updateSplitRulePolicy
-} from '@/state/app/commission/splitRulePolicies';
-import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
-import { showConfirm } from '@/ui/feedback/modal/confirm';
+    insertSplitRulePolicy,
+    receiveSplitRulePolicy,
+    SplitRulePolicy,
+    SplitRulePolicyInfo,
+    splitRulePolicySelector,
+    updateSplitRulePolicy,
+} from "@/state/app/commission/splitRulePolicies";
+import { RootState } from "@/state/rootReducer";
+import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import SplitRulePolicyForm from './SplitRulePolicyForm';
+import SplitRulePolicyForm from "./SplitRulePolicyForm";
 
 type Props = {
     onClose: (cancelled: boolean) => void;

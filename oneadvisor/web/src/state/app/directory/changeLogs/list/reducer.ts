@@ -19,10 +19,7 @@ export const defaultState: State = {
     sortOptions: defaultSortOptions("releaseDate", "desc"),
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: ChangeLogListAction
-): State => {
+export const reducer = (state: State = defaultState, action: ChangeLogListAction): State => {
     switch (action.type) {
         case "CHANGELOGS_LIST_RECEIVE": {
             return {

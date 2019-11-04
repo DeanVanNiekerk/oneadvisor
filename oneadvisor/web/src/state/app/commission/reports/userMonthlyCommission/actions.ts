@@ -1,4 +1,4 @@
-import { UserMonthlyCommissionType } from './types';
+import { UserMonthlyCommissionType } from "./types";
 
 type UserMonthlyCommissionYearReceiveAction = {
     type: "COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_YEAR_RECEIVE";

@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 
 import { formatCurrency } from "@/app/utils";
 import {
-    CommissionEarningsType, commissionEarningsTypesSelector, getCommissionEarningsTypeName
+    CommissionEarningsType,
+    commissionEarningsTypesSelector,
+    getCommissionEarningsTypeName,
 } from "@/state/app/commission/lookups";
 import { UserEarningsTypeMonthlyCommissionData } from "@/state/app/commission/reports";
 import { RootState } from "@/state/rootReducer";

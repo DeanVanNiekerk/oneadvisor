@@ -1,16 +1,20 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { areEqual } from '@/app/utils';
-import { ValidationResult } from '@/app/validation';
+import { areEqual } from "@/app/utils";
+import { ValidationResult } from "@/app/validation";
 import {
-    AllocationEdit, allocationSelector, insertAllocation, receiveAllocation, updateAllocation
-} from '@/state/app/commission/allocations';
-import { RootState } from '@/state/rootReducer';
-import { Button, ClientName, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
-import { showConfirm } from '@/ui/feedback/modal/confirm';
+    AllocationEdit,
+    allocationSelector,
+    insertAllocation,
+    receiveAllocation,
+    updateAllocation,
+} from "@/state/app/commission/allocations";
+import { RootState } from "@/state/rootReducer";
+import { Button, ClientName, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import AllocationForm from './AllocationForm';
+import AllocationForm from "./AllocationForm";
 
 type Props = {
     onClose: (cancelled: boolean) => void;
@@ -46,8 +50,7 @@ class EditAllocation extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (!areEqual(this.props.allocation, this.state.allocationEdited))
-            return showConfirm({ onOk: this.cancel });
+        if (!areEqual(this.props.allocation, this.state.allocationEdited)) return showConfirm({ onOk: this.cancel });
 
         this.cancel();
     };
@@ -63,17 +66,9 @@ class EditAllocation extends Component<Props, State> {
         }
 
         if (this.state.allocationEdited.id) {
-            this.props.dispatch(
-                updateAllocation(this.state.allocationEdited, () =>
-                    this.close()
-                )
-            );
+            this.props.dispatch(updateAllocation(this.state.allocationEdited, () => this.close()));
         } else {
-            this.props.dispatch(
-                insertAllocation(this.state.allocationEdited, () =>
-                    this.close()
-                )
-            );
+            this.props.dispatch(insertAllocation(this.state.allocationEdited, () => this.close()));
         }
     };
 
@@ -95,16 +90,7 @@ class EditAllocation extends Component<Props, State> {
         let prefix = "New Allocation to ";
         if (allocation && allocation.id) prefix = "Edit Allocation to ";
 
-        return (
-            <ClientName
-                prefix={prefix}
-                clientId={
-                    this.props.allocation
-                        ? this.props.allocation.toClientId
-                        : ""
-                }
-            />
-        );
+        return <ClientName prefix={prefix} clientId={this.props.allocation ? this.props.allocation.toClientId : ""} />;
     };
 
     render() {
@@ -128,10 +114,7 @@ class EditAllocation extends Component<Props, State> {
                     )}
                 </ContentLoader>
                 <DrawerFooter>
-                    <Button
-                        onClick={this.confirmCancel}
-                        disabled={this.isLoading()}
-                    >
+                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Cancel
                     </Button>
                     <Button

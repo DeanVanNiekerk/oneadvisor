@@ -1,5 +1,5 @@
-import { CommissionStatementTemplate } from '../';
-import { defaultState, reducer } from './reducer';
+import { CommissionStatementTemplate } from "../";
+import { defaultState, reducer } from "./reducer";
 
 describe("commission list reducer", () => {
     it("should handle COMMISSIONS_STATEMENT_TEMPLATES_LIST_FETCHING", () => {

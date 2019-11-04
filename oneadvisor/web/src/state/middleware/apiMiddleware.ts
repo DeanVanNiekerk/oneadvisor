@@ -1,10 +1,10 @@
-import { Dispatch, Store } from 'redux';
-import { isArray } from 'util';
+import { Dispatch, Store } from "redux";
+import { isArray } from "util";
 
-import { ApiAction, ApiOnValidationFailure } from '@/app/types';
-import { showMessage, showNotification } from '@/ui/feedback/notifcation';
+import { ApiAction, ApiOnValidationFailure } from "@/app/types";
+import { showMessage, showNotification } from "@/ui/feedback/notifcation";
 
-import { RootState } from '../rootReducer';
+import { RootState } from "../rootReducer";
 
 export default (store: Store<RootState>) => (next: any) => (action: ApiAction) => {
     // Check if this is an api request

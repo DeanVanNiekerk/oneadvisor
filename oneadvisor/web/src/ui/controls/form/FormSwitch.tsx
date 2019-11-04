@@ -35,14 +35,9 @@ const FormSwitch: React.FC<Props> = (props: Props) => {
             value={value}
             layout={layout}
         >
-            <Switch
-                disabled={disabled || readonly}
-                checked={value}
-                onChange={onChange}
-                className={props.className}
-            />
+            <Switch disabled={disabled || readonly} checked={value} onChange={onChange} className={props.className} />
         </FormField>
     );
-}
+};
 
 export { FormSwitch };

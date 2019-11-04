@@ -1,5 +1,5 @@
-import { Role } from '../types';
-import { RoleListAction } from './actions';
+import { Role } from "../types";
+import { RoleListAction } from "./actions";
 
 export type State = {
     readonly items: Role[];
@@ -11,10 +11,7 @@ export const defaultState: State = {
     fetching: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: RoleListAction
-): State => {
+export const reducer = (state: State = defaultState, action: RoleListAction): State => {
     switch (action.type) {
         case "ROLES_LIST_RECEIVE": {
             return {

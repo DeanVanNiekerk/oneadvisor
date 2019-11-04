@@ -12,8 +12,6 @@ const style: CSSProperties = {
     borderRadius: "0 0 4px 4px",
 };
 
-const DrawerFooter: React.FC = ({ children }) => (
-    <div style={style}>{children}</div>
-);
+const DrawerFooter: React.FC = ({ children }) => <div style={style}>{children}</div>;
 
 export { DrawerFooter };

@@ -1,7 +1,7 @@
-import { PageOptions } from '@/app/table';
+import { PageOptions } from "@/app/table";
 
-import { Allocation } from '../types';
-import { AllocationListAction } from './actions';
+import { Allocation } from "../types";
+import { AllocationListAction } from "./actions";
 
 export type State = {
     readonly totalItems: number;

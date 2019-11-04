@@ -1,5 +1,5 @@
-import { PolicyProduct } from '../types';
-import { PolicyProductListAction } from './actions';
+import { PolicyProduct } from "../types";
+import { PolicyProductListAction } from "./actions";
 
 export type State = {
     readonly items: PolicyProduct[];
@@ -11,10 +11,7 @@ export const defaultState: State = {
     fetching: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: PolicyProductListAction
-): State => {
+export const reducer = (state: State = defaultState, action: PolicyProductListAction): State => {
     switch (action.type) {
         case "POLICYPRODUCTS_LIST_RECEIVE": {
             return {

@@ -1,7 +1,7 @@
-import { Filters, SortOptions } from '@/app/table';
+import { Filters, SortOptions } from "@/app/table";
 
-import { defaultState, reducer } from './reducer';
-import { UserEarningsTypeMonthlyCommissionData, UserEarningsTypeMonthlyCommissionFilters } from './types';
+import { defaultState, reducer } from "./reducer";
+import { UserEarningsTypeMonthlyCommissionData, UserEarningsTypeMonthlyCommissionFilters } from "./types";
 
 describe("report user monthly commission reducer", () => {
     it("should handle COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_FETCHING", () => {

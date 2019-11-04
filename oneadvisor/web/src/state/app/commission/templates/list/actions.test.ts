@@ -1,7 +1,7 @@
-import { Filters } from '@/app/table';
-import { statementTemplatesApi } from '@/config/api/commission';
+import { Filters } from "@/app/table";
+import { statementTemplatesApi } from "@/config/api/commission";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("commission: templates: list actions", () => {
     it("should dispatch API when fetchCommissionStatementTemplates is called", () => {
@@ -15,8 +15,6 @@ describe("commission: templates: list actions", () => {
             number: ["123"],
         };
 
-        expect(actions.fetchCommissionStatementTemplates(filters)).toEqual(
-            expectedAction
-        );
+        expect(actions.fetchCommissionStatementTemplates(filters)).toEqual(expectedAction);
     });
 });

@@ -1,11 +1,10 @@
-import { createSelector } from 'reselect';
+import { createSelector } from "reselect";
 
-import { RootState } from '@/state/rootReducer';
+import { RootState } from "@/state/rootReducer";
 
-import { State } from './reducer';
+import { State } from "./reducer";
 
-const rootSelector = (state: RootState): State =>
-    state.app.directory.usersSimple.userSimple;
+const rootSelector = (state: RootState): State => state.app.directory.usersSimple.userSimple;
 
 export const userSimpleSelector: (state: RootState) => State = createSelector(
     rootSelector,

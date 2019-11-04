@@ -12,17 +12,14 @@ type Props = {
 } & PropsFromState;
 
 const SecureComponent: React.FC<Props> = ({ requiredRole, requiredUseCase, useCases, roles, children }) => {
-
     let visible = true;
 
-    if (requiredUseCase)
-        visible = hasUseCase(requiredUseCase, useCases) && visible;
+    if (requiredUseCase) visible = hasUseCase(requiredUseCase, useCases) && visible;
 
-    if (requiredRole)
-        visible = hasRole(requiredRole, roles) && visible;
+    if (requiredRole) visible = hasRole(requiredRole, roles) && visible;
 
     return visible ? <>{children}</> : <React.Fragment />;
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {

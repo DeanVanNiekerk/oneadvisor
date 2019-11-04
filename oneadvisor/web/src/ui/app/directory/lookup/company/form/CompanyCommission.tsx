@@ -10,12 +10,11 @@ import { FormSimpleList } from "@/ui/controls";
 type Props = PropsFromState & PropsFromDispatch;
 
 const CompanyCommission: React.FC<Props> = ({ company, validationResults, handleChange }) => {
-
     if (!company) return <React.Fragment />;
 
     const onChange = (fieldName: keyof Company, value: string[]) => {
         handleChange(company, fieldName, value);
-    }
+    };
 
     return (
         <FormSimpleList
@@ -27,8 +26,8 @@ const CompanyCommission: React.FC<Props> = ({ company, validationResults, handle
             }
             validationResults={validationResults}
         />
-    )
-}
+    );
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 
@@ -47,8 +46,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         handleChange: (company: Company, fieldName: keyof Company, value: string[]) => {
             const companyModified = update(company, { [fieldName]: { $set: value } });
             dispatch(modifyCompany(companyModified));
-        }
-    }
-}
+        },
+    };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CompanyCommission);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CompanyCommission);

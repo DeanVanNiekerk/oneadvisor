@@ -10,7 +10,6 @@ type Props = {
 } & DispatchProp;
 
 const ClientNameComponent: React.FC<Props> = (props: Props) => {
-
     const [client, setClient] = useState<ClientEdit | null>(null);
 
     useEffect(() => {
@@ -18,14 +17,13 @@ const ClientNameComponent: React.FC<Props> = (props: Props) => {
     }, [props.clientId]);
 
     const loadClient = () => {
-
         if (!props.clientId) {
             setClient(null);
             return;
         }
 
         props.dispatch(
-            getClient(props.clientId, (client) => {
+            getClient(props.clientId, client => {
                 setClient(client);
             })
         );
@@ -34,10 +32,10 @@ const ClientNameComponent: React.FC<Props> = (props: Props) => {
     if (!client) return <span />;
 
     return (
-        <span className={props.className}>{`${props.prefix ||
-            ""}${client.firstName || ""} ${client.lastName || ""}`}</span>
+        <span className={props.className}>{`${props.prefix || ""}${client.firstName || ""} ${client.lastName ||
+            ""}`}</span>
     );
-}
+};
 
 const ClientName = connect()(ClientNameComponent);
 

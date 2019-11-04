@@ -1,4 +1,4 @@
-import config from '@/config/config';
+import config from "@/config/config";
 
 const emailBaseApi = `${config.baseApi}/api/email`;
 

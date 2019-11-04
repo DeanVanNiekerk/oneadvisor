@@ -1,4 +1,4 @@
-import { splitRulePolicySelector } from './selectors';
+import { splitRulePolicySelector } from "./selectors";
 
 describe("splitRulePolicy selectors", () => {
     it("splitRulePolicySelector", () => {

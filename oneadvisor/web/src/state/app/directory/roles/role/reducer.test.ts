@@ -1,121 +1,121 @@
-import { getValidationResult } from '@/test';
+import { getValidationResult } from "@/test";
 
-import { defaultState, reducer } from './reducer';
+import { defaultState, reducer } from "./reducer";
 
-describe('role reducer', () => {
-    it('should handle ROLES_ROLE_FETCHING', () => {
+describe("role reducer", () => {
+    it("should handle ROLES_ROLE_FETCHING", () => {
         const initalState = {
             ...defaultState,
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const actualState = reducer(initalState, {
-            type: 'ROLES_ROLE_FETCHING'
+            type: "ROLES_ROLE_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
             fetching: true,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle ROLES_ROLE_FETCHING_ERROR', () => {
+    it("should handle ROLES_ROLE_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'ROLES_ROLE_FETCHING_ERROR'
+            type: "ROLES_ROLE_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            
-            fetching: false
+
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle ROLES_ROLE_RECEIVE', () => {
+    it("should handle ROLES_ROLE_RECEIVE", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const role = {
-            id: '10',
-            name: 'Role1',
-            description: 'Role1 Desc',
-            applicationId: 'app_1',
-            useCaseIds: ['uc1']
+            id: "10",
+            name: "Role1",
+            description: "Role1 Desc",
+            applicationId: "app_1",
+            useCaseIds: ["uc1"],
         };
 
         const actualState = reducer(initalState, {
-            type: 'ROLES_ROLE_RECEIVE',
-            payload: { ...role }
+            type: "ROLES_ROLE_RECEIVE",
+            payload: { ...role },
         });
 
         const expectedState = {
             ...defaultState,
             role: { ...role },
             fetching: false,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle ROLES_ROLE_EDIT_FETCHING', () => {
+    it("should handle ROLES_ROLE_EDIT_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'ROLES_ROLE_EDIT_FETCHING'
+            type: "ROLES_ROLE_EDIT_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle ROLES_ROLE_EDIT_FETCHING_ERROR', () => {
+    it("should handle ROLES_ROLE_EDIT_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'ROLES_ROLE_EDIT_FETCHING_ERROR'
+            type: "ROLES_ROLE_EDIT_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            
-            updating: false
+
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle ROLES_ROLE_EDIT_RECEIVE', () => {
+    it("should handle ROLES_ROLE_EDIT_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'ROLES_ROLE_EDIT_RECEIVE'
+            type: "ROLES_ROLE_EDIT_RECEIVE",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: false
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);

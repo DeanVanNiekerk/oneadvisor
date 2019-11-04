@@ -1,7 +1,7 @@
-import { commissionReportsApi } from '@/config/api/commission';
+import { commissionReportsApi } from "@/config/api/commission";
 
-import { UserCompanyMonthlyCommissionFilters } from '../';
-import * as actions from './actions';
+import { UserCompanyMonthlyCommissionFilters } from "../";
+import * as actions from "./actions";
 
 describe("reports: user monthly commission: list actions", () => {
     it("should dispatch API when fetchUserCompanyMonthlyCommissionData is called", () => {

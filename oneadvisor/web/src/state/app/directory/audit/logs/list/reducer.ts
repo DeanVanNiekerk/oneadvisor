@@ -21,10 +21,7 @@ export const defaultState: State = {
     filters: null,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: AuditLogListAction
-): State => {
+export const reducer = (state: State = defaultState, action: AuditLogListAction): State => {
     switch (action.type) {
         case "AUDIT_LOGS_LIST_RECEIVE": {
             return {

@@ -1,4 +1,4 @@
-import { listSelector } from './selectors';
+import { listSelector } from "./selectors";
 
 describe("report client revenue selectors", () => {
     it("listSelector", () => {

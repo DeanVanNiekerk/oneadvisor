@@ -1,4 +1,4 @@
-import { listSelector } from './selectors';
+import { listSelector } from "./selectors";
 
 describe("splitRule list selectors", () => {
     it("listSelector", () => {

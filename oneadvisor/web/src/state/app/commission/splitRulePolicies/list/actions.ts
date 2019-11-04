@@ -1,9 +1,9 @@
-import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from '@/app/query';
-import { Filters, PagedItems, PageOptions, SortOptions } from '@/app/table';
-import { ApiAction } from '@/app/types';
-import { splitRulePoliciesApi } from '@/config/api/commission';
+import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from "@/app/query";
+import { Filters, PagedItems, PageOptions, SortOptions } from "@/app/table";
+import { ApiAction } from "@/app/types";
+import { splitRulePoliciesApi } from "@/config/api/commission";
 
-import { SplitRulePolicyInfo } from '../types';
+import { SplitRulePolicyInfo } from "../types";
 
 type SplitRulePolicyListReceiveAction = {
     type: "SPLITRULEPOLICIES_LIST_RECEIVE";

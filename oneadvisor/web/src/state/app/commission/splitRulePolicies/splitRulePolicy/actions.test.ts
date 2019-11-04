@@ -1,7 +1,7 @@
-import { splitRulePoliciesApi } from '@/config/api/commission';
+import { splitRulePoliciesApi } from "@/config/api/commission";
 
-import { SplitRulePolicy } from '../types';
-import * as actions from './actions';
+import { SplitRulePolicy } from "../types";
+import * as actions from "./actions";
 
 describe("splitRulePolicy actions", () => {
     it("should dispatch API when fetchSplitRulePolicy is called", () => {

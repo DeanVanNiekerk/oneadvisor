@@ -1,15 +1,21 @@
-import { Popconfirm } from 'antd';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Popconfirm } from "antd";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { getColumnDefinition } from '@/app/table';
+import { getColumnDefinition } from "@/app/table";
 import {
-    deleteSplitRule, fetchSplitRule, fetchSplitRules, receiveSplitRule, Split, SplitRule, splitRulesSelector
-} from '@/state/app/commission/splitRules';
-import { RootState } from '@/state/rootReducer';
-import { Button, getTable, Header, StopPropagation } from '@/ui/controls';
+    deleteSplitRule,
+    fetchSplitRule,
+    fetchSplitRules,
+    receiveSplitRule,
+    Split,
+    SplitRule,
+    splitRulesSelector,
+} from "@/state/app/commission/splitRules";
+import { RootState } from "@/state/rootReducer";
+import { Button, getTable, Header, StopPropagation } from "@/ui/controls";
 
-import EditSplitRule from './EditSplitRule';
+import EditSplitRule from "./EditSplitRule";
 
 const Table = getTable<SplitRule>();
 
@@ -113,8 +119,6 @@ class SplitRuleList extends Component<Props> {
     };
 
     render() {
-
-
         return (
             <>
                 <Header

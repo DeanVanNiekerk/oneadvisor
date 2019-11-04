@@ -11,7 +11,6 @@ type Props = {
 };
 
 const MappingErrorForm: React.FC<Props> = (props: Props) => {
-
     const [activeTab, setActiveTab] = useState("form_tab");
 
     return (

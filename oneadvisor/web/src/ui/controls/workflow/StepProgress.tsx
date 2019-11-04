@@ -1,7 +1,7 @@
-import { Col, Icon, Row, Steps } from 'antd';
-import React, { Component } from 'react';
+import { Col, Icon, Row, Steps } from "antd";
+import React, { Component } from "react";
 
-import { Button } from '@/ui/controls';
+import { Button } from "@/ui/controls";
 
 const Step = Steps.Step;
 
@@ -49,13 +49,7 @@ class StepProgress extends Component<StepProgressProps> {
                             loading={this.props.nextLoading}
                         >
                             {this.props.nextText ? this.props.nextText : "Next"}
-                            <Icon
-                                type={
-                                    this.props.nextIcon
-                                        ? this.props.nextIcon
-                                        : "right"
-                                }
-                            />
+                            <Icon type={this.props.nextIcon ? this.props.nextIcon : "right"} />
                         </Button>
                     )}
                 </Col>

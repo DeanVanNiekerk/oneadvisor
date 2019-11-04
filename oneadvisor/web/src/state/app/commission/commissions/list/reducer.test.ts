@@ -1,7 +1,7 @@
-import { Filters, SortOptions } from '@/app/table';
+import { Filters, SortOptions } from "@/app/table";
 
-import { Commission } from '../';
-import { defaultState, reducer } from './reducer';
+import { Commission } from "../";
+import { defaultState, reducer } from "./reducer";
 
 describe("commission list reducer", () => {
     it("should handle COMMISSIONS_LIST_FETCHING", () => {

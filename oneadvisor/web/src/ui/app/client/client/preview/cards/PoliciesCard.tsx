@@ -10,11 +10,9 @@ import PolicyList from "../../../policy/list/PolicyList";
 type Props = {
     cardHeight: string;
     onSaved: () => void;
-}
-    & PropsFromState;
+} & PropsFromState;
 
 const PoliciesCardComponent: React.FC<Props> = (props: Props) => {
-
     const [policyListVisible, setPolicyListVisible] = useState<boolean>(false);
 
     return (
@@ -43,17 +41,14 @@ const PoliciesCardComponent: React.FC<Props> = (props: Props) => {
                 visible={policyListVisible}
                 onClose={() => setPolicyListVisible(false)}
             >
-                {props.client && (
-                    <PolicyList clientId={props.client.id} onSaved={props.onSaved} />
-                )}
+                {props.client && <PolicyList clientId={props.client.id} onSaved={props.onSaved} />}
                 <DrawerFooter>
                     <Button onClick={() => setPolicyListVisible(false)}>Close</Button>
                 </DrawerFooter>
             </Drawer>
         </>
-
-    )
-}
+    );
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {

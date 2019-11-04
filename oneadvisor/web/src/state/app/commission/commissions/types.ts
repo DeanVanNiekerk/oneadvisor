@@ -1,6 +1,6 @@
-import { PagedItems } from '@/app/table';
+import { PagedItems } from "@/app/table";
 
-import { CommissionImportData } from '../errors';
+import { CommissionImportData } from "../errors";
 
 export type Commission = {
     id: string;

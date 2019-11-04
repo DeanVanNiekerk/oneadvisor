@@ -62,8 +62,8 @@ export const fetchStatement = (statementId: string): ApiAction => ({
 });
 
 export const modifyStatement = (statement: StatementEdit): StatementModifiedAction => ({
-    type: 'STATEMENTS_STATEMENT_MODIFIED',
-    payload: statement
+    type: "STATEMENTS_STATEMENT_MODIFIED",
+    payload: statement,
 });
 
 export const statementVisible = (visible: boolean): StatementVisibleAction => ({
@@ -74,9 +74,7 @@ export const statementVisible = (visible: boolean): StatementVisibleAction => ({
 export const clearStatement = (): StatementReceiveAction => receiveStatement(null);
 
 export const newStatement = (): ThunkAction<void, RootState, {}, StatementReceiveAction> => {
-
     return (dispatch, getState) => {
-
         const { filterYear, filterMonth } = statementsSelector(getState());
 
         let today = moment();
@@ -95,10 +93,12 @@ export const newStatement = (): ThunkAction<void, RootState, {}, StatementReceiv
         };
 
         dispatch(receiveStatement(statement));
-    }
+    };
 };
 
-export const saveStatement = (onSaved?: () => void): ThunkAction<void, RootState, {}, StatementReceiveAction | ApiAction> => {
+export const saveStatement = (
+    onSaved?: () => void
+): ThunkAction<void, RootState, {}, StatementReceiveAction | ApiAction> => {
     return (dispatch, getState) => {
         const { statement } = statementSelector(getState());
         if (!statement) return;
@@ -106,7 +106,7 @@ export const saveStatement = (onSaved?: () => void): ThunkAction<void, RootState
         const onSuccess = () => {
             dispatch(clearStatement());
             if (onSaved) onSaved();
-        }
+        };
 
         if (statement.id) {
             dispatch(updateStatement(statement, onSuccess));
@@ -114,23 +114,30 @@ export const saveStatement = (onSaved?: () => void): ThunkAction<void, RootState
             dispatch(insertStatement(statement, onSuccess));
         }
     };
-}
+};
 
-export const confirmCancelStatement = (showConfirm: ShowConfirm, onCancelled: () => void): ThunkAction<void, RootState, {}, StatementReceiveAction> => {
+export const confirmCancelStatement = (
+    showConfirm: ShowConfirm,
+    onCancelled: () => void
+): ThunkAction<void, RootState, {}, StatementReceiveAction> => {
     return (dispatch, getState) => {
         const modifed = statementIsModifiedSelector(getState());
 
         const cancel = () => {
             dispatch(clearStatement());
             onCancelled();
-        }
+        };
 
         if (modifed)
-            return showConfirm({ onOk: () => { cancel(); } });
+            return showConfirm({
+                onOk: () => {
+                    cancel();
+                },
+            });
 
         cancel();
     };
-}
+};
 
 export const updateStatement = (statement: StatementEdit, onSuccess: ApiOnSuccess): ApiAction => ({
     type: "API",

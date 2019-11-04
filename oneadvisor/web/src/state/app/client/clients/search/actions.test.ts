@@ -1,7 +1,7 @@
-import { Filters } from '@/app/table';
-import { clientsApi } from '@/config/api/client';
+import { Filters } from "@/app/table";
+import { clientsApi } from "@/config/api/client";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("client: clients: search actions", () => {
     it("should dispatch API when searchClients is called", () => {

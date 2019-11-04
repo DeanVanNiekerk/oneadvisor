@@ -1,4 +1,4 @@
-import { ClientTypeId } from '../lookups';
+import { ClientTypeId } from "../lookups";
 
 export type Client = {
     id: string;

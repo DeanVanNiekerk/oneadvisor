@@ -32,10 +32,7 @@ export const defaultState: State = {
     filters: null,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: StatementListAction
-): State => {
+export const reducer = (state: State = defaultState, action: StatementListAction): State => {
     switch (action.type) {
         case "STATEMENTS_LIST_RECEIVE": {
             return {

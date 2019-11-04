@@ -3,8 +3,8 @@
 // import { AuditLog } from '../';
 // import { defaultState, reducer } from './reducer';
 
-describe('auditLog list reducer', () => {
-    it('should handle AUDIT_LOGS_LIST_FETCHING', () => {
+describe("auditLog list reducer", () => {
+    it("should handle AUDIT_LOGS_LIST_FETCHING", () => {
         // const actualState = reducer(defaultState, {
         //     type: 'AUDIT_LOGS_LIST_FETCHING'
         // });

@@ -1,119 +1,119 @@
-import { getValidationResult } from '@/test';
+import { getValidationResult } from "@/test";
 
-import { defaultState, reducer } from './reducer';
+import { defaultState, reducer } from "./reducer";
 
-describe('branch reducer', () => {
-    it('should handle BRANCHES_BRANCH_FETCHING', () => {
+describe("branch reducer", () => {
+    it("should handle BRANCHES_BRANCH_FETCHING", () => {
         const initalState = {
             ...defaultState,
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const actualState = reducer(initalState, {
-            type: 'BRANCHES_BRANCH_FETCHING'
+            type: "BRANCHES_BRANCH_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
             fetching: true,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle BRANCHES_BRANCH_FETCHING_ERROR', () => {
+    it("should handle BRANCHES_BRANCH_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'BRANCHES_BRANCH_FETCHING_ERROR'
+            type: "BRANCHES_BRANCH_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            
-            fetching: false
+
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle BRANCHES_BRANCH_RECEIVE', () => {
+    it("should handle BRANCHES_BRANCH_RECEIVE", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const branch = {
-            id: '10',
-            organisationId: '99',
-            name: 'Org1'
+            id: "10",
+            organisationId: "99",
+            name: "Org1",
         };
 
         const actualState = reducer(initalState, {
-            type: 'BRANCHES_BRANCH_RECEIVE',
-            payload: { ...branch }
+            type: "BRANCHES_BRANCH_RECEIVE",
+            payload: { ...branch },
         });
 
         const expectedState = {
             ...defaultState,
             branch: { ...branch },
             fetching: false,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle BRANCHES_BRANCH_EDIT_FETCHING', () => {
+    it("should handle BRANCHES_BRANCH_EDIT_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'BRANCHES_BRANCH_EDIT_FETCHING'
+            type: "BRANCHES_BRANCH_EDIT_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle BRANCHES_BRANCH_EDIT_FETCHING_ERROR', () => {
+    it("should handle BRANCHES_BRANCH_EDIT_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'BRANCHES_BRANCH_EDIT_FETCHING_ERROR'
+            type: "BRANCHES_BRANCH_EDIT_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            
-            updating: false
+
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle BRANCHES_BRANCH_EDIT_RECEIVE', () => {
+    it("should handle BRANCHES_BRANCH_EDIT_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'BRANCHES_BRANCH_EDIT_RECEIVE'
+            type: "BRANCHES_BRANCH_EDIT_RECEIVE",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: false
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);

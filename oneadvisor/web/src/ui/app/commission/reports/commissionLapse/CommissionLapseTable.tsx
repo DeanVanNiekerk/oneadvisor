@@ -4,8 +4,11 @@ import { connect, DispatchProp } from "react-redux";
 import { Filters, getBooleanOptions, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
 import {
-    CommissionLapseData, commissionLapseSelector, receiveCommissionLapseFilters, receiveCommissionLapsePageOptions,
-    receiveCommissionLapseSortOptions
+    CommissionLapseData,
+    commissionLapseSelector,
+    receiveCommissionLapseFilters,
+    receiveCommissionLapsePageOptions,
+    receiveCommissionLapseSortOptions,
 } from "@/state/app/commission/reports";
 import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";

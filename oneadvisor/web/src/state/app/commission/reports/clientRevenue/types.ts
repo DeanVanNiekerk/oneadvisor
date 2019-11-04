@@ -1,4 +1,4 @@
-import { Filters } from '@/app/table';
+import { Filters } from "@/app/table";
 
 export type ClientRevenueData = {
     rowNumber: number;

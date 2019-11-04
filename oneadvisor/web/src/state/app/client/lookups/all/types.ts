@@ -1,4 +1,4 @@
-import { ClientType, ContactType, MarritalStatus, PolicyProductType, PolicyType } from '../';
+import { ClientType, ContactType, MarritalStatus, PolicyProductType, PolicyType } from "../";
 
 export type Lookups = {
     marritalStatus: MarritalStatus[];

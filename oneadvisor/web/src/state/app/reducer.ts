@@ -1,8 +1,8 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
-import { reducer as client, State as ClientState } from './client/reducer';
-import { reducer as commission, State as CommissionState } from './commission/reducer';
-import { reducer as directory, State as DirectoryState } from './directory/reducer';
+import { reducer as client, State as ClientState } from "./client/reducer";
+import { reducer as commission, State as CommissionState } from "./commission/reducer";
+import { reducer as directory, State as DirectoryState } from "./directory/reducer";
 
 export type State = {
     directory: DirectoryState;

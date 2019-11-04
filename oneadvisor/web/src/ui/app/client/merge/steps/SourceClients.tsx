@@ -1,14 +1,17 @@
-import { Alert, Divider, List } from 'antd';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Alert, Divider, List } from "antd";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { getAge } from '@/app/utils';
+import { getAge } from "@/app/utils";
 import {
-    Client, clientMergeNextStep, clientMergeSelector, getAlternateIdNumberLabel
-} from '@/state/app/client/clients';
-import { RootState } from '@/state/rootReducer';
+    Client,
+    clientMergeNextStep,
+    clientMergeSelector,
+    getAlternateIdNumberLabel,
+} from "@/state/app/client/clients";
+import { RootState } from "@/state/rootReducer";
 
-import ClientMergeSteps from '../ClientMergeSteps';
+import ClientMergeSteps from "../ClientMergeSteps";
 
 type Props = {
     clients: Client[];
@@ -30,16 +33,11 @@ class SourceClients extends Component<Props> {
     clientDetails = (client: Client): string => {
         const parts: string[] = [];
 
-        if (client.dateOfBirth)
-            parts.push(`Age: ${getAge(client.dateOfBirth)}`);
+        if (client.dateOfBirth) parts.push(`Age: ${getAge(client.dateOfBirth)}`);
 
         if (client.idNumber) parts.push(`ID Number: ${client.idNumber}`);
         else if (client.alternateIdNumber)
-            parts.push(
-                `${getAlternateIdNumberLabel(client.clientTypeId)}: ${
-                    client.alternateIdNumber
-                }`
-            );
+            parts.push(`${getAlternateIdNumberLabel(client.clientTypeId)}: ${client.alternateIdNumber}`);
 
         return parts.join(" | ");
     };
@@ -47,9 +45,7 @@ class SourceClients extends Component<Props> {
     render() {
         return (
             <>
-                <ClientMergeSteps
-                    onNext={() => this.props.dispatch(clientMergeNextStep())}
-                />
+                <ClientMergeSteps onNext={() => this.props.dispatch(clientMergeNextStep())} />
 
                 <Divider />
 

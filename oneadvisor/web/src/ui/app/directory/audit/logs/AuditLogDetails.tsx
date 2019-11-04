@@ -15,12 +15,7 @@ class AuditLogDetails extends Component<Props> {
         const { auditLog, visible, onClose } = this.props;
 
         return (
-            <Drawer
-                title="Audit Log Detail"
-                icon="video-camera"
-                visible={visible}
-                onClose={onClose}
-            >
+            <Drawer title="Audit Log Detail" icon="video-camera" visible={visible} onClose={onClose}>
                 {auditLog && (
                     <>
                         <p>

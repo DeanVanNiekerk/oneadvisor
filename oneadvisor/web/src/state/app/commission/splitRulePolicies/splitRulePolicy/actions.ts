@@ -1,8 +1,8 @@
-import { ApiAction, ApiOnSuccess } from '@/app/types';
-import { ValidationResult } from '@/app/validation';
-import { splitRulePoliciesApi } from '@/config/api/commission';
+import { ApiAction, ApiOnSuccess } from "@/app/types";
+import { ValidationResult } from "@/app/validation";
+import { splitRulePoliciesApi } from "@/config/api/commission";
 
-import { SplitRulePolicy } from '../types';
+import { SplitRulePolicy } from "../types";
 
 type SplitRulePolicyReceiveAction = {
     type: "SPLITRULEPOLICIES_SPLITRULEPOLICY_RECEIVE";

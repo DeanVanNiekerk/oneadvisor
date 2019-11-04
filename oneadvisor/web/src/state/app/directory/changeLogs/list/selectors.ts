@@ -4,8 +4,7 @@ import { RootState } from "@/state/rootReducer";
 
 import { State } from "./reducer";
 
-const rootSelector = (state: RootState): State =>
-    state.app.directory.changeLogs.list;
+const rootSelector = (state: RootState): State => state.app.directory.changeLogs.list;
 
 export const listSelector: (state: RootState) => State = createSelector(
     rootSelector,

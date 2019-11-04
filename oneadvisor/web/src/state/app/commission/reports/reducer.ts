@@ -4,13 +4,16 @@ import { reducer as clientRevenue, State as ClientRevenueState } from "./clientR
 import { reducer as commissionLapse, State as CommissionLapseState } from "./commissionLapse/reducer";
 import { reducer as projections, State as ProjectionsState } from "./projections/reducer";
 import {
-    reducer as userCompanyMonthlyCommission, State as UserCompanyMonthlyCommissionState
+    reducer as userCompanyMonthlyCommission,
+    State as UserCompanyMonthlyCommissionState,
 } from "./userCompanyMonthlyCommission/reducer";
 import {
-    reducer as userEarningsTypeMonthlyCommission, State as UserEarningsTypeMonthlyCommissionState
+    reducer as userEarningsTypeMonthlyCommission,
+    State as UserEarningsTypeMonthlyCommissionState,
 } from "./userEarningsTypeMonthlyCommission/reducer";
 import {
-    reducer as userMonthlyCommission, State as UsereMonthlyCommissionState
+    reducer as userMonthlyCommission,
+    State as UsereMonthlyCommissionState,
 } from "./userMonthlyCommission/reducer";
 
 export type State = {

@@ -1,4 +1,4 @@
-import { LookupsAction } from './actions';
+import { LookupsAction } from "./actions";
 
 export type State = {
     readonly fetching: boolean;
@@ -8,10 +8,7 @@ export const defaultState: State = {
     fetching: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: LookupsAction
-): State => {
+export const reducer = (state: State = defaultState, action: LookupsAction): State => {
     switch (action.type) {
         case "CLIENT_LOOKUPS_RECEIVE": {
             return {

@@ -36,15 +36,12 @@ export type ErrorListAction =
     | ErrorListSortOptionsReceiveAction;
 
 export const fetchCommissionErrors = (statementId?: string): ThunkAction<void, RootState, {}, ApiAction> => {
-
     return (dispatch, getState) => {
-
         let { pageOptions, sortOptions } = commissionErrorsSelector(getState());
 
         const filters: Filters = {};
 
-        if (statementId)
-            filters.commissionStatementId = [statementId];
+        if (statementId) filters.commissionStatementId = [statementId];
 
         let api = `${statementsApi}/errors`;
         api = appendPageOptionQuery(api, pageOptions);
@@ -52,9 +49,9 @@ export const fetchCommissionErrors = (statementId?: string): ThunkAction<void, R
         api = appendFiltersQuery(api, filters);
 
         dispatch({
-            type: 'API',
+            type: "API",
             endpoint: api,
-            dispatchPrefix: 'COMMISSIONS_ERRORS_LIST'
+            dispatchPrefix: "COMMISSIONS_ERRORS_LIST",
         });
     };
 };

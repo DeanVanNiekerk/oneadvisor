@@ -6,12 +6,9 @@ import { statementPreviewIsLoadingSelector, statementPreviewSelector } from "@/s
 import { RootState } from "@/state/rootReducer";
 import { CompanyName, Date, Header } from "@/ui/controls";
 
-type Props =
-    & PropsFromState
-    & RouteComponentProps;
+type Props = PropsFromState & RouteComponentProps;
 
 const StatementPreviewHeader: React.FC<Props> = (props: Props) => {
-
     const back = () => {
         return props.history.push("/commission");
     };
@@ -26,9 +23,8 @@ const StatementPreviewHeader: React.FC<Props> = (props: Props) => {
                 </span>
             )}
         </Header>
-
-    )
-}
+    );
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {

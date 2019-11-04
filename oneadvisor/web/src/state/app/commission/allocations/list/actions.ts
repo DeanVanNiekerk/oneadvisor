@@ -1,9 +1,9 @@
-import { appendFiltersQuery } from '@/app/query';
-import { Filters, PagedItems } from '@/app/table';
-import { ApiAction } from '@/app/types';
-import { allocationsApi } from '@/config/api/commission';
+import { appendFiltersQuery } from "@/app/query";
+import { Filters, PagedItems } from "@/app/table";
+import { ApiAction } from "@/app/types";
+import { allocationsApi } from "@/config/api/commission";
 
-import { Allocation } from '../types';
+import { Allocation } from "../types";
 
 type AllocationListReceiveAction = {
     type: "ALLOCATIONS_LIST_RECEIVE";

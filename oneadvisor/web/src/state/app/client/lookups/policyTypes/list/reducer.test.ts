@@ -1,4 +1,4 @@
-import { defaultState, reducer } from './reducer';
+import { defaultState, reducer } from "./reducer";
 
 describe("policyType list reducer", () => {
     it("should handle POLICYTYPES_LIST_RECEIVE", () => {

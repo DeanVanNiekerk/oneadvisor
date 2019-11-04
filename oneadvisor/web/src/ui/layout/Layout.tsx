@@ -1,8 +1,8 @@
-import { Layout } from 'antd';
-import React, { ReactNode } from 'react';
+import { Layout } from "antd";
+import React, { ReactNode } from "react";
 
-import Navigator from './Navigator';
-import SideMenu from './SideMenu';
+import Navigator from "./Navigator";
+import SideMenu from "./SideMenu";
 
 const { Content } = Layout;
 

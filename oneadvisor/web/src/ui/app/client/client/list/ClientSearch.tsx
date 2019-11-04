@@ -1,13 +1,13 @@
-import { Icon, Input } from 'antd';
-import { ColumnProps } from 'antd/lib/table';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { Icon, Input } from "antd";
+import { ColumnProps } from "antd/lib/table";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { applyLike } from '@/app/query';
-import { getColumnDefinition } from '@/app/table';
-import { Client, clientSearchSelector, searchClients } from '@/state/app/client/clients';
-import { RootState } from '@/state/rootReducer';
-import { Age, getTable } from '@/ui/controls';
+import { applyLike } from "@/app/query";
+import { getColumnDefinition } from "@/app/table";
+import { Client, clientSearchSelector, searchClients } from "@/state/app/client/clients";
+import { RootState } from "@/state/rootReducer";
+import { Age, getTable } from "@/ui/controls";
 
 const Table = getTable<Client>();
 

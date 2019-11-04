@@ -6,7 +6,6 @@ import { CommissionLapseDataFilters } from "./types";
 
 describe("reports: commissionLapse: list actions", () => {
     it("should dispatch API when fetchCommissionLapseData is called", () => {
-
         const pageOptions: PageOptions = {
             number: 2,
             size: 10,
@@ -21,9 +20,7 @@ describe("reports: commissionLapse: list actions", () => {
             userId: ["sup"],
         };
 
-        const api = `${commissionReportsApi}/commissionLapseData?pageNumber=${pageOptions.number}&pageSize=${
-            pageOptions.size
-            }&sortColumn=firstName&sortDirection=desc&filters=userId%3Dsup`;
+        const api = `${commissionReportsApi}/commissionLapseData?pageNumber=${pageOptions.number}&pageSize=${pageOptions.size}&sortColumn=firstName&sortDirection=desc&filters=userId%3Dsup`;
 
         const expectedAction = {
             type: "API",
@@ -31,9 +28,7 @@ describe("reports: commissionLapse: list actions", () => {
             dispatchPrefix: "COMMISSIONS_REPORT_COMMISSIONLAPSE",
         };
 
-        expect(actions.fetchCommissionLapseData(pageOptions, sortOptions, filters)).toEqual(
-            expectedAction
-        );
+        expect(actions.fetchCommissionLapseData(pageOptions, sortOptions, filters)).toEqual(expectedAction);
     });
 
     it("should dispatch COMMISSIONS_REPORT_COMMISSIONLAPSE_FILTERS_RECEIVE when receiveFilters is called", () => {

@@ -20,22 +20,10 @@ type Props = {
 } & PropsFromState;
 
 const PreviewCardComponent: React.FC<Props> = (props: Props) => {
-    const {
-        title,
-        titleExtra,
-        onClick,
-        actions,
-        isLoading,
-        requiredUseCase,
-        rows = 1,
-        height: height,
-        icon,
-    } = props;
+    const { title, titleExtra, onClick, actions, isLoading, requiredUseCase, rows = 1, height: height, icon } = props;
 
     let visible = true;
-    if (requiredUseCase)
-        visible =
-            hasUseCase(requiredUseCase, props.useCases) && visible;
+    if (requiredUseCase) visible = hasUseCase(requiredUseCase, props.useCases) && visible;
 
     if (!visible) return <React.Fragment />;
 
@@ -53,15 +41,10 @@ const PreviewCardComponent: React.FC<Props> = (props: Props) => {
                 title={
                     <>
                         <span>
-                            <Icon
-                                type={icon}
-                                style={{ marginRight: "6px" }}
-                            />
+                            <Icon type={icon} style={{ marginRight: "6px" }} />
                             {title}
                         </span>
-                        {titleExtra && (
-                            <span className="pull-right">{titleExtra}</span>
-                        )}
+                        {titleExtra && <span className="pull-right">{titleExtra}</span>}
                     </>
                 }
                 bordered={false}
@@ -83,7 +66,7 @@ const PreviewCardComponent: React.FC<Props> = (props: Props) => {
             </Card>
         </Col>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {

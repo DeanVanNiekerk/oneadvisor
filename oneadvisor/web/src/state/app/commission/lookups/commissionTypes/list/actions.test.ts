@@ -1,6 +1,6 @@
-import { commissionTypesApi } from '@/config/api/commission';
+import { commissionTypesApi } from "@/config/api/commission";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("directory: commissionTypes: list actions", () => {
     it("should dispatch API when fetchCommissionTypes is called", () => {

@@ -1,6 +1,6 @@
-import { Client } from '../';
-import { ClientTypeId } from '../../lookups';
-import { defaultState, reducer } from './reducer';
+import { Client } from "../";
+import { ClientTypeId } from "../../lookups";
+import { defaultState, reducer } from "./reducer";
 
 describe("client search reducer", () => {
     it("should handle CLIENTS_SEARCH_FETCHING", () => {

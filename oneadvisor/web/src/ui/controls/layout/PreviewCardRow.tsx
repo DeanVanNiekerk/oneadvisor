@@ -11,13 +11,13 @@ const PreviewCardRow: React.FC<Props> = (props: Props) => (
         type="flex"
         justify="space-between"
         style={{
-            paddingTop: '2px',
-            paddingBottom: '3px'
+            paddingTop: "2px",
+            paddingBottom: "3px",
         }}
     >
         <Col
             style={{
-                fontWeight: 'normal'
+                fontWeight: "normal",
             }}
         >
             {props.label}

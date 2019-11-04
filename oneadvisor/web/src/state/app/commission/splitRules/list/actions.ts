@@ -1,9 +1,9 @@
-import { appendFiltersQuery } from '@/app/query';
-import { Filters, PagedItems } from '@/app/table';
-import { ApiAction } from '@/app/types';
-import { splitRulesApi } from '@/config/api/commission';
+import { appendFiltersQuery } from "@/app/query";
+import { Filters, PagedItems } from "@/app/table";
+import { ApiAction } from "@/app/types";
+import { splitRulesApi } from "@/config/api/commission";
 
-import { SplitRule } from '../types';
+import { SplitRule } from "../types";
 
 type SplitRuleListReceiveAction = {
     type: "SPLITRULES_LIST_RECEIVE";

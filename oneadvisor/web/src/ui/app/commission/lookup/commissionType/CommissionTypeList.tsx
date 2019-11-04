@@ -5,7 +5,10 @@ import { getColumnDefinition } from "@/app/table";
 import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
 import { CommissionEarningsType, commissionEarningsTypesSelector } from "@/state/app/commission/lookups";
 import {
-    CommissionType, commissionTypesSelector, fetchCommissionTypes, receiveCommissionType
+    CommissionType,
+    commissionTypesSelector,
+    fetchCommissionTypes,
+    receiveCommissionType,
 } from "@/state/app/commission/lookups/commissionTypes";
 import { RootState } from "@/state/rootReducer";
 import { Button, CommissionEarningsTypeName, getTable, Header, PolicyTypeName } from "@/ui/controls";

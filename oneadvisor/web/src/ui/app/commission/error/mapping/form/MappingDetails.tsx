@@ -13,15 +13,22 @@ import ClientSearch from "@/ui/app/client/client/list/ClientSearch";
 import EditPolicy from "@/ui/app/client/policy/form/EditPolicy";
 import PolicySearch from "@/ui/app/client/policy/list/PolicySearch";
 import {
-    Button, ClientName, CommissionTypeName, Drawer, DrawerFooter, Form, FormText, PolicyName
+    Button,
+    ClientName,
+    CommissionTypeName,
+    Drawer,
+    DrawerFooter,
+    Form,
+    FormText,
+    PolicyName,
 } from "@/ui/controls";
 
 type Props = {
     statement: Statement;
-} & PropsFromState & PropsFromDispatch;
+} & PropsFromState &
+    PropsFromDispatch;
 
 const MappingDetails: React.FC<Props> = (props: Props) => {
-
     if (!props.error) return <React.Fragment />;
 
     const { error, validationResults, handleChange } = props;
@@ -53,7 +60,7 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
 
     const onChange = (fieldName: keyof CommissionErrorEdit, value: string | null) => {
         handleChange(error, fieldName, value);
-    }
+    };
 
     const clientSaved = (client: ClientEdit) => {
         setClientId(client.id);
@@ -80,11 +87,7 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                 <FormText
                     fieldName="clientId"
                     label="Client"
-                    value={
-                        error.clientId ? (
-                            <ClientName clientId={error.clientId} className="text-success" />
-                        ) : null
-                    }
+                    value={error.clientId ? <ClientName clientId={error.clientId} className="text-success" /> : null}
                     emptyValueText={<span className="text-error">No Mapped Client</span>}
                     validationResults={validationResults}
                     extra={
@@ -95,7 +98,7 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                                 type={error.clientId ? "dashed" : "primary"}
                                 onClick={() => setClientSearchVisible(true)}
                             >
-                                {error.clientId ? 'Change Client' : 'Select Client'}
+                                {error.clientId ? "Change Client" : "Select Client"}
                             </Button>
                             <Button
                                 size="small"
@@ -111,11 +114,7 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                 <FormText
                     fieldName="policyId"
                     label="Policy"
-                    value={
-                        error.policyId ? (
-                            <PolicyName policyId={error.policyId} className="text-success" />
-                        ) : null
-                    }
+                    value={error.policyId ? <PolicyName policyId={error.policyId} className="text-success" /> : null}
                     emptyValueText={<span className="text-error">No Mapped Policy</span>}
                     validationResults={validationResults}
                     extra={
@@ -145,9 +144,7 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                     fieldName="commissionTypeId"
                     label="Commission Type"
                     value={
-                        error.commissionTypeId ? (
-                            <CommissionTypeName commissionTypeId={error.commissionTypeId} />
-                        ) : null
+                        error.commissionTypeId ? <CommissionTypeName commissionTypeId={error.commissionTypeId} /> : null
                     }
                     emptyValueText={<span className="text-error">No Mapped Commission Type</span>}
                     validationResults={validationResults}
@@ -157,11 +154,7 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
             <EditClient onSaved={clientSaved} />
             <EditPolicy onSaved={policySaved} />
 
-            <Drawer
-                title="Client Search"
-                visible={clientSearchVisible}
-                onClose={() => setClientSearchVisible(false)}
-            >
+            <Drawer title="Client Search" visible={clientSearchVisible} onClose={() => setClientSearchVisible(false)}>
                 <ClientSearch
                     defaultSearchText={error.data.lastName || ""}
                     onSelect={(clientId: string) => {
@@ -174,11 +167,7 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                 </DrawerFooter>
             </Drawer>
 
-            <Drawer
-                title="Policy Search"
-                visible={policySearchVisible}
-                onClose={() => setPolicySearchVisible(false)}
-            >
+            <Drawer title="Policy Search" visible={policySearchVisible} onClose={() => setPolicySearchVisible(false)}>
                 <PolicySearch
                     onSelect={(policyId: string) => {
                         setPolicyId(policyId);
@@ -193,7 +182,7 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
             </Drawer>
         </>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
@@ -219,7 +208,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             let errorModified = update(error, { [fieldName]: { $set: value } });
             dispatch(modifyMappingError(errorModified));
         },
-    }
-}
+    };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(MappingDetails);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(MappingDetails);

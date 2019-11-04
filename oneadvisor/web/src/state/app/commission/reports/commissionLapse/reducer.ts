@@ -17,9 +17,7 @@ export type State = {
 };
 
 const defaultFilters: CommissionLapseDataFilters = {
-    date: [
-        moment().format(DATE_FORMAT),
-    ],
+    date: [moment().format(DATE_FORMAT)],
 };
 
 export const defaultState: State = {

@@ -1,23 +1,23 @@
 import { listSelector } from "./selectors";
 
-describe('userType list selectors', () => {
-    it('listSelector', () => {
+describe("userType list selectors", () => {
+    it("listSelector", () => {
         const state = {
             app: {
                 directory: {
                     lookups: {
                         userTypes: {
                             list: {
-                                property: '1'
-                            }
-                        }
-                    }
-                }
-            }
+                                property: "1",
+                            },
+                        },
+                    },
+                },
+            },
         };
 
         const expected = {
-            property: '1'
+            property: "1",
         };
 
         //@ts-ignore

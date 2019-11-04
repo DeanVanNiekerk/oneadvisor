@@ -1,7 +1,7 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { CommissionEdit } from '../types';
-import { CommissionAction } from './actions';
+import { CommissionEdit } from "../types";
+import { CommissionAction } from "./actions";
 
 export type State = {
     readonly commission: CommissionEdit | null;
@@ -17,10 +17,7 @@ export const defaultState: State = {
     validationResults: [],
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: CommissionAction
-): State => {
+export const reducer = (state: State = defaultState, action: CommissionAction): State => {
     switch (action.type) {
         case "COMMISSIONS_COMMISSION_RECEIVE": {
             return {

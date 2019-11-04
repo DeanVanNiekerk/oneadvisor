@@ -1,7 +1,7 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { CommissionStatementTemplateEdit } from '../types';
-import { TemplateAction } from './actions';
+import { CommissionStatementTemplateEdit } from "../types";
+import { TemplateAction } from "./actions";
 
 export type State = {
     readonly template: CommissionStatementTemplateEdit | null;
@@ -17,10 +17,7 @@ export const defaultState: State = {
     validationResults: [],
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: TemplateAction
-): State => {
+export const reducer = (state: State = defaultState, action: TemplateAction): State => {
     switch (action.type) {
         case "COMMISSIONS_STATEMENT_TEMPLATE_RECEIVE": {
             return {
