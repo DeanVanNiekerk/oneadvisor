@@ -22,22 +22,23 @@ const Table = getTable<CommissionError>();
 type Props = {
     statement: Statement;
     onSaved?: () => void;
-} & PropsFromState & PropsFromDispatch;
+} & PropsFromState &
+    PropsFromDispatch;
 
 const ErrorList: React.FC<Props> = (props: Props) => {
-
     useEffect(() => {
         load();
+    }, [props.pageOptions, props.sortOptions]);
 
+    useEffect(() => {
         //If we are NOT on the first page and there are no errors, move to first page
         if (props.pageOptions.number !== 1 && props.errors.length === 0) {
             props.updatePageOptions({
                 ...props.pageOptions,
                 number: props.pageOptions.number - 1,
-            })
+            });
         }
-
-    }, [props.pageOptions, props.sortOptions, props.errors]);
+    }, [props.errors]);
 
     const load = () => {
         props.fetchCommissionErrors(props.statement.id);
@@ -160,13 +161,10 @@ const ErrorList: React.FC<Props> = (props: Props) => {
                 totalRows={props.totalItems}
                 onTableChange={onTableChange}
             />
-            <EditMappingError
-                statement={props.statement}
-                onSaved={onSaved}
-            />
+            <EditMappingError statement={props.statement} onSaved={onSaved} />
         </>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
