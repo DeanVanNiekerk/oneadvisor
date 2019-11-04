@@ -13,70 +13,70 @@ import { showMessage } from "../feedback/notifcation";
 import Layout from "./Layout";
 
 type Props = {
-    fetching: boolean;
-    failed: boolean;
-    validationResults: ValidationResult[];
+    fetching: boolean
+    failed: boolean
+    validationResults: ValidationResult[]
 } & DispatchProp &
-    RouteComponentProps;
+    RouteComponentProps
 
 type State = {
-    userName: string;
-    token: string;
-    password: string;
-    confirmPassword: string;
-};
+    userName: string
+    token: string
+    password: string
+    confirmPassword: string
+}
 
 class Activate extends React.Component<Props, State> {
     constructor(props) {
-        super(props);
+        super(props)
 
-        const values = queryString.parse(this.props.location.search);
+        const values = queryString.parse(this.props.location.search)
 
         this.state = {
             userName: values.username as string,
             token: values.token as string,
             password: "",
             confirmPassword: "",
-        };
+        }
     }
 
     handlePasswordChange = (fieldName: string, value: any) => {
         this.setState({
             password: value,
-        });
-    };
+        })
+    }
 
     handleConfirmPasswordChange = (fieldName: string, value: any) => {
         this.setState({
             confirmPassword: value,
-        });
-    };
+        })
+    }
 
     activate = () => {
-        this.props.dispatch(signOut());
+        this.props.dispatch(signOut())
 
         const data: ResetPasswordData = {
             userName: this.state.userName,
             password: this.state.password,
             confirmPassword: this.state.confirmPassword,
             token: this.state.token,
-        };
+        }
         this.props.dispatch(
             activate(data, () => {
-                showMessage("success", "Activation Successful, Welcome to One Advisor", 4);
-                this.props.history.push("/");
+                showMessage("success", "Activation Successful, Welcome to One Advisor", 4)
+                this.props.history.push("/")
             })
-        );
-    };
+        )
+    }
 
     onKeyPress = event => {
         if (event.key === "Enter") {
-            this.activate();
+            this.activate()
         }
-    };
+    }
 
     render() {
-        const { validationResults } = this.props;
+        const { validationResults } = this.props
 
         return (
             <Layout header="Activate Acccount" loading={this.props.fetching}>
@@ -136,17 +136,17 @@ class Activate extends React.Component<Props, State> {
                     </FormField>
                 </Form>
             </Layout>
-        );
+        )
     }
 }
 
 const mapStateToProps = (state: RootState) => {
-    const resetPasswordState = resetPasswordSelector(state);
+    const resetPasswordState = resetPasswordSelector(state)
 
     return {
         fetching: resetPasswordState.fetching,
         validationResults: resetPasswordState.validationResults,
-    };
-};
+    }
+}
 
-export default withRouter(connect(mapStateToProps)(Activate));
+export default withRouter(connect(mapStateToProps)(Activate))
