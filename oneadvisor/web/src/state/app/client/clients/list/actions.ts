@@ -41,7 +41,7 @@ export type ClientListAction =
     | ClientListFiltersReceiveAction
     | ClientListSelectedReceiveAction;
 
-export const fetchClients = (): ThunkAction<void, RootState, {}, ApiAction> => {
+export const fetchClients = (all: boolean = false): ThunkAction<void, RootState, {}, ApiAction> => {
 
     return (dispatch, getState) => {
 
@@ -51,9 +51,11 @@ export const fetchClients = (): ThunkAction<void, RootState, {}, ApiAction> => {
 
         let api = clientsApi;
 
-        api = appendPageOptionQuery(api, pageOptions);
-        api = appendSortOptionQuery(api, sortOptions);
-        api = appendFiltersQuery(api, filters);
+        if (!all) {
+            api = appendPageOptionQuery(api, pageOptions);
+            api = appendSortOptionQuery(api, sortOptions);
+            api = appendFiltersQuery(api, filters);
+        }
 
         dispatch({
             type: 'API',

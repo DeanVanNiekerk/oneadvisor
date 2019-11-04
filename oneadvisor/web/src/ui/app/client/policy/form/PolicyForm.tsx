@@ -1,10 +1,12 @@
 import { CascaderOptionType } from "antd/lib/cascader";
 import update from "immutability-helper";
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
 import { filterOption } from "@/app/controls/select";
+import { fetchClients } from "@/state/app/client/clients";
 import {
     policyProductCascade, policyProductsSelector, policyProductTypesSelector, policyTypesSelector
 } from "@/state/app/client/lookups";
@@ -12,7 +14,12 @@ import { modifyPolicy, PolicyEdit, policySelector } from "@/state/app/client/pol
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { Form, FormCascade, FormDate, FormInput, FormInputNumber, FormSelect, FormSwitch } from "@/ui/controls";
+import {
+    Button, ClientName, Drawer, DrawerFooter, Form, FormCascade, FormDate, FormInput, FormInputNumber, FormSelect,
+    FormSwitch, FormText
+} from "@/ui/controls";
+
+import ClientSearch from "../../client/list/ClientSearch";
 
 type Props = PropsFromState & PropsFromDispatch;
 
@@ -22,73 +29,113 @@ const PolicyForm: React.FC<Props> = (props: Props) => {
 
     if (!policy) return <React.Fragment />;
 
+    const [clientSearchVisible, setClientSearchVisible] = useState<boolean>(false);
+
     const onChange = (fieldName: keyof PolicyEdit, value: string | boolean) => {
         handleChange(policy, fieldName, value);
     };
 
     return (
-        <Form editUseCase="clt_edit_policies">
-            <FormSelect
-                fieldName="companyId"
-                label="Company"
-                value={policy.companyId}
-                onChange={onChange}
-                validationResults={validationResults}
-                options={props.companies}
-                optionsValue="id"
-                optionsText="name"
-                filterOption={filterOption}
-            />
-            <FormCascade
-                fieldName="policyTypeId"
-                label="Type / Product / Name"
-                value={props.getPolicyProductCascaseValues()}
-                onChange={(values: string[]) => props.handlePolicyProductCascaseChange(policy, values)}
-                validationResults={validationResults}
-                options={props.getPolicyProductCascase()}
-                changeOnSelect={true}
-            />
-            <FormSelect
-                fieldName="userId"
-                label="Broker"
-                value={policy.userId}
-                onChange={onChange}
-                validationResults={validationResults}
-                options={props.users}
-                optionsValue="id"
-                optionsText="fullName"
-                filterOption={filterOption}
-            />
-            <FormInput
-                fieldName="number"
-                label="Number"
-                value={policy.number}
-                onChange={onChange}
-                validationResults={validationResults}
-            />
-            <FormInputNumber
-                fieldName="premium"
-                label="Premium"
-                value={policy.premium}
-                onChange={onChange}
-                validationResults={validationResults}
-                min={0}
-            />
-            <FormDate
-                fieldName="startDate"
-                label="Start Date"
-                value={policy.startDate}
-                onChange={onChange}
-                validationResults={validationResults}
-            />
-            <FormSwitch
-                fieldName="isActive"
-                label="Active"
-                value={policy.isActive}
-                onChange={onChange}
-                validationResults={validationResults}
-            />
-        </Form>
+        <>
+            <Form editUseCase="clt_edit_policies">
+                <FormText
+                    fieldName="clientId"
+                    label="Client"
+                    value={policy.clientId ? <ClientName clientId={policy.clientId} /> : null}
+                    emptyValueText={<span className="text-error">Select Client</span>}
+                    validationResults={validationResults}
+                    extra={
+                        <>
+                            <Button
+                                size="small"
+                                icon="search"
+                                type={policy.clientId ? "dashed" : "primary"}
+                                onClick={() => setClientSearchVisible(true)}
+                            >
+                                {policy.clientId ? 'Change Client' : 'Select Client'}
+                            </Button>
+                        </>
+                    }
+                />
+                <FormSelect
+                    fieldName="companyId"
+                    label="Company"
+                    value={policy.companyId}
+                    onChange={onChange}
+                    validationResults={validationResults}
+                    options={props.companies}
+                    optionsValue="id"
+                    optionsText="name"
+                    filterOption={filterOption}
+                />
+                <FormCascade
+                    fieldName="policyTypeId"
+                    label="Type / Product / Name"
+                    value={props.getPolicyProductCascaseValues()}
+                    onChange={(values: string[]) => props.handlePolicyProductCascaseChange(policy, values)}
+                    validationResults={validationResults}
+                    options={props.getPolicyProductCascase()}
+                    changeOnSelect={true}
+                />
+                <FormSelect
+                    fieldName="userId"
+                    label="Broker"
+                    value={policy.userId}
+                    onChange={onChange}
+                    validationResults={validationResults}
+                    options={props.users}
+                    optionsValue="id"
+                    optionsText="fullName"
+                    filterOption={filterOption}
+                />
+                <FormInput
+                    fieldName="number"
+                    label="Number"
+                    value={policy.number}
+                    onChange={onChange}
+                    validationResults={validationResults}
+                />
+                <FormInputNumber
+                    fieldName="premium"
+                    label="Premium"
+                    value={policy.premium}
+                    onChange={onChange}
+                    validationResults={validationResults}
+                    min={0}
+                />
+                <FormDate
+                    fieldName="startDate"
+                    label="Start Date"
+                    value={policy.startDate}
+                    onChange={onChange}
+                    validationResults={validationResults}
+                />
+                <FormSwitch
+                    fieldName="isActive"
+                    label="Active"
+                    value={policy.isActive}
+                    onChange={onChange}
+                    validationResults={validationResults}
+                />
+            </Form>
+
+            <Drawer
+                title="Client Search"
+                visible={clientSearchVisible}
+                onClose={() => setClientSearchVisible(false)}
+            >
+                <ClientSearch
+                    defaultSearchText={""}
+                    onSelect={(clientId: string) => {
+                        onChange("clientId", clientId);
+                        setClientSearchVisible(false);
+                    }}
+                />
+                <DrawerFooter>
+                    <Button onClick={() => setClientSearchVisible(false)}>Close</Button>
+                </DrawerFooter>
+            </Drawer>
+        </>
     );
 }
 
@@ -133,8 +180,11 @@ const mapStateToProps = (state: RootState) => {
 };
 
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
+        fetchClients: () => {
+            dispatch(fetchClients(true));
+        },
         handleChange: (policy: PolicyEdit, fieldName: keyof PolicyEdit, value: string | boolean) => {
             let policyModified = update(policy, { [fieldName]: { $set: value } });
 

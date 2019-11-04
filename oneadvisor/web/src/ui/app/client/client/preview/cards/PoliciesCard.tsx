@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
 
-import { hasUseCase } from "@/app/identity";
 import { clientPreviewSelector } from "@/state/app/client/clients";
-import { newPolicy, policyVisible, receivePolicy } from "@/state/app/client/policies";
-import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Button, Drawer, DrawerFooter, Icon, PreviewCard, PreviewCardRow } from "@/ui/controls";
 
@@ -15,31 +11,11 @@ type Props = {
     cardHeight: string;
     onSaved: () => void;
 }
-    & PropsFromState
-    & PropsFromDispatch;
+    & PropsFromState;
 
 const PoliciesCardComponent: React.FC<Props> = (props: Props) => {
 
     const [policyListVisible, setPolicyListVisible] = useState<boolean>(false);
-
-    const getPolicyActions = () => {
-        const actions = [<Icon tooltip="View Policies" type="bars" onClick={() => setPolicyListVisible(true)} />];
-
-        if (hasUseCase("clt_edit_policies", props.useCases))
-            actions.unshift(
-                <Icon
-                    tooltip="New Policy"
-                    type="plus"
-                    onClick={e => {
-                        e.stopPropagation();
-                        if (!props.client) return;
-                        props.newPolicy(props.client.id);
-                    }}
-                />
-            );
-
-        return actions;
-    };
 
     return (
         <>
@@ -49,7 +25,7 @@ const PoliciesCardComponent: React.FC<Props> = (props: Props) => {
                 onClick={() => setPolicyListVisible(true)}
                 isLoading={props.loading}
                 requiredUseCase="clt_view_policies"
-                actions={getPolicyActions()}
+                actions={[<Icon tooltip="View Policies" type="bars" onClick={() => setPolicyListVisible(true)} />]}
                 height={props.cardHeight}
             >
                 {props.client && (
@@ -85,20 +61,9 @@ const mapStateToProps = (state: RootState) => {
     return {
         client: clientState.client,
         loading: clientState.fetching || !clientState.client,
-        useCases: useCaseSelector(state),
     };
 };
 
-type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
-const mapDispatchToProps = (dispatch: Dispatch) => {
-    return {
-        newPolicy: (clientId: string) => {
-            dispatch(newPolicy({ clientId: clientId }));
-            dispatch(policyVisible(true));
-        },
-    }
-}
-
-const PoliciesCard = connect(mapStateToProps, mapDispatchToProps)(PoliciesCardComponent);
+const PoliciesCard = connect(mapStateToProps)(PoliciesCardComponent);
 
 export { PoliciesCard };

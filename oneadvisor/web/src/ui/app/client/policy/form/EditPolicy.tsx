@@ -28,7 +28,6 @@ const EditPolicy: React.FC<Props> = (props: Props) => {
             icon="file-text"
             visible={props.visible}
             updating={props.loading}
-            noTopPadding={true}
             saveRequiredUseCase="clt_edit_policies"
             onClose={() => {
                 props.confirmCancel(close);

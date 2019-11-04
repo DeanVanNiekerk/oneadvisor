@@ -95,7 +95,7 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                                 type={error.clientId ? "dashed" : "primary"}
                                 onClick={() => setClientSearchVisible(true)}
                             >
-                                Find Client
+                                {error.clientId ? 'Change Client' : 'Select Client'}
                             </Button>
                             <Button
                                 size="small"

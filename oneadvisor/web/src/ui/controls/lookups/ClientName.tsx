@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { ClientEdit, getClient } from '@/state/app/client/clients';
+import { ClientEdit, getClient } from "@/state/app/client/clients";
 
 type Props = {
     clientId: string | null;
@@ -9,44 +9,34 @@ type Props = {
     prefix?: string;
 } & DispatchProp;
 
-type State = {
-    client: ClientEdit | null;
-};
+const ClientNameComponent: React.FC<Props> = (props: Props) => {
 
-class ClientNameComponent extends Component<Props, State> {
-    constructor(props) {
-        super(props);
-        this.state = { client: null };
-        this.loadClient();
-    }
+    const [client, setClient] = useState<ClientEdit | null>(null);
 
-    componentDidUpdate(prevProps: Props) {
-        if (this.props.clientId != prevProps.clientId) this.loadClient();
-    }
+    useEffect(() => {
+        loadClient();
+    }, [props.clientId]);
 
-    loadClient = () => {
-        if (!this.props.clientId) {
-            this.setState({ client: null });
+    const loadClient = () => {
+
+        if (!props.clientId) {
+            setClient(null);
             return;
         }
 
-        this.props.dispatch(
-            getClient(this.props.clientId, (client: ClientEdit) => {
-                this.setState({ client: client });
+        props.dispatch(
+            getClient(props.clientId, (client) => {
+                setClient(client);
             })
         );
     };
 
-    render() {
-        const { client } = this.state;
+    if (!client) return <span />;
 
-        if (!client) return <span />;
-
-        return (
-            <span className={this.props.className}>{`${this.props.prefix ||
-                ""}${client.firstName || ""} ${client.lastName || ""}`}</span>
-        );
-    }
+    return (
+        <span className={props.className}>{`${props.prefix ||
+            ""}${client.firstName || ""} ${client.lastName || ""}`}</span>
+    );
 }
 
 const ClientName = connect()(ClientNameComponent);

@@ -101,7 +101,6 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
             <Drawer
                 title="Commission Entries"
                 icon="dollar"
-                noTopPadding={true}
                 visible={commissionListVisible}
                 onClose={() => setCommissionListVisible(false)}
             >

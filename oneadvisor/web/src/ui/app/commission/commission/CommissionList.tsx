@@ -91,21 +91,6 @@ class CommissionList extends Component<Props> {
         }
     };
 
-    newCommission = () => {
-        const commission: CommissionEdit = {
-            id: "",
-            commissionStatementId: this.props.commissionStatementId || "",
-            amountIncludingVAT: 0,
-            vat: 0,
-            commissionTypeId: "",
-            policyId: "",
-            userId: "",
-            splitGroupId: null,
-            sourceData: null,
-        };
-        this.props.dispatch(receiveCommission(commission));
-    };
-
     getColumns = () => {
         var getColumn = getColumnDefinition<Commission>(true, this.props.filters, this.props.sortOptions);
 
@@ -244,21 +229,7 @@ class CommissionList extends Component<Props> {
                 <Header
                     className="mb-1"
                     icon="dollar"
-                    textHidden={this.props.hideHeaderText}
-                    actions={
-                        <>
-                            <Button
-                                type="default"
-                                icon="plus"
-                                onClick={this.newCommission}
-                                disabled={this.props.fetching}
-                                requiredUseCase="com_edit_commissions"
-                                visible={!!this.props.commissionStatementId}
-                            >
-                                New Commission
-                            </Button>
-                        </>
-                    }
+                    hidden={this.props.hideHeaderText}
                 >
                     Commission Entries
                 </Header>
