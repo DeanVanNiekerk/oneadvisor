@@ -4,6 +4,7 @@
     "git.confirmSync": false,
     "git.autofetch": true,
     "explorer.confirmDragAndDrop": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "files.exclude": {
         "**/.git": true,
@@ -20,9 +21,4 @@
     "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 120,
     "importSorter.importStringConfiguration.quoteMark": "double",
     "dotnet-test-explorer.testProjectPath": "**/*.Test.csproj",
-    "debug.internalConsoleOptions": "neverOpen",
-    "azureFunctions.deploySubpath": "oneadvisor/function/bin/Release/netcoreapp2.1/publish",
-    "azureFunctions.projectLanguage": "C#",
-    "azureFunctions.projectRuntime": "~2",
-    "azureFunctions.preDeployTask": "publish"
 }
