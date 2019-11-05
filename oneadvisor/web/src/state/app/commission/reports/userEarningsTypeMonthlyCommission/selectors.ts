@@ -1,14 +1,17 @@
 import { createSelector } from "reselect";
 
 import { RootState } from "@/state/rootReducer";
+import { PieDatum } from "@nivo/pie";
 
-import { commissionEarningsTypesSelector, UNKNOWN_COMMISSION_EARNINGS_TYPE_ID } from "../../lookups";
+import {
+    commissionEarningsTypesSelector, getCommissionEarningsTypeName, UNKNOWN_COMMISSION_EARNINGS_TYPE_ID
+} from "../../lookups";
 import { State } from "./reducer";
 import { UserEarningsTypeMonthlyCommissionData } from "./types";
 
 const rootSelector = (state: RootState): State => state.app.commission.reports.userEarningsTypeMonthlyCommission;
 
-export const listSelector: (state: RootState) => State = createSelector(
+export const userEarningsTypeMonthlyCommissionSelector: (state: RootState) => State = createSelector(
     rootSelector,
     commissionEarningsTypesSelector,
     root => root
@@ -41,11 +44,26 @@ export const userEarningsTypeMonthlyCommissionItemsSelector: (
     }
 );
 
-export const userEarningsTypeMonthlyCommissionTotalSelector: (state: RootState) => number = createSelector(
+export const userEarningsTypeMonthlyCommissionPieDataSelector: (state: RootState) => PieDatum[] = createSelector(
     rootSelector,
-    root => {
-        return root.items.reduce((p, c) => {
-            return p + c.amountExcludingVAT;
-        }, 0);
+    commissionEarningsTypesSelector,
+    (root, commissionEarningsTypes) => {
+        return root.items
+            .filter(r => r.amountExcludingVAT > 0)
+            .map(r => {
+                return {
+                    id: r.commissionEarningsTypeId,
+                    label: getCommissionEarningsTypeName(
+                        r.commissionEarningsTypeId,
+                        commissionEarningsTypes.items
+                    ),
+                    value: r.amountExcludingVAT,
+                };
+            });
     }
+);
+
+export const userEarningsTypeMonthlyCommissionTotalAmountExclVatSelector: (state: RootState) => number = createSelector(
+    rootSelector,
+    root => root.items.reduce((p, c) => p + c.amountExcludingVAT, 0)
 );

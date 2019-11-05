@@ -1,7 +1,12 @@
+import { AnyAction } from "redux";
+import { ThunkAction } from "redux-thunk";
+
 import { appendFiltersQuery } from "@/app/query";
 import { ApiAction } from "@/app/types";
 import { commissionReportsApi } from "@/config/api/commission";
+import { RootState } from "@/state/rootReducer";
 
+import { userCompanyMonthlyCommissionSelector } from "../";
 import { UserCompanyMonthlyCommissionData, UserCompanyMonthlyCommissionFilters } from "./types";
 
 type UserCompanyMonthlyCommissionDataReceiveAction = {
@@ -25,13 +30,18 @@ export type UserCompanyMonthlyCommissionDataAction =
     | UserCompanyMonthlyCommissionDataFetchingErrorAction
     | UserCompanyMonthlyCommissionDataFiltersReceiveAction;
 
-export const fetchUserCompanyMonthlyCommissionData = (filters: UserCompanyMonthlyCommissionFilters): ApiAction => {
-    let api = `${commissionReportsApi}/userCompanyMonthlyCommissionData`;
-    api = appendFiltersQuery(api, filters);
-    return {
-        type: "API",
-        endpoint: api,
-        dispatchPrefix: "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION",
+export const fetchUserCompanyMonthlyCommissionData = (): ThunkAction<void, RootState, {}, ApiAction> => {
+    return (dispatch, getState) => {
+        let { filters } = userCompanyMonthlyCommissionSelector(getState());
+
+        let api = `${commissionReportsApi}/userCompanyMonthlyCommissionData`;
+        api = appendFiltersQuery(api, filters);
+
+        dispatch({
+            type: "API",
+            endpoint: api,
+            dispatchPrefix: "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION",
+        });
     };
 };
 
@@ -41,3 +51,43 @@ export const receiveUserCompanyMonthlyCommissionFilters = (
     type: "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FILTERS_RECEIVE",
     payload: filters,
 });
+
+export const receiveUserCompanyMonthlyCommissionUserFilter = (userIds: string[]): ThunkAction<void, RootState, {}, AnyAction> => {
+    return (dispatch, getState) => {
+        let { filters } = userCompanyMonthlyCommissionSelector(getState());
+
+        filters = {
+            ...filters,
+            userId: userIds,
+        };
+
+        dispatch(receiveUserCompanyMonthlyCommissionFilters(filters));
+    };
+};
+
+export const receiveUserCompanyMonthlyCommissionCompanyFilter = (companyIds: string[]): ThunkAction<void, RootState, {}, AnyAction> => {
+    return (dispatch, getState) => {
+        let { filters } = userCompanyMonthlyCommissionSelector(getState());
+
+        filters = {
+            ...filters,
+            companyId: companyIds,
+        };
+
+        dispatch(receiveUserCompanyMonthlyCommissionFilters(filters));
+    };
+};
+
+export const receiveUserCompanyMonthlyCommissionDateRangeFilter = (startDate: string, endDate: string): ThunkAction<void, RootState, {}, AnyAction> => {
+    return (dispatch, getState) => {
+        let { filters } = userCompanyMonthlyCommissionSelector(getState());
+
+        filters = {
+            ...filters,
+            startDate: [startDate],
+            endDate: [endDate],
+        };
+
+        dispatch(receiveUserCompanyMonthlyCommissionFilters(filters));
+    };
+};
