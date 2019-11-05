@@ -21,7 +21,7 @@ const StatementHistory: React.FC<Props> = (props: Props) => {
     }, []);
 
     const download = (url: string, fileName: string) => {
-        props.downloadFile(fileName, url);
+        props.downloadFile(url, fileName);
     };
 
     return (

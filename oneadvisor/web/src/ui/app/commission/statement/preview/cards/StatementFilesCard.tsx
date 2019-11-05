@@ -49,7 +49,7 @@ const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
                 icon="file-excel"
                 onClick={() => setUploadStatementVisible(true)}
                 isLoading={props.loading}
-                rows={4}
+                rows={3}
                 height={props.cardHeight}
                 requiredUseCase="com_import_commissions"
                 actions={getStatementFilesActions()}
