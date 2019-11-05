@@ -1,144 +1,72 @@
-import React, { Component } from "react";
-import { connect, DispatchProp } from "react-redux";
+import React from "react";
+import { connect } from "react-redux";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
-import { areEqual } from "@/app/utils";
-import { ValidationResult } from "@/app/validation";
 import {
-    CommissionEdit,
-    commissionSelector,
-    insertCommission,
-    receiveCommission,
-    updateCommission,
+    commissionSelector, commissionVisible, confirmCancelCommission, saveCommission
 } from "@/state/app/commission/commissions";
 import { RootState } from "@/state/rootReducer";
-import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import CommissionForm from "./CommissionForm";
+import EditCommissionTitle from "./EditCommissionTitle";
+import CommissionForm from "./form/CommissionForm";
 
 type Props = {
-    onClose: (cancelled: boolean) => void;
-    commission: CommissionEdit | null;
-    fetching: boolean;
-    updating: boolean;
-    validationResults: ValidationResult[];
-} & DispatchProp;
+    onSaved?: () => void;
+} & PropsFromState &
+    PropsFromDispatch;
 
-type State = {
-    commissionEdited: CommissionEdit | null;
+const EditCommission: React.FC<Props> = (props: Props) => {
+    const close = () => props.setVisible(false);
+
+    return (
+        <EditDrawer
+            title={<EditCommissionTitle />}
+            icon="dollar"
+            visible={props.visible}
+            updating={props.updating}
+            noTopPadding={true}
+            saveRequiredUseCase="com_edit_commissions"
+            onClose={() => {
+                props.confirmCancel(close);
+            }}
+            onSave={() => {
+                props.saveCommission(props.onSaved);
+                close();
+            }}
+        >
+            <CommissionForm />
+        </EditDrawer>
+    );
 };
-class EditCommission extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
 
-        this.state = {
-            commissionEdited: props.commission,
-        };
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (this.props.commission != prevProps.commission) {
-            this.setState({
-                commissionEdited: this.props.commission,
-            });
-        }
-    }
-
-    close = (cancelled: boolean = false) => {
-        this.props.dispatch(receiveCommission(null));
-        this.props.onClose(cancelled);
-    };
-
-    confirmCancel = () => {
-        if (!areEqual(this.props.commission, this.state.commissionEdited)) return showConfirm({ onOk: this.cancel });
-
-        this.cancel();
-    };
-
-    cancel = () => {
-        this.close(true);
-    };
-
-    save = () => {
-        if (!this.state.commissionEdited) {
-            this.close();
-            return;
-        }
-
-        if (this.state.commissionEdited.id) {
-            this.props.dispatch(updateCommission(this.state.commissionEdited, () => this.close()));
-        } else {
-            this.props.dispatch(insertCommission(this.state.commissionEdited, () => this.close()));
-        }
-    };
-
-    onChange = (commission: CommissionEdit) => {
-        this.setState({
-            commissionEdited: commission,
-        });
-    };
-
-    isLoading = () => {
-        return this.props.fetching || this.props.updating;
-    };
-
-    getTitle = () => {
-        if (this.props.fetching) return "Loading Commission";
-
-        const { commission } = this.props;
-
-        if (commission && commission.id) return `Edit Commission`;
-
-        return "New Commission";
-    };
-
-    render() {
-        const { commission, fetching, validationResults } = this.props;
-
-        return (
-            <Drawer
-                title={this.getTitle()}
-                icon="dollar"
-                visible={!!commission || fetching}
-                onClose={this.confirmCancel}
-                noTopPadding={true}
-            >
-                <ContentLoader isLoading={this.isLoading()}>
-                    {commission && (
-                        <CommissionForm
-                            commission={commission}
-                            validationResults={validationResults}
-                            onChange={this.onChange}
-                        />
-                    )}
-                </ContentLoader>
-                <DrawerFooter>
-                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
-                        Cancel
-                    </Button>
-                    <Button
-                        onClick={this.save}
-                        type="primary"
-                        disabled={this.isLoading()}
-                        requiredUseCase="com_edit_commissions"
-                    >
-                        Save
-                    </Button>
-                </DrawerFooter>
-            </Drawer>
-        );
-    }
-}
-
+type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const commissionState = commissionSelector(state);
-
     return {
-        commission: commissionState.commission,
-        fetching: commissionState.fetching,
+        visible: commissionState.visible,
         updating: commissionState.updating,
-        validationResults: commissionState.validationResults,
     };
 };
 
-export default connect(mapStateToProps)(EditCommission);
+type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
+    return {
+        confirmCancel: (onCancelled: () => void) => {
+            dispatch(confirmCancelCommission(showConfirm, onCancelled));
+        },
+        saveCommission: (onSaved?: () => void) => {
+            dispatch(saveCommission(onSaved));
+        },
+        setVisible: (visible: boolean) => {
+            dispatch(commissionVisible(visible));
+        },
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(EditCommission);

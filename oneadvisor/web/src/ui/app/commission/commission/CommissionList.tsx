@@ -1,27 +1,20 @@
 import { Col, Row } from "antd";
 import { ColumnProps } from "antd/lib/table";
-import React, { Component } from "react";
-import { connect, DispatchProp } from "react-redux";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
 
-import { applyLike } from "@/app/query";
 import { Filters, formatBool, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
-import { formatCurrency } from "@/app/utils";
+import { areEqual, formatCurrency } from "@/app/utils";
 import {
-    Commission,
-    CommissionEdit,
-    commissionsSelector,
-    fetchCommission,
-    fetchCommissions,
-    receiveCommission,
-    receiveFilters,
-    receivePageOptions,
-    receiveSortOptions,
+    Commission, commissionsSelector, commissionVisible, fetchCommission, fetchCommissions, receiveFilters,
+    receivePageOptions, receiveSortOptions
 } from "@/state/app/commission/commissions";
-import { CommissionType, commissionTypesSelector } from "@/state/app/commission/lookups";
-import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
-import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
+import { commissionTypesSelector } from "@/state/app/commission/lookups";
+import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
+import { brokersSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { Button, CommissionTypeName, CompanyName, getTable, Header, UserName } from "@/ui/controls";
+import { CommissionTypeName, CompanyName, getTable, Header, UserName } from "@/ui/controls";
 
 import EditCommission from "./EditCommission";
 
@@ -31,77 +24,40 @@ type Columns = keyof Commission;
 
 type Props = {
     commissionStatementId?: string;
-    commissions: Commission[];
-    fetching: boolean;
-    pageOptions: PageOptions;
-    sortOptions: SortOptions;
-    totalItems: number;
-    sumAmountIncludingVAT: number;
-    sumVAT: number;
-    filters: Filters;
-    users: UserSimple[];
-    commissionTypes: CommissionType[];
-    onCommissionsUpdate?: () => void;
-    hideHeaderText?: boolean;
-    companies: Company[];
+    onSaved?: () => void;
+    hideHeader?: boolean;
     hideColumns?: Columns[];
-} & DispatchProp;
+} & PropsFromState &
+    PropsFromDispatch;
 
-class CommissionList extends Component<Props> {
-    componentDidMount() {
-        this.loadCommissions();
-    }
+const CommissionList: React.FC<Props> = (props: Props) => {
+    useEffect(() => {
+        props.fetchCommissions(props.commissionStatementId);
+    }, [props.pageOptions, props.sortOptions, props.filters, props.commissionStatementId]);
 
-    componentDidUpdate(prevProps: Props) {
-        if (
-            prevProps.pageOptions != this.props.pageOptions ||
-            prevProps.sortOptions != this.props.sortOptions ||
-            prevProps.filters != this.props.filters
-        )
-            this.loadCommissions();
-
-        if (this.props.commissions.length === 0 && this.props.pageOptions.number !== 1) {
-            this.props.dispatch(
-                receivePageOptions({
-                    ...this.props.pageOptions,
-                    number: 1,
-                })
-            );
+    useEffect(() => {
+        //If we are NOT on the first page and there are no errors, move to first page
+        if (props.pageOptions.number !== 1 && props.commissions.length === 0) {
+            props.updatePageOptions({
+                ...props.pageOptions,
+                number: props.pageOptions.number - 1,
+            });
         }
-    }
+    }, [props.commissions]);
 
-    loadCommissions = () => {
-        const filters = {
-            ...this.props.filters,
-            commissionStatementId: [] as string[],
-        };
-
-        if (this.props.commissionStatementId) filters.commissionStatementId.push(this.props.commissionStatementId);
-
-        this.props.dispatch(
-            fetchCommissions(this.props.pageOptions, this.props.sortOptions, this.updateFilters(filters))
-        );
+    const editCommission = (id: string) => {
+        props.editCommission(id);
     };
 
-    updateFilters = (filters: Filters): Filters => {
-        return applyLike(filters, ["policyNumber", "policyClientLastName"]);
+    const onSaved = () => {
+        props.fetchCommissions(props.commissionStatementId);
+        if (props.onSaved) props.onSaved();
     };
 
-    editCommission = (id: string) => {
-        this.props.dispatch(fetchCommission(id));
-    };
+    const getColumns1 = () => {
+        var getColumn = getColumnDefinition<Commission>(true, props.filters, props.sortOptions);
 
-    onFormClose = (cancelled: boolean) => {
-        if (!cancelled) {
-            this.loadCommissions();
-            if (this.props.onCommissionsUpdate) this.props.onCommissionsUpdate();
-        }
-    };
-
-    getColumns = () => {
-        var getColumn = getColumnDefinition<Commission>(true, this.props.filters, this.props.sortOptions);
-
-        const { hideColumns = [] } = this.props;
+        const { hideColumns = [] } = props;
 
         const columns: ColumnProps<Commission>[] = [];
 
@@ -132,7 +88,7 @@ class CommissionList extends Component<Props> {
                         render: (policyCompanyId: string) => {
                             return <CompanyName companyId={policyCompanyId} />;
                         },
-                        filters: this.props.companies.map(type => ({
+                        filters: props.companies.map(type => ({
                             text: type.name,
                             value: type.id,
                         })),
@@ -157,7 +113,7 @@ class CommissionList extends Component<Props> {
                         render: (commissionTypeId: string) => {
                             return <CommissionTypeName commissionTypeId={commissionTypeId} />;
                         },
-                        filters: this.props.commissionTypes.map(type => ({
+                        filters: props.commissionTypes.map(type => ({
                             text: type.name,
                             value: type.id,
                         })),
@@ -198,7 +154,7 @@ class CommissionList extends Component<Props> {
                         render: (userId: string) => {
                             return <UserName userId={userId} />;
                         },
-                        filters: this.props.users.map(user => ({
+                        filters: props.users.map(user => ({
                             text: user.fullName,
                             value: user.id,
                         })),
@@ -209,54 +165,164 @@ class CommissionList extends Component<Props> {
         return columns;
     };
 
-    onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
-        if (this.props.pageOptions != pageOptions) this.props.dispatch(receivePageOptions(pageOptions));
-        if (this.props.sortOptions != sortOptions) this.props.dispatch(receiveSortOptions(sortOptions));
-        if (this.props.filters != filters) this.props.dispatch(receiveFilters(filters));
+    const onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
+        if (!areEqual(props.pageOptions, pageOptions)) props.updatePageOptions(pageOptions);
+        if (!areEqual(props.sortOptions, sortOptions)) props.updateSortOptions(sortOptions);
+        if (!areEqual(props.filters, filters)) props.updateFilters(filters);
     };
 
-    tableFooter = () => {
-        return (
-            <Row type="flex" justify="space-between">
-                <Col>
-                    <b>Total Amount (incl VAT): </b>
-                    {formatCurrency(this.props.sumAmountIncludingVAT)}
-                </Col>
-                <Col>
-                    <b>Total VAT: </b>
-                    {formatCurrency(this.props.sumVAT)}
-                </Col>
-            </Row>
-        );
-    };
+    return (
+        <>
+            <Header className="mb-1" icon="dollar" hidden={props.hideHeader}>
+                Commission Entries
+            </Header>
+            <Table
+                rowKey="id"
+                columns={getColumns1()}
+                dataSource={props.commissions}
+                loading={props.fetching}
+                onRowClick={commission => editCommission(commission.id)}
+                externalDataSource={true}
+                pageOptions={props.pageOptions}
+                totalRows={props.totalItems}
+                onTableChange={onTableChange}
+                footer={() => <TableFooter {...props} />}
+                scroll={{
+                    x: "max-content",
+                }}
+            />
+            <EditCommission onSaved={onSaved} />
+        </>
+    );
+};
 
-    render() {
-        return (
-            <>
-                <Header className="mb-1" icon="dollar" hidden={this.props.hideHeaderText}>
-                    Commission Entries
-                </Header>
-                <Table
-                    rowKey="id"
-                    columns={this.getColumns()}
-                    dataSource={this.props.commissions}
-                    loading={this.props.fetching}
-                    onRowClick={commission => this.editCommission(commission.id)}
-                    externalDataSource={true}
-                    pageOptions={this.props.pageOptions}
-                    totalRows={this.props.totalItems}
-                    onTableChange={this.onTableChange}
-                    footer={this.tableFooter}
-                    scroll={{
-                        x: true,
-                    }}
-                />
-                <EditCommission onClose={this.onFormClose} />
-            </>
-        );
-    }
-}
+const getColumns = (props: Props) => {
+    var getColumn = getColumnDefinition<Commission>(true, props.filters, props.sortOptions);
 
+    const { hideColumns = [] } = props;
+
+    const columns: ColumnProps<Commission>[] = [];
+
+    if (!hideColumns.some(c => c == "commissionStatementDate"))
+        columns.push(
+            getColumn("commissionStatementDate", "Date", {
+                type: "date",
+            })
+        );
+
+    if (!hideColumns.some(c => c == "policyClientLastName"))
+        columns.push(
+            getColumn("policyClientLastName", "Last Name", {
+                showSearchFilter: true,
+            })
+        );
+
+    if (!hideColumns.some(c => c == "policyClientInitials"))
+        columns.push(getColumn("policyClientInitials", "Initials"));
+
+    if (!hideColumns.some(c => c == "policyCompanyId"))
+        columns.push(
+            getColumn(
+                "policyCompanyId",
+                "Company",
+                {},
+                {
+                    render: (policyCompanyId: string) => {
+                        return <CompanyName companyId={policyCompanyId} />;
+                    },
+                    filters: props.companies.map(type => ({
+                        text: type.name,
+                        value: type.id,
+                    })),
+                }
+            )
+        );
+
+    if (!hideColumns.some(c => c == "policyNumber"))
+        columns.push(
+            getColumn("policyNumber", "Policy Number", {
+                showSearchFilter: true,
+            })
+        );
+
+    if (!hideColumns.some(c => c == "commissionTypeId"))
+        columns.push(
+            getColumn(
+                "commissionTypeId",
+                "Type",
+                {},
+                {
+                    render: (commissionTypeId: string) => {
+                        return <CommissionTypeName commissionTypeId={commissionTypeId} />;
+                    },
+                    filters: props.commissionTypes.map(type => ({
+                        text: type.name,
+                        value: type.id,
+                    })),
+                }
+            )
+        );
+
+    if (!hideColumns.some(c => c == "amountIncludingVAT"))
+        columns.push(
+            getColumn("amountIncludingVAT", "Amount (incl VAT)", {
+                type: "currency",
+            })
+        );
+
+    if (!hideColumns.some(c => c == "vat")) columns.push(getColumn("vat", "VAT", { type: "currency" }));
+
+    if (!hideColumns.some(c => c == "splitGroupId"))
+        columns.push(
+            getColumn(
+                "splitGroupId",
+                "Split",
+                {},
+                {
+                    render: (splitGroupId: string | null) => {
+                        return formatBool(!!splitGroupId);
+                    },
+                }
+            )
+        );
+
+    if (!hideColumns.some(c => c == "userId"))
+        columns.push(
+            getColumn(
+                "userId",
+                "Broker",
+                {},
+                {
+                    render: (userId: string) => {
+                        return <UserName userId={userId} />;
+                    },
+                    filters: props.users.map(user => ({
+                        text: user.fullName,
+                        value: user.id,
+                    })),
+                }
+            )
+        );
+
+    return columns;
+};
+
+const TableFooter: React.FC<Props> = (props: Props) => {
+    return (
+        <Row type="flex" justify="space-between">
+            <Col>
+                <b>Total Amount (incl VAT): </b>
+                {formatCurrency(props.sumAmountIncludingVAT)}
+            </Col>
+            <Col>
+                <b>Total VAT: </b>
+                {formatCurrency(props.sumVAT)}
+            </Col>
+        </Row>
+    );
+};
+
+type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const commissionsState = commissionsSelector(state);
     const commissionTypesState = commissionTypesSelector(state);
@@ -277,4 +343,27 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-export default connect(mapStateToProps)(CommissionList);
+type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
+const mapDispatchToProps = (dispatch: Dispatch) => {
+    return {
+        ...bindActionCreators({ fetchCommissions }, dispatch),
+        updatePageOptions: (pageOptions: PageOptions) => {
+            dispatch(receivePageOptions(pageOptions));
+        },
+        updateSortOptions: (sortOptions: SortOptions) => {
+            dispatch(receiveSortOptions(sortOptions));
+        },
+        updateFilters: (filters: Filters) => {
+            dispatch(receiveFilters(filters));
+        },
+        editCommission: (commissionId: string) => {
+            dispatch(fetchCommission(commissionId));
+            dispatch(commissionVisible(true));
+        },
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CommissionList);

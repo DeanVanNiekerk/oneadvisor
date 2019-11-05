@@ -5,9 +5,7 @@ import { Dispatch } from "redux";
 
 import { hasUseCase } from "@/app/identity";
 import {
-    deleteCommissions,
-    statementPreviewIsLoadingSelector,
-    statementPreviewSelector,
+    deleteCommissions, statementPreviewIsLoadingSelector, statementPreviewSelector
 } from "@/state/app/commission/statements";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
@@ -107,9 +105,9 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
                 onClose={() => setCommissionListVisible(false)}
             >
                 <CommissionList
-                    hideHeaderText={true}
+                    hideHeader={true}
                     commissionStatementId={props.statement ? props.statement.id : ""}
-                    onCommissionsUpdate={props.onCommissionsChanged}
+                    onSaved={props.onCommissionsChanged}
                     hideColumns={["commissionStatementDate", "policyClientInitials", "policyCompanyId"]}
                 />
                 <DrawerFooter>

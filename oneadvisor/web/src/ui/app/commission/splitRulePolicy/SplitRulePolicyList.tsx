@@ -4,13 +4,8 @@ import { connect, DispatchProp } from "react-redux";
 import { applyLike } from "@/app/query";
 import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import {
-    fetchSplitRulePolicies,
-    fetchSplitRulePolicy,
-    receiveFilters,
-    receivePageOptions,
-    receiveSortOptions,
-    splitRulePoliciesSelector,
-    SplitRulePolicyInfo,
+    fetchSplitRulePolicies, fetchSplitRulePolicy, receiveFilters, receivePageOptions, receiveSortOptions,
+    splitRulePoliciesSelector, SplitRulePolicyInfo
 } from "@/state/app/commission/splitRulePolicies";
 import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
@@ -171,7 +166,7 @@ class SplitRulePolicyList extends Component<Props, State> {
                     totalRows={this.props.totalItems}
                     onTableChange={this.onTableChange}
                     scroll={{
-                        x: true,
+                        x: "max-content",
                     }}
                 />
                 <EditSplitRulePolicy

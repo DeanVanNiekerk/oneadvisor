@@ -6,16 +6,9 @@ import { connect, DispatchProp } from "react-redux";
 import { filterOption } from "@/app/controls/select";
 import { getColumnDefinition } from "@/app/table";
 import {
-    clientImportNextStep,
-    clientImportPreviousStep,
-    clientImportSelectedColumnsSelector,
-    clientImportSelector,
-    ImportClient,
-    importClientClearResults,
-    ImportColumn,
-    receiveClientImportPolicyCompany,
-    removeClientImportClient,
-    updateClientImportPolicyCompanies,
+    clientImportNextStep, clientImportPreviousStep, clientImportSelectedColumnsSelector, clientImportSelector,
+    ImportClient, importClientClearResults, ImportColumn, receiveClientImportPolicyCompany, removeClientImportClient,
+    updateClientImportPolicyCompanies
 } from "@/state/app/client/import";
 import { Company, fetchCompanies, organisationCompaniesSelector } from "@/state/app/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
@@ -157,7 +150,7 @@ class Verify extends Component<Props> {
                     columns={this.getColumns()}
                     dataSource={this.props.clients}
                     scroll={{
-                        x: true,
+                        x: "max-content",
                     }}
                 />
             </>

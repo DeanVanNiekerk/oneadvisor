@@ -26,7 +26,6 @@ type StatementFetchingAction = { type: "STATEMENTS_STATEMENT_FETCHING" };
 type StatementFetchingErrorAction = {
     type: "STATEMENTS_STATEMENT_FETCHING_ERROR";
 };
-
 type StatementUpdatedAction = { type: "STATEMENTS_STATEMENT_EDIT_RECEIVE" };
 type StatementUpdatingAction = {
     type: "STATEMENTS_STATEMENT_EDIT_FETCHING";

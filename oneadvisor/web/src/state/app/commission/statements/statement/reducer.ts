@@ -43,14 +43,13 @@ export const reducer = (state: State = defaultState, action: StatementAction): S
                 ...state,
                 fetching: true,
                 statement: null,
+                statementOriginal: null,
                 validationResults: [],
             };
         }
         case "STATEMENTS_STATEMENT_FETCHING_ERROR": {
             return {
                 ...state,
-                statement: null,
-                statementOriginal: null,
                 fetching: false,
             };
         }
