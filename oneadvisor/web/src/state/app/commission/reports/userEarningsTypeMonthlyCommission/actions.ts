@@ -53,7 +53,9 @@ export const receiveUserEarningsTypeMonthlyCommissionFilters = (
     payload: filters,
 });
 
-export const receiveUserEarningsTypeMonthlyCommissionUserFilter = (userIds: string[]): ThunkAction<void, RootState, {}, AnyAction> => {
+export const receiveUserEarningsTypeMonthlyCommissionUserFilter = (
+    userIds: string[]
+): ThunkAction<void, RootState, {}, AnyAction> => {
     return (dispatch, getState) => {
         let { filters } = userEarningsTypeMonthlyCommissionSelector(getState());
 
@@ -66,7 +68,9 @@ export const receiveUserEarningsTypeMonthlyCommissionUserFilter = (userIds: stri
     };
 };
 
-export const receiveUserEarningsTypeMonthlyCommissionCompanyFilter = (companyIds: string[]): ThunkAction<void, RootState, {}, AnyAction> => {
+export const receiveUserEarningsTypeMonthlyCommissionCompanyFilter = (
+    companyIds: string[]
+): ThunkAction<void, RootState, {}, AnyAction> => {
     return (dispatch, getState) => {
         let { filters } = userEarningsTypeMonthlyCommissionSelector(getState());
 
@@ -79,7 +83,10 @@ export const receiveUserEarningsTypeMonthlyCommissionCompanyFilter = (companyIds
     };
 };
 
-export const receiveUserEarningsTypeMonthlyCommissionDateRangeFilter = (startDate: string, endDate: string): ThunkAction<void, RootState, {}, AnyAction> => {
+export const receiveUserEarningsTypeMonthlyCommissionDateRangeFilter = (
+    startDate: string,
+    endDate: string
+): ThunkAction<void, RootState, {}, AnyAction> => {
     return (dispatch, getState) => {
         let { filters } = userEarningsTypeMonthlyCommissionSelector(getState());
 

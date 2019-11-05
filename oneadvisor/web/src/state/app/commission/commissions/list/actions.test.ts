@@ -3,7 +3,6 @@ import { Filters, SortOptions } from "@/app/table";
 import * as actions from "./actions";
 
 describe("commission: commissions: list actions", () => {
-
     it("should dispatch COMMISSIONS_LIST_PAGE_OPTIONS_RECEIVE when receivePageOptions is called", () => {
         const options = {
             number: 10,

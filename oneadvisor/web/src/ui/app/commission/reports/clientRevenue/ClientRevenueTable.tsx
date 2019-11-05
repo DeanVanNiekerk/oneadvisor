@@ -6,8 +6,11 @@ import { connect, DispatchProp } from "react-redux";
 import { hasUseCase } from "@/app/identity";
 import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import {
-    ClientRevenueData, clientRevenueSelector, receiveClientRevenueFilters, receiveClientRevenuePageOptions,
-    receiveClientRevenueSortOptions
+    ClientRevenueData,
+    clientRevenueSelector,
+    receiveClientRevenueFilters,
+    receiveClientRevenuePageOptions,
+    receiveClientRevenueSortOptions,
 } from "@/state/app/commission/reports";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";

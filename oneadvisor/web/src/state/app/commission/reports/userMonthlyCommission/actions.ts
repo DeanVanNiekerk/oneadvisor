@@ -8,8 +8,9 @@ import { companiesSelector, getCompanyName } from "@/state/app/directory/lookups
 import { RootState } from "@/state/rootReducer";
 
 import {
-    receiveUserEarningsTypeMonthlyCommissionFilters, userCompanyMonthlyCommissionSelector,
-    userEarningsTypeMonthlyCommissionSelector
+    receiveUserEarningsTypeMonthlyCommissionFilters,
+    userCompanyMonthlyCommissionSelector,
+    userEarningsTypeMonthlyCommissionSelector,
 } from "../";
 import { commissionEarningsTypesSelector, getCommissionEarningsTypeName } from "../../lookups";
 import { UserMonthlyCommissionType } from "./types";
@@ -53,7 +54,6 @@ export const receiveUserMonthlyCommissionUserMonthlyCommissionType = (
 
 export const downloadUserMonthlyCommissionExcel = (): ThunkAction<void, RootState, {}, AnyAction> => {
     return (dispatch, getState) => {
-
         let fileName = "BrokerCommission";
 
         const userEarningsTypeMonthlyCommissionState = userEarningsTypeMonthlyCommissionSelector(getState());
@@ -75,7 +75,10 @@ export const downloadUserMonthlyCommissionExcel = (): ThunkAction<void, RootStat
                 {
                     name: "Earnings Types",
                     data: userEarningsTypeMonthlyCommissionState.items.map(d => ({
-                        earningsType: getCommissionEarningsTypeName(d.commissionEarningsTypeId, commissionEarningsTypesState.items),
+                        earningsType: getCommissionEarningsTypeName(
+                            d.commissionEarningsTypeId,
+                            commissionEarningsTypesState.items
+                        ),
                         amountExcludingVAT: d.amountExcludingVAT,
                     })),
                 },

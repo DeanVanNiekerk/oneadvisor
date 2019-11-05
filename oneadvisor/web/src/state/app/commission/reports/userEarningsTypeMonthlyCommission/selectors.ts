@@ -4,7 +4,9 @@ import { RootState } from "@/state/rootReducer";
 import { PieDatum } from "@nivo/pie";
 
 import {
-    commissionEarningsTypesSelector, getCommissionEarningsTypeName, UNKNOWN_COMMISSION_EARNINGS_TYPE_ID
+    commissionEarningsTypesSelector,
+    getCommissionEarningsTypeName,
+    UNKNOWN_COMMISSION_EARNINGS_TYPE_ID,
 } from "../../lookups";
 import { State } from "./reducer";
 import { UserEarningsTypeMonthlyCommissionData } from "./types";
@@ -53,10 +55,7 @@ export const userEarningsTypeMonthlyCommissionPieDataSelector: (state: RootState
             .map(r => {
                 return {
                     id: r.commissionEarningsTypeId,
-                    label: getCommissionEarningsTypeName(
-                        r.commissionEarningsTypeId,
-                        commissionEarningsTypes.items
-                    ),
+                    label: getCommissionEarningsTypeName(r.commissionEarningsTypeId, commissionEarningsTypes.items),
                     value: r.amountExcludingVAT,
                 };
             });

@@ -4,7 +4,10 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    commissionSelector, commissionVisible, confirmCancelCommission, saveCommission
+    commissionSelector,
+    commissionVisible,
+    confirmCancelCommission,
+    saveCommission,
 } from "@/state/app/commission/commissions";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";

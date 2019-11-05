@@ -7,8 +7,14 @@ import { bindActionCreators, Dispatch } from "redux";
 import { Filters, formatBool, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import { areEqual, formatCurrency } from "@/app/utils";
 import {
-    Commission, commissionsSelector, commissionVisible, fetchCommission, fetchCommissions, receiveFilters,
-    receivePageOptions, receiveSortOptions
+    Commission,
+    commissionsSelector,
+    commissionVisible,
+    fetchCommission,
+    fetchCommissions,
+    receiveFilters,
+    receivePageOptions,
+    receiveSortOptions,
 } from "@/state/app/commission/commissions";
 import { commissionTypesSelector } from "@/state/app/commission/lookups";
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";

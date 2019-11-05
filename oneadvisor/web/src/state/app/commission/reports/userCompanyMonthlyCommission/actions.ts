@@ -52,7 +52,9 @@ export const receiveUserCompanyMonthlyCommissionFilters = (
     payload: filters,
 });
 
-export const receiveUserCompanyMonthlyCommissionUserFilter = (userIds: string[]): ThunkAction<void, RootState, {}, AnyAction> => {
+export const receiveUserCompanyMonthlyCommissionUserFilter = (
+    userIds: string[]
+): ThunkAction<void, RootState, {}, AnyAction> => {
     return (dispatch, getState) => {
         let { filters } = userCompanyMonthlyCommissionSelector(getState());
 
@@ -65,7 +67,9 @@ export const receiveUserCompanyMonthlyCommissionUserFilter = (userIds: string[])
     };
 };
 
-export const receiveUserCompanyMonthlyCommissionCompanyFilter = (companyIds: string[]): ThunkAction<void, RootState, {}, AnyAction> => {
+export const receiveUserCompanyMonthlyCommissionCompanyFilter = (
+    companyIds: string[]
+): ThunkAction<void, RootState, {}, AnyAction> => {
     return (dispatch, getState) => {
         let { filters } = userCompanyMonthlyCommissionSelector(getState());
 
@@ -78,7 +82,10 @@ export const receiveUserCompanyMonthlyCommissionCompanyFilter = (companyIds: str
     };
 };
 
-export const receiveUserCompanyMonthlyCommissionDateRangeFilter = (startDate: string, endDate: string): ThunkAction<void, RootState, {}, AnyAction> => {
+export const receiveUserCompanyMonthlyCommissionDateRangeFilter = (
+    startDate: string,
+    endDate: string
+): ThunkAction<void, RootState, {}, AnyAction> => {
     return (dispatch, getState) => {
         let { filters } = userCompanyMonthlyCommissionSelector(getState());
 

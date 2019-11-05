@@ -5,8 +5,10 @@ import { connect } from "react-redux";
 import { getColumnDefinition } from "@/app/table";
 import { formatCurrency } from "@/app/utils";
 import {
-    UserEarningsTypeMonthlyCommissionData, userEarningsTypeMonthlyCommissionItemsSelector,
-    userEarningsTypeMonthlyCommissionSelector, userEarningsTypeMonthlyCommissionTotalAmountExclVatSelector
+    UserEarningsTypeMonthlyCommissionData,
+    userEarningsTypeMonthlyCommissionItemsSelector,
+    userEarningsTypeMonthlyCommissionSelector,
+    userEarningsTypeMonthlyCommissionTotalAmountExclVatSelector,
 } from "@/state/app/commission/reports";
 import { RootState } from "@/state/rootReducer";
 import { CommissionEarningsTypeName, getTable } from "@/ui/controls";

@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 
 import { formatCurrency } from "@/app/utils";
 import {
-    userCompanyMonthlyCommissionPieDataSelector, userCompanyMonthlyCommissionSelector,
-    userCompanyMonthlyCommissionTotalAmountExclVatSelector
+    userCompanyMonthlyCommissionPieDataSelector,
+    userCompanyMonthlyCommissionSelector,
+    userCompanyMonthlyCommissionTotalAmountExclVatSelector,
 } from "@/state/app/commission/reports";
 import { RootState } from "@/state/rootReducer";
 import { Pie } from "@/ui/controls";

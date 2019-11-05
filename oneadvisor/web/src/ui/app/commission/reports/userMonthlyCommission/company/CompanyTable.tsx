@@ -5,9 +5,7 @@ import { connect } from "react-redux";
 import { getColumnDefinition } from "@/app/table";
 import { formatCurrency } from "@/app/utils";
 import { UserCompanyMonthlyCommissionData, userCompanyMonthlyCommissionSelector } from "@/state/app/commission/reports";
-import {
-    userCompanyMonthlyCommissionTotalAmountExclVatSelector
-} from "@/state/app/commission/reports/userCompanyMonthlyCommission/selectors";
+import { userCompanyMonthlyCommissionTotalAmountExclVatSelector } from "@/state/app/commission/reports/userCompanyMonthlyCommission/selectors";
 import { RootState } from "@/state/rootReducer";
 import { CompanyName, getTable } from "@/ui/controls";
 

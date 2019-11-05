@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
 
 import {
-    fetchUserCompanyMonthlyCommissionData, fetchUserEarningsTypeMonthlyCommissionData
+    fetchUserCompanyMonthlyCommissionData,
+    fetchUserEarningsTypeMonthlyCommissionData,
 } from "@/state/app/commission/reports";
 
 import CompanyReport from "./company/CompanyReport";

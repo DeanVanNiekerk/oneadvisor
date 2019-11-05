@@ -44,8 +44,7 @@ export const fetchCommissions = (commissionStatementId?: string): ThunkAction<vo
 
         filters = updateFilters(filters);
 
-        if (commissionStatementId && filters)
-            filters.commissionStatementId = [commissionStatementId];
+        if (commissionStatementId && filters) filters.commissionStatementId = [commissionStatementId];
 
         let api = commissionsApi;
         api = appendPageOptionQuery(api, pageOptions);

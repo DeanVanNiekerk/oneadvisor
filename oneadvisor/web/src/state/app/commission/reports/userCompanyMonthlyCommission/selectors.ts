@@ -32,5 +32,5 @@ export const userCompanyMonthlyCommissionPieDataSelector: (state: RootState) => 
 export const userCompanyMonthlyCommissionTotalAmountExclVatSelector: (state: RootState) => number = createSelector(
     rootSelector,
     companiesSelector,
-    (root) => root.items.reduce((p, c) => p + c.amountExcludingVAT, 0)
+    root => root.items.reduce((p, c) => p + c.amountExcludingVAT, 0)
 );
