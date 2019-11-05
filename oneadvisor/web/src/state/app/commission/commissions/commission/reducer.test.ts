@@ -70,6 +70,7 @@ describe("commission reducer", () => {
         const expectedState = {
             ...defaultState,
             commission: { ...defaultCommission },
+            commissionOriginal: { ...defaultCommission },
             fetching: false,
             validationResults: [],
         };

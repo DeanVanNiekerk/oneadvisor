@@ -1,34 +1,8 @@
-import { Filters, PageOptions, SortOptions } from "@/app/table";
-import { commissionsApi } from "@/config/api/commission";
+import { Filters, SortOptions } from "@/app/table";
 
 import * as actions from "./actions";
 
 describe("commission: commissions: list actions", () => {
-    it("should dispatch API when fetchCommissions is called", () => {
-        const pageOptions: PageOptions = {
-            number: 2,
-            size: 10,
-        };
-
-        const sortOptions: SortOptions = {
-            column: "number",
-            direction: "desc",
-        };
-
-        const filters: Filters = {
-            number: ["123"],
-        };
-
-        const api = `${commissionsApi}?pageNumber=${pageOptions.number}&pageSize=${pageOptions.size}&sortColumn=number&sortDirection=desc&filters=number%3D123`;
-
-        const expectedAction = {
-            type: "API",
-            endpoint: api,
-            dispatchPrefix: "COMMISSIONS_LIST",
-        };
-
-        expect(actions.fetchCommissions(pageOptions, sortOptions, filters)).toEqual(expectedAction);
-    });
 
     it("should dispatch COMMISSIONS_LIST_PAGE_OPTIONS_RECEIVE when receivePageOptions is called", () => {
         const options = {
