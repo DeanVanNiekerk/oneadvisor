@@ -110,7 +110,7 @@ namespace api.App.Setup
             Services.AddScoped<IApplicationService, ApplicationService>();
             Services.AddScoped<IUseCaseService, UseCaseService>();
             Services.AddScoped<IDirectoryLookupService, DirectoryLookupService>();
-            Services.AddScoped<IAuditService, AuditService>();
+            Services.AddScoped<IAuditService, OneAdvisor.Service.Storage.AuditService>();
             Services.AddScoped<IChangeLogService, ChangeLogService>();
 
             //CLIENT

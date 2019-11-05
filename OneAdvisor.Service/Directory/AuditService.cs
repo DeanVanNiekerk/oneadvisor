@@ -10,6 +10,7 @@ using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Service.Directory.Validators;
 using OneAdvisor.Model.Account.Model.Authentication;
+using System;
 
 namespace OneAdvisor.Service.Directory
 {
@@ -90,6 +91,11 @@ namespace OneAdvisor.Service.Directory
             result.Tag = model;
 
             return result;
+        }
+
+        public Task<Result> InsertAuditLog(Guid? organistionId, Guid? userId, string action, string entity, dynamic data)
+        {
+            throw new NotImplementedException();
         }
 
         private AuditLogEntity MapCompanyModelToEntity(AuditLog model, AuditLogEntity entity = null)
