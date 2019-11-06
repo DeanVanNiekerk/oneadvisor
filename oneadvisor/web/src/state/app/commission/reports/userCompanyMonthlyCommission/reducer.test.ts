@@ -1,5 +1,3 @@
-import { Filters, SortOptions } from "@/app/table";
-
 import { defaultState, reducer } from "./reducer";
 import { UserCompanyMonthlyCommissionData, UserCompanyMonthlyCommissionFilters } from "./types";
 
