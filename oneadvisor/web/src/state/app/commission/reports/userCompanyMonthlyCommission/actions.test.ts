@@ -1,25 +1,7 @@
-import { commissionReportsApi } from "@/config/api/commission";
-
 import { UserCompanyMonthlyCommissionFilters } from "../";
 import * as actions from "./actions";
 
 describe("reports: user monthly commission: list actions", () => {
-    it("should dispatch API when fetchUserCompanyMonthlyCommissionData is called", () => {
-        const filters: UserCompanyMonthlyCommissionFilters = {
-            userId: ["123"],
-        };
-
-        const api = `${commissionReportsApi}/userCompanyMonthlyCommissionData?filters=userId%3D123`;
-
-        const expectedAction = {
-            type: "API",
-            endpoint: api,
-            dispatchPrefix: "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION",
-        };
-
-        expect(actions.fetchUserCompanyMonthlyCommissionData(filters)).toEqual(expectedAction);
-    });
-
     it("should dispatch COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_FILTERS_RECEIVE when receiveFilters is called", () => {
         const filters: UserCompanyMonthlyCommissionFilters = {
             userId: ["123"],
