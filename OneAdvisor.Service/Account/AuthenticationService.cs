@@ -118,7 +118,7 @@ namespace OneAdvisor.Service.Account
             {
                 log.Data.success = true;
                 var organisationId = (await _context.Branch.SingleAsync(o => o.Id == user.BranchId)).OrganisationId;
-                await _auditService.InsertAuditLog(organisationId, user.Id, log.Action, log.Entity, log.Data);
+                await _auditService.InsertAuditLog(organisationId, user.BranchId, user.Id, log.Action, log.Entity, log.Data);
             }
 
             return result;

@@ -10,6 +10,6 @@ namespace OneAdvisor.Model.Directory.Interface
     {
         Task<AuditLogItems> GetAuditLogs(AuditLogQueryOptions queryOptions);
         Task<Result> InsertAuditLog(ScopeOptions scope, string action, string entity, dynamic data);
-        Task<Result> InsertAuditLog(Guid? organistionId, Guid? userId, string action, string entity, dynamic data);
+        Task<Result> InsertAuditLog(Guid? organistionId, Guid? branchId, Guid? userId, string action, string entity, dynamic data);
     }
 }

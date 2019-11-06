@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
+using OneAdvisor.Model.Directory.Model.User;
 
 namespace OneAdvisor.Service.Storage
 {
@@ -51,9 +52,30 @@ namespace OneAdvisor.Service.Storage
                 //Minimal filter (organisation)
                 string finalFilter = partitionFilter;
 
-
                 //Dynamic filters
                 //------------------------------------------------------------------------
+
+                //Branch
+                if (queryOptions.Scope.Scope == Scope.Branch)
+                {
+                    string branchFilter = TableQuery.GenerateFilterCondition(
+                        "BranchId",
+                        QueryComparisons.Equal,
+                        queryOptions.Scope.BranchId.ToString());
+
+                    finalFilter = finalFilter.AndWhere(branchFilter);
+                }
+
+                //User
+                if (queryOptions.Scope.Scope == Scope.User)
+                {
+                    string userFilter = TableQuery.GenerateFilterCondition(
+                        "UserId",
+                        QueryComparisons.Equal,
+                        queryOptions.Scope.UserId.ToString());
+
+                    finalFilter = finalFilter.AndWhere(userFilter);
+                }
 
                 //Start Date
                 if (queryOptions.StartDate.HasValue)
@@ -150,21 +172,24 @@ namespace OneAdvisor.Service.Storage
         public async Task<Result> InsertAuditLog(ScopeOptions scope, string action, string entity, dynamic data)
         {
             Guid? organisationId = null;
+            Guid? branchId = null;
             Guid? userId = null;
             if (scope != null)
             {
                 organisationId = scope.OrganisationId;
+                branchId = scope.BranchId;
                 userId = scope.UserId;
             }
 
-            return await InsertAuditLog(organisationId, userId, action, entity, data);
+            return await InsertAuditLog(organisationId, branchId, userId, action, entity, data);
         }
 
-        public async Task<Result> InsertAuditLog(Guid? organisationId, Guid? userId, string action, string entity, dynamic data)
+        public async Task<Result> InsertAuditLog(Guid? organisationId, Guid? branchId, Guid? userId, string action, string entity, dynamic data)
         {
             var model = new AuditLog()
             {
                 UserId = userId,
+                BranchId = branchId,
                 Action = action,
                 Entity = entity,
                 Data = data,
@@ -198,6 +223,7 @@ namespace OneAdvisor.Service.Storage
             var entity = new AuditLogEntity(organisationId);
 
             entity.UserId = model.UserId.HasValue ? model.UserId.ToString() : "";
+            entity.BranchId = model.BranchId.HasValue ? model.BranchId.ToString() : "";
             entity.Action = model.Action;
             entity.Entity = model.Entity;
             entity.Data = JsonConvert.SerializeObject(model.Data);

@@ -10,6 +10,7 @@ namespace OneAdvisor.Model.Directory.Model.Audit
 
         public Guid? Id { get; set; }
         public Guid? UserId { get; set; }
+        public Guid? BranchId { get; set; }
         public DateTime Date { get; set; }
         public string Action { get; set; }
         public string Entity { get; set; }

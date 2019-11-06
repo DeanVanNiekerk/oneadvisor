@@ -22,7 +22,7 @@ namespace OneAdvisor.Service.Test.Directory.Mocks
             return Task.FromResult<Result>(result);
         }
 
-        public Task<Result> InsertAuditLog(Guid? organistionId, Guid? userId, string action, string entity, dynamic data)
+        public Task<Result> InsertAuditLog(Guid? organistionId, Guid? branchId, Guid? userId, string action, string entity, dynamic data)
         {
             var result = new Result(true);
             return Task.FromResult<Result>(result);
