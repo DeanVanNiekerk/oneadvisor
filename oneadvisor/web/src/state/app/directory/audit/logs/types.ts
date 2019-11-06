@@ -6,3 +6,9 @@ export type AuditLog = {
     entity: string | null;
     data: any | null;
 };
+
+export type AuditLogItems = {
+    items: AuditLog[];
+    limit: number;
+    limitReached: boolean;
+};

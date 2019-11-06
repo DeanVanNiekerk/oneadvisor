@@ -4,10 +4,7 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    commissionSelector,
-    commissionVisible,
-    confirmCancelCommission,
-    saveCommission,
+    commissionSelector, commissionVisible, confirmCancelCommission, saveCommission
 } from "@/state/app/commission/commissions";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
@@ -37,7 +34,6 @@ const EditCommission: React.FC<Props> = (props: Props) => {
             }}
             onSave={() => {
                 props.saveCommission(props.onSaved);
-                close();
             }}
         >
             <CommissionForm />
@@ -61,7 +57,12 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
             dispatch(confirmCancelCommission(showConfirm, onCancelled));
         },
         saveCommission: (onSaved?: () => void) => {
-            dispatch(saveCommission(onSaved));
+            dispatch(
+                saveCommission(() => {
+                    if (onSaved) onSaved();
+                    dispatch(commissionVisible(false));
+                })
+            );
         },
         setVisible: (visible: boolean) => {
             dispatch(commissionVisible(visible));

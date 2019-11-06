@@ -4,12 +4,7 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    ClientEdit,
-    clientIsLoadingSelector,
-    clientSelector,
-    clientVisible,
-    confirmCancelClient,
-    saveClient,
+    ClientEdit, clientIsLoadingSelector, clientSelector, clientVisible, confirmCancelClient, saveClient
 } from "@/state/app/client/clients";
 import { RootState } from "@/state/rootReducer";
 import { ClientTypeIcon, EditDrawer } from "@/ui/controls";
@@ -32,14 +27,12 @@ const EditClient: React.FC<Props> = (props: Props) => {
             icon={<ClientTypeIcon clientTypeId={props.clientTypeId} />}
             visible={props.visible}
             updating={props.loading}
-            noTopPadding={true}
             saveRequiredUseCase="clt_edit_clients"
             onClose={() => {
                 props.confirmCancel(close);
             }}
             onSave={() => {
                 props.saveClient(props.onSaved);
-                close();
             }}
         >
             <ClientForm />
@@ -64,7 +57,12 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
             dispatch(confirmCancelClient(showConfirm, onCancelled));
         },
         saveClient: (onSaved?: (client: ClientEdit) => void) => {
-            dispatch(saveClient(onSaved));
+            dispatch(
+                saveClient((client: ClientEdit) => {
+                    if (onSaved) onSaved(client);
+                    dispatch(clientVisible(false));
+                })
+            );
         },
         setVisible: (visible: boolean) => {
             dispatch(clientVisible(visible));

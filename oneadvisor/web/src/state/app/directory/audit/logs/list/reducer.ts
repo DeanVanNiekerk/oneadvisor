@@ -1,22 +1,22 @@
-import { defaultPageOptions, defaultSortOptions, Filters, PageOptions, SortOptions } from "@/app/table";
+import { defaultSortOptions, Filters, SortOptions } from "@/app/table";
 
 import { AuditLog } from "../types";
 import { AuditLogListAction } from "./actions";
 
 export type State = {
     readonly items: AuditLog[];
-    readonly totalItems: number;
+    readonly limit: number;
+    readonly limitReached: boolean;
     readonly fetching: boolean;
-    readonly pageOptions: PageOptions;
     readonly sortOptions: SortOptions;
     readonly filters: Filters | null;
 };
 
 export const defaultState: State = {
     items: [],
-    totalItems: 0,
+    limit: 0,
+    limitReached: false,
     fetching: false,
-    pageOptions: defaultPageOptions(),
     sortOptions: defaultSortOptions("date", "desc"),
     filters: null,
 };
@@ -26,8 +26,9 @@ export const reducer = (state: State = defaultState, action: AuditLogListAction)
         case "AUDIT_LOGS_LIST_RECEIVE": {
             return {
                 ...state,
-                totalItems: action.payload.totalItems,
                 items: action.payload.items,
+                limit: action.payload.limit,
+                limitReached: action.payload.limitReached,
                 fetching: false,
             };
         }
@@ -41,15 +42,9 @@ export const reducer = (state: State = defaultState, action: AuditLogListAction)
             return {
                 ...state,
                 items: [],
+                limit: 0,
+                limitReached: false,
                 fetching: false,
-            };
-        }
-        case "AUDIT_LOGS_LIST_PAGE_OPTIONS_RECEIVE": {
-            return {
-                ...state,
-                pageOptions: {
-                    ...action.payload,
-                },
             };
         }
         case "AUDIT_LOGS_LIST_SORT_OPTIONS_RECEIVE": {

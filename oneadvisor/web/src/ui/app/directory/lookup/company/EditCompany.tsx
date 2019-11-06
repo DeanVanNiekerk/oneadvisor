@@ -4,10 +4,7 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    companySelector,
-    companyVisible,
-    confirmCancelCompany,
-    saveCompany,
+    companySelector, companyVisible, confirmCancelCompany, saveCompany
 } from "@/state/app/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
@@ -36,7 +33,6 @@ const EditCompany: React.FC<Props> = (props: Props) => {
             }}
             onSave={() => {
                 props.saveCompany(props.onSaved);
-                close();
             }}
         >
             <CompanyForm />
@@ -60,7 +56,12 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
             dispatch(confirmCancelCompany(showConfirm, onCancelled));
         },
         saveCompany: (onSaved?: () => void) => {
-            dispatch(saveCompany(onSaved));
+            dispatch(
+                saveCompany(() => {
+                    if (onSaved) onSaved();
+                    dispatch(companyVisible(false));
+                })
+            );
         },
         setVisible: (visible: boolean) => {
             dispatch(companyVisible(visible));
