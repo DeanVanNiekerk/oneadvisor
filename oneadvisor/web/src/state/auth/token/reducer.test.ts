@@ -1,5 +1,5 @@
-import { decodeToken } from '../helpers';
-import { defaultState, reducer } from './reducer';
+import { decodeToken } from "../helpers";
+import { defaultState, reducer } from "./reducer";
 
 describe("token reducer", () => {
     it("should handle AUTH_TOKEN_RECEIVE", () => {

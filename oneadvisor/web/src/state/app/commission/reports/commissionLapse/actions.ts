@@ -36,9 +36,11 @@ export type CommissionCommissionLapseDataAction =
     | CommissionLapseDataPageOptionsReceiveAction
     | CommissionLapseDataSortOptionsReceiveAction;
 
-export const fetchCommissionLapseData = (pageOptions: PageOptions,
+export const fetchCommissionLapseData = (
+    pageOptions: PageOptions,
     sortOptions: SortOptions,
-    filters: CommissionLapseDataFilters): ApiAction => {
+    filters: CommissionLapseDataFilters
+): ApiAction => {
     let api = `${commissionReportsApi}/commissionLapseData`;
     api = appendPageOptionQuery(api, pageOptions);
     api = appendSortOptionQuery(api, sortOptions);
@@ -74,5 +76,3 @@ export const receiveCommissionLapseSortOptions = (
     type: "COMMISSIONS_REPORT_COMMISSIONLAPSE_SORT_OPTIONS_RECEIVE",
     payload: sortOptions,
 });
-
-

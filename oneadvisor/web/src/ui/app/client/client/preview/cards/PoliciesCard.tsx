@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 
-import { clientPreviewSelector } from "@/state/app/client/clients";
+import { clientPreviewIsLoadingSelector, clientPreviewSelector } from "@/state/app/client/clients";
 import { RootState } from "@/state/rootReducer";
 import { Button, Drawer, DrawerFooter, Icon, PreviewCard, PreviewCardRow } from "@/ui/controls";
 
@@ -10,11 +10,9 @@ import PolicyList from "../../../policy/list/PolicyList";
 type Props = {
     cardHeight: string;
     onSaved: () => void;
-}
-    & PropsFromState;
+} & PropsFromState;
 
 const PoliciesCardComponent: React.FC<Props> = (props: Props) => {
-
     const [policyListVisible, setPolicyListVisible] = useState<boolean>(false);
 
     return (
@@ -43,24 +41,21 @@ const PoliciesCardComponent: React.FC<Props> = (props: Props) => {
                 visible={policyListVisible}
                 onClose={() => setPolicyListVisible(false)}
             >
-                {props.client && (
-                    <PolicyList clientId={props.client.id} onSaved={props.onSaved} />
-                )}
+                {props.client && <PolicyList clientId={props.client.id} onSaved={props.onSaved} />}
                 <DrawerFooter>
                     <Button onClick={() => setPolicyListVisible(false)}>Close</Button>
                 </DrawerFooter>
             </Drawer>
         </>
-
-    )
-}
+    );
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const clientState = clientPreviewSelector(state);
     return {
         client: clientState.client,
-        loading: clientState.fetching || !clientState.client,
+        loading: clientPreviewIsLoadingSelector(state),
     };
 };
 

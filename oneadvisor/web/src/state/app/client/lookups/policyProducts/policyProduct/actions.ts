@@ -1,8 +1,8 @@
-import { ApiAction, ApiOnSuccess } from '@/app/types';
-import { ValidationResult } from '@/app/validation';
-import { policyProductsApi } from '@/config/api/client';
+import { ApiAction, ApiOnSuccess } from "@/app/types";
+import { ValidationResult } from "@/app/validation";
+import { policyProductsApi } from "@/config/api/client";
 
-import { PolicyProduct } from '../types';
+import { PolicyProduct } from "../types";
 
 type PolicyProductReceiveAction = {
     type: "POLICYPRODUCTS_POLICYPRODUCT_RECEIVE";
@@ -30,17 +30,12 @@ export type PolicyProductAction =
     | PolicyProductUpdatingErrorAction
     | PolicyProductValidationErrorAction;
 
-export const receivePolicyProduct = (
-    policyProduct: PolicyProduct
-): PolicyProductReceiveAction => ({
+export const receivePolicyProduct = (policyProduct: PolicyProduct): PolicyProductReceiveAction => ({
     type: "POLICYPRODUCTS_POLICYPRODUCT_RECEIVE",
     payload: policyProduct,
 });
 
-export const updatePolicyProduct = (
-    policyProduct: PolicyProduct,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
+export const updatePolicyProduct = (policyProduct: PolicyProduct, onSuccess: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${policyProductsApi}/${policyProduct.id}`,
     method: "POST",
@@ -49,10 +44,7 @@ export const updatePolicyProduct = (
     dispatchPrefix: "POLICYPRODUCTS_POLICYPRODUCT_EDIT",
 });
 
-export const insertPolicyProduct = (
-    policyProduct: PolicyProduct,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
+export const insertPolicyProduct = (policyProduct: PolicyProduct, onSuccess: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${policyProductsApi}`,
     method: "POST",

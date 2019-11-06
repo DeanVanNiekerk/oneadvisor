@@ -12,7 +12,8 @@ type Props = {
     requiredUseCase?: string;
     requiredRole?: string;
     noLeftMargin?: boolean;
-} & DropdownButtonProps & PropsFromState;
+} & DropdownButtonProps &
+    PropsFromState;
 
 const DropdownButtonComponent: React.FC<Props> = (props: Props) => {
     let { requiredRole, requiredUseCase, visible = true } = props;
@@ -39,7 +40,7 @@ const DropdownButtonComponent: React.FC<Props> = (props: Props) => {
             )}
         </>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {

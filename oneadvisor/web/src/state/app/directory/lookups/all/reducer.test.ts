@@ -1,4 +1,4 @@
-import { defaultState, reducer } from './reducer';
+import { defaultState, reducer } from "./reducer";
 
 describe("lookups reducer", () => {
     it("should handle DIRECTORY_LOOKUPS_FETCHING", () => {

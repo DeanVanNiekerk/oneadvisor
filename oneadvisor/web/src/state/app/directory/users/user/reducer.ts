@@ -1,7 +1,7 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { UserEdit } from '../types';
-import { UserAction } from './actions';
+import { UserEdit } from "../types";
+import { UserAction } from "./actions";
 
 export type State = {
     readonly user: UserEdit | null;
@@ -17,10 +17,7 @@ export const defaultState: State = {
     validationResults: [],
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: UserAction
-): State => {
+export const reducer = (state: State = defaultState, action: UserAction): State => {
     switch (action.type) {
         case "USERS_USER_RECEIVE": {
             return {

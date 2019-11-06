@@ -1,12 +1,12 @@
-import update from 'immutability-helper';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import update from "immutability-helper";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { ValidationResult } from '@/app/validation';
-import { Contact } from '@/state/app/client/contacts';
-import { ContactType, contactTypesSelector } from '@/state/app/client/lookups';
-import { RootState } from '@/state/rootReducer';
-import { Button, Form, FormField, FormInput, FormSelect } from '@/ui/controls';
+import { ValidationResult } from "@/app/validation";
+import { Contact } from "@/state/app/client/contacts";
+import { ContactType, contactTypesSelector } from "@/state/app/client/lookups";
+import { RootState } from "@/state/rootReducer";
+import { Button, Form, FormField, FormInput, FormSelect } from "@/ui/controls";
 
 type Props = {
     contact: Contact;

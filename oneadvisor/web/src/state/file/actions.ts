@@ -1,7 +1,7 @@
-import { saveFile } from '@/app/file';
-import { appendQueryString } from '@/app/query';
-import { ApiAction } from '@/app/types';
-import { downloadFileApi } from '@/config/api/file';
+import { saveFile } from "@/app/file";
+import { appendQueryString } from "@/app/query";
+import { ApiAction } from "@/app/types";
+import { downloadFileApi } from "@/config/api/file";
 
 type TOnComplete = () => void;
 

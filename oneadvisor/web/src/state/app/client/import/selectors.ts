@@ -1,12 +1,12 @@
-import { createSelector } from 'reselect';
-import { v4 } from 'uuid';
+import { createSelector } from "reselect";
+import { v4 } from "uuid";
 
-import { formatExcelDate } from '@/app/utils';
-import { RootState } from '@/state/rootReducer';
+import { formatExcelDate } from "@/app/utils";
+import { RootState } from "@/state/rootReducer";
 
-import { ImportTableRow } from './';
-import { State } from './reducer';
-import { ImportColumn } from './types';
+import { ImportTableRow } from "./";
+import { State } from "./reducer";
+import { ImportColumn } from "./types";
 
 const rootSelector = (state: RootState): State => state.app.client.import;
 

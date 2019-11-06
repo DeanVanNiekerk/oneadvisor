@@ -6,8 +6,7 @@ import { RootState } from "@/state/rootReducer";
 import { Company } from "../types";
 import { State } from "./reducer";
 
-const rootSelector = (state: RootState): State =>
-    state.app.directory.lookups.companies.list;
+const rootSelector = (state: RootState): State => state.app.directory.lookups.companies.list;
 
 export const companiesSelector: (state: RootState) => State = createSelector(
     rootSelector,
@@ -18,9 +17,7 @@ export const organisationCompaniesSelector: (state: RootState) => Company[] = cr
     rootSelector,
     contextSelector,
     (root, context) => {
-
-        if (!context.organisation)
-            return root.items;
+        if (!context.organisation) return root.items;
 
         const organisationCompanyIds = context.organisation.config.companyIds;
 

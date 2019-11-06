@@ -1,5 +1,5 @@
-import { Company } from '../types';
-import { CompanyListAction } from './actions';
+import { Company } from "../types";
+import { CompanyListAction } from "./actions";
 
 export type State = {
     readonly items: Company[];
@@ -11,10 +11,7 @@ export const defaultState: State = {
     fetching: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: CompanyListAction
-): State => {
+export const reducer = (state: State = defaultState, action: CompanyListAction): State => {
     switch (action.type) {
         case "COMPANIES_LIST_RECEIVE": {
             return {

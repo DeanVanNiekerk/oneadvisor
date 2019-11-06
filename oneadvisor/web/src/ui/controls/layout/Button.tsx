@@ -29,12 +29,9 @@ type Props = {
 const ButtonComponent: React.FC<Props> = (props: Props) => {
     let { requiredRole, requiredUseCase, visible = true } = props;
 
-    if (requiredUseCase)
-        visible =
-            hasUseCase(requiredUseCase, props.useCases) && visible;
+    if (requiredUseCase) visible = hasUseCase(requiredUseCase, props.useCases) && visible;
 
-    if (requiredRole)
-        visible = hasRole(requiredRole, props.roles) && visible;
+    if (requiredRole) visible = hasRole(requiredRole, props.roles) && visible;
 
     return (
         <>
@@ -59,7 +56,7 @@ const ButtonComponent: React.FC<Props> = (props: Props) => {
             )}
         </>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {

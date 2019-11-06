@@ -1,27 +1,20 @@
-import { isArray } from 'util';
+import { isArray } from "util";
 
-import { ValidationResult } from './types';
+import { ValidationResult } from "./types";
 
 export const getValidationError = (
     fieldName: string,
     validationResults: ValidationResult[]
 ): ValidationResult | null => {
     if (!fieldName) return null;
-    const validationResult = validationResults.find(
-        r => r.propertyName.toLowerCase() === fieldName.toLowerCase()
-    );
+    const validationResult = validationResults.find(r => r.propertyName.toLowerCase() === fieldName.toLowerCase());
     if (!validationResult) return null;
     return validationResult;
 };
 
-export const removeValidationError = (
-    fieldName: string,
-    validationResults: ValidationResult[]
-): ValidationResult[] => {
+export const removeValidationError = (fieldName: string, validationResults: ValidationResult[]): ValidationResult[] => {
     if (!fieldName) return validationResults;
-    const index = validationResults.findIndex(
-        r => r.propertyName.toLowerCase() === fieldName.toLowerCase()
-    );
+    const index = validationResults.findIndex(r => r.propertyName.toLowerCase() === fieldName.toLowerCase());
     if (index === -1) return validationResults;
     const results = [...validationResults];
     results.splice(index, 1);
@@ -54,19 +47,13 @@ export const getValidationSubSet = (
 ): ValidationResult[] => {
     if (!prefix) return validationResults;
     const results = validationResults.filter(r => {
-        if (exactMatch)
-            return r.propertyName.toLowerCase() === prefix.toLowerCase();
-        else
-            return (
-                r.propertyName.toLowerCase().indexOf(prefix.toLowerCase()) === 0
-            );
+        if (exactMatch) return r.propertyName.toLowerCase() === prefix.toLowerCase();
+        else return r.propertyName.toLowerCase().indexOf(prefix.toLowerCase()) === 0;
     });
     return results.map(r => {
         return {
             ...r,
-            propertyName: r.propertyName.substr(
-                prefix.length + (isArray ? 0 : 1)
-            ),
+            propertyName: r.propertyName.substr(prefix.length + (isArray ? 0 : 1)),
         };
     });
 };
@@ -77,10 +64,7 @@ export const getErrorMessage = (
     index: number,
     validationResults: ValidationResult[] | undefined
 ) => {
-    const result = getValidationError(
-        `${fieldName}[${index}]` || "",
-        validationResults || []
-    );
+    const result = getValidationError(`${fieldName}[${index}]` || "", validationResults || []);
 
     //There is no validation error
     if (!result) return null;

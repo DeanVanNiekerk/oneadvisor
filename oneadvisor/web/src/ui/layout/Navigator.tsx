@@ -7,7 +7,10 @@ import { hasPermissionsMenuGroups } from "@/app/identity";
 import config from "@/config/config";
 import { roleSelector, signOut, useCaseSelector } from "@/state/auth";
 import {
-    applicationsSelector, contextSelector, currentApplicationSelector, menusSelector
+    applicationsSelector,
+    contextSelector,
+    currentApplicationSelector,
+    menusSelector,
 } from "@/state/context/selectors";
 import { AppInfo, Application, Menus } from "@/state/context/types";
 import { RootState } from "@/state/rootReducer";

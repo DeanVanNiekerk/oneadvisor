@@ -5,7 +5,10 @@ import { connect, DispatchProp } from "react-redux";
 import { areEqual } from "@/app/utils";
 import { ValidationResult } from "@/app/validation";
 import {
-    insertOrganisation, OrganisationEdit, organisationSelector, updateOrganisation
+    insertOrganisation,
+    OrganisationEdit,
+    organisationSelector,
+    updateOrganisation,
 } from "@/state/app/directory/organisations";
 import { userOrganisationIdSelector } from "@/state/auth";
 import { fetchUserOrganisation } from "@/state/context/actions";

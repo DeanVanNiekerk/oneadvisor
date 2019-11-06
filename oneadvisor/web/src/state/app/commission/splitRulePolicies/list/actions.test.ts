@@ -1,7 +1,7 @@
-import { Filters, PageOptions, SortOptions } from '@/app/table';
-import { splitRulePoliciesApi } from '@/config/api/commission';
+import { Filters, PageOptions, SortOptions } from "@/app/table";
+import { splitRulePoliciesApi } from "@/config/api/commission";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("directory: splitRulePolicies: list actions", () => {
     it("should dispatch API when fetchSplitRulePolicies is called", () => {
@@ -21,9 +21,7 @@ describe("directory: splitRulePolicies: list actions", () => {
 
         const expectedAction = {
             type: "API",
-            endpoint: `${splitRulePoliciesApi}?pageNumber=${pageOptions.number}&pageSize=${
-                pageOptions.size
-            }&sortColumn=number&sortDirection=desc&filters=number%3D123`,
+            endpoint: `${splitRulePoliciesApi}?pageNumber=${pageOptions.number}&pageSize=${pageOptions.size}&sortColumn=number&sortDirection=desc&filters=number%3D123`,
             dispatchPrefix: "SPLITRULEPOLICIES_LIST",
         };
 

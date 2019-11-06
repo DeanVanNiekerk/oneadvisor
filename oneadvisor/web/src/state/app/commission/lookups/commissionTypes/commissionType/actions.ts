@@ -1,8 +1,8 @@
-import { ApiAction, ApiOnSuccess } from '@/app/types';
-import { ValidationResult } from '@/app/validation';
-import { commissionTypesApi } from '@/config/api/commission';
+import { ApiAction, ApiOnSuccess } from "@/app/types";
+import { ValidationResult } from "@/app/validation";
+import { commissionTypesApi } from "@/config/api/commission";
 
-import { CommissionType } from '../types';
+import { CommissionType } from "../types";
 
 type CommissionTypeReceiveAction = {
     type: "COMMISSIONTYPES_COMMISSIONTYPE_RECEIVE";
@@ -30,17 +30,12 @@ export type CommissionTypeAction =
     | CommissionTypeUpdatingErrorAction
     | CommissionTypeValidationErrorAction;
 
-export const receiveCommissionType = (
-    commissionType: CommissionType
-): CommissionTypeReceiveAction => ({
+export const receiveCommissionType = (commissionType: CommissionType): CommissionTypeReceiveAction => ({
     type: "COMMISSIONTYPES_COMMISSIONTYPE_RECEIVE",
     payload: commissionType,
 });
 
-export const updateCommissionType = (
-    commissionType: CommissionType,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
+export const updateCommissionType = (commissionType: CommissionType, onSuccess: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${commissionTypesApi}/${commissionType.id}`,
     method: "POST",
@@ -49,10 +44,7 @@ export const updateCommissionType = (
     dispatchPrefix: "COMMISSIONTYPES_COMMISSIONTYPE_EDIT",
 });
 
-export const insertCommissionType = (
-    commissionType: CommissionType,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
+export const insertCommissionType = (commissionType: CommissionType, onSuccess: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${commissionTypesApi}`,
     method: "POST",

@@ -69,8 +69,8 @@ export const receiveMappingError = (error: CommissionErrorEdit | null): Commissi
 });
 
 export const modifyMappingError = (error: CommissionErrorEdit): CommissionErrorModifiedAction => ({
-    type: 'COMMISSIONS_ERROR_MAPPING_MODIFIED',
-    payload: error
+    type: "COMMISSIONS_ERROR_MAPPING_MODIFIED",
+    payload: error,
 });
 
 export const mappingErrorVisible = (visible: boolean): CommissionErrorVisibleAction => ({
@@ -80,7 +80,10 @@ export const mappingErrorVisible = (visible: boolean): CommissionErrorVisibleAct
 
 export const clearMappingError = (): CommissionErrorReceiveAction => receiveMappingError(null);
 
-export const saveMappingError = (statementId: string, onSaved?: () => void): ThunkAction<void, RootState, {}, CommissionErrorReceiveAction | ApiAction> => {
+export const saveMappingError = (
+    statementId: string,
+    onSaved?: () => void
+): ThunkAction<void, RootState, {}, CommissionErrorReceiveAction | ApiAction> => {
     return (dispatch, getState) => {
         const { commissionError } = mappingErrorSelector(getState());
         if (!commissionError) return;
@@ -88,27 +91,34 @@ export const saveMappingError = (statementId: string, onSaved?: () => void): Thu
         const onSuccess = () => {
             dispatch(clearMappingError());
             if (onSaved) onSaved();
-        }
+        };
 
         dispatch(resolveMappingError(statementId, commissionError, onSuccess));
     };
-}
+};
 
-export const confirmCancelMappingError = (showConfirm: ShowConfirm, onCancelled: () => void): ThunkAction<void, RootState, {}, CommissionErrorReceiveAction> => {
+export const confirmCancelMappingError = (
+    showConfirm: ShowConfirm,
+    onCancelled: () => void
+): ThunkAction<void, RootState, {}, CommissionErrorReceiveAction> => {
     return (dispatch, getState) => {
         const modifed = mappingErrorIsModifiedSelector(getState());
 
         const cancel = () => {
             dispatch(clearMappingError());
             onCancelled();
-        }
+        };
 
         if (modifed)
-            return showConfirm({ onOk: () => { cancel(); } });
+            return showConfirm({
+                onOk: () => {
+                    cancel();
+                },
+            });
 
         cancel();
     };
-}
+};
 
 export const resolveMappingError = (
     statementId: string,

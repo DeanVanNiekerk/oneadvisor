@@ -1,4 +1,4 @@
-import { lookupsSelector } from './selectors';
+import { lookupsSelector } from "./selectors";
 
 describe("directory lookups selectors", () => {
     it("lookupsSelector", () => {

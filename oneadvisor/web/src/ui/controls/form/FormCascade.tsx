@@ -28,7 +28,6 @@ const filter = (inputValue: string, path: CascaderOptionType[]) => {
 };
 
 const FormCascade: React.FC<Props> = (props: Props) => {
-
     const { fieldName, label, validationResults, layout, readonly } = props;
 
     return (
@@ -50,6 +49,6 @@ const FormCascade: React.FC<Props> = (props: Props) => {
             />
         </FormField>
     );
-}
+};
 
 export { FormCascade };

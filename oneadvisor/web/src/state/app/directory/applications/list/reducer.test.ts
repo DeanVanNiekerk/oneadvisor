@@ -1,59 +1,59 @@
-import { defaultState, reducer } from './reducer';
+import { defaultState, reducer } from "./reducer";
 
-describe('application list reducer', () => {
-    it('should handle APPLICATIONS_LIST_FETCHING', () => {
+describe("application list reducer", () => {
+    it("should handle APPLICATIONS_LIST_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'APPLICATIONS_LIST_FETCHING'
+            type: "APPLICATIONS_LIST_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle APPLICATIONS_LIST_FETCHING_ERROR', () => {
+    it("should handle APPLICATIONS_LIST_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'APPLICATIONS_LIST_FETCHING_ERROR'
+            type: "APPLICATIONS_LIST_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
-            
-            fetching: false
+
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle APPLICATIONS_LIST_RECEIVE', () => {
+    it("should handle APPLICATIONS_LIST_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const application = {
-            id: '10',
-            name: 'Application1',
-            applicationId: 'app_1',
+            id: "10",
+            name: "Application1",
+            applicationId: "app_1",
         };
 
         const actualState = reducer(initalState, {
-            type: 'APPLICATIONS_LIST_RECEIVE',
-            payload: [application]
+            type: "APPLICATIONS_LIST_RECEIVE",
+            payload: [application],
         });
 
         const expectedState = {
             ...defaultState,
             items: [application],
-            fetching: false
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);

@@ -7,8 +7,8 @@ namespace OneAdvisor.Model.Directory.Model.Audit
 {
     public class AuditLogQueryOptions : QueryOptionsBase<AuditLog>
     {
-        public AuditLogQueryOptions(ScopeOptions scope, string sortColumn, string sortDirection, int pageSize, int pageNumber, string filters = null)
-         : base(sortColumn, sortDirection, pageSize, pageNumber, filters)
+        public AuditLogQueryOptions(ScopeOptions scope, string filters = null)
+         : base("", "", 0, 0, filters)
         {
             Scope = scope;
             UserId = new List<Guid>();
@@ -25,11 +25,22 @@ namespace OneAdvisor.Model.Directory.Model.Audit
             var result = GetFilterValue<string>("Entity");
             if (result.Success)
                 Entity = result.Value;
+
+            var resultDateTime = GetFilterValue<DateTime>("StartDate");
+            if (resultDateTime.Success)
+                StartDate = resultDateTime.Value;
+
+            resultDateTime = GetFilterValue<DateTime>("EndDate");
+            if (resultDateTime.Success)
+                EndDate = resultDateTime.Value;
         }
 
         public ScopeOptions Scope { get; set; }
         public List<Guid> UserId { get; set; }
         public List<string> Action { get; set; }
         public string Entity { get; set; }
+
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

@@ -1,13 +1,12 @@
-import { createSelector } from 'reselect';
+import { createSelector } from "reselect";
 
-import { RootState } from '@/state/rootReducer';
+import { RootState } from "@/state/rootReducer";
 
-import { State } from './reducer';
+import { State } from "./reducer";
 
-const rootSelector = (state: RootState): State =>
-    state.app.commission.lookups.commissionEarningsTypes.list;
+const rootSelector = (state: RootState): State => state.app.commission.lookups.commissionEarningsTypes.list;
 
-export const listSelector: (state: RootState) => State = createSelector(
+export const commissionEarningsTypesSelector: (state: RootState) => State = createSelector(
     rootSelector,
     root => root
 );

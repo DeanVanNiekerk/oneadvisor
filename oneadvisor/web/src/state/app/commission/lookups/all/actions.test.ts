@@ -1,6 +1,6 @@
-import { allCommissionLookupsApi } from '@/config/api/commission';
+import { allCommissionLookupsApi } from "@/config/api/commission";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("commission: lookups: actions", () => {
     it("should dispatch API when fetchAllCommissionLookups is called", () => {

@@ -1,6 +1,6 @@
-import { usersApi } from '@/config/api/directory';
+import { usersApi } from "@/config/api/directory";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("directory: users: list actions", () => {
     it("should dispatch API when fetchUsers is called", () => {

@@ -1,6 +1,8 @@
 import {
-    CommissionEarningsType, CommissionStatementTemplateFieldName, CommissionStatementTemplateGroupFieldName,
-    CommissionType
+    CommissionEarningsType,
+    CommissionStatementTemplateFieldName,
+    CommissionStatementTemplateGroupFieldName,
+    CommissionType,
 } from "../";
 
 export type Lookups = {

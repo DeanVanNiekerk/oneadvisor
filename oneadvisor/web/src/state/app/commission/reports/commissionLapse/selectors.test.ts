@@ -1,7 +1,7 @@
-import { listSelector } from "./selectors";
+import { commissionLapseSelector } from "./selectors";
 
 describe("report commission lapse selectors", () => {
-    it("listSelector", () => {
+    it("commissionLapseSelector", () => {
         const state = {
             app: {
                 commission: {
@@ -19,7 +19,7 @@ describe("report commission lapse selectors", () => {
         };
 
         //@ts-ignore
-        const actual = listSelector(state);
+        const actual = commissionLapseSelector(state);
 
         expect(actual).toEqual(expected);
     });

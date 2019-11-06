@@ -3,9 +3,8 @@ import { changeLogsApi } from "@/config/api/directory";
 
 import * as actions from "./actions";
 
-describe('directory: changeLogs: list actions', () => {
-    it('should dispatch API when fetchChangeLogs is called', () => {
-
+describe("directory: changeLogs: list actions", () => {
+    it("should dispatch API when fetchChangeLogs is called", () => {
         const pageOptions: PageOptions = {
             number: 2,
             size: 10,
@@ -17,15 +16,11 @@ describe('directory: changeLogs: list actions', () => {
         };
 
         const expectedAction = {
-            type: 'API',
-            endpoint: `${changeLogsApi}?pageNumber=${pageOptions.number}&pageSize=${
-                pageOptions.size
-                }&sortColumn=versionNumber&sortDirection=desc`,
-            dispatchPrefix: 'CHANGELOGS_LIST'
+            type: "API",
+            endpoint: `${changeLogsApi}?pageNumber=${pageOptions.number}&pageSize=${pageOptions.size}&sortColumn=versionNumber&sortDirection=desc`,
+            dispatchPrefix: "CHANGELOGS_LIST",
         };
 
-        expect(actions.fetchChangeLogs(pageOptions, sortOptions)).toEqual(
-            expectedAction
-        );
+        expect(actions.fetchChangeLogs(pageOptions, sortOptions)).toEqual(expectedAction);
     });
 });

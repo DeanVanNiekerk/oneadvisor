@@ -1,7 +1,7 @@
-import { listSelector } from './selectors';
+import { userEarningsTypeMonthlyCommissionSelector } from "./selectors";
 
 describe("report user monthly commission selectors", () => {
-    it("listSelector", () => {
+    it("userEarningsTypeMonthlyCommissionSelector", () => {
         const state = {
             app: {
                 commission: {
@@ -24,7 +24,7 @@ describe("report user monthly commission selectors", () => {
         };
 
         //@ts-ignore
-        const actual = listSelector(state);
+        const actual = userEarningsTypeMonthlyCommissionSelector(state);
 
         expect(actual).toEqual(expected);
     });

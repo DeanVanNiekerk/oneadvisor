@@ -1,16 +1,20 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { areEqual } from '@/app/utils';
-import { ValidationResult } from '@/app/validation';
+import { areEqual } from "@/app/utils";
+import { ValidationResult } from "@/app/validation";
 import {
-    insertSplitRule, receiveSplitRule, SplitRule, splitRuleSelector, updateSplitRule
-} from '@/state/app/commission/splitRules';
-import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Drawer, DrawerFooter } from '@/ui/controls';
-import { showConfirm } from '@/ui/feedback/modal/confirm';
+    insertSplitRule,
+    receiveSplitRule,
+    SplitRule,
+    splitRuleSelector,
+    updateSplitRule,
+} from "@/state/app/commission/splitRules";
+import { RootState } from "@/state/rootReducer";
+import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import SplitRuleForm from './SplitRuleForm';
+import SplitRuleForm from "./SplitRuleForm";
 
 type Props = {
     onClose: (cancelled: boolean) => void;
@@ -46,8 +50,7 @@ class EditSplitRule extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (!areEqual(this.props.splitRule, this.state.splitRuleEdited))
-            return showConfirm({ onOk: this.cancel });
+        if (!areEqual(this.props.splitRule, this.state.splitRuleEdited)) return showConfirm({ onOk: this.cancel });
 
         this.cancel();
     };
@@ -63,17 +66,9 @@ class EditSplitRule extends Component<Props, State> {
         }
 
         if (this.state.splitRuleEdited.id) {
-            this.props.dispatch(
-                updateSplitRule(this.state.splitRuleEdited, () =>
-                    this.close()
-                )
-            );
+            this.props.dispatch(updateSplitRule(this.state.splitRuleEdited, () => this.close()));
         } else {
-            this.props.dispatch(
-                insertSplitRule(this.state.splitRuleEdited, () =>
-                    this.close()
-                )
-            );
+            this.props.dispatch(insertSplitRule(this.state.splitRuleEdited, () => this.close()));
         }
     };
 
@@ -92,8 +87,7 @@ class EditSplitRule extends Component<Props, State> {
 
         const { splitRule } = this.props;
 
-        if (splitRule && splitRule.id)
-            return "Edit Commission Split Rule";
+        if (splitRule && splitRule.id) return "Edit Commission Split Rule";
 
         return "New Commission Split Rule";
     };
@@ -119,10 +113,7 @@ class EditSplitRule extends Component<Props, State> {
                     )}
                 </ContentLoader>
                 <DrawerFooter>
-                    <Button
-                        onClick={this.confirmCancel}
-                        disabled={this.isLoading()}
-                    >
+                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
                         Cancel
                     </Button>
                     <Button

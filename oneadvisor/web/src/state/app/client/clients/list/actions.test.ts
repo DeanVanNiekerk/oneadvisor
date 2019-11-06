@@ -4,7 +4,6 @@ import { clientsApi } from "@/config/api/client";
 import * as actions from "./actions";
 
 describe("client: clients: list actions", () => {
-
     it("should dispatch CLIENTS_LIST_PAGE_OPTIONS_RECEIVE when receivePageOptions is called", () => {
         const options = {
             number: 10,

@@ -41,13 +41,11 @@ const Header: React.FC<Props> = (props: Props) => {
                     !props.textHidden ? (
                         <>
                             {icon}
-                            <span style={{ marginLeft: "8px" }}>
-                                {props.children}
-                            </span>
+                            <span style={{ marginLeft: "8px" }}>{props.children}</span>
                         </>
                     ) : (
-                            <></>
-                        )
+                        <></>
+                    )
                 }
                 //subTitle="This is a subtitle"
                 style={{

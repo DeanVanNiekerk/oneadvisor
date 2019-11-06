@@ -6,8 +6,7 @@ import { UserSimple } from "../";
 import { BROKER_USER_TYPE_ID } from "../../lookups";
 import { State } from "./reducer";
 
-const rootSelector = (state: RootState): State =>
-    state.app.directory.usersSimple.list;
+const rootSelector = (state: RootState): State => state.app.directory.usersSimple.list;
 
 export const listSelector: (state: RootState) => State = createSelector(
     rootSelector,

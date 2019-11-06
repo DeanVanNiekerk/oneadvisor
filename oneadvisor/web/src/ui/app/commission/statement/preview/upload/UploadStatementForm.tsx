@@ -8,7 +8,8 @@ import { Filters } from "@/app/table";
 import { commissionsImportApi } from "@/config/api/commission";
 import { Statement } from "@/state/app/commission/statements";
 import {
-    commissionStatementTemplatesSelector, fetchCommissionStatementTemplates
+    commissionStatementTemplatesSelector,
+    fetchCommissionStatementTemplates,
 } from "@/state/app/commission/templates";
 import { tokenSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
@@ -18,12 +19,10 @@ import { showMessage } from "@/ui/feedback/notifcation";
 type Props = {
     statement: Statement;
     onUploaded: () => void;
-}
-    & PropsFromState
-    & PropsFromDispatch;
+} & PropsFromState &
+    PropsFromDispatch;
 
 const UploadStatementForm: React.FC<Props> = (props: Props) => {
-
     const [templateId, setTemplateId] = useState<string>();
     const [uploading, setUploading] = useState<boolean>(false);
 
@@ -36,21 +35,17 @@ const UploadStatementForm: React.FC<Props> = (props: Props) => {
     }, []);
 
     const onChange = (info: UploadChangeParam) => {
-
         if (info.file.status !== "uploading") {
             setUploading(true);
         }
 
         if (info.file.status === "done") {
-
             if (info.file.response.results.length === 0)
                 showMessage("warning", "There where no commission entries imported, please check commission file.", 10);
-            else
-                showMessage("success", "Commission Statement Imported Successfully", 5);
+            else showMessage("success", "Commission Statement Imported Successfully", 5);
 
             props.onUploaded();
             setUploading(false);
-
         } else if (info.file.status === "error") {
             showMessage("error", "Commission Statement Imported Failed", 5);
             setUploading(false);
@@ -95,7 +90,7 @@ const UploadStatementForm: React.FC<Props> = (props: Props) => {
             </FormField>
         </Form>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
@@ -114,7 +109,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         fetchCommissionStatementTemplates: (filters: Filters) => {
             dispatch(fetchCommissionStatementTemplates(filters));
         },
-    }
-}
+    };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(UploadStatementForm);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(UploadStatementForm);

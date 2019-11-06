@@ -1,6 +1,6 @@
-import { companiesApi } from '@/config/api/directory';
+import { companiesApi } from "@/config/api/directory";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("company actions", () => {
     it("should dispatch API when updateCompany is called", () => {
@@ -21,8 +21,6 @@ describe("company actions", () => {
             dispatchPrefix: "COMPANIES_COMPANY_EDIT",
         };
 
-        expect(actions.updateCompany(company, onSuccess)).toEqual(
-            expectedAction
-        );
+        expect(actions.updateCompany(company, onSuccess)).toEqual(expectedAction);
     });
 });

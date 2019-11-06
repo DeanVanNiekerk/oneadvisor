@@ -1,4 +1,4 @@
-import { defaultState, reducer } from './reducer';
+import { defaultState, reducer } from "./reducer";
 
 describe("clientType list reducer", () => {
     it("should handle CLIENTTYPES_LIST_RECEIVE", () => {

@@ -3,7 +3,9 @@ import { connect, DispatchProp } from "react-redux";
 
 import { formatCurrency } from "@/app/utils";
 import {
-    commissionProjectionsSelector, projectionPolicyTypeChartCurrentLabelSelector, projectionPolicyTypeChartDataSelector
+    commissionProjectionsSelector,
+    projectionPolicyTypeChartCurrentLabelSelector,
+    projectionPolicyTypeChartDataSelector,
 } from "@/state/app/commission/reports";
 import { RootState } from "@/state/rootReducer";
 import { Bar } from "@/ui/controls";
@@ -26,15 +28,16 @@ class TotalsBarChart extends Component<Props> {
                 isInteractive={false}
                 defs={[
                     {
-                        id: 'currentMonth',
-                        type: 'patternLines',
-                        background: '#bebada',
-                        color: '#bebada',
+                        id: "currentMonth",
+                        type: "patternLines",
+                        background: "#bebada",
+                        color: "#bebada",
                     },
                 ]}
                 fill={[
                     {
-                        match: d => d.key === this.props.currentLabel, id: 'currentMonth'
+                        match: d => d.key === this.props.currentLabel,
+                        id: "currentMonth",
                     },
                 ]}
             />

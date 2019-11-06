@@ -6,8 +6,11 @@ import { ApiOnFailure, ApiOnSuccess } from "@/app/types";
 import { areEqual } from "@/app/utils";
 import { ValidationResult } from "@/app/validation";
 import {
-    CommissionStatementTemplateEdit, commissionStatementTemplateSelector, insertCommissionStatementTemplate,
-    receiveCommissionStatementTemplate, updateCommissionStatementTemplate
+    CommissionStatementTemplateEdit,
+    commissionStatementTemplateSelector,
+    insertCommissionStatementTemplate,
+    receiveCommissionStatementTemplate,
+    updateCommissionStatementTemplate,
 } from "@/state/app/commission/templates";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer, DrawerFooter, DropdownButton } from "@/ui/controls";

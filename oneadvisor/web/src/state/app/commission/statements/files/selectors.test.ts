@@ -1,6 +1,6 @@
-import { RootState } from '@/state/rootReducer';
+import { RootState } from "@/state/rootReducer";
 
-import { listSelector } from './selectors';
+import { listSelector } from "./selectors";
 
 describe("statementFiles list selectors", () => {
     it("listSelector", () => {

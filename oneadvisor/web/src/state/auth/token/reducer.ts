@@ -1,8 +1,8 @@
-import { getToken, setToken } from '@/state/storage';
+import { getToken, setToken } from "@/state/storage";
 
-import { decodeToken } from '../helpers';
-import { TokenData } from '../types';
-import { TokenActions } from './actions';
+import { decodeToken } from "../helpers";
+import { TokenData } from "../types";
+import { TokenActions } from "./actions";
 
 export type State = {
     readonly token: string | null;

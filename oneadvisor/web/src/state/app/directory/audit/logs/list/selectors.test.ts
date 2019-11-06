@@ -1,27 +1,27 @@
-import { listSelector } from './selectors';
+import { auditLogsSelector } from "./selectors";
 
-describe('auditLog list selectors', () => {
-    it('listSelector', () => {
+describe("auditLog list selectors", () => {
+    it("auditLogsSelector", () => {
         const state = {
             app: {
                 directory: {
                     audit: {
                         logs: {
                             list: {
-                                property: '1'
-                            }
-                        }
-                    }
-                }
-            }
+                                property: "1",
+                            },
+                        },
+                    },
+                },
+            },
         };
 
         const expected = {
-            property: '1'
+            property: "1",
         };
 
         //@ts-ignore
-        const actual = listSelector(state);
+        const actual = auditLogsSelector(state);
 
         expect(actual).toEqual(expected);
     });

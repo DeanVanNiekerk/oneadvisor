@@ -3,8 +3,12 @@ import { connect, DispatchProp } from "react-redux";
 
 import { getColumnDefinition } from "@/app/table";
 import {
-    fetchPolicyProducts, PolicyProduct, policyProductsSelector, PolicyProductType, policyProductTypesSelector,
-    receivePolicyProduct
+    fetchPolicyProducts,
+    PolicyProduct,
+    policyProductsSelector,
+    PolicyProductType,
+    policyProductTypesSelector,
+    receivePolicyProduct,
 } from "@/state/app/client/lookups";
 import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";

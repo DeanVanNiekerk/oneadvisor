@@ -21,10 +21,7 @@ export const defaultState: State = {
     visible: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: CommissionMappingErrorAction
-): State => {
+export const reducer = (state: State = defaultState, action: CommissionMappingErrorAction): State => {
     switch (action.type) {
         case "COMMISSIONS_ERROR_MAPPING_RECEIVE": {
             return {
@@ -38,7 +35,7 @@ export const reducer = (
         case "COMMISSIONS_ERROR_MAPPING_MODIFIED": {
             return {
                 ...state,
-                commissionError: action.payload
+                commissionError: action.payload,
             };
         }
         case "COMMISSIONS_ERROR_MAPPING_FETCHING": {

@@ -1,13 +1,12 @@
-import { createSelector } from 'reselect';
+import { createSelector } from "reselect";
 
-import { RootState } from '@/state/rootReducer';
+import { RootState } from "@/state/rootReducer";
 
-import { State } from './reducer';
+import { State } from "./reducer";
 
-const rootSelector = (state: RootState): State =>
-    state.app.directory.audit.logs.list;
+const rootSelector = (state: RootState): State => state.app.directory.audit.logs.list;
 
-export const listSelector: (state: RootState) => State = createSelector(
+export const auditLogsSelector: (state: RootState) => State = createSelector(
     rootSelector,
     root => root
 );

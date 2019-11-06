@@ -1,6 +1,6 @@
-import { allClientLookupsApi } from '@/config/api/client';
+import { allClientLookupsApi } from "@/config/api/client";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("client: lookups: actions", () => {
     it("should dispatch API when fetchAllClientLookups is called", () => {

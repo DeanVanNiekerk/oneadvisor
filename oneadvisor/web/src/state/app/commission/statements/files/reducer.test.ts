@@ -1,6 +1,6 @@
-import { FileInfo } from '@/state/types';
+import { FileInfo } from "@/state/types";
 
-import { defaultState, reducer } from './reducer';
+import { defaultState, reducer } from "./reducer";
 
 describe("statementFiles list reducer", () => {
     it("should handle STATEMENTS_FILES_LIST_FETCHING", () => {

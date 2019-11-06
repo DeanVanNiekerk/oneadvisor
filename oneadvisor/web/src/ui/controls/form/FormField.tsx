@@ -24,7 +24,7 @@ type Props = {
 const FormField: React.FC<Props> = (props: Props) => {
     const getErrorText = (): string | null => {
         const result = getValidationError(
-            props.validationFieldName || props.fieldName || '',
+            props.validationFieldName || props.fieldName || "",
             props.validationResults || []
         );
 
@@ -32,10 +32,7 @@ const FormField: React.FC<Props> = (props: Props) => {
         if (!result) return null;
 
         //If the value has changed then dont show message
-        if (
-            formatValue(result.attemptedValue) !== formatValue(props.value)
-        )
-            return null;
+        if (formatValue(result.attemptedValue) !== formatValue(props.value)) return null;
 
         return result.errorMessage;
     };
@@ -44,18 +41,18 @@ const FormField: React.FC<Props> = (props: Props) => {
     const { label, children, layout, loading, extra } = props;
 
     const formItemLayout =
-        layout === 'horizontal'
+        layout === "horizontal"
             ? {
-                labelCol: { span: 6 },
-                wrapperCol: { span: 18 }
-            }
+                  labelCol: { span: 6 },
+                  wrapperCol: { span: 18 },
+              }
             : null;
 
     return (
         <FormItem
             extra={extra}
             label={label}
-            validateStatus={errorText ? 'error' : undefined}
+            validateStatus={errorText ? "error" : undefined}
             help={errorText}
             {...formItemLayout}
             className={props.className}
@@ -65,6 +62,6 @@ const FormField: React.FC<Props> = (props: Props) => {
             {!loading && children}
         </FormItem>
     );
-}
+};
 
 export { FormField };

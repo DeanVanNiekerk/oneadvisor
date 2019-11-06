@@ -21,10 +21,7 @@ export const defaultState: State = {
     visible: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: StatementAction
-): State => {
+export const reducer = (state: State = defaultState, action: StatementAction): State => {
     switch (action.type) {
         case "STATEMENTS_STATEMENT_RECEIVE": {
             return {
@@ -38,7 +35,7 @@ export const reducer = (
         case "STATEMENTS_STATEMENT_MODIFIED": {
             return {
                 ...state,
-                statement: action.payload
+                statement: action.payload,
             };
         }
         case "STATEMENTS_STATEMENT_FETCHING": {
@@ -46,14 +43,13 @@ export const reducer = (
                 ...state,
                 fetching: true,
                 statement: null,
+                statementOriginal: null,
                 validationResults: [],
             };
         }
         case "STATEMENTS_STATEMENT_FETCHING_ERROR": {
             return {
                 ...state,
-                statement: null,
-                statementOriginal: null,
                 fetching: false,
             };
         }

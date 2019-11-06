@@ -22,10 +22,7 @@ export const defaultState: State = {
     filters: null,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: PolicyListAction
-): State => {
+export const reducer = (state: State = defaultState, action: PolicyListAction): State => {
     switch (action.type) {
         case "POLICIES_LIST_RECEIVE": {
             return {

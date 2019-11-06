@@ -4,8 +4,12 @@ import { connect, DispatchProp } from "react-redux";
 import { getColumnDefinition } from "@/app/table";
 import { UNKNOWN_COMMISSION_TYPE_CODE } from "@/state/app/commission/lookups";
 import {
-    CommissionStatementTemplate, CommissionStatementTemplateEdit, commissionStatementTemplatesSelector,
-    fetchCommissionStatementTemplate, fetchCommissionStatementTemplates, receiveCommissionStatementTemplate
+    CommissionStatementTemplate,
+    CommissionStatementTemplateEdit,
+    commissionStatementTemplatesSelector,
+    fetchCommissionStatementTemplate,
+    fetchCommissionStatementTemplates,
+    receiveCommissionStatementTemplate,
 } from "@/state/app/commission/templates";
 import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";

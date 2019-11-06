@@ -1,2 +1,2 @@
-export { Loader } from './Loader';
-export { ContentLoader } from './ContentLoader';
+export { Loader } from "./Loader";
+export { ContentLoader } from "./ContentLoader";

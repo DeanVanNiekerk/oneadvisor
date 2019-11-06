@@ -10,10 +10,13 @@ using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Service.Directory.Validators;
 using OneAdvisor.Model.Account.Model.Authentication;
+using System;
+
 
 namespace OneAdvisor.Service.Directory
 {
-    public class AuditService : IAuditService
+    //NB!!!!!!!!! Legacy service, use the OneAdvisor.Service.Storage.AuditService
+    public class AuditService
     {
         private readonly DataContext _context;
 
@@ -90,6 +93,11 @@ namespace OneAdvisor.Service.Directory
             result.Tag = model;
 
             return result;
+        }
+
+        public Task<Result> InsertAuditLog(Guid? organistionId, Guid? userId, string action, string entity, dynamic data)
+        {
+            throw new NotImplementedException();
         }
 
         private AuditLogEntity MapCompanyModelToEntity(AuditLog model, AuditLogEntity entity = null)

@@ -7,9 +7,16 @@ import { downloadExcel } from "@/app/excel/helpers";
 import { getColumnDefinition } from "@/app/table";
 import { parseValidationErrors } from "@/app/validation";
 import {
-    clientImportPreviousStep, clientImportProgressPercentSelector, clientImportSelectedColumnsSelector,
-    clientImportSelector, ImportClient, importClient, importClientClearResults, importClientReset, ImportColumn,
-    ResultFailure
+    clientImportPreviousStep,
+    clientImportProgressPercentSelector,
+    clientImportSelectedColumnsSelector,
+    clientImportSelector,
+    ImportClient,
+    importClient,
+    importClientClearResults,
+    importClientReset,
+    ImportColumn,
+    ResultFailure,
 } from "@/state/app/client/import";
 import { RootState } from "@/state/rootReducer";
 import { Button, getTable } from "@/ui/controls";
@@ -246,7 +253,7 @@ class Import extends Component<Props> {
                                     columns={this.getColumns()}
                                     dataSource={this.props.resultsFailure}
                                     scroll={{
-                                        x: true,
+                                        x: "max-content",
                                     }}
                                 />
                             )}

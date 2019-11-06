@@ -6,8 +6,9 @@ import { State as CompaniesState } from "@/state/app/directory/lookups/companies
 
 import { Group, GroupTableRecord, PastRevenueCommissionData } from "../";
 import {
-    ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID, LIFE_FIRST_YEARS_COMMISSION_EARNINGS_TYPE_ID,
-    MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID
+    ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
+    LIFE_FIRST_YEARS_COMMISSION_EARNINGS_TYPE_ID,
+    MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
 } from "../../lookups";
 import { State as CommissionEarningsTypeState } from "../../lookups/commissionEarningsTypes/list/reducer";
 import { State as ProjectionsState } from "./reducer";
@@ -23,7 +24,9 @@ import { projectionGroupTableRowsSelector } from "./selectors";
     Can check if the issue has been resolved here: https://github.com/facebook/jest/issues/7957
 */
 
-it("mock", () => { expect(true).toBe(true); })
+it("mock", () => {
+    expect(true).toBe(true);
+});
 /*
 describe("report commission projects selectors", () => {
 

@@ -1,5 +1,5 @@
-import { Policy } from '../types';
-import { PolicySearchAction } from './actions';
+import { Policy } from "../types";
+import { PolicySearchAction } from "./actions";
 
 export type State = {
     readonly items: Policy[];
@@ -11,10 +11,7 @@ export const defaultState: State = {
     fetching: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: PolicySearchAction
-): State => {
+export const reducer = (state: State = defaultState, action: PolicySearchAction): State => {
     switch (action.type) {
         case "POLICIES_SEARCH_RECEIVE": {
             return {

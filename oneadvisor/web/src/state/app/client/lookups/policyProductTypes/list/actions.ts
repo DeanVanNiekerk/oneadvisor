@@ -1,8 +1,8 @@
-import { PagedItems } from '@/app/table';
-import { ApiAction } from '@/app/types';
-import { policyProductTypesApi } from '@/config/api/client';
+import { PagedItems } from "@/app/table";
+import { ApiAction } from "@/app/types";
+import { policyProductTypesApi } from "@/config/api/client";
 
-import { PolicyProductType } from '../types';
+import { PolicyProductType } from "../types";
 
 type PolicyProductTypeListReceiveAction = {
     type: "POLICYPRODUCTTYPES_LIST_RECEIVE";
@@ -20,9 +20,7 @@ export type PolicyProductTypeListAction =
     | PolicyProductTypeListFetchingAction
     | PolicyProductTypeListFetchingErrorAction;
 
-export const receivePolicyProductTypes = (
-    payload: PolicyProductType[]
-): PolicyProductTypeListAction => ({
+export const receivePolicyProductTypes = (payload: PolicyProductType[]): PolicyProductTypeListAction => ({
     type: "POLICYPRODUCTTYPES_LIST_RECEIVE",
     payload,
 });

@@ -1,4 +1,4 @@
-export * from './types';
+export * from "./types";
 
-export * from './list/actions';
-export { listSelector as auditLogsSelector } from './list/selectors';
+export * from "./list/actions";
+export * from "./list/selectors";

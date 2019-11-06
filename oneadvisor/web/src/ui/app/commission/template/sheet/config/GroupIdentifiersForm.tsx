@@ -11,145 +11,145 @@ import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormErrors, FormInput } from "@/ui/controls";
 
 type Props = {
-	identifiers: Identifier[];
-	validationResults: ValidationResult[];
-	onChange: (identifiers: Identifier[]) => void;
+    identifiers: Identifier[];
+    validationResults: ValidationResult[];
+    onChange: (identifiers: Identifier[]) => void;
 };
 
 type State = {
-	identifiers: Identifier[];
+    identifiers: Identifier[];
 };
 
 class GroupIdentifiersForm extends Component<Props, State> {
-	constructor(props: Props) {
-		super(props);
+    constructor(props: Props) {
+        super(props);
 
-		this.state = {
-			identifiers: props.identifiers,
-		};
-	}
+        this.state = {
+            identifiers: props.identifiers,
+        };
+    }
 
-	componentDidUpdate(prevProps: Props) {
-		if (this.props.identifiers != prevProps.identifiers)
-			this.setState({
-				identifiers: this.props.identifiers,
-			});
-	}
+    componentDidUpdate(prevProps: Props) {
+        if (this.props.identifiers != prevProps.identifiers)
+            this.setState({
+                identifiers: this.props.identifiers,
+            });
+    }
 
-	remove = (index: number) => {
-		const identifiers = update(this.state.identifiers, { $splice: [[index, 1]] });
-		this.setIdentifiersState(identifiers);
-	};
+    remove = (index: number) => {
+        const identifiers = update(this.state.identifiers, { $splice: [[index, 1]] });
+        this.setIdentifiersState(identifiers);
+    };
 
-	add = () => {
-		const identifiers = update(this.state.identifiers, {
-			$push: [
-				{
-					column: "",
-					value: "",
-				},
-			],
-		});
-		this.setIdentifiersState(identifiers);
-	};
+    add = () => {
+        const identifiers = update(this.state.identifiers, {
+            $push: [
+                {
+                    column: "",
+                    value: "",
+                },
+            ],
+        });
+        this.setIdentifiersState(identifiers);
+    };
 
-	update = (index: number, identifier: Identifier) => {
-		const identifiers = update(this.state.identifiers, {
-			[index]: {
-				$set: identifier,
-			},
-		});
-		this.setIdentifiersState(identifiers);
-	};
+    update = (index: number, identifier: Identifier) => {
+        const identifiers = update(this.state.identifiers, {
+            [index]: {
+                $set: identifier,
+            },
+        });
+        this.setIdentifiersState(identifiers);
+    };
 
-	onChange = (fieldName: string, value: string, index: number) => {
-		const field = {
-			...this.state.identifiers[index],
-			[fieldName]: value,
-		};
-		this.update(index, field);
-	};
+    onChange = (fieldName: string, value: string, index: number) => {
+        const field = {
+            ...this.state.identifiers[index],
+            [fieldName]: value,
+        };
+        this.update(index, field);
+    };
 
-	setIdentifiersState = (identifiers: Identifier[]) => {
-		this.setState({
-			identifiers: identifiers,
-		});
-		this.props.onChange(identifiers);
-	};
+    setIdentifiersState = (identifiers: Identifier[]) => {
+        this.setState({
+            identifiers: identifiers,
+        });
+        this.props.onChange(identifiers);
+    };
 
-	getActions = (identifier: Identifier, index: number) => {
-		return [
-			<Popconfirm
-				title="Are you sure remove this identifier?"
-				onConfirm={() => this.remove(index)}
-				okText="Yes"
-				cancelText="No"
-				key="group-identifier-remove"
-			>
-				<a href="#">remove</a>
-			</Popconfirm>,
-		];
-	};
+    getActions = (identifier: Identifier, index: number) => {
+        return [
+            <Popconfirm
+                title="Are you sure remove this identifier?"
+                onConfirm={() => this.remove(index)}
+                okText="Yes"
+                cancelText="No"
+                key="group-identifier-remove"
+            >
+                <a href="#">remove</a>
+            </Popconfirm>,
+        ];
+    };
 
-	render() {
-		const { validationResults } = this.props;
-		const { identifiers } = this.state;
+    render() {
+        const { validationResults } = this.props;
+        const { identifiers } = this.state;
 
-		return (
-			<>
-				<FormErrors validationResults={validationResults} />
+        return (
+            <>
+                <FormErrors validationResults={validationResults} />
 
-				<Button icon="plus" type="dashed" onClick={this.add} noLeftMargin={true}>
-					{`Add Identifier`}
-				</Button>
+                <Button icon="plus" type="dashed" onClick={this.add} noLeftMargin={true}>
+                    {`Add Identifier`}
+                </Button>
 
-				<List
-					bordered
-					className="mt-1"
-					dataSource={identifiers}
-					renderItem={(identifier: Identifier, index: any) => (
-						<List.Item actions={[this.getActions(identifier, index)]}>
-							<Form key={index} layout="inline">
-								<FormInput
-									fieldName="column"
-									validationFieldName={`[${index}].column`}
-									label="Column"
-									value={identifier.column}
-									onChange={(fieldName: string, value: string) => {
-										this.onChange(fieldName, value, index);
-									}}
-									validationResults={validationResults}
-									width="100px"
-								/>
-								<FormInput
-									fieldName="value"
-									validationFieldName={`[${index}].value`}
-									label="Value"
-									value={identifier.value}
-									onChange={(fieldName: string, value: string) => {
-										this.onChange(fieldName, value, index);
-									}}
-									validationResults={validationResults}
-									width="200px"
-									addonAfter={
-										<Tooltip title="This is a regular expression used to evaluate the match condition">
-											<Icon type="info-circle" />
-										</Tooltip>
-									}
-								/>
-							</Form>
-						</List.Item>
-					)}
-				/>
-			</>
-		);
-	}
+                <List
+                    bordered
+                    className="mt-1"
+                    dataSource={identifiers}
+                    renderItem={(identifier: Identifier, index: any) => (
+                        <List.Item actions={[this.getActions(identifier, index)]}>
+                            <Form key={index} layout="inline">
+                                <FormInput
+                                    fieldName="column"
+                                    validationFieldName={`[${index}].column`}
+                                    label="Column"
+                                    value={identifier.column}
+                                    onChange={(fieldName: string, value: string) => {
+                                        this.onChange(fieldName, value, index);
+                                    }}
+                                    validationResults={validationResults}
+                                    width="100px"
+                                />
+                                <FormInput
+                                    fieldName="value"
+                                    validationFieldName={`[${index}].value`}
+                                    label="Value"
+                                    value={identifier.value}
+                                    onChange={(fieldName: string, value: string) => {
+                                        this.onChange(fieldName, value, index);
+                                    }}
+                                    validationResults={validationResults}
+                                    width="200px"
+                                    addonAfter={
+                                        <Tooltip title="This is a regular expression used to evaluate the match condition">
+                                            <Icon type="info-circle" />
+                                        </Tooltip>
+                                    }
+                                />
+                            </Form>
+                        </List.Item>
+                    )}
+                />
+            </>
+        );
+    }
 }
 
 const mapStateToProps = (state: RootState) => {
-	return {
-		useCases: useCaseSelector(state),
-	};
+    return {
+        useCases: useCaseSelector(state),
+    };
 };
 
 export default connect(mapStateToProps)(GroupIdentifiersForm);

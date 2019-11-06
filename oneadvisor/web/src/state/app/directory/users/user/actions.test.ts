@@ -29,7 +29,7 @@ describe("user actions", () => {
     });
 
     it("should dispatch API when updateUser is called", () => {
-        const onSuccess = () => { };
+        const onSuccess = () => {};
 
         const expectedAction = {
             type: "API",
@@ -44,7 +44,7 @@ describe("user actions", () => {
     });
 
     it("should dispatch API when insertUser is called", () => {
-        const onSuccess = () => { };
+        const onSuccess = () => {};
 
         const expectedAction = {
             type: "API",

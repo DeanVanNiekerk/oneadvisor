@@ -1,7 +1,7 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { SplitRulePolicy } from '../types';
-import { SplitRulePolicyAction } from './actions';
+import { SplitRulePolicy } from "../types";
+import { SplitRulePolicyAction } from "./actions";
 
 export type State = {
     readonly splitRulePolicy: SplitRulePolicy | null;

@@ -1,4 +1,4 @@
-import { CommissionEarningsType } from '../types';
+import { CommissionEarningsType } from "../types";
 
 type CommissionEarningsTypeListReceiveAction = {
     type: "COMMISSIONEARNINGSTYPE_LIST_RECEIVE";

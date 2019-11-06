@@ -1,9 +1,9 @@
-import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from '@/app/query';
-import { Filters, PagedItems } from '@/app/table';
-import { ApiAction } from '@/app/types';
-import { clientsApi } from '@/config/api/client';
+import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from "@/app/query";
+import { Filters, PagedItems } from "@/app/table";
+import { ApiAction } from "@/app/types";
+import { clientsApi } from "@/config/api/client";
 
-import { Client } from '../types';
+import { Client } from "../types";
 
 type ClientSearchReceiveAction = {
     type: "CLIENTS_SEARCH_RECEIVE";

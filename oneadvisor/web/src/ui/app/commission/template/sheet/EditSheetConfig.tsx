@@ -5,7 +5,12 @@ import React, { Component } from "react";
 import { ApiOnFailure, ApiOnSuccess } from "@/app/types";
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
 import {
-    CommissionStatementTemplateEdit, CommissionTypes, Field, Group, Identifier, SheetConfig
+    CommissionStatementTemplateEdit,
+    CommissionTypes,
+    Field,
+    Group,
+    Identifier,
+    SheetConfig,
 } from "@/state/app/commission/templates";
 import { TabPane, Tabs } from "@/ui/controls";
 

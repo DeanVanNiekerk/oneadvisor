@@ -1,5 +1,5 @@
-import { CommissionType } from '../types';
-import { CommissionTypeListAction } from './actions';
+import { CommissionType } from "../types";
+import { CommissionTypeListAction } from "./actions";
 
 export type State = {
     readonly items: CommissionType[];
@@ -11,10 +11,7 @@ export const defaultState: State = {
     fetching: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: CommissionTypeListAction
-): State => {
+export const reducer = (state: State = defaultState, action: CommissionTypeListAction): State => {
     switch (action.type) {
         case "COMMISSIONTYPES_LIST_RECEIVE": {
             return {

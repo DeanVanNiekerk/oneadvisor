@@ -21,10 +21,7 @@ export const defaultState: State = {
     visible: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: PolicyAction
-): State => {
+export const reducer = (state: State = defaultState, action: PolicyAction): State => {
     switch (action.type) {
         case "POLICIES_POLICY_RECEIVE": {
             return {
@@ -38,7 +35,7 @@ export const reducer = (
         case "POLICIES_POLICY_MODIFIED": {
             return {
                 ...state,
-                policy: action.payload
+                policy: action.payload,
             };
         }
         case "POLICIES_POLICY_FETCHING": {

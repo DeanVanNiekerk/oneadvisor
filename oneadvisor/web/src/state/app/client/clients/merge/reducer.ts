@@ -1,5 +1,5 @@
-import { ClientEdit, Client } from '../types';
-import { ClientMergeAction } from './actions';
+import { ClientEdit, Client } from "../types";
+import { ClientMergeAction } from "./actions";
 
 export type State = {
     readonly clients: Client[];
@@ -17,10 +17,7 @@ export const defaultState: State = {
     insertedClient: null,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: ClientMergeAction
-): State => {
+export const reducer = (state: State = defaultState, action: ClientMergeAction): State => {
     switch (action.type) {
         case "CLIENTS_MERGE_SOURCE_RECEIVE": {
             return {

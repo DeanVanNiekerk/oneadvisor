@@ -1,11 +1,11 @@
-import { Dispatch } from 'redux';
+import { Dispatch } from "redux";
 
-import { ApiAction, ApiOnFailure, ApiOnSuccess, Result } from '@/app/types';
-import { ValidationResult } from '@/app/validation';
-import { activateApi, resetPasswordApi, resetPasswordRequestApi } from '@/config/api/account';
+import { ApiAction, ApiOnFailure, ApiOnSuccess, Result } from "@/app/types";
+import { ValidationResult } from "@/app/validation";
+import { activateApi, resetPasswordApi, resetPasswordRequestApi } from "@/config/api/account";
 
-import { recieveToken } from '../';
-import { ResetPasswordData, ResetPasswordRequestData } from '../types';
+import { recieveToken } from "../";
+import { ResetPasswordData, ResetPasswordRequestData } from "../types";
 
 type ResetPasswordAction = {
     type: "AUTH_RESETPASSWORD_RECEIVE";
@@ -28,21 +28,13 @@ export type Action =
     | ResetPasswordErrorAction
     | ResetPasswordValidationErrorAction;
 
-export const activate = (
-    data: ResetPasswordData,
-    onSuccess: ApiOnSuccess
-): ApiAction => resetPasswordInternal(data, onSuccess, `${activateApi}`);
+export const activate = (data: ResetPasswordData, onSuccess: ApiOnSuccess): ApiAction =>
+    resetPasswordInternal(data, onSuccess, `${activateApi}`);
 
-export const resetPassword = (
-    data: ResetPasswordData,
-    onSuccess: ApiOnSuccess
-): ApiAction => resetPasswordInternal(data, onSuccess, `${resetPasswordApi}`);
+export const resetPassword = (data: ResetPasswordData, onSuccess: ApiOnSuccess): ApiAction =>
+    resetPasswordInternal(data, onSuccess, `${resetPasswordApi}`);
 
-const resetPasswordInternal = (
-    data: ResetPasswordData,
-    onSuccess: ApiOnSuccess,
-    endPoint: string
-): ApiAction => ({
+const resetPasswordInternal = (data: ResetPasswordData, onSuccess: ApiOnSuccess, endPoint: string): ApiAction => ({
     type: "API",
     endpoint: endPoint,
     method: "POST",

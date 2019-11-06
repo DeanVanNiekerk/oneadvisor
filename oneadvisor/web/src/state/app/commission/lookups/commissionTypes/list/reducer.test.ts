@@ -1,4 +1,4 @@
-import { defaultState, reducer } from './reducer';
+import { defaultState, reducer } from "./reducer";
 
 describe("commissionType list reducer", () => {
     it("should handle COMMISSIONTYPES_LIST_FETCHING", () => {

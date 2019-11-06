@@ -1,8 +1,8 @@
-import { clientsApi } from '@/config/api/client';
+import { clientsApi } from "@/config/api/client";
 
-import { ClientEdit } from '../';
-import { ClientTypeId } from '../../lookups';
-import * as actions from './actions';
+import { ClientEdit } from "../";
+import { ClientTypeId } from "../../lookups";
+import * as actions from "./actions";
 
 describe("client actions", () => {
     it("should dispatch API when fetchClient is called", () => {

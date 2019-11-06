@@ -4,7 +4,9 @@ import { connect, DispatchProp } from "react-redux";
 import { Filters } from "@/app/table";
 import { formatCurrency } from "@/app/utils";
 import {
-    clientRevenueBandsDataSelector, clientRevenueSelector, fetchClientRevenueData
+    clientRevenueBandsDataSelector,
+    clientRevenueSelector,
+    fetchClientRevenueData,
 } from "@/state/app/commission/reports";
 import { RootState } from "@/state/rootReducer";
 import { Bar } from "@/ui/controls";
@@ -17,7 +19,6 @@ type Props = {
 } & DispatchProp;
 
 class ClientRevenueChart extends Component<Props> {
-
     componentDidMount() {
         this.loadData();
     }

@@ -5,8 +5,7 @@ import { RootState } from "@/state/rootReducer";
 
 import { State } from "./reducer";
 
-const rootSelector = (state: RootState): State =>
-    state.app.commission.statements.statement;
+const rootSelector = (state: RootState): State => state.app.commission.statements.statement;
 
 export const statementSelector: (state: RootState) => State = createSelector(
     rootSelector,
@@ -16,4 +15,9 @@ export const statementSelector: (state: RootState) => State = createSelector(
 export const statementIsModifiedSelector: (state: RootState) => boolean = createSelector(
     rootSelector,
     root => !areEqual(root.statement, root.statementOriginal)
+);
+
+export const statementIsLoadingSelector: (state: RootState) => boolean = createSelector(
+    rootSelector,
+    root => root.updating || root.fetching
 );

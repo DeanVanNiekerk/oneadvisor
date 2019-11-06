@@ -18,9 +18,7 @@ export const createClient = (client: Partial<ClientEdit> = {}): ClientEdit => ({
     ...client,
 });
 
-export const getAlternateIdNumberLabel = (
-    clientTypeId: ClientTypeId
-): string => {
+export const getAlternateIdNumberLabel = (clientTypeId: ClientTypeId): string => {
     switch (clientTypeId) {
         case ClientTypeId.Company:
         case ClientTypeId.Trust:

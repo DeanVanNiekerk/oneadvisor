@@ -29,7 +29,7 @@ describe("policy actions", () => {
             isActive: true,
         };
 
-        const onSuccess = () => { };
+        const onSuccess = () => {};
 
         const expectedAction = {
             type: "API",

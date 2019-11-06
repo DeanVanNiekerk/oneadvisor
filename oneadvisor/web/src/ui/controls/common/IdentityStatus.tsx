@@ -9,8 +9,7 @@ import { Date } from "@/ui/controls";
 type Props = PropsFromState;
 
 const IdentityStatusComponent: React.FC<Props> = ({ tokenData, appInfo }) => {
-    if (!tokenData)
-        return <React.Fragment />;
+    if (!tokenData) return <React.Fragment />;
 
     return (
         <div>
@@ -56,7 +55,7 @@ const IdentityStatusComponent: React.FC<Props> = ({ tokenData, appInfo }) => {
             </div>
         </div>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {

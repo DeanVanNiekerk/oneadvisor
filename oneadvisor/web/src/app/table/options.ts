@@ -1,7 +1,6 @@
 import { ColumnFilterItem } from "antd/lib/table";
 
 export const getBooleanOptions = (): ColumnFilterItem[] => {
-
     return [
         {
             value: "true",
@@ -12,4 +11,4 @@ export const getBooleanOptions = (): ColumnFilterItem[] => {
             text: "No",
         },
     ];
-}
+};

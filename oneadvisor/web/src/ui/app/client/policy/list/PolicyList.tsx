@@ -8,8 +8,15 @@ import { Filters, getBooleanOptions, getColumnDefinition, PageOptions, SortOptio
 import { areEqual } from "@/app/utils";
 import { policyTypesSelector } from "@/state/app/client/lookups";
 import {
-    fetchPolicies, fetchPolicy, newPolicy, policiesSelector, Policy, policyVisible, receiveFilters, receivePageOptions,
-    receiveSortOptions
+    fetchPolicies,
+    fetchPolicy,
+    newPolicy,
+    policiesSelector,
+    Policy,
+    policyVisible,
+    receiveFilters,
+    receivePageOptions,
+    receiveSortOptions,
 } from "@/state/app/client/policies";
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector } from "@/state/app/directory/usersSimple";
@@ -26,10 +33,10 @@ type Props = {
     hideHeader?: boolean;
     rowSelection?: TableRowSelection<any>;
     disabledEdit?: boolean;
-} & PropsFromState & PropsFromDispatch;
+} & PropsFromState &
+    PropsFromDispatch;
 
 const PolicyList: React.FC<Props> = (props: Props) => {
-
     useEffect(() => {
         props.fetchPolicies(props.clientId);
     }, [props.pageOptions, props.sortOptions, props.filters, props.clientId]);
@@ -168,7 +175,7 @@ const PolicyList: React.FC<Props> = (props: Props) => {
             <EditPolicy onSaved={onSaved} />
         </>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {

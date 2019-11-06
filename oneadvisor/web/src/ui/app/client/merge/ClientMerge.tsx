@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import {
-    clientMergeReset, clientMergeSelector, clientSelector, clientsMergingSelector
+    clientMergeReset,
+    clientMergeSelector,
+    clientSelector,
+    clientsMergingSelector,
 } from "@/state/app/client/clients";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
@@ -32,9 +35,8 @@ class ClientMerge extends Component<Props, State> {
     }
 
     cancel = () => {
-        if (this.props.currentStepIndex === 2)
-            this.props.onMerged();
-        this.props.dispatch(clientMergeReset())
+        if (this.props.currentStepIndex === 2) this.props.onMerged();
+        this.props.dispatch(clientMergeReset());
     };
 
     isLoading = () => {

@@ -1,6 +1,6 @@
-import { FileInfo } from '@/state/types';
+import { FileInfo } from "@/state/types";
 
-import { StatementFilesListAction } from './actions';
+import { StatementFilesListAction } from "./actions";
 
 export type State = {
     readonly items: FileInfo[];
@@ -12,10 +12,7 @@ export const defaultState: State = {
     fetching: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: StatementFilesListAction
-): State => {
+export const reducer = (state: State = defaultState, action: StatementFilesListAction): State => {
     switch (action.type) {
         case "STATEMENTS_FILES_LIST_RECEIVE": {
             return {

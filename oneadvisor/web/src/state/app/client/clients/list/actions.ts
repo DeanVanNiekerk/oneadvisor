@@ -42,9 +42,7 @@ export type ClientListAction =
     | ClientListSelectedReceiveAction;
 
 export const fetchClients = (all: boolean = false): ThunkAction<void, RootState, {}, ApiAction> => {
-
     return (dispatch, getState) => {
-
         let { pageOptions, sortOptions, filters } = clientsSelector(getState());
 
         filters = updateFilters(filters);
@@ -58,9 +56,9 @@ export const fetchClients = (all: boolean = false): ThunkAction<void, RootState,
         }
 
         dispatch({
-            type: 'API',
+            type: "API",
             endpoint: api,
-            dispatchPrefix: 'CLIENTS_LIST'
+            dispatchPrefix: "CLIENTS_LIST",
         });
     };
 };
@@ -69,30 +67,22 @@ const updateFilters = (filters: Filters | null): Filters | null => {
     return applyLike(filters, ["firstName", "lastName", "idNumber"]);
 };
 
-export const receivePageOptions = (
-    pageOptions: PageOptions
-): ClientListPageOptionsReceiveAction => ({
+export const receivePageOptions = (pageOptions: PageOptions): ClientListPageOptionsReceiveAction => ({
     type: "CLIENTS_LIST_PAGE_OPTIONS_RECEIVE",
     payload: pageOptions,
 });
 
-export const receiveSortOptions = (
-    sortOptions: SortOptions
-): ClientListSortOptionsReceiveAction => ({
+export const receiveSortOptions = (sortOptions: SortOptions): ClientListSortOptionsReceiveAction => ({
     type: "CLIENTS_LIST_SORT_OPTIONS_RECEIVE",
     payload: sortOptions,
 });
 
-export const receiveFilters = (
-    filters: Filters
-): ClientListFiltersReceiveAction => ({
+export const receiveFilters = (filters: Filters): ClientListFiltersReceiveAction => ({
     type: "CLIENTS_LIST_FILTERS_RECEIVE",
     payload: filters,
 });
 
-export const receiveSelectedClients = (
-    clientIds: string[]
-): ClientListSelectedReceiveAction => ({
+export const receiveSelectedClients = (clientIds: string[]): ClientListSelectedReceiveAction => ({
     type: "CLIENTS_LIST_SELECTED_RECEIVE",
     payload: clientIds,
 });

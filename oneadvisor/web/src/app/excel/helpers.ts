@@ -1,12 +1,10 @@
-
 export type Sheet = {
     name?: string;
     data: any;
 };
 
 export const downloadExcel = async (data: any, fileName: string) => {
-
-    const { utils, writeFile } = await import(/* webpackChunkName: "xlsx" */ 'xlsx');
+    const { utils, writeFile } = await import(/* webpackChunkName: "xlsx" */ "xlsx");
 
     const workbook = utils.book_new();
     const sheet = utils.json_to_sheet(data);
@@ -16,8 +14,7 @@ export const downloadExcel = async (data: any, fileName: string) => {
 };
 
 export const downloadExcelSheets = async (sheets: Sheet[], fileName: string) => {
-
-    const { utils, writeFile } = await import(/* webpackChunkName: "xlsx" */ 'xlsx');
+    const { utils, writeFile } = await import(/* webpackChunkName: "xlsx" */ "xlsx");
 
     const workbook = utils.book_new();
 
@@ -30,7 +27,6 @@ export const downloadExcelSheets = async (sheets: Sheet[], fileName: string) => 
 };
 
 export const readExcel = async <T>(reader: FileReader): Promise<T[]> => {
-
     const { utils, read } = await import(/* webpackChunkName: "xlsx" */ "xlsx");
 
     const fileContents = reader.result;

@@ -1,7 +1,7 @@
-import { getValidationResult } from '@/test';
+import { getValidationResult } from "@/test";
 
-import { SplitRule } from '../';
-import { defaultState, reducer } from './reducer';
+import { SplitRule } from "../";
+import { defaultState, reducer } from "./reducer";
 
 describe("splitRule reducer", () => {
     it("should handle SPLITRULES_SPLITRULE_FETCHING", () => {

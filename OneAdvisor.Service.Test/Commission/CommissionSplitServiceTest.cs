@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Commission.Model.CommissionSplitRule;
 using OneAdvisor.Service.Directory;
+using OneAdvisor.Service.Test.Directory.Mocks;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -103,7 +104,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionSplitService(context, auditService);
 
                 //When
@@ -222,7 +223,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionSplitService(context, auditService);
 
                 //When
@@ -267,7 +268,7 @@ namespace OneAdvisor.Service.Test.Commission
                     }
                 };
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionSplitService(context, auditService);
 
                 //When
@@ -383,7 +384,7 @@ namespace OneAdvisor.Service.Test.Commission
                     }
                 };
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionSplitService(context, auditService);
 
                 //When
@@ -491,7 +492,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionSplitService(context, auditService);
 
                 //When

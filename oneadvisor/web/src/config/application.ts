@@ -24,19 +24,7 @@ const createApplication = (
 });
 
 export const applications: Application[] = [
-    createApplication(
-        DIRECTORY_ID,
-        "Directory",
-        "#cc3f0c",
-        "/directory",
-        "safety"
-    ),
+    createApplication(DIRECTORY_ID, "Directory", "#cc3f0c", "/directory", "safety"),
     createApplication(CLIENT_ID, "Client", "#009ffd", "/client", "user"),
-    createApplication(
-        COMMISSION_ID,
-        "Commission",
-        "#2A2A72",
-        "/commission",
-        "dollar"
-    ),
+    createApplication(COMMISSION_ID, "Commission", "#2A2A72", "/commission", "dollar"),
 ];

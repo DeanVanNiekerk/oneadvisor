@@ -1,4 +1,4 @@
-import { commissionTypeSelector } from './selectors';
+import { commissionTypeSelector } from "./selectors";
 
 describe("commissionType selectors", () => {
     it("commissionTypeSelector", () => {

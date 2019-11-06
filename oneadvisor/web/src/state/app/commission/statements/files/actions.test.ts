@@ -1,6 +1,6 @@
-import { statementsApi } from '@/config/api/commission';
+import { statementsApi } from "@/config/api/commission";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("directory: statementFiles: list actions", () => {
     it("should dispatch API when fetchStatementFiles is called", () => {

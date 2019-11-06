@@ -13,7 +13,8 @@
         "build:staging": "NODE_ENV='staging' webpack --mode production --config webpack.staging.js",
         "analyze:build": "webpack --mode production --config webpack.production.js --profile --json > stats.json",
         "analyze:run": "webpack-bundle-analyzer stats.json",
-        "check-types": "tsc"
+        "check-types": "tsc",
+        "prettier-all": "prettier --write \"src/**/*.*\""
     },
     "keywords": [],
     "author": "Dean van Niekerk",
@@ -84,6 +85,7 @@
         "html-loader": "0.5.5",
         "html-webpack-plugin": "3.2.0",
         "jest": "24.9.0",
+        "prettier": "1.18.2",
         "react-test-renderer": "16.10.2",
         "redux-mock-store": "1.5.3",
         "style-loader": "1.0.0",

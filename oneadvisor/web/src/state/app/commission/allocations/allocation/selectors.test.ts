@@ -1,4 +1,4 @@
-import { allocationSelector } from './selectors';
+import { allocationSelector } from "./selectors";
 
 describe("allocation selectors", () => {
     it("allocationSelector", () => {

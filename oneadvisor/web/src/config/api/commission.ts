@@ -1,4 +1,4 @@
-import config from '@/config/config';
+import config from "@/config/config";
 
 const commissionBaseApi = `${config.baseApi}/api/commission`;
 

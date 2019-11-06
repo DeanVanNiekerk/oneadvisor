@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 
-import { statementPreviewSelector } from "@/state/app/commission/statements";
+import { statementPreviewIsLoadingSelector, statementPreviewSelector } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { Button, Drawer, DrawerFooter, Icon, PreviewCard } from "@/ui/controls";
 
@@ -14,19 +14,19 @@ type Props = {
 } & PropsFromState;
 
 const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
-
     const [uploadStatementVisible, setUploadStatementVisible] = useState<boolean>(false);
     const [reimportStatementVisible, setReimportStatementVisible] = useState<boolean>(false);
 
     const getStatementFilesActions = () => {
         const actions = [
-            <Icon tooltip="Upload Commission Statement" type="upload" onClick={() => setUploadStatementVisible(true)} />,
+            <Icon
+                tooltip="Upload Commission Statement"
+                type="upload"
+                onClick={() => setUploadStatementVisible(true)}
+            />,
         ];
 
-        if (
-            props.statement &&
-            (props.statement.commissionCount > 0 || props.statement.mappingErrorCount > 0)
-        )
+        if (props.statement && (props.statement.commissionCount > 0 || props.statement.mappingErrorCount > 0))
             actions.unshift(
                 <Icon
                     tooltip="Reimport Commission Statement File"
@@ -49,7 +49,7 @@ const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
                 icon="file-excel"
                 onClick={() => setUploadStatementVisible(true)}
                 isLoading={props.loading}
-                rows={4}
+                rows={3}
                 height={props.cardHeight}
                 requiredUseCase="com_import_commissions"
                 actions={getStatementFilesActions()}
@@ -107,16 +107,15 @@ const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
                 </DrawerFooter>
             </Drawer>
         </>
-
-    )
-}
+    );
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const statementState = statementPreviewSelector(state);
     return {
         statement: statementState.statement,
-        loading: statementState.fetching || !statementState.statement,
+        loading: statementPreviewIsLoadingSelector(state),
     };
 };
 

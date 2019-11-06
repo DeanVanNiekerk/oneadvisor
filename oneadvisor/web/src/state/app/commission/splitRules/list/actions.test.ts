@@ -1,6 +1,6 @@
-import { splitRulesApi } from '@/config/api/commission';
+import { splitRulesApi } from "@/config/api/commission";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("directory: splitRules: list actions", () => {
     it("should dispatch API when fetchSplitRules is called", () => {
@@ -10,8 +10,6 @@ describe("directory: splitRules: list actions", () => {
             dispatchPrefix: "SPLITRULES_LIST",
         };
 
-        expect(actions.fetchSplitRules({ userId: ["132456"] })).toEqual(
-            expectedAction
-        );
+        expect(actions.fetchSplitRules({ userId: ["132456"] })).toEqual(expectedAction);
     });
 });

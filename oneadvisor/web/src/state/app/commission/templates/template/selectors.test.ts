@@ -1,21 +1,21 @@
-import { commissionStatementTemplateSelector } from './selectors';
+import { commissionStatementTemplateSelector } from "./selectors";
 
-describe('commission statement template selectors', () => {
-    it('commissionSelector', () => {
+describe("commission statement template selectors", () => {
+    it("commissionSelector", () => {
         const state = {
             app: {
                 commission: {
                     templates: {
                         template: {
-                            property: '1'
-                        }
-                    }
-                }
-            }
+                            property: "1",
+                        },
+                    },
+                },
+            },
         };
 
         const expected = {
-            property: '1'
+            property: "1",
         };
 
         //@ts-ignore

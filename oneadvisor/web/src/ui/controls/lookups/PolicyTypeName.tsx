@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { PolicyType, policyTypesSelector } from '@/state/app/client/lookups';
-import { RootState } from '@/state/rootReducer';
+import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
+import { RootState } from "@/state/rootReducer";
 
 type Props = {
     policyTypes: PolicyType[];

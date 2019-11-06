@@ -5,8 +5,7 @@ import { RootState } from "@/state/rootReducer";
 
 import { State } from "./reducer";
 
-const rootSelector = (state: RootState): State =>
-    state.app.client.clients.client;
+const rootSelector = (state: RootState): State => state.app.client.clients.client;
 
 export const clientSelector: (state: RootState) => State = createSelector(
     rootSelector,
@@ -18,10 +17,14 @@ export const clientIsModifiedSelector: (state: RootState) => boolean = createSel
     root => !areEqual(root.client, root.clientOriginal)
 );
 
+export const clientIsLoadingSelector: (state: RootState) => boolean = createSelector(
+    rootSelector,
+    root => root.updating || root.fetching
+);
+
 export const clientIsMarried: (state: RootState) => boolean = createSelector(
     rootSelector,
     root => {
-
         const client = root.client;
 
         if (!client) return false;

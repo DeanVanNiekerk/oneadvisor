@@ -32,7 +32,6 @@ type Props = {
 };
 
 const FormInputPassword: React.FC<Props> = (props: Props) => {
-
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (props.onChange) props.onChange(props.fieldName, event.target.value);
     };
@@ -75,6 +74,6 @@ const FormInputPassword: React.FC<Props> = (props: Props) => {
             />
         </FormField>
     );
-}
+};
 
 export { FormInputPassword };

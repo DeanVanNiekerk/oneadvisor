@@ -1,13 +1,13 @@
-import { List } from 'antd';
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { List } from "antd";
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { hasUseCase } from '@/app/identity';
-import { Branch, branchesSelector, fetchBranch, fetchBranches, receiveBranch } from '@/state/app/directory/branches';
-import { useCaseSelector } from '@/state/auth';
-import { RootState } from '@/state/rootReducer';
+import { hasUseCase } from "@/app/identity";
+import { Branch, branchesSelector, fetchBranch, fetchBranches, receiveBranch } from "@/state/app/directory/branches";
+import { useCaseSelector } from "@/state/auth";
+import { RootState } from "@/state/rootReducer";
 
-import EditBranch from './EditBranch';
+import EditBranch from "./EditBranch";
 
 type Props = {
     organisationId: string;
@@ -30,8 +30,7 @@ class BranchList extends Component<Props> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (prevProps.organisationId !== this.props.organisationId)
-            this.loadBranches();
+        if (prevProps.organisationId !== this.props.organisationId) this.loadBranches();
     }
 
     loadBranches = () => {
@@ -52,19 +51,14 @@ class BranchList extends Component<Props> {
     render() {
         return (
             <>
-                <EditBranch
-                    onSave={this.loadBranches}
-                    organisationId={this.props.organisationId}
-                />
+                <EditBranch onSave={this.loadBranches} organisationId={this.props.organisationId} />
                 <List
                     bordered
                     className="mt-1"
                     dataSource={this.props.branches}
                     loading={this.props.fetching}
                     renderItem={(branch: Branch) => (
-                        <List.Item actions={this.getActions(branch)}>
-                            {branch.name}
-                        </List.Item>
+                        <List.Item actions={this.getActions(branch)}>{branch.name}</List.Item>
                     )}
                 />
             </>

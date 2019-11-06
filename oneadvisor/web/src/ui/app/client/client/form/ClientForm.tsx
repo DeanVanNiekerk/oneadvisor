@@ -6,8 +6,13 @@ import { Dispatch } from "redux";
 
 import { parseIdNumber } from "@/app/parsers/id";
 import {
-    ClientEdit, clientIsMarried, clientSelector, getAlternateIdNumberLabel, getDateOfBirthLabel, getLastNameLabel,
-    modifyClient
+    ClientEdit,
+    clientIsMarried,
+    clientSelector,
+    getAlternateIdNumberLabel,
+    getDateOfBirthLabel,
+    getLastNameLabel,
+    modifyClient,
 } from "@/state/app/client/clients";
 import { ClientTypeId, clientTypesSelector, marritalStatusSelector } from "@/state/app/client/lookups";
 import { RootState } from "@/state/rootReducer";
@@ -15,21 +20,15 @@ import { Form, FormDate, FormInput, FormSelect } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;
 
-const ClientForm: React.FC<Props> = ({
-    client,
-    isMarried,
-    validationResults,
-    handleChange,
-    syncDateOfBirthToIdNumber,
-    marritalStatus,
-    clientTypes,
-}) => {
+const ClientForm: React.FC<Props> = (props: Props) => {
+    const { client } = props;
+
     if (!client) return <React.Fragment />;
 
     const idNumberInputAddon = () => {
         const menu = (
             <Menu>
-                <Menu.Item key="1" onClick={() => syncDateOfBirthToIdNumber(client)}>
+                <Menu.Item key="1" onClick={() => props.syncDateOfBirthToIdNumber(client)}>
                     Sync Date of Birth
                 </Menu.Item>
             </Menu>
@@ -42,7 +41,7 @@ const ClientForm: React.FC<Props> = ({
     };
 
     const onChange = (fieldName: keyof ClientEdit, value: string) => {
-        handleChange(client, fieldName, value);
+        props.handleChange(client, fieldName, value);
     };
 
     return (
@@ -52,8 +51,8 @@ const ClientForm: React.FC<Props> = ({
                 label="Client Type"
                 value={client.clientTypeId}
                 onChange={onChange}
-                validationResults={validationResults}
-                options={clientTypes}
+                validationResults={props.validationResults}
+                options={props.clientTypes}
                 optionsValue="id"
                 optionsText="name"
             />
@@ -62,7 +61,7 @@ const ClientForm: React.FC<Props> = ({
                 label="First Name"
                 value={client.firstName}
                 onChange={onChange}
-                validationResults={validationResults}
+                validationResults={props.validationResults}
                 autoFocus={true}
                 hidden={client.clientTypeId != ClientTypeId.Individual}
             />
@@ -71,14 +70,14 @@ const ClientForm: React.FC<Props> = ({
                 label={getLastNameLabel(client.clientTypeId)}
                 value={client.lastName}
                 onChange={onChange}
-                validationResults={validationResults}
+                validationResults={props.validationResults}
             />
             <FormInput
                 fieldName="initials"
                 label="Initials"
                 value={client.initials}
                 onChange={onChange}
-                validationResults={validationResults}
+                validationResults={props.validationResults}
                 hidden={client.clientTypeId !== ClientTypeId.Individual}
             />
             <FormInput
@@ -86,7 +85,7 @@ const ClientForm: React.FC<Props> = ({
                 label="Maiden Name"
                 value={client.maidenName}
                 onChange={onChange}
-                validationResults={validationResults}
+                validationResults={props.validationResults}
                 hidden={client.clientTypeId !== ClientTypeId.Individual}
             />
             <FormInput
@@ -94,7 +93,7 @@ const ClientForm: React.FC<Props> = ({
                 label="Preferred Name"
                 value={client.preferredName}
                 onChange={onChange}
-                validationResults={validationResults}
+                validationResults={props.validationResults}
                 hidden={client.clientTypeId !== ClientTypeId.Individual}
             />
             <FormInput
@@ -102,7 +101,7 @@ const ClientForm: React.FC<Props> = ({
                 label="ID Number"
                 value={client.idNumber}
                 onChange={onChange}
-                validationResults={validationResults}
+                validationResults={props.validationResults}
                 addonAfter={idNumberInputAddon()}
                 hidden={client.clientTypeId !== ClientTypeId.Individual}
             />
@@ -111,7 +110,7 @@ const ClientForm: React.FC<Props> = ({
                 label={getAlternateIdNumberLabel(client.clientTypeId)}
                 value={client.alternateIdNumber}
                 onChange={onChange}
-                validationResults={validationResults}
+                validationResults={props.validationResults}
                 hidden={client.clientTypeId === ClientTypeId.UnknownEntity}
             />
             <FormDate
@@ -119,7 +118,7 @@ const ClientForm: React.FC<Props> = ({
                 label={getDateOfBirthLabel(client.clientTypeId)}
                 value={client.dateOfBirth}
                 onChange={onChange}
-                validationResults={validationResults}
+                validationResults={props.validationResults}
                 hidden={client.clientTypeId === ClientTypeId.UnknownEntity}
             />
             <FormInput
@@ -127,7 +126,7 @@ const ClientForm: React.FC<Props> = ({
                 label="Tax Number"
                 value={client.taxNumber}
                 onChange={onChange}
-                validationResults={validationResults}
+                validationResults={props.validationResults}
                 hidden={client.clientTypeId === ClientTypeId.UnknownEntity}
             />
             <FormSelect
@@ -135,8 +134,8 @@ const ClientForm: React.FC<Props> = ({
                 label="Marrital Status"
                 value={client.marritalStatusId}
                 onChange={onChange}
-                validationResults={validationResults}
-                options={marritalStatus}
+                validationResults={props.validationResults}
+                options={props.marritalStatus}
                 optionsValue="id"
                 optionsText="name"
                 hidden={client.clientTypeId !== ClientTypeId.Individual}
@@ -146,8 +145,8 @@ const ClientForm: React.FC<Props> = ({
                 label="Marriage Date"
                 value={client.marriageDate}
                 onChange={onChange}
-                validationResults={validationResults}
-                hidden={client.clientTypeId !== ClientTypeId.Individual || !isMarried}
+                validationResults={props.validationResults}
+                hidden={client.clientTypeId !== ClientTypeId.Individual || !props.isMarried}
             />
         </Form>
     );

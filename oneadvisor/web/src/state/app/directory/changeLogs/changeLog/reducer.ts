@@ -15,10 +15,7 @@ export const defaultState: State = {
     validationResults: [],
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: ChangeLogAction
-): State => {
+export const reducer = (state: State = defaultState, action: ChangeLogAction): State => {
     switch (action.type) {
         case "CHANGELOGS_CHANGELOG_RECEIVE": {
             return {

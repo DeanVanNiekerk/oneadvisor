@@ -1,7 +1,7 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { AllocationEdit } from '../types';
-import { AllocationAction } from './actions';
+import { AllocationEdit } from "../types";
+import { AllocationAction } from "./actions";
 
 export type State = {
     readonly allocation: AllocationEdit | null;
@@ -17,10 +17,7 @@ export const defaultState: State = {
     validationResults: [],
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: AllocationAction
-): State => {
+export const reducer = (state: State = defaultState, action: AllocationAction): State => {
     switch (action.type) {
         case "ALLOCATIONS_ALLOCATION_RECEIVE": {
             return {

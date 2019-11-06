@@ -5,7 +5,12 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { getColumnDefinition } from "@/app/table";
 import {
-    companiesSelector, Company, companyVisible, fetchCompanies, newCompany, receiveCompany
+    companiesSelector,
+    Company,
+    companyVisible,
+    fetchCompanies,
+    newCompany,
+    receiveCompany,
 } from "@/state/app/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header } from "@/ui/controls";
@@ -21,11 +26,9 @@ const getColumns = () => {
 
 type Props = PropsFromState & PropsFromDispatch;
 
-const CompanyList: React.FC<Props> = (props) => {
-
+const CompanyList: React.FC<Props> = props => {
     useEffect(() => {
-        if (props.companies.length === 0)
-            props.fetchCompanies();
+        if (props.companies.length === 0) props.fetchCompanies();
     }, []);
 
     const editCompany = (id: string) => {
@@ -55,9 +58,9 @@ const CompanyList: React.FC<Props> = (props) => {
             <EditCompany onSaved={props.fetchCompanies} />
         </>
     );
-}
+};
 
-type PropsFromState = ReturnType<typeof mapStateToProps>
+type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const companiesState = companiesSelector(state);
     return {
@@ -78,7 +81,10 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
             dispatch(receiveCompany(company));
             dispatch(companyVisible(true));
         },
-    }
-}
+    };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CompanyList);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CompanyList);

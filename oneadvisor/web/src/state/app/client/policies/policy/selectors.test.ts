@@ -1,21 +1,21 @@
-import { policySelector } from './selectors';
+import { policySelector } from "./selectors";
 
-describe('policy selectors', () => {
-    it('policySelector', () => {
+describe("policy selectors", () => {
+    it("policySelector", () => {
         const state = {
             app: {
                 client: {
                     policies: {
                         policy: {
-                            property: '1'
-                        }
-                    }
-                }
-            }
+                            property: "1",
+                        },
+                    },
+                },
+            },
         };
 
         const expected = {
-            property: '1'
+            property: "1",
         };
 
         //@ts-ignore

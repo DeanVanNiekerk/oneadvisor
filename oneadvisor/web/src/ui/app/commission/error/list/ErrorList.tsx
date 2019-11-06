@@ -7,8 +7,15 @@ import { ThunkDispatch } from "redux-thunk";
 import { getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import { areEqual, formatCurrency } from "@/app/utils";
 import {
-    CommissionError, commissionErrorsSelector, CommissionImportData, deleteMappingError, fetchCommissionErrors,
-    fetchMappingError, mappingErrorVisible, receivePageOptions, receiveSortOptions
+    CommissionError,
+    commissionErrorsSelector,
+    CommissionImportData,
+    deleteMappingError,
+    fetchCommissionErrors,
+    fetchMappingError,
+    mappingErrorVisible,
+    receivePageOptions,
+    receiveSortOptions,
 } from "@/state/app/commission/errors";
 import { Statement } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
@@ -58,11 +65,13 @@ const ErrorList: React.FC<Props> = (props: Props) => {
     };
 
     const getColumns = () => {
-        var getColumn = getColumnDefinition<CommissionError>(true);
+        var getColumn = getColumnDefinition<
+            CommissionError & { info: string; policyNumber: string; amountIncludingVAT: number; vat: number }
+        >(true);
 
         return [
             getColumn(
-                "data",
+                "info",
                 "Excel",
                 {},
                 {
@@ -85,39 +94,38 @@ const ErrorList: React.FC<Props> = (props: Props) => {
                 }
             ),
             getColumn(
-                "data",
+                "policyNumber",
                 "Policy Number",
                 {},
                 {
-                    render: (data: CommissionImportData) => {
-                        return data.policyNumber;
+                    render: (data: CommissionImportData, error: CommissionError) => {
+                        return error.data.policyNumber;
                     },
                     sorter: false,
                 }
             ),
             getColumn(
-                "data",
+                "amountIncludingVAT",
                 "Amount Incl VAT",
                 {},
                 {
-                    render: (data: CommissionImportData) => {
-                        return formatCurrency(data.amountIncludingVAT);
+                    render: (data: CommissionImportData, error: CommissionError) => {
+                        return formatCurrency(error.data.amountIncludingVAT);
                     },
                     sorter: false,
                 }
             ),
             getColumn(
-                "data",
+                "vat",
                 "VAT",
                 {},
                 {
-                    render: (data: CommissionImportData) => {
-                        return formatCurrency(data.vat);
+                    render: (data: CommissionImportData, error: CommissionError) => {
+                        return formatCurrency(error.data.vat);
                     },
                     sorter: false,
                 }
             ),
-
             getColumn(
                 "id",
                 "Actions",

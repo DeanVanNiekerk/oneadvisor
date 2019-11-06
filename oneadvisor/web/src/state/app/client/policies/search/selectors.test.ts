@@ -1,21 +1,21 @@
-import { searchSelector } from './selectors';
+import { searchSelector } from "./selectors";
 
-describe('policy search selectors', () => {
-    it('searchSelector', () => {
+describe("policy search selectors", () => {
+    it("searchSelector", () => {
         const state = {
             app: {
                 client: {
                     policies: {
                         search: {
-                            property: '1'
-                        }
-                    }
-                }
-            }
+                            property: "1",
+                        },
+                    },
+                },
+            },
         };
 
         const expected = {
-            property: '1'
+            property: "1",
         };
 
         //@ts-ignore

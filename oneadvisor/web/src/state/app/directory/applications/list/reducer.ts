@@ -1,5 +1,5 @@
-import { Application } from '../types';
-import { ApplicationListAction } from './actions';
+import { Application } from "../types";
+import { ApplicationListAction } from "./actions";
 
 export type State = {
     readonly items: Application[];
@@ -11,10 +11,7 @@ export const defaultState: State = {
     fetching: false,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: ApplicationListAction
-): State => {
+export const reducer = (state: State = defaultState, action: ApplicationListAction): State => {
     switch (action.type) {
         case "APPLICATIONS_LIST_RECEIVE": {
             return {

@@ -5,7 +5,13 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    confirmCancelMappingError, fetchNextMappingError, mappingErrorSelector, mappingErrorVisible, saveMappingError
+    confirmCancelMappingError,
+    fetchNextMappingError,
+    mappingErrorCanSaveSelector,
+    mappingErrorIsLoadingSelector,
+    mappingErrorSelector,
+    mappingErrorVisible,
+    saveMappingError,
 } from "@/state/app/commission/errors";
 import { Statement } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
@@ -21,12 +27,10 @@ type Props = {
     PropsFromDispatch;
 
 const EditMappingError: React.FC<Props> = (props: Props) => {
-
     const close = () => props.setVisible(false);
-    const cancel = () => () => props.confirmCancel(close);
+    const cancel = () => props.confirmCancel(close);
 
     const save = (resolveNext: boolean) => {
-
         props.saveMappingError(
             props.statement.id,
             // OnSaved
@@ -34,7 +38,7 @@ const EditMappingError: React.FC<Props> = (props: Props) => {
                 if (props.onSaved) props.onSaved();
 
                 if (resolveNext) {
-                    props.fetchNextMappingError(this.props.statement.id);
+                    props.fetchNextMappingError(props.statement.id);
                 } else {
                     close();
                 }
@@ -61,25 +65,22 @@ const EditMappingError: React.FC<Props> = (props: Props) => {
                     <MappingErrorForm statement={props.statement} />
                 </ContentLoader>
                 <DrawerFooter>
-                    <Button
-                        onClick={cancel}
-                        disabled={props.loading}
-                    >
+                    <Button onClick={cancel} disabled={props.loading}>
                         Cancel
-                        </Button>
+                    </Button>
                     <Button
                         onClick={() => save(false)}
                         type="primary"
-                        disabled={!props.canSave()}
+                        disabled={!props.canSave}
                         requiredUseCase="com_edit_commission_statements"
                     >
                         Save
-                        </Button>
+                    </Button>
                     {props.statement.mappingErrorCount > 1 && (
                         <Button
                             onClick={() => save(true)}
                             type="primary"
-                            disabled={!props.canSave()}
+                            disabled={!props.canSave}
                             requiredUseCase="com_edit_commission_statements"
                         >
                             <span>
@@ -92,22 +93,15 @@ const EditMappingError: React.FC<Props> = (props: Props) => {
             </Drawer>
         </>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const mappingErrorState = mappingErrorSelector(state);
-    const loading = mappingErrorState.updating || mappingErrorState.fetching;
     return {
-        loading: loading,
         visible: mappingErrorState.visible,
-        canSave: () => {
-            if (mappingErrorState.commissionError === null || loading) return false;
-            return (
-                !!mappingErrorState.commissionError.policyId &&
-                !!mappingErrorState.commissionError.clientId
-            );
-        },
+        loading: mappingErrorIsLoadingSelector(state),
+        canSave: mappingErrorCanSaveSelector(state),
     };
 };
 

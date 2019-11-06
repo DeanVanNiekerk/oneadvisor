@@ -1,10 +1,10 @@
-import { createSelector } from 'reselect';
+import { createSelector } from "reselect";
 
-import { DEFAULT_APPLICATION_ID } from '@/config/application';
-import { RootState } from '@/state/rootReducer';
+import { DEFAULT_APPLICATION_ID } from "@/config/application";
+import { RootState } from "@/state/rootReducer";
 
-import { State } from './reducer';
-import { Application, Menu, MenuLink, Menus } from './types';
+import { State } from "./reducer";
+import { Application, Menu, MenuLink, Menus } from "./types";
 
 const rootSelector = (state: RootState): State => state.context;
 
@@ -13,15 +13,11 @@ export const contextSelector: (state: RootState) => State = createSelector(
     root => root
 );
 
-export const pathNameSelector = (state: RootState): string =>
-    state.router ? state.router.location.pathname : "";
-export const appsSelector = (state: RootState): Application[] =>
-    state.context.applications;
+export const pathNameSelector = (state: RootState): string => (state.router ? state.router.location.pathname : "");
+export const appsSelector = (state: RootState): Application[] => state.context.applications;
 export const menusSelector = (state: RootState): Menus => state.context.menus;
 
-export const applicationsSelector: (
-    state: RootState
-) => Application[] = createSelector(
+export const applicationsSelector: (state: RootState) => Application[] = createSelector(
     pathNameSelector,
     appsSelector,
     (pathName, applications) => {
@@ -34,9 +30,7 @@ export const applicationsSelector: (
     }
 );
 
-export const currentApplicationSelector: (
-    state: RootState
-) => Application = createSelector(
+export const currentApplicationSelector: (state: RootState) => Application = createSelector(
     applicationsSelector,
     applications => {
         return applications.filter(app => app.isCurrent)[0];
@@ -69,9 +63,7 @@ export const currentMenuSelector: (state: RootState) => Menu = createSelector(
     }
 );
 
-export const currentMenuLinkSelector: (
-    state: RootState
-) => MenuLink = createSelector(
+export const currentMenuLinkSelector: (state: RootState) => MenuLink = createSelector(
     currentMenuSelector,
     menu => {
         const flattened = menu.groups.reduce(

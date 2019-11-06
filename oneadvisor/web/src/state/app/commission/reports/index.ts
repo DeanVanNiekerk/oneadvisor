@@ -1,20 +1,18 @@
 export * from "./clientRevenue/actions";
 export * from "./clientRevenue/types";
-export { listSelector as clientRevenueSelector, clientRevenueBandsDataSelector } from "./clientRevenue/selectors";
+export * from "./clientRevenue/selectors";
 
 export * from "./userEarningsTypeMonthlyCommission/actions";
 export * from "./userEarningsTypeMonthlyCommission/types";
-export {
-    listSelector as userEarningsTypeMonthlyCommissionSelector,
-} from "./userEarningsTypeMonthlyCommission/selectors";
+export * from "./userEarningsTypeMonthlyCommission/selectors";
 
 export * from "./userCompanyMonthlyCommission/actions";
 export * from "./userCompanyMonthlyCommission/types";
-export { listSelector as userCompanyMonthlyCommissionSelector } from "./userCompanyMonthlyCommission/selectors";
+export * from "./userCompanyMonthlyCommission/selectors";
 
 export * from "./commissionLapse/actions";
 export * from "./commissionLapse/types";
-export { listSelector as commissionLapseSelector } from "./commissionLapse/selectors";
+export * from "./commissionLapse/selectors";
 
 export * from "./userMonthlyCommission/actions";
 export * from "./userMonthlyCommission/selectors";

@@ -25,10 +25,8 @@ type Props = {
 };
 
 const FormInputNumber: React.FC<Props> = (props: Props) => {
-
     const onChange = (value: number | undefined) => {
-        if (props.onChange)
-            props.onChange(props.fieldName, value);
+        if (props.onChange) props.onChange(props.fieldName, value);
     };
 
     const {
@@ -44,8 +42,7 @@ const FormInputNumber: React.FC<Props> = (props: Props) => {
         precision = 2,
     } = props;
 
-    if (readonly)
-        return <FormText label={label} value={value} layout={layout} />;
+    if (readonly) return <FormText label={label} value={value} layout={layout} />;
 
     return (
         <FormField
@@ -73,6 +70,6 @@ const FormInputNumber: React.FC<Props> = (props: Props) => {
             />
         </FormField>
     );
-}
+};
 
 export { FormInputNumber };

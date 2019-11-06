@@ -4,8 +4,11 @@ import { ApiAction } from "@/app/types";
 import { allCommissionLookupsApi } from "@/config/api/commission";
 
 import {
-    Lookups, receiveCommissionEarningsTypes, receiveCommissionStatementTemplateFieldNames,
-    receiveCommissionStatementTemplateGroupFieldNames, receiveCommissionTypes
+    Lookups,
+    receiveCommissionEarningsTypes,
+    receiveCommissionStatementTemplateFieldNames,
+    receiveCommissionStatementTemplateGroupFieldNames,
+    receiveCommissionTypes,
 } from "../";
 
 type LookupsReceiveAction = {

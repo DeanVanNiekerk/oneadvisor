@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { getPolicy, PolicyEdit } from '@/state/app/client/policies';
+import { getPolicy, PolicyEdit } from "@/state/app/client/policies";
 
 type Props = {
     policyId: string | null;
@@ -41,10 +41,7 @@ class PolicyNameComponent extends Component<Props, State> {
 
         if (!policy) return <span />;
 
-        return (
-            <span className={this.props.className}>{`${policy.number ||
-                ""}`}</span>
-        );
+        return <span className={this.props.className}>{`${policy.number || ""}`}</span>;
     }
 }
 

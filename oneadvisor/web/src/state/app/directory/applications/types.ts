@@ -1,7 +1,4 @@
-
-
 export type Application = {
-    id: string,
-    name: string
+    id: string;
+    name: string;
 };
-

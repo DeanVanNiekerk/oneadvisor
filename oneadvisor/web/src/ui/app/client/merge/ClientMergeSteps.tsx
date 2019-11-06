@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { clientMergeSelector } from '@/state/app/client/clients';
-import { RootState } from '@/state/rootReducer';
-import { StepProgress, StepProgressProps } from '@/ui/controls';
+import { clientMergeSelector } from "@/state/app/client/clients";
+import { RootState } from "@/state/rootReducer";
+import { StepProgress, StepProgressProps } from "@/ui/controls";
 
 class ClientMergeSteps extends Component<StepProgressProps> {
     render() {

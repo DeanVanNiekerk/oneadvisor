@@ -1,21 +1,21 @@
-import { roleSelector } from './selectors';
+import { roleSelector } from "./selectors";
 
-describe('role selectors', () => {
-    it('roleSelector', () => {
+describe("role selectors", () => {
+    it("roleSelector", () => {
         const state = {
             app: {
                 directory: {
                     roles: {
                         role: {
-                            property: '1'
-                        }
-                    }
-                }
-            }
+                            property: "1",
+                        },
+                    },
+                },
+            },
         };
 
         const expected = {
-            property: '1'
+            property: "1",
         };
 
         //@ts-ignore

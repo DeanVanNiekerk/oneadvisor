@@ -3,7 +3,9 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import {
-    commissionProjectionsSelector, projectionGroupsTableColumnsSelector, projectionGroupTableRowsSelector
+    commissionProjectionsSelector,
+    projectionGroupsTableColumnsSelector,
+    projectionGroupTableRowsSelector,
 } from "@/state/app/commission/reports";
 import { RootState } from "@/state/rootReducer";
 import { getTable } from "@/ui/controls";

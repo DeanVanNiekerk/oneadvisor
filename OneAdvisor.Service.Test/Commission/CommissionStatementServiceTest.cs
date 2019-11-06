@@ -10,6 +10,7 @@ using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using Moq;
 using OneAdvisor.Service.Common.BulkActions;
 using OneAdvisor.Service.Directory;
+using OneAdvisor.Service.Test.Directory.Mocks;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -143,7 +144,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionStatementService(context, null, auditService);
 
                 //When
@@ -242,7 +243,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionStatementService(context, null, auditService);
 
                 //When
@@ -320,7 +321,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionStatementService(context, null, auditService);
 
                 //When
@@ -364,7 +365,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionStatementService(context, null, auditService);
 
                 //When
@@ -427,7 +428,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionStatementService(context, null, auditService);
 
                 var model = new CommissionStatementEdit
@@ -488,7 +489,7 @@ namespace OneAdvisor.Service.Test.Commission
                     .Callback((DataContext c, Guid g1) => actualCommissionStatementId2 = g1)
                     .Returns(Task.CompletedTask);
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionStatementService(context, bulkActions.Object, auditService);
 
                 //When

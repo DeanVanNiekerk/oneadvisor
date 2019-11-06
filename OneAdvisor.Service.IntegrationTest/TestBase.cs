@@ -69,9 +69,9 @@ namespace OneAdvisor.Service.IntegrationTest
             return @"
             create or alter proc [dbo].[sp_MSforeachtable]
                 @command1 nvarchar(2000), @replacechar nchar(1) = N'?', @command2 nvarchar(2000) = null,
-            @command3 nvarchar(2000) = null, @whereand nvarchar(2000) = null,
+                @command3 nvarchar(2000) = null, @whereand nvarchar(2000) = null,
                 @precommand nvarchar(2000) = null, @postcommand nvarchar(2000) = null
-            as
+                as
                 /* This proc returns one or more rows for each table (optionally, matching @where), with each table defaulting to its own result set */
                 /* @precommand and @postcommand may be used to force a single result set via a temp table. */
 
@@ -83,7 +83,7 @@ namespace OneAdvisor.Service.IntegrationTest
                     exec(@precommand)
 
                 /* Create the select */
-            exec(N'declare hCForEachTable cursor global for select ''['' + REPLACE(schema_name(syso.schema_id), N'']'', N'']]'') + '']'' + ''.'' + ''['' + REPLACE(object_name(o.id), N'']'', N'']]'') + '']'' from dbo.sysobjects o join sys.all_objects syso on o.id = syso.object_id '
+                exec(N'declare hCForEachTable cursor global for select ''['' + REPLACE(schema_name(syso.schema_id), N'']'', N'']]'') + '']'' + ''.'' + ''['' + REPLACE(object_name(o.id), N'']'', N'']]'') + '']'' from dbo.sysobjects o join sys.all_objects syso on o.id = syso.object_id '
                     + N' where OBJECTPROPERTY(o.id, N''IsUserTable'') = 1 ' + N' and o.category & ' + @mscat + N' = 0 '
                     + @whereand)
                 declare @retval int
@@ -103,7 +103,7 @@ namespace OneAdvisor.Service.IntegrationTest
             return @"
             create or alter proc [dbo].[sp_MSforeach_worker]
                 @command1 nvarchar(2000), @replacechar nchar(1) = N'?', @command2 nvarchar(2000) = null, @command3 nvarchar(2000) = null, @worker_type int =1
-            as
+                as
 
                 create table #qtemp (	/* Temp command storage */
                     qnum				int				NOT NULL,
@@ -112,10 +112,10 @@ namespace OneAdvisor.Service.IntegrationTest
 
                 set nocount on
                 declare @name nvarchar(517), @namelen int, @q1 nvarchar(2000), @q2 nvarchar(2000)
-            declare @q3 nvarchar(2000), @q4 nvarchar(2000), @q5 nvarchar(2000)
+                declare @q3 nvarchar(2000), @q4 nvarchar(2000), @q5 nvarchar(2000)
                 declare @q6 nvarchar(2000), @q7 nvarchar(2000), @q8 nvarchar(2000), @q9 nvarchar(2000), @q10 nvarchar(2000)
                 declare @cmd nvarchar(2000), @replacecharindex int, @useq tinyint, @usecmd tinyint, @nextcmd nvarchar(2000)
-            declare @namesave nvarchar(517), @nametmp nvarchar(517), @nametmp2 nvarchar(258)
+                declare @namesave nvarchar(517), @nametmp nvarchar(517), @nametmp2 nvarchar(258)
 
                 declare @local_cursor cursor
                 if @worker_type=1	

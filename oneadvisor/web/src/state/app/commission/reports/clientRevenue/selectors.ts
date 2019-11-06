@@ -8,7 +8,7 @@ import { ClientRevenueData } from "./types";
 
 const rootSelector = (state: RootState): State => state.app.commission.reports.clientRevenue;
 
-export const listSelector: (state: RootState) => State = createSelector(
+export const clientRevenueSelector: (state: RootState) => State = createSelector(
     rootSelector,
     root => root
 );

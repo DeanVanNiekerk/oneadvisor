@@ -10,13 +10,13 @@ const FormItemIcon: React.FC<Props> = ({ type }) => {
         <div
             className="ant-row ant-form-item"
             style={{
-                paddingTop: '8px',
-                fontSize: '16px'
+                paddingTop: "8px",
+                fontSize: "16px",
             }}
         >
             <Icon type={type} />
         </div>
     );
-}
+};
 
 export { FormItemIcon };

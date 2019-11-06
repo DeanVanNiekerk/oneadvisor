@@ -1,6 +1,6 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { SignInActions } from './actions';
+import { SignInActions } from "./actions";
 
 export type State = {
     readonly fetching: boolean;

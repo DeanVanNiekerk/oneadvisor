@@ -1,8 +1,8 @@
-import { Col, Row } from 'antd';
-import React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { Col, Row } from "antd";
+import React from "react";
+import { RouteComponentProps, withRouter } from "react-router";
 
-import { ContentLoader } from '@/ui/controls';
+import { ContentLoader } from "@/ui/controls";
 
 type Props = {
     header: string;
@@ -18,13 +18,7 @@ class Layout extends React.Component<Props> {
         return (
             <>
                 <Row type="flex" justify="center">
-                    <Col
-                        sm={14}
-                        md={10}
-                        lg={6}
-                        xl={4}
-                        style={{ marginTop: "80px" }}
-                    >
+                    <Col sm={14} md={10} lg={6} xl={4} style={{ marginTop: "80px" }}>
                         <div
                             className="mb-2"
                             style={{
@@ -49,9 +43,7 @@ class Layout extends React.Component<Props> {
                             </span>
                         </div>
                         <h3>{this.props.header}</h3>
-                        <ContentLoader isLoading={this.props.loading}>
-                            {this.props.children}
-                        </ContentLoader>
+                        <ContentLoader isLoading={this.props.loading}>{this.props.children}</ContentLoader>
                     </Col>
                 </Row>
             </>

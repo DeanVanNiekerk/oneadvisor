@@ -1,8 +1,8 @@
-import { Filters, SortOptions } from '@/app/table';
+import { Filters, SortOptions } from "@/app/table";
 
-import { Client } from '../';
-import { ClientTypeId } from '../../lookups';
-import { defaultState, reducer } from './reducer';
+import { Client } from "../";
+import { ClientTypeId } from "../../lookups";
+import { defaultState, reducer } from "./reducer";
 
 describe("client list reducer", () => {
     it("should handle CLIENTS_LIST_FETCHING", () => {

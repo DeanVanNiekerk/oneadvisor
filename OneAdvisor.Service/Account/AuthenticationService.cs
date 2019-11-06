@@ -78,13 +78,12 @@ namespace OneAdvisor.Service.Account
                 Data = data,
             };
 
-
             var user = await _userManager.FindByNameAsync(userName);
 
             if (user == null)
             {
                 log.Data.message = "Invalid username";
-                await _auditService.InsertAuditLog(log);
+                await _auditService.InsertAuditLog(null, log.Action, log.Entity, log.Data);
                 return result;
             }
 
@@ -95,7 +94,7 @@ namespace OneAdvisor.Service.Account
             if (result.NotActivated)
             {
                 log.Data.message = "Not activated";
-                await _auditService.InsertAuditLog(log);
+                await _auditService.InsertAuditLog(null, log.Action, log.Entity, log.Data);
                 return result;
             }
 
@@ -104,18 +103,23 @@ namespace OneAdvisor.Service.Account
             if (result.IsLocked)
             {
                 log.Data.message = "Locked";
-                await _auditService.InsertAuditLog(log);
+                await _auditService.InsertAuditLog(null, log.Action, log.Entity, log.Data);
                 return result;
             }
 
             result.Success = await _userManager.CheckPasswordAsync(user, password ?? "");
 
             if (!result.Success)
+            {
                 log.Data.message = "Invalid password";
+                await _auditService.InsertAuditLog(null, log.Action, log.Entity, log.Data);
+            }
             else
+            {
                 log.Data.success = true;
-
-            await _auditService.InsertAuditLog(log);
+                var organisationId = (await _context.Branch.SingleAsync(o => o.Id == user.BranchId)).OrganisationId;
+                await _auditService.InsertAuditLog(organisationId, user.BranchId, user.Id, log.Action, log.Entity, log.Data);
+            }
 
             return result;
         }

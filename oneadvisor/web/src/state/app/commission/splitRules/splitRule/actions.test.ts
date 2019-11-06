@@ -1,7 +1,7 @@
-import { splitRulesApi } from '@/config/api/commission';
+import { splitRulesApi } from "@/config/api/commission";
 
-import { SplitRule } from '../';
-import * as actions from './actions';
+import { SplitRule } from "../";
+import * as actions from "./actions";
 
 describe("splitRule actions", () => {
     it("should dispatch API when fetchSplitRule is called", () => {
@@ -34,9 +34,7 @@ describe("splitRule actions", () => {
             dispatchPrefix: "SPLITRULES_SPLITRULE_EDIT",
         };
 
-        expect(actions.updateSplitRule(splitRule, onSuccess)).toEqual(
-            expectedAction
-        );
+        expect(actions.updateSplitRule(splitRule, onSuccess)).toEqual(expectedAction);
     });
 
     it("should dispatch API when deleteSplitRule is called", () => {
@@ -49,8 +47,6 @@ describe("splitRule actions", () => {
             onSuccess: onSuccess,
         };
 
-        expect(actions.deleteSplitRule("10", onSuccess)).toEqual(
-            expectedAction
-        );
+        expect(actions.deleteSplitRule("10", onSuccess)).toEqual(expectedAction);
     });
 });

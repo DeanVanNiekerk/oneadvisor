@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { ValidationResult } from '@/app/validation';
-import { Branch, branchSelector, insertBranch, receiveBranch, updateBranch } from '@/state/app/directory/branches';
-import { RootState } from '@/state/rootReducer';
-import { Button, ContentLoader, Form, FormField } from '@/ui/controls';
+import { ValidationResult } from "@/app/validation";
+import { Branch, branchSelector, insertBranch, receiveBranch, updateBranch } from "@/state/app/directory/branches";
+import { RootState } from "@/state/rootReducer";
+import { Button, ContentLoader, Form, FormField } from "@/ui/controls";
 
-import BranchForm from './BranchForm';
+import BranchForm from "./BranchForm";
 
 type Props = {
     branch: Branch | null;
@@ -33,9 +33,9 @@ class EditBranch extends Component<Props> {
     newBranch = () => {
         this.props.dispatch(
             receiveBranch({
-                id: '',
+                id: "",
                 organisationId: this.props.organisationId,
-                name: ''
+                name: "",
             })
         );
     };
@@ -84,7 +84,7 @@ const mapStateToProps = (state: RootState) => {
         branch: branchState.branch,
         fetching: branchState.fetching,
         updating: branchState.updating,
-        validationResults: branchState.validationResults
+        validationResults: branchState.validationResults,
     };
 };
 

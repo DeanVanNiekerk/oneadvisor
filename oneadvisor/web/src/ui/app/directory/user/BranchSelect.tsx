@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { ValidationResult } from '@/app/validation';
-import { Branch, branchesSelector, fetchBranch, fetchBranches, receiveBranch } from '@/state/app/directory/branches';
-import { Organisation } from '@/state/app/directory/organisations';
-import { RootState } from '@/state/rootReducer';
-import { FormSelect } from '@/ui/controls';
+import { ValidationResult } from "@/app/validation";
+import { Branch, branchesSelector, fetchBranch, fetchBranches, receiveBranch } from "@/state/app/directory/branches";
+import { Organisation } from "@/state/app/directory/organisations";
+import { RootState } from "@/state/rootReducer";
+import { FormSelect } from "@/ui/controls";
 
 type Props = {
     branchId: string;
@@ -27,8 +27,8 @@ class BranchSelect extends Component<Props, State> {
         super(props);
 
         this.state = {
-            branchId: '',
-            organisationId: ''
+            branchId: "",
+            organisationId: "",
         };
     }
 
@@ -37,10 +37,7 @@ class BranchSelect extends Component<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (
-            this.props.branchId != prevProps.branchId &&
-            this.props.branchId != this.state.branchId
-        ) {
+        if (this.props.branchId != prevProps.branchId && this.props.branchId != this.state.branchId) {
             this.loadBranchList(this.props.branchId);
         }
     }
@@ -48,13 +45,12 @@ class BranchSelect extends Component<Props, State> {
     loadBranchList = (branchId: string) => {
         //Update state
         this.setState({
-            branchId: branchId
+            branchId: branchId,
         });
 
         //Organisation already correct
         const branch = this.props.branches.find(b => b.id === branchId);
-        if (branch && branch.organisationId === this.state.organisationId)
-            return;
+        if (branch && branch.organisationId === this.state.organisationId) return;
 
         //If no branch, just set the first org id in the list
         if (!branchId) {
@@ -72,17 +68,17 @@ class BranchSelect extends Component<Props, State> {
 
     setOrganisationId = (organisationId: string) => {
         this.setState({
-            organisationId: organisationId
+            organisationId: organisationId,
         });
         this.props.dispatch(fetchBranches(organisationId));
     };
 
     handleOrganisationChange = (fieldName: string, value: string) => {
         this.props.dispatch(fetchBranches(value));
-        this.props.onChange('');
+        this.props.onChange("");
         this.setState({
-            branchId: '',
-            organisationId: value
+            branchId: "",
+            organisationId: value,
         });
     };
 
@@ -127,7 +123,7 @@ const mapStateToProps = (state: RootState) => {
 
     return {
         branches: branchesState.items,
-        fetching: branchesState.fetching
+        fetching: branchesState.fetching,
     };
 };
 

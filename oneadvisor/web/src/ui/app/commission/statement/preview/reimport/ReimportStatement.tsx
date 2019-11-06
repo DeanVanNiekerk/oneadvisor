@@ -6,7 +6,8 @@ import { Dispatch } from "redux";
 import { Filters } from "@/app/table";
 import { reimportCommissions, Statement } from "@/state/app/commission/statements";
 import {
-    commissionStatementTemplatesSelector, fetchCommissionStatementTemplates
+    commissionStatementTemplatesSelector,
+    fetchCommissionStatementTemplates,
 } from "@/state/app/commission/templates";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormSelect } from "@/ui/controls";
@@ -17,12 +18,10 @@ const confirm = Modal.confirm;
 type Props = {
     statement: Statement;
     onReimported: () => void;
-}
-    & PropsFromState
-    & PropsFromDispatch;
+} & PropsFromState &
+    PropsFromDispatch;
 
 const ReimportStatement: React.FC<Props> = (props: Props) => {
-
     const [templateId, setTemplateId] = useState<string>();
     const [uploading, setUploading] = useState<boolean>(false);
 
@@ -39,7 +38,8 @@ const ReimportStatement: React.FC<Props> = (props: Props) => {
 
         confirm({
             title: "Are you sure you want to reimport all commission entries?",
-            content: "All existing commission entries including any errors will be deleted before import, are you sure you wish to continue?",
+            content:
+                "All existing commission entries including any errors will be deleted before import, are you sure you wish to continue?",
             onOk: () => {
                 if (!templateId) return;
                 showMessage("loading", "Reimporting commission entries", 60);
@@ -91,7 +91,7 @@ const ReimportStatement: React.FC<Props> = (props: Props) => {
             </Button>
         </Form>
     );
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
@@ -117,7 +117,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         ) => {
             dispatch(reimportCommissions(commissionStatementId, commissionStatementTemplateId, onSuccess, onFailure));
         },
-    }
-}
+    };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReimportStatement);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ReimportStatement);

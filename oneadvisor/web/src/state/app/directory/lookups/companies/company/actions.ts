@@ -10,28 +10,28 @@ import { companyIsModifiedSelector, companySelector, fetchCompanies } from "../"
 import { Company } from "../types";
 
 type CompanyReceiveAction = {
-    type: 'COMPANIES_COMPANY_RECEIVE';
+    type: "COMPANIES_COMPANY_RECEIVE";
     payload: Company | null;
 };
 type CompanyModifiedAction = {
-    type: 'COMPANIES_COMPANY_MODIFIED';
-    payload: Company
+    type: "COMPANIES_COMPANY_MODIFIED";
+    payload: Company;
 };
 type CompanyVisibleAction = {
     type: "COMPANIES_COMPANY_VISIBLE";
     payload: boolean;
 };
 type CompanyUpdatedAction = {
-    type: 'COMPANIES_COMPANY_EDIT_RECEIVE';
+    type: "COMPANIES_COMPANY_EDIT_RECEIVE";
 };
 type CompanyUpdatingAction = {
-    type: 'COMPANIES_COMPANY_EDIT_FETCHING';
+    type: "COMPANIES_COMPANY_EDIT_FETCHING";
 };
 type CompanyUpdatingErrorAction = {
-    type: 'COMPANIES_COMPANY_EDIT_FETCHING_ERROR';
+    type: "COMPANIES_COMPANY_EDIT_FETCHING_ERROR";
 };
 type CompanyValidationErrorAction = {
-    type: 'COMPANIES_COMPANY_EDIT_VALIDATION_ERROR';
+    type: "COMPANIES_COMPANY_EDIT_VALIDATION_ERROR";
     payload: ValidationResult[];
 };
 
@@ -45,13 +45,13 @@ export type CompanyAction =
     | CompanyValidationErrorAction;
 
 export const receiveCompany = (company: Company | null): CompanyReceiveAction => ({
-    type: 'COMPANIES_COMPANY_RECEIVE',
-    payload: company
+    type: "COMPANIES_COMPANY_RECEIVE",
+    payload: company,
 });
 
 export const modifyCompany = (company: Company): CompanyModifiedAction => ({
-    type: 'COMPANIES_COMPANY_MODIFIED',
-    payload: company
+    type: "COMPANIES_COMPANY_MODIFIED",
+    payload: company,
 });
 
 export const companyVisible = (visible: boolean): CompanyVisibleAction => ({
@@ -62,7 +62,6 @@ export const companyVisible = (visible: boolean): CompanyVisibleAction => ({
 export const clearCompany = (): CompanyReceiveAction => receiveCompany(null);
 
 export const newCompany = (): CompanyReceiveAction => {
-
     const company: Company = {
         id: "",
         name: "",
@@ -72,7 +71,9 @@ export const newCompany = (): CompanyReceiveAction => {
     return receiveCompany(company);
 };
 
-export const saveCompany = (onSaved?: () => void): ThunkAction<void, RootState, {}, CompanyReceiveAction | ApiAction> => {
+export const saveCompany = (
+    onSaved?: () => void
+): ThunkAction<void, RootState, {}, CompanyReceiveAction | ApiAction> => {
     return (dispatch, getState) => {
         const { company } = companySelector(getState());
         if (!company) return;
@@ -80,7 +81,7 @@ export const saveCompany = (onSaved?: () => void): ThunkAction<void, RootState, 
         const onSuccess = () => {
             dispatch(clearCompany());
             if (onSaved) onSaved();
-        }
+        };
 
         if (company.id) {
             dispatch(updateCompany(company, onSuccess));
@@ -88,9 +89,12 @@ export const saveCompany = (onSaved?: () => void): ThunkAction<void, RootState, 
             dispatch(insertCompany(company, onSuccess));
         }
     };
-}
+};
 
-export const confirmCancelCompany = (showConfirm: ShowConfirm, onCancelled: () => void): ThunkAction<void, RootState, {}, CompanyReceiveAction> => {
+export const confirmCancelCompany = (
+    showConfirm: ShowConfirm,
+    onCancelled: () => void
+): ThunkAction<void, RootState, {}, CompanyReceiveAction> => {
     return (dispatch, getState) => {
         const modifed = companyIsModifiedSelector(getState());
 
@@ -100,32 +104,30 @@ export const confirmCancelCompany = (showConfirm: ShowConfirm, onCancelled: () =
         };
 
         if (modifed)
-            return showConfirm({ onOk: () => { cancel(); } });
+            return showConfirm({
+                onOk: () => {
+                    cancel();
+                },
+            });
 
         cancel();
     };
-}
+};
 
-export const updateCompany = (
-    company: Company,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
-    type: 'API',
+export const updateCompany = (company: Company, onSuccess: ApiOnSuccess): ApiAction => ({
+    type: "API",
     endpoint: `${companiesApi}/${company.id}`,
-    method: 'POST',
+    method: "POST",
     payload: company,
     onSuccess: onSuccess,
-    dispatchPrefix: 'COMPANIES_COMPANY_EDIT'
+    dispatchPrefix: "COMPANIES_COMPANY_EDIT",
 });
 
-export const insertCompany = (
-    company: Company,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
-    type: 'API',
+export const insertCompany = (company: Company, onSuccess: ApiOnSuccess): ApiAction => ({
+    type: "API",
     endpoint: `${companiesApi}`,
-    method: 'POST',
+    method: "POST",
     payload: company,
     onSuccess: onSuccess,
-    dispatchPrefix: 'COMPANIES_COMPANY_EDIT'
+    dispatchPrefix: "COMPANIES_COMPANY_EDIT",
 });

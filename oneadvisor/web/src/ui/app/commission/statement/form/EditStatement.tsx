@@ -4,7 +4,11 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    confirmCancelStatement, saveStatement, statementSelector, statementVisible
+    confirmCancelStatement,
+    saveStatement,
+    statementIsLoadingSelector,
+    statementSelector,
+    statementVisible,
 } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
@@ -19,7 +23,6 @@ type Props = {
     PropsFromDispatch;
 
 const EditStatement: React.FC<Props> = (props: Props) => {
-
     const close = () => props.setVisible(false);
 
     return (
@@ -35,7 +38,6 @@ const EditStatement: React.FC<Props> = (props: Props) => {
             }}
             onSave={() => {
                 props.saveStatement(props.onSaved);
-                close();
             }}
         >
             <StatementForm />
@@ -48,7 +50,7 @@ const mapStateToProps = (state: RootState) => {
     const statementState = statementSelector(state);
     return {
         visible: statementState.visible,
-        loading: statementState.updating || statementState.fetching,
+        loading: statementIsLoadingSelector(state),
     };
 };
 
@@ -59,7 +61,12 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
             dispatch(confirmCancelStatement(showConfirm, onCancelled));
         },
         saveStatement: (onSaved?: () => void) => {
-            dispatch(saveStatement(onSaved));
+            dispatch(
+                saveStatement(() => {
+                    if (onSaved) onSaved();
+                    dispatch(statementVisible(false));
+                })
+            );
         },
         setVisible: (visible: boolean) => {
             dispatch(statementVisible(visible));

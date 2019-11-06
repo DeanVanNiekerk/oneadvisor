@@ -1,8 +1,8 @@
-import { Filters, PageOptions, SortOptions } from '@/app/table';
-import { defaultPageOptions, defaultSortOptions } from '@/app/table/defaults';
+import { Filters, PageOptions, SortOptions } from "@/app/table";
+import { defaultPageOptions, defaultSortOptions } from "@/app/table/defaults";
 
-import { CommissionError } from '../types';
-import { ErrorListAction } from './actions';
+import { CommissionError } from "../types";
+import { ErrorListAction } from "./actions";
 
 export type State = {
     readonly items: CommissionError[];
@@ -22,10 +22,7 @@ export const defaultState: State = {
     filters: null,
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: ErrorListAction
-): State => {
+export const reducer = (state: State = defaultState, action: ErrorListAction): State => {
     switch (action.type) {
         case "COMMISSIONS_ERRORS_LIST_RECEIVE": {
             return {

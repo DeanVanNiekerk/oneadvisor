@@ -6,7 +6,6 @@ import CompanyCommission from "./CompanyCommission";
 import CompanyDetails from "./CompanyDetails";
 
 const CompanyForm: React.FC = () => {
-
     const [activeTab, setActiveTab] = useState("details_tab");
 
     return (
@@ -22,6 +21,3 @@ const CompanyForm: React.FC = () => {
 };
 
 export default CompanyForm;
-
-
-

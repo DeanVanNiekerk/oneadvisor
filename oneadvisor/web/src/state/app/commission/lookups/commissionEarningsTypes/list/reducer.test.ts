@@ -1,4 +1,4 @@
-import { defaultState, reducer } from './reducer';
+import { defaultState, reducer } from "./reducer";
 
 describe("commissionEarningsType list reducer", () => {
     it("should handle COMMISSIONEARNINGSTYPE_LIST_RECEIVE", () => {

@@ -8,11 +8,10 @@ import { FormReadOnly } from "@/ui/controls";
 type Props = PropsFromState;
 
 const ExcelData: React.FC<Props> = ({ error }) => {
-
     if (!error) return <React.Fragment />;
 
     return <FormReadOnly data={error.data} />;
-}
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {

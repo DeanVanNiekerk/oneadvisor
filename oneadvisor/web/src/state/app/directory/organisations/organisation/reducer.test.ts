@@ -2,120 +2,120 @@ import { getValidationResult } from "@/test";
 
 import { defaultState, reducer } from "./reducer";
 
-describe('organisation reducer', () => {
-    it('should handle ORGANISATIONS_ORGANISATION_FETCHING', () => {
+describe("organisation reducer", () => {
+    it("should handle ORGANISATIONS_ORGANISATION_FETCHING", () => {
         const initalState = {
             ...defaultState,
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const actualState = reducer(initalState, {
-            type: 'ORGANISATIONS_ORGANISATION_FETCHING'
+            type: "ORGANISATIONS_ORGANISATION_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
             fetching: true,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle ORGANISATIONS_ORGANISATION_FETCHING_ERROR', () => {
+    it("should handle ORGANISATIONS_ORGANISATION_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            fetching: true
+            fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'ORGANISATIONS_ORGANISATION_FETCHING_ERROR'
+            type: "ORGANISATIONS_ORGANISATION_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
 
-            fetching: false
+            fetching: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle ORGANISATIONS_ORGANISATION_RECEIVE', () => {
+    it("should handle ORGANISATIONS_ORGANISATION_RECEIVE", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
-            validationResults: [getValidationResult()]
+            validationResults: [getValidationResult()],
         };
 
         const organisation = {
-            id: '10',
-            name: 'Org1',
+            id: "10",
+            name: "Org1",
             config: {
-                companyIds: []
-            }
+                companyIds: [],
+            },
         };
 
         const actualState = reducer(initalState, {
-            type: 'ORGANISATIONS_ORGANISATION_RECEIVE',
-            payload: { ...organisation }
+            type: "ORGANISATIONS_ORGANISATION_RECEIVE",
+            payload: { ...organisation },
         });
 
         const expectedState = {
             ...defaultState,
             organisation: { ...organisation },
             fetching: false,
-            validationResults: []
+            validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle ORGANISATIONS_ORGANISATION_EDIT_FETCHING', () => {
+    it("should handle ORGANISATIONS_ORGANISATION_EDIT_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: 'ORGANISATIONS_ORGANISATION_EDIT_FETCHING'
+            type: "ORGANISATIONS_ORGANISATION_EDIT_FETCHING",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle ORGANISATIONS_ORGANISATION_EDIT_FETCHING_ERROR', () => {
+    it("should handle ORGANISATIONS_ORGANISATION_EDIT_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'ORGANISATIONS_ORGANISATION_EDIT_FETCHING_ERROR'
+            type: "ORGANISATIONS_ORGANISATION_EDIT_FETCHING_ERROR",
         });
 
         const expectedState = {
             ...defaultState,
 
-            updating: false
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it('should handle ORGANISATIONS_ORGANISATION_EDIT_RECEIVE', () => {
+    it("should handle ORGANISATIONS_ORGANISATION_EDIT_RECEIVE", () => {
         const initalState = {
             ...defaultState,
-            updating: true
+            updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: 'ORGANISATIONS_ORGANISATION_EDIT_RECEIVE'
+            type: "ORGANISATIONS_ORGANISATION_EDIT_RECEIVE",
         });
 
         const expectedState = {
             ...defaultState,
-            updating: false
+            updating: false,
         };
 
         expect(actualState).toEqual(expectedState);

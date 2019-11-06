@@ -42,17 +42,12 @@ export type ClientAction =
     | ClientUpdatingErrorAction
     | ClientValidationErrorAction;
 
-export const receiveClient = (
-    client: ClientEdit | null
-): ClientReceiveAction => ({
+export const receiveClient = (client: ClientEdit | null): ClientReceiveAction => ({
     type: "CLIENTS_CLIENT_RECEIVE",
     payload: client,
 });
 
-export const getClient = (
-    clientId: string,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
+export const getClient = (clientId: string, onSuccess: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${clientsApi}/${clientId}`,
     onSuccess: onSuccess,
@@ -65,8 +60,8 @@ export const fetchClient = (clientId: string): ApiAction => ({
 });
 
 export const modifyClient = (client: ClientEdit): ClientModifiedAction => ({
-    type: 'CLIENTS_CLIENT_MODIFIED',
-    payload: client
+    type: "CLIENTS_CLIENT_MODIFIED",
+    payload: client,
 });
 
 export const clientVisible = (visible: boolean): ClientVisibleAction => ({
@@ -78,7 +73,9 @@ export const clearClient = (): ClientReceiveAction => receiveClient(null);
 
 export const newClient = (client?: Partial<ClientEdit>): ClientReceiveAction => receiveClient(createClient(client));
 
-export const saveClient = (onSaved?: (client: ClientEdit) => void): ThunkAction<void, RootState, {}, ClientReceiveAction | ApiAction> => {
+export const saveClient = (
+    onSaved?: (client: ClientEdit) => void
+): ThunkAction<void, RootState, {}, ClientReceiveAction | ApiAction> => {
     return (dispatch, getState) => {
         const { client } = clientSelector(getState());
         if (!client) return;
@@ -86,40 +83,48 @@ export const saveClient = (onSaved?: (client: ClientEdit) => void): ThunkAction<
         const onSuccess = (clientEdit: ClientEdit) => {
             dispatch(clearClient());
             if (onSaved) onSaved(clientEdit);
-        }
+        };
 
         if (client.id) {
-            dispatch(updateClient(client, () => {
-                onSuccess(client);
-            }));
+            dispatch(
+                updateClient(client, () => {
+                    onSuccess(client);
+                })
+            );
         } else {
-            dispatch(insertClient(client, (result) => {
-                onSuccess(result.tag);
-            }));
+            dispatch(
+                insertClient(client, result => {
+                    onSuccess(result.tag);
+                })
+            );
         }
     };
-}
+};
 
-export const confirmCancelClient = (showConfirm: ShowConfirm, onCancelled: () => void): ThunkAction<void, RootState, {}, ClientReceiveAction> => {
+export const confirmCancelClient = (
+    showConfirm: ShowConfirm,
+    onCancelled: () => void
+): ThunkAction<void, RootState, {}, ClientReceiveAction> => {
     return (dispatch, getState) => {
         const modifed = clientIsModifiedSelector(getState());
 
         const cancel = () => {
             dispatch(clearClient());
             onCancelled();
-        }
+        };
 
         if (modifed)
-            return showConfirm({ onOk: () => { cancel(); } });
+            return showConfirm({
+                onOk: () => {
+                    cancel();
+                },
+            });
 
         cancel();
     };
-}
+};
 
-export const updateClient = (
-    client: ClientEdit,
-    onSuccess: ApiOnSuccess<Result<null>>
-): ApiAction => ({
+export const updateClient = (client: ClientEdit, onSuccess: ApiOnSuccess<Result<null>>): ApiAction => ({
     type: "API",
     endpoint: `${clientsApi}/${client.id}`,
     method: "POST",
@@ -128,10 +133,7 @@ export const updateClient = (
     dispatchPrefix: "CLIENTS_CLIENT_EDIT",
 });
 
-export const insertClient = (
-    client: ClientEdit,
-    onSuccess: ApiOnSuccess<Result<ClientEdit>>
-): ApiAction => ({
+export const insertClient = (client: ClientEdit, onSuccess: ApiOnSuccess<Result<ClientEdit>>): ApiAction => ({
     type: "API",
     endpoint: `${clientsApi}`,
     method: "POST",
@@ -140,10 +142,7 @@ export const insertClient = (
     dispatchPrefix: "CLIENTS_CLIENT_EDIT",
 });
 
-export const deleteClient = (
-    clientId: string,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
+export const deleteClient = (clientId: string, onSuccess: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${clientsApi}/${clientId}`,
     method: "DELETE",
@@ -151,9 +150,7 @@ export const deleteClient = (
     dispatchPrefix: "CLIENTS_CLIENT_EDIT",
 });
 
-export const receiveClientValidationResults = (
-    validationResults: ValidationResult[]
-): ClientAction => ({
+export const receiveClientValidationResults = (validationResults: ValidationResult[]): ClientAction => ({
     type: "CLIENTS_CLIENT_EDIT_VALIDATION_ERROR",
     payload: validationResults,
 });

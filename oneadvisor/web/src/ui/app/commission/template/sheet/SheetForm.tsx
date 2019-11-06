@@ -1,8 +1,8 @@
-import update from 'immutability-helper';
-import React, { Component } from 'react';
+import update from "immutability-helper";
+import React, { Component } from "react";
 
-import { Sheet } from '@/state/app/commission/templates';
-import { Button, Form, FormField, FormInputNumber } from '@/ui/controls';
+import { Sheet } from "@/state/app/commission/templates";
+import { Button, Form, FormField, FormInputNumber } from "@/ui/controls";
 
 type Props = {
     sheet: Sheet;

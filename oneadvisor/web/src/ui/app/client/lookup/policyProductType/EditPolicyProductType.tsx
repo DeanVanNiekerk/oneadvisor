@@ -4,7 +4,10 @@ import { connect, DispatchProp } from "react-redux";
 import { areEqual } from "@/app/utils";
 import { ValidationResult } from "@/app/validation";
 import {
-    insertPolicyProductType, PolicyProductType, policyProductTypeSelector, updatePolicyProductType
+    insertPolicyProductType,
+    PolicyProductType,
+    policyProductTypeSelector,
+    updatePolicyProductType,
 } from "@/state/app/client/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";

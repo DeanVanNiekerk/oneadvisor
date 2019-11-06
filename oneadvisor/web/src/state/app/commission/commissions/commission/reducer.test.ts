@@ -1,7 +1,7 @@
-import { getValidationResult } from '@/test';
+import { getValidationResult } from "@/test";
 
-import { CommissionEdit } from '../';
-import { defaultState, reducer } from './reducer';
+import { CommissionEdit } from "../";
+import { defaultState, reducer } from "./reducer";
 
 const defaultCommission: CommissionEdit = {
     id: "10",
@@ -70,6 +70,7 @@ describe("commission reducer", () => {
         const expectedState = {
             ...defaultState,
             commission: { ...defaultCommission },
+            commissionOriginal: { ...defaultCommission },
             fetching: false,
             validationResults: [],
         };

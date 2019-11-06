@@ -1,9 +1,9 @@
-import update from 'immutability-helper';
-import React, { Component } from 'react';
+import update from "immutability-helper";
+import React, { Component } from "react";
 
-import { ValidationResult } from '@/app/validation';
-import { Branch } from '@/state/app/directory/branches';
-import { Button, Form, FormField, FormInput } from '@/ui/controls';
+import { ValidationResult } from "@/app/validation";
+import { Branch } from "@/state/app/directory/branches";
+import { Button, Form, FormField, FormInput } from "@/ui/controls";
 
 type Props = {
     branch: Branch;

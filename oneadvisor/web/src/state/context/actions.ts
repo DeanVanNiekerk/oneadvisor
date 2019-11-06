@@ -39,7 +39,7 @@ export const fetchAppInfo = (): ApiAction => {
 };
 
 export const fetchUserOrganisation = (organisationId: string): ApiAction => ({
-    type: 'API',
+    type: "API",
     endpoint: `${organisationsApi}/${organisationId}`,
-    dispatchPrefix: 'CONTEXT_ORGANISATION'
+    dispatchPrefix: "CONTEXT_ORGANISATION",
 });

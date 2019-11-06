@@ -1,6 +1,6 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { getValidationError, getValidationSubSet, removeValidationError } from './validation';
+import { getValidationError, getValidationSubSet, removeValidationError } from "./validation";
 
 describe("validation", () => {
     describe("getValidationError", () => {

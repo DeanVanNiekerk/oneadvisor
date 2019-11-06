@@ -1,23 +1,23 @@
-import { RootState } from '@/state/rootReducer';
+import { RootState } from "@/state/rootReducer";
 
-import { listSelector } from './selectors';
+import { listSelector } from "./selectors";
 
-describe('branch list selectors', () => {
-    it('listSelector', () => {
+describe("branch list selectors", () => {
+    it("listSelector", () => {
         const state = {
             app: {
                 directory: {
                     branches: {
                         list: {
-                            property: '1'
-                        }
-                    }
-                }
-            }
+                            property: "1",
+                        },
+                    },
+                },
+            },
         };
 
         const expected = {
-            property: '1'
+            property: "1",
         };
 
         //@ts-ignore

@@ -4,7 +4,12 @@ import { connect, DispatchProp } from "react-redux";
 import { getColumnDefinition } from "@/app/table";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
 import {
-    fetchOrganisation, fetchOrganisations, Organisation, OrganisationEdit, organisationsSelector, receiveOrganisation
+    fetchOrganisation,
+    fetchOrganisations,
+    Organisation,
+    OrganisationEdit,
+    organisationsSelector,
+    receiveOrganisation,
 } from "@/state/app/directory/organisations";
 import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header } from "@/ui/controls";

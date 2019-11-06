@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from "moment";
 
 export const SERVER_DATE_FORMAT = "YYYY-MM-DD";
 

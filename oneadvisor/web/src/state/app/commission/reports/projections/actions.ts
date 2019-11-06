@@ -62,12 +62,16 @@ export const receivePastRevenueCommissionGroups = (groups: Group[]): CommissionP
     payload: groups,
 });
 
-export const receivePastRevenueCommissionMonthsBack = (count: number): CommissionProjectionsDataMonthsBackReceiveAction => ({
+export const receivePastRevenueCommissionMonthsBack = (
+    count: number
+): CommissionProjectionsDataMonthsBackReceiveAction => ({
     type: "COMMISSIONS_REPORT_PROJECTIONS_MONTHS_BACK_RECEIVE",
     payload: count,
 });
 
-export const receivePastRevenueCommissionMonthsForward = (count: number): CommissionProjectionsDataMonthsForwardReceiveAction => ({
+export const receivePastRevenueCommissionMonthsForward = (
+    count: number
+): CommissionProjectionsDataMonthsForwardReceiveAction => ({
     type: "COMMISSIONS_REPORT_PROJECTIONS_MONTHS_FORWARD_RECEIVE",
     payload: count,
 });

@@ -5,27 +5,27 @@ import { organisationsApi } from "@/config/api/directory";
 import { OrganisationEdit } from "../types";
 
 type OrganisationReceiveAction = {
-    type: 'ORGANISATIONS_ORGANISATION_RECEIVE';
+    type: "ORGANISATIONS_ORGANISATION_RECEIVE";
     payload: OrganisationEdit;
 };
 type OrganisationFetchingAction = {
-    type: 'ORGANISATIONS_ORGANISATION_FETCHING';
+    type: "ORGANISATIONS_ORGANISATION_FETCHING";
 };
 type OrganisationFetchingErrorAction = {
-    type: 'ORGANISATIONS_ORGANISATION_FETCHING_ERROR';
+    type: "ORGANISATIONS_ORGANISATION_FETCHING_ERROR";
 };
 
 type OrganisationUpdatedAction = {
-    type: 'ORGANISATIONS_ORGANISATION_EDIT_RECEIVE';
+    type: "ORGANISATIONS_ORGANISATION_EDIT_RECEIVE";
 };
 type OrganisationUpdatingAction = {
-    type: 'ORGANISATIONS_ORGANISATION_EDIT_FETCHING';
+    type: "ORGANISATIONS_ORGANISATION_EDIT_FETCHING";
 };
 type OrganisationUpdatingErrorAction = {
-    type: 'ORGANISATIONS_ORGANISATION_EDIT_FETCHING_ERROR';
+    type: "ORGANISATIONS_ORGANISATION_EDIT_FETCHING_ERROR";
 };
 type OrganisationValidationErrorAction = {
-    type: 'ORGANISATIONS_ORGANISATION_EDIT_VALIDATION_ERROR';
+    type: "ORGANISATIONS_ORGANISATION_EDIT_VALIDATION_ERROR";
     payload: ValidationResult[];
 };
 
@@ -38,39 +38,31 @@ export type OrganisationAction =
     | OrganisationUpdatingErrorAction
     | OrganisationValidationErrorAction;
 
-export const receiveOrganisation = (
-    organisation: OrganisationEdit
-): OrganisationReceiveAction => ({
-    type: 'ORGANISATIONS_ORGANISATION_RECEIVE',
-    payload: organisation
+export const receiveOrganisation = (organisation: OrganisationEdit): OrganisationReceiveAction => ({
+    type: "ORGANISATIONS_ORGANISATION_RECEIVE",
+    payload: organisation,
 });
 
 export const fetchOrganisation = (organisationId: string): ApiAction => ({
-    type: 'API',
+    type: "API",
     endpoint: `${organisationsApi}/${organisationId}`,
-    dispatchPrefix: 'ORGANISATIONS_ORGANISATION'
+    dispatchPrefix: "ORGANISATIONS_ORGANISATION",
 });
 
-export const updateOrganisation = (
-    organisation: OrganisationEdit,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
-    type: 'API',
+export const updateOrganisation = (organisation: OrganisationEdit, onSuccess: ApiOnSuccess): ApiAction => ({
+    type: "API",
     endpoint: `${organisationsApi}/${organisation.id}`,
-    method: 'POST',
+    method: "POST",
     payload: organisation,
     onSuccess: onSuccess,
-    dispatchPrefix: 'ORGANISATIONS_ORGANISATION_EDIT'
+    dispatchPrefix: "ORGANISATIONS_ORGANISATION_EDIT",
 });
 
-export const insertOrganisation = (
-    organisation: OrganisationEdit,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
-    type: 'API',
+export const insertOrganisation = (organisation: OrganisationEdit, onSuccess: ApiOnSuccess): ApiAction => ({
+    type: "API",
     endpoint: `${organisationsApi}`,
-    method: 'POST',
+    method: "POST",
     payload: organisation,
     onSuccess: onSuccess,
-    dispatchPrefix: 'ORGANISATIONS_ORGANISATION_EDIT'
+    dispatchPrefix: "ORGANISATIONS_ORGANISATION_EDIT",
 });

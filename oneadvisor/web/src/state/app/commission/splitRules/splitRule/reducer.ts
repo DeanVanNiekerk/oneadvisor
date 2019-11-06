@@ -1,7 +1,7 @@
-import { ValidationResult } from '@/app/validation';
+import { ValidationResult } from "@/app/validation";
 
-import { SplitRule } from '../types';
-import { SplitRuleAction } from './actions';
+import { SplitRule } from "../types";
+import { SplitRuleAction } from "./actions";
 
 export type State = {
     readonly splitRule: SplitRule | null;
@@ -17,10 +17,7 @@ export const defaultState: State = {
     validationResults: [],
 };
 
-export const reducer = (
-    state: State = defaultState,
-    action: SplitRuleAction
-): State => {
+export const reducer = (state: State = defaultState, action: SplitRuleAction): State => {
     switch (action.type) {
         case "SPLITRULES_SPLITRULE_RECEIVE": {
             return {

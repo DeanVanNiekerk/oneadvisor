@@ -4,7 +4,11 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { hasUseCase } from "@/app/identity";
-import { deleteCommissions, statementPreviewSelector } from "@/state/app/commission/statements";
+import {
+    deleteCommissions,
+    statementPreviewIsLoadingSelector,
+    statementPreviewSelector,
+} from "@/state/app/commission/statements";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Button, Currency, Drawer, DrawerFooter, Icon, PreviewCard, PreviewCardRow } from "@/ui/controls";
@@ -17,12 +21,10 @@ const confirm = Modal.confirm;
 type Props = {
     cardHeight: string;
     onCommissionsChanged: () => void;
-}
-    & PropsFromState
-    & PropsFromDispatch;
+} & PropsFromState &
+    PropsFromDispatch;
 
 const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
-
     const [commissionListVisible, setCommissionListVisible] = useState<boolean>(false);
     const [deletingCommissionEntries, setDeletingCommissionEntries] = useState<boolean>(false);
 
@@ -49,7 +51,7 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
                         showMessage("error", "Error deleting commission entries", 5, true);
                     }
                 );
-            }
+            },
         });
     };
 
@@ -105,9 +107,9 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
                 onClose={() => setCommissionListVisible(false)}
             >
                 <CommissionList
-                    hideHeaderText={true}
+                    hideHeader={true}
                     commissionStatementId={props.statement ? props.statement.id : ""}
-                    onCommissionsUpdate={props.onCommissionsChanged}
+                    onSaved={props.onCommissionsChanged}
                     hideColumns={["commissionStatementDate", "policyClientInitials", "policyCompanyId"]}
                 />
                 <DrawerFooter>
@@ -115,16 +117,15 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
                 </DrawerFooter>
             </Drawer>
         </>
-
-    )
-}
+    );
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const statementState = statementPreviewSelector(state);
     return {
         statement: statementState.statement,
-        loading: statementState.fetching || !statementState.statement,
+        loading: statementPreviewIsLoadingSelector(state),
         useCases: useCaseSelector(state),
     };
 };
@@ -132,16 +133,15 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        deleteCommissions: (
-            commissionStatementId: string,
-            onSuccess: () => void,
-            onFailure: () => void
-        ) => {
+        deleteCommissions: (commissionStatementId: string, onSuccess: () => void, onFailure: () => void) => {
             dispatch(deleteCommissions(commissionStatementId, onSuccess, onFailure));
         },
-    }
-}
+    };
+};
 
-const CommissionEntriesCard = connect(mapStateToProps, mapDispatchToProps)(CommissionEntriesCardComponent);
+const CommissionEntriesCard = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CommissionEntriesCardComponent);
 
 export { CommissionEntriesCard };

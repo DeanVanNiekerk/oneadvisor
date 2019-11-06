@@ -24,7 +24,6 @@ type Props = {
 };
 
 const FormTextArea: React.FC<Props> = (props: Props) => {
-
     const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         if (props.onChange) props.onChange(props.fieldName, event.target.value);
     };
@@ -53,6 +52,6 @@ const FormTextArea: React.FC<Props> = (props: Props) => {
             />
         </FormField>
     );
-}
+};
 
 export { FormTextArea };

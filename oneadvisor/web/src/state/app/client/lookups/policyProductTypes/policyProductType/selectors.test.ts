@@ -1,4 +1,4 @@
-import { policyProductTypeSelector } from './selectors';
+import { policyProductTypeSelector } from "./selectors";
 
 describe("policyProductType selectors", () => {
     it("policyProductTypeSelector", () => {

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { CommissionType, commissionTypesSelector } from '@/state/app/commission/lookups';
-import { RootState } from '@/state/rootReducer';
+import { CommissionType, commissionTypesSelector } from "@/state/app/commission/lookups";
+import { RootState } from "@/state/rootReducer";
 
 type Props = {
     commissionTypes: CommissionType[];
@@ -13,9 +13,7 @@ class CommissionTypeNameComponent extends Component<Props> {
     render() {
         const { commissionTypes, commissionTypeId } = this.props;
 
-        const commissionType = commissionTypes.find(
-            u => u.id === commissionTypeId
-        );
+        const commissionType = commissionTypes.find(u => u.id === commissionTypeId);
 
         if (!commissionType) return <span />;
 
@@ -31,8 +29,6 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-const CommissionTypeName = connect(mapStateToProps)(
-    CommissionTypeNameComponent
-);
+const CommissionTypeName = connect(mapStateToProps)(CommissionTypeNameComponent);
 
 export { CommissionTypeName };

@@ -2,7 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { clientPreviewSelector, clientVisible, fetchClient } from "@/state/app/client/clients";
+import {
+    clientPreviewIsLoadingSelector,
+    clientPreviewSelector,
+    clientVisible,
+    fetchClient,
+} from "@/state/app/client/clients";
 import { ClientTypeId } from "@/state/app/client/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Age, Icon, PreviewCard, PreviewCardRow } from "@/ui/controls";
@@ -12,12 +17,10 @@ import EditClient from "../../form/EditClient";
 type Props = {
     cardHeight: string;
     onSaved: () => void;
-}
-    & PropsFromState
-    & PropsFromDispatch;
+} & PropsFromState &
+    PropsFromDispatch;
 
 const DetailsCardComponent: React.FC<Props> = (props: Props) => {
-
     const editDetails = () => {
         if (!props.client) return;
         props.fetchClient(props.client.id);
@@ -47,29 +50,28 @@ const DetailsCardComponent: React.FC<Props> = (props: Props) => {
                         )}
                         {(props.client.clientTypeId === ClientTypeId.Company ||
                             props.client.clientTypeId === ClientTypeId.Trust) && (
-                                <>
-                                    <PreviewCardRow
-                                        label="Reg. Number"
-                                        value={`${props.client.alternateIdNumber ? props.client.alternateIdNumber : ""}`}
-                                    />
-                                </>
-                            )}
+                            <>
+                                <PreviewCardRow
+                                    label="Reg. Number"
+                                    value={`${props.client.alternateIdNumber ? props.client.alternateIdNumber : ""}`}
+                                />
+                            </>
+                        )}
                     </>
                 )}
             </PreviewCard>
 
             <EditClient onSaved={props.onSaved} />
         </>
-
-    )
-}
+    );
+};
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const clientState = clientPreviewSelector(state);
     return {
         client: clientState.client,
-        loading: clientState.fetching || !clientState.client,
+        loading: clientPreviewIsLoadingSelector(state),
     };
 };
 
@@ -80,9 +82,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             dispatch(fetchClient(client));
             dispatch(clientVisible(true));
         },
-    }
-}
+    };
+};
 
-const DetailsCard = connect(mapStateToProps, mapDispatchToProps)(DetailsCardComponent);
+const DetailsCard = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(DetailsCardComponent);
 
 export { DetailsCard };

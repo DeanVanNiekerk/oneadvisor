@@ -1,8 +1,8 @@
-import { ApiAction, ApiOnSuccess } from '@/app/types';
-import { ValidationResult } from '@/app/validation';
-import { rolesApi } from '@/config/api/directory';
+import { ApiAction, ApiOnSuccess } from "@/app/types";
+import { ValidationResult } from "@/app/validation";
+import { rolesApi } from "@/config/api/directory";
 
-import { RoleEdit } from '../types';
+import { RoleEdit } from "../types";
 
 type RoleReceiveAction = {
     type: "ROLES_ROLE_RECEIVE";
@@ -49,10 +49,7 @@ export const fetchRole = (roleId: string): ApiAction => ({
     dispatchPrefix: "ROLES_ROLE",
 });
 
-export const updateRole = (
-    role: RoleEdit,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
+export const updateRole = (role: RoleEdit, onSuccess: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${rolesApi}/${role.id}`,
     method: "POST",
@@ -61,10 +58,7 @@ export const updateRole = (
     dispatchPrefix: "ROLES_ROLE_EDIT",
 });
 
-export const insertRole = (
-    role: RoleEdit,
-    onSuccess: ApiOnSuccess
-): ApiAction => ({
+export const insertRole = (role: RoleEdit, onSuccess: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${rolesApi}`,
     method: "POST",

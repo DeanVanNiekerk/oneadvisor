@@ -1,4 +1,4 @@
-import { lookupsSelector } from './selectors';
+import { lookupsSelector } from "./selectors";
 
 describe("commission lookups selectors", () => {
     it("lookupsSelector", () => {

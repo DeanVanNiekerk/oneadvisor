@@ -1,2 +1,2 @@
-export { Tabs } from './Tabs';
-export { TabPane } from './TabPane';
+export { Tabs } from "./Tabs";
+export { TabPane } from "./TabPane";

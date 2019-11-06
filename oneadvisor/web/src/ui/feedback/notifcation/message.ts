@@ -1,4 +1,4 @@
-import { message } from 'antd';
+import { message } from "antd";
 
 type MessageType = "success" | "error" | "info" | "warning" | "loading";
 

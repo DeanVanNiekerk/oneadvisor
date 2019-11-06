@@ -1,10 +1,13 @@
-import { CLIENT_ID, COMMISSION_ID, DEFAULT_APPLICATION_ID, DIRECTORY_ID } from '@/config/application';
-import { menus } from '@/config/menu';
+import { CLIENT_ID, COMMISSION_ID, DEFAULT_APPLICATION_ID, DIRECTORY_ID } from "@/config/application";
+import { menus } from "@/config/menu";
 
-import { defaultState as defaultContextState } from './reducer';
+import { defaultState as defaultContextState } from "./reducer";
 import {
-    applicationsSelector, currentApplicationSelector, currentMenuLinkSelector, currentMenuSelector
-} from './selectors';
+    applicationsSelector,
+    currentApplicationSelector,
+    currentMenuLinkSelector,
+    currentMenuSelector,
+} from "./selectors";
 
 describe("context selectors", () => {
     const setupState = (pathName = "/", contextState = defaultContextState) => {
@@ -103,9 +106,7 @@ describe("context selectors", () => {
             //@ts-ignore
             const actual = currentMenuSelector(state);
 
-            expect(actual.relativePath).toEqual(
-                menus[DEFAULT_APPLICATION_ID].relativePath
-            );
+            expect(actual.relativePath).toEqual(menus[DEFAULT_APPLICATION_ID].relativePath);
         });
     });
 
@@ -117,9 +118,7 @@ describe("context selectors", () => {
             const link = currentMenuLinkSelector(state);
 
             //Bit of a guess, but whatevs
-            expect(link.name).toEqual(
-                menus[DEFAULT_APPLICATION_ID].groups[0].links[0].name
-            );
+            expect(link.name).toEqual(menus[DEFAULT_APPLICATION_ID].groups[0].links[0].name);
         });
 
         it("get current app menu link - default app", () => {

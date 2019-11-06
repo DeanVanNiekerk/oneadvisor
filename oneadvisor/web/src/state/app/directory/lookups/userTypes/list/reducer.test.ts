@@ -2,7 +2,6 @@ import { UserType } from "../";
 import { defaultState, reducer } from "./reducer";
 
 describe("userType list reducer", () => {
-
     it("should handle USERTYPES_LIST_RECEIVE", () => {
         const initalState = {
             ...defaultState,

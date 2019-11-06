@@ -1,6 +1,6 @@
-import { policyProductsApi } from '@/config/api/client';
+import { policyProductsApi } from "@/config/api/client";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("directory: policyProducts: list actions", () => {
     it("should dispatch API when fetchPolicyProducts is called", () => {

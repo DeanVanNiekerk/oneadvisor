@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import JSONPretty from "react-json-pretty";
 
 import { AuditLog } from "@/state/app/directory/audit";
@@ -10,48 +10,39 @@ type Props = {
     onClose: () => void;
 };
 
-class AuditLogDetails extends Component<Props> {
-    render() {
-        const { auditLog, visible, onClose } = this.props;
+const AuditLogDetails: React.FC<Props> = ({ auditLog, visible, onClose }) => {
+    return (
+        <Drawer title="Audit Log Detail" icon="video-camera" visible={visible} onClose={onClose}>
+            {auditLog && (
+                <>
+                    <p>
+                        <b>Date: </b>
+                        <Date date={auditLog.date} includeTime={true} />
+                    </p>
+                    <p>
+                        <b>Entity: </b>
+                        {auditLog.entity}
+                    </p>
+                    <p>
+                        <b>Action: </b>
+                        {auditLog.action}
+                    </p>
+                    <p>
+                        <b>Broker: </b>
+                        <UserName userId={auditLog.userId} />
+                    </p>
+                    <p>
+                        <b>Raw Data: </b>
+                    </p>
 
-        return (
-            <Drawer
-                title="Audit Log Detail"
-                icon="video-camera"
-                visible={visible}
-                onClose={onClose}
-            >
-                {auditLog && (
-                    <>
-                        <p>
-                            <b>Date: </b>
-                            <Date date={auditLog.date} includeTime={true} />
-                        </p>
-                        <p>
-                            <b>Entity: </b>
-                            {auditLog.entity}
-                        </p>
-                        <p>
-                            <b>Action: </b>
-                            {auditLog.action}
-                        </p>
-                        <p>
-                            <b>Broker: </b>
-                            <UserName userId={auditLog.userId} />
-                        </p>
-                        <p>
-                            <b>Raw Data: </b>
-                        </p>
-
-                        <JSONPretty json={auditLog.data} />
-                    </>
-                )}
-                <DrawerFooter>
-                    <Button onClick={onClose}>Close</Button>
-                </DrawerFooter>
-            </Drawer>
-        );
-    }
-}
+                    <JSONPretty json={auditLog.data} />
+                </>
+            )}
+            <DrawerFooter>
+                <Button onClick={onClose}>Close</Button>
+            </DrawerFooter>
+        </Drawer>
+    );
+};
 
 export default AuditLogDetails;

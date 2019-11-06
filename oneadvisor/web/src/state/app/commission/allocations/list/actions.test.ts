@@ -1,6 +1,6 @@
-import { allocationsApi } from '@/config/api/commission';
+import { allocationsApi } from "@/config/api/commission";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
 describe("directory: allocations: list actions", () => {
     it("should dispatch API when fetchAllocations is called", () => {
@@ -10,8 +10,6 @@ describe("directory: allocations: list actions", () => {
             dispatchPrefix: "ALLOCATIONS_LIST",
         };
 
-        expect(actions.fetchAllocations({ clientId: ["132456"] })).toEqual(
-            expectedAction
-        );
+        expect(actions.fetchAllocations({ clientId: ["132456"] })).toEqual(expectedAction);
     });
 });

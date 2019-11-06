@@ -1,13 +1,13 @@
-import { usersApi } from '@/config/api/directory';
+import { usersApi } from "@/config/api/directory";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 
-describe('directory: users simple: list actions', () => {
-    it('should dispatch API when fetchUsersSimple is called', () => {
+describe("directory: users simple: list actions", () => {
+    it("should dispatch API when fetchUsersSimple is called", () => {
         const expectedAction = {
-            type: 'API',
+            type: "API",
             endpoint: `${usersApi}/simple`,
-            dispatchPrefix: 'USERSSIMPLE_LIST'
+            dispatchPrefix: "USERSSIMPLE_LIST",
         };
 
         expect(actions.fetchUsersSimple()).toEqual(expectedAction);

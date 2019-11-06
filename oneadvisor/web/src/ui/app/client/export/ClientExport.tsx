@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import React, { Component } from "react";
+import { connect, DispatchProp } from "react-redux";
 
-import { exportClientPolicies, exportClientPolicyAggregates } from '@/state/app/client/export';
-import { Button, Header } from '@/ui/controls';
+import { exportClientPolicies, exportClientPolicyAggregates } from "@/state/app/client/export";
+import { Button, Header } from "@/ui/controls";
 
 type State = {
     downloadingPolicies: boolean;

@@ -8,7 +8,6 @@ type Props = {
 };
 
 const ErrorData: React.FC<Props> = ({ data }) => {
-
     return (
         <div>
             {Object.keys(data)
@@ -29,6 +28,6 @@ const ErrorData: React.FC<Props> = ({ data }) => {
                 })}
         </div>
     );
-}
+};
 
 export default ErrorData;

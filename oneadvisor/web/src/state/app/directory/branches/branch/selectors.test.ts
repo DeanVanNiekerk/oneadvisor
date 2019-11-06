@@ -1,21 +1,21 @@
-import { branchSelector } from './selectors';
+import { branchSelector } from "./selectors";
 
-describe('branch selectors', () => {
-    it('branchSelector', () => {
+describe("branch selectors", () => {
+    it("branchSelector", () => {
         const state = {
             app: {
                 directory: {
                     branches: {
                         branch: {
-                            property: '1'
-                        }
-                    }
-                }
-            }
+                            property: "1",
+                        },
+                    },
+                },
+            },
         };
 
         const expected = {
-            property: '1'
+            property: "1",
         };
 
         //@ts-ignore

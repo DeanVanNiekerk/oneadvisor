@@ -1,7 +1,7 @@
-import { ApiAction } from '@/app/types';
-import { policyProductsApi } from '@/config/api/client';
+import { ApiAction } from "@/app/types";
+import { policyProductsApi } from "@/config/api/client";
 
-import { PolicyProduct } from '../types';
+import { PolicyProduct } from "../types";
 
 type PolicyProductListReceiveAction = {
     type: "POLICYPRODUCTS_LIST_RECEIVE";
@@ -19,9 +19,7 @@ export type PolicyProductListAction =
     | PolicyProductListFetchingAction
     | PolicyProductListFetchingErrorAction;
 
-export const receivePolicyProducts = (
-    payload: PolicyProduct[]
-): PolicyProductListAction => ({
+export const receivePolicyProducts = (payload: PolicyProduct[]): PolicyProductListAction => ({
     type: "POLICYPRODUCTS_LIST_RECEIVE",
     payload,
 });

@@ -1,11 +1,11 @@
-import { Dispatch } from 'redux';
+import { Dispatch } from "redux";
 
-import { ApiAction, ApiOnSuccess } from '@/app/types';
-import { ValidationResult } from '@/app/validation';
-import { signInApi } from '@/config/api/account';
+import { ApiAction, ApiOnSuccess } from "@/app/types";
+import { ValidationResult } from "@/app/validation";
+import { signInApi } from "@/config/api/account";
 
-import { recieveToken } from '../token/actions';
-import { Credentials } from '../types';
+import { recieveToken } from "../token/actions";
+import { Credentials } from "../types";
 
 type SignInAction = {
     type: "AUTH_SIGNIN_RECEIVE";

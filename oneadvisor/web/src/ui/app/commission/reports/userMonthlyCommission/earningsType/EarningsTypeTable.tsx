@@ -1,63 +1,75 @@
 import { Col, Row } from "antd";
-import React, { Component } from "react";
+import React from "react";
+import { connect } from "react-redux";
 
 import { getColumnDefinition } from "@/app/table";
 import { formatCurrency } from "@/app/utils";
-import { UserEarningsTypeMonthlyCommissionData } from "@/state/app/commission/reports";
+import {
+    UserEarningsTypeMonthlyCommissionData,
+    userEarningsTypeMonthlyCommissionItemsSelector,
+    userEarningsTypeMonthlyCommissionSelector,
+    userEarningsTypeMonthlyCommissionTotalAmountExclVatSelector,
+} from "@/state/app/commission/reports";
+import { RootState } from "@/state/rootReducer";
 import { CommissionEarningsTypeName, getTable } from "@/ui/controls";
 
 const Table = getTable<UserEarningsTypeMonthlyCommissionData>();
 
-type Props = {
-	earningsTypeRecords: UserEarningsTypeMonthlyCommissionData[];
-	fetching: boolean;
-	earningsTypeTotal: number;
+type Props = PropsFromState;
+
+const EarningsTypeTable: React.FC<Props> = (props: Props) => {
+    return (
+        <Table
+            header="By Commission Earnings Type"
+            rowKey="commissionEarningsTypeId"
+            columns={getColumns()}
+            dataSource={props.earningsTypeRecords}
+            loading={props.fetching}
+            hidePagination={true}
+            footer={() => <TableFooter total={props.earningsTypeTotal} />}
+        />
+    );
 };
 
-class EarningsTypeTable extends Component<Props> {
-	getColumns = () => {
-		var getColumn = getColumnDefinition<UserEarningsTypeMonthlyCommissionData>();
-		return [
-			getColumn(
-				"commissionEarningsTypeId",
-				"Type",
-				{},
-				{
-					render: (commissionEarningsTypeId: string) => {
-						return <CommissionEarningsTypeName commissionEarningsTypeId={commissionEarningsTypeId} />;
-					},
-				}
-			),
-			getColumn("amountExcludingVAT", "Amount", {
-				type: "currency",
-			}),
-		];
-	};
+const getColumns = () => {
+    var getColumn = getColumnDefinition<UserEarningsTypeMonthlyCommissionData>();
+    return [
+        getColumn(
+            "commissionEarningsTypeId",
+            "Type",
+            {},
+            {
+                render: (commissionEarningsTypeId: string) => {
+                    return <CommissionEarningsTypeName commissionEarningsTypeId={commissionEarningsTypeId} />;
+                },
+            }
+        ),
+        getColumn("amountExcludingVAT", "Amount", {
+            type: "currency",
+        }),
+    ];
+};
 
-	tableFooter = (total: number) => {
-		return (
-			<Row type="flex" justify="space-between">
-				<Col>
-					<b>Total Amount (excl VAT): </b>
-					{formatCurrency(total)}
-				</Col>
-			</Row>
-		);
-	};
+const TableFooter: React.FC<{ total: number }> = ({ total }) => {
+    return (
+        <Row type="flex" justify="space-between">
+            <Col>
+                <b>Total Amount (excl VAT): </b>
+                {formatCurrency(total)}
+            </Col>
+        </Row>
+    );
+};
 
-	render() {
-		return (
-			<Table
-				header="By Commission Earnings Type"
-				rowKey="commissionEarningsTypeId"
-				columns={this.getColumns()}
-				dataSource={this.props.earningsTypeRecords}
-				loading={this.props.fetching}
-				hidePagination={true}
-				footer={() => this.tableFooter(this.props.earningsTypeTotal)}
-			/>
-		);
-	}
-}
+type PropsFromState = ReturnType<typeof mapStateToProps>;
+const mapStateToProps = (state: RootState) => {
+    const userEarningsTypeMonthlyCommissionState = userEarningsTypeMonthlyCommissionSelector(state);
 
-export default EarningsTypeTable;
+    return {
+        earningsTypeRecords: userEarningsTypeMonthlyCommissionItemsSelector(state),
+        fetching: userEarningsTypeMonthlyCommissionState.fetching,
+        earningsTypeTotal: userEarningsTypeMonthlyCommissionTotalAmountExclVatSelector(state),
+    };
+};
+
+export default connect(mapStateToProps)(EarningsTypeTable);
