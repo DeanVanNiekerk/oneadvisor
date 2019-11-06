@@ -4,7 +4,12 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    ClientEdit, clientIsLoadingSelector, clientSelector, clientVisible, confirmCancelClient, saveClient
+    ClientEdit,
+    clientIsLoadingSelector,
+    clientSelector,
+    clientVisible,
+    confirmCancelClient,
+    saveClient,
 } from "@/state/app/client/clients";
 import { RootState } from "@/state/rootReducer";
 import { ClientTypeIcon, EditDrawer } from "@/ui/controls";

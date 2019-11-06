@@ -15,6 +15,4 @@ export type AuditLogItems = {
     limitReached: boolean;
 };
 
-export type AuditLogFilters = Filters<
-    Pick<AuditLog, "userId" | "date" | "action" | "entity">
->;
+export type AuditLogFilters = Filters<Pick<AuditLog, "userId" | "date" | "action" | "entity">>;

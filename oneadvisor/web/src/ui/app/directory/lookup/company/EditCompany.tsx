@@ -4,7 +4,10 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    companySelector, companyVisible, confirmCancelCompany, saveCompany
+    companySelector,
+    companyVisible,
+    confirmCancelCompany,
+    saveCompany,
 } from "@/state/app/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";

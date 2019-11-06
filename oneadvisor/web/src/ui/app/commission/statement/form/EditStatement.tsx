@@ -4,7 +4,11 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    confirmCancelStatement, saveStatement, statementIsLoadingSelector, statementSelector, statementVisible
+    confirmCancelStatement,
+    saveStatement,
+    statementIsLoadingSelector,
+    statementSelector,
+    statementVisible,
 } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";

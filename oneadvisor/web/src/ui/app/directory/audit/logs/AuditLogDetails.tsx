@@ -43,6 +43,6 @@ const AuditLogDetails: React.FC<Props> = ({ auditLog, visible, onClose }) => {
             </DrawerFooter>
         </Drawer>
     );
-}
+};
 
 export default AuditLogDetails;

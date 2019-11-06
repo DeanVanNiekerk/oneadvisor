@@ -30,7 +30,6 @@ export type AuditLogListAction =
 
 export const fetchAuditLogs = (): ThunkAction<void, RootState, {}, ApiAction> => {
     return (dispatch, getState) => {
-
         const { filters } = auditLogsSelector(getState());
 
         const mappedFilters = mapFilters(filters);
@@ -47,18 +46,16 @@ export const fetchAuditLogs = (): ThunkAction<void, RootState, {}, ApiAction> =>
 };
 
 const mapFilters = (filters: AuditLogFilters | null): Filters | null => {
-
-    if (!filters)
-        return filters;
+    if (!filters) return filters;
 
     if (filters.date && filters.date.length == 2) {
         const dateFilters = {
             startDate: [filters.date[0]],
             endDate: [filters.date[1]],
-        }
+        };
 
         const mappedFilters = {
-            ...filters
+            ...filters,
         };
 
         delete mappedFilters.date;
@@ -66,11 +63,11 @@ const mapFilters = (filters: AuditLogFilters | null): Filters | null => {
         return {
             ...mappedFilters,
             ...dateFilters,
-        }
+        };
     }
 
     return filters;
-}
+};
 
 export const receiveFilters = (filters: AuditLogFilters): AuditLogListFiltersReceiveAction => ({
     type: "AUDIT_LOGS_LIST_FILTERS_RECEIVE",
