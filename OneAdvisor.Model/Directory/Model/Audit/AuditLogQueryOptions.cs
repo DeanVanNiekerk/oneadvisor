@@ -7,14 +7,12 @@ namespace OneAdvisor.Model.Directory.Model.Audit
 {
     public class AuditLogQueryOptions : QueryOptionsBase<AuditLog>
     {
-        public AuditLogQueryOptions(ScopeOptions scope, string sortColumn, string sortDirection, string filters = null)
-         : base(sortColumn, sortDirection, 0, 0, filters)
+        public AuditLogQueryOptions(ScopeOptions scope, string filters = null)
+         : base("", "", 0, 0, filters)
         {
             Scope = scope;
             UserId = new List<Guid>();
             Action = new List<string>();
-            StartDate = DateTime.UtcNow.AddDays(-14);
-            EndDate = DateTime.UtcNow;
 
             var resultGuids = GetFilterValues<Guid>("UserId");
             if (resultGuids.Success)
@@ -42,7 +40,7 @@ namespace OneAdvisor.Model.Directory.Model.Audit
         public List<string> Action { get; set; }
         public string Entity { get; set; }
 
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

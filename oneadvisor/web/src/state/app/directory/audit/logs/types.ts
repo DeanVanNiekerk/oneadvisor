@@ -1,3 +1,5 @@
+import { Filters } from "@/app/table";
+
 export type AuditLog = {
     id: string;
     userId: string | null;
@@ -12,3 +14,7 @@ export type AuditLogItems = {
     limit: number;
     limitReached: boolean;
 };
+
+export type AuditLogFilters = Filters<
+    Pick<AuditLog, "userId" | "date" | "action" | "entity">
+>;

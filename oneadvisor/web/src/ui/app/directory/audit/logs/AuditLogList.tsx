@@ -1,13 +1,14 @@
-import { Tag } from "antd";
+import { Alert, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
 
-import { Filters, getColumnDefinition } from "@/app/table";
+import { Filters, getColumnDefinition, PageOptions, sort, SortOptions } from "@/app/table";
+import { areEqual } from "@/app/utils";
 import { AuditLog, auditLogsSelector, fetchAuditLogs, receiveFilters } from "@/state/app/directory/audit";
 import { usersSimpleSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { getTable, Header, UserName } from "@/ui/controls";
+import { getDateRangeSearchProps, getTable, Header, UserName } from "@/ui/controls";
 
 import AuditLogDetails from "./AuditLogDetails";
 
@@ -20,23 +21,31 @@ const AuditLogList: React.FC<Props> = props => {
 
     useEffect(() => {
         props.fetchAuditLogs();
-    }, [props.sortOptions, props.filters]);
+    }, [props.filters]);
 
-    // const onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
-    //     if (!areEqual(props.filters, filters)) props.updateFilters(filters);
-    // };
+    const onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
+        if (!areEqual(props.filters, filters)) props.updateFilters(filters);
+    };
 
     return (
         <>
             <Header icon="video-camera">Audit Logs</Header>
+
+            {props.limitReached && (
+                <Alert
+                    message="The audit logs are currently truncated, please refine your search."
+                    type="warning"
+                    className="mb-1"
+                />
+            )}
+
             <Table
                 rowKey="id"
                 columns={getColumns(props)}
                 dataSource={props.logs}
                 loading={props.fetching}
                 onRowClick={auditLog => setAuditLog(auditLog)}
-                externalDataSource={false}
-                //onTableChange={onTableChange}
+                onTableChange={onTableChange}
             />
             <AuditLogDetails visible={auditLog !== null} onClose={() => setAuditLog(null)} auditLog={auditLog} />
         </>
@@ -44,14 +53,28 @@ const AuditLogList: React.FC<Props> = props => {
 };
 
 const getColumns = (props: Props) => {
-    var getColumn = getColumnDefinition<AuditLog>(true, props.filters, props.sortOptions);
+    var getColumn = getColumnDefinition<AuditLog>(false, props.filters);
+
+    var dateRangeFilter = getDateRangeSearchProps<AuditLog>("date");
+
     return [
-        getColumn("date", "Date", { type: "long-date" }),
+        getColumn(
+            "date",
+            "Date",
+            { type: "long-date" },
+            {
+                ...dateRangeFilter,
+                sorter: (a, b) => sort(a, b, "date"),
+                onFilter: undefined,
+            }
+        ),
         getColumn(
             "entity",
             "Entity",
             { showSearchFilter: true },
             {
+                sorter: (a, b) => sort(a, b, "entity"),
+                onFilter: undefined,
                 render: (entity: string) => {
                     return entity.replace("Entity", "");
                 },
@@ -62,6 +85,8 @@ const getColumns = (props: Props) => {
             "Action",
             {},
             {
+                sorter: (a, b) => sort(a, b, "action"),
+                onFilter: undefined,
                 render: (action: string) => {
                     action = action.toUpperCase();
                     switch (action) {
@@ -100,6 +125,8 @@ const getColumns = (props: Props) => {
             "Broker",
             {},
             {
+                sorter: false,
+                onFilter: undefined,
                 render: (userId: string | null) => {
                     return <UserName userId={userId} />;
                 },
@@ -122,7 +149,6 @@ const mapStateToProps = (state: RootState) => {
         limit: auditLogsState.limit,
         limitReached: auditLogsState.limitReached,
         fetching: auditLogsState.fetching,
-        sortOptions: auditLogsState.sortOptions,
         filters: auditLogsState.filters,
         users: usersState.items,
     };

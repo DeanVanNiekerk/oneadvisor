@@ -23,11 +23,11 @@ namespace api.Controllers.Directory.Audit
 
         [HttpGet("logs")]
         [UseCaseAuthorize("dir_view_audit_logs")]
-        public async Task<IActionResult> Index(string sortColumn, string sortDirection, string filters = null)
+        public async Task<IActionResult> Index(string filters = null)
         {
             var scope = AuthenticationService.GetScope(User);
 
-            var queryOptions = new AuditLogQueryOptions(scope, sortColumn, sortDirection, filters);
+            var queryOptions = new AuditLogQueryOptions(scope, filters);
             var items = await AuditService.GetAuditLogs(queryOptions);
 
             return Ok(items);

@@ -1,6 +1,8 @@
-import { defaultSortOptions, Filters, SortOptions } from "@/app/table";
+import moment from "moment";
 
-import { AuditLog } from "../types";
+import { SERVER_DATE_FORMAT } from "@/app/utils";
+
+import { AuditLog, AuditLogFilters } from "../types";
 import { AuditLogListAction } from "./actions";
 
 export type State = {
@@ -8,8 +10,14 @@ export type State = {
     readonly limit: number;
     readonly limitReached: boolean;
     readonly fetching: boolean;
-    readonly sortOptions: SortOptions;
-    readonly filters: Filters | null;
+    readonly filters: AuditLogFilters | null;
+};
+
+const startDate = moment().subtract(14, "days").startOf("day");
+const endDate = moment();
+
+const defaultFilters: AuditLogFilters = {
+    date: [startDate.format(SERVER_DATE_FORMAT), endDate.format(SERVER_DATE_FORMAT)],
 };
 
 export const defaultState: State = {
@@ -17,8 +25,7 @@ export const defaultState: State = {
     limit: 0,
     limitReached: false,
     fetching: false,
-    sortOptions: defaultSortOptions("date", "desc"),
-    filters: null,
+    filters: defaultFilters,
 };
 
 export const reducer = (state: State = defaultState, action: AuditLogListAction): State => {
@@ -45,14 +52,6 @@ export const reducer = (state: State = defaultState, action: AuditLogListAction)
                 limit: 0,
                 limitReached: false,
                 fetching: false,
-            };
-        }
-        case "AUDIT_LOGS_LIST_SORT_OPTIONS_RECEIVE": {
-            return {
-                ...state,
-                sortOptions: {
-                    ...action.payload,
-                },
             };
         }
         case "AUDIT_LOGS_LIST_FILTERS_RECEIVE": {

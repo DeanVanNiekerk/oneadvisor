@@ -1,13 +1,13 @@
 import { ThunkAction } from "redux-thunk";
 
-import { appendFiltersQuery, appendSortOptionQuery } from "@/app/query";
-import { Filters, SortOptions } from "@/app/table";
+import { appendFiltersQuery } from "@/app/query";
+import { Filters } from "@/app/table";
 import { ApiAction } from "@/app/types";
 import { auditApi } from "@/config/api/directory";
 import { RootState } from "@/state/rootReducer";
 
 import { auditLogsSelector } from "../";
-import { AuditLogItems } from "../types";
+import { AuditLogFilters, AuditLogItems } from "../types";
 
 type AuditLogListReceiveAction = {
     type: "AUDIT_LOGS_LIST_RECEIVE";
@@ -17,30 +17,26 @@ type AuditLogListFetchingAction = { type: "AUDIT_LOGS_LIST_FETCHING" };
 type AuditLogListFetchingErrorAction = {
     type: "AUDIT_LOGS_LIST_FETCHING_ERROR";
 };
-type AuditLogListSortOptionsReceiveAction = {
-    type: "AUDIT_LOGS_LIST_SORT_OPTIONS_RECEIVE";
-    payload: SortOptions;
-};
 type AuditLogListFiltersReceiveAction = {
     type: "AUDIT_LOGS_LIST_FILTERS_RECEIVE";
-    payload: Filters;
+    payload: AuditLogFilters;
 };
 
 export type AuditLogListAction =
     | AuditLogListReceiveAction
     | AuditLogListFetchingAction
     | AuditLogListFetchingErrorAction
-    | AuditLogListSortOptionsReceiveAction
     | AuditLogListFiltersReceiveAction;
 
 export const fetchAuditLogs = (): ThunkAction<void, RootState, {}, ApiAction> => {
     return (dispatch, getState) => {
 
-        let { sortOptions, filters } = auditLogsSelector(getState());
+        const { filters } = auditLogsSelector(getState());
+
+        const mappedFilters = mapFilters(filters);
 
         let api = `${auditApi}/logs`;
-        api = appendSortOptionQuery(api, sortOptions);
-        api = appendFiltersQuery(api, filters);
+        api = appendFiltersQuery(api, mappedFilters);
 
         return dispatch({
             type: "API",
@@ -50,12 +46,33 @@ export const fetchAuditLogs = (): ThunkAction<void, RootState, {}, ApiAction> =>
     };
 };
 
-export const receiveSortOptions = (sortOptions: SortOptions): AuditLogListSortOptionsReceiveAction => ({
-    type: "AUDIT_LOGS_LIST_SORT_OPTIONS_RECEIVE",
-    payload: sortOptions,
-});
+const mapFilters = (filters: AuditLogFilters | null): Filters | null => {
 
-export const receiveFilters = (filters: Filters): AuditLogListFiltersReceiveAction => ({
+    if (!filters)
+        return filters;
+
+    if (filters.date && filters.date.length == 2) {
+        const dateFilters = {
+            startDate: [filters.date[0]],
+            endDate: [filters.date[1]],
+        }
+
+        const mappedFilters = {
+            ...filters
+        };
+
+        delete mappedFilters.date;
+
+        return {
+            ...mappedFilters,
+            ...dateFilters,
+        }
+    }
+
+    return filters;
+}
+
+export const receiveFilters = (filters: AuditLogFilters): AuditLogListFiltersReceiveAction => ({
     type: "AUDIT_LOGS_LIST_FILTERS_RECEIVE",
     payload: filters,
 });

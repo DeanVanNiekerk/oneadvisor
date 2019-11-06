@@ -43,18 +43,89 @@ namespace OneAdvisor.Service.Storage
             {
                 var query = new TableQuery<AuditLogEntity>();
 
-                query = query.Take(limit);
+                string partitionFilter = TableQuery.GenerateFilterCondition(
+                    "PartitionKey",
+                    QueryComparisons.Equal,
+                    queryOptions.Scope.OrganisationId.ToString());
 
-                // string dateStart = TableQuery.GenerateFilterConditionForDate(
-                //    "Timestamp", QueryComparisons.GreaterThanOrEqual,
-                //    DateTimeOffsetVal);
+                //Minimal filter (organisation)
+                string finalFilter = partitionFilter;
 
+
+                //Dynamic filters
+                //------------------------------------------------------------------------
+
+                //Start Date
+                if (queryOptions.StartDate.HasValue)
+                {
+                    string dateStartFilter = TableQuery.GenerateFilterConditionForDate(
+                        "Timestamp",
+                        QueryComparisons.GreaterThanOrEqual,
+                        queryOptions.StartDate.Value.Date); //Start of day
+
+                    finalFilter = finalFilter.AndWhere(dateStartFilter);
+                }
+
+                //End Date
+                if (queryOptions.EndDate.HasValue)
+                {
+                    string dateEndFilter = TableQuery.GenerateFilterConditionForDate(
+                         "Timestamp",
+                         QueryComparisons.LessThan,
+                         queryOptions.EndDate.Value.AddDays(1).Date); //End of day
+
+                    finalFilter = finalFilter.AndWhere(dateEndFilter);
+                }
+
+                //Action
+                string actionsFilter = "";
+                foreach (var action in queryOptions.Action)
+                {
+                    string actionFilter = TableQuery.GenerateFilterCondition(
+                       "Action",
+                       QueryComparisons.Equal,
+                       action);
+                    actionsFilter = actionsFilter.OrWhere(actionFilter);
+                }
+                if (!string.IsNullOrWhiteSpace(actionsFilter))
+                    finalFilter = finalFilter.AndWhere(actionsFilter);
+
+                //Users
+                string usersFilter = "";
+                foreach (var userId in queryOptions.UserId)
+                {
+                    string userFilter = TableQuery.GenerateFilterCondition(
+                       "UserId",
+                       QueryComparisons.Equal,
+                       userId.ToString());
+                    usersFilter = usersFilter.OrWhere(userFilter);
+                }
+                if (!string.IsNullOrWhiteSpace(usersFilter))
+                    finalFilter = finalFilter.AndWhere(usersFilter);
+
+                //Entity
+                if (!string.IsNullOrWhiteSpace(queryOptions.Entity))
+                {
+                    string entityFilter = TableQuery.GenerateFilterCondition(
+                       "Entity",
+                       QueryComparisons.Equal,
+                       queryOptions.Entity);
+
+                    finalFilter = finalFilter.AndWhere(entityFilter);
+                }
+                //------------------------------------------------------------------------
+
+                query.FilterString = finalFilter;
+                query.TakeCount = limit;
 
                 var queryResult = await table.ExecuteQuerySegmentedAsync(query, token);
 
                 entities.AddRange(queryResult.Results);
 
                 token = queryResult.ContinuationToken;
+
+                if (entities.Count >= limit)
+                    token = null;
 
             } while (token != null);
 

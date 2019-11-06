@@ -2,9 +2,9 @@ import { Icon } from "antd";
 import { ColumnProps } from "antd/lib/table";
 import * as React from "react";
 
-import { ColumnSearch } from "@/ui/controls";
+import { ColumnSearch, DateRangeSearch } from "@/ui/controls";
 
-function getColumnSearchProps<T>(fieldName): ColumnProps<T> {
+function getColumnSearchProps<T>(fieldName: string): ColumnProps<T> {
     let visible: boolean = false;
 
     return {
@@ -26,3 +26,27 @@ function getColumnSearchProps<T>(fieldName): ColumnProps<T> {
 }
 
 export { getColumnSearchProps };
+
+function getDateRangeSearchProps<T>(fieldName: string): ColumnProps<T> {
+    return {
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+            <DateRangeSearch
+                fieldName={fieldName}
+                setSelectedKeys={setSelectedKeys || (() => {})}
+                selectedKeys={selectedKeys || []}
+                confirm={confirm || (() => {})}
+                clearFilters={clearFilters || (() => {})}
+            />
+        ),
+        filterIcon: filtered => (
+            <Icon
+                type="calendar"
+                style={{
+                    color: filtered ? "#1890ff" : "undefined",
+                }}
+            />
+        ),
+    };
+}
+
+export { getDateRangeSearchProps };
