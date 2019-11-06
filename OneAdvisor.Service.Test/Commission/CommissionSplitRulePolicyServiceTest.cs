@@ -12,6 +12,7 @@ using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Data.Entities.Commission;
 using OneAdvisor.Model.Commission.Model.CommissionSplitRule;
 using OneAdvisor.Service.Directory;
+using OneAdvisor.Service.Test.Directory.Mocks;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -141,7 +142,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionSplitRulePolicyService(context, null, auditService);
 
                 //When
@@ -238,7 +239,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var commissionSplitService = new CommissionSplitService(context, auditService);
                 var service = new CommissionSplitRulePolicyService(context, commissionSplitService, auditService);
 
@@ -319,7 +320,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var commissionSplitService = new CommissionSplitService(context, auditService);
                 var service = new CommissionSplitRulePolicyService(context, commissionSplitService, auditService);
 
@@ -386,7 +387,7 @@ namespace OneAdvisor.Service.Test.Commission
                     CommissionSplitRuleId = csr1.Id
                 };
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var commissionSplitService = new CommissionSplitService(context, auditService);
                 var service = new CommissionSplitRulePolicyService(context, commissionSplitService, auditService);
 
@@ -462,7 +463,7 @@ namespace OneAdvisor.Service.Test.Commission
                     CommissionSplitRuleId = csr1.Id
                 };
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var commissionSplitService = new CommissionSplitService(context, auditService);
                 var service = new CommissionSplitRulePolicyService(context, commissionSplitService, auditService);
 
@@ -558,7 +559,7 @@ namespace OneAdvisor.Service.Test.Commission
                     CommissionSplitRuleId = csr2.Id
                 };
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var commissionSplitService = new CommissionSplitService(context, auditService);
                 var service = new CommissionSplitRulePolicyService(context, commissionSplitService, auditService);
 
@@ -650,7 +651,7 @@ namespace OneAdvisor.Service.Test.Commission
                     CommissionSplitRuleId = csr2.Id
                 };
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var commissionSplitService = new CommissionSplitService(context, auditService);
                 var service = new CommissionSplitRulePolicyService(context, commissionSplitService, auditService);
 
@@ -723,7 +724,7 @@ namespace OneAdvisor.Service.Test.Commission
             }
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionSplitRulePolicyService(context, null, auditService);
 
                 //When

@@ -10,6 +10,7 @@ using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Client.Model.Policy;
 using OneAdvisor.Service.Client;
 using OneAdvisor.Service.Directory;
+using OneAdvisor.Service.Test.Directory.Mocks;
 
 namespace OneAdvisor.Service.Test.Client
 {
@@ -81,7 +82,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new PolicyService(context, auditService);
 
                 //When
@@ -165,7 +166,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new PolicyService(context, auditService);
 
                 //When
@@ -240,7 +241,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new PolicyService(context, auditService);
 
                 //When
@@ -319,7 +320,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new PolicyService(context, auditService);
 
                 //When
@@ -358,7 +359,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new PolicyService(context, auditService);
 
                 //When
@@ -397,7 +398,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new PolicyService(context, auditService);
 
                 //When
@@ -439,7 +440,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new PolicyService(context, auditService);
 
                 //When
@@ -519,7 +520,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new PolicyService(context, auditService);
 
                 //When

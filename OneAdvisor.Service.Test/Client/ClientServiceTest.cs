@@ -11,6 +11,7 @@ using OneAdvisor.Service.Client;
 using OneAdvisor.Model.Client.Model.Merge;
 using OneAdvisor.Model.Client.Model.Lookup;
 using OneAdvisor.Service.Directory;
+using OneAdvisor.Service.Test.Directory.Mocks;
 
 namespace OneAdvisor.Service.Test.Client
 {
@@ -67,7 +68,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new ClientService(context, auditService);
 
                 //When
@@ -120,7 +121,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new ClientService(context, auditService);
 
                 //When
@@ -172,7 +173,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new ClientService(context, auditService);
 
                 //When
@@ -238,7 +239,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new ClientService(context, auditService);
 
                 //When
@@ -330,7 +331,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new ClientService(context, auditService);
 
                 //When
@@ -375,7 +376,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new ClientService(context, auditService);
 
                 //When
@@ -455,7 +456,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new ClientService(context, auditService);
 
                 //When
@@ -502,7 +503,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new ClientService(context, auditService);
 
                 //When
@@ -558,7 +559,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new ClientService(context, auditService);
 
                 //When
@@ -612,7 +613,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new ClientService(context, auditService);
 
                 var merge = new MergeClients()
@@ -685,7 +686,7 @@ namespace OneAdvisor.Service.Test.Client
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new ClientService(context, auditService);
 
                 var merge = new MergeClients()

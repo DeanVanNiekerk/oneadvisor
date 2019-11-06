@@ -10,6 +10,7 @@ using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Branch;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Directory;
+using OneAdvisor.Service.Test.Directory.Mocks;
 
 namespace OneAdvisor.Service.Test.Directory
 {
@@ -48,7 +49,7 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new BranchService(context, auditService);
 
                 //When
@@ -100,7 +101,7 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new BranchService(context, auditService);
 
                 //When
@@ -137,7 +138,7 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new BranchService(context, auditService);
 
                 //When
@@ -188,7 +189,7 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new BranchService(context, auditService);
 
                 //When
@@ -246,7 +247,7 @@ namespace OneAdvisor.Service.Test.Directory
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new BranchService(context, auditService);
 
                 //When

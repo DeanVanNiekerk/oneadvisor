@@ -11,6 +11,7 @@ using OneAdvisor.Model.Directory.Model.User;
 using System.Collections.Generic;
 using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Service.Directory;
+using OneAdvisor.Service.Test.Directory.Mocks;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -88,7 +89,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionAllocationService(context, auditService);
 
                 //When
@@ -177,7 +178,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionAllocationService(context, auditService);
 
                 //When
@@ -231,7 +232,7 @@ namespace OneAdvisor.Service.Test.Commission
                     PolicyIds = new List<Guid>() { policy1.Id }
                 };
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionAllocationService(context, auditService);
 
                 //When
@@ -344,7 +345,7 @@ namespace OneAdvisor.Service.Test.Commission
                     PolicyIds = new List<Guid>() { policy2.Id, policy3.Id }
                 };
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionAllocationService(context, auditService);
 
                 //When
@@ -423,7 +424,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionAllocationService(context, auditService);
 
                 //When

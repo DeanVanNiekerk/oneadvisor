@@ -26,8 +26,11 @@ namespace OneAdvisor.Service.Storage
             _account = CloudStorageAccount.Parse(options.Value.AzureStorage);
         }
 
-        public async Task<PagedItems<AuditLog>> GetAuditLogs(AuditLogQueryOptions queryOptions)
+        public async Task<AuditLogItems> GetAuditLogs(AuditLogQueryOptions queryOptions)
         {
+            //The max amount of entities to return in the query (maybe put it appSettings?)
+            var limit = 1000;
+
             var client = _account.CreateCloudTableClient();
             var table = client.GetTableReference("AuditLogs");
             await table.CreateIfNotExistsAsync();
@@ -40,10 +43,11 @@ namespace OneAdvisor.Service.Storage
             {
                 var query = new TableQuery<AuditLogEntity>();
 
+                query = query.Take(limit);
+
                 // string dateStart = TableQuery.GenerateFilterConditionForDate(
                 //    "Timestamp", QueryComparisons.GreaterThanOrEqual,
                 //    DateTimeOffsetVal);
-
 
 
                 var queryResult = await table.ExecuteQuerySegmentedAsync(query, token);
@@ -55,38 +59,11 @@ namespace OneAdvisor.Service.Storage
             } while (token != null);
 
 
+            var items = new AuditLogItems();
 
-            // var query = from user in ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope)
-            //             join auditLog in _context.AuditLog
-            //                 on user.Id equals auditLog.UserId
-            //             select new AuditLog()
-            //             {
-            //                 Id = auditLog.Id,
-            //                 Action = auditLog.Action,
-            //                 Entity = auditLog.Entity,
-            //                 Date = auditLog.Date,
-            //                 Data = auditLog.Data,
-            //                 UserId = auditLog.UserId,
-            //             };
+            items.Limit = limit;
 
-            // //Apply filters ----------------------------------------------------------------------------------------
-            // if (queryOptions.Action.Any())
-            //     query = query.Where(b => queryOptions.Action.Contains(b.Action));
-
-            // if (queryOptions.UserId.Any())
-            //     query = query.Where(b => queryOptions.UserId.Contains(b.UserId.Value));
-
-            // if (!string.IsNullOrEmpty(queryOptions.Entity))
-            //     query = query.Where(m => EF.Functions.Like(m.Entity, $"{queryOptions.Entity}"));
-            // //------------------------------------------------------------------------------------------------------
-
-            var pagedItems = new PagedItems<AuditLog>();
-
-            // //Get total items
-            pagedItems.TotalItems = entities.Count;
-
-            //Paging
-            pagedItems.Items = entities.Select(entity => new AuditLog()
+            items.Items = entities.Select(entity => new AuditLog()
             {
                 Id = Guid.Parse(entity.RowKey),
                 Action = entity.Action,
@@ -94,9 +71,9 @@ namespace OneAdvisor.Service.Storage
                 Date = entity.Timestamp.DateTime,
                 Data = JsonConvert.DeserializeObject(entity.Data),
                 UserId = string.IsNullOrWhiteSpace(entity.UserId) ? null : (Guid?)Guid.Parse(entity.UserId),
-            });
+            }).ToList();
 
-            return pagedItems;
+            return items;
         }
 
         public async Task<Result> InsertAuditLog(ScopeOptions scope, string action, string entity, dynamic data)

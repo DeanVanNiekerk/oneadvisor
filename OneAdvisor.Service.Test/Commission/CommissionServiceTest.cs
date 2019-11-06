@@ -12,6 +12,7 @@ using OneAdvisor.Service.Commission;
 using OneAdvisor.Data.Entities.Client;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Service.Directory;
+using OneAdvisor.Service.Test.Directory.Mocks;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -121,7 +122,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionService(context, auditService);
 
                 //When
@@ -218,7 +219,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionService(context, auditService);
 
                 //When
@@ -291,7 +292,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionService(context, auditService);
 
                 //When
@@ -386,7 +387,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionService(context, auditService);
 
                 //When

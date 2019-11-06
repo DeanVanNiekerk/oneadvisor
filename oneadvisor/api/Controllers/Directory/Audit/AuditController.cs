@@ -28,9 +28,9 @@ namespace api.Controllers.Directory.Audit
             var scope = AuthenticationService.GetScope(User);
 
             var queryOptions = new AuditLogQueryOptions(scope, sortColumn, sortDirection, filters);
-            var pagedItems = await AuditService.GetAuditLogs(queryOptions);
+            var items = await AuditService.GetAuditLogs(queryOptions);
 
-            return Ok(pagedItems);
+            return Ok(items);
         }
     }
 }

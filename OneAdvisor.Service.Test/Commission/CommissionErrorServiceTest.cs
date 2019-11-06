@@ -14,6 +14,7 @@ using OneAdvisor.Service.Commission;
 using OneAdvisor.Service.Client;
 using OneAdvisor.Model.Client.Model.Lookup;
 using OneAdvisor.Service.Directory;
+using OneAdvisor.Service.Test.Directory.Mocks;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -219,7 +220,7 @@ namespace OneAdvisor.Service.Test.Commission
                     Data = ic1
                 };
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var commissionService = new CommissionService(context, auditService);
                 var clientService = new ClientService(context, auditService);
                 var policyService = new PolicyService(context, auditService);
@@ -330,7 +331,7 @@ namespace OneAdvisor.Service.Test.Commission
                     Data = ic1
                 };
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var commissionService = new CommissionService(context, auditService);
                 var clientService = new ClientService(context, auditService);
                 var policyService = new PolicyService(context, auditService);
@@ -482,7 +483,7 @@ namespace OneAdvisor.Service.Test.Commission
                     Data = ic1a
                 };
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var commissionService = new CommissionService(context, auditService);
                 var clientService = new ClientService(context, auditService);
                 var policyService = new PolicyService(context, auditService);
@@ -675,7 +676,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new CommissionErrorService(context, null, null, null, null, null, auditService);
 
                 //When

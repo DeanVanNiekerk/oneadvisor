@@ -11,6 +11,7 @@ using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Directory;
 using OneAdvisor.Model.Directory.Model.Application;
+using OneAdvisor.Service.Test.Directory.Mocks;
 
 namespace OneAdvisor.Service.Test.Directory
 {
@@ -70,7 +71,7 @@ namespace OneAdvisor.Service.Test.Directory
             using (var context = new DataContext(options))
             {
                 var userManager = TestHelper.MockUserManager(context.Users.ToList());
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new UserService(context, userManager.Object, auditService);
 
                 //When
@@ -146,7 +147,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var userManager = TestHelper.MockUserManager(context.Users.ToList());
                 userManager.Setup(x => x.GetRolesAsync(It.IsAny<UserEntity>())).ReturnsAsync(roles);
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new UserService(context, userManager.Object, auditService);
 
                 //When
@@ -236,7 +237,7 @@ namespace OneAdvisor.Service.Test.Directory
                         addedPassword = p;
                     });
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new UserService(context, userManager.Object, auditService);
 
                 //When
@@ -324,7 +325,7 @@ namespace OneAdvisor.Service.Test.Directory
                         updatedUser = u;
                     });
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new UserService(context, userManager.Object, auditService);
 
                 var user = new UserEdit()
@@ -411,7 +412,7 @@ namespace OneAdvisor.Service.Test.Directory
             using (var context = new DataContext(options))
             {
                 var userManager = TestHelper.MockUserManager(context.Users.ToList());
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new UserService(context, userManager.Object, auditService);
 
                 //When
@@ -470,7 +471,7 @@ namespace OneAdvisor.Service.Test.Directory
             using (var context = new DataContext(options))
             {
                 var userManager = TestHelper.MockUserManager(context.Users.ToList());
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var service = new UserService(context, userManager.Object, auditService);
 
                 //When

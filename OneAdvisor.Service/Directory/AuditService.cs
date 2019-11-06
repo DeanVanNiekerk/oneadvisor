@@ -12,9 +12,11 @@ using OneAdvisor.Service.Directory.Validators;
 using OneAdvisor.Model.Account.Model.Authentication;
 using System;
 
+
 namespace OneAdvisor.Service.Directory
 {
-    public class AuditService : IAuditService
+    //NB!!!!!!!!! Legacy service, use the OneAdvisor.Service.Storage.AuditService
+    public class AuditService
     {
         private readonly DataContext _context;
 

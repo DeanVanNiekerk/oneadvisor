@@ -16,6 +16,7 @@ using OneAdvisor.Service.Common.BulkActions;
 using OneAdvisor.Data.Entities.Commission.Lookup;
 using OneAdvisor.Model.Commission.Model.CommissionSplitRule;
 using OneAdvisor.Model;
+using OneAdvisor.Service.Test.Directory.Mocks;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -34,7 +35,7 @@ namespace OneAdvisor.Service.Test.Commission
 
             using (var context = new DataContext(options))
             {
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
                 var policyService = new PolicyService(context, auditService);
@@ -105,7 +106,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.CommissionType.Add(commissionType);
                 context.SaveChanges();
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var statementService = new CommissionStatementService(context, null, auditService);
                 var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
@@ -187,7 +188,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.Policy.Add(policy1);
                 context.SaveChanges();
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var statementService = new CommissionStatementService(context, null, auditService);
                 var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
@@ -275,7 +276,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.Policy.Add(policy1);
                 context.SaveChanges();
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var statementService = new CommissionStatementService(context, null, auditService);
                 var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
@@ -369,7 +370,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.Policy.Add(policy1);
                 context.SaveChanges();
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var statementService = new CommissionStatementService(context, null, auditService);
                 var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
@@ -456,7 +457,7 @@ namespace OneAdvisor.Service.Test.Commission
                 context.Policy.Add(policy1);
                 context.SaveChanges();
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var statementService = new CommissionStatementService(context, null, auditService);
                 var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
@@ -570,7 +571,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 context.SaveChanges();
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var statementService = new CommissionStatementService(context, null, auditService);
                 var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
@@ -723,7 +724,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 context.SaveChanges();
 
-                var auditService = new AuditService(context);
+                var auditService = new AuditServiceMock();
                 var statementService = new CommissionStatementService(context, null, auditService);
                 var lookupService = new DirectoryLookupService(context);
                 var commissionLookupService = new CommissionLookupService(context);
