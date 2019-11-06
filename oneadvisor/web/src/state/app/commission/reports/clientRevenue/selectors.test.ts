@@ -1,7 +1,7 @@
-import { listSelector } from "./selectors";
+import { clientRevenueSelector } from "./selectors";
 
 describe("report client revenue selectors", () => {
-    it("listSelector", () => {
+    it("clientRevenueSelector", () => {
         const state = {
             app: {
                 commission: {
@@ -19,7 +19,7 @@ describe("report client revenue selectors", () => {
         };
 
         //@ts-ignore
-        const actual = listSelector(state);
+        const actual = clientRevenueSelector(state);
 
         expect(actual).toEqual(expected);
     });

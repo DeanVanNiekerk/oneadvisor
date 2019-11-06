@@ -1,7 +1,7 @@
-import { listSelector } from "./selectors";
+import { auditLogsSelector } from "./selectors";
 
 describe("auditLog list selectors", () => {
-    it("listSelector", () => {
+    it("auditLogsSelector", () => {
         const state = {
             app: {
                 directory: {
@@ -21,7 +21,7 @@ describe("auditLog list selectors", () => {
         };
 
         //@ts-ignore
-        const actual = listSelector(state);
+        const actual = auditLogsSelector(state);
 
         expect(actual).toEqual(expected);
     });
