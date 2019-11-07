@@ -1,33 +1,17 @@
 import moment from "moment";
 
-import { DATE_FORMAT } from "@/app/utils";
 import { State as PolicyTypesState } from "@/state/app/client/lookups/policyTypes/list/reducer";
 import { State as CompaniesState } from "@/state/app/directory/lookups/companies/list/reducer";
 
 import { Group, GroupTableRecord, PastRevenueCommissionData } from "../";
 import {
-    ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
-    LIFE_FIRST_YEARS_COMMISSION_EARNINGS_TYPE_ID,
-    MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
+    ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID, LIFE_FIRST_YEARS_COMMISSION_EARNINGS_TYPE_ID,
+    MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID
 } from "../../lookups";
 import { State as CommissionEarningsTypeState } from "../../lookups/commissionEarningsTypes/list/reducer";
 import { State as ProjectionsState } from "./reducer";
 import { projectionGroupTableRowsSelector } from "./selectors";
 
-/*
-    These tests require for the
-
-        //import { getColumnSearchProps } from "@/ui/controls";
-
-    line to be commented out in @/app/table/utils, some issue with antd and jest
-
-    Can check if the issue has been resolved here: https://github.com/facebook/jest/issues/7957
-*/
-
-it("mock", () => {
-    expect(true).toBe(true);
-});
-/*
 describe("report commission projects selectors", () => {
 
     describe("projectionGroupTableRowsSelector", () => {
@@ -749,4 +733,3 @@ describe("report commission projects selectors", () => {
 
 
 });
-*/

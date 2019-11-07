@@ -21,7 +21,7 @@ import {
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { Button, CompanyName, getTable, Header, PolicyTypeName, UserName } from "@/ui/controls";
+import { Button, CompanyName, getTable, Header, PolicyTypeName, UserName, getColumnSearchProps } from "@/ui/controls";
 
 import EditPolicy from "../form/EditPolicy";
 
@@ -73,7 +73,7 @@ const PolicyList: React.FC<Props> = (props: Props) => {
                     })),
                 }
             ),
-            getColumn("number", "Number", { showSearchFilter: true }),
+            getColumn("number", "Number", {}, getColumnSearchProps("Number")),
             getColumn(
                 "policyTypeId",
                 "Type",
@@ -118,9 +118,7 @@ const PolicyList: React.FC<Props> = (props: Props) => {
             columns.splice(
                 3,
                 0,
-                getColumn("clientLastName", "Last Name", {
-                    showSearchFilter: true,
-                }),
+                getColumn("clientLastName", "Last Name", {}, getColumnSearchProps("Last Name")),
                 getColumn("clientInitials", "Initials"),
                 getColumn("clientDateOfBirth", "Date of Birth", {
                     type: "date",

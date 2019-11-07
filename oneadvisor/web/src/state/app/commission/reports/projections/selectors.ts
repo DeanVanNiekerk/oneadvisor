@@ -13,12 +13,9 @@ import { BarDatum } from "@nivo/bar";
 
 import { Group, GroupTableRecord, PastRevenueCommissionData } from "../";
 import {
-    ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
-    CommissionEarningsType,
-    commissionEarningsTypesSelector,
-    LIFE_FIRST_YEARS_COMMISSION_EARNINGS_TYPE_ID,
-    MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
-    ONCE_OFF_COMMISSION_EARNINGS_TYPE_ID,
+    ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID, CommissionEarningsType, commissionEarningsTypesSelector,
+    LIFE_FIRST_YEARS_COMMISSION_EARNINGS_TYPE_ID, MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
+    ONCE_OFF_COMMISSION_EARNINGS_TYPE_ID
 } from "../../lookups";
 import { State as CommissionEarningsTypesState } from "../../lookups/commissionEarningsTypes/list/reducer";
 import { State } from "./reducer";
@@ -179,7 +176,7 @@ export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableR
 
         items = appendProjectedValues(now, items);
 
-        const monthsBackDate = moment()
+        const monthsBackDate = moment(now)
             .subtract(monthsBack, "months")
             .startOf("month");
 
@@ -499,7 +496,7 @@ export const projectionPolicyTypeChartDataSelector: (state: RootState) => BarDat
 
         items = appendProjectedValues(now, items);
 
-        const monthsBackDate = moment()
+        const monthsBackDate = moment(now)
             .subtract(monthsBack, "months")
             .startOf("month");
 

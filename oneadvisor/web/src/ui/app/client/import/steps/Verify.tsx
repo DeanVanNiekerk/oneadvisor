@@ -19,7 +19,7 @@ import {
 } from "@/state/app/client/import";
 import { Company, fetchCompanies, organisationCompaniesSelector } from "@/state/app/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
-import { getTable } from "@/ui/controls";
+import { getTable, getColumnSearchProps } from "@/ui/controls";
 
 import StepProgress from "../StepProgress";
 
@@ -62,11 +62,10 @@ class Verify extends Component<Props> {
             getColumn(
                 c.id,
                 c.name,
-                {
-                    showSearchFilter: true,
-                },
+                {},
                 {
                     sorter: undefined,
+                    ...getColumnSearchProps(c.name),
                 }
             )
         );

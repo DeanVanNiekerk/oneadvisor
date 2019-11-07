@@ -11,7 +11,7 @@ import {
     receivePolicyProductType,
 } from "@/state/app/client/lookups";
 import { RootState } from "@/state/rootReducer";
-import { Button, getTable, Header, PolicyTypeName } from "@/ui/controls";
+import { Button, getTable, Header, PolicyTypeName, getColumnSearchProps } from "@/ui/controls";
 
 import EditPolicyProductType from "./EditPolicyProductType";
 
@@ -76,8 +76,8 @@ class PolicyProductTypeList extends Component<Props, State> {
     getColumns = () => {
         var getColumn = getColumnDefinition<PolicyProductType>();
         return [
-            getColumn("name", "Name", { showSearchFilter: true }),
-            getColumn("code", "Code", { showSearchFilter: true }),
+            getColumn("name", "Name", {}, getColumnSearchProps("Name")),
+            getColumn("code", "Code", {}, getColumnSearchProps("Code")),
             getColumn(
                 "policyTypeId",
                 "Policy Type",

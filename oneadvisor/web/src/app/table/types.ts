@@ -7,7 +7,6 @@ export type FilterOptions = {
 
 export type ColumnOptions = {
     type?: ColumnType;
-    showSearchFilter?: boolean;
     externalDataSource?: boolean;
     filters?: Filters | null;
 };

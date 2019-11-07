@@ -2,7 +2,6 @@ import { ColumnProps } from "antd/lib/table";
 import moment from "moment";
 
 import { ColumnOptions, Filters } from "@/app/table";
-import { getColumnSearchProps } from "@/ui/controls";
 
 import { formatCurrency } from "../utils";
 import { SortOptions } from "./types";
@@ -33,7 +32,6 @@ const getColumn = <T>(
     options: ColumnOptions = {
         type: "string",
         externalDataSource: false,
-        showSearchFilter: false,
         filters: null,
     },
     columnProps: ColumnProps<T> = {}
@@ -62,13 +60,6 @@ const getColumn = <T>(
     if (options.type === "date") props.render = value => (value ? moment(value).format("ll") : "");
     if (options.type === "long-date") props.render = value => (value ? moment(value).format("lll") : "");
     if (options.type === "currency") props.render = value => formatCurrency(value, 0);
-
-    if (options.showSearchFilter) {
-        props = {
-            ...props,
-            ...getColumnSearchProps<T>(title),
-        };
-    }
 
     if (options.filters) {
         let filter = options.filters[keyString];

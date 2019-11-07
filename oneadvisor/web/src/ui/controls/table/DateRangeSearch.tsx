@@ -6,7 +6,6 @@ import * as React from "react";
 const { RangePicker } = DatePicker;
 
 type Props = {
-    fieldName: string;
     setSelectedKeys: (selectedKeys: string[]) => void;
     selectedKeys: React.ReactText[];
     confirm: () => void;

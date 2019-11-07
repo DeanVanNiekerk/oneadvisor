@@ -15,7 +15,7 @@ import {
 import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { CompanyName, getTable, Header, UserName } from "@/ui/controls";
+import { CompanyName, getTable, Header, UserName, getColumnSearchProps } from "@/ui/controls";
 
 import EditSplitRulePolicy from "./EditSplitRulePolicy";
 
@@ -116,15 +116,9 @@ class SplitRulePolicyList extends Component<Props, State> {
                     })),
                 }
             ),
-            getColumn("policyClientFirstName", "Client First Name", {
-                showSearchFilter: true,
-            }),
-            getColumn("policyClientLastName", "Client Last Name", {
-                showSearchFilter: true,
-            }),
-            getColumn("policyNumber", "Policy Number", {
-                showSearchFilter: true,
-            }),
+            getColumn("policyClientFirstName", "Client First Name", { }, getColumnSearchProps("Client First Name")),
+            getColumn("policyClientLastName", "Client Last Name", { }, getColumnSearchProps("Client Last Name")),
+            getColumn("policyNumber", "Policy Number", { }, getColumnSearchProps("Policy Number")),
             getColumn(
                 "commissionSplitRuleName",
                 "Split",

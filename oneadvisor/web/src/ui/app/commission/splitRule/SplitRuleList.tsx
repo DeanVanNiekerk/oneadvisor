@@ -13,7 +13,7 @@ import {
     splitRulesSelector,
 } from "@/state/app/commission/splitRules";
 import { RootState } from "@/state/rootReducer";
-import { Button, getTable, Header, StopPropagation } from "@/ui/controls";
+import { Button, getTable, Header, StopPropagation, getColumnSearchProps } from "@/ui/controls";
 
 import EditSplitRule from "./EditSplitRule";
 
@@ -75,9 +75,7 @@ class SplitRuleList extends Component<Props> {
     getColumns = () => {
         var getColumn = getColumnDefinition<SplitRule>();
         return [
-            getColumn("name", "Rule Name", {
-                showSearchFilter: true,
-            }),
+            getColumn("name", "Rule Name", { }, getColumnSearchProps("Rule Name")),
             getColumn(
                 "split",
                 "Split Count",

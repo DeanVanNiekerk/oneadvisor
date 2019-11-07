@@ -12,7 +12,7 @@ import {
 } from "@/state/app/client/lookups";
 import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
-import { Button, CompanyName, getTable, Header, PolicyProductTypeName } from "@/ui/controls";
+import { Button, CompanyName, getTable, Header, PolicyProductTypeName, getColumnSearchProps } from "@/ui/controls";
 
 import EditPolicyProduct from "./EditPolicyProduct";
 
@@ -80,8 +80,8 @@ class PolicyProductList extends Component<Props, State> {
         var getColumn = getColumnDefinition<PolicyProduct>();
 
         return [
-            getColumn("name", "Name", { showSearchFilter: true }),
-            getColumn("code", "Code", { showSearchFilter: true }),
+            getColumn("name", "Name", {}, getColumnSearchProps("Name")),
+            getColumn("code", "Code", {}, getColumnSearchProps("Code")),
             getColumn(
                 "policyProductTypeId",
                 "Policy Type",

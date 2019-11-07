@@ -13,7 +13,7 @@ import {
     receiveCompany,
 } from "@/state/app/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
-import { Button, getTable, Header } from "@/ui/controls";
+import { Button, getTable, Header, getColumnSearchProps } from "@/ui/controls";
 
 import EditCompany from "./EditCompany";
 
@@ -21,7 +21,7 @@ const Table = getTable<Company>();
 
 const getColumns = () => {
     var getColumn = getColumnDefinition<Company>();
-    return [getColumn("name", "Name", { showSearchFilter: true })];
+    return [getColumn("name", "Name", { }, getColumnSearchProps("Name"))];
 };
 
 type Props = PropsFromState & PropsFromDispatch;

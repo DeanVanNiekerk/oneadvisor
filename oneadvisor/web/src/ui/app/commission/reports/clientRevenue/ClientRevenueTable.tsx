@@ -14,7 +14,7 @@ import {
 } from "@/state/app/commission/reports";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
-import { Age, getTable } from "@/ui/controls";
+import { Age, getTable, getColumnSearchProps } from "@/ui/controls";
 
 const Table = getTable<ClientRevenueData>();
 
@@ -37,11 +37,10 @@ class ClientRevenueTable extends Component<Props> {
             getColumn(
                 "clientLastName",
                 "Last Name",
-                {
-                    showSearchFilter: true,
-                },
+                { },
                 {
                     fixed: "left",
+                    ...getColumnSearchProps("Last Name"),
                 }
             ),
             getColumn("clientInitials", "Initials"),

@@ -13,7 +13,7 @@ import {
 } from "@/state/app/commission/templates";
 import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
-import { Button, CompanyName, getTable, Header } from "@/ui/controls";
+import { Button, CompanyName, getTable, Header, getColumnSearchProps } from "@/ui/controls";
 
 import EditTemplate from "./EditTemplate";
 
@@ -99,7 +99,7 @@ class TemplateList extends Component<Props, State> {
     getColumns = () => {
         var getColumn = getColumnDefinition<CommissionStatementTemplate>();
         return [
-            getColumn("name", "Name", { showSearchFilter: true }),
+            getColumn("name", "Name", { }, getColumnSearchProps("Name")),
             getColumn(
                 "companyId",
                 "Company",

@@ -4,13 +4,13 @@ import * as React from "react";
 
 import { ColumnSearch, DateRangeSearch } from "@/ui/controls";
 
-function getColumnSearchProps<T>(fieldName: string): ColumnProps<T> {
+function getColumnSearchProps<T>(title: string): ColumnProps<T> {
     let visible: boolean = false;
 
     return {
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <ColumnSearch
-                fieldName={fieldName}
+                title={title}
                 setSelectedKeys={setSelectedKeys}
                 selectedKeys={selectedKeys}
                 confirm={confirm}
@@ -27,11 +27,10 @@ function getColumnSearchProps<T>(fieldName: string): ColumnProps<T> {
 
 export { getColumnSearchProps };
 
-function getDateRangeSearchProps<T>(fieldName: string): ColumnProps<T> {
+function getDateRangeSearchProps<T>(): ColumnProps<T> {
     return {
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <DateRangeSearch
-                fieldName={fieldName}
                 setSelectedKeys={setSelectedKeys || (() => {})}
                 selectedKeys={selectedKeys || []}
                 confirm={confirm || (() => {})}

@@ -25,7 +25,7 @@ import {
 import { clientTypesSelector } from "@/state/app/client/lookups";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
-import { Button, ClientTypeIcon, getTable, Header, StopPropagation } from "@/ui/controls";
+import { Button, ClientTypeIcon, getTable, Header, StopPropagation, getColumnSearchProps } from "@/ui/controls";
 
 import ClientMerge from "../../merge/ClientMerge";
 import EditClient from "../form/EditClient";
@@ -64,11 +64,9 @@ const ClientList: React.FC<Props> = props => {
                     })),
                 }
             ),
-            getColumn("lastName", "Last Name", {
-                showSearchFilter: true,
-            }),
-            getColumn("firstName", "First Name", { showSearchFilter: true }),
-            getColumn("idNumber", "ID Number", { showSearchFilter: true }),
+            getColumn("lastName", "Last Name", {}, getColumnSearchProps("Last Name")),
+            getColumn("firstName", "First Name", {}, getColumnSearchProps("First Name")),
+            getColumn("idNumber", "ID Number", {}, getColumnSearchProps("ID Number")),
             getColumn("dateOfBirth", "Date of Birth", { type: "date" }),
             getColumn(
                 "id",

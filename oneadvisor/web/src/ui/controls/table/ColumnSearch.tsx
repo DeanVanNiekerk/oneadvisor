@@ -2,7 +2,7 @@ import { Button, Input } from "antd";
 import * as React from "react";
 
 type Props = {
-    fieldName: string;
+    title: string;
     setSelectedKeys?: (selectedKeys: string[]) => void;
     selectedKeys?: React.ReactText[];
     confirm?: () => void;
@@ -50,7 +50,7 @@ class ColumnSearch extends React.Component<Props, State> {
                     ref={node => {
                         this.searchInput = node;
                     }}
-                    placeholder={`Search ${this.props.fieldName}`}
+                    placeholder={`Search ${this.props.title}`}
                     value={this.props.selectedKeys ? this.props.selectedKeys[0] : undefined}
                     onChange={e => {
                         if (this.props.setSelectedKeys)

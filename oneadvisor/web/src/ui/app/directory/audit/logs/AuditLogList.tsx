@@ -8,7 +8,7 @@ import { areEqual } from "@/app/utils";
 import { AuditLog, auditLogsSelector, fetchAuditLogs, receiveFilters } from "@/state/app/directory/audit";
 import { usersSimpleSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { getDateRangeSearchProps, getTable, Header, UserName } from "@/ui/controls";
+import { getColumnSearchProps, getDateRangeSearchProps, getTable, Header, UserName } from "@/ui/controls";
 
 import AuditLogDetails from "./AuditLogDetails";
 
@@ -55,7 +55,7 @@ const AuditLogList: React.FC<Props> = props => {
 const getColumns = (props: Props) => {
     var getColumn = getColumnDefinition<AuditLog>(false, props.filters);
 
-    var dateRangeFilter = getDateRangeSearchProps<AuditLog>("date");
+    var dateRangeFilter = getDateRangeSearchProps<AuditLog>();
 
     return [
         getColumn(
@@ -71,13 +71,11 @@ const getColumns = (props: Props) => {
         getColumn(
             "entity",
             "Entity",
-            { showSearchFilter: true },
+            {},
             {
                 sorter: (a, b) => sort(a, b, "entity"),
                 onFilter: undefined,
-                render: (entity: string) => {
-                    return entity.replace("Entity", "");
-                },
+                ...getColumnSearchProps("Entity"),
             }
         ),
         getColumn(

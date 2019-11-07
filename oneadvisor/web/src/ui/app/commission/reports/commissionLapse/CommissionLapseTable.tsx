@@ -13,7 +13,7 @@ import {
 import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { CompanyName, getTable, PolicyTypeName, UserName } from "@/ui/controls";
+import { CompanyName, getTable, PolicyTypeName, UserName, getColumnSearchProps } from "@/ui/controls";
 
 const Table = getTable<CommissionLapseData>();
 
@@ -48,7 +48,7 @@ class CommissionLapseTable extends Component<Props> {
                     })),
                 }
             ),
-            getColumn("number", "Number", { showSearchFilter: true }),
+            getColumn("number", "Number", { }, getColumnSearchProps("Number")),
             getColumn(
                 "policyTypeId",
                 "Type",
@@ -63,9 +63,7 @@ class CommissionLapseTable extends Component<Props> {
                     })),
                 }
             ),
-            getColumn("clientLastName", "Last Name", {
-                showSearchFilter: true,
-            }),
+            getColumn("clientLastName", "Last Name", { }, getColumnSearchProps("Last Name")),
             getColumn("clientInitials", "Initials"),
             getColumn(
                 "userId",

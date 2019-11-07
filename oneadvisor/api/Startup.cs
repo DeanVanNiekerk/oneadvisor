@@ -32,7 +32,7 @@ namespace api
             serviceSetup.ConfigureAuthentication();
             serviceSetup.ConfigureServices();
             serviceSetup.ConfigureLogging();
-            serviceSetup.ConfigureSwagger();
+            //serviceSetup.ConfigureSwagger();
 
             var identitySetup = new IdentitySetup(Configuration, services);
             identitySetup.Configure();
@@ -67,11 +67,11 @@ namespace api
             app.UseHttpsRedirection();
             app.UseAuthentication();
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "One Advisor API");
-            });
+            // app.UseSwagger();
+            // app.UseSwaggerUI(c =>
+            // {
+            //     c.SwaggerEndpoint("/swagger/v1/swagger.json", "One Advisor API");
+            // });
 
             app.UseMvc();
         }
