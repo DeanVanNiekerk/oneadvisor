@@ -112,6 +112,7 @@ namespace api.App.Setup
             Services.AddScoped<IDirectoryLookupService, DirectoryLookupService>();
             Services.AddScoped<IAuditService, OneAdvisor.Service.Storage.AuditService>();
             Services.AddScoped<IChangeLogService, ChangeLogService>();
+            Services.AddScoped<ITelemetryService, TelemetryService>();
 
             //CLIENT
             Services.AddScoped<IClientService, ClientService>();

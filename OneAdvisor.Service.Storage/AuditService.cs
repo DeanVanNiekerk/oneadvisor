@@ -21,10 +21,12 @@ namespace OneAdvisor.Service.Storage
     public class AuditService : IAuditService
     {
         private CloudStorageAccount _account;
+        private ITelemetryService _telemetryService;
 
-        public AuditService(IOptions<ConnectionOptions> options)
+        public AuditService(IOptions<ConnectionOptions> options, ITelemetryService telemetryService)
         {
             _account = CloudStorageAccount.Parse(options.Value.AzureStorage);
+            _telemetryService = telemetryService;
         }
 
         public async Task<AuditLogItems> GetAuditLogs(AuditLogQueryOptions queryOptions)
@@ -201,19 +203,32 @@ namespace OneAdvisor.Service.Storage
             if (!result.Success)
                 return result;
 
-            var client = _account.CreateCloudTableClient();
-            var table = client.GetTableReference("AuditLogs");
-            await table.CreateIfNotExistsAsync();
+            try
+            {
+                var client = _account.CreateCloudTableClient();
+                var table = client.GetTableReference("AuditLogs");
+                await table.CreateIfNotExistsAsync();
 
-            var logEntity = MapCompanyModelToNewEntity(organisationId, model);
+                var logEntity = MapCompanyModelToNewEntity(organisationId, model);
 
-            var insert = TableOperation.Insert(logEntity);
+                var insert = TableOperation.Insert(logEntity);
 
-            await table.ExecuteAsync(insert);
+                await table.ExecuteAsync(insert);
 
-            model.Id = Guid.Parse(logEntity.RowKey);
-            model.Date = logEntity.Timestamp.DateTime;
-            result.Tag = model;
+                model.Id = Guid.Parse(logEntity.RowKey);
+                model.Date = logEntity.Timestamp.DateTime;
+                result.Tag = model;
+            }
+            catch (Exception exception)
+            {
+                var properties = new Dictionary<string, string>();
+                properties.Add("Description", "Error inserting audit log");
+                properties.Add("AuditLog", JsonConvert.SerializeObject(model));
+
+                _telemetryService.TrackException(exception, properties);
+
+                return new Result(exception.Message);
+            }
 
             return result;
         }

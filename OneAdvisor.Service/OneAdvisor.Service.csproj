@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\OneAdvisor.Model\OneAdvisor.Model.csproj" />
     <ProjectReference Include="..\OneAdvisor.Data\OneAdvisor.Data.csproj" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.2" />
   </ItemGroup>
 
   <ItemGroup>
