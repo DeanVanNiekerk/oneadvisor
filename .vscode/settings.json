@@ -3,7 +3,6 @@
     "git.enableSmartCommit": true,
     "git.confirmSync": false,
     "git.autofetch": true,
-    "explorer.confirmDragAndDrop": true,
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
