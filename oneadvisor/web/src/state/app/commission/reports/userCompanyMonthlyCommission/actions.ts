@@ -32,7 +32,7 @@ export type UserCompanyMonthlyCommissionDataAction =
 
 export const fetchUserCompanyMonthlyCommissionData = (): ThunkAction<void, RootState, {}, ApiAction> => {
     return (dispatch, getState) => {
-        let { filters } = userCompanyMonthlyCommissionSelector(getState());
+        const { filters } = userCompanyMonthlyCommissionSelector(getState());
 
         let api = `${commissionReportsApi}/userCompanyMonthlyCommissionData`;
         api = appendFiltersQuery(api, filters);

@@ -26,7 +26,8 @@ type Props<T> = {
         x?: boolean | number | string;
         y?: boolean | number | string;
     };
-    footer?: (currentPageData: Object[]) => React.ReactNode;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    footer?: (currentPageData: Record<string, any>[]) => React.ReactNode;
     rowSelection?: TableRowSelection<T>;
     header?: string;
     className?: string;
@@ -45,6 +46,7 @@ class TableComponent<T> extends React.Component<Props<T>, State> {
         };
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     handleTableChange = (pagination: PaginationConfig, filters: any, sorter: any) => {
         //Check for table change
         if (this.props.onTableChange) {
@@ -120,7 +122,7 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-function getTable<T = any>() {
+function getTable<T>() {
     return connect(mapStateToProps)(TableComponent as new (props: Props<T>) => TableComponent<T>);
 }
 

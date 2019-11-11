@@ -1,7 +1,6 @@
 import { InputNumber } from "antd";
-import React, { Component } from "react";
+import React from "react";
 
-import { formatCurrency, parseCurrency } from "@/app/utils";
 import { ValidationResult } from "@/app/validation";
 
 import { FormText } from "./";
@@ -11,9 +10,9 @@ import { FormField } from "./FormField";
 type Props = {
     fieldName: string;
     label: string;
-    value: any;
+    value: number | undefined;
     disabled?: boolean;
-    onChange?: (fieldName: string, value: any | undefined) => void;
+    onChange?: (fieldName: string, value: number | undefined) => void;
     validationResults?: ValidationResult[];
     layout?: FormLayout;
     readonly?: boolean;

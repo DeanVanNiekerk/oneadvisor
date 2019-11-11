@@ -77,7 +77,7 @@ class PolicyProductList extends Component<Props, State> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<PolicyProduct>();
+        const getColumn = getColumnDefinition<PolicyProduct>();
 
         return [
             getColumn("name", "Name", {}, getColumnSearchProps("Name")),

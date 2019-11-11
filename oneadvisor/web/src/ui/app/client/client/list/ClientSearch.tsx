@@ -35,7 +35,7 @@ class ClientSearch extends Component<Props, State> {
     }
 
     loadClients = () => {
-        let filters = {
+        const filters = {
             lastName: [this.state.searchText],
         };
 
@@ -51,7 +51,7 @@ class ClientSearch extends Component<Props, State> {
     };
 
     getColumns = (): ColumnProps<Client>[] => {
-        var getColumn = getColumnDefinition<Client>();
+        const getColumn = getColumnDefinition<Client>();
 
         return [
             getColumn("lastName", "Last Name", {}, { sorter: false }),

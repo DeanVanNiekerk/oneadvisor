@@ -3,14 +3,12 @@ import update from "immutability-helper";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { hasUseCase } from "@/app/identity";
 import { ValidationResult } from "@/app/validation";
 import {
     CommissionStatementTemplateFieldName,
     commissionStatementTemplateFieldNamesSelector,
 } from "@/state/app/commission/lookups";
 import { Field } from "@/state/app/commission/templates";
-import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect, FormSwitch } from "@/ui/controls";
 
@@ -113,7 +111,7 @@ class FieldsForm extends Component<Props, State> {
                     bordered
                     className="mt-1"
                     dataSource={fields}
-                    renderItem={(field: Field, index: any) => (
+                    renderItem={(field: Field, index: number) => (
                         <List.Item actions={[this.getActions(field, index)]}>
                             <Form key={index} layout="inline">
                                 <FormInput

@@ -114,8 +114,8 @@ class RawConfig extends Component<Props, State> {
                 </Button>
                 {this.state.config && (
                     <small className="ml-1">
-                        * this will only update the form fields, template will NOT be saved until clicking the 'Save'
-                        button.
+                        {`* this will only update the form fields, template will NOT be saved until clicking the 'Save'
+                        button.`}
                     </small>
                 )}
             </>

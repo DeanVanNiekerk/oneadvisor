@@ -77,7 +77,7 @@ class Configure extends Component<Props> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<ImportTableRow>();
+        const getColumn = getColumnDefinition<ImportTableRow>();
         return this.props.selectedImportColumns.map(c => getColumn(c.id, c.name, {}, { sorter: undefined }));
     };
 

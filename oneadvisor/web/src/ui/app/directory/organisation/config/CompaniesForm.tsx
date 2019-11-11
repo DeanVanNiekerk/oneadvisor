@@ -35,6 +35,7 @@ class CompaniesForm extends Component<Props> {
                     <List.Item
                         actions={[
                             <Switch
+                                key={"1"}
                                 checked={this.isCompanySelected(company.id)}
                                 size="small"
                                 onChange={() => this.toggleCompanyChange(company.id)}

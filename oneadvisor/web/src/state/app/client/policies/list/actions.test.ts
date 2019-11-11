@@ -1,5 +1,4 @@
-import { Filters, PageOptions, SortOptions } from "@/app/table";
-import { policiesApi } from "@/config/api/client";
+import { Filters, SortOptions } from "@/app/table";
 
 import * as actions from "./actions";
 

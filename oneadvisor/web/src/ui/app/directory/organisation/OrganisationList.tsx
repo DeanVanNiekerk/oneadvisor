@@ -7,7 +7,6 @@ import {
     fetchOrganisation,
     fetchOrganisations,
     Organisation,
-    OrganisationEdit,
     organisationsSelector,
     receiveOrganisation,
 } from "@/state/app/directory/organisations";
@@ -73,7 +72,7 @@ class OrganisationList extends Component<Props, State> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<Organisation>();
+        const getColumn = getColumnDefinition<Organisation>();
         return [getColumn("name", "Name")];
     };
 

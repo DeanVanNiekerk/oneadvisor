@@ -65,7 +65,7 @@ const ErrorList: React.FC<Props> = (props: Props) => {
     };
 
     const getColumns = () => {
-        var getColumn = getColumnDefinition<
+        const getColumn = getColumnDefinition<
             CommissionError & { info: string; policyNumber: string; amountIncludingVAT: number; vat: number }
         >(true);
 

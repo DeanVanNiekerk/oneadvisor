@@ -96,7 +96,7 @@ class SheetList extends Component<Props, State> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<Sheet>();
+        const getColumn = getColumnDefinition<Sheet>();
         return [
             getColumn(
                 "position",

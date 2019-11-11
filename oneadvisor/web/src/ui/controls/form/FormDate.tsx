@@ -1,6 +1,6 @@
 import { DatePicker } from "antd";
 import moment from "moment";
-import React, { Component } from "react";
+import React from "react";
 
 import { DATE_FORMAT } from "@/app/utils";
 import { ValidationResult } from "@/app/validation";
@@ -13,9 +13,9 @@ type Props = {
     fieldName: string;
     label: string;
     extra?: React.ReactNode;
-    value: string | null;
+    value: string | number | undefined;
     disabled?: boolean;
-    onChange?: (fieldName: string, value: any) => void;
+    onChange?: (fieldName: string, value: string) => void;
     validationResults?: ValidationResult[];
     layout?: FormLayout;
     readonly?: boolean;

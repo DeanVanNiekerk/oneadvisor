@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactNode } from "react";
+import React, { CSSProperties } from "react";
 
 const style: CSSProperties = {
     position: "absolute",

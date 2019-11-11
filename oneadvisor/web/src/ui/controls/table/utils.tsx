@@ -5,7 +5,7 @@ import * as React from "react";
 import { ColumnSearch, DateRangeSearch } from "@/ui/controls";
 
 function getColumnSearchProps<T>(title: string): ColumnProps<T> {
-    let visible: boolean = false;
+    let visible = false;
 
     return {
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (

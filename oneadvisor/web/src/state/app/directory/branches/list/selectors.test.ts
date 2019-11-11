@@ -1,5 +1,3 @@
-import { RootState } from "@/state/rootReducer";
-
 import { listSelector } from "./selectors";
 
 describe("branch list selectors", () => {

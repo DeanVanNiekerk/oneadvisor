@@ -1,5 +1,4 @@
-import { Badge, Col, Icon, Row, Select } from "antd";
-import moment from "moment";
+import { Badge, Icon } from "antd";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
@@ -14,7 +13,7 @@ import {
 } from "@/state/app/commission/reports";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
-import { Age, getTable, getColumnSearchProps } from "@/ui/controls";
+import { Age, getColumnSearchProps, getTable } from "@/ui/controls";
 
 const Table = getTable<ClientRevenueData>();
 
@@ -31,13 +30,13 @@ type Props = {
 
 class ClientRevenueTable extends Component<Props> {
     getColumns = () => {
-        var getColumn = getColumnDefinition<ClientRevenueData>(true, this.props.filters, this.props.sortOptions);
+        const getColumn = getColumnDefinition<ClientRevenueData>(true, this.props.filters, this.props.sortOptions);
 
         const columns = [
             getColumn(
                 "clientLastName",
                 "Last Name",
-                { },
+                {},
                 {
                     fixed: "left",
                     ...getColumnSearchProps("Last Name"),
@@ -83,7 +82,7 @@ class ClientRevenueTable extends Component<Props> {
                     {
                         sorter: undefined,
                         fixed: "right",
-                        render: (value: any, record: ClientRevenueData) => {
+                        render: (value: string, record: ClientRevenueData) => {
                             return (
                                 <Badge dot count={record.allocationsCount}>
                                     <Icon

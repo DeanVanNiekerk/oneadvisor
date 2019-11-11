@@ -41,9 +41,12 @@ export type ClientListAction =
     | ClientListFiltersReceiveAction
     | ClientListSelectedReceiveAction;
 
-export const fetchClients = (all: boolean = false): ThunkAction<void, RootState, {}, ApiAction> => {
+export const fetchClients = (all = false): ThunkAction<void, RootState, {}, ApiAction> => {
     return (dispatch, getState) => {
-        let { pageOptions, sortOptions, filters } = clientsSelector(getState());
+        const selector = clientsSelector(getState());
+
+        let { filters } = selector;
+        const { pageOptions, sortOptions } = selector;
 
         filters = updateFilters(filters);
 

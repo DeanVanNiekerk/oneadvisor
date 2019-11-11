@@ -1,5 +1,3 @@
-import { getValidationResult } from "@/test";
-
 import { defaultState, reducer } from "./reducer";
 
 const defaultUser = {

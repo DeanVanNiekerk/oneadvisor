@@ -1,4 +1,4 @@
-import { ApiAction, ApiOnSuccess } from "@/app/types";
+import { ApiAction } from "@/app/types";
 import { usersApi } from "@/config/api/directory";
 
 import { UserSimple } from "../types";

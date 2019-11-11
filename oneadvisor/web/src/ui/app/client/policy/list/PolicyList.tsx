@@ -21,7 +21,7 @@ import {
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { Button, CompanyName, getTable, Header, PolicyTypeName, UserName, getColumnSearchProps } from "@/ui/controls";
+import { Button, CompanyName, getColumnSearchProps, getTable, Header, PolicyTypeName, UserName } from "@/ui/controls";
 
 import EditPolicy from "../form/EditPolicy";
 
@@ -31,7 +31,7 @@ type Props = {
     clientId?: string;
     onSaved?: () => void;
     hideHeader?: boolean;
-    rowSelection?: TableRowSelection<any>;
+    rowSelection?: TableRowSelection<Policy>;
     disabledEdit?: boolean;
 } & PropsFromState &
     PropsFromDispatch;
@@ -56,7 +56,7 @@ const PolicyList: React.FC<Props> = (props: Props) => {
     };
 
     const getColumns = () => {
-        var getColumn = getColumnDefinition<Policy>(true, props.filters, props.sortOptions);
+        const getColumn = getColumnDefinition<Policy>(true, props.filters, props.sortOptions);
 
         const columns = [
             getColumn(

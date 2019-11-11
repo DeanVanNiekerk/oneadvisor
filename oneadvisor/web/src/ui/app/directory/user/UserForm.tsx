@@ -189,6 +189,7 @@ class UserForm extends Component<Props, State> {
                                     <List.Item
                                         actions={[
                                             <Switch
+                                                key={"1"}
                                                 disabled={!hasUseCase("dir_edit_users", this.props.useCases)}
                                                 checked={this.isRoleSelected(role.name)}
                                                 onChange={() => this.toggleRoleChange(role.name)}

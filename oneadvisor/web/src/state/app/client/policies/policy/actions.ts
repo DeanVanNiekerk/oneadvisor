@@ -1,6 +1,6 @@
 import { ThunkAction } from "redux-thunk";
 
-import { ApiAction, ApiOnSuccess, ShowConfirm } from "@/app/types";
+import { ApiAction, ApiOnSuccess, Result, ShowConfirm } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { policiesApi } from "@/config/api/client";
 import { RootState } from "@/state/rootReducer";
@@ -135,7 +135,7 @@ export const updatePolicy = (policy: PolicyEdit, onSuccess: ApiOnSuccess): ApiAc
     dispatchPrefix: "POLICIES_POLICY_EDIT",
 });
 
-export const insertPolicy = (policy: PolicyEdit, onSuccess: ApiOnSuccess): ApiAction => ({
+export const insertPolicy = (policy: PolicyEdit, onSuccess: ApiOnSuccess<Result<PolicyEdit>>): ApiAction => ({
     type: "API",
     endpoint: `${policiesApi}`,
     method: "POST",

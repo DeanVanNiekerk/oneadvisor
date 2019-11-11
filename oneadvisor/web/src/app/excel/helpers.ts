@@ -1,9 +1,9 @@
 export type Sheet = {
     name?: string;
-    data: any;
+    data: unknown[];
 };
 
-export const downloadExcel = async (data: any, fileName: string) => {
+export const downloadExcel = async (data: unknown[], fileName: string) => {
     const { utils, writeFile } = await import(/* webpackChunkName: "xlsx" */ "xlsx");
 
     const workbook = utils.book_new();

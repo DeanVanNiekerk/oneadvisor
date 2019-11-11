@@ -13,7 +13,10 @@ export const contextSelector: (state: RootState) => State = createSelector(
     root => root
 );
 
-export const pathNameSelector = (state: RootState): string => (state.router ? state.router.location.pathname : "");
+export const pathNameSelector = (state: RootState): string => {
+    //@ts-ignore
+    return state.router ? state.router.location.pathname : "";
+};
 export const appsSelector = (state: RootState): Application[] => state.context.applications;
 export const menusSelector = (state: RootState): Menus => state.context.menus;
 

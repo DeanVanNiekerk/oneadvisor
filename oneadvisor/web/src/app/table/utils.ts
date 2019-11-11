@@ -6,8 +6,8 @@ import { ColumnOptions, Filters } from "@/app/table";
 import { formatCurrency } from "../utils";
 import { SortOptions } from "./types";
 
-export const getColumnDefinition = <T = any>(
-    externalDataSource: boolean = false,
+export const getColumnDefinition = <T>(
+    externalDataSource = false,
     filters: Filters | null = null,
     sortOptions: SortOptions | null = null
 ) => {
@@ -46,8 +46,9 @@ const getColumn = <T>(
 
     let props: ColumnProps<T> = {
         render: value => value,
-        sorter: (a: any, b: any) => sort(a, b, keyString),
-        onFilter: (value: string, record: any) => filter(value, record, keyString),
+        sorter: (a: T, b: T) => sort<T>(a, b, keyString),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onFilter: (value: any, record: T) => filter(value, record, keyString),
         ...columnProps,
     };
 
@@ -62,7 +63,7 @@ const getColumn = <T>(
     if (options.type === "currency") props.render = value => formatCurrency(value, 0);
 
     if (options.filters) {
-        let filter = options.filters[keyString];
+        const filter = options.filters[keyString];
         if (filter && filter.length > 0)
             props = {
                 ...props,
@@ -76,7 +77,7 @@ const getColumn = <T>(
     };
 };
 
-export const sort = (item1: any, item2: any, property: string) => {
+export const sort = <T>(item1: T, item2: T, property: string): number => {
     const val1 = item1[property] ? item1[property] : "";
     const val2 = item2[property] ? item2[property] : "";
 
@@ -85,7 +86,8 @@ export const sort = (item1: any, item2: any, property: string) => {
     return val1.toString().localeCompare(val2);
 };
 
-export const filter = (value: string, record: any, property: string) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const filter = <T>(value: any, record: T, property: string): boolean => {
     return (
         record[property]
             .toString()

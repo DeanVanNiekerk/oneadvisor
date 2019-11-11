@@ -28,4 +28,5 @@ export type SortOptions = {
     column: string;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Filters<T = any> = { [key in keyof T]?: string[] };

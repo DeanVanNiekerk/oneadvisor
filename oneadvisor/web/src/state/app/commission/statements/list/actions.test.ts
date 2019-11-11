@@ -1,5 +1,4 @@
-import { Filters, PageOptions, SortOptions } from "@/app/table";
-import { statementsApi } from "@/config/api/commission";
+import { Filters, SortOptions } from "@/app/table";
 
 import * as actions from "./actions";
 

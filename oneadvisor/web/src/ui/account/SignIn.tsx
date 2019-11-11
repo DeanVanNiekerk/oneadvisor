@@ -4,7 +4,7 @@ import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
 import { ValidationResult } from "@/app/validation";
-import { Credentials, isAuthenticatedSelector, roleSelector, signIn, signInSelector } from "@/state/auth";
+import { Credentials, isAuthenticatedSelector, signIn, signInSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Button, FormField, FormInput, FormInputPassword } from "@/ui/controls";
 
@@ -130,7 +130,7 @@ class SignIn extends React.Component<Props, State> {
                     {this.props.failed && (
                         <p className="text-error text-center mb-2">
                             {validationResults.map(r => (
-                                <b>{r.errorMessage}</b>
+                                <b key={r.propertyName}>{r.errorMessage}</b>
                             ))}
                         </p>
                     )}

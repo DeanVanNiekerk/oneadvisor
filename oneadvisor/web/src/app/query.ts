@@ -33,7 +33,7 @@ export const appendSortOptionQuery = (api: string, options: SortOptions): string
 export const appendFiltersQuery = (api: string, filters: Filters | null): string => {
     if (!filters) return api;
 
-    let filtersValues: string[] = [];
+    const filtersValues: string[] = [];
 
     Object.keys(filters).forEach(key => {
         const values = cleanValues(filters[key]);
@@ -102,7 +102,7 @@ type Url = {
 };
 
 const parseUrl = (input: string): Url => {
-    var split = input.split("?");
+    const split = input.split("?");
 
     const url: Url = {
         base: split[0],

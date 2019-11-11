@@ -90,7 +90,7 @@ class SplitList extends Component<Props, State> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<Split>();
+        const getColumn = getColumnDefinition<Split>();
         const columns = [
             getColumn(
                 "userId",

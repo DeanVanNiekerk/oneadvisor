@@ -11,7 +11,7 @@ type Props = {
     label?: React.ReactNode;
     extra?: React.ReactNode;
     children: ReactNode;
-    value?: any;
+    value?: React.ReactNode;
     fieldName?: string;
     validationFieldName?: string;
     validationResults?: ValidationResult[];
@@ -30,6 +30,16 @@ const FormField: React.FC<Props> = (props: Props) => {
 
         //There is no validation error
         if (!result) return null;
+
+        //Must be primative type
+        if (
+            typeof props.value !== "boolean" &&
+            typeof props.value !== "number" &&
+            typeof props.value !== "string" &&
+            props.value !== undefined &&
+            props.value !== null
+        )
+            return null;
 
         //If the value has changed then dont show message
         if (formatValue(result.attemptedValue) !== formatValue(props.value)) return null;

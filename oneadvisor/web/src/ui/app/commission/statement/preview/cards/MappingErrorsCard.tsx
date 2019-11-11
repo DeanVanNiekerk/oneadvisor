@@ -52,8 +52,9 @@ const MappingErrorsCardComponent: React.FC<Props> = (props: Props) => {
                 onClick={() => setErrorListVisible(true)}
                 requiredUseCase="com_edit_commission_statements"
                 actions={[
-                    <Icon type="tool" />,
+                    <Icon key={"1"} type="tool" />,
                     <Icon
+                        key={"2"}
                         type="download"
                         onClick={event => {
                             downloadMappingErrors();

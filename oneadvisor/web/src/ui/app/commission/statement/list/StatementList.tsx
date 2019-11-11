@@ -3,7 +3,7 @@ import moment from "moment";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
-import { AnyAction, bindActionCreators, Dispatch } from "redux";
+import { AnyAction, bindActionCreators } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
@@ -48,7 +48,7 @@ const StatementList: React.FC<Props> = props => {
     };
 
     const getColumns = () => {
-        var getColumn = getColumnDefinition<Statement>(true, props.filters, props.sortOptions);
+        const getColumn = getColumnDefinition<Statement>(true, props.filters, props.sortOptions);
 
         return [
             getColumn(

@@ -21,7 +21,7 @@ export const removeValidationError = (fieldName: string, validationResults: Vali
     return results;
 };
 
-export const formatValue = (value: any): string => {
+export const formatValue = (value: string | number | boolean | null | undefined): string => {
     if (value === undefined || value === null) return "";
     return value.toString().toLowerCase();
 };
@@ -42,8 +42,8 @@ export const parseValidationErrors = (errors: string): ValidationResult[] => {
 export const getValidationSubSet = (
     prefix: string,
     validationResults: ValidationResult[],
-    isArray: boolean = false,
-    exactMatch: boolean = false
+    isArray = false,
+    exactMatch = false
 ): ValidationResult[] => {
     if (!prefix) return validationResults;
     const results = validationResults.filter(r => {

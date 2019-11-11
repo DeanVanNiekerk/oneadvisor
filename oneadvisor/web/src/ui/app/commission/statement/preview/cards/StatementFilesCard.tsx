@@ -20,6 +20,7 @@ const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
     const getStatementFilesActions = () => {
         const actions = [
             <Icon
+                key={"1"}
                 tooltip="Upload Commission Statement"
                 type="upload"
                 onClick={() => setUploadStatementVisible(true)}
@@ -29,6 +30,7 @@ const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
         if (props.statement && (props.statement.commissionCount > 0 || props.statement.mappingErrorCount > 0))
             actions.unshift(
                 <Icon
+                    key={"2"}
                     tooltip="Reimport Commission Statement File"
                     type="reload"
                     className="text-primary"

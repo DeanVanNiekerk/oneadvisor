@@ -42,7 +42,7 @@ const PolicyForm: React.FC<Props> = (props: Props) => {
 
     const [clientSearchVisible, setClientSearchVisible] = useState<boolean>(false);
 
-    const onChange = (fieldName: keyof PolicyEdit, value: string | boolean) => {
+    const onChange = (fieldName: keyof PolicyEdit, value: string | boolean | number | undefined) => {
         handleChange(policy, fieldName, value);
     };
 
@@ -109,7 +109,7 @@ const PolicyForm: React.FC<Props> = (props: Props) => {
                 <FormInputNumber
                     fieldName="premium"
                     label="Premium"
-                    value={policy.premium}
+                    value={policy.premium === null ? undefined : policy.premium}
                     onChange={onChange}
                     validationResults={validationResults}
                     min={0}
@@ -165,8 +165,12 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
         fetchClients: () => {
             dispatch(fetchClients(true));
         },
-        handleChange: (policy: PolicyEdit, fieldName: keyof PolicyEdit, value: string | boolean) => {
-            let policyModified = update(policy, { [fieldName]: { $set: value } });
+        handleChange: (
+            policy: PolicyEdit,
+            fieldName: keyof PolicyEdit,
+            value: string | boolean | number | undefined
+        ) => {
+            const policyModified = update(policy, { [fieldName]: { $set: value } });
 
             //If the company changes we need to clear the PolicyProduct
             if (fieldName === "companyId") policy.policyProductId = null;

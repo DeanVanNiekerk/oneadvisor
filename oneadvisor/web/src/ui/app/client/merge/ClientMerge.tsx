@@ -30,7 +30,7 @@ class ClientMerge extends Component<Props, State> {
         super(props);
 
         this.state = {
-            steps: [<SourceClients />, <ClientDetails />, <Result />],
+            steps: [<SourceClients key={"1"} />, <ClientDetails key={"2"} />, <Result key={"3"} />],
         };
     }
 

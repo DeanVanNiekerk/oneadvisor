@@ -1,3 +1,4 @@
+import { AnyAction, Dispatch } from "redux";
 import { v4 } from "uuid";
 
 import { clientsImportApi } from "@/config/api/client";
@@ -153,8 +154,15 @@ export const importClientFailure = (importClient: ImportClient, error: string): 
     },
 });
 
-export const importClient = (client: ImportClient): any => {
+export type QueueMiddleware = {
+    type: string;
+    queue: string;
+    callback: (next: () => void, dispatch: Dispatch<AnyAction>) => void;
+};
+
+export const importClient = (client: ImportClient): QueueMiddleware => {
     return {
+        type: "QUEUE",
         queue: "CLIENTS_IMPORT_CLIENTS",
         callback: (next, dispatch) => {
             dispatch({

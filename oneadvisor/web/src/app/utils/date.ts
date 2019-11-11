@@ -31,7 +31,7 @@ type TDateRange = {
 };
 
 export const getMonthDateRange = (month: number, year: number): TDateRange => {
-    var date = moment();
+    let date = moment();
     date = date.month(month - 1);
     date = date.year(year);
 
@@ -57,7 +57,7 @@ export const getMonthName = (number: number) => {
 };
 
 export const getYearOptions = () => {
-    let years: number[] = [];
+    const years: number[] = [];
     const thisYear = moment().year();
     for (let i = thisYear - 20; i <= thisYear; i++) {
         years.push(i);

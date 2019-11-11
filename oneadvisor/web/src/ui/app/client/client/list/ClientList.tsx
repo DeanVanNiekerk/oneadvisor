@@ -45,7 +45,7 @@ const ClientList: React.FC<Props> = props => {
     };
 
     const getColumns = () => {
-        var getColumn = getColumnDefinition<Client>(true, props.filters, props.sortOptions);
+        const getColumn = getColumnDefinition<Client>(true, props.filters, props.sortOptions);
 
         return [
             getColumn(

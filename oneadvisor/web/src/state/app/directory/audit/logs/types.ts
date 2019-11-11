@@ -6,7 +6,7 @@ export type AuditLog = {
     date: string;
     action: string;
     entity: string | null;
-    data: any | null;
+    data: object | null;
 };
 
 export type AuditLogItems = {

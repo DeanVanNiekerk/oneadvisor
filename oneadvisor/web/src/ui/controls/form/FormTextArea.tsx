@@ -1,5 +1,5 @@
 import { Input } from "antd";
-import React, { Component } from "react";
+import React from "react";
 
 import { ValidationResult } from "@/app/validation";
 
@@ -11,9 +11,9 @@ const { TextArea } = Input;
 type Props = {
     fieldName: string;
     label?: string;
-    value: any;
+    value: string;
     disabled?: boolean;
-    onChange?: (fieldName: string, value: any) => void;
+    onChange?: (fieldName: string, value: string) => void;
     validationResults?: ValidationResult[];
     layout?: FormLayout;
     autoFocus?: boolean;

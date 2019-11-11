@@ -1,16 +1,14 @@
-import { Card, Icon, List, Popconfirm, Tooltip } from "antd";
+import { Card, Icon, Popconfirm, Tooltip } from "antd";
 import update from "immutability-helper";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { hasUseCase } from "@/app/identity";
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
 import {
     CommissionStatementTemplateGroupFieldName,
     commissionStatementTemplateGroupFieldNamesSelector,
 } from "@/state/app/commission/lookups";
 import { Group, Identifier } from "@/state/app/commission/templates";
-import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormErrors, FormInput, FormSelect, FormSwitch } from "@/ui/controls";
 
@@ -71,7 +69,7 @@ class Groups extends Component<Props, State> {
         this.setGroupsState(groups);
     };
 
-    onChange = (fieldName: string, value: any, index: number) => {
+    onChange = (fieldName: string, value: boolean | string | Identifier[], index: number) => {
         const group = {
             ...this.state.groups[index],
             [fieldName]: value,

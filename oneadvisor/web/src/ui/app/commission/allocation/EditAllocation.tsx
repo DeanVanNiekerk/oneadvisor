@@ -44,7 +44,7 @@ class EditAllocation extends Component<Props, State> {
         }
     }
 
-    close = (cancelled: boolean = false) => {
+    close = (cancelled = false) => {
         this.props.dispatch(receiveAllocation(null));
         this.props.onClose(cancelled);
     };

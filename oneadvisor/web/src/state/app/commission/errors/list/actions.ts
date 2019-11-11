@@ -4,7 +4,6 @@ import { downloadExcel } from "@/app/excel/helpers";
 import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from "@/app/query";
 import { Filters, PagedItems, PageOptions, SortOptions } from "@/app/table";
 import { ApiAction } from "@/app/types";
-import { DATE_FORMAT } from "@/app/utils";
 import { statementsApi } from "@/config/api/commission";
 import { RootState } from "@/state/rootReducer";
 
@@ -37,7 +36,7 @@ export type ErrorListAction =
 
 export const fetchCommissionErrors = (statementId?: string): ThunkAction<void, RootState, {}, ApiAction> => {
     return (dispatch, getState) => {
-        let { pageOptions, sortOptions } = commissionErrorsSelector(getState());
+        const { pageOptions, sortOptions } = commissionErrorsSelector(getState());
 
         const filters: Filters = {};
 

@@ -11,7 +11,14 @@ import {
     receiveCommissionType,
 } from "@/state/app/commission/lookups/commissionTypes";
 import { RootState } from "@/state/rootReducer";
-import { Button, CommissionEarningsTypeName, getTable, Header, PolicyTypeName, getColumnSearchProps } from "@/ui/controls";
+import {
+    Button,
+    CommissionEarningsTypeName,
+    getTable,
+    Header,
+    PolicyTypeName,
+    getColumnSearchProps,
+} from "@/ui/controls";
 
 import EditCommissionType from "./EditCommissionType";
 
@@ -76,7 +83,7 @@ class CommissionTypeList extends Component<Props, State> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<CommissionType>();
+        const getColumn = getColumnDefinition<CommissionType>();
         return [
             getColumn("name", "Name", {}, getColumnSearchProps("Name")),
             getColumn("code", "Code", {}, getColumnSearchProps("Code")),

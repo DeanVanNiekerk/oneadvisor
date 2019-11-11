@@ -4,18 +4,19 @@ import { connect, DispatchProp } from "react-redux";
 
 import {
     commissionProjectionsSelector,
+    GroupTableRecord,
     projectionGroupsTableColumnsSelector,
     projectionGroupTableRowsSelector,
 } from "@/state/app/commission/reports";
 import { RootState } from "@/state/rootReducer";
 import { getTable } from "@/ui/controls";
 
-const Table = getTable();
+const Table = getTable<GroupTableRecord>();
 
 type Props = {
     fetching: boolean;
-    columnDefinitions: ColumnProps<any>[];
-    rows: object[];
+    columnDefinitions: ColumnProps<GroupTableRecord>[];
+    rows: GroupTableRecord[];
     monthsBack: number;
     monthsForward: number;
 } & DispatchProp;

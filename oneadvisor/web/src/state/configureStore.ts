@@ -12,9 +12,10 @@ export const history = createBrowserHistory({ basename: "/" });
 const middleware = [thunk, ReduxAsyncQueue, apiMiddleware, routerMiddleware(history)];
 
 // enables Redux devtools extension if present
-const enhancers = [] as any[];
-if ((window as any).__REDUX_DEVTOOLS_EXTENSION__) {
-    enhancers.push((window as any).__REDUX_DEVTOOLS_EXTENSION__());
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const enhancers = [] as any;
+if (window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]) {
+    enhancers.push(window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]());
 }
 
 export const configureStore = () => {

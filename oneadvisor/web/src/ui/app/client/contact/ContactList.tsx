@@ -1,5 +1,4 @@
 import { Popconfirm } from "antd";
-import { ColumnProps } from "antd/lib/table";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
@@ -57,7 +56,7 @@ class ContactList extends Component<Props> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<Contact>();
+        const getColumn = getColumnDefinition<Contact>();
 
         return [
             getColumn(

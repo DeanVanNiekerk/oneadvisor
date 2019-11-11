@@ -18,7 +18,7 @@ type Props = {
 const Tabs = (props: Props) => {
     let style = {};
 
-    let tabBarStyle: any = {
+    let tabBarStyle: React.CSSProperties = {
         backgroundColor: "#FFF",
         zIndex: 1,
     };

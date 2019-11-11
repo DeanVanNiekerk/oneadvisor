@@ -6,7 +6,7 @@ import { ApiAction } from "@/app/types";
 import { commissionsApi } from "@/config/api/commission";
 import { RootState } from "@/state/rootReducer";
 
-import { commissionSelector, commissionsSelector } from "../";
+import { commissionsSelector } from "../";
 import { PagedCommissions } from "../types";
 
 type CommissionListReceiveAction = {
@@ -40,7 +40,10 @@ export type CommissionListAction =
 
 export const fetchCommissions = (commissionStatementId?: string): ThunkAction<void, RootState, {}, ApiAction> => {
     return (dispatch, getState) => {
-        let { pageOptions, sortOptions, filters } = commissionsSelector(getState());
+        const selector = commissionsSelector(getState());
+
+        let { filters } = selector;
+        const { pageOptions, sortOptions } = selector;
 
         filters = updateFilters(filters);
 

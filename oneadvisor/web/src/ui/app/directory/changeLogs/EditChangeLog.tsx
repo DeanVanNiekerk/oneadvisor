@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
-import { Result } from "@/app/types";
 import { areEqual } from "@/app/utils";
 import { ValidationResult } from "@/app/validation";
 import {
@@ -44,7 +43,7 @@ class EditChangeLog extends Component<Props, State> {
         }
     }
 
-    close = (cancelled: boolean = false) => {
+    close = (cancelled = false) => {
         this.props.dispatch(receiveChangeLog(null));
         if (this.props.onClose) this.props.onClose(cancelled);
     };

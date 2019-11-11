@@ -1,6 +1,5 @@
 import { statementsApi } from "@/config/api/commission";
 
-import { Statement } from "../";
 import * as actions from "./actions";
 
 describe("statement actions", () => {

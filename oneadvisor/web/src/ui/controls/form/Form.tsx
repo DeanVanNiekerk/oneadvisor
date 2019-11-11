@@ -9,7 +9,7 @@ import { RootState } from "@/state/rootReducer";
 export type FormLayout = "horizontal" | "vertical" | "inline";
 
 type Props = {
-    children: any;
+    children: React.ReactNode;
     layout?: FormLayout;
     readonly?: boolean;
     editUseCase?: string;
@@ -29,7 +29,7 @@ const FormComponent: React.FC<Props> = (props: Props) => {
 
     const childrenWithProps = React.Children.map(children, child =>
         child
-            ? React.cloneElement(child, {
+            ? React.cloneElement(child as React.ReactElement, {
                   layout: layout,
                   readonly: readonly,
               })

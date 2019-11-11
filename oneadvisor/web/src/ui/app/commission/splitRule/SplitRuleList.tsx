@@ -40,7 +40,7 @@ class SplitRuleList extends Component<Props> {
         this.props.dispatch(fetchSplitRules(filters));
     };
 
-    onClose = (cancelled: boolean = false) => {
+    onClose = (cancelled = false) => {
         if (!cancelled) {
             this.loadSplitRules();
             if (this.props.onSave) this.props.onSave();
@@ -73,9 +73,9 @@ class SplitRuleList extends Component<Props> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<SplitRule>();
+        const getColumn = getColumnDefinition<SplitRule>();
         return [
-            getColumn("name", "Rule Name", { }, getColumnSearchProps("Rule Name")),
+            getColumn("name", "Rule Name", {}, getColumnSearchProps("Rule Name")),
             getColumn(
                 "split",
                 "Split Count",

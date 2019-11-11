@@ -61,7 +61,7 @@ class SplitRulePolicyForm extends Component<Props, State> {
         this.props.dispatch(fetchSplitRulePolicy(this.props.splitRulePolicyInfo.policyId));
     };
 
-    handleChange = (fieldName: string, value: any) => {
+    handleChange = (fieldName: string, value: string) => {
         const splitRulePolicy = update(this.state.splitRulePolicy, { [fieldName]: { $set: value } });
         this.setState({
             splitRulePolicy: splitRulePolicy,
@@ -106,7 +106,7 @@ class SplitRulePolicyForm extends Component<Props, State> {
                         optionsValue="id"
                         optionsText="name"
                         onOptionsText={(rule: SplitRule) => {
-                            let text = rule.name;
+                            const text = rule.name;
                             if (rule.isDefault)
                                 return (
                                     <>

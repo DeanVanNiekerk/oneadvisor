@@ -44,7 +44,7 @@ class ClientDetails extends Component<Props> {
             ...clients[0],
         };
         clients.forEach(m => {
-            for (let property in m) {
+            for (const property in m) {
                 const value = m[property];
                 if (value != undefined && value != null && value != "") client[property] = value;
             }
@@ -56,7 +56,7 @@ class ClientDetails extends Component<Props> {
     save = () => {
         if (!this.props.client) return;
 
-        var merge: MergeClients = {
+        const merge: MergeClients = {
             targetClient: this.props.client,
             sourceClientIds: this.props.clients.map(m => m.id),
         };

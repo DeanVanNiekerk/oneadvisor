@@ -31,7 +31,7 @@ class ResetPasswordRequest extends React.Component<Props, State> {
         this.props.dispatch(signOut());
     }
 
-    handleUserNameChange = (fieldName: string, value: any) => {
+    handleUserNameChange = (fieldName: string, value: string) => {
         this.setState({
             userName: value,
         });

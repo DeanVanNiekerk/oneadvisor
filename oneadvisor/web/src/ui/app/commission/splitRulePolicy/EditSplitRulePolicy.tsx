@@ -46,7 +46,7 @@ class EditSplitRulePolicy extends Component<Props, State> {
         }
     }
 
-    close = (cancelled: boolean = false) => {
+    close = (cancelled = false) => {
         this.props.dispatch(receiveSplitRulePolicy(null));
         this.props.onClose(cancelled);
     };

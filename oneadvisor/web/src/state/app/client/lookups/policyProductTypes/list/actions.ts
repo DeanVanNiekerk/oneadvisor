@@ -1,4 +1,3 @@
-import { PagedItems } from "@/app/table";
 import { ApiAction } from "@/app/types";
 import { policyProductTypesApi } from "@/config/api/client";
 

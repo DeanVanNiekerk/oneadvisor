@@ -115,7 +115,7 @@ class Import extends Component<Props> {
     getColumns = () => {
         const columns: ColumnProps<ResultFailure>[] = [];
 
-        var getColumn = getColumnDefinition<ResultFailure>();
+        const getColumn = getColumnDefinition<ResultFailure>();
 
         const idNumberColumn = getColumn(
             "_id",
@@ -123,7 +123,7 @@ class Import extends Component<Props> {
             {},
             {
                 sorter: undefined,
-                render: (value: any, record: ResultFailure) => {
+                render: (value: string, record: ResultFailure) => {
                     {
                         return this.props.columns.map(column => {
                             return <span key={column.id}>{record.importClient[column.id]}; </span>;
@@ -140,7 +140,7 @@ class Import extends Component<Props> {
             {
                 sorter: undefined,
                 fixed: "right",
-                render: (value: any, record: ResultFailure) => {
+                render: (value: string, record: ResultFailure) => {
                     return (
                         <Button
                             shape="circle"

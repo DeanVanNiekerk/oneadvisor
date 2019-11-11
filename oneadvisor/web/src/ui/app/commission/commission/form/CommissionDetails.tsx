@@ -25,7 +25,7 @@ const CommissionDetails: React.FC<Props> = (props: Props) => {
         loadPolicy(commission.policyId);
     }, [commission.policyId]);
 
-    const onChange = (fieldName: keyof CommissionEdit, value: string) => {
+    const onChange = (fieldName: keyof CommissionEdit, value: string | number | undefined) => {
         props.handleChange(commission, fieldName, value);
     };
 
@@ -138,8 +138,12 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        handleChange: (commission: CommissionEdit, fieldName: keyof CommissionEdit, value: string) => {
-            let commissionModified = update(commission, { [fieldName]: { $set: value } });
+        handleChange: (
+            commission: CommissionEdit,
+            fieldName: keyof CommissionEdit,
+            value: string | number | undefined
+        ) => {
+            const commissionModified = update(commission, { [fieldName]: { $set: value } });
             dispatch(modifyCommission(commissionModified));
         },
         getPolicies: (filters: Filters, pageOptions: PageOptions, onSuccess: (policies: Policy[]) => void) => {

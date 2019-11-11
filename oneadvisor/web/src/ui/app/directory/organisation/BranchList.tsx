@@ -45,7 +45,11 @@ class BranchList extends Component<Props> {
     getActions = (branch: Branch) => {
         if (!hasUseCase("dir_edit_branches", this.props.useCases)) return [];
 
-        return [<a onClick={() => this.editBranch(branch.id)}>edit</a>];
+        return [
+            <a key={"1"} onClick={() => this.editBranch(branch.id)}>
+                edit
+            </a>,
+        ];
     };
 
     render() {

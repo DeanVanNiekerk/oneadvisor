@@ -3,5 +3,5 @@ export type ValidationResult = {
     errorMessage: string;
     severity: number;
     errorCode: string;
-    attemptedValue: any;
+    attemptedValue: string | number | boolean | null;
 };

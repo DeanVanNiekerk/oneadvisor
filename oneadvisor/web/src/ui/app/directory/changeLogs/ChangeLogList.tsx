@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
-import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
+import { getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import {
     ChangeLog,
     changeLogsSelector,
@@ -71,7 +71,7 @@ class ChangeLogList extends Component<Props> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<ChangeLog>(true, null, this.props.sortOptions);
+        const getColumn = getColumnDefinition<ChangeLog>(true, null, this.props.sortOptions);
 
         return [
             getColumn("versionNumber", "Version Number"),
@@ -80,7 +80,7 @@ class ChangeLogList extends Component<Props> {
         ];
     };
 
-    onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
+    onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions) => {
         if (this.props.pageOptions != pageOptions) this.props.dispatch(receivePageOptions(pageOptions));
         if (this.props.sortOptions != sortOptions) this.props.dispatch(receiveSortOptions(sortOptions));
     };

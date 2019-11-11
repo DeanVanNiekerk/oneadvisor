@@ -1,5 +1,3 @@
-import { ValidationResult } from "@/app/validation";
-
 import { UserSimple } from "../types";
 import { UserSimpleAction } from "./actions";
 

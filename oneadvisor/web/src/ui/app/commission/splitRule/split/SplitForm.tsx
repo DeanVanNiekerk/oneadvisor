@@ -34,7 +34,7 @@ class SplitForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: keyof Split, value: number) => {
+    handleChange = (fieldName: keyof Split, value: number | string | undefined) => {
         const split = update(this.state.split, { [fieldName]: { $set: value } });
         this.setState({
             split: split,

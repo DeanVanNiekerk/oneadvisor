@@ -23,7 +23,7 @@ type Props = {
 
 class Upload extends Component<Props> {
     customRequest = ({ file, onSuccess }) => {
-        var reader = new FileReader();
+        const reader = new FileReader();
 
         reader.readAsArrayBuffer(file);
 

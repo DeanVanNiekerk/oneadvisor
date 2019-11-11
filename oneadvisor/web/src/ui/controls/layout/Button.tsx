@@ -27,7 +27,8 @@ type Props = {
 } & PropsFromState;
 
 const ButtonComponent: React.FC<Props> = (props: Props) => {
-    let { requiredRole, requiredUseCase, visible = true } = props;
+    let { visible = true } = props;
+    const { requiredRole, requiredUseCase } = props;
 
     if (requiredUseCase) visible = hasUseCase(requiredUseCase, props.useCases) && visible;
 

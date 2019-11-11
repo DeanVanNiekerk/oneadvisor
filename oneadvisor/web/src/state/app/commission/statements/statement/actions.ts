@@ -1,6 +1,5 @@
 import moment from "moment";
-import { Dispatch } from "redux";
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import { ThunkAction } from "redux-thunk";
 
 import { ApiAction, ApiOnFailure, ApiOnSuccess, ShowConfirm } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
@@ -76,7 +75,7 @@ export const newStatement = (): ThunkAction<void, RootState, {}, StatementReceiv
     return (dispatch, getState) => {
         const { filterYear, filterMonth } = statementsSelector(getState());
 
-        let today = moment();
+        const today = moment();
         let date = moment()
             .year(filterYear)
             .month(filterMonth - 1);

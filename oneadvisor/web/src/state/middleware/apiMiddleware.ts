@@ -6,7 +6,7 @@ import { showMessage, showNotification } from "@/ui/feedback/notifcation";
 
 import { RootState } from "../rootReducer";
 
-export default (store: Store<RootState>) => (next: any) => (action: ApiAction) => {
+export default (store: Store<RootState>) => (next: Dispatch) => (action: ApiAction) => {
     // Check if this is an api request
     if (action.type !== "API") {
         return next(action);
@@ -16,7 +16,7 @@ export default (store: Store<RootState>) => (next: any) => (action: ApiAction) =
 
     const rootState = store.getState();
 
-    let headers: HeadersInit = {
+    const headers: HeadersInit = {
         "Content-Type": "application/json; charset=utf-8",
     };
 
@@ -123,7 +123,12 @@ export default (store: Store<RootState>) => (next: any) => (action: ApiAction) =
         });
 };
 
-const handleError = (showNotifications: boolean, store: any, dispatchPrefix: string | undefined, error: string) => {
+const handleError = (
+    showNotifications: boolean,
+    store: Store<RootState>,
+    dispatchPrefix: string | undefined,
+    error: string
+) => {
     if (showNotifications) {
         showNotification("error", "Server Error: Unhandled", "A server error occured please reload the page", 10);
     }
@@ -140,15 +145,15 @@ const handleError = (showNotifications: boolean, store: any, dispatchPrefix: str
 
 const handleValidationError = (
     showNotifications: boolean,
-    store: any,
+    store: Store<RootState>,
     dispatchPrefix: string | undefined,
-    json: any,
+    json: object,
     validationFailureCallback: ApiOnValidationFailure | undefined,
     dispatch: Dispatch
 ) => {
     //Check if this is one of dotnets parse erros
     if (!isArray(json)) {
-        let error = JSON.stringify(json);
+        const error = JSON.stringify(json);
         if (showNotifications) {
             showNotification("error", "Server Error: Validation", error, 10);
         }

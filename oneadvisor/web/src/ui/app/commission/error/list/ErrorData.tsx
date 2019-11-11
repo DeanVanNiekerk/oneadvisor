@@ -17,7 +17,7 @@ const ErrorData: React.FC<Props> = ({ data }) => {
                 })
                 .map(key => {
                     return (
-                        <p>
+                        <p key={key}>
                             <b>
                                 {splitCamelCase(key)}
                                 {": "}

@@ -1,6 +1,6 @@
-import { Button, DatePicker, Input } from "antd";
+import { Button, DatePicker } from "antd";
 import { RangePickerValue } from "antd/lib/date-picker/interface";
-import moment, { Moment } from "moment";
+import moment from "moment";
 import * as React from "react";
 
 const { RangePicker } = DatePicker;

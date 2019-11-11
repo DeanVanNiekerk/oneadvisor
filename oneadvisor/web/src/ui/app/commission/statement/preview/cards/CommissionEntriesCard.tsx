@@ -57,12 +57,18 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
 
     const getCommissionEntriesActions = () => {
         const actions = [
-            <Icon tooltip="View Commission Entries" type="bars" onClick={() => setCommissionListVisible(true)} />,
+            <Icon
+                key={"1"}
+                tooltip="View Commission Entries"
+                type="bars"
+                onClick={() => setCommissionListVisible(true)}
+            />,
         ];
 
         if (hasUseCase("com_edit_commission_statements", props.useCases))
             actions.unshift(
                 <Icon
+                    key={"2"}
                     tooltip="Delete Commission Entries"
                     type={deletingCommissionEntries ? "loading-3-quarters" : "delete"}
                     className="text-error"

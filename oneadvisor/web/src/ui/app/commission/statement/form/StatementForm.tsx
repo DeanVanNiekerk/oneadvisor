@@ -14,7 +14,7 @@ type Props = PropsFromState & PropsFromDispatch;
 const StatementForm: React.FC<Props> = ({ statement, validationResults, handleChange, companies }) => {
     if (!statement) return <React.Fragment />;
 
-    const onChange = (fieldName: keyof StatementEdit, value: string | number | boolean) => {
+    const onChange = (fieldName: keyof StatementEdit, value: string | number | boolean | undefined) => {
         handleChange(statement, fieldName, value);
     };
 
@@ -57,7 +57,7 @@ const StatementForm: React.FC<Props> = ({ statement, validationResults, handleCh
             <FormInputNumber
                 fieldName=""
                 label="Amount (excl VAT)"
-                value={(statement.amountIncludingVAT - statement.vat).toFixed(2)}
+                value={parseFloat((statement.amountIncludingVAT - statement.vat).toFixed(2))}
                 onChange={handleAmountExclVATChange}
                 min={0}
             />
@@ -93,7 +93,11 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        handleChange: (statement: StatementEdit, fieldName: keyof StatementEdit, value: string | number | boolean) => {
+        handleChange: (
+            statement: StatementEdit,
+            fieldName: keyof StatementEdit,
+            value: string | number | boolean | undefined
+        ) => {
             const statementModified = update(statement, { [fieldName]: { $set: value } });
             dispatch(modifyStatement(statementModified));
         },

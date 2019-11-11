@@ -1,5 +1,5 @@
 import { Input } from "antd";
-import React, { Component, KeyboardEventHandler } from "react";
+import React, { KeyboardEventHandler } from "react";
 
 import { ValidationResult } from "@/app/validation";
 
@@ -12,9 +12,9 @@ declare const InputSizes: ["small", "default", "large"];
 type Props = {
     fieldName: string;
     label?: string;
-    value: any;
+    value: string;
     disabled?: boolean;
-    onChange?: (fieldName: string, value: any) => void;
+    onChange?: (fieldName: string, value: string) => void;
     validationResults?: ValidationResult[];
     layout?: FormLayout;
     addonAfter?: React.ReactNode;
@@ -42,7 +42,7 @@ const FormInputPassword: React.FC<Props> = (props: Props) => {
 
     if (props.hidden) return <React.Fragment />;
 
-    const style: any = {};
+    const style: React.CSSProperties = {};
     if (props.width) {
         style.width = props.width;
     }

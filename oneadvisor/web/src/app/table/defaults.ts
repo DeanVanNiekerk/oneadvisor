@@ -9,7 +9,7 @@ export const defaultPageOptions = (): PageOptions => {
     };
 };
 
-export const defaultSortOptions = (column: string = "", direction: SortDirection = "asc"): SortOptions => {
+export const defaultSortOptions = (column = "", direction: SortDirection = "asc"): SortOptions => {
     return {
         column: column,
         direction: direction,

@@ -20,8 +20,8 @@ import EditCompany from "./EditCompany";
 const Table = getTable<Company>();
 
 const getColumns = () => {
-    var getColumn = getColumnDefinition<Company>();
-    return [getColumn("name", "Name", { }, getColumnSearchProps("Name"))];
+    const getColumn = getColumnDefinition<Company>();
+    return [getColumn("name", "Name", {}, getColumnSearchProps("Name"))];
 };
 
 type Props = PropsFromState & PropsFromDispatch;

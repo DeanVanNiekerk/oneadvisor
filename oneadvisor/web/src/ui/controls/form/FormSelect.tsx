@@ -1,5 +1,5 @@
 import { Select } from "antd";
-import { OptionProps, SelectValue } from "antd/lib/select";
+import { OptionProps } from "antd/lib/select";
 import React, { Component } from "react";
 
 import { ValidationResult } from "@/app/validation";
@@ -10,14 +10,14 @@ import { FormField } from "./FormField";
 
 const Option = Select.Option;
 
-type Props<T = SelectValue> = {
+type Props<T> = {
     fieldName: string;
     label: string;
-    value: any;
-    options: any[];
+    value: T;
+    options: object[];
     optionsValue: string;
     optionsText: string;
-    onOptionsText?: (value: any) => React.ReactNode;
+    onOptionsText?: (value: object) => React.ReactNode;
     validationFieldName?: string;
     disabled?: boolean;
     defaultActiveFirstOption?: boolean;
@@ -32,8 +32,8 @@ type Props<T = SelectValue> = {
     showSearch?: boolean;
     showArrow?: boolean;
     filterOption?: boolean | ((inputValue: string, option: React.ReactElement<OptionProps>) => boolean);
-    onSearch?: (value: string) => any;
-    onSelect?: (value: SelectValue, option: React.ReactElement<any>) => any;
+    onSearch?: (value: string) => void;
+    onSelect?: (value: T, option: React.ReactElement) => void;
     minWidth?: string;
     width?: string;
     hidden?: boolean;
@@ -54,7 +54,7 @@ class FormSelect<T> extends Component<Props<T>> {
         return item[this.props.optionsText];
     };
 
-    getOptionsText = (option: any): React.ReactNode => {
+    getOptionsText = (option: object): React.ReactNode => {
         if (this.props.onOptionsText) return this.props.onOptionsText(option);
         return option[this.props.optionsText];
     };
@@ -72,17 +72,15 @@ class FormSelect<T> extends Component<Props<T>> {
             autoFocus = false,
         } = this.props;
 
-        let { value } = this.props;
+        const { value } = this.props;
 
         const labelValue = this.getLabelValue();
 
         if (readonly) return <FormText label={label} value={labelValue} layout={layout} />;
 
-        if (labelValue === "") value = "";
-
         if (this.props.hidden) return <></>;
 
-        const style: any = {
+        const style: React.CSSProperties = {
             minWidth: this.props.minWidth || "180px",
         };
         if (this.props.width) {
@@ -99,7 +97,8 @@ class FormSelect<T> extends Component<Props<T>> {
                 loading={loading}
                 validationFieldName={this.props.validationFieldName}
             >
-                <Select<any>
+                //@ts-ignore
+                <Select<T>
                     showSearch={this.props.showSearch}
                     showArrow={this.props.showArrow}
                     filterOption={this.props.filterOption}
@@ -107,7 +106,7 @@ class FormSelect<T> extends Component<Props<T>> {
                     notFoundContent={this.props.notFoundContent}
                     placeholder={this.props.placeholder}
                     style={style}
-                    value={value}
+                    value={labelValue === "" ? "" : value}
                     onChange={this.onChange}
                     disabled={disabled}
                     defaultActiveFirstOption={defaultActiveFirstOption}

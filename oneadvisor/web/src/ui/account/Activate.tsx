@@ -40,13 +40,13 @@ class Activate extends React.Component<Props, State> {
         };
     }
 
-    handlePasswordChange = (fieldName: string, value: any) => {
+    handlePasswordChange = (fieldName: string, value: string) => {
         this.setState({
             password: value,
         });
     };
 
-    handleConfirmPasswordChange = (fieldName: string, value: any) => {
+    handleConfirmPasswordChange = (fieldName: string, value: string) => {
         this.setState({
             confirmPassword: value,
         });

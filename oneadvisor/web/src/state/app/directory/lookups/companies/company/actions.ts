@@ -1,4 +1,3 @@
-import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 
 import { ApiAction, ApiOnSuccess, ShowConfirm } from "@/app/types";
@@ -6,7 +5,7 @@ import { ValidationResult } from "@/app/validation";
 import { companiesApi } from "@/config/api/directory";
 import { RootState } from "@/state/rootReducer";
 
-import { companyIsModifiedSelector, companySelector, fetchCompanies } from "../";
+import { companyIsModifiedSelector, companySelector } from "../";
 import { Company } from "../types";
 
 type CompanyReceiveAction = {

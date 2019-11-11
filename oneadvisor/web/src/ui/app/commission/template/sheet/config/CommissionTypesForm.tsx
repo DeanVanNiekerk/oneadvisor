@@ -10,7 +10,7 @@ import { statementTemplatesApi } from "@/config/api/commission";
 import { CommissionType as LookupCommissionType, commissionTypesSelector } from "@/state/app/commission/lookups";
 import { commissionStatementTemplateFieldNamesSelector } from "@/state/app/commission/lookups/commissionStatementTemplateFieldNames";
 import { CommissionType, CommissionTypes, Sheet } from "@/state/app/commission/templates";
-import { tokenSelector, useCaseSelector } from "@/state/auth";
+import { tokenSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";
@@ -55,7 +55,7 @@ class CommissionTypesForm extends Component<Props, State> {
         this.setTypesState(types);
     };
 
-    add = (value: string = "") => {
+    add = (value = "") => {
         const types = update(this.state.commissionTypes.types, {
             $push: [
                 {
@@ -243,7 +243,7 @@ class CommissionTypesForm extends Component<Props, State> {
                     bordered
                     className="mt-1"
                     dataSource={commissionTypes.types}
-                    renderItem={(type: CommissionType, index: any) => (
+                    renderItem={(type: CommissionType, index: number) => (
                         <List.Item key={index} actions={[this.getActions(type, index)]}>
                             <Form layout="inline">
                                 <FormInput

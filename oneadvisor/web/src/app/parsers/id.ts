@@ -9,7 +9,7 @@ type Result = {
 };
 
 export const parseIdNumber = (input: string): Result => {
-    let result = {
+    const result = {
         success: false,
     };
 

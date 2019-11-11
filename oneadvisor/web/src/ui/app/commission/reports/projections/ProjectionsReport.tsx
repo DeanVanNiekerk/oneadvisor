@@ -1,5 +1,4 @@
 import { Col, Row, Select, Slider } from "antd";
-import { SliderValue } from "antd/lib/slider";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 

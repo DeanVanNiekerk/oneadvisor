@@ -183,7 +183,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     };
 };
 
-const idNumberChanged = (client: ClientEdit, value: string, forceDateOfBirthUpdate: boolean = false): ClientEdit => {
+const idNumberChanged = (client: ClientEdit, value: string, forceDateOfBirthUpdate = false): ClientEdit => {
     const result = parseIdNumber(value);
 
     if (result.dateOfBirth) {

@@ -32,7 +32,7 @@ const EarningsTypeTable: React.FC<Props> = (props: Props) => {
 };
 
 const getColumns = () => {
-    var getColumn = getColumnDefinition<UserEarningsTypeMonthlyCommissionData>();
+    const getColumn = getColumnDefinition<UserEarningsTypeMonthlyCommissionData>();
     return [
         getColumn(
             "commissionEarningsTypeId",

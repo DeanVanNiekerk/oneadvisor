@@ -1,4 +1,3 @@
-import { PagedItems } from "@/app/table";
 import { ApiAction } from "@/app/types";
 import { commissionTypesApi } from "@/config/api/commission";
 

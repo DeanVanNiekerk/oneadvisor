@@ -89,7 +89,7 @@ class UserList extends Component<Props, State> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<User>();
+        const getColumn = getColumnDefinition<User>();
         return [
             getColumn("lastName", "Last Name"),
             getColumn("firstName", "First Name"),

@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { filterOption } from "@/app/controls/select";
 import { ApiOnFailure, ApiOnSuccess } from "@/app/types";
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
-import { CommissionStatementTemplateEdit, Sheet, SheetConfig } from "@/state/app/commission/templates";
+import { CommissionStatementTemplateEdit, Config, Sheet, SheetConfig } from "@/state/app/commission/templates";
 import { companiesSelector, Company } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInput, FormSelect, TabPane, Tabs } from "@/ui/controls";
@@ -49,7 +49,7 @@ class TemplateForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: keyof CommissionStatementTemplateEdit, value: any) => {
+    handleChange = (fieldName: keyof CommissionStatementTemplateEdit, value: string | Pick<Config, "sheets">) => {
         const template = update(this.state.template, { [fieldName]: { $set: value } });
         this.setTemplateState(template);
     };
@@ -87,7 +87,7 @@ class TemplateForm extends Component<Props, State> {
         return this.getTabTitle("Sheets", "config.sheets", true);
     };
 
-    getTabTitle = (title: string, prefix: string, exactMatch: boolean = false) => {
+    getTabTitle = (title: string, prefix: string, exactMatch = false) => {
         const count = getValidationSubSet(prefix, this.props.validationResults, true, exactMatch).length;
         return (
             <Badge count={count} offset={[10, -2]}>
@@ -153,7 +153,7 @@ class TemplateForm extends Component<Props, State> {
                         <FormDate
                             fieldName="startDate"
                             label="State Date"
-                            value={template.startDate}
+                            value={template.startDate || undefined}
                             onChange={this.handleChange}
                             validationResults={validationResults}
                             extra="Inclusive state date. Leave empty if there is no start date."
@@ -161,7 +161,7 @@ class TemplateForm extends Component<Props, State> {
                         <FormDate
                             fieldName="endDate"
                             label="End Date"
-                            value={template.endDate}
+                            value={template.endDate || undefined}
                             onChange={this.handleChange}
                             validationResults={validationResults}
                             extra="Inclusive end date. Leave empty if there is no end date."

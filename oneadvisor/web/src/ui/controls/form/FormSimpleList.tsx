@@ -1,6 +1,6 @@
 import { List, Popconfirm } from "antd";
 import updateImmutable from "immutability-helper";
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import { hasUseCase } from "@/app/identity";
@@ -86,8 +86,11 @@ const FormSimpleListComponent: React.FC<Props> = (props: Props) => {
         if (props.editUseCase && !hasUseCase(props.editUseCase, props.useCases)) return [];
 
         return [
-            <a onClick={() => edit(value, index)}>edit</a>,
+            <a key={"1"} onClick={() => edit(value, index)}>
+                edit
+            </a>,
             <Popconfirm
+                key={"2"}
                 title="Are you sure remove this record?"
                 onConfirm={() => remove(index)}
                 okText="Yes"
@@ -140,7 +143,7 @@ const FormSimpleListComponent: React.FC<Props> = (props: Props) => {
                 bordered
                 className="mt-1"
                 dataSource={values}
-                renderItem={(value: string, index: any) => (
+                renderItem={(value: string, index: number) => (
                     <List.Item actions={getActions(value, index)}>
                         <List.Item.Meta
                             title={<span className="font-weight-normal">{value}</span>}

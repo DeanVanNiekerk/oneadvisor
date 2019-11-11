@@ -38,7 +38,10 @@ export type PolicyListAction =
 
 export const fetchPolicies = (clientId?: string): ThunkAction<void, RootState, {}, ApiAction> => {
     return (dispatch, getState) => {
-        let { pageOptions, sortOptions, filters } = policiesSelector(getState());
+        const selector = policiesSelector(getState());
+
+        const { pageOptions } = selector;
+        let { filters, sortOptions } = selector;
 
         sortOptions = mapSortOptions(sortOptions);
 

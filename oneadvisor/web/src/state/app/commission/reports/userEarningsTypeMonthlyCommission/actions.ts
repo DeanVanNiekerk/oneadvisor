@@ -1,4 +1,3 @@
-import moment from "moment";
 import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
 
@@ -33,7 +32,7 @@ export type UserEarningsTypeMonthlyCommissionDataAction =
 
 export const fetchUserEarningsTypeMonthlyCommissionData = (): ThunkAction<void, RootState, {}, ApiAction> => {
     return (dispatch, getState) => {
-        let { filters } = userEarningsTypeMonthlyCommissionSelector(getState());
+        const { filters } = userEarningsTypeMonthlyCommissionSelector(getState());
 
         let api = `${commissionReportsApi}/userEarningsTypeMonthlyCommissionData`;
         api = appendFiltersQuery(api, filters);

@@ -18,7 +18,7 @@ type Props = {
     RouteProps;
 
 class SecureRoute extends Component<Props> {
-    private modal: any = null;
+    private modalSet = false;
     private interval: NodeJS.Timeout;
 
     componentDidMount() {
@@ -36,9 +36,11 @@ class SecureRoute extends Component<Props> {
         const expiryDate = moment.unix(this.props.tokenData.exp);
         const hasExpired = moment().isAfter(expiryDate);
 
-        if (hasExpired && !this.modal) {
+        if (hasExpired && !this.modalSet) {
+            this.modalSet = true;
             this.props.dispatch(signOut());
-            this.modal = Modal.info({
+            Modal.destroyAll();
+            Modal.info({
                 title: "Session has Expired",
                 content: (
                     <div>

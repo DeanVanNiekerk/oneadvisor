@@ -1,5 +1,3 @@
-import { PageOptions } from "@/app/table";
-
 import { Allocation } from "../types";
 import { AllocationListAction } from "./actions";
 

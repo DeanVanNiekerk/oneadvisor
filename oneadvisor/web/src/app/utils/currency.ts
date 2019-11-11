@@ -1,6 +1,6 @@
 import currency from "currency.js";
 
-export const formatCurrency = (value: number | string | undefined, decimals: number = 2): string => {
+export const formatCurrency = (value: number | string | undefined, decimals = 2): string => {
     if (value === undefined || value === "" || value === null) return "";
 
     return currency(value, {

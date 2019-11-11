@@ -33,7 +33,7 @@ const DetailsCardComponent: React.FC<Props> = (props: Props) => {
                 icon="profile"
                 onClick={editDetails}
                 isLoading={props.loading}
-                actions={[<Icon tooltip="Edit Client Details" type="edit" onClick={editDetails} />]}
+                actions={[<Icon key={"1"} tooltip="Edit Client Details" type="edit" onClick={editDetails} />]}
                 rows={2}
                 height={props.cardHeight}
             >

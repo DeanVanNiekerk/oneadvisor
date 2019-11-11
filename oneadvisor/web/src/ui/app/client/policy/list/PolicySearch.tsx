@@ -35,7 +35,7 @@ class PolicySearch extends Component<Props, State> {
     }
 
     loadPolicys = () => {
-        let filters = {
+        const filters = {
             lastName: [this.state.searchText],
             clientId: [] as string[],
             companyId: [] as string[],
@@ -57,7 +57,7 @@ class PolicySearch extends Component<Props, State> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<Policy>();
+        const getColumn = getColumnDefinition<Policy>();
         return [
             getColumn(
                 "policyTypeId",

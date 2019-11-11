@@ -27,7 +27,7 @@ const CompanyTable: React.FC<Props> = (props: Props) => {
 };
 
 const getColumns = () => {
-    var getColumn = getColumnDefinition<UserCompanyMonthlyCommissionData>();
+    const getColumn = getColumnDefinition<UserCompanyMonthlyCommissionData>();
     return [
         getColumn(
             "companyId",

@@ -205,7 +205,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             dispatch(policyVisible(true));
         },
         handleChange: (error: CommissionErrorEdit, fieldName: keyof CommissionErrorEdit, value: string | null) => {
-            let errorModified = update(error, { [fieldName]: { $set: value } });
+            const errorModified = update(error, { [fieldName]: { $set: value } });
             dispatch(modifyMappingError(errorModified));
         },
     };

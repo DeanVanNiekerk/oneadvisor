@@ -54,7 +54,7 @@ class RoleForm extends Component<Props, State> {
         this.props.onChange(role);
     };
 
-    handleApplicationChange = (fieldName: keyof RoleEdit, value: any) => {
+    handleApplicationChange = (fieldName: keyof RoleEdit, value: string) => {
         const role = {
             ...this.state.role,
             useCaseIds: [], //Clear use case ids
@@ -151,6 +151,7 @@ class RoleForm extends Component<Props, State> {
                             <List.Item
                                 actions={[
                                     <Switch
+                                        key={useCase.id}
                                         checked={this.isUseCaseSelected(useCase.id)}
                                         size="small"
                                         onChange={() => this.toggleUseCaseChange(useCase.id)}

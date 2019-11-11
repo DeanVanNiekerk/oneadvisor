@@ -31,7 +31,7 @@ type Props = {
 
 class CommissionLapseTable extends Component<Props> {
     getColumns = () => {
-        var getColumn = getColumnDefinition<CommissionLapseData>(true, this.props.filters, this.props.sortOptions);
+        const getColumn = getColumnDefinition<CommissionLapseData>(true, this.props.filters, this.props.sortOptions);
 
         const columns = [
             getColumn(
@@ -48,7 +48,7 @@ class CommissionLapseTable extends Component<Props> {
                     })),
                 }
             ),
-            getColumn("number", "Number", { }, getColumnSearchProps("Number")),
+            getColumn("number", "Number", {}, getColumnSearchProps("Number")),
             getColumn(
                 "policyTypeId",
                 "Type",
@@ -63,7 +63,7 @@ class CommissionLapseTable extends Component<Props> {
                     })),
                 }
             ),
-            getColumn("clientLastName", "Last Name", { }, getColumnSearchProps("Last Name")),
+            getColumn("clientLastName", "Last Name", {}, getColumnSearchProps("Last Name")),
             getColumn("clientInitials", "Initials"),
             getColumn(
                 "userId",

@@ -44,7 +44,7 @@ class EditSplitRule extends Component<Props, State> {
         }
     }
 
-    close = (cancelled: boolean = false) => {
+    close = (cancelled = false) => {
         this.props.dispatch(receiveSplitRule(null));
         this.props.onClose(cancelled);
     };

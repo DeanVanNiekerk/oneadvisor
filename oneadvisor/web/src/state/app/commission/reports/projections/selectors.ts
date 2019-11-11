@@ -13,9 +13,12 @@ import { BarDatum } from "@nivo/bar";
 
 import { Group, GroupTableRecord, PastRevenueCommissionData } from "../";
 import {
-    ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID, CommissionEarningsType, commissionEarningsTypesSelector,
-    LIFE_FIRST_YEARS_COMMISSION_EARNINGS_TYPE_ID, MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
-    ONCE_OFF_COMMISSION_EARNINGS_TYPE_ID
+    ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
+    CommissionEarningsType,
+    commissionEarningsTypesSelector,
+    LIFE_FIRST_YEARS_COMMISSION_EARNINGS_TYPE_ID,
+    MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID,
+    ONCE_OFF_COMMISSION_EARNINGS_TYPE_ID,
 } from "../../lookups";
 import { State as CommissionEarningsTypesState } from "../../lookups/commissionEarningsTypes/list/reducer";
 import { State } from "./reducer";
@@ -32,7 +35,9 @@ const todaySelector: (state: RootState) => Date = createSelector(
     () => new Date()
 );
 
-export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnProps<any>[] = createSelector(
+export const projectionGroupsTableColumnsSelector: (
+    state: RootState
+) => ColumnProps<GroupTableRecord>[] = createSelector(
     rootSelector,
     commissionEarningsTypesSelector,
     policyTypesSelector,
@@ -45,7 +50,7 @@ export const projectionGroupsTableColumnsSelector: (state: RootState) => ColumnP
     ) => {
         const { groups, monthsBack, monthsForward } = root;
 
-        var getColumn = getColumnDefinition<GroupTableRecord>();
+        const getColumn = getColumnDefinition<GroupTableRecord>();
 
         const columns: ColumnProps<GroupTableRecord>[] = [];
 
@@ -184,7 +189,7 @@ export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableR
 
         let rows: GroupTableRecord[] = [];
 
-        let totalRow = {
+        const totalRow = {
             key: "",
             sortKey: "",
             earningsTypeGroupKey: "",
@@ -195,8 +200,8 @@ export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableR
             companyColSpan: getCompanyColSpan(groups),
             isTotalRow: true,
         };
-        totalRow = getTableRow(totalRow, monthsBack, monthsForward, now, items);
-        rows.push(totalRow);
+        const trow = getTableRow(totalRow, monthsBack, monthsForward, now, items);
+        rows.push(trow);
 
         if (groups.length === 0) return rows;
 
@@ -247,7 +252,7 @@ export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableR
                 policyTypeRowSpan: 1,
                 earningsTypeColSpan: 1,
                 policyTypeColSpan: 1,
-                policyTypeId: data.policyTypeId,
+                policyTypeId: data.policyTypeId || "",
                 commissionEarningsTypeId: data.commissionEarningsTypeId,
                 companyId: data.companyId,
             };
@@ -264,7 +269,7 @@ export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableR
         });
 
         //Calculate Policy Type Row Span ---------------------------------------------------
-        let policyTypeIds = [...new Set(rows.map(i => i.policyTypeId))];
+        const policyTypeIds = [...new Set(rows.map(i => i.policyTypeId))];
 
         policyTypeIds.forEach(policyTypeId => {
             let index = 0;
@@ -281,7 +286,7 @@ export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableR
         //------------------------------------------------------------------------------------
 
         //Calculate Earnings Type Row Span ---------------------------------------------------
-        let earningsTypeGroupKeys = [...new Set(rows.map(i => i.earningsTypeGroupKey))];
+        const earningsTypeGroupKeys = [...new Set(rows.map(i => i.earningsTypeGroupKey))];
 
         earningsTypeGroupKeys.forEach(earningsTypeGroupKey => {
             let index = 0;
@@ -303,7 +308,7 @@ export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableR
 
 type TableRowFilter = (data: PastRevenueCommissionData) => boolean;
 const getTableRow = (
-    row: any,
+    row: GroupTableRecord,
     monthsBack: number,
     monthsForward: number,
     now: Date,
@@ -403,10 +408,10 @@ const appendProjectedValues = (now: Date, items: PastRevenueCommissionData[]): P
     return itemsWithProjected;
 };
 
-const getMonthColumns = (monthsBack: number, monthsForward: number): ColumnProps<any>[] => {
-    var getColumn = getColumnDefinition();
+const getMonthColumns = (monthsBack: number, monthsForward: number): ColumnProps<GroupTableRecord>[] => {
+    const getColumn = getColumnDefinition<GroupTableRecord>();
 
-    const columns: ColumnProps<any>[] = [];
+    const columns: ColumnProps<GroupTableRecord>[] = [];
 
     const now = new Date();
 
@@ -511,7 +516,7 @@ export const projectionPolicyTypeChartDataSelector: (state: RootState) => BarDat
             const year = current.year();
             const month = current.month() + 1;
 
-            let filtered = items.filter(d => d.dateYear === year && d.dateMonth === month);
+            const filtered = items.filter(d => d.dateYear === year && d.dateMonth === month);
 
             const value = filtered.reduce((p, c) => c.amountExcludingVAT + p, 0);
 

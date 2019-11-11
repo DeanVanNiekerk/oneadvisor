@@ -1,4 +1,4 @@
-import { Divider, Typography } from "antd";
+import { Divider } from "antd";
 import update from "immutability-helper";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
@@ -8,8 +8,6 @@ import { Split, SplitRule } from "@/state/app/commission/splitRules";
 import { Form, FormInput, FormSwitch } from "@/ui/controls";
 
 import SplitList from "./split/SplitList";
-
-const { Title } = Typography;
 
 type Props = {
     splitRule: SplitRule;

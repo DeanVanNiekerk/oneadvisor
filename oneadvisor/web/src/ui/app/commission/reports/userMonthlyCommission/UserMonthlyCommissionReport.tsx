@@ -1,21 +1,12 @@
 import { Col, Row } from "antd";
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
-
-import {
-    fetchUserCompanyMonthlyCommissionData,
-    fetchUserEarningsTypeMonthlyCommissionData,
-} from "@/state/app/commission/reports";
+import React from "react";
 
 import CompanyReport from "./company/CompanyReport";
 import EarningsTypeReport from "./earningsType/EarningsTypeReport";
 import UserMonthlyCommissionFilters from "./UserMonthlyCommissionFilters";
 import UserMonthlyCommissionHeader from "./UserMonthlyCommissionHeader";
 
-type Props = PropsFromDispatch;
-
-const UserMonthlyCommissionReport: React.FC<Props> = (props: Props) => {
+const UserMonthlyCommissionReport: React.FC = () => {
     return (
         <>
             <UserMonthlyCommissionHeader />
@@ -34,17 +25,4 @@ const UserMonthlyCommissionReport: React.FC<Props> = (props: Props) => {
     );
 };
 
-type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
-const mapDispatchToProps = (dispatch: Dispatch) => {
-    return {
-        ...bindActionCreators(
-            { fetchUserEarningsTypeMonthlyCommissionData, fetchUserCompanyMonthlyCommissionData },
-            dispatch
-        ),
-    };
-};
-
-export default connect(
-    null,
-    mapDispatchToProps
-)(UserMonthlyCommissionReport);
+export default UserMonthlyCommissionReport;

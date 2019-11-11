@@ -3,7 +3,6 @@ import update from "immutability-helper";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { hasUseCase } from "@/app/identity";
 import { ValidationResult } from "@/app/validation";
 import { Identifier } from "@/state/app/commission/templates";
 import { useCaseSelector } from "@/state/auth";
@@ -107,7 +106,7 @@ class GroupIdentifiersForm extends Component<Props, State> {
                     bordered
                     className="mt-1"
                     dataSource={identifiers}
-                    renderItem={(identifier: Identifier, index: any) => (
+                    renderItem={(identifier: Identifier, index: number) => (
                         <List.Item actions={[this.getActions(identifier, index)]}>
                             <Form key={index} layout="inline">
                                 <FormInput

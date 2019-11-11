@@ -19,7 +19,7 @@ import {
 } from "@/state/app/client/import";
 import { Company, fetchCompanies, organisationCompaniesSelector } from "@/state/app/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
-import { getTable, getColumnSearchProps } from "@/ui/controls";
+import { getColumnSearchProps, getTable } from "@/ui/controls";
 
 import StepProgress from "../StepProgress";
 
@@ -56,7 +56,7 @@ class Verify extends Component<Props> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<ImportClient>();
+        const getColumn = getColumnDefinition<ImportClient>();
 
         const columns: ColumnProps<ImportClient>[] = this.props.columns.map(c =>
             getColumn(
@@ -77,7 +77,7 @@ class Verify extends Component<Props> {
             {
                 sorter: undefined,
                 fixed: "right",
-                render: (value: any, record: ImportClient) => {
+                render: (value: string, record: ImportClient) => {
                     return (
                         <Popconfirm
                             title="Are you sure remove this record?"

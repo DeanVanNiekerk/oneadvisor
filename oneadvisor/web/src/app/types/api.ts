@@ -4,8 +4,8 @@ import { ValidationResult } from "../validation";
 
 type ApiActionType = "API";
 type ApiMethods = "GET" | "POST" | "DELETE";
-export type ApiOnSuccess<T = any> = (result: T, dispatch: Dispatch) => void;
-export type ApiOnFailure<T = any> = (result: T) => void;
+export type ApiOnSuccess<T = unknown> = (result: T, dispatch: Dispatch) => void;
+export type ApiOnFailure<T = unknown> = (result: T) => void;
 export type ApiOnValidationFailure = (validationResults: ValidationResult[], dispatch: Dispatch) => void;
 export type ApiOnSuccessBlob = (blob: Blob, dispatch: Dispatch) => void;
 export type ApiAction = {
@@ -13,7 +13,7 @@ export type ApiAction = {
     endpoint: string;
     dispatchPrefix?: string;
     method?: ApiMethods;
-    payload?: Object;
+    payload?: Record<string, unknown>;
     onSuccess?: ApiOnSuccess;
     onSuccessBlob?: ApiOnSuccessBlob;
     hideNotifications?: boolean;

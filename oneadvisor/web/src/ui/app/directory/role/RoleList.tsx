@@ -95,7 +95,7 @@ class RoleList extends Component<Props, State> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<Role>();
+        const getColumn = getColumnDefinition<Role>();
         return [
             getColumn("name", "Name"),
             getColumn("description", "Description"),

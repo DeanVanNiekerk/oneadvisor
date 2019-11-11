@@ -19,7 +19,7 @@ export type PastRevenueCommissionDataFilters = Filters<{
     userId: string;
 }>;
 
-export type GroupTableRecord = {
+export type GroupTableRecordBase = {
     key: string;
     sortKey: string;
     earningsTypeGroupKey: string;
@@ -31,7 +31,12 @@ export type GroupTableRecord = {
     commissionEarningsTypeId?: string;
     companyId?: string;
     isTotalRow?: boolean;
-    [key: string]: any;
 };
+
+type GroupTableRecordExtension = {
+    [key: string]: string | number | boolean;
+};
+
+export type GroupTableRecord = GroupTableRecordBase & GroupTableRecordExtension;
 
 export type Group = "Policy Type" | "Earnings Type" | "Company";

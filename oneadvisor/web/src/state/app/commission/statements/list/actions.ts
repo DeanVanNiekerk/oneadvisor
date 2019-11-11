@@ -52,7 +52,10 @@ export type StatementListAction =
 
 export const fetchStatements = (): ThunkAction<void, RootState, {}, ApiAction> => {
     return (dispatch, getState) => {
-        let { pageOptions, sortOptions, filters, filterMonth, filterYear } = statementsSelector(getState());
+        const selector = statementsSelector(getState());
+
+        let { filters, sortOptions } = selector;
+        const { pageOptions, filterMonth, filterYear } = selector;
 
         const dateRange = getMonthDateRange(filterMonth, filterYear);
         filters = {

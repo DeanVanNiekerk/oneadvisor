@@ -20,7 +20,7 @@ import { commissionTypesSelector } from "@/state/app/commission/lookups";
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { CommissionTypeName, CompanyName, getTable, Header, UserName, getColumnSearchProps } from "@/ui/controls";
+import { CommissionTypeName, CompanyName, getColumnSearchProps, getTable, Header, UserName } from "@/ui/controls";
 
 import EditCommission from "./EditCommission";
 
@@ -60,113 +60,6 @@ const CommissionList: React.FC<Props> = (props: Props) => {
         if (props.onSaved) props.onSaved();
     };
 
-    const getColumns1 = () => {
-        var getColumn = getColumnDefinition<Commission>(true, props.filters, props.sortOptions);
-
-        const { hideColumns = [] } = props;
-
-        const columns: ColumnProps<Commission>[] = [];
-
-        if (!hideColumns.some(c => c == "commissionStatementDate"))
-            columns.push(
-                getColumn("commissionStatementDate", "Date", {
-                    type: "date",
-                })
-            );
-
-        if (!hideColumns.some(c => c == "policyClientLastName"))
-            columns.push(
-                getColumn("policyClientLastName", "Last Name", {}, getColumnSearchProps("Last Name")),
-            );
-
-        if (!hideColumns.some(c => c == "policyClientInitials"))
-            columns.push(getColumn("policyClientInitials", "Initials"));
-
-        if (!hideColumns.some(c => c == "policyCompanyId"))
-            columns.push(
-                getColumn(
-                    "policyCompanyId",
-                    "Company",
-                    {},
-                    {
-                        render: (policyCompanyId: string) => {
-                            return <CompanyName companyId={policyCompanyId} />;
-                        },
-                        filters: props.companies.map(type => ({
-                            text: type.name,
-                            value: type.id,
-                        })),
-                    }
-                )
-            );
-
-        if (!hideColumns.some(c => c == "policyNumber"))
-            columns.push(
-                getColumn("policyNumber", "Policy Number", {}, getColumnSearchProps("Policy Number")),
-            );
-
-        if (!hideColumns.some(c => c == "commissionTypeId"))
-            columns.push(
-                getColumn(
-                    "commissionTypeId",
-                    "Type",
-                    {},
-                    {
-                        render: (commissionTypeId: string) => {
-                            return <CommissionTypeName commissionTypeId={commissionTypeId} />;
-                        },
-                        filters: props.commissionTypes.map(type => ({
-                            text: type.name,
-                            value: type.id,
-                        })),
-                    }
-                )
-            );
-
-        if (!hideColumns.some(c => c == "amountIncludingVAT"))
-            columns.push(
-                getColumn("amountIncludingVAT", "Amount (incl VAT)", {
-                    type: "currency",
-                })
-            );
-
-        if (!hideColumns.some(c => c == "vat")) columns.push(getColumn("vat", "VAT", { type: "currency" }));
-
-        if (!hideColumns.some(c => c == "splitGroupId"))
-            columns.push(
-                getColumn(
-                    "splitGroupId",
-                    "Split",
-                    {},
-                    {
-                        render: (splitGroupId: string | null) => {
-                            return formatBool(!!splitGroupId);
-                        },
-                    }
-                )
-            );
-
-        if (!hideColumns.some(c => c == "userId"))
-            columns.push(
-                getColumn(
-                    "userId",
-                    "Broker",
-                    {},
-                    {
-                        render: (userId: string) => {
-                            return <UserName userId={userId} />;
-                        },
-                        filters: props.users.map(user => ({
-                            text: user.fullName,
-                            value: user.id,
-                        })),
-                    }
-                )
-            );
-
-        return columns;
-    };
-
     const onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
         if (!areEqual(props.pageOptions, pageOptions)) props.updatePageOptions(pageOptions);
         if (!areEqual(props.sortOptions, sortOptions)) props.updateSortOptions(sortOptions);
@@ -180,7 +73,7 @@ const CommissionList: React.FC<Props> = (props: Props) => {
             </Header>
             <Table
                 rowKey="id"
-                columns={getColumns1()}
+                columns={getColumns(props)}
                 dataSource={props.commissions}
                 loading={props.fetching}
                 onRowClick={commission => editCommission(commission.id)}
@@ -199,7 +92,7 @@ const CommissionList: React.FC<Props> = (props: Props) => {
 };
 
 const getColumns = (props: Props) => {
-    var getColumn = getColumnDefinition<Commission>(true, props.filters, props.sortOptions);
+    const getColumn = getColumnDefinition<Commission>(true, props.filters, props.sortOptions);
 
     const { hideColumns = [] } = props;
 
@@ -213,9 +106,7 @@ const getColumns = (props: Props) => {
         );
 
     if (!hideColumns.some(c => c == "policyClientLastName"))
-        columns.push(
-            getColumn("policyClientLastName", "Last Name", {}, getColumnSearchProps("Last Name")),
-        );
+        columns.push(getColumn("policyClientLastName", "Last Name", {}, getColumnSearchProps("Last Name")));
 
     if (!hideColumns.some(c => c == "policyClientInitials"))
         columns.push(getColumn("policyClientInitials", "Initials"));
@@ -239,9 +130,7 @@ const getColumns = (props: Props) => {
         );
 
     if (!hideColumns.some(c => c == "policyNumber"))
-        columns.push(
-            getColumn("policyNumber", "Policy Number", {}, getColumnSearchProps("Policy Number")),
-        );
+        columns.push(getColumn("policyNumber", "Policy Number", {}, getColumnSearchProps("Policy Number")));
 
     if (!hideColumns.some(c => c == "commissionTypeId"))
         columns.push(

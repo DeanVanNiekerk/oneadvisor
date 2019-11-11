@@ -1,5 +1,5 @@
 import { Card, Col, Icon, Skeleton } from "antd";
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import { hasUseCase } from "@/app/identity";
@@ -27,11 +27,11 @@ const PreviewCardComponent: React.FC<Props> = (props: Props) => {
 
     if (!visible) return <React.Fragment />;
 
-    let style: any = {
+    const style: React.CSSProperties = {
         margin: "10px",
     };
 
-    let bodyStyle: any = {};
+    const bodyStyle: React.CSSProperties = {};
     if (height) bodyStyle.height = height;
 
     return (

@@ -85,7 +85,7 @@ class SplitRulePolicyList extends Component<Props, State> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<SplitRulePolicyInfo>(true, this.props.filters, this.props.sortOptions);
+        const getColumn = getColumnDefinition<SplitRulePolicyInfo>(true, this.props.filters, this.props.sortOptions);
 
         return [
             getColumn(
@@ -116,9 +116,9 @@ class SplitRulePolicyList extends Component<Props, State> {
                     })),
                 }
             ),
-            getColumn("policyClientFirstName", "Client First Name", { }, getColumnSearchProps("Client First Name")),
-            getColumn("policyClientLastName", "Client Last Name", { }, getColumnSearchProps("Client Last Name")),
-            getColumn("policyNumber", "Policy Number", { }, getColumnSearchProps("Policy Number")),
+            getColumn("policyClientFirstName", "Client First Name", {}, getColumnSearchProps("Client First Name")),
+            getColumn("policyClientLastName", "Client Last Name", {}, getColumnSearchProps("Client Last Name")),
+            getColumn("policyNumber", "Policy Number", {}, getColumnSearchProps("Policy Number")),
             getColumn(
                 "commissionSplitRuleName",
                 "Split",

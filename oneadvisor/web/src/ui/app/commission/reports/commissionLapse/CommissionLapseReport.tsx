@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { PageOptions, SortOptions } from "@/app/table";
-import { DATE_FORMAT, getMonthName, getMonthOptions, getYearOptions } from "@/app/utils";
+import { DATE_FORMAT, getMonthOptions, getYearOptions } from "@/app/utils";
 import {
     CommissionLapseDataFilters,
     commissionLapseSelector,

@@ -39,7 +39,7 @@ class AllocationList extends Component<Props> {
         this.props.dispatch(fetchAllocations(filters));
     };
 
-    onClose = (cancelled: boolean = false) => {
+    onClose = (cancelled = false) => {
         if (!cancelled) {
             this.loadAllocations();
             if (this.props.onSave) this.props.onSave();
@@ -66,7 +66,7 @@ class AllocationList extends Component<Props> {
     };
 
     getColumns = () => {
-        var getColumn = getColumnDefinition<Allocation>();
+        const getColumn = getColumnDefinition<Allocation>();
 
         return [
             getColumn(
