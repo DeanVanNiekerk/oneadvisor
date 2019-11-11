@@ -23,7 +23,12 @@ class ClientImport extends Component<Props, State> {
         super(props);
 
         this.state = {
-            steps: [<Upload key={"1"} />, <Configure key={"2"} />, <Verify key={"3"} />, <Import key={"4"} />],
+            steps: [
+                <Upload key={"1"} />,
+                <Configure key={"2"} />,
+                <Verify key={"3"} />,
+                <Import key={"4"} />,
+            ],
         };
     }
 

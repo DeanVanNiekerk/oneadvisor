@@ -40,7 +40,9 @@ export type CommissionProjectionsDataAction =
     | CommissionProjectionsDataMonthsBackReceiveAction
     | CommissionProjectionsDataMonthsForwardReceiveAction;
 
-export const fetchPastRevenueCommissionData = (filters: PastRevenueCommissionDataFilters): ApiAction => {
+export const fetchPastRevenueCommissionData = (
+    filters: PastRevenueCommissionDataFilters
+): ApiAction => {
     let api = `${commissionReportsApi}/pastRevenueCommissionData`;
     api = appendFiltersQuery(api, filters);
     return {
@@ -57,7 +59,9 @@ export const receivePastRevenueCommissionFilters = (
     payload: filters,
 });
 
-export const receivePastRevenueCommissionGroups = (groups: Group[]): CommissionProjectionsDataGroupsReceiveAction => ({
+export const receivePastRevenueCommissionGroups = (
+    groups: Group[]
+): CommissionProjectionsDataGroupsReceiveAction => ({
     type: "COMMISSIONS_REPORT_PROJECTIONS_GROUPS_RECEIVE",
     payload: groups,
 });

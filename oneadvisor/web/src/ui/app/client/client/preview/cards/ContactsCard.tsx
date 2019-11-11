@@ -24,7 +24,12 @@ const ContactsCardComponent: React.FC<Props> = (props: Props) => {
                 isLoading={props.loading}
                 requiredUseCase="clt_view_contacts"
                 actions={[
-                    <Icon key={"1"} tooltip="View Contacts" type="bars" onClick={() => setContactListVisible(true)} />,
+                    <Icon
+                        key={"1"}
+                        tooltip="View Contacts"
+                        type="bars"
+                        onClick={() => setContactListVisible(true)}
+                    />,
                 ]}
                 height={props.cardHeight}
             >

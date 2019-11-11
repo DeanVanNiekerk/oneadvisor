@@ -22,7 +22,11 @@ type SignInValidationErrorAction = {
     payload: ValidationResult[];
 };
 
-export type SignInActions = SignInAction | SigningInAction | SigningInErrorAction | SignInValidationErrorAction;
+export type SignInActions =
+    | SignInAction
+    | SigningInAction
+    | SigningInErrorAction
+    | SignInValidationErrorAction;
 
 export const signIn = (credentials: Credentials, onSuccess: ApiOnSuccess): ApiAction => ({
     type: "API",

@@ -85,7 +85,11 @@ class SplitRulePolicyList extends Component<Props, State> {
     };
 
     getColumns = () => {
-        const getColumn = getColumnDefinition<SplitRulePolicyInfo>(true, this.props.filters, this.props.sortOptions);
+        const getColumn = getColumnDefinition<SplitRulePolicyInfo>(
+            true,
+            this.props.filters,
+            this.props.sortOptions
+        );
 
         return [
             getColumn(
@@ -116,15 +120,28 @@ class SplitRulePolicyList extends Component<Props, State> {
                     })),
                 }
             ),
-            getColumn("policyClientFirstName", "Client First Name", {}, getColumnSearchProps("Client First Name")),
-            getColumn("policyClientLastName", "Client Last Name", {}, getColumnSearchProps("Client Last Name")),
+            getColumn(
+                "policyClientFirstName",
+                "Client First Name",
+                {},
+                getColumnSearchProps("Client First Name")
+            ),
+            getColumn(
+                "policyClientLastName",
+                "Client Last Name",
+                {},
+                getColumnSearchProps("Client Last Name")
+            ),
             getColumn("policyNumber", "Policy Number", {}, getColumnSearchProps("Policy Number")),
             getColumn(
                 "commissionSplitRuleName",
                 "Split",
                 {},
                 {
-                    render: (commissionSplitRuleName: string, splitRuleInfo: SplitRulePolicyInfo) => {
+                    render: (
+                        commissionSplitRuleName: string,
+                        splitRuleInfo: SplitRulePolicyInfo
+                    ) => {
                         if (splitRuleInfo.commissionSplitRuleId) return commissionSplitRuleName;
 
                         if (splitRuleInfo.defaultCommissionSplitRuleId)
@@ -143,8 +160,10 @@ class SplitRulePolicyList extends Component<Props, State> {
     };
 
     onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
-        if (this.props.pageOptions != pageOptions) this.props.dispatch(receivePageOptions(pageOptions));
-        if (this.props.sortOptions != sortOptions) this.props.dispatch(receiveSortOptions(sortOptions));
+        if (this.props.pageOptions != pageOptions)
+            this.props.dispatch(receivePageOptions(pageOptions));
+        if (this.props.sortOptions != sortOptions)
+            this.props.dispatch(receiveSortOptions(sortOptions));
         if (this.props.filters != filters) this.props.dispatch(receiveFilters(filters));
     };
 

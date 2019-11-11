@@ -38,7 +38,9 @@ class CommissionLapseReport extends Component<Props> {
 
     loadData = () => {
         const sortOptions = this.mapSortOptions(this.props.sortOptions);
-        this.props.dispatch(fetchCommissionLapseData(this.props.pageOptions, sortOptions, this.props.filters));
+        this.props.dispatch(
+            fetchCommissionLapseData(this.props.pageOptions, sortOptions, this.props.filters)
+        );
     };
 
     mapSortOptions = (sortOptions: SortOptions): SortOptions => {
@@ -97,10 +99,17 @@ class CommissionLapseReport extends Component<Props> {
                 <Row type="flex" gutter={10} align="middle" justify="start" className="mb-1">
                     <Col>Month Ending:</Col>
                     <Col>
-                        <Select value={this.selectedMonth()} onChange={this.handleMonthChange} style={{ width: 125 }}>
+                        <Select
+                            value={this.selectedMonth()}
+                            onChange={this.handleMonthChange}
+                            style={{ width: 125 }}
+                        >
                             {getMonthOptions().map(month => {
                                 return (
-                                    <Select.Option key={month.number.toString()} value={month.number}>
+                                    <Select.Option
+                                        key={month.number.toString()}
+                                        value={month.number}
+                                    >
                                         {month.name}
                                     </Select.Option>
                                 );
@@ -108,7 +117,11 @@ class CommissionLapseReport extends Component<Props> {
                         </Select>
                     </Col>
                     <Col>
-                        <Select value={this.selectedYear()} onChange={this.handleYearChange} style={{ width: 90 }}>
+                        <Select
+                            value={this.selectedYear()}
+                            onChange={this.handleYearChange}
+                            style={{ width: 90 }}
+                        >
                             {getYearOptions().map(year => {
                                 return (
                                     <Select.Option key={year.toString()} value={year}>

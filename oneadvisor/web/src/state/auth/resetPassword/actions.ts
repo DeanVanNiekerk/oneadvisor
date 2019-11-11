@@ -34,7 +34,11 @@ export const activate = (data: ResetPasswordData, onSuccess: ApiOnSuccess): ApiA
 export const resetPassword = (data: ResetPasswordData, onSuccess: ApiOnSuccess): ApiAction =>
     resetPasswordInternal(data, onSuccess, `${resetPasswordApi}`);
 
-const resetPasswordInternal = (data: ResetPasswordData, onSuccess: ApiOnSuccess, endPoint: string): ApiAction => ({
+const resetPasswordInternal = (
+    data: ResetPasswordData,
+    onSuccess: ApiOnSuccess,
+    endPoint: string
+): ApiAction => ({
     type: "API",
     endpoint: endPoint,
     method: "POST",

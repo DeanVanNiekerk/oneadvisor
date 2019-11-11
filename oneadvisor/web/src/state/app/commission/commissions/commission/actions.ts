@@ -113,7 +113,10 @@ export const confirmCancelCommission = (
     };
 };
 
-export const updateCommission = (commission: CommissionEdit, onSuccess: ApiOnSuccess): ApiAction => ({
+export const updateCommission = (
+    commission: CommissionEdit,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
     type: "API",
     endpoint: `${commissionsApi}/${commission.id}`,
     method: "POST",
@@ -122,7 +125,10 @@ export const updateCommission = (commission: CommissionEdit, onSuccess: ApiOnSuc
     dispatchPrefix: "COMMISSIONS_COMMISSION_EDIT",
 });
 
-export const insertCommission = (commission: CommissionEdit, onSuccess: ApiOnSuccess): ApiAction => ({
+export const insertCommission = (
+    commission: CommissionEdit,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
     type: "API",
     endpoint: `${commissionsApi}`,
     method: "POST",

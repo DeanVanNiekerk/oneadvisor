@@ -10,7 +10,10 @@ type RoleListReceiveAction = {
 type RoleListFetchingAction = { type: "ROLES_LIST_FETCHING" };
 type RoleListFetchingErrorAction = { type: "ROLES_LIST_FETCHING_ERROR" };
 
-export type RoleListAction = RoleListReceiveAction | RoleListFetchingAction | RoleListFetchingErrorAction;
+export type RoleListAction =
+    | RoleListReceiveAction
+    | RoleListFetchingAction
+    | RoleListFetchingErrorAction;
 
 export const fetchRoles = (): ApiAction => ({
     type: "API",

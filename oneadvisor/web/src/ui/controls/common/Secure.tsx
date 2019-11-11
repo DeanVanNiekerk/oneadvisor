@@ -11,7 +11,13 @@ type Props = {
     requiredRole?: string;
 } & PropsFromState;
 
-const SecureComponent: React.FC<Props> = ({ requiredRole, requiredUseCase, useCases, roles, children }) => {
+const SecureComponent: React.FC<Props> = ({
+    requiredRole,
+    requiredUseCase,
+    useCases,
+    roles,
+    children,
+}) => {
     let visible = true;
 
     if (requiredUseCase) visible = hasUseCase(requiredUseCase, useCases) && visible;

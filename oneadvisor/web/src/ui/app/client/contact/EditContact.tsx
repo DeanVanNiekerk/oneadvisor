@@ -2,7 +2,13 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
-import { Contact, contactSelector, insertContact, receiveContact, updateContact } from "@/state/app/client/contacts";
+import {
+    Contact,
+    contactSelector,
+    insertContact,
+    receiveContact,
+    updateContact,
+} from "@/state/app/client/contacts";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Form, FormField } from "@/ui/controls";
 

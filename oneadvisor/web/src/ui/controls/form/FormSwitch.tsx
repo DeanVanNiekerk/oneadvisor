@@ -24,7 +24,16 @@ const FormSwitch: React.FC<Props> = (props: Props) => {
         if (props.onChange) props.onChange(props.fieldName, checked);
     };
 
-    const { fieldName, label, value, validationResults, disabled = false, layout, readonly, extra } = props;
+    const {
+        fieldName,
+        label,
+        value,
+        validationResults,
+        disabled = false,
+        layout,
+        readonly,
+        extra,
+    } = props;
 
     return (
         <FormField
@@ -35,7 +44,12 @@ const FormSwitch: React.FC<Props> = (props: Props) => {
             value={value}
             layout={layout}
         >
-            <Switch disabled={disabled || readonly} checked={value} onChange={onChange} className={props.className} />
+            <Switch
+                disabled={disabled || readonly}
+                checked={value}
+                onChange={onChange}
+                className={props.className}
+            />
         </FormField>
     );
 };

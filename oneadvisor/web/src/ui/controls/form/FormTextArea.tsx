@@ -28,7 +28,15 @@ const FormTextArea: React.FC<Props> = (props: Props) => {
         if (props.onChange) props.onChange(props.fieldName, event.target.value);
     };
 
-    const { fieldName, label = "", value, validationResults, disabled = false, layout, rows } = props;
+    const {
+        fieldName,
+        label = "",
+        value,
+        validationResults,
+        disabled = false,
+        layout,
+        rows,
+    } = props;
 
     if (props.hidden) return <React.Fragment />;
 

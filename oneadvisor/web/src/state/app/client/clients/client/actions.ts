@@ -71,7 +71,8 @@ export const clientVisible = (visible: boolean): ClientVisibleAction => ({
 
 export const clearClient = (): ClientReceiveAction => receiveClient(null);
 
-export const newClient = (client?: Partial<ClientEdit>): ClientReceiveAction => receiveClient(createClient(client));
+export const newClient = (client?: Partial<ClientEdit>): ClientReceiveAction =>
+    receiveClient(createClient(client));
 
 export const saveClient = (
     onSaved?: (client: ClientEdit) => void
@@ -124,7 +125,10 @@ export const confirmCancelClient = (
     };
 };
 
-export const updateClient = (client: ClientEdit, onSuccess: ApiOnSuccess<Result<null>>): ApiAction => ({
+export const updateClient = (
+    client: ClientEdit,
+    onSuccess: ApiOnSuccess<Result<null>>
+): ApiAction => ({
     type: "API",
     endpoint: `${clientsApi}/${client.id}`,
     method: "POST",
@@ -133,7 +137,10 @@ export const updateClient = (client: ClientEdit, onSuccess: ApiOnSuccess<Result<
     dispatchPrefix: "CLIENTS_CLIENT_EDIT",
 });
 
-export const insertClient = (client: ClientEdit, onSuccess: ApiOnSuccess<Result<ClientEdit>>): ApiAction => ({
+export const insertClient = (
+    client: ClientEdit,
+    onSuccess: ApiOnSuccess<Result<ClientEdit>>
+): ApiAction => ({
     type: "API",
     endpoint: `${clientsApi}`,
     method: "POST",
@@ -150,7 +157,9 @@ export const deleteClient = (clientId: string, onSuccess: ApiOnSuccess): ApiActi
     dispatchPrefix: "CLIENTS_CLIENT_EDIT",
 });
 
-export const receiveClientValidationResults = (validationResults: ValidationResult[]): ClientAction => ({
+export const receiveClientValidationResults = (
+    validationResults: ValidationResult[]
+): ClientAction => ({
     type: "CLIENTS_CLIENT_EDIT_VALIDATION_ERROR",
     payload: validationResults,
 });

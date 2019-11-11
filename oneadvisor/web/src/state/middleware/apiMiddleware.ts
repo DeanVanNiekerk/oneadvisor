@@ -40,10 +40,12 @@ export default (store: Store<RootState>) => (next: Dispatch) => (action: ApiActi
 
     //console.log(endpoint, fetchOptions);
 
-    const showNotifications = action.hideNotifications === undefined || action.hideNotifications !== true;
+    const showNotifications =
+        action.hideNotifications === undefined || action.hideNotifications !== true;
 
     const showValidationNotifications =
-        action.hideValidationNotifications === undefined || action.hideValidationNotifications !== true;
+        action.hideValidationNotifications === undefined ||
+        action.hideValidationNotifications !== true;
 
     fetch(endpoint, requestInit)
         .then(resp => {
@@ -69,7 +71,12 @@ export default (store: Store<RootState>) => (next: Dispatch) => (action: ApiActi
 
             //Unauthorized, reload page
             if (resp.status === 401) {
-                showNotification("error", "Unauthorized", `Unauthorized Api call to '${endpoint}'`, 20);
+                showNotification(
+                    "error",
+                    "Unauthorized",
+                    `Unauthorized Api call to '${endpoint}'`,
+                    20
+                );
                 return;
             }
 
@@ -130,7 +137,12 @@ const handleError = (
     error: string
 ) => {
     if (showNotifications) {
-        showNotification("error", "Server Error: Unhandled", "A server error occured please reload the page", 10);
+        showNotification(
+            "error",
+            "Server Error: Unhandled",
+            "A server error occured please reload the page",
+            10
+        );
     }
     console.log(error);
 

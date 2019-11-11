@@ -7,7 +7,10 @@ import { commissionReportsApi } from "@/config/api/commission";
 import { RootState } from "@/state/rootReducer";
 
 import { userEarningsTypeMonthlyCommissionSelector } from "../";
-import { UserEarningsTypeMonthlyCommissionData, UserEarningsTypeMonthlyCommissionFilters } from "./types";
+import {
+    UserEarningsTypeMonthlyCommissionData,
+    UserEarningsTypeMonthlyCommissionFilters,
+} from "./types";
 
 type UserEarningsTypeMonthlyCommissionDataReceiveAction = {
     type: "COMMISSIONS_REPORT_USER_EARNINGSTYPE_MONTHLY_COMMISSION_RECEIVE";
@@ -30,7 +33,12 @@ export type UserEarningsTypeMonthlyCommissionDataAction =
     | UserEarningsTypeMonthlyCommissionDataFetchingErrorAction
     | UserEarningsTypeMonthlyCommissionDataFiltersReceiveAction;
 
-export const fetchUserEarningsTypeMonthlyCommissionData = (): ThunkAction<void, RootState, {}, ApiAction> => {
+export const fetchUserEarningsTypeMonthlyCommissionData = (): ThunkAction<
+    void,
+    RootState,
+    {},
+    ApiAction
+> => {
     return (dispatch, getState) => {
         const { filters } = userEarningsTypeMonthlyCommissionSelector(getState());
 

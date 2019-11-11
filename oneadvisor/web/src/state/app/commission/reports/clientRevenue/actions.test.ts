@@ -44,7 +44,9 @@ describe("reports: client revenue: list actions", () => {
             dispatchPrefix: "COMMISSIONS_REPORT_MEM_REVENUE_PAGED",
         };
 
-        expect(actions.fetchClientRevenueDataPaged(pageOptions, sortOptions, filters)).toEqual(expectedAction);
+        expect(actions.fetchClientRevenueDataPaged(pageOptions, sortOptions, filters)).toEqual(
+            expectedAction
+        );
     });
 
     it("should dispatch COMMISSIONS_REPORT_MEM_REVENUE_PAGE_OPTIONS_RECEIVE when receivePageOptions is called", () => {

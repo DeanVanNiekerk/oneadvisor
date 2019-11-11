@@ -9,7 +9,10 @@ export const defaultState: State = {
     items: [],
 };
 
-export const reducer = (state: State = defaultState, action: CommissionEarningsTypeListAction): State => {
+export const reducer = (
+    state: State = defaultState,
+    action: CommissionEarningsTypeListAction
+): State => {
     switch (action.type) {
         case "COMMISSIONEARNINGSTYPE_LIST_RECEIVE": {
             return {

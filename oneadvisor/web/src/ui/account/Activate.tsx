@@ -130,7 +130,13 @@ class Activate extends React.Component<Props, State> {
                     />
 
                     <FormField>
-                        <Button size="large" noLeftMargin={true} onClick={this.activate} type="primary" block={true}>
+                        <Button
+                            size="large"
+                            noLeftMargin={true}
+                            onClick={this.activate}
+                            type="primary"
+                            block={true}
+                        >
                             Activate Account
                         </Button>
                     </FormField>

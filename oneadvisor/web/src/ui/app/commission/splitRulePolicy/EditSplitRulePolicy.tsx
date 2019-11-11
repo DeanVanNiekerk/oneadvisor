@@ -69,9 +69,13 @@ class EditSplitRulePolicy extends Component<Props, State> {
         }
 
         if (this.state.splitRulePolicyEdited.id) {
-            this.props.dispatch(updateSplitRulePolicy(this.state.splitRulePolicyEdited, () => this.close()));
+            this.props.dispatch(
+                updateSplitRulePolicy(this.state.splitRulePolicyEdited, () => this.close())
+            );
         } else {
-            this.props.dispatch(insertSplitRulePolicy(this.state.splitRulePolicyEdited, () => this.close()));
+            this.props.dispatch(
+                insertSplitRulePolicy(this.state.splitRulePolicyEdited, () => this.close())
+            );
         }
     };
 

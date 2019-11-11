@@ -17,7 +17,10 @@ class CommissionEarningsTypeNameComponent extends Component<Props> {
     render() {
         const { commissionEarningsTypes, commissionEarningsTypeId } = this.props;
 
-        const name = getCommissionEarningsTypeName(commissionEarningsTypeId, commissionEarningsTypes);
+        const name = getCommissionEarningsTypeName(
+            commissionEarningsTypeId,
+            commissionEarningsTypes
+        );
 
         return <span>{name}</span>;
     }

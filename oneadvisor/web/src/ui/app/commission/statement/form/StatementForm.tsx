@@ -4,17 +4,29 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { filterOption } from "@/app/controls/select";
-import { modifyStatement, StatementEdit, statementSelector } from "@/state/app/commission/statements";
+import {
+    modifyStatement,
+    StatementEdit,
+    statementSelector,
+} from "@/state/app/commission/statements";
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInputNumber, FormSelect, FormSwitch } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;
 
-const StatementForm: React.FC<Props> = ({ statement, validationResults, handleChange, companies }) => {
+const StatementForm: React.FC<Props> = ({
+    statement,
+    validationResults,
+    handleChange,
+    companies,
+}) => {
     if (!statement) return <React.Fragment />;
 
-    const onChange = (fieldName: keyof StatementEdit, value: string | number | boolean | undefined) => {
+    const onChange = (
+        fieldName: keyof StatementEdit,
+        value: string | number | boolean | undefined
+    ) => {
         handleChange(statement, fieldName, value);
     };
 

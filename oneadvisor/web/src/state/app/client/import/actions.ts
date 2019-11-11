@@ -100,7 +100,9 @@ export const receiveClientImportColumns = (columns: ImportColumn[]): ImportClien
     payload: columns,
 });
 
-export const receiveClientImportSelectedColumns = (columns: (keyof ImportClient)[]): ImportClientAction => ({
+export const receiveClientImportSelectedColumns = (
+    columns: (keyof ImportClient)[]
+): ImportClientAction => ({
     type: "CLIENTS_IMPORT_SELECTED_COLUMNS_RECEIVE",
     payload: columns,
 });
@@ -145,7 +147,10 @@ export const importClientSuccess = (importClient: ImportClient): ImportClientAct
     payload: importClient,
 });
 
-export const importClientFailure = (importClient: ImportClient, error: string): ImportClientAction => ({
+export const importClientFailure = (
+    importClient: ImportClient,
+    error: string
+): ImportClientAction => ({
     type: "CLIENTS_IMPORT_CLIENT_FAILURE",
     payload: {
         _id: v4(),

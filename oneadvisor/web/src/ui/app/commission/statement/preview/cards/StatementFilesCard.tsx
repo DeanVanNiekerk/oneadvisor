@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 
-import { statementPreviewIsLoadingSelector, statementPreviewSelector } from "@/state/app/commission/statements";
+import {
+    statementPreviewIsLoadingSelector,
+    statementPreviewSelector,
+} from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { Button, Drawer, DrawerFooter, Icon, PreviewCard } from "@/ui/controls";
 
@@ -27,7 +30,10 @@ const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
             />,
         ];
 
-        if (props.statement && (props.statement.commissionCount > 0 || props.statement.mappingErrorCount > 0))
+        if (
+            props.statement &&
+            (props.statement.commissionCount > 0 || props.statement.mappingErrorCount > 0)
+        )
             actions.unshift(
                 <Icon
                     key={"2"}

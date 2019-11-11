@@ -24,7 +24,12 @@ const PoliciesCardComponent: React.FC<Props> = (props: Props) => {
                 isLoading={props.loading}
                 requiredUseCase="clt_view_policies"
                 actions={[
-                    <Icon key={"1"} tooltip="View Policies" type="bars" onClick={() => setPolicyListVisible(true)} />,
+                    <Icon
+                        key={"1"}
+                        tooltip="View Policies"
+                        type="bars"
+                        onClick={() => setPolicyListVisible(true)}
+                    />,
                 ]}
                 height={props.cardHeight}
             >

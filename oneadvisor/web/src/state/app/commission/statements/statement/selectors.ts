@@ -7,7 +7,10 @@ import { State } from "./reducer";
 
 const rootSelector = (state: RootState): State => state.app.commission.statements.statement;
 
-export const statementSelector: (state: RootState) => State = createSelector(rootSelector, root => root);
+export const statementSelector: (state: RootState) => State = createSelector(
+    rootSelector,
+    root => root
+);
 
 export const statementIsModifiedSelector: (state: RootState) => boolean = createSelector(
     rootSelector,

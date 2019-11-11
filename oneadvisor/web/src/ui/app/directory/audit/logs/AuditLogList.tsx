@@ -5,10 +5,21 @@ import { bindActionCreators, Dispatch } from "redux";
 
 import { Filters, getColumnDefinition, PageOptions, sort, SortOptions } from "@/app/table";
 import { areEqual } from "@/app/utils";
-import { AuditLog, auditLogsSelector, fetchAuditLogs, receiveFilters } from "@/state/app/directory/audit";
+import {
+    AuditLog,
+    auditLogsSelector,
+    fetchAuditLogs,
+    receiveFilters,
+} from "@/state/app/directory/audit";
 import { usersSimpleSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { getColumnSearchProps, getDateRangeSearchProps, getTable, Header, UserName } from "@/ui/controls";
+import {
+    getColumnSearchProps,
+    getDateRangeSearchProps,
+    getTable,
+    Header,
+    UserName,
+} from "@/ui/controls";
 
 import AuditLogDetails from "./AuditLogDetails";
 
@@ -23,7 +34,11 @@ const AuditLogList: React.FC<Props> = props => {
         props.fetchAuditLogs();
     }, [props.filters]);
 
-    const onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
+    const onTableChange = (
+        pageOptions: PageOptions,
+        sortOptions: SortOptions,
+        filters: Filters
+    ) => {
         if (!areEqual(props.filters, filters)) props.updateFilters(filters);
     };
 
@@ -47,7 +62,11 @@ const AuditLogList: React.FC<Props> = props => {
                 onRowClick={auditLog => setAuditLog(auditLog)}
                 onTableChange={onTableChange}
             />
-            <AuditLogDetails visible={auditLog !== null} onClose={() => setAuditLog(null)} auditLog={auditLog} />
+            <AuditLogDetails
+                visible={auditLog !== null}
+                onClose={() => setAuditLog(null)}
+                auditLog={auditLog}
+            />
         </>
     );
 };

@@ -95,7 +95,9 @@ class EditOrganisation extends Component<Props, State> {
 
     onCompaniesChange = (companyIds: string[]) => {
         if (!this.state.organisationEdited) return;
-        const organisation = update(this.state.organisationEdited, { config: { companyIds: { $set: companyIds } } });
+        const organisation = update(this.state.organisationEdited, {
+            config: { companyIds: { $set: companyIds } },
+        });
         this.onChange(organisation);
     };
 
@@ -136,7 +138,11 @@ class EditOrganisation extends Component<Props, State> {
             >
                 <ContentLoader isLoading={this.isLoading()}>
                     {organisation && organisationEdited && (
-                        <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true}>
+                        <Tabs
+                            onChange={this.onTabChange}
+                            activeKey={this.state.activeTab}
+                            sticky={true}
+                        >
                             <TabPane tab="Details" key="details_tab">
                                 <OrganisationForm
                                     organisation={organisation}

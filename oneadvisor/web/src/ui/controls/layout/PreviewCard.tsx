@@ -20,7 +20,17 @@ type Props = {
 } & PropsFromState;
 
 const PreviewCardComponent: React.FC<Props> = (props: Props) => {
-    const { title, titleExtra, onClick, actions, isLoading, requiredUseCase, rows = 1, height: height, icon } = props;
+    const {
+        title,
+        titleExtra,
+        onClick,
+        actions,
+        isLoading,
+        requiredUseCase,
+        rows = 1,
+        height: height,
+        icon,
+    } = props;
 
     let visible = true;
     if (requiredUseCase) visible = hasUseCase(requiredUseCase, props.useCases) && visible;

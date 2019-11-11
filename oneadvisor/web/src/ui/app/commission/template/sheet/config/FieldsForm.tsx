@@ -10,7 +10,15 @@ import {
 } from "@/state/app/commission/lookups";
 import { Field } from "@/state/app/commission/templates";
 import { RootState } from "@/state/rootReducer";
-import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect, FormSwitch } from "@/ui/controls";
+import {
+    Button,
+    Form,
+    FormErrors,
+    FormInput,
+    FormItemIcon,
+    FormSelect,
+    FormSwitch,
+} from "@/ui/controls";
 
 type Props = {
     fields: Field[];

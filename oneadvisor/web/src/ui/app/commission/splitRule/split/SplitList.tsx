@@ -124,7 +124,11 @@ class SplitList extends Component<Props, State> {
                         render: (position: number, record: Split, index: number) => {
                             return (
                                 <StopPropagation>
-                                    <a href="#" className="mr-1" onClick={() => this.editSplit(index)}>
+                                    <a
+                                        href="#"
+                                        className="mr-1"
+                                        onClick={() => this.editSplit(index)}
+                                    >
                                         Edit
                                     </a>
                                     {this.props.splits.length > 1 && (

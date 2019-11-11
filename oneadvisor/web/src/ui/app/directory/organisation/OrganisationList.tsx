@@ -103,7 +103,10 @@ class OrganisationList extends Component<Props, State> {
                     loading={this.props.fetching}
                     onRowClick={org => this.editOrganisation(org.id)}
                 />
-                <EditOrganisation visible={this.state.editVisible} onClose={this.closeEditOrganisation} />
+                <EditOrganisation
+                    visible={this.state.editVisible}
+                    onClose={this.closeEditOrganisation}
+                />
             </>
         );
     }

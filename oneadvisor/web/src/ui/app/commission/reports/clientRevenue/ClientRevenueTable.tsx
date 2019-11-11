@@ -30,7 +30,11 @@ type Props = {
 
 class ClientRevenueTable extends Component<Props> {
     getColumns = () => {
-        const getColumn = getColumnDefinition<ClientRevenueData>(true, this.props.filters, this.props.sortOptions);
+        const getColumn = getColumnDefinition<ClientRevenueData>(
+            true,
+            this.props.filters,
+            this.props.sortOptions
+        );
 
         const columns = [
             getColumn(
@@ -101,8 +105,10 @@ class ClientRevenueTable extends Component<Props> {
     };
 
     onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
-        if (this.props.pageOptions != pageOptions) this.props.dispatch(receiveClientRevenuePageOptions(pageOptions));
-        if (this.props.sortOptions != sortOptions) this.props.dispatch(receiveClientRevenueSortOptions(sortOptions));
+        if (this.props.pageOptions != pageOptions)
+            this.props.dispatch(receiveClientRevenuePageOptions(pageOptions));
+        if (this.props.sortOptions != sortOptions)
+            this.props.dispatch(receiveClientRevenueSortOptions(sortOptions));
         if (this.props.filters != filters)
             this.props.dispatch(
                 receiveClientRevenueFilters({

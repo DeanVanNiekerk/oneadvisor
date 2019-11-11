@@ -17,7 +17,10 @@ type LookupsReceiveAction = {
 type LookupsFetchingAction = { type: "COMMISSION_LOOKUPS_FETCHING" };
 type LookupsFetchingErrorAction = { type: "COMMISSION_LOOKUPS_FETCHING_ERROR" };
 
-export type LookupsAction = LookupsReceiveAction | LookupsFetchingAction | LookupsFetchingErrorAction;
+export type LookupsAction =
+    | LookupsReceiveAction
+    | LookupsFetchingAction
+    | LookupsFetchingErrorAction;
 
 export const fetchAllCommissionLookups = (): ApiAction => ({
     type: "API",
@@ -25,8 +28,16 @@ export const fetchAllCommissionLookups = (): ApiAction => ({
     onSuccess: (payload: Lookups, dispatch: Dispatch) => {
         dispatch(receiveCommissionTypes(payload.commissionTypes));
         dispatch(receiveCommissionEarningsTypes(payload.commissionEarningsTypes));
-        dispatch(receiveCommissionStatementTemplateFieldNames(payload.commissionStatementTemplateFieldNames));
-        dispatch(receiveCommissionStatementTemplateGroupFieldNames(payload.commissionStatementTemplateGroupFieldNames));
+        dispatch(
+            receiveCommissionStatementTemplateFieldNames(
+                payload.commissionStatementTemplateFieldNames
+            )
+        );
+        dispatch(
+            receiveCommissionStatementTemplateGroupFieldNames(
+                payload.commissionStatementTemplateGroupFieldNames
+            )
+        );
     },
     dispatchPrefix: "COMMISSION_LOOKUPS",
 });

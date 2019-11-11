@@ -4,6 +4,10 @@ import { RootState } from "@/state/rootReducer";
 
 import { State } from "./reducer";
 
-const rootSelector = (state: RootState): State => state.app.commission.splitRulePolicies.splitRulePolicy;
+const rootSelector = (state: RootState): State =>
+    state.app.commission.splitRulePolicies.splitRulePolicy;
 
-export const splitRulePolicySelector: (state: RootState) => State = createSelector(rootSelector, root => root);
+export const splitRulePolicySelector: (state: RootState) => State = createSelector(
+    rootSelector,
+    root => root
+);

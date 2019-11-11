@@ -49,7 +49,10 @@ export const fetchOrganisation = (organisationId: string): ApiAction => ({
     dispatchPrefix: "ORGANISATIONS_ORGANISATION",
 });
 
-export const updateOrganisation = (organisation: OrganisationEdit, onSuccess: ApiOnSuccess): ApiAction => ({
+export const updateOrganisation = (
+    organisation: OrganisationEdit,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
     type: "API",
     endpoint: `${organisationsApi}/${organisation.id}`,
     method: "POST",
@@ -58,7 +61,10 @@ export const updateOrganisation = (organisation: OrganisationEdit, onSuccess: Ap
     dispatchPrefix: "ORGANISATIONS_ORGANISATION_EDIT",
 });
 
-export const insertOrganisation = (organisation: OrganisationEdit, onSuccess: ApiOnSuccess): ApiAction => ({
+export const insertOrganisation = (
+    organisation: OrganisationEdit,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
     type: "API",
     endpoint: `${organisationsApi}`,
     method: "POST",

@@ -1,6 +1,11 @@
 import { ThunkAction } from "redux-thunk";
 
-import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery, applyLike } from "@/app/query";
+import {
+    appendFiltersQuery,
+    appendPageOptionQuery,
+    appendSortOptionQuery,
+    applyLike,
+} from "@/app/query";
 import { Filters, PageOptions, SortOptions } from "@/app/table";
 import { ApiAction } from "@/app/types";
 import { commissionsApi } from "@/config/api/commission";
@@ -38,7 +43,9 @@ export type CommissionListAction =
     | CommissionListSortOptionsReceiveAction
     | CommissionListFiltersReceiveAction;
 
-export const fetchCommissions = (commissionStatementId?: string): ThunkAction<void, RootState, {}, ApiAction> => {
+export const fetchCommissions = (
+    commissionStatementId?: string
+): ThunkAction<void, RootState, {}, ApiAction> => {
     return (dispatch, getState) => {
         const selector = commissionsSelector(getState());
 
@@ -47,7 +54,8 @@ export const fetchCommissions = (commissionStatementId?: string): ThunkAction<vo
 
         filters = updateFilters(filters);
 
-        if (commissionStatementId && filters) filters.commissionStatementId = [commissionStatementId];
+        if (commissionStatementId && filters)
+            filters.commissionStatementId = [commissionStatementId];
 
         let api = commissionsApi;
         api = appendPageOptionQuery(api, pageOptions);
@@ -66,12 +74,16 @@ const updateFilters = (filters: Filters | null): Filters | null => {
     return applyLike(filters, ["policyNumber", "policyClientLastName"]);
 };
 
-export const receivePageOptions = (pageOptions: PageOptions): CommissionListPageOptionsReceiveAction => ({
+export const receivePageOptions = (
+    pageOptions: PageOptions
+): CommissionListPageOptionsReceiveAction => ({
     type: "COMMISSIONS_LIST_PAGE_OPTIONS_RECEIVE",
     payload: pageOptions,
 });
 
-export const receiveSortOptions = (sortOptions: SortOptions): CommissionListSortOptionsReceiveAction => ({
+export const receiveSortOptions = (
+    sortOptions: SortOptions
+): CommissionListSortOptionsReceiveAction => ({
     type: "COMMISSIONS_LIST_SORT_OPTIONS_RECEIVE",
     payload: sortOptions,
 });

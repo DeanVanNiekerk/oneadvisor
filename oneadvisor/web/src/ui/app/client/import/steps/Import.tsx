@@ -208,12 +208,16 @@ class Import extends Component<Props> {
                         <Card title="Results">
                             <p>
                                 <span>Successful imports: </span>
-                                <strong className="text-success">{this.props.resultsSuccess.length}</strong>
+                                <strong className="text-success">
+                                    {this.props.resultsSuccess.length}
+                                </strong>
                             </p>
                             {this.props.resultsFailure.length > 0 && (
                                 <p>
                                     <span>Import failures: </span>
-                                    <strong className="text-error">{this.props.resultsFailure.length}</strong>
+                                    <strong className="text-error">
+                                        {this.props.resultsFailure.length}
+                                    </strong>
                                 </p>
                             )}
                         </Card>

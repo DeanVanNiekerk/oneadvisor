@@ -5,7 +5,10 @@ import { downloadExcelSheets } from "@/app/excel/helpers";
 import { companiesSelector, getCompanyName } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 
-import { userCompanyMonthlyCommissionSelector, userEarningsTypeMonthlyCommissionSelector } from "../";
+import {
+    userCompanyMonthlyCommissionSelector,
+    userEarningsTypeMonthlyCommissionSelector,
+} from "../";
 import { commissionEarningsTypesSelector, getCommissionEarningsTypeName } from "../../lookups";
 import { UserMonthlyCommissionType } from "./types";
 
@@ -29,12 +32,16 @@ export type UserMonthlyCommissionAction =
     | UserMonthlyCommissionMonthReceiveAction
     | UserMonthlyCommissionUserMonthlyCommissionTypeReceiveAction;
 
-export const receiveUserMonthlyCommissionYear = (year: number): UserMonthlyCommissionYearReceiveAction => ({
+export const receiveUserMonthlyCommissionYear = (
+    year: number
+): UserMonthlyCommissionYearReceiveAction => ({
     type: "COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_YEAR_RECEIVE",
     payload: year,
 });
 
-export const receiveUserMonthlyCommissionMonth = (month: number): UserMonthlyCommissionMonthReceiveAction => ({
+export const receiveUserMonthlyCommissionMonth = (
+    month: number
+): UserMonthlyCommissionMonthReceiveAction => ({
     type: "COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_MONTH_RECEIVE",
     payload: month,
 });
@@ -46,11 +53,18 @@ export const receiveUserMonthlyCommissionUserMonthlyCommissionType = (
     payload: option,
 });
 
-export const downloadUserMonthlyCommissionExcel = (): ThunkAction<void, RootState, {}, AnyAction> => {
+export const downloadUserMonthlyCommissionExcel = (): ThunkAction<
+    void,
+    RootState,
+    {},
+    AnyAction
+> => {
     return (dispatch, getState) => {
         let fileName = "BrokerCommission";
 
-        const userEarningsTypeMonthlyCommissionState = userEarningsTypeMonthlyCommissionSelector(getState());
+        const userEarningsTypeMonthlyCommissionState = userEarningsTypeMonthlyCommissionSelector(
+            getState()
+        );
         const userCompanyMonthlyCommissionState = userCompanyMonthlyCommissionSelector(getState());
 
         const companiesState = companiesSelector(getState());

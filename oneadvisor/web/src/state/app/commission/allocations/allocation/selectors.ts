@@ -6,4 +6,7 @@ import { State } from "./reducer";
 
 const rootSelector = (state: RootState): State => state.app.commission.allocations.allocation;
 
-export const allocationSelector: (state: RootState) => State = createSelector(rootSelector, root => root);
+export const allocationSelector: (state: RootState) => State = createSelector(
+    rootSelector,
+    root => root
+);

@@ -28,7 +28,9 @@ describe("reports: commissionLapse: list actions", () => {
             dispatchPrefix: "COMMISSIONS_REPORT_COMMISSIONLAPSE",
         };
 
-        expect(actions.fetchCommissionLapseData(pageOptions, sortOptions, filters)).toEqual(expectedAction);
+        expect(actions.fetchCommissionLapseData(pageOptions, sortOptions, filters)).toEqual(
+            expectedAction
+        );
     });
 
     it("should dispatch COMMISSIONS_REPORT_COMMISSIONLAPSE_FILTERS_RECEIVE when receiveFilters is called", () => {

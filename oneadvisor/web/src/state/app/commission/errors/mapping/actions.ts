@@ -63,7 +63,9 @@ export const fetchNextMappingError = (statementId: string): ApiAction => ({
     dispatchPrefix: "COMMISSIONS_ERROR_MAPPING",
 });
 
-export const receiveMappingError = (error: CommissionErrorEdit | null): CommissionErrorReceiveAction => ({
+export const receiveMappingError = (
+    error: CommissionErrorEdit | null
+): CommissionErrorReceiveAction => ({
     type: "COMMISSIONS_ERROR_MAPPING_RECEIVE",
     payload: error,
 });

@@ -36,7 +36,15 @@ const FormInputPassword: React.FC<Props> = (props: Props) => {
         if (props.onChange) props.onChange(props.fieldName, event.target.value);
     };
 
-    const { fieldName, label = "", value, validationResults, disabled = false, layout, addonAfter } = props;
+    const {
+        fieldName,
+        label = "",
+        value,
+        validationResults,
+        disabled = false,
+        layout,
+        addonAfter,
+    } = props;
 
     if (props.readonly) return <FormText label={label} value={value} layout={layout} />;
 

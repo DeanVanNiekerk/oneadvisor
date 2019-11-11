@@ -120,7 +120,10 @@ class PolicyProductTypeList extends Component<Props, State> {
                     loading={this.props.fetching}
                     onRowClick={org => this.editPolicyProductType(org.id)}
                 />
-                <EditPolicyProductType visible={this.state.editVisible} onClose={this.closeEditPolicyProductType} />
+                <EditPolicyProductType
+                    visible={this.state.editVisible}
+                    onClose={this.closeEditPolicyProductType}
+                />
             </>
         );
     }

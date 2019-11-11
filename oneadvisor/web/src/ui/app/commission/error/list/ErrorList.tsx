@@ -66,7 +66,12 @@ const ErrorList: React.FC<Props> = (props: Props) => {
 
     const getColumns = () => {
         const getColumn = getColumnDefinition<
-            CommissionError & { info: string; policyNumber: string; amountIncludingVAT: number; vat: number }
+            CommissionError & {
+                info: string;
+                policyNumber: string;
+                amountIncludingVAT: number;
+                vat: number;
+            }
         >(true);
 
         return [
@@ -197,7 +202,11 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
             dispatch(fetchMappingError(statementId, commissionErrorId));
             dispatch(mappingErrorVisible(true));
         },
-        deleteMappingError: (statementId: string, commissionErrorId: string, onDeleted: () => void) => {
+        deleteMappingError: (
+            statementId: string,
+            commissionErrorId: string,
+            onDeleted: () => void
+        ) => {
             dispatch(deleteMappingError(statementId, commissionErrorId, onDeleted));
         },
         updatePageOptions: (pageOptions: PageOptions) => {

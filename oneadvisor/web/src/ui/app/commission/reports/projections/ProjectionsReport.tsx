@@ -4,7 +4,10 @@ import { connect, DispatchProp } from "react-redux";
 
 import { filterOption } from "@/app/controls/select";
 import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
-import { CommissionEarningsType, commissionEarningsTypesSelector } from "@/state/app/commission/lookups";
+import {
+    CommissionEarningsType,
+    commissionEarningsTypesSelector,
+} from "@/state/app/commission/lookups";
 import {
     commissionProjectionsSelector,
     fetchPastRevenueCommissionData,
@@ -317,7 +320,10 @@ class ProjectionsReport extends Component<Props, State> {
                         >
                             {this.props.commissionEarningsTypes.map(commissionEarningsType => {
                                 return (
-                                    <Select.Option key={commissionEarningsType.id} value={commissionEarningsType.id}>
+                                    <Select.Option
+                                        key={commissionEarningsType.id}
+                                        value={commissionEarningsType.id}
+                                    >
                                         {commissionEarningsType.name}
                                     </Select.Option>
                                 );
@@ -347,11 +353,23 @@ class ProjectionsReport extends Component<Props, State> {
                     </Col>
                 </Row>
 
-                <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true} tabBarGutter={0}>
+                <Tabs
+                    onChange={this.onTabChange}
+                    activeKey={this.state.activeTab}
+                    sticky={true}
+                    tabBarGutter={0}
+                >
                     <TabPane tab={<Icon type="table" className="mr-0" />} key="table">
-                        <GroupsTable monthsBack={this.props.monthsBack} monthsForward={this.props.monthsForward} />
+                        <GroupsTable
+                            monthsBack={this.props.monthsBack}
+                            monthsForward={this.props.monthsForward}
+                        />
                     </TabPane>
-                    <TabPane tab={<Icon type="bar-chart" className="mr-0" />} key="chart" className="pt-0">
+                    <TabPane
+                        tab={<Icon type="bar-chart" className="mr-0" />}
+                        key="chart"
+                        className="pt-0"
+                    >
                         <TotalsBarChart />
                     </TabPane>
                 </Tabs>

@@ -29,7 +29,10 @@ export const defaultState: State = {
     sortOptions: defaultSortOptions("companyId", "asc"),
 };
 
-export const reducer = (state: State = defaultState, action: CommissionCommissionLapseDataAction): State => {
+export const reducer = (
+    state: State = defaultState,
+    action: CommissionCommissionLapseDataAction
+): State => {
     switch (action.type) {
         case "COMMISSIONS_REPORT_COMMISSIONLAPSE_RECEIVE": {
             return {

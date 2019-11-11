@@ -25,13 +25,24 @@ const EditDrawer: React.FC<Props> = ({
     children,
 }) => {
     return (
-        <Drawer title={title} icon={icon} visible={visible} onClose={onClose} noTopPadding={noTopPadding}>
+        <Drawer
+            title={title}
+            icon={icon}
+            visible={visible}
+            onClose={onClose}
+            noTopPadding={noTopPadding}
+        >
             <ContentLoader isLoading={updating}>{children}</ContentLoader>
             <DrawerFooter>
                 <Button onClick={onClose} disabled={updating}>
                     Cancel
                 </Button>
-                <Button onClick={onSave} type="primary" disabled={updating} requiredUseCase={saveRequiredUseCase}>
+                <Button
+                    onClick={onSave}
+                    type="primary"
+                    disabled={updating}
+                    requiredUseCase={saveRequiredUseCase}
+                >
                     Save
                 </Button>
             </DrawerFooter>

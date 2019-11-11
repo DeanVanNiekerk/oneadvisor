@@ -43,7 +43,9 @@ const IdentityStatusComponent: React.FC<Props> = ({ tokenData, appInfo }) => {
             </div>
             <div>
                 <b>Roles:</b>&nbsp;
-                {tokenData["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"].join(", ")}
+                {tokenData["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"].join(
+                    ", "
+                )}
             </div>
             <div>
                 <b>Token Expires:</b>&nbsp;

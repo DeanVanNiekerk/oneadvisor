@@ -11,13 +11,12 @@ import {
 import { State } from "./reducer";
 import { UserEarningsTypeMonthlyCommissionData } from "./types";
 
-const rootSelector = (state: RootState): State => state.app.commission.reports.userEarningsTypeMonthlyCommission;
+const rootSelector = (state: RootState): State =>
+    state.app.commission.reports.userEarningsTypeMonthlyCommission;
 
-export const userEarningsTypeMonthlyCommissionSelector: (state: RootState) => State = createSelector(
-    rootSelector,
-    commissionEarningsTypesSelector,
-    root => root
-);
+export const userEarningsTypeMonthlyCommissionSelector: (
+    state: RootState
+) => State = createSelector(rootSelector, commissionEarningsTypesSelector, root => root);
 
 export const userEarningsTypeMonthlyCommissionItemsSelector: (
     state: RootState
@@ -37,7 +36,10 @@ export const userEarningsTypeMonthlyCommissionItemsSelector: (
 
         //Filter out unknown earnings type if it has no value
         types = types.filter(t => {
-            if (t.commissionEarningsTypeId === UNKNOWN_COMMISSION_EARNINGS_TYPE_ID && t.amountExcludingVAT === 0)
+            if (
+                t.commissionEarningsTypeId === UNKNOWN_COMMISSION_EARNINGS_TYPE_ID &&
+                t.amountExcludingVAT === 0
+            )
                 return false;
             return true;
         });
@@ -46,7 +48,9 @@ export const userEarningsTypeMonthlyCommissionItemsSelector: (
     }
 );
 
-export const userEarningsTypeMonthlyCommissionPieDataSelector: (state: RootState) => PieDatum[] = createSelector(
+export const userEarningsTypeMonthlyCommissionPieDataSelector: (
+    state: RootState
+) => PieDatum[] = createSelector(
     rootSelector,
     commissionEarningsTypesSelector,
     (root, commissionEarningsTypes) => {
@@ -55,7 +59,10 @@ export const userEarningsTypeMonthlyCommissionPieDataSelector: (state: RootState
             .map(r => {
                 return {
                     id: r.commissionEarningsTypeId,
-                    label: getCommissionEarningsTypeName(r.commissionEarningsTypeId, commissionEarningsTypes.items),
+                    label: getCommissionEarningsTypeName(
+                        r.commissionEarningsTypeId,
+                        commissionEarningsTypes.items
+                    ),
                     value: r.amountExcludingVAT,
                 };
             });
@@ -64,4 +71,6 @@ export const userEarningsTypeMonthlyCommissionPieDataSelector: (state: RootState
 
 export const userEarningsTypeMonthlyCommissionTotalAmountExclVatSelector: (
     state: RootState
-) => number = createSelector(rootSelector, root => root.items.reduce((p, c) => p + c.amountExcludingVAT, 0));
+) => number = createSelector(rootSelector, root =>
+    root.items.reduce((p, c) => p + c.amountExcludingVAT, 0)
+);

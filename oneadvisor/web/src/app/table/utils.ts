@@ -11,7 +11,12 @@ export const getColumnDefinition = <T>(
     filters: Filters | null = null,
     sortOptions: SortOptions | null = null
 ) => {
-    return (key: keyof T | "", title: string, options: ColumnOptions = {}, columnProps: ColumnProps<T> = {}) => {
+    return (
+        key: keyof T | "",
+        title: string,
+        options: ColumnOptions = {},
+        columnProps: ColumnProps<T> = {}
+    ) => {
         options = {
             externalDataSource: externalDataSource,
             filters: filters,
@@ -59,7 +64,8 @@ const getColumn = <T>(
 
     if (options.type === "boolean") props.render = formatBool;
     if (options.type === "date") props.render = value => (value ? moment(value).format("ll") : "");
-    if (options.type === "long-date") props.render = value => (value ? moment(value).format("lll") : "");
+    if (options.type === "long-date")
+        props.render = value => (value ? moment(value).format("lll") : "");
     if (options.type === "currency") props.render = value => formatCurrency(value, 0);
 
     if (options.filters) {

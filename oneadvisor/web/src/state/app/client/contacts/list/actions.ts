@@ -14,7 +14,10 @@ type ContactListFetchingErrorAction = {
     type: "CONTACTS_LIST_FETCHING_ERROR";
 };
 
-export type ContactListAction = ContactListReceiveAction | ContactListFetchingAction | ContactListFetchingErrorAction;
+export type ContactListAction =
+    | ContactListReceiveAction
+    | ContactListFetchingAction
+    | ContactListFetchingErrorAction;
 
 export const fetchContacts = (filters: Filters): ApiAction => {
     let api = contactsApi;

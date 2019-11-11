@@ -3,7 +3,13 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { hasUseCase } from "@/app/identity";
-import { Branch, branchesSelector, fetchBranch, fetchBranches, receiveBranch } from "@/state/app/directory/branches";
+import {
+    Branch,
+    branchesSelector,
+    fetchBranch,
+    fetchBranches,
+    receiveBranch,
+} from "@/state/app/directory/branches";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 

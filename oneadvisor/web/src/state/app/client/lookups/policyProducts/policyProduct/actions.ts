@@ -35,7 +35,10 @@ export const receivePolicyProduct = (policyProduct: PolicyProduct): PolicyProduc
     payload: policyProduct,
 });
 
-export const updatePolicyProduct = (policyProduct: PolicyProduct, onSuccess: ApiOnSuccess): ApiAction => ({
+export const updatePolicyProduct = (
+    policyProduct: PolicyProduct,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
     type: "API",
     endpoint: `${policyProductsApi}/${policyProduct.id}`,
     method: "POST",
@@ -44,7 +47,10 @@ export const updatePolicyProduct = (policyProduct: PolicyProduct, onSuccess: Api
     dispatchPrefix: "POLICYPRODUCTS_POLICYPRODUCT_EDIT",
 });
 
-export const insertPolicyProduct = (policyProduct: PolicyProduct, onSuccess: ApiOnSuccess): ApiAction => ({
+export const insertPolicyProduct = (
+    policyProduct: PolicyProduct,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
     type: "API",
     endpoint: `${policyProductsApi}`,
     method: "POST",

@@ -1,4 +1,9 @@
-import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery, applyLike } from "@/app/query";
+import {
+    appendFiltersQuery,
+    appendPageOptionQuery,
+    appendSortOptionQuery,
+    applyLike,
+} from "@/app/query";
 import { PagedItems, PageOptions, SortOptions } from "@/app/table";
 import { ApiAction } from "@/app/types";
 import { commissionReportsApi } from "@/config/api/commission";

@@ -12,6 +12,8 @@ const EditCommissionTitle: React.FC<Props> = ({ commission }) => {
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 
-const mapStateToProps = (state: RootState) => ({ commission: commissionSelector(state).commission });
+const mapStateToProps = (state: RootState) => ({
+    commission: commissionSelector(state).commission,
+});
 
 export default connect(mapStateToProps)(EditCommissionTitle);

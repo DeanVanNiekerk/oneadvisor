@@ -133,7 +133,9 @@ const FormSimpleListComponent: React.FC<Props> = (props: Props) => {
                     </FormField>
                     <FormField>
                         <Button onClick={save} type="primary" disabled={!editValue}>
-                            {mode === "edit" ? `Update ${props.displayName}` : `Add ${props.displayName}`}
+                            {mode === "edit"
+                                ? `Update ${props.displayName}`
+                                : `Add ${props.displayName}`}
                         </Button>
                     </FormField>
                 </Form>
@@ -149,7 +151,12 @@ const FormSimpleListComponent: React.FC<Props> = (props: Props) => {
                             title={<span className="font-weight-normal">{value}</span>}
                             description={
                                 <span className="text-error">
-                                    {getErrorMessage(props.fieldName, value, index, props.validationResults)}
+                                    {getErrorMessage(
+                                        props.fieldName,
+                                        value,
+                                        index,
+                                        props.validationResults
+                                    )}
                                 </span>
                             }
                         />

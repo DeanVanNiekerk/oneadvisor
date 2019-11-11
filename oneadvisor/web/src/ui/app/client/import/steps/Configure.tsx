@@ -78,7 +78,9 @@ class Configure extends Component<Props> {
 
     getColumns = () => {
         const getColumn = getColumnDefinition<ImportTableRow>();
-        return this.props.selectedImportColumns.map(c => getColumn(c.id, c.name, {}, { sorter: undefined }));
+        return this.props.selectedImportColumns.map(c =>
+            getColumn(c.id, c.name, {}, { sorter: undefined })
+        );
     };
 
     onSelectedColumnChange = (columns: (keyof ImportClient)[]) => {
@@ -88,7 +90,10 @@ class Configure extends Component<Props> {
     render() {
         return (
             <>
-                <StepProgress onPrevious={() => this.props.dispatch(clientImportPreviousStep())} onNext={this.next} />
+                <StepProgress
+                    onPrevious={() => this.props.dispatch(clientImportPreviousStep())}
+                    onNext={this.next}
+                />
 
                 <Row>
                     <Col span={24}>
@@ -112,7 +117,10 @@ class Configure extends Component<Props> {
                     <Col span={8}>
                         <h4 className="mt-1">Column Order</h4>
 
-                        <SortableList items={this.props.selectedImportColumns} onSortEnd={this.onSortEnd} />
+                        <SortableList
+                            items={this.props.selectedImportColumns}
+                            onSortEnd={this.onSortEnd}
+                        />
                     </Col>
 
                     <Col span={16}>

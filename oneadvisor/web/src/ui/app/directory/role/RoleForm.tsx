@@ -76,7 +76,8 @@ class RoleForm extends Component<Props, State> {
     toggleUseCaseChange = (useCaseId: string) => {
         let useCaseIds = [...this.state.role.useCaseIds];
 
-        if (this.isUseCaseSelected(useCaseId)) useCaseIds = this.state.role.useCaseIds.filter(r => r !== useCaseId);
+        if (this.isUseCaseSelected(useCaseId))
+            useCaseIds = this.state.role.useCaseIds.filter(r => r !== useCaseId);
         else useCaseIds.push(useCaseId);
 
         this.handleChange("useCaseIds", useCaseIds);
@@ -141,12 +142,20 @@ class RoleForm extends Component<Props, State> {
                     </Form>
                 </TabPane>
                 <TabPane tab={this.getTabTitle("Permissions", "useCaseIds")} key="roles_tab">
-                    <FormErrors validationResults={getValidationSubSet("useCaseIds", validationResults)} />
+                    <FormErrors
+                        validationResults={getValidationSubSet("useCaseIds", validationResults)}
+                    />
                     <List
-                        header={<h4 className="mb-0">{this.getApplicationName(role.applicationId)} Permissions</h4>}
+                        header={
+                            <h4 className="mb-0">
+                                {this.getApplicationName(role.applicationId)} Permissions
+                            </h4>
+                        }
                         bordered={true}
                         size="small"
-                        dataSource={this.props.useCases.filter(u => u.applicationId === role.applicationId)}
+                        dataSource={this.props.useCases.filter(
+                            u => u.applicationId === role.applicationId
+                        )}
                         renderItem={(useCase: UseCase) => (
                             <List.Item
                                 actions={[

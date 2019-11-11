@@ -84,7 +84,13 @@ class ResetPasswordRequest extends React.Component<Props, State> {
                             className="mb-1"
                         />
 
-                        <Button size="large" noLeftMargin={true} onClick={this.signIn} type="primary" block={true}>
+                        <Button
+                            size="large"
+                            noLeftMargin={true}
+                            onClick={this.signIn}
+                            type="primary"
+                            block={true}
+                        >
                             Sign In
                         </Button>
                     </>

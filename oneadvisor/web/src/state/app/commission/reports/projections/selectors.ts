@@ -25,7 +25,10 @@ import { State } from "./reducer";
 
 const rootSelector = (state: RootState): State => state.app.commission.reports.projections;
 
-export const commissionProjectionsSelector: (state: RootState) => State = createSelector(rootSelector, root => root);
+export const commissionProjectionsSelector: (state: RootState) => State = createSelector(
+    rootSelector,
+    root => root
+);
 
 const todaySelector: (state: RootState) => Date = createSelector(rootSelector, () => new Date());
 
@@ -157,7 +160,9 @@ const getCompanyColSpan = (groups: Group[]) => {
     return 1;
 };
 
-export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableRecord[] = createSelector(
+export const projectionGroupTableRowsSelector: (
+    state: RootState
+) => GroupTableRecord[] = createSelector(
     rootSelector,
     commissionEarningsTypesSelector,
     policyTypesSelector,
@@ -179,7 +184,9 @@ export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableR
             .subtract(monthsBack, "months")
             .startOf("month");
 
-        items = items.filter(d => moment(new Date(d.dateYear, d.dateMonth - 1, 1)).isSameOrAfter(monthsBackDate));
+        items = items.filter(d =>
+            moment(new Date(d.dateYear, d.dateMonth - 1, 1)).isSameOrAfter(monthsBackDate)
+        );
 
         let rows: GroupTableRecord[] = [];
 
@@ -206,14 +213,19 @@ export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableR
             if (groups.some(g => g === "Policy Type")) {
                 key = key.concat(data.policyTypeId || "unknown");
                 earningsTypeGroupKey = earningsTypeGroupKey.concat(data.policyTypeId || "unknown");
-                sortKey = sortKey.concat(getPolicyTypeName(data.policyTypeId, policyTypesState.items));
+                sortKey = sortKey.concat(
+                    getPolicyTypeName(data.policyTypeId, policyTypesState.items)
+                );
             }
 
             if (groups.some(g => g === "Earnings Type")) {
                 key = key.concat(data.commissionEarningsTypeId);
                 earningsTypeGroupKey = earningsTypeGroupKey.concat(data.commissionEarningsTypeId);
                 sortKey = sortKey.concat(
-                    getEarningsTypeName(data.commissionEarningsTypeId, commissionEarningsTypesState.items)
+                    getEarningsTypeName(
+                        data.commissionEarningsTypeId,
+                        commissionEarningsTypesState.items
+                    )
                 );
             }
 
@@ -225,7 +237,8 @@ export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableR
             if (rows.some(r => r.key === key)) return;
 
             const filter: TableRowFilter = d => {
-                if (groups.some(g => g === "Policy Type") && d.policyTypeId !== data.policyTypeId) return false;
+                if (groups.some(g => g === "Policy Type") && d.policyTypeId !== data.policyTypeId)
+                    return false;
 
                 if (
                     groups.some(g => g === "Earnings Type") &&
@@ -233,7 +246,8 @@ export const projectionGroupTableRowsSelector: (state: RootState) => GroupTableR
                 )
                     return false;
 
-                if (groups.some(g => g === "Company") && d.companyId !== data.companyId) return false;
+                if (groups.some(g => g === "Company") && d.companyId !== data.companyId)
+                    return false;
 
                 return true;
             };
@@ -333,7 +347,10 @@ const getTableRow = (
     return row;
 };
 
-const appendProjectedValues = (now: Date, items: PastRevenueCommissionData[]): PastRevenueCommissionData[] => {
+const appendProjectedValues = (
+    now: Date,
+    items: PastRevenueCommissionData[]
+): PastRevenueCommissionData[] => {
     const itemsWithProjected = [...items];
 
     const lastMonth = moment(now).subtract(1, "months");
@@ -402,7 +419,10 @@ const appendProjectedValues = (now: Date, items: PastRevenueCommissionData[]): P
     return itemsWithProjected;
 };
 
-const getMonthColumns = (monthsBack: number, monthsForward: number): ColumnProps<GroupTableRecord>[] => {
+const getMonthColumns = (
+    monthsBack: number,
+    monthsForward: number
+): ColumnProps<GroupTableRecord>[] => {
     const getColumn = getColumnDefinition<GroupTableRecord>();
 
     const columns: ColumnProps<GroupTableRecord>[] = [];
@@ -465,7 +485,10 @@ const getPolicyTypeName = (policyTypeId: string | null, types: PolicyType[]): st
     return name;
 };
 
-const getEarningsTypeName = (commissionEarningsTypeId: string, types: CommissionEarningsType[]): string => {
+const getEarningsTypeName = (
+    commissionEarningsTypeId: string,
+    types: CommissionEarningsType[]
+): string => {
     const type = types.find(c => c.id === commissionEarningsTypeId);
     if (!type) return "";
     return type.name;
@@ -479,50 +502,49 @@ const getCompanyName = (companyId: string, companies: Company[]): string => {
 
 const projectionPolicyTypeChartDateFormat = "MMM YY";
 
-export const projectionPolicyTypeChartCurrentLabelSelector: (state: RootState) => string = createSelector(
-    todaySelector,
-    (now: Date) => {
-        return `value.${moment(now).format(projectionPolicyTypeChartDateFormat)}`;
+export const projectionPolicyTypeChartCurrentLabelSelector: (
+    state: RootState
+) => string = createSelector(todaySelector, (now: Date) => {
+    return `value.${moment(now).format(projectionPolicyTypeChartDateFormat)}`;
+});
+
+export const projectionPolicyTypeChartDataSelector: (
+    state: RootState
+) => BarDatum[] = createSelector(rootSelector, todaySelector, (root: State, now: Date) => {
+    let { items } = root;
+    const { monthsBack, monthsForward } = root;
+
+    items = appendProjectedValues(now, items);
+
+    const monthsBackDate = moment(now)
+        .subtract(monthsBack, "months")
+        .startOf("month");
+
+    items = items.filter(d =>
+        moment(new Date(d.dateYear, d.dateMonth - 1, 1)).isSameOrAfter(monthsBackDate)
+    );
+
+    let monthIndex = 0;
+    const current = moment(now).subtract(monthsBack, "months");
+
+    const data: BarDatum[] = [];
+
+    while (monthsBack + monthsForward >= monthIndex) {
+        const year = current.year();
+        const month = current.month() + 1;
+
+        const filtered = items.filter(d => d.dateYear === year && d.dateMonth === month);
+
+        const value = filtered.reduce((p, c) => c.amountExcludingVAT + p, 0);
+
+        data.push({
+            id: current.format(projectionPolicyTypeChartDateFormat),
+            value: value,
+        });
+
+        current.add(1, "months");
+        monthIndex = monthIndex + 1;
     }
-);
 
-export const projectionPolicyTypeChartDataSelector: (state: RootState) => BarDatum[] = createSelector(
-    rootSelector,
-    todaySelector,
-    (root: State, now: Date) => {
-        let { items } = root;
-        const { monthsBack, monthsForward } = root;
-
-        items = appendProjectedValues(now, items);
-
-        const monthsBackDate = moment(now)
-            .subtract(monthsBack, "months")
-            .startOf("month");
-
-        items = items.filter(d => moment(new Date(d.dateYear, d.dateMonth - 1, 1)).isSameOrAfter(monthsBackDate));
-
-        let monthIndex = 0;
-        const current = moment(now).subtract(monthsBack, "months");
-
-        const data: BarDatum[] = [];
-
-        while (monthsBack + monthsForward >= monthIndex) {
-            const year = current.year();
-            const month = current.month() + 1;
-
-            const filtered = items.filter(d => d.dateYear === year && d.dateMonth === month);
-
-            const value = filtered.reduce((p, c) => c.amountExcludingVAT + p, 0);
-
-            data.push({
-                id: current.format(projectionPolicyTypeChartDateFormat),
-                value: value,
-            });
-
-            current.add(1, "months");
-            monthIndex = monthIndex + 1;
-        }
-
-        return data;
-    }
-);
+    return data;
+});

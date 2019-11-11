@@ -64,7 +64,10 @@ const ReimportStatement: React.FC<Props> = (props: Props) => {
     };
 
     if (!props.fetchingTemplates && props.templates.length === 0)
-        <Alert message="Unable to import. There are no valid templates for this statement." type="error" />;
+        <Alert
+            message="Unable to import. There are no valid templates for this statement."
+            type="error"
+        />;
 
     return (
         <Form editUseCase="com_import_commissions">
@@ -115,7 +118,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             onSuccess: () => void,
             onFailure: () => void
         ) => {
-            dispatch(reimportCommissions(commissionStatementId, commissionStatementTemplateId, onSuccess, onFailure));
+            dispatch(
+                reimportCommissions(
+                    commissionStatementId,
+                    commissionStatementTemplateId,
+                    onSuccess,
+                    onFailure
+                )
+            );
         },
     };
 };

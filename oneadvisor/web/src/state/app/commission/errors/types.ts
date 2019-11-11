@@ -39,5 +39,8 @@ export type CommissionImportData = {
 };
 
 export type CommissionErrorsFilters = Filters<
-    Pick<CommissionError, "commissionStatementId" | "commissionStatementYear" | "commissionStatementMonth">
+    Pick<
+        CommissionError,
+        "commissionStatementId" | "commissionStatementYear" | "commissionStatementMonth"
+    >
 >;

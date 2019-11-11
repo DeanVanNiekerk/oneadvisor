@@ -73,7 +73,12 @@ class SplitForm extends Component<Props, State> {
                     <Button
                         onClick={() => this.props.onSave(this.state.split)}
                         type="primary"
-                        disabled={!split.userId || !split.percentage || split.percentage < 1 || split.percentage > 100}
+                        disabled={
+                            !split.userId ||
+                            !split.percentage ||
+                            split.percentage < 1 ||
+                            split.percentage > 100
+                        }
                     >
                         Add Split
                     </Button>

@@ -13,7 +13,16 @@ import { Role } from "@/state/app/directory/roles";
 import { UserEdit } from "@/state/app/directory/users";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
-import { Form, FormErrors, FormInput, FormSelect, FormSimpleList, FormSwitch, TabPane, Tabs } from "@/ui/controls";
+import {
+    Form,
+    FormErrors,
+    FormInput,
+    FormSelect,
+    FormSimpleList,
+    FormSwitch,
+    TabPane,
+    Tabs,
+} from "@/ui/controls";
 
 import SplitRuleList from "../../commission/splitRule/SplitRuleList";
 import BranchSelect from "./BranchSelect";
@@ -71,7 +80,8 @@ class UserForm extends Component<Props, State> {
     toggleRoleChange = (roleName: string) => {
         let roles = [...this.state.user.roles];
 
-        if (this.isRoleSelected(roleName)) roles = this.state.user.roles.filter(r => r !== roleName);
+        if (this.isRoleSelected(roleName))
+            roles = this.state.user.roles.filter(r => r !== roleName);
         else roles.push(roleName);
 
         this.handleChange("roles", roles);
@@ -142,7 +152,9 @@ class UserForm extends Component<Props, State> {
                                 branchId={user.branchId}
                                 organisations={this.props.organisations}
                                 validationResults={validationResults}
-                                onChange={(branchId: string) => this.handleChange("branchId", branchId)}
+                                onChange={(branchId: string) =>
+                                    this.handleChange("branchId", branchId)
+                                }
                             />
                             <FormSelect
                                 fieldName="scope"
@@ -176,7 +188,12 @@ class UserForm extends Component<Props, State> {
                     </TabPane>
                     <TabPane tab={this.getRolesTabTitle()} key="roles_tab">
                         <FormErrors
-                            validationResults={getValidationSubSet("Roles", this.props.validationResults, true, true)}
+                            validationResults={getValidationSubSet(
+                                "Roles",
+                                this.props.validationResults,
+                                true,
+                                true
+                            )}
                         />
                         {this.props.applications.map(application => (
                             <List
@@ -184,13 +201,20 @@ class UserForm extends Component<Props, State> {
                                 header={<h4 className="mb-0">{application.name}</h4>}
                                 bordered={true}
                                 size="small"
-                                dataSource={this.props.roles.filter(r => r.applicationId === application.id)}
+                                dataSource={this.props.roles.filter(
+                                    r => r.applicationId === application.id
+                                )}
                                 renderItem={(role: Role) => (
                                     <List.Item
                                         actions={[
                                             <Switch
                                                 key={"1"}
-                                                disabled={!hasUseCase("dir_edit_users", this.props.useCases)}
+                                                disabled={
+                                                    !hasUseCase(
+                                                        "dir_edit_users",
+                                                        this.props.useCases
+                                                    )
+                                                }
                                                 checked={this.isRoleSelected(role.name)}
                                                 onChange={() => this.toggleRoleChange(role.name)}
                                                 size="small"
@@ -206,7 +230,12 @@ class UserForm extends Component<Props, State> {
                     </TabPane>
                     <TabPane tab={this.getAliasesTabTitle()} key="aliases_tab">
                         <FormErrors
-                            validationResults={getValidationSubSet("Aliases", this.props.validationResults, true, true)}
+                            validationResults={getValidationSubSet(
+                                "Aliases",
+                                this.props.validationResults,
+                                true,
+                                true
+                            )}
                         />
                         <FormSimpleList
                             editUseCase="dir_edit_users"

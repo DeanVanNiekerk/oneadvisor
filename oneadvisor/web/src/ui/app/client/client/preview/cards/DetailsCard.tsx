@@ -33,7 +33,14 @@ const DetailsCardComponent: React.FC<Props> = (props: Props) => {
                 icon="profile"
                 onClick={editDetails}
                 isLoading={props.loading}
-                actions={[<Icon key={"1"} tooltip="Edit Client Details" type="edit" onClick={editDetails} />]}
+                actions={[
+                    <Icon
+                        key={"1"}
+                        tooltip="Edit Client Details"
+                        type="edit"
+                        onClick={editDetails}
+                    />,
+                ]}
                 rows={2}
                 height={props.cardHeight}
             >
@@ -45,7 +52,10 @@ const DetailsCardComponent: React.FC<Props> = (props: Props) => {
                                     label="Id"
                                     value={`${props.client.idNumber ? props.client.idNumber : ""}`}
                                 />
-                                <PreviewCardRow label="Age" value={<Age dateOfBirth={props.client.dateOfBirth} />} />
+                                <PreviewCardRow
+                                    label="Age"
+                                    value={<Age dateOfBirth={props.client.dateOfBirth} />}
+                                />
                             </>
                         )}
                         {(props.client.clientTypeId === ClientTypeId.Company ||
@@ -53,7 +63,11 @@ const DetailsCardComponent: React.FC<Props> = (props: Props) => {
                             <>
                                 <PreviewCardRow
                                     label="Reg. Number"
-                                    value={`${props.client.alternateIdNumber ? props.client.alternateIdNumber : ""}`}
+                                    value={`${
+                                        props.client.alternateIdNumber
+                                            ? props.client.alternateIdNumber
+                                            : ""
+                                    }`}
                                 />
                             </>
                         )}

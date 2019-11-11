@@ -26,7 +26,12 @@ class Result extends Component<Props> {
 
                 <Divider />
 
-                <Alert message="Clients have been successfully merged." type="success" showIcon className="mb-1" />
+                <Alert
+                    message="Clients have been successfully merged."
+                    type="success"
+                    showIcon
+                    className="mb-1"
+                />
 
                 <Button icon="user" onClick={this.preview} type="primary" noLeftMargin={true}>
                     Preview Merged Client

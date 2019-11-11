@@ -37,7 +37,10 @@ export const defaultState: State = {
     monthsForward: 3,
 };
 
-export const reducer = (state: State = defaultState, action: CommissionProjectionsDataAction): State => {
+export const reducer = (
+    state: State = defaultState,
+    action: CommissionProjectionsDataAction
+): State => {
     switch (action.type) {
         case "COMMISSIONS_REPORT_PROJECTIONS_RECEIVE": {
             return {

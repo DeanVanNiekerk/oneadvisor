@@ -3,7 +3,11 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { fetchStatementFiles, Statement, statementFilesSelector } from "@/state/app/commission/statements";
+import {
+    fetchStatementFiles,
+    Statement,
+    statementFilesSelector,
+} from "@/state/app/commission/statements";
 import { downloadFile } from "@/state/file";
 import { RootState } from "@/state/rootReducer";
 import { ContentLoader, Date } from "@/ui/controls";
@@ -31,8 +35,12 @@ const StatementHistory: React.FC<Props> = (props: Props) => {
                     {props.files.map(f => {
                         return (
                             <Timeline.Item key={f.url} color={f.deleted ? "red" : "blue"}>
-                                <span className="downloadLink" onClick={() => download(f.url, f.name)}>
-                                    <Text delete={f.deleted}>{f.name}</Text> <Date date={f.created} />
+                                <span
+                                    className="downloadLink"
+                                    onClick={() => download(f.url, f.name)}
+                                >
+                                    <Text delete={f.deleted}>{f.name}</Text>{" "}
+                                    <Date date={f.created} />
                                 </span>
                             </Timeline.Item>
                         );

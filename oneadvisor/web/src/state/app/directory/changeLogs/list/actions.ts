@@ -40,12 +40,16 @@ export const fetchChangeLogs = (pageOptions: PageOptions, sortOptions: SortOptio
     };
 };
 
-export const receivePageOptions = (pageOptions: PageOptions): ChangeLogPageOptionsReceiveAction => ({
+export const receivePageOptions = (
+    pageOptions: PageOptions
+): ChangeLogPageOptionsReceiveAction => ({
     type: "CHANGELOGS_LIST_PAGE_OPTIONS_RECEIVE",
     payload: pageOptions,
 });
 
-export const receiveSortOptions = (sortOptions: SortOptions): ChangeLogSortOptionsReceiveAction => ({
+export const receiveSortOptions = (
+    sortOptions: SortOptions
+): ChangeLogSortOptionsReceiveAction => ({
     type: "CHANGELOGS_LIST_SORT_OPTIONS_RECEIVE",
     payload: sortOptions,
 });

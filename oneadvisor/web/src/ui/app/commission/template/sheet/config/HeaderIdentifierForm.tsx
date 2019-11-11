@@ -32,7 +32,9 @@ class HeaderIdentifierForm extends Component<Props, State> {
     }
 
     handleChange = (fieldName: keyof Identifier, value: string) => {
-        const headerIdentifier = update(this.state.headerIdentifier, { [fieldName]: { $set: value } });
+        const headerIdentifier = update(this.state.headerIdentifier, {
+            [fieldName]: { $set: value },
+        });
         this.setState({
             headerIdentifier: headerIdentifier,
         });

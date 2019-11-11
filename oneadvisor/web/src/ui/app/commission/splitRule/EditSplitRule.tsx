@@ -50,7 +50,8 @@ class EditSplitRule extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (!areEqual(this.props.splitRule, this.state.splitRuleEdited)) return showConfirm({ onOk: this.cancel });
+        if (!areEqual(this.props.splitRule, this.state.splitRuleEdited))
+            return showConfirm({ onOk: this.cancel });
 
         this.cancel();
     };

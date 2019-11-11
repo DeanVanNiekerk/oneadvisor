@@ -53,7 +53,8 @@ class EditTemplate extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (!areEqual(this.props.template, this.state.templateEdited)) return showConfirm({ onOk: this.cancel });
+        if (!areEqual(this.props.template, this.state.templateEdited))
+            return showConfirm({ onOk: this.cancel });
 
         this.cancel();
     };
@@ -82,7 +83,9 @@ class EditTemplate extends Component<Props, State> {
                         if (!disableSuccessMessage) {
                             showMessage("success", "Template Successfully Saved", 3);
                         }
-                        this.props.dispatch(receiveCommissionStatementTemplate(this.state.templateEdited));
+                        this.props.dispatch(
+                            receiveCommissionStatementTemplate(this.state.templateEdited)
+                        );
                         if (onSuccess) onSuccess(result, dispatch);
                     },
                     onFailure

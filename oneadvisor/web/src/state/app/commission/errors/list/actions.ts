@@ -34,7 +34,9 @@ export type ErrorListAction =
     | ErrorListPageOptionsReceiveAction
     | ErrorListSortOptionsReceiveAction;
 
-export const fetchCommissionErrors = (statementId?: string): ThunkAction<void, RootState, {}, ApiAction> => {
+export const fetchCommissionErrors = (
+    statementId?: string
+): ThunkAction<void, RootState, {}, ApiAction> => {
     return (dispatch, getState) => {
         const { pageOptions, sortOptions } = commissionErrorsSelector(getState());
 
@@ -55,12 +57,16 @@ export const fetchCommissionErrors = (statementId?: string): ThunkAction<void, R
     };
 };
 
-export const receivePageOptions = (pageOptions: PageOptions): ErrorListPageOptionsReceiveAction => ({
+export const receivePageOptions = (
+    pageOptions: PageOptions
+): ErrorListPageOptionsReceiveAction => ({
     type: "COMMISSIONS_ERRORS_LIST_PAGE_OPTIONS_RECEIVE",
     payload: pageOptions,
 });
 
-export const receiveSortOptions = (sortOptions: SortOptions): ErrorListSortOptionsReceiveAction => ({
+export const receiveSortOptions = (
+    sortOptions: SortOptions
+): ErrorListSortOptionsReceiveAction => ({
     type: "COMMISSIONS_ERRORS_LIST_SORT_OPTIONS_RECEIVE",
     payload: sortOptions,
 });
@@ -78,7 +84,11 @@ export const getCommissionErrors = (
     };
 };
 
-export const downloadCommissionErrors = (errors: PagedItems<CommissionError>, companyName: string, date: string) => {
+export const downloadCommissionErrors = (
+    errors: PagedItems<CommissionError>,
+    companyName: string,
+    date: string
+) => {
     let fileName = "MappingErrors";
 
     if (companyName) fileName += `_${companyName}`;

@@ -41,7 +41,11 @@ const UploadStatementForm: React.FC<Props> = (props: Props) => {
 
         if (info.file.status === "done") {
             if (info.file.response.results.length === 0)
-                showMessage("warning", "There where no commission entries imported, please check commission file.", 10);
+                showMessage(
+                    "warning",
+                    "There where no commission entries imported, please check commission file.",
+                    10
+                );
             else showMessage("success", "Commission Statement Imported Successfully", 5);
 
             props.onUploaded();
@@ -53,7 +57,12 @@ const UploadStatementForm: React.FC<Props> = (props: Props) => {
     };
 
     if (!props.fetchingTemplates && props.templates.length === 0)
-        return <Alert message="Unable to import. There are no valid templates for this statement." type="error" />;
+        return (
+            <Alert
+                message="Unable to import. There are no valid templates for this statement."
+                type="error"
+            />
+        );
 
     return (
         <Form editUseCase="com_import_commissions">

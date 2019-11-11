@@ -46,7 +46,8 @@ export const parseIdNumber = (input: string): Result => {
     for (let i = 0; i < 13; ++i) {
         tempTotal = parseInt(input.charAt(i)) * multiplier;
         if (tempTotal > 9) {
-            tempTotal = parseInt(tempTotal.toString().charAt(0)) + parseInt(tempTotal.toString().charAt(1));
+            tempTotal =
+                parseInt(tempTotal.toString().charAt(0)) + parseInt(tempTotal.toString().charAt(1));
         }
         checkSum = checkSum + tempTotal;
         multiplier = multiplier % 2 == 0 ? 1 : 2;

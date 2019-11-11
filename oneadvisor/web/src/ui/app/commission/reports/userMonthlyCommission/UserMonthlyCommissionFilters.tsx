@@ -145,7 +145,11 @@ const UserMonthlyCommissionFilters: React.FC<Props> = (props: Props) => {
             </Col>
             {props.selectedType === "Month" && (
                 <Col>
-                    <Select<number> value={props.selectedMonth} onChange={props.onMonthChange} style={{ width: 125 }}>
+                    <Select<number>
+                        value={props.selectedMonth}
+                        onChange={props.onMonthChange}
+                        style={{ width: 125 }}
+                    >
                         {getMonthOptions().map(month => {
                             return (
                                 <Select.Option key={month.number.toString()} value={month.number}>
@@ -158,7 +162,11 @@ const UserMonthlyCommissionFilters: React.FC<Props> = (props: Props) => {
             )}
             {props.selectedType === "Month" && (
                 <Col>
-                    <Select<number> value={props.selectedYear} onChange={props.onYearChange} style={{ width: 90 }}>
+                    <Select<number>
+                        value={props.selectedYear}
+                        onChange={props.onYearChange}
+                        style={{ width: 90 }}
+                    >
                         {getYearOptions().map(year => {
                             return (
                                 <Select.Option key={year.toString()} value={year}>

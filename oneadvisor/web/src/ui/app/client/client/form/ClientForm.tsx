@@ -14,7 +14,11 @@ import {
     getLastNameLabel,
     modifyClient,
 } from "@/state/app/client/clients";
-import { ClientTypeId, clientTypesSelector, marritalStatusSelector } from "@/state/app/client/lookups";
+import {
+    ClientTypeId,
+    clientTypesSelector,
+    marritalStatusSelector,
+} from "@/state/app/client/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInput, FormSelect } from "@/ui/controls";
 
@@ -170,7 +174,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         handleChange: (client: ClientEdit, fieldName: keyof ClientEdit, value: string) => {
             let clientModified = update(client, { [fieldName]: { $set: value } });
 
-            if (fieldName === "idNumber") clientModified = idNumberChanged(clientModified, value, false);
+            if (fieldName === "idNumber")
+                clientModified = idNumberChanged(clientModified, value, false);
 
             if (fieldName === "firstName") clientModified = firstNameChanged(clientModified, value);
 
@@ -183,14 +188,21 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     };
 };
 
-const idNumberChanged = (client: ClientEdit, value: string, forceDateOfBirthUpdate = false): ClientEdit => {
+const idNumberChanged = (
+    client: ClientEdit,
+    value: string,
+    forceDateOfBirthUpdate = false
+): ClientEdit => {
     const result = parseIdNumber(value);
 
     if (result.dateOfBirth) {
         //Only set the date of birth if it is empty
         const clientModified = {
             ...client,
-            dateOfBirth: client.dateOfBirth && !forceDateOfBirthUpdate ? client.dateOfBirth : result.dateOfBirth,
+            dateOfBirth:
+                client.dateOfBirth && !forceDateOfBirthUpdate
+                    ? client.dateOfBirth
+                    : result.dateOfBirth,
         };
 
         return clientModified;

@@ -4,7 +4,13 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
-import { Filters, getBooleanOptions, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
+import {
+    Filters,
+    getBooleanOptions,
+    getColumnDefinition,
+    PageOptions,
+    SortOptions,
+} from "@/app/table";
 import { areEqual } from "@/app/utils";
 import { policyTypesSelector } from "@/state/app/client/lookups";
 import {
@@ -21,7 +27,15 @@ import {
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { Button, CompanyName, getColumnSearchProps, getTable, Header, PolicyTypeName, UserName } from "@/ui/controls";
+import {
+    Button,
+    CompanyName,
+    getColumnSearchProps,
+    getTable,
+    Header,
+    PolicyTypeName,
+    UserName,
+} from "@/ui/controls";
 
 import EditPolicy from "../form/EditPolicy";
 
@@ -129,7 +143,11 @@ const PolicyList: React.FC<Props> = (props: Props) => {
         return columns;
     };
 
-    const onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
+    const onTableChange = (
+        pageOptions: PageOptions,
+        sortOptions: SortOptions,
+        filters: Filters
+    ) => {
         if (!areEqual(props.pageOptions, pageOptions)) props.updatePageOptions(pageOptions);
         if (!areEqual(props.sortOptions, sortOptions)) props.updateSortOptions(sortOptions);
         if (!areEqual(props.filters, filters)) props.updateFilters(filters);

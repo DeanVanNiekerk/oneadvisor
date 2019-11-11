@@ -5,7 +5,11 @@ import { Dispatch } from "redux";
 
 import { ClientEdit, clientVisible, newClient } from "@/state/app/client/clients";
 import { newPolicy, PolicyEdit, policyVisible } from "@/state/app/client/policies";
-import { CommissionErrorEdit, mappingErrorSelector, modifyMappingError } from "@/state/app/commission/errors";
+import {
+    CommissionErrorEdit,
+    mappingErrorSelector,
+    modifyMappingError,
+} from "@/state/app/commission/errors";
 import { Statement } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import EditClient from "@/ui/app/client/client/form/EditClient";
@@ -87,7 +91,11 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                 <FormText
                     fieldName="clientId"
                     label="Client"
-                    value={error.clientId ? <ClientName clientId={error.clientId} className="text-success" /> : null}
+                    value={
+                        error.clientId ? (
+                            <ClientName clientId={error.clientId} className="text-success" />
+                        ) : null
+                    }
                     emptyValueText={<span className="text-error">No Mapped Client</span>}
                     validationResults={validationResults}
                     extra={
@@ -114,7 +122,11 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                 <FormText
                     fieldName="policyId"
                     label="Policy"
-                    value={error.policyId ? <PolicyName policyId={error.policyId} className="text-success" /> : null}
+                    value={
+                        error.policyId ? (
+                            <PolicyName policyId={error.policyId} className="text-success" />
+                        ) : null
+                    }
                     emptyValueText={<span className="text-error">No Mapped Policy</span>}
                     validationResults={validationResults}
                     extra={
@@ -144,7 +156,9 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                     fieldName="commissionTypeId"
                     label="Commission Type"
                     value={
-                        error.commissionTypeId ? <CommissionTypeName commissionTypeId={error.commissionTypeId} /> : null
+                        error.commissionTypeId ? (
+                            <CommissionTypeName commissionTypeId={error.commissionTypeId} />
+                        ) : null
                     }
                     emptyValueText={<span className="text-error">No Mapped Commission Type</span>}
                     validationResults={validationResults}
@@ -154,7 +168,11 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
             <EditClient onSaved={clientSaved} />
             <EditPolicy onSaved={policySaved} />
 
-            <Drawer title="Client Search" visible={clientSearchVisible} onClose={() => setClientSearchVisible(false)}>
+            <Drawer
+                title="Client Search"
+                visible={clientSearchVisible}
+                onClose={() => setClientSearchVisible(false)}
+            >
                 <ClientSearch
                     defaultSearchText={error.data.lastName || ""}
                     onSelect={(clientId: string) => {
@@ -167,7 +185,11 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                 </DrawerFooter>
             </Drawer>
 
-            <Drawer title="Policy Search" visible={policySearchVisible} onClose={() => setPolicySearchVisible(false)}>
+            <Drawer
+                title="Policy Search"
+                visible={policySearchVisible}
+                onClose={() => setPolicySearchVisible(false)}
+            >
                 <PolicySearch
                     onSelect={(policyId: string) => {
                         setPolicyId(policyId);
@@ -204,7 +226,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             dispatch(newPolicy(policy));
             dispatch(policyVisible(true));
         },
-        handleChange: (error: CommissionErrorEdit, fieldName: keyof CommissionErrorEdit, value: string | null) => {
+        handleChange: (
+            error: CommissionErrorEdit,
+            fieldName: keyof CommissionErrorEdit,
+            value: string | null
+        ) => {
             const errorModified = update(error, { [fieldName]: { $set: value } });
             dispatch(modifyMappingError(errorModified));
         },

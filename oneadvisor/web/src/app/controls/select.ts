@@ -1,6 +1,9 @@
 import { OptionProps } from "antd/lib/select";
 
-export const filterOption = (inputValue: string, option: React.ReactElement<OptionProps>): boolean => {
+export const filterOption = (
+    inputValue: string,
+    option: React.ReactElement<OptionProps>
+): boolean => {
     if (!option || !option.props || !option.props.children) return false;
 
     return (

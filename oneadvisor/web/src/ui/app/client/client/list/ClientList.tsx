@@ -25,7 +25,14 @@ import {
 import { clientTypesSelector } from "@/state/app/client/lookups";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
-import { Button, ClientTypeIcon, getTable, Header, StopPropagation, getColumnSearchProps } from "@/ui/controls";
+import {
+    Button,
+    ClientTypeIcon,
+    getTable,
+    Header,
+    StopPropagation,
+    getColumnSearchProps,
+} from "@/ui/controls";
 
 import ClientMerge from "../../merge/ClientMerge";
 import EditClient from "../form/EditClient";
@@ -94,7 +101,11 @@ const ClientList: React.FC<Props> = props => {
         ];
     };
 
-    const onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
+    const onTableChange = (
+        pageOptions: PageOptions,
+        sortOptions: SortOptions,
+        filters: Filters
+    ) => {
         if (!areEqual(props.pageOptions, pageOptions)) props.updatePageOptions(pageOptions);
         if (!areEqual(props.sortOptions, sortOptions)) props.updateSortOptions(sortOptions);
         if (!areEqual(props.filters, filters)) props.updateFilters(filters);

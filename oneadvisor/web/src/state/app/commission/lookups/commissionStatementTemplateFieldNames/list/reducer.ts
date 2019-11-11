@@ -9,7 +9,10 @@ export const defaultState: State = {
     items: [],
 };
 
-export const reducer = (state: State = defaultState, action: CommissionStatementTemplateFieldNameListAction): State => {
+export const reducer = (
+    state: State = defaultState,
+    action: CommissionStatementTemplateFieldNameListAction
+): State => {
     switch (action.type) {
         case "COMMISSIONSTATEMENTTEMPLATEFIELDNAMES_LIST_RECEIVE": {
             return {

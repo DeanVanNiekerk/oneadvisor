@@ -50,7 +50,8 @@ class EditRole extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (!areEqual(this.props.role, this.state.roleEdited)) return showConfirm({ onOk: this.cancel });
+        if (!areEqual(this.props.role, this.state.roleEdited))
+            return showConfirm({ onOk: this.cancel });
 
         this.cancel();
     };

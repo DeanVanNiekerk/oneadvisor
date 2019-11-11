@@ -28,7 +28,11 @@ type Props = {
     selectedSheetIndex: number;
     validationResults: ValidationResult[];
     onChange: (config: SheetConfig) => void;
-    saveTemplate: (onSuccess?: ApiOnSuccess, onFailure?: ApiOnFailure, disableSuccessMessage?: boolean) => void;
+    saveTemplate: (
+        onSuccess?: ApiOnSuccess,
+        onFailure?: ApiOnFailure,
+        disableSuccessMessage?: boolean
+    ) => void;
 };
 
 type State = {
@@ -136,7 +140,12 @@ class EditSheetConfig extends Component<Props, State> {
                 value={this.props.selectedSheetIndex}
             >
                 {template.config.sheets.map((s, index) => {
-                    return <Select.Option key={index} value={index}>{`Sheet ${s.position}`}</Select.Option>;
+                    return (
+                        <Select.Option
+                            key={index}
+                            value={index}
+                        >{`Sheet ${s.position}`}</Select.Option>
+                    );
                 })}
             </Select>
         );
@@ -152,7 +161,10 @@ class EditSheetConfig extends Component<Props, State> {
                 <TabPane tab={this.getHeaderIdentifierTabTitle()} key="config_header_identifier">
                     <HeaderIdentifierForm
                         headerIdentifier={config.headerIdentifier}
-                        validationResults={getValidationSubSet("headerIdentifier", validationResults)}
+                        validationResults={getValidationSubSet(
+                            "headerIdentifier",
+                            validationResults
+                        )}
                         onChange={this.onHeaderIdentifierChange}
                     />
                 </TabPane>
@@ -167,10 +179,15 @@ class EditSheetConfig extends Component<Props, State> {
                     <CommissionTypesForm
                         commissionStatementTemplateId={this.props.template.id}
                         commissionTypes={config.commissionTypes}
-                        validationResults={getValidationSubSet("commissionTypes", validationResults)}
+                        validationResults={getValidationSubSet(
+                            "commissionTypes",
+                            validationResults
+                        )}
                         onChange={this.onCommissionTypesChange}
                         saveTemplate={this.props.saveTemplate}
-                        selectedSheet={this.props.template.config.sheets[this.props.selectedSheetIndex]}
+                        selectedSheet={
+                            this.props.template.config.sheets[this.props.selectedSheetIndex]
+                        }
                     />
                 </TabPane>
                 <TabPane tab={this.getGroupsTabTitle()} key="groups">

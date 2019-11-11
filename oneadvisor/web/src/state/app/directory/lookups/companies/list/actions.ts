@@ -12,7 +12,10 @@ type CompanyListFetchingErrorAction = {
     type: "COMPANIES_LIST_FETCHING_ERROR";
 };
 
-export type CompanyListAction = CompanyListReceiveAction | CompanyListFetchingAction | CompanyListFetchingErrorAction;
+export type CompanyListAction =
+    | CompanyListReceiveAction
+    | CompanyListFetchingAction
+    | CompanyListFetchingErrorAction;
 
 export const receiveCompanies = (payload: Company[]): CompanyListAction => ({
     type: "COMPANIES_LIST_RECEIVE",

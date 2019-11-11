@@ -37,7 +37,9 @@ class SourceClients extends Component<Props> {
 
         if (client.idNumber) parts.push(`ID Number: ${client.idNumber}`);
         else if (client.alternateIdNumber)
-            parts.push(`${getAlternateIdNumberLabel(client.clientTypeId)}: ${client.alternateIdNumber}`);
+            parts.push(
+                `${getAlternateIdNumberLabel(client.clientTypeId)}: ${client.alternateIdNumber}`
+            );
 
         return parts.join(" | ");
     };

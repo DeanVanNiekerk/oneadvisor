@@ -5,7 +5,15 @@ import { connect, DispatchProp } from "react-redux";
 import { ValidationResult } from "@/app/validation";
 import { AllocationEdit } from "@/state/app/commission/allocations";
 import ClientSearch from "@/ui/app/client/client/list/ClientSearch";
-import { Button, ClientName, Drawer, DrawerFooter, Form, FormErrors, FormText } from "@/ui/controls";
+import {
+    Button,
+    ClientName,
+    Drawer,
+    DrawerFooter,
+    Form,
+    FormErrors,
+    FormText,
+} from "@/ui/controls";
 
 import PolicyList from "../../client/policy/list/PolicyList";
 
@@ -73,7 +81,10 @@ class AllocationForm extends Component<Props, State> {
                         label="From Client"
                         value={
                             allocation.fromClientId ? (
-                                <ClientName clientId={allocation.fromClientId} className="text-success" />
+                                <ClientName
+                                    clientId={allocation.fromClientId}
+                                    className="text-success"
+                                />
                             ) : null
                         }
                         emptyValueText={<span className="text-error">Select Client</span>}

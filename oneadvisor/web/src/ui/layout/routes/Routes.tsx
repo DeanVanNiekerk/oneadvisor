@@ -47,20 +47,48 @@ const Routes = () => (
         <SecureRoute exact path="/client/import" component={ClientImport} />
         <SecureRoute exact path="/client/export" component={ClientExport} />
         <SecureRoute exact path="/client/clients/:clientId" component={ClientPreview} />
-        <SecureRoute exact path="/client/lookups/policyProductTypes" component={PolicyProductTypeList} />
+        <SecureRoute
+            exact
+            path="/client/lookups/policyProductTypes"
+            component={PolicyProductTypeList}
+        />
         <SecureRoute exact path="/client/lookups/policyProducts" component={PolicyProductList} />
         {/* ------------------------------------------------------------------------------------- */}
         {/* COMMISSION -------------------------------------------------------------------------- */}
         <SecureRoute exact path="/commission" component={StatementList} />
         <SecureRoute exact path="/commission/statements" component={StatementList} />
-        <SecureRoute exact path="/commission/statements/:commissionStatementId" component={StatementPreview} />
-        <SecureRoute exact path="/commission/templates" component={CommissionStatementTemplateList} />
+        <SecureRoute
+            exact
+            path="/commission/statements/:commissionStatementId"
+            component={StatementPreview}
+        />
+        <SecureRoute
+            exact
+            path="/commission/templates"
+            component={CommissionStatementTemplateList}
+        />
         <SecureRoute exact path="/commission/commissionEntries" component={CommissionList} />
-        <SecureRoute exact path="/commission/commissionSplitRulePolicies" component={SplitRulePolicyList} />
-        <SecureRoute exact path="/commission/reports/revenueClient" component={ClientRevenueReport} />
-        <SecureRoute exact path="/commission/reports/userMonthlyCommission" component={UserMonthlyCommissionReport} />
+        <SecureRoute
+            exact
+            path="/commission/commissionSplitRulePolicies"
+            component={SplitRulePolicyList}
+        />
+        <SecureRoute
+            exact
+            path="/commission/reports/revenueClient"
+            component={ClientRevenueReport}
+        />
+        <SecureRoute
+            exact
+            path="/commission/reports/userMonthlyCommission"
+            component={UserMonthlyCommissionReport}
+        />
         <SecureRoute exact path="/commission/reports/projections" component={ProjectionsReport} />
-        <SecureRoute exact path="/commission/reports/commissionLapse" component={CommissionLapseReport} />
+        <SecureRoute
+            exact
+            path="/commission/reports/commissionLapse"
+            component={CommissionLapseReport}
+        />
         <SecureRoute exact path="/commission/lookups/commTypes" component={CommissionTypeList} />
         {/* ------------------------------------------------------------------------------------- */}
         {/* DIRECTORY --------------------------------------------------------------------------- */}

@@ -27,10 +27,25 @@ const FormDate: React.FC<Props> = (props: Props) => {
         if (props.onChange) props.onChange(props.fieldName, dateString);
     };
 
-    const { fieldName, label, value, validationResults, disabled = false, layout, readonly, extra } = props;
+    const {
+        fieldName,
+        label,
+        value,
+        validationResults,
+        disabled = false,
+        layout,
+        readonly,
+        extra,
+    } = props;
 
     if (readonly)
-        return <FormText label={label} value={value ? moment(value).format(DATE_FORMAT) : ""} layout={layout} />;
+        return (
+            <FormText
+                label={label}
+                value={value ? moment(value).format(DATE_FORMAT) : ""}
+                layout={layout}
+            />
+        );
 
     if (props.hidden) return <React.Fragment />;
 

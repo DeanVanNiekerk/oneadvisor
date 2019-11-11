@@ -17,7 +17,11 @@ import {
     removeClientImportClient,
     updateClientImportPolicyCompanies,
 } from "@/state/app/client/import";
-import { Company, fetchCompanies, organisationCompaniesSelector } from "@/state/app/directory/lookups/companies";
+import {
+    Company,
+    fetchCompanies,
+    organisationCompaniesSelector,
+} from "@/state/app/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
 import { getColumnSearchProps, getTable } from "@/ui/controls";
 
@@ -116,7 +120,8 @@ class Verify extends Component<Props> {
                     onPrevious={() => this.props.dispatch(clientImportPreviousStep())}
                     nextDisabled={!this.nextEnabled()}
                     onNext={() => {
-                        if (this.policyCompanyRequired()) this.props.dispatch(updateClientImportPolicyCompanies());
+                        if (this.policyCompanyRequired())
+                            this.props.dispatch(updateClientImportPolicyCompanies());
                         this.props.dispatch(importClientClearResults());
                         this.props.dispatch(clientImportNextStep());
                     }}
@@ -129,8 +134,14 @@ class Verify extends Component<Props> {
 
                             <FormItem
                                 className="mb-0"
-                                validateStatus={this.props.selectedCompanyId === null ? "error" : undefined}
-                                help={this.props.selectedCompanyId === null ? "Please select a policy company" : ""}
+                                validateStatus={
+                                    this.props.selectedCompanyId === null ? "error" : undefined
+                                }
+                                help={
+                                    this.props.selectedCompanyId === null
+                                        ? "Please select a policy company"
+                                        : ""
+                                }
                             >
                                 <Select
                                     showSearch={true}

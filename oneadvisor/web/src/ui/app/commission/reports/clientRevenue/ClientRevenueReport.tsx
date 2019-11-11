@@ -66,7 +66,11 @@ class ClientRevenueReport extends Component<Props, State> {
 
     loadData = () => {
         this.props.dispatch(
-            fetchClientRevenueDataPaged(this.props.pageOptions, this.props.sortOptions, this.props.filters)
+            fetchClientRevenueDataPaged(
+                this.props.pageOptions,
+                this.props.sortOptions,
+                this.props.filters
+            )
         );
     };
 
@@ -169,7 +173,9 @@ class ClientRevenueReport extends Component<Props, State> {
                             : d.clientDateOfBirth;
                         return d;
                     }),
-                    `ClientRevenue_${getMonthName(this.selectedMonth())}_${this.selectedYear()}.xlsx`
+                    `ClientRevenue_${getMonthName(
+                        this.selectedMonth()
+                    )}_${this.selectedYear()}.xlsx`
                 );
             })
         );
@@ -201,10 +207,17 @@ class ClientRevenueReport extends Component<Props, State> {
                 <Row type="flex" gutter={10} align="middle" justify="start">
                     <Col>Month Ending:</Col>
                     <Col>
-                        <Select value={this.selectedMonth()} onChange={this.handleMonthChange} style={{ width: 125 }}>
+                        <Select
+                            value={this.selectedMonth()}
+                            onChange={this.handleMonthChange}
+                            style={{ width: 125 }}
+                        >
                             {getMonthOptions().map(month => {
                                 return (
-                                    <Select.Option key={month.number.toString()} value={month.number}>
+                                    <Select.Option
+                                        key={month.number.toString()}
+                                        value={month.number}
+                                    >
                                         {month.name}
                                     </Select.Option>
                                 );
@@ -212,7 +225,11 @@ class ClientRevenueReport extends Component<Props, State> {
                         </Select>
                     </Col>
                     <Col>
-                        <Select value={this.selectedYear()} onChange={this.handleYearChange} style={{ width: 90 }}>
+                        <Select
+                            value={this.selectedYear()}
+                            onChange={this.handleYearChange}
+                            style={{ width: 90 }}
+                        >
                             {getYearOptions().map(year => {
                                 return (
                                     <Select.Option key={year.toString()} value={year}>
@@ -293,17 +310,31 @@ class ClientRevenueReport extends Component<Props, State> {
                     </Col>
                 </Row>
 
-                <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true} tabBarGutter={0}>
+                <Tabs
+                    onChange={this.onTabChange}
+                    activeKey={this.state.activeTab}
+                    sticky={true}
+                    tabBarGutter={0}
+                >
                     <TabPane tab={<Icon type="table" className="mr-0" />} key="table">
                         <ClientRevenueTable editAllocations={this.editAllocations} />
                     </TabPane>
-                    <TabPane tab={<Icon type="bar-chart" className="mr-0" />} key="chart" className="pt-0">
+                    <TabPane
+                        tab={<Icon type="bar-chart" className="mr-0" />}
+                        key="chart"
+                        className="pt-0"
+                    >
                         <ClientRevenueChart />
                     </TabPane>
                 </Tabs>
 
                 <Drawer
-                    title={<ClientName prefix="Allocations to " clientId={this.state.editAllocationsClientId} />}
+                    title={
+                        <ClientName
+                            prefix="Allocations to "
+                            clientId={this.state.editAllocationsClientId}
+                        />
+                    }
                     icon="share-alt"
                     noTopPadding={true}
                     visible={!!this.state.editAllocationsClientId}

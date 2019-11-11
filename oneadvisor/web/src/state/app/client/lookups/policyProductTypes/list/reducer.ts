@@ -11,7 +11,10 @@ export const defaultState: State = {
     fetching: false,
 };
 
-export const reducer = (state: State = defaultState, action: PolicyProductTypeListAction): State => {
+export const reducer = (
+    state: State = defaultState,
+    action: PolicyProductTypeListAction
+): State => {
     switch (action.type) {
         case "POLICYPRODUCTTYPES_LIST_RECEIVE": {
             return {

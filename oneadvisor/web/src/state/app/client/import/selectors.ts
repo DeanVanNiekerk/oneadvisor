@@ -10,7 +10,10 @@ import { ImportColumn } from "./types";
 
 const rootSelector = (state: RootState): State => state.app.client.import;
 
-export const clientImportSelector: (state: RootState) => State = createSelector(rootSelector, root => root);
+export const clientImportSelector: (state: RootState) => State = createSelector(
+    rootSelector,
+    root => root
+);
 
 export const clientImportTableRowsSelector: (state: RootState) => ImportTableRow[] = createSelector(
     rootSelector,
@@ -33,16 +36,20 @@ export const clientImportTableRowsSelector: (state: RootState) => ImportTableRow
     }
 );
 
-export const clientImportSelectedColumnsSelector: (state: RootState) => ImportColumn[] = createSelector(
+export const clientImportSelectedColumnsSelector: (
+    state: RootState
+) => ImportColumn[] = createSelector(rootSelector, root => {
+    return root.selectedColumns.map(sc => {
+        const column = root.columns.find(c => c.id === sc);
+        return column ? column : { id: "_id", name: "no match" };
+    });
+});
+
+export const clientImportProgressPercentSelector: (state: RootState) => number = createSelector(
     rootSelector,
     root => {
-        return root.selectedColumns.map(sc => {
-            const column = root.columns.find(c => c.id === sc);
-            return column ? column : { id: "_id", name: "no match" };
-        });
+        return Math.floor(
+            ((root.resultsSuccess.length + root.resultsFailure.length) / root.clients.length) * 100
+        );
     }
 );
-
-export const clientImportProgressPercentSelector: (state: RootState) => number = createSelector(rootSelector, root => {
-    return Math.floor(((root.resultsSuccess.length + root.resultsFailure.length) / root.clients.length) * 100);
-});

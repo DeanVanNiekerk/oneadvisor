@@ -6,4 +6,7 @@ import { State } from "./reducer";
 
 const rootSelector = (state: RootState): State => state.app.commission.reports.commissionLapse;
 
-export const commissionLapseSelector: (state: RootState) => State = createSelector(rootSelector, root => root);
+export const commissionLapseSelector: (state: RootState) => State = createSelector(
+    rootSelector,
+    root => root
+);

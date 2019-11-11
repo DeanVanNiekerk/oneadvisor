@@ -42,7 +42,10 @@ const PolicyForm: React.FC<Props> = (props: Props) => {
 
     const [clientSearchVisible, setClientSearchVisible] = useState<boolean>(false);
 
-    const onChange = (fieldName: keyof PolicyEdit, value: string | boolean | number | undefined) => {
+    const onChange = (
+        fieldName: keyof PolicyEdit,
+        value: string | boolean | number | undefined
+    ) => {
         handleChange(policy, fieldName, value);
     };
 
@@ -83,7 +86,9 @@ const PolicyForm: React.FC<Props> = (props: Props) => {
                     fieldName="policyTypeId"
                     label="Type / Product / Name"
                     value={props.policyProductCascaseValues}
-                    onChange={(values: string[]) => props.handlePolicyProductCascaseChange(policy, values)}
+                    onChange={(values: string[]) =>
+                        props.handlePolicyProductCascaseChange(policy, values)
+                    }
                     validationResults={validationResults}
                     options={props.policyProductCascase}
                     changeOnSelect={true}
@@ -130,7 +135,11 @@ const PolicyForm: React.FC<Props> = (props: Props) => {
                 />
             </Form>
 
-            <Drawer title="Client Search" visible={clientSearchVisible} onClose={() => setClientSearchVisible(false)}>
+            <Drawer
+                title="Client Search"
+                visible={clientSearchVisible}
+                onClose={() => setClientSearchVisible(false)}
+            >
                 <ClientSearch
                     defaultSearchText={""}
                     onSelect={(clientId: string) => {

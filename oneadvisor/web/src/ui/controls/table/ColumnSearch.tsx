@@ -56,7 +56,9 @@ class ColumnSearch extends React.Component<Props, State> {
                         if (this.props.setSelectedKeys)
                             this.props.setSelectedKeys(e.target.value ? [e.target.value] : []);
                     }}
-                    onPressEnter={() => this.handleSearch(this.props.selectedKeys, this.props.confirm)}
+                    onPressEnter={() =>
+                        this.handleSearch(this.props.selectedKeys, this.props.confirm)
+                    }
                     style={{
                         width: 188,
                         marginBottom: 8,
@@ -73,7 +75,11 @@ class ColumnSearch extends React.Component<Props, State> {
                 >
                     Search
                 </Button>
-                <Button onClick={() => this.handleReset(this.props.clearFilters)} size="small" style={{ width: 90 }}>
+                <Button
+                    onClick={() => this.handleReset(this.props.clearFilters)}
+                    size="small"
+                    style={{ width: 90 }}
+                >
                     Reset
                 </Button>
             </div>

@@ -4,8 +4,15 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { DATE_FORMAT } from "@/app/utils";
-import { CommissionErrorsFilters, downloadCommissionErrors, getCommissionErrors } from "@/state/app/commission/errors";
-import { statementPreviewIsLoadingSelector, statementPreviewSelector } from "@/state/app/commission/statements";
+import {
+    CommissionErrorsFilters,
+    downloadCommissionErrors,
+    getCommissionErrors,
+} from "@/state/app/commission/errors";
+import {
+    statementPreviewIsLoadingSelector,
+    statementPreviewSelector,
+} from "@/state/app/commission/statements";
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, Drawer, DrawerFooter, Icon, PreviewCard } from "@/ui/controls";
@@ -71,8 +78,8 @@ const MappingErrorsCardComponent: React.FC<Props> = (props: Props) => {
                         padding: "17px",
                     }}
                 >
-                    <Icon type="warning" /> There are <b>{props.statement.mappingErrorCount}</b> mapping errors, please
-                    click here to resolve them
+                    <Icon type="warning" /> There are <b>{props.statement.mappingErrorCount}</b>{" "}
+                    mapping errors, please click here to resolve them
                 </div>
             </PreviewCard>
 
@@ -105,7 +112,11 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        downloadCommissionErrors: (date: string, companyName: string, filters: CommissionErrorsFilters) => {
+        downloadCommissionErrors: (
+            date: string,
+            companyName: string,
+            filters: CommissionErrorsFilters
+        ) => {
             dispatch(
                 getCommissionErrors(filters, errors => {
                     downloadCommissionErrors(errors, companyName, moment(date).format(DATE_FORMAT));

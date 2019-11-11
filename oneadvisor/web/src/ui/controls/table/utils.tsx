@@ -21,7 +21,9 @@ function getColumnSearchProps<T>(title: string): ColumnProps<T> {
         onFilterDropdownVisibleChange: v => {
             visible = v;
         },
-        filterIcon: filtered => <Icon type="search" style={{ color: filtered ? "#1890ff" : undefined }} />,
+        filterIcon: filtered => (
+            <Icon type="search" style={{ color: filtered ? "#1890ff" : undefined }} />
+        ),
     };
 }
 

@@ -7,7 +7,10 @@ import { State } from "./reducer";
 
 const rootSelector = (state: RootState): State => state.app.client.clients.client;
 
-export const clientSelector: (state: RootState) => State = createSelector(rootSelector, root => root);
+export const clientSelector: (state: RootState) => State = createSelector(
+    rootSelector,
+    root => root
+);
 
 export const clientIsModifiedSelector: (state: RootState) => boolean = createSelector(
     rootSelector,

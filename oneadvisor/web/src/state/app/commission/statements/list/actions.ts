@@ -136,12 +136,16 @@ export const updateMonthFilterPrevious = (): ThunkAction<void, RootState, {}, An
     };
 };
 
-export const receivePageOptions = (pageOptions: PageOptions): StatementListPageOptionsReceiveAction => ({
+export const receivePageOptions = (
+    pageOptions: PageOptions
+): StatementListPageOptionsReceiveAction => ({
     type: "STATEMENTS_LIST_PAGE_OPTIONS_RECEIVE",
     payload: pageOptions,
 });
 
-export const receiveSortOptions = (sortOptions: SortOptions): StatementListSortOptionsReceiveAction => ({
+export const receiveSortOptions = (
+    sortOptions: SortOptions
+): StatementListSortOptionsReceiveAction => ({
     type: "STATEMENTS_LIST_SORT_OPTIONS_RECEIVE",
     payload: sortOptions,
 });

@@ -93,7 +93,12 @@ class EditCommissionType extends Component<Props, State> {
         const { commissionType, validationResults, visible } = this.props;
 
         return (
-            <Drawer title={this.getTitle()} icon="database" visible={visible} onClose={this.confirmCancel}>
+            <Drawer
+                title={this.getTitle()}
+                icon="database"
+                visible={visible}
+                onClose={this.confirmCancel}
+            >
                 <ContentLoader isLoading={this.isLoading()}>
                     {commissionType && (
                         <CommissionTypeForm

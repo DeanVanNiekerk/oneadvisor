@@ -37,6 +37,8 @@ describe("commission statement template actions", () => {
             dispatchPrefix: "COMMISSIONS_STATEMENT_TEMPLATE_EDIT",
         };
 
-        expect(actions.updateCommissionStatementTemplate(template, true, onSuccess)).toEqual(expectedAction);
+        expect(actions.updateCommissionStatementTemplate(template, true, onSuccess)).toEqual(
+            expectedAction
+        );
     });
 });

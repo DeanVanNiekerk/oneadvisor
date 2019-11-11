@@ -14,7 +14,10 @@ type BranchListFetchingErrorAction = {
     type: "BRANCHES_LIST_FETCHING_ERROR";
 };
 
-export type BranchListAction = BranchListReceiveAction | BranchListFetchingAction | BranchListFetchingErrorAction;
+export type BranchListAction =
+    | BranchListReceiveAction
+    | BranchListFetchingAction
+    | BranchListFetchingErrorAction;
 
 export const fetchBranches = (organisationId: string): ApiAction => {
     let api = branchesApi;

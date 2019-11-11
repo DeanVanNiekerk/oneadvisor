@@ -6,7 +6,12 @@ import { connect } from "react-redux";
 import { filterOption } from "@/app/controls/select";
 import { ApiOnFailure, ApiOnSuccess } from "@/app/types";
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
-import { CommissionStatementTemplateEdit, Config, Sheet, SheetConfig } from "@/state/app/commission/templates";
+import {
+    CommissionStatementTemplateEdit,
+    Config,
+    Sheet,
+    SheetConfig,
+} from "@/state/app/commission/templates";
 import { companiesSelector, Company } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInput, FormSelect, TabPane, Tabs } from "@/ui/controls";
@@ -22,7 +27,11 @@ type Props = {
     validationResults: ValidationResult[];
     onChange: (template: CommissionStatementTemplateEdit) => void;
     companies: Company[];
-    saveTemplate: (onSuccess?: ApiOnSuccess, onFailure?: ApiOnFailure, disableSuccessMessage?: boolean) => void;
+    saveTemplate: (
+        onSuccess?: ApiOnSuccess,
+        onFailure?: ApiOnFailure,
+        disableSuccessMessage?: boolean
+    ) => void;
 };
 
 type State = {
@@ -49,7 +58,10 @@ class TemplateForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: keyof CommissionStatementTemplateEdit, value: string | Pick<Config, "sheets">) => {
+    handleChange = (
+        fieldName: keyof CommissionStatementTemplateEdit,
+        value: string | Pick<Config, "sheets">
+    ) => {
         const template = update(this.state.template, { [fieldName]: { $set: value } });
         this.setTemplateState(template);
     };
@@ -88,7 +100,8 @@ class TemplateForm extends Component<Props, State> {
     };
 
     getTabTitle = (title: string, prefix: string, exactMatch = false) => {
-        const count = getValidationSubSet(prefix, this.props.validationResults, true, exactMatch).length;
+        const count = getValidationSubSet(prefix, this.props.validationResults, true, exactMatch)
+            .length;
         return (
             <Badge count={count} offset={[10, -2]}>
                 {title}
@@ -172,7 +185,12 @@ class TemplateForm extends Component<Props, State> {
                     <SheetList
                         sheets={template.config.sheets}
                         onChange={this.onSheetsChange}
-                        validationResults={getValidationSubSet(`config.sheets`, validationResults, true, true)}
+                        validationResults={getValidationSubSet(
+                            `config.sheets`,
+                            validationResults,
+                            true,
+                            true
+                        )}
                     />
                 </TabPane>
                 <TabPane tab={this.getConfigTabTitle()} key="sheet_config">

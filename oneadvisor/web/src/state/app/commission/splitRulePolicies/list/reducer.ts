@@ -1,4 +1,10 @@
-import { defaultPageOptions, defaultSortOptions, Filters, PageOptions, SortOptions } from "@/app/table";
+import {
+    defaultPageOptions,
+    defaultSortOptions,
+    Filters,
+    PageOptions,
+    SortOptions,
+} from "@/app/table";
 
 import { SplitRulePolicyInfo } from "../types";
 import { SplitRulePolicyListAction } from "./actions";

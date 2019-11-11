@@ -38,7 +38,9 @@ export type SplitRulePolicyAction =
     | SplitRulePolicyUpdatingErrorAction
     | SplitRulePolicyValidationErrorAction;
 
-export const receiveSplitRulePolicy = (splitRulePolicy: SplitRulePolicy | null): SplitRulePolicyReceiveAction => ({
+export const receiveSplitRulePolicy = (
+    splitRulePolicy: SplitRulePolicy | null
+): SplitRulePolicyReceiveAction => ({
     type: "SPLITRULEPOLICIES_SPLITRULEPOLICY_RECEIVE",
     payload: splitRulePolicy,
 });
@@ -49,7 +51,10 @@ export const fetchSplitRulePolicy = (policyId: string): ApiAction => ({
     dispatchPrefix: "SPLITRULEPOLICIES_SPLITRULEPOLICY",
 });
 
-export const updateSplitRulePolicy = (splitRulePolicy: SplitRulePolicy, onSuccess: ApiOnSuccess): ApiAction => ({
+export const updateSplitRulePolicy = (
+    splitRulePolicy: SplitRulePolicy,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
     type: "API",
     endpoint: `${splitRulePoliciesApi}/${splitRulePolicy.id}`,
     method: "POST",
@@ -58,7 +63,10 @@ export const updateSplitRulePolicy = (splitRulePolicy: SplitRulePolicy, onSucces
     dispatchPrefix: "SPLITRULEPOLICIES_SPLITRULEPOLICY_EDIT",
 });
 
-export const insertSplitRulePolicy = (splitRulePolicy: SplitRulePolicy, onSuccess: ApiOnSuccess): ApiAction => ({
+export const insertSplitRulePolicy = (
+    splitRulePolicy: SplitRulePolicy,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
     type: "API",
     endpoint: `${splitRulePoliciesApi}`,
     method: "POST",
@@ -67,7 +75,10 @@ export const insertSplitRulePolicy = (splitRulePolicy: SplitRulePolicy, onSucces
     dispatchPrefix: "SPLITRULEPOLICIES_SPLITRULEPOLICY_EDIT",
 });
 
-export const deleteSplitRulePolicy = (splitRulePolicyId: string, onSuccess: ApiOnSuccess): ApiAction => ({
+export const deleteSplitRulePolicy = (
+    splitRulePolicyId: string,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
     type: "API",
     endpoint: `${splitRulePoliciesApi}/${splitRulePolicyId}`,
     method: "DELETE",

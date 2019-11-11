@@ -1,4 +1,9 @@
-import { CLIENT_ID, COMMISSION_ID, DEFAULT_APPLICATION_ID, DIRECTORY_ID } from "@/config/application";
+import {
+    CLIENT_ID,
+    COMMISSION_ID,
+    DEFAULT_APPLICATION_ID,
+    DIRECTORY_ID,
+} from "@/config/application";
 import { menus } from "@/config/menu";
 
 import { defaultState as defaultContextState } from "./reducer";

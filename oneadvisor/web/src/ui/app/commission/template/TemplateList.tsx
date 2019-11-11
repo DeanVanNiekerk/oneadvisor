@@ -125,7 +125,12 @@ class TemplateList extends Component<Props, State> {
                 <Header
                     icon="block"
                     actions={
-                        <Button type="default" icon="plus" onClick={this.newTemplate} disabled={this.props.fetching}>
+                        <Button
+                            type="default"
+                            icon="plus"
+                            onClick={this.newTemplate}
+                            disabled={this.props.fetching}
+                        >
                             New Template
                         </Button>
                     }

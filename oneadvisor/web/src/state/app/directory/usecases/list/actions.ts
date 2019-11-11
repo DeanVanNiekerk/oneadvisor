@@ -10,7 +10,10 @@ type UseCaseListReceiveAction = {
 type UseCaseListFetchingAction = { type: "USECASES_LIST_FETCHING" };
 type UseCaseListFetchingErrorAction = { type: "USECASES_LIST_FETCHING_ERROR" };
 
-export type UseCaseListAction = UseCaseListReceiveAction | UseCaseListFetchingAction | UseCaseListFetchingErrorAction;
+export type UseCaseListAction =
+    | UseCaseListReceiveAction
+    | UseCaseListFetchingAction
+    | UseCaseListFetchingErrorAction;
 
 export const fetchUseCases = (): ApiAction => ({
     type: "API",

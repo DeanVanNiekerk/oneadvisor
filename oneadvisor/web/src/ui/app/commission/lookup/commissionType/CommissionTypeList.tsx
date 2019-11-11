@@ -3,7 +3,10 @@ import { connect, DispatchProp } from "react-redux";
 
 import { getColumnDefinition } from "@/app/table";
 import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
-import { CommissionEarningsType, commissionEarningsTypesSelector } from "@/state/app/commission/lookups";
+import {
+    CommissionEarningsType,
+    commissionEarningsTypesSelector,
+} from "@/state/app/commission/lookups";
 import {
     CommissionType,
     commissionTypesSelector,
@@ -107,7 +110,11 @@ class CommissionTypeList extends Component<Props, State> {
                 {},
                 {
                     render: (commissionEarningsTypeId: string) => {
-                        return <CommissionEarningsTypeName commissionEarningsTypeId={commissionEarningsTypeId} />;
+                        return (
+                            <CommissionEarningsTypeName
+                                commissionEarningsTypeId={commissionEarningsTypeId}
+                            />
+                        );
                     },
                     filters: this.props.commissionEarningsTypes.map(c => ({
                         text: c.name,
@@ -143,7 +150,10 @@ class CommissionTypeList extends Component<Props, State> {
                     loading={this.props.fetching}
                     onRowClick={org => this.editCommissionType(org.id)}
                 />
-                <EditCommissionType visible={this.state.editVisible} onClose={this.closeEditCommissionType} />
+                <EditCommissionType
+                    visible={this.state.editVisible}
+                    onClose={this.closeEditCommissionType}
+                />
             </>
         );
     }

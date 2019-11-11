@@ -5,8 +5,19 @@ import { connect, DispatchProp } from "react-redux";
 import { getColumnDefinition } from "@/app/table";
 import { applications } from "@/config/application";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
-import { Application, applicationsSelector, fetchApplications } from "@/state/app/directory/applications";
-import { fetchRole, fetchRoles, receiveRole, Role, RoleEdit, rolesSelector } from "@/state/app/directory/roles";
+import {
+    Application,
+    applicationsSelector,
+    fetchApplications,
+} from "@/state/app/directory/applications";
+import {
+    fetchRole,
+    fetchRoles,
+    receiveRole,
+    Role,
+    RoleEdit,
+    rolesSelector,
+} from "@/state/app/directory/roles";
 import { fetchUseCases, UseCase, useCasesSelector } from "@/state/app/directory/usecases";
 import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header } from "@/ui/controls";

@@ -22,7 +22,10 @@ export const defaultState: State = {
     ],
 };
 
-export const reducer = (state: State = defaultState, action: UserMonthlyCommissionAction): State => {
+export const reducer = (
+    state: State = defaultState,
+    action: UserMonthlyCommissionAction
+): State => {
     switch (action.type) {
         case "COMMISSIONS_REPORT_USER_MONTHLY_COMMISSION_YEAR_RECEIVE": {
             return {

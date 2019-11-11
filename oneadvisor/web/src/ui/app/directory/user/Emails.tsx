@@ -49,7 +49,11 @@ class Emails extends Component<Props, State> {
     render() {
         return (
             <>
-                <Button onClick={this.sendWelcomeEmail} loading={this.state.sendingWelcomeEmail} type="primary">
+                <Button
+                    onClick={this.sendWelcomeEmail}
+                    loading={this.state.sendingWelcomeEmail}
+                    type="primary"
+                >
                     Send Welcome Email
                 </Button>
             </>

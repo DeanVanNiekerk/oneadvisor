@@ -60,7 +60,11 @@ class ClientExport extends Component<DispatchProp, State> {
                     Policy Aggregates
                 </Button>
 
-                <Button icon="download" loading={this.state.downloadingPolicies} onClick={this.downloadClientPolicies}>
+                <Button
+                    icon="download"
+                    loading={this.state.downloadingPolicies}
+                    onClick={this.downloadClientPolicies}
+                >
                     Policy Dump
                 </Button>
             </>

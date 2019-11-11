@@ -19,7 +19,9 @@ export type PolicyProductTypeListAction =
     | PolicyProductTypeListFetchingAction
     | PolicyProductTypeListFetchingErrorAction;
 
-export const receivePolicyProductTypes = (payload: PolicyProductType[]): PolicyProductTypeListAction => ({
+export const receivePolicyProductTypes = (
+    payload: PolicyProductType[]
+): PolicyProductTypeListAction => ({
     type: "POLICYPRODUCTTYPES_LIST_RECEIVE",
     payload,
 });

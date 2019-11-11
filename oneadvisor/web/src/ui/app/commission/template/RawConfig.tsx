@@ -47,11 +47,17 @@ class RawConfig extends Component<Props, State> {
 
             config.sheets.forEach(sheet => {
                 //Validate commission type codes ------------------
-                if (!this.isValidCommissionType(sheet.config.commissionTypes.defaultCommissionTypeCode))
+                if (
+                    !this.isValidCommissionType(
+                        sheet.config.commissionTypes.defaultCommissionTypeCode
+                    )
+                )
                     sheet.config.commissionTypes.defaultCommissionTypeCode = UNKNOWN_COMMISSION_TYPE_CODE;
 
                 sheet.config.commissionTypes.types = sheet.config.commissionTypes.types.map(t => ({
-                    commissionTypeCode: this.isValidCommissionType(t.commissionTypeCode) ? t.commissionTypeCode : "",
+                    commissionTypeCode: this.isValidCommissionType(t.commissionTypeCode)
+                        ? t.commissionTypeCode
+                        : "",
                     value: t.value,
                 }));
                 //--------------------------------------------------
@@ -94,7 +100,11 @@ class RawConfig extends Component<Props, State> {
                     </Col>
                 </Row>
 
-                <TextArea rows={6} value={JSON.stringify(this.props.template.config, null, 4)} disabled={true} />
+                <TextArea
+                    rows={6}
+                    value={JSON.stringify(this.props.template.config, null, 4)}
+                    disabled={true}
+                />
 
                 <Row type="flex" justify="space-between" className="mt-2">
                     <Col>

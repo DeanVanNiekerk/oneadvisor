@@ -33,18 +33,31 @@ const DetailsCardComponent: React.FC<Props> = (props: Props) => {
                 icon="profile"
                 onClick={editDetails}
                 isLoading={props.loading}
-                actions={[<Icon key={"1"} tooltip="Edit Commission Statement" type="edit" onClick={editDetails} />]}
+                actions={[
+                    <Icon
+                        key={"1"}
+                        tooltip="Edit Commission Statement"
+                        type="edit"
+                        onClick={editDetails}
+                    />,
+                ]}
                 rows={3}
                 height={props.cardHeight}
             >
                 {props.statement && (
                     <>
-                        <PreviewCardRow label="Status" value={<Processed processed={props.statement.processed} />} />
+                        <PreviewCardRow
+                            label="Status"
+                            value={<Processed processed={props.statement.processed} />}
+                        />
                         <PreviewCardRow
                             label="Amount (incl VAT)"
                             value={<Currency amount={props.statement.amountIncludingVAT} />}
                         />
-                        <PreviewCardRow label="VAT" value={<Currency amount={props.statement.vat} />} />
+                        <PreviewCardRow
+                            label="VAT"
+                            value={<Currency amount={props.statement.vat} />}
+                        />
                     </>
                 )}
             </PreviewCard>

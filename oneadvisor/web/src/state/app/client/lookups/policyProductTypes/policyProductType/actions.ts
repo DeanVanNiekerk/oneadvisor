@@ -30,12 +30,17 @@ export type PolicyProductTypeAction =
     | PolicyProductTypeUpdatingErrorAction
     | PolicyProductTypeValidationErrorAction;
 
-export const receivePolicyProductType = (policyProductType: PolicyProductType): PolicyProductTypeReceiveAction => ({
+export const receivePolicyProductType = (
+    policyProductType: PolicyProductType
+): PolicyProductTypeReceiveAction => ({
     type: "POLICYPRODUCTTYPES_POLICYPRODUCTTYPE_RECEIVE",
     payload: policyProductType,
 });
 
-export const updatePolicyProductType = (policyProductType: PolicyProductType, onSuccess: ApiOnSuccess): ApiAction => ({
+export const updatePolicyProductType = (
+    policyProductType: PolicyProductType,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
     type: "API",
     endpoint: `${policyProductTypesApi}/${policyProductType.id}`,
     method: "POST",
@@ -44,7 +49,10 @@ export const updatePolicyProductType = (policyProductType: PolicyProductType, on
     dispatchPrefix: "POLICYPRODUCTTYPES_POLICYPRODUCTTYPE_EDIT",
 });
 
-export const insertPolicyProductType = (policyProductType: PolicyProductType, onSuccess: ApiOnSuccess): ApiAction => ({
+export const insertPolicyProductType = (
+    policyProductType: PolicyProductType,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
     type: "API",
     endpoint: `${policyProductTypesApi}`,
     method: "POST",

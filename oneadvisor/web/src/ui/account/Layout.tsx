@@ -43,7 +43,9 @@ class Layout extends React.Component<Props> {
                             </span>
                         </div>
                         <h3>{this.props.header}</h3>
-                        <ContentLoader isLoading={this.props.loading}>{this.props.children}</ContentLoader>
+                        <ContentLoader isLoading={this.props.loading}>
+                            {this.props.children}
+                        </ContentLoader>
                     </Col>
                 </Row>
             </>

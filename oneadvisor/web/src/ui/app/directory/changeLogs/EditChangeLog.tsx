@@ -49,7 +49,8 @@ class EditChangeLog extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (!areEqual(this.props.changeLog, this.state.changeLogEdited)) return showConfirm({ onOk: this.cancel });
+        if (!areEqual(this.props.changeLog, this.state.changeLogEdited))
+            return showConfirm({ onOk: this.cancel });
 
         this.cancel();
     };
@@ -93,7 +94,12 @@ class EditChangeLog extends Component<Props, State> {
         const { changeLog, validationResults } = this.props;
 
         return (
-            <Drawer title={this.getTitle()} icon="file-text" visible={!!changeLog} onClose={this.confirmCancel}>
+            <Drawer
+                title={this.getTitle()}
+                icon="file-text"
+                visible={!!changeLog}
+                onClose={this.confirmCancel}
+            >
                 <ContentLoader isLoading={this.isLoading()}>
                     {changeLog && (
                         <ChangeLogForm

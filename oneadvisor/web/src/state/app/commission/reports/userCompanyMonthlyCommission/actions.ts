@@ -30,7 +30,12 @@ export type UserCompanyMonthlyCommissionDataAction =
     | UserCompanyMonthlyCommissionDataFetchingErrorAction
     | UserCompanyMonthlyCommissionDataFiltersReceiveAction;
 
-export const fetchUserCompanyMonthlyCommissionData = (): ThunkAction<void, RootState, {}, ApiAction> => {
+export const fetchUserCompanyMonthlyCommissionData = (): ThunkAction<
+    void,
+    RootState,
+    {},
+    ApiAction
+> => {
     return (dispatch, getState) => {
         const { filters } = userCompanyMonthlyCommissionSelector(getState());
 

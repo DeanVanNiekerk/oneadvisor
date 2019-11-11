@@ -1,6 +1,11 @@
 import { ThunkAction } from "redux-thunk";
 
-import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery, applyLike } from "@/app/query";
+import {
+    appendFiltersQuery,
+    appendPageOptionQuery,
+    appendSortOptionQuery,
+    applyLike,
+} from "@/app/query";
 import { Filters, PagedItems, PageOptions, SortOptions } from "@/app/table";
 import { ApiAction } from "@/app/types";
 import { clientsApi } from "@/config/api/client";
@@ -70,12 +75,16 @@ const updateFilters = (filters: Filters | null): Filters | null => {
     return applyLike(filters, ["firstName", "lastName", "idNumber"]);
 };
 
-export const receivePageOptions = (pageOptions: PageOptions): ClientListPageOptionsReceiveAction => ({
+export const receivePageOptions = (
+    pageOptions: PageOptions
+): ClientListPageOptionsReceiveAction => ({
     type: "CLIENTS_LIST_PAGE_OPTIONS_RECEIVE",
     payload: pageOptions,
 });
 
-export const receiveSortOptions = (sortOptions: SortOptions): ClientListSortOptionsReceiveAction => ({
+export const receiveSortOptions = (
+    sortOptions: SortOptions
+): ClientListSortOptionsReceiveAction => ({
     type: "CLIENTS_LIST_SORT_OPTIONS_RECEIVE",
     payload: sortOptions,
 });

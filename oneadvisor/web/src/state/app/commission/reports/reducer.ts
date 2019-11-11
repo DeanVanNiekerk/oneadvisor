@@ -1,7 +1,10 @@
 import { combineReducers } from "redux";
 
 import { reducer as clientRevenue, State as ClientRevenueState } from "./clientRevenue/reducer";
-import { reducer as commissionLapse, State as CommissionLapseState } from "./commissionLapse/reducer";
+import {
+    reducer as commissionLapse,
+    State as CommissionLapseState,
+} from "./commissionLapse/reducer";
 import { reducer as projections, State as ProjectionsState } from "./projections/reducer";
 import {
     reducer as userCompanyMonthlyCommission,

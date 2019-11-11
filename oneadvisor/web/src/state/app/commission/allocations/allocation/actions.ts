@@ -49,7 +49,10 @@ export const fetchAllocation = (allocationId: string): ApiAction => ({
     dispatchPrefix: "ALLOCATIONS_ALLOCATION",
 });
 
-export const updateAllocation = (allocation: AllocationEdit, onSuccess: ApiOnSuccess): ApiAction => ({
+export const updateAllocation = (
+    allocation: AllocationEdit,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
     type: "API",
     endpoint: `${allocationsApi}/${allocation.id}`,
     method: "POST",
@@ -58,7 +61,10 @@ export const updateAllocation = (allocation: AllocationEdit, onSuccess: ApiOnSuc
     dispatchPrefix: "ALLOCATIONS_ALLOCATION_EDIT",
 });
 
-export const insertAllocation = (allocation: AllocationEdit, onSuccess: ApiOnSuccess): ApiAction => ({
+export const insertAllocation = (
+    allocation: AllocationEdit,
+    onSuccess: ApiOnSuccess
+): ApiAction => ({
     type: "API",
     endpoint: `${allocationsApi}`,
     method: "POST",

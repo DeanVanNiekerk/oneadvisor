@@ -22,7 +22,9 @@ class EditSplit extends Component<Props> {
 
         return (
             <>
-                {split && <SplitForm split={split} onSave={this.save} onCancel={this.props.cancel} />}
+                {split && (
+                    <SplitForm split={split} onSave={this.save} onCancel={this.props.cancel} />
+                )}
                 {!split && (
                     <Form layout="inline">
                         <FormField>

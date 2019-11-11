@@ -40,7 +40,11 @@ const getColumns = () => {
             {},
             {
                 render: (commissionEarningsTypeId: string) => {
-                    return <CommissionEarningsTypeName commissionEarningsTypeId={commissionEarningsTypeId} />;
+                    return (
+                        <CommissionEarningsTypeName
+                            commissionEarningsTypeId={commissionEarningsTypeId}
+                        />
+                    );
                 },
             }
         ),

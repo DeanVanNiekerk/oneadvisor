@@ -6,7 +6,10 @@ type ApiActionType = "API";
 type ApiMethods = "GET" | "POST" | "DELETE";
 export type ApiOnSuccess<T = unknown> = (result: T, dispatch: Dispatch) => void;
 export type ApiOnFailure<T = unknown> = (result: T) => void;
-export type ApiOnValidationFailure = (validationResults: ValidationResult[], dispatch: Dispatch) => void;
+export type ApiOnValidationFailure = (
+    validationResults: ValidationResult[],
+    dispatch: Dispatch
+) => void;
 export type ApiOnSuccessBlob = (blob: Blob, dispatch: Dispatch) => void;
 export type ApiAction = {
     type: ApiActionType;

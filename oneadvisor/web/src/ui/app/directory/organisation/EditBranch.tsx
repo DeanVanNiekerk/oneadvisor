@@ -2,7 +2,13 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
-import { Branch, branchSelector, insertBranch, receiveBranch, updateBranch } from "@/state/app/directory/branches";
+import {
+    Branch,
+    branchSelector,
+    insertBranch,
+    receiveBranch,
+    updateBranch,
+} from "@/state/app/directory/branches";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Form, FormField } from "@/ui/controls";
 

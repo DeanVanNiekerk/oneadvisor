@@ -88,7 +88,11 @@ class AllocationList extends Component<Props> {
                     render: (id: string) => {
                         return (
                             <StopPropagation>
-                                <a href="#" className="mr-1" onClick={() => this.editAllocation(id)}>
+                                <a
+                                    href="#"
+                                    className="mr-1"
+                                    onClick={() => this.editAllocation(id)}
+                                >
                                     Edit
                                 </a>
                                 <Popconfirm

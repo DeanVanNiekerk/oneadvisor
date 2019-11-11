@@ -31,7 +31,10 @@ class ChangeLogList extends Component<Props> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (prevProps.pageOptions != this.props.pageOptions || prevProps.sortOptions != this.props.sortOptions)
+        if (
+            prevProps.pageOptions != this.props.pageOptions ||
+            prevProps.sortOptions != this.props.sortOptions
+        )
             this.loadChangeLogs();
     }
 
@@ -81,8 +84,10 @@ class ChangeLogList extends Component<Props> {
     };
 
     onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions) => {
-        if (this.props.pageOptions != pageOptions) this.props.dispatch(receivePageOptions(pageOptions));
-        if (this.props.sortOptions != sortOptions) this.props.dispatch(receiveSortOptions(sortOptions));
+        if (this.props.pageOptions != pageOptions)
+            this.props.dispatch(receivePageOptions(pageOptions));
+        if (this.props.sortOptions != sortOptions)
+            this.props.dispatch(receiveSortOptions(sortOptions));
     };
 
     render() {

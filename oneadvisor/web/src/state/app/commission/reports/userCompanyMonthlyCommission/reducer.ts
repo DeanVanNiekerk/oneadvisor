@@ -25,7 +25,10 @@ export const defaultState: State = {
     filters: defaultFilters,
 };
 
-export const reducer = (state: State = defaultState, action: UserCompanyMonthlyCommissionDataAction): State => {
+export const reducer = (
+    state: State = defaultState,
+    action: UserCompanyMonthlyCommissionDataAction
+): State => {
     switch (action.type) {
         case "COMMISSIONS_REPORT_USER_COMPANY_MONTHLY_COMMISSION_RECEIVE": {
             return {

@@ -394,7 +394,10 @@ describe("utils", () => {
                 "com_view_report_user_monthly_commission",
             ];
 
-            const result = hasPermissionsMenuGroups(groups, useCases, ["clt_administrator", "com_administrator"]);
+            const result = hasPermissionsMenuGroups(groups, useCases, [
+                "clt_administrator",
+                "com_administrator",
+            ]);
 
             expect(result).toBe(false);
         });

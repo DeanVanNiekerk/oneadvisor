@@ -25,6 +25,8 @@ describe("directory: splitRulePolicies: list actions", () => {
             dispatchPrefix: "SPLITRULEPOLICIES_LIST",
         };
 
-        expect(actions.fetchSplitRulePolicies(pageOptions, sortOptions, filters)).toEqual(expectedAction);
+        expect(actions.fetchSplitRulePolicies(pageOptions, sortOptions, filters)).toEqual(
+            expectedAction
+        );
     });
 });

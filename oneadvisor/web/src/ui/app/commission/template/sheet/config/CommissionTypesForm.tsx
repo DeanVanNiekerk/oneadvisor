@@ -7,7 +7,10 @@ import { connect, DispatchProp } from "react-redux";
 import { ApiOnFailure, ApiOnSuccess } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { statementTemplatesApi } from "@/config/api/commission";
-import { CommissionType as LookupCommissionType, commissionTypesSelector } from "@/state/app/commission/lookups";
+import {
+    CommissionType as LookupCommissionType,
+    commissionTypesSelector,
+} from "@/state/app/commission/lookups";
 import { commissionStatementTemplateFieldNamesSelector } from "@/state/app/commission/lookups/commissionStatementTemplateFieldNames";
 import { CommissionType, CommissionTypes, Sheet } from "@/state/app/commission/templates";
 import { tokenSelector } from "@/state/auth";
@@ -22,7 +25,11 @@ type Props = {
     validationResults: ValidationResult[];
     onChange: (commissionTypes: CommissionTypes) => void;
     lookupCommissionTypes: LookupCommissionType[];
-    saveTemplate: (onSuccess?: ApiOnSuccess, onFailure?: ApiOnFailure, disableSuccessMessage?: boolean) => void;
+    saveTemplate: (
+        onSuccess?: ApiOnSuccess,
+        onFailure?: ApiOnFailure,
+        disableSuccessMessage?: boolean
+    ) => void;
     selectedSheet: Sheet;
 } & DispatchProp;
 

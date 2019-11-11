@@ -8,7 +8,11 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import { areEqual, formatCurrency, getMonthOptions, getYearOptions } from "@/app/utils";
-import { CommissionErrorsFilters, downloadCommissionErrors, getCommissionErrors } from "@/state/app/commission/errors";
+import {
+    CommissionErrorsFilters,
+    downloadCommissionErrors,
+    getCommissionErrors,
+} from "@/state/app/commission/errors";
 import {
     clearStatementPreview,
     fetchStatements,
@@ -101,7 +105,11 @@ const StatementList: React.FC<Props> = props => {
         ];
     };
 
-    const onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
+    const onTableChange = (
+        pageOptions: PageOptions,
+        sortOptions: SortOptions,
+        filters: Filters
+    ) => {
         if (!areEqual(props.pageOptions, pageOptions)) props.updatePageOptions(pageOptions);
         if (!areEqual(props.sortOptions, sortOptions)) props.updateSortOptions(sortOptions);
         if (!areEqual(props.filters, filters)) props.updateFilters(filters);
@@ -187,7 +195,12 @@ const StatementList: React.FC<Props> = props => {
                     />
                 </Col>
                 <Col>
-                    <Select size="large" value={props.filterMonth} onChange={handleMonthChange} style={{ width: 200 }}>
+                    <Select
+                        size="large"
+                        value={props.filterMonth}
+                        onChange={handleMonthChange}
+                        style={{ width: 200 }}
+                    >
                         {getMonthOptions().map(month => {
                             return (
                                 <Option key={month.number.toString()} value={month.number}>
@@ -198,7 +211,12 @@ const StatementList: React.FC<Props> = props => {
                     </Select>
                 </Col>
                 <Col>
-                    <Select size="large" value={props.filterYear} onChange={handleYearChange} style={{ width: 200 }}>
+                    <Select
+                        size="large"
+                        value={props.filterYear}
+                        onChange={handleYearChange}
+                        style={{ width: 200 }}
+                    >
                         {getYearOptions().map(year => {
                             return (
                                 <Option key={year.toString()} value={year}>
@@ -259,7 +277,12 @@ type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
         ...bindActionCreators(
-            { fetchStatements, clearStatementPreview, updateMonthFilterNext, updateMonthFilterPrevious },
+            {
+                fetchStatements,
+                clearStatementPreview,
+                updateMonthFilterNext,
+                updateMonthFilterPrevious,
+            },
             dispatch
         ),
         newStatement: () => {

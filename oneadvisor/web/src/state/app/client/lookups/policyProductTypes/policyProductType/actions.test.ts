@@ -23,6 +23,8 @@ describe("policyProductType actions", () => {
             dispatchPrefix: "POLICYPRODUCTTYPES_POLICYPRODUCTTYPE_EDIT",
         };
 
-        expect(actions.updatePolicyProductType(policyProductType, onSuccess)).toEqual(expectedAction);
+        expect(actions.updatePolicyProductType(policyProductType, onSuccess)).toEqual(
+            expectedAction
+        );
     });
 });

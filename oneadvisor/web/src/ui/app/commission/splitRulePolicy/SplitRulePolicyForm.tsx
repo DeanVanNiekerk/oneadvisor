@@ -3,10 +3,23 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
-import { fetchSplitRulePolicy, SplitRulePolicy, SplitRulePolicyInfo } from "@/state/app/commission/splitRulePolicies";
+import {
+    fetchSplitRulePolicy,
+    SplitRulePolicy,
+    SplitRulePolicyInfo,
+} from "@/state/app/commission/splitRulePolicies";
 import { fetchSplitRules, SplitRule, splitRulesSelector } from "@/state/app/commission/splitRules";
 import { RootState } from "@/state/rootReducer";
-import { Button, CompanyName, Drawer, DrawerFooter, Form, FormSelect, FormText, UserName } from "@/ui/controls";
+import {
+    Button,
+    CompanyName,
+    Drawer,
+    DrawerFooter,
+    Form,
+    FormSelect,
+    FormText,
+    UserName,
+} from "@/ui/controls";
 
 import SplitRuleList from "../splitRule/SplitRuleList";
 
@@ -62,7 +75,9 @@ class SplitRulePolicyForm extends Component<Props, State> {
     };
 
     handleChange = (fieldName: string, value: string) => {
-        const splitRulePolicy = update(this.state.splitRulePolicy, { [fieldName]: { $set: value } });
+        const splitRulePolicy = update(this.state.splitRulePolicy, {
+            [fieldName]: { $set: value },
+        });
         this.setState({
             splitRulePolicy: splitRulePolicy,
         });
@@ -87,8 +102,14 @@ class SplitRulePolicyForm extends Component<Props, State> {
         return (
             <>
                 <Form editUseCase="com_edit_commission_split_rules">
-                    <FormText label="Broker" value={<UserName userId={splitRulePolicyInfo.policyUserId} />} />
-                    <FormText label="Company" value={<CompanyName companyId={splitRulePolicyInfo.policyCompanyId} />} />
+                    <FormText
+                        label="Broker"
+                        value={<UserName userId={splitRulePolicyInfo.policyUserId} />}
+                    />
+                    <FormText
+                        label="Company"
+                        value={<CompanyName companyId={splitRulePolicyInfo.policyCompanyId} />}
+                    />
                     <FormText
                         label="Client"
                         value={`${splitRulePolicyInfo.policyClientFirstName || ""} ${
@@ -110,7 +131,8 @@ class SplitRulePolicyForm extends Component<Props, State> {
                             if (rule.isDefault)
                                 return (
                                     <>
-                                        <span className="bold text-primary">Default Rule</span> ({text})
+                                        <span className="bold text-primary">Default Rule</span> (
+                                        {text})
                                     </>
                                 );
                             return text;

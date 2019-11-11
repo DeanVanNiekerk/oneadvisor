@@ -73,7 +73,8 @@ export const policyVisible = (visible: boolean): PolicyVisibleAction => ({
 
 export const clearPolicy = (): PolicyReceiveAction => receivePolicy(null);
 
-export const newPolicy = (policy?: Partial<PolicyEdit>): PolicyReceiveAction => receivePolicy(createPolicy(policy));
+export const newPolicy = (policy?: Partial<PolicyEdit>): PolicyReceiveAction =>
+    receivePolicy(createPolicy(policy));
 
 export const savePolicy = (
     onSaved?: (policy: PolicyEdit) => void
@@ -135,7 +136,10 @@ export const updatePolicy = (policy: PolicyEdit, onSuccess: ApiOnSuccess): ApiAc
     dispatchPrefix: "POLICIES_POLICY_EDIT",
 });
 
-export const insertPolicy = (policy: PolicyEdit, onSuccess: ApiOnSuccess<Result<PolicyEdit>>): ApiAction => ({
+export const insertPolicy = (
+    policy: PolicyEdit,
+    onSuccess: ApiOnSuccess<Result<PolicyEdit>>
+): ApiAction => ({
     type: "API",
     endpoint: `${policiesApi}`,
     method: "POST",

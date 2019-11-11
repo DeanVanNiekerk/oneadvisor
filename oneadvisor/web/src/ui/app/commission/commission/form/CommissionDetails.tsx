@@ -6,7 +6,11 @@ import { Dispatch } from "redux";
 import { applyLikeFormat } from "@/app/query";
 import { Filters, PageOptions } from "@/app/table";
 import { getPolicies, Policy } from "@/state/app/client/policies";
-import { CommissionEdit, commissionSelector, modifyCommission } from "@/state/app/commission/commissions";
+import {
+    CommissionEdit,
+    commissionSelector,
+    modifyCommission,
+} from "@/state/app/commission/commissions";
 import { commissionTypesSelector } from "@/state/app/commission/lookups";
 import { brokersSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
@@ -146,7 +150,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             const commissionModified = update(commission, { [fieldName]: { $set: value } });
             dispatch(modifyCommission(commissionModified));
         },
-        getPolicies: (filters: Filters, pageOptions: PageOptions, onSuccess: (policies: Policy[]) => void) => {
+        getPolicies: (
+            filters: Filters,
+            pageOptions: PageOptions,
+            onSuccess: (policies: Policy[]) => void
+        ) => {
             dispatch(getPolicies(filters, pageOptions, onSuccess));
         },
     };

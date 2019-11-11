@@ -58,7 +58,12 @@ class ChangeLogForm extends Component<Props, State> {
         const { changeLog } = this.state;
 
         return (
-            <Tabs onChange={this.onTabChange} activeKey={this.state.activeTab} sticky={true} clearTabsTopPadding={true}>
+            <Tabs
+                onChange={this.onTabChange}
+                activeKey={this.state.activeTab}
+                sticky={true}
+                clearTabsTopPadding={true}
+            >
                 <TabPane tab="Details" key="details_tab">
                     <Form>
                         <FormInput

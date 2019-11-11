@@ -20,7 +20,14 @@ import { commissionTypesSelector } from "@/state/app/commission/lookups";
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { CommissionTypeName, CompanyName, getColumnSearchProps, getTable, Header, UserName } from "@/ui/controls";
+import {
+    CommissionTypeName,
+    CompanyName,
+    getColumnSearchProps,
+    getTable,
+    Header,
+    UserName,
+} from "@/ui/controls";
 
 import EditCommission from "./EditCommission";
 
@@ -60,7 +67,11 @@ const CommissionList: React.FC<Props> = (props: Props) => {
         if (props.onSaved) props.onSaved();
     };
 
-    const onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
+    const onTableChange = (
+        pageOptions: PageOptions,
+        sortOptions: SortOptions,
+        filters: Filters
+    ) => {
         if (!areEqual(props.pageOptions, pageOptions)) props.updatePageOptions(pageOptions);
         if (!areEqual(props.sortOptions, sortOptions)) props.updateSortOptions(sortOptions);
         if (!areEqual(props.filters, filters)) props.updateFilters(filters);
@@ -106,7 +117,9 @@ const getColumns = (props: Props) => {
         );
 
     if (!hideColumns.some(c => c == "policyClientLastName"))
-        columns.push(getColumn("policyClientLastName", "Last Name", {}, getColumnSearchProps("Last Name")));
+        columns.push(
+            getColumn("policyClientLastName", "Last Name", {}, getColumnSearchProps("Last Name"))
+        );
 
     if (!hideColumns.some(c => c == "policyClientInitials"))
         columns.push(getColumn("policyClientInitials", "Initials"));
@@ -130,7 +143,9 @@ const getColumns = (props: Props) => {
         );
 
     if (!hideColumns.some(c => c == "policyNumber"))
-        columns.push(getColumn("policyNumber", "Policy Number", {}, getColumnSearchProps("Policy Number")));
+        columns.push(
+            getColumn("policyNumber", "Policy Number", {}, getColumnSearchProps("Policy Number"))
+        );
 
     if (!hideColumns.some(c => c == "commissionTypeId"))
         columns.push(
@@ -157,7 +172,8 @@ const getColumns = (props: Props) => {
             })
         );
 
-    if (!hideColumns.some(c => c == "vat")) columns.push(getColumn("vat", "VAT", { type: "currency" }));
+    if (!hideColumns.some(c => c == "vat"))
+        columns.push(getColumn("vat", "VAT", { type: "currency" }));
 
     if (!hideColumns.some(c => c == "splitGroupId"))
         columns.push(

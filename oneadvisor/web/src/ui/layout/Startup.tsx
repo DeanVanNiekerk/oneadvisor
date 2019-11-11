@@ -3,7 +3,10 @@ import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
 import { clientLookupsSelector, fetchAllClientLookups } from "@/state/app/client/lookups";
-import { commissionLookupsSelector, fetchAllCommissionLookups } from "@/state/app/commission/lookups";
+import {
+    commissionLookupsSelector,
+    fetchAllCommissionLookups,
+} from "@/state/app/commission/lookups";
 import { fetchBranchesSimple } from "@/state/app/directory/branchesSimple";
 import { directoryLookupsSelector, fetchAllDirectoryLookups } from "@/state/app/directory/lookups";
 import { fetchUsersSimple } from "@/state/app/directory/usersSimple";
@@ -55,7 +58,8 @@ class Startup extends React.Component<Props> {
     };
 
     render() {
-        if (this.props.loading && !this.isAccountPage()) return <Loader text="loading application..." />;
+        if (this.props.loading && !this.isAccountPage())
+            return <Loader text="loading application..." />;
 
         return <>{this.props.children}</>;
     }
@@ -67,7 +71,10 @@ const mapStateToProps = (state: RootState) => {
     const clientLookupsState = clientLookupsSelector(state);
 
     return {
-        loading: directoryLookupsState.fetching || commissionLookupsState.fetching || clientLookupsState.fetching,
+        loading:
+            directoryLookupsState.fetching ||
+            commissionLookupsState.fetching ||
+            clientLookupsState.fetching,
         isAuthenticated: isAuthenticatedSelector(state),
         organisationId: userOrganisationIdSelector(state),
     };

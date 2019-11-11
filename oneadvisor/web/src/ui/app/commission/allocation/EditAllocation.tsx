@@ -50,7 +50,8 @@ class EditAllocation extends Component<Props, State> {
     };
 
     confirmCancel = () => {
-        if (!areEqual(this.props.allocation, this.state.allocationEdited)) return showConfirm({ onOk: this.cancel });
+        if (!areEqual(this.props.allocation, this.state.allocationEdited))
+            return showConfirm({ onOk: this.cancel });
 
         this.cancel();
     };
@@ -90,7 +91,12 @@ class EditAllocation extends Component<Props, State> {
         let prefix = "New Allocation to ";
         if (allocation && allocation.id) prefix = "Edit Allocation to ";
 
-        return <ClientName prefix={prefix} clientId={this.props.allocation ? this.props.allocation.toClientId : ""} />;
+        return (
+            <ClientName
+                prefix={prefix}
+                clientId={this.props.allocation ? this.props.allocation.toClientId : ""}
+            />
+        );
     };
 
     render() {

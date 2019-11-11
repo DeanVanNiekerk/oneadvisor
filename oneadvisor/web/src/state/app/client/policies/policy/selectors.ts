@@ -14,7 +14,10 @@ import { State } from "./reducer";
 
 const rootSelector = (state: RootState): State => state.app.client.policies.policy;
 
-export const policySelector: (state: RootState) => State = createSelector(rootSelector, root => root);
+export const policySelector: (state: RootState) => State = createSelector(
+    rootSelector,
+    root => root
+);
 
 export const policyIsModifiedSelector: (state: RootState) => boolean = createSelector(
     rootSelector,
@@ -26,7 +29,9 @@ export const policyIsLoadingSelector: (state: RootState) => boolean = createSele
     root => root.updating || root.fetching
 );
 
-export const policyProductCascaseSelector: (state: RootState) => CascaderOptionType[] = createSelector(
+export const policyProductCascaseSelector: (
+    state: RootState
+) => CascaderOptionType[] = createSelector(
     rootSelector,
     policyTypesSelector,
     policyProductTypesSelector,
@@ -41,23 +46,26 @@ export const policyProductCascaseSelector: (state: RootState) => CascaderOptionT
     }
 );
 
-export const policyProductCascaseValuesSelector: (state: RootState) => string[] = createSelector(rootSelector, root => {
-    const values: string[] = [];
-    const policy = root.policy;
+export const policyProductCascaseValuesSelector: (state: RootState) => string[] = createSelector(
+    rootSelector,
+    root => {
+        const values: string[] = [];
+        const policy = root.policy;
 
-    if (!policy) return values;
+        if (!policy) return values;
 
-    if (policy.policyTypeId) {
-        values.push(policy.policyTypeId);
+        if (policy.policyTypeId) {
+            values.push(policy.policyTypeId);
 
-        if (policy.policyProductTypeId) {
-            values.push(policy.policyProductTypeId);
+            if (policy.policyProductTypeId) {
+                values.push(policy.policyProductTypeId);
 
-            if (policy.policyProductId) {
-                values.push(policy.policyProductId);
+                if (policy.policyProductId) {
+                    values.push(policy.policyProductId);
+                }
             }
         }
-    }
 
-    return values;
-});
+        return values;
+    }
+);

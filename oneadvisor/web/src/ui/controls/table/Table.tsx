@@ -104,7 +104,10 @@ class TableComponent<T> extends React.Component<Props<T>, State> {
                         onClick: () => {
                             if (
                                 this.props.onRowClick &&
-                                hasUseCase(this.props.onRowClickRequiredUseCase, this.props.useCases)
+                                hasUseCase(
+                                    this.props.onRowClickRequiredUseCase,
+                                    this.props.useCases
+                                )
                             )
                                 this.props.onRowClick(record, index);
                         },

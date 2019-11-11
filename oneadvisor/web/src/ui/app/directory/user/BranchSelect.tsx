@@ -2,7 +2,12 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
-import { Branch, branchesSelector, fetchBranch, fetchBranches } from "@/state/app/directory/branches";
+import {
+    Branch,
+    branchesSelector,
+    fetchBranch,
+    fetchBranches,
+} from "@/state/app/directory/branches";
 import { Organisation } from "@/state/app/directory/organisations";
 import { RootState } from "@/state/rootReducer";
 import { FormSelect } from "@/ui/controls";
@@ -37,7 +42,10 @@ class BranchSelect extends Component<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.props.branchId != prevProps.branchId && this.props.branchId != this.state.branchId) {
+        if (
+            this.props.branchId != prevProps.branchId &&
+            this.props.branchId != this.state.branchId
+        ) {
             this.loadBranchList(this.props.branchId);
         }
     }

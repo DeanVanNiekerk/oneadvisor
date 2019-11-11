@@ -13,7 +13,10 @@ import {
     reducer as commissionStatementTemplateGroupFieldNames,
     State as CommissionStatementTemplateGroupFieldNamesState,
 } from "./commissionStatementTemplateGroupFieldNames/reducer";
-import { reducer as commissionTypes, State as CommissionTypesState } from "./commissionTypes/reducer";
+import {
+    reducer as commissionTypes,
+    State as CommissionTypesState,
+} from "./commissionTypes/reducer";
 
 export type State = {
     all: LookupsState;

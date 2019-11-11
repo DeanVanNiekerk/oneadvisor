@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
-import { Filters, getBooleanOptions, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
+import {
+    Filters,
+    getBooleanOptions,
+    getColumnDefinition,
+    PageOptions,
+    SortOptions,
+} from "@/app/table";
 import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
 import {
     CommissionLapseData,
@@ -13,7 +19,13 @@ import {
 import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { CompanyName, getTable, PolicyTypeName, UserName, getColumnSearchProps } from "@/ui/controls";
+import {
+    CompanyName,
+    getTable,
+    PolicyTypeName,
+    UserName,
+    getColumnSearchProps,
+} from "@/ui/controls";
 
 const Table = getTable<CommissionLapseData>();
 
@@ -31,7 +43,11 @@ type Props = {
 
 class CommissionLapseTable extends Component<Props> {
     getColumns = () => {
-        const getColumn = getColumnDefinition<CommissionLapseData>(true, this.props.filters, this.props.sortOptions);
+        const getColumn = getColumnDefinition<CommissionLapseData>(
+            true,
+            this.props.filters,
+            this.props.sortOptions
+        );
 
         const columns = [
             getColumn(
@@ -95,8 +111,10 @@ class CommissionLapseTable extends Component<Props> {
     };
 
     onTableChange = (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => {
-        if (this.props.pageOptions != pageOptions) this.props.dispatch(receiveCommissionLapsePageOptions(pageOptions));
-        if (this.props.sortOptions != sortOptions) this.props.dispatch(receiveCommissionLapseSortOptions(sortOptions));
+        if (this.props.pageOptions != pageOptions)
+            this.props.dispatch(receiveCommissionLapsePageOptions(pageOptions));
+        if (this.props.sortOptions != sortOptions)
+            this.props.dispatch(receiveCommissionLapseSortOptions(sortOptions));
         if (this.props.filters != filters)
             this.props.dispatch(
                 receiveCommissionLapseFilters({

@@ -31,7 +31,9 @@ type Props<T> = {
     placeholder?: React.ReactNode;
     showSearch?: boolean;
     showArrow?: boolean;
-    filterOption?: boolean | ((inputValue: string, option: React.ReactElement<OptionProps>) => boolean);
+    filterOption?:
+        | boolean
+        | ((inputValue: string, option: React.ReactElement<OptionProps>) => boolean);
     onSearch?: (value: string) => void;
     onSelect?: (value: T, option: React.ReactElement) => void;
     minWidth?: string;
@@ -115,7 +117,10 @@ class FormSelect<T> extends Component<Props<T>> {
                     onSelect={this.props.onSelect}
                 >
                     {this.props.options.map(option => (
-                        <Option key={option[this.props.optionsValue]} value={option[this.props.optionsValue]}>
+                        <Option
+                            key={option[this.props.optionsValue]}
+                            value={option[this.props.optionsValue]}
+                        >
                             {this.getOptionsText(option)}
                         </Option>
                     ))}

@@ -12,7 +12,14 @@ import {
 } from "@/state/app/client/lookups";
 import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
-import { Button, CompanyName, getTable, Header, PolicyProductTypeName, getColumnSearchProps } from "@/ui/controls";
+import {
+    Button,
+    CompanyName,
+    getTable,
+    Header,
+    PolicyProductTypeName,
+    getColumnSearchProps,
+} from "@/ui/controls";
 
 import EditPolicyProduct from "./EditPolicyProduct";
 
@@ -138,7 +145,10 @@ class PolicyProductList extends Component<Props, State> {
                     loading={this.props.fetching}
                     onRowClick={p => this.editPolicyProduct(p.id)}
                 />
-                <EditPolicyProduct visible={this.state.editVisible} onClose={this.closeEditPolicyProduct} />
+                <EditPolicyProduct
+                    visible={this.state.editVisible}
+                    onClose={this.closeEditPolicyProduct}
+                />
             </>
         );
     }

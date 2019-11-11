@@ -22,11 +22,18 @@ class EditSheet extends Component<Props> {
 
         return (
             <>
-                {sheet && <SheetForm sheet={sheet} onSave={this.save} onCancel={this.props.cancel} />}
+                {sheet && (
+                    <SheetForm sheet={sheet} onSave={this.save} onCancel={this.props.cancel} />
+                )}
                 {!sheet && (
                     <Form layout="inline">
                         <FormField>
-                            <Button icon="plus" type="dashed" onClick={this.props.newSheet} noLeftMargin={true}>
+                            <Button
+                                icon="plus"
+                                type="dashed"
+                                onClick={this.props.newSheet}
+                                noLeftMargin={true}
+                            >
                                 Add Sheet
                             </Button>
                         </FormField>

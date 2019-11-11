@@ -3,8 +3,19 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { getColumnDefinition } from "@/app/table";
-import { fetchOrganisations, Organisation, organisationsSelector } from "@/state/app/directory/organisations";
-import { fetchUser, fetchUsers, receiveUser, User, UserEdit, usersSelector } from "@/state/app/directory/users";
+import {
+    fetchOrganisations,
+    Organisation,
+    organisationsSelector,
+} from "@/state/app/directory/organisations";
+import {
+    fetchUser,
+    fetchUsers,
+    receiveUser,
+    User,
+    UserEdit,
+    usersSelector,
+} from "@/state/app/directory/users";
 import { fetchUsersSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header } from "@/ui/controls";
@@ -102,7 +113,11 @@ class UserList extends Component<Props, State> {
                 {},
                 {
                     render: (emailConfirmed: boolean) => {
-                        return emailConfirmed ? <Tag color="green">Yes</Tag> : <Tag color="volcano">No</Tag>;
+                        return emailConfirmed ? (
+                            <Tag color="green">Yes</Tag>
+                        ) : (
+                            <Tag color="volcano">No</Tag>
+                        );
                     },
                 }
             ),
@@ -112,7 +127,11 @@ class UserList extends Component<Props, State> {
                 {},
                 {
                     render: (isLocked: boolean) => {
-                        return !isLocked ? <Tag color="green">No</Tag> : <Tag color="volcano">Yes</Tag>;
+                        return !isLocked ? (
+                            <Tag color="green">No</Tag>
+                        ) : (
+                            <Tag color="volcano">Yes</Tag>
+                        );
                     },
                 }
             ),

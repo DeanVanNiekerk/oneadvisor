@@ -61,7 +61,9 @@ class SideMenu extends Component<Props, State> {
                     selectedKeys={[]}
                 >
                     {this.props.menu.groups
-                        .filter(group => hasPermissionsMenuGroup(group, this.props.useCases, this.props.roles))
+                        .filter(group =>
+                            hasPermissionsMenuGroup(group, this.props.useCases, this.props.roles)
+                        )
                         .map(group => (
                             <SubMenu
                                 key={group.name}
@@ -81,9 +83,14 @@ class SideMenu extends Component<Props, State> {
                                     .map(link => (
                                         <Item
                                             key={link.relativePath}
-                                            style={this.getMenuItemStyle(link, this.props.application)}
+                                            style={this.getMenuItemStyle(
+                                                link,
+                                                this.props.application
+                                            )}
                                         >
-                                            <Link to={`${this.props.menu.relativePath}${link.relativePath}`}>
+                                            <Link
+                                                to={`${this.props.menu.relativePath}${link.relativePath}`}
+                                            >
                                                 <span>{link.name}</span>
                                             </Link>
                                         </Item>

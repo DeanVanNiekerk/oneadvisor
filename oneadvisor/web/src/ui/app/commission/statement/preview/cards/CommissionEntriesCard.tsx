@@ -11,7 +11,15 @@ import {
 } from "@/state/app/commission/statements";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
-import { Button, Currency, Drawer, DrawerFooter, Icon, PreviewCard, PreviewCardRow } from "@/ui/controls";
+import {
+    Button,
+    Currency,
+    Drawer,
+    DrawerFooter,
+    Icon,
+    PreviewCard,
+    PreviewCardRow,
+} from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";
 
 import CommissionList from "../../../commission/CommissionList";
@@ -96,12 +104,18 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
             >
                 {props.statement && (
                     <>
-                        <PreviewCardRow label="Total Entries" value={props.statement.commissionCount} />
+                        <PreviewCardRow
+                            label="Total Entries"
+                            value={props.statement.commissionCount}
+                        />
                         <PreviewCardRow
                             label="Amount (incl VAT)"
                             value={<Currency amount={props.statement.actualAmountIncludingVAT} />}
                         />
-                        <PreviewCardRow label="VAT" value={<Currency amount={props.statement.actualVAT} />} />
+                        <PreviewCardRow
+                            label="VAT"
+                            value={<Currency amount={props.statement.actualVAT} />}
+                        />
                     </>
                 )}
             </PreviewCard>
@@ -116,7 +130,11 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
                     hideHeader={true}
                     commissionStatementId={props.statement ? props.statement.id : ""}
                     onSaved={props.onCommissionsChanged}
-                    hideColumns={["commissionStatementDate", "policyClientInitials", "policyCompanyId"]}
+                    hideColumns={[
+                        "commissionStatementDate",
+                        "policyClientInitials",
+                        "policyCompanyId",
+                    ]}
                 />
                 <DrawerFooter>
                     <Button onClick={() => setCommissionListVisible(false)}>Close</Button>
@@ -139,12 +157,19 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        deleteCommissions: (commissionStatementId: string, onSuccess: () => void, onFailure: () => void) => {
+        deleteCommissions: (
+            commissionStatementId: string,
+            onSuccess: () => void,
+            onFailure: () => void
+        ) => {
             dispatch(deleteCommissions(commissionStatementId, onSuccess, onFailure));
         },
     };
 };
 
-const CommissionEntriesCard = connect(mapStateToProps, mapDispatchToProps)(CommissionEntriesCardComponent);
+const CommissionEntriesCard = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CommissionEntriesCardComponent);
 
 export { CommissionEntriesCard };

@@ -5,7 +5,10 @@ import { reducer as clientTypes, State as ClientTypesState } from "./clientTypes
 import { reducer as contactTypes, State as ContactTypesState } from "./contactTypes/reducer";
 import { reducer as marritalStatus, State as MarritalStatusState } from "./marritalStatus/reducer";
 import { reducer as policyProducts, State as PolicyProductsState } from "./policyProducts/reducer";
-import { reducer as policyProductTypes, State as PolicyProductTypesState } from "./policyProductTypes/reducer";
+import {
+    reducer as policyProductTypes,
+    State as PolicyProductTypesState,
+} from "./policyProductTypes/reducer";
 import { reducer as policyTypes, State as PolicyTypesState } from "./policyTypes/reducer";
 
 export type State = {

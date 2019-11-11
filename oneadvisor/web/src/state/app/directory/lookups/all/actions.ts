@@ -11,7 +11,10 @@ type LookupsReceiveAction = {
 type LookupsFetchingAction = { type: "DIRECTORY_LOOKUPS_FETCHING" };
 type LookupsFetchingErrorAction = { type: "DIRECTORY_LOOKUPS_FETCHING_ERROR" };
 
-export type LookupsAction = LookupsReceiveAction | LookupsFetchingAction | LookupsFetchingErrorAction;
+export type LookupsAction =
+    | LookupsReceiveAction
+    | LookupsFetchingAction
+    | LookupsFetchingErrorAction;
 
 export const fetchAllDirectoryLookups = (): ApiAction => ({
     type: "API",

@@ -21,7 +21,8 @@ export const policyProductCascade = (
                         children: policyProducts
                             .filter(product => {
                                 if (product.policyProductTypeId === productType.id) {
-                                    if (companyId === "" || companyId !== product.companyId) return false;
+                                    if (companyId === "" || companyId !== product.companyId)
+                                        return false;
 
                                     return true;
                                 }

@@ -50,12 +50,16 @@ export const fetchSplitRulePolicies = (
     };
 };
 
-export const receivePageOptions = (pageOptions: PageOptions): SplitRulePolicyListPageOptionsReceiveAction => ({
+export const receivePageOptions = (
+    pageOptions: PageOptions
+): SplitRulePolicyListPageOptionsReceiveAction => ({
     type: "SPLITRULEPOLICIES_LIST_PAGE_OPTIONS_RECEIVE",
     payload: pageOptions,
 });
 
-export const receiveSortOptions = (sortOptions: SortOptions): SplitRulePolicyListSortOptionsReceiveAction => ({
+export const receiveSortOptions = (
+    sortOptions: SortOptions
+): SplitRulePolicyListSortOptionsReceiveAction => ({
     type: "SPLITRULEPOLICIES_LIST_SORT_OPTIONS_RECEIVE",
     payload: sortOptions,
 });

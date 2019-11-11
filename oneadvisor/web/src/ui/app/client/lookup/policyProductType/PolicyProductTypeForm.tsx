@@ -35,7 +35,9 @@ class PolicyProductTypeForm extends Component<Props, State> {
     }
 
     handleChange = (fieldName: keyof PolicyProductType, value: string) => {
-        const policyProductType = update(this.state.policyProductType, { [fieldName]: { $set: value } });
+        const policyProductType = update(this.state.policyProductType, {
+            [fieldName]: { $set: value },
+        });
         this.setState({
             policyProductType: policyProductType,
         });

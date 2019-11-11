@@ -4,7 +4,10 @@ import { connect } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
 import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
-import { CommissionEarningsType, commissionEarningsTypesSelector } from "@/state/app/commission/lookups";
+import {
+    CommissionEarningsType,
+    commissionEarningsTypesSelector,
+} from "@/state/app/commission/lookups";
 import { CommissionType } from "@/state/app/commission/lookups/commissionTypes";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormInput, FormSelect } from "@/ui/controls";
