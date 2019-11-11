@@ -115,9 +115,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     };
 };
 
-const MappingErrorsCard = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(MappingErrorsCardComponent);
+const MappingErrorsCard = connect(mapStateToProps, mapDispatchToProps)(MappingErrorsCardComponent);
 
 export { MappingErrorsCard };

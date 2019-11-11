@@ -196,7 +196,4 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(PolicyForm);
+export default connect(mapStateToProps, mapDispatchToProps)(PolicyForm);

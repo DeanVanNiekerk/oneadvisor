@@ -145,9 +145,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     };
 };
 
-const CommissionEntriesCard = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(CommissionEntriesCardComponent);
+const CommissionEntriesCard = connect(mapStateToProps, mapDispatchToProps)(CommissionEntriesCardComponent);
 
 export { CommissionEntriesCard };

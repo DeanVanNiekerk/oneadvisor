@@ -213,7 +213,4 @@ const firstNameChanged = (client: ClientEdit, value: string): ClientEdit => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ClientForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ClientForm);

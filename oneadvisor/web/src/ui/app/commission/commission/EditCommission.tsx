@@ -73,7 +73,4 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(EditCommission);
+export default connect(mapStateToProps, mapDispatchToProps)(EditCommission);

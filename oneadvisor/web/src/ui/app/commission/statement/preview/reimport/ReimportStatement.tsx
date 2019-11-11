@@ -120,7 +120,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ReimportStatement);
+export default connect(mapStateToProps, mapDispatchToProps)(ReimportStatement);

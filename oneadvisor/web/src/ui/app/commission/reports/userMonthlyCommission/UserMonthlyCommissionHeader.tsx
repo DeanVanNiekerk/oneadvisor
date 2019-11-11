@@ -38,7 +38,4 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
     };
 };
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(UserMonthlyCommissionHeader);
+export default connect(null, mapDispatchToProps)(UserMonthlyCommissionHeader);

@@ -7,7 +7,4 @@ import { State } from "./reducer";
 const rootSelector = (state: RootState): State =>
     state.app.commission.lookups.commissionStatementTemplateGroupFieldNames.list;
 
-export const listSelector: (state: RootState) => State = createSelector(
-    rootSelector,
-    root => root
-);
+export const listSelector: (state: RootState) => State = createSelector(rootSelector, root => root);

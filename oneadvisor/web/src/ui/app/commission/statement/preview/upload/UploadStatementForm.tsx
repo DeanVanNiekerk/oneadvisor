@@ -112,7 +112,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(UploadStatementForm);
+export default connect(mapStateToProps, mapDispatchToProps)(UploadStatementForm);

@@ -22,10 +22,7 @@ export const configureStore = () => {
     const store = createStore(
         createRootReducer(history),
         undefined, // preloaded state
-        compose(
-            applyMiddleware(...middleware),
-            ...enhancers
-        )
+        compose(applyMiddleware(...middleware), ...enhancers)
     );
 
     // Enable Webpack hot module replacement for reducers

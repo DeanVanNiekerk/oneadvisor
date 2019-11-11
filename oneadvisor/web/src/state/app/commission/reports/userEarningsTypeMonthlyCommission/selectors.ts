@@ -62,7 +62,6 @@ export const userEarningsTypeMonthlyCommissionPieDataSelector: (state: RootState
     }
 );
 
-export const userEarningsTypeMonthlyCommissionTotalAmountExclVatSelector: (state: RootState) => number = createSelector(
-    rootSelector,
-    root => root.items.reduce((p, c) => p + c.amountExcludingVAT, 0)
-);
+export const userEarningsTypeMonthlyCommissionTotalAmountExclVatSelector: (
+    state: RootState
+) => number = createSelector(rootSelector, root => root.items.reduce((p, c) => p + c.amountExcludingVAT, 0));

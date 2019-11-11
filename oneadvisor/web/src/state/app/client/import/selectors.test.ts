@@ -33,7 +33,10 @@ describe("client import selectors", () => {
                 client: {
                     import: {
                         selectedColumns: ["idNumber", "lastName", "dateOfBirth"],
-                        data: [["val1", "val2", "28520"], ["val3", "val4", "1982-10-03"]],
+                        data: [
+                            ["val1", "val2", "28520"],
+                            ["val3", "val4", "1982-10-03"],
+                        ],
                     },
                 },
             },
@@ -73,7 +76,10 @@ describe("client import selectors", () => {
                             },
                         ],
                         selectedColumns: ["idNumber", "lastName"],
-                        data: [["val1", "val2"], ["val3", "val4"]],
+                        data: [
+                            ["val1", "val2"],
+                            ["val3", "val4"],
+                        ],
                     },
                 },
             },

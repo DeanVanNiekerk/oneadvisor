@@ -7,7 +7,10 @@ describe("client import reducer", () => {
             ...defaultState,
         };
 
-        const data: ImportData = [["val1", "val2"], ["val3", "val4"]];
+        const data: ImportData = [
+            ["val1", "val2"],
+            ["val3", "val4"],
+        ];
 
         const actualState = reducer(initalState, {
             type: "CLIENTS_IMPORT_DATA_RECEIVE",
@@ -360,7 +363,10 @@ describe("client import reducer", () => {
     it("should handle CLIENTS_IMPORT_CLIENT_RESET", () => {
         const initalState = {
             ...defaultState,
-            data: [["val1", "val2"], ["val3", "val4"]],
+            data: [
+                ["val1", "val2"],
+                ["val3", "val4"],
+            ],
             currentStepIndex: 1,
             companyId: "2",
             clients: [

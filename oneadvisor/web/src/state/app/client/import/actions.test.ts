@@ -4,7 +4,10 @@ import { ImportClient, ImportColumn } from "./types";
 
 describe("client: import: actions", () => {
     it("should dispatch CLIENTS_IMPORT_DATA_RECEIVE when receiveClientImportData is called", () => {
-        const data: ImportData = [["val1", "val2"], ["val3", "val4"]];
+        const data: ImportData = [
+            ["val1", "val2"],
+            ["val3", "val4"],
+        ];
 
         const expectedAction = {
             type: "CLIENTS_IMPORT_DATA_RECEIVE",

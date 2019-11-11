@@ -8,10 +8,7 @@ import { State } from "./reducer";
 
 const rootSelector = (state: RootState): State => state.app.directory.lookups.companies.list;
 
-export const companiesSelector: (state: RootState) => State = createSelector(
-    rootSelector,
-    root => root
-);
+export const companiesSelector: (state: RootState) => State = createSelector(rootSelector, root => root);
 
 export const organisationCompaniesSelector: (state: RootState) => Company[] = createSelector(
     rootSelector,

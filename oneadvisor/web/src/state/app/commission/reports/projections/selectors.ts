@@ -25,15 +25,9 @@ import { State } from "./reducer";
 
 const rootSelector = (state: RootState): State => state.app.commission.reports.projections;
 
-export const commissionProjectionsSelector: (state: RootState) => State = createSelector(
-    rootSelector,
-    root => root
-);
+export const commissionProjectionsSelector: (state: RootState) => State = createSelector(rootSelector, root => root);
 
-const todaySelector: (state: RootState) => Date = createSelector(
-    rootSelector,
-    () => new Date()
-);
+const todaySelector: (state: RootState) => Date = createSelector(rootSelector, () => new Date());
 
 export const projectionGroupsTableColumnsSelector: (
     state: RootState

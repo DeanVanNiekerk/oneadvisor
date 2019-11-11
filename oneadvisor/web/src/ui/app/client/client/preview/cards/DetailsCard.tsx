@@ -85,9 +85,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     };
 };
 
-const DetailsCard = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(DetailsCardComponent);
+const DetailsCard = connect(mapStateToProps, mapDispatchToProps)(DetailsCardComponent);
 
 export { DetailsCard };

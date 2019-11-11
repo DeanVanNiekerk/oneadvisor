@@ -7,10 +7,7 @@ import { State } from "./reducer";
 
 const rootSelector = (state: RootState): State => state.app.commission.commissions.commission;
 
-export const commissionSelector: (state: RootState) => State = createSelector(
-    rootSelector,
-    root => root
-);
+export const commissionSelector: (state: RootState) => State = createSelector(rootSelector, root => root);
 
 export const commissionIsModifiedSelector: (state: RootState) => boolean = createSelector(
     rootSelector,

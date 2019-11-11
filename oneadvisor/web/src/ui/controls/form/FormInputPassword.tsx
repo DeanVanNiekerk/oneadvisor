@@ -22,7 +22,7 @@ type Props = {
     autoFocus?: boolean;
     readonly?: boolean;
     placeholder?: string;
-    size?: (typeof InputSizes)[number];
+    size?: typeof InputSizes[number];
     formFieldStyle?: React.CSSProperties;
     type?: string;
     onKeyPress?: KeyboardEventHandler<HTMLInputElement>;

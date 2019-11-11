@@ -319,9 +319,4 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
     };
 };
 
-export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(StatementList)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(StatementList));

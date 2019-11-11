@@ -8,10 +8,7 @@ import { Application, Menu, MenuLink, Menus } from "./types";
 
 const rootSelector = (state: RootState): State => state.context;
 
-export const contextSelector: (state: RootState) => State = createSelector(
-    rootSelector,
-    root => root
-);
+export const contextSelector: (state: RootState) => State = createSelector(rootSelector, root => root);
 
 export const pathNameSelector = (state: RootState): string => {
     //@ts-ignore
@@ -66,19 +63,13 @@ export const currentMenuSelector: (state: RootState) => Menu = createSelector(
     }
 );
 
-export const currentMenuLinkSelector: (state: RootState) => MenuLink = createSelector(
-    currentMenuSelector,
-    menu => {
-        const flattened = menu.groups.reduce(
-            (links, group) => {
-                links.push(...group.links);
-                return links;
-            },
-            [] as MenuLink[]
-        );
-        return flattened.filter(link => link.isCurrent)[0];
-    }
-);
+export const currentMenuLinkSelector: (state: RootState) => MenuLink = createSelector(currentMenuSelector, menu => {
+    const flattened = menu.groups.reduce((links, group) => {
+        links.push(...group.links);
+        return links;
+    }, [] as MenuLink[]);
+    return flattened.filter(link => link.isCurrent)[0];
+});
 
 const isCurrentApplication = (application: Application, pathName: string) => {
     if (!pathName || pathName === "/") {
