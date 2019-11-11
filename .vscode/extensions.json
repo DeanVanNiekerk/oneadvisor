@@ -6,7 +6,6 @@
     "mike-co.import-sorter",
     "jchannon.csharpextensions",
     "formulahendry.dotnet-test-explorer",
-    "eamodio.gitlens",
-    "dbaeumer.vscode-eslint"
+    "eamodio.gitlens"
   ]
 }
