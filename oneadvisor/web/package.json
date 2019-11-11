@@ -15,7 +15,7 @@
         "analyze:run": "webpack-bundle-analyzer stats.json",
         "check-types": "tsc",
         "prettier-fix": "prettier --write \"src/**/*.*\"",
-        "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
+        "lint": "eslint --max-warnings=10 \"src/**/*.{js,ts,tsx}\"",
         "lint-quiet": "eslint --quiet \"src/**/*.{js,ts,tsx}\"",
         "lint-fix": "eslint --fix \"src/**/*.{js,ts,tsx}\""
     },
