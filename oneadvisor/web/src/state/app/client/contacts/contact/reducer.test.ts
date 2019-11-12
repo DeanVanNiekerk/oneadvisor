@@ -1,5 +1,6 @@
 import { getValidationResult } from "@/test";
 
+import { Contact } from "../";
 import { defaultState, reducer } from "./reducer";
 
 describe("contact reducer", () => {
@@ -63,8 +64,55 @@ describe("contact reducer", () => {
         const expectedState = {
             ...defaultState,
             contact: { ...contact },
+            contactOriginal: { ...contact },
             fetching: false,
             validationResults: [],
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle CONTACTS_CONTACT_MODIFIED", () => {
+        const contact: Contact = {
+            id: "10",
+            clientId: "12",
+            contactTypeId: "14",
+            value: "0825728997",
+        };
+
+        const initalState = {
+            ...defaultState,
+            contact: contact,
+            contactOriginal: contact,
+        };
+
+        const contactModified: Contact = {
+            ...contact,
+            value: "0825987654",
+        };
+
+        const actualState = reducer(initalState, {
+            type: "CONTACTS_CONTACT_MODIFIED",
+            payload: { ...contactModified },
+        });
+
+        const expectedState = {
+            ...initalState,
+            contact: { ...contactModified },
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle CONTACTS_CONTACT_VISIBLE", () => {
+        const actualState = reducer(defaultState, {
+            type: "CONTACTS_CONTACT_VISIBLE",
+            payload: true,
+        });
+
+        const expectedState = {
+            ...defaultState,
+            visible: true,
         };
 
         expect(actualState).toEqual(expectedState);

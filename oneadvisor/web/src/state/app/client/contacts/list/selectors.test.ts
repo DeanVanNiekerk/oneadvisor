@@ -1,7 +1,7 @@
-import { listSelector } from "./selectors";
+import { contactsSelector } from "./selectors";
 
 describe("contact list selectors", () => {
-    it("listSelector", () => {
+    it("contactsSelector", () => {
         const state = {
             app: {
                 client: {
@@ -19,7 +19,7 @@ describe("contact list selectors", () => {
         };
 
         //@ts-ignore
-        const actual = listSelector(state);
+        const actual = contactsSelector(state);
 
         expect(actual).toEqual(expected);
     });

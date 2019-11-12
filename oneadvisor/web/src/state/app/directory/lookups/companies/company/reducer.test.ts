@@ -1,5 +1,6 @@
 import { getValidationResult } from "@/test";
 
+import { Company } from "../";
 import { defaultState, reducer } from "./reducer";
 
 describe("company reducer", () => {
@@ -9,7 +10,7 @@ describe("company reducer", () => {
             validationResults: [getValidationResult()],
         };
 
-        const company = {
+        const company: Company = {
             id: "10",
             name: "Org1",
             commissionPolicyNumberPrefixes: ["pre_1"],
@@ -25,6 +26,51 @@ describe("company reducer", () => {
             company: { ...company },
             companyOriginal: { ...company },
             validationResults: [],
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle COMPANIES_COMPANY_MODIFIED", () => {
+        const company: Company = {
+            id: "10",
+            name: "Org1",
+            commissionPolicyNumberPrefixes: ["pre_1"],
+        };
+
+        const initalState = {
+            ...defaultState,
+            company: company,
+            companyOriginal: company,
+        };
+
+        const companyModified: Company = {
+            ...company,
+            name: "New Name!",
+        };
+
+        const actualState = reducer(initalState, {
+            type: "COMPANIES_COMPANY_MODIFIED",
+            payload: { ...companyModified },
+        });
+
+        const expectedState = {
+            ...initalState,
+            company: { ...companyModified },
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle COMPANIES_COMPANY_VISIBLE", () => {
+        const actualState = reducer(defaultState, {
+            type: "COMPANIES_COMPANY_VISIBLE",
+            payload: true,
+        });
+
+        const expectedState = {
+            ...defaultState,
+            visible: true,
         };
 
         expect(actualState).toEqual(expectedState);

@@ -99,8 +99,7 @@ class FormSelect<T> extends Component<Props<T>> {
                 loading={loading}
                 validationFieldName={this.props.validationFieldName}
             >
-                //@ts-ignore
-                <Select<T>
+                <Select<any> //eslint-disable-line @typescript-eslint/no-explicit-any
                     showSearch={this.props.showSearch}
                     showArrow={this.props.showArrow}
                     filterOption={this.props.filterOption}

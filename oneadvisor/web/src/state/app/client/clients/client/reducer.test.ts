@@ -84,6 +84,49 @@ describe("client reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
+    it("should handle CLIENTS_CLIENT_MODIFIED", () => {
+        const client = {
+            ...defaultClient,
+        };
+
+        const initalState = {
+            ...defaultState,
+            client: client,
+            clientOriginal: client,
+        };
+
+        const clientModified: ClientEdit = {
+            ...client,
+            firstName: "Gasman",
+        };
+
+        const actualState = reducer(initalState, {
+            type: "CLIENTS_CLIENT_MODIFIED",
+            payload: { ...clientModified },
+        });
+
+        const expectedState = {
+            ...initalState,
+            client: { ...clientModified },
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle CLIENTS_CLIENT_VISIBLE", () => {
+        const actualState = reducer(defaultState, {
+            type: "CLIENTS_CLIENT_VISIBLE",
+            payload: true,
+        });
+
+        const expectedState = {
+            ...defaultState,
+            visible: true,
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
     it("should handle CLIENTS_CLIENT_EDIT_FETCHING", () => {
         const actualState = reducer(defaultState, {
             type: "CLIENTS_CLIENT_EDIT_FETCHING",

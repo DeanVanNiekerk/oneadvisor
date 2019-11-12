@@ -1,12 +1,24 @@
-import { ApiAction, ApiOnSuccess } from "@/app/types";
+import { ThunkAction } from "redux-thunk";
+
+import { ApiAction, ApiOnSuccess, Result, ShowConfirm } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { contactsApi } from "@/config/api/client";
+import { RootState } from "@/state/rootReducer";
 
+import { contactIsModifiedSelector, contactSelector } from "../";
 import { Contact } from "../types";
 
 type ContactReceiveAction = {
     type: "CONTACTS_CONTACT_RECEIVE";
     payload: Contact | null;
+};
+type ContactModifiedAction = {
+    type: "CONTACTS_CONTACT_MODIFIED";
+    payload: Contact | null;
+};
+type ContactVisibleAction = {
+    type: "CONTACTS_CONTACT_VISIBLE";
+    payload: boolean;
 };
 type ContactFetchingAction = {
     type: "CONTACTS_CONTACT_FETCHING";
@@ -14,7 +26,6 @@ type ContactFetchingAction = {
 type ContactFetchingErrorAction = {
     type: "CONTACTS_CONTACT_FETCHING_ERROR";
 };
-
 type ContactUpdatedAction = {
     type: "CONTACTS_CONTACT_EDIT_RECEIVE";
 };
@@ -30,6 +41,8 @@ type ContactValidationErrorAction = {
 };
 
 export type ContactAction =
+    | ContactModifiedAction
+    | ContactVisibleAction
     | ContactReceiveAction
     | ContactFetchingAction
     | ContactFetchingErrorAction
@@ -49,6 +62,69 @@ export const fetchContact = (contactId: string): ApiAction => ({
     dispatchPrefix: "CONTACTS_CONTACT",
 });
 
+export const modifyContact = (contact: Contact): ContactModifiedAction => ({
+    type: "CONTACTS_CONTACT_MODIFIED",
+    payload: contact,
+});
+
+export const contactVisible = (visible: boolean): ContactVisibleAction => ({
+    type: "CONTACTS_CONTACT_VISIBLE",
+    payload: visible,
+});
+
+export const clearContact = (): ContactReceiveAction => receiveContact(null);
+
+export const saveContact = (
+    onSaved?: (contact: Contact) => void
+): ThunkAction<void, RootState, {}, ContactReceiveAction | ApiAction> => {
+    return (dispatch, getState) => {
+        const { contact } = contactSelector(getState());
+        if (!contact) return;
+
+        const onSuccess = (contactEdit: Contact) => {
+            dispatch(clearContact());
+            if (onSaved) onSaved(contactEdit);
+        };
+
+        if (contact.id) {
+            dispatch(
+                updateContact(contact, () => {
+                    onSuccess(contact);
+                })
+            );
+        } else {
+            dispatch(
+                insertContact(contact, result => {
+                    onSuccess(result.tag);
+                })
+            );
+        }
+    };
+};
+
+export const confirmCancelContact = (
+    showConfirm: ShowConfirm,
+    onCancelled: () => void
+): ThunkAction<void, RootState, {}, ContactReceiveAction> => {
+    return (dispatch, getState) => {
+        const modifed = contactIsModifiedSelector(getState());
+
+        const cancel = () => {
+            dispatch(clearContact());
+            onCancelled();
+        };
+
+        if (modifed)
+            return showConfirm({
+                onOk: () => {
+                    cancel();
+                },
+            });
+
+        cancel();
+    };
+};
+
 export const updateContact = (contact: Contact, onSuccess: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${contactsApi}/${contact.id}`,
@@ -58,7 +134,10 @@ export const updateContact = (contact: Contact, onSuccess: ApiOnSuccess): ApiAct
     dispatchPrefix: "CONTACTS_CONTACT_EDIT",
 });
 
-export const insertContact = (contact: Contact, onSuccess: ApiOnSuccess): ApiAction => ({
+export const insertContact = (
+    contact: Contact,
+    onSuccess: ApiOnSuccess<Result<Contact>>
+): ApiAction => ({
     type: "API",
     endpoint: `${contactsApi}`,
     method: "POST",

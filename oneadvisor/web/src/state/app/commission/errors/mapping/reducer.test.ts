@@ -81,6 +81,49 @@ describe("commission mapping error reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
+    it("should handle COMMISSIONS_ERROR_MAPPING_MODIFIED", () => {
+        const error = {
+            ...defaultCommissionError,
+        };
+
+        const initalState = {
+            ...defaultState,
+            commissionError: error,
+            commissionErrorOriginal: error,
+        };
+
+        const errorModified: CommissionErrorEdit = {
+            ...error,
+            clientId: "665544774",
+        };
+
+        const actualState = reducer(initalState, {
+            type: "COMMISSIONS_ERROR_MAPPING_MODIFIED",
+            payload: { ...errorModified },
+        });
+
+        const expectedState = {
+            ...initalState,
+            commissionError: { ...errorModified },
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle COMMISSIONS_ERROR_MAPPING_VISIBLE", () => {
+        const actualState = reducer(defaultState, {
+            type: "COMMISSIONS_ERROR_MAPPING_VISIBLE",
+            payload: true,
+        });
+
+        const expectedState = {
+            ...defaultState,
+            visible: true,
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
     it("should handle COMMISSIONS_ERROR_MAPPING_EDIT_FETCHING", () => {
         const actualState = reducer(defaultState, {
             type: "COMMISSIONS_ERROR_MAPPING_EDIT_FETCHING",

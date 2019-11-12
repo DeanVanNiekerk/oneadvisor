@@ -81,6 +81,49 @@ describe("policy reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
+    it("should handle POLICIES_POLICY_MODIFIED", () => {
+        const policy = {
+            ...defaultPolicy,
+        };
+
+        const initalState = {
+            ...defaultState,
+            policy: policy,
+            policyOriginal: policy,
+        };
+
+        const policyModified: PolicyEdit = {
+            ...policy,
+            number: "665544774",
+        };
+
+        const actualState = reducer(initalState, {
+            type: "POLICIES_POLICY_MODIFIED",
+            payload: { ...policyModified },
+        });
+
+        const expectedState = {
+            ...initalState,
+            policy: { ...policyModified },
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle POLICIES_POLICY_VISIBLE", () => {
+        const actualState = reducer(defaultState, {
+            type: "POLICIES_POLICY_VISIBLE",
+            payload: true,
+        });
+
+        const expectedState = {
+            ...defaultState,
+            visible: true,
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
     it("should handle POLICIES_POLICY_EDIT_FETCHING", () => {
         const actualState = reducer(defaultState, {
             type: "POLICIES_POLICY_EDIT_FETCHING",

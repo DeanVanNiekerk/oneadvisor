@@ -1,89 +1,113 @@
 import update from "immutability-helper";
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
-import { ValidationResult } from "@/app/validation";
-import { Contact } from "@/state/app/client/contacts";
-import { ContactType, contactTypesSelector } from "@/state/app/client/lookups";
+import {
+    confirmCancelContact,
+    Contact,
+    contactSelector,
+    contactVisible,
+    modifyContact,
+    saveContact,
+} from "@/state/app/client/contacts";
+import { contactTypesSelector } from "@/state/app/client/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormField, FormInput, FormSelect } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
 
 type Props = {
-    contact: Contact;
-    contactTypes: ContactType[];
-    validationResults: ValidationResult[];
-    onSave: (contact: Contact) => void;
-    onCancel: () => void;
-};
+    onSaved?: (contact: Contact) => void;
+} & PropsFromState &
+    PropsFromDispatch;
 
-type State = {
-    contact: Contact;
-};
+const ContactForm: React.FC<Props> = (props: Props) => {
+    const { contact, validationResults } = props;
 
-class ContactForm extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
+    if (!contact) return <React.Fragment />;
 
-        this.state = {
-            contact: props.contact,
-        };
-    }
+    const close = () => props.setVisible(false);
 
-    componentDidUpdate(prevProps: Props) {
-        if (this.props.contact != prevProps.contact)
-            this.setState({
-                contact: this.props.contact,
-            });
-    }
-
-    handleChange = (fieldName: keyof Contact, value: string) => {
-        const contact = update(this.state.contact, { [fieldName]: { $set: value } });
-        this.setState({
-            contact: contact,
-        });
+    const onChange = (fieldName: keyof Contact, value: string) => {
+        props.handleChange(contact, fieldName, value);
     };
 
-    render() {
-        const { validationResults } = this.props;
-        const { contact } = this.state;
+    return (
+        <Form className="my-1" layout="inline">
+            <FormInput
+                fieldName="value"
+                label="Value"
+                value={contact.value}
+                onChange={onChange}
+                validationResults={validationResults}
+                autoFocus={true}
+            />
+            <FormSelect
+                fieldName="contactTypeId"
+                label="Type"
+                value={contact.contactTypeId}
+                onChange={onChange}
+                validationResults={validationResults}
+                options={props.contactTypes}
+                optionsValue="id"
+                optionsText="name"
+            />
+            <FormField className="mr-0">
+                <Button
+                    onClick={() => {
+                        props.confirmCancel(close);
+                    }}
+                >
+                    Cancel
+                </Button>
+            </FormField>
+            <FormField>
+                <Button
+                    onClick={() => {
+                        props.saveContact(props.onSaved);
+                    }}
+                    type="primary"
+                >
+                    {props.contact && props.contact.id ? "Update Contact" : "Add Contact"}
+                </Button>
+            </FormField>
+        </Form>
+    );
+};
 
-        return (
-            <Form className="my-1" layout="inline">
-                <FormInput
-                    fieldName="value"
-                    label="Value"
-                    value={contact.value}
-                    onChange={this.handleChange}
-                    validationResults={validationResults}
-                    autoFocus={true}
-                />
-                <FormSelect
-                    fieldName="contactTypeId"
-                    label="Type"
-                    value={contact.contactTypeId}
-                    onChange={this.handleChange}
-                    validationResults={validationResults}
-                    options={this.props.contactTypes}
-                    optionsValue="id"
-                    optionsText="name"
-                />
-                <FormField className="mr-0">
-                    <Button onClick={() => this.props.onCancel()}>Cancel</Button>
-                </FormField>
-                <FormField>
-                    <Button onClick={() => this.props.onSave(this.state.contact)} type="primary">
-                        {this.props.contact.id ? "Update Contact" : "Add Contact"}
-                    </Button>
-                </FormField>
-            </Form>
-        );
-    }
-}
-
+type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
+    const contactState = contactSelector(state);
     return {
+        contact: contactState.contact,
+        validationResults: contactState.validationResults,
         contactTypes: contactTypesSelector(state).items,
     };
 };
 
-export default connect(mapStateToProps)(ContactForm);
+type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
+    return {
+        handleChange: (contact: Contact, fieldName: keyof Contact, value: string) => {
+            const contactModified = update(contact, { [fieldName]: { $set: value } });
+            dispatch(modifyContact(contactModified));
+        },
+        confirmCancel: (onCancelled: () => void) => {
+            dispatch(confirmCancelContact(showConfirm, onCancelled));
+        },
+        saveContact: (onSaved?: (contact: Contact) => void) => {
+            dispatch(
+                saveContact((contactSaved: Contact) => {
+                    if (onSaved) onSaved(contactSaved);
+                    dispatch(contactVisible(false));
+                })
+            );
+        },
+        setVisible: (visible: boolean) => {
+            dispatch(contactVisible(visible));
+        },
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

@@ -63,8 +63,8 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
         },
         saveClient: (onSaved?: (client: ClientEdit) => void) => {
             dispatch(
-                saveClient((client: ClientEdit) => {
-                    if (onSaved) onSaved(client);
+                saveClient((clientSaved: ClientEdit) => {
+                    if (onSaved) onSaved(clientSaved);
                     dispatch(clientVisible(false));
                 })
             );

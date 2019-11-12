@@ -48,7 +48,7 @@ const ContactsCardComponent: React.FC<Props> = (props: Props) => {
                 visible={contactListVisible}
                 onClose={() => setContactListVisible(false)}
             >
-                {props.client && <ContactList clientId={props.client.id} onSave={props.onSaved} />}
+                {props.client && <ContactList clientId={props.client.id} onSaved={props.onSaved} />}
                 <DrawerFooter>
                     <Button onClick={() => setContactListVisible(false)}>Close</Button>
                 </DrawerFooter>

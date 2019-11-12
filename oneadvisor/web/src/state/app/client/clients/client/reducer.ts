@@ -43,14 +43,13 @@ export const reducer = (state: State = defaultState, action: ClientAction): Stat
                 ...state,
                 fetching: true,
                 client: null,
+                clientOriginal: null,
                 validationResults: [],
             };
         }
         case "CLIENTS_CLIENT_FETCHING_ERROR": {
             return {
                 ...state,
-                client: null,
-                clientOriginal: null,
                 fetching: false,
             };
         }

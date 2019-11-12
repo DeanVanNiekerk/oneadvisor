@@ -75,6 +75,49 @@ describe("statement reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
+    it("should handle STATEMENTS_STATEMENT_MODIFIED", () => {
+        const statement = {
+            ...defaultStatement,
+        };
+
+        const initalState = {
+            ...defaultState,
+            statement: statement,
+            statementOriginal: statement,
+        };
+
+        const statementModified: StatementEdit = {
+            ...statement,
+            companyId: "665544774",
+        };
+
+        const actualState = reducer(initalState, {
+            type: "STATEMENTS_STATEMENT_MODIFIED",
+            payload: { ...statementModified },
+        });
+
+        const expectedState = {
+            ...initalState,
+            statement: { ...statementModified },
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle STATEMENTS_STATEMENT_VISIBLE", () => {
+        const actualState = reducer(defaultState, {
+            type: "STATEMENTS_STATEMENT_VISIBLE",
+            payload: true,
+        });
+
+        const expectedState = {
+            ...defaultState,
+            visible: true,
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
     it("should handle STATEMENTS_STATEMENT_EDIT_FETCHING", () => {
         const actualState = reducer(defaultState, {
             type: "STATEMENTS_STATEMENT_EDIT_FETCHING",
