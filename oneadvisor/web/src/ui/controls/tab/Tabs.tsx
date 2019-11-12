@@ -15,7 +15,7 @@ type Props = {
     clearTabsTopPadding?: boolean | undefined;
 };
 
-const Tabs = (props: Props) => {
+const Tabs: React.FC<Props> = (props: Props) => {
     let style = {};
 
     let tabBarStyle: React.CSSProperties = {

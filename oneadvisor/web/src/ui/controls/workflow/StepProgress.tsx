@@ -1,11 +1,11 @@
 import { Col, Icon, Row, Steps } from "antd";
-import React, { Component } from "react";
+import React from "react";
 
 import { Button } from "@/ui/controls";
 
 const Step = Steps.Step;
 
-export type StepProgressProps = {
+export type Props = {
     currentStepIndex: number;
     steps: string[];
     onPrevious?: () => void;
@@ -17,45 +17,43 @@ export type StepProgressProps = {
     nextIcon?: string;
 };
 
-class StepProgress extends Component<StepProgressProps> {
-    render() {
-        return (
-            <Row type="flex" align="middle" gutter={16} className="mb-1">
-                <Col>
-                    {this.props.onPrevious && (
-                        <Button
-                            noLeftMargin={true}
-                            onClick={this.props.onPrevious}
-                            disabled={this.props.previousDisabled}
-                        >
-                            <Icon type="left" />
-                            Previous
-                        </Button>
-                    )}
-                </Col>
-                <Col style={{ flex: 1 }}>
-                    <Steps current={this.props.currentStepIndex} size="small">
-                        {this.props.steps.map(item => (
-                            <Step key={item} title={item} />
-                        ))}
-                    </Steps>
-                </Col>
-                <Col>
-                    {this.props.onNext && (
-                        <Button
-                            type="primary"
-                            onClick={this.props.onNext}
-                            disabled={this.props.nextDisabled}
-                            loading={this.props.nextLoading}
-                        >
-                            {this.props.nextText ? this.props.nextText : "Next"}
-                            <Icon type={this.props.nextIcon ? this.props.nextIcon : "right"} />
-                        </Button>
-                    )}
-                </Col>
-            </Row>
-        );
-    }
-}
+const StepProgress: React.FC<Props> = (props: Props) => {
+    return (
+        <Row type="flex" align="middle" gutter={16} className="mb-1">
+            <Col>
+                {props.onPrevious && (
+                    <Button
+                        noLeftMargin={true}
+                        onClick={props.onPrevious}
+                        disabled={props.previousDisabled}
+                    >
+                        <Icon type="left" />
+                        Previous
+                    </Button>
+                )}
+            </Col>
+            <Col style={{ flex: 1 }}>
+                <Steps current={props.currentStepIndex} size="small">
+                    {props.steps.map(item => (
+                        <Step key={item} title={item} />
+                    ))}
+                </Steps>
+            </Col>
+            <Col>
+                {props.onNext && (
+                    <Button
+                        type="primary"
+                        onClick={props.onNext}
+                        disabled={props.nextDisabled}
+                        loading={props.nextLoading}
+                    >
+                        {props.nextText ? props.nextText : "Next"}
+                        <Icon type={props.nextIcon ? props.nextIcon : "right"} />
+                    </Button>
+                )}
+            </Col>
+        </Row>
+    );
+};
 
 export { StepProgress };

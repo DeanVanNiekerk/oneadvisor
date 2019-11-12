@@ -7,7 +7,7 @@ type Props = {
     children: ReactNode;
 };
 
-const ContentLoader = (props: Props) => (
+const ContentLoader: React.FC<Props> = (props: Props) => (
     <Spin spinning={props.isLoading} className={props.className}>
         {props.children ? props.children : <div className="pt-3"></div>}
     </Spin>

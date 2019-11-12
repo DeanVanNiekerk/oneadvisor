@@ -10,34 +10,32 @@ type Props = {
     children: ReactNode;
 };
 
-class LayoutContainer extends React.Component<Props> {
-    render() {
-        return (
-            <Layout
-                style={{
-                    height: "100%",
-                }}
-            >
-                <Navigator />
+const LayoutContainer: React.FC<Props> = (props: Props) => {
+    return (
+        <Layout
+            style={{
+                height: "100%",
+            }}
+        >
+            <Navigator />
+            <Layout>
+                <SideMenu />
                 <Layout>
-                    <SideMenu />
-                    <Layout>
-                        <Content
-                            style={{
-                                background: "#fff",
-                                padding: 15,
-                                paddingTop: 0,
-                                margin: 0,
-                                minHeight: 280,
-                            }}
-                        >
-                            {this.props.children}
-                        </Content>
-                    </Layout>
+                    <Content
+                        style={{
+                            background: "#fff",
+                            padding: 15,
+                            paddingTop: 0,
+                            margin: 0,
+                            minHeight: 280,
+                        }}
+                    >
+                        {props.children}
+                    </Content>
                 </Layout>
             </Layout>
-        );
-    }
-}
+        </Layout>
+    );
+};
 
 export default LayoutContainer;

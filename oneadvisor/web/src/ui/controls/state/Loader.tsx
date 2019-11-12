@@ -6,7 +6,7 @@ type Props = {
     text?: string;
 };
 
-const Loader = (props: Props) => (
+const Loader: React.FC<Props> = (props: Props) => (
     <Grid fluid>
         <Row>
             <Col xs={12}>
