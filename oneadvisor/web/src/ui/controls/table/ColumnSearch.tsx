@@ -2,7 +2,7 @@ import { Button, Input } from "antd";
 import React, { useEffect } from "react";
 
 type Confirm = () => void;
-type ClearFilters = () => void;
+type ClearFilters = (selectedKeys: string[]) => void;
 
 type Props = {
     title: string;
@@ -27,7 +27,7 @@ const ColumnSearch: React.FC<Props> = (props: Props) => {
     };
 
     const handleReset = (clearFilters: ClearFilters | undefined) => {
-        if (clearFilters) clearFilters();
+        if (clearFilters) clearFilters([]);
     };
 
     return (

@@ -43,7 +43,7 @@ function getDateRangeSearchProps<T>(): ColumnProps<T> {
             <Icon
                 type="calendar"
                 style={{
-                    color: filtered ? "#1890ff" : "undefined",
+                    color: filtered ? "#1890ff" : undefined,
                 }}
             />
         ),
