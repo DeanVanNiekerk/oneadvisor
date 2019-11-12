@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { getPolicy, PolicyEdit } from "@/state/app/client/policies";
@@ -8,42 +8,30 @@ type Props = {
     className?: string;
 } & DispatchProp;
 
-type State = {
-    policy: PolicyEdit | null;
-};
+const PolicyNameComponent: React.FC<Props> = (props: Props) => {
+    const [policy, setPolicy] = useState<PolicyEdit | null>(null);
 
-class PolicyNameComponent extends Component<Props, State> {
-    constructor(props) {
-        super(props);
-        this.state = { policy: null };
-        this.loadClient();
-    }
+    useEffect(() => {
+        loadPolicy();
+    }, [props.policyId]);
 
-    componentDidUpdate(prevProps: Props) {
-        if (this.props.policyId != prevProps.policyId) this.loadClient();
-    }
-
-    loadClient = () => {
-        if (!this.props.policyId) {
-            this.setState({ policy: null });
+    const loadPolicy = () => {
+        if (!props.policyId) {
+            setPolicy(null);
             return;
         }
 
-        this.props.dispatch(
-            getPolicy(this.props.policyId, (policy: PolicyEdit) => {
-                this.setState({ policy: policy });
+        props.dispatch(
+            getPolicy(props.policyId, (policy: PolicyEdit) => {
+                setPolicy(policy);
             })
         );
     };
 
-    render() {
-        const { policy } = this.state;
+    if (!policy) return <span />;
 
-        if (!policy) return <span />;
-
-        return <span className={this.props.className}>{`${policy.number || ""}`}</span>;
-    }
-}
+    return <span className={props.className}>{`${policy.number || ""}`}</span>;
+};
 
 const PolicyName = connect()(PolicyNameComponent);
 

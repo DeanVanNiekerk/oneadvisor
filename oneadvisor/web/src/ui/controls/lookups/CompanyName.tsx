@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import { companiesSelector, Company } from "@/state/app/directory/lookups";
@@ -9,17 +9,15 @@ type Props = {
     companyId: string;
 };
 
-class CompanyNameComponent extends Component<Props> {
-    render() {
-        const { companies, companyId } = this.props;
+const CompanyNameComponent: React.FC<Props> = (props: Props) => {
+    const { companies, companyId } = props;
 
-        const company = companies.find(u => u.id === companyId);
+    const company = companies.find(u => u.id === companyId);
 
-        if (!company) return <span />;
+    if (!company) return <span />;
 
-        return <span>{company.name}</span>;
-    }
-}
+    return <span>{company.name}</span>;
+};
 
 const mapStateToProps = (state: RootState) => {
     const companiesState = companiesSelector(state);

@@ -44,7 +44,7 @@ type Props<T> = {
 };
 
 class FormSelect<T> extends Component<Props<T>> {
-    onChange = (value: T): void => {
+    onChange = (value: T) => {
         if (this.props.onChange) this.props.onChange(this.props.fieldName, value);
     };
 

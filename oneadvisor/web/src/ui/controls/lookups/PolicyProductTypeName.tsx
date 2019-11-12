@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import { PolicyProductType, policyProductTypesSelector } from "@/state/app/client/lookups";
@@ -9,17 +9,15 @@ type Props = {
     policyProductTypeId: string;
 };
 
-class PolicyProductTypeNameComponent extends Component<Props> {
-    render() {
-        const { policyProductTypes, policyProductTypeId } = this.props;
+const PolicyProductTypeNameComponent: React.FC<Props> = (props: Props) => {
+    const { policyProductTypes, policyProductTypeId } = props;
 
-        const policyProductType = policyProductTypes.find(u => u.id === policyProductTypeId);
+    const policyProductType = policyProductTypes.find(u => u.id === policyProductTypeId);
 
-        if (!policyProductType) return <span />;
+    if (!policyProductType) return <span />;
 
-        return <span>{policyProductType.name}</span>;
-    }
-}
+    return <span>{policyProductType.name}</span>;
+};
 
 const mapStateToProps = (state: RootState) => {
     const policyProductTypesState = policyProductTypesSelector(state);

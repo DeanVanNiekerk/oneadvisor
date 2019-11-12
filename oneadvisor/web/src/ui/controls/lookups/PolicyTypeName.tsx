@@ -9,17 +9,15 @@ type Props = {
     policyTypeId: string;
 };
 
-class PolicyTypeNameComponent extends Component<Props> {
-    render() {
-        const { policyTypes, policyTypeId } = this.props;
+const PolicyTypeNameComponent: React.FC<Props> = (props: Props) => {
+    const { policyTypes, policyTypeId } = props;
 
-        const policyType = policyTypes.find(u => u.id === policyTypeId);
+    const policyType = policyTypes.find(u => u.id === policyTypeId);
 
-        if (!policyType) return <span />;
+    if (!policyType) return <span />;
 
-        return <span>{policyType.name}</span>;
-    }
-}
+    return <span>{policyType.name}</span>;
+};
 
 const mapStateToProps = (state: RootState) => {
     const policyTypesState = policyTypesSelector(state);

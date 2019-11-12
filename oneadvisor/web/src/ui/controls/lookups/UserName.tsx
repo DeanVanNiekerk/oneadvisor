@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
@@ -10,17 +10,15 @@ type Props = {
     prefix?: string;
 };
 
-class UserNameComponent extends Component<Props> {
-    render() {
-        const { users, userId } = this.props;
+const UserNameComponent: React.FC<Props> = (props: Props) => {
+    const { users, userId } = props;
 
-        const user = users.find(u => u.id === userId);
+    const user = users.find(u => u.id === userId);
 
-        if (!user) return <span />;
+    if (!user) return <span />;
 
-        return <span>{`${this.props.prefix || ""}${user.firstName} ${user.lastName}`}</span>;
-    }
-}
+    return <span>{`${props.prefix || ""}${user.firstName} ${user.lastName}`}</span>;
+};
 
 const mapStateToProps = (state: RootState) => {
     const usersState = usersSimpleSelector(state);

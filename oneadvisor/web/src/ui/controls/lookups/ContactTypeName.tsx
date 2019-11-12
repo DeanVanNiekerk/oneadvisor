@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import { ContactType, contactTypesSelector } from "@/state/app/client/lookups";
@@ -9,17 +9,15 @@ type Props = {
     contactTypeId: string;
 };
 
-class ContactTypeNameComponent extends Component<Props> {
-    render() {
-        const { contactTypes, contactTypeId } = this.props;
+const ContactTypeNameComponent: React.FC<Props> = (props: Props) => {
+    const { contactTypes, contactTypeId } = props;
 
-        const contactType = contactTypes.find(u => u.id === contactTypeId);
+    const contactType = contactTypes.find(u => u.id === contactTypeId);
 
-        if (!contactType) return <span />;
+    if (!contactType) return <span />;
 
-        return <span>{contactType.name}</span>;
-    }
-}
+    return <span>{contactType.name}</span>;
+};
 
 const mapStateToProps = (state: RootState) => {
     const contactTypesState = contactTypesSelector(state);

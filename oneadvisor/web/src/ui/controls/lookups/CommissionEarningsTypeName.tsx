@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import {
@@ -13,18 +13,13 @@ type Props = {
     commissionEarningsTypeId: string;
 };
 
-class CommissionEarningsTypeNameComponent extends Component<Props> {
-    render() {
-        const { commissionEarningsTypes, commissionEarningsTypeId } = this.props;
+const CommissionEarningsTypeNameComponent: React.FC<Props> = (props: Props) => {
+    const { commissionEarningsTypes, commissionEarningsTypeId } = props;
 
-        const name = getCommissionEarningsTypeName(
-            commissionEarningsTypeId,
-            commissionEarningsTypes
-        );
+    const name = getCommissionEarningsTypeName(commissionEarningsTypeId, commissionEarningsTypes);
 
-        return <span>{name}</span>;
-    }
-}
+    return <span>{name}</span>;
+};
 
 const mapStateToProps = (state: RootState) => {
     const typesState = commissionEarningsTypesSelector(state);
