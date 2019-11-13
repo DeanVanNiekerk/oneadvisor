@@ -59,7 +59,7 @@ class Startup extends React.Component<Props> {
 
     render() {
         if (this.props.loading && !this.isAccountPage())
-            return <Loader text="loading application..." />;
+            return <Loader text="loading application..." size="large" />;
 
         return <>{this.props.children}</>;
     }
