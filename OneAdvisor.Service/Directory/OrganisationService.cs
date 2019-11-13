@@ -30,7 +30,9 @@ namespace OneAdvisor.Service.Directory
                         select new Organisation()
                         {
                             Id = organisation.Id,
-                            Name = organisation.Name
+                            Name = organisation.Name,
+                            VATRegistered = organisation.VATRegistered,
+                            VATRegistrationDate = organisation.VATRegistrationDate,
                         };
 
             var pagedItems = new PagedItems<Organisation>();
@@ -55,6 +57,8 @@ namespace OneAdvisor.Service.Directory
                         {
                             Id = organisation.Id,
                             Name = organisation.Name,
+                            VATRegistered = organisation.VATRegistered,
+                            VATRegistrationDate = organisation.VATRegistrationDate,
                             Config = organisation.Config,
                         };
 
@@ -122,6 +126,8 @@ namespace OneAdvisor.Service.Directory
                 enity = new OrganisationEntity();
 
             enity.Name = model.Name;
+            enity.VATRegistered = model.VATRegistered;
+            enity.VATRegistrationDate = model.VATRegistrationDate;
             enity.Config = model.Config;
 
             return enity;

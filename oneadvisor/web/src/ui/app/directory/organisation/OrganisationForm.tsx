@@ -3,7 +3,7 @@ import React, { Component } from "react";
 
 import { ValidationResult } from "@/app/validation";
 import { OrganisationEdit } from "@/state/app/directory/organisations";
-import { Form, FormInput } from "@/ui/controls";
+import { Form, FormDate, FormInput, FormSwitch } from "@/ui/controls";
 
 type Props = {
     organisation: OrganisationEdit;
@@ -31,7 +31,7 @@ class OrganisationForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: keyof OrganisationEdit, value: string) => {
+    handleChange = (fieldName: keyof OrganisationEdit, value: string | boolean) => {
         const organisation = update(this.state.organisation, { [fieldName]: { $set: value } });
         this.setState({
             organisation: organisation,
@@ -53,6 +53,21 @@ class OrganisationForm extends Component<Props, State> {
                     onChange={this.handleChange}
                     validationResults={validationResults}
                     autoFocus={true}
+                />
+                <FormSwitch
+                    fieldName="vatRegistered"
+                    label="VAT Registered"
+                    value={organisation.vatRegistered}
+                    onChange={this.handleChange}
+                    validationResults={validationResults}
+                />
+                <FormDate
+                    fieldName="vatRegistrationDate"
+                    label="VAT Registration Date"
+                    value={organisation.vatRegistrationDate || undefined}
+                    onChange={this.handleChange}
+                    validationResults={validationResults}
+                    allowClear={true}
                 />
             </Form>
         );

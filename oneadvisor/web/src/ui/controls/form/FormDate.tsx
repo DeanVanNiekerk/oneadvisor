@@ -20,6 +20,7 @@ type Props = {
     layout?: FormLayout;
     readonly?: boolean;
     hidden?: boolean;
+    allowClear?: boolean;
 };
 
 const FormDate: React.FC<Props> = (props: Props) => {
@@ -36,6 +37,7 @@ const FormDate: React.FC<Props> = (props: Props) => {
         layout,
         readonly,
         extra,
+        allowClear,
     } = props;
 
     if (readonly)
@@ -63,6 +65,7 @@ const FormDate: React.FC<Props> = (props: Props) => {
                 id={fieldName}
                 value={value ? moment(value) : undefined}
                 onChange={onChange}
+                allowClear={allowClear}
             />
         </FormField>
     );

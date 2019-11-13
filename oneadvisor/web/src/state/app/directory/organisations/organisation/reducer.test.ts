@@ -1,5 +1,6 @@
 import { getValidationResult } from "@/test";
 
+import { OrganisationEdit } from "../types";
 import { defaultState, reducer } from "./reducer";
 
 describe("organisation reducer", () => {
@@ -48,9 +49,11 @@ describe("organisation reducer", () => {
             validationResults: [getValidationResult()],
         };
 
-        const organisation = {
+        const organisation: OrganisationEdit = {
             id: "10",
             name: "Org1",
+            vatRegistered: false,
+            vatRegistrationDate: null,
             config: {
                 companyIds: [],
             },

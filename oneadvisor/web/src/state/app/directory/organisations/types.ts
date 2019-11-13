@@ -1,11 +1,15 @@
 export type Organisation = {
     id: string;
     name: string;
+    vatRegistered: boolean;
+    vatRegistrationDate: string | null;
 };
 
 export type OrganisationEdit = {
     id: string;
     name: string;
+    vatRegistered: boolean;
+    vatRegistrationDate: string | null;
     config: Config;
 };
 

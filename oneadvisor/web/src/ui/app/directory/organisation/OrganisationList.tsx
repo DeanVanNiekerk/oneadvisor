@@ -7,6 +7,7 @@ import {
     fetchOrganisation,
     fetchOrganisations,
     Organisation,
+    OrganisationEdit,
     organisationsSelector,
     receiveOrganisation,
 } from "@/state/app/directory/organisations";
@@ -44,9 +45,11 @@ class OrganisationList extends Component<Props, State> {
     };
 
     newOrganisation = () => {
-        const organisation = {
+        const organisation: OrganisationEdit = {
             id: "",
             name: "",
+            vatRegistered: false,
+            vatRegistrationDate: null,
             config: {
                 companyIds: [],
             },
@@ -73,7 +76,11 @@ class OrganisationList extends Component<Props, State> {
 
     getColumns = () => {
         const getColumn = getColumnDefinition<Organisation>();
-        return [getColumn("name", "Name")];
+        return [
+            getColumn("name", "Name"),
+            getColumn("vatRegistered", "VAT Registered", { type: "boolean" }),
+            getColumn("vatRegistrationDate", "VAT Registration Date", { type: "date" }),
+        ];
     };
 
     render() {

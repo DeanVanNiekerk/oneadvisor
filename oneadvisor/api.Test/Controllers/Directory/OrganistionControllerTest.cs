@@ -20,17 +20,21 @@ namespace api.Test.Controllers.Directory
         [Fact]
         public void OrganisationModelComposition()
         {
-            Assert.Equal(2, typeof(Organisation).PropertyCount());
+            Assert.Equal(4, typeof(Organisation).PropertyCount());
             Assert.True(typeof(Organisation).HasProperty("Id"));
             Assert.True(typeof(Organisation).HasProperty("Name"));
+            Assert.True(typeof(Organisation).HasProperty("VATRegistered"));
+            Assert.True(typeof(Organisation).HasProperty("VATRegistrationDate"));
         }
 
         [Fact]
         public void OrganisationEditModelComposition()
         {
-            Assert.Equal(3, typeof(OrganisationEdit).PropertyCount());
+            Assert.Equal(5, typeof(OrganisationEdit).PropertyCount());
             Assert.True(typeof(OrganisationEdit).HasProperty("Id"));
             Assert.True(typeof(OrganisationEdit).HasProperty("Name"));
+            Assert.True(typeof(Organisation).HasProperty("VATRegistered"));
+            Assert.True(typeof(Organisation).HasProperty("VATRegistrationDate"));
             Assert.True(typeof(OrganisationEdit).HasProperty("Config"));
         }
 
@@ -40,7 +44,9 @@ namespace api.Test.Controllers.Directory
             var organisation = new Organisation()
             {
                 Id = Guid.NewGuid(),
-                Name = "organisation_1"
+                Name = "organisation_1",
+                VATRegistered = true,
+                VATRegistrationDate = DateTime.Now,
             };
 
             var items = new PagedItems<Organisation>()
@@ -87,6 +93,8 @@ namespace api.Test.Controllers.Directory
             {
                 Id = Guid.NewGuid(),
                 Name = "organisation_1",
+                VATRegistered = true,
+                VATRegistrationDate = DateTime.Now,
                 Config = new Config()
             };
 
@@ -115,6 +123,8 @@ namespace api.Test.Controllers.Directory
             {
                 Id = Guid.NewGuid(),
                 Name = "organisation_1",
+                VATRegistered = true,
+                VATRegistrationDate = DateTime.Now,
                 Config = new Config()
             };
 
@@ -157,6 +167,8 @@ namespace api.Test.Controllers.Directory
             {
                 Id = Guid.NewGuid(),
                 Name = "organisation_1",
+                VATRegistered = true,
+                VATRegistrationDate = DateTime.Now,
                 Config = new Config()
             };
 

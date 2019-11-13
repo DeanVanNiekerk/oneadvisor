@@ -1,3 +1,4 @@
+import { Organisation, OrganisationEdit } from "../types";
 import { defaultState, reducer } from "./reducer";
 
 describe("organisation list reducer", () => {
@@ -39,9 +40,11 @@ describe("organisation list reducer", () => {
             fetching: true,
         };
 
-        const organisation = {
+        const organisation: Organisation = {
             id: "10",
             name: "Org1",
+            vatRegistered: false,
+            vatRegistrationDate: null,
         };
 
         const actualState = reducer(initalState, {

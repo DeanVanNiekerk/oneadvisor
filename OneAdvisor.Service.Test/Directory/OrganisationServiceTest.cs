@@ -45,12 +45,12 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("GetOrganisations_Sort");
 
             //Given
-            var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "A Org 1" };
-            var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "B Org 2" };
-            var org3 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "C Org 3" };
-            var org4 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "D Org 4" };
-            var org5 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "E Org 5" };
-            var org6 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "F Org 6" };
+            var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "A Org 1", VATRegistered = true, VATRegistrationDate = DateTime.Now };
+            var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "B Org 2", VATRegistered = false, VATRegistrationDate = DateTime.Now };
+            var org3 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "C Org 3", VATRegistered = true, VATRegistrationDate = null };
+            var org4 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "D Org 4", VATRegistered = false, VATRegistrationDate = DateTime.Now };
+            var org5 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "E Org 5", VATRegistered = true, VATRegistrationDate = DateTime.Now };
+            var org6 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "F Org 6", VATRegistered = false, VATRegistrationDate = null };
 
             using (var context = new DataContext(options))
             {
@@ -85,14 +85,20 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual1 = organisations[0];
                 Assert.Equal(org1.Id, actual1.Id);
                 Assert.Equal(org1.Name, actual1.Name);
+                Assert.Equal(org1.VATRegistered, actual1.VATRegistered);
+                Assert.Equal(org1.VATRegistrationDate, actual1.VATRegistrationDate);
 
                 var actual2 = organisations[1];
                 Assert.Equal(org2.Id, actual2.Id);
                 Assert.Equal(org2.Name, actual2.Name);
+                Assert.Equal(org2.VATRegistered, actual2.VATRegistered);
+                Assert.Equal(org2.VATRegistrationDate, actual2.VATRegistrationDate);
 
                 var actual6 = organisations[5];
                 Assert.Equal(org6.Id, actual6.Id);
                 Assert.Equal(org6.Name, actual6.Name);
+                Assert.Equal(org6.VATRegistered, actual6.VATRegistered);
+                Assert.Equal(org6.VATRegistrationDate, actual6.VATRegistrationDate);
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(org6.Id);
@@ -106,6 +112,8 @@ namespace OneAdvisor.Service.Test.Directory
                 actual1 = organisations[0];
                 Assert.Equal(org6.Id, actual1.Id);
                 Assert.Equal(org6.Name, actual1.Name);
+                Assert.Equal(org6.VATRegistered, actual1.VATRegistered);
+                Assert.Equal(org6.VATRegistrationDate, actual1.VATRegistrationDate);
             }
         }
 
@@ -125,8 +133,8 @@ namespace OneAdvisor.Service.Test.Directory
             };
 
             //Given
-            var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 1", Config = config1 };
-            var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 2", Config = config2 };
+            var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 1", Config = config1, VATRegistered = false, VATRegistrationDate = DateTime.Now.AddDays(-10) };
+            var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 2", Config = config2, VATRegistered = true, VATRegistrationDate = DateTime.Now };
 
             using (var context = new DataContext(options))
             {
@@ -147,6 +155,8 @@ namespace OneAdvisor.Service.Test.Directory
                 //Then
                 Assert.Equal(org2.Id, actual.Id);
                 Assert.Equal(org2.Name, actual.Name);
+                Assert.Equal(org2.VATRegistered, actual.VATRegistered);
+                Assert.Equal(org2.VATRegistrationDate, actual.VATRegistrationDate);
                 Assert.Single(actual.Config.CompanyIds);
                 Assert.Equal(org2.Config.CompanyIds.Single(), actual.Config.CompanyIds.Single());
 
@@ -174,6 +184,8 @@ namespace OneAdvisor.Service.Test.Directory
             var organisation = new OrganisationEdit()
             {
                 Name = "Organsation 1",
+                VATRegistered = true,
+                VATRegistrationDate = DateTime.Now,
                 Config = config1
             };
 
@@ -191,6 +203,8 @@ namespace OneAdvisor.Service.Test.Directory
 
                 var actual = await context.Organisation.FindAsync(((OrganisationEdit)result.Tag).Id);
                 Assert.Equal(organisation.Name, actual.Name);
+                Assert.Equal(organisation.VATRegistered, actual.VATRegistered);
+                Assert.Equal(organisation.VATRegistrationDate, actual.VATRegistrationDate);
                 Assert.Single(actual.Config.CompanyIds);
                 Assert.Equal(organisation.Config.CompanyIds.Single(), actual.Config.CompanyIds.Single());
 
@@ -221,8 +235,8 @@ namespace OneAdvisor.Service.Test.Directory
             };
 
             //Given
-            var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 1", Config = config1 };
-            var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 2", Config = config2 };
+            var org1 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 1", Config = config1, VATRegistered = false, VATRegistrationDate = null };
+            var org2 = new OrganisationEntity { Id = Guid.NewGuid(), Name = "Org 2", Config = config2, VATRegistered = false, VATRegistrationDate = null };
 
             using (var context = new DataContext(options))
             {
@@ -243,6 +257,8 @@ namespace OneAdvisor.Service.Test.Directory
             {
                 Id = org2.Id,
                 Name = "Org 2 Updated",
+                VATRegistered = true,
+                VATRegistrationDate = DateTime.Now,
                 Config = config2Updated
             };
 
@@ -259,6 +275,8 @@ namespace OneAdvisor.Service.Test.Directory
 
                 var actual = await context.Organisation.FindAsync(organisation.Id);
                 Assert.Equal(organisation.Name, actual.Name);
+                Assert.Equal(organisation.VATRegistered, actual.VATRegistered);
+                Assert.Equal(organisation.VATRegistrationDate, actual.VATRegistrationDate);
                 Assert.Single(actual.Config.CompanyIds);
                 Assert.Equal(organisation.Config.CompanyIds.Single(), actual.Config.CompanyIds.Single());
 
