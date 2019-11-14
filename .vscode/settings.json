@@ -11,8 +11,6 @@
         "**/.DS_Store": true,
         "**/bin": true,
         "**/obj": true,
-        "**/*.sln.targets": false,
-        "**/*.Build.targets": false
     },
     "importSorter.generalConfiguration.sortOnBeforeSave": true,
     "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 100,
