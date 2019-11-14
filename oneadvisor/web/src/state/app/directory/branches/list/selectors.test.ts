@@ -1,7 +1,7 @@
-import { listSelector } from "./selectors";
+import { branchesSelector } from "./selectors";
 
 describe("branch list selectors", () => {
-    it("listSelector", () => {
+    it("branchesSelector", () => {
         const state = {
             app: {
                 directory: {
@@ -19,7 +19,7 @@ describe("branch list selectors", () => {
         };
 
         //@ts-ignore
-        const actual = listSelector(state);
+        const actual = branchesSelector(state);
 
         expect(actual).toEqual(expected);
     });

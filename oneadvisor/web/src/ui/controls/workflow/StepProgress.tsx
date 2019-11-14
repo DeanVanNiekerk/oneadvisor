@@ -5,7 +5,7 @@ import { Button } from "@/ui/controls";
 
 const Step = Steps.Step;
 
-export type Props = {
+export type StepProgressProps = {
     currentStepIndex: number;
     steps: string[];
     onPrevious?: () => void;
@@ -17,7 +17,7 @@ export type Props = {
     nextIcon?: string;
 };
 
-const StepProgress: React.FC<Props> = (props: Props) => {
+const StepProgress: React.FC<StepProgressProps> = (props: StepProgressProps) => {
     return (
         <Row type="flex" align="middle" gutter={16} className="mb-1">
             <Col>

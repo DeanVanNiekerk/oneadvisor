@@ -5,7 +5,7 @@ import React, { ReactNode } from "react";
 type Props = {
     activeKey: string;
     onChange: (activeKey: string) => void;
-    sticky: boolean;
+    sticky?: boolean;
     children: ReactNode;
     tabPosition?: TabsPosition;
     tabBarExtraContent?: React.ReactNode | null;

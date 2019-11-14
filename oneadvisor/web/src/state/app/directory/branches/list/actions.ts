@@ -3,7 +3,7 @@ import { PagedItems } from "@/app/table";
 import { ApiAction } from "@/app/types";
 import { branchesApi } from "@/config/api/directory";
 
-import { Branch } from "../types";
+import { Branch, BranchFilters } from "../types";
 
 type BranchListReceiveAction = {
     type: "BRANCHES_LIST_RECEIVE";
@@ -19,11 +19,9 @@ export type BranchListAction =
     | BranchListFetchingAction
     | BranchListFetchingErrorAction;
 
-export const fetchBranches = (organisationId: string): ApiAction => {
+export const fetchBranches = (filters: BranchFilters): ApiAction => {
     let api = branchesApi;
-    api = appendFiltersQuery(api, {
-        organisationId: [organisationId],
-    });
+    api = appendFiltersQuery(api, filters);
     return {
         type: "API",
         endpoint: api,

@@ -69,7 +69,7 @@ const ContactForm: React.FC<Props> = (props: Props) => {
                     }}
                     type="primary"
                 >
-                    {props.contact && props.contact.id ? "Update Contact" : "Add Contact"}
+                    {contact.id ? "Update Contact" : "Add Contact"}
                 </Button>
             </FormField>
         </Form>

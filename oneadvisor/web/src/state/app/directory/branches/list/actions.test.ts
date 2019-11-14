@@ -10,6 +10,6 @@ describe("directory: branches: list actions", () => {
             dispatchPrefix: "BRANCHES_LIST",
         };
 
-        expect(actions.fetchBranches("88")).toEqual(expectedAction);
+        expect(actions.fetchBranches({ organisationId: ["88"] })).toEqual(expectedAction);
     });
 });

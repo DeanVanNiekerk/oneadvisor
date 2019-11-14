@@ -5,16 +5,20 @@ import { OrganisationAction } from "./actions";
 
 export type State = {
     readonly organisation: OrganisationEdit | null;
+    readonly organisationOriginal: OrganisationEdit | null;
     readonly fetching: boolean;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];
+    readonly visible: boolean;
 };
 
 export const defaultState: State = {
     organisation: null,
+    organisationOriginal: null,
     fetching: false,
     updating: false,
     validationResults: [],
+    visible: false,
 };
 
 export const reducer = (state: State = defaultState, action: OrganisationAction): State => {
@@ -23,13 +27,22 @@ export const reducer = (state: State = defaultState, action: OrganisationAction)
             return {
                 ...state,
                 organisation: action.payload,
+                organisationOriginal: action.payload,
                 validationResults: [],
                 fetching: false,
+            };
+        }
+        case "ORGANISATIONS_ORGANISATION_MODIFIED": {
+            return {
+                ...state,
+                organisation: action.payload,
             };
         }
         case "ORGANISATIONS_ORGANISATION_FETCHING": {
             return {
                 ...state,
+                organisation: null,
+                organisationOriginal: null,
                 validationResults: [],
                 fetching: true,
             };
@@ -37,7 +50,6 @@ export const reducer = (state: State = defaultState, action: OrganisationAction)
         case "ORGANISATIONS_ORGANISATION_FETCHING_ERROR": {
             return {
                 ...state,
-                organisation: null,
                 fetching: false,
             };
         }
@@ -65,6 +77,12 @@ export const reducer = (state: State = defaultState, action: OrganisationAction)
                 ...state,
                 updating: false,
                 validationResults: action.payload,
+            };
+        }
+        case "ORGANISATIONS_ORGANISATION_VISIBLE": {
+            return {
+                ...state,
+                visible: action.payload,
             };
         }
         default:

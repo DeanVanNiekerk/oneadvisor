@@ -6,4 +6,7 @@ import { State } from "./reducer";
 
 const rootSelector = (state: RootState): State => state.app.directory.organisations.list;
 
-export const listSelector: (state: RootState) => State = createSelector(rootSelector, root => root);
+export const organisationsSelector: (state: RootState) => State = createSelector(
+    rootSelector,
+    root => root
+);

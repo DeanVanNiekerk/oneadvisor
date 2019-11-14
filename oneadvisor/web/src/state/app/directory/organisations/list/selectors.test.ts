@@ -1,7 +1,7 @@
-import { listSelector } from "./selectors";
+import { organisationsSelector } from "./selectors";
 
 describe("organisation list selectors", () => {
-    it("listSelector", () => {
+    it("organisationsSelector", () => {
         const state = {
             app: {
                 directory: {
@@ -19,7 +19,7 @@ describe("organisation list selectors", () => {
         };
 
         //@ts-ignore
-        const actual = listSelector(state);
+        const actual = organisationsSelector(state);
 
         expect(actual).toEqual(expected);
     });

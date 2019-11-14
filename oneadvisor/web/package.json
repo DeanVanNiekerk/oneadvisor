@@ -13,11 +13,12 @@
         "build:staging": "NODE_ENV='staging' webpack --mode production --config webpack.staging.js",
         "analyze:build": "webpack --mode production --config webpack.production.js --profile --json > stats.json",
         "analyze:run": "webpack-bundle-analyzer stats.json",
-        "check-types": "tsc",
-        "prettier-fix": "prettier --write \"src/**/*.*\"",
-        "lint": "eslint --max-warnings=10 \"src/**/*.{js,ts,tsx}\"",
-        "lint-quiet": "eslint --quiet \"src/**/*.{js,ts,tsx}\"",
-        "lint-fix": "eslint --fix \"src/**/*.{js,ts,tsx}\""
+        "lint": "npm run lint:tsc && npm run lint:scripts",
+        "lint:tsc": "npm run tsc",
+        "lint:scripts": "eslint --max-warnings=10 \"src/**/*.{js,ts,tsx}\"",
+        "lint-fix": "npm run lint-fix:script",
+        "lint-fix:script": "npm run lint:script -- --fix",
+        "tsc": "tsc"
     },
     "keywords": [],
     "author": "Dean van Niekerk",

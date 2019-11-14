@@ -1,5 +1,6 @@
 import { organisationsApi } from "@/config/api/directory";
 
+import { OrganisationEdit } from "../types";
 import * as actions from "./actions";
 
 describe("organisation actions", () => {
@@ -14,11 +15,13 @@ describe("organisation actions", () => {
     });
 
     it("should dispatch API when updateOrganisation is called", () => {
-        const organisation = {
+        const organisation: OrganisationEdit = {
             id: "10",
             name: "Org1",
+            vatRegistered: false,
+            vatRegistrationDate: null,
             config: {
-                companyIds: [],
+                companyIds: [] as string[],
             },
         };
 

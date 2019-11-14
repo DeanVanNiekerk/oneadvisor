@@ -1,4 +1,4 @@
-import { Organisation, OrganisationEdit } from "../types";
+import { Organisation } from "../types";
 import { defaultState, reducer } from "./reducer";
 
 describe("organisation list reducer", () => {

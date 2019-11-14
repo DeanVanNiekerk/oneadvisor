@@ -13,22 +13,17 @@ import {
     receiveCompany,
 } from "@/state/app/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
-import { Button, getTable, Header, getColumnSearchProps } from "@/ui/controls";
+import { Button, getColumnSearchProps, getTable, Header } from "@/ui/controls";
 
 import EditCompany from "./EditCompany";
 
 const Table = getTable<Company>();
 
-const getColumns = () => {
-    const getColumn = getColumnDefinition<Company>();
-    return [getColumn("name", "Name", {}, getColumnSearchProps("Name"))];
-};
-
 type Props = PropsFromState & PropsFromDispatch;
 
 const CompanyList: React.FC<Props> = props => {
     useEffect(() => {
-        if (props.companies.length === 0) props.fetchCompanies();
+        props.fetchCompanies();
     }, []);
 
     const editCompany = (id: string) => {
@@ -63,6 +58,11 @@ const CompanyList: React.FC<Props> = props => {
             <EditCompany onSaved={props.fetchCompanies} />
         </>
     );
+};
+
+const getColumns = () => {
+    const getColumn = getColumnDefinition<Company>();
+    return [getColumn("name", "Name", {}, getColumnSearchProps("Name"))];
 };
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;

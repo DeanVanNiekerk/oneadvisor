@@ -78,15 +78,15 @@ class BranchSelect extends Component<Props, State> {
         this.setState({
             organisationId: organisationId,
         });
-        this.props.dispatch(fetchBranches(organisationId));
+        this.props.dispatch(fetchBranches({ organisationId: [organisationId] }));
     };
 
-    handleOrganisationChange = (fieldName: string, value: string) => {
-        this.props.dispatch(fetchBranches(value));
+    handleOrganisationChange = (fieldName: string, organisationId: string) => {
+        this.props.dispatch(fetchBranches({ organisationId: [organisationId] }));
         this.props.onChange("");
         this.setState({
             branchId: "",
-            organisationId: value,
+            organisationId: organisationId,
         });
     };
 

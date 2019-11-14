@@ -5,16 +5,20 @@ import { BranchAction } from "./actions";
 
 export type State = {
     readonly branch: Branch | null;
+    readonly branchOriginal: Branch | null;
     readonly fetching: boolean;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];
+    readonly visible: boolean;
 };
 
 export const defaultState: State = {
     branch: null,
+    branchOriginal: null,
     fetching: false,
     updating: false,
     validationResults: [],
+    visible: false,
 };
 
 export const reducer = (state: State = defaultState, action: BranchAction): State => {
@@ -23,13 +27,22 @@ export const reducer = (state: State = defaultState, action: BranchAction): Stat
             return {
                 ...state,
                 branch: action.payload,
+                branchOriginal: action.payload,
                 validationResults: [],
                 fetching: false,
+            };
+        }
+        case "BRANCHES_BRANCH_MODIFIED": {
+            return {
+                ...state,
+                branch: action.payload,
             };
         }
         case "BRANCHES_BRANCH_FETCHING": {
             return {
                 ...state,
+                branch: null,
+                branchOriginal: null,
                 validationResults: [],
                 fetching: true,
             };
@@ -37,7 +50,6 @@ export const reducer = (state: State = defaultState, action: BranchAction): Stat
         case "BRANCHES_BRANCH_FETCHING_ERROR": {
             return {
                 ...state,
-                branch: null,
                 fetching: false,
             };
         }
@@ -65,6 +77,12 @@ export const reducer = (state: State = defaultState, action: BranchAction): Stat
                 ...state,
                 updating: false,
                 validationResults: action.payload,
+            };
+        }
+        case "BRANCHES_BRANCH_VISIBLE": {
+            return {
+                ...state,
+                visible: action.payload,
             };
         }
         default:
