@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OneAdvisor.Model\OneAdvisor.Model.csproj" />
-    <ProjectReference Include="..\OneAdvisor.Service\OneAdvisor.Service.csproj" />
-    <ProjectReference Include="..\OneAdvisor.Data\OneAdvisor.Data.csproj" />
+    <ProjectReference Include="..\..\src\OneAdvisor.Data\OneAdvisor.Data.csproj" />
+    <ProjectReference Include="..\..\src\OneAdvisor.Model\OneAdvisor.Model.csproj" />
+    <ProjectReference Include="..\..\src\OneAdvisor.Service\OneAdvisor.Service.csproj" />
     <ProjectReference Include="..\OneAdvisor.Service.Test\OneAdvisor.Service.Test.csproj" />
   </ItemGroup>
 

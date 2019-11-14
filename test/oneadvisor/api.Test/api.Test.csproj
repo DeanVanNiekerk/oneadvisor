@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\api\api.csproj" />
-    <ProjectReference Include="..\..\OneAdvisor.Model\OneAdvisor.Model.csproj" />
+    <ProjectReference Include="..\..\..\src\oneadvisor\api\api.csproj" />
+    <ProjectReference Include="..\..\..\src\OneAdvisor.Model\OneAdvisor.Model.csproj" />
   </ItemGroup>
 
 </Project>

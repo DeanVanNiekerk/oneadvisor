@@ -25,7 +25,7 @@ jobs:
         displayName: "publish for $(buildConfiguration)"
       - task: CopyFiles@2
         inputs:
-          sourceFolder: "oneadvisor/api/bin/$(buildConfiguration)/netcoreapp2.2/publish"
+          sourceFolder: "src/oneadvisor/api/bin/$(buildConfiguration)/netcoreapp2.2/publish"
           targetFolder: $(Build.ArtifactStagingDirectory)
           cleanTargetFolder: true
       - task: PublishBuildArtifacts@1
@@ -39,26 +39,26 @@ jobs:
       - script: |
           npm install
         displayName: "install client packages"
-        workingDirectory: "oneadvisor/web"
+        workingDirectory: "src/oneadvisor/web"
       - script: |
           npm run lint
         displayName: "linting check"
-        workingDirectory: "oneadvisor/web"
+        workingDirectory: "src/oneadvisor/web"
       - script: |
           npm run test
         displayName: "run tests"
-        workingDirectory: "oneadvisor/web"
+        workingDirectory: "src/oneadvisor/web"
       - script: |
           npm install
         displayName: "install server packages"
-        workingDirectory: "oneadvisor/web/server"
+        workingDirectory: "src/oneadvisor/web/server"
       - script: |
           npm run build:staging
         displayName: "build: staging"
-        workingDirectory: "oneadvisor/web"
+        workingDirectory: "src/oneadvisor/web"
       - task: CopyFiles@2
         inputs:
-          sourceFolder: "oneadvisor/web/server"
+          sourceFolder: "src/oneadvisor/web/server"
           targetFolder: $(Build.ArtifactStagingDirectory)
           cleanTargetFolder: true
       - task: PublishBuildArtifacts@1
@@ -68,10 +68,10 @@ jobs:
       - script: |
           npm run build:production
         displayName: "build: production"
-        workingDirectory: "oneadvisor/web"
+        workingDirectory: "src/oneadvisor/web"
       - task: CopyFiles@2
         inputs:
-          sourceFolder: "oneadvisor/web/server"
+          sourceFolder: "src/oneadvisor/web/server"
           targetFolder: $(Build.ArtifactStagingDirectory)
           cleanTargetFolder: true
       - task: PublishBuildArtifacts@1

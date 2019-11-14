@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OneAdvisor.Import.Excel\OneAdvisor.Import.Excel.csproj" />
-    <ProjectReference Include="..\OneAdvisor.Model\OneAdvisor.Model.csproj" />
+    <ProjectReference Include="..\..\src\OneAdvisor.Model\OneAdvisor.Model.csproj" />
+    <ProjectReference Include="..\..\src\OneAdvisor.Import.Excel\OneAdvisor.Import.Excel.csproj" />
   </ItemGroup>
 
 </Project>
