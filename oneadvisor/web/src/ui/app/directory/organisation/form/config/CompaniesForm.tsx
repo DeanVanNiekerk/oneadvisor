@@ -25,7 +25,7 @@ const CompaniesForm: React.FC<Props> = ({ companyIds, companies, handleChange })
             companyIdsModified = companyIds.filter(c => c !== companyId);
         else companyIdsModified.push(companyId);
 
-        handleChange(companyIds);
+        handleChange(companyIdsModified);
     };
 
     return (

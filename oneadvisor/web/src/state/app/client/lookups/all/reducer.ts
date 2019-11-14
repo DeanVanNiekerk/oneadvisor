@@ -5,7 +5,7 @@ export type State = {
 };
 
 export const defaultState: State = {
-    fetching: false,
+    fetching: true, //Default to true as we always load on startup
 };
 
 export const reducer = (state: State = defaultState, action: LookupsAction): State => {
