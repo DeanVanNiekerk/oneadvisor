@@ -62,6 +62,7 @@ describe("branch reducer", () => {
         const expectedState = {
             ...defaultState,
             branch: { ...branch },
+            branchOriginal: { ...branch },
             fetching: false,
             validationResults: [],
         };

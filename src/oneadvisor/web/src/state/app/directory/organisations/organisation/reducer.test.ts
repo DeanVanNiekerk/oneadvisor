@@ -67,6 +67,7 @@ describe("organisation reducer", () => {
         const expectedState = {
             ...defaultState,
             organisation: { ...organisation },
+            organisationOriginal: { ...organisation },
             fetching: false,
             validationResults: [],
         };
