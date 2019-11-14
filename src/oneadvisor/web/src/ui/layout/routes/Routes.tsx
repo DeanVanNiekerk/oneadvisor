@@ -31,7 +31,7 @@ import UserList from "@/ui/app/directory/user/UserList";
 
 import SecureRoute from "../SecureRoute";
 
-const Routes = () => (
+const Routes: React.FC = () => (
     <Switch>
         {/* ACCOUNT ----------------------------------------------------------------------------- */}
         <Route exact path={["/signin", "/signin/admin"]} component={SignIn} />

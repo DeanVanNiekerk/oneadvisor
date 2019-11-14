@@ -27,9 +27,10 @@ namespace api.App.Setup
                 options.UseSqlServer(Configuration.GetConnectionString("OneAdvisorDb"),
                     sqlServerOptionsAction: sqlOptions =>
                     {
+                        sqlOptions.CommandTimeout(Configuration.GetValue<int>("Database:CommandTimeout"));
                         sqlOptions.EnableRetryOnFailure(
                             maxRetryCount: 10,
-                            maxRetryDelay: TimeSpan.FromSeconds(30),
+                            maxRetryDelay: TimeSpan.FromSeconds(120),
                             errorNumbersToAdd: null
                         );
                     })
