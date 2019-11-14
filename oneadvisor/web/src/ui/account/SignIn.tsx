@@ -65,7 +65,7 @@ class SignIn extends React.Component<Props, State> {
             password: this.state.password,
             organisationId: this.state.organisationId,
         };
-        this.props.dispatch(signIn(credentials, () => {}));
+        this.props.dispatch(signIn(credentials));
     };
 
     onKeyPress = event => {

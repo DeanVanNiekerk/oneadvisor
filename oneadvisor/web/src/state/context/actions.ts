@@ -1,10 +1,12 @@
 import { Dispatch } from "redux";
+import { ThunkAction } from "redux-thunk";
 
 import { ApiAction } from "@/app/types";
 import { organisationsApi } from "@/config/api/directory";
 import config from "@/config/config";
 
-import { signOut } from "../auth";
+import { signOut, userOrganisationIdSelector } from "../auth";
+import { RootState } from "../rootReducer";
 import { getVersion, setVersion } from "../storage";
 import { AppInfo } from "./types";
 
@@ -38,8 +40,16 @@ export const fetchAppInfo = (): ApiAction => {
     };
 };
 
-export const fetchUserOrganisation = (organisationId: string): ApiAction => ({
-    type: "API",
-    endpoint: `${organisationsApi}/${organisationId}`,
-    dispatchPrefix: "CONTEXT_ORGANISATION",
-});
+export const fetchUserOrganisation = (): ThunkAction<void, RootState, {}, ApiAction> => {
+    return (dispatch, getState) => {
+        const organisationId = userOrganisationIdSelector(getState());
+
+        if (!organisationId) return;
+
+        dispatch({
+            type: "API",
+            endpoint: `${organisationsApi}/${organisationId}`,
+            dispatchPrefix: "CONTEXT_ORGANISATION",
+        });
+    };
+};

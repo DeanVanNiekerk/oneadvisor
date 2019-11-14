@@ -1,83 +1,62 @@
-import React, { ReactNode } from "react";
-import { connect, DispatchProp } from "react-redux";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
+import { AnyAction, bindActionCreators } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
-import { clientLookupsSelector, fetchAllClientLookups } from "@/state/app/client/lookups";
-import {
-    commissionLookupsSelector,
-    fetchAllCommissionLookups,
-} from "@/state/app/commission/lookups";
-import { fetchBranchesSimple } from "@/state/app/directory/branchesSimple";
-import { directoryLookupsSelector, fetchAllDirectoryLookups } from "@/state/app/directory/lookups";
-import { fetchUsersSimple } from "@/state/app/directory/usersSimple";
-import { isAuthenticatedSelector, userOrganisationIdSelector } from "@/state/auth";
-import { fetchAppInfo, fetchUserOrganisation } from "@/state/context/actions";
+import { fetchAllClientLookups } from "@/state/app/client/lookups";
+import { fetchAllCommissionLookups } from "@/state/app/commission/lookups";
+import { fetchAllDirectoryLookups } from "@/state/app/directory/lookups";
+import { isLoadingLookupsSelector } from "@/state/app/selectors";
+import { fetchAppInfo } from "@/state/context/actions";
 import { RootState } from "@/state/rootReducer";
 import { Loader } from "@/ui/controls";
 
 type Props = {
-    isAuthenticated: boolean;
-    loading: boolean;
-    children: ReactNode;
-    organisationId: string;
-} & DispatchProp &
+    children: React.ReactNode;
+} & PropsFromState &
+    PropsFromDispatch &
     RouteComponentProps;
 
-class Startup extends React.Component<Props> {
-    componentDidMount() {
-        this.props.dispatch(fetchAllDirectoryLookups());
-        this.props.dispatch(fetchAllCommissionLookups());
-        this.props.dispatch(fetchAllClientLookups());
+const Startup: React.FC<Props> = (props: Props) => {
+    useEffect(() => {
+        props.fetchAllDirectoryLookups();
+        props.fetchAllCommissionLookups();
+        props.fetchAllClientLookups();
 
-        this.props.dispatch(fetchAppInfo());
+        props.fetchAppInfo();
+    }, []);
 
-        this.loadSecureData();
-        this.loadOrganisationData();
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (this.props.isAuthenticated && !prevProps.isAuthenticated) this.loadSecureData();
-        if (this.props.organisationId && !prevProps.organisationId) this.loadOrganisationData();
-    }
-
-    loadSecureData() {
-        if (this.props.isAuthenticated) {
-            this.props.dispatch(fetchUsersSimple());
-            this.props.dispatch(fetchBranchesSimple());
-        }
-    }
-
-    loadOrganisationData() {
-        if (this.props.organisationId) {
-            this.props.dispatch(fetchUserOrganisation(this.props.organisationId));
-        }
-    }
-
-    isAccountPage = () => {
-        return this.props.location.pathname === "/signin";
+    const isAccountPage = () => {
+        return props.location.pathname === "/signin";
     };
 
-    render() {
-        if (this.props.loading && !this.isAccountPage())
-            return <Loader text="loading application..." size="large" />;
+    if (props.loading && !isAccountPage())
+        return <Loader text="loading application..." size="large" />;
 
-        return <>{this.props.children}</>;
-    }
-}
+    return <>{props.children}</>;
+};
 
+type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
-    const directoryLookupsState = directoryLookupsSelector(state);
-    const commissionLookupsState = commissionLookupsSelector(state);
-    const clientLookupsState = clientLookupsSelector(state);
-
     return {
-        loading:
-            directoryLookupsState.fetching ||
-            commissionLookupsState.fetching ||
-            clientLookupsState.fetching,
-        isAuthenticated: isAuthenticatedSelector(state),
-        organisationId: userOrganisationIdSelector(state),
+        loading: isLoadingLookupsSelector(state),
     };
 };
 
-export default withRouter(connect(mapStateToProps)(Startup));
+type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
+    return {
+        ...bindActionCreators(
+            {
+                fetchAllDirectoryLookups,
+                fetchAllCommissionLookups,
+                fetchAllClientLookups,
+                fetchAppInfo,
+            },
+            dispatch
+        ),
+    };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Startup));

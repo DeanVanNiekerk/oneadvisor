@@ -9,19 +9,13 @@ import {
     organisationVisible,
     saveOrganisation,
 } from "@/state/app/directory/organisations";
+import { fetchUserOrganisation } from "@/state/context/actions";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 
 import EditOrganisationTitle from "./EditOrganisationTitle";
 import OrganisationForm from "./form/OrganisationForm";
-
-/*
-updateOrganisation(this.state.organisationEdited, () => {
-    this.props.dispatch(fetchUserOrganisation(this.props.organisationId));
-    this.close();
-})
-*/
 
 type Props = {
     onSaved?: () => void;
@@ -70,6 +64,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
                 saveOrganisation(() => {
                     if (onSaved) onSaved();
                     dispatch(organisationVisible(false));
+                    dispatch(fetchUserOrganisation());
                 })
             );
         },

@@ -1,8 +1,13 @@
-import { Dispatch } from "redux";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
-import { ApiAction, ApiOnSuccess } from "@/app/types";
+import { ApiAction } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { signInApi } from "@/config/api/account";
+import { fetchBranchesSimple } from "@/state/app/directory/branchesSimple";
+import { fetchUsersSimple } from "@/state/app/directory/usersSimple";
+import { fetchUserOrganisation } from "@/state/context/actions";
+import { RootState } from "@/state/rootReducer";
 
 import { recieveToken } from "../token/actions";
 import { Credentials } from "../types";
@@ -28,15 +33,18 @@ export type SignInActions =
     | SigningInErrorAction
     | SignInValidationErrorAction;
 
-export const signIn = (credentials: Credentials, onSuccess: ApiOnSuccess): ApiAction => ({
+export const signIn = (credentials: Credentials): ApiAction => ({
     type: "API",
     endpoint: `${signInApi}`,
     method: "POST",
     payload: credentials,
     dispatchPrefix: "AUTH_SIGNIN",
     hideNotifications: true,
-    onSuccess: (result: { token: string }, dispatch: Dispatch) => {
+    onSuccess: (result: { token: string }, dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
         dispatch(recieveToken(result.token));
-        onSuccess(result, dispatch);
+
+        dispatch(fetchUsersSimple());
+        dispatch(fetchBranchesSimple());
+        dispatch(fetchUserOrganisation());
     },
 });
