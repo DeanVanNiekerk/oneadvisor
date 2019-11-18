@@ -8,15 +8,7 @@
 
 **Current upgrade issues**
 
-Upgrade to typescript 3.6 causing type conflicts with node types
-
-## Babel Version Check
-
-Babel: https://github.com/babel/babel-upgrade
-
-`npm install babel-upgrade -g`
-
-`babel-upgrade --write --install`
+None !
 
 ## Webpack Bundle Analyzer
 
