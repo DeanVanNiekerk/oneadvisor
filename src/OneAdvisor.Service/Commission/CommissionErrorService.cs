@@ -199,7 +199,7 @@ namespace OneAdvisor.Service.Commission
             _context.CommissionError.Remove(entity);
             await _context.SaveChangesAsync();
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "CommissionError", entity);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "CommissionError", entity.Id, entity);
 
             return new Result(true);
         }

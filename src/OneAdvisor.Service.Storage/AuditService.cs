@@ -163,6 +163,7 @@ namespace OneAdvisor.Service.Storage
                 Id = Guid.Parse(entity.RowKey),
                 Action = entity.Action,
                 Entity = entity.Entity,
+                EntityId = entity.EntityId,
                 Date = entity.Timestamp.DateTime,
                 Data = JsonConvert.DeserializeObject(entity.Data),
                 UserId = string.IsNullOrWhiteSpace(entity.UserId) ? null : (Guid?)Guid.Parse(entity.UserId),
@@ -171,7 +172,7 @@ namespace OneAdvisor.Service.Storage
             return items;
         }
 
-        public async Task<Result> InsertAuditLog(ScopeOptions scope, string action, string entity, dynamic data)
+        public Task<Result> InsertAuditLog(ScopeOptions scope, string action, string entity, string entityId, dynamic data)
         {
             Guid? organisationId = null;
             Guid? branchId = null;
@@ -183,10 +184,16 @@ namespace OneAdvisor.Service.Storage
                 userId = scope.UserId;
             }
 
-            return await InsertAuditLog(organisationId, branchId, userId, action, entity, data);
+            return InsertAuditLog(organisationId, branchId, userId, action, entity, entityId, data);
         }
 
-        public async Task<Result> InsertAuditLog(Guid? organisationId, Guid? branchId, Guid? userId, string action, string entity, dynamic data)
+        public Task<Result> InsertAuditLog(ScopeOptions scope, string action, string entity, Guid? entityId, dynamic data)
+        {
+            var entityIdString = entityId.HasValue ? entityId.Value.ToString() : null;
+            return InsertAuditLog(scope, action, entity, entityIdString, data);
+        }
+
+        public async Task<Result> InsertAuditLog(Guid? organisationId, Guid? branchId, Guid? userId, string action, string entity, string entityId, dynamic data)
         {
             var model = new AuditLog()
             {
@@ -194,6 +201,7 @@ namespace OneAdvisor.Service.Storage
                 BranchId = branchId,
                 Action = action,
                 Entity = entity,
+                EntityId = entityId,
                 Data = data,
             };
 
@@ -241,6 +249,7 @@ namespace OneAdvisor.Service.Storage
             entity.BranchId = model.BranchId.HasValue ? model.BranchId.ToString() : "";
             entity.Action = model.Action;
             entity.Entity = model.Entity;
+            entity.EntityId = model.EntityId;
             entity.Data = JsonConvert.SerializeObject(model.Data);
 
             return entity;

@@ -151,7 +151,7 @@ namespace OneAdvisor.Service.Client
             policy.Id = entity.Id;
             result.Tag = policy;
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "Policy", policy);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "Policy", entity.Id, policy);
 
             return result;
         }
@@ -173,7 +173,7 @@ namespace OneAdvisor.Service.Client
 
             await _context.SaveChangesAsync();
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "Policy", policy);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "Policy", entity.Id, policy);
 
             return result;
         }

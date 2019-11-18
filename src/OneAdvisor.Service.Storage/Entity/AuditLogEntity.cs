@@ -18,6 +18,7 @@ namespace OneAdvisor.Service.Storage.Entity
         public string BranchId { get; set; }
         public string Action { get; set; }
         public string Entity { get; set; }
+        public string EntityId { get; set; }
         public string Data { get; set; }
     }
 }

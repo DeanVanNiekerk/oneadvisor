@@ -85,7 +85,7 @@ namespace OneAdvisor.Service.Client
             contact.Id = entity.Id;
             result.Tag = contact;
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "Contact", contact);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "Contact", entity.Id, contact);
 
             return result;
         }
@@ -106,7 +106,7 @@ namespace OneAdvisor.Service.Client
             entity = MapModelToEntity(contact, entity);
             await _context.SaveChangesAsync();
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "Contact", contact);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "Contact", entity.Id, contact);
 
             return result;
         }
@@ -122,7 +122,7 @@ namespace OneAdvisor.Service.Client
 
             await _context.SaveChangesAsync();
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "Contact", entity);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "Contact", entity.Id, entity);
 
             return new Result(true);
         }

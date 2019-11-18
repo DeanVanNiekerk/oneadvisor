@@ -74,7 +74,7 @@ namespace OneAdvisor.Service.Directory
             branch.Id = entity.Id;
             result.Tag = branch;
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "Branch", branch);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "Branch", entity.Id, branch);
 
             return result;
         }
@@ -95,7 +95,7 @@ namespace OneAdvisor.Service.Directory
             entity = MapModelToEntity(branch, entity);
             await _context.SaveChangesAsync();
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "Branch", branch);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "Branch", entity.Id, branch);
 
             return result;
         }

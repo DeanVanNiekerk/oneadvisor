@@ -159,7 +159,7 @@ namespace OneAdvisor.Service.Directory
             await UpdateRoles(entity, user.Roles);
             await UpdateIsLocked(entity, user.IsLocked);
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "User", user);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "User", entity.Id, user);
 
             return result;
         }
@@ -192,7 +192,7 @@ namespace OneAdvisor.Service.Directory
             await UpdateRoles(entity, user.Roles);
             await UpdateIsLocked(entity, user.IsLocked);
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "User", user);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "User", entity.Id, user);
 
             return result;
         }

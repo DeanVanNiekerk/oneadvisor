@@ -105,7 +105,7 @@ namespace OneAdvisor.Service.Commission
             if (CommissionErrorsToInsert.Any())
                 await _bulkActions.BulkInsertCommissionErrorsAsync(_context, CommissionErrorsToInsert);
 
-            await _auditService.InsertAuditLog(scope, "Import", "Commission",
+            await _auditService.InsertAuditLog(scope, "Import", "Commission", statement.Id,
                 new
                 {
                     commissionStatementId = commissionStatementId,

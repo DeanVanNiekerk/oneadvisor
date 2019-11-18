@@ -9,7 +9,8 @@ namespace OneAdvisor.Model.Directory.Interface
     public interface IAuditService
     {
         Task<AuditLogItems> GetAuditLogs(AuditLogQueryOptions queryOptions);
-        Task<Result> InsertAuditLog(ScopeOptions scope, string action, string entity, dynamic data);
-        Task<Result> InsertAuditLog(Guid? organistionId, Guid? branchId, Guid? userId, string action, string entity, dynamic data);
+        Task<Result> InsertAuditLog(ScopeOptions scope, string action, string entity, string entityId, dynamic data);
+        Task<Result> InsertAuditLog(ScopeOptions scope, string action, string entity, Guid? entityId, dynamic data);
+        Task<Result> InsertAuditLog(Guid? organistionId, Guid? branchId, Guid? userId, string action, string entity, string entityId, dynamic data);
     }
 }

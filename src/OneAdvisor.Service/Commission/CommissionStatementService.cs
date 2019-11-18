@@ -140,7 +140,7 @@ namespace OneAdvisor.Service.Commission
             commissionStatement.Id = entity.Id;
             result.Tag = commissionStatement;
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "CommissionStatement", commissionStatement);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "CommissionStatement", entity.Id, commissionStatement);
 
             return result;
         }
@@ -162,7 +162,7 @@ namespace OneAdvisor.Service.Commission
 
             await _context.SaveChangesAsync();
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "CommissionStatement", commissionStatement);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "CommissionStatement", entity.Id, commissionStatement);
 
             return result;
         }
@@ -178,7 +178,7 @@ namespace OneAdvisor.Service.Commission
             await _bulkActions.BatchDeleteCommissionsAsync(_context, commissionStatementId);
             await _bulkActions.BatchDeleteCommissionErrorsAsync(_context, commissionStatementId);
 
-            await _auditService.InsertAuditLog(scope, "BulkDelete", "Commission", new { commissionStatementId = commissionStatementId });
+            await _auditService.InsertAuditLog(scope, "BulkDelete", "Commission", commissionStatementId, new { commissionStatementId = commissionStatementId });
         }
 
         private IQueryable<CommissionStatementEdit> GetCommissionStatementEditQuery(ScopeOptions scope)

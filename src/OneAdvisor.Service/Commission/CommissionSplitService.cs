@@ -82,7 +82,7 @@ namespace OneAdvisor.Service.Commission
 
             await _context.SaveChangesAsync();
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "CommissionSplitRule", entity);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "CommissionSplitRule", entity.Id, entity);
 
             return new Result(true);
         }
@@ -105,7 +105,7 @@ namespace OneAdvisor.Service.Commission
             commissionSplitRule.Id = entity.Id;
             result.Tag = commissionSplitRule;
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "CommissionSplitRule", commissionSplitRule);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "CommissionSplitRule", entity.Id, commissionSplitRule);
 
             return result;
         }
@@ -130,7 +130,7 @@ namespace OneAdvisor.Service.Commission
 
             await _context.SaveChangesAsync();
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "CommissionSplitRule", commissionSplitRule);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "CommissionSplitRule", entity.Id, commissionSplitRule);
 
             return result;
         }

@@ -159,7 +159,7 @@ namespace OneAdvisor.Service.Commission
             commission.Id = entity.Id;
             result.Tag = commission;
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "Commission", commission);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "Commission", entity.Id, commission);
 
             return result;
         }
@@ -181,7 +181,7 @@ namespace OneAdvisor.Service.Commission
 
             await _context.SaveChangesAsync();
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "Commission", commission);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "Commission", entity.Id, commission);
 
             return result;
         }

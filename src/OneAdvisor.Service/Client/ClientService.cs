@@ -140,7 +140,7 @@ namespace OneAdvisor.Service.Client
             client.Id = entity.Id;
             result.Tag = client;
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "Client", client);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "Client", entity.Id, client);
 
             return result;
         }
@@ -162,7 +162,7 @@ namespace OneAdvisor.Service.Client
 
             await _context.SaveChangesAsync();
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "Client", client);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "Client", entity.Id, client);
 
             return result;
         }
@@ -178,7 +178,7 @@ namespace OneAdvisor.Service.Client
 
             await _context.SaveChangesAsync();
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "Client", entity);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "Client", entity.Id, entity);
 
             return new Result(true);
         }
@@ -228,7 +228,7 @@ namespace OneAdvisor.Service.Client
 
             result.Tag = merge.TargetClient;
 
-            await _auditService.InsertAuditLog(scope, "Merge", "Client", merge);
+            await _auditService.InsertAuditLog(scope, "Merge", "Client", merge.TargetClient.Id, merge);
 
             return result;
         }
