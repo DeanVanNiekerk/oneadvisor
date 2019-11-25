@@ -9,7 +9,7 @@
       "LifeSpanDays": "30"
     },
     "Cors": {
-      "WithOrigins": "https://localhost:5002"
+      "WithOrigins": ""
     }
   },
   "Database": {

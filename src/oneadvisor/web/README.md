@@ -4,6 +4,7 @@
 
 -   `npm install`
 -   `npm start`
+-   Application should now be available at `https://localhost:5001`
 
 ### Testing
 
@@ -19,7 +20,7 @@
 -   `npm run analyze:build`
 -   `npm run analyze:run`
 
-### Ensuring latest versions
+### Package version updates
 
 -   `npm install npm-check -g`
 -   `npm-check -u -E`

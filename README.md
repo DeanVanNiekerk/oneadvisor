@@ -1,24 +1,34 @@
 # OneAdvisor
 
-## Pre-requisits
+### Pre-requisits
 
 1. [.NET Core 2.2](https://dotnet.microsoft.com/download/dotnet-core/2.2)
 1. [Node.js > 10](https://nodejs.org/en/download/)
 
-## Setup
-
-1. Run `dotnet restore` in the root directory to restore dotnet packages
-1. Run `npm install` in the `src/oneadvisor/web/` directory to install node dependancies
-
 ### Database
 
-1. Configure database, follow instructions [here](src/OneAdvisor.Data/README.md)
+1. Configure database, follow database [README](src/OneAdvisor.Data/README.md)
 
-## Running the application
+### API Setup
 
-1. Create an `appSettings.json` in `src/oneadvisor/api/`. See `src/oneadvisor/api/example.appsettings.json`. Update settings accordingly.
-1. Start the api by running `dotnet watch run` in the `src/oneadvisor/api/` directory (more info in [here](src/oneadvisor/api/README.md))
-1. Then run the website by running `npm start` in the `src/oneadvisor/web/` directory (more info in [here](src/oneadvisor/web/README.md))
+1. cd into `src/oneadvisor/api/`
+1. `dotnet restore`
+   - to restore dotnet packages
+1. Create an `appSettings.json` file.
+   - See `example.appsettings.json`
+   - Update settings accordingly.
+1. `dotnet watch run`
+   - starts the API
+
+(more info in [here](src/oneadvisor/api/README.md))
+
+### Client Setup (Web App)
+
+1. cd into `src/oneadvisor/web/`
+1. `npm install`
+1. `npm start`
+
+(more info in [here](src/oneadvisor/web/README.md))
 
 ---
 
