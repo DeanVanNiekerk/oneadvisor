@@ -1,4 +1,3 @@
-
 GENERATING BASE STRINGS:
 
 Do encoding here:
