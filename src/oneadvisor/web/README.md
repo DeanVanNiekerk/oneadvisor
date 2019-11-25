@@ -1,25 +1,25 @@
-# OneAdvisor Client
+## OneAdvisor Client
 
-## Getting started
+### Getting started
 
 -   `npm install`
 -   `npm start`
 
-## Testing
+### Testing
 
 -   `npm run test`
 
-## Linting
+### Linting
 
 -   `npm run lint`
 -   `npm run lint-fix`
 
-## Webpack Bundle Analyzer
+### Webpack Bundle Analyzer
 
 -   `npm run analyze:build`
 -   `npm run analyze:run`
 
-## Ensuring latest versions
+### Ensuring latest versions
 
 -   `npm install npm-check -g`
 -   `npm-check -u -E`

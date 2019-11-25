@@ -2,26 +2,23 @@
 
 ## Pre-requisits
 
-1. dotnet core SDK 2.2
-1. nodejs > 8
+1. [.NET Core 2.2](https://dotnet.microsoft.com/download/dotnet-core/2.2)
+1. [Node.js > 10](https://nodejs.org/en/download/)
 
 ## Setup
 
 1. Run `dotnet restore` in the root directory to restore dotnet packages
 1. Run `npm install` in the `src/oneadvisor/web/` directory to install node dependancies
-1. Initialize database, follow instructions [here](src/OneAdvisor.Data/README.md))
+
+### Database
+
+1. Configure database, follow instructions [here](src/OneAdvisor.Data/README.md)
 
 ## Running the application
 
-> In order to run in development mode, set the ASPNETCORE_ENVIRONMENT environment variable to Development
-
 1. Create an `appSettings.json` in `src/oneadvisor/api/`. See `src/oneadvisor/api/example.appsettings.json`. Update settings accordingly.
-1. Start the api by running `dotnet watch run` in `src/oneadvisor/api/` directory (more info in [here](src/oneadvisor/api/README.md))
-1. Then run the website by running `npm start` in `src/oneadvisor/web/` directory (more info in [here](src/oneadvisor/web/README.md))
-
-## Unit Tests
-
-1. Run `dotnet test --filter Category!=Integration`
+1. Start the api by running `dotnet watch run` in the `src/oneadvisor/api/` directory (more info in [here](src/oneadvisor/api/README.md))
+1. Then run the website by running `npm start` in the `src/oneadvisor/web/` directory (more info in [here](src/oneadvisor/web/README.md))
 
 ---
 
@@ -58,20 +55,22 @@
 
 ---
 
-## Global dotnet core tools
+## dotnet core tools
 
-> dotnet tool install -g {package-name}
+### Installing tools
+
+- `dotnet tool install -g {package-name}`
 
 ### dotnet-outdated - update nuget packages
 
-- dotnet-outdated oneadvisor.sln
-- dotnet-outdated oneadvisor.sln -u (will make updates)
-- dotnet-outdated oneadvisor.sln -u:prompt (will prompt to make updates)
+- `dotnet-outdated oneadvisor.sln`
+- `dotnet-outdated oneadvisor.sln -u` (will make updates)
+- `dotnet-outdated oneadvisor.sln -u:prompt` (will prompt to make updates)
 
 ### dotnet-search - seach nuget packages
 
-- dotnet-search automapper
-  -> dotnet add package {packageName}
+- `dotnet-search automapper`
+  -> `dotnet add package {packageName}`
 
 ---
 

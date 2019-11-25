@@ -1,13 +1,12 @@
-# OneAdvisor API
+## OneAdvisor API
 
-## Getting started
+### Getting started
 
 - `dotnet restore`
 - `dotnet run`
-  - or `dotnet watch run` with watch
+  - or `dotnet watch run` (to run in watch mode)
 
-## Kill proccess dev
+#### Kill Proccess
 
-- lsof -i :6001
-
-- kill -9 <PID>
+- `lsof -i :6001`
+- `kill -9 <PID>`
