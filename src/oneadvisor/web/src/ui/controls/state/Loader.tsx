@@ -6,10 +6,11 @@ import { Col, Grid, Row } from "react-flexbox-grid";
 type Props = {
     text?: string;
     size?: SpinSize;
+    className?: string;
 };
 
 const Loader: React.FC<Props> = (props: Props) => (
-    <Grid fluid>
+    <Grid fluid className={props.className}>
         <Row style={{ height: "100%", alignItems: "center" }}>
             <Col xs={12}>
                 <Row center="xs">

@@ -1,26 +1,26 @@
-import { Layout } from "antd";
+import { Layout as LayoutAD } from "antd";
 import React, { ReactNode } from "react";
 
 import Navigator from "./Navigator";
 import SideMenu from "./SideMenu";
 
-const { Content } = Layout;
+const { Content } = LayoutAD;
 
 type Props = {
     children: ReactNode;
 };
 
-const LayoutContainer: React.FC<Props> = (props: Props) => {
+const Layout: React.FC<Props> = (props: Props) => {
     return (
-        <Layout
+        <LayoutAD
             style={{
                 height: "100%",
             }}
         >
             <Navigator />
-            <Layout>
+            <LayoutAD>
                 <SideMenu />
-                <Layout>
+                <LayoutAD>
                     <Content
                         style={{
                             background: "#fff",
@@ -32,10 +32,10 @@ const LayoutContainer: React.FC<Props> = (props: Props) => {
                     >
                         {props.children}
                     </Content>
-                </Layout>
-            </Layout>
-        </Layout>
+                </LayoutAD>
+            </LayoutAD>
+        </LayoutAD>
     );
 };
 
-export default LayoutContainer;
+export default Layout;

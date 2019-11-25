@@ -31,7 +31,7 @@ const rootElement = document.getElementById("root");
 // Create a reusable render method that we can call more than once
 const render = () => {
     // Dynamically import our main App component, and render it
-    const App = require("./ui/layout/App").default;
+    const App = require("./ui/App").default;
 
     ReactDOM.render(
         <Provider store={store}>
@@ -47,7 +47,7 @@ if (module.hot) {
     // Support hot reloading of components.
     // Whenever the App component file or one of its dependencies
     // is changed, re-import the updated component and re-render it
-    module.hot.accept("./ui/layout/App", () => {
+    module.hot.accept("./ui/App", () => {
         setTimeout(render);
     });
 }

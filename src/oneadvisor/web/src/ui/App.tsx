@@ -1,7 +1,7 @@
 import React from "react";
 
+import Startup from "./layout/Startup";
 import Routes from "./routes/Routes";
-import Startup from "./Startup";
 
 const App: React.FC = () => (
     <Startup>
