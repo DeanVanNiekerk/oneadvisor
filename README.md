@@ -9,19 +9,19 @@
 
 1. Run `dotnet restore` in the root directory to restore dotnet packages
 1. Run `npm install` in the `src/oneadvisor/web/` directory to install node dependancies
-1. Run `dotnet ef database update` in the `src/OneAdvisor.Data/` directory to setup database (more info in `src/OneAdvisor.Data/README.md`)
+1. Initialize database, follow instructions [here](src/OneAdvisor.Data/README.md))
 
 ## Running the application
 
 > In order to run in development mode, set the ASPNETCORE_ENVIRONMENT environment variable to Development
 
-1. Create an `appSettings.json` in `src/oneadvisor/api/`. See `src/oneadvisor/api/example.appsettings.json`. Update setting accordingly.
-1. Start the api by running `dotnet watch run` in `src/oneadvisor/api/` directory
-1. Then run the website by running `npm start` in `src/oneadvisor/web/` directory
+1. Create an `appSettings.json` in `src/oneadvisor/api/`. See `src/oneadvisor/api/example.appsettings.json`. Update settings accordingly.
+1. Start the api by running `dotnet watch run` in `src/oneadvisor/api/` directory (more info in [here](src/oneadvisor/api/README.md))
+1. Then run the website by running `npm start` in `src/oneadvisor/web/` directory (more info in [here](src/oneadvisor/web/README.md))
 
 ---
 
-## .NET Development
+## .NET Core Development
 
 > Below are some notes on using the dotnet cli, the complete documentation can be found [here](https://docs.microsoft.com/en-us/dotnet/core/tools/index?tabs=netcore2x)
 
