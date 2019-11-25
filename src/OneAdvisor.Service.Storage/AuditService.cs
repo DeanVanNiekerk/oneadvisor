@@ -128,15 +128,30 @@ namespace OneAdvisor.Service.Storage
                     finalFilter = finalFilter.AndWhere(usersFilter);
 
                 //Entity
-                if (!string.IsNullOrWhiteSpace(queryOptions.Entity))
+                string entitesFilter = "";
+                foreach (var entity in queryOptions.Entity)
                 {
                     string entityFilter = TableQuery.GenerateFilterCondition(
                        "Entity",
                        QueryComparisons.Equal,
-                       queryOptions.Entity);
-
-                    finalFilter = finalFilter.AndWhere(entityFilter);
+                       entity);
+                    entitesFilter = entitesFilter.OrWhere(entityFilter);
                 }
+                if (!string.IsNullOrWhiteSpace(entitesFilter))
+                    finalFilter = finalFilter.AndWhere(entitesFilter);
+
+                //EntityId
+                string entityIdsFilter = "";
+                foreach (var entityId in queryOptions.EntityId)
+                {
+                    string entityIdFilter = TableQuery.GenerateFilterCondition(
+                       "EntityId",
+                       QueryComparisons.Equal,
+                       entityId);
+                    entityIdsFilter = entityIdsFilter.OrWhere(entityIdFilter);
+                }
+                if (!string.IsNullOrWhiteSpace(entityIdsFilter))
+                    finalFilter = finalFilter.AndWhere(entityIdsFilter);
                 //------------------------------------------------------------------------
 
                 query.FilterString = finalFilter;

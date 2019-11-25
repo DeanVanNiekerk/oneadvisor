@@ -22,9 +22,13 @@ namespace OneAdvisor.Model.Directory.Model.Audit
             if (results.Success)
                 Action = results.Value;
 
-            var result = GetFilterValue<string>("Entity");
+            var result = GetFilterValues<string>("Entity");
             if (result.Success)
                 Entity = result.Value;
+
+            result = GetFilterValues<string>("EntityId");
+            if (result.Success)
+                EntityId = result.Value;
 
             var resultDateTime = GetFilterValue<DateTime>("StartDate");
             if (resultDateTime.Success)
@@ -38,7 +42,8 @@ namespace OneAdvisor.Model.Directory.Model.Audit
         public ScopeOptions Scope { get; set; }
         public List<Guid> UserId { get; set; }
         public List<string> Action { get; set; }
-        public string Entity { get; set; }
+        public List<string> Entity { get; set; }
+        public List<string> EntityId { get; set; }
 
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
