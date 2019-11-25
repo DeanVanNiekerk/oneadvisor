@@ -19,6 +19,10 @@
 1. Start the api by running `dotnet watch run` in `src/oneadvisor/api/` directory (more info in [here](src/oneadvisor/api/README.md))
 1. Then run the website by running `npm start` in `src/oneadvisor/web/` directory (more info in [here](src/oneadvisor/web/README.md))
 
+## Unit Tests
+
+1. Run `dotnet test --filter Category!=Integration`
+
 ---
 
 ## .NET Core Development

@@ -22,19 +22,7 @@ namespace OneAdvisor.Service.IntegrationTest
 
             var builder = new DbContextOptionsBuilder<DataContext>();
 
-            var dbName = "OneAdvisorTest";
-
-            // builder.UseSqlServer($"Server=tcp:oneadvisor-dev-sql.database.windows.net,1433;Initial Catalog={dbName};User ID=oneadvisor@oneadvisor-dev-sql;Password=Ul7Q7VgNxWFWRi60;;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30",
-            //         sqlServerOptionsAction: sqlOptions =>
-            //         {
-            //             sqlOptions.EnableRetryOnFailure(
-            //                 maxRetryCount: 10,
-            //                 maxRetryDelay: TimeSpan.FromSeconds(30),
-            //                 errorNumbersToAdd: null
-            //             );
-            //         })
-            //Uncomment for quicker local testing
-            builder.UseSqlServer($"Server=127.0.0.1,1433;Database={dbName};User ID=sa;Password=2x&%bLn3c47Y!y&hv7;Connection Timeout=60")
+            builder.UseSqlServer(Environment.GetEnvironmentVariable("OA_OneAdvisorTestDb"))
                     .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning))
                     .UseInternalServiceProvider(serviceProvider);
 
@@ -57,6 +45,7 @@ namespace OneAdvisor.Service.IntegrationTest
             //Drop all tables
             await context.Database.ExecuteSqlCommandAsync($"EXEC [dbo].[sp_msforeachtable] 'DROP TABLE ?'");
 
+            //Create schema
             await context.Database.MigrateAsync();
 
             _contexts.Add(context);
