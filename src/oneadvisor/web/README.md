@@ -1,17 +1,25 @@
-## Ensuring latest versions
+# OneAdvisor Client
 
-!!! MUST LOCK VERSION NUMBERS
+## Getting started
 
-`npm install npm-check -g`
+-   `npm install`
+-   `npm start`
 
-`npm-check -u -E`
+## Testing
 
-**Current upgrade issues**
+-   `npm run test`
 
-None !
+## Linting
+
+-   `npm run lint`
+-   `npm run lint-fix`
 
 ## Webpack Bundle Analyzer
 
-`npm run build:stats`
+-   `npm run analyze:build`
+-   `npm run analyze:run`
 
-`npx webpack-bundle-analyzer stats.json`
+## Ensuring latest versions
+
+-   `npm install npm-check -g`
+-   `npm-check -u -E`
