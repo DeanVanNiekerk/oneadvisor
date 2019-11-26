@@ -1,6 +1,6 @@
 # OneAdvisor
 
-### Pre-requisits
+### Prerequisites
 
 1. [.NET Core 2.2](https://dotnet.microsoft.com/download/dotnet-core/2.2)
 1. [Node.js > 10](https://nodejs.org/en/download/)
