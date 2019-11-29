@@ -7,7 +7,7 @@ describe("auditLog list selectors", () => {
                 directory: {
                     audit: {
                         logs: {
-                            list: {
+                            history: {
                                 property: "1",
                             },
                         },
