@@ -1,5 +1,5 @@
 import { AuditLog } from "../types";
-import { AuditLogListAction } from "./actions";
+import { AuditLogHistoryAction } from "./actions";
 
 export type State = {
     readonly items: AuditLog[];
@@ -13,7 +13,7 @@ export const defaultState: State = {
     fetching: false,
 };
 
-export const reducer = (state: State = defaultState, action: AuditLogListAction): State => {
+export const reducer = (state: State = defaultState, action: AuditLogHistoryAction): State => {
     switch (action.type) {
         case "AUDIT_LOGS_HISTORY_RECEIVE": {
             return {
