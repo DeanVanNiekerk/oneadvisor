@@ -16,7 +16,7 @@ namespace OneAdvisor.Service.Test.Directory.Mocks
             return Task.FromResult<AuditLogItems>(items);
         }
 
-        public Task<Result> InsertAuditLog(ScopeOptions scope, string action, string entity, string entityId, dynamic data)
+        public Task<Result> InsertAuditLogStringId(ScopeOptions scope, string action, string entity, string entityId, dynamic data)
         {
             var result = new Result(true);
             return Task.FromResult<Result>(result);

@@ -187,7 +187,7 @@ namespace OneAdvisor.Service.Storage
             return items;
         }
 
-        public Task<Result> InsertAuditLog(ScopeOptions scope, string action, string entity, string entityId, dynamic data)
+        public Task<Result> InsertAuditLogStringId(ScopeOptions scope, string action, string entity, string entityId, dynamic data)
         {
             Guid? organisationId = null;
             Guid? branchId = null;
@@ -205,7 +205,7 @@ namespace OneAdvisor.Service.Storage
         public Task<Result> InsertAuditLog(ScopeOptions scope, string action, string entity, Guid? entityId, dynamic data)
         {
             var entityIdString = entityId.HasValue ? entityId.Value.ToString() : null;
-            return InsertAuditLog(scope, action, entity, entityIdString, data);
+            return InsertAuditLogStringId(scope, action, entity, entityIdString, data);
         }
 
         public async Task<Result> InsertAuditLog(Guid? organisationId, Guid? branchId, Guid? userId, string action, string entity, string entityId, dynamic data)

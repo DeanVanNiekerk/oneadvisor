@@ -83,7 +83,7 @@ namespace OneAdvisor.Service.Account
             if (user == null)
             {
                 log.Data.message = "Invalid username";
-                await _auditService.InsertAuditLog(null, log.Action, log.Entity, null, log.Data);
+                await _auditService.InsertAuditLogStringId(null, log.Action, log.Entity, null, log.Data);
                 return result;
             }
 
@@ -94,7 +94,7 @@ namespace OneAdvisor.Service.Account
             if (result.NotActivated)
             {
                 log.Data.message = "Not activated";
-                await _auditService.InsertAuditLog(null, log.Action, log.Entity, null, log.Data);
+                await _auditService.InsertAuditLogStringId(null, log.Action, log.Entity, null, log.Data);
                 return result;
             }
 
@@ -103,7 +103,7 @@ namespace OneAdvisor.Service.Account
             if (result.IsLocked)
             {
                 log.Data.message = "Locked";
-                await _auditService.InsertAuditLog(null, log.Action, log.Entity, null, log.Data);
+                await _auditService.InsertAuditLogStringId(null, log.Action, log.Entity, null, log.Data);
                 return result;
             }
 
@@ -112,7 +112,7 @@ namespace OneAdvisor.Service.Account
             if (!result.Success)
             {
                 log.Data.message = "Invalid password";
-                await _auditService.InsertAuditLog(null, log.Action, log.Entity, null, log.Data);
+                await _auditService.InsertAuditLogStringId(null, log.Action, log.Entity, null, log.Data);
             }
             else
             {
