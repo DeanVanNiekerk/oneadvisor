@@ -5,16 +5,20 @@ import { TemplateAction } from "./actions";
 
 export type State = {
     readonly template: CommissionStatementTemplateEdit | null;
+    readonly templateOriginal: CommissionStatementTemplateEdit | null;
     readonly fetching: boolean;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];
+    readonly visible: boolean;
 };
 
 export const defaultState: State = {
     template: null,
+    templateOriginal: null,
     fetching: false,
     updating: false,
     validationResults: [],
+    visible: false,
 };
 
 export const reducer = (state: State = defaultState, action: TemplateAction): State => {
@@ -23,8 +27,15 @@ export const reducer = (state: State = defaultState, action: TemplateAction): St
             return {
                 ...state,
                 template: action.payload,
+                templateOriginal: action.payload,
                 fetching: false,
                 validationResults: [],
+            };
+        }
+        case "COMMISSIONS_STATEMENT_TEMPLATE_MODIFIED": {
+            return {
+                ...state,
+                template: action.payload,
             };
         }
         case "COMMISSIONS_STATEMENT_TEMPLATE_FETCHING": {
@@ -32,6 +43,7 @@ export const reducer = (state: State = defaultState, action: TemplateAction): St
                 ...state,
                 fetching: true,
                 template: null,
+                templateOriginal: null,
                 validationResults: [],
             };
         }
@@ -66,6 +78,12 @@ export const reducer = (state: State = defaultState, action: TemplateAction): St
                 ...state,
                 updating: false,
                 validationResults: action.payload,
+            };
+        }
+        case "COMMISSIONS_STATEMENT_TEMPLATE_VISIBLE": {
+            return {
+                ...state,
+                visible: action.payload,
             };
         }
         default:

@@ -1,7 +1,10 @@
 import { statementTemplatesApi } from "@/config/api/commission";
 
-import { CommissionStatementTemplateEdit } from "../";
-import * as actions from "./actions";
+import {
+    CommissionStatementTemplateEdit,
+    fetchCommissionStatementTemplate,
+    updateCommissionStatementTemplate,
+} from "../";
 
 describe("commission statement template actions", () => {
     it("should dispatch API when fetchCommissionStatementTemplate is called", () => {
@@ -11,7 +14,7 @@ describe("commission statement template actions", () => {
             dispatchPrefix: "COMMISSIONS_STATEMENT_TEMPLATE",
         };
 
-        expect(actions.fetchCommissionStatementTemplate("99")).toEqual(expectedAction);
+        expect(fetchCommissionStatementTemplate("99")).toEqual(expectedAction);
     });
 
     it("should dispatch API when updateCommissionStatementTemplate is called", () => {
@@ -37,7 +40,7 @@ describe("commission statement template actions", () => {
             dispatchPrefix: "COMMISSIONS_STATEMENT_TEMPLATE_EDIT",
         };
 
-        expect(actions.updateCommissionStatementTemplate(template, true, onSuccess)).toEqual(
+        expect(updateCommissionStatementTemplate(template, true, onSuccess)).toEqual(
             expectedAction
         );
     });

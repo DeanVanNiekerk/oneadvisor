@@ -1,8 +1,8 @@
 import { message } from "antd";
 
-type MessageType = "success" | "error" | "info" | "warning" | "loading";
+import { MessageType, ShowMessage } from "@/app/types";
 
-export const showMessage = (
+export const showMessage: ShowMessage = (
     type: MessageType,
     content: string,
     duration = 2,

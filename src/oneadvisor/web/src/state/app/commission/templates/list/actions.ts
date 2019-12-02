@@ -21,7 +21,7 @@ export type TemplateListAction =
     | TemplateListFetchingAction
     | TemplateListFetchingErrorAction;
 
-export const fetchCommissionStatementTemplates = (filters: Filters): ApiAction => {
+export const fetchCommissionStatementTemplates = (filters: Filters = {}): ApiAction => {
     let api = statementTemplatesApi;
     api = appendFiltersQuery(api, filters);
     return {

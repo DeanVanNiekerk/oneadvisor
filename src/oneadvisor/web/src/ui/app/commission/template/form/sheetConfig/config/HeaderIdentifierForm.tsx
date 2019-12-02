@@ -11,19 +11,7 @@ type Props = {
     onChange: (headerIdentifier: Identifier) => void;
 };
 
-type State = {
-    headerIdentifier: Identifier;
-};
-
-class HeaderIdentifierForm extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            headerIdentifier: props.headerIdentifier,
-        };
-    }
-
+class HeaderIdentifierForm extends Component<Props> {
     componentDidUpdate(prevProps: Props) {
         if (this.props.headerIdentifier != prevProps.headerIdentifier)
             this.setState({
@@ -32,7 +20,7 @@ class HeaderIdentifierForm extends Component<Props, State> {
     }
 
     handleChange = (fieldName: keyof Identifier, value: string) => {
-        const headerIdentifier = update(this.state.headerIdentifier, {
+        const headerIdentifier = update(this.props.headerIdentifier, {
             [fieldName]: { $set: value },
         });
         this.setState({
@@ -42,8 +30,7 @@ class HeaderIdentifierForm extends Component<Props, State> {
     };
 
     render() {
-        const { validationResults } = this.props;
-        const { headerIdentifier } = this.state;
+        const { headerIdentifier, validationResults } = this.props;
 
         return (
             <Form>

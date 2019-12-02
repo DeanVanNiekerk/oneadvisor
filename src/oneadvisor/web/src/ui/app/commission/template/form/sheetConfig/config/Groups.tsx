@@ -21,28 +21,9 @@ type Props = {
     fieldNames: CommissionStatementTemplateGroupFieldName[];
 };
 
-type State = {
-    groups: Group[];
-};
-
-class Groups extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            groups: props.groups,
-        };
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (this.props.groups != prevProps.groups)
-            this.setState({
-                groups: this.props.groups,
-            });
-    }
-
+class Groups extends Component<Props> {
     remove = (index: number) => {
-        const groups = update(this.state.groups, { $splice: [[index, 1]] });
+        const groups = update(this.props.groups, { $splice: [[index, 1]] });
         this.setGroupsState(groups);
     };
 
@@ -54,14 +35,14 @@ class Groups extends Component<Props, State> {
             reverseOrder: false,
             identifiers: [] as Identifier[],
         };
-        const groups = update(this.state.groups, {
+        const groups = update(this.props.groups, {
             $push: [group],
         });
         this.setGroupsState(groups);
     };
 
     update = (index: number, group: Group) => {
-        const groups = update(this.state.groups, {
+        const groups = update(this.props.groups, {
             [index]: {
                 $set: group,
             },
@@ -71,7 +52,7 @@ class Groups extends Component<Props, State> {
 
     onChange = (fieldName: string, value: boolean | string | Identifier[], index: number) => {
         const group = {
-            ...this.state.groups[index],
+            ...this.props.groups[index],
             [fieldName]: value,
         };
         this.update(index, group);
@@ -99,8 +80,7 @@ class Groups extends Component<Props, State> {
     };
 
     render() {
-        const { validationResults } = this.props;
-        const { groups } = this.state;
+        const { groups, validationResults } = this.props;
 
         return (
             <>

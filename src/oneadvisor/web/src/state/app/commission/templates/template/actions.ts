@@ -1,36 +1,43 @@
-import { ApiAction, ApiOnFailure, ApiOnSuccess } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
-import { statementTemplatesApi } from "@/config/api/commission";
 
 import { CommissionStatementTemplateEdit } from "../types";
 
-type TemplateReceiveAction = {
+export type TemplateReceiveAction = {
     type: "COMMISSIONS_STATEMENT_TEMPLATE_RECEIVE";
     payload: CommissionStatementTemplateEdit | null;
 };
-type TemplateFetchingAction = {
+export type TemplateModifiedAction = {
+    type: "COMMISSIONS_STATEMENT_TEMPLATE_MODIFIED";
+    payload: CommissionStatementTemplateEdit | null;
+};
+export type TemplateFetchingAction = {
     type: "COMMISSIONS_STATEMENT_TEMPLATE_FETCHING";
 };
-type TemplateFetchingErrorAction = {
+export type TemplateFetchingErrorAction = {
     type: "COMMISSIONS_STATEMENT_TEMPLATE_FETCHING_ERROR";
 };
-
-type TemplateUpdatedAction = {
+export type TemplateVisibleAction = {
+    type: "COMMISSIONS_STATEMENT_TEMPLATE_VISIBLE";
+    payload: boolean;
+};
+export type TemplateUpdatedAction = {
     type: "COMMISSIONS_STATEMENT_TEMPLATE_EDIT_RECEIVE";
 };
-type TemplateUpdatingAction = {
+export type TemplateUpdatingAction = {
     type: "COMMISSIONS_STATEMENT_TEMPLATE_EDIT_FETCHING";
 };
-type TemplateUpdatingErrorAction = {
+export type TemplateUpdatingErrorAction = {
     type: "COMMISSIONS_STATEMENT_TEMPLATE_EDIT_FETCHING_ERROR";
 };
-type TemplateValidationErrorAction = {
+export type TemplateValidationErrorAction = {
     type: "COMMISSIONS_STATEMENT_TEMPLATE_EDIT_VALIDATION_ERROR";
     payload: ValidationResult[];
 };
 
 export type TemplateAction =
+    | TemplateModifiedAction
     | TemplateReceiveAction
+    | TemplateVisibleAction
     | TemplateFetchingAction
     | TemplateFetchingErrorAction
     | TemplateUpdatedAction
@@ -40,42 +47,19 @@ export type TemplateAction =
 
 export const receiveCommissionStatementTemplate = (
     template: CommissionStatementTemplateEdit | null
-): TemplateAction => ({
+): TemplateReceiveAction => ({
     type: "COMMISSIONS_STATEMENT_TEMPLATE_RECEIVE",
     payload: template,
 });
 
-export const fetchCommissionStatementTemplate = (templateId: string): ApiAction => ({
-    type: "API",
-    endpoint: `${statementTemplatesApi}/${templateId}`,
-    dispatchPrefix: "COMMISSIONS_STATEMENT_TEMPLATE",
+export const modifyCommissionStatementTemplate = (
+    template: CommissionStatementTemplateEdit
+): TemplateModifiedAction => ({
+    type: "COMMISSIONS_STATEMENT_TEMPLATE_MODIFIED",
+    payload: template,
 });
 
-export const updateCommissionStatementTemplate = (
-    template: CommissionStatementTemplateEdit,
-    updateUnknownCommissionTypes: boolean,
-    onSuccess?: ApiOnSuccess,
-    onFailure?: ApiOnFailure
-): ApiAction => ({
-    type: "API",
-    endpoint: `${statementTemplatesApi}/${template.id}?updateUnknownCommissionTypes=${updateUnknownCommissionTypes}`,
-    method: "POST",
-    payload: template,
-    onSuccess: onSuccess,
-    onFailure: onFailure,
-    dispatchPrefix: "COMMISSIONS_STATEMENT_TEMPLATE_EDIT",
-});
-
-export const insertCommissionStatementTemplate = (
-    template: CommissionStatementTemplateEdit,
-    onSuccess?: ApiOnSuccess,
-    onFailure?: ApiOnFailure
-): ApiAction => ({
-    type: "API",
-    endpoint: `${statementTemplatesApi}`,
-    method: "POST",
-    payload: template,
-    onSuccess: onSuccess,
-    onFailure: onFailure,
-    dispatchPrefix: "COMMISSIONS_STATEMENT_TEMPLATE_EDIT",
+export const commissionStatementTemplateVisible = (visible: boolean): TemplateVisibleAction => ({
+    type: "COMMISSIONS_STATEMENT_TEMPLATE_VISIBLE",
+    payload: visible,
 });

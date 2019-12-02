@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { connect, DispatchProp } from "react-redux";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
 
 import { getColumnDefinition } from "@/app/table";
-import { UNKNOWN_COMMISSION_TYPE_CODE } from "@/state/app/commission/lookups";
 import {
     CommissionStatementTemplate,
-    CommissionStatementTemplateEdit,
     commissionStatementTemplatesSelector,
+    commissionStatementTemplateVisible,
     fetchCommissionStatementTemplate,
     fetchCommissionStatementTemplates,
-    receiveCommissionStatementTemplate,
+    newCommissionStatementTemplate,
 } from "@/state/app/commission/templates";
-import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
+import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, CompanyName, getColumnSearchProps, getTable, Header } from "@/ui/controls";
 
@@ -19,137 +19,70 @@ import EditTemplate from "./EditTemplate";
 
 const Table = getTable<CommissionStatementTemplate>();
 
-type Props = {
-    templates: CommissionStatementTemplate[];
-    fetching: boolean;
-    companies: Company[];
-} & DispatchProp;
+type Props = PropsFromState & PropsFromDispatch;
 
-type State = {
-    editVisible: boolean;
+const TemplateList: React.FC<Props> = props => {
+    useEffect(() => {
+        props.fetchCommissionStatementTemplates();
+    }, []);
+
+    return (
+        <>
+            <Header
+                icon="block"
+                actions={
+                    <Button
+                        type="default"
+                        icon="plus"
+                        onClick={props.newTemplate}
+                        disabled={props.fetching}
+                    >
+                        New Template
+                    </Button>
+                }
+            >
+                Commission Statement Templates
+            </Header>
+            <Table
+                rowKey="id"
+                columns={getColumns(props)}
+                dataSource={props.templates}
+                loading={props.fetching}
+                onRowClick={org => props.editTemplate(org.id)}
+            />
+            <EditTemplate
+                onSaved={() => {
+                    props.fetchCommissionStatementTemplates();
+                }}
+            />
+        </>
+    );
 };
 
-class TemplateList extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
+const getColumns = (props: Props) => {
+    const getColumn = getColumnDefinition<CommissionStatementTemplate>();
+    return [
+        getColumn("name", "Name", {}, getColumnSearchProps("Name")),
+        getColumn(
+            "companyId",
+            "Company",
+            {},
+            {
+                render: (companyId: string) => {
+                    return <CompanyName companyId={companyId} />;
+                },
+                filters: props.companies.map(type => ({
+                    text: type.name,
+                    value: type.id,
+                })),
+            }
+        ),
+        getColumn("startDate", "Start", { type: "date" }),
+        getColumn("endDate", "End", { type: "date" }),
+    ];
+};
 
-        this.state = {
-            editVisible: false,
-        };
-    }
-
-    componentDidMount() {
-        this.loadTemplates();
-    }
-
-    loadTemplates = () => {
-        this.props.dispatch(fetchCommissionStatementTemplates({}));
-    };
-
-    newTemplate = () => {
-        const template: CommissionStatementTemplateEdit = {
-            id: "",
-            name: "",
-            companyId: "",
-            startDate: "",
-            endDate: "",
-            config: {
-                sheets: [
-                    {
-                        position: 1,
-                        config: {
-                            headerIdentifier: {
-                                column: "",
-                                value: "",
-                            },
-                            fields: [],
-                            commissionTypes: {
-                                defaultCommissionTypeCode: UNKNOWN_COMMISSION_TYPE_CODE,
-                                mappingTemplate: "",
-                                types: [],
-                            },
-                            groups: [],
-                        },
-                    },
-                ],
-            },
-        };
-        this.props.dispatch(receiveCommissionStatementTemplate(template));
-        this.showEditTemplate();
-    };
-
-    editTemplate = (id: string) => {
-        this.props.dispatch(fetchCommissionStatementTemplate(id));
-        this.showEditTemplate();
-    };
-
-    showEditTemplate = () => {
-        this.setState({
-            editVisible: true,
-        });
-    };
-
-    closeEditCompany = () => {
-        this.setState({
-            editVisible: false,
-        });
-        this.loadTemplates();
-    };
-
-    getColumns = () => {
-        const getColumn = getColumnDefinition<CommissionStatementTemplate>();
-        return [
-            getColumn("name", "Name", {}, getColumnSearchProps("Name")),
-            getColumn(
-                "companyId",
-                "Company",
-                {},
-                {
-                    render: (companyId: string) => {
-                        return <CompanyName companyId={companyId} />;
-                    },
-                    filters: this.props.companies.map(type => ({
-                        text: type.name,
-                        value: type.id,
-                    })),
-                }
-            ),
-            getColumn("startDate", "Start", { type: "date" }),
-            getColumn("endDate", "End", { type: "date" }),
-        ];
-    };
-
-    render() {
-        return (
-            <>
-                <Header
-                    icon="block"
-                    actions={
-                        <Button
-                            type="default"
-                            icon="plus"
-                            onClick={this.newTemplate}
-                            disabled={this.props.fetching}
-                        >
-                            New Template
-                        </Button>
-                    }
-                >
-                    Commission Statement Templates
-                </Header>
-                <Table
-                    rowKey="id"
-                    columns={this.getColumns()}
-                    dataSource={this.props.templates}
-                    loading={this.props.fetching}
-                    onRowClick={org => this.editTemplate(org.id)}
-                />
-                <EditTemplate visible={this.state.editVisible} onClose={this.closeEditCompany} />
-            </>
-        );
-    }
-}
-
+type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const templatesState = commissionStatementTemplatesSelector(state);
     const companiesState = organisationCompaniesSelector(state);
@@ -161,4 +94,19 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-export default connect(mapStateToProps)(TemplateList);
+type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
+const mapDispatchToProps = (dispatch: Dispatch) => {
+    return {
+        ...bindActionCreators({ fetchCommissionStatementTemplates }, dispatch),
+        newTemplate: () => {
+            dispatch(newCommissionStatementTemplate());
+            dispatch(commissionStatementTemplateVisible(true));
+        },
+        editTemplate: (templateId: string) => {
+            dispatch(fetchCommissionStatementTemplate(templateId));
+            dispatch(commissionStatementTemplateVisible(true));
+        },
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TemplateList);

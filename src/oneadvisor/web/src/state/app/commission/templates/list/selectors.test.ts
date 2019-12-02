@@ -1,7 +1,7 @@
-import { listSelector } from "./selectors";
+import { commissionStatementTemplatesSelector } from "./selectors";
 
 describe("commission list selectors", () => {
-    it("listSelector", () => {
+    it("commissionStatementTemplatesSelector", () => {
         const state = {
             app: {
                 commission: {
@@ -19,7 +19,7 @@ describe("commission list selectors", () => {
         };
 
         //@ts-ignore
-        const actual = listSelector(state);
+        const actual = commissionStatementTemplatesSelector(state);
 
         expect(actual).toEqual(expected);
     });

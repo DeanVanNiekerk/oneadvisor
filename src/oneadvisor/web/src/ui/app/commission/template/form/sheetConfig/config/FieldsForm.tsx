@@ -27,33 +27,14 @@ type Props = {
     fieldNames: CommissionStatementTemplateFieldName[];
 };
 
-type State = {
-    fields: Field[];
-};
-
-class FieldsForm extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            fields: props.fields,
-        };
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (this.props.fields != prevProps.fields)
-            this.setState({
-                fields: this.props.fields,
-            });
-    }
-
+class FieldsForm extends Component<Props> {
     remove = (index: number) => {
-        const fields = update(this.state.fields, { $splice: [[index, 1]] });
+        const fields = update(this.props.fields, { $splice: [[index, 1]] });
         this.setFieldsState(fields);
     };
 
     add = () => {
-        const fields = update(this.state.fields, {
+        const fields = update(this.props.fields, {
             $push: [
                 {
                     name: "",
@@ -66,7 +47,7 @@ class FieldsForm extends Component<Props, State> {
     };
 
     update = (index: number, field: Field) => {
-        const fields = update(this.state.fields, {
+        const fields = update(this.props.fields, {
             [index]: {
                 $set: field,
             },
@@ -76,7 +57,7 @@ class FieldsForm extends Component<Props, State> {
 
     onChange = (fieldName: string, value: string | boolean, index: number) => {
         const field = {
-            ...this.state.fields[index],
+            ...this.props.fields[index],
             [fieldName]: value,
         };
         this.update(index, field);
@@ -104,8 +85,7 @@ class FieldsForm extends Component<Props, State> {
     };
 
     render() {
-        const { validationResults } = this.props;
-        const { fields } = this.state;
+        const { fields, validationResults } = this.props;
 
         return (
             <>

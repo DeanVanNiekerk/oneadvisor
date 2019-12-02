@@ -15,33 +15,14 @@ type Props = {
     onChange: (identifiers: Identifier[]) => void;
 };
 
-type State = {
-    identifiers: Identifier[];
-};
-
-class GroupIdentifiersForm extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            identifiers: props.identifiers,
-        };
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (this.props.identifiers != prevProps.identifiers)
-            this.setState({
-                identifiers: this.props.identifiers,
-            });
-    }
-
+class GroupIdentifiersForm extends Component<Props> {
     remove = (index: number) => {
-        const identifiers = update(this.state.identifiers, { $splice: [[index, 1]] });
+        const identifiers = update(this.props.identifiers, { $splice: [[index, 1]] });
         this.setIdentifiersState(identifiers);
     };
 
     add = () => {
-        const identifiers = update(this.state.identifiers, {
+        const identifiers = update(this.props.identifiers, {
             $push: [
                 {
                     column: "",
@@ -53,7 +34,7 @@ class GroupIdentifiersForm extends Component<Props, State> {
     };
 
     update = (index: number, identifier: Identifier) => {
-        const identifiers = update(this.state.identifiers, {
+        const identifiers = update(this.props.identifiers, {
             [index]: {
                 $set: identifier,
             },
@@ -63,7 +44,7 @@ class GroupIdentifiersForm extends Component<Props, State> {
 
     onChange = (fieldName: string, value: string, index: number) => {
         const field = {
-            ...this.state.identifiers[index],
+            ...this.props.identifiers[index],
             [fieldName]: value,
         };
         this.update(index, field);
@@ -91,8 +72,7 @@ class GroupIdentifiersForm extends Component<Props, State> {
     };
 
     render() {
-        const { validationResults } = this.props;
-        const { identifiers } = this.state;
+        const { validationResults, identifiers } = this.props;
 
         return (
             <>
