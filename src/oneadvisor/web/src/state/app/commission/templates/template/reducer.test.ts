@@ -69,6 +69,7 @@ describe("commission reducer", () => {
         const expectedState = {
             ...defaultState,
             template: { ...template },
+            templateOriginal: { ...template },
             fetching: false,
             validationResults: [],
         };
