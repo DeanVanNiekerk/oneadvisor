@@ -17,6 +17,8 @@ import {
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect } from "@/ui/controls";
 
+import SyncCommissionTypes from "./SyncCommissionTypes";
+
 type Props = PropsFromState & PropsFromDispatch;
 
 const CommissionTypesForm: React.FC<Props> = (props: Props) => {
@@ -82,13 +84,13 @@ const CommissionTypesForm: React.FC<Props> = (props: Props) => {
             <Button
                 icon="plus"
                 type="dashed"
-                onClick={() => props.addType("", commissionTypes)}
+                onClick={() => props.addType(commissionTypes)}
                 noLeftMargin={true}
             >
                 {`Add Mapping`}
             </Button>
 
-            {/* <SyncCommissionTypes /> */}
+            <SyncCommissionTypes />
 
             <List
                 bordered
@@ -179,13 +181,13 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
             });
             dispatch(modifyCommissionStatementTemplateCommissionTypes(modifiedCommissionTypes));
         },
-        addType: (value = "", commissionTypes: CommissionTypes) => {
+        addType: (commissionTypes: CommissionTypes) => {
             const modifiedCommissionTypes = update(commissionTypes, {
                 types: {
                     $push: [
                         {
                             commissionTypeCode: "",
-                            value: value,
+                            value: "",
                         },
                     ],
                 },

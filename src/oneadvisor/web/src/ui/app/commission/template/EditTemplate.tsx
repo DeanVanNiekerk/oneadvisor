@@ -13,6 +13,7 @@ import {
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer, DrawerFooter, DropdownButton } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
+import { showMessage } from "@/ui/feedback/notifcation";
 
 import EditTemplateTitle from "./EditTemplateTitle";
 import TemplateForm from "./form/TemplateForm";
@@ -50,14 +51,6 @@ const EditTemplate: React.FC<Props> = (props: Props) => {
             noTopPadding={true}
         >
             <ContentLoader isLoading={props.updating}>
-                {/* <TemplateForm
-                    onChange={this.onChange}
-                    saveTemplate={(
-                        onSuccess?: ApiOnSuccess,
-                        onFailure?: ApiOnFailure,
-                        disableSuccessMessage?: boolean
-                    ) => this.save(false, onSuccess, onFailure, disableSuccessMessage)}
-                /> */}
                 <TemplateForm />
             </ContentLoader>
             <DrawerFooter>
@@ -96,10 +89,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
         },
         saveTemplate: (updateUnknownCommissionTypes: boolean, onSaved?: () => void) => {
             dispatch(
-                saveCommissionStatementTemplate(updateUnknownCommissionTypes, () => {
-                    if (onSaved) onSaved();
-                    dispatch(commissionStatementTemplateVisible(false));
-                })
+                saveCommissionStatementTemplate(updateUnknownCommissionTypes, showMessage, onSaved)
             );
         },
         setVisible: (visible: boolean) => {

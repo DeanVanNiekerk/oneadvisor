@@ -1,15 +1,12 @@
 import { List, Popconfirm } from "antd";
 import update from "immutability-helper";
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
-import { getValidationSubSet, ValidationResult } from "@/app/validation";
-import {
-    CommissionStatementTemplateFieldName,
-    commissionStatementTemplateFieldNamesSelector,
-} from "@/state/app/commission/lookups";
+import { getValidationSubSet } from "@/app/validation";
+import { commissionStatementTemplateFieldNamesSelector } from "@/state/app/commission/lookups";
 import {
     commissionStatementTemplateConfigValidationResultsSelector,
     commissionStatementTemplateFieldsConfigSelector,

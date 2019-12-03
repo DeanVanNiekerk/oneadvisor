@@ -145,7 +145,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
             sheets: Sheet[],
             clearSheetIndex: () => void
         ) => {
-            let modifiedSheets: Sheet[] = update(sheets, {
+            const modifiedSheets: Sheet[] = update(sheets, {
                 [sheetIndex]: {
                     $set: sheet,
                 },

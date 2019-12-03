@@ -15,10 +15,12 @@ import { RootState } from "@/state/rootReducer";
 import {
     commissionStatementTemplateIsModifiedSelector,
     commissionStatementTemplateSelector,
+    commissionStatementTemplateVisible,
     modifyCommissionStatementTemplate,
     receiveCommissionStatementTemplate,
     TemplateModifiedAction,
     TemplateReceiveAction,
+    TemplateVisibleAction,
 } from "../";
 import {
     CommissionType,
@@ -77,15 +79,16 @@ export const newCommissionStatementTemplate = (): TemplateReceiveAction => {
 
 export const saveCommissionStatementTemplate = (
     updateUnknownCommissionTypes: boolean,
+    showMessage: ShowMessage,
     onSaved?: (template: CommissionStatementTemplateEdit) => void,
-    onFailed?: () => void
-): ThunkAction<void, RootState, {}, TemplateReceiveAction | ApiAction> => {
+    onFailed?: () => void,
+    disableSuccessMessage = false
+): ThunkAction<void, RootState, {}, TemplateReceiveAction | TemplateVisibleAction | ApiAction> => {
     return (dispatch, getState) => {
         const { template } = commissionStatementTemplateSelector(getState());
         if (!template) return;
 
         const onSuccess = (templateEdit: CommissionStatementTemplateEdit) => {
-            dispatch(clearCommissionStatementTemplate());
             if (onSaved) onSaved(templateEdit);
         };
 
@@ -95,6 +98,8 @@ export const saveCommissionStatementTemplate = (
                     template,
                     updateUnknownCommissionTypes,
                     () => {
+                        if (!disableSuccessMessage)
+                            showMessage("success", "Template Successfully Saved", 3);
                         onSuccess(template);
                     },
                     onFailed
@@ -106,6 +111,7 @@ export const saveCommissionStatementTemplate = (
                     template,
                     result => {
                         onSuccess(result.tag);
+                        dispatch(commissionStatementTemplateVisible(false));
                     },
                     onFailed
                 )
@@ -113,48 +119,6 @@ export const saveCommissionStatementTemplate = (
         }
     };
 };
-
-// save = (
-//     updateUnknownCommissionTypes: boolean,
-//     onSuccess?: ApiOnSuccess,
-//     onFailure?: ApiOnFailure,
-//     disableSuccessMessage?: boolean
-// ) => {
-//     if (!this.state.templateEdited) {
-//         //this.close();
-//         return;
-//     }
-
-//     if (this.state.templateEdited.id) {
-//         this.props.dispatch(
-//             updateCommissionStatementTemplate(
-//                 this.state.templateEdited,
-//                 updateUnknownCommissionTypes,
-//                 (result, dispatch) => {
-//                     if (!disableSuccessMessage) {
-//                         showMessage("success", "Template Successfully Saved", 3);
-//                     }
-//                     this.props.dispatch(
-//                         receiveCommissionStatementTemplate(this.state.templateEdited)
-//                     );
-//                     if (onSuccess) onSuccess(result, dispatch);
-//                 },
-//                 onFailure
-//             )
-//         );
-//     } else {
-//         this.props.dispatch(
-//             insertCommissionStatementTemplate(
-//                 this.state.templateEdited,
-//                 (result, dispatch) => {
-//                     this.close();
-//                     if (onSuccess) onSuccess(result, dispatch);
-//                 },
-//                 onFailure
-//             )
-//         );
-//     }
-// };
 
 export const confirmCancelCommissionStatementTemplate = (
     showConfirm: ShowConfirm,

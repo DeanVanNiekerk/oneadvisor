@@ -55,16 +55,22 @@ export const commissionStatementTemplateIsModifiedSelector: (
     root => !areEqual(root.template, root.templateOriginal)
 );
 
-export const commissionStatementTemplateSheetConfigSelector: (
+export const commissionStatementTemplateSheetSelector: (
     state: RootState
-) => SheetConfig | null = createSelector(
+) => Sheet | null = createSelector(
     commissionStatementTemplateSheetIndexSelector,
     commissionStatementTemplateConfigSelector,
     (templateSheetIndex, config) => {
         if (!config || config.sheets.length <= templateSheetIndex) return null;
 
-        return config.sheets[templateSheetIndex].config;
+        return config.sheets[templateSheetIndex];
     }
+);
+
+export const commissionStatementTemplateSheetConfigSelector: (
+    state: RootState
+) => SheetConfig | null = createSelector(commissionStatementTemplateSheetSelector, sheet =>
+    sheet ? sheet.config : null
 );
 
 export const commissionStatementTemplateHeaderIdenifierConfigSelector: (
