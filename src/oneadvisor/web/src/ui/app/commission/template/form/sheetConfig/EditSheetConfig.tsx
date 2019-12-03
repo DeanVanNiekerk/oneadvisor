@@ -1,47 +1,65 @@
-import { Badge, Select } from "antd";
-import update from "immutability-helper";
-import React, { Component } from "react";
+import React, { useState } from "react";
 
-import { ApiOnFailure, ApiOnSuccess } from "@/app/types";
-import { getValidationSubSet, ValidationResult } from "@/app/validation";
-import {
-    CommissionStatementTemplateEdit,
-    CommissionTypes,
-    Field,
-    Group,
-    Identifier,
-    SheetConfig,
-} from "@/state/app/commission/templates";
 import { TabPane, Tabs } from "@/ui/controls";
 
 import CommissionTypesForm from "./config/CommissionTypesForm";
 import FieldsForm from "./config/FieldsForm";
 import Groups from "./config/Groups";
 import HeaderIdentifierForm from "./config/HeaderIdentifierForm";
+import EditSheetConfigTabTitle from "./EditSheetConfigTabTitle";
+import SheetSelector from "./SheetSelector";
 
-type TabKey = "config_header_identifier" | "config_fields" | "config_commission_types" | "groups";
+const EditSheetConfig: React.FC = () => {
+    const [activeTab, setActiveTab] = useState("config_header_identifier");
 
-type Props = {
-    config: SheetConfig;
-    template: CommissionStatementTemplateEdit;
-    onSelectSheetChange: (index: number) => void;
-    selectedSheetIndex: number;
-    validationResults: ValidationResult[];
-    onChange: (config: SheetConfig) => void;
-    saveTemplate: (
-        onSuccess?: ApiOnSuccess,
-        onFailure?: ApiOnFailure,
-        disableSuccessMessage?: boolean
-    ) => void;
+    return (
+        <Tabs
+            onChange={setActiveTab}
+            activeKey={activeTab}
+            sticky={true}
+            tabBarExtraContent={<SheetSelector />}
+            type="card"
+        >
+            <TabPane
+                tab={
+                    <EditSheetConfigTabTitle
+                        title="Header Identifier"
+                        validationPrefix="headerIdentifier"
+                    />
+                }
+                key="config_header_identifier"
+            >
+                <HeaderIdentifierForm />
+            </TabPane>
+            <TabPane
+                tab={<EditSheetConfigTabTitle title="Fields" validationPrefix="fields" />}
+                key="config_fields"
+            >
+                <FieldsForm />
+            </TabPane>
+            <TabPane
+                tab={
+                    <EditSheetConfigTabTitle
+                        title="Commission Types"
+                        validationPrefix="commissionTypes"
+                    />
+                }
+                key="config_commission_types"
+            >
+                <CommissionTypesForm />
+            </TabPane>
+            <TabPane
+                tab={<EditSheetConfigTabTitle title="Groups" validationPrefix="groups" />}
+                key="groups"
+            >
+                <Groups />
+            </TabPane>
+        </Tabs>
+    );
 };
 
-type State = {
-    config: SheetConfig;
-    activeTab: TabKey;
-};
-
-class EditSheetConfig extends Component<Props, State> {
-    constructor(props: Props) {
+/*
+constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -128,78 +146,6 @@ class EditSheetConfig extends Component<Props, State> {
             </Badge>
         );
     };
-
-    render() {
-        const { validationResults, template } = this.props;
-        const { config } = this.state;
-
-        const sheetDropdown = (
-            <Select
-                style={{ width: 150 }}
-                onChange={this.props.onSelectSheetChange}
-                value={this.props.selectedSheetIndex}
-            >
-                {template.config.sheets.map((s, index) => {
-                    return (
-                        <Select.Option
-                            key={index}
-                            value={index}
-                        >{`Sheet ${s.position}`}</Select.Option>
-                    );
-                })}
-            </Select>
-        );
-
-        return (
-            <Tabs
-                onChange={this.onTabChange}
-                activeKey={this.state.activeTab}
-                sticky={true}
-                tabBarExtraContent={sheetDropdown}
-                type="card"
-            >
-                <TabPane tab={this.getHeaderIdentifierTabTitle()} key="config_header_identifier">
-                    <HeaderIdentifierForm
-                        headerIdentifier={config.headerIdentifier}
-                        validationResults={getValidationSubSet(
-                            "headerIdentifier",
-                            validationResults
-                        )}
-                        onChange={this.onHeaderIdentifierChange}
-                    />
-                </TabPane>
-                <TabPane tab={this.getFieldsTabTitle()} key="config_fields">
-                    <FieldsForm
-                        fields={config.fields}
-                        validationResults={getValidationSubSet("fields", validationResults, true)}
-                        onChange={this.onFieldsChange}
-                    />
-                </TabPane>
-                <TabPane tab={this.getCommissionTypesTabTitle()} key="config_commission_types">
-                    <CommissionTypesForm
-                        commissionStatementTemplateId={this.props.template.id}
-                        commissionTypes={config.commissionTypes}
-                        validationResults={getValidationSubSet(
-                            "commissionTypes",
-                            validationResults
-                        )}
-                        onChange={this.onCommissionTypesChange}
-                        saveTemplate={this.props.saveTemplate}
-                        selectedSheet={
-                            this.props.template.config.sheets[this.props.selectedSheetIndex]
-                        }
-                    />
-                </TabPane>
-                <TabPane tab={this.getGroupsTabTitle()} key="groups">
-                    <Groups
-                        groups={config.groups}
-                        validationResults={getValidationSubSet("groups", validationResults, true)}
-                        onChange={this.onGroupsChange}
-                    />
-                </TabPane>
-            </Tabs>
-        );
-    }
-}
+*/
 
 export default EditSheetConfig;

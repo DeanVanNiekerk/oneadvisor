@@ -1,12 +1,9 @@
 import { Icon, List, Popconfirm, Tooltip } from "antd";
 import update from "immutability-helper";
 import React, { Component } from "react";
-import { connect } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
 import { Identifier } from "@/state/app/commission/templates";
-import { useCaseSelector } from "@/state/auth";
-import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormErrors, FormInput } from "@/ui/controls";
 
 type Props = {
@@ -18,7 +15,7 @@ type Props = {
 class GroupIdentifiersForm extends Component<Props> {
     remove = (index: number) => {
         const identifiers = update(this.props.identifiers, { $splice: [[index, 1]] });
-        this.setIdentifiersState(identifiers);
+        this.props.onChange(identifiers);
     };
 
     add = () => {
@@ -30,7 +27,7 @@ class GroupIdentifiersForm extends Component<Props> {
                 },
             ],
         });
-        this.setIdentifiersState(identifiers);
+        this.props.onChange(identifiers);
     };
 
     update = (index: number, identifier: Identifier) => {
@@ -39,7 +36,7 @@ class GroupIdentifiersForm extends Component<Props> {
                 $set: identifier,
             },
         });
-        this.setIdentifiersState(identifiers);
+        this.props.onChange(identifiers);
     };
 
     onChange = (fieldName: string, value: string, index: number) => {
@@ -50,14 +47,7 @@ class GroupIdentifiersForm extends Component<Props> {
         this.update(index, field);
     };
 
-    setIdentifiersState = (identifiers: Identifier[]) => {
-        this.setState({
-            identifiers: identifiers,
-        });
-        this.props.onChange(identifiers);
-    };
-
-    getActions = (identifier: Identifier, index: number) => {
+    getActions = (index: number) => {
         return [
             <Popconfirm
                 title="Are you sure remove this identifier?"
@@ -87,7 +77,7 @@ class GroupIdentifiersForm extends Component<Props> {
                     className="mt-1"
                     dataSource={identifiers}
                     renderItem={(identifier: Identifier, index: number) => (
-                        <List.Item actions={[this.getActions(identifier, index)]}>
+                        <List.Item actions={[this.getActions(index)]}>
                             <Form key={index} layout="inline">
                                 <FormInput
                                     fieldName="column"
@@ -125,10 +115,4 @@ class GroupIdentifiersForm extends Component<Props> {
     }
 }
 
-const mapStateToProps = (state: RootState) => {
-    return {
-        useCases: useCaseSelector(state),
-    };
-};
-
-export default connect(mapStateToProps)(GroupIdentifiersForm);
+export default GroupIdentifiersForm;

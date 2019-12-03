@@ -33,9 +33,14 @@ export type TemplateValidationErrorAction = {
     type: "COMMISSIONS_STATEMENT_TEMPLATE_EDIT_VALIDATION_ERROR";
     payload: ValidationResult[];
 };
+export type TemplateSheetIndexReceiveAction = {
+    type: "COMMISSIONS_STATEMENT_TEMPLATE_SHEET_INDEX_RECEIVE";
+    payload: number;
+};
 
 export type TemplateAction =
     | TemplateModifiedAction
+    | TemplateSheetIndexReceiveAction
     | TemplateReceiveAction
     | TemplateVisibleAction
     | TemplateFetchingAction
@@ -62,4 +67,11 @@ export const modifyCommissionStatementTemplate = (
 export const commissionStatementTemplateVisible = (visible: boolean): TemplateVisibleAction => ({
     type: "COMMISSIONS_STATEMENT_TEMPLATE_VISIBLE",
     payload: visible,
+});
+
+export const receiveCommissionStatementTemplateSheetIndex = (
+    index: number
+): TemplateSheetIndexReceiveAction => ({
+    type: "COMMISSIONS_STATEMENT_TEMPLATE_SHEET_INDEX_RECEIVE",
+    payload: index,
 });

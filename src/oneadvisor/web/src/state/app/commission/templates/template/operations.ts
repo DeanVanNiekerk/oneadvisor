@@ -25,7 +25,15 @@ import {
     commissionTypesSelector,
     UNKNOWN_COMMISSION_TYPE_CODE,
 } from "../../lookups";
-import { CommissionStatementTemplateEdit, Config, Sheet } from "../types";
+import {
+    CommissionStatementTemplateEdit,
+    CommissionTypes,
+    Config,
+    Field,
+    Group,
+    Identifier,
+    Sheet,
+} from "../types";
 
 export const fetchCommissionStatementTemplate = (templateId: string): ApiAction => ({
     type: "API",
@@ -254,7 +262,7 @@ export const modifyCommissionStatementTemplateSheets = (
 
         if (!template) return;
 
-        const newTemplate: CommissionStatementTemplateEdit = update(template, {
+        const modifiedTemplate: CommissionStatementTemplateEdit = update(template, {
             config: {
                 sheets: {
                     $set: sheets,
@@ -262,7 +270,111 @@ export const modifyCommissionStatementTemplateSheets = (
             },
         });
 
-        dispatch(modifyCommissionStatementTemplate(newTemplate));
+        dispatch(modifyCommissionStatementTemplate(modifiedTemplate));
+    };
+};
+
+export const modifyCommissionStatementTemplateHeaderIdentifier = (
+    headerIdentifier: Identifier
+): ThunkAction<void, RootState, {}, TemplateModifiedAction> => {
+    return (dispatch, getState) => {
+        const { template, templateSheetIndex } = commissionStatementTemplateSelector(getState());
+
+        if (!template) return;
+
+        const modifiedTemplate: CommissionStatementTemplateEdit = update(template, {
+            config: {
+                sheets: {
+                    [templateSheetIndex]: {
+                        config: {
+                            headerIdentifier: {
+                                $set: headerIdentifier,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+
+        dispatch(modifyCommissionStatementTemplate(modifiedTemplate));
+    };
+};
+
+export const modifyCommissionStatementTemplateCommissionTypes = (
+    commissionTypes: CommissionTypes
+): ThunkAction<void, RootState, {}, TemplateModifiedAction> => {
+    return (dispatch, getState) => {
+        const { template, templateSheetIndex } = commissionStatementTemplateSelector(getState());
+
+        if (!template) return;
+
+        const modifiedTemplate: CommissionStatementTemplateEdit = update(template, {
+            config: {
+                sheets: {
+                    [templateSheetIndex]: {
+                        config: {
+                            commissionTypes: {
+                                $set: commissionTypes,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+
+        dispatch(modifyCommissionStatementTemplate(modifiedTemplate));
+    };
+};
+
+export const modifyCommissionStatementTemplateFields = (
+    fields: Field[]
+): ThunkAction<void, RootState, {}, TemplateModifiedAction> => {
+    return (dispatch, getState) => {
+        const { template, templateSheetIndex } = commissionStatementTemplateSelector(getState());
+
+        if (!template) return;
+
+        const modifiedTemplate: CommissionStatementTemplateEdit = update(template, {
+            config: {
+                sheets: {
+                    [templateSheetIndex]: {
+                        config: {
+                            fields: {
+                                $set: fields,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+
+        dispatch(modifyCommissionStatementTemplate(modifiedTemplate));
+    };
+};
+
+export const modifyCommissionStatementTemplateGroups = (
+    groups: Group[]
+): ThunkAction<void, RootState, {}, TemplateModifiedAction> => {
+    return (dispatch, getState) => {
+        const { template, templateSheetIndex } = commissionStatementTemplateSelector(getState());
+
+        if (!template) return;
+
+        const modifiedTemplate: CommissionStatementTemplateEdit = update(template, {
+            config: {
+                sheets: {
+                    [templateSheetIndex]: {
+                        config: {
+                            groups: {
+                                $set: groups,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+
+        dispatch(modifyCommissionStatementTemplate(modifiedTemplate));
     };
 };
 

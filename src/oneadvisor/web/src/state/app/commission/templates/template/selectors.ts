@@ -1,10 +1,11 @@
 import { createSelector } from "reselect";
 
 import { areEqual } from "@/app/utils";
-import { ValidationResult } from "@/app/validation";
+import { getValidationSubSet, ValidationResult } from "@/app/validation";
 import { RootState } from "@/state/rootReducer";
 
-import { Config, Sheet } from "../";
+import { CommissionTypes, Config, Identifier, Sheet, SheetConfig } from "../";
+import { Field, Group } from "../types";
 import { State } from "./reducer";
 
 const rootSelector = (state: RootState): State => state.app.commission.templates.template;
@@ -26,10 +27,25 @@ export const commissionStatementTemplateSheetsSelector: (
     root.template ? root.template.config.sheets : []
 );
 
+export const commissionStatementTemplateSheetIndexSelector: (
+    state: RootState
+) => number = createSelector(rootSelector, root => root.templateSheetIndex);
+
 export const commissionStatementTemplateValidationResultsSelector: (
     state: RootState
-) => ValidationResult[] = createSelector(rootSelector, root =>
-    root.template ? root.validationResults : []
+) => ValidationResult[] = createSelector(rootSelector, root => root.validationResults);
+
+export const commissionStatementTemplateConfigValidationResultsSelector: (
+    state: RootState
+) => ValidationResult[] = createSelector(
+    commissionStatementTemplateSheetIndexSelector,
+    commissionStatementTemplateValidationResultsSelector,
+    (templateSheetIndex, validationResults) => {
+        return getValidationSubSet(
+            `config.sheets[${templateSheetIndex}].config`,
+            validationResults
+        );
+    }
 );
 
 export const commissionStatementTemplateIsModifiedSelector: (
@@ -37,4 +53,49 @@ export const commissionStatementTemplateIsModifiedSelector: (
 ) => boolean = createSelector(
     rootSelector,
     root => !areEqual(root.template, root.templateOriginal)
+);
+
+export const commissionStatementTemplateSheetConfigSelector: (
+    state: RootState
+) => SheetConfig | null = createSelector(
+    commissionStatementTemplateSheetIndexSelector,
+    commissionStatementTemplateConfigSelector,
+    (templateSheetIndex, config) => {
+        if (!config || config.sheets.length <= templateSheetIndex) return null;
+
+        return config.sheets[templateSheetIndex].config;
+    }
+);
+
+export const commissionStatementTemplateHeaderIdenifierConfigSelector: (
+    state: RootState
+) => Identifier | null = createSelector(commissionStatementTemplateSheetConfigSelector, config => {
+    return config ? config.headerIdentifier : null;
+});
+
+export const commissionStatementTemplateCommissionTypesConfigSelector: (
+    state: RootState
+) => CommissionTypes | null = createSelector(
+    commissionStatementTemplateSheetConfigSelector,
+    config => {
+        return config ? config.commissionTypes : null;
+    }
+);
+
+export const commissionStatementTemplateFieldsConfigSelector: (
+    state: RootState
+) => Field[] = createSelector(commissionStatementTemplateSheetConfigSelector, config => {
+    return config ? config.fields : [];
+});
+
+export const commissionStatementTemplateGroupsConfigSelector: (
+    state: RootState
+) => Group[] = createSelector(commissionStatementTemplateSheetConfigSelector, config => {
+    return config ? config.groups : [];
+});
+
+export const commissionStatementTemplateSheetPositionsSelector: (
+    state: RootState
+) => number[] = createSelector(commissionStatementTemplateSheetsSelector, sheets =>
+    sheets.map(s => s.position)
 );

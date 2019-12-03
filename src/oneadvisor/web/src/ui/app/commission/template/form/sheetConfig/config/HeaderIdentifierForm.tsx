@@ -1,56 +1,71 @@
 import update from "immutability-helper";
-import React, { Component } from "react";
+import React from "react";
+import { connect } from "react-redux";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
-import { ValidationResult } from "@/app/validation";
-import { Identifier } from "@/state/app/commission/templates";
+import { getValidationSubSet } from "@/app/validation";
+import {
+    commissionStatementTemplateConfigValidationResultsSelector,
+    commissionStatementTemplateHeaderIdenifierConfigSelector,
+    Identifier,
+    modifyCommissionStatementTemplateHeaderIdentifier,
+} from "@/state/app/commission/templates";
+import { RootState } from "@/state/rootReducer";
 import { Form, FormInput } from "@/ui/controls";
 
-type Props = {
-    headerIdentifier: Identifier;
-    validationResults: ValidationResult[];
-    onChange: (headerIdentifier: Identifier) => void;
-};
+type Props = PropsFromState & PropsFromDispatch;
 
-class HeaderIdentifierForm extends Component<Props> {
-    componentDidUpdate(prevProps: Props) {
-        if (this.props.headerIdentifier != prevProps.headerIdentifier)
-            this.setState({
-                headerIdentifier: this.props.headerIdentifier,
-            });
-    }
+const HeaderIdentifierForm: React.FC<Props> = ({
+    headerIdentifier,
+    validationResults,
+    handleChange,
+}) => {
+    if (!headerIdentifier) return <React.Fragment />;
 
-    handleChange = (fieldName: keyof Identifier, value: string) => {
-        const headerIdentifier = update(this.props.headerIdentifier, {
-            [fieldName]: { $set: value },
-        });
-        this.setState({
-            headerIdentifier: headerIdentifier,
-        });
-        this.props.onChange(headerIdentifier);
+    const onChange = (fieldName: keyof Identifier, value: string) => {
+        handleChange(headerIdentifier, fieldName, value);
     };
 
-    render() {
-        const { headerIdentifier, validationResults } = this.props;
+    return (
+        <Form>
+            <FormInput
+                fieldName="column"
+                label="Column"
+                value={headerIdentifier.column}
+                onChange={onChange}
+                validationResults={validationResults}
+            />
+            <FormInput
+                fieldName="value"
+                label="Value"
+                value={headerIdentifier.value}
+                onChange={onChange}
+                validationResults={validationResults}
+            />
+        </Form>
+    );
+};
 
-        return (
-            <Form>
-                <FormInput
-                    fieldName="column"
-                    label="Column"
-                    value={headerIdentifier.column}
-                    onChange={this.handleChange}
-                    validationResults={validationResults}
-                />
-                <FormInput
-                    fieldName="value"
-                    label="Value"
-                    value={headerIdentifier.value}
-                    onChange={this.handleChange}
-                    validationResults={validationResults}
-                />
-            </Form>
-        );
-    }
-}
+type PropsFromState = ReturnType<typeof mapStateToProps>;
+const mapStateToProps = (state: RootState) => {
+    return {
+        headerIdentifier: commissionStatementTemplateHeaderIdenifierConfigSelector(state),
+        validationResults: getValidationSubSet(
+            `headerIdentifier`,
+            commissionStatementTemplateConfigValidationResultsSelector(state)
+        ),
+    };
+};
 
-export default HeaderIdentifierForm;
+type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
+    return {
+        handleChange: (identifier: Identifier, fieldName: keyof Identifier, value: string) => {
+            const identifierModified = update(identifier, { [fieldName]: { $set: value } });
+            dispatch(modifyCommissionStatementTemplateHeaderIdentifier(identifierModified));
+        },
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderIdentifierForm);

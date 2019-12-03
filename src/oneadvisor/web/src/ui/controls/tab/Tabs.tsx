@@ -52,6 +52,7 @@ const Tabs: React.FC<Props> = (props: Props) => {
             size={props.size}
             tabBarGutter={props.tabBarGutter}
             className={className}
+            destroyInactiveTabPane={true}
         >
             {props.children}
         </TabsAD>

@@ -1,31 +1,32 @@
-import { Badge } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 
 import { getValidationSubSet } from "@/app/validation";
-import { commissionStatementTemplateSelector } from "@/state/app/commission/templates";
+import { commissionStatementTemplateValidationResultsSelector } from "@/state/app/commission/templates";
 import { RootState } from "@/state/rootReducer";
+import { TabTitle } from "@/ui/controls";
 
 type Props = {
-    prefix: string;
-    exactMatch: boolean;
     title: string;
+    validationPrefix: string;
+    exactMatch: boolean;
 } & PropsFromState;
 
-const TemplateTabTitle: React.FC<Props> = ({ validationResults, prefix, exactMatch, title }) => {
-    const count = getValidationSubSet(prefix, validationResults, true, exactMatch).length;
+const TemplateTabTitle: React.FC<Props> = ({
+    validationResults,
+    validationPrefix,
+    exactMatch,
+    title,
+}) => {
+    const count = getValidationSubSet(validationPrefix, validationResults, true, exactMatch).length;
 
-    return (
-        <Badge count={count} offset={[10, -2]}>
-            {title}
-        </Badge>
-    );
+    return <TabTitle errorCount={count} title={title} />;
 };
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 
 const mapStateToProps = (state: RootState) => ({
-    validationResults: commissionStatementTemplateSelector(state).validationResults,
+    validationResults: commissionStatementTemplateValidationResultsSelector(state),
 });
 
 export default connect(mapStateToProps)(TemplateTabTitle);

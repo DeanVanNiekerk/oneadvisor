@@ -4,6 +4,7 @@ import { TabPane, Tabs } from "@/ui/controls";
 
 import TemplateDetails from "./details/TemplateDetails";
 import RawConfig from "./rawConfig/RawConfig";
+import EditSheetConfig from "./sheetConfig/EditSheetConfig";
 import SheetList from "./sheetList/SheetList";
 import TemplateTabTitle from "./TemplateTabTitle";
 
@@ -16,27 +17,30 @@ const TemplateForm: React.FC = () => {
                 <TemplateDetails />
             </TabPane>
             <TabPane
-                tab={<TemplateTabTitle title="Sheet" prefix="config.sheets" exactMatch={true} />}
+                tab={
+                    <TemplateTabTitle
+                        title="Sheet"
+                        validationPrefix="config.sheets"
+                        exactMatch={true}
+                    />
+                }
                 key="sheets"
             >
                 <SheetList />
             </TabPane>
-            {/* 
-            <TabPane tab={this.getConfigTabTitle()} key="sheet_config">
-                <EditSheetConfig
-                    config={template.config.sheets[this.state.selectedSheetIndex].config}
-                    template={template}
-                    selectedSheetIndex={this.state.selectedSheetIndex}
-                    onSelectSheetChange={this.onSelectSheetChange}
-                    validationResults={getValidationSubSet(
-                        `config.sheets[${this.state.selectedSheetIndex}].config`,
-                        validationResults
-                    )}
-                    onChange={this.onSheetConfigChange}
-                    saveTemplate={this.props.saveTemplate}
-                />
+
+            <TabPane
+                tab={
+                    <TemplateTabTitle
+                        title="Config"
+                        validationPrefix="config.sheets"
+                        exactMatch={false}
+                    />
+                }
+                key="sheet_config"
+            >
+                <EditSheetConfig />
             </TabPane>
-            */}
             <TabPane tab="Raw Config" key="config_raw">
                 <RawConfig />
             </TabPane>

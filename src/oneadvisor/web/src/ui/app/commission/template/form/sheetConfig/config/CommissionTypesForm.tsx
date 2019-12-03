@@ -1,85 +1,39 @@
-import { Icon, List, Popconfirm, Popover, Upload } from "antd";
-import { UploadChangeParam } from "antd/lib/upload";
+import { Icon, List, Popconfirm, Popover } from "antd";
 import update from "immutability-helper";
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
-import { ApiOnFailure, ApiOnSuccess } from "@/app/types";
-import { ValidationResult } from "@/app/validation";
-import { statementTemplatesApi } from "@/config/api/commission";
+import { getValidationSubSet } from "@/app/validation";
 import { commissionTypesSelector } from "@/state/app/commission/lookups";
-import { CommissionType, CommissionTypes, Sheet } from "@/state/app/commission/templates";
-import { tokenSelector } from "@/state/auth";
+import {
+    commissionStatementTemplateCommissionTypesConfigSelector,
+    commissionStatementTemplateConfigValidationResultsSelector,
+    CommissionType,
+    CommissionTypes,
+    modifyCommissionStatementTemplateCommissionTypes,
+} from "@/state/app/commission/templates";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect } from "@/ui/controls";
-import { showMessage } from "@/ui/feedback/notifcation";
 
-type Props = {
-    commissionTypes: CommissionTypes;
-    commissionStatementTemplateId: string | null;
-    validationResults: ValidationResult[];
-    onChange: (commissionTypes: CommissionTypes) => void;
-    saveTemplate: (
-        onSuccess?: ApiOnSuccess,
-        onFailure?: ApiOnFailure,
-        disableSuccessMessage?: boolean
-    ) => void;
-    selectedSheet: Sheet;
-} & PropsFromState;
+type Props = PropsFromState & PropsFromDispatch;
 
 const CommissionTypesForm: React.FC<Props> = (props: Props) => {
-    const [syncingCommissionTypes, setSyncingCommissionTypes] = useState<boolean>(false);
+    if (!props.commissionTypes) return <React.Fragment />;
 
-    const remove = (index: number) => {
-        const types = update(props.commissionTypes.types, {
-            $splice: [[index, 1]],
-        });
-        setTypesState(types);
-    };
+    const { commissionTypes, validationResults, lookupCommissionTypes } = props;
 
-    const add = (value = "") => {
-        const types = update(props.commissionTypes.types, {
-            $push: [
-                {
-                    commissionTypeCode: "",
-                    value: value,
-                },
-            ],
-        });
-        setTypesState(types);
-    };
-
-    const updateType = (index: number, type: CommissionType) => {
-        const types = update(props.commissionTypes.types, {
-            [index]: {
-                $set: type,
-            },
-        });
-        setTypesState(types);
+    const onChange = (fieldName: keyof CommissionTypes, value: string) => {
+        props.handleChange(commissionTypes, fieldName, value);
     };
 
     const onTypesChange = (fieldName: string, value: string, index: number) => {
         const type = {
-            ...props.commissionTypes.types[index],
+            ...commissionTypes.types[index],
             [fieldName]: value,
         };
-        updateType(index, type);
-    };
-
-    const onChange = (fieldName: string, value: string) => {
-        const commissionTypes = {
-            ...props.commissionTypes,
-            [fieldName]: value,
-        };
-        props.onChange(commissionTypes);
-    };
-
-    const setTypesState = (types: CommissionType[]) => {
-        const commissionTypes = {
-            ...props.commissionTypes,
-            types: types,
-        };
-        props.onChange(commissionTypes);
+        props.updateType(index, type, commissionTypes);
     };
 
     const getActions = (index: number) => {
@@ -87,7 +41,7 @@ const CommissionTypesForm: React.FC<Props> = (props: Props) => {
             <Popconfirm
                 key="remove_mapping"
                 title="Are you sure remove this mapping?"
-                onConfirm={() => remove(index)}
+                onConfirm={() => props.removeType(index, commissionTypes)}
                 okText="Yes"
                 cancelText="No"
             >
@@ -95,45 +49,6 @@ const CommissionTypesForm: React.FC<Props> = (props: Props) => {
             </Popconfirm>,
         ];
     };
-
-    const syncCommissionTypes = (values: string[]) => {
-        const existingValues = props.commissionTypes.types.map(t => t.value.toLowerCase());
-
-        values.forEach(value => {
-            if (existingValues.find(v => v === value.toLowerCase())) return;
-            add(value);
-        });
-    };
-
-    const onFileUpload = (info: UploadChangeParam) => {
-        if (info.file.status === "done") {
-            showMessage("success", "Commission Types Sync Successful", 5);
-            syncCommissionTypes(info.file.response);
-            setSyncingCommissionTypes(false);
-        } else if (info.file.status === "error") {
-            showMessage("error", "Commission Types sync failed, check data is valid", 10);
-            setSyncingCommissionTypes(false);
-        }
-    };
-
-    const onBeforeFileUpload = (): PromiseLike<void> => {
-        setSyncingCommissionTypes(true);
-
-        return new Promise((resolve, reject) => {
-            props.saveTemplate(
-                //Success
-                resolve,
-                //Failure
-                () => {
-                    setSyncingCommissionTypes(false);
-                    reject();
-                },
-                true
-            );
-        });
-    };
-
-    const { commissionTypes, validationResults } = props;
 
     return (
         <>
@@ -146,7 +61,7 @@ const CommissionTypesForm: React.FC<Props> = (props: Props) => {
                     value={commissionTypes.defaultCommissionTypeCode}
                     onChange={onChange}
                     validationResults={validationResults}
-                    options={props.lookupCommissionTypes}
+                    options={lookupCommissionTypes}
                     optionsValue="code"
                     optionsText="name"
                 />
@@ -164,30 +79,16 @@ const CommissionTypesForm: React.FC<Props> = (props: Props) => {
                 />
             </Form>
 
-            <Button icon="plus" type="dashed" onClick={() => add()} noLeftMargin={true}>
+            <Button
+                icon="plus"
+                type="dashed"
+                onClick={() => props.addType("", commissionTypes)}
+                noLeftMargin={true}
+            >
                 {`Add Mapping`}
             </Button>
 
-            {props.commissionStatementTemplateId && (
-                <Upload
-                    name="file"
-                    listType="text"
-                    className="pull-right"
-                    beforeUpload={onBeforeFileUpload}
-                    onChange={onFileUpload}
-                    action={`${statementTemplatesApi}/${props.commissionStatementTemplateId}/${props.selectedSheet.position}/excel/uniqueCommissionTypes`}
-                    headers={{
-                        Authorization: "Bearer " + props.token,
-                    }}
-                    showUploadList={false}
-                    disabled={syncingCommissionTypes}
-                >
-                    <Button loading={syncingCommissionTypes}>
-                        {!syncingCommissionTypes && <Icon type="upload" />}
-                        Sync Commission Types
-                    </Button>
-                </Upload>
-            )}
+            {/* <SyncCommissionTypes /> */}
 
             <List
                 bordered
@@ -255,13 +156,61 @@ const MappingInfo: React.FC = () => {
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
-    const lookupCommissionTypesState = commissionTypesSelector(state);
-    const tokenState = tokenSelector(state);
-
     return {
-        token: tokenState.token,
-        lookupCommissionTypes: lookupCommissionTypesState.items,
+        commissionTypes: commissionStatementTemplateCommissionTypesConfigSelector(state),
+        lookupCommissionTypes: commissionTypesSelector(state).items,
+        validationResults: getValidationSubSet(
+            `commissionTypes`,
+            commissionStatementTemplateConfigValidationResultsSelector(state)
+        ),
     };
 };
 
-export default connect(mapStateToProps)(CommissionTypesForm);
+type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
+    return {
+        updateType: (index: number, type: CommissionType, commissionTypes: CommissionTypes) => {
+            const modifiedCommissionTypes = update(commissionTypes, {
+                types: {
+                    [index]: {
+                        $set: type,
+                    },
+                },
+            });
+            dispatch(modifyCommissionStatementTemplateCommissionTypes(modifiedCommissionTypes));
+        },
+        addType: (value = "", commissionTypes: CommissionTypes) => {
+            const modifiedCommissionTypes = update(commissionTypes, {
+                types: {
+                    $push: [
+                        {
+                            commissionTypeCode: "",
+                            value: value,
+                        },
+                    ],
+                },
+            });
+            dispatch(modifyCommissionStatementTemplateCommissionTypes(modifiedCommissionTypes));
+        },
+        removeType: (index: number, commissionTypes: CommissionTypes) => {
+            const modifiedCommissionTypes = update(commissionTypes, {
+                types: {
+                    $splice: [[index, 1]],
+                },
+            });
+            dispatch(modifyCommissionStatementTemplateCommissionTypes(modifiedCommissionTypes));
+        },
+        handleChange: (
+            commissionTypes: CommissionTypes,
+            fieldName: keyof CommissionTypes,
+            value: string
+        ) => {
+            const commissionTypesModified = update(commissionTypes, {
+                [fieldName]: { $set: value },
+            });
+            dispatch(modifyCommissionStatementTemplateCommissionTypes(commissionTypesModified));
+        },
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommissionTypesForm);

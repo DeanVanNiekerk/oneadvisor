@@ -6,6 +6,7 @@ import { TemplateAction } from "./actions";
 export type State = {
     readonly template: CommissionStatementTemplateEdit | null;
     readonly templateOriginal: CommissionStatementTemplateEdit | null;
+    readonly templateSheetIndex: number;
     readonly fetching: boolean;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];
@@ -15,6 +16,7 @@ export type State = {
 export const defaultState: State = {
     template: null,
     templateOriginal: null,
+    templateSheetIndex: 0,
     fetching: false,
     updating: false,
     validationResults: [],
@@ -84,6 +86,12 @@ export const reducer = (state: State = defaultState, action: TemplateAction): St
             return {
                 ...state,
                 visible: action.payload,
+            };
+        }
+        case "COMMISSIONS_STATEMENT_TEMPLATE_SHEET_INDEX_RECEIVE": {
+            return {
+                ...state,
+                templateSheetIndex: action.payload,
             };
         }
         default:
