@@ -81,10 +81,10 @@ const ErrorList: React.FC<Props> = (props: Props) => {
                 {},
                 {
                     align: "center",
-                    render: (data: CommissionImportData) => {
+                    render: (_data: CommissionImportData, error: CommissionError) => {
                         return (
                             <Popover
-                                content={<ErrorData data={data} />}
+                                content={<ErrorData data={error.data} />}
                                 title="Excel Data"
                                 placement="leftTop"
                                 style={{
@@ -103,7 +103,7 @@ const ErrorList: React.FC<Props> = (props: Props) => {
                 "Policy Number",
                 {},
                 {
-                    render: (data: CommissionImportData, error: CommissionError) => {
+                    render: (_data: CommissionImportData, error: CommissionError) => {
                         return error.data.policyNumber;
                     },
                     sorter: false,
@@ -114,7 +114,7 @@ const ErrorList: React.FC<Props> = (props: Props) => {
                 "Amount Incl VAT",
                 {},
                 {
-                    render: (data: CommissionImportData, error: CommissionError) => {
+                    render: (_data: CommissionImportData, error: CommissionError) => {
                         return formatCurrency(error.data.amountIncludingVAT);
                     },
                     sorter: false,
@@ -125,7 +125,7 @@ const ErrorList: React.FC<Props> = (props: Props) => {
                 "VAT",
                 {},
                 {
-                    render: (data: CommissionImportData, error: CommissionError) => {
+                    render: (_data: CommissionImportData, error: CommissionError) => {
                         return formatCurrency(error.data.vat);
                     },
                     sorter: false,

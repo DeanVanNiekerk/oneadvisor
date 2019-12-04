@@ -6,8 +6,11 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { fetchAllClientLookups } from "@/state/app/client/lookups";
 import { fetchAllCommissionLookups } from "@/state/app/commission/lookups";
+import { fetchBranchesSimple } from "@/state/app/directory/branchesSimple";
 import { fetchAllDirectoryLookups } from "@/state/app/directory/lookups";
+import { fetchUsersSimple } from "@/state/app/directory/usersSimple";
 import { isLoadingLookupsSelector } from "@/state/app/selectors";
+import { isAuthenticatedSelector } from "@/state/auth";
 import { fetchAppInfo } from "@/state/context/actions";
 import { RootState } from "@/state/rootReducer";
 import { Loader } from "@/ui/controls";
@@ -27,6 +30,13 @@ const Startup: React.FC<Props> = (props: Props) => {
         props.fetchAppInfo();
     }, []);
 
+    useEffect(() => {
+        if (props.isAuthenticated) {
+            props.fetchUsersSimple();
+            props.fetchBranchesSimple();
+        }
+    }, [props.isAuthenticated]);
+
     const isAccountPage = () => {
         return props.location.pathname === "/signin";
     };
@@ -41,6 +51,7 @@ type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     return {
         loading: isLoadingLookupsSelector(state),
+        isAuthenticated: isAuthenticatedSelector(state),
     };
 };
 
@@ -53,6 +64,8 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
                 fetchAllCommissionLookups,
                 fetchAllClientLookups,
                 fetchAppInfo,
+                fetchUsersSimple,
+                fetchBranchesSimple,
             },
             dispatch
         ),
