@@ -31,7 +31,7 @@ namespace OneAdvisor.Service.Directory
                         {
                             Id = organisation.Id,
                             Name = organisation.Name,
-                            VATRegistered = organisation.VATRegistered,
+                            VATRegistered = organisation.VATRegistered.Value,
                             VATRegistrationDate = organisation.VATRegistrationDate,
                         };
 
@@ -57,7 +57,7 @@ namespace OneAdvisor.Service.Directory
                         {
                             Id = organisation.Id,
                             Name = organisation.Name,
-                            VATRegistered = organisation.VATRegistered,
+                            VATRegistered = organisation.VATRegistered.Value,
                             VATRegistrationDate = organisation.VATRegistrationDate,
                             Config = organisation.Config,
                         };

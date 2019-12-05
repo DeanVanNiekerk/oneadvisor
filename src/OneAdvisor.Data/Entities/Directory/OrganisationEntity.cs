@@ -15,7 +15,7 @@ namespace OneAdvisor.Data.Entities.Directory
         [Required]
         public Config Config { get; set; }
         [Required]
-        public bool VATRegistered { get; set; }
+        public bool? VATRegistered { get; set; }
         public DateTime? VATRegistrationDate { get; set; }
 
         public virtual ICollection<BranchEntity> Branches { get; set; }

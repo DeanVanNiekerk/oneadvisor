@@ -13,6 +13,8 @@ namespace OneAdvisor.Model.Directory.Model.Audit
             Scope = scope;
             UserId = new List<Guid>();
             Action = new List<string>();
+            Entity = new List<string>();
+            EntityId = new List<string>();
 
             var resultGuids = GetFilterValues<Guid>("UserId");
             if (resultGuids.Success)
