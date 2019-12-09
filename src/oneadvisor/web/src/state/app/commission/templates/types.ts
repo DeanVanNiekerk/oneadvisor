@@ -26,10 +26,17 @@ export type Sheet = {
 
 export type SheetConfig = {
     headerIdentifier: Identifier;
+    amountIdentifier: AmountIdentifier;
     fields: Field[];
     commissionTypes: CommissionTypes;
     groups: Group[];
 };
+
+export type AmountIdentifierType = "includingVat" | "excludingVat";
+
+export type AmountIdentifier = {
+    type: AmountIdentifierType;
+} & Identifier;
 
 export type Identifier = {
     column: string;

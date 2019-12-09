@@ -61,9 +61,23 @@ namespace OneAdvisor.Service.Commission.Validators
             RuleFor(t => t.HeaderIdentifier).NotNull();
             RuleFor(t => t.HeaderIdentifier).SetValidator(new HeaderIdentifierValidator());
 
+            RuleFor(t => t.AmountIdentifier).NotNull();
+            RuleFor(t => t.AmountIdentifier).SetValidator(new AmountIdentifierValidator());
+
             RuleFor(t => t.Fields).Must(HaveUnqiueFieldNames).WithMessage("There are duplicate Field Mappings");
             RuleFor(t => t.Fields).Must(HaveUnqiueFieldColumns).WithMessage("There are duplicate Column Mappings");
-            RuleFor(t => t.Fields).Must(HaveRequiredFieldNames).WithMessage("'Policy Number' AND ('Amount Including VAT' OR 'Amount Excluding VAT') fields are required");
+
+            When(t => string.IsNullOrWhiteSpace(t.AmountIdentifier.Column), () =>
+            {
+                RuleFor(t => t.Fields).Must(HaveRequiredFieldNames).WithMessage("'Policy Number' AND ('Amount Including VAT' OR 'Amount Excluding VAT') fields are required");
+            });
+
+            When(t => !string.IsNullOrWhiteSpace(t.AmountIdentifier.Column), () =>
+            {
+                RuleFor(t => t.Fields).Must(HavePolicyFieldName).WithMessage("'Policy Number' field is required");
+                RuleFor(t => t.Fields).Must(NotHaveAmountFieldNames).WithMessage("'Amount Including VAT' and 'Amount Excluding VAT' fields are not supported as an 'Amount Identifier' is set");
+            });
+
             RuleForEach(t => t.Fields).SetValidator(new FieldValidator());
 
             RuleFor(t => t.CommissionTypes).NotNull();
@@ -99,6 +113,16 @@ namespace OneAdvisor.Service.Commission.Validators
 
             return fields.Any(f => f.Name == "AmountIncludingVAT" || f.Name == "AmountExcludingVAT");
         }
+
+        private bool HavePolicyFieldName(IEnumerable<Field> fields)
+        {
+            return fields.Any(f => f.Name == "PolicyNumber");
+        }
+
+        private bool NotHaveAmountFieldNames(IEnumerable<Field> fields)
+        {
+            return !fields.Any(f => f.Name == "AmountIncludingVAT" || f.Name == "AmountExcludingVAT");
+        }
     }
 
     internal class HeaderIdentifierValidator : AbstractValidator<Identifier>
@@ -107,6 +131,24 @@ namespace OneAdvisor.Service.Commission.Validators
         {
             RuleFor(t => t.Column).MustBeValidExcelColumn();
             RuleFor(t => t.Value).NotEmpty();
+        }
+    }
+
+    internal class AmountIdentifierValidator : AbstractValidator<AmountIdentifier>
+    {
+        public AmountIdentifierValidator()
+        {
+            When(t => !string.IsNullOrWhiteSpace(t.Column), () =>
+            {
+                RuleFor(t => t.Column).MustBeValidExcelColumn();
+                RuleFor(t => t.Value).NotEmpty();
+                RuleFor(t => t.Type).Must(BeValidType).WithMessage($"Must be one of: {string.Join(',', AmountIdentifier.GetTypes())}");
+            });
+        }
+
+        private bool BeValidType(string type)
+        {
+            return AmountIdentifier.GetTypes().Contains(type);
         }
     }
 

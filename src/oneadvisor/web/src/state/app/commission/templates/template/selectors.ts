@@ -5,7 +5,7 @@ import { getValidationSubSet, ValidationResult } from "@/app/validation";
 import { RootState } from "@/state/rootReducer";
 
 import { CommissionTypes, Config, Identifier, Sheet, SheetConfig } from "../";
-import { Field, Group } from "../types";
+import { AmountIdentifier, Field, Group } from "../types";
 import { State } from "./reducer";
 
 const rootSelector = (state: RootState): State => state.app.commission.templates.template;
@@ -78,6 +78,15 @@ export const commissionStatementTemplateHeaderIdenifierConfigSelector: (
 ) => Identifier | null = createSelector(commissionStatementTemplateSheetConfigSelector, config => {
     return config ? config.headerIdentifier : null;
 });
+
+export const commissionStatementTemplateAmountIdenifierConfigSelector: (
+    state: RootState
+) => AmountIdentifier | null = createSelector(
+    commissionStatementTemplateSheetConfigSelector,
+    config => {
+        return config ? config.amountIdentifier : null;
+    }
+);
 
 export const commissionStatementTemplateCommissionTypesConfigSelector: (
     state: RootState
