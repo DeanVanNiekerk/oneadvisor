@@ -13,6 +13,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Helpers
                 Enum.GetName(typeof(FieldNames), FieldNames.PolicyNumber),
                 Enum.GetName(typeof(FieldNames), FieldNames.AmountExcludingVAT),
                 Enum.GetName(typeof(FieldNames), FieldNames.AmountIncludingVAT),
+                Enum.GetName(typeof(FieldNames), FieldNames.Amount),
                 Enum.GetName(typeof(FieldNames), FieldNames.VAT)
             };
         }

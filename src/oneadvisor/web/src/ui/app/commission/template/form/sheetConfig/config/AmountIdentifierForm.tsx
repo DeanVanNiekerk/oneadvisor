@@ -1,3 +1,4 @@
+import { Tooltip } from "antd";
 import update from "immutability-helper";
 import React from "react";
 import { connect } from "react-redux";
@@ -12,7 +13,7 @@ import {
     modifyCommissionStatementTemplateAmountIdentifier,
 } from "@/state/app/commission/templates";
 import { RootState } from "@/state/rootReducer";
-import { Form, FormInput, FormSelect } from "@/ui/controls";
+import { Form, FormInput, FormSelect, Icon } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;
 
@@ -42,6 +43,11 @@ const AmountIdentifierForm: React.FC<Props> = ({
                 value={amountIdentifier.value}
                 onChange={onChange}
                 validationResults={validationResults}
+                addonAfter={
+                    <Tooltip title="This is a regular expression used to evaluate the match condition">
+                        <Icon type="info-circle" />
+                    </Tooltip>
+                }
             />
             <FormSelect<string>
                 fieldName="type"

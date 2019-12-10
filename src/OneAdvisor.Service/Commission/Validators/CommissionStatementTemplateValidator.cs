@@ -69,12 +69,12 @@ namespace OneAdvisor.Service.Commission.Validators
 
             When(t => string.IsNullOrWhiteSpace(t.AmountIdentifier.Column), () =>
             {
-                RuleFor(t => t.Fields).Must(HaveRequiredFieldNames).WithMessage("'Policy Number' AND ('Amount Including VAT' OR 'Amount Excluding VAT') fields are required");
+                RuleFor(t => t.Fields).Must(HaveAmountIncludingVatRequiredFieldNames).WithMessage("'Policy Number' AND ('Amount Including VAT' OR 'Amount Excluding VAT') fields are required");
             });
 
             When(t => !string.IsNullOrWhiteSpace(t.AmountIdentifier.Column), () =>
             {
-                RuleFor(t => t.Fields).Must(HavePolicyFieldName).WithMessage("'Policy Number' field is required");
+                RuleFor(t => t.Fields).Must(HaveAmountRequiredFieldNames).WithMessage("'Policy Number' AND 'Amount' fields are required");
                 RuleFor(t => t.Fields).Must(NotHaveAmountFieldNames).WithMessage("'Amount Including VAT' and 'Amount Excluding VAT' fields are not supported as an 'Amount Identifier' is set");
             });
 
@@ -105,7 +105,7 @@ namespace OneAdvisor.Service.Commission.Validators
             return groupsFieldNames.Distinct().Count() == groupsFieldNames.Count();
         }
 
-        private bool HaveRequiredFieldNames(IEnumerable<Field> fields)
+        private bool HaveAmountIncludingVatRequiredFieldNames(IEnumerable<Field> fields)
         {
             var hasPolicyNumber = fields.Any(f => f.Name == "PolicyNumber");
             if (!hasPolicyNumber)
@@ -114,9 +114,13 @@ namespace OneAdvisor.Service.Commission.Validators
             return fields.Any(f => f.Name == "AmountIncludingVAT" || f.Name == "AmountExcludingVAT");
         }
 
-        private bool HavePolicyFieldName(IEnumerable<Field> fields)
+        private bool HaveAmountRequiredFieldNames(IEnumerable<Field> fields)
         {
-            return fields.Any(f => f.Name == "PolicyNumber");
+            var hasPolicyNumber = fields.Any(f => f.Name == "PolicyNumber");
+            if (!hasPolicyNumber)
+                return false;
+
+            return fields.Any(f => f.Name == "Amount");
         }
 
         private bool NotHaveAmountFieldNames(IEnumerable<Field> fields)

@@ -10,6 +10,7 @@ using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Model.Import.Excel;
 using OneAdvisor.Model.Import;
 using OneAdvisor.Model.Import.Commission;
+using System.Text.RegularExpressions;
 
 namespace OneAdvisor.Import.Excel.Readers
 {
@@ -94,8 +95,8 @@ namespace OneAdvisor.Import.Excel.Readers
                 commission.IdNumber = GetValue(reader, FieldNames.IdNumber, config);
                 commission.Initials = GetValue(reader, FieldNames.Initials, config);
                 commission.FullName = GetValue(reader, FieldNames.FullName, config);
-                commission.AmountIncludingVAT = GetValue(reader, FieldNames.AmountIncludingVAT, config);
                 commission.VAT = GetValue(reader, FieldNames.VAT, config);
+                commission.AmountIncludingVAT = GetAmountIncludingVATValue(reader, config, commission.VAT);
 
                 var brokerFullName = GetGroupValue(groupValues, GroupFieldNames.BrokerFullName);
                 if (string.IsNullOrEmpty(brokerFullName))
@@ -103,33 +104,15 @@ namespace OneAdvisor.Import.Excel.Readers
 
                 commission.BrokerFullName = brokerFullName;
 
-                if (string.IsNullOrEmpty(commission.AmountIncludingVAT))
+                if (string.IsNullOrEmpty(commission.VAT))
                 {
-                    var amountExcludingVatString = GetValue(reader, FieldNames.AmountExcludingVAT, config);
-
-                    var amountExcludingVat = 0m;
-                    var success = Decimal.TryParse(amountExcludingVatString, out amountExcludingVat);
+                    var amountIncludingVat = 0m;
+                    var success = Decimal.TryParse(commission.AmountIncludingVAT, out amountIncludingVat);
 
                     if (!success)
                         continue;
 
-                    if (string.IsNullOrEmpty(commission.VAT))
-                        commission.VAT = Decimal.Round(amountExcludingVat * 0.15m, 2).ToString();
-
-                    commission.AmountIncludingVAT = Decimal.Round(amountExcludingVat + Decimal.Parse(commission.VAT), 2).ToString();
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(commission.VAT))
-                    {
-                        var amountIncludingVat = 0m;
-                        var success = Decimal.TryParse(commission.AmountIncludingVAT, out amountIncludingVat);
-
-                        if (!success)
-                            continue;
-
-                        commission.VAT = Decimal.Round(amountIncludingVat - (amountIncludingVat / 1.15m), 2).ToString();
-                    }
+                    commission.VAT = Decimal.Round(amountIncludingVat - (amountIncludingVat / 1.15m), 2).ToString();
                 }
 
                 yield return commission;
@@ -171,6 +154,54 @@ namespace OneAdvisor.Import.Excel.Readers
             if (field == null)
                 return false;
             return field.AbsoluteValue;
+        }
+
+        private string GetAmountIncludingVATValue(IExcelDataReader reader, SheetConfig config, string vat)
+        {
+            var amountIncludingVAT = GetValue(reader, FieldNames.AmountIncludingVAT, config);
+            var amountExcludingVAT = "";
+
+            if (!string.IsNullOrWhiteSpace(config.AmountIdentifier.Column))
+            {
+                var index = ExcelUtils.ColumnToIndex(config.AmountIdentifier.Column);
+                var amountIdentifier = Utils.GetValue(reader, index);
+
+                var amount = GetValue(reader, FieldNames.Amount, config);
+
+                var match = Regex.Match(amountIdentifier, config.AmountIdentifier.Value);
+                if (config.AmountIdentifier.Type == AmountIdentifier.AmountIdentifierTypeIncludingVat)
+                {
+                    if (match.Success)
+                        amountIncludingVAT = amount;
+                    else
+                        amountExcludingVAT = amount;
+                }
+                else
+                {
+                    if (match.Success)
+                        amountExcludingVAT = amount;
+                    else
+                        amountIncludingVAT = amount;
+                }
+            }
+
+            if (string.IsNullOrEmpty(amountIncludingVAT))
+            {
+                var amountExcludingVatString = !string.IsNullOrEmpty(amountExcludingVAT) ? amountExcludingVAT : GetValue(reader, FieldNames.AmountExcludingVAT, config);
+
+                var amountExcludingVat = 0m;
+                var success = Decimal.TryParse(amountExcludingVatString, out amountExcludingVat);
+
+                if (!success)
+                    return "";
+
+                if (string.IsNullOrEmpty(vat))
+                    vat = Decimal.Round(amountExcludingVat * 0.15m, 2).ToString();
+
+                amountIncludingVAT = Decimal.Round(amountExcludingVat + Decimal.Parse(vat), 2).ToString();
+            }
+
+            return amountIncludingVAT;
         }
 
         public static string GetCommissionTypeValue(IExcelDataReader reader, SheetConfig config, List<GroupValue> groupValues)
