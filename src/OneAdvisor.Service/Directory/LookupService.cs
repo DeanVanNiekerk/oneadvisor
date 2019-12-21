@@ -129,5 +129,19 @@ namespace OneAdvisor.Service.Directory
 
         #endregion
 
+        #region VAT Rate
+
+        public async Task<decimal> GetVATRate(DateTime date)
+        {
+            var query = from vatRate in _context.VATRate
+                        where (vatRate.StartDate <= date || vatRate.StartDate == null)
+                        && (vatRate.EndDate >= date || vatRate.EndDate == null)
+                        select vatRate.Rate;
+
+            return await query.SingleOrDefaultAsync();
+        }
+
+        #endregion
+
     }
 }

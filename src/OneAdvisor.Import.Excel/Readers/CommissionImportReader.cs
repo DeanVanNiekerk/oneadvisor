@@ -17,10 +17,12 @@ namespace OneAdvisor.Import.Excel.Readers
     public class CommissionImportReader : IImportReader<ImportCommission>
     {
         private Config _config;
+        private decimal _vatRate;
 
-        public CommissionImportReader(Config config)
+        public CommissionImportReader(Config config, decimal vatRate)
         {
             _config = config;
+            _vatRate = vatRate;
         }
 
         public IEnumerable<ImportCommission> Read(Stream stream)
@@ -112,7 +114,7 @@ namespace OneAdvisor.Import.Excel.Readers
                     if (!success)
                         continue;
 
-                    commission.VAT = Decimal.Round(amountIncludingVat - (amountIncludingVat / 1.15m), 2).ToString();
+                    commission.VAT = Decimal.Round(amountIncludingVat - (amountIncludingVat / ((_vatRate / 100m) + 1m)), 2).ToString();
                 }
 
                 yield return commission;
@@ -196,7 +198,7 @@ namespace OneAdvisor.Import.Excel.Readers
                     return "";
 
                 if (string.IsNullOrEmpty(vat))
-                    vat = Decimal.Round(amountExcludingVat * 0.15m, 2).ToString();
+                    vat = Decimal.Round(amountExcludingVat * (_vatRate / 100m), 2).ToString();
 
                 amountIncludingVAT = Decimal.Round(amountExcludingVat + Decimal.Parse(vat), 2).ToString();
             }

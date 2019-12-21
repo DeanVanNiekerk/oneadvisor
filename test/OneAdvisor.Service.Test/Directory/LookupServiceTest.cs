@@ -1,16 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Xunit;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Directory.Lookup;
-using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Service.Directory;
-using OneAdvisor.Data.Entities.Client.Lookup;
-using OneAdvisor.Data.Entities.Commission.Lookup;
 
 namespace OneAdvisor.Service.Test.Directory
 {
@@ -203,6 +198,46 @@ namespace OneAdvisor.Service.Test.Directory
 
                 var actual3 = actual[2];
                 Assert.Equal(lkp3.Id, actual3.Id);
+            }
+        }
+
+        #endregion
+
+        #region VAT Rate
+
+        [Fact]
+        public async Task GetVATRate()
+        {
+            var options = TestHelper.GetDbContext("GetVATRate");
+
+            //Given
+            var lkp1 = new VATRateEntity { Id = Guid.NewGuid(), Rate = 14m, EndDate = new DateTime(2018, 4, 1).AddSeconds(-1) };
+            var lkp2 = new VATRateEntity { Id = Guid.NewGuid(), Rate = 15m, StartDate = new DateTime(2018, 4, 1) };
+
+            using (var context = new DataContext(options))
+            {
+                //Jumbled order
+                context.VATRate.Add(lkp2);
+                context.VATRate.Add(lkp1);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new DirectoryLookupService(context);
+
+                //When
+                var actual = await service.GetVATRate(new DateTime(2018, 4, 1));
+
+                //Then
+                Assert.Equal(15m, actual);
+
+                //When
+                actual = await service.GetVATRate(new DateTime(2018, 3, 31));
+
+                //Then
+                Assert.Equal(14m, actual);
             }
         }
 

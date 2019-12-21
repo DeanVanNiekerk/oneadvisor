@@ -16,6 +16,7 @@ using System.IO;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
 using OneAdvisor.Import.Excel.Readers;
 using function;
+using OneAdvisor.Model.Directory.Interface;
 
 namespace OneAdvisor.Function
 {
@@ -25,18 +26,21 @@ namespace OneAdvisor.Function
             ICommissionImportService commissionImportService,
             ICommissionStatementService commissionStatementService,
             ICommissionStatementTemplateService commissionStatementTemplateService,
-            IFileStorageService fileStorageService)
+            IFileStorageService fileStorageService,
+            IDirectoryLookupService directoryLookupService)
         {
             CommissionImportService = commissionImportService;
             CommissionStatementService = commissionStatementService;
             CommissionStatementTemplateService = commissionStatementTemplateService;
             FileStorageService = fileStorageService;
+            DirectoryLookupService = directoryLookupService;
         }
 
         private ICommissionImportService CommissionImportService { get; }
         private ICommissionStatementService CommissionStatementService { get; }
         private ICommissionStatementTemplateService CommissionStatementTemplateService { get; }
         private IFileStorageService FileStorageService { get; }
+        private IDirectoryLookupService DirectoryLookupService { get; set; }
 
 
         [FunctionName("com_import_commission")]
@@ -81,7 +85,9 @@ namespace OneAdvisor.Function
                 {
                     await FileStorageService.GetFile(fileInfo.Url, stream);
 
-                    var reader = new CommissionImportReader(template.Config);
+                    var vatRate = await DirectoryLookupService.GetVATRate(statement.Date ?? DateTime.Now);
+
+                    var reader = new CommissionImportReader(template.Config, vatRate);
                     var items = reader.Read(stream);
 
                     result = await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);

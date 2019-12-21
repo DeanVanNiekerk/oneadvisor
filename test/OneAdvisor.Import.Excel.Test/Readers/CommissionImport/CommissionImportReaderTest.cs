@@ -12,6 +12,8 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
 {
     public class CommissionImportReaderTest
     {
+        private decimal _vatRate = 15m;
+
         public CommissionImportReaderTest()
         {
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -63,7 +65,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var bytes = System.Convert.FromBase64String(DefaultTemplate_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
-            var reader = new CommissionImportReader(config);
+            var reader = new CommissionImportReader(config, _vatRate);
             var commissions = reader.Read(stream).ToList();
 
             //Check we are testing all fields
@@ -146,7 +148,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var bytes = System.Convert.FromBase64String(OnlyAmountIncludingVAT_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
-            var reader = new CommissionImportReader(config);
+            var reader = new CommissionImportReader(config, _vatRate);
             var commissions = reader.Read(stream).ToList();
 
             Assert.Equal(2, commissions.Count);
@@ -193,7 +195,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var bytes = System.Convert.FromBase64String(OnlyAmountExcludingVAT_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
-            var reader = new CommissionImportReader(config);
+            var reader = new CommissionImportReader(config, _vatRate);
             var commissions = reader.Read(stream).ToList();
 
             Assert.Equal(2, commissions.Count);
@@ -240,7 +242,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var bytes = System.Convert.FromBase64String(AbsoluteValues_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
-            var reader = new CommissionImportReader(config);
+            var reader = new CommissionImportReader(config, _vatRate);
             var commissions = reader.Read(stream).ToList();
 
             Assert.Equal(2, commissions.Count);
@@ -320,7 +322,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var bytes = System.Convert.FromBase64String(Groupings_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
-            var reader = new CommissionImportReader(config);
+            var reader = new CommissionImportReader(config, _vatRate);
             var commissions = reader.Read(stream).ToList();
 
             Assert.Equal(7, commissions.Count);
@@ -433,7 +435,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var bytes = System.Convert.FromBase64String(GroupingsReverseOrder_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
-            var reader = new CommissionImportReader(config);
+            var reader = new CommissionImportReader(config, _vatRate);
             var commissions = reader.Read(stream).ToList();
 
             Assert.Equal(7, commissions.Count);
@@ -521,7 +523,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var bytes = System.Convert.FromBase64String(CommissionTypeSubstring_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
-            var reader = new CommissionImportReader(config);
+            var reader = new CommissionImportReader(config, _vatRate);
             var commissions = reader.Read(stream).ToList();
 
             Assert.Equal(3, commissions.Count);
@@ -588,7 +590,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var bytes = System.Convert.FromBase64String(AmountIdentifier_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
-            var reader = new CommissionImportReader(config);
+            var reader = new CommissionImportReader(config, _vatRate);
             var commissions = reader.Read(stream).ToList();
 
             Assert.Equal(3, commissions.Count);

@@ -14,5 +14,7 @@ namespace OneAdvisor.Model.Directory.Interface
         Task<Result> InsertCompany(Company model);
 
         Task<List<UserType>> GetUserTypes();
+
+        Task<decimal> GetVATRate(DateTime date);
     }
 }

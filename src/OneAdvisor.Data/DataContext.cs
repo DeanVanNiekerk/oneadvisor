@@ -31,6 +31,7 @@ namespace OneAdvisor.Data
         public DbSet<CompanyEntity> Company { get; set; }
         public DbSet<ChangeLogEntity> ChangeLog { get; set; }
         public DbSet<UserTypeEntity> UserType { get; set; }
+        public DbSet<VATRateEntity> VATRate { get; set; }
 
         #endregion
 
@@ -89,6 +90,7 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<AuditLogEntity>().ToTable("dir_AuditLog");
             modelBuilder.Entity<CompanyEntity>().ToTable("dir_Company");
             modelBuilder.Entity<ChangeLogEntity>().ToTable("dir_ChangeLog");
+            modelBuilder.Entity<VATRateEntity>().ToTable("dir_VATRate").HasData(SeedData.GetVATRates());
             modelBuilder.Entity<UserTypeEntity>().ToTable("dir_UserType").HasData(SeedData.GetUserTypes());
 
             //Custom mappings
