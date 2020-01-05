@@ -108,6 +108,7 @@ const getColumns = (props: Props) => {
                     action = action.toUpperCase();
                     switch (action) {
                         case "DELETE":
+                        case "BULKDELETE":
                             return <Tag color="red">{action}</Tag>;
                         case "INSERT":
                             return <Tag color="green">{action}</Tag>;
