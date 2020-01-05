@@ -5,12 +5,12 @@ import { TabPane, Tabs } from "@/ui/controls";
 import CommissionTypesForm from "./config/CommissionTypesForm";
 import FieldsForm from "./config/FieldsForm";
 import Groups from "./config/Groups";
-import HeaderIdentifierForm from "./config/HeaderIdentifierForm";
+import IdentifiersForms from "./config/IdentifiersForms";
 import EditSheetConfigTabTitle from "./EditSheetConfigTabTitle";
 import SheetSelector from "./SheetSelector";
 
 const EditSheetConfig: React.FC = () => {
-    const [activeTab, setActiveTab] = useState("config_header_identifier");
+    const [activeTab, setActiveTab] = useState("config_identifiers");
 
     return (
         <Tabs
@@ -23,16 +23,16 @@ const EditSheetConfig: React.FC = () => {
             <TabPane
                 tab={
                     <EditSheetConfigTabTitle
-                        title="Header Identifier"
-                        validationPrefix="headerIdentifier"
+                        title="Identifiers"
+                        validationPrefix={["headerIdentifier", "amountIdentifier"]}
                     />
                 }
-                key="config_header_identifier"
+                key="config_identifiers"
             >
-                <HeaderIdentifierForm />
+                <IdentifiersForms />
             </TabPane>
             <TabPane
-                tab={<EditSheetConfigTabTitle title="Fields" validationPrefix="fields" />}
+                tab={<EditSheetConfigTabTitle title="Fields" validationPrefix={["fields"]} />}
                 key="config_fields"
             >
                 <FieldsForm />
@@ -41,7 +41,7 @@ const EditSheetConfig: React.FC = () => {
                 tab={
                     <EditSheetConfigTabTitle
                         title="Commission Types"
-                        validationPrefix="commissionTypes"
+                        validationPrefix={["commissionTypes"]}
                     />
                 }
                 key="config_commission_types"
@@ -49,7 +49,7 @@ const EditSheetConfig: React.FC = () => {
                 <CommissionTypesForm />
             </TabPane>
             <TabPane
-                tab={<EditSheetConfigTabTitle title="Groups" validationPrefix="groups" />}
+                tab={<EditSheetConfigTabTitle title="Groups" validationPrefix={["groups"]} />}
                 key="groups"
             >
                 <Groups />

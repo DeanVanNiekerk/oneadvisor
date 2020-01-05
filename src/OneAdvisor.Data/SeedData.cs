@@ -216,5 +216,15 @@ namespace OneAdvisor.Data
             return list;
         }
 
+        public static List<VATRateEntity> GetVATRates()
+        {
+            var list = new List<VATRateEntity>();
+
+            list.Add(new VATRateEntity() { Id = Guid.Parse("327abe6a-c200-2e53-ba63-e665174438b9"), Rate = 14, EndDate = new DateTime(2018, 4, 1).AddSeconds(-1) });
+            list.Add(new VATRateEntity() { Id = Guid.Parse("490e393a-71bb-b54c-99cf-87ca4e8a88dc"), Rate = 15, StartDate = new DateTime(2018, 4, 1) });
+
+            return list;
+        }
+
     }
 }

@@ -56,7 +56,7 @@ namespace api.Controllers.Commission.Import
         private IEmailService EmailService { get; }
         private IOrganisationService OrganisationService { get; }
         private IUserService UserService { get; }
-        public IDirectoryLookupService DirectoryLookupService { get; set; }
+        private IDirectoryLookupService DirectoryLookupService { get; set; }
 
         [HttpPost("excel/{commissionStatementId}")]
         [UseCaseAuthorize("com_import_commissions")]
@@ -69,6 +69,8 @@ namespace api.Controllers.Commission.Import
             if (file == null)
                 return BadRequest();
 
+            var statement = await CommissionStatementService.GetCommissionStatement(scope, commissionStatementId);
+
             var template = await CommissionStatementTemplateService.GetTemplate(commissionStatementTemplateId);
             var config = template.Config;
 
@@ -76,7 +78,8 @@ namespace api.Controllers.Commission.Import
 
             using (var stream = file.OpenReadStream())
             {
-                var reader = new CommissionImportReader(config);
+                var vatRate = await DirectoryLookupService.GetVATRate(statement.Date ?? DateTime.Now);
+                var reader = new CommissionImportReader(config, vatRate);
                 var items = reader.Read(stream);
 
                 result = await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
@@ -150,7 +153,9 @@ namespace api.Controllers.Commission.Import
                 {
                     await FileStorageService.GetFile(fileInfo.Url, stream);
 
-                    var reader = new CommissionImportReader(template.Config);
+                    var vatRate = await DirectoryLookupService.GetVATRate(statement.Date ?? DateTime.Now);
+
+                    var reader = new CommissionImportReader(template.Config, vatRate);
                     var items = reader.Read(stream);
 
                     result = await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);

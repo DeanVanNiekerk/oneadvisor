@@ -12,6 +12,8 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
 {
     public class CommissionImportReaderTest
     {
+        private decimal _vatRate = 15m;
+
         public CommissionImportReaderTest()
         {
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -63,7 +65,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var bytes = System.Convert.FromBase64String(DefaultTemplate_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
-            var reader = new CommissionImportReader(config);
+            var reader = new CommissionImportReader(config, _vatRate);
             var commissions = reader.Read(stream).ToList();
 
             //Check we are testing all fields
@@ -146,7 +148,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var bytes = System.Convert.FromBase64String(OnlyAmountIncludingVAT_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
-            var reader = new CommissionImportReader(config);
+            var reader = new CommissionImportReader(config, _vatRate);
             var commissions = reader.Read(stream).ToList();
 
             Assert.Equal(2, commissions.Count);
@@ -193,7 +195,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var bytes = System.Convert.FromBase64String(OnlyAmountExcludingVAT_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
-            var reader = new CommissionImportReader(config);
+            var reader = new CommissionImportReader(config, _vatRate);
             var commissions = reader.Read(stream).ToList();
 
             Assert.Equal(2, commissions.Count);
@@ -240,7 +242,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var bytes = System.Convert.FromBase64String(AbsoluteValues_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
-            var reader = new CommissionImportReader(config);
+            var reader = new CommissionImportReader(config, _vatRate);
             var commissions = reader.Read(stream).ToList();
 
             Assert.Equal(2, commissions.Count);
@@ -320,7 +322,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var bytes = System.Convert.FromBase64String(Groupings_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
-            var reader = new CommissionImportReader(config);
+            var reader = new CommissionImportReader(config, _vatRate);
             var commissions = reader.Read(stream).ToList();
 
             Assert.Equal(7, commissions.Count);
@@ -433,7 +435,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var bytes = System.Convert.FromBase64String(GroupingsReverseOrder_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
-            var reader = new CommissionImportReader(config);
+            var reader = new CommissionImportReader(config, _vatRate);
             var commissions = reader.Read(stream).ToList();
 
             Assert.Equal(7, commissions.Count);
@@ -521,7 +523,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var bytes = System.Convert.FromBase64String(CommissionTypeSubstring_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
-            var reader = new CommissionImportReader(config);
+            var reader = new CommissionImportReader(config, _vatRate);
             var commissions = reader.Read(stream).ToList();
 
             Assert.Equal(3, commissions.Count);
@@ -548,6 +550,64 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             Assert.Equal("code_3", actual.CommissionTypeCode);
             Assert.Equal("code_3", actual.CommissionTypeValue);
             Assert.Equal("brokerFullName_3", actual.BrokerFullName);
+        }
+
+        [Fact]
+        public void Read_AmountIdentifier()
+        {
+            var sheetConfig = new SheetConfig()
+            {
+                //No header
+                HeaderIdentifier = new Identifier()
+                {
+                    Column = "",
+                    Value = ""
+                },
+                AmountIdentifier = new AmountIdentifier()
+                {
+                    Column = "B",
+                    Type = AmountIdentifier.AmountIdentifierTypeIncludingVat,
+                    Value = "^Including"
+                },
+                Fields = new List<Field>() {
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.PolicyNumber), Column = "A" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.Amount), Column = "C" },
+                },
+                CommissionTypes = new CommissionTypes()
+                {
+                    MappingTemplate = "",
+                    DefaultCommissionTypeCode = "unknown"
+                }
+            };
+
+            var sheet = new Sheet();
+            sheet.Position = 1;
+            sheet.Config = sheetConfig;
+
+            var config = new Config();
+            config.Sheets = new List<Sheet>() { sheet };
+
+            var bytes = System.Convert.FromBase64String(AmountIdentifier_Base64.STRING);
+            var stream = new MemoryStream(bytes);
+
+            var reader = new CommissionImportReader(config, _vatRate);
+            var commissions = reader.Read(stream).ToList();
+
+            Assert.Equal(3, commissions.Count);
+            var actual = commissions[0];
+            Assert.Equal("123456", actual.PolicyNumber);
+            Assert.Equal("115", actual.AmountIncludingVAT);
+            Assert.Equal("15", actual.VAT);
+
+            actual = commissions[1];
+            Assert.Equal("654321", actual.PolicyNumber);
+            Assert.Equal(230m, Decimal.Parse(actual.AmountIncludingVAT));
+            Assert.Equal(30m, Decimal.Parse(actual.VAT));
+
+            actual = commissions[2];
+            Assert.Equal("987654", actual.PolicyNumber);
+            Assert.Equal("400", actual.AmountIncludingVAT);
+            Assert.Equal(52.17m, Decimal.Parse(actual.VAT));
         }
     }
 }

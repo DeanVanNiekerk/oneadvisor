@@ -5,6 +5,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
         PolicyNumber,
         AmountIncludingVAT,
         AmountExcludingVAT,
+        Amount,
         VAT,
         FirstName,
         LastName,

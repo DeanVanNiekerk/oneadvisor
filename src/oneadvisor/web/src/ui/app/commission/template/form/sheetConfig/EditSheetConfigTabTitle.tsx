@@ -8,11 +8,14 @@ import { TabTitle } from "@/ui/controls";
 
 type Props = {
     title: string;
-    validationPrefix: string;
+    validationPrefix: string[];
 } & PropsFromState;
 
 const EditSheetConfigTabTitle: React.FC<Props> = (props: Props) => {
-    const count = getValidationSubSet(props.validationPrefix, props.validationResults).length;
+    const count = props.validationPrefix.reduce(
+        (p, c) => p + getValidationSubSet(c, props.validationResults).length,
+        0
+    );
     return <TabTitle errorCount={count} title={props.title} />;
 };
 

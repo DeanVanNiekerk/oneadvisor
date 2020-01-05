@@ -28,6 +28,7 @@ import {
     UNKNOWN_COMMISSION_TYPE_CODE,
 } from "../../lookups";
 import {
+    AmountIdentifier,
     CommissionStatementTemplateEdit,
     CommissionTypes,
     Config,
@@ -61,6 +62,11 @@ export const newCommissionStatementTemplate = (): TemplateReceiveAction => {
                         headerIdentifier: {
                             column: "",
                             value: "",
+                        },
+                        amountIdentifier: {
+                            column: "",
+                            value: "",
+                            type: "excludingVat",
                         },
                         fields: [],
                         commissionTypes: {
@@ -253,6 +259,32 @@ export const modifyCommissionStatementTemplateHeaderIdentifier = (
                         config: {
                             headerIdentifier: {
                                 $set: headerIdentifier,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+
+        dispatch(modifyCommissionStatementTemplate(modifiedTemplate));
+    };
+};
+
+export const modifyCommissionStatementTemplateAmountIdentifier = (
+    amountIdentifier: AmountIdentifier
+): ThunkAction<void, RootState, {}, TemplateModifiedAction> => {
+    return (dispatch, getState) => {
+        const { template, templateSheetIndex } = commissionStatementTemplateSelector(getState());
+
+        if (!template) return;
+
+        const modifiedTemplate: CommissionStatementTemplateEdit = update(template, {
+            config: {
+                sheets: {
+                    [templateSheetIndex]: {
+                        config: {
+                            amountIdentifier: {
+                                $set: amountIdentifier,
                             },
                         },
                     },
