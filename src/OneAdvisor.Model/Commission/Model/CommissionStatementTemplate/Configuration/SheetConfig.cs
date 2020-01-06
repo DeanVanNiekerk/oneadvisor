@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.ComponentModel;
-using Newtonsoft.Json;
 
 namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration
 {
@@ -13,6 +11,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
             Fields = new List<Field>();
             CommissionTypes = new CommissionTypes();
             Groups = new List<Group>();
+            VatRates = new List<VATRate>();
         }
 
         public Identifier HeaderIdentifier { get; set; }
@@ -20,5 +19,6 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
         public IEnumerable<Field> Fields { get; set; }
         public CommissionTypes CommissionTypes { get; set; }
         public IEnumerable<Group> Groups { get; set; }
+        public IEnumerable<VATRate> VatRates { get; set; }
     }
 }

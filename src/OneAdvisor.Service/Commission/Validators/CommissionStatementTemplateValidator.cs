@@ -80,6 +80,8 @@ namespace OneAdvisor.Service.Commission.Validators
 
             RuleForEach(t => t.Fields).SetValidator(new FieldValidator());
 
+            RuleForEach(t => t.VatRates).SetValidator(new VATRatesValidator());
+
             RuleFor(t => t.CommissionTypes).NotNull();
             RuleFor(t => t.CommissionTypes).SetValidator(new CommissionTypesValidator());
 
@@ -169,6 +171,14 @@ namespace OneAdvisor.Service.Commission.Validators
         private bool BeValidFieldName(string fieldName)
         {
             return _fieldNames.Any(f => f == fieldName);
+        }
+    }
+
+    internal class VATRatesValidator : AbstractValidator<VATRate>
+    {
+        public VATRatesValidator()
+        {
+            RuleFor(t => t.Column).MustBeValidExcelColumn().WithName("Column");
         }
     }
 

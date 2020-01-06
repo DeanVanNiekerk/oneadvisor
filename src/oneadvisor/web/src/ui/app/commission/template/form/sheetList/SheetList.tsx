@@ -125,6 +125,11 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
                         column: "",
                         value: "",
                     },
+                    amountIdentifier: {
+                        column: "",
+                        value: "",
+                        type: "excludingVat",
+                    },
                     fields: [],
                     commissionTypes: {
                         defaultCommissionTypeCode: UNKNOWN_COMMISSION_TYPE_CODE,
@@ -132,6 +137,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
                         types: [],
                     },
                     groups: [],
+                    vatRates: [],
                 },
             };
 

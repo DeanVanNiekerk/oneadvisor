@@ -30,6 +30,7 @@ export type SheetConfig = {
     fields: Field[];
     commissionTypes: CommissionTypes;
     groups: Group[];
+    vatRates: VATRate[];
 };
 
 export type AmountIdentifierType = "includingVat" | "excludingVat";
@@ -66,4 +67,10 @@ export type Group = {
     formatter: string;
     reverseOrder: boolean;
     identifiers: Identifier[];
+};
+
+export type VATRate = {
+    column: string;
+    value: string;
+    rate: number;
 };

@@ -36,6 +36,7 @@ import {
     Group,
     Identifier,
     Sheet,
+    VATRate,
 } from "../types";
 
 export const fetchCommissionStatementTemplate = (templateId: string): ApiAction => ({
@@ -75,6 +76,7 @@ export const newCommissionStatementTemplate = (): TemplateReceiveAction => {
                             types: [],
                         },
                         groups: [],
+                        vatRates: [],
                     },
                 },
             ],
@@ -363,6 +365,32 @@ export const modifyCommissionStatementTemplateGroups = (
                         config: {
                             groups: {
                                 $set: groups,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+
+        dispatch(modifyCommissionStatementTemplate(modifiedTemplate));
+    };
+};
+
+export const modifyCommissionStatementTemplateVATRates = (
+    vatRates: VATRate[]
+): ThunkAction<void, RootState, {}, TemplateModifiedAction> => {
+    return (dispatch, getState) => {
+        const { template, templateSheetIndex } = commissionStatementTemplateSelector(getState());
+
+        if (!template) return;
+
+        const modifiedTemplate: CommissionStatementTemplateEdit = update(template, {
+            config: {
+                sheets: {
+                    [templateSheetIndex]: {
+                        config: {
+                            vatRates: {
+                                $set: vatRates,
                             },
                         },
                     },

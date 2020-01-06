@@ -6,6 +6,7 @@ import CommissionTypesForm from "./config/CommissionTypesForm";
 import FieldsForm from "./config/FieldsForm";
 import Groups from "./config/Groups";
 import IdentifiersForms from "./config/IdentifiersForms";
+import VATRatesForm from "./config/VATRatesForm";
 import EditSheetConfigTabTitle from "./EditSheetConfigTabTitle";
 import SheetSelector from "./SheetSelector";
 
@@ -53,6 +54,12 @@ const EditSheetConfig: React.FC = () => {
                 key="groups"
             >
                 <Groups />
+            </TabPane>
+            <TabPane
+                tab={<EditSheetConfigTabTitle title="VAT" validationPrefix={["vatRates"]} />}
+                key="vatRates"
+            >
+                <VATRatesForm />
             </TabPane>
         </Tabs>
     );

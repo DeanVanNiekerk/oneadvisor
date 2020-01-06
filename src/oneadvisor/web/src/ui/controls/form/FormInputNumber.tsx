@@ -21,6 +21,8 @@ type Props = {
     autoFocus?: boolean;
     step?: number | string;
     precision?: number;
+    validationFieldName?: string;
+    width?: number | string;
 };
 
 const FormInputNumber: React.FC<Props> = (props: Props) => {
@@ -43,6 +45,13 @@ const FormInputNumber: React.FC<Props> = (props: Props) => {
 
     if (readonly) return <FormText label={label} value={value} layout={layout} />;
 
+    const style: React.CSSProperties = {
+        width: "100%",
+    };
+    if (props.width) {
+        style.width = props.width;
+    }
+
     return (
         <FormField
             label={label}
@@ -50,6 +59,7 @@ const FormInputNumber: React.FC<Props> = (props: Props) => {
             validationResults={validationResults}
             value={value}
             layout={layout}
+            validationFieldName={props.validationFieldName}
         >
             <InputNumber
                 disabled={disabled}
@@ -59,9 +69,7 @@ const FormInputNumber: React.FC<Props> = (props: Props) => {
                 onChange={onChange}
                 decimalSeparator="."
                 precision={precision}
-                style={{
-                    width: "100%",
-                }}
+                style={style}
                 autoFocus={autoFocus}
                 step={step}
                 min={props.min}
