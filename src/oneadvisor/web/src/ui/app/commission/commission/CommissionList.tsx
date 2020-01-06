@@ -168,12 +168,12 @@ const getColumns = (props: Props) => {
     if (!hideColumns.some(c => c == "amountIncludingVAT"))
         columns.push(
             getColumn("amountIncludingVAT", "Amount (incl VAT)", {
-                type: "currency",
+                type: "long-currency",
             })
         );
 
     if (!hideColumns.some(c => c == "vat"))
-        columns.push(getColumn("vat", "VAT", { type: "currency" }));
+        columns.push(getColumn("vat", "VAT", { type: "long-currency" }));
 
     if (!hideColumns.some(c => c == "splitGroupId"))
         columns.push(

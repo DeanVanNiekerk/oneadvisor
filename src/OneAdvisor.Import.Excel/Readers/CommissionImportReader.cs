@@ -83,6 +83,8 @@ namespace OneAdvisor.Import.Excel.Readers
                 if (anyMissingRequiredFields)
                     continue;
 
+                var vatRate = GetVATRate(reader, config, _vatRate);
+
                 var commission = new ImportCommission();
 
                 commission.PolicyNumber = GetValue(reader, FieldNames.PolicyNumber, config);
@@ -98,7 +100,7 @@ namespace OneAdvisor.Import.Excel.Readers
                 commission.Initials = GetValue(reader, FieldNames.Initials, config);
                 commission.FullName = GetValue(reader, FieldNames.FullName, config);
                 commission.VAT = GetValue(reader, FieldNames.VAT, config);
-                commission.AmountIncludingVAT = GetAmountIncludingVATValue(reader, config, commission.VAT);
+                commission.AmountIncludingVAT = GetAmountIncludingVATValue(reader, config, commission.VAT, vatRate);
 
                 var brokerFullName = GetGroupValue(groupValues, GroupFieldNames.BrokerFullName);
                 if (string.IsNullOrEmpty(brokerFullName))
@@ -114,7 +116,7 @@ namespace OneAdvisor.Import.Excel.Readers
                     if (!success)
                         continue;
 
-                    commission.VAT = Decimal.Round(amountIncludingVat - (amountIncludingVat / ((_vatRate / 100m) + 1m)), 2).ToString();
+                    commission.VAT = Decimal.Round(amountIncludingVat - (amountIncludingVat / ((vatRate / 100m) + 1m)), 2).ToString();
                 }
 
                 yield return commission;
@@ -158,7 +160,7 @@ namespace OneAdvisor.Import.Excel.Readers
             return field.AbsoluteValue;
         }
 
-        private string GetAmountIncludingVATValue(IExcelDataReader reader, SheetConfig config, string vat)
+        private string GetAmountIncludingVATValue(IExcelDataReader reader, SheetConfig config, string vat, decimal vatRate)
         {
             var amountIncludingVAT = GetValue(reader, FieldNames.AmountIncludingVAT, config);
             var amountExcludingVAT = "";
@@ -198,7 +200,7 @@ namespace OneAdvisor.Import.Excel.Readers
                     return "";
 
                 if (string.IsNullOrEmpty(vat))
-                    vat = Decimal.Round(amountExcludingVat * (_vatRate / 100m), 2).ToString();
+                    vat = Decimal.Round(amountExcludingVat * (vatRate / 100m), 2).ToString();
 
                 amountIncludingVAT = Decimal.Round(amountExcludingVat + Decimal.Parse(vat), 2).ToString();
             }
@@ -253,6 +255,23 @@ namespace OneAdvisor.Import.Excel.Readers
                 return commissionType.CommissionTypeCode;
 
             return config.CommissionTypes.DefaultCommissionTypeCode;
+        }
+
+        private decimal GetVATRate(IExcelDataReader reader, SheetConfig config, decimal defaultVatRate)
+        {
+            if (!config.VatRates.Any())
+                return defaultVatRate;
+
+            foreach (var rate in config.VatRates)
+            {
+                var index = ExcelUtils.ColumnToIndex(rate.Column);
+                var value = Utils.GetValue(reader, index).TrimWhiteSpace();
+
+                if (value.IgnoreCaseEquals(rate.Value))
+                    return rate.Rate;
+            }
+
+            return defaultVatRate;
         }
 
         public static string GetGroupValue(List<GroupValue> groupValues, GroupFieldNames groupFieldName)

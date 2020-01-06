@@ -109,6 +109,7 @@ export const saveCommissionStatementTemplate = (
                         if (!disableSuccessMessage)
                             showMessage("success", "Template Successfully Saved", 3);
                         onSuccess(template);
+                        dispatch(receiveCommissionStatementTemplate(template));
                     },
                     onFailed
                 )

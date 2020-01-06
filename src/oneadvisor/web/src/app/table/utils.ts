@@ -67,6 +67,7 @@ const getColumn = <T>(
     if (options.type === "long-date")
         props.render = value => (value ? moment(value).format("lll") : "");
     if (options.type === "currency") props.render = value => formatCurrency(value, 0);
+    if (options.type === "long-currency") props.render = value => formatCurrency(value, 2);
 
     if (options.filters) {
         const filter = options.filters[keyString];

@@ -609,5 +609,62 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             Assert.Equal("400", actual.AmountIncludingVAT);
             Assert.Equal(52.17m, Decimal.Parse(actual.VAT));
         }
+
+        [Fact]
+        public void Read_VATRates()
+        {
+            var sheetConfig = new SheetConfig()
+            {
+                //No header
+                HeaderIdentifier = new Identifier()
+                {
+                    Column = "",
+                    Value = ""
+                },
+                Fields = new List<Field>() {
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.PolicyNumber), Column = "A" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.AmountIncludingVAT), Column = "C" },
+                },
+                CommissionTypes = new CommissionTypes()
+                {
+                    MappingTemplate = "",
+                    DefaultCommissionTypeCode = "unknown"
+                },
+                VatRates = new List<VATRate>() {
+                    new VATRate() { Column = "B", Value = "S1", Rate = 15 },
+                    new VATRate() { Column = "B", Value = "E1", Rate = 0 },
+                    new VATRate() { Column = "B", Value = "L1", Rate = 14 },
+                },
+            };
+
+            var sheet = new Sheet();
+            sheet.Position = 1;
+            sheet.Config = sheetConfig;
+
+            var config = new Config();
+            config.Sheets = new List<Sheet>() { sheet };
+
+            var bytes = System.Convert.FromBase64String(VATRates_Base64.STRING);
+            var stream = new MemoryStream(bytes);
+
+            var reader = new CommissionImportReader(config, _vatRate);
+            var commissions = reader.Read(stream).ToList();
+
+            Assert.Equal(3, commissions.Count);
+            var actual = commissions[0];
+            Assert.Equal("123456", actual.PolicyNumber);
+            Assert.Equal("115", actual.AmountIncludingVAT);
+            Assert.Equal("15", actual.VAT);
+
+            actual = commissions[1];
+            Assert.Equal("654321", actual.PolicyNumber);
+            Assert.Equal(200m, Decimal.Parse(actual.AmountIncludingVAT));
+            Assert.Equal("0", actual.VAT);
+
+            actual = commissions[2];
+            Assert.Equal("987654", actual.PolicyNumber);
+            Assert.Equal("400", actual.AmountIncludingVAT);
+            Assert.Equal(49.12m, Decimal.Parse(actual.VAT));
+        }
     }
 }
