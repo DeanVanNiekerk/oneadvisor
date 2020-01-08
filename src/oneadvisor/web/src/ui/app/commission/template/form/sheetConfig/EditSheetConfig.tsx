@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { TabPane, Tabs } from "@/ui/controls";
 
 import CommissionTypesForm from "./config/CommissionTypesForm";
+import ExchangeRatesForm from "./config/ExchangeRatesForm";
 import FieldsForm from "./config/FieldsForm";
 import Groups from "./config/Groups";
 import IdentifiersForms from "./config/IdentifiersForms";
@@ -60,6 +61,17 @@ const EditSheetConfig: React.FC = () => {
                 key="vatRates"
             >
                 <VATRatesForm />
+            </TabPane>
+            <TabPane
+                tab={
+                    <EditSheetConfigTabTitle
+                        title="Exchange"
+                        validationPrefix={["exchangeRates"]}
+                    />
+                }
+                key="exchangeRates"
+            >
+                <ExchangeRatesForm />
             </TabPane>
         </Tabs>
     );

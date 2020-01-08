@@ -12,6 +12,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
             CommissionTypes = new CommissionTypes();
             Groups = new List<Group>();
             VatRates = new List<VATRate>();
+            ExchangeRates = new ExchangeRates();
         }
 
         public Identifier HeaderIdentifier { get; set; }
@@ -20,5 +21,6 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
         public CommissionTypes CommissionTypes { get; set; }
         public IEnumerable<Group> Groups { get; set; }
         public IEnumerable<VATRate> VatRates { get; set; }
+        public ExchangeRates ExchangeRates { get; set; }
     }
 }

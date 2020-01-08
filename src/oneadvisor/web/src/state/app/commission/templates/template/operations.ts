@@ -32,6 +32,7 @@ import {
     CommissionStatementTemplateEdit,
     CommissionTypes,
     Config,
+    ExchangeRates,
     Field,
     Group,
     Identifier,
@@ -77,6 +78,14 @@ export const newCommissionStatementTemplate = (): TemplateReceiveAction => {
                         },
                         groups: [],
                         vatRates: [],
+                        exchangeRates: {
+                            headerIdentifier: {
+                                column: "",
+                                value: "",
+                            },
+                            currencyColumn: "",
+                            exchangeRateColumn: "",
+                        },
                     },
                 },
             ],
@@ -392,6 +401,32 @@ export const modifyCommissionStatementTemplateVATRates = (
                         config: {
                             vatRates: {
                                 $set: vatRates,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+
+        dispatch(modifyCommissionStatementTemplate(modifiedTemplate));
+    };
+};
+
+export const modifyCommissionStatementTemplateExchangeRates = (
+    exchangeRates: ExchangeRates
+): ThunkAction<void, RootState, {}, TemplateModifiedAction> => {
+    return (dispatch, getState) => {
+        const { template, templateSheetIndex } = commissionStatementTemplateSelector(getState());
+
+        if (!template) return;
+
+        const modifiedTemplate: CommissionStatementTemplateEdit = update(template, {
+            config: {
+                sheets: {
+                    [templateSheetIndex]: {
+                        config: {
+                            exchangeRates: {
+                                $set: exchangeRates,
                             },
                         },
                     },

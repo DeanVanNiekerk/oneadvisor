@@ -82,6 +82,8 @@ namespace OneAdvisor.Service.Commission.Validators
 
             RuleForEach(t => t.VatRates).SetValidator(new VATRatesValidator());
 
+            RuleFor(t => t.ExchangeRates).SetValidator(new ExchangeRatesValidator());
+
             RuleFor(t => t.CommissionTypes).NotNull();
             RuleFor(t => t.CommissionTypes).SetValidator(new CommissionTypesValidator());
 
@@ -282,6 +284,19 @@ namespace OneAdvisor.Service.Commission.Validators
         {
             RuleFor(t => t.Column).MustBeValidExcelColumn();
             RuleFor(t => t.Value).NotEmpty();
+        }
+    }
+
+    internal class ExchangeRatesValidator : AbstractValidator<ExchangeRates>
+    {
+        public ExchangeRatesValidator()
+        {
+            When(t => !string.IsNullOrWhiteSpace(t.HeaderIdentifier.Column), () =>
+            {
+                RuleFor(t => t.HeaderIdentifier).SetValidator(new HeaderIdentifierValidator());
+                RuleFor(t => t.CurrencyColumn).MustBeValidExcelColumn();
+                RuleFor(t => t.ExchangeRateColumn).MustBeValidExcelColumn();
+            });
         }
     }
 }

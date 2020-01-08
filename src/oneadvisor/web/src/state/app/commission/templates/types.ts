@@ -31,6 +31,7 @@ export type SheetConfig = {
     commissionTypes: CommissionTypes;
     groups: Group[];
     vatRates: VATRate[];
+    exchangeRates: ExchangeRates;
 };
 
 export type AmountIdentifierType = "includingVat" | "excludingVat";
@@ -73,4 +74,10 @@ export type VATRate = {
     column: string;
     value: string;
     rate: number;
+};
+
+export type ExchangeRates = {
+    headerIdentifier: Identifier;
+    currencyColumn: string;
+    exchangeRateColumn: string;
 };

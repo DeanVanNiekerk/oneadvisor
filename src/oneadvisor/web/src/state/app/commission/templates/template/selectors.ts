@@ -5,7 +5,7 @@ import { getValidationSubSet, ValidationResult } from "@/app/validation";
 import { RootState } from "@/state/rootReducer";
 
 import { CommissionTypes, Config, Identifier, Sheet, SheetConfig } from "../";
-import { AmountIdentifier, Field, Group, VATRate } from "../types";
+import { AmountIdentifier, Field, Group, VATRate, ExchangeRates } from "../types";
 import { State } from "./reducer";
 
 const rootSelector = (state: RootState): State => state.app.commission.templates.template;
@@ -114,6 +114,15 @@ export const commissionStatementTemplateVATRatesConfigSelector: (
 ) => VATRate[] = createSelector(commissionStatementTemplateSheetConfigSelector, config => {
     return config ? config.vatRates : [];
 });
+
+export const commissionStatementTemplateExchangeRatesConfigSelector: (
+    state: RootState
+) => ExchangeRates | null = createSelector(
+    commissionStatementTemplateSheetConfigSelector,
+    config => {
+        return config ? config.exchangeRates : null;
+    }
+);
 
 export const commissionStatementTemplateSheetPositionsSelector: (
     state: RootState

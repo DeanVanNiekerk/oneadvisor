@@ -138,6 +138,14 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
                     },
                     groups: [],
                     vatRates: [],
+                    exchangeRates: {
+                        headerIdentifier: {
+                            column: "",
+                            value: "",
+                        },
+                        currencyColumn: "",
+                        exchangeRateColumn: "",
+                    },
                 },
             };
 
