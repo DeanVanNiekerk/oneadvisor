@@ -14,6 +14,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
         IdNumber,
         FullName,
         BrokerFullName,
+        Currency,
     }
 
     public class Field

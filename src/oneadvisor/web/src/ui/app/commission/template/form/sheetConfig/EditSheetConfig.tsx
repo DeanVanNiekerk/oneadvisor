@@ -65,7 +65,7 @@ const EditSheetConfig: React.FC = () => {
             <TabPane
                 tab={
                     <EditSheetConfigTabTitle
-                        title="Exchange"
+                        title="Exchange Rates"
                         validationPrefix={["exchangeRates"]}
                     />
                 }

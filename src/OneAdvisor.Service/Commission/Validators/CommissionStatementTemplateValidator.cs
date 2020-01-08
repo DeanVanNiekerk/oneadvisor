@@ -78,6 +78,11 @@ namespace OneAdvisor.Service.Commission.Validators
                 RuleFor(t => t.Fields).Must(NotHaveAmountFieldNames).WithMessage("'Amount Including VAT' and 'Amount Excluding VAT' fields are not supported as an 'Amount Identifier' is set");
             });
 
+            When(t => !string.IsNullOrWhiteSpace(t.ExchangeRates.HeaderIdentifier.Column), () =>
+            {
+                RuleFor(t => t.Fields).Must(HaveExchangeRateRequiredFieldNames).WithMessage("'Currency' field is required when Exhange Rates are set");
+            });
+
             RuleForEach(t => t.Fields).SetValidator(new FieldValidator());
 
             RuleForEach(t => t.VatRates).SetValidator(new VATRatesValidator());
@@ -125,6 +130,11 @@ namespace OneAdvisor.Service.Commission.Validators
                 return false;
 
             return fields.Any(f => f.Name == "Amount");
+        }
+
+        private bool HaveExchangeRateRequiredFieldNames(IEnumerable<Field> fields)
+        {
+            return fields.Any(f => f.Name == "Currency");
         }
 
         private bool NotHaveAmountFieldNames(IEnumerable<Field> fields)
