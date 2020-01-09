@@ -70,7 +70,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
 
             //Check we are testing all fields
             var importCommissionProps = typeof(ImportCommission).GetProperties();
-            Assert.Equal(importCommissionProps.Count() - 3, sheetConfig.Fields.Count()); //minus 3 for Id, CommissionTypeValue and CommissionTypeCode
+            Assert.Equal(importCommissionProps.Count() - 4, sheetConfig.Fields.Count()); //minus 4 for Id, Currency, CommissionTypeValue and CommissionTypeCode
 
             Assert.Equal(3, commissions.Count);
             var actual = commissions[0];
@@ -665,6 +665,65 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             Assert.Equal("987654", actual.PolicyNumber);
             Assert.Equal("400", actual.AmountIncludingVAT);
             Assert.Equal(49.12m, Decimal.Parse(actual.VAT));
+        }
+
+        [Fact]
+        public void Read_ExchangeRates()
+        {
+            var sheetConfig = new SheetConfig()
+            {
+                //No header
+                HeaderIdentifier = new Identifier()
+                {
+                    Column = "",
+                    Value = ""
+                },
+                Fields = new List<Field>() {
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.PolicyNumber), Column = "A" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.AmountIncludingVAT), Column = "B" },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.Currency), Column = "C" },
+                },
+                CommissionTypes = new CommissionTypes()
+                {
+                    MappingTemplate = "",
+                    DefaultCommissionTypeCode = "unknown"
+                },
+                ExchangeRates = new ExchangeRates()
+                {
+                    HeaderIdentifier = new Identifier() { Column = "A", Value = "Fund Currency" },
+                    CurrencyColumn = "A",
+                    ExchangeRateColumn = "B",
+                },
+            };
+
+            var sheet = new Sheet();
+            sheet.Position = 1;
+            sheet.Config = sheetConfig;
+
+            var config = new Config();
+            config.Sheets = new List<Sheet>() { sheet };
+
+            var bytes = System.Convert.FromBase64String(ExchangeRates_Base64.STRING);
+            var stream = new MemoryStream(bytes);
+
+            var reader = new CommissionImportReader(config, _vatRate);
+            var commissions = reader.Read(stream).ToList();
+
+            Assert.Equal(5, commissions.Count);  //Additional 2 are bad records
+            var actual = commissions[0];
+            Assert.Equal("123456", actual.PolicyNumber);
+            Assert.Equal("1200", actual.AmountIncludingVAT);
+            Assert.Equal(156.48m, Decimal.Parse(actual.VAT));
+
+            actual = commissions[1];
+            Assert.Equal("654321", actual.PolicyNumber);
+            Assert.Equal("3000", actual.AmountIncludingVAT);
+            Assert.Equal(391.35m, Decimal.Parse(actual.VAT));
+
+            actual = commissions[2];
+            Assert.Equal("987654", actual.PolicyNumber);
+            Assert.Equal("3600", actual.AmountIncludingVAT);
+            Assert.Equal(469.56m, Decimal.Parse(actual.VAT));
         }
     }
 }

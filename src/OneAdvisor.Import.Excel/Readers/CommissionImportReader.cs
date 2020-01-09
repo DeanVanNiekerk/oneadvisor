@@ -30,6 +30,9 @@ namespace OneAdvisor.Import.Excel.Readers
             var groupLoader = new CommissionGroupLoader();
             var sheetGroups = groupLoader.Load(_config, stream);
 
+            var exchangeRateLoader = new ExchangeRateLoader();
+            var sheetExchangeRates = exchangeRateLoader.Load(_config, stream);
+
             var reader = ExcelReaderFactory.CreateReader(stream);
 
             var sheetNumber = 0;
@@ -41,13 +44,18 @@ namespace OneAdvisor.Import.Excel.Readers
 
                 var sheet = _config.Sheets.FirstOrDefault(s => s.Position == sheetNumber);
                 if (sheet != null)
-                    foreach (var commission in Read(reader, sheet, sheetGroups.FirstOrDefault(s => s.SheetNumber == sheetNumber)))
+                {
+                    var sheetGroup = sheetGroups.FirstOrDefault(s => s.SheetNumber == sheetNumber);
+                    var sheetExchangeRate = sheetExchangeRates.FirstOrDefault(s => s.SheetNumber == sheetNumber);
+
+                    foreach (var commission in Read(reader, sheet, sheetGroup, sheetExchangeRate))
                         yield return commission;
+                }
 
             } while (reader.NextResult());
         }
 
-        private IEnumerable<ImportCommission> Read(IExcelDataReader reader, Sheet sheet, SheetGroups sheetGroups)
+        private IEnumerable<ImportCommission> Read(IExcelDataReader reader, Sheet sheet, SheetGroups sheetGroups, SheetExchangeRates sheetExchangeRates)
         {
             var config = sheet.Config;
 
@@ -99,8 +107,9 @@ namespace OneAdvisor.Import.Excel.Readers
                 commission.IdNumber = GetValue(reader, FieldNames.IdNumber, config);
                 commission.Initials = GetValue(reader, FieldNames.Initials, config);
                 commission.FullName = GetValue(reader, FieldNames.FullName, config);
-                commission.VAT = GetValue(reader, FieldNames.VAT, config);
-                commission.AmountIncludingVAT = GetAmountIncludingVATValue(reader, config, commission.VAT, vatRate);
+                commission.Currency = GetValue(reader, FieldNames.Currency, config);
+                commission.VAT = GetCurrency(reader, FieldNames.VAT, config, sheetExchangeRates.ExchangeRates);
+                commission.AmountIncludingVAT = GetAmountIncludingVATValue(reader, config, sheetExchangeRates.ExchangeRates, commission.VAT, vatRate);
 
                 var brokerFullName = GetGroupValue(groupValues, GroupFieldNames.BrokerFullName);
                 if (string.IsNullOrEmpty(brokerFullName))
@@ -118,6 +127,9 @@ namespace OneAdvisor.Import.Excel.Readers
 
                     commission.VAT = Decimal.Round(amountIncludingVat - (amountIncludingVat / ((vatRate / 100m) + 1m)), 2).ToString();
                 }
+
+                commission.AmountIncludingVAT = Exchange(sheetExchangeRates.ExchangeRates, commission.Currency, commission.AmountIncludingVAT);
+                commission.VAT = Exchange(sheetExchangeRates.ExchangeRates, commission.Currency, commission.VAT);
 
                 yield return commission;
             }
@@ -142,6 +154,19 @@ namespace OneAdvisor.Import.Excel.Readers
             return Utils.GetDate(reader, index).TrimWhiteSpace();
         }
 
+        private string GetCurrency(IExcelDataReader reader, FieldNames fieldName, SheetConfig config, List<ExchangeRate> exchangeRates)
+        {
+            var index = GetFieldIndex(fieldName, config);
+            var value = GetValue(reader, fieldName, config);
+
+            value = value.Replace("R", "");
+
+            foreach (var exchangeRate in exchangeRates)
+                value = value.Replace(exchangeRate.Currency, "");
+
+            return value;
+        }
+
         private int? GetFieldIndex(FieldNames fieldName, SheetConfig config)
         {
             var name = Enum.GetName(typeof(FieldNames), fieldName);
@@ -160,9 +185,9 @@ namespace OneAdvisor.Import.Excel.Readers
             return field.AbsoluteValue;
         }
 
-        private string GetAmountIncludingVATValue(IExcelDataReader reader, SheetConfig config, string vat, decimal vatRate)
+        private string GetAmountIncludingVATValue(IExcelDataReader reader, SheetConfig config, List<ExchangeRate> exchangeRates, string vat, decimal vatRate)
         {
-            var amountIncludingVAT = GetValue(reader, FieldNames.AmountIncludingVAT, config);
+            var amountIncludingVAT = GetCurrency(reader, FieldNames.AmountIncludingVAT, config, exchangeRates);
             var amountExcludingVAT = "";
 
             if (!string.IsNullOrWhiteSpace(config.AmountIdentifier.Column))
@@ -170,7 +195,7 @@ namespace OneAdvisor.Import.Excel.Readers
                 var index = ExcelUtils.ColumnToIndex(config.AmountIdentifier.Column);
                 var amountIdentifier = Utils.GetValue(reader, index);
 
-                var amount = GetValue(reader, FieldNames.Amount, config);
+                var amount = GetCurrency(reader, FieldNames.Amount, config, exchangeRates);
 
                 var match = Regex.Match(amountIdentifier, config.AmountIdentifier.Value);
                 if (config.AmountIdentifier.Type == AmountIdentifier.AmountIdentifierTypeIncludingVat)
@@ -191,7 +216,7 @@ namespace OneAdvisor.Import.Excel.Readers
 
             if (string.IsNullOrEmpty(amountIncludingVAT))
             {
-                var amountExcludingVatString = !string.IsNullOrEmpty(amountExcludingVAT) ? amountExcludingVAT : GetValue(reader, FieldNames.AmountExcludingVAT, config);
+                var amountExcludingVatString = !string.IsNullOrEmpty(amountExcludingVAT) ? amountExcludingVAT : GetCurrency(reader, FieldNames.AmountExcludingVAT, config, exchangeRates);
 
                 var amountExcludingVat = 0m;
                 var success = Decimal.TryParse(amountExcludingVatString, out amountExcludingVat);
@@ -280,6 +305,19 @@ namespace OneAdvisor.Import.Excel.Readers
             if (groupValue == null)
                 return "";
             return groupValue.Value;
+        }
+
+        public string Exchange(List<ExchangeRate> exchangeRates, string currency, string amount)
+        {
+            if (currency == null || amount == null)
+                return amount;
+
+            var rate = exchangeRates.FirstOrDefault(r => r.Currency.Trim() == currency.Trim());
+
+            if (rate == null)
+                return amount;
+
+            return Decimal.Round(Decimal.Parse(amount) * rate.Rate, 2).ToString();
         }
 
     }
