@@ -377,7 +377,7 @@ namespace OneAdvisor.Service.Test.Commission
 
                 var importCommissionProps = typeof(ImportCommission).GetProperties();
                 var fields = sheetConfig.Fields.ToList();
-                Assert.Equal(importCommissionProps.Count() - 3, fields.Count()); //minus 3 for Id, CommissionTypeValue and CommissionTypeCode
+                Assert.Equal(importCommissionProps.Count() - 4, fields.Count()); //minus 4 for Id, Currency, CommissionTypeValue and CommissionTypeCode
                 Assert.Equal("PolicyNumber", fields[0].Name);
                 Assert.Equal("A", fields[0].Column);
                 Assert.Equal("AmountIncludingVAT", fields[1].Name);
