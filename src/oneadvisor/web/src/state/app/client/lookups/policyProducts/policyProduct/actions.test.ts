@@ -13,17 +13,14 @@ describe("policyProduct actions", () => {
             code: "type_1",
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${policyProductsApi}/10`,
             method: "POST",
             payload: policyProduct,
-            onSuccess: onSuccess,
             dispatchPrefix: "POLICYPRODUCTS_POLICYPRODUCT_EDIT",
         };
 
-        expect(actions.updatePolicyProduct(policyProduct, onSuccess)).toEqual(expectedAction);
+        expect(actions.updatePolicyProduct(policyProduct)).toEqual(expectedAction);
     });
 });

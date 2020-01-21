@@ -33,10 +33,10 @@ function getDateRangeSearchProps<T>(): ColumnProps<T> {
     return {
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <DateRangeSearch
-                setSelectedKeys={setSelectedKeys || (() => {})}
+                setSelectedKeys={setSelectedKeys}
                 selectedKeys={selectedKeys || []}
-                confirm={confirm || (() => {})}
-                clearFilters={clearFilters || (() => {})}
+                confirm={confirm}
+                clearFilters={clearFilters}
             />
         ),
         filterIcon: filtered => (

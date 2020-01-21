@@ -127,7 +127,7 @@ export const confirmCancelClient = (
 
 export const updateClient = (
     client: ClientEdit,
-    onSuccess: ApiOnSuccess<Result<null>>
+    onSuccess?: ApiOnSuccess<Result<null>>
 ): ApiAction => ({
     type: "API",
     endpoint: `${clientsApi}/${client.id}`,
@@ -149,7 +149,7 @@ export const insertClient = (
     dispatchPrefix: "CLIENTS_CLIENT_EDIT",
 });
 
-export const deleteClient = (clientId: string, onSuccess: ApiOnSuccess): ApiAction => ({
+export const deleteClient = (clientId: string, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${clientsApi}/${clientId}`,
     method: "DELETE",

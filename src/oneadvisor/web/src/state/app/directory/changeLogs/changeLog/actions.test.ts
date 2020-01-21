@@ -13,17 +13,14 @@ describe("changeLog actions", () => {
             log: "A log here",
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${changeLogsApi}/10`,
             method: "POST",
             payload: changeLog,
-            onSuccess: onSuccess,
             dispatchPrefix: "CHANGELOGS_CHANGELOG_EDIT",
         };
 
-        expect(actions.updateChangeLog(changeLog, onSuccess)).toEqual(expectedAction);
+        expect(actions.updateChangeLog(changeLog)).toEqual(expectedAction);
     });
 });

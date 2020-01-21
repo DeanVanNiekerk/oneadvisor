@@ -32,31 +32,25 @@ describe("client actions", () => {
             taxNumber: "AABB1212",
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${clientsApi}/10`,
             method: "POST",
             payload: client,
-            onSuccess: onSuccess,
             dispatchPrefix: "CLIENTS_CLIENT_EDIT",
         };
 
-        expect(actions.updateClient(client, onSuccess)).toEqual(expectedAction);
+        expect(actions.updateClient(client)).toEqual(expectedAction);
     });
 
     it("should dispatch API when deleteClient is called", () => {
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${clientsApi}/10`,
             method: "DELETE",
-            onSuccess: onSuccess,
             dispatchPrefix: "CLIENTS_CLIENT_EDIT",
         };
 
-        expect(actions.deleteClient("10", onSuccess)).toEqual(expectedAction);
+        expect(actions.deleteClient("10")).toEqual(expectedAction);
     });
 });

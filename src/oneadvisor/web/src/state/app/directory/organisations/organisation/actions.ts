@@ -145,7 +145,7 @@ export const confirmCancelOrganisation = (
 
 export const updateOrganisation = (
     organisation: OrganisationEdit,
-    onSuccess: ApiOnSuccess
+    onSuccess?: ApiOnSuccess
 ): ApiAction => ({
     type: "API",
     endpoint: `${organisationsApi}/${organisation.id}`,
@@ -157,7 +157,7 @@ export const updateOrganisation = (
 
 export const insertOrganisation = (
     organisation: OrganisationEdit,
-    onSuccess: ApiOnSuccess<Result<OrganisationEdit>>
+    onSuccess?: ApiOnSuccess<Result<OrganisationEdit>>
 ): ApiAction => ({
     type: "API",
     endpoint: `${organisationsApi}`,

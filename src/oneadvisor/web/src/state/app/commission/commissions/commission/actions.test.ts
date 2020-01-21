@@ -27,17 +27,14 @@ describe("commission actions", () => {
             sourceData: null,
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${commissionsApi}/10`,
             method: "POST",
             payload: commission,
-            onSuccess: onSuccess,
             dispatchPrefix: "COMMISSIONS_COMMISSION_EDIT",
         };
 
-        expect(actions.updateCommission(commission, onSuccess)).toEqual(expectedAction);
+        expect(actions.updateCommission(commission)).toEqual(expectedAction);
     });
 });

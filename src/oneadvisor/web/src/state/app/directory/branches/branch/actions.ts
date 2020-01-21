@@ -126,7 +126,7 @@ export const confirmCancelBranch = (
     };
 };
 
-export const updateBranch = (branch: Branch, onSuccess: ApiOnSuccess): ApiAction => ({
+export const updateBranch = (branch: Branch, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${branchesApi}/${branch.id}`,
     method: "POST",
@@ -137,7 +137,7 @@ export const updateBranch = (branch: Branch, onSuccess: ApiOnSuccess): ApiAction
 
 export const insertBranch = (
     branch: Branch,
-    onSuccess: ApiOnSuccess<Result<Branch>>
+    onSuccess?: ApiOnSuccess<Result<Branch>>
 ): ApiAction => ({
     type: "API",
     endpoint: `${branchesApi}`,

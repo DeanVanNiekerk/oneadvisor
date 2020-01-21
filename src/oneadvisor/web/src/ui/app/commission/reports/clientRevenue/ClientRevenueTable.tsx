@@ -125,7 +125,6 @@ class ClientRevenueTable extends Component<Props> {
                 columns={this.getColumns()}
                 dataSource={this.props.records}
                 loading={this.props.fetching}
-                onRowClick={() => {}}
                 externalDataSource={true}
                 pageOptions={this.props.pageOptions}
                 totalRows={this.props.totalItems}

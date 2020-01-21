@@ -36,7 +36,7 @@ export const fetchUser = (userId: string): ApiAction => ({
     dispatchPrefix: "USERS_USER",
 });
 
-export const updateUser = (user: UserEdit, onSuccess: ApiOnSuccess): ApiAction => ({
+export const updateUser = (user: UserEdit, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${usersApi}/${user.id}`,
     method: "POST",
@@ -45,7 +45,7 @@ export const updateUser = (user: UserEdit, onSuccess: ApiOnSuccess): ApiAction =
     dispatchPrefix: "USERS_USER_EDIT",
 });
 
-export const insertUser = (user: UserEdit, onSuccess: ApiOnSuccess): ApiAction => ({
+export const insertUser = (user: UserEdit, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${usersApi}`,
     method: "POST",

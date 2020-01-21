@@ -20,18 +20,15 @@ describe("branch actions", () => {
             name: "Org1",
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${branchesApi}/10`,
             method: "POST",
             payload: branch,
-            onSuccess: onSuccess,
             dispatchPrefix: "BRANCHES_BRANCH_EDIT",
         };
 
-        expect(actions.updateBranch(branch, onSuccess)).toEqual(expectedAction);
+        expect(actions.updateBranch(branch)).toEqual(expectedAction);
     });
 
     it("should dispatch API when insertBranch is called", () => {
@@ -41,17 +38,14 @@ describe("branch actions", () => {
             name: "Org1",
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${branchesApi}`,
             method: "POST",
             payload: branch,
-            onSuccess: onSuccess,
             dispatchPrefix: "BRANCHES_BRANCH_EDIT",
         };
 
-        expect(actions.insertBranch(branch, onSuccess)).toEqual(expectedAction);
+        expect(actions.insertBranch(branch)).toEqual(expectedAction);
     });
 });

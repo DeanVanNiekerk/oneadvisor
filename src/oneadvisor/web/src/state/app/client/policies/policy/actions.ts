@@ -127,7 +127,7 @@ export const confirmCancelPolicy = (
     };
 };
 
-export const updatePolicy = (policy: PolicyEdit, onSuccess: ApiOnSuccess): ApiAction => ({
+export const updatePolicy = (policy: PolicyEdit, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${policiesApi}/${policy.id}`,
     method: "POST",

@@ -21,10 +21,10 @@ import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import {
     CompanyName,
+    getColumnSearchProps,
     getTable,
     PolicyTypeName,
     UserName,
-    getColumnSearchProps,
 } from "@/ui/controls";
 
 const Table = getTable<CommissionLapseData>();
@@ -131,7 +131,6 @@ class CommissionLapseTable extends Component<Props> {
                 columns={this.getColumns()}
                 dataSource={this.props.records}
                 loading={this.props.fetching}
-                onRowClick={() => {}}
                 externalDataSource={true}
                 pageOptions={this.props.pageOptions}
                 totalRows={this.props.totalItems}

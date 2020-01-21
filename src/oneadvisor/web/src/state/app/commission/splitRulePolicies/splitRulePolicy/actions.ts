@@ -53,7 +53,7 @@ export const fetchSplitRulePolicy = (policyId: string): ApiAction => ({
 
 export const updateSplitRulePolicy = (
     splitRulePolicy: SplitRulePolicy,
-    onSuccess: ApiOnSuccess
+    onSuccess?: ApiOnSuccess
 ): ApiAction => ({
     type: "API",
     endpoint: `${splitRulePoliciesApi}/${splitRulePolicy.id}`,
@@ -77,7 +77,7 @@ export const insertSplitRulePolicy = (
 
 export const deleteSplitRulePolicy = (
     splitRulePolicyId: string,
-    onSuccess: ApiOnSuccess
+    onSuccess?: ApiOnSuccess
 ): ApiAction => ({
     type: "API",
     endpoint: `${splitRulePoliciesApi}/${splitRulePolicyId}`,

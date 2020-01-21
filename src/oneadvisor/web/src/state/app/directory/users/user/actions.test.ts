@@ -29,32 +29,26 @@ describe("user actions", () => {
     });
 
     it("should dispatch API when updateUser is called", () => {
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${usersApi}/10`,
             method: "POST",
             payload: defaultUser,
-            onSuccess: onSuccess,
             dispatchPrefix: "USERS_USER_EDIT",
         };
 
-        expect(actions.updateUser(defaultUser, onSuccess)).toEqual(expectedAction);
+        expect(actions.updateUser(defaultUser)).toEqual(expectedAction);
     });
 
     it("should dispatch API when insertUser is called", () => {
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${usersApi}`,
             method: "POST",
             payload: defaultUser,
-            onSuccess: onSuccess,
             dispatchPrefix: "USERS_USER_EDIT",
         };
 
-        expect(actions.insertUser(defaultUser, onSuccess)).toEqual(expectedAction);
+        expect(actions.insertUser(defaultUser)).toEqual(expectedAction);
     });
 });

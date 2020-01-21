@@ -29,19 +29,14 @@ describe("commission statement template actions", () => {
             },
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${statementTemplatesApi}/10?updateUnknownCommissionTypes=true`,
             method: "POST",
             payload: template,
-            onSuccess: onSuccess,
             dispatchPrefix: "COMMISSIONS_STATEMENT_TEMPLATE_EDIT",
         };
 
-        expect(updateCommissionStatementTemplate(template, true, onSuccess)).toEqual(
-            expectedAction
-        );
+        expect(updateCommissionStatementTemplate(template, true)).toEqual(expectedAction);
     });
 });

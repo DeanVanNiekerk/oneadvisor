@@ -35,7 +35,7 @@ export const receiveChangeLog = (changeLog: ChangeLog | null): ChangeLogReceiveA
     payload: changeLog,
 });
 
-export const updateChangeLog = (changeLog: ChangeLog, onSuccess: ApiOnSuccess): ApiAction => ({
+export const updateChangeLog = (changeLog: ChangeLog, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${changeLogsApi}/${changeLog.id}`,
     method: "POST",
@@ -44,7 +44,7 @@ export const updateChangeLog = (changeLog: ChangeLog, onSuccess: ApiOnSuccess): 
     dispatchPrefix: "CHANGELOGS_CHANGELOG_EDIT",
 });
 
-export const insertChangeLog = (changeLog: ChangeLog, onSuccess: ApiOnSuccess): ApiAction => ({
+export const insertChangeLog = (changeLog: ChangeLog, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${changeLogsApi}`,
     method: "POST",

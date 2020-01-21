@@ -23,30 +23,24 @@ describe("splitRule actions", () => {
             split: [],
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${splitRulesApi}/10`,
             method: "POST",
             payload: splitRule,
-            onSuccess: onSuccess,
             dispatchPrefix: "SPLITRULES_SPLITRULE_EDIT",
         };
 
-        expect(actions.updateSplitRule(splitRule, onSuccess)).toEqual(expectedAction);
+        expect(actions.updateSplitRule(splitRule)).toEqual(expectedAction);
     });
 
     it("should dispatch API when deleteSplitRule is called", () => {
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${splitRulesApi}/10`,
             method: "DELETE",
-            onSuccess: onSuccess,
         };
 
-        expect(actions.deleteSplitRule("10", onSuccess)).toEqual(expectedAction);
+        expect(actions.deleteSplitRule("10")).toEqual(expectedAction);
     });
 });

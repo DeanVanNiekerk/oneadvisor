@@ -22,17 +22,14 @@ describe("role actions", () => {
             useCaseIds: ["uc1"],
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${rolesApi}/10`,
             method: "POST",
             payload: role,
-            onSuccess: onSuccess,
             dispatchPrefix: "ROLES_ROLE_EDIT",
         };
 
-        expect(actions.updateRole(role, onSuccess)).toEqual(expectedAction);
+        expect(actions.updateRole(role)).toEqual(expectedAction);
     });
 });

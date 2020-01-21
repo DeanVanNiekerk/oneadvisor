@@ -113,7 +113,7 @@ export const confirmCancelCompany = (
     };
 };
 
-export const updateCompany = (company: Company, onSuccess: ApiOnSuccess): ApiAction => ({
+export const updateCompany = (company: Company, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${companiesApi}/${company.id}`,
     method: "POST",
@@ -122,7 +122,7 @@ export const updateCompany = (company: Company, onSuccess: ApiOnSuccess): ApiAct
     dispatchPrefix: "COMPANIES_COMPANY_EDIT",
 });
 
-export const insertCompany = (company: Company, onSuccess: ApiOnSuccess): ApiAction => ({
+export const insertCompany = (company: Company, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${companiesApi}`,
     method: "POST",

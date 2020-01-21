@@ -21,30 +21,24 @@ describe("contact actions", () => {
             value: "0825728997",
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${contactsApi}/10`,
             method: "POST",
             payload: contact,
-            onSuccess: onSuccess,
             dispatchPrefix: "CONTACTS_CONTACT_EDIT",
         };
 
-        expect(actions.updateContact(contact, onSuccess)).toEqual(expectedAction);
+        expect(actions.updateContact(contact)).toEqual(expectedAction);
     });
 
     it("should dispatch API when deleteContact is called", () => {
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${contactsApi}/10`,
             method: "DELETE",
-            onSuccess: onSuccess,
         };
 
-        expect(actions.deleteContact("10", onSuccess)).toEqual(expectedAction);
+        expect(actions.deleteContact("10")).toEqual(expectedAction);
     });
 });

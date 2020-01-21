@@ -25,17 +25,14 @@ describe("organisation actions", () => {
             },
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${organisationsApi}/10`,
             method: "POST",
             payload: organisation,
-            onSuccess: onSuccess,
             dispatchPrefix: "ORGANISATIONS_ORGANISATION_EDIT",
         };
 
-        expect(actions.updateOrganisation(organisation, onSuccess)).toEqual(expectedAction);
+        expect(actions.updateOrganisation(organisation)).toEqual(expectedAction);
     });
 });

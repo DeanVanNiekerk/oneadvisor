@@ -21,30 +21,24 @@ describe("splitRulePolicy actions", () => {
             policyId: "13",
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${splitRulePoliciesApi}/10`,
             method: "POST",
             payload: splitRulePolicy,
-            onSuccess: onSuccess,
             dispatchPrefix: "SPLITRULEPOLICIES_SPLITRULEPOLICY_EDIT",
         };
 
-        expect(actions.updateSplitRulePolicy(splitRulePolicy, onSuccess)).toEqual(expectedAction);
+        expect(actions.updateSplitRulePolicy(splitRulePolicy)).toEqual(expectedAction);
     });
 
     it("should dispatch API when deleteSplitRulePolicy is called", () => {
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${splitRulePoliciesApi}/10`,
             method: "DELETE",
-            onSuccess: onSuccess,
         };
 
-        expect(actions.deleteSplitRulePolicy("10", onSuccess)).toEqual(expectedAction);
+        expect(actions.deleteSplitRulePolicy("10")).toEqual(expectedAction);
     });
 });

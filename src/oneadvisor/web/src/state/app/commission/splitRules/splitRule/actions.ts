@@ -49,7 +49,7 @@ export const fetchSplitRule = (splitRuleId: string): ApiAction => ({
     dispatchPrefix: "SPLITRULES_SPLITRULE",
 });
 
-export const updateSplitRule = (splitRule: SplitRule, onSuccess: ApiOnSuccess): ApiAction => ({
+export const updateSplitRule = (splitRule: SplitRule, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${splitRulesApi}/${splitRule.id}`,
     method: "POST",
@@ -58,7 +58,7 @@ export const updateSplitRule = (splitRule: SplitRule, onSuccess: ApiOnSuccess): 
     dispatchPrefix: "SPLITRULES_SPLITRULE_EDIT",
 });
 
-export const insertSplitRule = (splitRule: SplitRule, onSuccess: ApiOnSuccess): ApiAction => ({
+export const insertSplitRule = (splitRule: SplitRule, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${splitRulesApi}`,
     method: "POST",
@@ -67,7 +67,7 @@ export const insertSplitRule = (splitRule: SplitRule, onSuccess: ApiOnSuccess): 
     dispatchPrefix: "SPLITRULES_SPLITRULE_EDIT",
 });
 
-export const deleteSplitRule = (splitRuleId: string, onSuccess: ApiOnSuccess): ApiAction => ({
+export const deleteSplitRule = (splitRuleId: string, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${splitRulesApi}/${splitRuleId}`,
     method: "DELETE",

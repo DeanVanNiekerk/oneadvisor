@@ -13,17 +13,14 @@ describe("commissionType actions", () => {
             code: "type_1",
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${commissionTypesApi}/10`,
             method: "POST",
             payload: commissionType,
-            onSuccess: onSuccess,
             dispatchPrefix: "COMMISSIONTYPES_COMMISSIONTYPE_EDIT",
         };
 
-        expect(actions.updateCommissionType(commissionType, onSuccess)).toEqual(expectedAction);
+        expect(actions.updateCommissionType(commissionType)).toEqual(expectedAction);
     });
 });

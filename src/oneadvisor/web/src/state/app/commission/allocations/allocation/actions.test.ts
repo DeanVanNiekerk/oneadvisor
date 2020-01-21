@@ -21,30 +21,24 @@ describe("allocation actions", () => {
             policyIds: ["14"],
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${allocationsApi}/10`,
             method: "POST",
             payload: allocation,
-            onSuccess: onSuccess,
             dispatchPrefix: "ALLOCATIONS_ALLOCATION_EDIT",
         };
 
-        expect(actions.updateAllocation(allocation, onSuccess)).toEqual(expectedAction);
+        expect(actions.updateAllocation(allocation)).toEqual(expectedAction);
     });
 
     it("should dispatch API when deleteAllocation is called", () => {
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${allocationsApi}/10`,
             method: "DELETE",
-            onSuccess: onSuccess,
         };
 
-        expect(actions.deleteAllocation("10", onSuccess)).toEqual(expectedAction);
+        expect(actions.deleteAllocation("10")).toEqual(expectedAction);
     });
 });

@@ -39,7 +39,7 @@ export const receiveCommissionType = (
 
 export const updateCommissionType = (
     commissionType: CommissionType,
-    onSuccess: ApiOnSuccess
+    onSuccess?: ApiOnSuccess
 ): ApiAction => ({
     type: "API",
     endpoint: `${commissionTypesApi}/${commissionType.id}`,
@@ -51,7 +51,7 @@ export const updateCommissionType = (
 
 export const insertCommissionType = (
     commissionType: CommissionType,
-    onSuccess: ApiOnSuccess
+    onSuccess?: ApiOnSuccess
 ): ApiAction => ({
     type: "API",
     endpoint: `${commissionTypesApi}`,

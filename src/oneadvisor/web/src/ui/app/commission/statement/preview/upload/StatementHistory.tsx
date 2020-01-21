@@ -67,7 +67,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             dispatch(fetchStatementFiles(commissionStatementId));
         },
         downloadFile: (url: string, fileName: string) => {
-            dispatch(downloadFile(fileName, url, () => {}));
+            dispatch(downloadFile(fileName, url));
         },
     };
 };

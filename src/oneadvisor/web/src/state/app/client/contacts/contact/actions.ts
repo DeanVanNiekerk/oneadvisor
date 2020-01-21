@@ -125,7 +125,7 @@ export const confirmCancelContact = (
     };
 };
 
-export const updateContact = (contact: Contact, onSuccess: ApiOnSuccess): ApiAction => ({
+export const updateContact = (contact: Contact, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${contactsApi}/${contact.id}`,
     method: "POST",
@@ -146,7 +146,7 @@ export const insertContact = (
     dispatchPrefix: "CONTACTS_CONTACT_EDIT",
 });
 
-export const deleteContact = (contactId: string, onSuccess: ApiOnSuccess): ApiAction => ({
+export const deleteContact = (contactId: string, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${contactsApi}/${contactId}`,
     method: "DELETE",

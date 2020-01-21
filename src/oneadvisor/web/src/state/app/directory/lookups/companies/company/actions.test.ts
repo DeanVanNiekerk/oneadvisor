@@ -10,17 +10,14 @@ describe("company actions", () => {
             commissionPolicyNumberPrefixes: ["pre_1"],
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${companiesApi}/10`,
             method: "POST",
             payload: company,
-            onSuccess: onSuccess,
             dispatchPrefix: "COMPANIES_COMPANY_EDIT",
         };
 
-        expect(actions.updateCompany(company, onSuccess)).toEqual(expectedAction);
+        expect(actions.updateCompany(company)).toEqual(expectedAction);
     });
 });

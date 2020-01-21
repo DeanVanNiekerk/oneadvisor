@@ -115,7 +115,7 @@ export const confirmCancelCommission = (
 
 export const updateCommission = (
     commission: CommissionEdit,
-    onSuccess: ApiOnSuccess
+    onSuccess?: ApiOnSuccess
 ): ApiAction => ({
     type: "API",
     endpoint: `${commissionsApi}/${commission.id}`,

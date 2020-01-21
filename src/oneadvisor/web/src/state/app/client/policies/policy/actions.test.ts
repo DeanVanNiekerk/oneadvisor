@@ -29,17 +29,14 @@ describe("policy actions", () => {
             isActive: true,
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${policiesApi}/10`,
             method: "POST",
             payload: policy,
-            onSuccess: onSuccess,
             dispatchPrefix: "POLICIES_POLICY_EDIT",
         };
 
-        expect(actions.updatePolicy(policy, onSuccess)).toEqual(expectedAction);
+        expect(actions.updatePolicy(policy)).toEqual(expectedAction);
     });
 });

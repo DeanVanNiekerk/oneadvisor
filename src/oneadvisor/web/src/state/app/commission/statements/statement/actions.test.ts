@@ -24,32 +24,24 @@ describe("statement actions", () => {
             date: "2001-01-01",
         };
 
-        const onSuccess = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${statementsApi}/10`,
             method: "POST",
             payload: statement,
-            onSuccess: onSuccess,
             dispatchPrefix: "STATEMENTS_STATEMENT_EDIT",
         };
 
-        expect(actions.updateStatement(statement, onSuccess)).toEqual(expectedAction);
+        expect(actions.updateStatement(statement)).toEqual(expectedAction);
     });
 
     it("should dispatch API when deleteCommissions is called", () => {
-        const onSuccess = () => {};
-        const onFailure = () => {};
-
         const expectedAction = {
             type: "API",
             endpoint: `${statementsApi}/10/commissions`,
             method: "DELETE",
-            onSuccess: onSuccess,
-            onFailure: onFailure,
         };
 
-        expect(actions.deleteCommissions("10", onSuccess, onFailure)).toEqual(expectedAction);
+        expect(actions.deleteCommissions("10")).toEqual(expectedAction);
     });
 });

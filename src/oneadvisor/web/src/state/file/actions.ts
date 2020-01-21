@@ -5,7 +5,11 @@ import { downloadFileApi } from "@/config/api/file";
 
 type TOnComplete = () => void;
 
-export const downloadFile = (fileName: string, url: string, onComplete: TOnComplete): ApiAction => {
+export const downloadFile = (
+    fileName: string,
+    url: string,
+    onComplete?: TOnComplete
+): ApiAction => {
     let api = downloadFileApi;
     api = appendQueryString(api, [{ key: "url", value: url }]);
 
@@ -14,7 +18,7 @@ export const downloadFile = (fileName: string, url: string, onComplete: TOnCompl
         endpoint: api,
         onSuccessBlob: blob => {
             saveFile(blob, fileName);
-            onComplete();
+            if (onComplete) onComplete();
         },
     };
 };

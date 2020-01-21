@@ -137,7 +137,7 @@ export const confirmCancelStatement = (
     };
 };
 
-export const updateStatement = (statement: StatementEdit, onSuccess: ApiOnSuccess): ApiAction => ({
+export const updateStatement = (statement: StatementEdit, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${statementsApi}/${statement.id}`,
     method: "POST",
@@ -146,7 +146,7 @@ export const updateStatement = (statement: StatementEdit, onSuccess: ApiOnSucces
     dispatchPrefix: "STATEMENTS_STATEMENT_EDIT",
 });
 
-export const insertStatement = (statement: StatementEdit, onSuccess: ApiOnSuccess): ApiAction => ({
+export const insertStatement = (statement: StatementEdit, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${statementsApi}`,
     method: "POST",
@@ -157,8 +157,8 @@ export const insertStatement = (statement: StatementEdit, onSuccess: ApiOnSucces
 
 export const deleteCommissions = (
     commissionStatementId: string,
-    onSuccess: ApiOnSuccess,
-    onFailure: ApiOnFailure
+    onSuccess?: ApiOnSuccess,
+    onFailure?: ApiOnFailure
 ): ApiAction => ({
     type: "API",
     endpoint: `${statementsApi}/${commissionStatementId}/commissions`,

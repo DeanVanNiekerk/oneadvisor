@@ -39,7 +39,7 @@ export const receivePolicyProductType = (
 
 export const updatePolicyProductType = (
     policyProductType: PolicyProductType,
-    onSuccess: ApiOnSuccess
+    onSuccess?: ApiOnSuccess
 ): ApiAction => ({
     type: "API",
     endpoint: `${policyProductTypesApi}/${policyProductType.id}`,

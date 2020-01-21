@@ -51,7 +51,7 @@ export const fetchAllocation = (allocationId: string): ApiAction => ({
 
 export const updateAllocation = (
     allocation: AllocationEdit,
-    onSuccess: ApiOnSuccess
+    onSuccess?: ApiOnSuccess
 ): ApiAction => ({
     type: "API",
     endpoint: `${allocationsApi}/${allocation.id}`,
@@ -73,7 +73,7 @@ export const insertAllocation = (
     dispatchPrefix: "ALLOCATIONS_ALLOCATION_EDIT",
 });
 
-export const deleteAllocation = (allocationId: string, onSuccess: ApiOnSuccess): ApiAction => ({
+export const deleteAllocation = (allocationId: string, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${allocationsApi}/${allocationId}`,
     method: "DELETE",
