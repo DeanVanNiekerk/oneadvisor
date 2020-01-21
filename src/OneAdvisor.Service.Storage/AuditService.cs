@@ -182,7 +182,7 @@ namespace OneAdvisor.Service.Storage
                 Date = entity.Timestamp.DateTime,
                 Data = JsonConvert.DeserializeObject(entity.Data),
                 UserId = string.IsNullOrWhiteSpace(entity.UserId) ? null : (Guid?)Guid.Parse(entity.UserId),
-            }).ToList();
+            }).OrderByDescending(e => e.Date).ToList();
 
             return items;
         }

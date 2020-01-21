@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build",
+      "label": "build-api",
       "command": "dotnet",
       "type": "process",
       "args": [
@@ -14,7 +14,7 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "publish",
+      "label": "publish-api",
       "command": "dotnet",
       "type": "process",
       "args": [
@@ -26,17 +26,29 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "watch",
+      "label": "watch-api",
       "command": "dotnet",
       "type": "process",
       "args": [
         "watch",
-        "run",
+        "--project",
         "${workspaceFolder}/src/oneadvisor/api/api.csproj",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
+        "run"
       ],
       "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "watch-web",
+      "type": "npm",
+      "script": "start",
+      "path": "src/oneadvisor/web/",
+      "problemMatcher": []
+    },
+    {
+      "label": "watch",
+      "dependsOrder": "parallel",
+      "dependsOn": ["watch-api", "watch-web"],
+      "problemMatcher": []
     }
   ]
 }
