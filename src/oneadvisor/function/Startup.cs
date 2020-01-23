@@ -69,9 +69,9 @@ namespace OneAdvisor.Function
                     .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning))
             );
 
-            services.AddIdentity<UserEntity, RoleEntity>()
-                .AddEntityFrameworkStores<DataContext>()
-                .AddDefaultTokenProviders();
+            // services.AddIdentity<UserEntity, RoleEntity>()
+            //     .AddEntityFrameworkStores<DataContext>()
+            //     .AddDefaultTokenProviders();
 
             //Configure Entity Framework Initializer for seeding
             services.AddTransient<IDefaultDbContextInitializer, DbInitializer>();

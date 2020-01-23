@@ -1,15 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-  </PropertyGroup>
-
-   <ItemGroup>
-    <ProjectReference Include="..\OneAdvisor.Model\OneAdvisor.Model.csproj" />
-  </ItemGroup>
-
-   <ItemGroup>
-     <PackageReference Include="CsvHelper" Version="12.1.2" />
-   </ItemGroup>
-
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\OneAdvisor.Model\OneAdvisor.Model.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="CsvHelper" Version="13.0.0" />
+    </ItemGroup>
 </Project>

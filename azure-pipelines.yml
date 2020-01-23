@@ -25,7 +25,7 @@ jobs:
         displayName: "publish for $(buildConfiguration)"
       - task: CopyFiles@2
         inputs:
-          sourceFolder: "src/oneadvisor/api/bin/$(buildConfiguration)/netcoreapp2.2/publish"
+          sourceFolder: "src/oneadvisor/api/bin/$(buildConfiguration)/netcoreapp3.1/publish"
           targetFolder: $(Build.ArtifactStagingDirectory)
           cleanTargetFolder: true
       - task: PublishBuildArtifacts@1

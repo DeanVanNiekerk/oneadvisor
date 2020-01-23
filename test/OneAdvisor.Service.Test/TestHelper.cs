@@ -14,7 +14,6 @@ using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Test.Models;
-using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Data.Entities.Client.Lookup;
 using OneAdvisor.Data.Entities.Commission.Lookup;
 using OneAdvisor.Model.Client.Model.Lookup;
