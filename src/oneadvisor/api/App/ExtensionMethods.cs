@@ -5,7 +5,6 @@ using api.App.Middleware;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
-using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.Role;
 
 namespace api

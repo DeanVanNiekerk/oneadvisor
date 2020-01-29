@@ -1,7 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OneAdvisor.Data;
@@ -34,10 +33,7 @@ namespace api.App.Setup
                             errorNumbersToAdd: null
                         );
                     })
-                .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning))
             );
-
-            //Services.AddDbContext<AuditDbContext>();
 
             Services.AddIdentity<UserEntity, RoleEntity>()
                 .AddEntityFrameworkStores<DataContext>()

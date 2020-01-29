@@ -27,7 +27,6 @@ namespace OneAdvisor.Service.Test
         {
             return new DbContextOptionsBuilder<DataContext>()
                .UseInMemoryDatabase(databaseName)
-               .ConfigureWarnings(w => w.Ignore(RelationalEventId.QueryClientEvaluationWarning))
                .Options;
         }
 

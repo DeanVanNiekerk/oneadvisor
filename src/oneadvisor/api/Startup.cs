@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using api.App.Setup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
 
 namespace api
 {
@@ -40,12 +40,12 @@ namespace api
             var emailSetup = new EmailSetup(Configuration, services);
             emailSetup.Configure();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddApplicationInsightsTelemetry();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             //Run database migrations
             var databaseMigrate = new DatabaseMigrate(app);
@@ -66,14 +66,14 @@ namespace api
             app.UseMaintainCorsHeader();
             app.UseHttpsRedirection();
             app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseRouting();
 
             // app.UseSwagger();
             // app.UseSwaggerUI(c =>
             // {
             //     c.SwaggerEndpoint("/swagger/v1/swagger.json", "One Advisor API");
             // });
-
-            app.UseMvc();
         }
     }
 }

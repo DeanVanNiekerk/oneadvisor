@@ -66,7 +66,6 @@ namespace OneAdvisor.Function
             //Db Context (Entity Framework)
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(oneAdvisorDb)
-                    .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning))
             );
 
             // services.AddIdentity<UserEntity, RoleEntity>()
