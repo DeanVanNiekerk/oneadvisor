@@ -112,12 +112,12 @@ namespace OneAdvisor.Import.Excel.Readers
                 commission.AmountIncludingVAT = GetAmountIncludingVATValue(reader, config, sheetExchangeRates.ExchangeRates, commission.VAT, vatRate);
 
                 var brokerFullName = GetGroupValue(groupValues, GroupFieldNames.BrokerFullName);
-                if (string.IsNullOrEmpty(brokerFullName))
+                if (string.IsNullOrWhiteSpace(brokerFullName))
                     brokerFullName = GetValue(reader, FieldNames.BrokerFullName, config);
 
                 commission.BrokerFullName = brokerFullName;
 
-                if (string.IsNullOrEmpty(commission.VAT))
+                if (string.IsNullOrWhiteSpace(commission.VAT))
                 {
                     var amountIncludingVat = 0m;
                     var success = Decimal.TryParse(commission.AmountIncludingVAT, out amountIncludingVat);
@@ -173,6 +173,7 @@ namespace OneAdvisor.Import.Excel.Readers
             var field = config.Fields.FirstOrDefault(f => f.Name == name);
             if (field == null)
                 return null;
+
             return ExcelUtils.ColumnToIndex(field.Column);
         }
 
@@ -214,9 +215,9 @@ namespace OneAdvisor.Import.Excel.Readers
                 }
             }
 
-            if (string.IsNullOrEmpty(amountIncludingVAT))
+            if (string.IsNullOrWhiteSpace(amountIncludingVAT))
             {
-                var amountExcludingVatString = !string.IsNullOrEmpty(amountExcludingVAT) ? amountExcludingVAT : GetCurrency(reader, FieldNames.AmountExcludingVAT, config, exchangeRates);
+                var amountExcludingVatString = !string.IsNullOrWhiteSpace(amountExcludingVAT) ? amountExcludingVAT : GetCurrency(reader, FieldNames.AmountExcludingVAT, config, exchangeRates);
 
                 var amountExcludingVat = 0m;
                 var success = Decimal.TryParse(amountExcludingVatString, out amountExcludingVat);
@@ -224,7 +225,7 @@ namespace OneAdvisor.Import.Excel.Readers
                 if (!success)
                     return "";
 
-                if (string.IsNullOrEmpty(vat))
+                if (string.IsNullOrWhiteSpace(vat))
                     vat = Decimal.Round(amountExcludingVat * (vatRate / 100m), 2).ToString();
 
                 amountIncludingVAT = Decimal.Round(amountExcludingVat + Decimal.Parse(vat), 2).ToString();

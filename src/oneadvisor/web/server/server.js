@@ -8,7 +8,7 @@ const port = process.env.PORT || 8080;
 const app = express();
 
 // serve static assets normally
-app.use("/dist", express.static(__dirname + "/dist"));
+app.use("/dist", express.static(__dirname + "/dist"), { immutable: true, maxAge: 2419200000 }); //2419200000ms = 4 weeks
 
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
