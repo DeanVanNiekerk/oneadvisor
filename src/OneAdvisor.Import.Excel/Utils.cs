@@ -22,7 +22,7 @@ namespace OneAdvisor.Import.Excel
                     stringValue = Math.Abs(d).ToString();
             }
 
-            return stringValue;
+            return stringValue ?? "";
         }
 
         public static string GetDate(IExcelDataReader reader, int? index)

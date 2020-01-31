@@ -81,7 +81,7 @@ namespace OneAdvisor.Import.Excel.Readers
         {
             var commissionTypeIndexes = new List<int>();
 
-            if (string.IsNullOrEmpty(_sheet.Config.CommissionTypes.MappingTemplate))
+            if (string.IsNullOrWhiteSpace(_sheet.Config.CommissionTypes.MappingTemplate))
                 return commissionTypeIndexes;
 
             return MappingTemplate.Parse(_sheet.Config.CommissionTypes.MappingTemplate)
