@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Newtonsoft.Json;
 using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.ValueConverters;
 

@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using api.Controllers.Directory.UseCases;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Newtonsoft.Json;
-using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.UseCase;
 using Xunit;

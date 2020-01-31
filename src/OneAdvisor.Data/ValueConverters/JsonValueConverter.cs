@@ -1,14 +1,14 @@
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Newtonsoft.Json;
 
 namespace OneAdvisor.Data.ValueConverters
 {
     public class JsonValueConverter<TEntity> : ValueConverter<TEntity, string>
     {
-        public JsonValueConverter(JsonSerializerSettings serializerSettings = null,
+        public JsonValueConverter(JsonSerializerOptions serializerOptions = null,
                                   ConverterMappingHints mappingHints = null)
-            : base(model => JsonConvert.SerializeObject(model, serializerSettings),
-                   value => JsonConvert.DeserializeObject<TEntity>(value, serializerSettings),
+            : base(model => JsonSerializer.Serialize(model, serializerOptions),
+                   value => JsonSerializer.Deserialize<TEntity>(value, serializerOptions),
                    mappingHints)
         { }
 

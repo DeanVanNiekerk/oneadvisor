@@ -1,8 +1,8 @@
 
 using System.Linq;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using OneAdvisor.Model.Account.Model.Authentication;
 
 namespace api.App.Authorization
 {
@@ -22,7 +22,7 @@ namespace api.App.Authorization
             }
 
             //Token is good, check if role exists
-            var roles = context.HttpContext.User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
+            var roles = context.HttpContext.User.Claims.Where(c => c.Type == Claims.RolesClaimName).Select(c => c.Value);
 
             if (roles.Any(r => Roles.Contains(r)))
                 return;

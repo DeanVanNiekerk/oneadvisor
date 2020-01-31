@@ -67,6 +67,7 @@ namespace api
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseHealthCheck();
 
             app.UseEndpoints(endpoints =>
             {

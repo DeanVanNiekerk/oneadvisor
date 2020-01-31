@@ -10,11 +10,11 @@ using OneAdvisor.Service.Storage.Entity;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.Extensions.Options;
 using OneAdvisor.Model.Config.Options;
-using Newtonsoft.Json;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
 using OneAdvisor.Model.Directory.Model.User;
+using System.Text.Json;
 
 namespace OneAdvisor.Service.Storage
 {
@@ -180,7 +180,7 @@ namespace OneAdvisor.Service.Storage
                 Entity = entity.Entity,
                 EntityId = entity.EntityId,
                 Date = entity.Timestamp.DateTime,
-                Data = JsonConvert.DeserializeObject(entity.Data),
+                Data = JsonSerializer.Deserialize<object>(entity.Data),
                 UserId = string.IsNullOrWhiteSpace(entity.UserId) ? null : (Guid?)Guid.Parse(entity.UserId),
             }).OrderByDescending(e => e.Date).ToList();
 
@@ -246,7 +246,7 @@ namespace OneAdvisor.Service.Storage
             {
                 var properties = new Dictionary<string, string>();
                 properties.Add("Description", "Error inserting audit log");
-                properties.Add("AuditLog", JsonConvert.SerializeObject(model));
+                properties.Add("AuditLog", JsonSerializer.Serialize(model));
 
                 _telemetryService.TrackException(exception, properties);
 
@@ -265,7 +265,7 @@ namespace OneAdvisor.Service.Storage
             entity.Action = model.Action;
             entity.Entity = model.Entity;
             entity.EntityId = model.EntityId;
-            entity.Data = JsonConvert.SerializeObject(model.Data);
+            entity.Data = JsonSerializer.Serialize(model.Data);
 
             return entity;
         }

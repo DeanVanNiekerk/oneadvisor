@@ -4,13 +4,11 @@ using System.Threading.Tasks;
 using api.Controllers.Client.Contacts;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Newtonsoft.Json;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Client.Interface;
 using OneAdvisor.Model.Client.Model.Contact;
-using OneAdvisor.Model.Client.Model.Client;
 using Xunit;
 
 namespace api.Test.Controllers.Client
