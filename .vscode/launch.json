@@ -8,7 +8,7 @@
       "name": ".NET Core Launch (api)",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build",
+      "preLaunchTask": "build-api",
       "program": "${workspaceFolder}/src/oneadvisor/api/bin/Debug/netcoreapp3.1/api.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/oneadvisor/api",

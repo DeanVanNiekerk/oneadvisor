@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using OneAdvisor.Service.Common;
 using OneAdvisor.Service.Common.DataReader;
 
 namespace OneAdvisor.Service
