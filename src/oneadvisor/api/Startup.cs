@@ -27,8 +27,7 @@ namespace api
 
             //Confirgure services (DI)
             var serviceSetup = new ServiceSetup(Configuration, services);
-            serviceSetup.ConfigureCors();
-            serviceSetup.ConfigureHealthCheck();
+            serviceSetup.ConfigureBasic();
             serviceSetup.ConfigureAuthentication();
             serviceSetup.ConfigureServices();
             serviceSetup.ConfigureLogging();
@@ -40,8 +39,6 @@ namespace api
             var emailSetup = new EmailSetup(Configuration, services);
             emailSetup.Configure();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-
             services.AddApplicationInsightsTelemetry();
         }
 
@@ -50,8 +47,6 @@ namespace api
             //Run database migrations
             var databaseMigrate = new DatabaseMigrate(app);
             databaseMigrate.Migrate();
-
-            app.UseCors("Policy");
 
             if (env.IsDevelopment())
             {
@@ -62,12 +57,21 @@ namespace api
                 app.UseHsts();
             }
 
-            app.UseHealthCheck();
-            app.UseMaintainCorsHeader();
-            app.UseHttpsRedirection();
+            app.UseRouting();
+
+            // Global CORS policy
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             // app.UseSwagger();
             // app.UseSwaggerUI(c =>

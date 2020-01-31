@@ -34,7 +34,9 @@ export const useCaseSelector: (state: RootState) => string[] = createSelector(
 );
 
 export const roleSelector: (state: RootState) => string[] = createSelector(tokenSelector, root => {
+    //http://schemas.microsoft.com/ws/2008/06/identity/claims/role is a backward compatibility support, can remove after 01/06/2020
     return root.tokenData
-        ? root.tokenData["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+        ? root.tokenData["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] ||
+              root.tokenData["roles"]
         : [];
 });
