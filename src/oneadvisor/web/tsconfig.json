@@ -4,6 +4,7 @@
         "strictNullChecks": true,
         "esModuleInterop": true,
         "moduleResolution": "node",
+        "skipLibCheck": true,
         "noEmit": true,
         "target": "esnext",
         "allowJs": false,
