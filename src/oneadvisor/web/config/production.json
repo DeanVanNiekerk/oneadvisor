@@ -1,5 +1,6 @@
 {
     "environment": "production",
     "baseApi": "https://api.oneadvisor.net",
-    "appInsightsKey": "d7152e37-5f59-4a12-bec7-afdbba223365"
+    "appInsightsKey": "",
+    "fullStoryKey": "RH0Q7"
 }

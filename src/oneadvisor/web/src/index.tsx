@@ -3,25 +3,27 @@ import "@/ui/styles";
 import { ConnectedRouter } from "connected-react-router";
 import React from "react";
 import ReactDOM from "react-dom";
+import FullStory from "react-fullstory";
 import { Provider } from "react-redux";
 
 import { configureStore, history } from "@/state/configureStore";
-import { ReactPlugin } from "@microsoft/applicationinsights-react-js";
-import { ApplicationInsights } from "@microsoft/applicationinsights-web";
 
-if (__APP_INSIGHTS_KEY__ != "") {
-    const reactPlugin = new ReactPlugin();
-    const appInsights = new ApplicationInsights({
-        config: {
-            instrumentationKey: __APP_INSIGHTS_KEY__,
-            extensions: [reactPlugin],
-            extensionConfig: {
-                [reactPlugin.identifier]: { history: history },
-            },
-        },
-    });
-    appInsights.loadAppInsights();
-}
+//import { ReactPlugin } from "@microsoft/applicationinsights-react-js";
+//import { ApplicationInsights } from "@microsoft/applicationinsights-web";
+
+// if (__APP_INSIGHTS_KEY__ != "") {
+//     const reactPlugin = new ReactPlugin();
+//     const appInsights = new ApplicationInsights({
+//         config: {
+//             instrumentationKey: __APP_INSIGHTS_KEY__,
+//             extensions: [reactPlugin],
+//             extensionConfig: {
+//                 [reactPlugin.identifier]: { history: history },
+//             },
+//         },
+//     });
+//     appInsights.loadAppInsights();
+// }
 
 const store = configureStore();
 
@@ -35,6 +37,7 @@ const render = () => {
 
     ReactDOM.render(
         <Provider store={store}>
+            <FullStory org={__FULLSTORY_KEY__} />
             <ConnectedRouter history={history}>
                 <App />
             </ConnectedRouter>
