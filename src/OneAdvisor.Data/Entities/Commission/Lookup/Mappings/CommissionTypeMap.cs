@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data.Entities.Commission.Lookup;
 
-namespace OneAdvisor.Data.Entities.Directory.Mappings
+namespace OneAdvisor.Data.Entities.Commission.Lookup.Mappings
 {
     public class CommissionTypeMap
     {

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
+using System.Linq;
 
 namespace api
 {
@@ -59,9 +60,11 @@ namespace api
 
             app.UseRouting();
 
-            // Global CORS policy
-            app.UseCors(x => x
-                .AllowAnyOrigin()
+            // CORS policy
+            var origins = Configuration.GetValue<string>("Auth:Cors:WithOrigins").Split(";").Where(o => !string.IsNullOrEmpty(o)).ToList();
+            origins.Add(Configuration.GetValue<string>("App:BaseUrl"));
+            app.UseCors(builder => builder
+                .WithOrigins(origins.ToArray())
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 

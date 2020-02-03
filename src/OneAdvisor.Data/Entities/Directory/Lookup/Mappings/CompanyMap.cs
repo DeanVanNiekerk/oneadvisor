@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.ValueConverters;
 
-namespace OneAdvisor.Data.Entities.Directory.Mappings
+namespace OneAdvisor.Data.Entities.Directory.Lookup.Mappings
 {
     public class CompanyMap
     {
@@ -14,7 +13,8 @@ namespace OneAdvisor.Data.Entities.Directory.Mappings
 
             modelBuilder.Entity<CompanyEntity>()
                 .Property(e => e.CommissionPolicyNumberPrefixes)
-                .HasConversion(jsonConverter);
+                .HasConversion(jsonConverter)
+                .HasJsonComparer();
         }
     }
 }

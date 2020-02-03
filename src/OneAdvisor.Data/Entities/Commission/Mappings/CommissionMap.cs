@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data.ValueConverters;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
-using OneAdvisor.Data.Extensions;
 
 namespace OneAdvisor.Data.Entities.Commission.Mappings
 {
@@ -24,14 +23,7 @@ namespace OneAdvisor.Data.Entities.Commission.Mappings
                 .HasConversion(jsonConverter);
 
             modelBuilder.Entity<CommissionEntity>()
-                .HasIndex(c => new { c.UserId, c.CommissionStatementId })
-                .Include<CommissionEntity>(c => new
-                {
-                    c.AmountIncludingVAT,
-                    c.CommissionTypeId,
-                    c.PolicyId,
-                    c.VAT,
-                })
+                .HasIndex(c => new { c.UserId, c.CommissionStatementId, c.CommissionTypeId, c.PolicyId })
                 .HasName("INDEX_Commission_UserId_CommissionStatementId");
         }
     }

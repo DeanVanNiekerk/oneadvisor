@@ -21,7 +21,8 @@ namespace OneAdvisor.Data.Entities.Directory.Mappings
 
             modelBuilder.Entity<UserEntity>()
                 .Property(e => e.Aliases)
-                .HasConversion(jsonConverter);
+                .HasConversion(jsonConverter)
+                .HasJsonComparer();
 
             modelBuilder.Entity<UserEntity>()
                 .HasOne(u => u.Branch)
