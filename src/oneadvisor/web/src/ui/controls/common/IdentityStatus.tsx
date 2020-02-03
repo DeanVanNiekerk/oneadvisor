@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { tokenSelector } from "@/state/auth";
+import { tokenDataSelector } from "@/state/auth";
 import { contextSelector } from "@/state/context/selectors";
 import { RootState } from "@/state/rootReducer";
 import { Date } from "@/ui/controls";
@@ -61,11 +61,11 @@ const IdentityStatusComponent: React.FC<Props> = ({ tokenData, appInfo }) => {
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
-    const tokenState = tokenSelector(state);
+    const tokenData = tokenDataSelector(state);
     const contextState = contextSelector(state);
 
     return {
-        tokenData: tokenState.tokenData,
+        tokenData: tokenData,
         appInfo: contextState.appInfo,
     };
 };

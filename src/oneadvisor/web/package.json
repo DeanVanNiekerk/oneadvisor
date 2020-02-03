@@ -24,8 +24,6 @@
     "author": "Dean van Niekerk",
     "license": "GNU AGPLv3",
     "dependencies": {
-        "@microsoft/applicationinsights-react-js": "2.3.1",
-        "@microsoft/applicationinsights-web": "2.3.1",
         "@nivo/bar": "0.61.1",
         "@nivo/core": "0.61.0",
         "@nivo/pie": "0.61.1",

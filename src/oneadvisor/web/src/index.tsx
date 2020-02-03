@@ -8,23 +8,6 @@ import { Provider } from "react-redux";
 
 import { configureStore, history } from "@/state/configureStore";
 
-//import { ReactPlugin } from "@microsoft/applicationinsights-react-js";
-//import { ApplicationInsights } from "@microsoft/applicationinsights-web";
-
-// if (__APP_INSIGHTS_KEY__ != "") {
-//     const reactPlugin = new ReactPlugin();
-//     const appInsights = new ApplicationInsights({
-//         config: {
-//             instrumentationKey: __APP_INSIGHTS_KEY__,
-//             extensions: [reactPlugin],
-//             extensionConfig: {
-//                 [reactPlugin.identifier]: { history: history },
-//             },
-//         },
-//     });
-//     appInsights.loadAppInsights();
-// }
-
 const store = configureStore();
 
 // Save a reference to the root element for reuse

@@ -99,7 +99,7 @@ const mapStateToProps = (state: RootState) => {
     const templateState = commissionStatementTemplateSelector(state);
 
     return {
-        token: tokenSelector(state).token,
+        token: tokenSelector(state),
         templateId: templateState.template ? templateState.template.id : null,
         commissionTypes: commissionStatementTemplateCommissionTypesConfigSelector(state),
         sheet: commissionStatementTemplateSheetSelector(state),
