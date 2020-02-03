@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
+import { FullStoryAPI } from "react-fullstory";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { AnyAction, bindActionCreators } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
+import config from "@/config/config";
 import { fetchAllClientLookups } from "@/state/app/client/lookups";
 import { fetchAllCommissionLookups } from "@/state/app/commission/lookups";
 import { fetchBranchesSimple } from "@/state/app/directory/branchesSimple";
 import { fetchAllDirectoryLookups } from "@/state/app/directory/lookups";
 import { fetchUsersSimple } from "@/state/app/directory/usersSimple";
 import { isLoadingLookupsSelector } from "@/state/app/selectors";
-import { isAuthenticatedSelector } from "@/state/auth";
+import { isAuthenticatedSelector, tokenDataSelector } from "@/state/auth";
 import { fetchAppInfo } from "@/state/context/actions";
 import { RootState } from "@/state/rootReducer";
 import { Loader } from "@/ui/controls";
@@ -34,6 +36,21 @@ const Startup: React.FC<Props> = (props: Props) => {
         if (props.isAuthenticated) {
             props.fetchUsersSimple();
             props.fetchBranchesSimple();
+
+            const { tokenData } = props;
+            if (tokenData) {
+                FullStoryAPI("identify", tokenData.nameid, {
+                    displayName: `${tokenData.firstName} ${tokenData.lastName}`,
+                    userName: tokenData.userName,
+                    email: tokenData.email,
+                    organisation: tokenData.organisationName,
+                    branch: tokenData.branchName,
+                    scope: tokenData.scope,
+                    tokenExpiry: tokenData.exp,
+                    roles: (tokenData.roles || []).join(", "),
+                    environment: config.environment,
+                });
+            }
         }
     }, [props.isAuthenticated]);
 
@@ -52,6 +69,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         loading: isLoadingLookupsSelector(state),
         isAuthenticated: isAuthenticatedSelector(state),
+        tokenData: tokenDataSelector(state),
     };
 };
 

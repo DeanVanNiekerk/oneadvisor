@@ -104,9 +104,9 @@ const UploadStatementForm: React.FC<Props> = (props: Props) => {
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const templatesState = commissionStatementTemplatesSelector(state);
-    const tokenState = tokenSelector(state);
+    const token = tokenSelector(state);
     return {
-        token: tokenState.token,
+        token: token,
         fetchingTemplates: templatesState.fetching,
         templates: templatesState.items,
     };
