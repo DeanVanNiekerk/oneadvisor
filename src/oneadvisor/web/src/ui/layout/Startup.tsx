@@ -54,7 +54,7 @@ const Startup: React.FC<Props> = (props: Props) => {
                         tokenExpiry: tokenData.exp,
                         roles: tokenData[
                             "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-                        ].join(","),
+                        ].join(", "),
                         environment: config.environment,
                     }
                 );
