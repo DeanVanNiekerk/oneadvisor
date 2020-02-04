@@ -2,7 +2,6 @@
 using api.App.Setup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -61,10 +60,11 @@ namespace api
             app.UseRouting();
 
             // CORS policy
-            var origins = Configuration.GetValue<string>("Auth:Cors:WithOrigins").Split(";").Where(o => !string.IsNullOrEmpty(o)).ToList();
-            origins.Add(Configuration.GetValue<string>("App:BaseUrl"));
+            //var origins = Configuration.GetValue<string>("Auth:Cors:WithOrigins").Split(";").Where(o => !string.IsNullOrEmpty(o)).ToList();
+            //origins.Add(Configuration.GetValue<string>("App:BaseUrl"));
             app.UseCors(builder => builder
-                .WithOrigins(origins.ToArray())
+                //.WithOrigins(origins.ToArray())
+                .WithOrigins(Configuration.GetValue<string>("App:BaseUrl"))
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
