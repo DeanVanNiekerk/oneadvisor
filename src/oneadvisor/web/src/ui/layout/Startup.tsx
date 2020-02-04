@@ -51,7 +51,6 @@ const Startup: React.FC<Props> = (props: Props) => {
                         organisation: tokenData.organisationName,
                         branch: tokenData.branchName,
                         scope: tokenData.scope,
-                        tokenExpiry: tokenData.exp,
                         roles: tokenData[
                             "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
                         ].join(", "),
