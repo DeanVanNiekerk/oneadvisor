@@ -18,7 +18,6 @@ using OneAdvisor.Service.Commission;
 using OneAdvisor.Service.Common.BulkActions;
 using OneAdvisor.Service.Directory;
 using OneAdvisor.Service.Client;
-using Swashbuckle.AspNetCore.Swagger;
 using OneAdvisor.Model.Config.Options;
 using OneAdvisor.Model.Storage.Interface;
 using OneAdvisor.Service.Storage;
@@ -126,16 +125,6 @@ namespace api.App.Setup
         public void ConfigureLogging()
         {
             Services.AddLogging(builder => builder.AddConsole());
-        }
-
-        public void ConfigureSwagger()
-        {
-            //https://github.com/domaindrivendev/Swashbuckle.AspNetCore
-            //https://localhost:6001/swagger
-            Services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "One Advisor", Version = "v1" });
-            });
         }
     }
 }

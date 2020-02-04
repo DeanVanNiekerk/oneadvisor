@@ -31,7 +31,6 @@ namespace api
             serviceSetup.ConfigureAuthentication();
             serviceSetup.ConfigureServices();
             serviceSetup.ConfigureLogging();
-            //serviceSetup.ConfigureSwagger();
 
             var identitySetup = new IdentitySetup(Configuration, services);
             identitySetup.Configure();
@@ -60,11 +59,10 @@ namespace api
             app.UseRouting();
 
             // CORS policy
-            //var origins = Configuration.GetValue<string>("Auth:Cors:WithOrigins").Split(";").Where(o => !string.IsNullOrEmpty(o)).ToList();
-            //origins.Add(Configuration.GetValue<string>("App:BaseUrl"));
+            var origins = Configuration.GetValue<string>("Auth:Cors:WithOrigins").Split(";").Where(o => !string.IsNullOrEmpty(o)).ToList();
+            origins.Add(Configuration.GetValue<string>("App:BaseUrl"));
             app.UseCors(builder => builder
-                //.WithOrigins(origins.ToArray())
-                .WithOrigins(Configuration.GetValue<string>("App:BaseUrl"))
+                .WithOrigins(origins.ToArray())
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
@@ -76,12 +74,6 @@ namespace api
             {
                 endpoints.MapControllers();
             });
-
-            // app.UseSwagger();
-            // app.UseSwaggerUI(c =>
-            // {
-            //     c.SwaggerEndpoint("/swagger/v1/swagger.json", "One Advisor API");
-            // });
         }
     }
 }
