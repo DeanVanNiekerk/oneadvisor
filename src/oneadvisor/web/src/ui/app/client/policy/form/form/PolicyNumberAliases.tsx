@@ -4,10 +4,9 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
-import { getValidationSubSet } from "@/app/validation";
 import { modifyPolicy, PolicyEdit, policySelector } from "@/state/app/client/policies";
 import { RootState } from "@/state/rootReducer";
-import { FormErrors, FormSimpleList } from "@/ui/controls";
+import { FormSimpleList } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;
 
@@ -22,14 +21,6 @@ const PolicyNumberAliases: React.FC<Props> = (props: Props) => {
 
     return (
         <>
-            <FormErrors
-                validationResults={getValidationSubSet(
-                    "NumberAliases",
-                    this.props.validationResults,
-                    true,
-                    true
-                )}
-            />
             <FormSimpleList
                 editUseCase="clt_edit_policies"
                 fieldName="numberAliases"

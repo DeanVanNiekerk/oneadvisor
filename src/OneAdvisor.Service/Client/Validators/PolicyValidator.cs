@@ -10,6 +10,8 @@ using OneAdvisor.Model.Client.Model.Policy;
 using OneAdvisor.Service.Common;
 using OneAdvisor.Service.Common.Query;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using OneAdvisor.Service.Client.Query;
 
 namespace OneAdvisor.Service.Client.Validators
 {
@@ -33,44 +35,50 @@ namespace OneAdvisor.Service.Client.Validators
             RuleFor(p => p.Number).NotEmpty().MaximumLength(128);
             RuleFor(p => p.Premium).InclusiveBetween(0, 999999999);
             RuleFor(p => p.CompanyId).NotEmpty().WithName("Company");
-            RuleFor(p => p).Custom(AvailablePolicyNumberValidator);
+            RuleFor(p => p)
+                .Custom((policy, context) =>
+                {
+                    if (!policy.CompanyId.HasValue)
+                        return;
+
+                    if (!IsAvailablePolicyNumber(policy.CompanyId.Value, policy.Id, policy.Number))
+                    {
+                        var failure = new ValidationFailure("Number", "Policy Number is already in use", policy.Number);
+                        context.AddFailure(failure);
+                    }
+                });
+
+            RuleForEach(p => p.NumberAliases)
+               .Custom((policyNumber, context) =>
+               {
+                   var policy = ((PolicyEdit)context.ParentContext.InstanceToValidate);
+                   if (!IsAvailablePolicyNumber(policy.CompanyId.Value, policy.Id, policyNumber))
+                   {
+                       var failure = new ValidationFailure(context.PropertyName, "Policy Number is already in use", policyNumber);
+                       context.AddFailure(failure);
+                   }
+               });
         }
 
-        private void AvailablePolicyNumberValidator(PolicyEdit policy, CustomContext context)
+        private bool IsAvailablePolicyNumber(Guid companyId, Guid? policyId, string policyNumber)
         {
-            if (!IsAvailablePolicyNumber(policy))
-            {
-                var failure = new ValidationFailure("Number", "Policy Number is already in use", policy.Number);
-                context.AddFailure(failure);
-            }
-        }
+            var query = from user in ScopeQuery.GetUserEntityQuery(_context, _scope.Clone(Scope.Organisation))
+                        join policy in _context.Policy
+                            on user.Id equals policy.UserId
+                        where policy.CompanyId == policy.CompanyId
+                        select policy;
 
-        private bool IsAvailablePolicyNumber(PolicyEdit policy)
-        {
-            var policyNumbers = new List<string>();
-
-            if (!string.IsNullOrEmpty(policy.Number))
-                policyNumbers.Add(policy.Number);
-
-            if (policy.NumberAliases.Any())
-                policyNumbers.AddRange(policy.NumberAliases);
-
-            var query = from user in ScopeQuery.GetUserEntityQuery(_context, _scope)
-                        join policyEntity in _context.Policy
-                            on user.Id equals policyEntity.UserId
-                        where policyNumbers.Contains(policy.Number) //Case insensitive
-                        && policyEntity.CompanyId == policy.CompanyId
-                        select policyEntity;
+            query = query.WherePolicyNumberEquals(policyNumber);
 
             var entity = query.FirstOrDefault();
 
             if (entity == null)
                 return true;
 
-            if (!policy.Id.HasValue || _isInsert)
+            if (!policyId.HasValue || _isInsert)
                 return entity == null;
 
-            return policy.Id == entity.Id;
+            return policyId == entity.Id;
         }
 
     }

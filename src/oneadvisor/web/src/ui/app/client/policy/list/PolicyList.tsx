@@ -1,3 +1,4 @@
+import { Icon, Popover } from "antd";
 import { TableRowSelection } from "antd/lib/table";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
@@ -69,6 +70,29 @@ const PolicyList: React.FC<Props> = (props: Props) => {
         props.newPolicy(props.clientId);
     };
 
+    const renderPolicyNumberCell = (number: string, policy: Policy): React.ReactNode => {
+        if (!policy.numberAliases.length) return number;
+        return (
+            <>
+                {number}
+                <Popover
+                    content={
+                        <div>
+                            {policy.numberAliases.map(n => (
+                                <div key={n} style={{ marginBottom: "5px" }}>
+                                    {n}
+                                </div>
+                            ))}
+                        </div>
+                    }
+                    title="Aliases"
+                >
+                    <Icon type="tags" style={{ marginLeft: "5px" }} />
+                </Popover>
+            </>
+        );
+    };
+
     const getColumns = () => {
         const getColumn = getColumnDefinition<Policy>(true, props.filters, props.sortOptions);
 
@@ -87,7 +111,15 @@ const PolicyList: React.FC<Props> = (props: Props) => {
                     })),
                 }
             ),
-            getColumn("number", "Number", {}, getColumnSearchProps("Number")),
+            getColumn(
+                "number",
+                "Number",
+                {},
+                {
+                    render: renderPolicyNumberCell,
+                    ...getColumnSearchProps("Number"),
+                }
+            ),
             getColumn(
                 "policyTypeId",
                 "Type",

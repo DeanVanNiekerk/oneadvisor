@@ -12,5 +12,6 @@ export const createPolicy = (policy: Partial<PolicyEdit> = {}): PolicyEdit => ({
     policyProductTypeId: null,
     policyProductId: null,
     isActive: true,
+    numberAliases: [],
     ...policy,
 });

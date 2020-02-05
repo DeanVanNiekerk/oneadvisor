@@ -2,20 +2,20 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { getValidationSubSet } from "@/app/validation";
-import { PolicyEdit, policySelector } from "@/state/app/client/policies";
+import { policySelector } from "@/state/app/client/policies";
 import { RootState } from "@/state/rootReducer";
 import { TabTitle } from "@/ui/controls";
 
-type PolicyEditKeys = keyof PolicyEdit;
-
 type Props = {
     title: string;
-    validationPrefix: PolicyEditKeys[];
+    validationPrefix: string[];
+    exactMatch: boolean;
 } & PropsFromState;
 
 const PolicyTabTitle: React.FC<Props> = (props: Props) => {
     const count = props.validationPrefix.reduce(
-        (p, c) => p + getValidationSubSet(c, props.validationResults).length,
+        (p, c) =>
+            p + getValidationSubSet(c, props.validationResults, false, props.exactMatch).length,
         0
     );
     return <TabTitle errorCount={count} title={props.title} />;

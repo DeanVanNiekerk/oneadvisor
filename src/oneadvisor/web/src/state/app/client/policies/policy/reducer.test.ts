@@ -15,6 +15,7 @@ const defaultPolicy: PolicyEdit = {
     policyProductTypeId: "00111",
     policyProductId: "99988777",
     isActive: true,
+    numberAliases: [],
 };
 
 describe("policy reducer", () => {

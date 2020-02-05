@@ -18,7 +18,7 @@ namespace api.Test.Controllers.Client
         [Fact]
         public void PolicyModelComposition()
         {
-            Assert.Equal(15, typeof(Policy).PropertyCount());
+            Assert.Equal(16, typeof(Policy).PropertyCount());
             Assert.True(typeof(Policy).HasProperty("Id"));
             Assert.True(typeof(Policy).HasProperty("ClientId"));
             Assert.True(typeof(Policy).HasProperty("CompanyId"));
@@ -34,12 +34,13 @@ namespace api.Test.Controllers.Client
             Assert.True(typeof(Policy).HasProperty("ClientDateOfBirth"));
             Assert.True(typeof(Policy).HasProperty("IsActive"));
             Assert.True(typeof(Policy).HasProperty("CompanyName"));
+            Assert.True(typeof(Policy).HasProperty("NumberAliases"));
         }
 
         [Fact]
         public void PolicyEditModelComposition()
         {
-            Assert.Equal(11, typeof(PolicyEdit).PropertyCount());
+            Assert.Equal(12, typeof(PolicyEdit).PropertyCount());
             Assert.True(typeof(PolicyEdit).HasProperty("Id"));
             Assert.True(typeof(PolicyEdit).HasProperty("ClientId"));
             Assert.True(typeof(PolicyEdit).HasProperty("CompanyId"));
@@ -51,6 +52,7 @@ namespace api.Test.Controllers.Client
             Assert.True(typeof(PolicyEdit).HasProperty("PolicyProductTypeId"));
             Assert.True(typeof(PolicyEdit).HasProperty("PolicyProductId"));
             Assert.True(typeof(PolicyEdit).HasProperty("IsActive"));
+            Assert.True(typeof(PolicyEdit).HasProperty("NumberAliases"));
         }
 
         [Fact]

@@ -13,6 +13,7 @@ using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Client.Validators;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Audit;
+using OneAdvisor.Service.Client.Query;
 
 namespace OneAdvisor.Service.Client
 {
@@ -31,8 +32,16 @@ namespace OneAdvisor.Service.Client
         {
             var userQuery = ScopeQuery.GetUserEntityQuery(_context, queryOptions.Scope);
 
+            var policyQuery = from policy in _context.Policy
+                              select policy;
+
+            //Apply filters ----------------------------------------------------------------------------------------
+            if (!string.IsNullOrWhiteSpace(queryOptions.Number))
+                policyQuery = policyQuery.WherePolicyNumberEquals(queryOptions.Number);
+            //------------------------------------------------------------------------------------------------------
+
             var query = from user in userQuery
-                        join policy in _context.Policy
+                        join policy in policyQuery
                             on user.Id equals policy.UserId
                         join client in _context.Client
                             on policy.ClientId equals client.Id
@@ -74,9 +83,6 @@ namespace OneAdvisor.Service.Client
             if (queryOptions.UserId.Any())
                 query = query.Where(m => queryOptions.UserId.Contains(m.UserId));
 
-            if (!string.IsNullOrWhiteSpace(queryOptions.Number))
-                query = query.Where(m => EF.Functions.Like(m.Number, queryOptions.Number));
-
             if (!string.IsNullOrWhiteSpace(queryOptions.ClientLastName))
                 query = query.Where(m => EF.Functions.Like(m.ClientLastName, queryOptions.ClientLastName));
 
@@ -100,41 +106,41 @@ namespace OneAdvisor.Service.Client
 
         public Task<PolicyEdit> GetPolicy(ScopeOptions scope, Guid id)
         {
-            var query = from policy in GetPolicyEditQuery(scope)
+            var query = from policy in GetPolicyEntityQuery(scope)
                         where policy.Id == id
                         select policy;
 
-            return query.FirstOrDefaultAsync();
+            return query.FirstOrDefaultAsync().MapToEditModel();
         }
 
         public Task<PolicyEdit> GetPolicy(ScopeOptions scope, string number)
         {
-            var query = from policy in GetPolicyEditQuery(scope)
-                        where EF.Functions.Like(policy.Number, number)
+            var query = from policy in GetPolicyEntityQuery(scope)
                         select policy;
 
-            return query.FirstOrDefaultAsync();
+            query = query.WherePolicyNumberEquals(number);
+            return query.FirstOrDefaultAsync().MapToEditModel();
         }
 
         public Task<PolicyEdit> GetPolicy(ScopeOptions scope, Guid companyId, string number)
         {
-            var query = from policy in GetPolicyEditQuery(scope)
-                        where EF.Functions.Like(policy.Number, number)
-                        && policy.CompanyId == companyId
+            var query = from policy in GetPolicyEntityQuery(scope)
+                        where policy.CompanyId == companyId
                         select policy;
 
-            return query.FirstOrDefaultAsync();
+            query = query.WherePolicyNumberEquals(number);
+            return query.FirstOrDefaultAsync().MapToEditModel();
         }
 
         public Task<PolicyEdit> GetPolicy(ScopeOptions scope, Guid clientId, Guid companyId, string number)
         {
-            var query = from policy in GetPolicyEditQuery(scope)
-                        where EF.Functions.Like(policy.Number, number)
-                        && policy.ClientId == clientId
+            var query = from policy in GetPolicyEntityQuery(scope)
+                        where policy.ClientId == clientId
                         && policy.CompanyId == companyId
                         select policy;
 
-            return query.FirstOrDefaultAsync();
+            query = query.WherePolicyNumberEquals(number);
+            return query.FirstOrDefaultAsync().MapToEditModel();
         }
 
         public async Task<Result> InsertPolicy(ScopeOptions scope, PolicyEdit policy)
@@ -177,28 +183,6 @@ namespace OneAdvisor.Service.Client
             await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "Policy", entity.Id, policy);
 
             return result;
-        }
-
-        private IQueryable<PolicyEdit> GetPolicyEditQuery(ScopeOptions scope)
-        {
-            var query = from policy in GetPolicyEntityQuery(scope)
-                        select new PolicyEdit()
-                        {
-                            Id = policy.Id,
-                            ClientId = policy.ClientId,
-                            Number = policy.Number,
-                            CompanyId = policy.CompanyId,
-                            UserId = policy.UserId,
-                            Premium = policy.Premium,
-                            StartDate = policy.StartDate,
-                            PolicyTypeId = policy.PolicyTypeId,
-                            PolicyProductTypeId = policy.PolicyProductTypeId,
-                            PolicyProductId = policy.PolicyProductId,
-                            NumberAliases = policy.NumberAliases,
-                            IsActive = policy.IsActive,
-                        };
-
-            return query;
         }
 
         private IQueryable<PolicyEntity> GetPolicyEntityQuery(ScopeOptions scope)

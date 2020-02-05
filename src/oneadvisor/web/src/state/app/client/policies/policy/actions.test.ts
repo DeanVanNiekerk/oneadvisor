@@ -27,6 +27,7 @@ describe("policy actions", () => {
             policyProductTypeId: "00111",
             policyProductId: "99988777",
             isActive: true,
+            numberAliases: [],
         };
 
         const expectedAction = {

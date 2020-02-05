@@ -47,7 +47,7 @@ const FormSimpleListComponent: React.FC<Props> = (props: Props) => {
     const remove = (index: number) => {
         const vals = updateImmutable(values, { $splice: [[index, 1]] });
         setValues(vals);
-        props.onChange(values);
+        props.onChange(vals);
     };
 
     const cancel = () => {

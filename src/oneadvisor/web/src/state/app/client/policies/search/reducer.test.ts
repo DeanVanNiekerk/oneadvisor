@@ -57,6 +57,7 @@ describe("policy search reducer", () => {
             clientDateOfBirth: "1982-10-03",
             isActive: true,
             companyName: "c1",
+            numberAliases: [],
         };
 
         const actualState = reducer(initalState, {

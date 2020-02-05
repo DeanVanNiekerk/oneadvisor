@@ -15,7 +15,8 @@ const PolicyForm: React.FC = () => {
                 tab={
                     <PolicyTabTitle
                         title="Details"
-                        validationPrefix={["number", "premium", "startDate"]}
+                        validationPrefix={["Number", "Premium", "StartDate"]}
+                        exactMatch={true}
                     />
                 }
                 key="details_tab"
@@ -23,7 +24,13 @@ const PolicyForm: React.FC = () => {
                 <PolicyDetails />
             </TabPane>
             <TabPane
-                tab={<PolicyTabTitle title="Aliases" validationPrefix={["numberAliases"]} />}
+                tab={
+                    <PolicyTabTitle
+                        title="Aliases"
+                        validationPrefix={["NumberAliases"]}
+                        exactMatch={false}
+                    />
+                }
                 key="aliases_tab"
             >
                 <PolicyNumberAliases />
