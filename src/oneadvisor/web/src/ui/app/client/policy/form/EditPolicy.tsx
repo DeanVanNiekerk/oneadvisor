@@ -16,7 +16,7 @@ import { EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 
 import EditPolicyTitle from "./EditPolicyTitle";
-import PolicyForm from "./PolicyForm";
+import PolicyForm from "./form/PolicyForm";
 
 type Props = {
     onSaved?: (policy: PolicyEdit) => void;

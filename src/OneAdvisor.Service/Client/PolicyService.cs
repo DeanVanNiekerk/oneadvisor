@@ -54,6 +54,7 @@ namespace OneAdvisor.Service.Client
                             ClientInitials = client.Initials,
                             ClientDateOfBirth = client.DateOfBirth,
                             IsActive = policy.IsActive,
+                            NumberAliases = policy.NumberAliases,
                             CompanyName = company.Name,
                         };
 
@@ -193,6 +194,7 @@ namespace OneAdvisor.Service.Client
                             PolicyTypeId = policy.PolicyTypeId,
                             PolicyProductTypeId = policy.PolicyProductTypeId,
                             PolicyProductId = policy.PolicyProductId,
+                            NumberAliases = policy.NumberAliases,
                             IsActive = policy.IsActive,
                         };
 
@@ -226,6 +228,7 @@ namespace OneAdvisor.Service.Client
             entity.PolicyProductTypeId = model.PolicyProductTypeId;
             entity.PolicyProductId = model.PolicyProductId;
             entity.IsActive = model.IsActive;
+            entity.NumberAliases = model.NumberAliases;
 
             return entity;
         }

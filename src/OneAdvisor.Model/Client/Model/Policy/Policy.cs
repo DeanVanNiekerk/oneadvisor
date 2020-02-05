@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace OneAdvisor.Model.Client.Model.Policy
 {
@@ -15,6 +16,7 @@ namespace OneAdvisor.Model.Client.Model.Policy
         public Guid? PolicyProductTypeId { get; set; }
         public Guid? PolicyProductId { get; set; }
         public bool IsActive { get; set; }
+        public IEnumerable<string> NumberAliases { get; set; }
 
         public string ClientLastName { get; set; }
         public string ClientInitials { get; set; }

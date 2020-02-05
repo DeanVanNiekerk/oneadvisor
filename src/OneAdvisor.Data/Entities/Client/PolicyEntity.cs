@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 using OneAdvisor.Data.Entities.Client.Lookup;
 using OneAdvisor.Data.Entities.Commission;
 using OneAdvisor.Data.Entities.Directory;
@@ -20,6 +22,20 @@ namespace OneAdvisor.Data.Entities.Client
         public Guid UserId { get; set; }
         [Required]
         public string Number { get; set; }
+        [Required]
+        public string _NumberAliases { get; set; }
+        [NotMapped]
+        public IEnumerable<string> NumberAliases
+        {
+            get
+            {
+                return _NumberAliases == null ? null : JsonSerializer.Deserialize<string[]>(_NumberAliases);
+            }
+            set
+            {
+                _NumberAliases = JsonSerializer.Serialize(value);
+            }
+        }
         public DateTime? StartDate { get; set; }
         public decimal? Premium { get; set; }
         public Guid? PolicyTypeId { get; set; }

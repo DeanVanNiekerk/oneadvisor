@@ -16,6 +16,7 @@ import {
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
+import ClientSearch from "@/ui/app/client/client/list/ClientSearch";
 import {
     Button,
     ClientName,
@@ -31,11 +32,9 @@ import {
     FormText,
 } from "@/ui/controls";
 
-import ClientSearch from "../../client/list/ClientSearch";
-
 type Props = PropsFromState & PropsFromDispatch;
 
-const PolicyForm: React.FC<Props> = (props: Props) => {
+const PolicyDetails: React.FC<Props> = (props: Props) => {
     const { policy, handleChange, validationResults } = props;
 
     if (!policy) return <React.Fragment />;
@@ -205,4 +204,4 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PolicyForm);
+export default connect(mapStateToProps, mapDispatchToProps)(PolicyDetails);

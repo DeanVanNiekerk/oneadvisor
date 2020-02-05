@@ -9,6 +9,7 @@ using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Client.Model.Policy;
 using OneAdvisor.Service.Common;
 using OneAdvisor.Service.Common.Query;
+using System.Collections.Generic;
 
 namespace OneAdvisor.Service.Client.Validators
 {
@@ -46,13 +47,18 @@ namespace OneAdvisor.Service.Client.Validators
 
         private bool IsAvailablePolicyNumber(PolicyEdit policy)
         {
-            if (string.IsNullOrEmpty(policy.Number))
-                return true;
+            var policyNumbers = new List<string>();
+
+            if (!string.IsNullOrEmpty(policy.Number))
+                policyNumbers.Add(policy.Number);
+
+            if (policy.NumberAliases.Any())
+                policyNumbers.AddRange(policy.NumberAliases);
 
             var query = from user in ScopeQuery.GetUserEntityQuery(_context, _scope)
                         join policyEntity in _context.Policy
                             on user.Id equals policyEntity.UserId
-                        where policyEntity.Number == policy.Number
+                        where policyNumbers.Contains(policy.Number) //Case insensitive
                         && policyEntity.CompanyId == policy.CompanyId
                         select policyEntity;
 

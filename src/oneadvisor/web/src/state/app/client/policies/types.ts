@@ -15,6 +15,7 @@ export type Policy = {
     clientInitials: string;
     clientDateOfBirth: string | null;
     isActive: boolean;
+    numberAliases: string[];
 };
 
 export type PolicyEdit = {
@@ -29,4 +30,5 @@ export type PolicyEdit = {
     policyProductTypeId: string | null;
     policyProductId: string | null;
     isActive: boolean;
+    numberAliases: string[];
 };
