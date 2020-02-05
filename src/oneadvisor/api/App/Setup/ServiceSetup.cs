@@ -18,10 +18,10 @@ using OneAdvisor.Service.Commission;
 using OneAdvisor.Service.Common.BulkActions;
 using OneAdvisor.Service.Directory;
 using OneAdvisor.Service.Client;
-using Swashbuckle.AspNetCore.Swagger;
 using OneAdvisor.Model.Config.Options;
 using OneAdvisor.Model.Storage.Interface;
 using OneAdvisor.Service.Storage;
+using OneAdvisor.Model.Account.Model.Authentication;
 
 namespace api.App.Setup
 {
@@ -36,57 +36,41 @@ namespace api.App.Setup
         private IServiceCollection Services { get; }
         public IConfiguration Configuration { get; }
 
-        public void ConfigureCors()
+        public void ConfigureBasic()
         {
-            var origins = Configuration.GetValue<string>("Auth:Cors:WithOrigins").Split(";").Where(o => !string.IsNullOrEmpty(o)).ToList();
-            origins.Add(Configuration.GetValue<string>("App:BaseUrl"));
-
-            Services.AddCors(options =>
-            {
-                options.AddPolicy("Policy", builder => builder
-                    .WithOrigins(origins.ToArray())
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials()
-                );
-            });
-
-        }
-
-        public void ConfigureHealthCheck()
-        {
+            Services.AddCors();
+            Services.AddControllers();
             Services.AddHealthChecks();
         }
 
         public void ConfigureAuthentication()
         {
-            Services
-                .AddAuthentication(options =>
+            Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(config =>
+            {
+                config.RequireHttpsMetadata = false;
+                config.SaveToken = true;
+                config.TokenValidationParameters = new TokenValidationParameters
                 {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(config =>
-                {
-                    config.RequireHttpsMetadata = false;
-                    config.SaveToken = true;
-
-                    config.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Auth:Jwt:Secret"])),
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        RoleClaimType = ClaimTypes.Role,
-                        NameClaimType = ClaimTypes.NameIdentifier
-                    };
-                });
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Auth:Jwt:Secret"])),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    RoleClaimType = Claims.RolesClaimName,
+                    NameClaimType = ClaimTypes.NameIdentifier
+                };
+            });
 
             Services.Configure<JwtOptions>(Configuration.GetSection("Auth:Jwt"));
             Services.Configure<AppOptions>(Configuration.GetSection("App"));
             Services.Configure<ConnectionOptions>(Configuration.GetSection("ConnectionStrings"));
             Services.Configure<EmailOptions>(Configuration.GetSection("Email"));
 
-            Services.Configure<IdentityOptions>(options => options.ClaimsIdentity.RoleClaimType = ClaimTypes.Role);
+            Services.Configure<IdentityOptions>(options => options.ClaimsIdentity.RoleClaimType = Claims.RolesClaimName);
         }
 
         public void ConfigureServices()
@@ -141,16 +125,6 @@ namespace api.App.Setup
         public void ConfigureLogging()
         {
             Services.AddLogging(builder => builder.AddConsole());
-        }
-
-        public void ConfigureSwagger()
-        {
-            //https://github.com/domaindrivendev/Swashbuckle.AspNetCore
-            //https://localhost:6001/swagger
-            Services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "One Advisor", Version = "v1" });
-            });
         }
     }
 }

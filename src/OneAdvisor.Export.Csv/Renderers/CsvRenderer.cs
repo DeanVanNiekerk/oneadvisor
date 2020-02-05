@@ -5,7 +5,7 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
 using OneAdvisor.Model.Export;
-using OneAdvisor.Model.Client.Model.ExportClient;
+using System.Globalization;
 
 namespace OneAdvisor.Export.Csv.Renderers
 {
@@ -18,7 +18,7 @@ namespace OneAdvisor.Export.Csv.Renderers
                 Formats = new string[] { "yyyy-MM-dd" }
             };
 
-            var configuration = new Configuration();
+            var configuration = new CsvConfiguration(CultureInfo.InvariantCulture);
             configuration.TypeConverterOptionsCache.AddOptions<DateTime?>(options);
 
             using (var writer = new StreamWriter(stream))

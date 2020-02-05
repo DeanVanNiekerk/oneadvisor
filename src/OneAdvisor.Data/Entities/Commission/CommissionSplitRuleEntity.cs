@@ -1,7 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using OneAdvisor.Data.Entities.Directory.Lookup;
-using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Data.Entities.Directory;
 using System.Collections.Generic;
 using OneAdvisor.Model.Commission.Model.CommissionSplitRule;

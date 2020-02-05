@@ -42,8 +42,10 @@ export const useCaseSelector: (state: RootState) => string[] = createSelector(
 export const roleSelector: (state: RootState) => string[] = createSelector(
     tokenDataSelector,
     tokenData => {
+        //http://schemas.microsoft.com/ws/2008/06/identity/claims/role is a backward compatibility support, can remove after 01/06/2020
         return tokenData
-            ? tokenData["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+            ? tokenData["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] ||
+                  tokenData.roles
             : [];
     }
 );

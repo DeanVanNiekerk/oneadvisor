@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using api.App.Setup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
+using System.Linq;
 
 namespace api
 {
@@ -27,12 +27,10 @@ namespace api
 
             //Confirgure services (DI)
             var serviceSetup = new ServiceSetup(Configuration, services);
-            serviceSetup.ConfigureCors();
-            serviceSetup.ConfigureHealthCheck();
+            serviceSetup.ConfigureBasic();
             serviceSetup.ConfigureAuthentication();
             serviceSetup.ConfigureServices();
             serviceSetup.ConfigureLogging();
-            //serviceSetup.ConfigureSwagger();
 
             var identitySetup = new IdentitySetup(Configuration, services);
             identitySetup.Configure();
@@ -40,18 +38,14 @@ namespace api
             var emailSetup = new EmailSetup(Configuration, services);
             emailSetup.Configure();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
             services.AddApplicationInsightsTelemetry();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             //Run database migrations
             var databaseMigrate = new DatabaseMigrate(app);
             databaseMigrate.Migrate();
-
-            app.UseCors("Policy");
 
             if (env.IsDevelopment())
             {
@@ -62,18 +56,24 @@ namespace api
                 app.UseHsts();
             }
 
-            app.UseHealthCheck();
-            app.UseMaintainCorsHeader();
-            app.UseHttpsRedirection();
+            app.UseRouting();
+
+            // CORS policy
+            var origins = Configuration.GetValue<string>("Auth:Cors:WithOrigins").Split(";").Where(o => !string.IsNullOrEmpty(o)).ToList();
+            origins.Add(Configuration.GetValue<string>("App:BaseUrl"));
+            app.UseCors(builder => builder
+                .WithOrigins(origins.ToArray())
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
             app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseHealthCheck();
 
-            // app.UseSwagger();
-            // app.UseSwaggerUI(c =>
-            // {
-            //     c.SwaggerEndpoint("/swagger/v1/swagger.json", "One Advisor API");
-            // });
-
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

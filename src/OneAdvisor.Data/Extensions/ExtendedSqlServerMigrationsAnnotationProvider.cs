@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.SqlServer.Migrations.Internal;
 
 namespace OneAdvisor.Data.Extensions
 {
-    class ExtendedSqlServerMigrationsAnnotationProvider : SqlServerMigrationsAnnotationProvider
+    public class ExtendedSqlServerMigrationsAnnotationProvider : SqlServerMigrationsAnnotationProvider
     {
         public ExtendedSqlServerMigrationsAnnotationProvider(MigrationsAnnotationProviderDependencies dependencies)
             : base(dependencies)

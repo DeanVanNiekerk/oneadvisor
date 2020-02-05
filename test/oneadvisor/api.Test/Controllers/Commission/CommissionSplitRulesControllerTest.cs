@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using api.Controllers.Commission.CommissionSplitRules;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Newtonsoft.Json;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.CommissionSplitRule;

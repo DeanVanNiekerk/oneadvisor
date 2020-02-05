@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace OneAdvisor.Data.Extensions
 {
-    class ExtendedSqlServerMigrationsSqlGenerator : SqlServerMigrationsSqlGenerator
+    public class ExtendedSqlServerMigrationsSqlGenerator : SqlServerMigrationsSqlGenerator
     {
         protected virtual string StatementTerminator => ";";
 

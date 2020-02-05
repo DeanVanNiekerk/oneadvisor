@@ -184,7 +184,7 @@ namespace OneAdvisor.Service.Account
 
             var roles = await _userManager.GetRolesAsync(user);
             foreach (var role in roles)
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                claims.Add(new Claim(Claims.RolesClaimName, role));
 
             var useCases = await _useCaseService.GetUseCases(roles);
             foreach (var useCase in useCases)
@@ -199,15 +199,18 @@ namespace OneAdvisor.Service.Account
             claims.Add(new Claim("organisationName", organisationNameClaim));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Secret));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
-            var token = new JwtSecurityToken(
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddDays(options.LifeSpanDays),
+                SigningCredentials = credentials
+            };
 
-              claims: claims,
-              expires: DateTime.Now.AddDays(options.LifeSpanDays),
-              signingCredentials: creds);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
         public async Task<Result> GeneratePasswordResetToken(string userName)

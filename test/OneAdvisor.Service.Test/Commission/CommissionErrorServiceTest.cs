@@ -2,18 +2,14 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using Newtonsoft.Json;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Commission;
-using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Commission.Model.CommissionError;
 using OneAdvisor.Model.Commission.Model.ImportCommission;
-using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Service.Commission;
 using OneAdvisor.Service.Client;
 using OneAdvisor.Model.Client.Model.Lookup;
-using OneAdvisor.Service.Directory;
 using OneAdvisor.Service.Test.Directory.Mocks;
 
 namespace OneAdvisor.Service.Test.Commission

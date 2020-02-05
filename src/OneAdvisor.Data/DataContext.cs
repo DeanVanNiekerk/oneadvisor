@@ -11,6 +11,8 @@ using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Data.Entities.Client.Mappings;
 using OneAdvisor.Data.Entities.Client.Lookup;
 using OneAdvisor.Data.Entities.Commission.Lookup;
+using OneAdvisor.Data.Entities.Commission.Lookup.Mappings;
+using OneAdvisor.Data.Entities.Directory.Lookup.Mappings;
 
 namespace OneAdvisor.Data
 {

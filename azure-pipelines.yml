@@ -6,14 +6,16 @@
 jobs:
   - job: api_build
     pool:
-      vmImage: "Ubuntu 16.04"
+      vmImage: "ubuntu-latest"
     variables:
       buildConfiguration: "Release"
     steps:
-      - task: DotNetCoreInstaller@0
-        displayName: "Use .NET Core SDK Tool Installer"
+      - task: UseDotNet@2
+        displayName: "Use .NET Core SDK"
         inputs:
-          version: 2.2.100
+          packageType: sdk
+          version: 3.1.101
+          installationPath: $(Agent.ToolsDirectory)/dotnet
       - script: |
           dotnet restore
         displayName: "restore packages"
@@ -21,11 +23,11 @@ jobs:
           dotnet test --filter Category!=Integration
         displayName: "run tests"
       - script: |
-          dotnet publish --configuration $(buildConfiguration) /p:Version=0.17.8
+          dotnet publish --configuration $(buildConfiguration) /p:Version=1.0.0
         displayName: "publish for $(buildConfiguration)"
       - task: CopyFiles@2
         inputs:
-          sourceFolder: "src/oneadvisor/api/bin/$(buildConfiguration)/netcoreapp2.2/publish"
+          sourceFolder: "src/oneadvisor/api/bin/$(buildConfiguration)/netcoreapp3.1/publish"
           targetFolder: $(Build.ArtifactStagingDirectory)
           cleanTargetFolder: true
       - task: PublishBuildArtifacts@1
@@ -34,7 +36,7 @@ jobs:
           artifactName: api
   - job: web_build
     pool:
-      vmImage: "Ubuntu 16.04"
+      vmImage: "ubuntu-latest"
     steps:
       - script: |
           npm install

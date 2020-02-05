@@ -1,20 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\OneAdvisor.Model\OneAdvisor.Model.csproj" />
-    <ProjectReference Include="..\OneAdvisor.Data\OneAdvisor.Data.csproj" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="EFCore.BulkExtensions" Version="2.6.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.5.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
-  </ItemGroup>
-
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\OneAdvisor.Model\OneAdvisor.Model.csproj" />
+        <ProjectReference Include="..\OneAdvisor.Data\OneAdvisor.Data.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.2" />
+        <PackageReference Include="EFCore.BulkExtensions" Version="2.6.3" />
+        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.5.0" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
+        <PackageReference Include="FluentValidation" Version="8.6.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
+    </ItemGroup>
 </Project>

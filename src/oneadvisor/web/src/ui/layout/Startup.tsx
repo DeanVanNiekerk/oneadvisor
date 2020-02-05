@@ -39,24 +39,17 @@ const Startup: React.FC<Props> = (props: Props) => {
 
             const { tokenData } = props;
             if (tokenData) {
-                FullStoryAPI(
-                    "identify",
-                    tokenData[
-                        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-                    ],
-                    {
-                        displayName: `${tokenData.firstName} ${tokenData.lastName}`,
-                        userName: tokenData.userName,
-                        email: tokenData.email,
-                        organisation: tokenData.organisationName,
-                        branch: tokenData.branchName,
-                        scope: tokenData.scope,
-                        roles: tokenData[
-                            "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-                        ].join(", "),
-                        environment: config.environment,
-                    }
-                );
+                FullStoryAPI("identify", tokenData.nameid, {
+                    displayName: `${tokenData.firstName} ${tokenData.lastName}`,
+                    userName: tokenData.userName,
+                    email: tokenData.email,
+                    organisation: tokenData.organisationName,
+                    branch: tokenData.branchName,
+                    scope: tokenData.scope,
+                    tokenExpiry: tokenData.exp,
+                    roles: (tokenData.roles || []).join(", "),
+                    environment: config.environment,
+                });
             }
         }
     }, [props.isAuthenticated]);

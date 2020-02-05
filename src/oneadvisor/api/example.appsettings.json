@@ -34,8 +34,5 @@
         "To": ""
       }
     }
-  },
-  "ApplicationInsights": {
-    "InstrumentationKey": ""
   }
 }

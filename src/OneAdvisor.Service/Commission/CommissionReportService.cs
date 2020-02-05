@@ -6,7 +6,7 @@ using OneAdvisor.Data;
 using OneAdvisor.Model.Commission.Interface;
 using OneAdvisor.Model.Commission.Model.CommissionReport;
 using Microsoft.EntityFrameworkCore;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Commission.Model.Lookup;

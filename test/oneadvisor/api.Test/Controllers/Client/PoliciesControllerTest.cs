@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using api.Controllers.Client.Clients;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Newtonsoft.Json;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.User;

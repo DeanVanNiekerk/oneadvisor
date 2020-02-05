@@ -1,18 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="FluentEmail.Core" Version="2.7.0" />
-    <PackageReference Include="FluentEmail.Razor" Version="2.7.0" />
-    <PackageReference Include="FluentEmail.SendGrid" Version="2.7.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\OneAdvisor.Model\OneAdvisor.Model.csproj" />
-  </ItemGroup>
-
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="FluentEmail.Core" Version="2.7.0" />
+        <PackageReference Include="FluentEmail.Razor" Version="2.7.0" />
+        <PackageReference Include="FluentEmail.SendGrid" Version="2.7.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\OneAdvisor.Model\OneAdvisor.Model.csproj" />
+    </ItemGroup>
 </Project>

@@ -66,12 +66,11 @@ namespace OneAdvisor.Function
             //Db Context (Entity Framework)
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(oneAdvisorDb)
-                    .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning))
             );
 
-            services.AddIdentity<UserEntity, RoleEntity>()
-                .AddEntityFrameworkStores<DataContext>()
-                .AddDefaultTokenProviders();
+            // services.AddIdentity<UserEntity, RoleEntity>()
+            //     .AddEntityFrameworkStores<DataContext>()
+            //     .AddDefaultTokenProviders();
 
             //Configure Entity Framework Initializer for seeding
             services.AddTransient<IDefaultDbContextInitializer, DbInitializer>();

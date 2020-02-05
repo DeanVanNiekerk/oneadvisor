@@ -1,12 +1,12 @@
 export type Credentials = {
     userName: string;
     password: string;
-    organisationId: string;
+    organisationId: string | null;
 };
 
 export type TokenData = {
     exp: number;
-    "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier": string;
+    nameid: string;
     firstName: string;
     lastName: string;
     email: string;
@@ -17,7 +17,7 @@ export type TokenData = {
     branchName: string;
     useCaseIds: string[];
     scope: number;
-    "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string[];
+    roles: string[];
 };
 
 export type ResetPasswordData = {

@@ -63,7 +63,7 @@ class SignIn extends React.Component<Props, State> {
         const credentials: Credentials = {
             userName: this.state.userName,
             password: this.state.password,
-            organisationId: this.state.organisationId,
+            organisationId: this.state.organisationId ? this.state.organisationId : null,
         };
         this.props.dispatch(signIn(credentials));
     };

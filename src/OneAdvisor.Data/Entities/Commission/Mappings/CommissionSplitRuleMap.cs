@@ -14,7 +14,8 @@ namespace OneAdvisor.Data.Entities.Commission.Mappings
 
             modelBuilder.Entity<CommissionSplitRuleEntity>()
                 .Property(c => c.Split)
-                .HasConversion(jsonConverter);
+                .HasConversion(jsonConverter)
+                .HasJsonComparer();
         }
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using OneAdvisor.Data;
 using System.Threading.Tasks;
@@ -23,27 +22,26 @@ namespace OneAdvisor.Service.IntegrationTest
             var builder = new DbContextOptionsBuilder<DataContext>();
 
             builder.UseSqlServer(Environment.GetEnvironmentVariable("OA_OneAdvisorTestDb"))
-                    .ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning))
                     .UseInternalServiceProvider(serviceProvider);
 
             var context = new DataContext(builder.Options);
 
             //Create foreach table proc (so that we can use when deleting...)
-            await context.Database.ExecuteSqlCommandAsync(GetMSForeachWorkerProc());
-            await context.Database.ExecuteSqlCommandAsync(GetMSForeachTableProc());
+            await context.Database.ExecuteSqlRawAsync(GetMSForeachWorkerProc());
+            await context.Database.ExecuteSqlRawAsync(GetMSForeachTableProc());
 
             //Disable all referential integrity constraints
-            await context.Database.ExecuteSqlCommandAsync($"EXEC [dbo].[sp_msforeachtable] 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'");
+            await context.Database.ExecuteSqlRawAsync($"EXEC [dbo].[sp_msforeachtable] 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'");
 
             //Drop all PKs and FKs
-            await context.Database.ExecuteSqlCommandAsync(@"
+            await context.Database.ExecuteSqlRawAsync(@"
             DECLARE @sql nvarchar(max)
             SELECT @sql = STUFF((SELECT '; ' + 'ALTER TABLE ' + Table_Name  +'  drop constraint ' + Constraint_Name  from Information_Schema.CONSTRAINT_TABLE_USAGE ORDER BY Constraint_Name FOR XML PATH('')),1,1,'')
             EXECUTE (@sql)
             ");
 
             //Drop all tables
-            await context.Database.ExecuteSqlCommandAsync($"EXEC [dbo].[sp_msforeachtable] 'DROP TABLE ?'");
+            await context.Database.ExecuteSqlRawAsync($"EXEC [dbo].[sp_msforeachtable] 'DROP TABLE ?'");
 
             //Create schema
             await context.Database.MigrateAsync();
