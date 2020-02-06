@@ -10,9 +10,13 @@ namespace OneAdvisor.Service.Client.Query
     {
         public static IQueryable<PolicyEntity> WherePolicyNumberEquals(this IQueryable<PolicyEntity> query, string policyNumber)
         {
+            var numberAliasPattern = policyNumber;
+            if (!numberAliasPattern.Contains('%'))
+                numberAliasPattern = $"%\"{numberAliasPattern}\"%";
+
             return query.Where(policy =>
                 EF.Functions.Like(policy.Number, policyNumber)
-                || EF.Functions.Like(policy._NumberAliases, $"%\"{policyNumber}\"%"));
+                || EF.Functions.Like(policy._NumberAliases, numberAliasPattern));
         }
 
         public static async Task<PolicyEdit> MapToEditModel(this Task<PolicyEntity> task)
