@@ -1,11 +1,11 @@
 import { ValidationResult } from "@/app/validation";
 
-import { Company } from "../types";
+import { CompanyEdit } from "../types";
 import { CompanyAction } from "./actions";
 
 export type State = {
-    readonly company: Company | null;
-    readonly companyOriginal: Company | null;
+    readonly company: CompanyEdit | null;
+    readonly companyOriginal: CompanyEdit | null;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];
     readonly visible: boolean;

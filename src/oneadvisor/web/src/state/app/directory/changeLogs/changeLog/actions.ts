@@ -2,11 +2,11 @@ import { ApiAction, ApiOnSuccess } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { changeLogsApi } from "@/config/api/directory";
 
-import { ChangeLog } from "../types";
+import { ChangeLogEdit } from "../types";
 
 type ChangeLogReceiveAction = {
     type: "CHANGELOGS_CHANGELOG_RECEIVE";
-    payload: ChangeLog | null;
+    payload: ChangeLogEdit | null;
 };
 
 type ChangeLogUpdatedAction = {
@@ -30,12 +30,12 @@ export type ChangeLogAction =
     | ChangeLogUpdatingErrorAction
     | ChangeLogValidationErrorAction;
 
-export const receiveChangeLog = (changeLog: ChangeLog | null): ChangeLogReceiveAction => ({
+export const receiveChangeLog = (changeLog: ChangeLogEdit | null): ChangeLogReceiveAction => ({
     type: "CHANGELOGS_CHANGELOG_RECEIVE",
     payload: changeLog,
 });
 
-export const updateChangeLog = (changeLog: ChangeLog, onSuccess?: ApiOnSuccess): ApiAction => ({
+export const updateChangeLog = (changeLog: ChangeLogEdit, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${changeLogsApi}/${changeLog.id}`,
     method: "POST",
@@ -44,7 +44,7 @@ export const updateChangeLog = (changeLog: ChangeLog, onSuccess?: ApiOnSuccess):
     dispatchPrefix: "CHANGELOGS_CHANGELOG_EDIT",
 });
 
-export const insertChangeLog = (changeLog: ChangeLog, onSuccess?: ApiOnSuccess): ApiAction => ({
+export const insertChangeLog = (changeLog: ChangeLogEdit, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${changeLogsApi}`,
     method: "POST",

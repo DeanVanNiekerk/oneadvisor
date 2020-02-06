@@ -1,11 +1,11 @@
 import { changeLogsApi } from "@/config/api/directory";
 
-import { ChangeLog } from "../";
+import { ChangeLogEdit } from "../";
 import * as actions from "./actions";
 
 describe("changeLog actions", () => {
     it("should dispatch API when updateChangeLog is called", () => {
-        const changeLog: ChangeLog = {
+        const changeLog: ChangeLogEdit = {
             id: "10",
             versionNumber: "12",
             releaseDate: "14",

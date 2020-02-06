@@ -5,13 +5,14 @@ import { getColumnDefinition } from "@/app/table";
 import {
     fetchPolicyProductTypes,
     PolicyProductType,
+    PolicyProductTypeEdit,
     policyProductTypesSelector,
     PolicyType,
     policyTypesSelector,
     receivePolicyProductType,
 } from "@/state/app/client/lookups";
 import { RootState } from "@/state/rootReducer";
-import { Button, getTable, Header, PolicyTypeName, getColumnSearchProps } from "@/ui/controls";
+import { Button, getColumnSearchProps, getTable, Header, PolicyTypeName } from "@/ui/controls";
 
 import EditPolicyProductType from "./EditPolicyProductType";
 
@@ -45,8 +46,8 @@ class PolicyProductTypeList extends Component<Props, State> {
     };
 
     newPolicyProductType = () => {
-        const policyProductType: PolicyProductType = {
-            id: "",
+        const policyProductType: PolicyProductTypeEdit = {
+            id: null,
             policyTypeId: "",
             name: "",
             code: "",
@@ -59,7 +60,7 @@ class PolicyProductTypeList extends Component<Props, State> {
         if (policyProductType) this.showEditPolicyProductType(policyProductType);
     };
 
-    showEditPolicyProductType = (policyProductType: PolicyProductType) => {
+    showEditPolicyProductType = (policyProductType: PolicyProductTypeEdit) => {
         this.props.dispatch(receivePolicyProductType(policyProductType));
         this.setState({
             editVisible: true,
@@ -118,7 +119,7 @@ class PolicyProductTypeList extends Component<Props, State> {
                     columns={this.getColumns()}
                     dataSource={this.props.policyProductTypes}
                     loading={this.props.fetching}
-                    onRowClick={org => this.editPolicyProductType(org.id)}
+                    onRowClick={t => this.editPolicyProductType(t.id)}
                 />
                 <EditPolicyProductType
                     visible={this.state.editVisible}

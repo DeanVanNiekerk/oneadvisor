@@ -1,11 +1,11 @@
 import { commissionTypesApi } from "@/config/api/commission";
 
-import { CommissionType } from "../";
+import { CommissionTypeEdit } from "../";
 import * as actions from "./actions";
 
 describe("commissionType actions", () => {
     it("should dispatch API when updateCommissionType is called", () => {
-        const commissionType: CommissionType = {
+        const commissionType: CommissionTypeEdit = {
             id: "10",
             policyTypeId: "123",
             commissionEarningsTypeId: "654",

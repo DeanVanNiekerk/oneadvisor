@@ -4,7 +4,7 @@ import { connect, DispatchProp } from "react-redux";
 import { areEqual } from "@/app/utils";
 import { ValidationResult } from "@/app/validation";
 import {
-    CommissionType,
+    CommissionTypeEdit,
     commissionTypeSelector,
     insertCommissionType,
     updateCommissionType,
@@ -18,13 +18,13 @@ import CommissionTypeForm from "./CommissionTypeForm";
 type Props = {
     visible: boolean;
     onClose: (cancelled: boolean) => void;
-    commissionType: CommissionType | null;
+    commissionType: CommissionTypeEdit | null;
     updating: boolean;
     validationResults: ValidationResult[];
 } & DispatchProp;
 
 type State = {
-    commissionTypeEdited: CommissionType | null;
+    commissionTypeEdited: CommissionTypeEdit | null;
 };
 
 class EditCommissionType extends Component<Props, State> {
@@ -71,7 +71,7 @@ class EditCommissionType extends Component<Props, State> {
         }
     };
 
-    onChange = (commissionType: CommissionType) => {
+    onChange = (commissionType: CommissionTypeEdit) => {
         this.setState({
             commissionTypeEdited: commissionType,
         });

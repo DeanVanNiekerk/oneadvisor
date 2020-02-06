@@ -3,19 +3,19 @@ import React, { Component } from "react";
 import ReactMarkdown from "react-markdown";
 
 import { ValidationResult } from "@/app/validation";
-import { ChangeLog } from "@/state/app/directory/changeLogs";
+import { ChangeLogEdit } from "@/state/app/directory/changeLogs";
 import { Form, FormDate, FormInput, FormSwitch, FormTextArea, TabPane, Tabs } from "@/ui/controls";
 
 type TabKey = "details_tab" | "preview_tab";
 
 type Props = {
-    changeLog: ChangeLog;
+    changeLog: ChangeLogEdit;
     validationResults: ValidationResult[];
-    onChange: (changeLog: ChangeLog) => void;
+    onChange: (changeLog: ChangeLogEdit) => void;
 };
 
 type State = {
-    changeLog: ChangeLog;
+    changeLog: ChangeLogEdit;
     activeTab: TabKey;
 };
 
@@ -37,12 +37,12 @@ class ChangeLogForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: keyof ChangeLog, value: string | boolean) => {
+    handleChange = (fieldName: keyof ChangeLogEdit, value: string | boolean) => {
         const changeLog = update(this.state.changeLog, { [fieldName]: { $set: value } });
         this.updateState(changeLog);
     };
 
-    updateState = (changeLog: ChangeLog) => {
+    updateState = (changeLog: ChangeLogEdit) => {
         this.setState({
             changeLog: changeLog,
         });

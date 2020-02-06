@@ -3,7 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { Company, companySelector, modifyCompany } from "@/state/app/directory/lookups";
+import { CompanyEdit, companySelector, modifyCompany } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { FormSimpleList } from "@/ui/controls";
 
@@ -12,7 +12,7 @@ type Props = PropsFromState & PropsFromDispatch;
 const CompanyCommission: React.FC<Props> = ({ company, validationResults, handleChange }) => {
     if (!company) return <React.Fragment />;
 
-    const onChange = (fieldName: keyof Company, value: string[]) => {
+    const onChange = (fieldName: keyof CompanyEdit, value: string[]) => {
         handleChange(company, fieldName, value);
     };
 
@@ -41,7 +41,7 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        handleChange: (company: Company, fieldName: keyof Company, value: string[]) => {
+        handleChange: (company: CompanyEdit, fieldName: keyof CompanyEdit, value: string[]) => {
             const companyModified = update(company, { [fieldName]: { $set: value } });
             dispatch(modifyCompany(companyModified));
         },

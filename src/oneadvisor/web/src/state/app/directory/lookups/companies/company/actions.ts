@@ -6,15 +6,15 @@ import { companiesApi } from "@/config/api/directory";
 import { RootState } from "@/state/rootReducer";
 
 import { companyIsModifiedSelector, companySelector } from "../";
-import { Company } from "../types";
+import { CompanyEdit } from "../types";
 
 type CompanyReceiveAction = {
     type: "COMPANIES_COMPANY_RECEIVE";
-    payload: Company | null;
+    payload: CompanyEdit | null;
 };
 type CompanyModifiedAction = {
     type: "COMPANIES_COMPANY_MODIFIED";
-    payload: Company;
+    payload: CompanyEdit;
 };
 type CompanyVisibleAction = {
     type: "COMPANIES_COMPANY_VISIBLE";
@@ -43,12 +43,12 @@ export type CompanyAction =
     | CompanyUpdatingErrorAction
     | CompanyValidationErrorAction;
 
-export const receiveCompany = (company: Company | null): CompanyReceiveAction => ({
+export const receiveCompany = (company: CompanyEdit | null): CompanyReceiveAction => ({
     type: "COMPANIES_COMPANY_RECEIVE",
     payload: company,
 });
 
-export const modifyCompany = (company: Company): CompanyModifiedAction => ({
+export const modifyCompany = (company: CompanyEdit): CompanyModifiedAction => ({
     type: "COMPANIES_COMPANY_MODIFIED",
     payload: company,
 });
@@ -61,10 +61,10 @@ export const companyVisible = (visible: boolean): CompanyVisibleAction => ({
 export const clearCompany = (): CompanyReceiveAction => receiveCompany(null);
 
 export const newCompany = (): CompanyReceiveAction => {
-    const company: Company = {
-        id: "",
+    const company: CompanyEdit = {
+        id: null,
         name: "",
-        commissionPolicyNumberPrefixes: [""],
+        commissionPolicyNumberPrefixes: [],
     };
 
     return receiveCompany(company);
@@ -113,7 +113,7 @@ export const confirmCancelCompany = (
     };
 };
 
-export const updateCompany = (company: Company, onSuccess?: ApiOnSuccess): ApiAction => ({
+export const updateCompany = (company: CompanyEdit, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${companiesApi}/${company.id}`,
     method: "POST",
@@ -122,7 +122,7 @@ export const updateCompany = (company: Company, onSuccess?: ApiOnSuccess): ApiAc
     dispatchPrefix: "COMPANIES_COMPANY_EDIT",
 });
 
-export const insertCompany = (company: Company, onSuccess?: ApiOnSuccess): ApiAction => ({
+export const insertCompany = (company: CompanyEdit, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${companiesApi}`,
     method: "POST",

@@ -19,7 +19,7 @@ export type Policy = {
 };
 
 export type PolicyEdit = {
-    id: string;
+    id: string | null;
     clientId: string;
     companyId: string;
     userId: string;

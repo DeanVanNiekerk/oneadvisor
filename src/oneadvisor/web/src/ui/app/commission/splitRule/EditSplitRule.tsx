@@ -6,7 +6,7 @@ import { ValidationResult } from "@/app/validation";
 import {
     insertSplitRule,
     receiveSplitRule,
-    SplitRule,
+    SplitRuleEdit,
     splitRuleSelector,
     updateSplitRule,
 } from "@/state/app/commission/splitRules";
@@ -18,14 +18,14 @@ import SplitRuleForm from "./SplitRuleForm";
 
 type Props = {
     onClose: (cancelled: boolean) => void;
-    splitRule: SplitRule | null;
+    splitRule: SplitRuleEdit | null;
     fetching: boolean;
     updating: boolean;
     validationResults: ValidationResult[];
 } & DispatchProp;
 
 type State = {
-    splitRuleEdited: SplitRule | null;
+    splitRuleEdited: SplitRuleEdit | null;
 };
 class EditSplitRule extends Component<Props, State> {
     constructor(props: Props) {
@@ -73,7 +73,7 @@ class EditSplitRule extends Component<Props, State> {
         }
     };
 
-    onChange = (splitRule: SplitRule) => {
+    onChange = (splitRule: SplitRuleEdit) => {
         this.setState({
             splitRuleEdited: splitRule,
         });

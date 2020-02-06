@@ -7,7 +7,7 @@ export type CommissionStatementTemplate = {
 };
 
 export type CommissionStatementTemplateEdit = {
-    id: string;
+    id: string | null;
     companyId: string;
     name: string;
     config: Config;

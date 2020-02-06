@@ -6,15 +6,15 @@ import { contactsApi } from "@/config/api/client";
 import { RootState } from "@/state/rootReducer";
 
 import { contactIsModifiedSelector, contactSelector } from "../";
-import { Contact } from "../types";
+import { ContactEdit } from "../types";
 
 type ContactReceiveAction = {
     type: "CONTACTS_CONTACT_RECEIVE";
-    payload: Contact | null;
+    payload: ContactEdit | null;
 };
 type ContactModifiedAction = {
     type: "CONTACTS_CONTACT_MODIFIED";
-    payload: Contact | null;
+    payload: ContactEdit | null;
 };
 type ContactVisibleAction = {
     type: "CONTACTS_CONTACT_VISIBLE";
@@ -51,7 +51,7 @@ export type ContactAction =
     | ContactUpdatingErrorAction
     | ContactValidationErrorAction;
 
-export const receiveContact = (contact: Contact | null): ContactReceiveAction => ({
+export const receiveContact = (contact: ContactEdit | null): ContactReceiveAction => ({
     type: "CONTACTS_CONTACT_RECEIVE",
     payload: contact,
 });
@@ -62,7 +62,7 @@ export const fetchContact = (contactId: string): ApiAction => ({
     dispatchPrefix: "CONTACTS_CONTACT",
 });
 
-export const modifyContact = (contact: Contact): ContactModifiedAction => ({
+export const modifyContact = (contact: ContactEdit): ContactModifiedAction => ({
     type: "CONTACTS_CONTACT_MODIFIED",
     payload: contact,
 });
@@ -75,13 +75,13 @@ export const contactVisible = (visible: boolean): ContactVisibleAction => ({
 export const clearContact = (): ContactReceiveAction => receiveContact(null);
 
 export const saveContact = (
-    onSaved?: (contact: Contact) => void
+    onSaved?: (contact: ContactEdit) => void
 ): ThunkAction<void, RootState, {}, ContactReceiveAction | ApiAction> => {
     return (dispatch, getState) => {
         const { contact } = contactSelector(getState());
         if (!contact) return;
 
-        const onSuccess = (contactEdit: Contact) => {
+        const onSuccess = (contactEdit: ContactEdit) => {
             dispatch(clearContact());
             if (onSaved) onSaved(contactEdit);
         };
@@ -125,7 +125,7 @@ export const confirmCancelContact = (
     };
 };
 
-export const updateContact = (contact: Contact, onSuccess?: ApiOnSuccess): ApiAction => ({
+export const updateContact = (contact: ContactEdit, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${contactsApi}/${contact.id}`,
     method: "POST",
@@ -135,8 +135,8 @@ export const updateContact = (contact: Contact, onSuccess?: ApiOnSuccess): ApiAc
 });
 
 export const insertContact = (
-    contact: Contact,
-    onSuccess: ApiOnSuccess<Result<Contact>>
+    contact: ContactEdit,
+    onSuccess: ApiOnSuccess<Result<ContactEdit>>
 ): ApiAction => ({
     type: "API",
     endpoint: `${contactsApi}`,

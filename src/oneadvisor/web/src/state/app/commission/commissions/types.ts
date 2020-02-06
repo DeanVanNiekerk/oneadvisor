@@ -21,7 +21,7 @@ export type Commission = {
 };
 
 export type CommissionEdit = {
-    id: string;
+    id: string | null;
     commissionStatementId: string;
     policyId: string;
     commissionTypeId: string;

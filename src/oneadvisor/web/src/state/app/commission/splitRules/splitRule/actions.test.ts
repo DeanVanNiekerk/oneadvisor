@@ -1,6 +1,6 @@
 import { splitRulesApi } from "@/config/api/commission";
 
-import { SplitRule } from "../";
+import { SplitRuleEdit } from "../";
 import * as actions from "./actions";
 
 describe("splitRule actions", () => {
@@ -15,7 +15,7 @@ describe("splitRule actions", () => {
     });
 
     it("should dispatch API when updateSplitRule is called", () => {
-        const splitRule: SplitRule = {
+        const splitRule: SplitRuleEdit = {
             id: "10",
             userId: "12",
             name: "13",

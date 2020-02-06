@@ -6,7 +6,7 @@ export type Role = {
 };
 
 export type RoleEdit = {
-    id: string;
+    id: string | null;
     name: string;
     description: string;
     applicationId: string;

@@ -4,3 +4,10 @@ export type PolicyProductType = {
     name: string;
     code: string;
 };
+
+export type PolicyProductTypeEdit = {
+    id: string | null;
+    policyTypeId: string;
+    name: string;
+    code: string;
+};

@@ -1,11 +1,11 @@
 import { ValidationResult } from "@/app/validation";
 
-import { Branch } from "../types";
+import { BranchEdit } from "../types";
 import { BranchAction } from "./actions";
 
 export type State = {
-    readonly branch: Branch | null;
-    readonly branchOriginal: Branch | null;
+    readonly branch: BranchEdit | null;
+    readonly branchOriginal: BranchEdit | null;
     readonly fetching: boolean;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];

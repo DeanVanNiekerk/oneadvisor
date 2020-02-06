@@ -28,7 +28,8 @@ export const organisationIsNew: (state: RootState) => boolean = createSelector(
     root => !(root.organisation && root.organisation.id)
 );
 
-export const organisationIdSelector: (state: RootState) => string = createSelector(
-    rootSelector,
-    root => (root.organisation ? root.organisation.id : "")
+export const organisationIdSelector: (
+    state: RootState
+) => string | null = createSelector(rootSelector, root =>
+    root.organisation ? root.organisation.id : null
 );

@@ -1,10 +1,10 @@
 import { ValidationResult } from "@/app/validation";
 
-import { ChangeLog } from "../types";
+import { ChangeLogEdit } from "../types";
 import { ChangeLogAction } from "./actions";
 
 export type State = {
-    readonly changeLog: ChangeLog | null;
+    readonly changeLog: ChangeLogEdit | null;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];
 };

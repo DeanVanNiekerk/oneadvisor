@@ -82,7 +82,7 @@ export const newStatement = (): ThunkAction<void, RootState, {}, StatementReceiv
         if (today.year() !== date.year() || today.month() !== date.month()) date = date.date(1);
 
         const statement: StatementEdit = {
-            id: "",
+            id: null,
             amountIncludingVAT: 0,
             vat: 0,
             companyId: "",

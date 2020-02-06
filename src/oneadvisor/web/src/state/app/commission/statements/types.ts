@@ -18,7 +18,7 @@ export type Statement = {
 };
 
 export type StatementEdit = {
-    id: string;
+    id: string | null;
     companyId: string;
     date: string;
     amountIncludingVAT: number;

@@ -17,7 +17,7 @@ export type Client = {
 };
 
 export type ClientEdit = {
-    id: string;
+    id: string | null;
     clientTypeId: ClientTypeId;
     firstName: string;
     lastName: string;

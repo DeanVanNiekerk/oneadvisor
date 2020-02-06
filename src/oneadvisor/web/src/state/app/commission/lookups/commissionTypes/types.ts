@@ -7,3 +7,11 @@ export type CommissionType = {
     name: string;
     code: string;
 };
+
+export type CommissionTypeEdit = {
+    id: string | null;
+    policyTypeId: string;
+    commissionEarningsTypeId: string;
+    name: string;
+    code: string;
+};

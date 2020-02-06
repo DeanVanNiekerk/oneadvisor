@@ -21,7 +21,7 @@ const OrganisationForm: React.FC<Props> = (props: Props) => {
             </TabPane>
             {!props.isNew && (
                 <TabPane tab="Branches" key="branches_tab">
-                    <BranchList organisationId={props.organisationId} />
+                    {props.organisationId && <BranchList organisationId={props.organisationId} />}
                 </TabPane>
             )}
             <TabPane tab="Companies" key="companies_tab">

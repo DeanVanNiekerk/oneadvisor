@@ -2,11 +2,11 @@ import { ApiAction, ApiOnSuccess } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { policyProductTypesApi } from "@/config/api/client";
 
-import { PolicyProductType } from "../types";
+import { PolicyProductTypeEdit } from "../types";
 
 type PolicyProductTypeReceiveAction = {
     type: "POLICYPRODUCTTYPES_POLICYPRODUCTTYPE_RECEIVE";
-    payload: PolicyProductType;
+    payload: PolicyProductTypeEdit;
 };
 
 type PolicyProductTypeUpdatedAction = {
@@ -31,14 +31,14 @@ export type PolicyProductTypeAction =
     | PolicyProductTypeValidationErrorAction;
 
 export const receivePolicyProductType = (
-    policyProductType: PolicyProductType
+    policyProductType: PolicyProductTypeEdit
 ): PolicyProductTypeReceiveAction => ({
     type: "POLICYPRODUCTTYPES_POLICYPRODUCTTYPE_RECEIVE",
     payload: policyProductType,
 });
 
 export const updatePolicyProductType = (
-    policyProductType: PolicyProductType,
+    policyProductType: PolicyProductTypeEdit,
     onSuccess?: ApiOnSuccess
 ): ApiAction => ({
     type: "API",
@@ -50,7 +50,7 @@ export const updatePolicyProductType = (
 });
 
 export const insertPolicyProductType = (
-    policyProductType: PolicyProductType,
+    policyProductType: PolicyProductTypeEdit,
     onSuccess: ApiOnSuccess
 ): ApiAction => ({
     type: "API",

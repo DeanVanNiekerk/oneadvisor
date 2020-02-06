@@ -4,7 +4,7 @@ import { connect, DispatchProp } from "react-redux";
 import { areEqual } from "@/app/utils";
 import { ValidationResult } from "@/app/validation";
 import {
-    ChangeLog,
+    ChangeLogEdit,
     changeLogSelector,
     insertChangeLog,
     receiveChangeLog,
@@ -18,13 +18,13 @@ import ChangeLogForm from "./ChangeLogForm";
 
 type Props = {
     onClose?: (cancelled: boolean) => void;
-    changeLog: ChangeLog | null;
+    changeLog: ChangeLogEdit | null;
     updating: boolean;
     validationResults: ValidationResult[];
 } & DispatchProp;
 
 type State = {
-    changeLogEdited: ChangeLog | null;
+    changeLogEdited: ChangeLogEdit | null;
 };
 class EditChangeLog extends Component<Props, State> {
     constructor(props: Props) {
@@ -72,7 +72,7 @@ class EditChangeLog extends Component<Props, State> {
         }
     };
 
-    onChange = (changeLog: ChangeLog) => {
+    onChange = (changeLog: ChangeLogEdit) => {
         this.setState({
             changeLogEdited: changeLog,
         });

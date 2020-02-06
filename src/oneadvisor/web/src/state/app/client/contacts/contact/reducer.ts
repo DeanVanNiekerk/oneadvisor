@@ -1,11 +1,11 @@
 import { ValidationResult } from "@/app/validation";
 
-import { Contact } from "../types";
+import { ContactEdit } from "../types";
 import { ContactAction } from "./actions";
 
 export type State = {
-    readonly contact: Contact | null;
-    readonly contactOriginal: Contact | null;
+    readonly contact: ContactEdit | null;
+    readonly contactOriginal: ContactEdit | null;
     readonly fetching: boolean;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];

@@ -16,7 +16,7 @@ export type User = {
 };
 
 export type UserEdit = {
-    id: string;
+    id: string | null;
     firstName: string;
     lastName: string;
     email: string;

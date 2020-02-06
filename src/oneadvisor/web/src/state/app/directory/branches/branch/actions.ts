@@ -6,15 +6,15 @@ import { branchesApi } from "@/config/api/directory";
 import { RootState } from "@/state/rootReducer";
 
 import { branchIsModifiedSelector, branchSelector } from "../";
-import { Branch } from "../types";
+import { BranchEdit } from "../types";
 
 type BranchReceiveAction = {
     type: "BRANCHES_BRANCH_RECEIVE";
-    payload: Branch | null;
+    payload: BranchEdit | null;
 };
 type BranchModifiedAction = {
     type: "BRANCHES_BRANCH_MODIFIED";
-    payload: Branch | null;
+    payload: BranchEdit | null;
 };
 type BranchVisibleAction = {
     type: "BRANCHES_BRANCH_VISIBLE";
@@ -51,12 +51,12 @@ export type BranchAction =
     | BranchUpdatingErrorAction
     | BranchValidationErrorAction;
 
-export const receiveBranch = (branch: Branch | null): BranchReceiveAction => ({
+export const receiveBranch = (branch: BranchEdit | null): BranchReceiveAction => ({
     type: "BRANCHES_BRANCH_RECEIVE",
     payload: branch,
 });
 
-export const modifyBranch = (branch: Branch): BranchModifiedAction => ({
+export const modifyBranch = (branch: BranchEdit): BranchModifiedAction => ({
     type: "BRANCHES_BRANCH_MODIFIED",
     payload: branch,
 });
@@ -76,13 +76,13 @@ export const fetchBranch = (branchId: string, onSuccess?: ApiOnSuccess): ApiActi
 export const clearBranch = (): BranchReceiveAction => receiveBranch(null);
 
 export const saveBranch = (
-    onSaved?: (branch: Branch) => void
+    onSaved?: (branch: BranchEdit) => void
 ): ThunkAction<void, RootState, {}, BranchReceiveAction | ApiAction> => {
     return (dispatch, getState) => {
         const { branch } = branchSelector(getState());
         if (!branch) return;
 
-        const onSuccess = (branchEdit: Branch) => {
+        const onSuccess = (branchEdit: BranchEdit) => {
             dispatch(clearBranch());
             if (onSaved) onSaved(branchEdit);
         };
@@ -126,7 +126,7 @@ export const confirmCancelBranch = (
     };
 };
 
-export const updateBranch = (branch: Branch, onSuccess?: ApiOnSuccess): ApiAction => ({
+export const updateBranch = (branch: BranchEdit, onSuccess?: ApiOnSuccess): ApiAction => ({
     type: "API",
     endpoint: `${branchesApi}/${branch.id}`,
     method: "POST",
@@ -136,8 +136,8 @@ export const updateBranch = (branch: Branch, onSuccess?: ApiOnSuccess): ApiActio
 });
 
 export const insertBranch = (
-    branch: Branch,
-    onSuccess?: ApiOnSuccess<Result<Branch>>
+    branch: BranchEdit,
+    onSuccess?: ApiOnSuccess<Result<BranchEdit>>
 ): ApiAction => ({
     type: "API",
     endpoint: `${branchesApi}`,

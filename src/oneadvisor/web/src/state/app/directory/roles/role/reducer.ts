@@ -1,10 +1,10 @@
 import { ValidationResult } from "@/app/validation";
 
-import { Role } from "../types";
+import { RoleEdit } from "../types";
 import { RoleAction } from "./actions";
 
 export type State = {
-    readonly role: Role | null;
+    readonly role: RoleEdit | null;
     readonly fetching: boolean;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];

@@ -8,7 +8,7 @@ export type Allocation = {
 };
 
 export type AllocationEdit = {
-    id: string;
+    id: string | null;
     fromClientId: string;
     toClientId: string;
     policyIds: string[];

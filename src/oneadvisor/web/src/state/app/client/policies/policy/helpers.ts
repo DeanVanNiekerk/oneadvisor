@@ -1,7 +1,7 @@
 import { PolicyEdit } from "../";
 
 export const createPolicy = (policy: Partial<PolicyEdit> = {}): PolicyEdit => ({
-    id: "",
+    id: null,
     userId: "",
     number: "",
     companyId: "",

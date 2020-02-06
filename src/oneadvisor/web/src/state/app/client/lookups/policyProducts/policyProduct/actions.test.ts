@@ -1,11 +1,11 @@
 import { policyProductsApi } from "@/config/api/client";
 
-import { PolicyProduct } from "../";
+import { PolicyProductEdit } from "../";
 import * as actions from "./actions";
 
 describe("policyProduct actions", () => {
     it("should dispatch API when updatePolicyProduct is called", () => {
-        const policyProduct: PolicyProduct = {
+        const policyProduct: PolicyProductEdit = {
             id: "10",
             policyProductTypeId: "123",
             companyId: "321",

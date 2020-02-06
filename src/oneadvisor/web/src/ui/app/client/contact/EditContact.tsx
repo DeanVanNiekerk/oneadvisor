@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import {
-    Contact,
+    ContactEdit,
     contactIsLoadingSelector,
     contactSelector,
     contactVisible,
@@ -16,7 +16,7 @@ import ContactForm from "./ContactForm";
 
 type Props = {
     clientId: string;
-    onSaved?: (contact: Contact) => void;
+    onSaved?: (contact: ContactEdit) => void;
 } & PropsFromState &
     PropsFromDispatch;
 
@@ -58,7 +58,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         newContact: (clientId: string) => {
             dispatch(
                 receiveContact({
-                    id: "",
+                    id: null,
                     clientId: clientId,
                     contactTypeId: "",
                     value: "",

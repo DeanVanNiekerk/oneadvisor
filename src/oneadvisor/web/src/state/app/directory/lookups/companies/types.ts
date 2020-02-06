@@ -3,3 +3,9 @@ export type Company = {
     name: string;
     commissionPolicyNumberPrefixes: string[];
 };
+
+export type CompanyEdit = {
+    id: string | null;
+    name: string;
+    commissionPolicyNumberPrefixes: string[];
+};

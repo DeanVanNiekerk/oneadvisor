@@ -51,7 +51,7 @@ export const clearCommissionStatementTemplate = (): TemplateReceiveAction =>
 
 export const newCommissionStatementTemplate = (): TemplateReceiveAction => {
     const template: CommissionStatementTemplateEdit = {
-        id: "",
+        id: null,
         name: "",
         companyId: "",
         startDate: "",

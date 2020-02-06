@@ -6,7 +6,7 @@ export type Organisation = {
 };
 
 export type OrganisationEdit = {
-    id: string;
+    id: string | null;
     name: string;
     vatRegistered: boolean;
     vatRegistrationDate: string | null;

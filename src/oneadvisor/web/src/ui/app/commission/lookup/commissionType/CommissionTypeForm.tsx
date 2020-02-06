@@ -8,20 +8,20 @@ import {
     CommissionEarningsType,
     commissionEarningsTypesSelector,
 } from "@/state/app/commission/lookups";
-import { CommissionType } from "@/state/app/commission/lookups/commissionTypes";
+import { CommissionTypeEdit } from "@/state/app/commission/lookups/commissionTypes";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormInput, FormSelect } from "@/ui/controls";
 
 type Props = {
-    commissionType: CommissionType;
+    commissionType: CommissionTypeEdit;
     validationResults: ValidationResult[];
-    onChange: (commissionType: CommissionType) => void;
+    onChange: (commissionType: CommissionTypeEdit) => void;
     policyTypes: PolicyType[];
     commissionEarningsTypes: CommissionEarningsType[];
 };
 
 type State = {
-    commissionType: CommissionType;
+    commissionType: CommissionTypeEdit;
 };
 
 class CommissionTypeForm extends Component<Props, State> {
@@ -40,7 +40,7 @@ class CommissionTypeForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: keyof CommissionType, value: string) => {
+    handleChange = (fieldName: keyof CommissionTypeEdit, value: string) => {
         const commissionType = update(this.state.commissionType, { [fieldName]: { $set: value } });
         this.setState({
             commissionType: commissionType,

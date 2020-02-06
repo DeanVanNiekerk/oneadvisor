@@ -26,7 +26,7 @@ const OrganisationDetails: React.FC<Props> = ({
 
     return (
         <Form editUseCase="dir_edit_organisations">
-            <FormInput fieldName="id" label="Id" value={organisation.id} disabled={true} />
+            <FormInput fieldName="id" label="Id" value={organisation.id || ""} disabled={true} />
             <FormInput
                 fieldName="name"
                 label="Name"

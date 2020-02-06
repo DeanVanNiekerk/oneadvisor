@@ -3,19 +3,19 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
-import { PolicyProductType, PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
+import { PolicyProductTypeEdit, PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormInput, FormSelect } from "@/ui/controls";
 
 type Props = {
-    policyProductType: PolicyProductType;
+    policyProductType: PolicyProductTypeEdit;
     validationResults: ValidationResult[];
-    onChange: (policyProductType: PolicyProductType) => void;
+    onChange: (policyProductType: PolicyProductTypeEdit) => void;
     policyTypes: PolicyType[];
 };
 
 type State = {
-    policyProductType: PolicyProductType;
+    policyProductType: PolicyProductTypeEdit;
 };
 
 class PolicyProductTypeForm extends Component<Props, State> {
@@ -34,7 +34,7 @@ class PolicyProductTypeForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: keyof PolicyProductType, value: string) => {
+    handleChange = (fieldName: keyof PolicyProductTypeEdit, value: string) => {
         const policyProductType = update(this.state.policyProductType, {
             [fieldName]: { $set: value },
         });

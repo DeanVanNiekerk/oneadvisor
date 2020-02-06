@@ -83,7 +83,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
         newOrganisation: () => {
             dispatch(
                 receiveOrganisation({
-                    id: "",
+                    id: null,
                     name: "",
                     vatRegistered: false,
                     vatRegistrationDate: null,

@@ -1,10 +1,10 @@
 import { ValidationResult } from "@/app/validation";
 
-import { CommissionType } from "../types";
+import { CommissionTypeEdit } from "../types";
 import { CommissionTypeAction } from "./actions";
 
 export type State = {
-    readonly commissionType: CommissionType | null;
+    readonly commissionType: CommissionTypeEdit | null;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];
 };

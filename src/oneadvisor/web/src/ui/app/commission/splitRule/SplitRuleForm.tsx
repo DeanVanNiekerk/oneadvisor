@@ -4,19 +4,19 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
-import { Split, SplitRule } from "@/state/app/commission/splitRules";
+import { Split, SplitRuleEdit } from "@/state/app/commission/splitRules";
 import { Form, FormInput, FormSwitch } from "@/ui/controls";
 
 import SplitList from "./split/SplitList";
 
 type Props = {
-    splitRule: SplitRule;
+    splitRule: SplitRuleEdit;
     validationResults: ValidationResult[];
-    onChange: (splitRule: SplitRule) => void;
+    onChange: (splitRule: SplitRuleEdit) => void;
 } & DispatchProp;
 
 type State = {
-    splitRule: SplitRule;
+    splitRule: SplitRuleEdit;
     searchClientVisible: boolean;
 };
 
@@ -38,7 +38,7 @@ class SplitRuleForm extends Component<Props, State> {
         }
     }
 
-    handleChange = (fieldName: keyof SplitRule, value: string | Split[] | boolean) => {
+    handleChange = (fieldName: keyof SplitRuleEdit, value: string | Split[] | boolean) => {
         const splitRule = update(this.state.splitRule, { [fieldName]: { $set: value } });
         this.setState({
             splitRule: splitRule,

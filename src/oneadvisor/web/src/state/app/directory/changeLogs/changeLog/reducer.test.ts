@@ -1,6 +1,6 @@
 import { getValidationResult } from "@/test";
 
-import { ChangeLog } from "../";
+import { ChangeLogEdit } from "../";
 import { defaultState, reducer } from "./reducer";
 
 describe("changeLog reducer", () => {
@@ -10,7 +10,7 @@ describe("changeLog reducer", () => {
             validationResults: [getValidationResult()],
         };
 
-        const changeLog: ChangeLog = {
+        const changeLog: ChangeLogEdit = {
             id: "10",
             versionNumber: "12",
             releaseDate: "14",

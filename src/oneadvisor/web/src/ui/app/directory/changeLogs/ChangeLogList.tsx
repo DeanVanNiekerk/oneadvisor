@@ -4,6 +4,7 @@ import { connect, DispatchProp } from "react-redux";
 import { getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import {
     ChangeLog,
+    ChangeLogEdit,
     changeLogsSelector,
     fetchChangeLogs,
     receiveChangeLog,
@@ -54,8 +55,8 @@ class ChangeLogList extends Component<Props> {
     };
 
     newChangeLog = () => {
-        const changeLog: ChangeLog = {
-            id: "",
+        const changeLog: ChangeLogEdit = {
+            id: null,
             versionNumber: "0.x.0",
             releaseDate: "",
             published: false,

@@ -94,7 +94,7 @@ class RoleList extends Component<Props, State> {
 
     newRole = () => {
         const role: RoleEdit = {
-            id: "",
+            id: null,
             name: "",
             description: "",
             applicationId: "",

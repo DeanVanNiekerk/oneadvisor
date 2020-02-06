@@ -49,7 +49,7 @@ class AllocationList extends Component<Props> {
     newAllocation = () => {
         this.props.dispatch(
             receiveAllocation({
-                id: "",
+                id: null,
                 toClientId: this.props.clientId,
                 fromClientId: "",
                 policyIds: [],

@@ -6,7 +6,7 @@ import { ThunkDispatch } from "redux-thunk";
 
 import {
     confirmCancelContact,
-    Contact,
+    ContactEdit,
     contactSelector,
     contactVisible,
     modifyContact,
@@ -18,7 +18,7 @@ import { Button, Form, FormField, FormInput, FormSelect } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 
 type Props = {
-    onSaved?: (contact: Contact) => void;
+    onSaved?: (contact: ContactEdit) => void;
 } & PropsFromState &
     PropsFromDispatch;
 
@@ -29,7 +29,7 @@ const ContactForm: React.FC<Props> = (props: Props) => {
 
     const close = () => props.setVisible(false);
 
-    const onChange = (fieldName: keyof Contact, value: string) => {
+    const onChange = (fieldName: keyof ContactEdit, value: string) => {
         props.handleChange(contact, fieldName, value);
     };
 
@@ -89,16 +89,16 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
-        handleChange: (contact: Contact, fieldName: keyof Contact, value: string) => {
+        handleChange: (contact: ContactEdit, fieldName: keyof ContactEdit, value: string) => {
             const contactModified = update(contact, { [fieldName]: { $set: value } });
             dispatch(modifyContact(contactModified));
         },
         confirmCancel: (onCancelled: () => void) => {
             dispatch(confirmCancelContact(showConfirm, onCancelled));
         },
-        saveContact: (onSaved?: (contact: Contact) => void) => {
+        saveContact: (onSaved?: (contact: ContactEdit) => void) => {
             dispatch(
-                saveContact((contactSaved: Contact) => {
+                saveContact((contactSaved: ContactEdit) => {
                     if (onSaved) onSaved(contactSaved);
                     dispatch(contactVisible(false));
                 })

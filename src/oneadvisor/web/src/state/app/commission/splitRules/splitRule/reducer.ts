@@ -1,10 +1,10 @@
 import { ValidationResult } from "@/app/validation";
 
-import { SplitRule } from "../types";
+import { SplitRuleEdit } from "../types";
 import { SplitRuleAction } from "./actions";
 
 export type State = {
-    readonly splitRule: SplitRule | null;
+    readonly splitRule: SplitRuleEdit | null;
     readonly fetching: boolean;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];

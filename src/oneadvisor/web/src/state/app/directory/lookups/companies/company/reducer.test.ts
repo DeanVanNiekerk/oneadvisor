@@ -1,6 +1,6 @@
 import { getValidationResult } from "@/test";
 
-import { Company } from "../";
+import { CompanyEdit } from "../";
 import { defaultState, reducer } from "./reducer";
 
 describe("company reducer", () => {
@@ -10,7 +10,7 @@ describe("company reducer", () => {
             validationResults: [getValidationResult()],
         };
 
-        const company: Company = {
+        const company: CompanyEdit = {
             id: "10",
             name: "Org1",
             commissionPolicyNumberPrefixes: ["pre_1"],
@@ -32,7 +32,7 @@ describe("company reducer", () => {
     });
 
     it("should handle COMPANIES_COMPANY_MODIFIED", () => {
-        const company: Company = {
+        const company: CompanyEdit = {
             id: "10",
             name: "Org1",
             commissionPolicyNumberPrefixes: ["pre_1"],
@@ -44,7 +44,7 @@ describe("company reducer", () => {
             companyOriginal: company,
         };
 
-        const companyModified: Company = {
+        const companyModified: CompanyEdit = {
             ...company,
             name: "New Name!",
         };

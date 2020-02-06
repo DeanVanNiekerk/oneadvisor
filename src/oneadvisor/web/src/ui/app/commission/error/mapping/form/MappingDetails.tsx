@@ -74,7 +74,7 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
         setPolicyId(policy.id);
     };
 
-    const setClientId = (clientId: string) => {
+    const setClientId = (clientId: string | null) => {
         //If the client changes clear the policy
         if (clientId != error.clientId) setPolicyId(null);
 

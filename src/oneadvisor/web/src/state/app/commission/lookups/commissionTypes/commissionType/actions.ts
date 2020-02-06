@@ -2,11 +2,11 @@ import { ApiAction, ApiOnSuccess } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { commissionTypesApi } from "@/config/api/commission";
 
-import { CommissionType } from "../types";
+import { CommissionTypeEdit } from "../types";
 
 type CommissionTypeReceiveAction = {
     type: "COMMISSIONTYPES_COMMISSIONTYPE_RECEIVE";
-    payload: CommissionType;
+    payload: CommissionTypeEdit;
 };
 
 type CommissionTypeUpdatedAction = {
@@ -31,14 +31,14 @@ export type CommissionTypeAction =
     | CommissionTypeValidationErrorAction;
 
 export const receiveCommissionType = (
-    commissionType: CommissionType
+    commissionType: CommissionTypeEdit
 ): CommissionTypeReceiveAction => ({
     type: "COMMISSIONTYPES_COMMISSIONTYPE_RECEIVE",
     payload: commissionType,
 });
 
 export const updateCommissionType = (
-    commissionType: CommissionType,
+    commissionType: CommissionTypeEdit,
     onSuccess?: ApiOnSuccess
 ): ApiAction => ({
     type: "API",
@@ -50,7 +50,7 @@ export const updateCommissionType = (
 });
 
 export const insertCommissionType = (
-    commissionType: CommissionType,
+    commissionType: CommissionTypeEdit,
     onSuccess?: ApiOnSuccess
 ): ApiAction => ({
     type: "API",

@@ -1,10 +1,10 @@
 import { ValidationResult } from "@/app/validation";
 
-import { PolicyProductType } from "../types";
+import { PolicyProductTypeEdit } from "../types";
 import { PolicyProductTypeAction } from "./actions";
 
 export type State = {
-    readonly policyProductType: PolicyProductType | null;
+    readonly policyProductType: PolicyProductTypeEdit | null;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];
 };

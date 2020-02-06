@@ -2,7 +2,7 @@ import { ClientEdit } from "../";
 import { ClientTypeId } from "../../lookups";
 
 export const createClient = (client: Partial<ClientEdit> = {}): ClientEdit => ({
-    id: "",
+    id: null,
     clientTypeId: ClientTypeId.Individual,
     firstName: "",
     lastName: "",

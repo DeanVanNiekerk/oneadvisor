@@ -5,7 +5,7 @@ import { areEqual } from "@/app/utils";
 import { ValidationResult } from "@/app/validation";
 import {
     insertPolicyProduct,
-    PolicyProduct,
+    PolicyProductEdit,
     policyProductSelector,
     updatePolicyProduct,
 } from "@/state/app/client/lookups";
@@ -18,13 +18,13 @@ import PolicyProductForm from "./PolicyProductForm";
 type Props = {
     visible: boolean;
     onClose: (cancelled: boolean) => void;
-    policyProduct: PolicyProduct | null;
+    policyProduct: PolicyProductEdit | null;
     updating: boolean;
     validationResults: ValidationResult[];
 } & DispatchProp;
 
 type State = {
-    policyProductEdited: PolicyProduct | null;
+    policyProductEdited: PolicyProductEdit | null;
 };
 
 class EditPolicyProduct extends Component<Props, State> {
@@ -71,7 +71,7 @@ class EditPolicyProduct extends Component<Props, State> {
         }
     };
 
-    onChange = (policyProduct: PolicyProduct) => {
+    onChange = (policyProduct: PolicyProductEdit) => {
         this.setState({
             policyProductEdited: policyProduct,
         });

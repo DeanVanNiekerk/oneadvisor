@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
 import {
-    PolicyProduct,
+    PolicyProductEdit,
     PolicyProductType,
     policyProductTypesSelector,
 } from "@/state/app/client/lookups";
@@ -13,15 +13,15 @@ import { RootState } from "@/state/rootReducer";
 import { Form, FormInput, FormSelect } from "@/ui/controls";
 
 type Props = {
-    policyProduct: PolicyProduct;
+    policyProduct: PolicyProductEdit;
     validationResults: ValidationResult[];
-    onChange: (policyProduct: PolicyProduct) => void;
+    onChange: (policyProduct: PolicyProductEdit) => void;
     companies: Company[];
     policyProductTypes: PolicyProductType[];
 };
 
 type State = {
-    policyProduct: PolicyProduct;
+    policyProduct: PolicyProductEdit;
 };
 
 class PolicyProductForm extends Component<Props, State> {
@@ -40,7 +40,7 @@ class PolicyProductForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: keyof PolicyProduct, value: string) => {
+    handleChange = (fieldName: keyof PolicyProductEdit, value: string) => {
         const policyProduct = update(this.state.policyProduct, { [fieldName]: { $set: value } });
         this.setState({
             policyProduct: policyProduct,

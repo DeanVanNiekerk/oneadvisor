@@ -5,6 +5,7 @@ import { getColumnDefinition } from "@/app/table";
 import {
     fetchPolicyProducts,
     PolicyProduct,
+    PolicyProductEdit,
     policyProductsSelector,
     PolicyProductType,
     policyProductTypesSelector,
@@ -15,10 +16,10 @@ import { RootState } from "@/state/rootReducer";
 import {
     Button,
     CompanyName,
+    getColumnSearchProps,
     getTable,
     Header,
     PolicyProductTypeName,
-    getColumnSearchProps,
 } from "@/ui/controls";
 
 import EditPolicyProduct from "./EditPolicyProduct";
@@ -54,8 +55,8 @@ class PolicyProductList extends Component<Props, State> {
     };
 
     newPolicyProduct = () => {
-        const policyProduct: PolicyProduct = {
-            id: "",
+        const policyProduct: PolicyProductEdit = {
+            id: null,
             policyProductTypeId: "",
             companyId: "",
             name: "",
@@ -69,7 +70,7 @@ class PolicyProductList extends Component<Props, State> {
         if (policyProduct) this.showEditPolicyProduct(policyProduct);
     };
 
-    showEditPolicyProduct = (policyProduct: PolicyProduct) => {
+    showEditPolicyProduct = (policyProduct: PolicyProductEdit) => {
         this.props.dispatch(receivePolicyProduct(policyProduct));
         this.setState({
             editVisible: true,

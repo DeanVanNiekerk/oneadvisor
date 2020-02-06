@@ -13,7 +13,7 @@ import {
     splitRulesSelector,
 } from "@/state/app/commission/splitRules";
 import { RootState } from "@/state/rootReducer";
-import { Button, getTable, Header, StopPropagation, getColumnSearchProps } from "@/ui/controls";
+import { Button, getColumnSearchProps, getTable, Header, StopPropagation } from "@/ui/controls";
 
 import EditSplitRule from "./EditSplitRule";
 
@@ -50,7 +50,7 @@ class SplitRuleList extends Component<Props> {
     newSplitRule = () => {
         this.props.dispatch(
             receiveSplitRule({
-                id: "",
+                id: null,
                 userId: this.props.userId,
                 name: "",
                 isDefault: false,

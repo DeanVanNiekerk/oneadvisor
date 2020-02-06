@@ -134,9 +134,9 @@ const getColumns = (props: Props) => {
                     render: (policyCompanyId: string) => {
                         return <CompanyName companyId={policyCompanyId} />;
                     },
-                    filters: props.companies.map(type => ({
-                        text: type.name,
-                        value: type.id,
+                    filters: props.companies.map(c => ({
+                        text: c.name,
+                        value: c.id,
                     })),
                 }
             )

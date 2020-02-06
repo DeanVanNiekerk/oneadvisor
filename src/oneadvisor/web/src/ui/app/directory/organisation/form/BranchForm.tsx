@@ -5,7 +5,7 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import {
-    Branch,
+    BranchEdit,
     branchSelector,
     branchVisible,
     confirmCancelBranch,
@@ -18,7 +18,7 @@ import { Button, Form, FormField, FormInput } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 
 type Props = {
-    onSaved?: (branch: Branch) => void;
+    onSaved?: (branch: BranchEdit) => void;
 } & PropsFromState &
     PropsFromDispatch;
 
@@ -29,7 +29,7 @@ const BranchForm: React.FC<Props> = (props: Props) => {
 
     const close = () => props.setVisible(false);
 
-    const onChange = (fieldName: keyof Branch, value: string) => {
+    const onChange = (fieldName: keyof BranchEdit, value: string) => {
         props.handleChange(branch, fieldName, value);
     };
 
@@ -78,16 +78,16 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
-        handleChange: (branch: Branch, fieldName: keyof Branch, value: string) => {
+        handleChange: (branch: BranchEdit, fieldName: keyof BranchEdit, value: string) => {
             const branchModified = update(branch, { [fieldName]: { $set: value } });
             dispatch(modifyBranch(branchModified));
         },
         confirmCancel: (onCancelled: () => void) => {
             dispatch(confirmCancelBranch(showConfirm, onCancelled));
         },
-        saveBranch: (onSaved?: (branch: Branch) => void) => {
+        saveBranch: (onSaved?: (branch: BranchEdit) => void) => {
             dispatch(
-                saveBranch((branchSaved: Branch) => {
+                saveBranch((branchSaved: BranchEdit) => {
                     if (onSaved) onSaved(branchSaved);
                     dispatch(branchVisible(false));
                     dispatch(fetchBranchesSimple());

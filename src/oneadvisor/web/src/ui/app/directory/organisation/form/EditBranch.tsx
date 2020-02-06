@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import {
-    Branch,
+    BranchEdit,
     branchIsLoadingSelector,
     branchSelector,
     branchVisible,
@@ -16,7 +16,7 @@ import BranchForm from "./BranchForm";
 
 type Props = {
     organisationId: string;
-    onSaved?: (contact: Branch) => void;
+    onSaved?: (contact: BranchEdit) => void;
 } & PropsFromState &
     PropsFromDispatch;
 
@@ -58,7 +58,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         newBranch: (organisationId: string) => {
             dispatch(
                 receiveBranch({
-                    id: "",
+                    id: null,
                     name: "",
                     organisationId: organisationId,
                 })

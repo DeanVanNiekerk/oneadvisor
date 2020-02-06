@@ -9,6 +9,7 @@ import {
 } from "@/state/app/commission/lookups";
 import {
     CommissionType,
+    CommissionTypeEdit,
     commissionTypesSelector,
     fetchCommissionTypes,
     receiveCommissionType,
@@ -17,10 +18,10 @@ import { RootState } from "@/state/rootReducer";
 import {
     Button,
     CommissionEarningsTypeName,
+    getColumnSearchProps,
     getTable,
     Header,
     PolicyTypeName,
-    getColumnSearchProps,
 } from "@/ui/controls";
 
 import EditCommissionType from "./EditCommissionType";
@@ -56,8 +57,8 @@ class CommissionTypeList extends Component<Props, State> {
     };
 
     newCommissionType = () => {
-        const commissionType: CommissionType = {
-            id: "",
+        const commissionType: CommissionTypeEdit = {
+            id: null,
             policyTypeId: "",
             commissionEarningsTypeId: "",
             name: "",
@@ -71,7 +72,7 @@ class CommissionTypeList extends Component<Props, State> {
         if (commissionType) this.showEditCommissionType(commissionType);
     };
 
-    showEditCommissionType = (commissionType: CommissionType) => {
+    showEditCommissionType = (commissionType: CommissionTypeEdit) => {
         this.props.dispatch(receiveCommissionType(commissionType));
         this.setState({
             editVisible: true,

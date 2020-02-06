@@ -59,7 +59,7 @@ class UserList extends Component<Props, State> {
 
     newUser = () => {
         const user: UserEdit = {
-            id: "",
+            id: null,
             firstName: "",
             lastName: "",
             email: "",
