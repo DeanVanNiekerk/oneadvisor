@@ -24,7 +24,7 @@ const PolicyNumberAliases: React.FC<Props> = (props: Props) => {
             <FormSimpleList
                 editUseCase="clt_edit_policies"
                 fieldName="numberAliases"
-                displayName="Alias"
+                displayName="Policy Number Alias"
                 values={policy.numberAliases}
                 onChange={(aliases: string[]) => onChange("numberAliases", aliases)}
                 validationResults={validationResults}
