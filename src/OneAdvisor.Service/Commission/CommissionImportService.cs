@@ -77,11 +77,13 @@ namespace OneAdvisor.Service.Commission
             var statement = statements.Items.Single();
 
             var commissionTypes = await _commissionLookupService.GetCommissionTypes();
+            var commissionTypesDictionary = BuildCommissionTypesDictionary(commissionTypes);
             var company = await _lookupService.GetCompany(statement.CompanyId);
 
             var policyQueryOptions = new PolicyQueryOptions(scope, "", "", 0, 0);
             policyQueryOptions.CompanyId.Add(statement.CompanyId);
             var policies = (await _policyService.GetPolicies(policyQueryOptions)).Items.ToList();
+            var policyDictionary = BuildPolicyDictionary(policies, company.CommissionPolicyNumberPrefixes.ToList());
 
             var commissionSplitRulesQueryOptions = new CommissionSplitRuleQueryOptions(scope, "", "", 0, 0);
             var commissionSplitRules = (await _commissionSplitService.GetCommissionSplitRules(commissionSplitRulesQueryOptions)).Items.ToList();
@@ -91,7 +93,7 @@ namespace OneAdvisor.Service.Commission
 
             foreach (var data in importData)
             {
-                var result = ImportCommission(scope, statement, data, policies, commissionTypes, company, commissionSplitRules, commissionSplitRulePolicies);
+                var result = ImportCommission(scope, statement, data, policyDictionary, commissionTypesDictionary, commissionSplitRules, commissionSplitRulePolicies);
 
                 importResult.Results.Add(result);
 
@@ -122,9 +124,8 @@ namespace OneAdvisor.Service.Commission
             ScopeOptions scope,
             CommissionStatement commissionStatement,
             ImportCommission importCommission,
-            List<Policy> policies,
-            List<CommissionType> commissionTypes,
-            Company company,
+            Dictionary<string, Policy> policies,
+            Dictionary<string, CommissionType> commissionTypes,
             List<CommissionSplitRule> commissionSplitRules,
             List<CommissionSplitRulePolicy> commissionSplitRulePolicies)
         {
@@ -144,14 +145,19 @@ namespace OneAdvisor.Service.Commission
                 Data = importCommission,
             };
 
-            var commissionType = commissionTypes.FirstOrDefault(c => c.Code.ToLower() == importCommission.CommissionTypeCode.ToLower());
-            if (commissionType != null)
+            CommissionType commissionType = null;
+            var commissionTypeKey = importCommission.CommissionTypeCode.ToLowerInvariant();
+            if (commissionTypes.ContainsKey(commissionTypeKey))
+            {
+                commissionType = commissionTypes[commissionTypeKey];
                 error.CommissionTypeId = commissionType.Id;
+            }
 
-            var prefixes = company.CommissionPolicyNumberPrefixes.ToList();
-            prefixes.Insert(0, ""); //Add empty prefix for the default case
+            Policy policy = null;
+            var policyNumberKey = importCommission.PolicyNumber.ToLowerInvariant();
+            if (policies.ContainsKey(policyNumberKey))
+                policy = policies[policyNumberKey];
 
-            var policy = policies.FirstOrDefault(p => prefixes.Any(prefix => importCommission.PolicyNumber.IgnoreCaseEquals($"{prefix}{p.Number}")));
             if (policy != null)
             {
                 error.ClientId = policy.ClientId;
@@ -209,6 +215,36 @@ namespace OneAdvisor.Service.Commission
             c.SplitGroupId = commission.SplitGroupId;
 
             return c;
+        }
+
+        private Dictionary<string, CommissionType> BuildCommissionTypesDictionary(List<CommissionType> commissionTypes)
+        {
+            return commissionTypes.ToDictionary(t => t.Code.ToLowerInvariant(), t => t);
+        }
+
+        private Dictionary<string, Policy> BuildPolicyDictionary(List<Policy> policies, List<string> prefixes)
+        {
+            var dictionary = new Dictionary<string, Policy>();
+
+            prefixes.Insert(0, ""); //Default, no prefix case
+
+            foreach (var policy in policies)
+            {
+                var policyNumbers = new List<string>() { policy.Number };
+                policyNumbers.AddRange(policy.NumberAliases);
+
+                foreach (var number in policyNumbers)
+                {
+                    foreach (var prefix in prefixes)
+                    {
+                        var key = $"{prefix}{number}".ToLowerInvariant();
+                        if (!dictionary.ContainsKey(key))
+                            dictionary.Add(key, policy);
+                    }
+                }
+            }
+
+            return dictionary;
         }
     }
 }

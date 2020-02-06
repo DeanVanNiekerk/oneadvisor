@@ -5,6 +5,11 @@ namespace OneAdvisor.Model.Client.Model.Policy
 {
     public class Policy
     {
+        public Policy()
+        {
+            NumberAliases = new List<string>();
+        }
+
         public Guid Id { get; set; }
         public Guid ClientId { get; set; }
         public Guid CompanyId { get; set; }

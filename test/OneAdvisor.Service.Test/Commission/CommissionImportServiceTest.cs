@@ -180,7 +180,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
                 ClientId = client1.Client.Id,
-                UserId = user1.User.Id
+                UserId = user1.User.Id,
+                NumberAliases = new List<string>(),
             };
 
             using (var context = new DataContext(options))
@@ -267,7 +268,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
                 ClientId = client1.Client.Id,
-                UserId = user1.User.Id
+                UserId = user1.User.Id,
+                NumberAliases = new List<string>(),
             };
 
             using (var context = new DataContext(options))
@@ -360,7 +362,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
                 ClientId = client1.Client.Id,
-                UserId = user1.User.Id
+                UserId = user1.User.Id,
+                NumberAliases = new List<string>(),
             };
 
             using (var context = new DataContext(options))
@@ -426,6 +429,102 @@ namespace OneAdvisor.Service.Test.Commission
         }
 
         [Fact]
+        public async Task ImportCommission_InsertCommission_MatchUsingPolicyNumberAlias()
+        {
+            var options = TestHelper.GetDbContext("ImportCommission_InsertCommission_MatchUsingPolicyNumberAlias");
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
+
+            var company = new CompanyEntity
+            {
+                Id = Guid.NewGuid(),
+                Name = Guid.NewGuid().ToString(),
+                CommissionPolicyNumberPrefixes = new List<string>(),
+            };
+
+            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation, company.Id);
+
+            var commissionType = new CommissionTypeEntity
+            {
+                Id = Guid.NewGuid(),
+                Code = "gap_cover"
+            };
+
+            var policyNumberAlias = "11223344";
+            var policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                Number = Guid.NewGuid().ToString(),
+                CompanyId = company.Id,
+                ClientId = client1.Client.Id,
+                UserId = user1.User.Id,
+                NumberAliases = new List<string>() { policyNumberAlias },
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.Company.Add(company);
+                context.CommissionType.Add(commissionType);
+                context.Policy.Add(policy1);
+                context.SaveChanges();
+
+                var auditService = new AuditServiceMock();
+                var statementService = new CommissionStatementService(context, null, auditService);
+                var lookupService = new DirectoryLookupService(context);
+                var commissionLookupService = new CommissionLookupService(context);
+                var policyService = new PolicyService(context, auditService);
+                var commissionSplitService = new CommissionSplitService(context, auditService);
+                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService, auditService);
+                var commissionService = new CommissionService(context, auditService);
+
+                var bulkActions = new Mock<IBulkActions>(MockBehavior.Strict);
+                var insertedCommissions = new List<CommissionEntity>();
+                bulkActions.Setup(c => c.BulkInsertCommissionsAsync(It.IsAny<DataContext>(), It.IsAny<IList<CommissionEntity>>()))
+                    .Callback((DataContext c, IList<CommissionEntity> l) => insertedCommissions = l.ToList())
+                    .Returns(Task.CompletedTask);
+
+                var service = new CommissionImportService(
+                    context,
+                    bulkActions.Object,
+                    statementService,
+                    policyService,
+                    lookupService,
+                    commissionLookupService,
+                    commissionSplitService,
+                    commissionSplitRulePolicyService,
+                    auditService);
+
+                //When
+                var import1 = new ImportCommission
+                {
+                    PolicyNumber = policyNumberAlias,
+                    CommissionTypeCode = commissionType.Code,
+                    AmountIncludingVAT = "100",
+                    VAT = "14"
+                };
+
+                var scope = TestHelper.GetScopeOptions(user1);
+                var importResult = (await service.ImportCommissions(scope, statement.Id, new List<ImportCommission>() { import1 }));
+
+                var result = importResult.Results.Single();
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = insertedCommissions.Single();
+                Assert.Equal(policy1.Id, actual.PolicyId);
+                Assert.Equal(commissionType.Id, actual.CommissionTypeId);
+                Assert.Equal(100, actual.AmountIncludingVAT);
+                Assert.Equal(14, actual.VAT);
+                Assert.Equal(statement.Id, actual.CommissionStatementId);
+                Assert.Equal(import1, actual.SourceData);
+                Assert.Equal(policy1.UserId, actual.UserId);
+                Assert.Null(actual.SplitGroupId);
+            }
+        }
+
+        [Fact]
         public async Task ImportCommission_InsertCommission_NegitiveAmmount()
         {
             var options = TestHelper.GetDbContext("ImportCommission_InsertCommission_NegitiveAmmount");
@@ -448,7 +547,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
                 ClientId = client1.Client.Id,
-                UserId = user1.User.Id
+                UserId = user1.User.Id,
+                NumberAliases = new List<string>(),
             };
 
             using (var context = new DataContext(options))
@@ -537,7 +637,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
                 ClientId = client1.Client.Id,
-                UserId = user1.User.Id
+                UserId = user1.User.Id,
+                NumberAliases = new List<string>(),
             };
 
             var csr1 = new CommissionSplitRuleEntity
@@ -659,7 +760,8 @@ namespace OneAdvisor.Service.Test.Commission
                 Number = Guid.NewGuid().ToString(),
                 CompanyId = company.Id,
                 ClientId = client1.Client.Id,
-                UserId = user1.User.Id
+                UserId = user1.User.Id,
+                NumberAliases = new List<string>(),
             };
 
             var csr1 = new CommissionSplitRuleEntity

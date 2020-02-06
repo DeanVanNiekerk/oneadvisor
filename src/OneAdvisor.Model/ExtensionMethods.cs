@@ -97,7 +97,7 @@ namespace OneAdvisor.Model
 
         public static bool IgnoreCaseEquals(this string str, string target)
         {
-            return String.Equals(str, target, StringComparison.OrdinalIgnoreCase); ;
+            return String.Equals(str, target, StringComparison.OrdinalIgnoreCase);
         }
 
         public static string Acronym(this string str)
