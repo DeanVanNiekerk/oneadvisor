@@ -31,7 +31,6 @@ const EditStatement: React.FC<Props> = (props: Props) => {
             icon="database"
             visible={props.visible}
             updating={props.loading}
-            noTopPadding={true}
             saveRequiredUseCase="com_edit_commission_statements"
             onClose={() => {
                 props.confirmCancel(close);

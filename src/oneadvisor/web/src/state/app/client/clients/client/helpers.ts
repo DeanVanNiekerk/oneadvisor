@@ -11,9 +11,9 @@ export const createClient = (client: Partial<ClientEdit> = {}): ClientEdit => ({
     alternateIdNumber: "",
     initials: "",
     preferredName: "",
-    dateOfBirth: "",
-    marriageDate: "",
-    marritalStatusId: "",
+    dateOfBirth: null,
+    marriageDate: null,
+    marritalStatusId: null,
     taxNumber: "",
     ...client,
 });

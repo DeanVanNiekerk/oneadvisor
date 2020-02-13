@@ -20,7 +20,7 @@ const OrganisationDetails: React.FC<Props> = ({
 }) => {
     if (!organisation) return <React.Fragment />;
 
-    const onChange = (fieldName: keyof OrganisationEdit, value: string | boolean) => {
+    const onChange = (fieldName: keyof OrganisationEdit, value: string | boolean | null) => {
         handleChange(organisation, fieldName, value);
     };
 
@@ -69,7 +69,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         handleChange: (
             organisation: OrganisationEdit,
             fieldName: keyof OrganisationEdit,
-            value: string | boolean
+            value: string | boolean | null
         ) => {
             const organisationModified = update(organisation, { [fieldName]: { $set: value } });
             dispatch(modifyOrganisation(organisationModified));

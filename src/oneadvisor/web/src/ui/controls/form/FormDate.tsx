@@ -13,9 +13,9 @@ type Props = {
     fieldName: string;
     label: string;
     extra?: React.ReactNode;
-    value: string | number | undefined;
+    value: string | number | undefined | null;
     disabled?: boolean;
-    onChange?: (fieldName: string, value: string) => void;
+    onChange?: (fieldName: string, value: string | null) => void;
     validationResults?: ValidationResult[];
     layout?: FormLayout;
     readonly?: boolean;
@@ -25,7 +25,7 @@ type Props = {
 
 const FormDate: React.FC<Props> = (props: Props) => {
     const onChange = (date: moment.Moment, dateString: string) => {
-        if (props.onChange) props.onChange(props.fieldName, dateString);
+        if (props.onChange) props.onChange(props.fieldName, dateString ? dateString : null);
     };
 
     const {

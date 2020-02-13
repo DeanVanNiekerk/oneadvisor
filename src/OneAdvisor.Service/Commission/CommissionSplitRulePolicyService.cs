@@ -138,7 +138,7 @@ namespace OneAdvisor.Service.Commission
 
             await _context.SaveChangesAsync();
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "CommissionSplitRulePolicy", entity.Id, entity);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "CommissionSplitRulePolicy", entity.Id, new { commissionSplitRulePolicyId = id });
 
             return new Result(true);
         }

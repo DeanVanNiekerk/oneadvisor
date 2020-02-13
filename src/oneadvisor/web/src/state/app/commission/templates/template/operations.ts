@@ -53,9 +53,9 @@ export const newCommissionStatementTemplate = (): TemplateReceiveAction => {
     const template: CommissionStatementTemplateEdit = {
         id: null,
         name: "",
-        companyId: "",
-        startDate: "",
-        endDate: "",
+        companyId: null,
+        startDate: null,
+        endDate: null,
         config: {
             sheets: [
                 {

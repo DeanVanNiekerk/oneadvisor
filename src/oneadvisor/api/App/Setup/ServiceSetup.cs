@@ -40,6 +40,7 @@ namespace api.App.Setup
         {
             Services.AddCors();
             Services.AddControllers();
+            //.AddJsonOptions(options => { });
             Services.AddHealthChecks();
         }
 

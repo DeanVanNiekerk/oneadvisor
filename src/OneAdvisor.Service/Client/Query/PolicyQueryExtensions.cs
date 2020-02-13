@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -39,7 +40,7 @@ namespace OneAdvisor.Service.Client.Query
                 PolicyTypeId = policy.PolicyTypeId,
                 PolicyProductTypeId = policy.PolicyProductTypeId,
                 PolicyProductId = policy.PolicyProductId,
-                NumberAliases = policy.NumberAliases,
+                NumberAliases = policy.NumberAliases != null ? policy.NumberAliases.ToList() : new List<string>(),
                 IsActive = policy.IsActive,
             };
         }

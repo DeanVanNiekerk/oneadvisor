@@ -41,7 +41,7 @@ export const policyProductCascaseSelector: (
             policyTypes.items,
             policyProductTypes.items,
             policyProducts.items,
-            root.policy ? root.policy.companyId : ""
+            root.policy && root.policy.companyId ? root.policy.companyId : ""
         );
     }
 );

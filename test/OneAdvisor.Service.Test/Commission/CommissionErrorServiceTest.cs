@@ -11,6 +11,7 @@ using OneAdvisor.Service.Commission;
 using OneAdvisor.Service.Client;
 using OneAdvisor.Model.Client.Model.Lookup;
 using OneAdvisor.Service.Test.Directory.Mocks;
+using System.Collections.Generic;
 
 namespace OneAdvisor.Service.Test.Commission
 {
@@ -357,6 +358,88 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(ic1.LastName, actualClient.LastName);
                 Assert.Equal(ic1.IdNumber, actualClient.IdNumber);
                 Assert.Equal(DateTime.Parse(ic1.DateOfBirth), actualClient.DateOfBirth);
+            }
+        }
+
+        [Fact]
+        public async Task ResolveMappingError_Pass_UpdatePolicyAlias()
+        {
+            var options = TestHelper.GetDbContext("ResolveMappingError_Pass_UpdatePolicyAlias");
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+            var client1 = TestHelper.InsertClient(options, user1.Organisation);
+
+            var statement = TestHelper.InsertCommissionStatement(options, user1.Organisation);
+
+            var company1 = TestHelper.InsertCompany(options);
+
+            var policy1 = new PolicyEntity
+            {
+                Id = Guid.NewGuid(),
+                Number = Guid.NewGuid().ToString(),
+                CompanyId = company1.Id,
+                ClientId = client1.Client.Id,
+                UserId = user1.User.Id,
+                NumberAliases = new List<string>() { "987654" } //Existing alias
+            };
+
+            var ic1 = new ImportCommission
+            {
+                PolicyNumber = "123456",  // Policy number is different
+                CommissionTypeCode = "gap_cover",
+                AmountIncludingVAT = "22",
+                VAT = "33",
+            };
+
+            var err1 = new CommissionErrorEntity
+            {
+                Id = Guid.NewGuid(),
+                CommissionStatementId = statement.Id,
+                Data = ic1
+            };
+
+            using (var context = new DataContext(options))
+            {
+                context.CommissionError.Add(err1);
+
+                context.Policy.Add(policy1);
+
+                context.SaveChanges();
+
+                var error1 = new CommissionErrorEdit
+                {
+                    Id = err1.Id,
+                    CommissionStatementId = statement.Id,
+                    PolicyId = policy1.Id,
+                    ClientId = policy1.ClientId,
+                    CommissionTypeId = Guid.NewGuid(),
+                    Data = ic1
+                };
+
+                var auditService = new AuditServiceMock();
+                var commissionService = new CommissionService(context, auditService);
+                var clientService = new ClientService(context, auditService);
+                var policyService = new PolicyService(context, auditService);
+                var commissionSplitService = new CommissionSplitService(context, auditService);
+                var commissionSplitRulePolicyService = new CommissionSplitRulePolicyService(context, commissionSplitService, auditService);
+                var service = new CommissionErrorService(context, commissionService, clientService, commissionSplitService, policyService, commissionSplitRulePolicyService, auditService);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1);
+                var result = await service.ResolveMappingError(scope, error1);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = context.Commission.Single();
+
+                Assert.Equal(error1.PolicyId, actual.PolicyId);
+                Assert.Equal(error1.Data, actual.SourceData);
+
+                var actualPolicy = context.Policy.Single();
+                Assert.Equal(2, actualPolicy.NumberAliases.Count());
+                Assert.NotNull(actualPolicy.NumberAliases.SingleOrDefault(n => n == "123456")); //New alias
+                Assert.NotNull(actualPolicy.NumberAliases.SingleOrDefault(n => n == "987654")); //Existing alias
             }
         }
 

@@ -4,6 +4,7 @@ import { ThunkAction } from "redux-thunk";
 import { ApiAction, ApiOnFailure, ApiOnSuccess, ShowConfirm } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { commissionsImportApi, statementsApi } from "@/config/api/commission";
+import { companiesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 
 import { statementIsModifiedSelector, statementSelector, statementsSelector } from "../";
@@ -74,6 +75,7 @@ export const clearStatement = (): StatementReceiveAction => receiveStatement(nul
 export const newStatement = (): ThunkAction<void, RootState, {}, StatementReceiveAction> => {
     return (dispatch, getState) => {
         const { filterYear, filterMonth } = statementsSelector(getState());
+        const companies = companiesSelector(getState()).items;
 
         const today = moment();
         let date = moment()
@@ -85,7 +87,7 @@ export const newStatement = (): ThunkAction<void, RootState, {}, StatementReceiv
             id: null,
             amountIncludingVAT: 0,
             vat: 0,
-            companyId: "",
+            companyId: companies[0].id,
             processed: false,
             date: date.format(),
         };

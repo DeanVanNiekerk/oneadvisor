@@ -150,10 +150,23 @@ namespace OneAdvisor.Service.Commission
                     else
                         client.AlternateIdNumber = string.IsNullOrEmpty(client.AlternateIdNumber) ? error.Data.IdNumber ?? "" : client.AlternateIdNumber;
                 }
-
                 await _clientService.UpdateClient(scope, client);
+
+                //Add policy alias if policy number doesnt match policy id
+                if (!policy.Number.IgnoreCaseEquals(error.Data.PolicyNumber))
+                {
+                    //First check if its not already and alias
+                    if (!policy.NumberAliases.Any(n => n.IgnoreCaseEquals(error.Data.PolicyNumber)))
+                    {
+                        var policyEdit = await _policyService.GetPolicy(scope, policy.Id);
+                        policyEdit.NumberAliases.Add(error.Data.PolicyNumber);
+                        await _policyService.UpdatePolicy(scope, policyEdit);
+                    }
+                }
+
             }
             catch { }
+
 
             if (!result.Success)
                 return result;
@@ -199,7 +212,7 @@ namespace OneAdvisor.Service.Commission
             _context.CommissionError.Remove(entity);
             await _context.SaveChangesAsync();
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "CommissionError", entity.Id, entity);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "CommissionError", entity.Id, new { commissionErrorId });
 
             return new Result(true);
         }

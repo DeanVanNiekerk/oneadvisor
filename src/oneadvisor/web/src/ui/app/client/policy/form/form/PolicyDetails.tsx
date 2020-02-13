@@ -43,7 +43,7 @@ const PolicyDetails: React.FC<Props> = (props: Props) => {
 
     const onChange = (
         fieldName: keyof PolicyEdit,
-        value: string | boolean | number | undefined
+        value: string | boolean | number | undefined | null
     ) => {
         handleChange(policy, fieldName, value);
     };
@@ -176,7 +176,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
         handleChange: (
             policy: PolicyEdit,
             fieldName: keyof PolicyEdit,
-            value: string | boolean | number | undefined
+            value: string | boolean | number | undefined | null
         ) => {
             const policyModified = update(policy, { [fieldName]: { $set: value } });
 

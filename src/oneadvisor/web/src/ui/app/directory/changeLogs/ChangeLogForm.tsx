@@ -37,7 +37,7 @@ class ChangeLogForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: keyof ChangeLogEdit, value: string | boolean) => {
+    handleChange = (fieldName: keyof ChangeLogEdit, value: string | boolean | null) => {
         const changeLog = update(this.state.changeLog, { [fieldName]: { $set: value } });
         this.updateState(changeLog);
     };

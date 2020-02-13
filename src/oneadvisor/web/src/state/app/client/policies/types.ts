@@ -20,11 +20,11 @@ export type Policy = {
 
 export type PolicyEdit = {
     id: string | null;
-    clientId: string;
-    companyId: string;
-    userId: string;
+    clientId: string | null;
+    companyId: string | null;
+    userId: string | null;
     number: string;
-    startDate: string;
+    startDate: string | null;
     premium: number | null;
     policyTypeId: string | null;
     policyProductTypeId: string | null;

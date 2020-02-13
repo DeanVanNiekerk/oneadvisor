@@ -25,7 +25,7 @@ const StatementForm: React.FC<Props> = ({
 
     const onChange = (
         fieldName: keyof StatementEdit,
-        value: string | number | boolean | undefined
+        value: string | number | boolean | undefined | null
     ) => {
         handleChange(statement, fieldName, value);
     };
@@ -47,7 +47,7 @@ const StatementForm: React.FC<Props> = ({
                 optionsText="name"
                 autoFocus={true}
                 showSearch={true}
-                allowClear
+                allowClear={false}
                 filterOption={filterOption}
             />
             <FormInputNumber
@@ -78,6 +78,7 @@ const StatementForm: React.FC<Props> = ({
                 label="Date"
                 value={statement.date}
                 onChange={onChange}
+                allowClear={false}
                 validationResults={validationResults}
             />
             <FormSwitch
@@ -108,7 +109,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         handleChange: (
             statement: StatementEdit,
             fieldName: keyof StatementEdit,
-            value: string | number | boolean | undefined
+            value: string | number | boolean | undefined | null
         ) => {
             const statementModified = update(statement, { [fieldName]: { $set: value } });
             dispatch(modifyStatement(statementModified));

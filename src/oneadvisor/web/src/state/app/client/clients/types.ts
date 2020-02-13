@@ -10,10 +10,10 @@ export type Client = {
     preferredName: string;
     idNumber: string;
     alternateIdNumber: string;
-    dateOfBirth: string;
+    dateOfBirth: string | null;
     taxNumber: string;
-    marritalStatusId: string;
-    marriageDate: string;
+    marritalStatusId: string | null;
+    marriageDate: string | null;
 };
 
 export type ClientEdit = {
@@ -26,10 +26,10 @@ export type ClientEdit = {
     preferredName: string;
     idNumber: string;
     alternateIdNumber: string;
-    dateOfBirth: string;
+    dateOfBirth: string | null;
     taxNumber: string;
-    marritalStatusId: string;
-    marriageDate: string;
+    marritalStatusId: string | null;
+    marriageDate: string | null;
 };
 
 export type ClientPreview = {

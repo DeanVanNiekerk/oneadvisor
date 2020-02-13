@@ -104,7 +104,7 @@ namespace OneAdvisor.Service.Commission
 
             await _context.SaveChangesAsync();
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "CommissionAllocation", entity.Id, entity);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "CommissionAllocation", entity.Id, new { commissionAllocationId });
 
             return new Result(true);
         }
@@ -126,7 +126,7 @@ namespace OneAdvisor.Service.Commission
 
             await InsertCommissionAllocationPolicies(commissionAllocation);
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "CommissionAllocation", entity.Id, entity);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "CommissionAllocation", entity.Id, commissionAllocation);
 
             return result;
         }
@@ -172,7 +172,7 @@ namespace OneAdvisor.Service.Commission
             await DeleteCommissionAllocationPolicies(commissionAllocation.Id.Value);
             await InsertCommissionAllocationPolicies(commissionAllocation);
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "CommissionAllocation", entity.Id, entity);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_UPDATE, "CommissionAllocation", entity.Id, commissionAllocation);
 
             return result;
         }

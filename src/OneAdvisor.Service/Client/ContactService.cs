@@ -122,7 +122,7 @@ namespace OneAdvisor.Service.Client
 
             await _context.SaveChangesAsync();
 
-            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "Contact", entity.Id, entity);
+            await _auditService.InsertAuditLog(scope, AuditLog.ACTION_DELETE, "Contact", entity.Id, new { contactId });
 
             return new Result(true);
         }

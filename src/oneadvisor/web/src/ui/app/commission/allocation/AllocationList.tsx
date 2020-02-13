@@ -51,7 +51,7 @@ class AllocationList extends Component<Props> {
             receiveAllocation({
                 id: null,
                 toClientId: this.props.clientId,
-                fromClientId: "",
+                fromClientId: null,
                 policyIds: [],
             })
         );
