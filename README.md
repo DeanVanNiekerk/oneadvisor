@@ -73,6 +73,8 @@
 
 ### dotnet-outdated - update nuget packages
 
+Install > `dotnet tool install --global dotnet-outdated`
+
 - `dotnet-outdated oneadvisor.sln`
 - `dotnet-outdated oneadvisor.sln -u` (will make updates)
 - `dotnet-outdated oneadvisor.sln -u:prompt` (will prompt to make updates)
