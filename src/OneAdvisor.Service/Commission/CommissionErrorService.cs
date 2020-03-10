@@ -192,8 +192,10 @@ namespace OneAdvisor.Service.Commission
 
             foreach (var error in errors)
             {
-                //JSON Query: should be included in above query
-                if (!String.Equals(error.Data.PolicyNumber, policy.Number, StringComparison.OrdinalIgnoreCase))
+                var policyNumbers = policy.NumberAliases.ToList();
+                policyNumbers.Add(policy.Number);
+
+                if (!policyNumbers.Any(p => p.IgnoreCaseEquals(error.Data.PolicyNumber)))
                     continue;
 
                 error.ClientId = policy.ClientId;

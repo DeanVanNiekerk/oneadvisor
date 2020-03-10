@@ -457,13 +457,16 @@ namespace OneAdvisor.Service.Test.Commission
 
             var company1 = TestHelper.InsertCompany(options);
 
+            var policyAliasNumber1 = "98765";
+
             var policy1 = new PolicyEntity
             {
                 Id = Guid.NewGuid(),
                 Number = "123456",
                 CompanyId = company1.Id,
                 ClientId = client1.Client.Id,
-                UserId = user1.User.Id
+                UserId = user1.User.Id,
+                NumberAliases = new List<string>() { policyAliasNumber1 }
             };
 
             // ENTRY 1: POLICY 1 -----------------------
@@ -526,7 +529,7 @@ namespace OneAdvisor.Service.Test.Commission
             // ENTRY 4: POLICY 1 -----------------------
             var ic1c = new ImportCommission
             {
-                PolicyNumber = policy1.Number,
+                PolicyNumber = policyAliasNumber1,
                 CommissionTypeCode = "gap_cover",
                 AmountIncludingVAT = "77",
                 VAT = "88"
