@@ -2,7 +2,7 @@ import { Select } from "antd";
 import { SelectValue } from "antd/lib/select";
 import React, { Component } from "react";
 
-import { Option } from "@/app/controls/select";
+import { OptionValue } from "@/app/controls/select";
 import { ValidationResult } from "@/app/validation";
 
 import { FormText } from "./";
@@ -32,7 +32,7 @@ type Props<T extends SelectValue> = {
     placeholder?: React.ReactNode;
     showSearch?: boolean;
     showArrow?: boolean;
-    filterOption?: boolean | ((inputValue: string, option: Option) => boolean);
+    filterOption?: boolean | ((inputValue: string, option: OptionValue) => boolean);
     onSearch?: (value: string) => void;
     onSelect?: (value: T) => void;
     minWidth?: string;

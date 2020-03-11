@@ -1,8 +1,8 @@
 import { OptionData, OptionGroupData } from "rc-select/es/interface";
 
-export type Option = OptionGroupData | OptionData | undefined;
+export type OptionValue = OptionGroupData | OptionData | undefined;
 
-export const filterOption = (inputValue: string, option: Option): boolean => {
+export const filterOption = (inputValue: string, option: OptionValue): boolean => {
     if (!option || !option.children) return false;
 
     return (
