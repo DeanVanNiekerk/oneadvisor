@@ -10,7 +10,7 @@ const FormItem = Form.Item;
 type Props = {
     label?: React.ReactNode;
     extra?: React.ReactNode;
-    children: React.ReactNode;
+    children: React.ReactElement;
     value?: React.ReactNode;
     fieldName?: string;
     validationFieldName?: string;

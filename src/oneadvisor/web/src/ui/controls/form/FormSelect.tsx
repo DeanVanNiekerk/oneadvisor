@@ -98,34 +98,36 @@ class FormSelect<T extends SelectValue> extends Component<Props<T>> {
                 loading={loading}
                 validationFieldName={this.props.validationFieldName}
             >
-                <Select
-                    showSearch={this.props.showSearch}
-                    showArrow={this.props.showArrow}
-                    filterOption={this.props.filterOption}
-                    onSearch={this.props.onSearch}
-                    notFoundContent={this.props.notFoundContent}
-                    placeholder={this.props.placeholder}
-                    style={style}
-                    value={labelValue === "" ? "" : value}
-                    onChange={this.onChange}
-                    disabled={disabled}
-                    defaultActiveFirstOption={defaultActiveFirstOption}
-                    autoFocus={autoFocus}
-                    allowClear={this.props.allowClear}
-                    onSelect={value => {
-                        if (this.props.onSelect) this.props.onSelect(value as T);
-                    }}
-                >
-                    {this.props.options.map(option => (
-                        <Option
-                            key={option[this.props.optionsValue]}
-                            value={option[this.props.optionsValue]}
-                        >
-                            {this.getOptionsText(option)}
-                        </Option>
-                    ))}
-                </Select>
-                {this.props.addonAfter}
+                <React.Fragment>
+                    <Select
+                        showSearch={this.props.showSearch}
+                        showArrow={this.props.showArrow}
+                        filterOption={this.props.filterOption}
+                        onSearch={this.props.onSearch}
+                        notFoundContent={this.props.notFoundContent}
+                        placeholder={this.props.placeholder}
+                        style={style}
+                        value={labelValue === "" ? "" : value}
+                        onChange={this.onChange}
+                        disabled={disabled}
+                        defaultActiveFirstOption={defaultActiveFirstOption}
+                        autoFocus={autoFocus}
+                        allowClear={this.props.allowClear}
+                        onSelect={value => {
+                            if (this.props.onSelect) this.props.onSelect(value as T);
+                        }}
+                    >
+                        {this.props.options.map(option => (
+                            <Option
+                                key={option[this.props.optionsValue]}
+                                value={option[this.props.optionsValue]}
+                            >
+                                {this.getOptionsText(option)}
+                            </Option>
+                        ))}
+                    </Select>
+                    {this.props.addonAfter}
+                </React.Fragment>
             </FormField>
         );
     }
