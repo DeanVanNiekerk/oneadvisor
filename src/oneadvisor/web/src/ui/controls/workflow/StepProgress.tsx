@@ -1,7 +1,8 @@
-import { Col, Icon, Row, Steps } from "antd";
+import { Col, Row, Steps } from "antd";
 import React from "react";
 
 import { Button } from "@/ui/controls";
+import { LeftOutlined } from "@ant-design/icons";
 
 const Step = Steps.Step;
 
@@ -19,7 +20,7 @@ export type StepProgressProps = {
 
 const StepProgress: React.FC<StepProgressProps> = (props: StepProgressProps) => {
     return (
-        <Row type="flex" align="middle" gutter={16} className="mb-1">
+        <Row align="middle" gutter={16} className="mb-1">
             <Col>
                 {props.onPrevious && (
                     <Button
@@ -27,7 +28,7 @@ const StepProgress: React.FC<StepProgressProps> = (props: StepProgressProps) => 
                         onClick={props.onPrevious}
                         disabled={props.previousDisabled}
                     >
-                        <Icon type="left" />
+                        <LeftOutlined />
                         Previous
                     </Button>
                 )}

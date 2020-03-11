@@ -1,4 +1,4 @@
-import { Card, Icon, Popconfirm, Tooltip } from "antd";
+import { Card, Popconfirm, Tooltip } from "antd";
 import update from "immutability-helper";
 import React from "react";
 import { connect } from "react-redux";
@@ -16,6 +16,7 @@ import {
 } from "@/state/app/commission/templates";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormErrors, FormInput, FormSelect, FormSwitch } from "@/ui/controls";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 import GroupIdentifiersForm from "./GroupIdentifiersForm";
 
@@ -103,7 +104,7 @@ const Groups: React.FC<Props> = (props: Props) => {
                                 width="180px"
                                 addonAfter={
                                     <Tooltip title="This is a regular expression used to format the value">
-                                        <Icon type="info-circle" />
+                                        <InfoCircleOutlined />
                                     </Tooltip>
                                 }
                             />

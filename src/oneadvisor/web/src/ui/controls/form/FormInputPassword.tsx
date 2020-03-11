@@ -1,4 +1,5 @@
 import { Input } from "antd";
+import { SizeType } from "antd/lib/config-provider/SizeContext";
 import React, { KeyboardEventHandler } from "react";
 
 import { ValidationResult } from "@/app/validation";
@@ -6,8 +7,6 @@ import { ValidationResult } from "@/app/validation";
 import { FormText } from "./";
 import { FormLayout } from "./Form";
 import { FormField } from "./FormField";
-
-declare const InputSizes: ["small", "default", "large"];
 
 type Props = {
     fieldName: string;
@@ -22,7 +21,7 @@ type Props = {
     autoFocus?: boolean;
     readonly?: boolean;
     placeholder?: string;
-    size?: typeof InputSizes[number];
+    size?: SizeType;
     formFieldStyle?: React.CSSProperties;
     type?: string;
     onKeyPress?: KeyboardEventHandler<HTMLInputElement>;

@@ -1,4 +1,3 @@
-import { Icon } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { AnyAction } from "redux";
@@ -17,6 +16,7 @@ import { Statement } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
+import { RightOutlined } from "@ant-design/icons";
 
 import MappingErrorForm from "./form/MappingErrorForm";
 
@@ -85,7 +85,7 @@ const EditMappingError: React.FC<Props> = (props: Props) => {
                         >
                             <span>
                                 {"Save & Resolve Next "}
-                                <Icon type="right" />
+                                <RightOutlined />
                             </span>
                         </Button>
                     )}

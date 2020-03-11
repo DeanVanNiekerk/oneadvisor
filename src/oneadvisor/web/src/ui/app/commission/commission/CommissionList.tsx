@@ -212,7 +212,7 @@ const getColumns = (props: Props) => {
 
 const TableFooter: React.FC<Props> = (props: Props) => {
     return (
-        <Row type="flex" justify="space-between">
+        <Row justify="space-between">
             <Col>
                 <b>Total Amount (incl VAT): </b>
                 {formatCurrency(props.sumAmountIncludingVAT)}

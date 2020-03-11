@@ -1,4 +1,4 @@
-import { Card, Col, Icon, Skeleton } from "antd";
+import { Card, Col, Skeleton } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -9,7 +9,7 @@ import { RootState } from "@/state/rootReducer";
 type Props = {
     title: string;
     titleExtra?: React.ReactNode;
-    icon: string;
+    icon: React.ReactNode;
     onClick?: () => void;
     isLoading: boolean;
     actions?: React.ReactNode[];
@@ -51,7 +51,7 @@ const PreviewCardComponent: React.FC<Props> = (props: Props) => {
                 title={
                     <>
                         <span>
-                            <Icon type={icon} style={{ marginRight: "6px" }} />
+                            <span style={{ marginRight: "6px" }}>{icon}</span>
                             {title}
                         </span>
                         {titleExtra && <span className="pull-right">{titleExtra}</span>}

@@ -1,4 +1,4 @@
-import { Alert, Form, Icon } from "antd";
+import { Alert, Form } from "antd";
 import queryString from "query-string";
 import React from "react";
 import { connect, DispatchProp } from "react-redux";
@@ -8,6 +8,7 @@ import { ValidationResult } from "@/app/validation";
 import { activate, ResetPasswordData, resetPasswordSelector, signOut } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Button, FormErrors, FormField, FormInput, FormInputPassword } from "@/ui/controls";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
 import { showMessage } from "../feedback/notifcation";
 import Layout from "./Layout";
@@ -94,7 +95,7 @@ class Activate extends React.Component<Props, State> {
                         fieldName="userName"
                         value={this.state.userName}
                         size="large"
-                        prefix={<Icon type="user" />}
+                        prefix={<UserOutlined />}
                         validationResults={validationResults}
                         formFieldStyle={{
                             marginBottom: "10px",
@@ -105,7 +106,7 @@ class Activate extends React.Component<Props, State> {
                         placeholder="Password"
                         fieldName="password"
                         value={this.state.password}
-                        prefix={<Icon type="lock" />}
+                        prefix={<LockOutlined />}
                         size="large"
                         onChange={this.handlePasswordChange}
                         validationResults={validationResults}
@@ -119,7 +120,7 @@ class Activate extends React.Component<Props, State> {
                         placeholder="Confirm Password"
                         fieldName="confirmPassword"
                         value={this.state.confirmPassword}
-                        prefix={<Icon type="lock" />}
+                        prefix={<LockOutlined />}
                         size="large"
                         onChange={this.handleConfirmPasswordChange}
                         validationResults={validationResults}

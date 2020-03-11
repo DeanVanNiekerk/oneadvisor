@@ -1,11 +1,10 @@
-import { Icon } from "antd";
 import React from "react";
 
 type Props = {
-    type: string;
+    icon: React.ReactNode;
 };
 
-const FormItemIcon: React.FC<Props> = ({ type }) => {
+const FormItemIcon: React.FC<Props> = ({ icon }) => {
     return (
         <div
             className="ant-row ant-form-item"
@@ -14,7 +13,7 @@ const FormItemIcon: React.FC<Props> = ({ type }) => {
                 fontSize: "16px",
             }}
         >
-            <Icon type={type} />
+            {icon}
         </div>
     );
 };

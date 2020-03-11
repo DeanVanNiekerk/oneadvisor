@@ -1,4 +1,4 @@
-import { Icon, Menu } from "antd";
+import { Menu } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { AnyAction } from "redux";
@@ -14,6 +14,7 @@ import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer, DrawerFooter, DropdownButton } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 import { showMessage } from "@/ui/feedback/notifcation";
+import { DownOutlined, ToolOutlined } from "@ant-design/icons";
 
 import EditTemplateTitle from "./EditTemplateTitle";
 import TemplateForm from "./form/TemplateForm";
@@ -36,7 +37,7 @@ const EditTemplate: React.FC<Props> = (props: Props) => {
                 key="save_and_update"
                 onClick={() => props.saveTemplate(true, props.onSaved)}
             >
-                <Icon type="tool" />
+                <ToolOutlined />
                 Save {"&"} Update Unknown Commission Types
             </Menu.Item>
         </Menu>
@@ -61,7 +62,7 @@ const EditTemplate: React.FC<Props> = (props: Props) => {
                 <DropdownButton
                     type="primary"
                     overlay={menu}
-                    icon={<Icon type="down" />}
+                    icon={<DownOutlined />}
                     onClick={() => props.saveTemplate(false, props.onSaved)}
                 >
                     Save

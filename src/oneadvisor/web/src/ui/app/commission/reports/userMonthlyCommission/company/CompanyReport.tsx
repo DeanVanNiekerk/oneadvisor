@@ -1,7 +1,7 @@
-import { Icon } from "antd";
 import React, { useState } from "react";
 
 import { TabPane, Tabs } from "@/ui/controls";
+import { PieChartOutlined, TableOutlined } from "@ant-design/icons";
 
 import CompanyChart from "./CompanyChart";
 import CompanyTable from "./CompanyTable";
@@ -11,10 +11,10 @@ const CompanyReport: React.FC = () => {
 
     return (
         <Tabs onChange={setActiveTab} activeKey={activeTab} sticky={true} tabBarGutter={0}>
-            <TabPane tab={<Icon type="table" className="mr-0" />} key="table">
+            <TabPane tab={<TableOutlined className="mr-0" />} key="table">
                 <CompanyTable />
             </TabPane>
-            <TabPane tab={<Icon type="pie-chart" className="mr-0" />} key="chart" className="pt-0">
+            <TabPane tab={<PieChartOutlined className="mr-0" />} key="chart" className="pt-0">
                 <CompanyChart />
             </TabPane>
         </Tabs>

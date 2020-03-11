@@ -156,7 +156,7 @@ class ProjectionsReport extends Component<Props, State> {
             <>
                 <Header icon="history">Projections Report</Header>
 
-                <Row type="flex" gutter={10} align="middle" justify="start">
+                <Row gutter={10} align="middle" justify="start">
                     <Col className={cellClass}>Months Back</Col>
                     <Col className={cellClass}>
                         <Slider

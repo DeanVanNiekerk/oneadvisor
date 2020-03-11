@@ -1,10 +1,11 @@
-import { Alert, Form, Icon } from "antd";
+import { Alert, Form } from "antd";
 import React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
 import { resetPasswordRequest, ResetPasswordRequestData, signOut } from "@/state/auth";
 import { Button, FormField, FormInput } from "@/ui/controls";
+import { UserOutlined } from "@ant-design/icons";
 
 import Layout from "./Layout";
 
@@ -104,7 +105,7 @@ class ResetPasswordRequest extends React.Component<Props, State> {
                             onChange={this.handleUserNameChange}
                             value={this.state.userName}
                             size="large"
-                            prefix={<Icon type="user" />}
+                            prefix={<UserOutlined />}
                             formFieldStyle={{
                                 marginBottom: "25px",
                             }}

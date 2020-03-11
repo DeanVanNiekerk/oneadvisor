@@ -1,4 +1,4 @@
-import { Icon, Upload } from "antd";
+import { Upload } from "antd";
 import { UploadChangeParam } from "antd/lib/upload";
 import update from "immutability-helper";
 import React, { useState } from "react";
@@ -20,6 +20,7 @@ import { tokenSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Button } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";
+import { UploadOutlined } from "@ant-design/icons";
 
 type Props = PropsFromState & PropsFromDispatch;
 
@@ -87,7 +88,7 @@ const SyncCommissionTypes: React.FC<Props> = (props: Props) => {
             disabled={syncingCommissionTypes}
         >
             <Button loading={syncingCommissionTypes}>
-                {!syncingCommissionTypes && <Icon type="upload" />}
+                {!syncingCommissionTypes && <UploadOutlined />}
                 Sync Commission Types
             </Button>
         </Upload>

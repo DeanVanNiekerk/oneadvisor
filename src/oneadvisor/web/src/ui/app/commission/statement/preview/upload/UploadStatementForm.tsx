@@ -1,4 +1,4 @@
-import { Alert, Icon, Upload } from "antd";
+import { Alert, Upload } from "antd";
 import { UploadChangeParam } from "antd/lib/upload";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
@@ -15,6 +15,7 @@ import { tokenSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormField, FormSelect } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";
+import { UploadOutlined } from "@ant-design/icons";
 
 type Props = {
     statement: Statement;
@@ -93,7 +94,7 @@ const UploadStatementForm: React.FC<Props> = (props: Props) => {
                     accept=".xlsx"
                 >
                     <Button noLeftMargin={true} type="primary">
-                        <Icon type="upload" /> Click to Upload
+                        <UploadOutlined /> Click to Upload
                     </Button>
                 </Upload>
             </FormField>

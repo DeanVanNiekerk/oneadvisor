@@ -87,7 +87,7 @@ const UserMonthlyCommissionFilters: React.FC<Props> = (props: Props) => {
     };
 
     return (
-        <Row type="flex" gutter={10} align="middle" justify="start">
+        <Row gutter={10} align="middle" justify="start">
             <Col>
                 <Select
                     mode="multiple"

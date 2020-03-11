@@ -1,4 +1,4 @@
-import { Icon, Input } from "antd";
+import { Input } from "antd";
 import { ColumnProps } from "antd/lib/table";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
@@ -8,6 +8,7 @@ import { getColumnDefinition } from "@/app/table";
 import { Client, clientSearchSelector, searchClients } from "@/state/app/client/clients";
 import { RootState } from "@/state/rootReducer";
 import { Age, getTable } from "@/ui/controls";
+import { SearchOutlined } from "@ant-design/icons";
 
 const Table = getTable<Client>();
 
@@ -80,7 +81,7 @@ class ClientSearch extends Component<Props, State> {
                     autoFocus={true}
                     size="large"
                     placeholder="Last Name"
-                    prefix={<Icon type="search" />}
+                    prefix={<SearchOutlined />}
                     allowClear={true}
                     value={searchText}
                     onChange={this.onSearchChange}

@@ -1,4 +1,4 @@
-import { Form, Icon } from "antd";
+import { Form } from "antd";
 import React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -7,6 +7,7 @@ import { ValidationResult } from "@/app/validation";
 import { Credentials, isAuthenticatedSelector, signIn, signInSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Button, FormField, FormInput, FormInputPassword } from "@/ui/controls";
+import { BankOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
 
 import Layout from "./Layout";
 
@@ -93,7 +94,7 @@ class SignIn extends React.Component<Props, State> {
                         fieldName="userName"
                         value={this.state.userName}
                         size="large"
-                        prefix={<Icon type="user" />}
+                        prefix={<UserOutlined />}
                         onChange={this.handleFieldChange}
                         autoFocus={true}
                         formFieldStyle={{
@@ -105,7 +106,7 @@ class SignIn extends React.Component<Props, State> {
                         placeholder="Password"
                         fieldName="password"
                         value={this.state.password}
-                        prefix={<Icon type="lock" />}
+                        prefix={<LockOutlined />}
                         size="large"
                         onChange={this.handleFieldChange}
                         formFieldStyle={{
@@ -117,7 +118,7 @@ class SignIn extends React.Component<Props, State> {
                         placeholder="Organisation Id"
                         fieldName="organisationId"
                         value={this.state.organisationId}
-                        prefix={<Icon type="bank" />}
+                        prefix={<BankOutlined />}
                         size="large"
                         onChange={this.handleFieldChange}
                         hidden={!this.organisationInputVisible()}

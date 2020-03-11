@@ -1,9 +1,9 @@
-import { Drawer as DrawerAD, Icon } from "antd";
+import { Drawer as DrawerAD } from "antd";
 import React, { ReactNode } from "react";
 
 type Props = {
     title: string | ReactNode;
-    icon?: string | ReactNode;
+    icon?: ReactNode;
     children: ReactNode;
     visible: boolean;
     onClose: () => void;
@@ -16,11 +16,7 @@ const Drawer: React.FC<Props> = (props: Props) => {
     let icon: ReactNode = <span />;
 
     if (props.icon) {
-        if (typeof props.icon === "string") {
-            icon = <Icon type={props.icon} />;
-        } else {
-            icon = props.icon;
-        }
+        icon = props.icon;
     }
 
     return (

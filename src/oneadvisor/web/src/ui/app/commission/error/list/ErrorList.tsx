@@ -1,4 +1,4 @@
-import { Icon, Popconfirm, Popover } from "antd";
+import { Popconfirm, Popover } from "antd";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { AnyAction } from "redux";
@@ -20,6 +20,7 @@ import {
 import { Statement } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { getTable, StopPropagation } from "@/ui/controls";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 import EditMappingError from "../mapping/EditMappingError";
 import ErrorData from "./ErrorData";
@@ -91,7 +92,7 @@ const ErrorList: React.FC<Props> = (props: Props) => {
                                     width: "450px",
                                 }}
                             >
-                                <Icon type="info-circle" />
+                                <InfoCircleOutlined />
                             </Popover>
                         );
                     },

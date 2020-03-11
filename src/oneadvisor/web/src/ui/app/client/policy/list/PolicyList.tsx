@@ -1,4 +1,4 @@
-import { Icon, Popover } from "antd";
+import { Popover } from "antd";
 import { TableRowSelection } from "antd/lib/table";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
@@ -37,6 +37,7 @@ import {
     PolicyTypeName,
     UserName,
 } from "@/ui/controls";
+import { TagsOutlined } from "@ant-design/icons";
 
 import EditPolicy from "../form/EditPolicy";
 
@@ -87,7 +88,7 @@ const PolicyList: React.FC<Props> = (props: Props) => {
                     }
                     title="Aliases"
                 >
-                    <Icon type="tags" style={{ marginLeft: "5px" }} />
+                    <TagsOutlined style={{ marginLeft: "5px" }} />
                 </Popover>
             </>
         );

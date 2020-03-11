@@ -28,7 +28,7 @@ const RawConfig: React.FC<Props> = ({ config, commissionStatementTemplateOverrid
 
     return (
         <>
-            <Row type="flex" justify="space-between">
+            <Row justify="space-between">
                 <Col>
                     <h4>Current Config</h4>
                 </Col>
@@ -48,7 +48,7 @@ const RawConfig: React.FC<Props> = ({ config, commissionStatementTemplateOverrid
 
             <TextArea rows={6} value={JSON.stringify(config, null, 4)} disabled={true} />
 
-            <Row type="flex" justify="space-between" className="mt-2">
+            <Row justify="space-between" className="mt-2">
                 <Col>
                     <h4>Override Config</h4>
                 </Col>

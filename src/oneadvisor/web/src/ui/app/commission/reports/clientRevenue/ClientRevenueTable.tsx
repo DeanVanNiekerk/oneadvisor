@@ -1,4 +1,4 @@
-import { Badge, Icon } from "antd";
+import { Badge } from "antd";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
@@ -14,6 +14,7 @@ import {
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Age, getColumnSearchProps, getTable } from "@/ui/controls";
+import { ShareAltOutlined } from "@ant-design/icons";
 
 const Table = getTable<ClientRevenueData>();
 
@@ -89,8 +90,7 @@ class ClientRevenueTable extends Component<Props> {
                         render: (value: string, record: ClientRevenueData) => {
                             return (
                                 <Badge dot count={record.allocationsCount}>
-                                    <Icon
-                                        type="share-alt"
+                                    <ShareAltOutlined
                                         onClick={() => this.props.editAllocations(record.clientId)}
                                     />
                                 </Badge>

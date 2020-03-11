@@ -1,8 +1,8 @@
-import { Icon, PageHeader, Skeleton } from "antd";
+import { PageHeader, Skeleton } from "antd";
 import React, { ReactNode } from "react";
 
 type Props = {
-    icon?: string | ReactNode;
+    icon?: ReactNode;
     loading?: boolean;
     children?: ReactNode;
     actions?: ReactNode;
@@ -16,11 +16,7 @@ const Header: React.FC<Props> = (props: Props) => {
     let icon: ReactNode = <span />;
 
     if (props.icon) {
-        if (typeof props.icon === "string") {
-            icon = <Icon type={props.icon} />;
-        } else {
-            icon = props.icon;
-        }
+        icon = props.icon;
     }
 
     if (props.hidden) return <React.Fragment />;

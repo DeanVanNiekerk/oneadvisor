@@ -1,4 +1,4 @@
-import { Col, Icon, Row, Select } from "antd";
+import { Col, Row, Select } from "antd";
 import moment from "moment";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
@@ -18,6 +18,7 @@ import { branchesSimpleSelector, BranchSimple } from "@/state/app/directory/bran
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Button, ClientName, Drawer, DrawerFooter, Header, TabPane, Tabs } from "@/ui/controls";
+import { BarChartOutlined, TableOutlined } from "@ant-design/icons";
 
 import AllocationList from "../../allocation/AllocationList";
 import ClientRevenueChart from "./ClientRevenueChart";
@@ -187,7 +188,7 @@ class ClientRevenueReport extends Component<Props, State> {
                 <Header
                     icon="line-chart"
                     actions={
-                        <Row type="flex" gutter={10} align="middle">
+                        <Row gutter={10} align="middle">
                             <Col>
                                 <Button
                                     icon="download"
@@ -204,7 +205,7 @@ class ClientRevenueReport extends Component<Props, State> {
                     Client Revenue Report
                 </Header>
 
-                <Row type="flex" gutter={10} align="middle" justify="start">
+                <Row gutter={10} align="middle" justify="start">
                     <Col>Month Ending:</Col>
                     <Col>
                         <Select
@@ -316,11 +317,11 @@ class ClientRevenueReport extends Component<Props, State> {
                     sticky={true}
                     tabBarGutter={0}
                 >
-                    <TabPane tab={<Icon type="table" className="mr-0" />} key="table">
+                    <TabPane tab={<TableOutlined className="mr-0" />} key="table">
                         <ClientRevenueTable editAllocations={this.editAllocations} />
                     </TabPane>
                     <TabPane
-                        tab={<Icon type="bar-chart" className="mr-0" />}
+                        tab={<BarChartOutlined className="mr-0" />}
                         key="chart"
                         className="pt-0"
                     >

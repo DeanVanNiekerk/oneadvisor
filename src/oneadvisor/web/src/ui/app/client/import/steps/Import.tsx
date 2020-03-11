@@ -1,4 +1,4 @@
-import { Card, Col, Collapse, Icon, Modal, Progress, Row } from "antd";
+import { Card, Col, Collapse, Modal, Progress, Row } from "antd";
 import { ColumnProps } from "antd/lib/table";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
@@ -20,6 +20,7 @@ import {
 } from "@/state/app/client/import";
 import { RootState } from "@/state/rootReducer";
 import { Button, getTable } from "@/ui/controls";
+import { SyncOutlined } from "@ant-design/icons";
 
 import StepProgress from "../StepProgress";
 
@@ -229,7 +230,7 @@ class Import extends Component<Props> {
                             className="mt-1"
                         >
                             Import a New File
-                            <Icon type="sync" />
+                            <SyncOutlined />
                         </Button>
                     </Col>
 

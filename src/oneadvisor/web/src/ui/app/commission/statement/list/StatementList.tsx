@@ -125,7 +125,7 @@ const StatementList: React.FC<Props> = props => {
 
     const tableFooter = () => {
         return (
-            <Row type="flex" justify="space-between">
+            <Row justify="space-between">
                 <Col>
                     <b>Total Amount (excl VAT): </b>
                     {formatCurrency(props.sumAmountIncludingVAT - props.sumVAT)}
@@ -184,7 +184,7 @@ const StatementList: React.FC<Props> = props => {
             >
                 Commission Statements
             </Header>
-            <Row type="flex" justify="center" className="mb-1" gutter={24}>
+            <Row justify="center" className="mb-1" gutter={24}>
                 <Col>
                     <Button
                         shape="circle"

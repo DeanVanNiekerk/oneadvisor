@@ -1,4 +1,4 @@
-import { Icon, Upload as UploadAD } from "antd";
+import { Upload as UploadAD } from "antd";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
@@ -12,6 +12,7 @@ import {
     receiveClientImportFileName,
 } from "@/state/app/client/import";
 import { RootState } from "@/state/rootReducer";
+import { InboxOutlined } from "@ant-design/icons";
 
 import StepProgress from "../StepProgress";
 
@@ -50,7 +51,7 @@ class Upload extends Component<Props> {
 
                 <Dragger multiple={false} accept=".xlsx" customRequest={this.customRequest}>
                     <p className="ant-upload-drag-icon">
-                        <Icon type="inbox" />
+                        <InboxOutlined />
                     </p>
                     <p className="ant-upload-text">Click or drag file to this area to upload</p>
                 </Dragger>

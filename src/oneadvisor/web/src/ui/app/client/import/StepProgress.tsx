@@ -1,10 +1,11 @@
-import { Col, Icon, Row, Steps } from "antd";
+import { Col, Row, Steps } from "antd";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { clientImportSelector } from "@/state/app/client/import";
 import { RootState } from "@/state/rootReducer";
 import { Button } from "@/ui/controls";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 const Step = Steps.Step;
 
@@ -17,13 +18,13 @@ type Props = {
     nextDisabled?: boolean;
     nextLoading?: boolean;
     nextText?: string;
-    nextIcon?: string;
+    nextIcon?: React.ReactNode;
 };
 
 class StepProgress extends Component<Props> {
     render() {
         return (
-            <Row type="flex" align="middle" gutter={16} className="mb-1">
+            <Row align="middle" gutter={16} className="mb-1">
                 <Col>
                     {this.props.onPrevious && (
                         <Button
@@ -31,7 +32,7 @@ class StepProgress extends Component<Props> {
                             onClick={this.props.onPrevious}
                             disabled={this.props.previousDisabled}
                         >
-                            <Icon type="left" />
+                            <LeftOutlined />
                             Previous
                         </Button>
                     )}
@@ -51,7 +52,7 @@ class StepProgress extends Component<Props> {
                         loading={this.props.nextLoading}
                     >
                         {this.props.nextText ? this.props.nextText : "Next"}
-                        <Icon type={this.props.nextIcon ? this.props.nextIcon : "right"} />
+                        {this.props.nextIcon ? this.props.nextIcon : <RightOutlined />}
                     </Button>
                 </Col>
             </Row>

@@ -96,7 +96,7 @@ class CommissionLapseReport extends Component<Props> {
             <>
                 <Header icon="alert">Policy Lapse Report</Header>
 
-                <Row type="flex" gutter={10} align="middle" justify="start" className="mb-1">
+                <Row gutter={10} align="middle" justify="start" className="mb-1">
                     <Col>Month Ending:</Col>
                     <Col>
                         <Select

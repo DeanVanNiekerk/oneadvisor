@@ -1,4 +1,4 @@
-import { Icon, List, Popconfirm, Popover } from "antd";
+import { List, Popconfirm, Popover } from "antd";
 import update from "immutability-helper";
 import React from "react";
 import { connect } from "react-redux";
@@ -16,6 +16,7 @@ import {
 } from "@/state/app/commission/templates";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect } from "@/ui/controls";
+import { ArrowRightOutlined, InfoCircleOutlined } from "@ant-design/icons";
 
 import SyncCommissionTypes from "./SyncCommissionTypes";
 
@@ -75,7 +76,7 @@ const CommissionTypesForm: React.FC<Props> = (props: Props) => {
                     validationResults={validationResults}
                     addonAfter={
                         <Popover title="Format" content={<MappingInfo />} placement="left">
-                            <Icon type="info-circle" />
+                            <InfoCircleOutlined />
                         </Popover>
                     }
                 />
@@ -110,7 +111,7 @@ const CommissionTypesForm: React.FC<Props> = (props: Props) => {
                                 validationResults={validationResults}
                                 width="320px"
                             />
-                            <FormItemIcon type="arrow-right" />
+                            <FormItemIcon icon={ArrowRightOutlined} />
                             <FormSelect
                                 fieldName="commissionTypeCode"
                                 validationFieldName={`types[${index}].commissionTypeCode`}

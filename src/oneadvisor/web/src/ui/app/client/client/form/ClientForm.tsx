@@ -1,4 +1,4 @@
-import { Dropdown, Icon, Menu } from "antd";
+import { Dropdown, Menu } from "antd";
 import update from "immutability-helper";
 import React from "react";
 import { connect } from "react-redux";
@@ -21,6 +21,7 @@ import {
 } from "@/state/app/client/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInput, FormSelect } from "@/ui/controls";
+import { SettingOutlined } from "@ant-design/icons";
 
 type Props = PropsFromState & PropsFromDispatch;
 
@@ -39,7 +40,7 @@ const ClientForm: React.FC<Props> = (props: Props) => {
         );
         return (
             <Dropdown overlay={menu} trigger={["click"]}>
-                <Icon type="setting" className="clickable" />
+                <SettingOutlined className="clickable" />
             </Dropdown>
         );
     };

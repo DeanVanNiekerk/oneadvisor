@@ -15,7 +15,7 @@ const UserMonthlyCommissionHeader: React.FC<Props> = (props: Props) => {
         <Header
             icon="pie-chart"
             actions={
-                <Row type="flex" gutter={10} align="middle">
+                <Row gutter={10} align="middle">
                     <Col>
                         <Button icon="download" onClick={props.download} noLeftMargin={true}>
                             Download
