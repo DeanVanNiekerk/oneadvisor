@@ -22,7 +22,8 @@ import { branchesSimpleSelector, BranchSimple } from "@/state/app/directory/bran
 import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { Header, Icon, TabPane, Tabs } from "@/ui/controls";
+import { Header, TabPane, Tabs } from "@/ui/controls";
+import { BarChartOutlined, TableOutlined } from "@ant-design/icons";
 
 import GroupsTable from "./GroupsTable";
 import TotalsBarChart from "./TotalsBarChart";
@@ -359,14 +360,14 @@ class ProjectionsReport extends Component<Props, State> {
                     sticky={true}
                     tabBarGutter={0}
                 >
-                    <TabPane tab={<Icon type="table" className="mr-0" />} key="table">
+                    <TabPane tab={<TableOutlined className="mr-0" />} key="table">
                         <GroupsTable
                             monthsBack={this.props.monthsBack}
                             monthsForward={this.props.monthsForward}
                         />
                     </TabPane>
                     <TabPane
-                        tab={<Icon type="bar-chart" className="mr-0" />}
+                        tab={<BarChartOutlined className="mr-0" />}
                         key="chart"
                         className="pt-0"
                     >

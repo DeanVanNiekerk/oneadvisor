@@ -1,7 +1,7 @@
 import { Tooltip, Typography } from "antd";
 import React from "react";
 
-import { Icon } from "@/ui/controls";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 import AmountIdentifierForm from "./AmountIdentifierForm";
 import HeaderIdentifierForm from "./HeaderIdentifierForm";
@@ -18,7 +18,7 @@ const IdentifiersForms: React.FC = () => {
             <Text strong>
                 Amount Identifier{" "}
                 <Tooltip title="Set the Amount Identifier if the Amount column contains a mixture of Amounts including and excluding VAT.">
-                    <Icon type="info-circle" />
+                    <InfoCircleOutlined />
                 </Tooltip>
             </Text>
             <AmountIdentifierForm />

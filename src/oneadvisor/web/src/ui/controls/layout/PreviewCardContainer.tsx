@@ -8,9 +8,7 @@ const style: CSSProperties = {
 
 const PreviewCardContainer: React.FC = ({ children }) => (
     <div style={style}>
-        <Row type="flex" gutter={16}>
-            {children}
-        </Row>
+        <Row gutter={16}>{children}</Row>
     </div>
 );
 

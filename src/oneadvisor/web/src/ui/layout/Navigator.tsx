@@ -1,4 +1,4 @@
-import { Icon, Layout, Menu, Popover, Tag } from "antd";
+import { Layout, Menu, Popover, Tag } from "antd";
 import React, { Component, CSSProperties } from "react";
 import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router-dom";
@@ -14,6 +14,7 @@ import {
 } from "@/state/context/selectors";
 import { AppInfo, Application, Menus } from "@/state/context/types";
 import { RootState } from "@/state/rootReducer";
+import { DollarOutlined, SafetyOutlined, UserOutlined } from "@ant-design/icons";
 
 import { IdentityStatus } from "../controls";
 
@@ -148,7 +149,7 @@ class Navigator extends Component<Props> {
                                     style={this.getMenuItemStyle(app)}
                                     onClick={() => this.navigate(app.relativePath)}
                                 >
-                                    <Icon type={app.icon} style={{ fontSize: "16px" }} />
+                                    <Icon type={app.icon} />
                                     {app.name}
                                 </Item>
                             ))}
@@ -159,6 +160,20 @@ class Navigator extends Component<Props> {
         );
     }
 }
+
+const Icon: React.FC<{ type: string }> = props => {
+    const style = { fontSize: "16px" };
+    switch (props.type) {
+        case "safety":
+            return <SafetyOutlined style={style} />;
+        case "user":
+            return <UserOutlined style={style} />;
+        case "dollar":
+            return <DollarOutlined style={style} />;
+        default:
+            return <React.Fragment />;
+    }
+};
 
 const mapStateToProps = (state: RootState) => {
     const contextState = contextSelector(state);

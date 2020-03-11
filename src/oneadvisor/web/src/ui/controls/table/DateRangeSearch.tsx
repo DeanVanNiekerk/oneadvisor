@@ -1,5 +1,4 @@
 import { Button, DatePicker } from "antd";
-import { RangePickerValue } from "antd/lib/date-picker/interface";
 import moment from "moment";
 import * as React from "react";
 
@@ -13,8 +12,8 @@ type Props = {
 };
 
 const DateRangeSearch: React.FC<Props> = (props: Props) => {
-    const getMomentValues = (): RangePickerValue => {
-        if (!props.selectedKeys || props.selectedKeys.length !== 2) return [];
+    const getMomentValues = (): [moment.Moment, moment.Moment] => {
+        if (!props.selectedKeys || props.selectedKeys.length !== 2) undefined;
 
         return [moment(props.selectedKeys[0]), moment(props.selectedKeys[1])];
     };
@@ -22,7 +21,7 @@ const DateRangeSearch: React.FC<Props> = (props: Props) => {
     return (
         <div className="custom-filter-dropdown">
             <RangePicker
-                onChange={(_dates: RangePickerValue, dateStrings: [string, string]) => {
+                onChange={(_dates: never, dateStrings: [string, string]) => {
                     if (props.setSelectedKeys) props.setSelectedKeys(dateStrings);
                 }}
                 style={{

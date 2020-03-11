@@ -1,5 +1,7 @@
 import { Table as TableAD } from "antd";
-import { ColumnProps, PaginationConfig, TableRowSelection } from "antd/lib/table";
+import { PaginationConfig } from "antd/lib/pagination";
+import { ColumnProps } from "antd/lib/table";
+import { Key, SorterResult, TableRowSelection } from "antd/lib/table/interface";
 import * as React from "react";
 import { connect } from "react-redux";
 
@@ -9,7 +11,7 @@ import { defaultPageOptions } from "@/app/table/defaults";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 
-type Props<T> = {
+type Props<T extends object> = {
     columns: ColumnProps<T>[];
     dataSource: T[];
     rowKey: keyof T;
@@ -23,8 +25,8 @@ type Props<T> = {
     totalRows?: number;
     onTableChange?: (pageOptions: PageOptions, sortOptions: SortOptions, filters: Filters) => void;
     scroll?: {
-        x?: boolean | number | string;
-        y?: boolean | number | string;
+        x?: number | true | string;
+        y?: number | string;
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     footer?: (currentPageData: Record<string, any>[]) => React.ReactNode;
@@ -37,7 +39,7 @@ type State = {
     defaultPageOptions: PageOptions;
 };
 
-class TableComponent<T> extends React.Component<Props<T>, State> {
+class TableComponent<T extends object> extends React.Component<Props<T>, State> {
     constructor(props) {
         super(props);
 
@@ -47,19 +49,31 @@ class TableComponent<T> extends React.Component<Props<T>, State> {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    handleTableChange = (pagination: PaginationConfig, filters: any, sorter: any) => {
+    handleTableChange = (
+        pagination: PaginationConfig,
+        filters: Record<string, Key[] | null>,
+        sorter: SorterResult<T> | SorterResult<T>[]
+    ) => {
         //Check for table change
         if (this.props.onTableChange) {
+            let sortResult: SorterResult<T>;
+
+            if (Array.isArray(sorter)) {
+                sortResult = (sorter as SorterResult<T>[])[0];
+            } else {
+                sortResult = sorter as SorterResult<T>;
+            }
+
             this.props.onTableChange(
                 {
                     number: pagination.current || this.state.defaultPageOptions.number,
                     size: pagination.pageSize || this.state.defaultPageOptions.size,
                 },
                 {
-                    column: sorter.field,
-                    direction: sorter.order === "ascend" ? "asc" : "desc",
+                    column: sortResult.field ? sortResult.field.toString() : "",
+                    direction: sortResult.order === "ascend" ? "asc" : "desc",
                 },
-                filters
+                filters as Filters
             );
         }
     };
@@ -125,7 +139,7 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-function getTable<T>() {
+function getTable<T extends object>() {
     return connect(mapStateToProps)(TableComponent as new (props: Props<T>) => TableComponent<T>);
 }
 

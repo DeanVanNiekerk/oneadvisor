@@ -70,7 +70,7 @@ const UploadStatementForm: React.FC<Props> = (props: Props) => {
             <FormSelect
                 fieldName="templateId"
                 label="Template"
-                value={templateId}
+                value={templateId || ""}
                 onChange={(fieldName: string, value: string) => {
                     setTemplateId(value);
                 }}

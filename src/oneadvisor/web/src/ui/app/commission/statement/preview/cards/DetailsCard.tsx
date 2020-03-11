@@ -1,3 +1,4 @@
+import { Tooltip } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -9,7 +10,8 @@ import {
     statementVisible,
 } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
-import { Currency, Icon, PreviewCard, PreviewCardRow } from "@/ui/controls";
+import { Currency, PreviewCard, PreviewCardRow } from "@/ui/controls";
+import { EditOutlined } from "@ant-design/icons";
 
 import EditStatement from "../../form/EditStatement";
 import { Processed } from "../../list/Processed";
@@ -34,12 +36,9 @@ const DetailsCardComponent: React.FC<Props> = (props: Props) => {
                 onClick={editDetails}
                 isLoading={props.loading}
                 actions={[
-                    <Icon
-                        key={"1"}
-                        tooltip="Edit Commission Statement"
-                        type="edit"
-                        onClick={editDetails}
-                    />,
+                    <Tooltip key={"1"} title="Edit Commission Statement" mouseEnterDelay={0.5}>
+                        <EditOutlined onClick={editDetails} />
+                    </Tooltip>,
                 ]}
                 rows={3}
                 height={props.cardHeight}

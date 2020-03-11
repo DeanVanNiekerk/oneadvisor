@@ -1,8 +1,8 @@
-import { Icon } from "antd";
 import { ColumnProps } from "antd/lib/table";
 import * as React from "react";
 
 import { ColumnSearch, DateRangeSearch } from "@/ui/controls";
+import { CalendarOutlined, SearchOutlined } from "@ant-design/icons";
 
 function getColumnSearchProps<T>(title: string): ColumnProps<T> {
     let visible = false;
@@ -22,7 +22,7 @@ function getColumnSearchProps<T>(title: string): ColumnProps<T> {
             visible = v;
         },
         filterIcon: filtered => (
-            <Icon type="search" style={{ color: filtered ? "#1890ff" : undefined }} />
+            <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
         ),
     };
 }
@@ -40,8 +40,7 @@ function getDateRangeSearchProps<T>(): ColumnProps<T> {
             />
         ),
         filterIcon: filtered => (
-            <Icon
-                type="calendar"
+            <CalendarOutlined
                 style={{
                     color: filtered ? "#1890ff" : undefined,
                 }}

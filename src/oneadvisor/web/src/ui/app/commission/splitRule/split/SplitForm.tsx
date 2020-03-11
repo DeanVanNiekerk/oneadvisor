@@ -46,7 +46,7 @@ class SplitForm extends Component<Props, State> {
 
         return (
             <Form className="my-1" layout="inline" editUseCase="com_edit_commission_split_rules">
-                <FormSelect
+                <FormSelect<string>
                     defaultActiveFirstOption={true}
                     fieldName="userId"
                     label="User"

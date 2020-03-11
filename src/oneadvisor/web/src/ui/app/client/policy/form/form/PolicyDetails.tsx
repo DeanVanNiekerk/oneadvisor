@@ -70,10 +70,10 @@ const PolicyDetails: React.FC<Props> = (props: Props) => {
                         </>
                     }
                 />
-                <FormSelect
+                <FormSelect<string>
                     fieldName="companyId"
                     label="Company"
-                    value={policy.companyId}
+                    value={policy.companyId || ""}
                     onChange={onChange}
                     validationResults={validationResults}
                     options={props.companies}
@@ -92,10 +92,10 @@ const PolicyDetails: React.FC<Props> = (props: Props) => {
                     options={props.policyProductCascase}
                     changeOnSelect={true}
                 />
-                <FormSelect
+                <FormSelect<string>
                     fieldName="userId"
                     label="Broker"
-                    value={policy.userId}
+                    value={policy.userId || ""}
                     onChange={onChange}
                     validationResults={validationResults}
                     options={props.users}

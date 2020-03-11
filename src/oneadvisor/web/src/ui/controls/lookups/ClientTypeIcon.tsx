@@ -1,9 +1,10 @@
-import { Icon, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 
 import { ClientType, ClientTypeId, clientTypesSelector } from "@/state/app/client/lookups";
 import { RootState } from "@/state/rootReducer";
+import { BankOutlined, QuestionOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
 
 type Props = {
     clientTypes: ClientType[];
@@ -20,22 +21,22 @@ const ClientTypeIconComponent: React.FC<Props> = (props: Props) => {
 
     switch (clientTypeId) {
         case ClientTypeId.Individual:
-            return getIcon(clientTypes, clientTypeId, "user", "#9D44B5", style);
+            return getIcon(clientTypes, clientTypeId, <UserOutlined />, "#9D44B5", style);
         case ClientTypeId.Company:
-            return getIcon(clientTypes, clientTypeId, "bank", "#D1495B", style);
+            return getIcon(clientTypes, clientTypeId, <BankOutlined />, "#D1495B", style);
         case ClientTypeId.Trust:
-            return getIcon(clientTypes, clientTypeId, "team", "#012A36", style);
+            return getIcon(clientTypes, clientTypeId, <TeamOutlined />, "#012A36", style);
         case ClientTypeId.UnknownEntity:
-            return getIcon(clientTypes, clientTypeId, "question", "#1F487E", style);
+            return getIcon(clientTypes, clientTypeId, <QuestionOutlined />, "#1F487E", style);
         default:
-            return <Icon type="question" />;
+            return <QuestionOutlined />;
     }
 };
 
 const getIcon = (
     clientTypes: ClientType[],
     clientTypeId: string,
-    icon: string,
+    icon: React.ReactNode,
     colour: string,
     style?: React.CSSProperties
 ) => {
@@ -51,7 +52,7 @@ const getIcon = (
 
     return (
         <Tooltip title={clientType.name} mouseEnterDelay={0.5}>
-            <Icon type={icon} style={styles} />
+            <span style={styles}>{icon}</span>
         </Tooltip>
     );
 };

@@ -1,9 +1,11 @@
+import { Tooltip } from "antd";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import { clientPreviewIsLoadingSelector, clientPreviewSelector } from "@/state/app/client/clients";
 import { RootState } from "@/state/rootReducer";
-import { Button, Drawer, DrawerFooter, Icon, PreviewCard, PreviewCardRow } from "@/ui/controls";
+import { Button, Drawer, DrawerFooter, PreviewCard, PreviewCardRow } from "@/ui/controls";
+import { BarsOutlined } from "@ant-design/icons";
 
 import PolicyList from "../../../policy/list/PolicyList";
 
@@ -24,12 +26,9 @@ const PoliciesCardComponent: React.FC<Props> = (props: Props) => {
                 isLoading={props.loading}
                 requiredUseCase="clt_view_policies"
                 actions={[
-                    <Icon
-                        key={"1"}
-                        tooltip="View Policies"
-                        type="bars"
-                        onClick={() => setPolicyListVisible(true)}
-                    />,
+                    <Tooltip key={"1"} title="View Policies" mouseEnterDelay={0.5}>
+                        <BarsOutlined onClick={() => setPolicyListVisible(true)} />
+                    </Tooltip>,
                 ]}
                 height={props.cardHeight}
             >

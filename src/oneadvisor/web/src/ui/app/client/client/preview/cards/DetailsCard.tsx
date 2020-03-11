@@ -1,3 +1,4 @@
+import { Tooltip } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -10,7 +11,8 @@ import {
 } from "@/state/app/client/clients";
 import { ClientTypeId } from "@/state/app/client/lookups";
 import { RootState } from "@/state/rootReducer";
-import { Age, Icon, PreviewCard, PreviewCardRow } from "@/ui/controls";
+import { Age, PreviewCard, PreviewCardRow } from "@/ui/controls";
+import { EditOutlined } from "@ant-design/icons";
 
 import EditClient from "../../form/EditClient";
 
@@ -34,12 +36,9 @@ const DetailsCardComponent: React.FC<Props> = (props: Props) => {
                 onClick={editDetails}
                 isLoading={props.loading}
                 actions={[
-                    <Icon
-                        key={"1"}
-                        tooltip="Edit Client Details"
-                        type="edit"
-                        onClick={editDetails}
-                    />,
+                    <Tooltip key={"1"} title="Edit Client Details" mouseEnterDelay={0.5}>
+                        <EditOutlined onClick={editDetails} />
+                    </Tooltip>,
                 ]}
                 rows={2}
                 height={props.cardHeight}

@@ -56,7 +56,7 @@ const getColumns = () => {
 
 const TableFooter: React.FC<{ total: number }> = ({ total }) => {
     return (
-        <Row type="flex" justify="space-between">
+        <Row justify="space-between">
             <Col>
                 <b>Total Amount (excl VAT): </b>
                 {formatCurrency(total)}

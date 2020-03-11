@@ -1,4 +1,4 @@
-import { ColumnFilterItem } from "antd/lib/table";
+import { ColumnFilterItem } from "antd/lib/table/interface";
 
 export const getBooleanOptions = (): ColumnFilterItem[] => {
     return [

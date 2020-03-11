@@ -1,5 +1,5 @@
 import { Popover } from "antd";
-import { TableRowSelection } from "antd/lib/table";
+import { TableRowSelection } from "antd/lib/table/interface";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { AnyAction } from "redux";

@@ -68,7 +68,7 @@ const CommissionDetails: React.FC<Props> = (props: Props) => {
 
     return (
         <Form editUseCase="com_edit_commissions">
-            <FormSelect
+            <FormSelect<string>
                 showSearch={true}
                 showArrow={false}
                 filterOption={false}
@@ -87,7 +87,7 @@ const CommissionDetails: React.FC<Props> = (props: Props) => {
                 autoFocus={true}
                 disabled={true}
             />
-            <FormSelect
+            <FormSelect<string>
                 fieldName="userId"
                 label="Broker"
                 value={commission.userId}
@@ -97,7 +97,7 @@ const CommissionDetails: React.FC<Props> = (props: Props) => {
                 optionsValue="id"
                 optionsText="fullName"
             />
-            <FormSelect
+            <FormSelect<string>
                 fieldName="commissionTypeId"
                 label="Type"
                 value={commission.commissionTypeId}

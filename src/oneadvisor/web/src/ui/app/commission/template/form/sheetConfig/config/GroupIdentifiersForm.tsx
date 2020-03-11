@@ -1,10 +1,11 @@
-import { Icon, List, Popconfirm, Tooltip } from "antd";
+import { List, Popconfirm, Tooltip } from "antd";
 import update from "immutability-helper";
 import React, { Component } from "react";
 
 import { ValidationResult } from "@/app/validation";
 import { Identifier } from "@/state/app/commission/templates";
 import { Button, Form, FormErrors, FormInput } from "@/ui/controls";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 type Props = {
     identifiers: Identifier[];
@@ -102,7 +103,7 @@ class GroupIdentifiersForm extends Component<Props> {
                                     width="200px"
                                     addonAfter={
                                         <Tooltip title="This is a regular expression used to evaluate the match condition">
-                                            <Icon type="info-circle" />
+                                            <InfoCircleOutlined />
                                         </Tooltip>
                                     }
                                 />

@@ -120,7 +120,7 @@ class SplitRulePolicyForm extends Component<Props, State> {
                     <FormSelect
                         fieldName="commissionSplitRuleId"
                         label="Split Rule"
-                        value={splitRulePolicy.commissionSplitRuleId}
+                        value={splitRulePolicy.commissionSplitRuleId || ""}
                         onChange={this.handleChange}
                         validationResults={validationResults}
                         options={this.props.splitRules}

@@ -1,4 +1,4 @@
-import { Icon, Layout, Menu as MenuAD } from "antd";
+import { Layout, Menu as MenuAD } from "antd";
 import React, { Component, CSSProperties } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -9,6 +9,16 @@ import { roleSelector, useCaseSelector } from "@/state/auth";
 import { currentApplicationSelector, currentMenuSelector } from "@/state/context/selectors";
 import { Application, Menu, MenuLink } from "@/state/context/types";
 import { RootState } from "@/state/rootReducer";
+import {
+    ImportOutlined,
+    LineChartOutlined,
+    ReconciliationOutlined,
+    SafetyCertificateOutlined,
+    SettingOutlined,
+    TeamOutlined,
+    UserOutlined,
+    VideoCameraOutlined,
+} from "@ant-design/icons";
 
 const { SubMenu, Item } = MenuAD;
 const { Sider } = Layout;
@@ -102,6 +112,29 @@ class SideMenu extends Component<Props, State> {
         );
     }
 }
+
+const Icon: React.FC<{ type: string }> = props => {
+    switch (props.type) {
+        case "team":
+            return <TeamOutlined />;
+        case "safety-certificate":
+            return <SafetyCertificateOutlined />;
+        case "setting":
+            return <SettingOutlined />;
+        case "video-camera":
+            return <VideoCameraOutlined />;
+        case "user":
+            return <UserOutlined />;
+        case "import":
+            return <ImportOutlined />;
+        case "reconciliation":
+            return <ReconciliationOutlined />;
+        case "line-chart":
+            return <LineChartOutlined />;
+        default:
+            return <React.Fragment />;
+    }
+};
 
 const mapStateToProps = (state: RootState) => {
     return {

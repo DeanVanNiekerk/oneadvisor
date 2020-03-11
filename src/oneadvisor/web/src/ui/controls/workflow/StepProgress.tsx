@@ -2,7 +2,7 @@ import { Col, Row, Steps } from "antd";
 import React from "react";
 
 import { Button } from "@/ui/controls";
-import { LeftOutlined } from "@ant-design/icons";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 const Step = Steps.Step;
 
@@ -15,7 +15,7 @@ export type StepProgressProps = {
     nextDisabled?: boolean;
     nextLoading?: boolean;
     nextText?: string;
-    nextIcon?: string;
+    nextIcon?: React.ReactNode;
 };
 
 const StepProgress: React.FC<StepProgressProps> = (props: StepProgressProps) => {
@@ -49,7 +49,7 @@ const StepProgress: React.FC<StepProgressProps> = (props: StepProgressProps) => 
                         loading={props.nextLoading}
                     >
                         {props.nextText ? props.nextText : "Next"}
-                        <Icon type={props.nextIcon ? props.nextIcon : "right"} />
+                        {props.nextIcon ? props.nextIcon : <RightOutlined />}
                     </Button>
                 )}
             </Col>

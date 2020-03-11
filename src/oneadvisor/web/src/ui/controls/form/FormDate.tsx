@@ -62,7 +62,7 @@ const FormDate: React.FC<Props> = (props: Props) => {
         >
             <DatePicker
                 disabled={disabled}
-                id={fieldName}
+                name={fieldName}
                 value={value ? moment(value) : undefined}
                 onChange={onChange}
                 allowClear={allowClear}

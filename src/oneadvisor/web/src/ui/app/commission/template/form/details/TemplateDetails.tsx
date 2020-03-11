@@ -37,12 +37,12 @@ const TemplateDetails: React.FC<Props> = ({
                 validationResults={validationResults}
                 autoFocus={true}
             />
-            <FormSelect
+            <FormSelect<string>
                 fieldName="companyId"
                 label="Company"
                 showSearch={true}
                 filterOption={filterOption}
-                value={template.companyId}
+                value={template.companyId || ""}
                 onChange={onChange}
                 validationResults={validationResults}
                 options={companies}

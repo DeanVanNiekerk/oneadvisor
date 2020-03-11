@@ -74,8 +74,8 @@ const ReimportStatement: React.FC<Props> = (props: Props) => {
             <FormSelect
                 fieldName="templateId"
                 label="Template"
-                value={templateId}
-                onChange={(fieldName: string, value: string) => {
+                value={templateId || ""}
+                onChange={(_fieldName: string, value: string) => {
                     setTemplateId(value);
                 }}
                 options={props.templates}

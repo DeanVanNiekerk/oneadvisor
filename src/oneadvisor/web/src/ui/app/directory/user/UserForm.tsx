@@ -156,7 +156,7 @@ class UserForm extends Component<Props, State> {
                                     this.handleChange("branchId", branchId)
                                 }
                             />
-                            <FormSelect
+                            <FormSelect<number>
                                 fieldName="scope"
                                 label="Scope"
                                 value={user.scope}
@@ -166,7 +166,7 @@ class UserForm extends Component<Props, State> {
                                 optionsValue="id"
                                 optionsText="name"
                             />
-                            <FormSelect
+                            <FormSelect<string>
                                 fieldName="userTypeId"
                                 label="Type"
                                 value={user.userTypeId}

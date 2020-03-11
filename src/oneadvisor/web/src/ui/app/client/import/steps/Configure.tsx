@@ -107,7 +107,11 @@ class Configure extends Component<Props> {
                             onChange={this.onSelectedColumnChange}
                         >
                             {this.props.columns.map(c => {
-                                return <Option key={c.id}>{c.name}</Option>;
+                                return (
+                                    <Option key={c.id} value={c.id}>
+                                        {c.name}
+                                    </Option>
+                                );
                             })}
                         </Select>
                     </Col>

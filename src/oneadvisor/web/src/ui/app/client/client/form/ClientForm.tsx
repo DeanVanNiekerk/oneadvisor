@@ -137,7 +137,7 @@ const ClientForm: React.FC<Props> = (props: Props) => {
             <FormSelect
                 fieldName="marritalStatusId"
                 label="Marrital Status"
-                value={client.marritalStatusId}
+                value={client.marritalStatusId || ""}
                 onChange={onChange}
                 validationResults={props.validationResults}
                 options={props.marritalStatus}

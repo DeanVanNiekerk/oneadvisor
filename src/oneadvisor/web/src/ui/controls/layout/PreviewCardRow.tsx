@@ -8,7 +8,6 @@ type Props = {
 
 const PreviewCardRow: React.FC<Props> = (props: Props) => (
     <Row
-        type="flex"
         justify="space-between"
         style={{
             paddingTop: "2px",

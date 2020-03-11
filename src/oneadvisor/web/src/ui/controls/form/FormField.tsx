@@ -10,7 +10,7 @@ const FormItem = Form.Item;
 type Props = {
     label?: React.ReactNode;
     extra?: React.ReactNode;
-    children: ReactNode;
+    children: React.ReactNode;
     value?: React.ReactNode;
     fieldName?: string;
     validationFieldName?: string;
@@ -48,7 +48,7 @@ const FormField: React.FC<Props> = (props: Props) => {
     };
 
     const errorText = getErrorText();
-    const { label, children, layout, loading, extra } = props;
+    const { label, layout, loading, extra } = props;
 
     const formItemLayout =
         layout === "horizontal"
@@ -57,6 +57,10 @@ const FormField: React.FC<Props> = (props: Props) => {
                   wrapperCol: { span: 18 },
               }
             : null;
+
+    let children = props.children;
+
+    if (loading) children = <Spin spinning={true} size="small" />;
 
     return (
         <FormItem
@@ -68,8 +72,7 @@ const FormField: React.FC<Props> = (props: Props) => {
             className={props.className}
             style={props.style}
         >
-            {loading && <Spin spinning={true} size="small" />}
-            {!loading && children}
+            {children}
         </FormItem>
     );
 };

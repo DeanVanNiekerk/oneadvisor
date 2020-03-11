@@ -15,7 +15,8 @@ import {
 } from "@/state/app/commission/statements";
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
-import { Button, Drawer, DrawerFooter, Icon, PreviewCard } from "@/ui/controls";
+import { Button, Drawer, DrawerFooter, PreviewCard } from "@/ui/controls";
+import { DownloadOutlined, ToolOutlined, WarningOutlined } from "@ant-design/icons";
 
 import ErrorList from "../../../error/list/ErrorList";
 
@@ -59,10 +60,9 @@ const MappingErrorsCardComponent: React.FC<Props> = (props: Props) => {
                 onClick={() => setErrorListVisible(true)}
                 requiredUseCase="com_edit_commission_statements"
                 actions={[
-                    <Icon key={"1"} type="tool" />,
-                    <Icon
+                    <ToolOutlined key={"1"} />,
+                    <DownloadOutlined
                         key={"2"}
-                        type="download"
                         onClick={event => {
                             downloadMappingErrors();
                             event.stopPropagation();
@@ -78,8 +78,8 @@ const MappingErrorsCardComponent: React.FC<Props> = (props: Props) => {
                         padding: "17px",
                     }}
                 >
-                    <Icon type="warning" /> There are <b>{props.statement.mappingErrorCount}</b>{" "}
-                    mapping errors, please click here to resolve them
+                    <WarningOutlined /> There are <b>{props.statement.mappingErrorCount}</b> mapping
+                    errors, please click here to resolve them
                 </div>
             </PreviewCard>
 

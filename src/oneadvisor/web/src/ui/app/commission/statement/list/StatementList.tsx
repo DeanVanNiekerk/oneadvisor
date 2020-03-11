@@ -1,4 +1,4 @@
-import { Button as ButtonAD, Col, Dropdown, Icon, Menu, Row, Select } from "antd";
+import { Button as ButtonAD, Col, Dropdown, Menu, Row, Select } from "antd";
 import moment from "moment";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
@@ -31,6 +31,7 @@ import {
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, CompanyName, getTable, Header } from "@/ui/controls";
+import { DownOutlined, FileExclamationOutlined } from "@ant-design/icons";
 
 import EditStatement from "../form/EditStatement";
 import { Processed } from "./Processed";
@@ -147,7 +148,7 @@ const StatementList: React.FC<Props> = props => {
     const actionsMenu = (
         <Menu>
             <Menu.Item onClick={downloadMappingErrors}>
-                <Icon type="file-exclamation" />
+                <FileExclamationOutlined />
                 Download Mapping Errors
             </Menu.Item>
             {/* 
@@ -176,7 +177,7 @@ const StatementList: React.FC<Props> = props => {
                         </Button>
                         <Dropdown overlay={actionsMenu}>
                             <ButtonAD>
-                                Actions <Icon type="down" />
+                                Actions <DownOutlined />
                             </ButtonAD>
                         </Dropdown>
                     </>

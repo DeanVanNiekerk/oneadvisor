@@ -1,4 +1,4 @@
-import { Icon, Input } from "antd";
+import { Input } from "antd";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
@@ -7,6 +7,7 @@ import { getColumnDefinition } from "@/app/table";
 import { Policy, policySearchSelector, searchPolicies } from "@/state/app/client/policies";
 import { RootState } from "@/state/rootReducer";
 import { CompanyName, getTable, PolicyTypeName, UserName } from "@/ui/controls";
+import { SearchOutlined } from "@ant-design/icons";
 
 const Table = getTable<Policy>();
 
@@ -123,7 +124,7 @@ class PolicySearch extends Component<Props, State> {
                     autoFocus={true}
                     size="large"
                     placeholder="Policy Number"
-                    prefix={<Icon type="search" />}
+                    prefix={<SearchOutlined />}
                     allowClear={true}
                     value={searchText}
                     onChange={this.onSearchChange}

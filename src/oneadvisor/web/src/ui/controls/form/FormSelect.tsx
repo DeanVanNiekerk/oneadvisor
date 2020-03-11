@@ -1,7 +1,8 @@
 import { Select } from "antd";
-import { OptionProps } from "antd/lib/select";
+import { SelectValue } from "antd/lib/select";
 import React, { Component } from "react";
 
+import { Option } from "@/app/controls/select";
 import { ValidationResult } from "@/app/validation";
 
 import { FormText } from "./";
@@ -10,7 +11,7 @@ import { FormField } from "./FormField";
 
 const Option = Select.Option;
 
-type Props<T> = {
+type Props<T extends SelectValue> = {
     fieldName: string;
     label: string;
     value: T;
@@ -31,11 +32,9 @@ type Props<T> = {
     placeholder?: React.ReactNode;
     showSearch?: boolean;
     showArrow?: boolean;
-    filterOption?:
-        | boolean
-        | ((inputValue: string, option: React.ReactElement<OptionProps>) => boolean);
+    filterOption?: boolean | ((inputValue: string, option: Option) => boolean);
     onSearch?: (value: string) => void;
-    onSelect?: (value: T, option: React.ReactElement) => void;
+    onSelect?: (value: T) => void;
     minWidth?: string;
     width?: string;
     hidden?: boolean;
@@ -43,7 +42,7 @@ type Props<T> = {
     addonAfter?: React.ReactNode;
 };
 
-class FormSelect<T> extends Component<Props<T>> {
+class FormSelect<T extends SelectValue> extends Component<Props<T>> {
     onChange = (value: T) => {
         if (this.props.onChange) this.props.onChange(this.props.fieldName, value);
     };
@@ -99,7 +98,7 @@ class FormSelect<T> extends Component<Props<T>> {
                 loading={loading}
                 validationFieldName={this.props.validationFieldName}
             >
-                <Select<any> //eslint-disable-line @typescript-eslint/no-explicit-any
+                <Select
                     showSearch={this.props.showSearch}
                     showArrow={this.props.showArrow}
                     filterOption={this.props.filterOption}
@@ -113,7 +112,9 @@ class FormSelect<T> extends Component<Props<T>> {
                     defaultActiveFirstOption={defaultActiveFirstOption}
                     autoFocus={autoFocus}
                     allowClear={this.props.allowClear}
-                    onSelect={this.props.onSelect}
+                    onSelect={value => {
+                        if (this.props.onSelect) this.props.onSelect(value as T);
+                    }}
                 >
                     {this.props.options.map(option => (
                         <Option

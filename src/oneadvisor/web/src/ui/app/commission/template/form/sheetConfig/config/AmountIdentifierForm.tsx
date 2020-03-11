@@ -13,7 +13,8 @@ import {
     modifyCommissionStatementTemplateAmountIdentifier,
 } from "@/state/app/commission/templates";
 import { RootState } from "@/state/rootReducer";
-import { Form, FormInput, FormSelect, Icon } from "@/ui/controls";
+import { Form, FormInput, FormSelect } from "@/ui/controls";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 type Props = PropsFromState & PropsFromDispatch;
 
@@ -45,7 +46,7 @@ const AmountIdentifierForm: React.FC<Props> = ({
                 validationResults={validationResults}
                 addonAfter={
                     <Tooltip title="This is a regular expression used to evaluate the match condition">
-                        <Icon type="info-circle" />
+                        <InfoCircleOutlined />
                     </Tooltip>
                 }
             />

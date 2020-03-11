@@ -1,13 +1,12 @@
-import { OptionProps } from "antd/lib/select";
+import { OptionData, OptionGroupData } from "rc-select/es/interface";
 
-export const filterOption = (
-    inputValue: string,
-    option: React.ReactElement<OptionProps>
-): boolean => {
-    if (!option || !option.props || !option.props.children) return false;
+export type Option = OptionGroupData | OptionData | undefined;
+
+export const filterOption = (inputValue: string, option: Option): boolean => {
+    if (!option || !option.children) return false;
 
     return (
-        option.props.children
+        option.children
             .toString()
             .toLowerCase()
             .indexOf(inputValue.toLowerCase()) >= 0

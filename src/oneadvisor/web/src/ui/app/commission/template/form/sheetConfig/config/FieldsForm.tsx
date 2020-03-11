@@ -23,6 +23,7 @@ import {
     FormSelect,
     FormSwitch,
 } from "@/ui/controls";
+import { ArrowRightOutlined } from "@ant-design/icons";
 
 type Props = PropsFromState & PropsFromDispatch;
 
@@ -73,7 +74,7 @@ const FieldsForm: React.FC<Props> = (props: Props) => {
                                 validationResults={validationResults}
                                 width="100px"
                             />
-                            <FormItemIcon type="arrow-right" />
+                            <FormItemIcon icon={ArrowRightOutlined} />
                             <FormSelect
                                 fieldName="name"
                                 validationFieldName={`[${index}].name`}

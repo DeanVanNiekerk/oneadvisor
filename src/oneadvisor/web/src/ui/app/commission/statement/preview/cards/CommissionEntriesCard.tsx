@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Modal, Tooltip } from "antd";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -11,16 +11,9 @@ import {
 } from "@/state/app/commission/statements";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
-import {
-    Button,
-    Currency,
-    Drawer,
-    DrawerFooter,
-    Icon,
-    PreviewCard,
-    PreviewCardRow,
-} from "@/ui/controls";
+import { Button, Currency, Drawer, DrawerFooter, PreviewCard, PreviewCardRow } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";
+import { BarsOutlined, DeleteOutlined, Loading3QuartersOutlined } from "@ant-design/icons";
 
 import CommissionList from "../../../commission/CommissionList";
 
@@ -65,27 +58,26 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
 
     const getCommissionEntriesActions = () => {
         const actions = [
-            <Icon
-                key={"1"}
-                tooltip="View Commission Entries"
-                type="bars"
-                onClick={() => setCommissionListVisible(true)}
-            />,
+            <Tooltip key={"1"} title="View Commission Entries" mouseEnterDelay={0.5}>
+                <BarsOutlined onClick={() => setCommissionListVisible(true)} />
+            </Tooltip>,
         ];
 
         if (hasUseCase("com_edit_commission_statements", props.useCases))
             actions.unshift(
-                <Icon
-                    key={"2"}
-                    tooltip="Delete Commission Entries"
-                    type={deletingCommissionEntries ? "loading-3-quarters" : "delete"}
-                    className="text-error"
-                    spin={deletingCommissionEntries}
-                    onClick={event => {
-                        deleteCommissions();
-                        event.stopPropagation();
-                    }}
-                />
+                deletingCommissionEntries ? (
+                    <Loading3QuartersOutlined spin={true} />
+                ) : (
+                    <Tooltip key={"1"} title="Delete Commission Entries" mouseEnterDelay={0.5}>
+                        <DeleteOutlined
+                            className="text-error"
+                            onClick={event => {
+                                deleteCommissions();
+                                event.stopPropagation();
+                            }}
+                        />
+                    </Tooltip>
+                )
             );
 
         return actions;
