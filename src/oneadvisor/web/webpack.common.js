@@ -1,5 +1,5 @@
-var path = require("path");
-var config = require("config");
+const path = require("path");
+const config = require("config");
 const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
