@@ -48,7 +48,7 @@ export type Identifier = {
 export type Field = {
     name: string;
     column: string;
-    absoluteValue: boolean;
+    negateValue: boolean; //Make positive negitive and negitive positive
 };
 
 export type CommissionTypes = {

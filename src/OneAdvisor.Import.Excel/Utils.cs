@@ -5,7 +5,7 @@ namespace OneAdvisor.Import.Excel
 {
     public class Utils
     {
-        public static string GetValue(IExcelDataReader reader, int? index = null, bool? makeAbsolute = false)
+        public static string GetValue(IExcelDataReader reader, int? index = null, bool? negate = false)
         {
             if (index == null || index == -1 || index >= reader.FieldCount)
                 return "";
@@ -14,12 +14,12 @@ namespace OneAdvisor.Import.Excel
 
             var stringValue = value != null ? value.ToString() : null;
 
-            if (stringValue != null && makeAbsolute.HasValue && makeAbsolute.Value)
+            if (stringValue != null && negate.HasValue && negate.Value)
             {
                 decimal d;
                 var success = Decimal.TryParse(stringValue, out d);
                 if (success)
-                    stringValue = Math.Abs(d).ToString();
+                    stringValue = (d * -1).ToString();
             }
 
             return stringValue ?? "";

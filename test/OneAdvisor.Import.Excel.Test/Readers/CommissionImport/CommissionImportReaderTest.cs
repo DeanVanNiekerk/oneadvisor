@@ -211,7 +211,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
         }
 
         [Fact]
-        public void Read_AbsoluteValues()
+        public void Read_NegateValues()
         {
             var sheetConfig = new SheetConfig()
             {
@@ -223,7 +223,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
                 },
                 Fields = new List<Field>() {
                     new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.PolicyNumber), Column = "A" },
-                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.AmountIncludingVAT), Column = "B", AbsoluteValue = true },
+                    new Field() { Name = Enum.GetName(typeof(FieldNames), FieldNames.AmountIncludingVAT), Column = "B", NegateValue = true },
                 },
                 CommissionTypes = new CommissionTypes()
                 {
@@ -239,7 +239,7 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
             var config = new Config();
             config.Sheets = new List<Sheet>() { sheet };
 
-            var bytes = System.Convert.FromBase64String(AbsoluteValues_Base64.STRING);
+            var bytes = System.Convert.FromBase64String(NegateValues_Base64.STRING);
             var stream = new MemoryStream(bytes);
 
             var reader = new CommissionImportReader(config, _vatRate);
@@ -253,8 +253,8 @@ namespace OneAdvisor.Import.Excel.Test.Readers.CommissionImport
 
             actual = commissions[1];
             Assert.Equal("654321", actual.PolicyNumber);
-            Assert.Equal("200", actual.AmountIncludingVAT);
-            Assert.Equal(26.09m, Decimal.Parse(actual.VAT));
+            Assert.Equal("-200", actual.AmountIncludingVAT);
+            Assert.Equal(-26.09m, Decimal.Parse(actual.VAT));
         }
 
         [Fact]

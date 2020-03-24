@@ -21,6 +21,6 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configur
     {
         public string Name { get; set; }
         public string Column { get; set; }
-        public bool AbsoluteValue { get; set; }
+        public bool NegateValue { get; set; }  //Make positive negitive and negitive positive
     }
 }
