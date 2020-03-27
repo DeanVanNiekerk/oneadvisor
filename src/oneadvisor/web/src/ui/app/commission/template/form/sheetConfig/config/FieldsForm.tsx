@@ -90,9 +90,9 @@ const FieldsForm: React.FC<Props> = (props: Props) => {
                                 width="300px"
                             />
                             <FormSwitch
-                                fieldName="absoluteValue"
-                                label="Abs."
-                                value={field.absoluteValue}
+                                fieldName="negateValue"
+                                label="Neg."
+                                value={field.negateValue}
                                 validationResults={validationResults}
                                 onChange={(fieldName: string, value: boolean) => {
                                     onChange(field, fieldName, value, index);
@@ -145,7 +145,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
                     {
                         name: "",
                         column: "",
-                        absoluteValue: false,
+                        negateValue: false,
                     },
                 ],
             });

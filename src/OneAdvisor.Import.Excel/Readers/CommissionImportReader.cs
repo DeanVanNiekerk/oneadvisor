@@ -138,8 +138,8 @@ namespace OneAdvisor.Import.Excel.Readers
         private string GetValue(IExcelDataReader reader, FieldNames fieldName, SheetConfig config)
         {
             var index = GetFieldIndex(fieldName, config);
-            var absolute = IsFieldValueAbsolute(fieldName, config);
-            return Utils.GetValue(reader, index, absolute).TrimWhiteSpace();
+            var negate = IsFieldValueNegate(fieldName, config);
+            return Utils.GetValue(reader, index, negate).TrimWhiteSpace();
         }
 
         public static string GetValue(IExcelDataReader reader, string column)
@@ -177,13 +177,13 @@ namespace OneAdvisor.Import.Excel.Readers
             return ExcelUtils.ColumnToIndex(field.Column);
         }
 
-        private bool IsFieldValueAbsolute(FieldNames fieldName, SheetConfig config)
+        private bool IsFieldValueNegate(FieldNames fieldName, SheetConfig config)
         {
             var name = Enum.GetName(typeof(FieldNames), fieldName);
             var field = config.Fields.FirstOrDefault(f => f.Name == name);
             if (field == null)
                 return false;
-            return field.AbsoluteValue;
+            return field.NegateValue;
         }
 
         private string GetAmountIncludingVATValue(IExcelDataReader reader, SheetConfig config, List<ExchangeRate> exchangeRates, string vat, decimal vatRate)
