@@ -16,7 +16,7 @@ export const downloadFile = (
     return {
         type: "API",
         endpoint: api,
-        onSuccessBlob: blob => {
+        onSuccessBlob: (blob) => {
             saveFile(blob, fileName);
             if (onComplete) onComplete();
         },

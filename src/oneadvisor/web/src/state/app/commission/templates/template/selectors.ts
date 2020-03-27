@@ -12,28 +12,28 @@ const rootSelector = (state: RootState): State => state.app.commission.templates
 
 export const commissionStatementTemplateSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );
 
 export const commissionStatementTemplateConfigSelector: (
     state: RootState
-) => Config | null = createSelector(rootSelector, root =>
+) => Config | null = createSelector(rootSelector, (root) =>
     root.template ? root.template.config : null
 );
 
 export const commissionStatementTemplateSheetsSelector: (
     state: RootState
-) => Sheet[] = createSelector(rootSelector, root =>
+) => Sheet[] = createSelector(rootSelector, (root) =>
     root.template ? root.template.config.sheets : []
 );
 
 export const commissionStatementTemplateSheetIndexSelector: (
     state: RootState
-) => number = createSelector(rootSelector, root => root.templateSheetIndex);
+) => number = createSelector(rootSelector, (root) => root.templateSheetIndex);
 
 export const commissionStatementTemplateValidationResultsSelector: (
     state: RootState
-) => ValidationResult[] = createSelector(rootSelector, root => root.validationResults);
+) => ValidationResult[] = createSelector(rootSelector, (root) => root.validationResults);
 
 export const commissionStatementTemplateConfigValidationResultsSelector: (
     state: RootState
@@ -52,7 +52,7 @@ export const commissionStatementTemplateIsModifiedSelector: (
     state: RootState
 ) => boolean = createSelector(
     rootSelector,
-    root => !areEqual(root.template, root.templateOriginal)
+    (root) => !areEqual(root.template, root.templateOriginal)
 );
 
 export const commissionStatementTemplateSheetSelector: (
@@ -69,21 +69,24 @@ export const commissionStatementTemplateSheetSelector: (
 
 export const commissionStatementTemplateSheetConfigSelector: (
     state: RootState
-) => SheetConfig | null = createSelector(commissionStatementTemplateSheetSelector, sheet =>
+) => SheetConfig | null = createSelector(commissionStatementTemplateSheetSelector, (sheet) =>
     sheet ? sheet.config : null
 );
 
 export const commissionStatementTemplateHeaderIdenifierConfigSelector: (
     state: RootState
-) => Identifier | null = createSelector(commissionStatementTemplateSheetConfigSelector, config => {
-    return config ? config.headerIdentifier : null;
-});
+) => Identifier | null = createSelector(
+    commissionStatementTemplateSheetConfigSelector,
+    (config) => {
+        return config ? config.headerIdentifier : null;
+    }
+);
 
 export const commissionStatementTemplateAmountIdenifierConfigSelector: (
     state: RootState
 ) => AmountIdentifier | null = createSelector(
     commissionStatementTemplateSheetConfigSelector,
-    config => {
+    (config) => {
         return config ? config.amountIdentifier : null;
     }
 );
@@ -92,26 +95,26 @@ export const commissionStatementTemplateCommissionTypesConfigSelector: (
     state: RootState
 ) => CommissionTypes | null = createSelector(
     commissionStatementTemplateSheetConfigSelector,
-    config => {
+    (config) => {
         return config ? config.commissionTypes : null;
     }
 );
 
 export const commissionStatementTemplateFieldsConfigSelector: (
     state: RootState
-) => Field[] = createSelector(commissionStatementTemplateSheetConfigSelector, config => {
+) => Field[] = createSelector(commissionStatementTemplateSheetConfigSelector, (config) => {
     return config ? config.fields : [];
 });
 
 export const commissionStatementTemplateGroupsConfigSelector: (
     state: RootState
-) => Group[] = createSelector(commissionStatementTemplateSheetConfigSelector, config => {
+) => Group[] = createSelector(commissionStatementTemplateSheetConfigSelector, (config) => {
     return config ? config.groups : [];
 });
 
 export const commissionStatementTemplateVATRatesConfigSelector: (
     state: RootState
-) => VATRate[] = createSelector(commissionStatementTemplateSheetConfigSelector, config => {
+) => VATRate[] = createSelector(commissionStatementTemplateSheetConfigSelector, (config) => {
     return config ? config.vatRates : [];
 });
 
@@ -119,13 +122,13 @@ export const commissionStatementTemplateExchangeRatesConfigSelector: (
     state: RootState
 ) => ExchangeRates | null = createSelector(
     commissionStatementTemplateSheetConfigSelector,
-    config => {
+    (config) => {
         return config ? config.exchangeRates : null;
     }
 );
 
 export const commissionStatementTemplateSheetPositionsSelector: (
     state: RootState
-) => number[] = createSelector(commissionStatementTemplateSheetsSelector, sheets =>
-    sheets.map(s => s.position)
+) => number[] = createSelector(commissionStatementTemplateSheetsSelector, (sheets) =>
+    sheets.map((s) => s.position)
 );

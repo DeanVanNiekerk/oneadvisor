@@ -10,7 +10,7 @@ const rootSelector = (state: RootState): State => state.app.directory.lookups.co
 
 export const companiesSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );
 
 export const organisationCompaniesSelector: (state: RootState) => Company[] = createSelector(
@@ -21,6 +21,6 @@ export const organisationCompaniesSelector: (state: RootState) => Company[] = cr
 
         const organisationCompanyIds = context.organisation.config.companyIds;
 
-        return root.items.filter(c => organisationCompanyIds.indexOf(c.id) !== -1);
+        return root.items.filter((c) => organisationCompanyIds.indexOf(c.id) !== -1);
     }
 );

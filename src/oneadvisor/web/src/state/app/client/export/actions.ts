@@ -10,7 +10,7 @@ type TOnComplete = () => void;
 export const exportClientPolicyAggregates = (onComplete: TOnComplete): ApiAction => ({
     type: "API",
     endpoint: `${clientsExportApi}/policyAggregates/csv`,
-    onSuccessBlob: blob => {
+    onSuccessBlob: (blob) => {
         saveFile(blob, `ClientPolicyAggregates_${moment().format(DATE_FORMAT)}.csv`);
         onComplete();
     },
@@ -19,7 +19,7 @@ export const exportClientPolicyAggregates = (onComplete: TOnComplete): ApiAction
 export const exportClientPolicies = (onComplete: TOnComplete): ApiAction => ({
     type: "API",
     endpoint: `${clientsExportApi}/policies/csv`,
-    onSuccessBlob: blob => {
+    onSuccessBlob: (blob) => {
         saveFile(blob, `ClientPolicies_${moment().format(DATE_FORMAT)}.csv`);
         onComplete();
     },

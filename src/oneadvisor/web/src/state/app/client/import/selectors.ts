@@ -12,13 +12,13 @@ const rootSelector = (state: RootState): State => state.app.client.import;
 
 export const clientImportSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );
 
 export const clientImportTableRowsSelector: (state: RootState) => ImportTableRow[] = createSelector(
     rootSelector,
-    root => {
-        return root.data.map(d => {
+    (root) => {
+        return root.data.map((d) => {
             const record = {
                 _id: v4(),
             };
@@ -38,16 +38,16 @@ export const clientImportTableRowsSelector: (state: RootState) => ImportTableRow
 
 export const clientImportSelectedColumnsSelector: (
     state: RootState
-) => ImportColumn[] = createSelector(rootSelector, root => {
-    return root.selectedColumns.map(sc => {
-        const column = root.columns.find(c => c.id === sc);
+) => ImportColumn[] = createSelector(rootSelector, (root) => {
+    return root.selectedColumns.map((sc) => {
+        const column = root.columns.find((c) => c.id === sc);
         return column ? column : { id: "_id", name: "no match" };
     });
 });
 
 export const clientImportProgressPercentSelector: (state: RootState) => number = createSelector(
     rootSelector,
-    root => {
+    (root) => {
         return Math.floor(
             ((root.resultsSuccess.length + root.resultsFailure.length) / root.clients.length) * 100
         );

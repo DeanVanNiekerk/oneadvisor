@@ -95,7 +95,7 @@ export const saveBranch = (
             );
         } else {
             dispatch(
-                insertBranch(branch, result => {
+                insertBranch(branch, (result) => {
                     onSuccess(result.tag);
                 })
             );

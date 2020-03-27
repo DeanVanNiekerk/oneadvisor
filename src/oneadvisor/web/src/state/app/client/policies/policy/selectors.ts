@@ -16,17 +16,17 @@ const rootSelector = (state: RootState): State => state.app.client.policies.poli
 
 export const policySelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );
 
 export const policyIsModifiedSelector: (state: RootState) => boolean = createSelector(
     rootSelector,
-    root => !areEqual(root.policy, root.policyOriginal)
+    (root) => !areEqual(root.policy, root.policyOriginal)
 );
 
 export const policyIsLoadingSelector: (state: RootState) => boolean = createSelector(
     rootSelector,
-    root => root.updating || root.fetching
+    (root) => root.updating || root.fetching
 );
 
 export const policyProductCascaseSelector: (
@@ -48,7 +48,7 @@ export const policyProductCascaseSelector: (
 
 export const policyProductCascaseValuesSelector: (state: RootState) => string[] = createSelector(
     rootSelector,
-    root => {
+    (root) => {
         const values: string[] = [];
         const policy = root.policy;
 

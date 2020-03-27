@@ -8,5 +8,5 @@ const rootSelector = (state: RootState): State => state.app.directory.branches.l
 
 export const branchesSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );

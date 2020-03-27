@@ -39,7 +39,7 @@ class StepProgress extends Component<Props> {
                 </Col>
                 <Col style={{ flex: 1 }}>
                     <Steps current={this.props.currentStepIndex} size="small">
-                        {this.props.steps.map(item => (
+                        {this.props.steps.map((item) => (
                             <Step key={item} title={item} />
                         ))}
                     </Steps>

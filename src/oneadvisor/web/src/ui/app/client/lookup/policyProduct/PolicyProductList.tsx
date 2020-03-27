@@ -66,7 +66,7 @@ class PolicyProductList extends Component<Props, State> {
     };
 
     editPolicyProduct = (id: string) => {
-        const policyProduct = this.props.policyProducts.find(u => u.id === id);
+        const policyProduct = this.props.policyProducts.find((u) => u.id === id);
         if (policyProduct) this.showEditPolicyProduct(policyProduct);
     };
 
@@ -98,7 +98,7 @@ class PolicyProductList extends Component<Props, State> {
                     render: (policyProductTypeId: string) => {
                         return <PolicyProductTypeName policyProductTypeId={policyProductTypeId} />;
                     },
-                    filters: this.props.policyProductTypes.map(p => ({
+                    filters: this.props.policyProductTypes.map((p) => ({
                         text: p.name,
                         value: p.id,
                     })),
@@ -112,7 +112,7 @@ class PolicyProductList extends Component<Props, State> {
                     render: (companyId: string) => {
                         return <CompanyName companyId={companyId} />;
                     },
-                    filters: this.props.companies.map(c => ({
+                    filters: this.props.companies.map((c) => ({
                         text: c.name,
                         value: c.id,
                     })),
@@ -144,7 +144,7 @@ class PolicyProductList extends Component<Props, State> {
                     columns={this.getColumns()}
                     dataSource={this.props.policyProducts}
                     loading={this.props.fetching}
-                    onRowClick={p => this.editPolicyProduct(p.id)}
+                    onRowClick={(p) => this.editPolicyProduct(p.id)}
                 />
                 <EditPolicyProduct
                     visible={this.state.editVisible}

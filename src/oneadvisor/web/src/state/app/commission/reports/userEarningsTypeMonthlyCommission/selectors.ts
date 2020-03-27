@@ -16,7 +16,7 @@ const rootSelector = (state: RootState): State =>
 
 export const userEarningsTypeMonthlyCommissionSelector: (
     state: RootState
-) => State = createSelector(rootSelector, commissionEarningsTypesSelector, root => root);
+) => State = createSelector(rootSelector, commissionEarningsTypesSelector, (root) => root);
 
 export const userEarningsTypeMonthlyCommissionItemsSelector: (
     state: RootState
@@ -24,8 +24,8 @@ export const userEarningsTypeMonthlyCommissionItemsSelector: (
     rootSelector,
     commissionEarningsTypesSelector,
     (root, commissionEarningsTypes) => {
-        let types = commissionEarningsTypes.items.map(earningsType => {
-            const record = root.items.find(r => r.commissionEarningsTypeId === earningsType.id);
+        let types = commissionEarningsTypes.items.map((earningsType) => {
+            const record = root.items.find((r) => r.commissionEarningsTypeId === earningsType.id);
             if (record) return record;
 
             return {
@@ -35,7 +35,7 @@ export const userEarningsTypeMonthlyCommissionItemsSelector: (
         });
 
         //Filter out unknown earnings type if it has no value
-        types = types.filter(t => {
+        types = types.filter((t) => {
             if (
                 t.commissionEarningsTypeId === UNKNOWN_COMMISSION_EARNINGS_TYPE_ID &&
                 t.amountExcludingVAT === 0
@@ -55,8 +55,8 @@ export const userEarningsTypeMonthlyCommissionPieDataSelector: (
     commissionEarningsTypesSelector,
     (root, commissionEarningsTypes) => {
         return root.items
-            .filter(r => r.amountExcludingVAT > 0)
-            .map(r => {
+            .filter((r) => r.amountExcludingVAT > 0)
+            .map((r) => {
                 return {
                     id: r.commissionEarningsTypeId,
                     label: getCommissionEarningsTypeName(
@@ -71,6 +71,6 @@ export const userEarningsTypeMonthlyCommissionPieDataSelector: (
 
 export const userEarningsTypeMonthlyCommissionTotalAmountExclVatSelector: (
     state: RootState
-) => number = createSelector(rootSelector, root =>
+) => number = createSelector(rootSelector, (root) =>
     root.items.reduce((p, c) => p + c.amountExcludingVAT, 0)
 );

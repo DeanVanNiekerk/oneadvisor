@@ -8,7 +8,7 @@ export const getValidationError = (
 ): ValidationResult | null => {
     if (!fieldName) return null;
     const validationResult = validationResults.find(
-        r => r.propertyName.toLowerCase() === fieldName.toLowerCase()
+        (r) => r.propertyName.toLowerCase() === fieldName.toLowerCase()
     );
     if (!validationResult) return null;
     return validationResult;
@@ -20,7 +20,7 @@ export const removeValidationError = (
 ): ValidationResult[] => {
     if (!fieldName) return validationResults;
     const index = validationResults.findIndex(
-        r => r.propertyName.toLowerCase() === fieldName.toLowerCase()
+        (r) => r.propertyName.toLowerCase() === fieldName.toLowerCase()
     );
     if (index === -1) return validationResults;
     const results = [...validationResults];
@@ -53,11 +53,11 @@ export const getValidationSubSet = (
     exactMatch = false
 ): ValidationResult[] => {
     if (!prefix) return validationResults;
-    const results = validationResults.filter(r => {
+    const results = validationResults.filter((r) => {
         if (exactMatch) return r.propertyName.toLowerCase() === prefix.toLowerCase();
         else return r.propertyName.toLowerCase().indexOf(prefix.toLowerCase()) === 0;
     });
-    return results.map(r => {
+    return results.map((r) => {
         return {
             ...r,
             propertyName: r.propertyName.substr(prefix.length + (isArray ? 0 : 1)),

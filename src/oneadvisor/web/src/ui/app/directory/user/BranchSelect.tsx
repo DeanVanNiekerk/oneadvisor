@@ -57,7 +57,7 @@ class BranchSelect extends Component<Props, State> {
         });
 
         //Organisation already correct
-        const branch = this.props.branches.find(b => b.id === branchId);
+        const branch = this.props.branches.find((b) => b.id === branchId);
         if (branch && branch.organisationId === this.state.organisationId) return;
 
         //If no branch, just set the first org id in the list

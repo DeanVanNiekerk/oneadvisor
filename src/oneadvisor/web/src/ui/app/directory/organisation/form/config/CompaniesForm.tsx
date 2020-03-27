@@ -15,14 +15,14 @@ type Props = PropsFromState & PropsFromDispatch;
 
 const CompaniesForm: React.FC<Props> = ({ companyIds, companies, handleChange }) => {
     const isCompanySelected = (companyId: string) => {
-        return companyIds.some(r => r === companyId);
+        return companyIds.some((r) => r === companyId);
     };
 
     const toggleCompanyChange = (companyId: string) => {
         let companyIdsModified = [...companyIds];
 
         if (isCompanySelected(companyId))
-            companyIdsModified = companyIds.filter(c => c !== companyId);
+            companyIdsModified = companyIds.filter((c) => c !== companyId);
         else companyIdsModified.push(companyId);
 
         handleChange(companyIdsModified);

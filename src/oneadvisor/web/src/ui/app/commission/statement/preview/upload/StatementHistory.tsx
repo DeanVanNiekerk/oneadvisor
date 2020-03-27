@@ -32,7 +32,7 @@ const StatementHistory: React.FC<Props> = (props: Props) => {
         <ContentLoader isLoading={props.fetchingFiles}>
             <Card>
                 <Timeline>
-                    {props.files.map(f => {
+                    {props.files.map((f) => {
                         return (
                             <Timeline.Item key={f.url} color={f.deleted ? "red" : "blue"}>
                                 <span

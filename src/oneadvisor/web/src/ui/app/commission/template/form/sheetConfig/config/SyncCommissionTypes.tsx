@@ -32,13 +32,13 @@ const SyncCommissionTypes: React.FC<Props> = (props: Props) => {
     const { templateId, sheet, commissionTypes, token } = props;
 
     const syncCommissionTypes = (values: string[]) => {
-        const existingValues = commissionTypes.types.map(t => t.value.toLowerCase());
+        const existingValues = commissionTypes.types.map((t) => t.value.toLowerCase());
 
         const newCommissionTypes = values
-            .filter(value => {
-                return !existingValues.find(v => v === value.toLowerCase());
+            .filter((value) => {
+                return !existingValues.find((v) => v === value.toLowerCase());
             })
-            .map(value => ({
+            .map((value) => ({
                 commissionTypeCode: "",
                 value: value,
             }));

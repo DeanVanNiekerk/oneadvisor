@@ -41,7 +41,7 @@ const Table = getTable<Client>();
 
 type Props = PropsFromState & PropsFromDispatch & RouteComponentProps;
 
-const ClientList: React.FC<Props> = props => {
+const ClientList: React.FC<Props> = (props) => {
     useEffect(() => {
         props.fetchClients();
     }, [props.pageOptions, props.sortOptions, props.filters]);
@@ -65,7 +65,7 @@ const ClientList: React.FC<Props> = props => {
                     render: (clientTypeId: string) => {
                         return <ClientTypeIcon clientTypeId={clientTypeId} />;
                     },
-                    filters: props.clientTypes.map(type => ({
+                    filters: props.clientTypes.map((type) => ({
                         text: type.name,
                         value: type.id,
                     })),
@@ -153,7 +153,7 @@ const ClientList: React.FC<Props> = props => {
                 columns={getColumns()}
                 dataSource={props.clients}
                 loading={props.fetching}
-                onRowClick={client => editClient(client.id)}
+                onRowClick={(client) => editClient(client.id)}
                 externalDataSource={true}
                 pageOptions={props.pageOptions}
                 totalRows={props.totalItems}

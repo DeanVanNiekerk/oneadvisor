@@ -8,5 +8,5 @@ const rootSelector = (state: RootState): State => state.app.commission.templates
 
 export const commissionStatementTemplatesSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );

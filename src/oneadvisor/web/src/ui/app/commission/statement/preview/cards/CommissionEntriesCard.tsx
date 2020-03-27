@@ -71,7 +71,7 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
                     <Tooltip key={"1"} title="Delete Commission Entries" mouseEnterDelay={0.5}>
                         <DeleteOutlined
                             className="text-error"
-                            onClick={event => {
+                            onClick={(event) => {
                                 deleteCommissions();
                                 event.stopPropagation();
                             }}

@@ -15,17 +15,8 @@ export type State = {
 };
 
 const defaultFilters: PastRevenueCommissionDataFilters = {
-    startDate: [
-        moment()
-            .subtract(12, "months")
-            .startOf("month")
-            .format(DATE_FORMAT),
-    ],
-    endDate: [
-        moment()
-            .endOf("month")
-            .format(DATE_FORMAT),
-    ],
+    startDate: [moment().subtract(12, "months").startOf("month").format(DATE_FORMAT)],
+    endDate: [moment().endOf("month").format(DATE_FORMAT)],
 };
 
 export const defaultState: State = {

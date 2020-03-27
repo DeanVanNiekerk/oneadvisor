@@ -169,7 +169,7 @@ const ErrorList: React.FC<Props> = (props: Props) => {
                 columns={getColumns()}
                 dataSource={props.errors}
                 loading={props.fetching}
-                onRowClick={error => editMappingError(error.id)}
+                onRowClick={(error) => editMappingError(error.id)}
                 externalDataSource={true}
                 pageOptions={props.pageOptions}
                 totalRows={props.totalItems}

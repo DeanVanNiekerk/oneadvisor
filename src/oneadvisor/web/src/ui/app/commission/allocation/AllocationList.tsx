@@ -137,7 +137,7 @@ class AllocationList extends Component<Props> {
                     columns={this.getColumns()}
                     dataSource={this.props.allocations}
                     loading={this.props.fetching}
-                    onRowClick={allocation => this.editAllocation(allocation.id)}
+                    onRowClick={(allocation) => this.editAllocation(allocation.id)}
                 />
             </>
         );

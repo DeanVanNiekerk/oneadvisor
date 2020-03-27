@@ -27,7 +27,7 @@ const rootSelector = (state: RootState): State => state.app.commission.reports.p
 
 export const commissionProjectionsSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );
 
 const todaySelector: (state: RootState) => Date = createSelector(rootSelector, () => new Date());
@@ -53,7 +53,7 @@ export const projectionGroupsTableColumnsSelector: (
 
         const totalsText = "Totals";
 
-        if (groups.some(g => g === "Policy Type"))
+        if (groups.some((g) => g === "Policy Type"))
             columns.push(
                 getColumn(
                     "policyTypeId",
@@ -80,7 +80,7 @@ export const projectionGroupsTableColumnsSelector: (
                 )
             );
 
-        if (groups.some(g => g === "Earnings Type"))
+        if (groups.some((g) => g === "Earnings Type"))
             columns.push(
                 getColumn(
                     "commissionEarningsTypeId",
@@ -110,7 +110,7 @@ export const projectionGroupsTableColumnsSelector: (
                 )
             );
 
-        if (groups.some(g => g === "Company"))
+        if (groups.some((g) => g === "Company"))
             columns.push(
                 getColumn(
                     "companyId",
@@ -141,21 +141,21 @@ export const projectionGroupsTableColumnsSelector: (
 );
 
 const getPolicyTypeColSpan = (groups: Group[]) => {
-    if (!groups.some(g => g === "Policy Type")) return 1;
+    if (!groups.some((g) => g === "Policy Type")) return 1;
 
     return groups.length;
 };
 
 const getEarningsTypeColSpan = (groups: Group[]) => {
-    if (groups.some(g => g === "Policy Type")) return 0;
+    if (groups.some((g) => g === "Policy Type")) return 0;
 
-    if (!groups.some(g => g === "Earnings Type")) return 1;
+    if (!groups.some((g) => g === "Earnings Type")) return 1;
 
     return groups.length;
 };
 
 const getCompanyColSpan = (groups: Group[]) => {
-    if (groups.some(g => g === "Policy Type" || g === "Earnings Type")) return 0;
+    if (groups.some((g) => g === "Policy Type" || g === "Earnings Type")) return 0;
 
     return 1;
 };
@@ -180,11 +180,9 @@ export const projectionGroupTableRowsSelector: (
 
         items = appendProjectedValues(now, items);
 
-        const monthsBackDate = moment(now)
-            .subtract(monthsBack, "months")
-            .startOf("month");
+        const monthsBackDate = moment(now).subtract(monthsBack, "months").startOf("month");
 
-        items = items.filter(d =>
+        items = items.filter((d) =>
             moment(new Date(d.dateYear, d.dateMonth - 1, 1)).isSameOrAfter(monthsBackDate)
         );
 
@@ -206,11 +204,11 @@ export const projectionGroupTableRowsSelector: (
 
         if (groups.length === 0) return rows;
 
-        items.forEach(data => {
+        items.forEach((data) => {
             let key = "";
             let sortKey = "";
             let earningsTypeGroupKey = "";
-            if (groups.some(g => g === "Policy Type")) {
+            if (groups.some((g) => g === "Policy Type")) {
                 key = key.concat(data.policyTypeId || "unknown");
                 earningsTypeGroupKey = earningsTypeGroupKey.concat(data.policyTypeId || "unknown");
                 sortKey = sortKey.concat(
@@ -218,7 +216,7 @@ export const projectionGroupTableRowsSelector: (
                 );
             }
 
-            if (groups.some(g => g === "Earnings Type")) {
+            if (groups.some((g) => g === "Earnings Type")) {
                 key = key.concat(data.commissionEarningsTypeId);
                 earningsTypeGroupKey = earningsTypeGroupKey.concat(data.commissionEarningsTypeId);
                 sortKey = sortKey.concat(
@@ -229,24 +227,24 @@ export const projectionGroupTableRowsSelector: (
                 );
             }
 
-            if (groups.some(g => g === "Company")) {
+            if (groups.some((g) => g === "Company")) {
                 key = key.concat(data.companyId);
                 sortKey = sortKey.concat(getCompanyName(data.companyId, companies.items));
             }
 
-            if (rows.some(r => r.key === key)) return;
+            if (rows.some((r) => r.key === key)) return;
 
-            const filter: TableRowFilter = d => {
-                if (groups.some(g => g === "Policy Type") && d.policyTypeId !== data.policyTypeId)
+            const filter: TableRowFilter = (d) => {
+                if (groups.some((g) => g === "Policy Type") && d.policyTypeId !== data.policyTypeId)
                     return false;
 
                 if (
-                    groups.some(g => g === "Earnings Type") &&
+                    groups.some((g) => g === "Earnings Type") &&
                     d.commissionEarningsTypeId !== data.commissionEarningsTypeId
                 )
                     return false;
 
-                if (groups.some(g => g === "Company") && d.companyId !== data.companyId)
+                if (groups.some((g) => g === "Company") && d.companyId !== data.companyId)
                     return false;
 
                 return true;
@@ -277,11 +275,11 @@ export const projectionGroupTableRowsSelector: (
         });
 
         //Calculate Policy Type Row Span ---------------------------------------------------
-        const policyTypeIds = [...new Set(rows.map(i => i.policyTypeId))];
+        const policyTypeIds = [...new Set(rows.map((i) => i.policyTypeId))];
 
-        policyTypeIds.forEach(policyTypeId => {
+        policyTypeIds.forEach((policyTypeId) => {
             let index = 0;
-            const count = rows.filter(r => r.policyTypeId === policyTypeId).length;
+            const count = rows.filter((r) => r.policyTypeId === policyTypeId).length;
 
             rows.forEach((r, i) => {
                 if (r.policyTypeId !== policyTypeId || count === 1) return;
@@ -294,11 +292,12 @@ export const projectionGroupTableRowsSelector: (
         //------------------------------------------------------------------------------------
 
         //Calculate Earnings Type Row Span ---------------------------------------------------
-        const earningsTypeGroupKeys = [...new Set(rows.map(i => i.earningsTypeGroupKey))];
+        const earningsTypeGroupKeys = [...new Set(rows.map((i) => i.earningsTypeGroupKey))];
 
-        earningsTypeGroupKeys.forEach(earningsTypeGroupKey => {
+        earningsTypeGroupKeys.forEach((earningsTypeGroupKey) => {
             let index = 0;
-            const count = rows.filter(r => r.earningsTypeGroupKey === earningsTypeGroupKey).length;
+            const count = rows.filter((r) => r.earningsTypeGroupKey === earningsTypeGroupKey)
+                .length;
 
             rows.forEach((r, i) => {
                 if (r.earningsTypeGroupKey !== earningsTypeGroupKey || count === 1) return;
@@ -332,7 +331,7 @@ const getTableRow = (
         const year = current.year();
         const month = current.month() + 1;
 
-        let filtered = items.filter(d => d.dateYear === year && d.dateMonth === month);
+        let filtered = items.filter((d) => d.dateYear === year && d.dateMonth === month);
 
         if (filter) filtered = filtered.filter(filter);
 
@@ -357,13 +356,13 @@ const appendProjectedValues = (
 
     //Add monthly annuity values
     const monthlyAnnuityItems = items.filter(
-        i =>
+        (i) =>
             i.commissionEarningsTypeId === MONTHLY_ANNUITY_COMMISSION_EARNINGS_TYPE_ID &&
             i.dateYear === lastMonth.year() &&
             i.dateMonth === lastMonth.month() + 1
     );
 
-    monthlyAnnuityItems.forEach(item => {
+    monthlyAnnuityItems.forEach((item) => {
         let monthIndex = 1;
         while (monthIndex <= 12) {
             const current = moment(now).add(monthIndex, "months");
@@ -382,10 +381,10 @@ const appendProjectedValues = (
 
     //Add annual annuity values
     const annualAnnuityItems = items.filter(
-        i => i.commissionEarningsTypeId === ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID
+        (i) => i.commissionEarningsTypeId === ANNUAL_ANNUITY_COMMISSION_EARNINGS_TYPE_ID
     );
 
-    annualAnnuityItems.forEach(item => {
+    annualAnnuityItems.forEach((item) => {
         const current = moment(new Date(item.dateYear, item.dateMonth - 1, 1)).add(1, "year");
 
         itemsWithProjected.push({
@@ -400,10 +399,10 @@ const appendProjectedValues = (
 
     //Add once off values
     const lifeFirstYearsItems = items.filter(
-        i => i.commissionEarningsTypeId === LIFE_FIRST_YEARS_COMMISSION_EARNINGS_TYPE_ID
+        (i) => i.commissionEarningsTypeId === LIFE_FIRST_YEARS_COMMISSION_EARNINGS_TYPE_ID
     );
 
-    lifeFirstYearsItems.forEach(item => {
+    lifeFirstYearsItems.forEach((item) => {
         const current = moment(new Date(item.dateYear, item.dateMonth - 1, 1)).add(1, "year");
 
         itemsWithProjected.push({
@@ -480,7 +479,7 @@ const getMonthColumns = (
 
 const getPolicyTypeName = (policyTypeId: string | null, types: PolicyType[]): string => {
     let name = "Unknown";
-    const type = types.find(c => c.id === policyTypeId);
+    const type = types.find((c) => c.id === policyTypeId);
     if (type) name = type.name;
     return name;
 };
@@ -489,13 +488,13 @@ const getEarningsTypeName = (
     commissionEarningsTypeId: string,
     types: CommissionEarningsType[]
 ): string => {
-    const type = types.find(c => c.id === commissionEarningsTypeId);
+    const type = types.find((c) => c.id === commissionEarningsTypeId);
     if (!type) return "";
     return type.name;
 };
 
 const getCompanyName = (companyId: string, companies: Company[]): string => {
-    const company = companies.find(c => c.id === companyId);
+    const company = companies.find((c) => c.id === companyId);
     if (!company) return "";
     return company.name;
 };
@@ -516,11 +515,9 @@ export const projectionPolicyTypeChartDataSelector: (
 
     items = appendProjectedValues(now, items);
 
-    const monthsBackDate = moment(now)
-        .subtract(monthsBack, "months")
-        .startOf("month");
+    const monthsBackDate = moment(now).subtract(monthsBack, "months").startOf("month");
 
-    items = items.filter(d =>
+    items = items.filter((d) =>
         moment(new Date(d.dateYear, d.dateMonth - 1, 1)).isSameOrAfter(monthsBackDate)
     );
 
@@ -533,7 +530,7 @@ export const projectionPolicyTypeChartDataSelector: (
         const year = current.year();
         const month = current.month() + 1;
 
-        const filtered = items.filter(d => d.dateYear === year && d.dateMonth === month);
+        const filtered = items.filter((d) => d.dateYear === year && d.dateMonth === month);
 
         const value = filtered.reduce((p, c) => c.amountExcludingVAT + p, 0);
 

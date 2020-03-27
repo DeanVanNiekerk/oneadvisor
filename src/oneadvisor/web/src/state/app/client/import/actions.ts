@@ -180,7 +180,7 @@ export const importClient = (client: ImportClient): QueueMiddleware => {
                     dispatch(importClientSuccess(client));
                     next();
                 },
-                onFailure: error => {
+                onFailure: (error) => {
                     dispatch(importClientFailure(client, JSON.stringify(error, null, 4)));
                     next();
                 },

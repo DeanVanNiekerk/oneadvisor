@@ -105,30 +105,32 @@ class Navigator extends Component<Props> {
                             title="My Profile"
                             mouseEnterDelay={1.5}
                         >
-                            <span
-                                style={{
-                                    fontWeight: 100,
-                                }}
-                            >
-                                ONE
-                            </span>
-                            <span
-                                style={{
-                                    fontWeight: 600,
-                                }}
-                            >
-                                ADVISOR
-                            </span>
-                            <Tag
-                                style={{
-                                    position: "absolute",
-                                    top: "35px",
-                                    left: "160px",
-                                }}
-                                color={this.getEnvironmentColor()}
-                            >
-                                {this.getEnvironmentName()}
-                            </Tag>
+                            <React.Fragment>
+                                <span
+                                    style={{
+                                        fontWeight: 100,
+                                    }}
+                                >
+                                    ONE
+                                </span>
+                                <span
+                                    style={{
+                                        fontWeight: 600,
+                                    }}
+                                >
+                                    ADVISOR
+                                </span>
+                                <Tag
+                                    style={{
+                                        position: "absolute",
+                                        top: "35px",
+                                        left: "160px",
+                                    }}
+                                    color={this.getEnvironmentColor()}
+                                >
+                                    {this.getEnvironmentName()}
+                                </Tag>
+                            </React.Fragment>
                         </Popover>
                     </div>
                     <div style={signoutStyle} onClick={this.signOut}>
@@ -136,14 +138,14 @@ class Navigator extends Component<Props> {
                     </div>
                     <Menu theme="dark" mode="horizontal" style={{ lineHeight: "64px" }}>
                         {this.props.applications
-                            .filter(app =>
+                            .filter((app) =>
                                 hasPermissionsMenuGroups(
                                     this.props.menus[app.id].groups,
                                     this.props.useCases,
                                     this.props.roles
                                 )
                             )
-                            .map(app => (
+                            .map((app) => (
                                 <Item
                                     key={app.id}
                                     style={this.getMenuItemStyle(app)}
@@ -161,7 +163,7 @@ class Navigator extends Component<Props> {
     }
 }
 
-const Icon: React.FC<{ type: string }> = props => {
+const Icon: React.FC<{ type: string }> = (props) => {
     const style = { fontSize: "16px" };
     switch (props.type) {
         case "safety":

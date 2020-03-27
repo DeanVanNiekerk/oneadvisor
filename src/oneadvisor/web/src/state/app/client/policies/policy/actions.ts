@@ -96,7 +96,7 @@ export const savePolicy = (
             );
         } else {
             dispatch(
-                insertPolicy(policy, result => {
+                insertPolicy(policy, (result) => {
                     onSuccess(result.tag);
                 })
             );

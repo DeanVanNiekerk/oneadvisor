@@ -100,7 +100,7 @@ class SplitRulePolicyList extends Component<Props, State> {
                     render: (userId: string) => {
                         return <UserName userId={userId} />;
                     },
-                    filters: this.props.users.map(user => ({
+                    filters: this.props.users.map((user) => ({
                         text: user.fullName,
                         value: user.id,
                     })),
@@ -114,7 +114,7 @@ class SplitRulePolicyList extends Component<Props, State> {
                     render: (policyCompanyId: string) => {
                         return <CompanyName companyId={policyCompanyId} />;
                     },
-                    filters: this.props.companies.map(type => ({
+                    filters: this.props.companies.map((type) => ({
                         text: type.name,
                         value: type.id,
                     })),
@@ -178,7 +178,7 @@ class SplitRulePolicyList extends Component<Props, State> {
                     columns={this.getColumns()}
                     dataSource={this.props.splitRulePolicies}
                     loading={this.props.fetching}
-                    onRowClick={rule => this.editSplitRulePolicy(rule)}
+                    onRowClick={(rule) => this.editSplitRulePolicy(rule)}
                     externalDataSource={true}
                     pageOptions={this.props.pageOptions}
                     totalRows={this.props.totalItems}

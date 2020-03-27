@@ -9,27 +9,27 @@ const rootSelector = (state: RootState): State => state.app.directory.organisati
 
 export const organisationSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );
 
 export const organisationConfigCompanyIdsSelector: (
     state: RootState
-) => string[] = createSelector(rootSelector, root =>
+) => string[] = createSelector(rootSelector, (root) =>
     root.organisation ? root.organisation.config.companyIds : []
 );
 
 export const organisationIsModifiedSelector: (state: RootState) => boolean = createSelector(
     rootSelector,
-    root => !areEqual(root.organisation, root.organisationOriginal)
+    (root) => !areEqual(root.organisation, root.organisationOriginal)
 );
 
 export const organisationIsNew: (state: RootState) => boolean = createSelector(
     rootSelector,
-    root => !(root.organisation && root.organisation.id)
+    (root) => !(root.organisation && root.organisation.id)
 );
 
 export const organisationIdSelector: (
     state: RootState
-) => string | null = createSelector(rootSelector, root =>
+) => string | null = createSelector(rootSelector, (root) =>
     root.organisation ? root.organisation.id : null
 );

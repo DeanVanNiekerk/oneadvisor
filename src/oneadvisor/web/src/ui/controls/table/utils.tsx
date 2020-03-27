@@ -18,10 +18,10 @@ function getColumnSearchProps<T>(title: string): ColumnProps<T> {
                 visible={visible}
             />
         ),
-        onFilterDropdownVisibleChange: v => {
+        onFilterDropdownVisibleChange: (v) => {
             visible = v;
         },
-        filterIcon: filtered => (
+        filterIcon: (filtered) => (
             <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
         ),
     };
@@ -39,7 +39,7 @@ function getDateRangeSearchProps<T>(): ColumnProps<T> {
                 clearFilters={clearFilters}
             />
         ),
-        filterIcon: filtered => (
+        filterIcon: (filtered) => (
             <CalendarOutlined
                 style={{
                     color: filtered ? "#1890ff" : undefined,

@@ -37,8 +37,8 @@ class ClientRevenueChart extends Component<Props> {
                 data={this.props.records}
                 keys={["Monthly as and when"]}
                 isLoading={this.props.fetching}
-                labelFormat={value => formatCurrency(value, 0)}
-                tooltipFormat={value => formatCurrency(value, 0)}
+                labelFormat={(value) => formatCurrency(value, 0)}
+                tooltipFormat={(value) => formatCurrency(value, 0)}
             />
         );
     }

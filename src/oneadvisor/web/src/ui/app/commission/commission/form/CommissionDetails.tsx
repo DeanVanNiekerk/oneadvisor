@@ -47,7 +47,7 @@ const CommissionDetails: React.FC<Props> = (props: Props) => {
             number: 1,
             size: 20, //Limit to 20 records
         };
-        props.getPolicies(filters, pageOptions, policies => {
+        props.getPolicies(filters, pageOptions, (policies) => {
             setPolicies(policies);
         });
     };

@@ -163,10 +163,10 @@ class ClientRevenueReport extends Component<Props, State> {
     download = () => {
         this.setState({ downloading: true });
         this.props.dispatch(
-            getClientRevenueData(this.props.filters, records => {
+            getClientRevenueData(this.props.filters, (records) => {
                 this.setState({ downloading: false });
                 downloadExcel(
-                    records.items.map(d => {
+                    records.items.map((d) => {
                         delete d.rowNumber;
                         delete d.clientId;
                         d.clientDateOfBirth = d.clientDateOfBirth
@@ -213,7 +213,7 @@ class ClientRevenueReport extends Component<Props, State> {
                             onChange={this.handleMonthChange}
                             style={{ width: 125 }}
                         >
-                            {getMonthOptions().map(month => {
+                            {getMonthOptions().map((month) => {
                                 return (
                                     <Select.Option
                                         key={month.number.toString()}
@@ -231,7 +231,7 @@ class ClientRevenueReport extends Component<Props, State> {
                             onChange={this.handleYearChange}
                             style={{ width: 90 }}
                         >
-                            {getYearOptions().map(year => {
+                            {getYearOptions().map((year) => {
                                 return (
                                     <Select.Option key={year.toString()} value={year}>
                                         {year}
@@ -252,7 +252,7 @@ class ClientRevenueReport extends Component<Props, State> {
                             filterOption={filterOption}
                             style={{ width: 220 }}
                         >
-                            {this.props.branches.map(branch => {
+                            {this.props.branches.map((branch) => {
                                 return (
                                     <Select.Option key={branch.id} value={branch.id}>
                                         {branch.name}
@@ -275,11 +275,11 @@ class ClientRevenueReport extends Component<Props, State> {
                         >
                             {this.props.users
                                 .filter(
-                                    u =>
+                                    (u) =>
                                         this.selectedBranchIds().length === 0 ||
-                                        this.selectedBranchIds().some(id => id === u.branchId)
+                                        this.selectedBranchIds().some((id) => id === u.branchId)
                                 )
-                                .map(user => {
+                                .map((user) => {
                                     return (
                                         <Select.Option key={user.id} value={user.id}>
                                             {user.fullName}
@@ -300,7 +300,7 @@ class ClientRevenueReport extends Component<Props, State> {
                             filterOption={filterOption}
                             style={{ width: 220 }}
                         >
-                            {this.props.policyTypes.map(policyType => {
+                            {this.props.policyTypes.map((policyType) => {
                                 return (
                                     <Select.Option key={policyType.id} value={policyType.id}>
                                         {policyType.name}

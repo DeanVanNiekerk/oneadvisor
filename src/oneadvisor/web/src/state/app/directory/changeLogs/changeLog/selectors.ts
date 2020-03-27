@@ -8,5 +8,5 @@ const rootSelector = (state: RootState): State => state.app.directory.changeLogs
 
 export const changeLogSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );

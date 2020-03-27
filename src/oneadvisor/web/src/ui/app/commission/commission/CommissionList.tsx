@@ -87,7 +87,7 @@ const CommissionList: React.FC<Props> = (props: Props) => {
                 columns={getColumns(props)}
                 dataSource={props.commissions}
                 loading={props.fetching}
-                onRowClick={commission => editCommission(commission.id)}
+                onRowClick={(commission) => editCommission(commission.id)}
                 externalDataSource={true}
                 pageOptions={props.pageOptions}
                 totalRows={props.totalItems}
@@ -109,22 +109,22 @@ const getColumns = (props: Props) => {
 
     const columns: ColumnProps<Commission>[] = [];
 
-    if (!hideColumns.some(c => c == "commissionStatementDate"))
+    if (!hideColumns.some((c) => c == "commissionStatementDate"))
         columns.push(
             getColumn("commissionStatementDate", "Date", {
                 type: "date",
             })
         );
 
-    if (!hideColumns.some(c => c == "policyClientLastName"))
+    if (!hideColumns.some((c) => c == "policyClientLastName"))
         columns.push(
             getColumn("policyClientLastName", "Last Name", {}, getColumnSearchProps("Last Name"))
         );
 
-    if (!hideColumns.some(c => c == "policyClientInitials"))
+    if (!hideColumns.some((c) => c == "policyClientInitials"))
         columns.push(getColumn("policyClientInitials", "Initials"));
 
-    if (!hideColumns.some(c => c == "policyCompanyId"))
+    if (!hideColumns.some((c) => c == "policyCompanyId"))
         columns.push(
             getColumn(
                 "policyCompanyId",
@@ -134,7 +134,7 @@ const getColumns = (props: Props) => {
                     render: (policyCompanyId: string) => {
                         return <CompanyName companyId={policyCompanyId} />;
                     },
-                    filters: props.companies.map(c => ({
+                    filters: props.companies.map((c) => ({
                         text: c.name,
                         value: c.id,
                     })),
@@ -142,12 +142,12 @@ const getColumns = (props: Props) => {
             )
         );
 
-    if (!hideColumns.some(c => c == "policyNumber"))
+    if (!hideColumns.some((c) => c == "policyNumber"))
         columns.push(
             getColumn("policyNumber", "Policy Number", {}, getColumnSearchProps("Policy Number"))
         );
 
-    if (!hideColumns.some(c => c == "commissionTypeId"))
+    if (!hideColumns.some((c) => c == "commissionTypeId"))
         columns.push(
             getColumn(
                 "commissionTypeId",
@@ -157,7 +157,7 @@ const getColumns = (props: Props) => {
                     render: (commissionTypeId: string) => {
                         return <CommissionTypeName commissionTypeId={commissionTypeId} />;
                     },
-                    filters: props.commissionTypes.map(type => ({
+                    filters: props.commissionTypes.map((type) => ({
                         text: type.name,
                         value: type.id,
                     })),
@@ -165,17 +165,17 @@ const getColumns = (props: Props) => {
             )
         );
 
-    if (!hideColumns.some(c => c == "amountIncludingVAT"))
+    if (!hideColumns.some((c) => c == "amountIncludingVAT"))
         columns.push(
             getColumn("amountIncludingVAT", "Amount (incl VAT)", {
                 type: "long-currency",
             })
         );
 
-    if (!hideColumns.some(c => c == "vat"))
+    if (!hideColumns.some((c) => c == "vat"))
         columns.push(getColumn("vat", "VAT", { type: "long-currency" }));
 
-    if (!hideColumns.some(c => c == "splitGroupId"))
+    if (!hideColumns.some((c) => c == "splitGroupId"))
         columns.push(
             getColumn(
                 "splitGroupId",
@@ -189,7 +189,7 @@ const getColumns = (props: Props) => {
             )
         );
 
-    if (!hideColumns.some(c => c == "userId"))
+    if (!hideColumns.some((c) => c == "userId"))
         columns.push(
             getColumn(
                 "userId",
@@ -199,7 +199,7 @@ const getColumns = (props: Props) => {
                     render: (userId: string) => {
                         return <UserName userId={userId} />;
                     },
-                    filters: props.users.map(user => ({
+                    filters: props.users.map((user) => ({
                         text: user.fullName,
                         value: user.id,
                     })),

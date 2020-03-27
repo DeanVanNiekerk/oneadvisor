@@ -13,9 +13,7 @@ export type State = {
     readonly filters: AuditLogFilters | null;
 };
 
-const startDate = moment()
-    .subtract(14, "days")
-    .startOf("day");
+const startDate = moment().subtract(14, "days").startOf("day");
 const endDate = moment();
 
 const defaultFilters: AuditLogFilters = {

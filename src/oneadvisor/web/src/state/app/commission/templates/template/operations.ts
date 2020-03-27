@@ -127,7 +127,7 @@ export const saveCommissionStatementTemplate = (
             dispatch(
                 insertCommissionStatementTemplate(
                     template,
-                    result => {
+                    (result) => {
                         onSuccess(result.tag);
                         dispatch(commissionStatementTemplateVisible(false));
                     },
@@ -203,7 +203,7 @@ export const commissionStatementTemplateOverride = (
         try {
             const config = JSON.parse(newConfig) as Config;
 
-            config.sheets.forEach(sheet => {
+            config.sheets.forEach((sheet) => {
                 //Validate commission type codes ------------------
                 if (
                     !isValidCommissionType(
@@ -213,12 +213,17 @@ export const commissionStatementTemplateOverride = (
                 )
                     sheet.config.commissionTypes.defaultCommissionTypeCode = UNKNOWN_COMMISSION_TYPE_CODE;
 
-                sheet.config.commissionTypes.types = sheet.config.commissionTypes.types.map(t => ({
-                    commissionTypeCode: isValidCommissionType(t.commissionTypeCode, commissionTypes)
-                        ? t.commissionTypeCode
-                        : "",
-                    value: t.value,
-                }));
+                sheet.config.commissionTypes.types = sheet.config.commissionTypes.types.map(
+                    (t) => ({
+                        commissionTypeCode: isValidCommissionType(
+                            t.commissionTypeCode,
+                            commissionTypes
+                        )
+                            ? t.commissionTypeCode
+                            : "",
+                        value: t.value,
+                    })
+                );
                 //--------------------------------------------------
             });
 
@@ -439,5 +444,5 @@ export const modifyCommissionStatementTemplateExchangeRates = (
 };
 
 const isValidCommissionType = (code: string, commissionTypes: CommissionType[]): boolean => {
-    return !!commissionTypes.find(t => t.code === code);
+    return !!commissionTypes.find((t) => t.code === code);
 };

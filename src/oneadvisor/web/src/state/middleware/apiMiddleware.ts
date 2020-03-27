@@ -48,10 +48,10 @@ export default (store: Store<RootState>) => (next: Dispatch) => (action: ApiActi
         action.hideValidationNotifications !== true;
 
     fetch(endpoint, requestInit)
-        .then(resp => {
+        .then((resp) => {
             //Check for server error
             if (resp.status === 500) {
-                return resp.text().then(text => {
+                return resp.text().then((text) => {
                     //Call onFailure
                     if (action.onFailure) action.onFailure(text);
 
@@ -62,7 +62,7 @@ export default (store: Store<RootState>) => (next: Dispatch) => (action: ApiActi
             //Call onSuccessBlob
             if (action.onSuccessBlob) {
                 if (resp.status === 200) {
-                    resp.blob().then(blob => {
+                    resp.blob().then((blob) => {
                         if (action.onSuccessBlob) action.onSuccessBlob(blob, store.dispatch);
                     });
                     return;
@@ -91,7 +91,7 @@ export default (store: Store<RootState>) => (next: Dispatch) => (action: ApiActi
                 return;
             }
 
-            return resp.json().then(json => {
+            return resp.json().then((json) => {
                 //Check for validation error
                 if (resp.status === 400) {
                     //Call onFailure
@@ -122,7 +122,7 @@ export default (store: Store<RootState>) => (next: Dispatch) => (action: ApiActi
                 return json;
             });
         })
-        .catch(error => {
+        .catch((error) => {
             //Call onFailure
             if (action.onFailure) action.onFailure(error);
 

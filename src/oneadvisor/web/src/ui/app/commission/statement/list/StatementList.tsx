@@ -42,7 +42,7 @@ const Option = Select.Option;
 
 type Props = PropsFromState & PropsFromDispatch & RouteComponentProps;
 
-const StatementList: React.FC<Props> = props => {
+const StatementList: React.FC<Props> = (props) => {
     useEffect(() => {
         props.fetchStatements();
     }, [props.pageOptions, props.sortOptions, props.filters, props.filterMonth, props.filterYear]);
@@ -64,7 +64,7 @@ const StatementList: React.FC<Props> = props => {
                     render: (companyId: string) => {
                         return <CompanyName companyId={companyId} />;
                     },
-                    filters: props.companies.map(type => ({
+                    filters: props.companies.map((type) => ({
                         text: type.name,
                         value: type.id,
                     })),
@@ -202,7 +202,7 @@ const StatementList: React.FC<Props> = props => {
                         onChange={handleMonthChange}
                         style={{ width: 200 }}
                     >
-                        {getMonthOptions().map(month => {
+                        {getMonthOptions().map((month) => {
                             return (
                                 <Option key={month.number.toString()} value={month.number}>
                                     {month.name}
@@ -218,7 +218,7 @@ const StatementList: React.FC<Props> = props => {
                         onChange={handleYearChange}
                         style={{ width: 200 }}
                     >
-                        {getYearOptions().map(year => {
+                        {getYearOptions().map((year) => {
                             return (
                                 <Option key={year.toString()} value={year}>
                                     {year}
@@ -242,7 +242,7 @@ const StatementList: React.FC<Props> = props => {
                 columns={getColumns()}
                 dataSource={props.statements}
                 loading={props.fetching}
-                onRowClick={statement => editStatement(statement.id)}
+                onRowClick={(statement) => editStatement(statement.id)}
                 externalDataSource={true}
                 pageOptions={props.pageOptions}
                 totalRows={props.totalItems}
@@ -307,7 +307,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
         },
         downloadMappingErrors: (filters: CommissionErrorsFilters, date: string) => {
             dispatch(
-                getCommissionErrors(filters, errors => {
+                getCommissionErrors(filters, (errors) => {
                     downloadCommissionErrors(errors, "", moment(date).format("MMM-YYYY"));
                 })
             );

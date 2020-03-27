@@ -48,7 +48,9 @@ class FormSelect<T extends SelectValue> extends Component<Props<T>> {
     };
 
     getLabelValue = (): string => {
-        const item = this.props.options.find(o => o[this.props.optionsValue] === this.props.value);
+        const item = this.props.options.find(
+            (o) => o[this.props.optionsValue] === this.props.value
+        );
 
         if (!item) return "";
 
@@ -113,11 +115,11 @@ class FormSelect<T extends SelectValue> extends Component<Props<T>> {
                         defaultActiveFirstOption={defaultActiveFirstOption}
                         autoFocus={autoFocus}
                         allowClear={this.props.allowClear}
-                        onSelect={value => {
+                        onSelect={(value) => {
                             if (this.props.onSelect) this.props.onSelect(value as T);
                         }}
                     >
-                        {this.props.options.map(option => (
+                        {this.props.options.map((option) => (
                             <Option
                                 key={option[this.props.optionsValue]}
                                 value={option[this.props.optionsValue]}

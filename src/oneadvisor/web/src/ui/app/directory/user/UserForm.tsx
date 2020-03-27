@@ -74,14 +74,14 @@ class UserForm extends Component<Props, State> {
     };
 
     isRoleSelected = (roleName: string) => {
-        return this.state.user.roles.some(r => r === roleName);
+        return this.state.user.roles.some((r) => r === roleName);
     };
 
     toggleRoleChange = (roleName: string) => {
         let roles = [...this.state.user.roles];
 
         if (this.isRoleSelected(roleName))
-            roles = this.state.user.roles.filter(r => r !== roleName);
+            roles = this.state.user.roles.filter((r) => r !== roleName);
         else roles.push(roleName);
 
         this.handleChange("roles", roles);
@@ -195,14 +195,14 @@ class UserForm extends Component<Props, State> {
                                 true
                             )}
                         />
-                        {this.props.applications.map(application => (
+                        {this.props.applications.map((application) => (
                             <List
                                 key={application.id}
                                 header={<h4 className="mb-0">{application.name}</h4>}
                                 bordered={true}
                                 size="small"
                                 dataSource={this.props.roles.filter(
-                                    r => r.applicationId === application.id
+                                    (r) => r.applicationId === application.id
                                 )}
                                 renderItem={(role: Role) => (
                                     <List.Item

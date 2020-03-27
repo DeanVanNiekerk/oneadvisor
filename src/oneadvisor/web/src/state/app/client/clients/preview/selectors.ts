@@ -8,10 +8,10 @@ const rootSelector = (state: RootState): State => state.app.client.clients.previ
 
 export const clientPreviewSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );
 
 export const clientPreviewIsLoadingSelector: (state: RootState) => boolean = createSelector(
     rootSelector,
-    root => root.fetching || !root.client
+    (root) => root.fetching || !root.client
 );

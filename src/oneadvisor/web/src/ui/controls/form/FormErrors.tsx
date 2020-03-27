@@ -13,8 +13,8 @@ const FormErrors: React.FC<Props> = (props: Props) => {
     const { propertyName = "", validationResults } = props;
 
     const results = validationResults
-        .filter(r => r.propertyName === propertyName)
-        .map(r => r.errorMessage);
+        .filter((r) => r.propertyName === propertyName)
+        .map((r) => r.errorMessage);
 
     const message = results.join(",");
 

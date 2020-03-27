@@ -76,7 +76,7 @@ class SplitRuleForm extends Component<Props, State> {
                 <SplitList
                     splits={splitRule.split}
                     validationResults={getValidationSubSet("split", validationResults)}
-                    onChange={split => this.handleChange("split", split)}
+                    onChange={(split) => this.handleChange("split", split)}
                 />
             </Form>
         );

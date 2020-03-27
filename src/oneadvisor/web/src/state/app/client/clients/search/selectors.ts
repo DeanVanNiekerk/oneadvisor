@@ -8,5 +8,5 @@ const rootSelector = (state: RootState): State => state.app.client.clients.searc
 
 export const searchSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );

@@ -70,12 +70,12 @@ class RoleList extends Component<Props, State> {
     };
 
     getApplicationName = (id: string) => {
-        const application = this.props.applications.find(u => u.id === id);
+        const application = this.props.applications.find((u) => u.id === id);
         if (application) return application.name;
     };
 
     getApplicationColor = (id: string) => {
-        const application = applications.find(u => u.id === id);
+        const application = applications.find((u) => u.id === id);
         if (application) return application.color;
     };
 
@@ -122,7 +122,7 @@ class RoleList extends Component<Props, State> {
                             </Tag>
                         );
                     },
-                    filters: this.props.applications.map(a => ({
+                    filters: this.props.applications.map((a) => ({
                         text: a.name,
                         value: a.id,
                     })),
@@ -155,7 +155,7 @@ class RoleList extends Component<Props, State> {
                     columns={this.getColumns()}
                     dataSource={this.props.roles}
                     loading={this.props.fetching}
-                    onRowClick={role => this.editRole(role.id)}
+                    onRowClick={(role) => this.editRole(role.id)}
                 />
                 <EditRole
                     visible={this.state.editVisible}

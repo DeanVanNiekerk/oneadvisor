@@ -18,7 +18,7 @@ export const downloadExcelSheets = async (sheets: Sheet[], fileName: string) => 
 
     const workbook = utils.book_new();
 
-    sheets.forEach(s => {
+    sheets.forEach((s) => {
         const sheet = utils.json_to_sheet(s.data);
         utils.book_append_sheet(workbook, sheet, s.name);
     });

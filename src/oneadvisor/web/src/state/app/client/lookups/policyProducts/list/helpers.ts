@@ -8,18 +8,18 @@ export const policyProductCascade = (
     policyProducts: PolicyProduct[],
     companyId: string
 ): CascaderOptionType[] => {
-    return policyTypes.map(policyType => {
+    return policyTypes.map((policyType) => {
         const item = {
             value: policyType.id,
             label: policyType.name,
             children: policyProductTypes
-                .filter(productType => productType.policyTypeId === policyType.id)
-                .map(productType => {
+                .filter((productType) => productType.policyTypeId === policyType.id)
+                .map((productType) => {
                     const item = {
                         value: productType.id,
                         label: productType.name,
                         children: policyProducts
-                            .filter(product => {
+                            .filter((product) => {
                                 if (product.policyProductTypeId === productType.id) {
                                     if (companyId === "" || companyId !== product.companyId)
                                         return false;
@@ -29,7 +29,7 @@ export const policyProductCascade = (
 
                                 return false;
                             })
-                            .map(product => {
+                            .map((product) => {
                                 return {
                                     value: product.id,
                                     label: product.name,

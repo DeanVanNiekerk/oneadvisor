@@ -43,7 +43,7 @@ class SideMenu extends Component<Props, State> {
         };
     }
 
-    onCollapse = collapsed => {
+    onCollapse = (collapsed) => {
         this.setState({ collapsed });
     };
 
@@ -71,10 +71,10 @@ class SideMenu extends Component<Props, State> {
                     selectedKeys={[]}
                 >
                     {this.props.menu.groups
-                        .filter(group =>
+                        .filter((group) =>
                             hasPermissionsMenuGroup(group, this.props.useCases, this.props.roles)
                         )
-                        .map(group => (
+                        .map((group) => (
                             <SubMenu
                                 key={group.name}
                                 title={
@@ -86,11 +86,11 @@ class SideMenu extends Component<Props, State> {
                             >
                                 {group.links
                                     .filter(
-                                        link =>
+                                        (link) =>
                                             hasUseCases(link.useCases, this.props.useCases) &&
                                             hasRoles(link.roles, this.props.roles)
                                     )
-                                    .map(link => (
+                                    .map((link) => (
                                         <Item
                                             key={link.relativePath}
                                             style={this.getMenuItemStyle(
@@ -113,7 +113,7 @@ class SideMenu extends Component<Props, State> {
     }
 }
 
-const Icon: React.FC<{ type: string }> = props => {
+const Icon: React.FC<{ type: string }> = (props) => {
     switch (props.type) {
         case "team":
             return <TeamOutlined />;

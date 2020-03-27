@@ -10,12 +10,12 @@ const rootSelector = (state: RootState): State => state.app.commission.reports.c
 
 export const clientRevenueSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );
 
 export const clientRevenueBandsDataSelector: (state: RootState) => BarDatum[] = createSelector(
     rootSelector,
-    root => {
+    (root) => {
         const { items } = root;
 
         return [
@@ -53,7 +53,7 @@ const getRangeTotal = (
     max: number = Number.MAX_VALUE
 ): number => {
     return items
-        .filter(d => d.monthlyAnnuityMonth > min && d.monthlyAnnuityMonth <= max)
+        .filter((d) => d.monthlyAnnuityMonth > min && d.monthlyAnnuityMonth <= max)
         .reduce((p, c) => {
             return c.monthlyAnnuityMonth + p;
         }, 0);

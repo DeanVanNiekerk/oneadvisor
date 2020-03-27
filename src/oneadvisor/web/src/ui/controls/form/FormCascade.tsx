@@ -23,7 +23,7 @@ type Props = {
 
 const filter = (inputValue: string, path: CascaderOptionType[]) => {
     return path.some(
-        option =>
+        (option) =>
             (option.label ? option.label.toString() : "")
                 .toLowerCase()
                 .indexOf(inputValue.toLowerCase()) > -1

@@ -62,7 +62,7 @@ class Verify extends Component<Props> {
     getColumns = () => {
         const getColumn = getColumnDefinition<ImportClient>();
 
-        const columns: ColumnProps<ImportClient>[] = this.props.columns.map(c =>
+        const columns: ColumnProps<ImportClient>[] = this.props.columns.map((c) =>
             getColumn(
                 c.id,
                 c.name,
@@ -108,8 +108,8 @@ class Verify extends Component<Props> {
 
     policyCompanyRequired = () => {
         return (
-            this.props.columns.some(c => c.id === "policyNumber") &&
-            !this.props.columns.some(c => c.id === "policyCompanyId")
+            this.props.columns.some((c) => c.id === "policyNumber") &&
+            !this.props.columns.some((c) => c.id === "policyCompanyId")
         );
     };
 
@@ -150,7 +150,7 @@ class Verify extends Component<Props> {
                                     onChange={(value: string) => this.selectCompany(value)}
                                     value={this.props.selectedCompanyId}
                                 >
-                                    {this.props.companies.map(c => (
+                                    {this.props.companies.map((c) => (
                                         <Option key={c.id} value={c.id}>
                                             {c.name}
                                         </Option>

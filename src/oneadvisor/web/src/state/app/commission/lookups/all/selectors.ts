@@ -8,5 +8,5 @@ const rootSelector = (state: RootState): State => state.app.commission.lookups.a
 
 export const lookupsSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );

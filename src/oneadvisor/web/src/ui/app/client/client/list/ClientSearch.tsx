@@ -92,7 +92,7 @@ class ClientSearch extends Component<Props, State> {
                     columns={this.getColumns()}
                     dataSource={this.props.clients}
                     loading={this.props.fetching}
-                    onRowClick={client => this.selectClient(client.id)}
+                    onRowClick={(client) => this.selectClient(client.id)}
                 />
             </>
         );

@@ -60,7 +60,7 @@ class Configure extends Component<Props> {
     }
 
     next = () => {
-        const clients: ImportClient[] = this.props.rows.map(r => {
+        const clients: ImportClient[] = this.props.rows.map((r) => {
             return {
                 _id: v4(),
                 idNumber: r.idNumber,
@@ -78,7 +78,7 @@ class Configure extends Component<Props> {
 
     getColumns = () => {
         const getColumn = getColumnDefinition<ImportTableRow>();
-        return this.props.selectedImportColumns.map(c =>
+        return this.props.selectedImportColumns.map((c) =>
             getColumn(c.id, c.name, {}, { sorter: undefined })
         );
     };
@@ -106,7 +106,7 @@ class Configure extends Component<Props> {
                             value={this.props.selectedColumns}
                             onChange={this.onSelectedColumnChange}
                         >
-                            {this.props.columns.map(c => {
+                            {this.props.columns.map((c) => {
                                 return (
                                     <Option key={c.id} value={c.id}>
                                         {c.name}

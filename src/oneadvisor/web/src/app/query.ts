@@ -35,7 +35,7 @@ export const appendFiltersQuery = (api: string, filters: Filters | null): string
 
     const filtersValues: string[] = [];
 
-    Object.keys(filters).forEach(key => {
+    Object.keys(filters).forEach((key) => {
         const values = cleanValues(filters[key]);
         if (values.length > 0) filtersValues.push(`${key}=${values.join(",")}`);
     });
@@ -54,14 +54,11 @@ export const appendFiltersQuery = (api: string, filters: Filters | null): string
 
 const cleanValues = (values: string[] | undefined): string[] => {
     if (!values) return [];
-    return values.map(v => cleanValue(v));
+    return values.map((v) => cleanValue(v));
 };
 
 const cleanValue = (values: string): string => {
-    return values
-        .replace("=", "")
-        .replace(",", "")
-        .replace(";", "");
+    return values.replace("=", "").replace(",", "").replace(";", "");
 };
 
 export const appendQueryString = (url: string, params: Param[]): string => {
@@ -74,11 +71,11 @@ export const applyLike = (filters: Filters | null, fieldNames: string[]): Filter
     if (!filters) return {};
 
     const newFilters: Filters = {};
-    Object.keys(filters).forEach(key => {
+    Object.keys(filters).forEach((key) => {
         const value = filters[key];
         if (!value) return;
 
-        newFilters[key] = value.map(f => {
+        newFilters[key] = value.map((f) => {
             if (fieldNames.indexOf(key) !== -1) return applyLikeFormat(f);
             return f;
         });
@@ -113,7 +110,7 @@ const parseUrl = (input: string): Url => {
 
     const params = split[1].split("&");
 
-    params.forEach(p => {
+    params.forEach((p) => {
         const param = p.split("=");
 
         if (param.length < 2) return;
@@ -131,7 +128,7 @@ const formatUrl = (input: Url): string => {
     let url = input.base;
 
     if (input.params.length > 0) {
-        const query = input.params.map(p => {
+        const query = input.params.map((p) => {
             return `${p.key}=${encodeURIComponent(p.value)}`;
         });
         url = `${url}?${query.join("&")}`;

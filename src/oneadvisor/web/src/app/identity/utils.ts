@@ -9,7 +9,7 @@ export const hasUseCase = (sourceUseCase: string | undefined, useCases: string[]
 export const hasUseCases = (sourceUseCases: string[] | undefined, useCases: string[]): boolean => {
     let found = true;
     if (sourceUseCases)
-        found = sourceUseCases.some(sourceUseCase => hasUseCase(sourceUseCase, useCases));
+        found = sourceUseCases.some((sourceUseCase) => hasUseCase(sourceUseCase, useCases));
     return found;
 };
 
@@ -21,7 +21,7 @@ export const hasRole = (sourceRole: string | undefined, roles: string[]): boolea
 
 export const hasRoles = (sourceRoles: string[] | undefined, roles: string[]): boolean => {
     let found = true;
-    if (sourceRoles) found = sourceRoles.some(sourceRole => hasRole(sourceRole, roles));
+    if (sourceRoles) found = sourceRoles.some((sourceRole) => hasRole(sourceRole, roles));
     return found;
 };
 
@@ -31,7 +31,7 @@ export const hasPermissionsMenuGroup = (
     roles: string[]
 ): boolean => {
     return menuGroup.links.some(
-        link => hasUseCases(link.useCases, useCases) && hasRoles(link.roles, roles)
+        (link) => hasUseCases(link.useCases, useCases) && hasRoles(link.roles, roles)
     );
 };
 
@@ -40,5 +40,5 @@ export const hasPermissionsMenuGroups = (
     useCases: string[],
     roles: string[]
 ): boolean => {
-    return menuGroups.some(group => hasPermissionsMenuGroup(group, useCases, roles));
+    return menuGroups.some((group) => hasPermissionsMenuGroup(group, useCases, roles));
 };

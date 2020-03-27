@@ -24,7 +24,7 @@ type Props = {
 } & PropsFromState &
     PropsFromDispatch;
 
-const BranchList: React.FC<Props> = props => {
+const BranchList: React.FC<Props> = (props) => {
     useEffect(() => {
         props.fetchBranches(props.organisationId);
     }, [props.organisationId]);

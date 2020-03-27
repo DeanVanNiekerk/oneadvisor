@@ -112,7 +112,7 @@ export const saveOrganisation = (
             );
         } else {
             dispatch(
-                insertOrganisation(organisation, result => {
+                insertOrganisation(organisation, (result) => {
                     onSuccess(result.tag);
                 })
             );

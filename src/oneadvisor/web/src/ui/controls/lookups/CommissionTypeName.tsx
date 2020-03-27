@@ -12,7 +12,7 @@ type Props = {
 const CommissionTypeNameComponent: React.FC<Props> = (props: Props) => {
     const { commissionTypes, commissionTypeId } = props;
 
-    const commissionType = commissionTypes.find(u => u.id === commissionTypeId);
+    const commissionType = commissionTypes.find((u) => u.id === commissionTypeId);
 
     if (!commissionType) return <span />;
 

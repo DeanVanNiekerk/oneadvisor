@@ -13,7 +13,7 @@ type Props = {
 const UserNameComponent: React.FC<Props> = (props: Props) => {
     const { users, userId } = props;
 
-    const user = users.find(u => u.id === userId);
+    const user = users.find((u) => u.id === userId);
 
     if (!user) return <span />;
 

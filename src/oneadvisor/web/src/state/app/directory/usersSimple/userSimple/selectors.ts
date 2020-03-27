@@ -8,5 +8,5 @@ const rootSelector = (state: RootState): State => state.app.directory.usersSimpl
 
 export const userSimpleSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );

@@ -13,11 +13,11 @@ const FormReadOnly: React.FC<Props> = ({ data, layout }) => {
     return (
         <Form layout={layout}>
             {Object.keys(data)
-                .filter(key => {
+                .filter((key) => {
                     const value = data[key];
                     return value !== "" && value !== null;
                 })
-                .map(key => {
+                .map((key) => {
                     return (
                         <FormText
                             key={key}

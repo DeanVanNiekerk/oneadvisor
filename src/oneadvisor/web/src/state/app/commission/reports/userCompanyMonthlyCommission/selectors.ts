@@ -11,15 +11,15 @@ const rootSelector = (state: RootState): State =>
 
 export const userCompanyMonthlyCommissionSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );
 
 export const userCompanyMonthlyCommissionPieDataSelector: (
     state: RootState
 ) => PieDatum[] = createSelector(rootSelector, companiesSelector, (root, companies) => {
     return root.items
-        .filter(r => r.amountExcludingVAT > 0)
-        .map(r => {
+        .filter((r) => r.amountExcludingVAT > 0)
+        .map((r) => {
             return {
                 id: r.companyId,
                 label: getCompanyName(r.companyId, companies.items),
@@ -30,6 +30,6 @@ export const userCompanyMonthlyCommissionPieDataSelector: (
 
 export const userCompanyMonthlyCommissionTotalAmountExclVatSelector: (
     state: RootState
-) => number = createSelector(rootSelector, companiesSelector, root =>
+) => number = createSelector(rootSelector, companiesSelector, (root) =>
     root.items.reduce((p, c) => p + c.amountExcludingVAT, 0)
 );

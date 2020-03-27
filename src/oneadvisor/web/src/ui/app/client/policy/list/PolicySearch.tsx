@@ -135,7 +135,7 @@ class PolicySearch extends Component<Props, State> {
                     columns={this.getColumns()}
                     dataSource={this.props.policies}
                     loading={this.props.fetching}
-                    onRowClick={policy => this.selectPolicy(policy.id)}
+                    onRowClick={(policy) => this.selectPolicy(policy.id)}
                     hidePagination={true}
                 />
             </>

@@ -69,7 +69,7 @@ class SignIn extends React.Component<Props, State> {
         this.props.dispatch(signIn(credentials));
     };
 
-    onKeyPress = event => {
+    onKeyPress = (event) => {
         if (event.key === "Enter") {
             this.signIn();
         }
@@ -130,7 +130,7 @@ class SignIn extends React.Component<Props, State> {
 
                     {this.props.failed && (
                         <p className="text-error text-center mb-2">
-                            {validationResults.map(r => (
+                            {validationResults.map((r) => (
                                 <b key={r.propertyName}>{r.errorMessage}</b>
                             ))}
                         </p>

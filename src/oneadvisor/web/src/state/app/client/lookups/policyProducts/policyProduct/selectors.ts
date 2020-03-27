@@ -9,5 +9,5 @@ const rootSelector = (state: RootState): State =>
 
 export const policyProductSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );

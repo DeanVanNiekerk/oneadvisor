@@ -58,7 +58,7 @@ class CommissionLapseTable extends Component<Props> {
                     render: (companyId: string) => {
                         return <CompanyName companyId={companyId} />;
                     },
-                    filters: this.props.companies.map(type => ({
+                    filters: this.props.companies.map((type) => ({
                         text: type.name,
                         value: type.id,
                     })),
@@ -73,7 +73,7 @@ class CommissionLapseTable extends Component<Props> {
                     render: (policyTypeId: string) => {
                         return <PolicyTypeName policyTypeId={policyTypeId} />;
                     },
-                    filters: this.props.policyTypes.map(type => ({
+                    filters: this.props.policyTypes.map((type) => ({
                         text: type.name,
                         value: type.id,
                     })),
@@ -89,7 +89,7 @@ class CommissionLapseTable extends Component<Props> {
                     render: (userId: string) => {
                         return <UserName userId={userId} />;
                     },
-                    filters: this.props.users.map(user => ({
+                    filters: this.props.users.map((user) => ({
                         text: user.fullName,
                         value: user.id,
                     })),

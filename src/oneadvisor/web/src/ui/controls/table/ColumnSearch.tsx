@@ -33,12 +33,12 @@ const ColumnSearch: React.FC<Props> = (props: Props) => {
     return (
         <div className="custom-filter-dropdown">
             <Input
-                ref={node => {
+                ref={(node) => {
                     searchInput = node;
                 }}
                 placeholder={`Search ${props.title}`}
                 value={props.selectedKeys ? props.selectedKeys[0] : undefined}
-                onChange={e => {
+                onChange={(e) => {
                     if (props.setSelectedKeys)
                         props.setSelectedKeys(e.target.value ? [e.target.value] : []);
                 }}

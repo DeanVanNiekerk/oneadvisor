@@ -202,9 +202,9 @@ export const menus: Menus = {
 
 export const defaultOpenGroupNames = (): string[] => {
     let groupNames: string[] = [];
-    Object.keys(menus).forEach(appId => {
+    Object.keys(menus).forEach((appId) => {
         groupNames = groupNames.concat(
-            menus[appId].groups.filter(g => g.defaultOpen).map(g => g.name)
+            menus[appId].groups.filter((g) => g.defaultOpen).map((g) => g.name)
         );
     });
     return groupNames;

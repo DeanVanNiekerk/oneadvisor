@@ -61,11 +61,7 @@ class CommissionLapseReport extends Component<Props> {
         this.props.dispatch(
             receiveCommissionLapseFilters({
                 ...this.props.filters,
-                date: [
-                    this.currentFilterDate()
-                        .year(year)
-                        .format(DATE_FORMAT),
-                ],
+                date: [this.currentFilterDate().year(year).format(DATE_FORMAT)],
             })
         );
     };
@@ -104,7 +100,7 @@ class CommissionLapseReport extends Component<Props> {
                             onChange={this.handleMonthChange}
                             style={{ width: 125 }}
                         >
-                            {getMonthOptions().map(month => {
+                            {getMonthOptions().map((month) => {
                                 return (
                                     <Select.Option
                                         key={month.number.toString()}
@@ -122,7 +118,7 @@ class CommissionLapseReport extends Component<Props> {
                             onChange={this.handleYearChange}
                             style={{ width: 90 }}
                         >
-                            {getYearOptions().map(year => {
+                            {getYearOptions().map((year) => {
                                 return (
                                     <Select.Option key={year.toString()} value={year}>
                                         {year}

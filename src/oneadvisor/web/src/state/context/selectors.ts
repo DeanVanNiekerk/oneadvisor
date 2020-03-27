@@ -10,7 +10,7 @@ const rootSelector = (state: RootState): State => state.context;
 
 export const contextSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );
 
 export const pathNameSelector = (state: RootState): string => {
@@ -24,7 +24,7 @@ export const applicationsSelector: (state: RootState) => Application[] = createS
     pathNameSelector,
     appsSelector,
     (pathName, applications) => {
-        return applications.map(app => {
+        return applications.map((app) => {
             return {
                 ...app,
                 isCurrent: isCurrentApplication(app, pathName),
@@ -35,8 +35,8 @@ export const applicationsSelector: (state: RootState) => Application[] = createS
 
 export const currentApplicationSelector: (state: RootState) => Application = createSelector(
     applicationsSelector,
-    applications => {
-        return applications.filter(app => app.isCurrent)[0];
+    (applications) => {
+        return applications.filter((app) => app.isCurrent)[0];
     }
 );
 
@@ -51,10 +51,10 @@ export const currentMenuSelector: (state: RootState) => Menu = createSelector(
 
         return {
             ...menu,
-            groups: menu.groups.map(group => {
+            groups: menu.groups.map((group) => {
                 return {
                     ...group,
-                    links: group.links.map(link => {
+                    links: group.links.map((link) => {
                         return {
                             ...link,
                             isCurrent: isCurrentMenuLink(menu, link, pathName),
@@ -68,12 +68,12 @@ export const currentMenuSelector: (state: RootState) => Menu = createSelector(
 
 export const currentMenuLinkSelector: (state: RootState) => MenuLink = createSelector(
     currentMenuSelector,
-    menu => {
+    (menu) => {
         const flattened = menu.groups.reduce((links, group) => {
             links.push(...group.links);
             return links;
         }, [] as MenuLink[]);
-        return flattened.filter(link => link.isCurrent)[0];
+        return flattened.filter((link) => link.isCurrent)[0];
     }
 );
 

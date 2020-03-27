@@ -24,7 +24,7 @@ const AuditHistory: React.FC<Props> = (props: Props) => {
         <ContentLoader isLoading={props.fetching}>
             <Card>
                 <Timeline>
-                    {props.items.map(i => {
+                    {props.items.map((i) => {
                         return (
                             <Timeline.Item key={i.id}>
                                 <Text>{i.action}</Text> <Date date={i.date} />

@@ -82,7 +82,7 @@ export const downloadUserMonthlyCommissionExcel = (): ThunkAction<
             [
                 {
                     name: "Earnings Types",
-                    data: userEarningsTypeMonthlyCommissionState.items.map(d => ({
+                    data: userEarningsTypeMonthlyCommissionState.items.map((d) => ({
                         earningsType: getCommissionEarningsTypeName(
                             d.commissionEarningsTypeId,
                             commissionEarningsTypesState.items
@@ -92,7 +92,7 @@ export const downloadUserMonthlyCommissionExcel = (): ThunkAction<
                 },
                 {
                     name: "Company",
-                    data: userCompanyMonthlyCommissionState.items.map(d => ({
+                    data: userCompanyMonthlyCommissionState.items.map((d) => ({
                         company: getCompanyName(d.companyId, companiesState.items),
                         amountExcludingVAT: d.amountExcludingVAT,
                     })),

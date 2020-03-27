@@ -12,7 +12,7 @@ type Props = {
 const PolicyProductTypeNameComponent: React.FC<Props> = (props: Props) => {
     const { policyProductTypes, policyProductTypeId } = props;
 
-    const policyProductType = policyProductTypes.find(u => u.id === policyProductTypeId);
+    const policyProductType = policyProductTypes.find((u) => u.id === policyProductTypeId);
 
     if (!policyProductType) return <span />;
 

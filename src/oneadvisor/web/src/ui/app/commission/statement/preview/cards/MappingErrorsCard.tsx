@@ -34,7 +34,7 @@ const MappingErrorsCardComponent: React.FC<Props> = (props: Props) => {
     const getCompanyName = () => {
         let companyId = "";
         if (props.statement !== null) companyId = props.statement.companyId;
-        const company = props.companies.find(u => u.id === companyId);
+        const company = props.companies.find((u) => u.id === companyId);
         return company ? company.name : "";
     };
 
@@ -63,7 +63,7 @@ const MappingErrorsCardComponent: React.FC<Props> = (props: Props) => {
                     <ToolOutlined key={"1"} />,
                     <DownloadOutlined
                         key={"2"}
-                        onClick={event => {
+                        onClick={(event) => {
                             downloadMappingErrors();
                             event.stopPropagation();
                         }}
@@ -118,7 +118,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             filters: CommissionErrorsFilters
         ) => {
             dispatch(
-                getCommissionErrors(filters, errors => {
+                getCommissionErrors(filters, (errors) => {
                     downloadCommissionErrors(errors, companyName, moment(date).format(DATE_FORMAT));
                 })
             );

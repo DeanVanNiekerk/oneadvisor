@@ -47,7 +47,7 @@ class Import extends Component<Props> {
 
     startImport = () => {
         this.props.dispatch(importClientClearResults());
-        this.props.clients.forEach(m => {
+        this.props.clients.forEach((m) => {
             this.props.dispatch(importClient(m));
         });
     };
@@ -81,7 +81,7 @@ class Import extends Component<Props> {
                 <div>
                     <Collapse defaultActiveKey={["1", "2"]}>
                         <Panel header="Error Messages" key="1">
-                            {validationErrors.map(result => {
+                            {validationErrors.map((result) => {
                                 return (
                                     <div key={result.propertyName}>
                                         <b>{result.propertyName}: </b>
@@ -94,7 +94,7 @@ class Import extends Component<Props> {
                             )}
                         </Panel>
                         <Panel header="Record Data" key="2">
-                            {this.props.columns.map(column => {
+                            {this.props.columns.map((column) => {
                                 return (
                                     <div key={column.id}>
                                         <b>{column.name}: </b>
@@ -126,7 +126,7 @@ class Import extends Component<Props> {
                 sorter: undefined,
                 render: (value: string, record: ResultFailure) => {
                     {
-                        return this.props.columns.map(column => {
+                        return this.props.columns.map((column) => {
                             return <span key={column.id}>{record.importClient[column.id]}; </span>;
                         });
                     }
@@ -167,13 +167,13 @@ class Import extends Component<Props> {
     };
 
     downloadErrors = () => {
-        const errorIds = this.props.resultsFailure.map(result => result.importClient._id);
+        const errorIds = this.props.resultsFailure.map((result) => result.importClient._id);
 
-        const errorRows = this.props.clients.filter(m => {
+        const errorRows = this.props.clients.filter((m) => {
             return errorIds.indexOf(m._id) !== -1;
         });
 
-        const data = errorRows.map(e => {
+        const data = errorRows.map((e) => {
             delete e._id;
             delete e.policyCompanyId;
             return e;

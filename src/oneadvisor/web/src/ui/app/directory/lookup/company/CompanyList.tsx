@@ -21,13 +21,13 @@ const Table = getTable<Company>();
 
 type Props = PropsFromState & PropsFromDispatch;
 
-const CompanyList: React.FC<Props> = props => {
+const CompanyList: React.FC<Props> = (props) => {
     useEffect(() => {
         props.fetchCompanies();
     }, []);
 
     const editCompany = (id: string) => {
-        const company = props.companies.find(u => u.id === id);
+        const company = props.companies.find((u) => u.id === id);
         if (company) props.editCompany(company);
     };
 
@@ -53,7 +53,7 @@ const CompanyList: React.FC<Props> = props => {
                 columns={getColumns()}
                 dataSource={props.companies}
                 loading={props.fetching}
-                onRowClick={company => editCompany(company.id)}
+                onRowClick={(company) => editCompany(company.id)}
             />
             <EditCompany onSaved={props.fetchCompanies} />
         </>

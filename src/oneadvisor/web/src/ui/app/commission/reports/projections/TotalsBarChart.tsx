@@ -24,7 +24,7 @@ class TotalsBarChart extends Component<Props> {
                 data={this.props.records}
                 keys={["value"]}
                 isLoading={this.props.fetching}
-                labelFormat={value => formatCurrency(value, 0)}
+                labelFormat={(value) => formatCurrency(value, 0)}
                 isInteractive={false}
                 defs={[
                     {
@@ -36,7 +36,7 @@ class TotalsBarChart extends Component<Props> {
                 ]}
                 fill={[
                     {
-                        match: d => d.key === this.props.currentLabel,
+                        match: (d) => d.key === this.props.currentLabel,
                         id: "currentMonth",
                     },
                 ]}

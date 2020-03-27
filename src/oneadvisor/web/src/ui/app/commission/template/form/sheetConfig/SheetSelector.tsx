@@ -16,7 +16,7 @@ const SheetSelector: React.FC<Props> = (props: Props) => {
     return (
         <Select<number>
             style={{ width: 150 }}
-            onChange={value => props.updateSheetIndex(value)}
+            onChange={(value) => props.updateSheetIndex(value)}
             value={props.sheetIndex}
         >
             {props.sheetPositions.map((p, index) => {

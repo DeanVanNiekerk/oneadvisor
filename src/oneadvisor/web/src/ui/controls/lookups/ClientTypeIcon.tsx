@@ -15,7 +15,7 @@ type Props = {
 const ClientTypeIconComponent: React.FC<Props> = (props: Props) => {
     const { clientTypes, clientTypeId, style } = props;
 
-    const clientType = clientTypes.find(u => u.id === clientTypeId);
+    const clientType = clientTypes.find((u) => u.id === clientTypeId);
 
     if (!clientType) return <span />;
 
@@ -40,7 +40,7 @@ const getIcon = (
     colour: string,
     style?: React.CSSProperties
 ) => {
-    const clientType = clientTypes.find(u => u.id === clientTypeId);
+    const clientType = clientTypes.find((u) => u.id === clientTypeId);
 
     if (!clientType) return <span />;
 

@@ -21,7 +21,7 @@ const Table = getTable<CommissionStatementTemplate>();
 
 type Props = PropsFromState & PropsFromDispatch;
 
-const TemplateList: React.FC<Props> = props => {
+const TemplateList: React.FC<Props> = (props) => {
     useEffect(() => {
         props.fetchCommissionStatementTemplates();
     }, []);
@@ -48,7 +48,7 @@ const TemplateList: React.FC<Props> = props => {
                 columns={getColumns(props)}
                 dataSource={props.templates}
                 loading={props.fetching}
-                onRowClick={org => props.editTemplate(org.id)}
+                onRowClick={(org) => props.editTemplate(org.id)}
             />
             <EditTemplate
                 onSaved={() => {
@@ -71,7 +71,7 @@ const getColumns = (props: Props) => {
                 render: (companyId: string) => {
                     return <CompanyName companyId={companyId} />;
                 },
-                filters: props.companies.map(type => ({
+                filters: props.companies.map((type) => ({
                     text: type.name,
                     value: type.id,
                 })),

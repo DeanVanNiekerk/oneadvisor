@@ -8,5 +8,5 @@ const rootSelector = (state: RootState): State => state.app.directory.audit.logs
 
 export const auditLogHistorySelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );

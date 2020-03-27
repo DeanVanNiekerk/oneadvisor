@@ -27,7 +27,7 @@ const Table = getTable<AuditLog>();
 
 type Props = PropsFromState & PropsFromDispatch;
 
-const AuditLogList: React.FC<Props> = props => {
+const AuditLogList: React.FC<Props> = (props) => {
     const [auditLog, setAuditLog] = useState<AuditLog | null>(null);
 
     useEffect(() => {
@@ -59,7 +59,7 @@ const AuditLogList: React.FC<Props> = props => {
                 columns={getColumns(props)}
                 dataSource={props.logs}
                 loading={props.fetching}
-                onRowClick={auditLog => setAuditLog(auditLog)}
+                onRowClick={(auditLog) => setAuditLog(auditLog)}
                 onTableChange={onTableChange}
             />
             <AuditLogDetails
@@ -148,7 +148,7 @@ const getColumns = (props: Props) => {
                 render: (userId: string | null) => {
                     return <UserName userId={userId} />;
                 },
-                filters: props.users.map(user => ({
+                filters: props.users.map((user) => ({
                     text: user.fullName,
                     value: user.id,
                 })),

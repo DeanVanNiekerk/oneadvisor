@@ -63,7 +63,7 @@ class ResetPasswordRequest extends React.Component<Props, State> {
         );
     };
 
-    onKeyPress = event => {
+    onKeyPress = (event) => {
         if (event.key === "Enter") {
             this.sendResetPasswordRequest();
         }

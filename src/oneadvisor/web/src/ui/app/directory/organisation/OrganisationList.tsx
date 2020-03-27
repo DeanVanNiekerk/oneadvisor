@@ -22,7 +22,7 @@ const Table = getTable<Organisation>();
 
 type Props = PropsFromState & PropsFromDispatch;
 
-const OrganisationList: React.FC<Props> = props => {
+const OrganisationList: React.FC<Props> = (props) => {
     useEffect(() => {
         props.fetchOrganisations();
     }, []);
@@ -51,7 +51,7 @@ const OrganisationList: React.FC<Props> = props => {
                 columns={getColumns()}
                 dataSource={props.organisations}
                 loading={props.fetching}
-                onRowClick={org => props.editOrganisation(org.id)}
+                onRowClick={(org) => props.editOrganisation(org.id)}
             />
             <EditOrganisation onSaved={props.fetchOrganisations} />
         </>

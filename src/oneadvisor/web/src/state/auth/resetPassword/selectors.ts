@@ -8,5 +8,5 @@ const rootSelector = (state: RootState): State => state.auth.resetPassword;
 
 export const resetPasswordSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );

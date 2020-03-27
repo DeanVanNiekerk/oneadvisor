@@ -44,7 +44,7 @@ class ChangeLogList extends Component<Props> {
     };
 
     editChangeLog = (id: string) => {
-        const changeLog = this.props.changeLogs.find(c => c.id === id);
+        const changeLog = this.props.changeLogs.find((c) => c.id === id);
         if (changeLog) this.props.dispatch(receiveChangeLog(changeLog));
     };
 
@@ -117,7 +117,7 @@ class ChangeLogList extends Component<Props> {
                     columns={this.getColumns()}
                     dataSource={this.props.changeLogs}
                     loading={this.props.fetching}
-                    onRowClick={changeLog => this.editChangeLog(changeLog.id)}
+                    onRowClick={(changeLog) => this.editChangeLog(changeLog.id)}
                     externalDataSource={true}
                     pageOptions={this.props.pageOptions}
                     totalRows={this.props.totalItems}

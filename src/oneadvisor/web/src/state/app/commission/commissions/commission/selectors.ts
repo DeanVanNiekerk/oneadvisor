@@ -9,15 +9,15 @@ const rootSelector = (state: RootState): State => state.app.commission.commissio
 
 export const commissionSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );
 
 export const commissionIsModifiedSelector: (state: RootState) => boolean = createSelector(
     rootSelector,
-    root => !areEqual(root.commission, root.commissionOriginal)
+    (root) => !areEqual(root.commission, root.commissionOriginal)
 );
 
 export const commissionIsLoadingSelector: (state: RootState) => boolean = createSelector(
     rootSelector,
-    root => root.updating || root.fetching
+    (root) => root.updating || root.fetching
 );

@@ -37,7 +37,7 @@ const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
                 <Tooltip key={"2"} title="Reimport Commission Statement File" mouseEnterDelay={0.5}>
                     <ReloadOutlined
                         className="text-primary"
-                        onClick={event => {
+                        onClick={(event) => {
                             setReimportStatementVisible(true);
                             event.stopPropagation();
                         }}

@@ -229,7 +229,7 @@ class ProjectionsReport extends Component<Props, State> {
                             allowClear={true}
                             style={{ width: 220 }}
                         >
-                            {allGroups.map(group => {
+                            {allGroups.map((group) => {
                                 return (
                                     <Select.Option key={group} value={group}>
                                         {group}
@@ -250,7 +250,7 @@ class ProjectionsReport extends Component<Props, State> {
                             filterOption={filterOption}
                             style={{ width: 220 }}
                         >
-                            {this.props.branches.map(branch => {
+                            {this.props.branches.map((branch) => {
                                 return (
                                     <Select.Option key={branch.id} value={branch.id}>
                                         {branch.name}
@@ -273,11 +273,11 @@ class ProjectionsReport extends Component<Props, State> {
                         >
                             {this.props.users
                                 .filter(
-                                    u =>
+                                    (u) =>
                                         this.selectedBranchIds().length === 0 ||
-                                        this.selectedBranchIds().some(id => id === u.branchId)
+                                        this.selectedBranchIds().some((id) => id === u.branchId)
                                 )
-                                .map(user => {
+                                .map((user) => {
                                     return (
                                         <Select.Option key={user.id} value={user.id}>
                                             {user.fullName}
@@ -298,7 +298,7 @@ class ProjectionsReport extends Component<Props, State> {
                             filterOption={filterOption}
                             style={{ width: 220 }}
                         >
-                            {this.props.policyTypes.map(policyType => {
+                            {this.props.policyTypes.map((policyType) => {
                                 return (
                                     <Select.Option key={policyType.id} value={policyType.id}>
                                         {policyType.name}
@@ -319,7 +319,7 @@ class ProjectionsReport extends Component<Props, State> {
                             filterOption={filterOption}
                             style={{ width: 220 }}
                         >
-                            {this.props.commissionEarningsTypes.map(commissionEarningsType => {
+                            {this.props.commissionEarningsTypes.map((commissionEarningsType) => {
                                 return (
                                     <Select.Option
                                         key={commissionEarningsType.id}
@@ -343,7 +343,7 @@ class ProjectionsReport extends Component<Props, State> {
                             filterOption={filterOption}
                             style={{ width: 220 }}
                         >
-                            {this.props.companies.map(company => {
+                            {this.props.companies.map((company) => {
                                 return (
                                     <Select.Option key={company.id} value={company.id}>
                                         {company.name}

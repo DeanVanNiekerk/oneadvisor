@@ -33,7 +33,7 @@ class Upload extends Component<Props> {
         reader.onload = async () => {
             let data = await readExcel<ImportRow>(reader);
 
-            data = data.filter(d => d.some(value => !!value));
+            data = data.filter((d) => d.some((value) => !!value));
 
             this.props.dispatch(receiveClientImportData(data));
 

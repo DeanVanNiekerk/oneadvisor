@@ -79,7 +79,7 @@ const PolicyList: React.FC<Props> = (props: Props) => {
                 <Popover
                     content={
                         <div>
-                            {policy.numberAliases.map(n => (
+                            {policy.numberAliases.map((n) => (
                                 <div key={n} style={{ marginBottom: "5px" }}>
                                     {n}
                                 </div>
@@ -106,7 +106,7 @@ const PolicyList: React.FC<Props> = (props: Props) => {
                     render: (companyId: string) => {
                         return <CompanyName companyId={companyId} />;
                     },
-                    filters: props.companies.map(type => ({
+                    filters: props.companies.map((type) => ({
                         text: type.name,
                         value: type.id,
                     })),
@@ -129,7 +129,7 @@ const PolicyList: React.FC<Props> = (props: Props) => {
                     render: (policyTypeId: string) => {
                         return <PolicyTypeName policyTypeId={policyTypeId} />;
                     },
-                    filters: props.policyTypes.map(type => ({
+                    filters: props.policyTypes.map((type) => ({
                         text: type.name,
                         value: type.id,
                     })),
@@ -143,7 +143,7 @@ const PolicyList: React.FC<Props> = (props: Props) => {
                     render: (userId: string) => {
                         return <UserName userId={userId} />;
                     },
-                    filters: props.users.map(user => ({
+                    filters: props.users.map((user) => ({
                         text: user.fullName,
                         value: user.id,
                     })),
@@ -214,7 +214,7 @@ const PolicyList: React.FC<Props> = (props: Props) => {
                 columns={getColumns()}
                 dataSource={props.policies}
                 loading={props.fetching}
-                onRowClick={policy => editPolicy(policy.id)}
+                onRowClick={(policy) => editPolicy(policy.id)}
                 externalDataSource={true}
                 pageOptions={props.pageOptions}
                 totalRows={props.totalItems}

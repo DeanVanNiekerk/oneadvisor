@@ -96,7 +96,7 @@ export const downloadCommissionErrors = (
     fileName += `_${date}.xlsx`;
 
     downloadExcel(
-        errors.items.map(e => {
+        errors.items.map((e) => {
             return {
                 ...e.data,
                 policyTypeCode: e.policyTypeCode,

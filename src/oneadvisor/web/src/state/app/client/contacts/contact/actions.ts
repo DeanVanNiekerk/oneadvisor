@@ -94,7 +94,7 @@ export const saveContact = (
             );
         } else {
             dispatch(
-                insertContact(contact, result => {
+                insertContact(contact, (result) => {
                     onSuccess(result.tag);
                 })
             );

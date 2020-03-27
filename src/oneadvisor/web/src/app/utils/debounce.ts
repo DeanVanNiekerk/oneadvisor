@@ -16,7 +16,7 @@ export function debounce<F extends Procedure>(
 ): F {
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
-    return function(this: unknown, ...args: unknown[]) {
+    return function (this: unknown, ...args: unknown[]) {
         const doLater = () => {
             timeoutId = undefined;
             if (!options.isImmediate) {

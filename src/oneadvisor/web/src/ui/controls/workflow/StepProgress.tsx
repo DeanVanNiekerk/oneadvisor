@@ -35,7 +35,7 @@ const StepProgress: React.FC<StepProgressProps> = (props: StepProgressProps) => 
             </Col>
             <Col style={{ flex: 1 }}>
                 <Steps current={props.currentStepIndex} size="small">
-                    {props.steps.map(item => (
+                    {props.steps.map((item) => (
                         <Step key={item} title={item} />
                     ))}
                 </Steps>

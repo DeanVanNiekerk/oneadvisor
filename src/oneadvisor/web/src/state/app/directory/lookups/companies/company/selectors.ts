@@ -9,10 +9,10 @@ const rootSelector = (state: RootState): State => state.app.directory.lookups.co
 
 export const companySelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );
 
 export const companyIsModifiedSelector: (state: RootState) => boolean = createSelector(
     rootSelector,
-    root => !areEqual(root.company, root.companyOriginal)
+    (root) => !areEqual(root.company, root.companyOriginal)
 );

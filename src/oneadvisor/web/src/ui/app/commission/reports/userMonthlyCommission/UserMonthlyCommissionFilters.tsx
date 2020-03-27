@@ -79,9 +79,7 @@ const UserMonthlyCommissionFilters: React.FC<Props> = (props: Props) => {
     };
 
     const onLast12MonthsChange = () => {
-        const start = moment()
-            .subtract(11, "months")
-            .startOf("month");
+        const start = moment().subtract(11, "months").startOf("month");
         const end = moment().endOf("month");
         props.onDateFiltersChange(start, end);
     };
@@ -100,7 +98,7 @@ const UserMonthlyCommissionFilters: React.FC<Props> = (props: Props) => {
                     filterOption={filterOption}
                     placeholder="Broker"
                 >
-                    {props.users.map(user => {
+                    {props.users.map((user) => {
                         return (
                             <Select.Option key={user.id} value={user.id}>
                                 {user.fullName}
@@ -121,7 +119,7 @@ const UserMonthlyCommissionFilters: React.FC<Props> = (props: Props) => {
                     placeholder="Company"
                     filterOption={filterOption}
                 >
-                    {props.companies.map(company => {
+                    {props.companies.map((company) => {
                         return (
                             <Select.Option key={company.id} value={company.id}>
                                 {company.name}
@@ -136,7 +134,7 @@ const UserMonthlyCommissionFilters: React.FC<Props> = (props: Props) => {
                     onChange={props.onDateRangeOptionChange}
                     style={{ width: 150 }}
                 >
-                    {props.typeOptions.map(o => (
+                    {props.typeOptions.map((o) => (
                         <Select.Option key={o.key} value={o.key}>
                             {o.label}
                         </Select.Option>
@@ -150,7 +148,7 @@ const UserMonthlyCommissionFilters: React.FC<Props> = (props: Props) => {
                         onChange={props.onMonthChange}
                         style={{ width: 125 }}
                     >
-                        {getMonthOptions().map(month => {
+                        {getMonthOptions().map((month) => {
                             return (
                                 <Select.Option key={month.number.toString()} value={month.number}>
                                     {month.name}
@@ -167,7 +165,7 @@ const UserMonthlyCommissionFilters: React.FC<Props> = (props: Props) => {
                         onChange={props.onYearChange}
                         style={{ width: 90 }}
                     >
-                        {getYearOptions().map(year => {
+                        {getYearOptions().map((year) => {
                             return (
                                 <Select.Option key={year.toString()} value={year}>
                                     {year}

@@ -29,7 +29,7 @@ type Props = {
 } & PropsFromState &
     PropsFromDispatch;
 
-const ContactList: React.FC<Props> = props => {
+const ContactList: React.FC<Props> = (props) => {
     useEffect(() => {
         props.fetchContacts(props.clientId);
     }, [props.clientId]);
@@ -47,7 +47,7 @@ const ContactList: React.FC<Props> = props => {
                 columns={getColumns(props)}
                 dataSource={props.contacts}
                 loading={props.fetching}
-                onRowClick={contact => props.editContact(contact.id)}
+                onRowClick={(contact) => props.editContact(contact.id)}
                 onRowClickRequiredUseCase="clt_edit_contacts"
             />
         </>

@@ -23,7 +23,7 @@ const ClientNameComponent: React.FC<Props> = (props: Props) => {
         }
 
         props.dispatch(
-            getClient(props.clientId, client => {
+            getClient(props.clientId, (client) => {
                 setClient(client);
             })
         );
@@ -32,8 +32,9 @@ const ClientNameComponent: React.FC<Props> = (props: Props) => {
     if (!client) return <span />;
 
     return (
-        <span className={props.className}>{`${props.prefix || ""}${client.firstName ||
-            ""} ${client.lastName || ""}`}</span>
+        <span className={props.className}>{`${props.prefix || ""}${client.firstName || ""} ${
+            client.lastName || ""
+        }`}</span>
     );
 };
 

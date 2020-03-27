@@ -8,5 +8,5 @@ const rootSelector = (state: RootState): State => state.app.commission.reports.c
 
 export const commissionLapseSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );

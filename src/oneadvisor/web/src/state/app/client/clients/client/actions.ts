@@ -94,7 +94,7 @@ export const saveClient = (
             );
         } else {
             dispatch(
-                insertClient(client, result => {
+                insertClient(client, (result) => {
                     onSuccess(result.tag);
                 })
             );

@@ -12,7 +12,7 @@ type Props = {
 const CompanyNameComponent: React.FC<Props> = (props: Props) => {
     const { companies, companyId } = props;
 
-    const company = companies.find(u => u.id === companyId);
+    const company = companies.find((u) => u.id === companyId);
 
     if (!company) return <span />;
 

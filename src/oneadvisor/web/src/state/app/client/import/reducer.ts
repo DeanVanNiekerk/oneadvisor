@@ -135,7 +135,7 @@ export const reducer = (state: State = defaultState, action: ImportClientAction)
         }
         case "CLIENTS_IMPORT_CLIENTS_REMOVE": {
             const clients = state.clients;
-            const index = clients.findIndex(m => m._id === action.payload);
+            const index = clients.findIndex((m) => m._id === action.payload);
 
             if (index == -1) return state;
 
@@ -153,7 +153,7 @@ export const reducer = (state: State = defaultState, action: ImportClientAction)
         case "CLIENTS_IMPORT_CLIENTS_UPDATE_POLICY_COMPANIES": {
             return {
                 ...state,
-                clients: state.clients.map(client => {
+                clients: state.clients.map((client) => {
                     return {
                         ...client,
                         policyCompanyId: state.companyId,

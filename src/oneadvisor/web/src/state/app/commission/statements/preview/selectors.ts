@@ -8,10 +8,10 @@ const rootSelector = (state: RootState): State => state.app.commission.statement
 
 export const statementPreviewSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );
 
 export const statementPreviewIsLoadingSelector: (state: RootState) => boolean = createSelector(
     rootSelector,
-    root => root.fetching || !root.statement
+    (root) => root.fetching || !root.statement
 );

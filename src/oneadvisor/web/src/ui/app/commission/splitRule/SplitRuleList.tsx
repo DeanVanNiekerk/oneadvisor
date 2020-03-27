@@ -141,7 +141,7 @@ class SplitRuleList extends Component<Props> {
                     columns={this.getColumns()}
                     dataSource={this.props.splitRules}
                     loading={this.props.fetching}
-                    onRowClick={splitRule => this.editSplitRule(splitRule.id)}
+                    onRowClick={(splitRule) => this.editSplitRule(splitRule.id)}
                 />
             </>
         );

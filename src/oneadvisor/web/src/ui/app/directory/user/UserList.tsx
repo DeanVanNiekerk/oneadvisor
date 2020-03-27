@@ -82,7 +82,7 @@ class UserList extends Component<Props, State> {
     };
 
     getOrganisationName = (id: string) => {
-        const organisation = this.props.organisations.find(u => u.id === id);
+        const organisation = this.props.organisations.find((u) => u.id === id);
         if (organisation) return organisation.name;
     };
 
@@ -179,7 +179,7 @@ class UserList extends Component<Props, State> {
                     columns={this.getColumns()}
                     dataSource={this.props.users}
                     loading={this.props.fetching}
-                    onRowClick={user => this.editUser(user.id)}
+                    onRowClick={(user) => this.editUser(user.id)}
                 />
                 <EditUser
                     visible={this.state.editVisible}

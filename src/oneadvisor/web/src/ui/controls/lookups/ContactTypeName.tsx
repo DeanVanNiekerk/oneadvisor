@@ -12,7 +12,7 @@ type Props = {
 const ContactTypeNameComponent: React.FC<Props> = (props: Props) => {
     const { contactTypes, contactTypeId } = props;
 
-    const contactType = contactTypes.find(u => u.id === contactTypeId);
+    const contactType = contactTypes.find((u) => u.id === contactTypeId);
 
     if (!contactType) return <span />;
 

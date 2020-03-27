@@ -68,7 +68,7 @@ class CommissionTypeList extends Component<Props, State> {
     };
 
     editCommissionType = (id: string) => {
-        const commissionType = this.props.commissionTypes.find(u => u.id === id);
+        const commissionType = this.props.commissionTypes.find((u) => u.id === id);
         if (commissionType) this.showEditCommissionType(commissionType);
     };
 
@@ -99,7 +99,7 @@ class CommissionTypeList extends Component<Props, State> {
                     render: (policyTypeId: string) => {
                         return <PolicyTypeName policyTypeId={policyTypeId} />;
                     },
-                    filters: this.props.policyTypes.map(p => ({
+                    filters: this.props.policyTypes.map((p) => ({
                         text: p.name,
                         value: p.id,
                     })),
@@ -117,7 +117,7 @@ class CommissionTypeList extends Component<Props, State> {
                             />
                         );
                     },
-                    filters: this.props.commissionEarningsTypes.map(c => ({
+                    filters: this.props.commissionEarningsTypes.map((c) => ({
                         text: c.name,
                         value: c.id,
                     })),
@@ -149,7 +149,7 @@ class CommissionTypeList extends Component<Props, State> {
                     columns={this.getColumns()}
                     dataSource={this.props.commissionTypes}
                     loading={this.props.fetching}
-                    onRowClick={org => this.editCommissionType(org.id)}
+                    onRowClick={(org) => this.editCommissionType(org.id)}
                 />
                 <EditCommissionType
                     visible={this.state.editVisible}

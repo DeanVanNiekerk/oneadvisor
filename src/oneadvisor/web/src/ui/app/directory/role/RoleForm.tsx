@@ -70,14 +70,14 @@ class RoleForm extends Component<Props, State> {
     };
 
     isUseCaseSelected = (useCaseId: string) => {
-        return this.state.role.useCaseIds.some(r => r === useCaseId);
+        return this.state.role.useCaseIds.some((r) => r === useCaseId);
     };
 
     toggleUseCaseChange = (useCaseId: string) => {
         let useCaseIds = [...this.state.role.useCaseIds];
 
         if (this.isUseCaseSelected(useCaseId))
-            useCaseIds = this.state.role.useCaseIds.filter(r => r !== useCaseId);
+            useCaseIds = this.state.role.useCaseIds.filter((r) => r !== useCaseId);
         else useCaseIds.push(useCaseId);
 
         this.handleChange("useCaseIds", useCaseIds);
@@ -88,7 +88,7 @@ class RoleForm extends Component<Props, State> {
     };
 
     getApplicationName = (applicationId: string) => {
-        const application = this.props.applications.find(a => a.id === applicationId);
+        const application = this.props.applications.find((a) => a.id === applicationId);
         if (application) return application.name;
         return "";
     };
@@ -154,7 +154,7 @@ class RoleForm extends Component<Props, State> {
                         bordered={true}
                         size="small"
                         dataSource={this.props.useCases.filter(
-                            u => u.applicationId === role.applicationId
+                            (u) => u.applicationId === role.applicationId
                         )}
                         renderItem={(useCase: UseCase) => (
                             <List.Item

@@ -9,15 +9,15 @@ const rootSelector = (state: RootState): State => state.app.commission.statement
 
 export const statementSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );
 
 export const statementIsModifiedSelector: (state: RootState) => boolean = createSelector(
     rootSelector,
-    root => !areEqual(root.statement, root.statementOriginal)
+    (root) => !areEqual(root.statement, root.statementOriginal)
 );
 
 export const statementIsLoadingSelector: (state: RootState) => boolean = createSelector(
     rootSelector,
-    root => root.updating || root.fetching
+    (root) => root.updating || root.fetching
 );

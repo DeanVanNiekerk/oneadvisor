@@ -27,7 +27,7 @@ const FormComponent: React.FC<Props> = (props: Props) => {
 
     if (editRole) readonly = !hasRole(props.editRole, props.roles);
 
-    const childrenWithProps = React.Children.map(children, child =>
+    const childrenWithProps = React.Children.map(children, (child) =>
         child
             ? React.cloneElement(child as React.ReactElement, {
                   layout: layout,

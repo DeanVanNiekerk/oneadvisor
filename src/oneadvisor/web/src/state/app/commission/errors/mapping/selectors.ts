@@ -9,17 +9,17 @@ const rootSelector = (state: RootState): State => state.app.commission.errors.ma
 
 export const mappingErrorSelector: (state: RootState) => State = createSelector(
     rootSelector,
-    root => root
+    (root) => root
 );
 
 export const mappingErrorIsModifiedSelector: (state: RootState) => boolean = createSelector(
     rootSelector,
-    root => !areEqual(root.commissionError, root.commissionErrorOriginal)
+    (root) => !areEqual(root.commissionError, root.commissionErrorOriginal)
 );
 
 export const mappingErrorIsLoadingSelector: (state: RootState) => boolean = createSelector(
     rootSelector,
-    root => root.updating || root.fetching
+    (root) => root.updating || root.fetching
 );
 
 export const mappingErrorCanSaveSelector: (state: RootState) => boolean = createSelector(

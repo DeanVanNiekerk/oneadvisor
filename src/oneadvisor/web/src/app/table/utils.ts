@@ -50,7 +50,7 @@ const getColumn = <T>(
     };
 
     let props: ColumnProps<T> = {
-        render: value => value,
+        render: (value) => value,
         sorter: (a: T, b: T) => sort<T>(a, b, keyString),
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onFilter: (value: any, record: T) => filter(value, record, keyString),
@@ -63,11 +63,12 @@ const getColumn = <T>(
     }
 
     if (options.type === "boolean") props.render = formatBool;
-    if (options.type === "date") props.render = value => (value ? moment(value).format("ll") : "");
+    if (options.type === "date")
+        props.render = (value) => (value ? moment(value).format("ll") : "");
     if (options.type === "long-date")
-        props.render = value => (value ? moment(value).format("lll") : "");
-    if (options.type === "currency") props.render = value => formatCurrency(value, 0);
-    if (options.type === "long-currency") props.render = value => formatCurrency(value, 2);
+        props.render = (value) => (value ? moment(value).format("lll") : "");
+    if (options.type === "currency") props.render = (value) => formatCurrency(value, 0);
+    if (options.type === "long-currency") props.render = (value) => formatCurrency(value, 2);
 
     if (options.filters) {
         const filter = options.filters[keyString];
@@ -95,12 +96,7 @@ export const sort = <T>(item1: T, item2: T, property: string): number => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const filter = <T>(value: any, record: T, property: string): boolean => {
-    return (
-        record[property]
-            .toString()
-            .toLowerCase()
-            .indexOf(value.toString().toLowerCase()) !== -1
-    );
+    return record[property].toString().toLowerCase().indexOf(value.toString().toLowerCase()) !== -1;
 };
 
 export const formatBool = (value: boolean) => {
