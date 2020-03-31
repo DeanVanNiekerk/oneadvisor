@@ -12,7 +12,12 @@ type Props = {
 
 const AuditLogDetails: React.FC<Props> = ({ auditLog, visible, onClose }) => {
     return (
-        <Drawer title="Audit Log Detail" icon="video-camera" visible={visible} onClose={onClose}>
+        <Drawer
+            title="Audit Log Detail"
+            iconName="video-camera"
+            visible={visible}
+            onClose={onClose}
+        >
             {auditLog && (
                 <>
                     <p>

@@ -27,7 +27,7 @@ const EditCommission: React.FC<Props> = (props: Props) => {
     return (
         <EditDrawer
             title={<EditCommissionTitle />}
-            icon="dollar"
+            iconName="dollar"
             visible={props.visible}
             updating={props.updating}
             noTopPadding={true}

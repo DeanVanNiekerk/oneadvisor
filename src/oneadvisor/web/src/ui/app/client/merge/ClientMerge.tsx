@@ -47,7 +47,7 @@ class ClientMerge extends Component<Props, State> {
         const { visible, currentStepIndex } = this.props;
 
         return (
-            <Drawer title="Merge Clients" icon="fork" visible={visible} onClose={this.cancel}>
+            <Drawer title="Merge Clients" iconName="fork" visible={visible} onClose={this.cancel}>
                 <ContentLoader isLoading={this.isLoading()}>
                     {this.state.steps.map((step, index) => {
                         return (

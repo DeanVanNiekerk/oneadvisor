@@ -59,7 +59,7 @@ const EditMappingError: React.FC<Props> = (props: Props) => {
                 visible={props.visible}
                 onClose={cancel}
                 noTopPadding={true}
-                icon="file-exclamation"
+                iconName="file-exclamation"
             >
                 <ContentLoader isLoading={props.loading}>
                     <MappingErrorForm statement={props.statement} />

@@ -53,7 +53,7 @@ const MappingErrorsCardComponent: React.FC<Props> = (props: Props) => {
         <>
             <PreviewCard
                 title="Mapping Errors"
-                icon="file-exclamation"
+                iconName="file-exclamation"
                 isLoading={props.loading}
                 rows={3}
                 onClick={() => setErrorListVisible(true)}
@@ -84,7 +84,7 @@ const MappingErrorsCardComponent: React.FC<Props> = (props: Props) => {
 
             <Drawer
                 title={`Mapping Errors - ${props.statement.mappingErrorCount} remaining`}
-                icon="file-exclamation"
+                iconName="file-exclamation"
                 visible={errorListVisible}
                 onClose={() => setErrorListVisible(false)}
             >

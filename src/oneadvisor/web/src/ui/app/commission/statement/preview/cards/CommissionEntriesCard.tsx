@@ -87,7 +87,7 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
         <>
             <PreviewCard
                 title="Commission Entries"
-                icon="dollar"
+                iconName="dollar"
                 onClick={() => setCommissionListVisible(true)}
                 isLoading={props.loading}
                 actions={getCommissionEntriesActions()}
@@ -114,7 +114,7 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
 
             <Drawer
                 title="Commission Entries"
-                icon="dollar"
+                iconName="dollar"
                 visible={commissionListVisible}
                 onClose={() => setCommissionListVisible(false)}
             >

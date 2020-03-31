@@ -46,7 +46,7 @@ const EditTemplate: React.FC<Props> = (props: Props) => {
     return (
         <Drawer
             title={<EditTemplateTitle />}
-            icon="block"
+            iconName="block"
             visible={props.visible}
             onClose={cancel}
             noTopPadding={true}

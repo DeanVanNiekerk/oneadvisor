@@ -105,7 +105,7 @@ class EditAllocation extends Component<Props, State> {
         return (
             <Drawer
                 title={this.getTitle()}
-                icon="share-alt"
+                iconName="share-alt"
                 visible={!!allocation || fetching}
                 onClose={this.confirmCancel}
                 noTopPadding={true}

@@ -95,7 +95,7 @@ class EditCommissionType extends Component<Props, State> {
         return (
             <Drawer
                 title={this.getTitle()}
-                icon="database"
+                iconName="database"
                 visible={visible}
                 onClose={this.confirmCancel}
             >

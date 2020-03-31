@@ -32,7 +32,7 @@ const DetailsCardComponent: React.FC<Props> = (props: Props) => {
         <>
             <PreviewCard
                 title="Details"
-                icon="profile"
+                iconName="profile"
                 onClick={editDetails}
                 isLoading={props.loading}
                 actions={[

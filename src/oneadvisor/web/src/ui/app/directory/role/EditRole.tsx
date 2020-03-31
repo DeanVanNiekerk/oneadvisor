@@ -99,7 +99,7 @@ class EditRole extends Component<Props, State> {
         return (
             <Drawer
                 title={this.getTitle()}
-                icon="safety-certificate"
+                iconName="safety-certificate"
                 visible={visible}
                 onClose={this.confirmCancel}
                 noTopPadding={true}

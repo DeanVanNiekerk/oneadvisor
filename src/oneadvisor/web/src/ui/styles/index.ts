@@ -1,4 +1,4 @@
-import "./base.css";
+import "./base.less";
 import "./helpers.css";
 import "./controls.css";
 import "./ant-design-overrides.css";

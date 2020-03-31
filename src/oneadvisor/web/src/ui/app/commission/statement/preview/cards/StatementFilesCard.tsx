@@ -52,7 +52,7 @@ const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
         <>
             <PreviewCard
                 title="Statement Files"
-                icon="file-excel"
+                iconName="file-excel"
                 onClick={() => setUploadStatementVisible(true)}
                 isLoading={props.loading}
                 rows={3}
@@ -72,7 +72,7 @@ const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
 
             <Drawer
                 title="Statement Files"
-                icon="file-excel"
+                iconName="file-excel"
                 visible={uploadStatementVisible}
                 onClose={() => setUploadStatementVisible(false)}
             >
@@ -93,7 +93,7 @@ const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
 
             <Drawer
                 title="Reimport Statement"
-                icon="file-excel"
+                iconName="file-excel"
                 visible={reimportStatementVisible}
                 onClose={() => setReimportStatementVisible(false)}
             >

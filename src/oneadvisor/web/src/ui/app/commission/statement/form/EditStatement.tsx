@@ -28,7 +28,7 @@ const EditStatement: React.FC<Props> = (props: Props) => {
     return (
         <EditDrawer
             title={<EditStatementTitle />}
-            icon="database"
+            iconName="database"
             visible={props.visible}
             updating={props.loading}
             saveRequiredUseCase="com_edit_commission_statements"

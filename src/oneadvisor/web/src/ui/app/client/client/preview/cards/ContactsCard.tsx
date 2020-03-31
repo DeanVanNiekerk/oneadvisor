@@ -20,7 +20,7 @@ const ContactsCardComponent: React.FC<Props> = (props: Props) => {
         <>
             <PreviewCard
                 title="Contacts"
-                icon="phone"
+                iconName="phone"
                 onClick={() => setContactListVisible(true)}
                 isLoading={props.loading}
                 requiredUseCase="clt_view_contacts"
@@ -41,7 +41,7 @@ const ContactsCardComponent: React.FC<Props> = (props: Props) => {
 
             <Drawer
                 title="Contacts"
-                icon="phone"
+                iconName="phone"
                 noTopPadding={true}
                 visible={contactListVisible}
                 onClose={() => setContactListVisible(false)}

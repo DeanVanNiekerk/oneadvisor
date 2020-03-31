@@ -29,7 +29,7 @@ const EditPolicy: React.FC<Props> = (props: Props) => {
     return (
         <EditDrawer
             title={<EditPolicyTitle />}
-            icon="file-text"
+            iconName="file-text"
             visible={props.visible}
             updating={props.loading}
             noTopPadding={true}

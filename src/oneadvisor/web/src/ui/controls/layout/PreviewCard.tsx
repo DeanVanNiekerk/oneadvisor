@@ -3,13 +3,16 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { hasUseCase } from "@/app/identity";
+import { IconName } from "@/app/types";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
+
+import { Icon } from "../common";
 
 type Props = {
     title: string;
     titleExtra?: React.ReactNode;
-    icon: React.ReactNode;
+    iconName: IconName;
     onClick?: () => void;
     isLoading: boolean;
     actions?: React.ReactNode[];
@@ -29,7 +32,7 @@ const PreviewCardComponent: React.FC<Props> = (props: Props) => {
         requiredUseCase,
         rows = 1,
         height: height,
-        icon,
+        iconName,
     } = props;
 
     let visible = true;
@@ -51,7 +54,9 @@ const PreviewCardComponent: React.FC<Props> = (props: Props) => {
                 title={
                     <>
                         <span>
-                            <span style={{ marginRight: "6px" }}>{icon}</span>
+                            <span style={{ marginRight: "6px" }}>
+                                <Icon name={iconName} />
+                            </span>
                             {title}
                         </span>
                         {titleExtra && <span className="pull-right">{titleExtra}</span>}

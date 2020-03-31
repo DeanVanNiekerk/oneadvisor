@@ -28,4 +28,8 @@ export type IconName =
     | "search"
     | "exclamation"
     | "safety"
-    | "setting";
+    | "setting"
+    | "phone"
+    | "file-excel"
+    | "file-exclamation"
+    | "share-alt";

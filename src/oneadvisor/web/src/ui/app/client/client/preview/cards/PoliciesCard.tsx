@@ -21,7 +21,7 @@ const PoliciesCardComponent: React.FC<Props> = (props: Props) => {
         <>
             <PreviewCard
                 title="Policies"
-                icon="file-text"
+                iconName="file-text"
                 onClick={() => setPolicyListVisible(true)}
                 isLoading={props.loading}
                 requiredUseCase="clt_view_policies"
@@ -42,7 +42,7 @@ const PoliciesCardComponent: React.FC<Props> = (props: Props) => {
 
             <Drawer
                 title="Policies"
-                icon="file-text"
+                iconName="file-text"
                 noTopPadding={true}
                 visible={policyListVisible}
                 onClose={() => setPolicyListVisible(false)}

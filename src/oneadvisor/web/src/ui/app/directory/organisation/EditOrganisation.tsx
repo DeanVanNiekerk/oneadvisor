@@ -28,7 +28,7 @@ const EditOrganisation: React.FC<Props> = (props: Props) => {
     return (
         <EditDrawer
             title={<EditOrganisationTitle />}
-            icon="database"
+            iconName="database"
             visible={props.visible}
             updating={props.updating}
             noTopPadding={true}

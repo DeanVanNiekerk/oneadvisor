@@ -148,7 +148,7 @@ class SplitRulePolicyForm extends Component<Props, State> {
                 </Form>
                 <Drawer
                     title="Commission Split Rules"
-                    icon="apartment"
+                    iconName="apartment"
                     visible={this.state.manageSplitRulesVisible}
                     onClose={this.toggleManageSplitRulesVisible}
                     noTopPadding={true}

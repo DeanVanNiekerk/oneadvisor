@@ -99,7 +99,7 @@ class EditSplitRule extends Component<Props, State> {
         return (
             <Drawer
                 title={this.getTitle()}
-                icon="apartment"
+                iconName="apartment"
                 visible={!!splitRule || fetching}
                 onClose={this.confirmCancel}
                 noTopPadding={true}

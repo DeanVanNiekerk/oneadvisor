@@ -1,8 +1,13 @@
 import { Drawer as DrawerAD } from "antd";
 import React, { ReactNode } from "react";
 
+import { IconName } from "@/app/types";
+
+import { Icon } from "../common";
+
 type Props = {
     title: string | ReactNode;
+    iconName?: IconName;
     icon?: ReactNode;
     children: ReactNode;
     visible: boolean;
@@ -13,17 +18,12 @@ type Props = {
 };
 
 const Drawer: React.FC<Props> = (props: Props) => {
-    let icon: ReactNode = <span />;
-
-    if (props.icon) {
-        icon = props.icon;
-    }
-
     return (
         <DrawerAD
             title={
                 <span>
-                    {icon}
+                    {props.iconName && <Icon name={props.iconName} />}
+                    {props.icon && props.icon}
                     <span style={{ marginLeft: "8px" }}>{props.title}</span>
                 </span>
             }

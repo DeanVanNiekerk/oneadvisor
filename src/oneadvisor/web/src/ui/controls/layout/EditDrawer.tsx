@@ -1,10 +1,12 @@
 import React, { ReactNode } from "react";
 
+import { IconName } from "@/app/types";
 import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
 
 type Props = {
     title: string | ReactNode;
-    icon?: string | ReactNode;
+    iconName?: IconName;
+    icon?: ReactNode;
     noTopPadding?: boolean;
     saveRequiredUseCase?: string;
     visible: boolean;
@@ -15,6 +17,7 @@ type Props = {
 
 const EditDrawer: React.FC<Props> = ({
     title,
+    iconName,
     icon,
     visible,
     updating,
@@ -27,6 +30,7 @@ const EditDrawer: React.FC<Props> = ({
     return (
         <Drawer
             title={title}
+            iconName={iconName}
             icon={icon}
             visible={visible}
             onClose={onClose}

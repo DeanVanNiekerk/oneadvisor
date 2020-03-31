@@ -26,7 +26,7 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "watch-api",
+      "label": "start-api",
       "command": "dotnet",
       "type": "process",
       "args": [
@@ -38,16 +38,16 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "watch-web",
+      "label": "start-web",
       "type": "npm",
       "script": "start",
       "path": "src/oneadvisor/web/",
       "problemMatcher": []
     },
     {
-      "label": "watch",
+      "label": "start",
       "dependsOrder": "parallel",
-      "dependsOn": ["watch-api", "watch-web"],
+      "dependsOn": ["start-api", "start-web"],
       "problemMatcher": []
     }
   ]

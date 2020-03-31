@@ -118,7 +118,7 @@ class EditUser extends Component<Props, State> {
         return (
             <Drawer
                 title={this.getTitle()}
-                icon="team"
+                iconName="user"
                 visible={visible}
                 onClose={this.confirmCancel}
                 noTopPadding={true}

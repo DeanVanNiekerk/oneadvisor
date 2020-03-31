@@ -9,6 +9,13 @@
         "@babel/plugin-proposal-class-properties",
         "@babel/plugin-proposal-export-default-from",
         "@babel/plugin-proposal-object-rest-spread",
-        ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }] 
+        [
+            "import",
+            {
+                "libraryName": "antd",
+                "libraryDirectory": "es",
+                "style": "true"
+            }
+        ]
     ]
 }

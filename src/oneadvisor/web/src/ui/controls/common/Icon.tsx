@@ -14,12 +14,15 @@ import {
     EditOutlined,
     ExclamationOutlined,
     ExportOutlined,
+    FileExcelOutlined,
+    FileExclamationOutlined,
     FileTextOutlined,
     ForkOutlined,
     HistoryOutlined,
     ImportOutlined,
     LeftOutlined,
     LineChartOutlined,
+    PhoneOutlined,
     PieChartOutlined,
     PlusOutlined,
     ProfileOutlined,
@@ -29,6 +32,7 @@ import {
     SafetyOutlined,
     SearchOutlined,
     SettingOutlined,
+    ShareAltOutlined,
     TeamOutlined,
     UserOutlined,
     VideoCameraOutlined,
@@ -40,7 +44,7 @@ type Props = {
 };
 
 const Icon: React.FC<Props> = (props: Props) => {
-    return <React.Fragment>{getIcon(props.name)}</React.Fragment>;
+    return <React.Fragment>{getIcon(props.name, props.style)}</React.Fragment>;
 };
 
 const getIcon = (name?: IconName, style?: React.CSSProperties): React.ReactNode => {
@@ -105,6 +109,14 @@ const getIcon = (name?: IconName, style?: React.CSSProperties): React.ReactNode 
             return <SafetyOutlined style={style} />;
         case "setting":
             return <SettingOutlined style={style} />;
+        case "phone":
+            return <PhoneOutlined style={style} />;
+        case "file-excel":
+            return <FileExcelOutlined style={style} />;
+        case "file-exclamation":
+            return <FileExclamationOutlined style={style} />;
+        case "share-alt":
+            return <ShareAltOutlined style={style} />;
         default:
             return <span></span>;
     }

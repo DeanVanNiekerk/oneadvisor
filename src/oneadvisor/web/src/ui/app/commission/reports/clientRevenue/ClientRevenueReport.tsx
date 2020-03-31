@@ -336,7 +336,7 @@ class ClientRevenueReport extends Component<Props, State> {
                             clientId={this.state.editAllocationsClientId}
                         />
                     }
-                    icon="share-alt"
+                    iconName="share-alt"
                     noTopPadding={true}
                     visible={!!this.state.editAllocationsClientId}
                     onClose={this.closeEditAllocations}

@@ -96,7 +96,7 @@ class EditChangeLog extends Component<Props, State> {
         return (
             <Drawer
                 title={this.getTitle()}
-                icon="file-text"
+                iconName="file-text"
                 visible={!!changeLog}
                 onClose={this.confirmCancel}
             >
