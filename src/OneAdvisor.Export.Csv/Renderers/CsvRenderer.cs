@@ -6,12 +6,13 @@ using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
 using OneAdvisor.Model.Export;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace OneAdvisor.Export.Csv.Renderers
 {
     public class CsvRenderer<T> : IExportRenderer<T>
     {
-        public void Render(Stream stream, IEnumerable<T> items)
+        public async Task Render(Stream stream, IEnumerable<T> items)
         {
             var options = new TypeConverterOptions
             {
@@ -24,7 +25,7 @@ namespace OneAdvisor.Export.Csv.Renderers
             using (var writer = new StreamWriter(stream))
             using (var csv = new CsvWriter(writer, configuration))
             {
-                csv.WriteRecords(items);
+                await csv.WriteRecordsAsync(items);
             }
         }
     }
