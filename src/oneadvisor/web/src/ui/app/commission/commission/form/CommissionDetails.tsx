@@ -113,7 +113,6 @@ const CommissionDetails: React.FC<Props> = (props: Props) => {
                 value={commission.amountIncludingVAT}
                 onChange={onChange}
                 validationResults={props.validationResults}
-                min={0}
             />
             <FormInputNumber
                 fieldName="vat"
@@ -121,7 +120,6 @@ const CommissionDetails: React.FC<Props> = (props: Props) => {
                 value={commission.vat}
                 onChange={onChange}
                 validationResults={props.validationResults}
-                min={0}
             />
         </Form>
     );
