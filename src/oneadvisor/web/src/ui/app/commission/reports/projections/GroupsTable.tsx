@@ -33,7 +33,7 @@ class GroupsTable extends Component<Props> {
                 loading={this.props.fetching}
                 hidePagination={true}
                 scroll={{
-                    x: (this.props.monthsBack + this.props.monthsForward) * 100,
+                    x: (this.props.monthsBack + this.props.monthsForward) * 170,
                 }}
             />
         );

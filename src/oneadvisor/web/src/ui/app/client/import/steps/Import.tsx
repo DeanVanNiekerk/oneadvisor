@@ -258,7 +258,7 @@ class Import extends Component<Props> {
                                     columns={this.getColumns()}
                                     dataSource={this.props.resultsFailure}
                                     scroll={{
-                                        x: "max-content",
+                                        x: 1300,
                                     }}
                                 />
                             )}

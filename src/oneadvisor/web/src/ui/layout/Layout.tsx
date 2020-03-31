@@ -23,7 +23,6 @@ const Layout: React.FC<Props> = (props: Props) => {
                 <LayoutAD>
                     <Content
                         style={{
-                            background: "#fff",
                             padding: 15,
                             paddingTop: 0,
                             margin: 0,

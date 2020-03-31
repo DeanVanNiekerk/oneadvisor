@@ -167,7 +167,7 @@ class Verify extends Component<Props> {
                     columns={this.getColumns()}
                     dataSource={this.props.clients}
                     scroll={{
-                        x: "max-content",
+                        x: 1300,
                     }}
                 />
             </>

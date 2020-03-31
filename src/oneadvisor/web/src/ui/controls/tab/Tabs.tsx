@@ -19,7 +19,7 @@ const Tabs: React.FC<Props> = (props: Props) => {
     let style = {};
 
     let tabBarStyle: React.CSSProperties = {
-        backgroundColor: "#FFF",
+        // backgroundColor: "#FFF",
         zIndex: 1,
     };
 

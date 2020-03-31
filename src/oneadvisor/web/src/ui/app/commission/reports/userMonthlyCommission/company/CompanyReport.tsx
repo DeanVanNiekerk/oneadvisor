@@ -11,10 +11,10 @@ const CompanyReport: React.FC = () => {
 
     return (
         <Tabs onChange={setActiveTab} activeKey={activeTab} sticky={true} tabBarGutter={0}>
-            <TabPane tab={<TableOutlined className="mr-0" />} key="table">
+            <TabPane tab={<TableOutlined className="mx-1" />} key="table">
                 <CompanyTable />
             </TabPane>
-            <TabPane tab={<PieChartOutlined className="mr-0" />} key="chart" className="pt-0">
+            <TabPane tab={<PieChartOutlined className="mx-1" />} key="chart" className="pt-0">
                 <CompanyChart />
             </TabPane>
         </Tabs>

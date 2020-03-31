@@ -317,11 +317,11 @@ class ClientRevenueReport extends Component<Props, State> {
                     sticky={true}
                     tabBarGutter={0}
                 >
-                    <TabPane tab={<TableOutlined className="mr-0" />} key="table">
+                    <TabPane tab={<TableOutlined className="mx-1" />} key="table">
                         <ClientRevenueTable editAllocations={this.editAllocations} />
                     </TabPane>
                     <TabPane
-                        tab={<BarChartOutlined className="mr-0" />}
+                        tab={<BarChartOutlined className="mx-1" />}
                         key="chart"
                         className="pt-0"
                     >

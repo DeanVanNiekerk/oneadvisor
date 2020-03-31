@@ -79,6 +79,8 @@ const getColumn = <T>(
             };
     }
 
+    if (!columnProps.sorter) delete props.sorter;
+
     return {
         ...data,
         ...props,

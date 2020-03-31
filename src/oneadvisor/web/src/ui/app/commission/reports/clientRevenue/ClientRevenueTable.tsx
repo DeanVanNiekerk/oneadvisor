@@ -43,11 +43,12 @@ class ClientRevenueTable extends Component<Props> {
                 "Last Name",
                 {},
                 {
+                    width: 220,
                     fixed: "left",
                     ...getColumnSearchProps("Last Name"),
                 }
             ),
-            getColumn("clientInitials", "Initials"),
+            getColumn("clientInitials", "Initials", {}),
             getColumn(
                 "clientDateOfBirth",
                 "Age",
@@ -85,8 +86,8 @@ class ClientRevenueTable extends Component<Props> {
                     "",
                     {},
                     {
-                        sorter: undefined,
                         fixed: "right",
+                        width: 40,
                         render: (value: string, record: ClientRevenueData) => {
                             return (
                                 <Badge dot count={record.allocationsCount}>
@@ -130,7 +131,7 @@ class ClientRevenueTable extends Component<Props> {
                 totalRows={this.props.totalItems}
                 onTableChange={this.onTableChange}
                 scroll={{
-                    x: "max-content",
+                    x: 1300,
                 }}
             />
         );

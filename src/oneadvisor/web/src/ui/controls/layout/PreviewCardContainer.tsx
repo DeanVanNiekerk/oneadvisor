@@ -1,13 +1,8 @@
 import { Row } from "antd";
-import React, { CSSProperties } from "react";
-
-const style: CSSProperties = {
-    backgroundColor: "#ececec",
-    padding: "20px",
-};
+import React from "react";
 
 const PreviewCardContainer: React.FC = ({ children }) => (
-    <div style={style}>
+    <div>
         <Row gutter={16}>{children}</Row>
     </div>
 );

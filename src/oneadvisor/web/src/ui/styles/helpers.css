@@ -82,6 +82,10 @@ MARGIN
     margin-left: 2rem !important;
 }
 
+.mx-1 {
+    margin-left: 1rem !important;
+}
+
 /* 
 PADDING
 */
