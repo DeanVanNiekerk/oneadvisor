@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using System.IO;
+using System.Collections.Generic;
 using OneAdvisor.Model.Export;
-using OneAdvisor.Model.Client.Model.ExportClient;
+using System.Threading.Tasks;
 
 namespace OneAdvisor.Service.Test.Export
 {
@@ -9,9 +9,10 @@ namespace OneAdvisor.Service.Test.Export
     {
         public IEnumerable<T> Items { get; set; }
 
-        public void Render(Stream stream, IEnumerable<T> items)
+        public async Task Render(Stream stream, IEnumerable<T> items)
         {
             Items = items;
+            await Task.CompletedTask;
         }
     }
 }

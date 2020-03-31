@@ -39,11 +39,13 @@ export const projectionGroupsTableColumnsSelector: (
     commissionEarningsTypesSelector,
     policyTypesSelector,
     companiesSelector,
+    todaySelector,
     (
         root: State,
         commissionEarningsTypesState: CommissionEarningsTypesState,
         policyTypesState: PolicyTypesState,
-        companies: CompaniesState
+        companies: CompaniesState,
+        now: Date
     ) => {
         const { groups, monthsBack, monthsForward } = root;
 
@@ -136,7 +138,7 @@ export const projectionGroupsTableColumnsSelector: (
                 )
             );
 
-        return columns.concat(getMonthColumns(monthsBack, monthsForward));
+        return columns.concat(getMonthColumns(monthsBack, monthsForward, now));
     }
 );
 
@@ -323,7 +325,9 @@ const getTableRow = (
     filter?: TableRowFilter
 ) => {
     let monthIndex = 0;
-    const current = moment(now).subtract(monthsBack, "months");
+    const current = moment(now)
+        .startOf("month")
+        .subtract(monthsBack, "months");
 
     while (monthsBack + monthsForward >= monthIndex) {
         const key = current.format(DATE_FORMAT);
@@ -420,16 +424,17 @@ const appendProjectedValues = (
 
 const getMonthColumns = (
     monthsBack: number,
-    monthsForward: number
+    monthsForward: number,
+    now: Date
 ): ColumnProps<GroupTableRecord>[] => {
     const getColumn = getColumnDefinition<GroupTableRecord>();
 
     const columns: ColumnProps<GroupTableRecord>[] = [];
 
-    const now = new Date();
-
     while (monthsBack >= 0) {
-        const current = moment(now).subtract(monthsBack, "months");
+        const current = moment(now)
+            .startOf("month")
+            .subtract(monthsBack, "months");
 
         const key = current.format(DATE_FORMAT);
         const title = monthsBack === 0 ? "Current" : current.format("MMM");
@@ -453,7 +458,9 @@ const getMonthColumns = (
 
     let monthIndex = 1;
     while (monthIndex <= monthsForward) {
-        const current = moment(now).add(monthIndex, "months");
+        const current = moment(now)
+            .startOf("month")
+            .add(monthIndex, "months");
 
         const key = current.format(DATE_FORMAT);
         const title = current.format("MMM");

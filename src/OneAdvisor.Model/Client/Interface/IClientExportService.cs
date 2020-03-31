@@ -1,7 +1,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using OneAdvisor.Model.Account.Model.Authentication;
-using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Export;
 using OneAdvisor.Model.Client.Model.ExportClient;
 

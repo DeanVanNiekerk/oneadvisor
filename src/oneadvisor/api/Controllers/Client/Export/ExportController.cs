@@ -1,16 +1,14 @@
 using System;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using api.App.Authorization;
 using Microsoft.AspNetCore.Http;
 using OneAdvisor.Model.Client.Interface;
-using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Export.Csv.Renderers;
 using OneAdvisor.Model.Client.Model.ExportClient;
-using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using OneAdvisor.Model.Account.Interface;
+using System.IO;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace api.Controllers.Client.Export
 {
@@ -32,6 +30,11 @@ namespace api.Controllers.Client.Export
         [UseCaseAuthorize("clt_export_clients")]
         public async Task ExportPolicyAggregates()
         {
+            //https://github.com/dotnet/aspnetcore/issues/7644
+            var syncIOFeature = HttpContext.Features.Get<IHttpBodyControlFeature>();
+            if (syncIOFeature != null)
+                syncIOFeature.AllowSynchronousIO = true;
+
             var scope = AuthenticationService.GetScope(User);
 
             var csvRenderer = new CsvRenderer<ClientPolicyAggregate>();
@@ -39,6 +42,7 @@ namespace api.Controllers.Client.Export
             var fileName = $"Clients_{DateTime.Now.ToString("yyyy-MM-dd")}";
             SetResponseHeaders(Response, fileName);
 
+            var stream = new MemoryStream();
             await ClientExportService.PolicyAggregates(csvRenderer, Response.Body, scope);
         }
 
@@ -46,6 +50,11 @@ namespace api.Controllers.Client.Export
         [UseCaseAuthorize("clt_export_clients")]
         public async Task ExportPolicies()
         {
+            //https://github.com/dotnet/aspnetcore/issues/7644
+            var syncIOFeature = HttpContext.Features.Get<IHttpBodyControlFeature>();
+            if (syncIOFeature != null)
+                syncIOFeature.AllowSynchronousIO = true;
+
             var scope = AuthenticationService.GetScope(User);
 
             var csvRenderer = new CsvRenderer<ClientPolicy>();
