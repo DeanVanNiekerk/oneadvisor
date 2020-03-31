@@ -21,7 +21,6 @@ import {
     ClientName,
     CommissionTypeName,
     Drawer,
-    DrawerFooter,
     Form,
     FormText,
     PolicyName,
@@ -172,6 +171,7 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                 title="Client Search"
                 visible={clientSearchVisible}
                 onClose={() => setClientSearchVisible(false)}
+                footer={<Button onClick={() => setClientSearchVisible(false)}>Close</Button>}
             >
                 <ClientSearch
                     defaultSearchText={error.data.lastName || ""}
@@ -180,15 +180,13 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                         setClientSearchVisible(false);
                     }}
                 />
-                <DrawerFooter>
-                    <Button onClick={() => setClientSearchVisible(false)}>Close</Button>
-                </DrawerFooter>
             </Drawer>
 
             <Drawer
                 title="Policy Search"
                 visible={policySearchVisible}
                 onClose={() => setPolicySearchVisible(false)}
+                footer={<Button onClick={() => setPolicySearchVisible(false)}>Close</Button>}
             >
                 <PolicySearch
                     onSelect={(policyId: string) => {
@@ -198,9 +196,6 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                     clientId={error.clientId}
                     companyId={props.statement.companyId}
                 />
-                <DrawerFooter>
-                    <Button onClick={() => setPolicySearchVisible(false)}>Close</Button>
-                </DrawerFooter>
             </Drawer>
         </>
     );

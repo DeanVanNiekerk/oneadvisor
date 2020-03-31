@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 
 import { IconName } from "@/app/types";
-import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { Button, ContentLoader, Drawer } from "@/ui/controls";
 
 type Props = {
     title: string | ReactNode;
@@ -35,21 +35,23 @@ const EditDrawer: React.FC<Props> = ({
             visible={visible}
             onClose={onClose}
             noTopPadding={noTopPadding}
+            footer={
+                <React.Fragment>
+                    <Button onClick={onClose} disabled={updating}>
+                        Cancel
+                    </Button>
+                    <Button
+                        onClick={onSave}
+                        type="primary"
+                        disabled={updating}
+                        requiredUseCase={saveRequiredUseCase}
+                    >
+                        Save
+                    </Button>
+                </React.Fragment>
+            }
         >
             <ContentLoader isLoading={updating}>{children}</ContentLoader>
-            <DrawerFooter>
-                <Button onClick={onClose} disabled={updating}>
-                    Cancel
-                </Button>
-                <Button
-                    onClick={onSave}
-                    type="primary"
-                    disabled={updating}
-                    requiredUseCase={saveRequiredUseCase}
-                >
-                    Save
-                </Button>
-            </DrawerFooter>
         </Drawer>
     );
 };

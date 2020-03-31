@@ -5,15 +5,7 @@ import { connect, DispatchProp } from "react-redux";
 import { ValidationResult } from "@/app/validation";
 import { AllocationEdit } from "@/state/app/commission/allocations";
 import ClientSearch from "@/ui/app/client/client/list/ClientSearch";
-import {
-    Button,
-    ClientName,
-    Drawer,
-    DrawerFooter,
-    Form,
-    FormErrors,
-    FormText,
-} from "@/ui/controls";
+import { Button, ClientName, Drawer, Form, FormErrors, FormText } from "@/ui/controls";
 
 import PolicyList from "../../client/policy/list/PolicyList";
 
@@ -127,6 +119,7 @@ class AllocationForm extends Component<Props, State> {
                     title="Client Search"
                     visible={this.state.searchClientVisible}
                     onClose={this.toggleSearchClientVisible}
+                    footer={<Button onClick={this.toggleSearchClientVisible}>Close</Button>}
                 >
                     <ClientSearch
                         onSelect={(clientId: string) => {
@@ -134,9 +127,6 @@ class AllocationForm extends Component<Props, State> {
                             this.toggleSearchClientVisible();
                         }}
                     />
-                    <DrawerFooter>
-                        <Button onClick={this.toggleSearchClientVisible}>Close</Button>
-                    </DrawerFooter>
                 </Drawer>
             </>
         );

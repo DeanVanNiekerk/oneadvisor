@@ -16,7 +16,7 @@ import {
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import ErrorList from "@/ui/app/commission/error/list/ErrorList";
-import { Button, Drawer, DrawerFooter, PreviewCard } from "@/ui/controls";
+import { Button, Drawer, PreviewCard } from "@/ui/controls";
 import { DownloadOutlined, ToolOutlined, WarningOutlined } from "@ant-design/icons";
 
 type Props = {
@@ -87,11 +87,9 @@ const MappingErrorsCardComponent: React.FC<Props> = (props: Props) => {
                 iconName="file-exclamation"
                 visible={errorListVisible}
                 onClose={() => setErrorListVisible(false)}
+                footer={<Button onClick={() => setErrorListVisible(false)}>Close</Button>}
             >
                 <ErrorList statement={props.statement} onSaved={props.onErrorChanged} />
-                <DrawerFooter>
-                    <Button onClick={() => setErrorListVisible(false)}>Close</Button>
-                </DrawerFooter>
             </Drawer>
         </>
     );

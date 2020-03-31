@@ -11,7 +11,7 @@ import {
     updateAllocation,
 } from "@/state/app/commission/allocations";
 import { RootState } from "@/state/rootReducer";
-import { Button, ClientName, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { Button, ClientName, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 
 import AllocationForm from "./AllocationForm";
@@ -109,6 +109,21 @@ class EditAllocation extends Component<Props, State> {
                 visible={!!allocation || fetching}
                 onClose={this.confirmCancel}
                 noTopPadding={true}
+                footer={
+                    <React.Fragment>
+                        <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={this.save}
+                            type="primary"
+                            disabled={this.isLoading()}
+                            requiredUseCase="com_edit_commission_allocations"
+                        >
+                            Save
+                        </Button>
+                    </React.Fragment>
+                }
             >
                 <ContentLoader isLoading={this.isLoading()}>
                     {allocation && (
@@ -119,19 +134,6 @@ class EditAllocation extends Component<Props, State> {
                         />
                     )}
                 </ContentLoader>
-                <DrawerFooter>
-                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
-                        Cancel
-                    </Button>
-                    <Button
-                        onClick={this.save}
-                        type="primary"
-                        disabled={this.isLoading()}
-                        requiredUseCase="com_edit_commission_allocations"
-                    >
-                        Save
-                    </Button>
-                </DrawerFooter>
             </Drawer>
         );
     }

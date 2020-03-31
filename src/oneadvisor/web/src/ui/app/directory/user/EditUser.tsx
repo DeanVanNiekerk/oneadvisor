@@ -12,7 +12,7 @@ import { Organisation } from "@/state/app/directory/organisations";
 import { fetchRoles, Role, rolesSelector } from "@/state/app/directory/roles";
 import { insertUser, updateUser, UserEdit, userSelector } from "@/state/app/directory/users";
 import { RootState } from "@/state/rootReducer";
-import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 
 import UserForm from "./UserForm";
@@ -122,6 +122,21 @@ class EditUser extends Component<Props, State> {
                 visible={visible}
                 onClose={this.confirmCancel}
                 noTopPadding={true}
+                footer={
+                    <React.Fragment>
+                        <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={this.save}
+                            type="primary"
+                            disabled={this.isLoading()}
+                            requiredUseCase="dir_edit_users"
+                        >
+                            Save
+                        </Button>
+                    </React.Fragment>
+                }
             >
                 <ContentLoader isLoading={this.isLoading()}>
                     {user && (
@@ -135,19 +150,6 @@ class EditUser extends Component<Props, State> {
                         />
                     )}
                 </ContentLoader>
-                <DrawerFooter>
-                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
-                        Cancel
-                    </Button>
-                    <Button
-                        onClick={this.save}
-                        type="primary"
-                        disabled={this.isLoading()}
-                        requiredUseCase="dir_edit_users"
-                    >
-                        Save
-                    </Button>
-                </DrawerFooter>
             </Drawer>
         );
     }

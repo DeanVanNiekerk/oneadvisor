@@ -7,7 +7,7 @@ import {
     statementPreviewSelector,
 } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
-import { Button, Drawer, DrawerFooter, PreviewCard } from "@/ui/controls";
+import { Button, Drawer, PreviewCard } from "@/ui/controls";
 import { FileExcelOutlined, ReloadOutlined, UploadOutlined } from "@ant-design/icons";
 
 import ReimportStatement from "../reimport/ReimportStatement";
@@ -75,6 +75,7 @@ const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
                 iconName="file-excel"
                 visible={uploadStatementVisible}
                 onClose={() => setUploadStatementVisible(false)}
+                footer={<Button onClick={() => setUploadStatementVisible(false)}>Close</Button>}
             >
                 {props.statement && (
                     <UploadStatement
@@ -85,10 +86,6 @@ const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
                         }}
                     />
                 )}
-
-                <DrawerFooter>
-                    <Button onClick={() => setUploadStatementVisible(false)}>Close</Button>
-                </DrawerFooter>
             </Drawer>
 
             <Drawer
@@ -96,6 +93,7 @@ const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
                 iconName="file-excel"
                 visible={reimportStatementVisible}
                 onClose={() => setReimportStatementVisible(false)}
+                footer={<Button onClick={() => setReimportStatementVisible(false)}>Close</Button>}
             >
                 {props.statement && (
                     <ReimportStatement
@@ -106,10 +104,6 @@ const StatementFilesCardComponent: React.FC<Props> = (props: Props) => {
                         }}
                     />
                 )}
-
-                <DrawerFooter>
-                    <Button onClick={() => setReimportStatementVisible(false)}>Close</Button>
-                </DrawerFooter>
             </Drawer>
         </>
     );

@@ -11,7 +11,7 @@ import {
     updateChangeLog,
 } from "@/state/app/directory/changeLogs";
 import { RootState } from "@/state/rootReducer";
-import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 
 import ChangeLogForm from "./ChangeLogForm";
@@ -99,6 +99,16 @@ class EditChangeLog extends Component<Props, State> {
                 iconName="file-text"
                 visible={!!changeLog}
                 onClose={this.confirmCancel}
+                footer={
+                    <React.Fragment>
+                        <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
+                            Cancel
+                        </Button>
+                        <Button onClick={this.save} type="primary" disabled={this.isLoading()}>
+                            Save
+                        </Button>
+                    </React.Fragment>
+                }
             >
                 <ContentLoader isLoading={this.isLoading()}>
                     {changeLog && (
@@ -109,14 +119,6 @@ class EditChangeLog extends Component<Props, State> {
                         />
                     )}
                 </ContentLoader>
-                <DrawerFooter>
-                    <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
-                        Cancel
-                    </Button>
-                    <Button onClick={this.save} type="primary" disabled={this.isLoading()}>
-                        Save
-                    </Button>
-                </DrawerFooter>
             </Drawer>
         );
     }

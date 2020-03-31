@@ -17,7 +17,7 @@ import {
 import { branchesSimpleSelector, BranchSimple } from "@/state/app/directory/branchesSimple";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { Button, ClientName, Drawer, DrawerFooter, Header, TabPane, Tabs } from "@/ui/controls";
+import { Button, ClientName, Drawer, Header, TabPane, Tabs } from "@/ui/controls";
 import { BarChartOutlined, TableOutlined } from "@ant-design/icons";
 
 import AllocationList from "../../allocation/AllocationList";
@@ -340,14 +340,10 @@ class ClientRevenueReport extends Component<Props, State> {
                     noTopPadding={true}
                     visible={!!this.state.editAllocationsClientId}
                     onClose={this.closeEditAllocations}
+                    footer={<Button onClick={this.closeEditAllocations}>Close</Button>}
                 >
                     {this.state.editAllocationsClientId && (
-                        <>
-                            <AllocationList clientId={this.state.editAllocationsClientId} />
-                            <DrawerFooter>
-                                <Button onClick={this.closeEditAllocations}>Close</Button>
-                            </DrawerFooter>
-                        </>
+                        <AllocationList clientId={this.state.editAllocationsClientId} />
                     )}
                 </Drawer>
             </>

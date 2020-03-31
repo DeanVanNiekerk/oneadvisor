@@ -2,7 +2,7 @@ import React from "react";
 import JSONPretty from "react-json-pretty";
 
 import { AuditLog } from "@/state/app/directory/audit";
-import { Button, Date, Drawer, DrawerFooter, UserName } from "@/ui/controls";
+import { Button, Date, Drawer, UserName } from "@/ui/controls";
 
 type Props = {
     visible: boolean;
@@ -17,6 +17,7 @@ const AuditLogDetails: React.FC<Props> = ({ auditLog, visible, onClose }) => {
             iconName="video-camera"
             visible={visible}
             onClose={onClose}
+            footer={<Button onClick={onClose}>Close</Button>}
         >
             {auditLog && (
                 <>
@@ -43,9 +44,6 @@ const AuditLogDetails: React.FC<Props> = ({ auditLog, visible, onClose }) => {
                     <JSONPretty json={auditLog.data} />
                 </>
             )}
-            <DrawerFooter>
-                <Button onClick={onClose}>Close</Button>
-            </DrawerFooter>
         </Drawer>
     );
 };

@@ -11,7 +11,7 @@ import {
 } from "@/state/app/commission/statements";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
-import { Button, Currency, Drawer, DrawerFooter, PreviewCard, PreviewCardRow } from "@/ui/controls";
+import { Button, Currency, Drawer, PreviewCard, PreviewCardRow } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";
 import { BarsOutlined, DeleteOutlined, Loading3QuartersOutlined } from "@ant-design/icons";
 
@@ -117,6 +117,7 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
                 iconName="dollar"
                 visible={commissionListVisible}
                 onClose={() => setCommissionListVisible(false)}
+                footer={<Button onClick={() => setCommissionListVisible(false)}>Close</Button>}
             >
                 <CommissionList
                     hideHeader={true}
@@ -128,9 +129,6 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
                         "policyCompanyId",
                     ]}
                 />
-                <DrawerFooter>
-                    <Button onClick={() => setCommissionListVisible(false)}>Close</Button>
-                </DrawerFooter>
             </Drawer>
         </>
     );

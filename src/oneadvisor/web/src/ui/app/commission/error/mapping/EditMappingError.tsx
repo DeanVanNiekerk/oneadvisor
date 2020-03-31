@@ -14,7 +14,7 @@ import {
 } from "@/state/app/commission/errors";
 import { Statement } from "@/state/app/commission/statements";
 import { RootState } from "@/state/rootReducer";
-import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 import { RightOutlined } from "@ant-design/icons";
 
@@ -60,36 +60,38 @@ const EditMappingError: React.FC<Props> = (props: Props) => {
                 onClose={cancel}
                 noTopPadding={true}
                 iconName="file-exclamation"
-            >
-                <ContentLoader isLoading={props.loading}>
-                    <MappingErrorForm statement={props.statement} />
-                </ContentLoader>
-                <DrawerFooter>
-                    <Button onClick={cancel} disabled={props.loading}>
-                        Cancel
-                    </Button>
-                    <Button
-                        onClick={() => save(false)}
-                        type="primary"
-                        disabled={!props.canSave}
-                        requiredUseCase="com_edit_commission_statements"
-                    >
-                        Save
-                    </Button>
-                    {props.statement.mappingErrorCount > 1 && (
+                footer={
+                    <React.Fragment>
+                        <Button onClick={cancel} disabled={props.loading}>
+                            Cancel
+                        </Button>
                         <Button
-                            onClick={() => save(true)}
+                            onClick={() => save(false)}
                             type="primary"
                             disabled={!props.canSave}
                             requiredUseCase="com_edit_commission_statements"
                         >
-                            <span>
-                                {"Save & Resolve Next "}
-                                <RightOutlined />
-                            </span>
+                            Save
                         </Button>
-                    )}
-                </DrawerFooter>
+                        {props.statement.mappingErrorCount > 1 && (
+                            <Button
+                                onClick={() => save(true)}
+                                type="primary"
+                                disabled={!props.canSave}
+                                requiredUseCase="com_edit_commission_statements"
+                            >
+                                <span>
+                                    {"Save & Resolve Next "}
+                                    <RightOutlined />
+                                </span>
+                            </Button>
+                        )}
+                    </React.Fragment>
+                }
+            >
+                <ContentLoader isLoading={props.loading}>
+                    <MappingErrorForm statement={props.statement} />
+                </ContentLoader>
             </Drawer>
         </>
     );

@@ -21,7 +21,6 @@ import {
     Button,
     ClientName,
     Drawer,
-    DrawerFooter,
     Form,
     FormCascade,
     FormDate,
@@ -138,6 +137,7 @@ const PolicyDetails: React.FC<Props> = (props: Props) => {
                 title="Client Search"
                 visible={clientSearchVisible}
                 onClose={() => setClientSearchVisible(false)}
+                footer={<Button onClick={() => setClientSearchVisible(false)}>Close</Button>}
             >
                 <ClientSearch
                     defaultSearchText={""}
@@ -146,9 +146,6 @@ const PolicyDetails: React.FC<Props> = (props: Props) => {
                         setClientSearchVisible(false);
                     }}
                 />
-                <DrawerFooter>
-                    <Button onClick={() => setClientSearchVisible(false)}>Close</Button>
-                </DrawerFooter>
             </Drawer>
         </>
     );

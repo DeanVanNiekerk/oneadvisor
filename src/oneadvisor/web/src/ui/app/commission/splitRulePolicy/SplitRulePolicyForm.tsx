@@ -10,16 +10,7 @@ import {
 } from "@/state/app/commission/splitRulePolicies";
 import { fetchSplitRules, SplitRule, splitRulesSelector } from "@/state/app/commission/splitRules";
 import { RootState } from "@/state/rootReducer";
-import {
-    Button,
-    CompanyName,
-    Drawer,
-    DrawerFooter,
-    Form,
-    FormSelect,
-    FormText,
-    UserName,
-} from "@/ui/controls";
+import { Button, CompanyName, Drawer, Form, FormSelect, FormText, UserName } from "@/ui/controls";
 
 import SplitRuleList from "../splitRule/SplitRuleList";
 
@@ -152,11 +143,9 @@ class SplitRulePolicyForm extends Component<Props, State> {
                     visible={this.state.manageSplitRulesVisible}
                     onClose={this.toggleManageSplitRulesVisible}
                     noTopPadding={true}
+                    footer={<Button onClick={this.toggleManageSplitRulesVisible}>Close</Button>}
                 >
                     <SplitRuleList userId={this.props.splitRulePolicyInfo.policyUserId} />
-                    <DrawerFooter>
-                        <Button onClick={this.toggleManageSplitRulesVisible}>Close</Button>
-                    </DrawerFooter>
                 </Drawer>
             </>
         );

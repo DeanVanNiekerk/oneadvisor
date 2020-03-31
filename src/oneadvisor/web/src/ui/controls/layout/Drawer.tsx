@@ -15,6 +15,7 @@ type Props = {
     maskClosable?: boolean;
     width?: number | string;
     noTopPadding?: boolean;
+    footer: ReactNode;
 };
 
 const Drawer: React.FC<Props> = (props: Props) => {
@@ -33,11 +34,10 @@ const Drawer: React.FC<Props> = (props: Props) => {
             maskClosable={props.maskClosable}
             destroyOnClose={true}
             bodyStyle={{
-                height: "calc(100% - 65px)",
-                overflow: "auto",
-                paddingBottom: 53,
                 paddingTop: props.noTopPadding ? 0 : 24,
             }}
+            footer={props.footer}
+            footerStyle={{ textAlign: "right" }}
         >
             {props.children}
         </DrawerAD>

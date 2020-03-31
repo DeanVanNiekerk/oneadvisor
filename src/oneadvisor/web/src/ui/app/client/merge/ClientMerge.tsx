@@ -8,7 +8,7 @@ import {
     clientsMergingSelector,
 } from "@/state/app/client/clients";
 import { RootState } from "@/state/rootReducer";
-import { Button, ContentLoader, Drawer, DrawerFooter } from "@/ui/controls";
+import { Button, ContentLoader, Drawer } from "@/ui/controls";
 
 import ClientDetails from "./steps/ClientDetails";
 import Result from "./steps/Result";
@@ -47,7 +47,17 @@ class ClientMerge extends Component<Props, State> {
         const { visible, currentStepIndex } = this.props;
 
         return (
-            <Drawer title="Merge Clients" iconName="fork" visible={visible} onClose={this.cancel}>
+            <Drawer
+                title="Merge Clients"
+                iconName="fork"
+                visible={visible}
+                onClose={this.cancel}
+                footer={
+                    <Button onClick={this.cancel} disabled={this.isLoading()}>
+                        Cancel
+                    </Button>
+                }
+            >
                 <ContentLoader isLoading={this.isLoading()}>
                     {this.state.steps.map((step, index) => {
                         return (
@@ -62,11 +72,6 @@ class ClientMerge extends Component<Props, State> {
                         );
                     })}
                 </ContentLoader>
-                <DrawerFooter>
-                    <Button onClick={this.cancel} disabled={this.isLoading()}>
-                        Cancel
-                    </Button>
-                </DrawerFooter>
             </Drawer>
         );
     }

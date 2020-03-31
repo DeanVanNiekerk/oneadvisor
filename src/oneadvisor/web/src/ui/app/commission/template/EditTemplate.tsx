@@ -11,7 +11,7 @@ import {
     saveCommissionStatementTemplate,
 } from "@/state/app/commission/templates";
 import { RootState } from "@/state/rootReducer";
-import { Button, ContentLoader, Drawer, DrawerFooter, DropdownButton } from "@/ui/controls";
+import { Button, ContentLoader, Drawer, DropdownButton } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 import { showMessage } from "@/ui/feedback/notifcation";
 import { DownOutlined, ToolOutlined } from "@ant-design/icons";
@@ -50,24 +50,26 @@ const EditTemplate: React.FC<Props> = (props: Props) => {
             visible={props.visible}
             onClose={cancel}
             noTopPadding={true}
+            footer={
+                <React.Fragment>
+                    <Button onClick={cancel} disabled={props.updating}>
+                        Close
+                    </Button>
+
+                    <DropdownButton
+                        type="primary"
+                        overlay={menu}
+                        icon={<DownOutlined />}
+                        onClick={() => props.saveTemplate(false, props.onSaved)}
+                    >
+                        Save
+                    </DropdownButton>
+                </React.Fragment>
+            }
         >
             <ContentLoader isLoading={props.updating}>
                 <TemplateForm />
             </ContentLoader>
-            <DrawerFooter>
-                <Button onClick={cancel} disabled={props.updating}>
-                    Close
-                </Button>
-
-                <DropdownButton
-                    type="primary"
-                    overlay={menu}
-                    icon={<DownOutlined />}
-                    onClick={() => props.saveTemplate(false, props.onSaved)}
-                >
-                    Save
-                </DropdownButton>
-            </DrawerFooter>
         </Drawer>
     );
 };
