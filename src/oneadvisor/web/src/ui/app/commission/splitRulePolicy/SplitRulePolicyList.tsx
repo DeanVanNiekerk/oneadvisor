@@ -15,7 +15,7 @@ import {
 import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
-import { CompanyName, getTable, Header, UserName, getColumnSearchProps } from "@/ui/controls";
+import { CompanyName, getColumnSearchProps, getTable, Header, UserName } from "@/ui/controls";
 
 import EditSplitRulePolicy from "./EditSplitRulePolicy";
 
@@ -170,7 +170,7 @@ class SplitRulePolicyList extends Component<Props, State> {
     render() {
         return (
             <>
-                <Header className="mb-1" icon="apartment">
+                <Header className="mb-1" iconName="apartment">
                     Policy Commission Split Rules
                 </Header>
                 <Table

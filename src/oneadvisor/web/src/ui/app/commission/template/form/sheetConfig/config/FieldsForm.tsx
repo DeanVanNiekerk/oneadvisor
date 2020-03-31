@@ -52,7 +52,12 @@ const FieldsForm: React.FC<Props> = (props: Props) => {
         <>
             <FormErrors validationResults={validationResults} />
 
-            <Button icon="plus" type="dashed" onClick={() => props.add(fields)} noLeftMargin={true}>
+            <Button
+                iconName="plus"
+                type="dashed"
+                onClick={() => props.add(fields)}
+                noLeftMargin={true}
+            >
                 {`Add Mapping`}
             </Button>
 

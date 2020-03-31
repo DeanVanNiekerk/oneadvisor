@@ -90,7 +90,7 @@ class CommissionLapseReport extends Component<Props> {
     render() {
         return (
             <>
-                <Header icon="alert">Policy Lapse Report</Header>
+                <Header iconName="alert">Policy Lapse Report</Header>
 
                 <Row gutter={10} align="middle" justify="start" className="mb-1">
                     <Col>Month Ending:</Col>

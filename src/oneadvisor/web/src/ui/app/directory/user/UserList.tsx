@@ -159,11 +159,11 @@ class UserList extends Component<Props, State> {
         return (
             <>
                 <Header
-                    icon="team"
+                    iconName="team"
                     actions={
                         <Button
                             type="default"
-                            icon="plus"
+                            iconName="plus"
                             onClick={this.newUser}
                             disabled={this.props.fetching}
                             requiredUseCase="dir_edit_users"

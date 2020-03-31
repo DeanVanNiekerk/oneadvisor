@@ -28,7 +28,7 @@ const EditContact: React.FC<Props> = (props: Props) => {
                 <Form className="my-1" layout="inline">
                     <FormField>
                         <Button
-                            icon="plus"
+                            iconName="plus"
                             type="dashed"
                             onClick={() => props.newContact(props.clientId)}
                             noLeftMargin={true}

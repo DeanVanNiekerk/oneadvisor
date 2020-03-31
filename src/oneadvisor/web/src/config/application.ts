@@ -1,3 +1,4 @@
+import { IconName } from "@/app/types";
 import { Application } from "@/state/context/types";
 
 export const DIRECTORY_ID = "66c3b4e8-8a30-4a4b-be4d-3928d12fefe9";
@@ -13,7 +14,7 @@ const createApplication = (
     name: string,
     color: string,
     relativePath: string,
-    icon: string
+    icon: IconName
 ): Application => ({
     id,
     name,

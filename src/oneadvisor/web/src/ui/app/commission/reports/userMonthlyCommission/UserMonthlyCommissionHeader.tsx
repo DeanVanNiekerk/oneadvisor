@@ -13,11 +13,11 @@ type Props = PropsFromDispatch;
 const UserMonthlyCommissionHeader: React.FC<Props> = (props: Props) => {
     return (
         <Header
-            icon="pie-chart"
+            iconName="pie-chart"
             actions={
                 <Row gutter={10} align="middle">
                     <Col>
-                        <Button icon="download" onClick={props.download} noLeftMargin={true}>
+                        <Button iconName="download" onClick={props.download} noLeftMargin={true}>
                             Download
                         </Button>
                     </Col>

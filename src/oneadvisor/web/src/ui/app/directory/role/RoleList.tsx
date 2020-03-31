@@ -135,11 +135,11 @@ class RoleList extends Component<Props, State> {
         return (
             <>
                 <Header
-                    icon="safety-certificate"
+                    iconName="safety-certificate"
                     actions={
                         <Button
                             type="default"
-                            icon="plus"
+                            iconName="plus"
                             onClick={this.newRole}
                             disabled={this.props.fetching}
                             requiredRole={ROLE_SUPER_ADMIN}

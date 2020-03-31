@@ -69,7 +69,7 @@ class GroupIdentifiersForm extends Component<Props> {
             <>
                 <FormErrors validationResults={validationResults} />
 
-                <Button icon="plus" type="dashed" onClick={this.add} noLeftMargin={true}>
+                <Button iconName="plus" type="dashed" onClick={this.add} noLeftMargin={true}>
                     {`Add Identifier`}
                 </Button>
 

@@ -83,7 +83,7 @@ const CommissionTypesForm: React.FC<Props> = (props: Props) => {
             </Form>
 
             <Button
-                icon="plus"
+                iconName="plus"
                 type="dashed"
                 onClick={() => props.addType(commissionTypes)}
                 noLeftMargin={true}

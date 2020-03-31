@@ -195,7 +195,7 @@ const PolicyList: React.FC<Props> = (props: Props) => {
                     <>
                         <Button
                             type="default"
-                            icon="plus"
+                            iconName="plus"
                             onClick={newPolicy}
                             disabled={props.fetching}
                             requiredUseCase="clt_edit_policies"
@@ -205,7 +205,7 @@ const PolicyList: React.FC<Props> = (props: Props) => {
                         </Button>
                     </>
                 }
-                icon={!props.clientId ? "file-text" : ""}
+                iconName={!props.clientId ? "file-text" : undefined}
             >
                 {!props.clientId && <span>Policies</span>}
             </Header>

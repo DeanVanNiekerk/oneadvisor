@@ -38,7 +38,7 @@ class ClientImport extends Component<Props, State> {
 
         return (
             <>
-                <Header icon="import">Import Client Data</Header>
+                <Header iconName="import">Import Client Data</Header>
 
                 <div>{steps[currentStepIndex]}</div>
             </>

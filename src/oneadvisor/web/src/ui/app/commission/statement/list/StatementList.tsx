@@ -163,12 +163,12 @@ const StatementList: React.FC<Props> = (props) => {
     return (
         <>
             <Header
-                icon="reconciliation"
+                iconName="reconciliation"
                 actions={
                     <>
                         <Button
                             type="default"
-                            icon="plus"
+                            iconName="plus"
                             onClick={props.newStatement}
                             disabled={props.fetching}
                             requiredUseCase="com_edit_commission_statements"
@@ -189,7 +189,7 @@ const StatementList: React.FC<Props> = (props) => {
                 <Col>
                     <Button
                         shape="circle"
-                        icon="left"
+                        iconName="left"
                         size="large"
                         onClick={props.updateMonthFilterPrevious}
                         noLeftMargin={true}
@@ -230,7 +230,7 @@ const StatementList: React.FC<Props> = (props) => {
                 <Col>
                     <Button
                         shape="circle"
-                        icon="right"
+                        iconName="right"
                         size="large"
                         onClick={props.updateMonthFilterNext}
                         noLeftMargin={true}

@@ -100,11 +100,11 @@ class PolicyProductTypeList extends Component<Props, State> {
         return (
             <>
                 <Header
-                    icon="database"
+                    iconName="database"
                     actions={
                         <Button
                             type="default"
-                            icon="plus"
+                            iconName="plus"
                             onClick={this.newPolicyProductType}
                             disabled={this.props.fetching}
                         >

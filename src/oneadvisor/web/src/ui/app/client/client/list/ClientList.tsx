@@ -28,10 +28,10 @@ import { RootState } from "@/state/rootReducer";
 import {
     Button,
     ClientTypeIcon,
+    getColumnSearchProps,
     getTable,
     Header,
     StopPropagation,
-    getColumnSearchProps,
 } from "@/ui/controls";
 
 import ClientMerge from "../../merge/ClientMerge";
@@ -114,12 +114,12 @@ const ClientList: React.FC<Props> = (props) => {
     return (
         <>
             <Header
-                icon="user"
+                iconName="user"
                 actions={
                     <>
                         <Button
                             type="primary"
-                            icon="fork"
+                            iconName="fork"
                             onClick={() => props.mergeClients(props.selectedClientIds)}
                             visible={props.selectedClientIds.length > 1}
                             requiredUseCase="clt_edit_clients"
@@ -128,7 +128,7 @@ const ClientList: React.FC<Props> = (props) => {
                         </Button>
                         <Button
                             type="primary"
-                            icon="delete"
+                            iconName="delete"
                             onClick={() => props.updateSelectedClients([])}
                             visible={props.selectedClientIds.length > 0}
                         >
@@ -136,7 +136,7 @@ const ClientList: React.FC<Props> = (props) => {
                         </Button>
                         <Button
                             type="default"
-                            icon="plus"
+                            iconName="plus"
                             onClick={props.newClient}
                             disabled={props.fetching}
                             requiredUseCase="clt_edit_clients"

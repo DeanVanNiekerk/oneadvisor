@@ -107,7 +107,7 @@ const FormSimpleListComponent: React.FC<Props> = (props: Props) => {
                 <Form layout="inline">
                     <FormField>
                         <Button
-                            icon="plus"
+                            iconName="plus"
                             type="dashed"
                             onClick={add}
                             noLeftMargin={true}

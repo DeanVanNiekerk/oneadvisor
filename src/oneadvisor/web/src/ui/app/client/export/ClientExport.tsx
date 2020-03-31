@@ -48,12 +48,12 @@ class ClientExport extends Component<DispatchProp, State> {
     render() {
         return (
             <>
-                <Header icon="export">Export Client Data</Header>
+                <Header iconName="export">Export Client Data</Header>
 
                 <div className="mt-1" />
 
                 <Button
-                    icon="download"
+                    iconName="download"
                     loading={this.state.downloadingPolicyAggregates}
                     onClick={this.downloadClientPolicyAggregates}
                 >
@@ -61,7 +61,7 @@ class ClientExport extends Component<DispatchProp, State> {
                 </Button>
 
                 <Button
-                    icon="download"
+                    iconName="download"
                     loading={this.state.downloadingPolicies}
                     onClick={this.downloadClientPolicies}
                 >

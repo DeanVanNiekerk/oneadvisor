@@ -120,7 +120,7 @@ class AllocationList extends Component<Props> {
                         <>
                             <Button
                                 type="default"
-                                icon="plus"
+                                iconName="plus"
                                 onClick={this.newAllocation}
                                 disabled={this.props.fetching}
                                 requiredUseCase="com_edit_commission_allocations"
@@ -129,7 +129,7 @@ class AllocationList extends Component<Props> {
                             </Button>
                         </>
                     }
-                    icon={!this.props.clientId ? "file-text" : ""}
+                    iconName={!this.props.clientId ? "file-text" : undefined}
                 />
                 <EditAllocation onClose={this.onClose} />
                 <Table

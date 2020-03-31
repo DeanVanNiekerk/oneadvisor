@@ -1,9 +1,10 @@
-/* LAYOUT */
+/* LAYOUT 
 .ant-layout {
     background-color: #ffffff !important;
 }
+*/
 
-/* HEADER */
+/* HEADER 
 .ant-page-header-heading-title {
     font-size: 18px !important;
     line-height: 2 !important;
@@ -13,8 +14,20 @@
     top: 10px !important;
     right: 0px !important;
 }
+*/
 
 /* TABLE */
+
+.ant-table-column-sorters {
+    padding: 0 !important;
+}
+
+.ant-table-footer {
+    padding: 12px 12px !important;
+    font-size: 0.9em;
+}
+
+/* 
 .ant-table td,
 .ant-table th {
     white-space: nowrap;
@@ -28,18 +41,21 @@
 .ant-table-filter-dropdown-link {
     position: relative;
 }
+*/
 
-/* LIST */
+/* LIST 
 .ant-list-item-action {
     margin-left: 20px !important;
 }
+*/
 
-/* FORM */
+/* FORM 
 .ant-form-inline > .ant-form-item-with-help {
     margin-bottom: 0 !important;
 }
+*/
 
-/* SKELETON */
+/* SKELETON 
 .ant-skeleton-paragraph {
     padding-left: 0 !important;
     margin-bottom: 5px !important;
@@ -49,8 +65,9 @@
     margin-top: 8px;
     margin-bottom: 12px;
 }
+*/
 
-/* DRAWER */
+/* DRAWER 
 .ant-drawer-header {
     padding: 21px 24px !important;
 }
@@ -59,8 +76,10 @@
     height: 65px !important;
     line-height: 65px !important;
 }
+*/
 
-/* TABS */
+/* TABS 
 .clearTabsTopPadding .ant-tabs-nav .ant-tabs-tab {
     padding-top: 0 !important;
 }
+*/

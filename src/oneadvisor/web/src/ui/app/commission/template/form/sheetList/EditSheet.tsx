@@ -24,7 +24,7 @@ const EditSheet: React.FC<Props> = (props: Props) => {
                 <Form layout="inline">
                     <FormField>
                         <Button
-                            icon="plus"
+                            iconName="plus"
                             type="dashed"
                             onClick={props.newSheet}
                             noLeftMargin={true}

@@ -155,7 +155,7 @@ class ProjectionsReport extends Component<Props, State> {
 
         return (
             <>
-                <Header icon="history">Projections Report</Header>
+                <Header iconName="history">Projections Report</Header>
 
                 <Row gutter={10} align="middle" justify="start">
                     <Col className={cellClass}>Months Back</Col>

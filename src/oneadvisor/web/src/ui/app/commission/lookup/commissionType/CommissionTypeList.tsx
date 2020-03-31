@@ -130,11 +130,11 @@ class CommissionTypeList extends Component<Props, State> {
         return (
             <>
                 <Header
-                    icon="database"
+                    iconName="database"
                     actions={
                         <Button
                             type="default"
-                            icon="plus"
+                            iconName="plus"
                             onClick={this.newCommissionType}
                             disabled={this.props.fetching}
                         >

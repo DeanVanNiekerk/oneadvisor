@@ -44,7 +44,7 @@ const AuditLogList: React.FC<Props> = (props) => {
 
     return (
         <>
-            <Header icon="video-camera">Audit Logs</Header>
+            <Header iconName="video-camera">Audit Logs</Header>
 
             {props.limitReached && (
                 <Alert

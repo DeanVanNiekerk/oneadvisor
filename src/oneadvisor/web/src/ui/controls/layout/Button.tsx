@@ -4,13 +4,16 @@ import React, { CSSProperties, ReactNode } from "react";
 import { connect } from "react-redux";
 
 import { hasUseCase } from "@/app/identity";
+import { IconName } from "@/app/types";
 import { hasRole } from "@/config/role";
 import { roleSelector, useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 
+import { Icon } from "../common/Icon";
+
 type Props = {
     type?: ButtonType;
-    icon?: string;
+    iconName?: IconName;
     disabled?: boolean;
     onClick?: () => void;
     children?: ReactNode;
@@ -44,7 +47,7 @@ const ButtonComponent: React.FC<Props> = (props: Props) => {
                     }}
                     block={props.block}
                     type={props.type}
-                    icon={props.icon}
+                    icon={<Icon name={props.iconName} />}
                     onClick={props.onClick}
                     disabled={props.disabled || false}
                     className={props.className}

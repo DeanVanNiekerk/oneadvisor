@@ -79,7 +79,7 @@ const CommissionList: React.FC<Props> = (props: Props) => {
 
     return (
         <>
-            <Header className="mb-1" icon="dollar" hidden={props.hideHeader}>
+            <Header className="mb-1" iconName="dollar" hidden={props.hideHeader}>
                 Commission Entries
             </Header>
             <Table

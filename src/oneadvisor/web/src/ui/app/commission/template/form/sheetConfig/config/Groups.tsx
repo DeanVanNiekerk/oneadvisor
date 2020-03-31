@@ -52,7 +52,12 @@ const Groups: React.FC<Props> = (props: Props) => {
         <>
             <FormErrors validationResults={validationResults} />
 
-            <Button icon="plus" type="dashed" onClick={() => props.add(groups)} noLeftMargin={true}>
+            <Button
+                iconName="plus"
+                type="dashed"
+                onClick={() => props.add(groups)}
+                noLeftMargin={true}
+            >
                 {`Add Group`}
             </Button>
 

@@ -145,7 +145,7 @@ class Import extends Component<Props> {
                     return (
                         <Button
                             shape="circle"
-                            icon="exclamation"
+                            iconName="exclamation"
                             type="danger"
                             onClick={() => {
                                 this.showError(record);
@@ -242,7 +242,7 @@ class Import extends Component<Props> {
                                     <Button
                                         type="danger"
                                         shape="round"
-                                        icon="download"
+                                        iconName="download"
                                         size="small"
                                         onClick={this.downloadErrors}
                                     >

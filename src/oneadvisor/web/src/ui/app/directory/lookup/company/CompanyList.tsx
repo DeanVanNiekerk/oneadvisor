@@ -34,11 +34,11 @@ const CompanyList: React.FC<Props> = (props) => {
     return (
         <>
             <Header
-                icon="database"
+                iconName="database"
                 actions={
                     <Button
                         type="default"
-                        icon="plus"
+                        iconName="plus"
                         onClick={props.newCompany}
                         disabled={props.fetching}
                     >

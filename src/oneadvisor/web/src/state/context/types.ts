@@ -1,3 +1,5 @@
+import { IconName } from "@/app/types";
+
 export type AppInfo = {
     name: string;
     version: string;
@@ -8,7 +10,7 @@ export type Application = {
     name: string;
     color: string;
     relativePath: string;
-    icon: string;
+    icon: IconName;
     isCurrent: boolean;
 };
 
@@ -24,7 +26,7 @@ export type Menu = {
 export type MenuGroup = {
     name: string;
     defaultOpen: boolean;
-    icon: string;
+    icon: IconName;
     links: MenuLink[];
 };
 

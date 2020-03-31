@@ -100,7 +100,7 @@ class ChangeLogList extends Component<Props> {
                         <>
                             <Button
                                 type="default"
-                                icon="plus"
+                                iconName="plus"
                                 onClick={this.newChangeLog}
                                 disabled={this.props.fetching}
                             >
@@ -108,7 +108,7 @@ class ChangeLogList extends Component<Props> {
                             </Button>
                         </>
                     }
-                    icon={"profile"}
+                    iconName={"profile"}
                 >
                     Change Logs
                 </Header>

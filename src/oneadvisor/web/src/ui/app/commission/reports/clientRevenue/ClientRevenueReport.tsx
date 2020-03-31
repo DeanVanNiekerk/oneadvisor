@@ -186,12 +186,12 @@ class ClientRevenueReport extends Component<Props, State> {
         return (
             <>
                 <Header
-                    icon="line-chart"
+                    iconName="line-chart"
                     actions={
                         <Row gutter={10} align="middle">
                             <Col>
                                 <Button
-                                    icon="download"
+                                    iconName="download"
                                     onClick={this.download}
                                     loading={this.state.downloading}
                                     noLeftMargin={true}

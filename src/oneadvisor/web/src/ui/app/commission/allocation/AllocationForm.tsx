@@ -93,7 +93,7 @@ class AllocationForm extends Component<Props, State> {
                             <>
                                 <Button
                                     size="small"
-                                    icon="search"
+                                    iconName="search"
                                     type={this.state.allocation.fromClientId ? "dashed" : "primary"}
                                     onClick={this.toggleSearchClientVisible}
                                 >

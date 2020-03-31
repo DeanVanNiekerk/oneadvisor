@@ -39,7 +39,7 @@ const RawConfig: React.FC<Props> = ({ config, commissionStatementTemplateOverrid
                             showMessage("info", "Config Copied", 2);
                         }}
                     >
-                        <Button icon="copy" noLeftMargin={true} size="small">
+                        <Button iconName="copy" noLeftMargin={true} size="small">
                             {`Copy Config`}
                         </Button>
                     </CopyToClipboard>
@@ -55,7 +55,7 @@ const RawConfig: React.FC<Props> = ({ config, commissionStatementTemplateOverrid
             </Row>
             <TextArea rows={8} value={newConfig} onChange={onChange} />
             <Button
-                icon="edit"
+                iconName="edit"
                 onClick={() => commissionStatementTemplateOverride(newConfig)}
                 type="primary"
                 noLeftMargin={true}

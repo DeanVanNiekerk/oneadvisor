@@ -30,11 +30,11 @@ const OrganisationList: React.FC<Props> = (props) => {
     return (
         <>
             <Header
-                icon="bank"
+                iconName="bank"
                 actions={
                     <Button
                         type="default"
-                        icon="plus"
+                        iconName="plus"
                         onClick={props.newOrganisation}
                         disabled={props.fetching}
                         requiredUseCase="dir_edit_organisations"

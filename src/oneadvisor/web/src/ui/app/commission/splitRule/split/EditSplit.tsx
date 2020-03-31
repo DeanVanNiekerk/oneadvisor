@@ -29,7 +29,7 @@ class EditSplit extends Component<Props> {
                     <Form layout="inline">
                         <FormField>
                             <Button
-                                icon="plus"
+                                iconName="plus"
                                 type="dashed"
                                 onClick={this.props.newSplit}
                                 noLeftMargin={true}

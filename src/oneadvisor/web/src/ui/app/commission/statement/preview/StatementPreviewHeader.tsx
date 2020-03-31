@@ -17,7 +17,7 @@ const StatementPreviewHeader: React.FC<Props> = (props: Props) => {
     };
 
     return (
-        <Header icon="reconciliation" loading={props.loading} onBack={back}>
+        <Header iconName="reconciliation" loading={props.loading} onBack={back}>
             {props.statement && (
                 <span>
                     <CompanyName companyId={props.statement.companyId} />

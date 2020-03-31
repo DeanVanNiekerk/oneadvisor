@@ -89,7 +89,7 @@ describe("utils", () => {
             const menuGroup: MenuGroup = {
                 name: "Test1",
                 defaultOpen: false,
-                icon: "icon",
+                icon: "alert",
                 links: [
                     {
                         name: "link1",
@@ -107,7 +107,7 @@ describe("utils", () => {
             const menuGroup: MenuGroup = {
                 name: "Test1",
                 defaultOpen: false,
-                icon: "icon",
+                icon: "alert",
                 links: [
                     {
                         name: "link1",
@@ -126,7 +126,7 @@ describe("utils", () => {
             const menuGroup: MenuGroup = {
                 name: "Test1",
                 defaultOpen: false,
-                icon: "icon",
+                icon: "alert",
                 links: [
                     {
                         name: "link1",
@@ -145,7 +145,7 @@ describe("utils", () => {
             const menuGroup: MenuGroup = {
                 name: "Test1",
                 defaultOpen: false,
-                icon: "icon",
+                icon: "alert",
                 links: [
                     {
                         name: "link1",
@@ -165,7 +165,7 @@ describe("utils", () => {
             const menuGroup: MenuGroup = {
                 name: "Test1",
                 defaultOpen: false,
-                icon: "icon",
+                icon: "alert",
                 links: [
                     {
                         name: "link1",
@@ -185,7 +185,7 @@ describe("utils", () => {
             const menuGroup: MenuGroup = {
                 name: "Test1",
                 defaultOpen: false,
-                icon: "icon",
+                icon: "alert",
                 links: [
                     {
                         name: "link1",
@@ -211,7 +211,7 @@ describe("utils", () => {
             const menuGroup: MenuGroup = {
                 name: "Test1",
                 defaultOpen: false,
-                icon: "icon",
+                icon: "alert",
                 links: [
                     {
                         name: "link1",
@@ -239,7 +239,7 @@ describe("utils", () => {
             const menuGroup1: MenuGroup = {
                 name: "Test1",
                 defaultOpen: false,
-                icon: "icon",
+                icon: "alert",
                 links: [
                     {
                         name: "link1",
@@ -261,7 +261,7 @@ describe("utils", () => {
             const menuGroup1: MenuGroup = {
                 name: "Test1",
                 defaultOpen: false,
-                icon: "icon",
+                icon: "alert",
                 links: [
                     {
                         name: "link1",
@@ -283,7 +283,7 @@ describe("utils", () => {
             const menuGroup1: MenuGroup = {
                 name: "Test1",
                 defaultOpen: false,
-                icon: "icon",
+                icon: "edit",
                 links: [
                     {
                         name: "link1",
@@ -296,7 +296,7 @@ describe("utils", () => {
             const menuGroup2: MenuGroup = {
                 name: "Test1",
                 defaultOpen: false,
-                icon: "icon",
+                icon: "alert",
                 links: [
                     {
                         name: "link1",
@@ -314,7 +314,7 @@ describe("utils", () => {
         });
 
         it("real example - false", () => {
-            const groups = [
+            const groups: MenuGroup[] = [
                 {
                     name: "Organisation",
                     defaultOpen: true,

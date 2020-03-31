@@ -140,7 +140,7 @@ class SplitRulePolicyForm extends Component<Props, State> {
                         loading={this.props.fetching}
                         width="70%"
                         addonAfter={
-                            <Button icon="edit" onClick={this.toggleManageSplitRulesVisible}>
+                            <Button iconName="edit" onClick={this.toggleManageSplitRulesVisible}>
                                 Manage Rules
                             </Button>
                         }

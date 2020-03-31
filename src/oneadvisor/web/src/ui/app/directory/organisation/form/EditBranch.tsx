@@ -28,7 +28,7 @@ const EditBranch: React.FC<Props> = (props: Props) => {
                 <Form layout="inline">
                     <FormField>
                         <Button
-                            icon="plus"
+                            iconName="plus"
                             type="dashed"
                             onClick={() => props.newBranch(props.organisationId)}
                             noLeftMargin={true}

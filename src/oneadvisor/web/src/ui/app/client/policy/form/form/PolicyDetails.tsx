@@ -61,7 +61,7 @@ const PolicyDetails: React.FC<Props> = (props: Props) => {
                         <>
                             <Button
                                 size="small"
-                                icon="search"
+                                iconName="search"
                                 type={policy.clientId ? "dashed" : "primary"}
                                 onClick={() => setClientSearchVisible(true)}
                             >

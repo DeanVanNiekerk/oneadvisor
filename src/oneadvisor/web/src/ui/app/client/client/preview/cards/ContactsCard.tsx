@@ -4,10 +4,9 @@ import { connect } from "react-redux";
 
 import { clientPreviewIsLoadingSelector, clientPreviewSelector } from "@/state/app/client/clients";
 import { RootState } from "@/state/rootReducer";
+import ContactList from "@/ui/app/client/contact/ContactList";
 import { Button, Drawer, DrawerFooter, PreviewCard, PreviewCardRow } from "@/ui/controls";
 import { BarsOutlined } from "@ant-design/icons";
-
-import ContactList from "../../../contact/ContactList";
 
 type Props = {
     cardHeight: string;

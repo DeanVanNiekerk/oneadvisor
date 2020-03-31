@@ -102,7 +102,7 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                         <>
                             <Button
                                 size="small"
-                                icon="search"
+                                iconName="search"
                                 type={error.clientId ? "dashed" : "primary"}
                                 onClick={() => setClientSearchVisible(true)}
                             >
@@ -110,7 +110,7 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                             </Button>
                             <Button
                                 size="small"
-                                icon="plus"
+                                iconName="plus"
                                 type={error.clientId ? "dashed" : "primary"}
                                 onClick={newClient}
                             >
@@ -133,7 +133,7 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                         <>
                             <Button
                                 size="small"
-                                icon="search"
+                                iconName="search"
                                 type={error.policyId ? "dashed" : "primary"}
                                 onClick={() => setPolicySearchVisible(true)}
                                 disabled={!error.clientId}
@@ -142,7 +142,7 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
                             </Button>
                             <Button
                                 size="small"
-                                icon="plus"
+                                iconName="plus"
                                 type={error.policyId ? "dashed" : "primary"}
                                 onClick={newPolicy}
                                 disabled={!error.clientId}

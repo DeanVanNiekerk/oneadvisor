@@ -1,8 +1,13 @@
 import { PageHeader, Skeleton } from "antd";
 import React, { ReactNode } from "react";
 
+import { IconName } from "@/app/types";
+
+import { Icon } from "../common/Icon";
+
 type Props = {
-    icon?: ReactNode;
+    iconName?: IconName;
+    icon?: React.ReactNode;
     loading?: boolean;
     children?: ReactNode;
     actions?: ReactNode;
@@ -13,12 +18,6 @@ type Props = {
 };
 
 const Header: React.FC<Props> = (props: Props) => {
-    let icon: ReactNode = <span />;
-
-    if (props.icon) {
-        icon = props.icon;
-    }
-
     if (props.hidden) return <React.Fragment />;
 
     return (
@@ -36,7 +35,8 @@ const Header: React.FC<Props> = (props: Props) => {
                 title={
                     !props.textHidden ? (
                         <>
-                            {icon}
+                            {props.iconName && <Icon name={props.iconName} />}
+                            {props.icon && <span>{props.icon}</span>}
                             <span style={{ marginLeft: "8px" }}>{props.children}</span>
                         </>
                     ) : (

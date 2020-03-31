@@ -124,7 +124,7 @@ class SplitRuleList extends Component<Props> {
                         <>
                             <Button
                                 type="default"
-                                icon="plus"
+                                iconName="plus"
                                 onClick={this.newSplitRule}
                                 disabled={this.props.fetching}
                                 requiredUseCase="com_edit_commission_split_rules"

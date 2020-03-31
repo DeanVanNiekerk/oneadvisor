@@ -48,7 +48,7 @@ const VATRatesForm: React.FC<Props> = (props: Props) => {
             <FormErrors validationResults={validationResults} />
 
             <Button
-                icon="plus"
+                iconName="plus"
                 type="dashed"
                 onClick={() => props.add(vatRates)}
                 noLeftMargin={true}

@@ -29,11 +29,11 @@ const TemplateList: React.FC<Props> = (props) => {
     return (
         <>
             <Header
-                icon="block"
+                iconName="block"
                 actions={
                     <Button
                         type="default"
-                        icon="plus"
+                        iconName="plus"
                         onClick={props.newTemplate}
                         disabled={props.fetching}
                     >

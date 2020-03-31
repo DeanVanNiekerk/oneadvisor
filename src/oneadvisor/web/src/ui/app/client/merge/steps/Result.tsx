@@ -33,7 +33,7 @@ class Result extends Component<Props> {
                     className="mb-1"
                 />
 
-                <Button icon="user" onClick={this.preview} type="primary" noLeftMargin={true}>
+                <Button iconName="user" onClick={this.preview} type="primary" noLeftMargin={true}>
                     Preview Merged Client
                 </Button>
             </>

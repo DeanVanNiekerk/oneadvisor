@@ -48,7 +48,6 @@ class TableComponent<T extends object> extends React.Component<Props<T>, State> 
         };
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     handleTableChange = (
         pagination: PaginationConfig,
         filters: Record<string, Key[] | null>,

@@ -15,10 +15,9 @@ import {
 } from "@/state/app/commission/statements";
 import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
 import { RootState } from "@/state/rootReducer";
+import ErrorList from "@/ui/app/commission/error/list/ErrorList";
 import { Button, Drawer, DrawerFooter, PreviewCard } from "@/ui/controls";
 import { DownloadOutlined, ToolOutlined, WarningOutlined } from "@ant-design/icons";
-
-import ErrorList from "../../../error/list/ErrorList";
 
 type Props = {
     cardHeight: string;
