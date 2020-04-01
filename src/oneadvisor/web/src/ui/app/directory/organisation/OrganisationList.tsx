@@ -88,7 +88,7 @@ const getColumns = (applications: Application[]) => {
             { key: "configApplicationIds" },
             {
                 render: (config: Config) => {
-                    return config.applicationIds.map((id) => {
+                    return config.applicationIds.sort().map((id) => {
                         const application = applications.find((a) => a.id === id);
 
                         if (!application) return;

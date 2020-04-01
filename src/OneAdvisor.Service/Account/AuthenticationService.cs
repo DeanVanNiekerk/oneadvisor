@@ -31,14 +31,16 @@ namespace OneAdvisor.Service.Account
         private readonly UserManager<UserEntity> _userManager;
         private readonly IUseCaseService _useCaseService;
         private readonly IAuditService _auditService;
+        private readonly IRoleService _roleService;
 
 
-        public AuthenticationService(DataContext context, UserManager<UserEntity> userManager, IUseCaseService useCaseService, IAuditService auditService)
+        public AuthenticationService(DataContext context, UserManager<UserEntity> userManager, IUseCaseService useCaseService, IAuditService auditService, IRoleService roleService)
         {
             _context = context;
             _userManager = userManager;
             _useCaseService = useCaseService;
             _auditService = auditService;
+            _roleService = roleService;
         }
 
         public ScopeOptions GetScope(ClaimsPrincipal principle, bool ignoreScope = false)
@@ -156,9 +158,9 @@ namespace OneAdvisor.Service.Account
             //Organisation override is supplied, only for super admin
             if (organisationId.HasValue)
             {
-                var userRoles = await _userManager.GetRolesAsync(user);
+                var uRoles = await _userManager.GetRolesAsync(user);
 
-                if (userRoles.Any(r => r == Role.SUPER_ADMINISTRATOR_ROLE))
+                if (uRoles.Any(r => r == Role.SUPER_ADMINISTRATOR_ROLE))
                 {
                     var organisation = await _context.Organisation.Where(o => o.Id == organisationId).Include(o => o.Branches).FirstOrDefaultAsync();
                     if (organisation != null)
@@ -182,11 +184,20 @@ namespace OneAdvisor.Service.Account
                 new Claim(Claims.ScopeClaimName, Enum.GetName(typeof(Scope), userDetails.Scope))
             };
 
-            var roles = await _userManager.GetRolesAsync(user);
-            foreach (var role in roles)
+            //Get organisation
+            var org = await _context.Organisation.FindAsync(userDetails.OrganisationId);
+
+            var roles = await _roleService.GetRoles();
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var allowedRoles = roles.Where(r => org.Config.ApplicationIds.Any(id => id == r.ApplicationId));
+
+            //Filter out any roles this organisation should have access to
+            userRoles = userRoles.Where(r => allowedRoles.Any(ar => ar.Name == r)).ToList();
+
+            foreach (var role in userRoles)
                 claims.Add(new Claim(Claims.RolesClaimName, role));
 
-            var useCases = await _useCaseService.GetUseCases(roles);
+            var useCases = await _useCaseService.GetUseCases(userRoles);
             foreach (var useCase in useCases)
                 claims.Add(new Claim(Claims.UseCaseIdsClaimName, useCase));
 

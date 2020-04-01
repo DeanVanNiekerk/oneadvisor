@@ -7,6 +7,7 @@ import { hasUseCase } from "@/app/identity";
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
 import { getScopes } from "@/config/scope";
 import { Application } from "@/state/app/directory/applications";
+import { Branch, branchesSelector } from "@/state/app/directory/branches";
 import { UserType, userTypesSelector } from "@/state/app/directory/lookups";
 import { Organisation } from "@/state/app/directory/organisations";
 import { Role } from "@/state/app/directory/roles";
@@ -39,6 +40,7 @@ type Props = {
     validationResults: ValidationResult[];
     onChange: (user: UserEdit) => void;
     useCases: string[];
+    branches: Branch[];
 } & DispatchProp;
 
 type State = {
@@ -105,6 +107,22 @@ class UserForm extends Component<Props, State> {
             <Badge count={count} offset={[10, -2]}>
                 {title}
             </Badge>
+        );
+    };
+
+    getOrganisationApplications = (): Application[] => {
+        //Get branch
+        const branch = this.props.branches.find((b) => b.id === this.state.user.branchId);
+
+        if (!branch) return [];
+
+        //Get the organisation
+        const organisation = this.props.organisations.find((o) => o.id === branch.organisationId);
+
+        if (!organisation) return [];
+
+        return this.props.applications.filter((a) =>
+            organisation.config.applicationIds.some((id) => id === a.id)
         );
     };
 
@@ -195,7 +213,7 @@ class UserForm extends Component<Props, State> {
                                 true
                             )}
                         />
-                        {this.props.applications.map((application) => (
+                        {this.getOrganisationApplications().map((application) => (
                             <List
                                 key={application.id}
                                 header={<h4 className="mb-0">{application.name}</h4>}
@@ -264,6 +282,7 @@ class UserForm extends Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => {
     return {
+        branches: branchesSelector(state).items,
         useCases: useCaseSelector(state),
         userTypes: userTypesSelector(state).items,
     };
