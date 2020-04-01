@@ -35,8 +35,8 @@ const AuditLogList: React.FC<Props> = (props) => {
     }, [props.filters]);
 
     const onTableChange = (
-        pageOptions: PageOptions,
-        sortOptions: SortOptions,
+        _pageOptions: PageOptions,
+        _sortOptions: SortOptions,
         filters: Filters
     ) => {
         if (!areEqual(props.filters, filters)) props.updateFilters(filters);

@@ -16,9 +16,10 @@ namespace api.Test.Controllers.Directory
         [Fact]
         public void ApplicationModelComposition()
         {
-            Assert.Equal(2, typeof(Application).PropertyCount());
+            Assert.Equal(3, typeof(Application).PropertyCount());
             Assert.True(typeof(Application).HasProperty("Id"));
             Assert.True(typeof(Application).HasProperty("Name"));
+            Assert.True(typeof(Application).HasProperty("ColourHex"));
         }
 
         [Fact]
@@ -27,7 +28,8 @@ namespace api.Test.Controllers.Directory
             var app = new Application()
             {
                 Id = Guid.NewGuid(),
-                Name = "1"
+                Name = "1",
+                ColourHex = "#FFFFFF"
             };
 
             var items = new List<Application>()

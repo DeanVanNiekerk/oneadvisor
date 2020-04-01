@@ -9,5 +9,7 @@ namespace OneAdvisor.Data.Entities.Directory
         public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
+        [Required]
+        public string ColourHex { get; set; }
     }
 }

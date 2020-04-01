@@ -26,6 +26,7 @@ namespace OneAdvisor.Service.Directory
                         {
                             Id = application.Id,
                             Name = application.Name,
+                            ColourHex = application.ColourHex,
                         };
 
             return query.ToListAsync();

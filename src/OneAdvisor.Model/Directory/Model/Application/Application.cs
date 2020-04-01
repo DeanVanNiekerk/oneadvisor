@@ -12,6 +12,6 @@ namespace OneAdvisor.Model.Directory.Model.Application
 
         public Guid Id { get; set; }
         public string Name { get; set; }
-
+        public string ColourHex { get; set; }
     }
 }

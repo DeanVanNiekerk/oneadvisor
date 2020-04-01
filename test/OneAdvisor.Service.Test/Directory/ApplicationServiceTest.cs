@@ -19,8 +19,8 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("GetApplications");
 
             //Given
-            var app1 = new ApplicationEntity { Id = Guid.NewGuid(), Name = "App 1" };
-            var app2 = new ApplicationEntity { Id = Guid.NewGuid(), Name = "App 2" };
+            var app1 = new ApplicationEntity { Id = Guid.NewGuid(), Name = "App 1", ColourHex = "#FFFFFF" };
+            var app2 = new ApplicationEntity { Id = Guid.NewGuid(), Name = "App 2", ColourHex = "#000000" };
 
             using (var context = new DataContext(options))
             {
@@ -43,10 +43,12 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual1 = list[0];
                 Assert.Equal(actual1.Id, app1.Id);
                 Assert.Equal(actual1.Name, app1.Name);
+                Assert.Equal(actual1.ColourHex, app1.ColourHex);
 
                 var actual2 = list[1];
                 Assert.Equal(actual2.Id, app2.Id);
                 Assert.Equal(actual2.Name, app2.Name);
+                Assert.Equal(actual2.ColourHex, app2.ColourHex);
 
             }
         }

@@ -1,3 +1,4 @@
+import { Tag } from "antd";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { AnyAction, bindActionCreators } from "redux";
@@ -5,6 +6,11 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { getColumnDefinition } from "@/app/table";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
+import {
+    Application,
+    applicationsSelector,
+    fetchApplications,
+} from "@/state/app/directory/applications";
 import {
     Config,
     fetchOrganisation,
@@ -26,6 +32,7 @@ type Props = PropsFromState & PropsFromDispatch;
 const OrganisationList: React.FC<Props> = (props) => {
     useEffect(() => {
         props.fetchOrganisations();
+        props.fetchApplications();
     }, []);
 
     return (
@@ -49,7 +56,7 @@ const OrganisationList: React.FC<Props> = (props) => {
             </Header>
             <Table
                 rowKey="id"
-                columns={getColumns()}
+                columns={getColumns(props.applications)}
                 dataSource={props.organisations}
                 loading={props.fetching}
                 onRowClick={(org) => props.editOrganisation(org.id)}
@@ -59,7 +66,7 @@ const OrganisationList: React.FC<Props> = (props) => {
     );
 };
 
-const getColumns = () => {
+const getColumns = (applications: Application[]) => {
     const getColumn = getColumnDefinition<Organisation>();
     return [
         getColumn("name", "Name"),
@@ -81,7 +88,13 @@ const getColumns = () => {
             { key: "configApplicationIds" },
             {
                 render: (config: Config) => {
-                    return config.applicationIds.length;
+                    return config.applicationIds.map((id) => {
+                        const application = applications.find((a) => a.id === id);
+
+                        if (!application) return;
+
+                        return <Tag color={application.colourHex}>{application.name}</Tag>;
+                    });
                 },
             }
         ),
@@ -91,8 +104,10 @@ const getColumns = () => {
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const organisationsState = organisationsSelector(state);
+    const applicationsState = applicationsSelector(state);
     return {
         organisations: organisationsState.items,
+        applications: applicationsState.items,
         fetching: organisationsState.fetching,
     };
 };
@@ -100,7 +115,7 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
-        ...bindActionCreators({ fetchOrganisations }, dispatch),
+        ...bindActionCreators({ fetchOrganisations, fetchApplications }, dispatch),
         newOrganisation: () => {
             dispatch(
                 receiveOrganisation({

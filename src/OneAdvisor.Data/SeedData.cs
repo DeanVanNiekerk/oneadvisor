@@ -14,11 +14,11 @@ namespace OneAdvisor.Data
         {
             var list = new List<ApplicationEntity>();
 
-            list.Add(new ApplicationEntity() { Id = Application.DIRECTORY_ID, Name = "Directory" });
-            list.Add(new ApplicationEntity() { Id = Application.CLIENT_ID, Name = "Client" });
-            list.Add(new ApplicationEntity() { Id = Application.COMMISSION_ID, Name = "Commission" });
-            list.Add(new ApplicationEntity() { Id = Application.COMPLIANCE_ID, Name = "Compliance" });
-            list.Add(new ApplicationEntity() { Id = Application.INVEST_ID, Name = "Invest" });
+            list.Add(new ApplicationEntity() { Id = Application.DIRECTORY_ID, Name = "Directory", ColourHex = "#CC3F0C" });
+            list.Add(new ApplicationEntity() { Id = Application.CLIENT_ID, Name = "Client", ColourHex = "#009FFD" });
+            list.Add(new ApplicationEntity() { Id = Application.COMMISSION_ID, Name = "Commission", ColourHex = "#2A2A72" });
+            list.Add(new ApplicationEntity() { Id = Application.COMPLIANCE_ID, Name = "Compliance", ColourHex = "#005A38" });
+            list.Add(new ApplicationEntity() { Id = Application.INVEST_ID, Name = "Invest", ColourHex = "#AE1827" });
 
             return list;
         }

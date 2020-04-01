@@ -1,3 +1,4 @@
+import { Application } from "../";
 import { defaultState, reducer } from "./reducer";
 
 describe("application list reducer", () => {
@@ -39,10 +40,10 @@ describe("application list reducer", () => {
             fetching: true,
         };
 
-        const application = {
+        const application: Application = {
             id: "10",
             name: "Application1",
-            applicationId: "app_1",
+            colourHex: "#FFFFFF",
         };
 
         const actualState = reducer(initalState, {
