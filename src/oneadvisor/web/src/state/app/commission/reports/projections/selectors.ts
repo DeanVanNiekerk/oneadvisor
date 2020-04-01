@@ -325,9 +325,7 @@ const getTableRow = (
     filter?: TableRowFilter
 ) => {
     let monthIndex = 0;
-    const current = moment(now)
-        .startOf("month")
-        .subtract(monthsBack, "months");
+    const current = moment(now).startOf("month").subtract(monthsBack, "months");
 
     while (monthsBack + monthsForward >= monthIndex) {
         const key = current.format(DATE_FORMAT);
@@ -432,9 +430,7 @@ const getMonthColumns = (
     const columns: ColumnProps<GroupTableRecord>[] = [];
 
     while (monthsBack >= 0) {
-        const current = moment(now)
-            .startOf("month")
-            .subtract(monthsBack, "months");
+        const current = moment(now).startOf("month").subtract(monthsBack, "months");
 
         const key = current.format(DATE_FORMAT);
         const title = monthsBack === 0 ? "Current" : current.format("MMM");
@@ -458,9 +454,7 @@ const getMonthColumns = (
 
     let monthIndex = 1;
     while (monthIndex <= monthsForward) {
-        const current = moment(now)
-            .startOf("month")
-            .add(monthIndex, "months");
+        const current = moment(now).startOf("month").add(monthIndex, "months");
 
         const key = current.format(DATE_FORMAT);
         const title = current.format("MMM");
