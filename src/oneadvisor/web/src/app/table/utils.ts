@@ -12,7 +12,7 @@ export const getColumnDefinition = <T>(
     sortOptions: SortOptions | null = null
 ) => {
     return (
-        key: keyof T | "",
+        dataIndex: keyof T | "",
         title: string,
         options: ColumnOptions = {},
         columnProps: ColumnProps<T> = {}
@@ -23,16 +23,16 @@ export const getColumnDefinition = <T>(
             ...options,
         };
 
-        if (sortOptions && sortOptions.column === key) {
+        if (sortOptions && sortOptions.column === dataIndex) {
             columnProps.defaultSortOrder = sortOptions.direction === "asc" ? "ascend" : "descend";
         }
 
-        return getColumn<T>(key, title, options, columnProps);
+        return getColumn<T>(dataIndex, title, options, columnProps);
     };
 };
 
 const getColumn = <T>(
-    key: keyof T | "",
+    dataIndex: keyof T | "",
     title: string,
     options: ColumnOptions = {
         type: "string",
@@ -41,19 +41,19 @@ const getColumn = <T>(
     },
     columnProps: ColumnProps<T> = {}
 ): ColumnProps<T> => {
-    const keyString = key.toString();
+    const dataIndexString = dataIndex.toString();
 
     const data = {
         title: title,
-        dataIndex: keyString,
-        key: keyString,
+        dataIndex: dataIndexString,
+        key: options.key ? options.key : dataIndexString,
     };
 
     let props: ColumnProps<T> = {
         render: (value) => value,
-        sorter: (a: T, b: T) => sort<T>(a, b, keyString),
+        sorter: (a: T, b: T) => sort<T>(a, b, dataIndexString),
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onFilter: (value: any, record: T) => filter(value, record, keyString),
+        onFilter: (value: any, record: T) => filter(value, record, dataIndexString),
         ...columnProps,
     };
 
@@ -71,7 +71,7 @@ const getColumn = <T>(
     if (options.type === "long-currency") props.render = (value) => formatCurrency(value, 2);
 
     if (options.filters) {
-        const filter = options.filters[keyString];
+        const filter = options.filters[dataIndexString];
         if (filter && filter.length > 0)
             props = {
                 ...props,

@@ -21,7 +21,8 @@ describe("organisation actions", () => {
             vatRegistered: false,
             vatRegistrationDate: null,
             config: {
-                companyIds: [] as string[],
+                companyIds: [],
+                applicationIds: [],
             },
         };
 

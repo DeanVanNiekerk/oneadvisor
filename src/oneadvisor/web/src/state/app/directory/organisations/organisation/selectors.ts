@@ -18,6 +18,12 @@ export const organisationConfigCompanyIdsSelector: (
     root.organisation ? root.organisation.config.companyIds : []
 );
 
+export const organisationConfigApplicationIdsSelector: (
+    state: RootState
+) => string[] = createSelector(rootSelector, (root) =>
+    root.organisation ? root.organisation.config.applicationIds : []
+);
+
 export const organisationIsModifiedSelector: (state: RootState) => boolean = createSelector(
     rootSelector,
     (root) => !areEqual(root.organisation, root.organisationOriginal)

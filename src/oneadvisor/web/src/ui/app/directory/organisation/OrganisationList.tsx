@@ -6,6 +6,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { getColumnDefinition } from "@/app/table";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
 import {
+    Config,
     fetchOrganisation,
     fetchOrganisations,
     Organisation,
@@ -64,6 +65,26 @@ const getColumns = () => {
         getColumn("name", "Name"),
         getColumn("vatRegistered", "VAT Registered", { type: "boolean" }),
         getColumn("vatRegistrationDate", "VAT Registration Date", { type: "date" }),
+        getColumn(
+            "config",
+            "Companies",
+            { key: "configCompanyIds" },
+            {
+                render: (config: Config) => {
+                    return config.companyIds.length;
+                },
+            }
+        ),
+        getColumn(
+            "config",
+            "Applications",
+            { key: "configApplicationIds" },
+            {
+                render: (config: Config) => {
+                    return config.applicationIds.length;
+                },
+            }
+        ),
     ];
 };
 
@@ -89,6 +110,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
                     vatRegistrationDate: null,
                     config: {
                         companyIds: [],
+                        applicationIds: [],
                     },
                 })
             );

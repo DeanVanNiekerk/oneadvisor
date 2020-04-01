@@ -6,6 +6,7 @@ import { RootState } from "@/state/rootReducer";
 import { TabPane, Tabs } from "@/ui/controls";
 
 import BranchList from "./BranchList";
+import ApplicationsForm from "./config/ApplicationsForm";
 import CompaniesForm from "./config/CompaniesForm";
 import OrganisationDetails from "./OrganisationDetails";
 
@@ -26,6 +27,9 @@ const OrganisationForm: React.FC<Props> = (props: Props) => {
             )}
             <TabPane tab="Companies" key="companies_tab">
                 <CompaniesForm />
+            </TabPane>
+            <TabPane tab="Applications" key="applications_tab">
+                <ApplicationsForm />
             </TabPane>
         </Tabs>
     );

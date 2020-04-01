@@ -45,6 +45,10 @@ describe("organisation list reducer", () => {
             name: "Org1",
             vatRegistered: false,
             vatRegistrationDate: null,
+            config: {
+                applicationIds: [],
+                companyIds: [],
+            },
         };
 
         const actualState = reducer(initalState, {

@@ -8,8 +8,10 @@ namespace OneAdvisor.Model.Directory.Model.Organisation.Configuration
         public Config()
         {
             CompanyIds = new List<Guid>();
+            ApplicationIds = new List<Guid>();
         }
 
         public List<Guid> CompanyIds { get; set; }
+        public List<Guid> ApplicationIds { get; set; }
     }
 }

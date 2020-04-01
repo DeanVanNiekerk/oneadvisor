@@ -17,6 +17,8 @@ namespace OneAdvisor.Data
             list.Add(new ApplicationEntity() { Id = Application.DIRECTORY_ID, Name = "Directory" });
             list.Add(new ApplicationEntity() { Id = Application.CLIENT_ID, Name = "Client" });
             list.Add(new ApplicationEntity() { Id = Application.COMMISSION_ID, Name = "Commission" });
+            list.Add(new ApplicationEntity() { Id = Application.COMPLIANCE_ID, Name = "Compliance" });
+            list.Add(new ApplicationEntity() { Id = Application.INVEST_ID, Name = "Invest" });
 
             return list;
         }

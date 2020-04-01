@@ -3,6 +3,7 @@ export type Organisation = {
     name: string;
     vatRegistered: boolean;
     vatRegistrationDate: string | null;
+    config: Config;
 };
 
 export type OrganisationEdit = {
@@ -15,4 +16,5 @@ export type OrganisationEdit = {
 
 export type Config = {
     companyIds: string[];
+    applicationIds: string[];
 };

@@ -21,10 +21,11 @@ namespace OneAdvisor.Service.Directory
         public Task<List<Application>> GetApplications()
         {
             var query = from application in _context.Application
-                        select new Application() 
+                        orderby application.Name
+                        select new Application()
                         {
                             Id = application.Id,
-                            Name = application.Name
+                            Name = application.Name,
                         };
 
             return query.ToListAsync();

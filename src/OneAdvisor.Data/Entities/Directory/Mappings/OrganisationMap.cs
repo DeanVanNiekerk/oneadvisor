@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data.ValueConverters;
 using OneAdvisor.Model.Directory.Model.Organisation.Configuration;
@@ -8,19 +10,19 @@ namespace OneAdvisor.Data.Entities.Directory.Mappings
     {
         public static void Map(ModelBuilder modelBuilder)
         {
-            var jsonConverter = new JsonValueConverter<Config>();
+            var jsonConfigConverter = new JsonValueConverter<Config>();
 
             modelBuilder.Entity<OrganisationEntity>()
                 .Property(e => e.Config)
-                .HasConversion(jsonConverter);
+                .HasConversion(jsonConfigConverter);
 
             modelBuilder.Entity<OrganisationEntity>()
                 .Property(u => u.Config)
                 .HasDefaultValueSql("'{ }'");
 
-             modelBuilder.Entity<OrganisationEntity>()
-                .Property(u => u.VATRegistered)
-                .HasDefaultValueSql("0");
+            modelBuilder.Entity<OrganisationEntity>()
+               .Property(u => u.VATRegistered)
+               .HasDefaultValueSql("0");
         }
     }
 }

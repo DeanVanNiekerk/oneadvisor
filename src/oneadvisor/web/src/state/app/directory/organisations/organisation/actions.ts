@@ -79,6 +79,21 @@ export const modifyOrganisationConfigCompanyIds = (
     };
 };
 
+export const modifyOrganisationConfigApplicationIds = (
+    applicationIds: string[]
+): ThunkAction<void, RootState, {}, OrganisationModifiedAction> => {
+    return (dispatch, getState) => {
+        const { organisation } = organisationSelector(getState());
+        if (!organisation) return;
+
+        const organisationModified = update(organisation, {
+            config: { applicationIds: { $set: applicationIds } },
+        });
+
+        dispatch(modifyOrganisation(organisationModified));
+    };
+};
+
 export const organisationVisible = (visible: boolean): OrganisationVisibleAction => ({
     type: "ORGANISATIONS_ORGANISATION_VISIBLE",
     payload: visible,

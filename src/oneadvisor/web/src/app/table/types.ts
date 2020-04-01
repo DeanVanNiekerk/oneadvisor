@@ -6,6 +6,7 @@ export type FilterOptions = {
 };
 
 export type ColumnOptions = {
+    key?: string;
     type?: ColumnType;
     externalDataSource?: boolean;
     filters?: Filters | null;

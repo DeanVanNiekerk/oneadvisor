@@ -56,6 +56,7 @@ describe("organisation reducer", () => {
             vatRegistrationDate: null,
             config: {
                 companyIds: [],
+                applicationIds: [],
             },
         };
 

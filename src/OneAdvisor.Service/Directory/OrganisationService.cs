@@ -33,6 +33,7 @@ namespace OneAdvisor.Service.Directory
                             Name = organisation.Name,
                             VATRegistered = organisation.VATRegistered.Value,
                             VATRegistrationDate = organisation.VATRegistrationDate,
+                            Config = organisation.Config,
                         };
 
             var pagedItems = new PagedItems<Organisation>();
