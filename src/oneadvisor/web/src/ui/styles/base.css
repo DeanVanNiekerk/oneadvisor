@@ -1,0 +1,7 @@
+@import "~antd/dist/antd.css";
+@import "~antd/dist/antd.dark.css";
+
+#root,
+#root > div {
+    height: 100%;
+}

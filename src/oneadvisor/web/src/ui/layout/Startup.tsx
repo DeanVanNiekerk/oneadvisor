@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import ReactDOM from "react-dom";
 import { FullStoryAPI } from "react-fullstory";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -16,6 +17,15 @@ import { isAuthenticatedSelector, tokenDataSelector } from "@/state/auth";
 import { fetchAppInfo } from "@/state/context/actions";
 import { RootState } from "@/state/rootReducer";
 import { Loader } from "@/ui/controls";
+
+class ThemeLink extends React.Component {
+    render() {
+        return ReactDOM.createPortal(
+            <link rel="stylesheet" href="dark-theme.css" type="text/css"></link>,
+            document.head
+        );
+    }
+}
 
 type Props = {
     children: React.ReactNode;
@@ -61,7 +71,12 @@ const Startup: React.FC<Props> = (props: Props) => {
     if (props.loading && !isAccountPage())
         return <Loader text="loading application..." size="large" />;
 
-    return <>{props.children}</>;
+    return (
+        <>
+            {/* <ThemeLink /> */}
+            {props.children}
+        </>
+    );
 };
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;

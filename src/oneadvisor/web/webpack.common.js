@@ -4,8 +4,6 @@ const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const darkTheme = require("antd/dist/dark-theme");
-const compactTheme = require("antd/dist/compact-theme");
 
 const oaBaseApi = config.get("baseApi");
 const environment = config.get("environment");
@@ -52,19 +50,13 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(less|css)$/,
+                test: /\.css$/,
                 use: [
                     {
                         loader: "style-loader",
                     },
                     {
-                        loader: "css-loader", // translates CSS into CommonJS
-                    },
-                    {
-                        loader: "less-loader", // compiles Less to CSS
-                        options: {
-                            javascriptEnabled: true,
-                        },
+                        loader: "css-loader",
                     },
                 ],
             },
