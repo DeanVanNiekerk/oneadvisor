@@ -63,7 +63,12 @@ const ClientList: React.FC<Props> = (props) => {
                     width: "110px",
                     align: "center",
                     render: (clientTypeId: string) => {
-                        return <ClientTypeIcon clientTypeId={clientTypeId} />;
+                        return (
+                            <ClientTypeIcon
+                                clientTypeId={clientTypeId}
+                                style={{ fontSize: "14px" }}
+                            />
+                        );
                     },
                     filters: props.clientTypes.map((type) => ({
                         text: type.name,
