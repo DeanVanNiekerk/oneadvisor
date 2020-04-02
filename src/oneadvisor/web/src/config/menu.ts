@@ -1,6 +1,6 @@
 import { Menus } from "@/state/context/types";
 
-import { CLIENT_ID, COMMISSION_ID, DIRECTORY_ID } from "./application";
+import { CLIENT_ID, COMMISSION_ID, COMPLIANCE_ID, DIRECTORY_ID, INVEST_ID } from "./application";
 
 export const menus: Menus = {
     [DIRECTORY_ID]: {
@@ -197,6 +197,27 @@ export const menus: Menus = {
                 ],
             },
         ],
+    },
+    [COMPLIANCE_ID]: {
+        relativePath: "/compliance",
+        groups: [
+            {
+                name: "Test",
+                defaultOpen: true,
+                icon: "setting",
+                links: [
+                    {
+                        name: "Test",
+                        relativePath: "/compliance",
+                        roles: ["super_administrator"],
+                    },
+                ],
+            },
+        ],
+    },
+    [INVEST_ID]: {
+        relativePath: "/invest",
+        groups: [],
     },
 };
 

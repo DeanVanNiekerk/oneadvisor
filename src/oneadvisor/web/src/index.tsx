@@ -6,9 +6,9 @@ import ReactDOM from "react-dom";
 import FullStory from "react-fullstory";
 import { Provider } from "react-redux";
 
-import { configureStore, history } from "@/state/configureStore";
+import { getStore, history } from "@/state/configureStore";
 
-const store = configureStore();
+const store = getStore();
 
 // Save a reference to the root element for reuse
 const rootElement = document.getElementById("root");

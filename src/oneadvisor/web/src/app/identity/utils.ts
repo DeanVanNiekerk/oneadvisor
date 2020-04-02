@@ -31,7 +31,7 @@ export const hasPermissionsMenuGroup = (
     roles: string[]
 ): boolean => {
     return menuGroup.links.some(
-        (link) => hasUseCases(link.useCases, useCases) && hasRoles(link.roles, roles)
+        (link) => hasUseCases(link.useCases, useCases) || hasRoles(link.roles, roles)
     );
 };
 
