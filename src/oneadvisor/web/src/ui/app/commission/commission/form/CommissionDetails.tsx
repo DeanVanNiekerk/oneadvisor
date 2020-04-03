@@ -5,13 +5,13 @@ import { Dispatch } from "redux";
 
 import { applyLikeFormat } from "@/app/query";
 import { Filters, PageOptions } from "@/app/table";
-import { getPolicies, Policy } from "@/state/client/policies";
 import {
     CommissionEdit,
     commissionSelector,
     modifyCommission,
 } from "@/state/app/commission/commissions";
 import { commissionTypesSelector } from "@/state/app/commission/lookups";
+import { getPolicies, Policy } from "@/state/client/policies";
 import { brokersSelector } from "@/state/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormInputNumber, FormSelect } from "@/ui/controls";
