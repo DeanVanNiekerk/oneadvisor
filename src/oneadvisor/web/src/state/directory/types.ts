@@ -11,15 +11,15 @@ import { UsersState } from "./users";
 import { UsersSimpleState } from "./usersSimple";
 
 export type DirectoryState = {
-    users: UsersState;
-    usersSimple: UsersSimpleState;
-    organisations: OrganisationsState;
-    roles: RolesState;
-    applications: ApplicationsState;
-    useCases: UseCasesState;
-    branches: BranchesState;
-    branchesSimple: BranchesSimpleState;
-    lookups: LookupsState;
-    audit: AuditState;
-    changeLogs: ChangeLogsState;
+    readonly users: UsersState;
+    readonly usersSimple: UsersSimpleState;
+    readonly organisations: OrganisationsState;
+    readonly roles: RolesState;
+    readonly applications: ApplicationsState;
+    readonly useCases: UseCasesState;
+    readonly branches: BranchesState;
+    readonly branchesSimple: BranchesSimpleState;
+    readonly lookups: LookupsState;
+    readonly audit: AuditState;
+    readonly changeLogs: ChangeLogsState;
 };

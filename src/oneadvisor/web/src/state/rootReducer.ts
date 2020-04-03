@@ -4,6 +4,7 @@ import { Reducer } from "redux";
 
 import { reducer as app, State as AppState } from "./app/reducer";
 import { reducer as auth, State as AuthState } from "./auth/reducer";
+import { ClientState } from "./client/types";
 import { ComplianceState } from "./compliance/types";
 import { reducer as context, State as ContextState } from "./context/reducer";
 import { DirectoryState } from "./directory/types";
@@ -16,6 +17,7 @@ export type RootState = {
     readonly router: Reducer<RouterState, LocationChangeAction>;
     //Async Reducers
     readonly directory: DirectoryState;
+    readonly client: ClientState;
     readonly compliance: ComplianceState;
 };
 
