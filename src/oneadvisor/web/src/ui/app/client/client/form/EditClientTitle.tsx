@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { clientSelector } from "@/state/app/client/clients";
+import { clientSelector } from "@/state/client/clients";
 import { RootState } from "@/state/rootReducer";
 
 type Props = PropsFromState;

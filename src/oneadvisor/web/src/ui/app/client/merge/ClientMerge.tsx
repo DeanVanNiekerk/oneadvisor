@@ -6,7 +6,7 @@ import {
     clientMergeSelector,
     clientSelector,
     clientsMergingSelector,
-} from "@/state/app/client/clients";
+} from "@/state/client/clients";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";
 

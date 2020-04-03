@@ -4,8 +4,8 @@ import { createSelector } from "reselect";
 
 import { getColumnDefinition } from "@/app/table";
 import { DATE_FORMAT } from "@/app/utils";
-import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
-import { State as PolicyTypesState } from "@/state/app/client/lookups/policyTypes/list/reducer";
+import { PolicyType, policyTypesSelector } from "@/state/client/lookups";
+import { PolicyTypeListState } from "@/state/client/lookups/policyTypes";
 import { companiesSelector, Company } from "@/state/directory/lookups";
 import { ListState as CompaniesState } from "@/state/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
@@ -43,7 +43,7 @@ export const projectionGroupsTableColumnsSelector: (
     (
         root: State,
         commissionEarningsTypesState: CommissionEarningsTypesState,
-        policyTypesState: PolicyTypesState,
+        policyTypesState: PolicyTypeListState,
         companies: CompaniesState,
         now: Date
     ) => {
@@ -173,7 +173,7 @@ export const projectionGroupTableRowsSelector: (
     (
         root: State,
         commissionEarningsTypesState: CommissionEarningsTypesState,
-        policyTypesState: PolicyTypesState,
+        policyTypesState: PolicyTypeListState,
         companies: CompaniesState,
         now: Date
     ) => {

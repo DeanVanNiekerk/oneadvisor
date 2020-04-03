@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect, DispatchProp } from "react-redux";
 
-import { getPolicy, PolicyEdit } from "@/state/app/client/policies";
+import { getPolicy, PolicyEdit } from "@/state/client/policies";
 
 type Props = {
     policyId: string | null;

@@ -16,7 +16,7 @@ import {
     receiveClientImportPolicyCompany,
     removeClientImportClient,
     updateClientImportPolicyCompanies,
-} from "@/state/app/client/import";
+} from "@/state/client/import";
 import {
     Company,
     fetchCompanies,

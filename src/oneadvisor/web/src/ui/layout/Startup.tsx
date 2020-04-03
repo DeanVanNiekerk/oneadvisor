@@ -6,10 +6,10 @@ import { AnyAction, bindActionCreators } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import config from "@/config/config";
-import { fetchAllClientLookups } from "@/state/app/client/lookups";
 import { fetchAllCommissionLookups } from "@/state/app/commission/lookups";
 import { isLoadingLookupsSelector } from "@/state/app/selectors";
 import { isAuthenticatedSelector, tokenDataSelector } from "@/state/auth";
+import { fetchAllClientLookups } from "@/state/client/lookups";
 import { fetchAppInfo } from "@/state/context/actions";
 import { fetchBranchesSimple } from "@/state/directory/branchesSimple";
 import { fetchAllDirectoryLookups } from "@/state/directory/lookups";

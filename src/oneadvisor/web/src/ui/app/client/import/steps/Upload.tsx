@@ -10,7 +10,7 @@ import {
     ImportRow,
     receiveClientImportData,
     receiveClientImportFileName,
-} from "@/state/app/client/import";
+} from "@/state/client/import";
 import { RootState } from "@/state/rootReducer";
 import { InboxOutlined } from "@ant-design/icons";
 

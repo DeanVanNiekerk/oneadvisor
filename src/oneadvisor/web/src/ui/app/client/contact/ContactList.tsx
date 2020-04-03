@@ -6,6 +6,7 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { hasUseCase } from "@/app/identity";
 import { getColumnDefinition } from "@/app/table";
+import { useCaseSelector } from "@/state/auth";
 import {
     clearContact,
     Contact,
@@ -14,8 +15,7 @@ import {
     deleteContact,
     fetchContact,
     fetchContacts,
-} from "@/state/app/client/contacts";
-import { useCaseSelector } from "@/state/auth";
+} from "@/state/client/contacts";
 import { RootState } from "@/state/rootReducer";
 import { ContactTypeName, getTable, StopPropagation } from "@/ui/controls";
 

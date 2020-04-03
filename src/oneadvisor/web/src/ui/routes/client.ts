@@ -1,13 +1,58 @@
 import { lazy } from "react";
 
-export const ClientPreview = lazy(() => import("@/ui/app/client/client/preview/ClientPreview"));
-export const ClientExport = lazy(() => import("@/ui/app/client/export/ClientExport"));
-export const ClientImport = lazy(() => import("@/ui/app/client/import/ClientImport"));
+import { reducerManager } from "@/state/configureStore";
+
+const ensureClientReducer = async () => {
+    if (reducerManager.hasReducer("client")) return;
+
+    const reducer = await import("@/state/client/reducer").then(
+        (reducerModule) => reducerModule.reducer
+    );
+
+    reducerManager.injectReducer("client", reducer);
+};
+
+export const ClientPreview = lazy(() =>
+    import("@/ui/app/client/client/preview/ClientPreview").then(async (module) => {
+        await ensureClientReducer();
+        return module;
+    })
+);
+export const ClientExport = lazy(() =>
+    import("@/ui/app/client/export/ClientExport").then(async (module) => {
+        await ensureClientReducer();
+        return module;
+    })
+);
+export const ClientImport = lazy(() =>
+    import("@/ui/app/client/import/ClientImport").then(async (module) => {
+        await ensureClientReducer();
+        return module;
+    })
+);
 export const PolicyProductList = lazy(() =>
-    import("@/ui/app/client/lookup/policyProduct/PolicyProductList")
+    import("@/ui/app/client/lookup/policyProduct/PolicyProductList").then(async (module) => {
+        await ensureClientReducer();
+        return module;
+    })
 );
 export const PolicyProductTypeList = lazy(() =>
-    import("@/ui/app/client/lookup/policyProductType/PolicyProductTypeList")
+    import("@/ui/app/client/lookup/policyProductType/PolicyProductTypeList").then(
+        async (module) => {
+            await ensureClientReducer();
+            return module;
+        }
+    )
 );
-export const PolicyList = lazy(() => import("@/ui/app/client/policy/list/PolicyList"));
-export const ClientList = lazy(() => import("@/ui/app/client/client/list/ClientList"));
+export const PolicyList = lazy(() =>
+    import("@/ui/app/client/policy/list/PolicyList").then(async (module) => {
+        await ensureClientReducer();
+        return module;
+    })
+);
+export const ClientList = lazy(() =>
+    import("@/ui/app/client/client/list/ClientList").then(async (module) => {
+        await ensureClientReducer();
+        return module;
+    })
+);

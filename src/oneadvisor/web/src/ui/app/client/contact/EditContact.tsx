@@ -8,7 +8,7 @@ import {
     contactSelector,
     contactVisible,
     receiveContact,
-} from "@/state/app/client/contacts";
+} from "@/state/client/contacts";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Form, FormField } from "@/ui/controls";
 

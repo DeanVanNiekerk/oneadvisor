@@ -10,7 +10,7 @@ import {
     PolicyProductType,
     policyProductTypesSelector,
     receivePolicyProduct,
-} from "@/state/app/client/lookups";
+} from "@/state/client/lookups";
 import { Company, organisationCompaniesSelector } from "@/state/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import {

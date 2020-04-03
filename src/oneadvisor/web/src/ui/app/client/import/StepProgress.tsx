@@ -2,7 +2,7 @@ import { Col, Row, Steps } from "antd";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { clientImportSelector } from "@/state/app/client/import";
+import { clientImportSelector } from "@/state/client/import";
 import { RootState } from "@/state/rootReducer";
 import { Button } from "@/ui/controls";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";

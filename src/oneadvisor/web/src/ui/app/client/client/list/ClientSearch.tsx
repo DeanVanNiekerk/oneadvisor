@@ -5,7 +5,7 @@ import { connect, DispatchProp } from "react-redux";
 
 import { applyLike } from "@/app/query";
 import { getColumnDefinition } from "@/app/table";
-import { Client, clientSearchSelector, searchClients } from "@/state/app/client/clients";
+import { Client, clientSearchSelector, searchClients } from "@/state/client/clients";
 import { RootState } from "@/state/rootReducer";
 import { Age, getTable } from "@/ui/controls";
 import { SearchOutlined } from "@ant-design/icons";

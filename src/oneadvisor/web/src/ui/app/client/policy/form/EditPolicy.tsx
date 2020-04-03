@@ -10,7 +10,7 @@ import {
     policySelector,
     policyVisible,
     savePolicy,
-} from "@/state/app/client/policies";
+} from "@/state/client/policies";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";

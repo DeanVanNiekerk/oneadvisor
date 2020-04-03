@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { ContactType, contactTypesSelector } from "@/state/app/client/lookups";
+import { ContactType, contactTypesSelector } from "@/state/client/lookups";
 import { RootState } from "@/state/rootReducer";
 
 type Props = {

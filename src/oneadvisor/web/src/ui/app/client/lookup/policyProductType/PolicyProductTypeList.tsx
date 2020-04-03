@@ -10,7 +10,7 @@ import {
     PolicyType,
     policyTypesSelector,
     receivePolicyProductType,
-} from "@/state/app/client/lookups";
+} from "@/state/client/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, getColumnSearchProps, getTable, Header, PolicyTypeName } from "@/ui/controls";
 

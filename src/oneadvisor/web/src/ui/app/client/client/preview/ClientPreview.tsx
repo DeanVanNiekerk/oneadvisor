@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 
-import { fetchClientPreview } from "@/state/app/client/clients";
+import { fetchClientPreview } from "@/state/client/clients";
 import { PreviewCardContainer } from "@/ui/controls";
 
 import { ContactsCard, DetailsCard, PoliciesCard } from "./cards";

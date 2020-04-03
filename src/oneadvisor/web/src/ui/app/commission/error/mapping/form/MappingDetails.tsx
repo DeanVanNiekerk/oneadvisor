@@ -3,14 +3,14 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { ClientEdit, clientVisible, newClient } from "@/state/app/client/clients";
-import { newPolicy, PolicyEdit, policyVisible } from "@/state/app/client/policies";
 import {
     CommissionErrorEdit,
     mappingErrorSelector,
     modifyMappingError,
 } from "@/state/app/commission/errors";
 import { Statement } from "@/state/app/commission/statements";
+import { ClientEdit, clientVisible, newClient } from "@/state/client/clients";
+import { newPolicy, PolicyEdit, policyVisible } from "@/state/client/policies";
 import { RootState } from "@/state/rootReducer";
 import EditClient from "@/ui/app/client/client/form/EditClient";
 import ClientSearch from "@/ui/app/client/client/list/ClientSearch";

@@ -17,7 +17,7 @@ import {
     importClientReset,
     ImportColumn,
     ResultFailure,
-} from "@/state/app/client/import";
+} from "@/state/client/import";
 import { RootState } from "@/state/rootReducer";
 import { Button, getTable } from "@/ui/controls";
 import { SyncOutlined } from "@ant-design/icons";

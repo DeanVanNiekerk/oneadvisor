@@ -10,7 +10,7 @@ import {
     clientVisible,
     confirmCancelClient,
     saveClient,
-} from "@/state/app/client/clients";
+} from "@/state/client/clients";
 import { RootState } from "@/state/rootReducer";
 import { ClientTypeIcon, EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";

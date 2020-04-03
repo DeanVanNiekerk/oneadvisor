@@ -5,14 +5,14 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import { filterOption } from "@/app/controls/select";
-import { fetchClients } from "@/state/app/client/clients";
+import { fetchClients } from "@/state/client/clients";
 import {
     modifyPolicy,
     PolicyEdit,
     policyProductCascaseSelector,
     policyProductCascaseValuesSelector,
     policySelector,
-} from "@/state/app/client/policies";
+} from "@/state/client/policies";
 import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector } from "@/state/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";

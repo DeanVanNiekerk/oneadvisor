@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
-import { exportClientPolicies, exportClientPolicyAggregates } from "@/state/app/client/export";
+import { exportClientPolicies, exportClientPolicyAggregates } from "@/state/client/export";
 import { Button, Header } from "@/ui/controls";
 
 type State = {

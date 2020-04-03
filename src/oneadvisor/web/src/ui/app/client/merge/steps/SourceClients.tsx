@@ -8,7 +8,7 @@ import {
     clientMergeNextStep,
     clientMergeSelector,
     getAlternateIdNumberLabel,
-} from "@/state/app/client/clients";
+} from "@/state/client/clients";
 import { RootState } from "@/state/rootReducer";
 
 import ClientMergeSteps from "../ClientMergeSteps";

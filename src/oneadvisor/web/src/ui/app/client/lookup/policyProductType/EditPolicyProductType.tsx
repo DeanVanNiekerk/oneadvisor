@@ -8,7 +8,7 @@ import {
     PolicyProductTypeEdit,
     policyProductTypeSelector,
     updatePolicyProductType,
-} from "@/state/app/client/lookups";
+} from "@/state/client/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";

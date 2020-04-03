@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { clientMergeSelector } from "@/state/app/client/clients";
+import { clientMergeSelector } from "@/state/client/clients";
 import { RootState } from "@/state/rootReducer";
 import { StepProgress, StepProgressProps } from "@/ui/controls";
 

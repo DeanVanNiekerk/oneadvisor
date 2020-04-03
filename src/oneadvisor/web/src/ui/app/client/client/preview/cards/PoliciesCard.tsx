@@ -2,7 +2,7 @@ import { Tooltip } from "antd";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 
-import { clientPreviewIsLoadingSelector, clientPreviewSelector } from "@/state/app/client/clients";
+import { clientPreviewIsLoadingSelector, clientPreviewSelector } from "@/state/client/clients";
 import { RootState } from "@/state/rootReducer";
 import { Button, Drawer, PreviewCard, PreviewCardRow } from "@/ui/controls";
 import { BarsOutlined } from "@ant-design/icons";

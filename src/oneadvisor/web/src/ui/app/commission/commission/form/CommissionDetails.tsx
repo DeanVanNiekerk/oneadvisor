@@ -5,7 +5,7 @@ import { Dispatch } from "redux";
 
 import { applyLikeFormat } from "@/app/query";
 import { Filters, PageOptions } from "@/app/table";
-import { getPolicies, Policy } from "@/state/app/client/policies";
+import { getPolicies, Policy } from "@/state/client/policies";
 import {
     CommissionEdit,
     commissionSelector,

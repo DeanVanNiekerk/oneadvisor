@@ -8,8 +8,8 @@ import {
     clientPreviewSelector,
     clientVisible,
     fetchClient,
-} from "@/state/app/client/clients";
-import { ClientTypeId } from "@/state/app/client/lookups";
+} from "@/state/client/clients";
+import { ClientTypeId } from "@/state/client/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Age, PreviewCard, PreviewCardRow } from "@/ui/controls";
 import { EditOutlined } from "@ant-design/icons";

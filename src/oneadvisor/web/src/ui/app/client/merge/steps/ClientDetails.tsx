@@ -14,7 +14,7 @@ import {
     mergeClients,
     receiveClient,
     receiveSelectedClients,
-} from "@/state/app/client/clients";
+} from "@/state/client/clients";
 import { RootState } from "@/state/rootReducer";
 
 import ClientForm from "../../client/form/ClientForm";

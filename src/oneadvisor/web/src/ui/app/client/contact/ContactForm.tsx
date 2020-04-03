@@ -11,8 +11,8 @@ import {
     contactVisible,
     modifyContact,
     saveContact,
-} from "@/state/app/client/contacts";
-import { contactTypesSelector } from "@/state/app/client/lookups";
+} from "@/state/client/contacts";
+import { contactTypesSelector } from "@/state/client/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormField, FormInput, FormSelect } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";

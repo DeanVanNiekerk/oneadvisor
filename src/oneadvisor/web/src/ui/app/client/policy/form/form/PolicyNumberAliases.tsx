@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
-import { modifyPolicy, PolicyEdit, policySelector } from "@/state/app/client/policies";
+import { modifyPolicy, PolicyEdit, policySelector } from "@/state/client/policies";
 import { RootState } from "@/state/rootReducer";
 import { FormSimpleList } from "@/ui/controls";
 

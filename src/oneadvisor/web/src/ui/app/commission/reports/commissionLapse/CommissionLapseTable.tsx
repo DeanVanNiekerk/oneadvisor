@@ -8,7 +8,7 @@ import {
     PageOptions,
     SortOptions,
 } from "@/app/table";
-import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
+import { PolicyType, policyTypesSelector } from "@/state/client/lookups";
 import {
     CommissionLapseData,
     commissionLapseSelector,

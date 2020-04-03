@@ -13,12 +13,8 @@ import {
     getDateOfBirthLabel,
     getLastNameLabel,
     modifyClient,
-} from "@/state/app/client/clients";
-import {
-    ClientTypeId,
-    clientTypesSelector,
-    marritalStatusSelector,
-} from "@/state/app/client/lookups";
+} from "@/state/client/clients";
+import { ClientTypeId, clientTypesSelector, marritalStatusSelector } from "@/state/client/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInput, FormSelect } from "@/ui/controls";
 import { SettingOutlined } from "@ant-design/icons";
