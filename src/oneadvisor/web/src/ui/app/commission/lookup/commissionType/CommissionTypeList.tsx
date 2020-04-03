@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { getColumnDefinition } from "@/app/table";
+import { PolicyType, policyTypesSelector } from "@/state/client/lookups";
 import {
     CommissionEarningsType,
     commissionEarningsTypesSelector,
@@ -13,7 +14,6 @@ import {
     fetchCommissionTypes,
     receiveCommissionType,
 } from "@/state/commission/lookups/commissionTypes";
-import { PolicyType, policyTypesSelector } from "@/state/client/lookups";
 import { RootState } from "@/state/rootReducer";
 import {
     Button,
