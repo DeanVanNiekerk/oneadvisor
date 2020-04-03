@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { UserSimple, usersSimpleSelector } from "@/state/app/directory/usersSimple";
+import { UserSimple, usersSimpleSelector } from "@/state/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 
 type Props = {

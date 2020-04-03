@@ -8,7 +8,7 @@ import {
     PolicyProductType,
     policyProductTypesSelector,
 } from "@/state/app/client/lookups";
-import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { companiesSelector, Company } from "@/state/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormInput, FormSelect } from "@/ui/controls";
 

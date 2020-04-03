@@ -25,8 +25,8 @@ import {
     userMonthlyCommissionSelector,
     UserMonthlyCommissionType,
 } from "@/state/app/commission/reports";
-import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
-import { brokersSelector } from "@/state/app/directory/usersSimple";
+import { organisationCompaniesSelector } from "@/state/directory/lookups";
+import { brokersSelector } from "@/state/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 
 type Props = PropsFromState & PropsFromDispatch;

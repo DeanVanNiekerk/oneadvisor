@@ -8,11 +8,11 @@ import {
     Application,
     applicationsSelector,
     fetchApplications,
-} from "@/state/app/directory/applications";
+} from "@/state/directory/applications";
 import {
     modifyOrganisationConfigApplicationIds,
     organisationConfigApplicationIdsSelector,
-} from "@/state/app/directory/organisations";
+} from "@/state/directory/organisations";
 import { RootState } from "@/state/rootReducer";
 
 type Props = PropsFromState & PropsFromDispatch;

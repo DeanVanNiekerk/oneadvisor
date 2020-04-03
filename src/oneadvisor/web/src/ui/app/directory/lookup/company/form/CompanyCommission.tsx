@@ -3,7 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { CompanyEdit, companySelector, modifyCompany } from "@/state/app/directory/lookups";
+import { CompanyEdit, companySelector, modifyCompany } from "@/state/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { FormSimpleList } from "@/ui/controls";
 

@@ -4,7 +4,7 @@ import { ThunkAction } from "redux-thunk";
 import { ApiAction, ApiOnFailure, ApiOnSuccess, ShowConfirm } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { commissionsImportApi, statementsApi } from "@/config/api/commission";
-import { companiesSelector } from "@/state/app/directory/lookups";
+import { companiesSelector } from "@/state/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 
 import { statementIsModifiedSelector, statementSelector, statementsSelector } from "../";

@@ -11,8 +11,8 @@ import {
     confirmCancelBranch,
     modifyBranch,
     saveBranch,
-} from "@/state/app/directory/branches";
-import { fetchBranchesSimple } from "@/state/app/directory/branchesSimple";
+} from "@/state/directory/branches";
+import { fetchBranchesSimple } from "@/state/directory/branchesSimple";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormField, FormInput } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";

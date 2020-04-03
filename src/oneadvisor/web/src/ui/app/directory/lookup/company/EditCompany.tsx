@@ -8,7 +8,7 @@ import {
     companyVisible,
     confirmCancelCompany,
     saveCompany,
-} from "@/state/app/directory/lookups/companies";
+} from "@/state/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";

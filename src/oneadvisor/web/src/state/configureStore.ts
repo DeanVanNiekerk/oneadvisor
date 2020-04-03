@@ -40,12 +40,14 @@ const store = createStore(
     compose(applyMiddleware(...middleware), ...enhancers)
 );
 
-const createInjectReducer = () => {
+type AsyncReducers = "directory" | "client" | "commission" | "compliance" | "invest";
+
+const createReducerManager = () => {
     // Add a dictionary to keep track of the registered async reducers
     const asyncReducers: ReducersMapObject = {};
 
     // Create an inject reducer function
-    const injectReducer = (key: string, asyncReducer: Reducer) => {
+    const injectReducer = (key: AsyncReducers, asyncReducer: Reducer) => {
         if (asyncReducers[key]) {
             console.log("reducer already added");
             return;
@@ -56,10 +58,17 @@ const createInjectReducer = () => {
         store.replaceReducer(createReducer(asyncReducers));
     };
 
-    return injectReducer;
+    const hasReducer = (key: AsyncReducers): boolean => {
+        return !!asyncReducers[key];
+    };
+
+    return {
+        injectReducer,
+        hasReducer,
+    };
 };
 
-export const injectReducer = createInjectReducer();
+export const reducerManager = createReducerManager();
 
 export const getStore = () => {
     return store;

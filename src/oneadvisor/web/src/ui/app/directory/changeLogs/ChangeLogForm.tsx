@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import ReactMarkdown from "react-markdown";
 
 import { ValidationResult } from "@/app/validation";
-import { ChangeLogEdit } from "@/state/app/directory/changeLogs";
+import { ChangeLogEdit } from "@/state/directory/changeLogs";
 import { Form, FormDate, FormInput, FormSwitch, FormTextArea, TabPane, Tabs } from "@/ui/controls";
 
 type TabKey = "details_tab" | "preview_tab";

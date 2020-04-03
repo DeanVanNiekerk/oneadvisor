@@ -7,7 +7,7 @@ import {
     modifyOrganisation,
     OrganisationEdit,
     organisationSelector,
-} from "@/state/app/directory/organisations";
+} from "@/state/directory/organisations";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInput, FormSwitch } from "@/ui/controls";
 

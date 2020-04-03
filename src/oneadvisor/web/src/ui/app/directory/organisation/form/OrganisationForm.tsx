@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 
-import { organisationIdSelector, organisationIsNew } from "@/state/app/directory/organisations";
+import { organisationIdSelector, organisationIsNew } from "@/state/directory/organisations";
 import { RootState } from "@/state/rootReducer";
 import { TabPane, Tabs } from "@/ui/controls";
 

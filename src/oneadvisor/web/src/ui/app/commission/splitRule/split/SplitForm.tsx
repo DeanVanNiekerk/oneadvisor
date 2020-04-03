@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { Split } from "@/state/app/commission/splitRules";
-import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
+import { brokersSelector, UserSimple } from "@/state/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormField, FormInputNumber, FormSelect } from "@/ui/controls";
 

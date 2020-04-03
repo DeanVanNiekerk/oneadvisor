@@ -6,13 +6,13 @@ import { connect, DispatchProp } from "react-redux";
 import { hasUseCase } from "@/app/identity";
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
 import { getScopes } from "@/config/scope";
-import { Application } from "@/state/app/directory/applications";
-import { Branch, branchesSelector } from "@/state/app/directory/branches";
-import { UserType, userTypesSelector } from "@/state/app/directory/lookups";
-import { Organisation } from "@/state/app/directory/organisations";
-import { Role } from "@/state/app/directory/roles";
-import { UserEdit } from "@/state/app/directory/users";
 import { useCaseSelector } from "@/state/auth";
+import { Application } from "@/state/directory/applications";
+import { Branch, branchesSelector } from "@/state/directory/branches";
+import { UserType, userTypesSelector } from "@/state/directory/lookups";
+import { Organisation } from "@/state/directory/organisations";
+import { Role } from "@/state/directory/roles";
+import { UserEdit } from "@/state/directory/users";
 import { RootState } from "@/state/rootReducer";
 import {
     Form,

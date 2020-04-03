@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { companiesSelector, getCompanyName } from "@/state/app/directory/lookups";
+import { companiesSelector, getCompanyName } from "@/state/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { PieDatum } from "@nivo/pie";
 

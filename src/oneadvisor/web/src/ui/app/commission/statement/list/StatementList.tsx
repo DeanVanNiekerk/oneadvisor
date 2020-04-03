@@ -28,7 +28,7 @@ import {
     updateMonthFilterNext,
     updateMonthFilterPrevious,
 } from "@/state/app/commission/statements";
-import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
+import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, CompanyName, getTable, Header } from "@/ui/controls";
 import { DownOutlined, FileExclamationOutlined } from "@ant-design/icons";

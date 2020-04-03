@@ -8,7 +8,7 @@ import {
     branchSelector,
     branchVisible,
     receiveBranch,
-} from "@/state/app/directory/branches";
+} from "@/state/directory/branches";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Form, FormField } from "@/ui/controls";
 

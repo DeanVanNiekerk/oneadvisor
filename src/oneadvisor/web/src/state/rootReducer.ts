@@ -1,18 +1,22 @@
 import { connectRouter, LocationChangeAction, RouterState } from "connected-react-router";
 import { History } from "history";
-import { combineReducers, Reducer } from "redux";
+import { Reducer } from "redux";
 
 import { reducer as app, State as AppState } from "./app/reducer";
 import { reducer as auth, State as AuthState } from "./auth/reducer";
-import { State as ComplianceState } from "./compliance/types";
+import { ComplianceState } from "./compliance/types";
 import { reducer as context, State as ContextState } from "./context/reducer";
+import { DirectoryState } from "./directory/types";
 
 export type RootState = {
+    //Static Reducers
     readonly app: AppState;
-    readonly context: ContextState;
     readonly auth: AuthState;
-    readonly compliance: ComplianceState;
+    readonly context: ContextState;
     readonly router: Reducer<RouterState, LocationChangeAction>;
+    //Async Reducers
+    readonly directory: DirectoryState;
+    readonly compliance: ComplianceState;
 };
 
 const createStaticReducers = (history: History) => {

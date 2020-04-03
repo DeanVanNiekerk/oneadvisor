@@ -18,9 +18,9 @@ import {
     receivePastRevenueCommissionMonthsBack,
     receivePastRevenueCommissionMonthsForward,
 } from "@/state/app/commission/reports";
-import { branchesSimpleSelector, BranchSimple } from "@/state/app/directory/branchesSimple";
-import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
-import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
+import { branchesSimpleSelector, BranchSimple } from "@/state/directory/branchesSimple";
+import { Company, organisationCompaniesSelector } from "@/state/directory/lookups";
+import { brokersSelector, UserSimple } from "@/state/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Header, TabPane, Tabs } from "@/ui/controls";
 import { BarChartOutlined, TableOutlined } from "@ant-design/icons";

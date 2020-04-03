@@ -5,6 +5,7 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import { hasUseCase } from "@/app/identity";
+import { useCaseSelector } from "@/state/auth";
 import {
     Branch,
     branchesSelector,
@@ -12,8 +13,7 @@ import {
     clearBranch,
     fetchBranch,
     fetchBranches,
-} from "@/state/app/directory/branches";
-import { useCaseSelector } from "@/state/auth";
+} from "@/state/directory/branches";
 import { RootState } from "@/state/rootReducer";
 
 import EditBranch from "./EditBranch";

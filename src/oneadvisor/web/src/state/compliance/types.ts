@@ -1,3 +1,3 @@
-export type State = {
+export type ComplianceState = {
     readonly fetching: string;
 };

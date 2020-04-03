@@ -11,7 +11,7 @@ import {
     fetchCommissionStatementTemplates,
     newCommissionStatementTemplate,
 } from "@/state/app/commission/templates";
-import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
+import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, CompanyName, getColumnSearchProps, getTable, Header } from "@/ui/controls";
 

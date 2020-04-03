@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { companySelector } from "@/state/app/directory/lookups/companies";
+import { companySelector } from "@/state/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
 
 type Props = PropsFromState;

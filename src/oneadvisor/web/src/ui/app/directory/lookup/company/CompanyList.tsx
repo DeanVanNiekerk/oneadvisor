@@ -11,7 +11,7 @@ import {
     fetchCompanies,
     newCompany,
     receiveCompany,
-} from "@/state/app/directory/lookups/companies";
+} from "@/state/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
 import { Button, getColumnSearchProps, getTable, Header } from "@/ui/controls";
 

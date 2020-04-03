@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
 import { hasRole, ROLE_SUPER_ADMIN } from "@/config/role";
-import { Application } from "@/state/app/directory/applications/types";
-import { RoleEdit } from "@/state/app/directory/roles";
-import { UseCase } from "@/state/app/directory/usecases";
+import { Application } from "@/state/directory/applications/types";
+import { RoleEdit } from "@/state/directory/roles";
+import { UseCase } from "@/state/directory/usecases";
 import { roleSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormErrors, FormInput, FormSelect, TabPane, Tabs } from "@/ui/controls";

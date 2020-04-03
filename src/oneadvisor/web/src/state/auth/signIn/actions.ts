@@ -4,9 +4,9 @@ import { ThunkDispatch } from "redux-thunk";
 import { ApiAction } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { signInApi } from "@/config/api/account";
-import { fetchBranchesSimple } from "@/state/app/directory/branchesSimple";
-import { fetchUsersSimple } from "@/state/app/directory/usersSimple";
 import { fetchUserOrganisation } from "@/state/context/actions";
+import { fetchBranchesSimple } from "@/state/directory/branchesSimple";
+import { fetchUsersSimple } from "@/state/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 
 import { recieveToken } from "../token/actions";

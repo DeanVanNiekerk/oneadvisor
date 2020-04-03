@@ -9,7 +9,7 @@ import {
     insertChangeLog,
     receiveChangeLog,
     updateChangeLog,
-} from "@/state/app/directory/changeLogs";
+} from "@/state/directory/changeLogs";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";

@@ -10,7 +10,7 @@ import {
     Application,
     applicationsSelector,
     fetchApplications,
-} from "@/state/app/directory/applications";
+} from "@/state/directory/applications";
 import {
     Config,
     fetchOrganisation,
@@ -19,7 +19,7 @@ import {
     organisationsSelector,
     organisationVisible,
     receiveOrganisation,
-} from "@/state/app/directory/organisations";
+} from "@/state/directory/organisations";
 import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header } from "@/ui/controls";
 
@@ -93,7 +93,11 @@ const getColumns = (applications: Application[]) => {
 
                         if (!application) return;
 
-                        return <Tag color={application.colourHex}>{application.name}</Tag>;
+                        return (
+                            <Tag key={application.id} color={application.colourHex}>
+                                {application.name}
+                            </Tag>
+                        );
                     });
                 },
             }

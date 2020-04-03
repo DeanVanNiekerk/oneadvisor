@@ -9,7 +9,7 @@ import {
     commissionStatementTemplateSelector,
     modifyCommissionStatementTemplate,
 } from "@/state/app/commission/templates";
-import { companiesSelector } from "@/state/app/directory/lookups";
+import { companiesSelector } from "@/state/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInput, FormSelect } from "@/ui/controls";
 

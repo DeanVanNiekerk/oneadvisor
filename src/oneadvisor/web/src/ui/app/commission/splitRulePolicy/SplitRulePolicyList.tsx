@@ -12,8 +12,8 @@ import {
     splitRulePoliciesSelector,
     SplitRulePolicyInfo,
 } from "@/state/app/commission/splitRulePolicies";
-import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
-import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
+import { Company, organisationCompaniesSelector } from "@/state/directory/lookups";
+import { brokersSelector, UserSimple } from "@/state/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { CompanyName, getColumnSearchProps, getTable, Header, UserName } from "@/ui/controls";
 

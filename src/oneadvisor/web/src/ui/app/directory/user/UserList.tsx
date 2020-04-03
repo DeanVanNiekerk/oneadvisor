@@ -7,7 +7,7 @@ import {
     fetchOrganisations,
     Organisation,
     organisationsSelector,
-} from "@/state/app/directory/organisations";
+} from "@/state/directory/organisations";
 import {
     fetchUser,
     fetchUsers,
@@ -15,8 +15,8 @@ import {
     User,
     UserEdit,
     usersSelector,
-} from "@/state/app/directory/users";
-import { fetchUsersSimple } from "@/state/app/directory/usersSimple";
+} from "@/state/directory/users";
+import { fetchUsersSimple } from "@/state/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header } from "@/ui/controls";
 

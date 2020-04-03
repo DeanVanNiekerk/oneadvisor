@@ -1,7 +1,7 @@
 import { applications } from "@/config/application";
 import { menus } from "@/config/menu";
 
-import { OrganisationEdit } from "../app/directory/organisations";
+import { OrganisationEdit } from "../directory/organisations";
 import { ContextActions } from "./actions";
 import { AppInfo, Application, Menus } from "./types";
 

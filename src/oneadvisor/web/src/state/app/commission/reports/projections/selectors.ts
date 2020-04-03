@@ -6,8 +6,8 @@ import { getColumnDefinition } from "@/app/table";
 import { DATE_FORMAT } from "@/app/utils";
 import { PolicyType, policyTypesSelector } from "@/state/app/client/lookups";
 import { State as PolicyTypesState } from "@/state/app/client/lookups/policyTypes/list/reducer";
-import { companiesSelector, Company } from "@/state/app/directory/lookups";
-import { State as CompaniesState } from "@/state/app/directory/lookups/companies/list/reducer";
+import { companiesSelector, Company } from "@/state/directory/lookups";
+import { ListState as CompaniesState } from "@/state/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
 import { BarDatum } from "@nivo/bar";
 

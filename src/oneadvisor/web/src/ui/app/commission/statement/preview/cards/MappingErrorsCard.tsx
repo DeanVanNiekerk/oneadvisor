@@ -13,7 +13,7 @@ import {
     statementPreviewIsLoadingSelector,
     statementPreviewSelector,
 } from "@/state/app/commission/statements";
-import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
+import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import ErrorList from "@/ui/app/commission/error/list/ErrorList";
 import { Button, Drawer, PreviewCard } from "@/ui/controls";

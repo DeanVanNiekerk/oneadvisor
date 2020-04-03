@@ -12,7 +12,7 @@ import {
     modifyCommission,
 } from "@/state/app/commission/commissions";
 import { commissionTypesSelector } from "@/state/app/commission/lookups";
-import { brokersSelector } from "@/state/app/directory/usersSimple";
+import { brokersSelector } from "@/state/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormInputNumber, FormSelect } from "@/ui/controls";
 

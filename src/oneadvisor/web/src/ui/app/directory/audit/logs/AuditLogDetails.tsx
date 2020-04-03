@@ -1,7 +1,7 @@
 import React from "react";
 import JSONPretty from "react-json-pretty";
 
-import { AuditLog } from "@/state/app/directory/audit";
+import { AuditLog } from "@/state/directory/audit";
 import { Button, Date, Drawer, UserName } from "@/ui/controls";
 
 type Props = {

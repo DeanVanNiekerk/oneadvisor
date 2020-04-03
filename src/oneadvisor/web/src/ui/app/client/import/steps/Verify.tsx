@@ -21,7 +21,7 @@ import {
     Company,
     fetchCompanies,
     organisationCompaniesSelector,
-} from "@/state/app/directory/lookups/companies";
+} from "@/state/directory/lookups/companies";
 import { RootState } from "@/state/rootReducer";
 import { getColumnSearchProps, getTable } from "@/ui/controls";
 

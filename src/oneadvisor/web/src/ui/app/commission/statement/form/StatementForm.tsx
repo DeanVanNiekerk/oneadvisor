@@ -9,7 +9,7 @@ import {
     StatementEdit,
     statementSelector,
 } from "@/state/app/commission/statements";
-import { organisationCompaniesSelector } from "@/state/app/directory/lookups";
+import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInputNumber, FormSelect, FormSwitch } from "@/ui/controls";
 

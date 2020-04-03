@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { auditLogHistorySelector, fetchAuditHistory } from "@/state/app/directory/audit";
+import { auditLogHistorySelector, fetchAuditHistory } from "@/state/directory/audit";
 import { RootState } from "@/state/rootReducer";
 import { ContentLoader, Date } from "@/ui/controls";
 

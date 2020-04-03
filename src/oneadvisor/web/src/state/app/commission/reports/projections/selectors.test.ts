@@ -1,7 +1,7 @@
 import moment from "moment";
 
 import { State as PolicyTypesState } from "@/state/app/client/lookups/policyTypes/list/reducer";
-import { State as CompaniesState } from "@/state/app/directory/lookups/companies/list/reducer";
+import { ListState as CompaniesState } from "@/state/directory/lookups/companies";
 
 import { Group, GroupTableRecord, PastRevenueCommissionData } from "../";
 import {

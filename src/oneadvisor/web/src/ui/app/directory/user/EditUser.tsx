@@ -7,10 +7,10 @@ import {
     Application,
     applicationsSelector,
     fetchApplications,
-} from "@/state/app/directory/applications";
-import { Organisation } from "@/state/app/directory/organisations";
-import { fetchRoles, Role, rolesSelector } from "@/state/app/directory/roles";
-import { insertUser, updateUser, UserEdit, userSelector } from "@/state/app/directory/users";
+} from "@/state/directory/applications";
+import { Organisation } from "@/state/directory/organisations";
+import { fetchRoles, Role, rolesSelector } from "@/state/directory/roles";
+import { insertUser, updateUser, UserEdit, userSelector } from "@/state/directory/users";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";

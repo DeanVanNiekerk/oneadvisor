@@ -10,7 +10,7 @@ import {
     receiveChangeLog,
     receivePageOptions,
     receiveSortOptions,
-} from "@/state/app/directory/changeLogs";
+} from "@/state/directory/changeLogs";
 import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header } from "@/ui/controls";
 

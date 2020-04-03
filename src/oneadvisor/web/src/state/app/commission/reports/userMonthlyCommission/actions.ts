@@ -2,7 +2,7 @@ import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
 
 import { downloadExcelSheets } from "@/app/excel/helpers";
-import { companiesSelector, getCompanyName } from "@/state/app/directory/lookups";
+import { companiesSelector, getCompanyName } from "@/state/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 
 import {

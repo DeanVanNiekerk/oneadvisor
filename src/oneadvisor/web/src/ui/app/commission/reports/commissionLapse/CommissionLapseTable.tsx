@@ -16,8 +16,8 @@ import {
     receiveCommissionLapsePageOptions,
     receiveCommissionLapseSortOptions,
 } from "@/state/app/commission/reports";
-import { Company, organisationCompaniesSelector } from "@/state/app/directory/lookups";
-import { brokersSelector, UserSimple } from "@/state/app/directory/usersSimple";
+import { Company, organisationCompaniesSelector } from "@/state/directory/lookups";
+import { brokersSelector, UserSimple } from "@/state/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import {
     CompanyName,

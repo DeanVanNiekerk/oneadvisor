@@ -2,11 +2,11 @@ import { createSelector } from "reselect";
 
 import { RootState } from "@/state/rootReducer";
 
-import { State } from "./types";
+import { ComplianceState } from "./types";
 
-const rootSelector = (state: RootState): State => state.compliance;
+const rootSelector = (state: RootState): ComplianceState => state.compliance;
 
-export const complianceSelector: (state: RootState) => State = createSelector(
+export const complianceSelector: (state: RootState) => ComplianceState = createSelector(
     rootSelector,
     (root) => {
         return root;

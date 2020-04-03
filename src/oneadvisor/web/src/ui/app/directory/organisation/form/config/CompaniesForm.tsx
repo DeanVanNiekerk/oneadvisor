@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
-import { companiesSelector, Company } from "@/state/app/directory/lookups";
+import { companiesSelector, Company } from "@/state/directory/lookups";
 import {
     modifyOrganisationConfigCompanyIds,
     organisationConfigCompanyIdsSelector,
-} from "@/state/app/directory/organisations";
+} from "@/state/directory/organisations";
 import { RootState } from "@/state/rootReducer";
 
 type Props = PropsFromState & PropsFromDispatch;

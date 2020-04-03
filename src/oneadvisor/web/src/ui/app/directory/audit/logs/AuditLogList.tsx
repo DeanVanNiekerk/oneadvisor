@@ -10,8 +10,8 @@ import {
     auditLogsSelector,
     fetchAuditLogs,
     receiveFilters,
-} from "@/state/app/directory/audit";
-import { usersSimpleSelector } from "@/state/app/directory/usersSimple";
+} from "@/state/directory/audit";
+import { usersSimpleSelector } from "@/state/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
 import {
     getColumnSearchProps,

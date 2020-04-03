@@ -9,7 +9,7 @@ import {
     Application,
     applicationsSelector,
     fetchApplications,
-} from "@/state/app/directory/applications";
+} from "@/state/directory/applications";
 import {
     fetchRole,
     fetchRoles,
@@ -17,8 +17,8 @@ import {
     Role,
     RoleEdit,
     rolesSelector,
-} from "@/state/app/directory/roles";
-import { fetchUseCases, UseCase, useCasesSelector } from "@/state/app/directory/usecases";
+} from "@/state/directory/roles";
+import { fetchUseCases, UseCase, useCasesSelector } from "@/state/directory/usecases";
 import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header } from "@/ui/controls";
 
