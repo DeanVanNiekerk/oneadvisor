@@ -510,39 +510,43 @@ export const projectionPolicyTypeChartCurrentLabelSelector: (
 
 export const projectionPolicyTypeChartDataSelector: (
     state: RootState
-) => BarDatum[] = createSelector(rootSelector, todaySelector, (root: State, now: Date) => {
-    let { items } = root;
-    const { monthsBack, monthsForward } = root;
+) => BarDatum[] = createSelector(
+    rootSelector,
+    todaySelector,
+    (root: ProjectionsState, now: Date) => {
+        let { items } = root;
+        const { monthsBack, monthsForward } = root;
 
-    items = appendProjectedValues(now, items);
+        items = appendProjectedValues(now, items);
 
-    const monthsBackDate = moment(now).subtract(monthsBack, "months").startOf("month");
+        const monthsBackDate = moment(now).subtract(monthsBack, "months").startOf("month");
 
-    items = items.filter((d) =>
-        moment(new Date(d.dateYear, d.dateMonth - 1, 1)).isSameOrAfter(monthsBackDate)
-    );
+        items = items.filter((d) =>
+            moment(new Date(d.dateYear, d.dateMonth - 1, 1)).isSameOrAfter(monthsBackDate)
+        );
 
-    let monthIndex = 0;
-    const current = moment(now).subtract(monthsBack, "months");
+        let monthIndex = 0;
+        const current = moment(now).subtract(monthsBack, "months");
 
-    const data: BarDatum[] = [];
+        const data: BarDatum[] = [];
 
-    while (monthsBack + monthsForward >= monthIndex) {
-        const year = current.year();
-        const month = current.month() + 1;
+        while (monthsBack + monthsForward >= monthIndex) {
+            const year = current.year();
+            const month = current.month() + 1;
 
-        const filtered = items.filter((d) => d.dateYear === year && d.dateMonth === month);
+            const filtered = items.filter((d) => d.dateYear === year && d.dateMonth === month);
 
-        const value = filtered.reduce((p, c) => c.amountExcludingVAT + p, 0);
+            const value = filtered.reduce((p, c) => c.amountExcludingVAT + p, 0);
 
-        data.push({
-            id: current.format(projectionPolicyTypeChartDateFormat),
-            value: value,
-        });
+            data.push({
+                id: current.format(projectionPolicyTypeChartDateFormat),
+                value: value,
+            });
 
-        current.add(1, "months");
-        monthIndex = monthIndex + 1;
+            current.add(1, "months");
+            monthIndex = monthIndex + 1;
+        }
+
+        return data;
     }
-
-    return data;
-});
+);

@@ -2,7 +2,7 @@ import { lazy } from "react";
 
 import { reducerManager } from "@/state/configureStore";
 
-const ensureDirectoryReducer = async () => {
+export const ensureDirectoryReducer = async () => {
     if (reducerManager.hasReducer("directory")) return;
 
     const reducer = await import("@/state/directory/reducer").then(

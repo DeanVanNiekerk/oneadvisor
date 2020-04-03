@@ -11,7 +11,7 @@ import {
     receiveSortOptions,
     splitRulePoliciesSelector,
     SplitRulePolicyInfo,
-} from "@/state/app/commission/splitRulePolicies";
+} from "@/state/commission/splitRulePolicies";
 import { Company, organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";

@@ -8,7 +8,7 @@ import { ThunkDispatch } from "redux-thunk";
 import {
     commissionStatementTemplateConfigSelector,
     commissionStatementTemplateOverride,
-} from "@/state/app/commission/templates";
+} from "@/state/commission/templates";
 import { RootState } from "@/state/rootReducer";
 import { Button } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";

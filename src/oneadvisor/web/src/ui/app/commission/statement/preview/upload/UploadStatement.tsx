@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Statement } from "@/state/app/commission/statements";
+import { Statement } from "@/state/commission/statements";
 import { TabPane, Tabs } from "@/ui/controls";
 
 import StatementHistory from "./StatementHistory";

@@ -7,13 +7,13 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { getColumnDefinition } from "@/app/table";
 import { getValidationSubSet } from "@/app/validation";
-import { UNKNOWN_COMMISSION_TYPE_CODE } from "@/state/app/commission/lookups";
+import { UNKNOWN_COMMISSION_TYPE_CODE } from "@/state/commission/lookups";
 import {
     commissionStatementTemplateSheetsSelector,
     commissionStatementTemplateValidationResultsSelector,
     modifyCommissionStatementTemplateSheets,
     Sheet,
-} from "@/state/app/commission/templates";
+} from "@/state/commission/templates";
 import { RootState } from "@/state/rootReducer";
 import { FormErrors, getTable, StopPropagation } from "@/ui/controls";
 

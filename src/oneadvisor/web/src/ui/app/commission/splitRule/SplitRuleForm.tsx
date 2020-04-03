@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
-import { Split, SplitRuleEdit } from "@/state/app/commission/splitRules";
+import { Split, SplitRuleEdit } from "@/state/commission/splitRules";
 import { Form, FormInput, FormSwitch } from "@/ui/controls";
 
 import SplitList from "./split/SplitList";

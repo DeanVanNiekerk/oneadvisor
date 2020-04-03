@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { getValidationSubSet } from "@/app/validation";
-import { commissionStatementTemplateValidationResultsSelector } from "@/state/app/commission/templates";
+import { commissionStatementTemplateValidationResultsSelector } from "@/state/commission/templates";
 import { RootState } from "@/state/rootReducer";
 import { TabTitle } from "@/ui/controls";
 

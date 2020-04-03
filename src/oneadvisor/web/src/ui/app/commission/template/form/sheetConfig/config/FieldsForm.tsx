@@ -6,13 +6,13 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import { getValidationSubSet } from "@/app/validation";
-import { commissionStatementTemplateFieldNamesSelector } from "@/state/app/commission/lookups";
+import { commissionStatementTemplateFieldNamesSelector } from "@/state/commission/lookups";
 import {
     commissionStatementTemplateConfigValidationResultsSelector,
     commissionStatementTemplateFieldsConfigSelector,
     Field,
     modifyCommissionStatementTemplateFields,
-} from "@/state/app/commission/templates";
+} from "@/state/commission/templates";
 import { RootState } from "@/state/rootReducer";
 import {
     Button,

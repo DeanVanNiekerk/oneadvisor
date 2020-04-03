@@ -8,7 +8,7 @@ import {
     CommissionStatementTemplateEdit,
     commissionStatementTemplateSelector,
     modifyCommissionStatementTemplate,
-} from "@/state/app/commission/templates";
+} from "@/state/commission/templates";
 import { companiesSelector } from "@/state/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInput, FormSelect } from "@/ui/controls";

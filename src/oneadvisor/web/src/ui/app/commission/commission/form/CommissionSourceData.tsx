@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { commissionSelector } from "@/state/app/commission/commissions";
+import { commissionSelector } from "@/state/commission/commissions";
 import { RootState } from "@/state/rootReducer";
 import { FormReadOnly } from "@/ui/controls";
 

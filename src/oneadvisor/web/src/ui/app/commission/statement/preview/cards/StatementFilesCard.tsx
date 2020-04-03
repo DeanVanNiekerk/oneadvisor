@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import {
     statementPreviewIsLoadingSelector,
     statementPreviewSelector,
-} from "@/state/app/commission/statements";
+} from "@/state/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { Button, Drawer, PreviewCard } from "@/ui/controls";
 import { FileExcelOutlined, ReloadOutlined, UploadOutlined } from "@ant-design/icons";

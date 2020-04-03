@@ -4,11 +4,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { filterOption } from "@/app/controls/select";
-import {
-    modifyStatement,
-    StatementEdit,
-    statementSelector,
-} from "@/state/app/commission/statements";
+import { modifyStatement, StatementEdit, statementSelector } from "@/state/commission/statements";
 import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInputNumber, FormSelect, FormSwitch } from "@/ui/controls";

@@ -7,8 +7,8 @@ import { formatCurrency } from "@/app/utils";
 import {
     UserCompanyMonthlyCommissionData,
     userCompanyMonthlyCommissionSelector,
-} from "@/state/app/commission/reports";
-import { userCompanyMonthlyCommissionTotalAmountExclVatSelector } from "@/state/app/commission/reports/userCompanyMonthlyCommission/selectors";
+} from "@/state/commission/reports";
+import { userCompanyMonthlyCommissionTotalAmountExclVatSelector } from "@/state/commission/reports/userCompanyMonthlyCommission/selectors";
 import { RootState } from "@/state/rootReducer";
 import { CompanyName, getTable } from "@/ui/controls";
 

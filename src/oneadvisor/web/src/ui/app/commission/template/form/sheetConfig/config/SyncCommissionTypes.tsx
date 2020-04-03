@@ -15,7 +15,7 @@ import {
     CommissionTypes,
     modifyCommissionStatementTemplateCommissionTypes,
     saveCommissionStatementTemplate,
-} from "@/state/app/commission/templates";
+} from "@/state/commission/templates";
 import { tokenSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Button } from "@/ui/controls";

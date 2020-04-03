@@ -7,7 +7,7 @@ import {
     GroupTableRecord,
     projectionGroupsTableColumnsSelector,
     projectionGroupTableRowsSelector,
-} from "@/state/app/commission/reports";
+} from "@/state/commission/reports";
 import { RootState } from "@/state/rootReducer";
 import { getTable } from "@/ui/controls";
 

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { splitCamelCase } from "@/app/utils";
-import { CommissionImportData } from "@/state/app/commission/errors";
+import { CommissionImportData } from "@/state/commission/errors";
 
 type Props = {
     data: CommissionImportData;

@@ -9,7 +9,7 @@ import {
     statementIsLoadingSelector,
     statementSelector,
     statementVisible,
-} from "@/state/app/commission/statements";
+} from "@/state/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";

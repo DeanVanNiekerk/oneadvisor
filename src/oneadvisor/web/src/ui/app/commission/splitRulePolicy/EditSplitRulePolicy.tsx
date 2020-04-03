@@ -10,7 +10,7 @@ import {
     SplitRulePolicyInfo,
     splitRulePolicySelector,
     updateSplitRulePolicy,
-} from "@/state/app/commission/splitRulePolicies";
+} from "@/state/commission/splitRulePolicies";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";

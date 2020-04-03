@@ -11,7 +11,7 @@ import {
     commissionStatementTemplateVATRatesConfigSelector,
     modifyCommissionStatementTemplateVATRates,
     VATRate,
-} from "@/state/app/commission/templates";
+} from "@/state/commission/templates";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormErrors, FormInput, FormInputNumber } from "@/ui/controls";
 

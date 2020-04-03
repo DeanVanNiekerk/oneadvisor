@@ -10,7 +10,7 @@ import {
     fetchAllocation,
     fetchAllocations,
     receiveAllocation,
-} from "@/state/app/commission/allocations";
+} from "@/state/commission/allocations";
 import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header, StopPropagation } from "@/ui/controls";
 

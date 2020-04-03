@@ -8,7 +8,7 @@ import {
     commissionVisible,
     confirmCancelCommission,
     saveCommission,
-} from "@/state/app/commission/commissions";
+} from "@/state/commission/commissions";
 import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";

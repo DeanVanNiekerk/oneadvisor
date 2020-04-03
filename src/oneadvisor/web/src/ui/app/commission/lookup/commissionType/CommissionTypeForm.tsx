@@ -6,8 +6,8 @@ import { ValidationResult } from "@/app/validation";
 import {
     CommissionEarningsType,
     commissionEarningsTypesSelector,
-} from "@/state/app/commission/lookups";
-import { CommissionTypeEdit } from "@/state/app/commission/lookups/commissionTypes";
+} from "@/state/commission/lookups";
+import { CommissionTypeEdit } from "@/state/commission/lookups/commissionTypes";
 import { PolicyType, policyTypesSelector } from "@/state/client/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormInput, FormSelect } from "@/ui/controls";

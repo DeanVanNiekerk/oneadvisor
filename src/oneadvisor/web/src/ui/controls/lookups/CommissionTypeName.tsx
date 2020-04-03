@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { CommissionType, commissionTypesSelector } from "@/state/app/commission/lookups";
+import { CommissionType, commissionTypesSelector } from "@/state/commission/lookups";
 import { RootState } from "@/state/rootReducer";
 
 type Props = {

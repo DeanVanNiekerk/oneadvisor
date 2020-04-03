@@ -3,10 +3,11 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { filterOption } from "@/app/controls/select";
+import { PolicyType, policyTypesSelector } from "@/state/client/lookups";
 import {
     CommissionEarningsType,
     commissionEarningsTypesSelector,
-} from "@/state/app/commission/lookups";
+} from "@/state/commission/lookups";
 import {
     commissionProjectionsSelector,
     fetchPastRevenueCommissionData,
@@ -16,8 +17,7 @@ import {
     receivePastRevenueCommissionGroups,
     receivePastRevenueCommissionMonthsBack,
     receivePastRevenueCommissionMonthsForward,
-} from "@/state/app/commission/reports";
-import { PolicyType, policyTypesSelector } from "@/state/client/lookups";
+} from "@/state/commission/reports";
 import { branchesSimpleSelector, BranchSimple } from "@/state/directory/branchesSimple";
 import { Company, organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/directory/usersSimple";

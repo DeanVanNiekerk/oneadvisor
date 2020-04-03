@@ -6,14 +6,14 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import { getValidationSubSet } from "@/app/validation";
-import { commissionStatementTemplateGroupFieldNamesSelector } from "@/state/app/commission/lookups";
+import { commissionStatementTemplateGroupFieldNamesSelector } from "@/state/commission/lookups";
 import {
     commissionStatementTemplateConfigValidationResultsSelector,
     commissionStatementTemplateGroupsConfigSelector,
     Group,
     Identifier,
     modifyCommissionStatementTemplateGroups,
-} from "@/state/app/commission/templates";
+} from "@/state/commission/templates";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormErrors, FormInput, FormSelect, FormSwitch } from "@/ui/controls";
 import { InfoCircleOutlined } from "@ant-design/icons";

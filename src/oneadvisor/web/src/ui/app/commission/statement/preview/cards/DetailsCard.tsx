@@ -8,7 +8,7 @@ import {
     statementPreviewIsLoadingSelector,
     statementPreviewSelector,
     statementVisible,
-} from "@/state/app/commission/statements";
+} from "@/state/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { Currency, PreviewCard, PreviewCardRow } from "@/ui/controls";
 import { EditOutlined } from "@ant-design/icons";

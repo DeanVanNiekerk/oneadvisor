@@ -9,7 +9,7 @@ import {
     userEarningsTypeMonthlyCommissionItemsSelector,
     userEarningsTypeMonthlyCommissionSelector,
     userEarningsTypeMonthlyCommissionTotalAmountExclVatSelector,
-} from "@/state/app/commission/reports";
+} from "@/state/commission/reports";
 import { RootState } from "@/state/rootReducer";
 import { CommissionEarningsTypeName, getTable } from "@/ui/controls";
 

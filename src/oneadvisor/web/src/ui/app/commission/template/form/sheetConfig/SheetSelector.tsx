@@ -7,7 +7,7 @@ import {
     commissionStatementTemplateSelector,
     commissionStatementTemplateSheetPositionsSelector,
     receiveCommissionStatementTemplateSheetIndex,
-} from "@/state/app/commission/templates";
+} from "@/state/commission/templates";
 import { RootState } from "@/state/rootReducer";
 
 type Props = PropsFromState & PropsFromDispatch;

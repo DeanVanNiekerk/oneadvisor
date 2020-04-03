@@ -6,7 +6,7 @@ import {
     userCompanyMonthlyCommissionPieDataSelector,
     userCompanyMonthlyCommissionSelector,
     userCompanyMonthlyCommissionTotalAmountExclVatSelector,
-} from "@/state/app/commission/reports";
+} from "@/state/commission/reports";
 import { RootState } from "@/state/rootReducer";
 import { Pie } from "@/ui/controls";
 

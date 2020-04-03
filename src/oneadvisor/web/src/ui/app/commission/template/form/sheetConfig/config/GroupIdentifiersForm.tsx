@@ -3,7 +3,7 @@ import update from "immutability-helper";
 import React, { Component } from "react";
 
 import { ValidationResult } from "@/app/validation";
-import { Identifier } from "@/state/app/commission/templates";
+import { Identifier } from "@/state/commission/templates";
 import { Button, Form, FormErrors, FormInput } from "@/ui/controls";
 import { InfoCircleOutlined } from "@ant-design/icons";
 

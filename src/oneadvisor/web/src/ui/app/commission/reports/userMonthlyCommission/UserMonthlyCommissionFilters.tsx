@@ -24,7 +24,7 @@ import {
     userEarningsTypeMonthlyCommissionSelector,
     userMonthlyCommissionSelector,
     UserMonthlyCommissionType,
-} from "@/state/app/commission/reports";
+} from "@/state/commission/reports";
 import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector } from "@/state/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";

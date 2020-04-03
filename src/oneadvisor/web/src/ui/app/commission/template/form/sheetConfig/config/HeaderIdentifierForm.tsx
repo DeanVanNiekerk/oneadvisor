@@ -10,7 +10,7 @@ import {
     commissionStatementTemplateHeaderIdenifierConfigSelector,
     Identifier,
     modifyCommissionStatementTemplateHeaderIdentifier,
-} from "@/state/app/commission/templates";
+} from "@/state/commission/templates";
 import { RootState } from "@/state/rootReducer";
 import { Form, FormInput } from "@/ui/controls";
 

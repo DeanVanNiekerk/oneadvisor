@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { mappingErrorSelector } from "@/state/app/commission/errors";
+import { mappingErrorSelector } from "@/state/commission/errors";
 import { RootState } from "@/state/rootReducer";
 import { FormReadOnly } from "@/ui/controls";
 

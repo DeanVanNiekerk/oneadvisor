@@ -7,8 +7,8 @@ import {
     CommissionErrorEdit,
     mappingErrorSelector,
     modifyMappingError,
-} from "@/state/app/commission/errors";
-import { Statement } from "@/state/app/commission/statements";
+} from "@/state/commission/errors";
+import { Statement } from "@/state/commission/statements";
 import { ClientEdit, clientVisible, newClient } from "@/state/client/clients";
 import { newPolicy, PolicyEdit, policyVisible } from "@/state/client/policies";
 import { RootState } from "@/state/rootReducer";

@@ -5,14 +5,14 @@ import { getColumnDefinition } from "@/app/table";
 import {
     CommissionEarningsType,
     commissionEarningsTypesSelector,
-} from "@/state/app/commission/lookups";
+} from "@/state/commission/lookups";
 import {
     CommissionType,
     CommissionTypeEdit,
     commissionTypesSelector,
     fetchCommissionTypes,
     receiveCommissionType,
-} from "@/state/app/commission/lookups/commissionTypes";
+} from "@/state/commission/lookups/commissionTypes";
 import { PolicyType, policyTypesSelector } from "@/state/client/lookups";
 import { RootState } from "@/state/rootReducer";
 import {

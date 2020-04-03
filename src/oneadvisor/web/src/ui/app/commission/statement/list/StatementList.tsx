@@ -12,7 +12,7 @@ import {
     CommissionErrorsFilters,
     downloadCommissionErrors,
     getCommissionErrors,
-} from "@/state/app/commission/errors";
+} from "@/state/commission/errors";
 import {
     clearStatementPreview,
     fetchStatements,
@@ -27,7 +27,7 @@ import {
     statementVisible,
     updateMonthFilterNext,
     updateMonthFilterPrevious,
-} from "@/state/app/commission/statements";
+} from "@/state/commission/statements";
 import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, CompanyName, getTable, Header } from "@/ui/controls";

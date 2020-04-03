@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 
-import { fetchStatementPreview } from "@/state/app/commission/statements";
+import { fetchStatementPreview } from "@/state/commission/statements";
 import { PreviewCardContainer } from "@/ui/controls";
 
 import { CommissionEntriesCard, DetailsCard, MappingErrorsCard, StatementFilesCard } from "./cards";

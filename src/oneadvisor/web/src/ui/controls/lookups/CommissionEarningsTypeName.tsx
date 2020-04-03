@@ -5,7 +5,7 @@ import {
     CommissionEarningsType,
     commissionEarningsTypesSelector,
     getCommissionEarningsTypeName,
-} from "@/state/app/commission/lookups";
+} from "@/state/commission/lookups";
 import { RootState } from "@/state/rootReducer";
 
 type Props = {

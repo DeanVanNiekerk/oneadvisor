@@ -10,7 +10,7 @@ import {
     commissionLapseSelector,
     fetchCommissionLapseData,
     receiveCommissionLapseFilters,
-} from "@/state/app/commission/reports";
+} from "@/state/commission/reports";
 import { RootState } from "@/state/rootReducer";
 import { Header } from "@/ui/controls";
 

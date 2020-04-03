@@ -8,7 +8,7 @@ import {
     commissionTypeSelector,
     insertCommissionType,
     updateCommissionType,
-} from "@/state/app/commission/lookups";
+} from "@/state/commission/lookups";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";

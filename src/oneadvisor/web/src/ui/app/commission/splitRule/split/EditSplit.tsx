@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Split } from "@/state/app/commission/splitRules";
+import { Split } from "@/state/commission/splitRules";
 import { Button, Form, FormField } from "@/ui/controls";
 
 import SplitForm from "./SplitForm";

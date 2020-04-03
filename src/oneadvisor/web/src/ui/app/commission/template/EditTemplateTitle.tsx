@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { commissionStatementTemplateSelector } from "@/state/app/commission/templates";
+import { commissionStatementTemplateSelector } from "@/state/commission/templates";
 import { RootState } from "@/state/rootReducer";
 
 type Props = PropsFromState;

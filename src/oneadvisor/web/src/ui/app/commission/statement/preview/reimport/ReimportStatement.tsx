@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { Filters } from "@/app/table";
-import { reimportCommissions, Statement } from "@/state/app/commission/statements";
+import { reimportCommissions, Statement } from "@/state/commission/statements";
 import {
     commissionStatementTemplatesSelector,
     fetchCommissionStatementTemplates,
-} from "@/state/app/commission/templates";
+} from "@/state/commission/templates";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormSelect } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";

@@ -7,7 +7,7 @@ import {
     fetchStatementFiles,
     Statement,
     statementFilesSelector,
-} from "@/state/app/commission/statements";
+} from "@/state/commission/statements";
 import { downloadFile } from "@/state/file";
 import { RootState } from "@/state/rootReducer";
 import { ContentLoader, Date } from "@/ui/controls";

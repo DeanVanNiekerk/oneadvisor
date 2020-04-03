@@ -16,8 +16,8 @@ import {
     mappingErrorVisible,
     receivePageOptions,
     receiveSortOptions,
-} from "@/state/app/commission/errors";
-import { Statement } from "@/state/app/commission/statements";
+} from "@/state/commission/errors";
+import { Statement } from "@/state/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { getTable, StopPropagation } from "@/ui/controls";
 import { InfoCircleOutlined } from "@ant-design/icons";

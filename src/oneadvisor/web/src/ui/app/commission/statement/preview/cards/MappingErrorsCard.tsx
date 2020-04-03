@@ -8,11 +8,11 @@ import {
     CommissionErrorsFilters,
     downloadCommissionErrors,
     getCommissionErrors,
-} from "@/state/app/commission/errors";
+} from "@/state/commission/errors";
 import {
     statementPreviewIsLoadingSelector,
     statementPreviewSelector,
-} from "@/state/app/commission/statements";
+} from "@/state/commission/statements";
 import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { RootState } from "@/state/rootReducer";
 import ErrorList from "@/ui/app/commission/error/list/ErrorList";

@@ -6,11 +6,11 @@ import { Dispatch } from "redux";
 
 import { Filters } from "@/app/table";
 import { commissionsImportApi } from "@/config/api/commission";
-import { Statement } from "@/state/app/commission/statements";
+import { Statement } from "@/state/commission/statements";
 import {
     commissionStatementTemplatesSelector,
     fetchCommissionStatementTemplates,
-} from "@/state/app/commission/templates";
+} from "@/state/commission/templates";
 import { tokenSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormField, FormSelect } from "@/ui/controls";

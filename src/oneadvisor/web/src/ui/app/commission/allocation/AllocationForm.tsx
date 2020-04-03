@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
-import { AllocationEdit } from "@/state/app/commission/allocations";
+import { AllocationEdit } from "@/state/commission/allocations";
 import ClientSearch from "@/ui/app/client/client/list/ClientSearch";
 import { Button, ClientName, Drawer, Form, FormErrors, FormText } from "@/ui/controls";
 

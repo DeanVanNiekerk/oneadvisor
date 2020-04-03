@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
-import { downloadUserMonthlyCommissionExcel } from "@/state/app/commission/reports";
+import { downloadUserMonthlyCommissionExcel } from "@/state/commission/reports";
 import { RootState } from "@/state/rootReducer";
 import { Button, Header } from "@/ui/controls";
 

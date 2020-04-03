@@ -8,7 +8,7 @@ import {
     deleteCommissions,
     statementPreviewIsLoadingSelector,
     statementPreviewSelector,
-} from "@/state/app/commission/statements";
+} from "@/state/commission/statements";
 import { useCaseSelector } from "@/state/auth";
 import { RootState } from "@/state/rootReducer";
 import { Button, Currency, Drawer, PreviewCard, PreviewCardRow } from "@/ui/controls";

@@ -11,8 +11,8 @@ import {
     mappingErrorSelector,
     mappingErrorVisible,
     saveMappingError,
-} from "@/state/app/commission/errors";
-import { Statement } from "@/state/app/commission/statements";
+} from "@/state/commission/errors";
+import { Statement } from "@/state/commission/statements";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";

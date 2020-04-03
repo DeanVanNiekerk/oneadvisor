@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Sheet } from "@/state/app/commission/templates";
+import { Sheet } from "@/state/commission/templates";
 import { Button, Form, FormField } from "@/ui/controls";
 
 import SheetForm from "./SheetForm";

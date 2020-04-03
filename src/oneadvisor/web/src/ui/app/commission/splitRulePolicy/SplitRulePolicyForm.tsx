@@ -7,8 +7,8 @@ import {
     fetchSplitRulePolicy,
     SplitRulePolicy,
     SplitRulePolicyInfo,
-} from "@/state/app/commission/splitRulePolicies";
-import { fetchSplitRules, SplitRule, splitRulesSelector } from "@/state/app/commission/splitRules";
+} from "@/state/commission/splitRulePolicies";
+import { fetchSplitRules, SplitRule, splitRulesSelector } from "@/state/commission/splitRules";
 import { RootState } from "@/state/rootReducer";
 import { Button, CompanyName, Drawer, Form, FormSelect, FormText, UserName } from "@/ui/controls";
 

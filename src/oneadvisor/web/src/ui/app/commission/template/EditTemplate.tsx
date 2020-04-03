@@ -9,7 +9,7 @@ import {
     commissionStatementTemplateVisible,
     confirmCancelCommissionStatementTemplate,
     saveCommissionStatementTemplate,
-} from "@/state/app/commission/templates";
+} from "@/state/commission/templates";
 import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer, DropdownButton } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";

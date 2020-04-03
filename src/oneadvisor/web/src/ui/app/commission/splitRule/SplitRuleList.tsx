@@ -11,7 +11,7 @@ import {
     Split,
     SplitRule,
     splitRulesSelector,
-} from "@/state/app/commission/splitRules";
+} from "@/state/commission/splitRules";
 import { RootState } from "@/state/rootReducer";
 import { Button, getColumnSearchProps, getTable, Header, StopPropagation } from "@/ui/controls";
 

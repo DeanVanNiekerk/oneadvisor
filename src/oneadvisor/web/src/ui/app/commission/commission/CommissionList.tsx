@@ -15,8 +15,8 @@ import {
     receiveFilters,
     receivePageOptions,
     receiveSortOptions,
-} from "@/state/app/commission/commissions";
-import { commissionTypesSelector } from "@/state/app/commission/lookups";
+} from "@/state/commission/commissions";
+import { commissionTypesSelector } from "@/state/commission/lookups";
 import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector } from "@/state/directory/usersSimple";
 import { RootState } from "@/state/rootReducer";
