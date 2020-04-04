@@ -7,6 +7,7 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { getColumnDefinition } from "@/app/table";
 import { getValidationSubSet } from "@/app/validation";
+import { RootState } from "@/state";
 import { UNKNOWN_COMMISSION_TYPE_CODE } from "@/state/commission/lookups";
 import {
     commissionStatementTemplateSheetsSelector,
@@ -14,7 +15,6 @@ import {
     modifyCommissionStatementTemplateSheets,
     Sheet,
 } from "@/state/commission/templates";
-import { RootState } from "@/state/rootReducer";
 import { FormErrors, getTable, StopPropagation } from "@/ui/controls";
 
 import EditSheet from "./EditSheet";

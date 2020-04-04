@@ -3,7 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { ApiAction, ApiOnSuccess, Result, ShowConfirm } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { policiesApi } from "@/config/api/client";
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import { createPolicy, policyIsModifiedSelector, policySelector } from "../";
 import { PolicyEdit } from "../types";

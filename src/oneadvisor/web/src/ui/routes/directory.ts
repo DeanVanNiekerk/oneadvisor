@@ -5,11 +5,17 @@ import { reducerManager } from "@/state/configureStore";
 export const ensureDirectoryReducer = async () => {
     if (reducerManager.hasReducer("directory")) return;
 
+    //Inject reducer
     const reducer = await import("@/state/directory/reducer").then(
         (reducerModule) => reducerModule.reducer
     );
-
     reducerManager.injectReducer("directory", reducer);
+
+    //Load lookups
+    const fetchAllDirectoryLookups = await import("@/state/directory/lookups/all/actions").then(
+        (actionsModule) => actionsModule.fetchAllDirectoryLookups
+    );
+    reducerManager.dispatch(fetchAllDirectoryLookups());
 };
 
 export const AuditLogList = lazy(() =>

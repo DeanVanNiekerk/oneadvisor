@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { parseIdNumber } from "@/app/parsers/id";
+import { RootState } from "@/state";
 import {
     ClientEdit,
     clientIsMarried,
@@ -15,7 +16,6 @@ import {
     modifyClient,
 } from "@/state/client/clients";
 import { ClientTypeId, clientTypesSelector, marritalStatusSelector } from "@/state/client/lookups";
-import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInput, FormSelect } from "@/ui/controls";
 import { SettingOutlined } from "@ant-design/icons";
 

@@ -6,13 +6,13 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import { getValidationSubSet } from "@/app/validation";
+import { RootState } from "@/state";
 import {
     AmountIdentifier,
     commissionStatementTemplateAmountIdenifierConfigSelector,
     commissionStatementTemplateConfigValidationResultsSelector,
     modifyCommissionStatementTemplateAmountIdentifier,
 } from "@/state/commission/templates";
-import { RootState } from "@/state/rootReducer";
 import { Form, FormInput, FormSelect } from "@/ui/controls";
 import { InfoCircleOutlined } from "@ant-design/icons";
 

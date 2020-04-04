@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
+import { RootState } from "@/state";
 import {
     confirmCancelContact,
     ContactEdit,
@@ -13,7 +14,6 @@ import {
     saveContact,
 } from "@/state/client/contacts";
 import { contactTypesSelector } from "@/state/client/lookups";
-import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormField, FormInput, FormSelect } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

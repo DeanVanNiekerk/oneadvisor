@@ -2,8 +2,8 @@ import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
 
 import { downloadExcelSheets } from "@/app/excel/helpers";
+import { RootState } from "@/state";
 import { companiesSelector, getCompanyName } from "@/state/directory/lookups";
-import { RootState } from "@/state/rootReducer";
 
 import {
     userCompanyMonthlyCommissionSelector,

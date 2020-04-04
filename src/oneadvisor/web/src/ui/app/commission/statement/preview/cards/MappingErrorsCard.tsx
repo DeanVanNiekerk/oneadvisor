@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { DATE_FORMAT } from "@/app/utils";
+import { RootState } from "@/state";
 import {
     CommissionErrorsFilters,
     downloadCommissionErrors,
@@ -14,7 +15,6 @@ import {
     statementPreviewSelector,
 } from "@/state/commission/statements";
 import { organisationCompaniesSelector } from "@/state/directory/lookups";
-import { RootState } from "@/state/rootReducer";
 import ErrorList from "@/ui/app/commission/error/list/ErrorList";
 import { Button, Drawer, PreviewCard } from "@/ui/controls";
 import { DownloadOutlined, ToolOutlined, WarningOutlined } from "@ant-design/icons";

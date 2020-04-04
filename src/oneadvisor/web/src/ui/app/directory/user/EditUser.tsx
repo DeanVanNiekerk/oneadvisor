@@ -3,6 +3,7 @@ import { connect, DispatchProp } from "react-redux";
 
 import { areEqual } from "@/app/utils";
 import { ValidationResult } from "@/app/validation";
+import { RootState } from "@/state";
 import {
     Application,
     applicationsSelector,
@@ -11,7 +12,6 @@ import {
 import { Organisation } from "@/state/directory/organisations";
 import { fetchRoles, Role, rolesSelector } from "@/state/directory/roles";
 import { insertUser, updateUser, UserEdit, userSelector } from "@/state/directory/users";
-import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

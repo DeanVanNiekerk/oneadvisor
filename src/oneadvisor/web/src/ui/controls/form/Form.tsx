@@ -3,8 +3,8 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { hasRole, hasUseCase } from "@/app/identity";
+import { RootState } from "@/state";
 import { roleSelector, useCaseSelector } from "@/state/auth";
-import { RootState } from "@/state/rootReducer";
 
 export type FormLayout = "horizontal" | "vertical" | "inline";
 

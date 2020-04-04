@@ -5,6 +5,7 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import { filterOption } from "@/app/controls/select";
+import { RootState } from "@/state";
 import { fetchClients } from "@/state/client/clients";
 import {
     modifyPolicy,
@@ -15,7 +16,6 @@ import {
 } from "@/state/client/policies";
 import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector } from "@/state/directory/usersSimple";
-import { RootState } from "@/state/rootReducer";
 import ClientSearch from "@/ui/app/client/client/list/ClientSearch";
 import {
     Button,

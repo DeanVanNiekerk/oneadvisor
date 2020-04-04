@@ -3,7 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { ApiAction, ApiOnSuccess, Result, ShowConfirm } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { branchesApi } from "@/config/api/directory";
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import { branchIsModifiedSelector, branchSelector } from "../";
 import { BranchEdit } from "../types";

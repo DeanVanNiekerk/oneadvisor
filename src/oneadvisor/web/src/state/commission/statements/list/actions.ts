@@ -6,7 +6,7 @@ import { Filters, PageOptions, SortOptions } from "@/app/table";
 import { ApiAction } from "@/app/types";
 import { getMonthDateRange } from "@/app/utils";
 import { statementsApi } from "@/config/api/commission";
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import { statementsSelector } from "../";
 import { PagedStatements } from "../types";

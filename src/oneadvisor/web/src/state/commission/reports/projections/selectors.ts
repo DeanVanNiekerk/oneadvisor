@@ -4,11 +4,11 @@ import { createSelector } from "reselect";
 
 import { getColumnDefinition } from "@/app/table";
 import { DATE_FORMAT } from "@/app/utils";
+import { RootState } from "@/state";
 import { PolicyType, policyTypesSelector } from "@/state/client/lookups";
 import { PolicyTypeListState } from "@/state/client/lookups/policyTypes";
 import { companiesSelector, Company } from "@/state/directory/lookups";
 import { ListState as CompaniesState } from "@/state/directory/lookups/companies";
-import { RootState } from "@/state/rootReducer";
 import { BarDatum } from "@nivo/bar";
 
 import { Group, GroupTableRecord, PastRevenueCommissionData } from "../";

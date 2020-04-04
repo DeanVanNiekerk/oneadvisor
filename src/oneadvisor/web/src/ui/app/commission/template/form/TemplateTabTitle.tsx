@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { getValidationSubSet } from "@/app/validation";
+import { RootState } from "@/state";
 import { commissionStatementTemplateValidationResultsSelector } from "@/state/commission/templates";
-import { RootState } from "@/state/rootReducer";
 import { TabTitle } from "@/ui/controls";
 
 type Props = {

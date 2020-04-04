@@ -4,6 +4,7 @@ import { AnyAction, bindActionCreators } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import { getColumnDefinition } from "@/app/table";
+import { RootState } from "@/state";
 import {
     companiesSelector,
     Company,
@@ -12,7 +13,6 @@ import {
     newCompany,
     receiveCompany,
 } from "@/state/directory/lookups/companies";
-import { RootState } from "@/state/rootReducer";
 import { Button, getColumnSearchProps, getTable, Header } from "@/ui/controls";
 
 import EditCompany from "./EditCompany";

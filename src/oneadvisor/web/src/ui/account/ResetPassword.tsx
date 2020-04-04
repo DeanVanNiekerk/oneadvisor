@@ -5,8 +5,8 @@ import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
 import { ValidationResult } from "@/app/validation";
+import { RootState } from "@/state";
 import { resetPassword, ResetPasswordData, resetPasswordSelector, signOut } from "@/state/auth";
-import { RootState } from "@/state/rootReducer";
 import { Button, FormErrors, FormField, FormInput, FormInputPassword } from "@/ui/controls";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 

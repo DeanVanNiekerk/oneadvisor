@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
+import { RootState } from "@/state";
 import { downloadUserMonthlyCommissionExcel } from "@/state/commission/reports";
-import { RootState } from "@/state/rootReducer";
 import { Button, Header } from "@/ui/controls";
 
 type Props = PropsFromDispatch;

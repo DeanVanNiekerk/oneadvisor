@@ -3,7 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { ApiAction, ApiOnSuccess, ShowConfirm } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { commissionsApi } from "@/config/api/commission";
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import { commissionIsModifiedSelector, commissionSelector } from "../";
 import { CommissionEdit } from "../types";

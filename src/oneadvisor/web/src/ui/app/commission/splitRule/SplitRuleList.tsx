@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { getColumnDefinition } from "@/app/table";
+import { RootState } from "@/state";
 import {
     deleteSplitRule,
     fetchSplitRule,
@@ -12,7 +13,6 @@ import {
     SplitRule,
     splitRulesSelector,
 } from "@/state/commission/splitRules";
-import { RootState } from "@/state/rootReducer";
 import { Button, getColumnSearchProps, getTable, Header, StopPropagation } from "@/ui/controls";
 
 import EditSplitRule from "./EditSplitRule";

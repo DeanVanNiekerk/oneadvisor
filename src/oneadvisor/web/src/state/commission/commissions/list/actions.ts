@@ -9,7 +9,7 @@ import {
 import { Filters, PageOptions, SortOptions } from "@/app/table";
 import { ApiAction } from "@/app/types";
 import { commissionsApi } from "@/config/api/commission";
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import { commissionsSelector } from "../";
 import { PagedCommissions } from "../types";

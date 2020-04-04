@@ -3,13 +3,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
+import { RootState } from "@/state";
 import {
     PolicyProductEdit,
     PolicyProductType,
     policyProductTypesSelector,
 } from "@/state/client/lookups";
 import { companiesSelector, Company } from "@/state/directory/lookups";
-import { RootState } from "@/state/rootReducer";
 import { Form, FormInput, FormSelect } from "@/ui/controls";
 
 type Props = {

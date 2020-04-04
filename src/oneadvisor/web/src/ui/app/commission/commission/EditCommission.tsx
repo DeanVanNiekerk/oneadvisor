@@ -3,13 +3,13 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
+import { RootState } from "@/state";
 import {
     commissionSelector,
     commissionVisible,
     confirmCancelCommission,
     saveCommission,
 } from "@/state/commission/commissions";
-import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

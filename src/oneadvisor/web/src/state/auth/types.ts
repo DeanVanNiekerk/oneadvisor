@@ -1,3 +1,5 @@
+import { ValidationResult } from "@/app/validation";
+
 export type Credentials = {
     userName: string;
     password: string;
@@ -29,4 +31,26 @@ export type ResetPasswordData = {
 
 export type ResetPasswordRequestData = {
     userName: string;
+};
+
+export type ResetPasswordState = {
+    readonly fetching: boolean;
+    readonly validationResults: ValidationResult[];
+};
+
+export type SignInState = {
+    readonly fetching: boolean;
+    readonly validationResults: ValidationResult[];
+    readonly signInFailed: boolean;
+};
+
+export type TokenState = {
+    readonly token: string | null;
+    readonly tokenData: TokenData | null;
+};
+
+export type AuthState = {
+    readonly resetPassword: ResetPasswordState;
+    readonly signIn: SignInState;
+    readonly token: TokenState;
 };

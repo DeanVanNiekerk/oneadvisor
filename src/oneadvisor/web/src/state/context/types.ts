@@ -1,5 +1,7 @@
 import { IconName } from "@/app/types";
 
+import { OrganisationEdit } from "../directory/organisations";
+
 export type AppInfo = {
     name: string;
     version: string;
@@ -37,4 +39,11 @@ export type MenuLink = {
     isCurrent?: boolean;
     useCases?: string[];
     roles?: string[];
+};
+
+export type ContextState = {
+    readonly appInfo: AppInfo | null;
+    readonly organisation: OrganisationEdit | null;
+    readonly applications: Application[];
+    readonly menus: Menus;
 };

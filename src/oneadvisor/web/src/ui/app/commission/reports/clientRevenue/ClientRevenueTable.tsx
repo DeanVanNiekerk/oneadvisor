@@ -4,6 +4,7 @@ import { connect, DispatchProp } from "react-redux";
 
 import { hasUseCase } from "@/app/identity";
 import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
+import { RootState } from "@/state";
 import { useCaseSelector } from "@/state/auth";
 import {
     ClientRevenueData,
@@ -12,7 +13,6 @@ import {
     receiveClientRevenuePageOptions,
     receiveClientRevenueSortOptions,
 } from "@/state/commission/reports";
-import { RootState } from "@/state/rootReducer";
 import { Age, getColumnSearchProps, getTable } from "@/ui/controls";
 import { ShareAltOutlined } from "@ant-design/icons";
 

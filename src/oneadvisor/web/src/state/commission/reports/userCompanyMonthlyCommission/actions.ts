@@ -4,7 +4,7 @@ import { ThunkAction } from "redux-thunk";
 import { appendFiltersQuery } from "@/app/query";
 import { ApiAction } from "@/app/types";
 import { commissionReportsApi } from "@/config/api/commission";
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import { userCompanyMonthlyCommissionSelector } from "../";
 import { UserCompanyMonthlyCommissionData, UserCompanyMonthlyCommissionFilters } from "./types";

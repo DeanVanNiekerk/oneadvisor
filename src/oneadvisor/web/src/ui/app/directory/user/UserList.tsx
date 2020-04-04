@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { getColumnDefinition } from "@/app/table";
+import { RootState } from "@/state";
 import {
     fetchOrganisations,
     Organisation,
@@ -17,7 +18,6 @@ import {
     usersSelector,
 } from "@/state/directory/users";
 import { fetchUsersSimple } from "@/state/directory/usersSimple";
-import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header } from "@/ui/controls";
 
 import EditUser from "./EditUser";

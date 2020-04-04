@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 import { BarDatum } from "@nivo/bar";
 
 import { ClientRevenueData, ClientRevenueState } from "./types";

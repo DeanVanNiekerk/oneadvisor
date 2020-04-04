@@ -9,11 +9,17 @@ const ensureClientReducer = async () => {
 
     if (reducerManager.hasReducer("client")) return;
 
+    //Inject reducer
     const reducer = await import("@/state/client/reducer").then(
         (reducerModule) => reducerModule.reducer
     );
-
     reducerManager.injectReducer("client", reducer);
+
+    //Load lookups
+    const fetchAllClientLookups = await import("@/state/client/lookups/all/actions").then(
+        (actionsModule) => actionsModule.fetchAllClientLookups
+    );
+    reducerManager.dispatch(fetchAllClientLookups());
 };
 
 export const ClientPreview = lazy(() =>

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
+import { RootState } from "@/state";
 import {
     Application,
     applicationsSelector,
@@ -13,7 +14,6 @@ import {
     modifyOrganisationConfigApplicationIds,
     organisationConfigApplicationIdsSelector,
 } from "@/state/directory/organisations";
-import { RootState } from "@/state/rootReducer";
 
 type Props = PropsFromState & PropsFromDispatch;
 

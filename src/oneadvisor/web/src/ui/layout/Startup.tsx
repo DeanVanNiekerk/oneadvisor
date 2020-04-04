@@ -1,41 +1,52 @@
 import React, { useEffect } from "react";
 import { FullStoryAPI } from "react-fullstory";
-import { connect } from "react-redux";
+import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { AnyAction, bindActionCreators } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import config from "@/config/config";
-import { isLoadingLookupsSelector } from "@/state/app/selectors";
+import { RootState } from "@/state";
 import { isAuthenticatedSelector, tokenDataSelector } from "@/state/auth";
-import { fetchAllClientLookups } from "@/state/client/lookups";
-import { fetchAllCommissionLookups } from "@/state/commission/lookups";
 import { fetchAppInfo } from "@/state/context/actions";
-import { fetchBranchesSimple } from "@/state/directory/branchesSimple";
-import { fetchAllDirectoryLookups } from "@/state/directory/lookups";
-import { fetchUsersSimple } from "@/state/directory/usersSimple";
-import { RootState } from "@/state/rootReducer";
 import { Loader } from "@/ui/controls";
 
 type Props = {
     children: React.ReactNode;
 } & PropsFromState &
     PropsFromDispatch &
-    RouteComponentProps;
+    RouteComponentProps &
+    DispatchProp;
 
 const Startup: React.FC<Props> = (props: Props) => {
     useEffect(() => {
-        props.fetchAllDirectoryLookups();
-        props.fetchAllCommissionLookups();
-        props.fetchAllClientLookups();
-
         props.fetchAppInfo();
     }, []);
 
     useEffect(() => {
         if (props.isAuthenticated) {
-            props.fetchUsersSimple();
-            props.fetchBranchesSimple();
+            const loadUsersSimple = async () => {
+                //Load users
+                const fetchUsersSimple = await import(
+                    "@/state/directory/usersSimple/list/actions"
+                ).then((actionsModule) => actionsModule.fetchUsersSimple);
+                props.dispatch(fetchUsersSimple());
+            };
+
+            const loadBranchesSimple = async () => {
+                //Load users
+                const fetchBranchesSimple = await import(
+                    "@/state/directory/branchesSimple/list/actions"
+                ).then((actionsModule) => actionsModule.fetchBranchesSimple);
+                props.dispatch(fetchBranchesSimple());
+            };
+
+            const loadCommonData = () => {
+                loadUsersSimple();
+                loadBranchesSimple();
+            };
+
+            loadCommonData();
 
             const { tokenData } = props;
             if (tokenData) {
@@ -67,7 +78,7 @@ const Startup: React.FC<Props> = (props: Props) => {
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     return {
-        loading: isLoadingLookupsSelector(state),
+        loading: false,
         isAuthenticated: isAuthenticatedSelector(state),
         tokenData: tokenDataSelector(state),
     };
@@ -78,15 +89,11 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
     return {
         ...bindActionCreators(
             {
-                fetchAllDirectoryLookups,
-                fetchAllCommissionLookups,
-                fetchAllClientLookups,
                 fetchAppInfo,
-                fetchUsersSimple,
-                fetchBranchesSimple,
             },
             dispatch
         ),
+        dispatch,
     };
 };
 

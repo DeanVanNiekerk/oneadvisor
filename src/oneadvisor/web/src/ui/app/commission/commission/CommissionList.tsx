@@ -6,6 +6,7 @@ import { bindActionCreators, Dispatch } from "redux";
 
 import { Filters, formatBool, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import { areEqual, formatCurrency } from "@/app/utils";
+import { RootState } from "@/state";
 import {
     Commission,
     commissionsSelector,
@@ -19,7 +20,6 @@ import {
 import { commissionTypesSelector } from "@/state/commission/lookups";
 import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector } from "@/state/directory/usersSimple";
-import { RootState } from "@/state/rootReducer";
 import {
     CommissionTypeName,
     CompanyName,

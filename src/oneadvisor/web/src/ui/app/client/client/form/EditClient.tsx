@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
+import { RootState } from "@/state";
 import {
     ClientEdit,
     clientIsLoadingSelector,
@@ -11,7 +12,6 @@ import {
     confirmCancelClient,
     saveClient,
 } from "@/state/client/clients";
-import { RootState } from "@/state/rootReducer";
 import { ClientTypeIcon, EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

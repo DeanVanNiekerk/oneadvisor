@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
+import { RootState } from "@/state";
 import { clientImportSelector } from "@/state/client/import";
-import { RootState } from "@/state/rootReducer";
 import { Header } from "@/ui/controls";
 
 import Configure from "./steps/Configure";

@@ -3,6 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { RootState } from "@/state";
 import {
     clientPreviewIsLoadingSelector,
     clientPreviewSelector,
@@ -10,7 +11,6 @@ import {
     fetchClient,
 } from "@/state/client/clients";
 import { ClientTypeId } from "@/state/client/lookups";
-import { RootState } from "@/state/rootReducer";
 import { Age, PreviewCard, PreviewCardRow } from "@/ui/controls";
 import { EditOutlined } from "@ant-design/icons";
 

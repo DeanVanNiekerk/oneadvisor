@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
+import { RootState } from "@/state";
 import {
     Client,
     ClientEdit,
@@ -15,7 +16,6 @@ import {
     receiveClient,
     receiveSelectedClients,
 } from "@/state/client/clients";
-import { RootState } from "@/state/rootReducer";
 
 import ClientForm from "../../client/form/ClientForm";
 import ClientMergeSteps from "../ClientMergeSteps";

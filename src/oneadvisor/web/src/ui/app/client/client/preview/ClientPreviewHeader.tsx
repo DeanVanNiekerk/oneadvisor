@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
+import { RootState } from "@/state";
 import { clientPreviewIsLoadingSelector, clientPreviewSelector } from "@/state/client/clients";
-import { RootState } from "@/state/rootReducer";
 import { ClientTypeIcon, Header } from "@/ui/controls";
 
 type Props = PropsFromState & RouteComponentProps;

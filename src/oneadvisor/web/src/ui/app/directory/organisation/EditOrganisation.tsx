@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
+import { RootState } from "@/state";
 import { fetchUserOrganisation } from "@/state/context/actions";
 import {
     confirmCancelOrganisation,
@@ -10,7 +11,6 @@ import {
     organisationVisible,
     saveOrganisation,
 } from "@/state/directory/organisations";
-import { RootState } from "@/state/rootReducer";
 import { EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

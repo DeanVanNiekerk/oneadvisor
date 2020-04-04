@@ -5,6 +5,7 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import { getValidationSubSet } from "@/app/validation";
+import { RootState } from "@/state";
 import {
     commissionStatementTemplateConfigValidationResultsSelector,
     commissionStatementTemplateExchangeRatesConfigSelector,
@@ -12,7 +13,6 @@ import {
     Identifier,
     modifyCommissionStatementTemplateExchangeRates,
 } from "@/state/commission/templates";
-import { RootState } from "@/state/rootReducer";
 import { Form, FormInput } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;

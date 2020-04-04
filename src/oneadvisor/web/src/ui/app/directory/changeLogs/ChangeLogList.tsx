@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
+import { RootState } from "@/state";
 import {
     ChangeLog,
     ChangeLogEdit,
@@ -11,7 +12,6 @@ import {
     receivePageOptions,
     receiveSortOptions,
 } from "@/state/directory/changeLogs";
-import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header } from "@/ui/controls";
 
 import EditChangeLog from "./EditChangeLog";

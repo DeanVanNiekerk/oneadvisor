@@ -4,7 +4,7 @@ import { isArray } from "util";
 import { ApiAction, ApiOnValidationFailure } from "@/app/types";
 import { showMessage, showNotification } from "@/ui/feedback/notifcation";
 
-import { RootState } from "../rootReducer";
+import { RootState } from "../";
 
 export default (store: Store<RootState>) => (next: Dispatch) => (action: ApiAction) => {
     // Check if this is an api request

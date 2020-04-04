@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
+import { RootState } from "@/state";
 import { Branch, branchesSelector, fetchBranch, fetchBranches } from "@/state/directory/branches";
 import { Organisation } from "@/state/directory/organisations";
-import { RootState } from "@/state/rootReducer";
 import { FormSelect } from "@/ui/controls";
 
 type Props = {

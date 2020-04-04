@@ -4,10 +4,10 @@ import { connect, DispatchProp } from "react-redux";
 import { areEqual } from "@/app/utils";
 import { ValidationResult } from "@/app/validation";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
+import { RootState } from "@/state";
 import { Application } from "@/state/directory/applications/types";
 import { insertRole, RoleEdit, roleSelector, updateRole } from "@/state/directory/roles";
 import { UseCase } from "@/state/directory/usecases";
-import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

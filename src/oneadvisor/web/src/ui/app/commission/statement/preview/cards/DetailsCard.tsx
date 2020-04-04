@@ -3,13 +3,13 @@ import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { RootState } from "@/state";
 import {
     fetchStatement,
     statementPreviewIsLoadingSelector,
     statementPreviewSelector,
     statementVisible,
 } from "@/state/commission/statements";
-import { RootState } from "@/state/rootReducer";
 import { Currency, PreviewCard, PreviewCardRow } from "@/ui/controls";
 import { EditOutlined } from "@ant-design/icons";
 

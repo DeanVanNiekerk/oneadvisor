@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { readExcel } from "@/app/excel/helpers";
+import { RootState } from "@/state";
 import {
     clientImportNextStep,
     clientImportSelector,
@@ -11,7 +12,6 @@ import {
     receiveClientImportData,
     receiveClientImportFileName,
 } from "@/state/client/import";
-import { RootState } from "@/state/rootReducer";
 import { InboxOutlined } from "@ant-design/icons";
 
 import StepProgress from "../StepProgress";

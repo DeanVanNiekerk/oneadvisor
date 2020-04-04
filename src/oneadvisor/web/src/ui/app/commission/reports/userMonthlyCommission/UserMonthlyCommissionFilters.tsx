@@ -8,6 +8,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { filterOption } from "@/app/controls/select";
 import { useDidUpdateEffect } from "@/app/hooks";
 import { getMonthOptions, getYearOptions, SERVER_DATE_FORMAT } from "@/app/utils";
+import { RootState } from "@/state";
 import {
     fetchUserCompanyMonthlyCommissionData,
     fetchUserEarningsTypeMonthlyCommissionData,
@@ -27,7 +28,6 @@ import {
 } from "@/state/commission/reports";
 import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector } from "@/state/directory/usersSimple";
-import { RootState } from "@/state/rootReducer";
 
 type Props = PropsFromState & PropsFromDispatch;
 

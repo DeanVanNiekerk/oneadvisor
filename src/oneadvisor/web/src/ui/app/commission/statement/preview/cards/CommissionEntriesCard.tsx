@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { hasUseCase } from "@/app/identity";
+import { RootState } from "@/state";
 import { useCaseSelector } from "@/state/auth";
 import {
     deleteCommissions,
     statementPreviewIsLoadingSelector,
     statementPreviewSelector,
 } from "@/state/commission/statements";
-import { RootState } from "@/state/rootReducer";
 import { Button, Currency, Drawer, PreviewCard, PreviewCardRow } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";
 import { BarsOutlined, DeleteOutlined, Loading3QuartersOutlined } from "@ant-design/icons";

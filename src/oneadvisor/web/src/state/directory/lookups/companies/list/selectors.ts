@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
+import { RootState } from "@/state";
 import { contextSelector } from "@/state/context/selectors";
-import { RootState } from "@/state/rootReducer";
 
 import { ListState } from "../";
 import { Company } from "../types";

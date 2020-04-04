@@ -9,11 +9,17 @@ const ensureCommissionReducer = async () => {
 
     if (reducerManager.hasReducer("commission")) return;
 
+    //Inject reducer
     const reducer = await import("@/state/commission/reducer").then(
         (reducerModule) => reducerModule.reducer
     );
-
     reducerManager.injectReducer("commission", reducer);
+
+    //Load lookups
+    const fetchAllCommissionLookups = await import("@/state/commission/lookups/all/actions").then(
+        (actionsModule) => actionsModule.fetchAllCommissionLookups
+    );
+    reducerManager.dispatch(fetchAllCommissionLookups());
 };
 
 export const CommissionList = lazy(() =>

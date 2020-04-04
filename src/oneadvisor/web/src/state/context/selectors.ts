@@ -1,14 +1,13 @@
 import { createSelector } from "reselect";
 
 import { DEFAULT_APPLICATION_ID } from "@/config/application";
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
-import { State } from "./reducer";
-import { Application, Menu, MenuLink, Menus } from "./types";
+import { Application, ContextState, Menu, MenuLink, Menus } from "./types";
 
-const rootSelector = (state: RootState): State => state.context;
+const rootSelector = (state: RootState): ContextState => state.context;
 
-export const contextSelector: (state: RootState) => State = createSelector(
+export const contextSelector: (state: RootState) => ContextState = createSelector(
     rootSelector,
     (root) => root
 );

@@ -3,13 +3,13 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
+import { RootState } from "@/state";
 import {
     fetchSplitRulePolicy,
     SplitRulePolicy,
     SplitRulePolicyInfo,
 } from "@/state/commission/splitRulePolicies";
 import { fetchSplitRules, SplitRule, splitRulesSelector } from "@/state/commission/splitRules";
-import { RootState } from "@/state/rootReducer";
 import { Button, CompanyName, Drawer, Form, FormSelect, FormText, UserName } from "@/ui/controls";
 
 import SplitRuleList from "../splitRule/SplitRuleList";

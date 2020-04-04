@@ -3,13 +3,13 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { RootState } from "@/state";
 import {
     fetchStatementFiles,
     Statement,
     statementFilesSelector,
 } from "@/state/commission/statements";
 import { downloadFile } from "@/state/file";
-import { RootState } from "@/state/rootReducer";
 import { ContentLoader, Date } from "@/ui/controls";
 
 const { Text } = Typography;

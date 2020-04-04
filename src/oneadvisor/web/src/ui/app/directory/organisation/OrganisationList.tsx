@@ -6,6 +6,7 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { getColumnDefinition } from "@/app/table";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
+import { RootState } from "@/state";
 import {
     Application,
     applicationsSelector,
@@ -20,7 +21,6 @@ import {
     organisationVisible,
     receiveOrganisation,
 } from "@/state/directory/organisations";
-import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header } from "@/ui/controls";
 
 import EditOrganisation from "./EditOrganisation";

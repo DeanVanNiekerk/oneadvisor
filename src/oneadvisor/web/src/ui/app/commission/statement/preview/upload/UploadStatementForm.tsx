@@ -6,13 +6,13 @@ import { Dispatch } from "redux";
 
 import { Filters } from "@/app/table";
 import { commissionsImportApi } from "@/config/api/commission";
+import { RootState } from "@/state";
 import { tokenSelector } from "@/state/auth";
 import { Statement } from "@/state/commission/statements";
 import {
     commissionStatementTemplatesSelector,
     fetchCommissionStatementTemplates,
 } from "@/state/commission/templates";
-import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormField, FormSelect } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";
 import { UploadOutlined } from "@ant-design/icons";

@@ -1,12 +1,12 @@
 import { createSelector } from "reselect";
 
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
-import { State } from "./reducer";
+import { ResetPasswordState } from "../";
 
-const rootSelector = (state: RootState): State => state.auth.resetPassword;
+const rootSelector = (state: RootState): ResetPasswordState => state.auth.resetPassword;
 
-export const resetPasswordSelector: (state: RootState) => State = createSelector(
+export const resetPasswordSelector: (state: RootState) => ResetPasswordState = createSelector(
     rootSelector,
     (root) => root
 );

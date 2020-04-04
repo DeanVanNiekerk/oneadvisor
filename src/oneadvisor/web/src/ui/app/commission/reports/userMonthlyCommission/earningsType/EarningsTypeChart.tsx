@@ -2,13 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { formatCurrency } from "@/app/utils";
+import { RootState } from "@/state";
 import {
     userEarningsTypeMonthlyCommissionItemsSelector,
     userEarningsTypeMonthlyCommissionPieDataSelector,
     userEarningsTypeMonthlyCommissionSelector,
     userEarningsTypeMonthlyCommissionTotalAmountExclVatSelector,
 } from "@/state/commission/reports";
-import { RootState } from "@/state/rootReducer";
 import { Pie } from "@/ui/controls";
 
 type Props = PropsFromState;

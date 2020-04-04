@@ -6,6 +6,7 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import { areEqual, formatCurrency } from "@/app/utils";
+import { RootState } from "@/state";
 import {
     CommissionError,
     commissionErrorsSelector,
@@ -18,7 +19,6 @@ import {
     receiveSortOptions,
 } from "@/state/commission/errors";
 import { Statement } from "@/state/commission/statements";
-import { RootState } from "@/state/rootReducer";
 import { getTable, StopPropagation } from "@/ui/controls";
 import { InfoCircleOutlined } from "@ant-design/icons";
 

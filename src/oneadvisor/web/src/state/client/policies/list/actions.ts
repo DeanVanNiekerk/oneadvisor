@@ -9,7 +9,7 @@ import {
 import { Filters, PagedItems, PageOptions, SortOptions } from "@/app/table";
 import { ApiAction } from "@/app/types";
 import { policiesApi } from "@/config/api/client";
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import { policiesSelector } from "../";
 import { Policy } from "../types";

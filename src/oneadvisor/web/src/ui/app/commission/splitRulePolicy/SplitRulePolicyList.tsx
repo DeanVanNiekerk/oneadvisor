@@ -3,6 +3,7 @@ import { connect, DispatchProp } from "react-redux";
 
 import { applyLike } from "@/app/query";
 import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
+import { RootState } from "@/state";
 import {
     fetchSplitRulePolicies,
     fetchSplitRulePolicy,
@@ -14,7 +15,6 @@ import {
 } from "@/state/commission/splitRulePolicies";
 import { Company, organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/directory/usersSimple";
-import { RootState } from "@/state/rootReducer";
 import { CompanyName, getColumnSearchProps, getTable, Header, UserName } from "@/ui/controls";
 
 import EditSplitRulePolicy from "./EditSplitRulePolicy";

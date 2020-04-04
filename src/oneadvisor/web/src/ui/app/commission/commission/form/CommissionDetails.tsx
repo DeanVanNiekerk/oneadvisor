@@ -5,6 +5,7 @@ import { Dispatch } from "redux";
 
 import { applyLikeFormat } from "@/app/query";
 import { Filters, PageOptions } from "@/app/table";
+import { RootState } from "@/state";
 import { getPolicies, Policy } from "@/state/client/policies";
 import {
     CommissionEdit,
@@ -13,7 +14,6 @@ import {
 } from "@/state/commission/commissions";
 import { commissionTypesSelector } from "@/state/commission/lookups";
 import { brokersSelector } from "@/state/directory/usersSimple";
-import { RootState } from "@/state/rootReducer";
 import { Form, FormInputNumber, FormSelect } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;

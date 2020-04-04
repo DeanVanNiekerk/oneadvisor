@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 
 import { hasUseCase } from "@/app/identity";
 import { getErrorMessage, ValidationResult } from "@/app/validation";
+import { RootState } from "@/state";
 import { useCaseSelector } from "@/state/auth";
-import { RootState } from "@/state/rootReducer";
 
 import { Button, FormInput } from "../";
 import { Form } from "./Form";

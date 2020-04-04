@@ -3,12 +3,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { RootState } from "@/state";
 import {
     modifyOrganisation,
     OrganisationEdit,
     organisationSelector,
 } from "@/state/directory/organisations";
-import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInput, FormSwitch } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;

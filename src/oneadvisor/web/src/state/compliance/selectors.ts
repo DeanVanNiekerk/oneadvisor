@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import { ComplianceState } from "./types";
 

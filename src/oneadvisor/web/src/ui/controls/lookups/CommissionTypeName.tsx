@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { RootState } from "@/state";
 import { CommissionType, commissionTypesSelector } from "@/state/commission/lookups";
-import { RootState } from "@/state/rootReducer";
 
 type Props = {
     commissionTypes: CommissionType[];

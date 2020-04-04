@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { RootState } from "@/state";
 import { policySelector } from "@/state/client/policies";
-import { RootState } from "@/state/rootReducer";
 
 type Props = PropsFromState;
 

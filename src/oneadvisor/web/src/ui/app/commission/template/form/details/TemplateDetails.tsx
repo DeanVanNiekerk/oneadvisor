@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { filterOption } from "@/app/controls/select";
+import { RootState } from "@/state";
 import {
     CommissionStatementTemplateEdit,
     commissionStatementTemplateSelector,
     modifyCommissionStatementTemplate,
 } from "@/state/commission/templates";
 import { companiesSelector } from "@/state/directory/lookups";
-import { RootState } from "@/state/rootReducer";
 import { Form, FormDate, FormInput, FormSelect } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;

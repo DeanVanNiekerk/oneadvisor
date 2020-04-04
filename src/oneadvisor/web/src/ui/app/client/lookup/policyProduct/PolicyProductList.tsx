@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { getColumnDefinition } from "@/app/table";
+import { RootState } from "@/state";
 import {
     fetchPolicyProducts,
     PolicyProduct,
@@ -12,7 +13,6 @@ import {
     receivePolicyProduct,
 } from "@/state/client/lookups";
 import { Company, organisationCompaniesSelector } from "@/state/directory/lookups";
-import { RootState } from "@/state/rootReducer";
 import {
     Button,
     CompanyName,

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
+import { RootState } from "@/state";
 import {
     confirmCancelMappingError,
     fetchNextMappingError,
@@ -13,7 +14,6 @@ import {
     saveMappingError,
 } from "@/state/commission/errors";
 import { Statement } from "@/state/commission/statements";
-import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 import { RightOutlined } from "@ant-design/icons";

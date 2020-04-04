@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 
 import { hasUseCase } from "@/app/identity";
 import { hasRole } from "@/config/role";
+import { RootState } from "@/state";
 import { roleSelector, useCaseSelector } from "@/state/auth";
-import { RootState } from "@/state/rootReducer";
 
 type Props = {
     requiredUseCase?: string;

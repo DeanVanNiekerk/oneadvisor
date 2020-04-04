@@ -1,11 +1,11 @@
 import { createSelector } from "reselect";
 
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
+import { TokenState } from "../";
 import { TokenData } from "../types";
-import { State } from "./reducer";
 
-const rootSelector = (state: RootState): State => state.auth.token;
+const rootSelector = (state: RootState): TokenState => state.auth.token;
 
 export const tokenSelector: (state: RootState) => string | null = createSelector(
     rootSelector,

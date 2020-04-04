@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { getValidationSubSet } from "@/app/validation";
+import { RootState } from "@/state";
 import { policySelector } from "@/state/client/policies";
-import { RootState } from "@/state/rootReducer";
 import { TabTitle } from "@/ui/controls";
 
 type Props = {

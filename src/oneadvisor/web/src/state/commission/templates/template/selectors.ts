@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import { areEqual } from "@/app/utils";
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import { CommissionTypes, Config, Identifier, Sheet, SheetConfig, TemplateState } from "../";
 import { AmountIdentifier, ExchangeRates, Field, Group, VATRate } from "../types";

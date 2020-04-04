@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { formatCurrency } from "@/app/utils";
+import { RootState } from "@/state";
 import {
     commissionProjectionsSelector,
     projectionPolicyTypeChartCurrentLabelSelector,
     projectionPolicyTypeChartDataSelector,
 } from "@/state/commission/reports";
-import { RootState } from "@/state/rootReducer";
 import { Bar } from "@/ui/controls";
 import { BarDatum } from "@nivo/bar";
 

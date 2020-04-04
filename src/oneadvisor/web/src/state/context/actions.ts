@@ -5,8 +5,8 @@ import { ApiAction } from "@/app/types";
 import { organisationsApi } from "@/config/api/directory";
 import config from "@/config/config";
 
+import { RootState } from "../";
 import { signOut, userOrganisationIdSelector } from "../auth";
-import { RootState } from "../rootReducer";
 import { getVersion, setVersion } from "../storage";
 import { AppInfo } from "./types";
 

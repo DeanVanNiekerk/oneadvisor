@@ -5,11 +5,11 @@ import { connect } from "react-redux";
 
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
 import { hasRole, ROLE_SUPER_ADMIN } from "@/config/role";
+import { RootState } from "@/state";
 import { roleSelector } from "@/state/auth";
 import { Application } from "@/state/directory/applications/types";
 import { RoleEdit } from "@/state/directory/roles";
 import { UseCase } from "@/state/directory/usecases";
-import { RootState } from "@/state/rootReducer";
 import { Form, FormErrors, FormInput, FormSelect, TabPane, Tabs } from "@/ui/controls";
 
 type TabKey = "details_tab" | "usecases_tab";

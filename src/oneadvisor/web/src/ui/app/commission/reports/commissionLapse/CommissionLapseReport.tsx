@@ -5,13 +5,13 @@ import { connect, DispatchProp } from "react-redux";
 
 import { PageOptions, SortOptions } from "@/app/table";
 import { DATE_FORMAT, getMonthOptions, getYearOptions } from "@/app/utils";
+import { RootState } from "@/state";
 import {
     CommissionLapseDataFilters,
     commissionLapseSelector,
     fetchCommissionLapseData,
     receiveCommissionLapseFilters,
 } from "@/state/commission/reports";
-import { RootState } from "@/state/rootReducer";
 import { Header } from "@/ui/controls";
 
 import CommissionLapseTable from "./CommissionLapseTable";

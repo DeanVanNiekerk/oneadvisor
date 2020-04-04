@@ -3,7 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { ApiAction, ApiOnSuccess, Result, ShowConfirm } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { contactsApi } from "@/config/api/client";
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import { contactIsModifiedSelector, contactSelector } from "../";
 import { ContactEdit } from "../types";

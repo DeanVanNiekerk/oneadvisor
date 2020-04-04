@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 import { areEqual } from "@/app/utils";
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import { MappingState } from "../";
 

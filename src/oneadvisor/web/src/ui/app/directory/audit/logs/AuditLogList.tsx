@@ -5,6 +5,7 @@ import { bindActionCreators, Dispatch } from "redux";
 
 import { Filters, getColumnDefinition, PageOptions, sort, SortOptions } from "@/app/table";
 import { areEqual } from "@/app/utils";
+import { RootState } from "@/state";
 import {
     AuditLog,
     auditLogsSelector,
@@ -12,7 +13,6 @@ import {
     receiveFilters,
 } from "@/state/directory/audit";
 import { usersSimpleSelector } from "@/state/directory/usersSimple";
-import { RootState } from "@/state/rootReducer";
 import {
     getColumnSearchProps,
     getDateRangeSearchProps,

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 
+import { RootState } from "@/state";
 import { organisationIdSelector, organisationIsNew } from "@/state/directory/organisations";
-import { RootState } from "@/state/rootReducer";
 import { TabPane, Tabs } from "@/ui/controls";
 
 import BranchList from "./BranchList";

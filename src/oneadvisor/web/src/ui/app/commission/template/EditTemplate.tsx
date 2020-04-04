@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
+import { RootState } from "@/state";
 import {
     commissionStatementTemplateSelector,
     commissionStatementTemplateVisible,
     confirmCancelCommissionStatementTemplate,
     saveCommissionStatementTemplate,
 } from "@/state/commission/templates";
-import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer, DropdownButton } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 import { showMessage } from "@/ui/feedback/notifcation";

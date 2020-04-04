@@ -2,8 +2,8 @@ import { Tooltip } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 
+import { RootState } from "@/state";
 import { ClientType, ClientTypeId, clientTypesSelector } from "@/state/client/lookups";
-import { RootState } from "@/state/rootReducer";
 import { BankOutlined, QuestionOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
 
 type Props = {

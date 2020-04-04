@@ -5,11 +5,11 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
+import { RootState } from "@/state";
 import {
     commissionStatementTemplateConfigSelector,
     commissionStatementTemplateOverride,
 } from "@/state/commission/templates";
-import { RootState } from "@/state/rootReducer";
 import { Button } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";
 

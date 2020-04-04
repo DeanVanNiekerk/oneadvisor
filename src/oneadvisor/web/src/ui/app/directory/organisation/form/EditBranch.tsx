@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { RootState } from "@/state";
 import {
     BranchEdit,
     branchIsLoadingSelector,
@@ -9,7 +10,6 @@ import {
     branchVisible,
     receiveBranch,
 } from "@/state/directory/branches";
-import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Form, FormField } from "@/ui/controls";
 
 import BranchForm from "./BranchForm";

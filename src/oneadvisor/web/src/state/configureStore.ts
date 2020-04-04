@@ -1,6 +1,7 @@
 import { routerMiddleware } from "connected-react-router";
 import { createBrowserHistory } from "history";
 import {
+    AnyAction,
     applyMiddleware,
     combineReducers,
     compose,
@@ -62,9 +63,14 @@ const createReducerManager = () => {
         return !!asyncReducers[key];
     };
 
+    const dispatch = (action: AnyAction): void => {
+        store.dispatch(action);
+    };
+
     return {
         injectReducer,
         hasReducer,
+        dispatch,
     };
 };
 

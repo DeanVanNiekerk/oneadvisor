@@ -7,6 +7,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { hasUseCase } from "@/app/identity";
 import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import { areEqual } from "@/app/utils";
+import { RootState } from "@/state";
 import { useCaseSelector } from "@/state/auth";
 import {
     clearClientPreview,
@@ -24,7 +25,6 @@ import {
     receiveSortOptions,
 } from "@/state/client/clients";
 import { clientTypesSelector } from "@/state/client/lookups";
-import { RootState } from "@/state/rootReducer";
 import {
     Button,
     ClientTypeIcon,

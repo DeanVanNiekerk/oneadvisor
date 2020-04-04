@@ -5,6 +5,7 @@ import { RouteComponentProps, withRouter } from "react-router-dom";
 
 import { hasPermissionsMenuGroups } from "@/app/identity";
 import config from "@/config/config";
+import { RootState } from "@/state";
 import { roleSelector, signOut, useCaseSelector } from "@/state/auth";
 import {
     applicationsSelector,
@@ -13,7 +14,6 @@ import {
     menusSelector,
 } from "@/state/context/selectors";
 import { AppInfo, Application, Menus } from "@/state/context/types";
-import { RootState } from "@/state/rootReducer";
 
 import { Icon, IdentityStatus } from "../controls";
 

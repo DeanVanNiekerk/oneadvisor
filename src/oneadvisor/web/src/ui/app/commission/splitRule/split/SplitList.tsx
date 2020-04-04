@@ -6,9 +6,9 @@ import { connect } from "react-redux";
 import { hasUseCase } from "@/app/identity";
 import { getColumnDefinition } from "@/app/table";
 import { ValidationResult } from "@/app/validation";
+import { RootState } from "@/state";
 import { useCaseSelector } from "@/state/auth";
 import { Split } from "@/state/commission/splitRules";
-import { RootState } from "@/state/rootReducer";
 import { FormErrors, getTable, StopPropagation, UserName } from "@/ui/controls";
 
 import EditSplit from "./EditSplit";

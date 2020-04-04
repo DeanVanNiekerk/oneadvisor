@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { RootState } from "@/state";
 import { organisationIsNew } from "@/state/directory/organisations";
-import { RootState } from "@/state/rootReducer";
 
 type Props = PropsFromState;
 

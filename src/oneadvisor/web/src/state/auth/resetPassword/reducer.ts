@@ -1,18 +1,12 @@
-import { ValidationResult } from "@/app/validation";
-
+import { ResetPasswordState } from "../";
 import { Action } from "./actions";
 
-export type State = {
-    readonly fetching: boolean;
-    readonly validationResults: ValidationResult[];
-};
-
-export const defaultState = {
+export const defaultState: ResetPasswordState = {
     fetching: false,
     validationResults: [],
 };
 
-export const reducer = (state: State = defaultState, action: Action) => {
+export const reducer = (state: ResetPasswordState = defaultState, action: Action) => {
     switch (action.type) {
         case "AUTH_RESETPASSWORD_FETCHING": {
             return {

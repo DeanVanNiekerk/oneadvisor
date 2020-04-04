@@ -5,6 +5,7 @@ import { arrayMove, SortableContainer, SortableElement, SortEnd } from "react-so
 import { v4 } from "uuid";
 
 import { getColumnDefinition } from "@/app/table";
+import { RootState } from "@/state";
 import {
     clientImportNextStep,
     clientImportPreviousStep,
@@ -17,7 +18,6 @@ import {
     receiveClientImportClients,
     receiveClientImportSelectedColumns,
 } from "@/state/client/import";
-import { RootState } from "@/state/rootReducer";
 import { getTable } from "@/ui/controls";
 
 import StepProgress from "../StepProgress";

@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { getColumnDefinition } from "@/app/table";
+import { RootState } from "@/state";
 import {
     Allocation,
     allocationsSelector,
@@ -11,7 +12,6 @@ import {
     fetchAllocations,
     receiveAllocation,
 } from "@/state/commission/allocations";
-import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header, StopPropagation } from "@/ui/controls";
 
 import EditAllocation from "./EditAllocation";

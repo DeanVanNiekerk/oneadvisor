@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
+import { RootState } from "@/state";
 import {
     clientMergeReset,
     clientMergeSelector,
     clientSelector,
     clientsMergingSelector,
 } from "@/state/client/clients";
-import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";
 
 import ClientDetails from "./steps/ClientDetails";

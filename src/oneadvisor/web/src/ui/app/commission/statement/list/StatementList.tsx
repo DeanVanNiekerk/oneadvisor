@@ -8,6 +8,7 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import { areEqual, formatCurrency, getMonthOptions, getYearOptions } from "@/app/utils";
+import { RootState } from "@/state";
 import {
     CommissionErrorsFilters,
     downloadCommissionErrors,
@@ -29,7 +30,6 @@ import {
     updateMonthFilterPrevious,
 } from "@/state/commission/statements";
 import { organisationCompaniesSelector } from "@/state/directory/lookups";
-import { RootState } from "@/state/rootReducer";
 import { Button, CompanyName, getTable, Header } from "@/ui/controls";
 import { DownOutlined, FileExclamationOutlined } from "@ant-design/icons";
 

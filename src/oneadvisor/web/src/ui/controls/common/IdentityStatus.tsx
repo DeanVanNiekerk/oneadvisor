@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { RootState } from "@/state";
 import { tokenDataSelector } from "@/state/auth";
 import { contextSelector } from "@/state/context/selectors";
-import { RootState } from "@/state/rootReducer";
 import { Date } from "@/ui/controls";
 
 type Props = PropsFromState;

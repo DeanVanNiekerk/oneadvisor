@@ -6,6 +6,7 @@ import { connect, DispatchProp } from "react-redux";
 import { downloadExcel } from "@/app/excel/helpers";
 import { getColumnDefinition } from "@/app/table";
 import { parseValidationErrors } from "@/app/validation";
+import { RootState } from "@/state";
 import {
     clientImportPreviousStep,
     clientImportProgressPercentSelector,
@@ -18,7 +19,6 @@ import {
     ImportColumn,
     ResultFailure,
 } from "@/state/client/import";
-import { RootState } from "@/state/rootReducer";
 import { Button, getTable } from "@/ui/controls";
 import { SyncOutlined } from "@ant-design/icons";
 

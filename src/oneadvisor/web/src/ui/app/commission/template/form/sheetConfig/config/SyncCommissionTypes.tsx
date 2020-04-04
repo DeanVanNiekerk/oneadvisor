@@ -7,6 +7,7 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import { statementTemplatesApi } from "@/config/api/commission";
+import { RootState } from "@/state";
 import { tokenSelector } from "@/state/auth";
 import {
     commissionStatementTemplateCommissionTypesConfigSelector,
@@ -17,7 +18,6 @@ import {
     modifyCommissionStatementTemplateCommissionTypes,
     saveCommissionStatementTemplate,
 } from "@/state/commission/templates";
-import { RootState } from "@/state/rootReducer";
 import { Button } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";
 import { UploadOutlined } from "@ant-design/icons";

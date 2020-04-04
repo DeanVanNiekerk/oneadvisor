@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
+import { RootState } from "@/state";
 import { PolicyProductTypeEdit, PolicyType, policyTypesSelector } from "@/state/client/lookups";
-import { RootState } from "@/state/rootReducer";
 import { Form, FormInput, FormSelect } from "@/ui/controls";
 
 type Props = {

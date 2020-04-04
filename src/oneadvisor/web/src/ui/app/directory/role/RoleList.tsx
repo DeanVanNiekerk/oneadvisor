@@ -5,6 +5,7 @@ import { connect, DispatchProp } from "react-redux";
 import { getColumnDefinition } from "@/app/table";
 import { applications } from "@/config/application";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
+import { RootState } from "@/state";
 import {
     Application,
     applicationsSelector,
@@ -19,7 +20,6 @@ import {
     rolesSelector,
 } from "@/state/directory/roles";
 import { fetchUseCases, UseCase, useCasesSelector } from "@/state/directory/usecases";
-import { RootState } from "@/state/rootReducer";
 import { Button, getTable, Header } from "@/ui/controls";
 
 import EditRole from "./EditRole";

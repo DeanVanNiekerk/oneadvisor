@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
 
 import { getColumnDefinition } from "@/app/table";
+import { RootState } from "@/state";
 import {
     CommissionStatementTemplate,
     commissionStatementTemplatesSelector,
@@ -12,7 +13,6 @@ import {
     newCommissionStatementTemplate,
 } from "@/state/commission/templates";
 import { organisationCompaniesSelector } from "@/state/directory/lookups";
-import { RootState } from "@/state/rootReducer";
 import { Button, CompanyName, getColumnSearchProps, getTable, Header } from "@/ui/controls";
 
 import EditTemplate from "./EditTemplate";

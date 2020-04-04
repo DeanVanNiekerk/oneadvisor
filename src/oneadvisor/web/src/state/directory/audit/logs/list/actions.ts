@@ -4,7 +4,7 @@ import { appendFiltersQuery } from "@/app/query";
 import { Filters } from "@/app/table";
 import { ApiAction } from "@/app/types";
 import { auditApi } from "@/config/api/directory";
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import { auditLogsSelector } from "../";
 import { AuditLogFilters, AuditLogItems } from "../types";

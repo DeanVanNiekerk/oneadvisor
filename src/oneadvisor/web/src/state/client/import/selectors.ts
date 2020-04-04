@@ -2,7 +2,7 @@ import { createSelector, OutputSelector } from "reselect";
 import { v4 } from "uuid";
 
 import { formatExcelDate } from "@/app/utils";
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import { ImportState, ImportTableRow } from "./";
 import { ImportColumn } from "./types";

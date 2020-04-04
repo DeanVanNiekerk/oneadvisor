@@ -2,13 +2,13 @@ import { ColumnProps } from "antd/lib/table";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
+import { RootState } from "@/state";
 import {
     commissionProjectionsSelector,
     GroupTableRecord,
     projectionGroupsTableColumnsSelector,
     projectionGroupTableRowsSelector,
 } from "@/state/commission/reports";
-import { RootState } from "@/state/rootReducer";
 import { getTable } from "@/ui/controls";
 
 const Table = getTable<GroupTableRecord>();

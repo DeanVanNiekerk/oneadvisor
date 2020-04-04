@@ -10,7 +10,7 @@ import {
     ShowMessage,
 } from "@/app/types";
 import { statementTemplatesApi } from "@/config/api/commission";
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import {
     commissionStatementTemplateIsModifiedSelector,

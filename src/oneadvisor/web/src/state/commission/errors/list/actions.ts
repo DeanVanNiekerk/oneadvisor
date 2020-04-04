@@ -5,7 +5,7 @@ import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from
 import { Filters, PagedItems, PageOptions, SortOptions } from "@/app/table";
 import { ApiAction } from "@/app/types";
 import { statementsApi } from "@/config/api/commission";
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import { commissionErrorsSelector } from "../";
 import { CommissionError, CommissionErrorsFilters } from "../types";

@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { RootState } from "@/state";
 import {
     ContactEdit,
     contactIsLoadingSelector,
@@ -9,7 +10,6 @@ import {
     contactVisible,
     receiveContact,
 } from "@/state/client/contacts";
-import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Form, FormField } from "@/ui/controls";
 
 import ContactForm from "./ContactForm";

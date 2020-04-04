@@ -6,8 +6,8 @@ import { connect } from "react-redux";
 import { hasUseCase } from "@/app/identity";
 import { IconName } from "@/app/types";
 import { hasRole } from "@/config/role";
+import { RootState } from "@/state";
 import { roleSelector, useCaseSelector } from "@/state/auth";
-import { RootState } from "@/state/rootReducer";
 
 import { Icon } from "../common/Icon";
 

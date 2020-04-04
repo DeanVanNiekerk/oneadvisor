@@ -5,6 +5,7 @@ import { connect, DispatchProp } from "react-redux";
 
 import { filterOption } from "@/app/controls/select";
 import { getColumnDefinition } from "@/app/table";
+import { RootState } from "@/state";
 import {
     clientImportNextStep,
     clientImportPreviousStep,
@@ -22,7 +23,6 @@ import {
     fetchCompanies,
     organisationCompaniesSelector,
 } from "@/state/directory/lookups/companies";
-import { RootState } from "@/state/rootReducer";
 import { getColumnSearchProps, getTable } from "@/ui/controls";
 
 import StepProgress from "../StepProgress";

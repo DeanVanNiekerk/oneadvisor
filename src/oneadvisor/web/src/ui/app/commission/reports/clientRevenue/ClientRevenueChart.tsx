@@ -3,12 +3,12 @@ import { connect, DispatchProp } from "react-redux";
 
 import { Filters } from "@/app/table";
 import { formatCurrency } from "@/app/utils";
+import { RootState } from "@/state";
 import {
     clientRevenueBandsDataSelector,
     clientRevenueSelector,
     fetchClientRevenueData,
 } from "@/state/commission/reports";
-import { RootState } from "@/state/rootReducer";
 import { Bar } from "@/ui/controls";
 import { BarDatum } from "@nivo/bar";
 

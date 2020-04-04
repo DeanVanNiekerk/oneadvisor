@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import { ListState, UserSimple } from "../";
 import { BROKER_USER_TYPE_ID } from "../../lookups";

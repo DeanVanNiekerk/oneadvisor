@@ -2,7 +2,7 @@ import { CascaderOptionType } from "antd/lib/cascader";
 import { createSelector } from "reselect";
 
 import { areEqual } from "@/app/utils";
-import { RootState } from "@/state/rootReducer";
+import { RootState } from "@/state";
 
 import { PolicyState } from "../";
 import {

@@ -6,6 +6,7 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import { getValidationSubSet } from "@/app/validation";
+import { RootState } from "@/state";
 import { commissionStatementTemplateGroupFieldNamesSelector } from "@/state/commission/lookups";
 import {
     commissionStatementTemplateConfigValidationResultsSelector,
@@ -14,7 +15,6 @@ import {
     Identifier,
     modifyCommissionStatementTemplateGroups,
 } from "@/state/commission/templates";
-import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormErrors, FormInput, FormSelect, FormSwitch } from "@/ui/controls";
 import { InfoCircleOutlined } from "@ant-design/icons";
 

@@ -13,6 +13,7 @@ import {
     SortOptions,
 } from "@/app/table";
 import { areEqual } from "@/app/utils";
+import { RootState } from "@/state";
 import { policyTypesSelector } from "@/state/client/lookups";
 import {
     fetchPolicies,
@@ -27,7 +28,6 @@ import {
 } from "@/state/client/policies";
 import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector } from "@/state/directory/usersSimple";
-import { RootState } from "@/state/rootReducer";
 import {
     Button,
     CompanyName,

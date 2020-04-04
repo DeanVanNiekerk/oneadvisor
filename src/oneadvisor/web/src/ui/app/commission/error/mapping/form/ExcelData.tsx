@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { RootState } from "@/state";
 import { mappingErrorSelector } from "@/state/commission/errors";
-import { RootState } from "@/state/rootReducer";
 import { FormReadOnly } from "@/ui/controls";
 
 type Props = PropsFromState;

@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 
 import { getColumnDefinition } from "@/app/table";
 import { formatCurrency } from "@/app/utils";
+import { RootState } from "@/state";
 import {
     UserCompanyMonthlyCommissionData,
     userCompanyMonthlyCommissionSelector,
 } from "@/state/commission/reports";
 import { userCompanyMonthlyCommissionTotalAmountExclVatSelector } from "@/state/commission/reports/userCompanyMonthlyCommission/selectors";
-import { RootState } from "@/state/rootReducer";
 import { CompanyName, getTable } from "@/ui/controls";
 
 const Table = getTable<UserCompanyMonthlyCommissionData>();

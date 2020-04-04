@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 
 import { hasPermissionsMenuGroup, hasRoles, hasUseCases } from "@/app/identity";
 import { defaultOpenGroupNames } from "@/config/menu";
+import { RootState } from "@/state";
 import { roleSelector, useCaseSelector } from "@/state/auth";
 import { currentApplicationSelector, currentMenuSelector } from "@/state/context/selectors";
 import { Application, Menu, MenuLink } from "@/state/context/types";
-import { RootState } from "@/state/rootReducer";
 
 import { Icon } from "../controls";
 

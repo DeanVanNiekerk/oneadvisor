@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
+import { RootState } from "@/state";
 import {
     BranchEdit,
     branchSelector,
@@ -13,7 +14,6 @@ import {
     saveBranch,
 } from "@/state/directory/branches";
 import { fetchBranchesSimple } from "@/state/directory/branchesSimple";
-import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormField, FormInput } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

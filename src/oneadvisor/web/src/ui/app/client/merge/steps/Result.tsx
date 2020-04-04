@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
+import { RootState } from "@/state";
 import { ClientEdit, clientMergeSelector } from "@/state/client/clients";
-import { RootState } from "@/state/rootReducer";
 import { Button } from "@/ui/controls";
 
 import ClientMergeSteps from "../ClientMergeSteps";

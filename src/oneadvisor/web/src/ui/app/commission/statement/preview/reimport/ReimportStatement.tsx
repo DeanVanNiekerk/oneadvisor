@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { Filters } from "@/app/table";
+import { RootState } from "@/state";
 import { reimportCommissions, Statement } from "@/state/commission/statements";
 import {
     commissionStatementTemplatesSelector,
     fetchCommissionStatementTemplates,
 } from "@/state/commission/templates";
-import { RootState } from "@/state/rootReducer";
 import { Button, Form, FormSelect } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";
 

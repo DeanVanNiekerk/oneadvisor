@@ -1,20 +1,13 @@
-import { ValidationResult } from "@/app/validation";
-
+import { SignInState } from "../";
 import { SignInActions } from "./actions";
 
-export type State = {
-    readonly fetching: boolean;
-    readonly validationResults: ValidationResult[];
-    readonly signInFailed: boolean;
-};
-
-export const defaultState = {
+export const defaultState: SignInState = {
     fetching: false,
     validationResults: [],
     signInFailed: false,
 };
 
-export const reducer = (state: State = defaultState, action: SignInActions) => {
+export const reducer = (state: SignInState = defaultState, action: SignInActions) => {
     switch (action.type) {
         case "AUTH_SIGNIN_FETCHING": {
             return {

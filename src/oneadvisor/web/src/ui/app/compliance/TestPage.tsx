@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { RootState } from "@/state";
 import { complianceSelector } from "@/state/compliance/selectors";
-import { RootState } from "@/state/rootReducer";
 
 type Props = PropsFromState;
 

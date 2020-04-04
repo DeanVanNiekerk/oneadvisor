@@ -3,6 +3,7 @@ import { connect, DispatchProp } from "react-redux";
 
 import { areEqual } from "@/app/utils";
 import { ValidationResult } from "@/app/validation";
+import { RootState } from "@/state";
 import {
     insertSplitRulePolicy,
     receiveSplitRulePolicy,
@@ -11,7 +12,6 @@ import {
     splitRulePolicySelector,
     updateSplitRulePolicy,
 } from "@/state/commission/splitRulePolicies";
-import { RootState } from "@/state/rootReducer";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 
