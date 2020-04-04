@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
+import { getValidationSubSet } from "@/app/validation";
 import { RootState } from "@/state";
 import {
     Application,
@@ -13,7 +14,9 @@ import {
 import {
     modifyOrganisationConfigApplicationIds,
     organisationConfigApplicationIdsSelector,
+    organisationSelector,
 } from "@/state/directory/organisations";
+import { FormErrors } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;
 
@@ -22,6 +25,7 @@ const ApplicationsForm: React.FC<Props> = ({
     applications,
     handleChange,
     fetchApplications,
+    validationResults,
 }) => {
     useEffect(() => {
         fetchApplications();
@@ -42,34 +46,44 @@ const ApplicationsForm: React.FC<Props> = ({
     };
 
     return (
-        <List
-            bordered={true}
-            size="small"
-            dataSource={applications}
-            renderItem={(application: Application) => (
-                <List.Item
-                    actions={[
-                        <Switch
-                            key={"1"}
-                            checked={isApplicationSelected(application.id)}
-                            size="small"
-                            onChange={() => toggleApplicationChange(application.id)}
-                        />,
-                    ]}
-                >
-                    {application.name}
-                </List.Item>
-            )}
-            className="mb-2"
-        />
+        <>
+            <FormErrors validationResults={validationResults} />
+            <List
+                bordered={true}
+                size="small"
+                dataSource={applications}
+                renderItem={(application: Application) => (
+                    <List.Item
+                        actions={[
+                            <Switch
+                                key={"1"}
+                                checked={isApplicationSelected(application.id)}
+                                size="small"
+                                onChange={() => toggleApplicationChange(application.id)}
+                            />,
+                        ]}
+                    >
+                        {application.name}
+                    </List.Item>
+                )}
+                className="mb-2"
+            />
+        </>
     );
 };
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
+    const organisationState = organisationSelector(state);
     return {
         applicationIds: organisationConfigApplicationIdsSelector(state),
         applications: applicationsSelector(state).items,
+        validationResults: getValidationSubSet(
+            "Config.ApplicationIds",
+            organisationState.validationResults,
+            true,
+            true
+        ),
     };
 };
 

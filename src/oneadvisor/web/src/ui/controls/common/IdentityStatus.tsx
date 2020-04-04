@@ -43,7 +43,12 @@ const IdentityStatusComponent: React.FC<Props> = ({ tokenData, appInfo }) => {
             </div>
             <div>
                 <b>Roles:</b>&nbsp;
-                {tokenData.roles.join(", ")}
+                {tokenData.roles.map((r) => (
+                    <>
+                        <br />
+                        <span style={{ marginLeft: 15 }}>{r}</span>
+                    </>
+                ))}
             </div>
             <div>
                 <b>Token Expires:</b>&nbsp;

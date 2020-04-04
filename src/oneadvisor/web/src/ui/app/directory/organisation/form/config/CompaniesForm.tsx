@@ -4,16 +4,24 @@ import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
+import { getValidationSubSet } from "@/app/validation";
 import { RootState } from "@/state";
 import { companiesSelector, Company } from "@/state/directory/lookups";
 import {
     modifyOrganisationConfigCompanyIds,
     organisationConfigCompanyIdsSelector,
+    organisationSelector,
 } from "@/state/directory/organisations";
+import { FormErrors } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;
 
-const CompaniesForm: React.FC<Props> = ({ companyIds, companies, handleChange }) => {
+const CompaniesForm: React.FC<Props> = ({
+    companyIds,
+    companies,
+    handleChange,
+    validationResults,
+}) => {
     const isCompanySelected = (companyId: string) => {
         return companyIds.some((r) => r === companyId);
     };
@@ -29,34 +37,44 @@ const CompaniesForm: React.FC<Props> = ({ companyIds, companies, handleChange })
     };
 
     return (
-        <List
-            bordered={true}
-            size="small"
-            dataSource={companies}
-            renderItem={(company: Company) => (
-                <List.Item
-                    actions={[
-                        <Switch
-                            key={"1"}
-                            checked={isCompanySelected(company.id)}
-                            size="small"
-                            onChange={() => toggleCompanyChange(company.id)}
-                        />,
-                    ]}
-                >
-                    {company.name}
-                </List.Item>
-            )}
-            className="mb-2"
-        />
+        <>
+            <FormErrors validationResults={validationResults} />
+            <List
+                bordered={true}
+                size="small"
+                dataSource={companies}
+                renderItem={(company: Company) => (
+                    <List.Item
+                        actions={[
+                            <Switch
+                                key={"1"}
+                                checked={isCompanySelected(company.id)}
+                                size="small"
+                                onChange={() => toggleCompanyChange(company.id)}
+                            />,
+                        ]}
+                    >
+                        {company.name}
+                    </List.Item>
+                )}
+                className="mb-2"
+            />
+        </>
     );
 };
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
+    const organisationState = organisationSelector(state);
     return {
         companyIds: organisationConfigCompanyIdsSelector(state),
         companies: companiesSelector(state).items,
+        validationResults: getValidationSubSet(
+            "Config.CompanyIds",
+            organisationState.validationResults,
+            true,
+            true
+        ),
     };
 };
 

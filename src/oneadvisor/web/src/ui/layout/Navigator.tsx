@@ -98,42 +98,42 @@ class Navigator extends Component<Props> {
             <>
                 <Header>
                     <div style={appNameStyle}>
+                        <React.Fragment>
+                            <span
+                                style={{
+                                    fontWeight: 100,
+                                }}
+                            >
+                                ONE
+                            </span>
+                            <span
+                                style={{
+                                    fontWeight: 600,
+                                }}
+                            >
+                                ADVISOR
+                            </span>
+                            <Tag
+                                style={{
+                                    position: "absolute",
+                                    top: "35px",
+                                    left: "160px",
+                                }}
+                                color={this.getEnvironmentColor()}
+                            >
+                                {this.getEnvironmentName()}
+                            </Tag>
+                        </React.Fragment>
+                    </div>
+                    <div style={signoutStyle} onClick={this.signOut}>
                         <Popover
                             placement="bottomRight"
                             content={<IdentityStatus />}
-                            title="My Profile"
+                            title="Profile"
                             mouseEnterDelay={1.5}
                         >
-                            <React.Fragment>
-                                <span
-                                    style={{
-                                        fontWeight: 100,
-                                    }}
-                                >
-                                    ONE
-                                </span>
-                                <span
-                                    style={{
-                                        fontWeight: 600,
-                                    }}
-                                >
-                                    ADVISOR
-                                </span>
-                                <Tag
-                                    style={{
-                                        position: "absolute",
-                                        top: "35px",
-                                        left: "160px",
-                                    }}
-                                    color={this.getEnvironmentColor()}
-                                >
-                                    {this.getEnvironmentName()}
-                                </Tag>
-                            </React.Fragment>
+                            <span>Signout</span>
                         </Popover>
-                    </div>
-                    <div style={signoutStyle} onClick={this.signOut}>
-                        Signout
                     </div>
                     <Menu theme="dark" mode="horizontal" style={{ lineHeight: "64px" }}>
                         {this.props.applications

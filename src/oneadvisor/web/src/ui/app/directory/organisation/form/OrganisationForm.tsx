@@ -9,6 +9,7 @@ import BranchList from "./BranchList";
 import ApplicationsForm from "./config/ApplicationsForm";
 import CompaniesForm from "./config/CompaniesForm";
 import OrganisationDetails from "./OrganisationDetails";
+import OrganisationTabTitle from "./OrganisationTabTitle";
 
 type Props = PropsFromState;
 
@@ -25,11 +26,29 @@ const OrganisationForm: React.FC<Props> = (props: Props) => {
                     {props.organisationId && <BranchList organisationId={props.organisationId} />}
                 </TabPane>
             )}
-            <TabPane tab="Companies" key="companies_tab">
-                <CompaniesForm />
-            </TabPane>
-            <TabPane tab="Applications" key="applications_tab">
+            <TabPane
+                tab={
+                    <OrganisationTabTitle
+                        title="Applications"
+                        validationPrefix="Config.ApplicationIds"
+                        exactMatch={true}
+                    />
+                }
+                key="applications_tab"
+            >
                 <ApplicationsForm />
+            </TabPane>
+            <TabPane
+                tab={
+                    <OrganisationTabTitle
+                        title="Companies"
+                        validationPrefix="Config.CompanyIds"
+                        exactMatch={true}
+                    />
+                }
+                key="companies_tab"
+            >
+                <CompaniesForm />
             </TabPane>
         </Tabs>
     );
