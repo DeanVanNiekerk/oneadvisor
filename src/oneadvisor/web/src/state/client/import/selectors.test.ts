@@ -197,7 +197,7 @@ describe("client import selectors", () => {
         };
 
         //@ts-ignore
-        const percent = clientImportProgressPercentSelector(state);
+        const percent = clientImportProgressPercentSelector.resultFunc(state);
 
         expect(percent).toEqual(50);
     });

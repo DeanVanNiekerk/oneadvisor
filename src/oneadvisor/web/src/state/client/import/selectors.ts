@@ -48,11 +48,12 @@ export const clientImportSelectedColumnsSelector: OutputSelector<
     });
 });
 
-export const clientImportProgressPercentSelector: (state: RootState) => number = createSelector(
-    rootSelector,
-    (root) => {
-        return Math.floor(
-            ((root.resultsSuccess.length + root.resultsFailure.length) / root.clients.length) * 100
-        );
-    }
-);
+export const clientImportProgressPercentSelector: OutputSelector<
+    RootState,
+    number,
+    (state: ImportState) => number
+> = createSelector(rootSelector, (root) => {
+    return Math.floor(
+        ((root.resultsSuccess.length + root.resultsFailure.length) / root.clients.length) * 100
+    );
+});

@@ -8,7 +8,7 @@ import { RootState } from "@/state";
 import { PolicyType, policyTypesSelector } from "@/state/client/lookups";
 import { PolicyTypeListState } from "@/state/client/lookups/policyTypes";
 import { companiesSelector, Company } from "@/state/directory/lookups";
-import { ListState as CompaniesState } from "@/state/directory/lookups/companies";
+import { CompanyListState } from "@/state/directory/lookups/companies";
 import { BarDatum } from "@nivo/bar";
 
 import { Group, GroupTableRecord, PastRevenueCommissionData } from "../";
@@ -44,7 +44,7 @@ export const projectionGroupsTableColumnsSelector: (
         root: ProjectionsState,
         commissionEarningsTypesState: CommissionEarningsTypeListState,
         policyTypesState: PolicyTypeListState,
-        companies: CompaniesState,
+        companies: CompanyListState,
         now: Date
     ) => {
         const { groups, monthsBack, monthsForward } = root;
@@ -174,7 +174,7 @@ export const projectionGroupTableRowsSelector: (
         root: ProjectionsState,
         commissionEarningsTypesState: CommissionEarningsTypeListState,
         policyTypesState: PolicyTypeListState,
-        companies: CompaniesState,
+        companies: CompanyListState,
         now: Date
     ) => {
         let { items } = root;

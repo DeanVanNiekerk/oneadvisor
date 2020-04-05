@@ -1,7 +1,7 @@
 import moment from "moment";
 
 import { PolicyTypeListState } from "@/state/client/lookups/policyTypes";
-import { ListState as CompaniesState } from "@/state/directory/lookups/companies";
+import { CompanyListState } from "@/state/directory/lookups/companies";
 
 import { Group, GroupTableRecord, PastRevenueCommissionData } from "../";
 import {
@@ -60,7 +60,7 @@ describe("report commission projects selectors", () => {
             ],
         };
 
-        const companiesState: CompaniesState = {
+        const companiesState: CompanyListState = {
             fetching: false,
             items: [
                 {

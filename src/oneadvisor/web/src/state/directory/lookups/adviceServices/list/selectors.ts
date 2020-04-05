@@ -2,11 +2,12 @@ import { createSelector } from "reselect";
 
 import { RootState } from "@/state";
 
-import { ListState } from "../";
+import { AdviceServiceListState } from "../";
 
-const rootSelector = (state: RootState): ListState => state.directory.lookups.adviceServices.list;
+const rootSelector = (state: RootState): AdviceServiceListState =>
+    state.directory.lookups.adviceServices.list;
 
-export const adviceServicesSelector: (state: RootState) => ListState = createSelector(
+export const adviceServicesSelector: (state: RootState) => AdviceServiceListState = createSelector(
     rootSelector,
     (root) => root
 );

@@ -1,8 +1,10 @@
 import {
     CLIENT_ID,
     COMMISSION_ID,
+    COMPLIANCE_ID,
     DEFAULT_APPLICATION_ID,
     DIRECTORY_ID,
+    INVEST_ID,
 } from "@/config/application";
 import { menus } from "@/config/menu";
 
@@ -35,10 +37,12 @@ describe("context selectors", () => {
             //@ts-ignore
             const actual = applicationsSelector(state);
 
-            expect(actual.length).toEqual(3);
+            expect(actual.length).toEqual(5);
             expect(actual[0].id).toEqual(DIRECTORY_ID);
             expect(actual[1].id).toEqual(CLIENT_ID);
             expect(actual[2].id).toEqual(COMMISSION_ID);
+            expect(actual[3].id).toEqual(COMPLIANCE_ID);
+            expect(actual[4].id).toEqual(INVEST_ID);
         });
 
         it("directory app", () => {

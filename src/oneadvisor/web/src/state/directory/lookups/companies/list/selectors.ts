@@ -3,12 +3,12 @@ import { createSelector } from "reselect";
 import { RootState } from "@/state";
 import { contextSelector } from "@/state/context/selectors";
 
-import { ListState } from "../";
+import { CompanyListState } from "../";
 import { Company } from "../types";
 
-const rootSelector = (state: RootState): ListState => state.directory.lookups.companies.list;
+const rootSelector = (state: RootState): CompanyListState => state.directory.lookups.companies.list;
 
-export const companiesSelector: (state: RootState) => ListState = createSelector(
+export const companiesSelector: (state: RootState) => CompanyListState = createSelector(
     rootSelector,
     (root) => root
 );
