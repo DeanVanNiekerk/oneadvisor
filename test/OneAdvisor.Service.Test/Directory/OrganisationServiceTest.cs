@@ -9,6 +9,7 @@ using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Model.Directory.Model.Organisation;
 using OneAdvisor.Service.Directory;
 using OneAdvisor.Model.Directory.Model.Organisation.Configuration;
+using OneAdvisor.Model.Directory.Model.Application;
 
 namespace OneAdvisor.Service.Test.Directory
 {
@@ -173,10 +174,12 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("InsertOrganisation");
 
+            TestHelper.InsertApplications(options);
             var company1 = TestHelper.InsertCompany(options);
 
             var config1 = new Config()
             {
+                ApplicationIds = new List<Guid>() { Application.CLIENT_ID },
                 CompanyIds = new List<Guid>() { company1.Id }
             };
 
@@ -207,6 +210,8 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.Equal(organisation.VATRegistrationDate, actual.VATRegistrationDate);
                 Assert.Single(actual.Config.CompanyIds);
                 Assert.Equal(organisation.Config.CompanyIds.Single(), actual.Config.CompanyIds.Single());
+                Assert.Single(actual.Config.ApplicationIds);
+                Assert.Equal(organisation.Config.ApplicationIds.Single(), actual.Config.ApplicationIds.Single());
 
                 //Scope check
                 scope = TestHelper.GetScopeOptions(Guid.NewGuid());
@@ -221,16 +226,20 @@ namespace OneAdvisor.Service.Test.Directory
         {
             var options = TestHelper.GetDbContext("UpdateOrganisation");
 
+            TestHelper.InsertApplications(options);
+
             var company1 = TestHelper.InsertCompany(options);
             var company2 = TestHelper.InsertCompany(options);
 
             var config1 = new Config()
             {
+                ApplicationIds = new List<Guid>() { Application.CLIENT_ID },
                 CompanyIds = new List<Guid>() { company1.Id }
             };
 
             var config2 = new Config()
             {
+                ApplicationIds = new List<Guid>() { Application.CLIENT_ID },
                 CompanyIds = new List<Guid>() { company1.Id }
             };
 
@@ -250,6 +259,7 @@ namespace OneAdvisor.Service.Test.Directory
 
             var config2Updated = new Config()
             {
+                ApplicationIds = new List<Guid>() { Application.CLIENT_ID, Application.COMMISSION_ID },
                 CompanyIds = new List<Guid>() { company2.Id }
             };
 
@@ -279,6 +289,9 @@ namespace OneAdvisor.Service.Test.Directory
                 Assert.Equal(organisation.VATRegistrationDate, actual.VATRegistrationDate);
                 Assert.Single(actual.Config.CompanyIds);
                 Assert.Equal(organisation.Config.CompanyIds.Single(), actual.Config.CompanyIds.Single());
+                Assert.Equal(2, organisation.Config.ApplicationIds.Count());
+                Assert.True(organisation.Config.ApplicationIds.Contains(Application.CLIENT_ID));
+                Assert.True(organisation.Config.ApplicationIds.Contains(Application.COMMISSION_ID));
 
 
                 //Scope check

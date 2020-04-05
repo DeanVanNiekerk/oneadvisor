@@ -156,6 +156,335 @@ namespace OneAdvisor.Service.Test.Directory
 
         #endregion
 
+        #region Advice Scope
+
+        [Fact]
+        public async Task GetAdviceScopes()
+        {
+            var options = TestHelper.GetDbContext("GetAdviceScopes");
+
+            //Given
+            var lkp1 = new AdviceScopeEntity { Id = Guid.NewGuid(), Name = "A" };
+            var lkp2 = new AdviceScopeEntity { Id = Guid.NewGuid(), Name = "B" };
+            var lkp3 = new AdviceScopeEntity { Id = Guid.NewGuid(), Name = "C" };
+
+            using (var context = new DataContext(options))
+            {
+                //Jumbled order
+                context.AdviceScope.Add(lkp2);
+                context.AdviceScope.Add(lkp1);
+                context.AdviceScope.Add(lkp3);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new DirectoryLookupService(context);
+
+                //When
+                var actual = await service.GetAdviceScopes();
+
+                //Then
+                Assert.Equal(3, actual.Count);
+
+                var actual1 = actual[0];
+                Assert.Equal(lkp1.Id, actual1.Id);
+                Assert.Equal(lkp1.Name, actual1.Name);
+
+                var actual2 = actual[1];
+                Assert.Equal(lkp2.Id, actual2.Id);
+
+                var actual3 = actual[2];
+                Assert.Equal(lkp3.Id, actual3.Id);
+            }
+        }
+
+        [Fact]
+        public async Task InsertAdviceScope()
+        {
+            var options = TestHelper.GetDbContext("InsertAdviceScope");
+
+            //Given
+            var model = new AdviceScope()
+            {
+                Name = "1",
+            };
+
+            using (var context = new DataContext(options))
+            {
+                var service = new DirectoryLookupService(context);
+
+                //When
+                var result = await service.InsertAdviceScope(model);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.AdviceScope.FindAsync(((AdviceScope)result.Tag).Id);
+                Assert.Equal(model.Name, actual.Name);
+            }
+        }
+
+        [Fact]
+        public async Task UpdateAdviceScope()
+        {
+            var options = TestHelper.GetDbContext("UpdateAdviceScope");
+
+            //Given
+            var lkp1 = new AdviceScopeEntity { Id = Guid.NewGuid(), Name = "1" };
+
+            using (var context = new DataContext(options))
+            {
+                context.AdviceScope.Add(lkp1);
+
+                context.SaveChanges();
+            }
+
+            var model = new AdviceScope()
+            {
+                Id = lkp1.Id,
+                Name = "1 Updated",
+            };
+
+            using (var context = new DataContext(options))
+            {
+                var service = new DirectoryLookupService(context);
+
+                //When
+                var result = await service.UpdateAdviceScope(model);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.AdviceScope.FindAsync(model.Id);
+                Assert.Equal(model.Name, actual.Name);
+            }
+        }
+
+        #endregion
+
+        #region Advice Service
+
+        [Fact]
+        public async Task GetAdviceServices()
+        {
+            var options = TestHelper.GetDbContext("GetAdviceServices");
+
+            //Given
+            var lkp1 = new AdviceServiceEntity { Id = Guid.NewGuid(), Name = "A" };
+            var lkp2 = new AdviceServiceEntity { Id = Guid.NewGuid(), Name = "B" };
+            var lkp3 = new AdviceServiceEntity { Id = Guid.NewGuid(), Name = "C" };
+
+            using (var context = new DataContext(options))
+            {
+                //Jumbled order
+                context.AdviceService.Add(lkp2);
+                context.AdviceService.Add(lkp1);
+                context.AdviceService.Add(lkp3);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new DirectoryLookupService(context);
+
+                //When
+                var actual = await service.GetAdviceServices();
+
+                //Then
+                Assert.Equal(3, actual.Count);
+
+                var actual1 = actual[0];
+                Assert.Equal(lkp1.Id, actual1.Id);
+                Assert.Equal(lkp1.Name, actual1.Name);
+
+                var actual2 = actual[1];
+                Assert.Equal(lkp2.Id, actual2.Id);
+
+                var actual3 = actual[2];
+                Assert.Equal(lkp3.Id, actual3.Id);
+            }
+        }
+
+        [Fact]
+        public async Task InsertAdviceService()
+        {
+            var options = TestHelper.GetDbContext("InsertAdviceService");
+
+            //Given
+            var model = new AdviceService()
+            {
+                Name = "1",
+            };
+
+            using (var context = new DataContext(options))
+            {
+                var service = new DirectoryLookupService(context);
+
+                //When
+                var result = await service.InsertAdviceService(model);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.AdviceService.FindAsync(((AdviceService)result.Tag).Id);
+                Assert.Equal(model.Name, actual.Name);
+            }
+        }
+
+        [Fact]
+        public async Task UpdateAdviceService()
+        {
+            var options = TestHelper.GetDbContext("UpdateAdviceService");
+
+            //Given
+            var lkp1 = new AdviceServiceEntity { Id = Guid.NewGuid(), Name = "1" };
+
+            using (var context = new DataContext(options))
+            {
+                context.AdviceService.Add(lkp1);
+
+                context.SaveChanges();
+            }
+
+            var model = new AdviceService()
+            {
+                Id = lkp1.Id,
+                Name = "1 Updated",
+            };
+
+            using (var context = new DataContext(options))
+            {
+                var service = new DirectoryLookupService(context);
+
+                //When
+                var result = await service.UpdateAdviceService(model);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.AdviceService.FindAsync(model.Id);
+                Assert.Equal(model.Name, actual.Name);
+            }
+        }
+
+        #endregion
+
+        #region License Categoriy Service
+
+        [Fact]
+        public async Task GetLicenseCategories()
+        {
+            var options = TestHelper.GetDbContext("GetLicenseCategories");
+
+            //Given
+            var lkp1 = new LicenseCategoryEntity { Id = Guid.NewGuid(), Name = "A", Code = "1" };
+            var lkp2 = new LicenseCategoryEntity { Id = Guid.NewGuid(), Name = "B", Code = "2" };
+            var lkp3 = new LicenseCategoryEntity { Id = Guid.NewGuid(), Name = "C", Code = "3" };
+
+            using (var context = new DataContext(options))
+            {
+                //Jumbled order
+                context.LicenseCategory.Add(lkp2);
+                context.LicenseCategory.Add(lkp1);
+                context.LicenseCategory.Add(lkp3);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new DirectoryLookupService(context);
+
+                //When
+                var actual = await service.GetLicenseCategories();
+
+                //Then
+                Assert.Equal(3, actual.Count);
+
+                var actual1 = actual[0];
+                Assert.Equal(lkp1.Id, actual1.Id);
+                Assert.Equal(lkp1.Name, actual1.Name);
+                Assert.Equal(lkp1.Code, actual1.Code);
+
+                var actual2 = actual[1];
+                Assert.Equal(lkp2.Id, actual2.Id);
+
+                var actual3 = actual[2];
+                Assert.Equal(lkp3.Id, actual3.Id);
+            }
+        }
+
+        [Fact]
+        public async Task InsertLicenseCategory()
+        {
+            var options = TestHelper.GetDbContext("InsertLicenseCategory");
+
+            //Given
+            var model = new LicenseCategory()
+            {
+                Name = "1",
+                Code = "A",
+            };
+
+            using (var context = new DataContext(options))
+            {
+                var service = new DirectoryLookupService(context);
+
+                //When
+                var result = await service.InsertLicenseCategory(model);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.LicenseCategory.FindAsync(((LicenseCategory)result.Tag).Id);
+                Assert.Equal(model.Name, actual.Name);
+                Assert.Equal(model.Code, actual.Code);
+            }
+        }
+
+        [Fact]
+        public async Task UpdateLicenseCategory()
+        {
+            var options = TestHelper.GetDbContext("UpdateLicenseCategory");
+
+            //Given
+            var lkp1 = new LicenseCategoryEntity { Id = Guid.NewGuid(), Name = "1", Code = "A" };
+
+            using (var context = new DataContext(options))
+            {
+                context.LicenseCategory.Add(lkp1);
+
+                context.SaveChanges();
+            }
+
+            var model = new LicenseCategory()
+            {
+                Id = lkp1.Id,
+                Name = "1 Updated",
+                Code = "A Updated",
+            };
+
+            using (var context = new DataContext(options))
+            {
+                var service = new DirectoryLookupService(context);
+
+                //When
+                var result = await service.UpdateLicenseCategory(model);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.LicenseCategory.FindAsync(model.Id);
+                Assert.Equal(model.Name, actual.Name);
+                Assert.Equal(model.Code, actual.Code);
+            }
+        }
+
+        #endregion
+
         #region User Type
 
         [Fact]

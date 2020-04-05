@@ -34,6 +34,9 @@ namespace OneAdvisor.Data
         public DbSet<ChangeLogEntity> ChangeLog { get; set; }
         public DbSet<UserTypeEntity> UserType { get; set; }
         public DbSet<VATRateEntity> VATRate { get; set; }
+        public DbSet<AdviceScopeEntity> AdviceScope { get; set; }
+        public DbSet<AdviceServiceEntity> AdviceService { get; set; }
+        public DbSet<LicenseCategoryEntity> LicenseCategory { get; set; }
 
         #endregion
 
@@ -94,6 +97,9 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<ChangeLogEntity>().ToTable("dir_ChangeLog");
             modelBuilder.Entity<VATRateEntity>().ToTable("dir_VATRate").HasData(SeedData.GetVATRates());
             modelBuilder.Entity<UserTypeEntity>().ToTable("dir_UserType").HasData(SeedData.GetUserTypes());
+            modelBuilder.Entity<AdviceScopeEntity>().ToTable("dir_AdviceScope").HasData(SeedData.GetAdviceScopes());
+            modelBuilder.Entity<AdviceServiceEntity>().ToTable("dir_AdviceService").HasData(SeedData.GetAdviceServices());
+            modelBuilder.Entity<LicenseCategoryEntity>().ToTable("dir_LicenseCategory").HasData(SeedData.GetLicenseCategories());
 
             //Custom mappings
             OrganisationMap.Map(modelBuilder);

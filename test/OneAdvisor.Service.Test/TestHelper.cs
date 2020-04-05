@@ -18,6 +18,7 @@ using OneAdvisor.Data.Entities.Client.Lookup;
 using OneAdvisor.Data.Entities.Commission.Lookup;
 using OneAdvisor.Model.Client.Model.Lookup;
 using OneAdvisor.Model.Commission.Model.Lookup;
+using OneAdvisor.Model.Directory.Model.Application;
 
 namespace OneAdvisor.Service.Test
 {
@@ -240,6 +241,19 @@ namespace OneAdvisor.Service.Test
             InsertCommissionEarningsType(options, new CommissionEarningsTypeEntity() { Id = CommissionEarningsType.EARNINGS_TYPE_MONTHLY_ANNUITY, Name = "MONTHLY_ANNUITY" });
             InsertCommissionEarningsType(options, new CommissionEarningsTypeEntity() { Id = CommissionEarningsType.EARNINGS_TYPE_ONCE_OFF, Name = "ONCE_OFF" });
             InsertCommissionEarningsType(options, new CommissionEarningsTypeEntity() { Id = CommissionEarningsType.EARNINGS_TYPE_LIFE_FIRST_YEARS, Name = "LIFE_FIRST_YEARS" });
+        }
+
+        public static void InsertApplications(DbContextOptions<DataContext> options)
+        {
+            using (var context = new DataContext(options))
+            {
+                context.Application.Add(new ApplicationEntity() { Id = Application.DIRECTORY_ID });
+                context.Application.Add(new ApplicationEntity() { Id = Application.CLIENT_ID });
+                context.Application.Add(new ApplicationEntity() { Id = Application.COMMISSION_ID });
+                context.Application.Add(new ApplicationEntity() { Id = Application.COMPLIANCE_ID });
+                context.Application.Add(new ApplicationEntity() { Id = Application.INVEST_ID });
+                context.SaveChanges();
+            };
         }
 
         public static void InsertCommissionEarningsType(DbContextOptions<DataContext> options, CommissionEarningsTypeEntity entity)

@@ -20,11 +20,12 @@ namespace api.Test.Controllers.Directory
         [Fact]
         public void OrganisationModelComposition()
         {
-            Assert.Equal(4, typeof(Organisation).PropertyCount());
+            Assert.Equal(5, typeof(Organisation).PropertyCount());
             Assert.True(typeof(Organisation).HasProperty("Id"));
             Assert.True(typeof(Organisation).HasProperty("Name"));
             Assert.True(typeof(Organisation).HasProperty("VATRegistered"));
             Assert.True(typeof(Organisation).HasProperty("VATRegistrationDate"));
+            Assert.True(typeof(Organisation).HasProperty("Config"));
         }
 
         [Fact]
