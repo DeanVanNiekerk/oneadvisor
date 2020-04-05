@@ -54,3 +54,21 @@ export const UserList = lazy(() =>
         return module;
     })
 );
+export const AdviceScopeList = lazy(() =>
+    import("@/ui/app/directory/lookup/adviceScope/AdviceScopeList").then(async (module) => {
+        await ensureDirectoryReducer();
+        return module;
+    })
+);
+export const AdviceServiceList = lazy(() =>
+    import("@/ui/app/directory/lookup/adviceService/AdviceServiceList").then(async (module) => {
+        await ensureDirectoryReducer();
+        return module;
+    })
+);
+export const LicenseCategoryList = lazy(() =>
+    import("@/ui/app/directory/lookup/licenseCategory/LicenseCategoryList").then(async (module) => {
+        await ensureDirectoryReducer();
+        return module;
+    })
+);

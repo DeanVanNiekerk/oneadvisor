@@ -22,22 +22,13 @@ namespace api.Controllers.Directory.Lookups
         [HttpGet("all")]
         public async Task<IActionResult> All()
         {
-            var getCompaniesTask = LookupService.GetCompanies();
-            var getUserTypesTask = LookupService.GetUserTypes();
-            var getAdviceScopesTask = LookupService.GetAdviceScopes();
-            var getAdviceServicesTask = LookupService.GetAdviceServices();
-            var getLicenseCategoriesTask = LookupService.GetLicenseCategories();
-
-            //Run in parallel
-            await Task.WhenAll(getCompaniesTask, getUserTypesTask, getAdviceScopesTask, getAdviceServicesTask, getLicenseCategoriesTask);
-
             var lookups = new api.Controllers.Directory.Lookups.Dto.Lookups()
             {
-                Companies = await getCompaniesTask,
-                UserTypes = await getUserTypesTask,
-                AdviceScopes = await getAdviceScopesTask,
-                AdviceServices = await getAdviceServicesTask,
-                LicenseCategories = await getLicenseCategoriesTask,
+                Companies = await LookupService.GetCompanies(),
+                UserTypes = await LookupService.GetUserTypes(),
+                AdviceScopes = await LookupService.GetAdviceScopes(),
+                AdviceServices = await LookupService.GetAdviceServices(),
+                LicenseCategories = await LookupService.GetLicenseCategories(),
             };
 
             return Ok(lookups);
@@ -105,9 +96,9 @@ namespace api.Controllers.Directory.Lookups
 
         [HttpPost("adviceScopes/{adviceScopeId}")]
         [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
-        public async Task<IActionResult> UpdateAdviceScope(Guid adviceScopesId, [FromBody] AdviceScope model)
+        public async Task<IActionResult> UpdateAdviceScope(Guid adviceScopeId, [FromBody] AdviceScope model)
         {
-            model.Id = adviceScopesId;
+            model.Id = adviceScopeId;
 
             var result = await LookupService.UpdateAdviceScope(model);
 

@@ -1,30 +1,30 @@
-import { CompanyListState } from "../types";
-import { CompanyListAction } from "./actions";
+import { AdviceScopeListState } from "../types";
+import { AdviceScopeListAction } from "./actions";
 
-export const defaultState: CompanyListState = {
+export const defaultState: AdviceScopeListState = {
     items: [],
     fetching: false,
 };
 
 export const reducer = (
-    state: CompanyListState = defaultState,
-    action: CompanyListAction
-): CompanyListState => {
+    state: AdviceScopeListState = defaultState,
+    action: AdviceScopeListAction
+): AdviceScopeListState => {
     switch (action.type) {
-        case "COMPANIES_LIST_RECEIVE": {
+        case "ADVICESCOPES_LIST_RECEIVE": {
             return {
                 ...state,
                 items: action.payload,
                 fetching: false,
             };
         }
-        case "COMPANIES_LIST_FETCHING": {
+        case "ADVICESCOPES_LIST_FETCHING": {
             return {
                 ...state,
                 fetching: true,
             };
         }
-        case "COMPANIES_LIST_FETCHING_ERROR": {
+        case "ADVICESCOPES_LIST_FETCHING_ERROR": {
             return {
                 ...state,
                 items: [],

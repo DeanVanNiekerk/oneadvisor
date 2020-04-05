@@ -27,9 +27,12 @@ import {
 } from "./commission";
 import { TestPage } from "./compliance";
 import {
+    AdviceScopeList,
+    AdviceServiceList,
     AuditLogList,
     ChangeLogList,
     CompanyList,
+    LicenseCategoryList,
     OrganisationList,
     RoleList,
     UserList,
@@ -115,6 +118,17 @@ const Routes: React.FC = () => (
             <SecureRoute exact path="/directory/organisations" component={OrganisationList} />
             <SecureRoute exact path="/directory/roles" component={RoleList} />
             <SecureRoute exact path="/directory/lookups/companies" component={CompanyList} />
+            <SecureRoute exact path="/directory/lookups/adviceScopes" component={AdviceScopeList} />
+            <SecureRoute
+                exact
+                path="/directory/lookups/adviceServices"
+                component={AdviceServiceList}
+            />
+            <SecureRoute
+                exact
+                path="/directory/lookups/licenseCategories"
+                component={LicenseCategoryList}
+            />
             <SecureRoute exact path="/directory/logs/changeLogs" component={ChangeLogList} />
             <SecureRoute exact path="/directory/logs/auditLogs" component={AuditLogList} />
             {/* ------------------------------------------------------------------------------------- */}

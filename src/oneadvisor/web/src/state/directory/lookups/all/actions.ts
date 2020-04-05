@@ -3,7 +3,14 @@ import { Dispatch } from "redux";
 import { ApiAction } from "@/app/types";
 import { allDirectoryLookupsApi } from "@/config/api/directory";
 
-import { Lookups, receiveCompanies, receiveUserTypes } from "../";
+import {
+    Lookups,
+    receiveAdviceScopes,
+    receiveAdviceServices,
+    receiveCompanies,
+    receiveLicenseCategories,
+    receiveUserTypes,
+} from "../";
 
 type LookupsReceiveAction = {
     type: "DIRECTORY_LOOKUPS_RECEIVE";
@@ -22,6 +29,9 @@ export const fetchAllDirectoryLookups = (): ApiAction => ({
     onSuccess: (payload: Lookups, dispatch: Dispatch) => {
         dispatch(receiveCompanies(payload.companies));
         dispatch(receiveUserTypes(payload.userTypes));
+        dispatch(receiveAdviceScopes(payload.adviceScopes));
+        dispatch(receiveAdviceServices(payload.adviceServices));
+        dispatch(receiveLicenseCategories(payload.licenseCategories));
     },
     dispatchPrefix: "DIRECTORY_LOOKUPS",
 });

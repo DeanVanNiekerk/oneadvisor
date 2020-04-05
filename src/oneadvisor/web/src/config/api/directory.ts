@@ -15,3 +15,6 @@ export const changeLogsApi = `${directoryBaseApi}/changeLogs`;
 export const directoryLookupsApi = `${directoryBaseApi}/lookups`;
 export const allDirectoryLookupsApi = `${directoryLookupsApi}/all`;
 export const companiesApi = `${directoryLookupsApi}/companies`;
+export const adviceScopesApi = `${directoryLookupsApi}/adviceScopes`;
+export const adviceServicesApi = `${directoryLookupsApi}/adviceServices`;
+export const licenseCategoriesApi = `${directoryLookupsApi}/licenseCategories`;

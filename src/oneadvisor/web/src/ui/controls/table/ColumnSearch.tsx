@@ -1,5 +1,7 @@
-import { Button, Input } from "antd";
+import { Input } from "antd";
 import React, { useEffect } from "react";
+
+import { Button } from "../";
 
 type Confirm = () => void;
 type ClearFilters = (selectedKeys: string[]) => void;
@@ -53,7 +55,7 @@ const ColumnSearch: React.FC<Props> = (props: Props) => {
             <Button
                 type="primary"
                 onClick={() => handleSearch(props.confirm)}
-                icon="search"
+                iconName="search"
                 size="small"
                 style={{ width: 90, marginRight: 8 }}
             >

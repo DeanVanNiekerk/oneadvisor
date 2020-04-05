@@ -20,12 +20,12 @@ export type CompanyState = {
     readonly visible: boolean;
 };
 
-export type ListState = {
+export type CompanyListState = {
     readonly items: Company[];
     readonly fetching: boolean;
 };
 
 export type CompaniesState = {
-    readonly list: ListState;
+    readonly list: CompanyListState;
     readonly company: CompanyState;
 };

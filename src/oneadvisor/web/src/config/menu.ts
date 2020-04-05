@@ -46,6 +46,21 @@ export const menus: Menus = {
                         relativePath: "/lookups/companies",
                         roles: ["super_administrator"],
                     },
+                    {
+                        name: "Advice Scopes",
+                        relativePath: "/lookups/adviceScopes",
+                        roles: ["super_administrator"],
+                    },
+                    {
+                        name: "Advice Services",
+                        relativePath: "/lookups/adviceServices",
+                        roles: ["super_administrator"],
+                    },
+                    {
+                        name: "License Categories",
+                        relativePath: "/lookups/licenseCategories",
+                        roles: ["super_administrator"],
+                    },
                 ],
             },
             {
