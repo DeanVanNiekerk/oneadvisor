@@ -51,25 +51,26 @@ class SplitRuleForm extends Component<Props, State> {
         const { splitRule } = this.state;
 
         return (
-            <Form editUseCase="com_edit_commission_split_rules" className="mt-1">
-                <FormInput
-                    fieldName="name"
-                    label="Name"
-                    value={splitRule.name}
-                    onChange={this.handleChange}
-                    validationResults={validationResults}
-                    autoFocus={true}
-                />
+            <>
+                <Form editUseCase="com_edit_commission_split_rules" className="mt-1">
+                    <FormInput
+                        fieldName="name"
+                        label="Name"
+                        value={splitRule.name}
+                        onChange={this.handleChange}
+                        validationResults={validationResults}
+                        autoFocus={true}
+                    />
 
-                <FormSwitch
-                    fieldName="isDefault"
-                    label="Default"
-                    value={splitRule.isDefault}
-                    onChange={this.handleChange}
-                    validationResults={validationResults}
-                    extra="Setting the rule to 'Default' will cause this rule to be applied automatically to all future commission statement imports."
-                />
-
+                    <FormSwitch
+                        fieldName="isDefault"
+                        label="Default"
+                        value={splitRule.isDefault}
+                        onChange={this.handleChange}
+                        validationResults={validationResults}
+                        extra="Setting the rule to 'Default' will cause this rule to be applied automatically to all future commission statement imports."
+                    />
+                </Form>
                 <b className="mt-1">Split Percentages</b>
                 <Divider orientation="left" className="mt-1" />
 
@@ -78,7 +79,7 @@ class SplitRuleForm extends Component<Props, State> {
                     validationResults={getValidationSubSet("split", validationResults)}
                     onChange={(split) => this.handleChange("split", split)}
                 />
-            </Form>
+            </>
         );
     }
 }

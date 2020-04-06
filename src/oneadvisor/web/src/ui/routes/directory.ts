@@ -2,6 +2,8 @@ import { lazy } from "react";
 
 import { reducerManager } from "@/state/configureStore";
 
+import { ensureCommissionReducer } from "./commission";
+
 export const ensureDirectoryReducer = async () => {
     if (reducerManager.hasReducer("directory")) return;
 
@@ -51,6 +53,7 @@ export const RoleList = lazy(() =>
 export const UserList = lazy(() =>
     import("@/ui/app/directory/user/UserList").then(async (module) => {
         await ensureDirectoryReducer();
+        await ensureCommissionReducer();
         return module;
     })
 );

@@ -73,7 +73,7 @@ const FormInput: React.FC<Props> = (props: Props) => {
                 autoFocus={props.autoFocus}
                 disabled={disabled}
                 name={fieldName}
-                id={fieldName}
+                //id={fieldName}
                 value={value}
                 onChange={onChange}
                 addonAfter={addonAfter}

@@ -111,7 +111,7 @@ const CommissionTypesForm: React.FC<Props> = (props: Props) => {
                                 validationResults={validationResults}
                                 width="320px"
                             />
-                            <FormItemIcon icon={ArrowRightOutlined} />
+                            <FormItemIcon icon={<ArrowRightOutlined />} />
                             <FormSelect
                                 fieldName="commissionTypeCode"
                                 validationFieldName={`types[${index}].commissionTypeCode`}

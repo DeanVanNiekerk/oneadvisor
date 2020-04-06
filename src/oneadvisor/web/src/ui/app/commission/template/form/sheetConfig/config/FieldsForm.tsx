@@ -79,7 +79,7 @@ const FieldsForm: React.FC<Props> = (props: Props) => {
                                 validationResults={validationResults}
                                 width="100px"
                             />
-                            <FormItemIcon icon={ArrowRightOutlined} />
+                            <FormItemIcon icon={<ArrowRightOutlined />} />
                             <FormSelect
                                 fieldName="name"
                                 validationFieldName={`[${index}].name`}
@@ -96,7 +96,7 @@ const FieldsForm: React.FC<Props> = (props: Props) => {
                             />
                             <FormSwitch
                                 fieldName="negateValue"
-                                label="Neg."
+                                label="Negate"
                                 value={field.negateValue}
                                 validationResults={validationResults}
                                 onChange={(fieldName: string, value: boolean) => {

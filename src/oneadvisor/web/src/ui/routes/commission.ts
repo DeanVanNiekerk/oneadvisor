@@ -4,7 +4,7 @@ import { reducerManager } from "@/state/configureStore";
 
 import { ensureDirectoryReducer } from "./directory";
 
-const ensureCommissionReducer = async () => {
+export const ensureCommissionReducer = async () => {
     await ensureDirectoryReducer();
 
     if (reducerManager.hasReducer("commission")) return;
