@@ -33,7 +33,7 @@ const ColumnSearch: React.FC<Props> = (props: Props) => {
     };
 
     return (
-        <div className="custom-filter-dropdown">
+        <div style={{ padding: 8 }}>
             <Input
                 ref={(node) => {
                     searchInput = node;
@@ -45,18 +45,14 @@ const ColumnSearch: React.FC<Props> = (props: Props) => {
                         props.setSelectedKeys(e.target.value ? [e.target.value] : []);
                 }}
                 onPressEnter={() => handleSearch(props.confirm)}
-                style={{
-                    width: 188,
-                    marginBottom: 8,
-                    display: "block",
-                }}
-                autoFocus={true}
+                style={{ width: 188, marginBottom: 8, display: "block" }}
             />
             <Button
                 type="primary"
                 onClick={() => handleSearch(props.confirm)}
                 iconName="search"
                 size="small"
+                noLeftMargin={true}
                 style={{ width: 90, marginRight: 8 }}
             >
                 Search
@@ -64,6 +60,7 @@ const ColumnSearch: React.FC<Props> = (props: Props) => {
             <Button
                 onClick={() => handleReset(props.clearFilters)}
                 size="small"
+                noLeftMargin={true}
                 style={{ width: 90 }}
             >
                 Reset
