@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 
-import { RootState } from "@/state";
-import { organisationIdSelector, organisationIsNew } from "@/state/directory/organisations";
 import { TabPane, Tabs } from "@/ui/controls";
 
+import AddressForm from "./AddressForm";
 import CompaniesForm from "./CompaniesForm";
+import ComplianceOfficerForm from "./ComplianceOfficerForm";
 import ConfigTabTitle from "./ConfigTabTitle";
 import DetailsForm from "./DetailsForm";
 
@@ -31,6 +30,26 @@ const EditConfig: React.FC = () => {
                 key="companies_tab"
             >
                 <CompaniesForm />
+            </TabPane>
+            <TabPane
+                tab={
+                    <ConfigTabTitle title="Address" validationPrefix="Address" exactMatch={false} />
+                }
+                key="address_tab"
+            >
+                <AddressForm />
+            </TabPane>
+            <TabPane
+                tab={
+                    <ConfigTabTitle
+                        title="Compliance Officer"
+                        validationPrefix="ComplianceOfficer"
+                        exactMatch={false}
+                    />
+                }
+                key="complianceOfficer_tab"
+            >
+                <ComplianceOfficerForm />
             </TabPane>
         </Tabs>
     );

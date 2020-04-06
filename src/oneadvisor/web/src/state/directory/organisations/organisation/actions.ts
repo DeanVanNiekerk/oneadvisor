@@ -7,7 +7,7 @@ import { organisationsApi } from "@/config/api/directory";
 import { RootState } from "@/state";
 
 import { organisationIsModifiedSelector, organisationSelector } from "../";
-import { Config, OrganisationEdit } from "../types";
+import { Address, ComplianceOfficer, Config, OrganisationEdit } from "../types";
 
 type OrganisationReceiveAction = {
     type: "ORGANISATIONS_ORGANISATION_RECEIVE";
@@ -88,6 +88,36 @@ export const modifyOrganisationConfigCompanyIds = (
 
         const organisationModified = update(organisation, {
             config: { companyIds: { $set: companyIds } },
+        });
+
+        dispatch(modifyOrganisation(organisationModified));
+    };
+};
+
+export const modifyOrganisationConfigAddress = (
+    address: Address
+): ThunkAction<void, RootState, {}, OrganisationModifiedAction> => {
+    return (dispatch, getState) => {
+        const { organisation } = organisationSelector(getState());
+        if (!organisation) return;
+
+        const organisationModified = update(organisation, {
+            config: { address: { $set: address } },
+        });
+
+        dispatch(modifyOrganisation(organisationModified));
+    };
+};
+
+export const modifyOrganisationConfigComplianceOfficer = (
+    complianceOfficer: ComplianceOfficer
+): ThunkAction<void, RootState, {}, OrganisationModifiedAction> => {
+    return (dispatch, getState) => {
+        const { organisation } = organisationSelector(getState());
+        if (!organisation) return;
+
+        const organisationModified = update(organisation, {
+            config: { complianceOfficer: { $set: complianceOfficer } },
         });
 
         dispatch(modifyOrganisation(organisationModified));
