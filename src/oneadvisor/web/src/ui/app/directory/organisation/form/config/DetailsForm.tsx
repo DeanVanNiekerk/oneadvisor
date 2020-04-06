@@ -22,13 +22,13 @@ const DetailsForm: React.FC<Props> = ({ config, handleChange, validationResults 
     };
 
     return (
-        <Form editUseCase="dir_edit_organisations">
-            {/* <FormInput fieldName="id" label="Id" value={organisation.id || ""} disabled={true} /> */}
-
+        <Form layout="vertical" editUseCase="dir_edit_organisations">
             <FormInput
                 fieldName="telephoneNumber"
                 label="Telephone"
+                onChange={onChange}
                 value={config.telephoneNumber || ""}
+                validationResults={validationResults}
             />
 
             <FormSwitch
@@ -65,7 +65,9 @@ const DetailsForm: React.FC<Props> = ({ config, handleChange, validationResults 
             <FormInput
                 fieldName="hasReceivedCommissionFromCompaniesTarget"
                 label="If yes, who?"
+                onChange={onChange}
                 value={config.hasReceivedCommissionFromCompaniesTarget || ""}
+                validationResults={validationResults}
             />
 
             <FormSwitch
@@ -78,7 +80,9 @@ const DetailsForm: React.FC<Props> = ({ config, handleChange, validationResults 
             <FormInput
                 fieldName="hasSharesInProductProvidersTarget"
                 label="If yes, who?"
+                onChange={onChange}
                 value={config.hasSharesInProductProvidersTarget || ""}
+                validationResults={validationResults}
             />
         </Form>
     );

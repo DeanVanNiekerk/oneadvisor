@@ -13,7 +13,7 @@ const EditConfig: React.FC = () => {
     const [activeTab, setActiveTab] = useState("details_tab");
 
     return (
-        <Tabs onChange={setActiveTab} activeKey={activeTab} sticky={true}>
+        <Tabs onChange={setActiveTab} activeKey={activeTab} type="card">
             <TabPane
                 tab={<ConfigTabTitle title="Details" validationPrefix="" exactMatch={true} />}
                 key="details_tab"

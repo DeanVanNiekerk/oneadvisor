@@ -43,7 +43,7 @@ const OrganisationForm: React.FC<Props> = (props: Props) => {
                     <OrganisationTabTitle
                         title="Config"
                         validationPrefix="Config"
-                        exactMatch={true}
+                        exactMatch={false}
                     />
                 }
                 key="config_tab"
