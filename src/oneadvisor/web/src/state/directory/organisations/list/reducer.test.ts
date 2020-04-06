@@ -1,3 +1,4 @@
+import { getConfig } from "../helpers";
 import { Organisation } from "../types";
 import { defaultState, reducer } from "./reducer";
 
@@ -40,14 +41,14 @@ describe("organisation list reducer", () => {
             fetching: true,
         };
 
+        const config = getConfig();
+
         const organisation: Organisation = {
             id: "10",
             name: "Org1",
-            vatRegistered: false,
-            vatRegistrationDate: null,
+            applicationIds: [],
             config: {
-                applicationIds: [],
-                companyIds: [],
+                ...config,
             },
         };
 

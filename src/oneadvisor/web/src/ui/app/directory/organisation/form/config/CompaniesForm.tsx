@@ -9,7 +9,7 @@ import { RootState } from "@/state";
 import { companiesSelector, Company } from "@/state/directory/lookups";
 import {
     modifyOrganisationConfigCompanyIds,
-    organisationConfigCompanyIdsSelector,
+    organisationConfigSelector,
     organisationSelector,
 } from "@/state/directory/organisations";
 import { FormErrors } from "@/ui/controls";
@@ -67,7 +67,7 @@ type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const organisationState = organisationSelector(state);
     return {
-        companyIds: organisationConfigCompanyIdsSelector(state),
+        companyIds: organisationConfigSelector(state).companyIds,
         companies: companiesSelector(state).items,
         validationResults: getValidationSubSet(
             "Config.CompanyIds",

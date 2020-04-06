@@ -3,7 +3,8 @@ import { createSelector } from "reselect";
 import { areEqual } from "@/app/utils";
 import { RootState } from "@/state";
 
-import { OrganisationState } from "../";
+import { Config, OrganisationState } from "../";
+import { getConfig } from "../helpers";
 
 const rootSelector = (state: RootState): OrganisationState =>
     state.directory.organisations.organisation;
@@ -13,16 +14,9 @@ export const organisationSelector: (state: RootState) => OrganisationState = cre
     (root) => root
 );
 
-export const organisationConfigCompanyIdsSelector: (
-    state: RootState
-) => string[] = createSelector(rootSelector, (root) =>
-    root.organisation ? root.organisation.config.companyIds : []
-);
-
-export const organisationConfigApplicationIdsSelector: (
-    state: RootState
-) => string[] = createSelector(rootSelector, (root) =>
-    root.organisation ? root.organisation.config.applicationIds : []
+export const organisationConfigSelector: (state: RootState) => Config = createSelector(
+    rootSelector,
+    (root) => (root.organisation ? root.organisation.config : getConfig())
 );
 
 export const organisationIsModifiedSelector: (state: RootState) => boolean = createSelector(

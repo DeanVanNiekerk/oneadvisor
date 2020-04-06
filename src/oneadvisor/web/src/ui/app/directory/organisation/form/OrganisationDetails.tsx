@@ -9,7 +9,7 @@ import {
     OrganisationEdit,
     organisationSelector,
 } from "@/state/directory/organisations";
-import { Form, FormDate, FormInput, FormSwitch } from "@/ui/controls";
+import { Form, FormInput } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;
 
@@ -35,7 +35,7 @@ const OrganisationDetails: React.FC<Props> = ({
                 validationResults={validationResults}
                 autoFocus={true}
             />
-            <FormSwitch
+            {/* <FormSwitch
                 fieldName="vatRegistered"
                 label="VAT Registered"
                 value={organisation.vatRegistered}
@@ -49,7 +49,7 @@ const OrganisationDetails: React.FC<Props> = ({
                 onChange={onChange}
                 validationResults={validationResults}
                 allowClear={true}
-            />
+            /> */}
         </Form>
     );
 };

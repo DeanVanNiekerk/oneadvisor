@@ -1,4 +1,5 @@
 import { List, Switch } from "antd";
+import update from "immutability-helper";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { AnyAction } from "redux";
@@ -12,8 +13,8 @@ import {
     fetchApplications,
 } from "@/state/directory/applications";
 import {
-    modifyOrganisationConfigApplicationIds,
-    organisationConfigApplicationIdsSelector,
+    modifyOrganisation,
+    OrganisationEdit,
     organisationSelector,
 } from "@/state/directory/organisations";
 import { FormErrors } from "@/ui/controls";
@@ -21,7 +22,7 @@ import { FormErrors } from "@/ui/controls";
 type Props = PropsFromState & PropsFromDispatch;
 
 const ApplicationsForm: React.FC<Props> = ({
-    applicationIds,
+    organisation,
     applications,
     handleChange,
     fetchApplications,
@@ -31,18 +32,20 @@ const ApplicationsForm: React.FC<Props> = ({
         fetchApplications();
     }, []);
 
+    if (!organisation) return <React.Fragment />;
+
     const isApplicationSelected = (applicationId: string) => {
-        return applicationIds.some((r) => r === applicationId);
+        return organisation.applicationIds.some((r) => r === applicationId);
     };
 
     const toggleApplicationChange = (applicationId: string) => {
-        let applicationIdsModified = [...applicationIds];
+        let applicationIdsModified = [...organisation.applicationIds];
 
         if (isApplicationSelected(applicationId))
-            applicationIdsModified = applicationIds.filter((a) => a !== applicationId);
+            applicationIdsModified = organisation.applicationIds.filter((a) => a !== applicationId);
         else applicationIdsModified.push(applicationId);
 
-        handleChange(applicationIdsModified);
+        handleChange(organisation, applicationIdsModified);
     };
 
     return (
@@ -76,10 +79,10 @@ type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const organisationState = organisationSelector(state);
     return {
-        applicationIds: organisationConfigApplicationIdsSelector(state),
+        organisation: organisationState.organisation,
         applications: applicationsSelector(state).items,
         validationResults: getValidationSubSet(
-            "Config.ApplicationIds",
+            "ApplicationIds",
             organisationState.validationResults,
             true,
             true
@@ -90,8 +93,11 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
-        handleChange: (applicationIds: string[]) => {
-            dispatch(modifyOrganisationConfigApplicationIds(applicationIds));
+        handleChange: (organisation: OrganisationEdit, applicationIds: string[]) => {
+            const organisationModified = update(organisation, {
+                applicationIds: { $set: applicationIds },
+            });
+            dispatch(modifyOrganisation(organisationModified));
         },
         fetchApplications: () => {
             dispatch(fetchApplications());

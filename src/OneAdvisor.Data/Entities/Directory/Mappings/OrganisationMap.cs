@@ -11,18 +11,17 @@ namespace OneAdvisor.Data.Entities.Directory.Mappings
         public static void Map(ModelBuilder modelBuilder)
         {
             var jsonConfigConverter = new JsonValueConverter<Config>();
+            var jsonListConverter = new JsonValueConverter<IEnumerable<Guid>>();
 
             modelBuilder.Entity<OrganisationEntity>()
                 .Property(e => e.Config)
-                .HasConversion(jsonConfigConverter);
-
-            modelBuilder.Entity<OrganisationEntity>()
-                .Property(u => u.Config)
+                .HasConversion(jsonConfigConverter)
                 .HasDefaultValueSql("'{ }'");
 
             modelBuilder.Entity<OrganisationEntity>()
-               .Property(u => u.VATRegistered)
-               .HasDefaultValueSql("0");
+                .Property(u => u.ApplicationIds)
+                .HasConversion(jsonListConverter)
+                .HasDefaultValueSql("'[]'");
         }
     }
 }

@@ -21,6 +21,7 @@ import {
     organisationVisible,
     receiveOrganisation,
 } from "@/state/directory/organisations";
+import { getConfig } from "@/state/directory/organisations/helpers";
 import { Button, getTable, Header } from "@/ui/controls";
 
 import EditOrganisation from "./EditOrganisation";
@@ -70,25 +71,13 @@ const getColumns = (applications: Application[]) => {
     const getColumn = getColumnDefinition<Organisation>();
     return [
         getColumn("name", "Name"),
-        getColumn("vatRegistered", "VAT Registered", { type: "boolean" }),
-        getColumn("vatRegistrationDate", "VAT Registration Date", { type: "date" }),
         getColumn(
-            "config",
-            "Companies",
-            { key: "configCompanyIds" },
-            {
-                render: (config: Config) => {
-                    return config.companyIds.length;
-                },
-            }
-        ),
-        getColumn(
-            "config",
+            "applicationIds",
             "Applications",
-            { key: "configApplicationIds" },
+            {},
             {
-                render: (config: Config) => {
-                    return config.applicationIds.sort().map((id) => {
+                render: (applicationIds: string[]) => {
+                    return applicationIds.sort().map((id) => {
                         const application = applications.find((a) => a.id === id);
 
                         if (!application) return;
@@ -99,6 +88,16 @@ const getColumns = (applications: Application[]) => {
                             </Tag>
                         );
                     });
+                },
+            }
+        ),
+        getColumn(
+            "config",
+            "Companies",
+            { key: "configCompanyIds" },
+            {
+                render: (config: Config) => {
+                    return config.companyIds.length;
                 },
             }
         ),
@@ -121,15 +120,14 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
     return {
         ...bindActionCreators({ fetchOrganisations, fetchApplications }, dispatch),
         newOrganisation: () => {
+            const config = getConfig();
             dispatch(
                 receiveOrganisation({
                     id: null,
                     name: "",
-                    vatRegistered: false,
-                    vatRegistrationDate: null,
+                    applicationIds: [],
                     config: {
-                        companyIds: [],
-                        applicationIds: [],
+                        ...config,
                     },
                 })
             );

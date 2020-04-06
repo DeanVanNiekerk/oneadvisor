@@ -5,9 +5,9 @@ import { RootState } from "@/state";
 import { organisationIdSelector, organisationIsNew } from "@/state/directory/organisations";
 import { TabPane, Tabs } from "@/ui/controls";
 
+import ApplicationsForm from "./ApplicationsForm";
 import BranchList from "./BranchList";
-import ApplicationsForm from "./config/ApplicationsForm";
-import CompaniesForm from "./config/CompaniesForm";
+import EditConfig from "./config/EditConfig";
 import OrganisationDetails from "./OrganisationDetails";
 import OrganisationTabTitle from "./OrganisationTabTitle";
 
@@ -30,7 +30,7 @@ const OrganisationForm: React.FC<Props> = (props: Props) => {
                 tab={
                     <OrganisationTabTitle
                         title="Applications"
-                        validationPrefix="Config.ApplicationIds"
+                        validationPrefix="ApplicationIds"
                         exactMatch={true}
                     />
                 }
@@ -41,14 +41,14 @@ const OrganisationForm: React.FC<Props> = (props: Props) => {
             <TabPane
                 tab={
                     <OrganisationTabTitle
-                        title="Companies"
-                        validationPrefix="Config.CompanyIds"
+                        title="Config"
+                        validationPrefix="Config"
                         exactMatch={true}
                     />
                 }
-                key="companies_tab"
+                key="config_tab"
             >
-                <CompaniesForm />
+                <EditConfig />
             </TabPane>
         </Tabs>
     );

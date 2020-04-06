@@ -31,8 +31,7 @@ namespace OneAdvisor.Service.Directory
                         {
                             Id = organisation.Id,
                             Name = organisation.Name,
-                            VATRegistered = organisation.VATRegistered.Value,
-                            VATRegistrationDate = organisation.VATRegistrationDate,
+                            ApplicationIds = organisation.ApplicationIds,
                             Config = organisation.Config,
                         };
 
@@ -58,8 +57,7 @@ namespace OneAdvisor.Service.Directory
                         {
                             Id = organisation.Id,
                             Name = organisation.Name,
-                            VATRegistered = organisation.VATRegistered.Value,
-                            VATRegistrationDate = organisation.VATRegistrationDate,
+                            ApplicationIds = organisation.ApplicationIds,
                             Config = organisation.Config,
                         };
 
@@ -127,8 +125,7 @@ namespace OneAdvisor.Service.Directory
                 enity = new OrganisationEntity();
 
             enity.Name = model.Name;
-            enity.VATRegistered = model.VATRegistered;
-            enity.VATRegistrationDate = model.VATRegistrationDate;
+            enity.ApplicationIds = model.ApplicationIds;
             enity.Config = model.Config;
 
             return enity;

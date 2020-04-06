@@ -189,7 +189,7 @@ namespace OneAdvisor.Service.Account
 
             var roles = await _roleService.GetRoles();
             var userRoles = await _userManager.GetRolesAsync(user);
-            var allowedRoles = roles.Where(r => org.Config.ApplicationIds.Any(id => id == r.ApplicationId));
+            var allowedRoles = roles.Where(r => org.ApplicationIds.Any(id => id == r.ApplicationId));
 
             //Filter out any roles this organisation should have access to
             userRoles = userRoles.Where(r => allowedRoles.Any(ar => ar.Name == r) || r == Role.SUPER_ADMINISTRATOR_ROLE).ToList();

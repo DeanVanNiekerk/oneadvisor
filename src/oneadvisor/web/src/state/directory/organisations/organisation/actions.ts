@@ -7,7 +7,7 @@ import { organisationsApi } from "@/config/api/directory";
 import { RootState } from "@/state";
 
 import { organisationIsModifiedSelector, organisationSelector } from "../";
-import { OrganisationEdit } from "../types";
+import { Config, OrganisationEdit } from "../types";
 
 type OrganisationReceiveAction = {
     type: "ORGANISATIONS_ORGANISATION_RECEIVE";
@@ -64,6 +64,21 @@ export const modifyOrganisation = (organisation: OrganisationEdit): Organisation
     payload: organisation,
 });
 
+export const modifyOrganisationConfig = (
+    config: Config
+): ThunkAction<void, RootState, {}, OrganisationModifiedAction> => {
+    return (dispatch, getState) => {
+        const { organisation } = organisationSelector(getState());
+        if (!organisation) return;
+
+        const organisationModified = update(organisation, {
+            config: { $set: config },
+        });
+
+        dispatch(modifyOrganisation(organisationModified));
+    };
+};
+
 export const modifyOrganisationConfigCompanyIds = (
     companyIds: string[]
 ): ThunkAction<void, RootState, {}, OrganisationModifiedAction> => {
@@ -73,21 +88,6 @@ export const modifyOrganisationConfigCompanyIds = (
 
         const organisationModified = update(organisation, {
             config: { companyIds: { $set: companyIds } },
-        });
-
-        dispatch(modifyOrganisation(organisationModified));
-    };
-};
-
-export const modifyOrganisationConfigApplicationIds = (
-    applicationIds: string[]
-): ThunkAction<void, RootState, {}, OrganisationModifiedAction> => {
-    return (dispatch, getState) => {
-        const { organisation } = organisationSelector(getState());
-        if (!organisation) return;
-
-        const organisationModified = update(organisation, {
-            config: { applicationIds: { $set: applicationIds } },
         });
 
         dispatch(modifyOrganisation(organisationModified));

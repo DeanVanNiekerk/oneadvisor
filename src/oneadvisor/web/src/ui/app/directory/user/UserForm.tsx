@@ -122,7 +122,7 @@ class UserForm extends Component<Props, State> {
         if (!organisation) return [];
 
         return this.props.applications.filter((a) =>
-            organisation.config.applicationIds.some((id) => id === a.id)
+            organisation.applicationIds.some((id) => id === a.id)
         );
     };
 

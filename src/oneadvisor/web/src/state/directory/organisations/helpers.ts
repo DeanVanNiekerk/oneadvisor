@@ -1,0 +1,27 @@
+import { Config } from "./";
+
+export const getConfig = (config: Partial<Config> = {}): Config => {
+    return {
+        companyIds: [],
+        vatRegistered: false,
+        vatRegistrationDate: null,
+        address: {
+            line1: "",
+            line2: null,
+            suburb: "",
+            postalCode: "",
+        },
+        complianceOfficer: {
+            name: null,
+            postalAddress: null,
+            telephoneNumber: null,
+        },
+        hasProfessionalIndemnityCover: false,
+        hasReceivedCommissionFromCompanies: false,
+        hasReceivedCommissionFromCompaniesTarget: null,
+        hasSharesInProductProviders: false,
+        hasSharesInProductProvidersTarget: null,
+        telephoneNumber: null,
+        ...config,
+    };
+};

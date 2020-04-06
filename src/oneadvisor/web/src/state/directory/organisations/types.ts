@@ -3,22 +3,42 @@ import { ValidationResult } from "@/app/validation";
 export type Organisation = {
     id: string;
     name: string;
-    vatRegistered: boolean;
-    vatRegistrationDate: string | null;
+    applicationIds: string[];
     config: Config;
 };
 
 export type OrganisationEdit = {
     id: string | null;
     name: string;
-    vatRegistered: boolean;
-    vatRegistrationDate: string | null;
+    applicationIds: string[];
     config: Config;
 };
 
 export type Config = {
     companyIds: string[];
-    applicationIds: string[];
+    address: Address;
+    complianceOfficer: ComplianceOfficer;
+    vatRegistered: boolean;
+    vatRegistrationDate: string | null;
+    telephoneNumber: string | null;
+    hasProfessionalIndemnityCover: boolean;
+    hasSharesInProductProviders: boolean;
+    hasSharesInProductProvidersTarget: string | null;
+    hasReceivedCommissionFromCompanies: boolean;
+    hasReceivedCommissionFromCompaniesTarget: string | null;
+};
+
+export type Address = {
+    line1: string;
+    line2: string | null;
+    suburb: string;
+    postalCode: string;
+};
+
+export type ComplianceOfficer = {
+    name: string | null;
+    postalAddress: string | null;
+    telephoneNumber: string | null;
 };
 
 export type ListState = {
