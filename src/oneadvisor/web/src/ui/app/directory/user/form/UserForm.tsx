@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 
+import { hasUseCase } from "@/app/identity";
 import { RootState } from "@/state";
+import { useCaseSelector } from "@/state/auth";
 import { userIsNew } from "@/state/directory/users";
 import { TabPane, Tabs } from "@/ui/controls";
 
@@ -10,6 +12,7 @@ import Commission from "./Commission";
 import DetailsForm from "./DetailsForm";
 import Emails from "./Emails";
 import RolesForm from "./RolesForm";
+import UserTabTitle from "./UserTabTitle";
 
 type Props = PropsFromState;
 
@@ -21,10 +24,16 @@ const OrganisationForm: React.FC<Props> = (props: Props) => {
             <TabPane tab="Details" key="details_tab">
                 <DetailsForm />
             </TabPane>
-            <TabPane tab="Roles" key="roles_tab">
+            <TabPane
+                tab={<UserTabTitle title="Roles" validationPrefix="Roles" exactMatch={false} />}
+                key="roles_tab"
+            >
                 <RolesForm />
             </TabPane>
-            <TabPane tab="Aliases" key="alias_tab">
+            <TabPane
+                tab={<UserTabTitle title="Aliases" validationPrefix="Aliases" exactMatch={false} />}
+                key="alias_tab"
+            >
                 <AliasForm />
             </TabPane>
             {!props.isNew && (
@@ -32,7 +41,7 @@ const OrganisationForm: React.FC<Props> = (props: Props) => {
                     <Emails />
                 </TabPane>
             )}
-            {!props.isNew && (
+            {!props.isNew && hasUseCase("com_view_commission_split_rules", props.useCases) && (
                 <TabPane tab="Commission" key="commission_tab">
                     <Commission />
                 </TabPane>
@@ -45,6 +54,7 @@ type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     return {
         isNew: userIsNew(state),
+        useCases: useCaseSelector(state),
     };
 };
 
