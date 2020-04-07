@@ -30,6 +30,7 @@ const AdviceServiceForm: React.FC<Props> = ({ adviceService, validationResults, 
                     onChange(key, value === undefined ? 0 : value)
                 }
                 min={0}
+                precision={0}
                 validationResults={validationResults}
                 autoFocus={true}
             />
