@@ -1,9 +1,3 @@
-/* LAYOUT 
-.ant-layout {
-    background-color: #ffffff !important;
-}
-*/
-
 /* HEADER */
 .ant-page-header-heading-title {
     font-size: 18px !important;
@@ -15,24 +9,6 @@
     padding: 12px 12px !important;
     font-size: 0.9em;
 }
-
-/* LIST 
-.ant-list-item-action {
-    margin-left: 20px !important;
-}
-*/
-
-/* SKELETON 
-.ant-skeleton-paragraph {
-    padding-left: 0 !important;
-    margin-bottom: 5px !important;
-}
-
-.content-header .ant-skeleton-active {
-    margin-top: 8px;
-    margin-bottom: 12px;
-}
-*/
 
 /* DRAWER */
 .ant-drawer-header {

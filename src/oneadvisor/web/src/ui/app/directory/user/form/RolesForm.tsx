@@ -10,7 +10,9 @@ import { applicationsSelector, fetchApplications } from "@/state/directory/appli
 import { getOrganisations } from "@/state/directory/organisations";
 import { fetchRoles, Role, rolesSelector } from "@/state/directory/roles";
 import { modifyUser, UserEdit, userSelector } from "@/state/directory/users";
-import { FormErrors } from "@/ui/controls";
+import { FormErrors, getFormSwitchList } from "@/ui/controls";
+
+const FormSwitchList = getFormSwitchList<Role, string>();
 
 type Props = PropsFromState & PropsFromDispatch;
 
@@ -40,20 +42,6 @@ const RolesForm: React.FC<Props> = (props) => {
         );
     };
 
-    const isRoleSelected = (role: string) => {
-        if (!user) return;
-        return user.roles.some((r) => r === role);
-    };
-
-    const toggleRoleChange = (role: string) => {
-        let rolesModified = [...user.roles];
-
-        if (isRoleSelected(role)) rolesModified = user.roles.filter((r) => r !== role);
-        else rolesModified.push(role);
-
-        handleChange(user, rolesModified);
-    };
-
     return (
         <>
             <FormErrors
@@ -65,28 +53,15 @@ const RolesForm: React.FC<Props> = (props) => {
                 )}
             />
             {getOrganisationApplications().map((application) => (
-                <List
+                <FormSwitchList
                     key={application.id}
-                    header={<h4 className="mb-0">{application.name}</h4>}
-                    bordered={true}
-                    size="small"
+                    idKey="name"
+                    titleKey="description"
+                    selectedIds={user.roles}
+                    editUseCase="dir_edit_users"
+                    header={application.name}
+                    onChange={(roles) => handleChange(user, roles)}
                     dataSource={props.roles.filter((r) => r.applicationId === application.id)}
-                    renderItem={(role: Role) => (
-                        <List.Item
-                            actions={[
-                                <Switch
-                                    key={"1"}
-                                    //disabled={!hasUseCase("dir_edit_users", this.props.useCases)}
-                                    checked={isRoleSelected(role.name)}
-                                    onChange={() => toggleRoleChange(role.name)}
-                                    size="small"
-                                />,
-                            ]}
-                        >
-                            {role.description}
-                        </List.Item>
-                    )}
-                    className="mb-2"
                 />
             ))}
         </>

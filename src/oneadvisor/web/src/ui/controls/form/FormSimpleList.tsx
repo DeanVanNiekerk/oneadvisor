@@ -143,7 +143,7 @@ const FormSimpleListComponent: React.FC<Props> = (props: Props) => {
 
             <List
                 bordered
-                className="mt-1"
+                className="form-simple-list mt-1"
                 dataSource={values}
                 renderItem={(value: string, index: number) => (
                     <List.Item actions={getActions(value, index)}>

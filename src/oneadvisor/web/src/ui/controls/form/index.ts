@@ -13,3 +13,4 @@ export { FormReadOnly } from "./FormReadOnly";
 export { FormCascade } from "./FormCascade";
 export { FormInputPassword } from "./FormInputPassword";
 export { FormTextArea } from "./FormTextArea";
+export { getFormSwitchList } from "./FormSwitchList";

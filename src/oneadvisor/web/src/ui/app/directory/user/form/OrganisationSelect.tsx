@@ -19,7 +19,7 @@ const OrganisationSelect: React.FC<Props> = (props) => {
     const [organisations, setOrganisations] = useState<Organisation[]>([]);
 
     useEffect(() => {
-        props.getOrganisations((result) => {
+        props.getOrganisations({}, (result) => {
             setOrganisations(result.items);
         });
     }, []);

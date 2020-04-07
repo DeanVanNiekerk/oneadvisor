@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
+import { RootState } from "@/state";
+import { UserEdit, userSelector } from "@/state/directory/users";
 import { sendWelcomeEmail } from "@/state/email/actions";
 import { Button } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";
 
 type Props = {
-    userId: string;
+    user: UserEdit | null;
 } & DispatchProp;
 
 type State = {
@@ -23,13 +25,15 @@ class Emails extends Component<Props, State> {
     }
 
     sendWelcomeEmail = () => {
+        if (!this.props.user || !this.props.user.id) return;
+
         this.setState({
             sendingWelcomeEmail: true,
         });
         showMessage("info", "Sending Email...", 1);
         this.props.dispatch(
             sendWelcomeEmail(
-                this.props.userId,
+                this.props.user.id,
                 () => {
                     this.setState({
                         sendingWelcomeEmail: false,
@@ -61,4 +65,12 @@ class Emails extends Component<Props, State> {
     }
 }
 
-export default connect()(Emails);
+const mapStateToProps = (state: RootState) => {
+    const userState = userSelector(state);
+
+    return {
+        user: userState.user,
+    };
+};
+
+export default connect(mapStateToProps)(Emails);

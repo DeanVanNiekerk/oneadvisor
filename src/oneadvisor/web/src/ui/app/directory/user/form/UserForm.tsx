@@ -5,7 +5,10 @@ import { RootState } from "@/state";
 import { userIsNew } from "@/state/directory/users";
 import { TabPane, Tabs } from "@/ui/controls";
 
+import AliasForm from "./AliasForm";
+import Commission from "./Commission";
 import DetailsForm from "./DetailsForm";
+import Emails from "./Emails";
 import RolesForm from "./RolesForm";
 
 type Props = PropsFromState;
@@ -21,35 +24,19 @@ const OrganisationForm: React.FC<Props> = (props: Props) => {
             <TabPane tab="Roles" key="roles_tab">
                 <RolesForm />
             </TabPane>
-            {/* {!props.isNew && (
-                <TabPane tab="Branches" key="branches_tab">
-                    {props.organisationId && <BranchList organisationId={props.organisationId} />}
+            <TabPane tab="Aliases" key="alias_tab">
+                <AliasForm />
+            </TabPane>
+            {!props.isNew && (
+                <TabPane tab="Email" key="emails_tab">
+                    <Emails />
                 </TabPane>
             )}
-            <TabPane
-                tab={
-                    <OrganisationTabTitle
-                        title="Applications"
-                        validationPrefix="ApplicationIds"
-                        exactMatch={true}
-                    />
-                }
-                key="applications_tab"
-            >
-                <ApplicationsForm />
-            </TabPane>
-            <TabPane
-                tab={
-                    <OrganisationTabTitle
-                        title="Config"
-                        validationPrefix="Config"
-                        exactMatch={false}
-                    />
-                }
-                key="config_tab"
-            >
-                <EditConfig />
-            </TabPane> */}
+            {!props.isNew && (
+                <TabPane tab="Commission" key="commission_tab">
+                    <Commission />
+                </TabPane>
+            )}
         </Tabs>
     );
 };
