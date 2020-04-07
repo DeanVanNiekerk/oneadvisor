@@ -1,5 +1,5 @@
 import { PagedItems } from "@/app/table";
-import { ApiAction } from "@/app/types";
+import { ApiAction, ApiOnSuccess } from "@/app/types";
 import { organisationsApi } from "@/config/api/directory";
 
 import { Organisation } from "../types";
@@ -23,5 +23,13 @@ export const fetchOrganisations = (): ApiAction => {
         type: "API",
         endpoint: organisationsApi,
         dispatchPrefix: "ORGANISATIONS_LIST",
+    };
+};
+
+export const getOrganisations = (onSuccess: ApiOnSuccess<PagedItems<Organisation>>): ApiAction => {
+    return {
+        type: "API",
+        endpoint: organisationsApi,
+        onSuccess: onSuccess,
     };
 };

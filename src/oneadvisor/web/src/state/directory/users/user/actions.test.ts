@@ -1,6 +1,7 @@
 import { usersApi } from "@/config/api/directory";
 
 import { UserEdit } from "../";
+import { getConfig } from "../helpers";
 import * as actions from "./actions";
 
 const defaultUser: UserEdit = {
@@ -15,6 +16,7 @@ const defaultUser: UserEdit = {
     aliases: ["DJ"],
     isLocked: false,
     userTypeId: "123",
+    config: getConfig(),
 };
 
 describe("user actions", () => {

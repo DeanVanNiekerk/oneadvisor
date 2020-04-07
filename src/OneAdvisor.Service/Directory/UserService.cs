@@ -162,6 +162,9 @@ namespace OneAdvisor.Service.Directory
 
             await _auditService.InsertAuditLog(scope, AuditLog.ACTION_INSERT, "User", entity.Id, user);
 
+            user.Id = entity.Id;
+            result.Tag = user;
+
             return result;
         }
 

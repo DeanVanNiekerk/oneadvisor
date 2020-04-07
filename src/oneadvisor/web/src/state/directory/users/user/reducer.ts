@@ -3,9 +3,11 @@ import { UserAction } from "./actions";
 
 export const defaultState: UserState = {
     user: null,
+    userOriginal: null,
     fetching: false,
     updating: false,
     validationResults: [],
+    visible: false,
 };
 
 export const reducer = (state: UserState = defaultState, action: UserAction): UserState => {
@@ -14,8 +16,15 @@ export const reducer = (state: UserState = defaultState, action: UserAction): Us
             return {
                 ...state,
                 user: action.payload,
+                userOriginal: action.payload,
                 fetching: false,
                 validationResults: [],
+            };
+        }
+        case "USERS_USER_MODIFIED": {
+            return {
+                ...state,
+                user: action.payload,
             };
         }
         case "USERS_USER_FETCHING": {
@@ -23,6 +32,7 @@ export const reducer = (state: UserState = defaultState, action: UserAction): Us
                 ...state,
                 fetching: true,
                 user: null,
+                userOriginal: null,
                 validationResults: [],
             };
         }
@@ -57,6 +67,12 @@ export const reducer = (state: UserState = defaultState, action: UserAction): Us
                 ...state,
                 updating: false,
                 validationResults: action.payload,
+            };
+        }
+        case "USERS_USER_VISIBLE": {
+            return {
+                ...state,
+                visible: action.payload,
             };
         }
         default:

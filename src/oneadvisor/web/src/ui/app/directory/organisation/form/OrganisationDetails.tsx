@@ -35,21 +35,6 @@ const OrganisationDetails: React.FC<Props> = ({
                 validationResults={validationResults}
                 autoFocus={true}
             />
-            {/* <FormSwitch
-                fieldName="vatRegistered"
-                label="VAT Registered"
-                value={organisation.vatRegistered}
-                onChange={onChange}
-                validationResults={validationResults}
-            />
-            <FormDate
-                fieldName="vatRegistrationDate"
-                label="VAT Registration Date"
-                value={organisation.vatRegistrationDate || undefined}
-                onChange={onChange}
-                validationResults={validationResults}
-                allowClear={true}
-            /> */}
         </Form>
     );
 };

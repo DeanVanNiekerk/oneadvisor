@@ -66,11 +66,16 @@ export const branchVisible = (visible: boolean): BranchVisibleAction => ({
     payload: visible,
 });
 
-export const fetchBranch = (branchId: string, onSuccess?: ApiOnSuccess): ApiAction => ({
+export const fetchBranch = (branchId: string): ApiAction => ({
+    type: "API",
+    endpoint: `${branchesApi}/${branchId}`,
+    dispatchPrefix: "BRANCHES_BRANCH",
+});
+
+export const getBranch = (branchId: string, onSuccess: ApiOnSuccess<BranchEdit>): ApiAction => ({
     type: "API",
     endpoint: `${branchesApi}/${branchId}`,
     onSuccess: onSuccess,
-    dispatchPrefix: "BRANCHES_BRANCH",
 });
 
 export const clearBranch = (): BranchReceiveAction => receiveBranch(null);

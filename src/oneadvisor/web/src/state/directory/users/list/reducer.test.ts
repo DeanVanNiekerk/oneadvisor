@@ -1,4 +1,5 @@
 import { User } from "../";
+import { getConfig } from "../helpers";
 import { defaultState, reducer } from "./reducer";
 
 describe("user list reducer", () => {
@@ -55,6 +56,7 @@ describe("user list reducer", () => {
             isLocked: false,
             lockoutEnd: null,
             userTypeId: "123",
+            config: getConfig(),
         };
 
         const actualState = reducer(initalState, {

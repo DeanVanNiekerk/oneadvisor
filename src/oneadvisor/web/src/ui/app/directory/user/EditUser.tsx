@@ -1,173 +1,70 @@
-import React, { Component } from "react";
-import { connect, DispatchProp } from "react-redux";
+import React from "react";
+import { connect } from "react-redux";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 
-import { areEqual } from "@/app/utils";
-import { ValidationResult } from "@/app/validation";
 import { RootState } from "@/state";
-import {
-    Application,
-    applicationsSelector,
-    fetchApplications,
-} from "@/state/directory/applications";
-import { Organisation } from "@/state/directory/organisations";
-import { fetchRoles, Role, rolesSelector } from "@/state/directory/roles";
-import { insertUser, updateUser, UserEdit, userSelector } from "@/state/directory/users";
-import { Button, ContentLoader, Drawer } from "@/ui/controls";
+import { confirmCancelUser, saveUser, userSelector, userVisible } from "@/state/directory/users";
+import { EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 
-import UserForm from "./UserForm";
+import EditUserTitle from "./EditUserTitle";
+import UserForm from "./form/UserForm";
 
 type Props = {
-    visible: boolean;
-    onClose: (cancelled: boolean) => void;
-    user: UserEdit | null;
-    applications: Application[];
-    roles: Role[];
-    organisations: Organisation[];
-    fetching: boolean;
-    updating: boolean;
-    validationResults: ValidationResult[];
-} & DispatchProp;
+    onSaved?: () => void;
+} & PropsFromState &
+    PropsFromDispatch;
 
-type State = {
-    userEdited: UserEdit | null;
+const EditUser: React.FC<Props> = (props: Props) => {
+    const close = () => props.setVisible(false);
+
+    return (
+        <EditDrawer
+            title={<EditUserTitle />}
+            iconName="user"
+            visible={props.visible}
+            updating={props.updating}
+            noTopPadding={true}
+            onClose={() => {
+                props.confirmCancel(close);
+            }}
+            onSave={() => {
+                props.saveUser(props.onSaved);
+            }}
+        >
+            <UserForm />
+        </EditDrawer>
+    );
 };
-class EditUser extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
 
-        this.state = {
-            userEdited: props.user,
-        };
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (this.props.user != prevProps.user) {
-            this.setState({
-                userEdited: this.props.user,
-            });
-        }
-        if (this.props.visible != prevProps.visible && this.props.visible) this.loadLookupData();
-    }
-
-    loadLookupData() {
-        if (this.props.roles.length === 0) this.loadRoles();
-
-        if (this.props.applications.length === 0) this.loadApplications();
-    }
-
-    loadApplications = () => {
-        this.props.dispatch(fetchApplications());
-    };
-
-    loadRoles = () => {
-        this.props.dispatch(fetchRoles());
-    };
-
-    close = () => {
-        this.props.onClose(false);
-    };
-
-    confirmCancel = () => {
-        if (!areEqual(this.props.user, this.state.userEdited))
-            return showConfirm({ onOk: this.cancel });
-
-        this.cancel();
-    };
-
-    cancel = () => {
-        this.props.onClose(true);
-    };
-
-    save = () => {
-        if (!this.state.userEdited) {
-            this.close();
-            return;
-        }
-
-        if (this.state.userEdited.id) {
-            this.props.dispatch(updateUser(this.state.userEdited, this.close));
-        } else {
-            this.props.dispatch(insertUser(this.state.userEdited, this.close));
-        }
-    };
-
-    onChange = (user: UserEdit) => {
-        this.setState({
-            userEdited: user,
-        });
-    };
-
-    isLoading = () => {
-        return this.props.fetching || this.props.updating;
-    };
-
-    getTitle = () => {
-        if (this.props.fetching) return "Loading User";
-
-        const { user } = this.props;
-
-        if (user && user.id) return `User: ${user.firstName} ${user.lastName}`;
-
-        return "New User";
-    };
-
-    render() {
-        const { user, validationResults, visible } = this.props;
-
-        return (
-            <Drawer
-                title={this.getTitle()}
-                iconName="user"
-                visible={visible}
-                onClose={this.confirmCancel}
-                noTopPadding={true}
-                footer={
-                    <React.Fragment>
-                        <Button onClick={this.confirmCancel} disabled={this.isLoading()}>
-                            Cancel
-                        </Button>
-                        <Button
-                            onClick={this.save}
-                            type="primary"
-                            disabled={this.isLoading()}
-                            requiredUseCase="dir_edit_users"
-                        >
-                            Save
-                        </Button>
-                    </React.Fragment>
-                }
-            >
-                <ContentLoader isLoading={this.isLoading()}>
-                    {user && (
-                        <UserForm
-                            user={user}
-                            validationResults={validationResults}
-                            onChange={this.onChange}
-                            organisations={this.props.organisations}
-                            roles={this.props.roles}
-                            applications={this.props.applications}
-                        />
-                    )}
-                </ContentLoader>
-            </Drawer>
-        );
-    }
-}
-
+type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const userState = userSelector(state);
-    const applicationsState = applicationsSelector(state);
-    const rolesState = rolesSelector(state);
-
     return {
-        user: userState.user,
-        applications: applicationsState.items,
-        roles: rolesState.items,
-        fetching: userState.fetching || applicationsState.fetching || rolesState.fetching,
+        visible: userState.visible,
         updating: userState.updating,
-        validationResults: userState.validationResults,
     };
 };
 
-export default connect(mapStateToProps)(EditUser);
+type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
+    return {
+        confirmCancel: (onCancelled: () => void) => {
+            dispatch(confirmCancelUser(showConfirm, onCancelled));
+        },
+        saveUser: (onSaved?: () => void) => {
+            dispatch(
+                saveUser(() => {
+                    if (onSaved) onSaved();
+                    dispatch(userVisible(false));
+                })
+            );
+        },
+        setVisible: (visible: boolean) => {
+            dispatch(userVisible(visible));
+        },
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditUser);

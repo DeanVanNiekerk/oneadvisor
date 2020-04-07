@@ -16,6 +16,7 @@ export type OrganisationEdit = {
 
 export type Config = {
     companyIds: string[];
+    licenseCategoryIds: string[];
     address: Address;
     complianceOfficer: ComplianceOfficer;
     vatRegistered: boolean;

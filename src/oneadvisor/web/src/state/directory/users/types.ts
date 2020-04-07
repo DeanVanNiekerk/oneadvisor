@@ -16,6 +16,7 @@ export type User = {
     lockoutEnd: string | null;
     isLocked: boolean;
     userTypeId: string;
+    config: Config;
 };
 
 export type UserEdit = {
@@ -30,6 +31,12 @@ export type UserEdit = {
     aliases: string[];
     isLocked: boolean;
     userTypeId: string;
+    config: Config;
+};
+
+export type Config = {
+    adviceScopeIds: string[];
+    licenseCategoryIds: string[];
 };
 
 export type ListState = {
@@ -41,9 +48,11 @@ export type ListState = {
 
 export type UserState = {
     readonly user: UserEdit | null;
+    readonly userOriginal: UserEdit | null;
     readonly fetching: boolean;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];
+    readonly visible: boolean;
 };
 
 export type UsersState = {

@@ -1,6 +1,7 @@
 import { getValidationResult } from "@/test";
 
 import { UserEdit } from "../";
+import { getConfig } from "../helpers";
 import { defaultState, reducer } from "./reducer";
 
 const defaultUser: UserEdit = {
@@ -15,6 +16,7 @@ const defaultUser: UserEdit = {
     aliases: ["DJ"],
     isLocked: false,
     userTypeId: "123",
+    config: getConfig(),
 };
 
 describe("user reducer", () => {

@@ -1,6 +1,6 @@
 import { appendFiltersQuery } from "@/app/query";
 import { PagedItems } from "@/app/table";
-import { ApiAction } from "@/app/types";
+import { ApiAction, ApiOnSuccess } from "@/app/types";
 import { branchesApi } from "@/config/api/directory";
 
 import { Branch, BranchFilters } from "../types";
@@ -26,5 +26,18 @@ export const fetchBranches = (filters: BranchFilters): ApiAction => {
         type: "API",
         endpoint: api,
         dispatchPrefix: "BRANCHES_LIST",
+    };
+};
+
+export const getBranches = (
+    filters: BranchFilters,
+    onSuccess: ApiOnSuccess<PagedItems<Branch>>
+): ApiAction => {
+    let api = branchesApi;
+    api = appendFiltersQuery(api, filters);
+    return {
+        type: "API",
+        endpoint: api,
+        onSuccess: onSuccess,
     };
 };
