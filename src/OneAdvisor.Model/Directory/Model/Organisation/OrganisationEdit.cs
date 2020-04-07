@@ -8,6 +8,7 @@ namespace OneAdvisor.Model.Directory.Model.Organisation
         public OrganisationEdit()
         {
             ApplicationIds = new List<Guid>();
+            Config = new OneAdvisor.Model.Directory.Model.Organisation.Configuration.Config();
         }
 
         public Guid? Id { get; set; }

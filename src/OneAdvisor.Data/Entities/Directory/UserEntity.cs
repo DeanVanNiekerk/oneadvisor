@@ -6,6 +6,7 @@ using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Data.Entities.Commission;
 using OneAdvisor.Data.Entities.Directory.Lookup;
 using OneAdvisor.Model.Directory.Model.User;
+using OneAdvisor.Model.Directory.Model.User.Configuration;
 
 namespace OneAdvisor.Data.Entities.Directory
 {
@@ -23,6 +24,8 @@ namespace OneAdvisor.Data.Entities.Directory
         public Scope Scope { get; set; }
         [Required]
         public Guid UserTypeId { get; set; }
+        [Required]
+        public Config Config { get; set; }
 
         public virtual BranchEntity Branch { get; set; }
         public virtual UserTypeEntity UserType { get; set; }

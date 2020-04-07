@@ -1,10 +1,14 @@
 using System;
-using System.Collections.Generic;
 
 namespace OneAdvisor.Model.Directory.Model.User
 {
     public class User
     {
+        public User()
+        {
+            Config = new OneAdvisor.Model.Directory.Model.User.Configuration.Config();
+        }
+
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -18,6 +22,7 @@ namespace OneAdvisor.Model.Directory.Model.User
         public bool EmailConfirmed { get; set; }
         public DateTimeOffset? LockoutEnd { get; set; }
         public Guid UserTypeId { get; set; }
+        public OneAdvisor.Model.Directory.Model.User.Configuration.Config Config { get; set; }
         public bool IsLocked
         {
             get

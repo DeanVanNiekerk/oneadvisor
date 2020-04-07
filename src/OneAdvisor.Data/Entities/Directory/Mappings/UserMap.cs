@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OneAdvisor.Data.ValueConverters;
 using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Directory.Model.User;
+using OneAdvisor.Model.Directory.Model.User.Configuration;
 
 namespace OneAdvisor.Data.Entities.Directory.Mappings
 {
@@ -13,7 +14,8 @@ namespace OneAdvisor.Data.Entities.Directory.Mappings
         public static void Map(ModelBuilder modelBuilder)
         {
             var enumConverter = new EnumToStringConverter<Scope>();
-            var jsonConverter = new JsonValueConverter<IEnumerable<string>>();
+            var jsonListStringConverter = new JsonValueConverter<IEnumerable<string>>();
+            var jsonConfigConverter = new JsonValueConverter<Config>();
 
             modelBuilder.Entity<UserEntity>()
                 .Property(e => e.Scope)
@@ -21,7 +23,7 @@ namespace OneAdvisor.Data.Entities.Directory.Mappings
 
             modelBuilder.Entity<UserEntity>()
                 .Property(e => e.Aliases)
-                .HasConversion(jsonConverter)
+                .HasConversion(jsonListStringConverter)
                 .HasJsonComparer();
 
             modelBuilder.Entity<UserEntity>()
@@ -32,6 +34,11 @@ namespace OneAdvisor.Data.Entities.Directory.Mappings
             modelBuilder.Entity<UserEntity>()
                 .Property(u => u.UserTypeId)
                 .HasDefaultValueSql($"'{UserType.BROKER.ToString()}'");
+
+            modelBuilder.Entity<UserEntity>()
+                .Property(e => e.Config)
+                .HasConversion(jsonConfigConverter)
+                .HasDefaultValueSql("'{ }'");
         }
     }
 }

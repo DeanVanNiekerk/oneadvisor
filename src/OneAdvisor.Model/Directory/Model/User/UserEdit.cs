@@ -9,6 +9,7 @@ namespace OneAdvisor.Model.Directory.Model.User
         {
             Roles = new List<string>();
             Aliases = new List<string>();
+            Config = new OneAdvisor.Model.Directory.Model.User.Configuration.Config();
         }
 
         public Guid? Id { get; set; }
@@ -22,6 +23,7 @@ namespace OneAdvisor.Model.Directory.Model.User
         public IEnumerable<string> Aliases { get; set; }
         public bool IsLocked { get; set; }
         public Guid? UserTypeId { get; set; }
+        public OneAdvisor.Model.Directory.Model.User.Configuration.Config Config { get; set; }
 
     }
 }
