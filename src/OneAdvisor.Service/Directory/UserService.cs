@@ -54,6 +54,7 @@ namespace OneAdvisor.Service.Directory
                             EmailConfirmed = user.EmailConfirmed,
                             LockoutEnd = user.LockoutEnd,
                             UserTypeId = user.UserTypeId,
+                            Config = user.Config,
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -234,6 +235,7 @@ namespace OneAdvisor.Service.Directory
             entity.Scope = model.Scope;
             entity.Aliases = model.Aliases;
             entity.UserTypeId = model.UserTypeId.Value;
+            entity.Config = model.Config;
 
             return entity;
         }
@@ -251,6 +253,7 @@ namespace OneAdvisor.Service.Directory
             model.Scope = entity.Scope;
             model.Aliases = entity.Aliases;
             model.UserTypeId = entity.UserTypeId;
+            model.Config = entity.Config;
 
             return model;
         }

@@ -66,7 +66,7 @@ namespace OneAdvisor.Service.Directory
 
         public async Task<Result> InsertOrganisation(ScopeOptions scope, OrganisationEdit organisation)
         {
-            var validator = new OrganisationValidator(_context, true);
+            var validator = new OrganisationValidator(_context, true, organisation.Id);
             var result = validator.Validate(organisation).GetResult();
 
             if (!result.Success)
@@ -88,7 +88,7 @@ namespace OneAdvisor.Service.Directory
 
         public async Task<Result> UpdateOrganisation(ScopeOptions scope, OrganisationEdit organisation)
         {
-            var validator = new OrganisationValidator(_context, false);
+            var validator = new OrganisationValidator(_context, false, organisation.Id);
             var result = validator.Validate(organisation).GetResult();
 
             if (!result.Success)

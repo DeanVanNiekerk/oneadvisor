@@ -14,7 +14,7 @@ namespace OneAdvisor.Service.Directory.Validators
     {
         private List<Guid> _applicationIds;
 
-        public OrganisationValidator(DataContext dataContext, bool isInsert)
+        public OrganisationValidator(DataContext dataContext, bool isInsert, Guid? organisationId)
         {
             _applicationIds = dataContext.Application.Select(a => a.Id).ToList();
 
@@ -23,7 +23,7 @@ namespace OneAdvisor.Service.Directory.Validators
 
             RuleFor(o => o.Name).NotEmpty().MaximumLength(32);
             RuleFor(o => o.Config).NotNull();
-            RuleFor(o => o.Config).SetValidator(new ConfigValidator(dataContext));
+            RuleFor(o => o.Config).SetValidator(new ConfigValidator(dataContext, isInsert, organisationId));
 
             RuleFor(o => o.ApplicationIds).NotEmpty().WithMessage("Please select at least 1 application"); ;
             RuleFor(o => o.ApplicationIds).Must(BeValidApplicationIds).WithMessage("There are invalid application ids");
@@ -44,21 +44,50 @@ namespace OneAdvisor.Service.Directory.Validators
     public class ConfigValidator : AbstractValidator<Config>
     {
         private List<Guid> _companyIds;
+        private List<Guid> _licenseCategoryIds;
+        private List<Guid> _userLicenseCategoryIds;
 
-        public ConfigValidator(DataContext dataContext)
+        public ConfigValidator(DataContext dataContext, bool isInsert, Guid? organisationId)
         {
             _companyIds = dataContext.Company.Select(c => c.Id).ToList();
+            _licenseCategoryIds = dataContext.LicenseCategory.Select(c => c.Id).ToList();
 
             RuleFor(c => c.CompanyIds).NotEmpty().WithMessage("Please select at least 1 company");
             RuleFor(c => c.CompanyIds).Must(BeValidCompanyIds).WithMessage("There are invalid company ids");
 
             RuleFor(c => c.HasSharesInProductProvidersTarget).NotEmpty().When(c => c.HasSharesInProductProviders).WithMessage("This field is required");
             RuleFor(c => c.HasReceivedCommissionFromCompaniesTarget).NotEmpty().When(c => c.HasReceivedCommissionFromCompanies).WithMessage("This field is required");
+
+            RuleFor(c => c.LicenseCategoryIds).Must(BeValidLicenseCategoryIds).WithMessage("There are invalid license category ids");
+
+            if (!isInsert)
+            {
+                var query = from user in dataContext.Users
+                            join branch in dataContext.Branch
+                                on user.BranchId equals branch.Id
+                            where branch.OrganisationId == organisationId.Value
+                            select user.Config;
+
+                //Get unique list of user license category ids
+                _userLicenseCategoryIds = query.ToList().SelectMany(c => c.LicenseCategoryIds).Distinct().ToList();
+
+                RuleFor(c => c.LicenseCategoryIds).Must(BeHaveAllUserLicenseCategoryIds).WithMessage("There are missing license categories that are assigned to users");
+            }
         }
 
         private bool BeValidCompanyIds(IEnumerable<Guid> companyIds)
         {
             return companyIds.Intersect(_companyIds).Count() == companyIds.Count();
+        }
+
+        private bool BeValidLicenseCategoryIds(IEnumerable<Guid> licenseCategoryIds)
+        {
+            return licenseCategoryIds.Intersect(_licenseCategoryIds).Count() == licenseCategoryIds.Count();
+        }
+
+        private bool BeHaveAllUserLicenseCategoryIds(IEnumerable<Guid> licenseCategoryIds)
+        {
+            return _userLicenseCategoryIds.All(id => licenseCategoryIds.Contains(id));
         }
 
     }

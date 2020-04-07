@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Xunit;
 using Moq;
 using OneAdvisor.Data;
 using OneAdvisor.Data.Entities.Commission;
@@ -65,7 +62,7 @@ namespace OneAdvisor.Service.Test
                 LastName = Guid.NewGuid().ToString(),
                 Scope = scope,
                 Roles = new List<string>(),
-                Aliases = new List<string>()
+                Aliases = new List<string>(),
             };
 
             return InsertUserDetailed(options, organisation, user);
@@ -81,7 +78,8 @@ namespace OneAdvisor.Service.Test
                 LastName = sourceUser.LastName,
                 Aliases = sourceUser.Aliases,
                 BranchId = branch.Id,
-                Scope = sourceUser.Scope
+                Scope = sourceUser.Scope,
+                Config = sourceUser.Config,
             };
 
             using (var context = new DataContext(options))

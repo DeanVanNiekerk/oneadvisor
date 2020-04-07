@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
-using FluentValidation.Results;
-using FluentValidation.Validators;
 using OneAdvisor.Data;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.Application;
 using OneAdvisor.Model.Directory.Model.User;
+using OneAdvisor.Model.Directory.Model.User.Configuration;
 
 namespace OneAdvisor.Service.Directory.Validators
 {
@@ -51,6 +50,9 @@ namespace OneAdvisor.Service.Directory.Validators
             RuleForEach(x => x.Aliases)
                .NotEmpty()
                .WithName("Aliases");
+
+            RuleFor(o => o.Config).NotNull();
+            RuleFor(o => o.Config).SetValidator(new UserConfigValidator(dataContext, scope));
         }
 
         private bool MustNotBeUserScope(UserEdit user)
@@ -62,5 +64,34 @@ namespace OneAdvisor.Service.Directory.Validators
         {
             return roles.Any(r => _clientRoles.Contains(r));
         }
+    }
+
+    public class UserConfigValidator : AbstractValidator<Config>
+    {
+        private List<Guid> _adviceScopeIds;
+        private List<Guid> _organisationLicenseCategoryIds;
+
+        public UserConfigValidator(DataContext dataContext, ScopeOptions scope)
+        {
+            var organisation = dataContext.Organisation.Single(o => o.Id == scope.OrganisationId);
+            _organisationLicenseCategoryIds = organisation.Config.LicenseCategoryIds;
+
+            _adviceScopeIds = dataContext.AdviceScope.Select(c => c.Id).ToList();
+
+            RuleFor(c => c.LicenseCategoryIds).Must(BeValidLicenseCategoryIds).WithMessage("There are invalid license category ids");
+
+            RuleFor(c => c.AdviceScopeIds).Must(BeValidAdviceScopeIds).WithMessage("There are invalid advice scope ids");
+        }
+
+        private bool BeValidAdviceScopeIds(IEnumerable<Guid> adviceScopeIds)
+        {
+            return adviceScopeIds.Intersect(_adviceScopeIds).Count() == adviceScopeIds.Count();
+        }
+
+        private bool BeValidLicenseCategoryIds(IEnumerable<Guid> organisationLicenseCategoryIds)
+        {
+            return organisationLicenseCategoryIds.Intersect(_organisationLicenseCategoryIds).Count() == organisationLicenseCategoryIds.Count();
+        }
+
     }
 }
