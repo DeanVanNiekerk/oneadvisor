@@ -10,8 +10,8 @@ using OneAdvisor.Data;
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200401104938_newApplicationsComplianceAndInvest")]
-    partial class newApplicationsComplianceAndInvest
+    [Migration("20200407080618_newAppsAndLookups")]
+    partial class newAppsAndLookups
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -956,6 +956,10 @@ namespace OneAdvisor.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("ColourHex")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -968,26 +972,31 @@ namespace OneAdvisor.Data.Migrations
                         new
                         {
                             Id = new Guid("66c3b4e8-8a30-4a4b-be4d-3928d12fefe9"),
+                            ColourHex = "#CC3F0C",
                             Name = "Directory"
                         },
                         new
                         {
                             Id = new Guid("605ea52c-3627-48e2-8f7c-4819c5ea555b"),
+                            ColourHex = "#009FFD",
                             Name = "Client"
                         },
                         new
                         {
                             Id = new Guid("2fca4500-9142-4940-aaf4-b18925c96d66"),
+                            ColourHex = "#2A2A72",
                             Name = "Commission"
                         },
                         new
                         {
                             Id = new Guid("ef1bb77d-981a-743f-9543-ec36f396536c"),
+                            ColourHex = "#005A38",
                             Name = "Compliance"
                         },
                         new
                         {
                             Id = new Guid("ca35b7ac-351a-0ff1-5d45-9bee6de9e051"),
+                            ColourHex = "#AE1827",
                             Name = "Invest"
                         });
                 });
@@ -1066,6 +1075,159 @@ namespace OneAdvisor.Data.Migrations
                     b.ToTable("dir_ChangeLog");
                 });
 
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.Lookup.AdviceScopeEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("dir_AdviceScope");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f1d1bdcd-83cc-4ae9-9c33-9a4de93f9af1"),
+                            Name = "Estate Planning"
+                        },
+                        new
+                        {
+                            Id = new Guid("a17d7c4d-4159-4cd0-a37d-7d0d006d11f6"),
+                            Name = "Retirement Planning"
+                        },
+                        new
+                        {
+                            Id = new Guid("e26f2a86-832e-47c5-a6e4-00920102ce0c"),
+                            Name = "Investment Planning"
+                        },
+                        new
+                        {
+                            Id = new Guid("b415119f-4070-4ddf-8329-c946496bcb2f"),
+                            Name = "Medical Benefits"
+                        },
+                        new
+                        {
+                            Id = new Guid("76c1dc96-ba96-4136-ac70-386d355354da"),
+                            Name = "Short Term Insurance"
+                        },
+                        new
+                        {
+                            Id = new Guid("b9336610-828b-490c-9b4d-b4478d3c958b"),
+                            Name = "Fiduciary services"
+                        });
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.Lookup.AdviceServiceEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("DisplayOrder")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("dir_AdviceService");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f8d0f35b-9eb5-4be4-b2ab-0a9c3547360d"),
+                            DisplayOrder = 1,
+                            Name = "Full financial needs analysis"
+                        },
+                        new
+                        {
+                            Id = new Guid("b2435736-8fa7-4b34-a7b8-ee08f949e863"),
+                            DisplayOrder = 2,
+                            Name = "Risk Planning for death"
+                        },
+                        new
+                        {
+                            Id = new Guid("6ef0e93b-a4fd-babc-030e-09c7ab293b88"),
+                            DisplayOrder = 3,
+                            Name = "Risk Planning for disability"
+                        },
+                        new
+                        {
+                            Id = new Guid("247c5a3b-cb44-4bd2-5881-d8e146ab75ec"),
+                            DisplayOrder = 4,
+                            Name = "Risk Planning for for dread disease/trauma "
+                        },
+                        new
+                        {
+                            Id = new Guid("04815a0f-6102-47db-8a5c-e28baa9cf428"),
+                            DisplayOrder = 5,
+                            Name = "Planning for retirement"
+                        },
+                        new
+                        {
+                            Id = new Guid("7f3eb0b1-5431-4501-a257-f6c76b96f17a"),
+                            DisplayOrder = 6,
+                            Name = "Planning at retirement"
+                        },
+                        new
+                        {
+                            Id = new Guid("e3751712-0324-4be4-b2dc-332890e72b0c"),
+                            DisplayOrder = 7,
+                            Name = "Savings planning"
+                        },
+                        new
+                        {
+                            Id = new Guid("68523839-e035-43e2-a8e3-f54eaa273750"),
+                            DisplayOrder = 8,
+                            Name = "Investment planning"
+                        },
+                        new
+                        {
+                            Id = new Guid("96dadc7a-7b5a-4fa0-bea8-8423335d7c45"),
+                            DisplayOrder = 9,
+                            Name = "Employee Benefits"
+                        },
+                        new
+                        {
+                            Id = new Guid("d016b488-c4f8-47ff-a833-626b476648d4"),
+                            DisplayOrder = 10,
+                            Name = "Planning for Business Assurance"
+                        },
+                        new
+                        {
+                            Id = new Guid("009c5cec-9b9e-451f-98a9-8335671dc480"),
+                            DisplayOrder = 11,
+                            Name = "Planning for Medical Benefits"
+                        },
+                        new
+                        {
+                            Id = new Guid("27da6f44-891c-46b5-a215-6120eef79ac3"),
+                            DisplayOrder = 12,
+                            Name = "Funeral Benefits"
+                        },
+                        new
+                        {
+                            Id = new Guid("dbc296a3-34d3-4102-a5c0-c84061d88c3d"),
+                            DisplayOrder = 13,
+                            Name = "Wills"
+                        },
+                        new
+                        {
+                            Id = new Guid("44cc8294-b725-4d34-9900-fe662365c475"),
+                            DisplayOrder = 14,
+                            Name = "Medical Gap Cover"
+                        });
+                });
+
             modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.Lookup.CompanyEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1083,6 +1245,249 @@ namespace OneAdvisor.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("dir_Company");
+                });
+
+            modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.Lookup.LicenseCategoryEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("dir_LicenseCategory");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("50fb5d14-10d7-40f1-9e3d-b842fe756989"),
+                            Code = "1.1",
+                            Name = "Long-term Insurance subcategory A"
+                        },
+                        new
+                        {
+                            Id = new Guid("de6e5ba3-82a8-4622-bf21-bf13ae3df492"),
+                            Code = "1.2",
+                            Name = "Short-term Insurance Personal Lines"
+                        },
+                        new
+                        {
+                            Id = new Guid("a8626ca9-acfd-4476-b8bd-d2c1659fe67f"),
+                            Code = "1.3",
+                            Name = "Long-term Insurance"
+                        },
+                        new
+                        {
+                            Id = new Guid("1ab9fac3-6171-4653-8618-e627f95d3759"),
+                            Code = "1.3.1",
+                            Name = "Subcategory B1"
+                        },
+                        new
+                        {
+                            Id = new Guid("75719355-6db5-4620-9537-b710bf7d71e8"),
+                            Code = "1.3.2",
+                            Name = "Subcategory B2"
+                        },
+                        new
+                        {
+                            Id = new Guid("37059d66-8d91-424d-9c76-146e28ce01d4"),
+                            Code = "1.4",
+                            Name = "Long-term Insurance subcategory C"
+                        },
+                        new
+                        {
+                            Id = new Guid("83ba73cf-c0b0-4c55-8ffb-e11098289b7e"),
+                            Code = "1.5",
+                            Name = "Retail Pension Benefits"
+                        },
+                        new
+                        {
+                            Id = new Guid("dc03a55e-41eb-4284-80ab-2cafdf6a60c4"),
+                            Code = "1.6",
+                            Name = "Short-term Insurance Commercial Lines"
+                        },
+                        new
+                        {
+                            Id = new Guid("34660bf9-8396-4bfd-8edb-481ce214a6b9"),
+                            Code = "1.7",
+                            Name = "Pension Fund Benefits"
+                        },
+                        new
+                        {
+                            Id = new Guid("19ade5aa-81e0-456e-aff2-84a4f8b58c44"),
+                            Code = "1.8",
+                            Name = "Securities and instruments: Shares"
+                        },
+                        new
+                        {
+                            Id = new Guid("b5c7d31a-177b-491a-a142-b1662febc6bf"),
+                            Code = "1.9",
+                            Name = "Securities and Instruments: Money market instruments"
+                        },
+                        new
+                        {
+                            Id = new Guid("6b7b8c1d-9d05-44ac-9afc-2b4594dfae9f"),
+                            Code = "1.10",
+                            Name = "Securities and Instruments: Debentures and securitised debt"
+                        },
+                        new
+                        {
+                            Id = new Guid("e1b47d47-1109-4c6a-bfdf-681dce8fc596"),
+                            Code = "1.11",
+                            Name = "Securities and Instruments: Warrants, certificates and other instruments acknowledging debt"
+                        },
+                        new
+                        {
+                            Id = new Guid("e47a4a36-ed52-4d1c-b9c7-080df298d58d"),
+                            Code = "1.12",
+                            Name = "Securities and Instruments: Bonds"
+                        },
+                        new
+                        {
+                            Id = new Guid("3f35cf49-fb8c-48a7-a7ce-7e2de19eb0ad"),
+                            Code = "1.13",
+                            Name = "Securities and Instruments: Derivative instruments excluding warrants"
+                        },
+                        new
+                        {
+                            Id = new Guid("bf1c2f4e-9444-4795-b245-059f3bd1f11f"),
+                            Code = "1.14",
+                            Name = "Participatory Interests in one or more collective Investments schemes"
+                        },
+                        new
+                        {
+                            Id = new Guid("bdca849f-ff58-4dec-a3f8-2c2397fcec1d"),
+                            Code = "1.15",
+                            Name = "Forex Investment Business"
+                        },
+                        new
+                        {
+                            Id = new Guid("01ef566a-fd9a-4ed7-a166-45a15bd0ff05"),
+                            Code = "1.16",
+                            Name = "Health Service Benefits"
+                        },
+                        new
+                        {
+                            Id = new Guid("d7c3a276-53a7-40be-b596-26eceec8b801"),
+                            Code = "1.17",
+                            Name = "Long-term Deposits"
+                        },
+                        new
+                        {
+                            Id = new Guid("21664afe-a0ff-4dcf-9618-8cd19ad6022e"),
+                            Code = "1.18",
+                            Name = "Short-term Deposits"
+                        },
+                        new
+                        {
+                            Id = new Guid("be5c076f-a279-49f3-bac2-eac51106d872"),
+                            Code = "1.19",
+                            Name = "Friendly Society Benefits"
+                        },
+                        new
+                        {
+                            Id = new Guid("f91cec3f-1a03-4d6c-8ec9-0d2c8f1b0080"),
+                            Code = "2.1",
+                            Name = "Long-term Insurance"
+                        },
+                        new
+                        {
+                            Id = new Guid("89bd2ad2-3e82-4ea9-9c70-2c1dcb7be2df"),
+                            Code = "2.1.1",
+                            Name = "Subcategory B1"
+                        },
+                        new
+                        {
+                            Id = new Guid("95af0aa3-0048-4a92-aae6-9bf6a08ea269"),
+                            Code = "2.1.2",
+                            Name = "Subcategory B2"
+                        },
+                        new
+                        {
+                            Id = new Guid("60314bbd-1330-4893-b81f-704372a62915"),
+                            Code = "2.2",
+                            Name = "Long-term Insurance subcategory C"
+                        },
+                        new
+                        {
+                            Id = new Guid("61616b5b-d0c9-4418-b5e1-459bf50501e4"),
+                            Code = "2.3",
+                            Name = "Retail Pension Benefits"
+                        },
+                        new
+                        {
+                            Id = new Guid("554467e1-caf9-4703-8ae8-65c802ca7964"),
+                            Code = "2.4",
+                            Name = "Pension Fund Benefits"
+                        },
+                        new
+                        {
+                            Id = new Guid("bcbaf86e-dd7a-4649-a244-32e7a3811bca"),
+                            Code = "2.5",
+                            Name = "Securities and instruments: Shares"
+                        },
+                        new
+                        {
+                            Id = new Guid("69bd2568-b0c8-408b-b43b-9d2979f26707"),
+                            Code = "2.6",
+                            Name = "Securities and Instruments: Money market instruments"
+                        },
+                        new
+                        {
+                            Id = new Guid("0350fdd6-bf18-4ad0-b876-e74000fcecaa"),
+                            Code = "2.7",
+                            Name = "Securities and Instruments: Debentures and securitised debt"
+                        },
+                        new
+                        {
+                            Id = new Guid("0c205964-0bff-4f59-817c-3274e07941f7"),
+                            Code = "2.8",
+                            Name = "Securities and Instruments: Warrants, certificates and other instruments acknowledging debt"
+                        },
+                        new
+                        {
+                            Id = new Guid("d12d9ba6-2618-4294-9357-17bc439fc80e"),
+                            Code = "2.9",
+                            Name = "Securities and Instruments: Bonds"
+                        },
+                        new
+                        {
+                            Id = new Guid("04fe22be-ed1b-4221-8b87-3f6b3e64138d"),
+                            Code = "2.10",
+                            Name = "Securities and Instruments: Derivative instruments excluding warrants"
+                        },
+                        new
+                        {
+                            Id = new Guid("d91e5fbc-b425-48c2-8c4d-d38dadb2c372"),
+                            Code = "2.11",
+                            Name = "Participatory Interests in one or more collective Investments schemes"
+                        },
+                        new
+                        {
+                            Id = new Guid("261ba3b0-be07-48d7-83e1-70faaed8298c"),
+                            Code = "2.12",
+                            Name = "Forex Investment Business"
+                        },
+                        new
+                        {
+                            Id = new Guid("d65982e7-12f0-40e5-83cb-3c3035b21bb8"),
+                            Code = "2.13",
+                            Name = "Long-term Deposits"
+                        },
+                        new
+                        {
+                            Id = new Guid("f82de6cf-6106-4bc5-9c02-938b069deb66"),
+                            Code = "2.14",
+                            Name = "Short-term Deposits"
+                        });
                 });
 
             modelBuilder.Entity("OneAdvisor.Data.Entities.Directory.Lookup.UserTypeEntity", b =>
@@ -1163,6 +1568,12 @@ namespace OneAdvisor.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("ApplicationIds")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValueSql("'[]'");
+
                     b.Property<string>("Config")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -1172,15 +1583,6 @@ namespace OneAdvisor.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("VATRegistered")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValueSql("0");
-
-                    b.Property<DateTime?>("VATRegistrationDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
