@@ -8,6 +8,7 @@ describe("adviceService actions", () => {
         const adviceService: AdviceServiceEdit = {
             id: "10",
             name: "n1",
+            displayOrder: 1,
         };
 
         const expectedAction = {

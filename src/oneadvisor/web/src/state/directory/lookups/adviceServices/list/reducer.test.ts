@@ -43,6 +43,7 @@ describe("adviceService list reducer", () => {
         const adviceService: AdviceService = {
             id: "10",
             name: "n1",
+            displayOrder: 1,
         };
 
         const actualState = reducer(initalState, {

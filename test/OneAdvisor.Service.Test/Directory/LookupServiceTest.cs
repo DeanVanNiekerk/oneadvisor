@@ -272,9 +272,9 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("GetAdviceServices");
 
             //Given
-            var lkp1 = new AdviceServiceEntity { Id = Guid.NewGuid(), Name = "A" };
-            var lkp2 = new AdviceServiceEntity { Id = Guid.NewGuid(), Name = "B" };
-            var lkp3 = new AdviceServiceEntity { Id = Guid.NewGuid(), Name = "C" };
+            var lkp1 = new AdviceServiceEntity { Id = Guid.NewGuid(), Name = "C", DisplayOrder = 1 };
+            var lkp2 = new AdviceServiceEntity { Id = Guid.NewGuid(), Name = "B", DisplayOrder = 2 };
+            var lkp3 = new AdviceServiceEntity { Id = Guid.NewGuid(), Name = "A", DisplayOrder = 3 };
 
             using (var context = new DataContext(options))
             {
@@ -299,6 +299,7 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual1 = actual[0];
                 Assert.Equal(lkp1.Id, actual1.Id);
                 Assert.Equal(lkp1.Name, actual1.Name);
+                Assert.Equal(lkp1.DisplayOrder, actual1.DisplayOrder);
 
                 var actual2 = actual[1];
                 Assert.Equal(lkp2.Id, actual2.Id);
@@ -317,6 +318,7 @@ namespace OneAdvisor.Service.Test.Directory
             var model = new AdviceService()
             {
                 Name = "1",
+                DisplayOrder = 1
             };
 
             using (var context = new DataContext(options))
@@ -331,6 +333,7 @@ namespace OneAdvisor.Service.Test.Directory
 
                 var actual = await context.AdviceService.FindAsync(((AdviceService)result.Tag).Id);
                 Assert.Equal(model.Name, actual.Name);
+                Assert.Equal(model.DisplayOrder, actual.DisplayOrder);
             }
         }
 
@@ -340,7 +343,7 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("UpdateAdviceService");
 
             //Given
-            var lkp1 = new AdviceServiceEntity { Id = Guid.NewGuid(), Name = "1" };
+            var lkp1 = new AdviceServiceEntity { Id = Guid.NewGuid(), Name = "1", DisplayOrder = 1 };
 
             using (var context = new DataContext(options))
             {
@@ -353,6 +356,7 @@ namespace OneAdvisor.Service.Test.Directory
             {
                 Id = lkp1.Id,
                 Name = "1 Updated",
+                DisplayOrder = 2
             };
 
             using (var context = new DataContext(options))
@@ -367,6 +371,7 @@ namespace OneAdvisor.Service.Test.Directory
 
                 var actual = await context.AdviceService.FindAsync(model.Id);
                 Assert.Equal(model.Name, actual.Name);
+                Assert.Equal(model.DisplayOrder, actual.DisplayOrder);
             }
         }
 

@@ -9,19 +9,30 @@ import {
     adviceServiceSelector,
     modifyAdviceService,
 } from "@/state/directory/lookups";
-import { Form, FormInput } from "@/ui/controls";
+import { Form, FormInput, FormInputNumber } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;
 
 const AdviceServiceForm: React.FC<Props> = ({ adviceService, validationResults, handleChange }) => {
     if (!adviceService) return <React.Fragment />;
 
-    const onChange = (fieldName: keyof AdviceServiceEdit, value: string) => {
+    const onChange = (fieldName: keyof AdviceServiceEdit, value: string | number) => {
         handleChange(adviceService, fieldName, value);
     };
 
     return (
         <Form>
+            <FormInputNumber
+                fieldName="displayOrder"
+                label="Order"
+                value={adviceService.displayOrder}
+                onChange={(key: "displayOrder", value) =>
+                    onChange(key, value === undefined ? 0 : value)
+                }
+                min={0}
+                validationResults={validationResults}
+                autoFocus={true}
+            />
             <FormInput
                 fieldName="name"
                 label="Name"
@@ -49,7 +60,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         handleChange: (
             adviceService: AdviceServiceEdit,
             fieldName: keyof AdviceServiceEdit,
-            value: string
+            value: string | number
         ) => {
             const adviceServiceModified = update(adviceService, {
                 [fieldName]: { $set: value },

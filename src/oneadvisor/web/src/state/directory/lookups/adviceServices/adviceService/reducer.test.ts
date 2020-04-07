@@ -13,6 +13,7 @@ describe("adviceService reducer", () => {
         const adviceService: AdviceServiceEdit = {
             id: "10",
             name: "n1",
+            displayOrder: 1,
         };
 
         const actualState = reducer(initalState, {
@@ -34,6 +35,7 @@ describe("adviceService reducer", () => {
         const adviceService: AdviceServiceEdit = {
             id: "10",
             name: "n1",
+            displayOrder: 1,
         };
 
         const initalState = {

@@ -173,11 +173,12 @@ namespace OneAdvisor.Service.Directory
         public async Task<List<AdviceService>> GetAdviceServices()
         {
             var query = from service in _context.AdviceService
-                        orderby service.Name
+                        orderby service.DisplayOrder
                         select new AdviceService()
                         {
                             Id = service.Id,
                             Name = service.Name,
+                            DisplayOrder = service.DisplayOrder
                         };
 
             return await query.ToListAsync();
@@ -226,6 +227,7 @@ namespace OneAdvisor.Service.Directory
                 entity = new AdviceServiceEntity();
 
             entity.Name = model.Name;
+            entity.DisplayOrder = model.DisplayOrder;
 
             return entity;
         }

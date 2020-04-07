@@ -54,9 +54,10 @@ namespace api.Test.Controllers.Directory
         [Fact]
         public void AdviceServiceModelComposition()
         {
-            Assert.Equal(2, typeof(AdviceService).PropertyCount());
+            Assert.Equal(3, typeof(AdviceService).PropertyCount());
             Assert.True(typeof(AdviceService).HasProperty("Id"));
             Assert.True(typeof(AdviceService).HasProperty("Name"));
+            Assert.True(typeof(AdviceService).HasProperty("DisplayOrder"));
         }
 
         [Fact]

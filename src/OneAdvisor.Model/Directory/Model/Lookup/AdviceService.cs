@@ -6,5 +6,6 @@ namespace OneAdvisor.Model.Directory.Model.Lookup
     {
         public Guid? Id { get; set; }
         public string Name { get; set; }
+        public int DisplayOrder { get; set; }
     }
 }

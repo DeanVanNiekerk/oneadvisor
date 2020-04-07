@@ -3,11 +3,13 @@ import { ValidationResult } from "@/app/validation";
 export type AdviceService = {
     id: string;
     name: string;
+    displayOrder: number;
 };
 
 export type AdviceServiceEdit = {
     id: string | null;
     name: string;
+    displayOrder: number;
 };
 
 export type AdviceServiceState = {

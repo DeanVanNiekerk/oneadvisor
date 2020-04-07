@@ -68,6 +68,7 @@ export const newAdviceService = (): AdviceServiceReceiveAction => {
     const adviceService: AdviceServiceEdit = {
         id: null,
         name: "",
+        displayOrder: 0,
     };
 
     return receiveAdviceService(adviceService);

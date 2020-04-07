@@ -62,7 +62,10 @@ const AdviceServiceList: React.FC<Props> = (props) => {
 
 const getColumns = () => {
     const getColumn = getColumnDefinition<AdviceService>();
-    return [getColumn("name", "Name", {}, getColumnSearchProps("Name"))];
+    return [
+        getColumn("displayOrder", "Order"),
+        getColumn("name", "Name", {}, getColumnSearchProps("Name")),
+    ];
 };
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
