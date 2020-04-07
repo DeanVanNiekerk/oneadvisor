@@ -25,11 +25,11 @@ namespace api.Controllers.Directory.Organisations
 
         [HttpGet("")]
         [UseCaseAuthorize("dir_view_organisations")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string filters = null)
         {
             var scope = AuthenticationService.GetScope(User, User.IsSuperAdmin());
 
-            var queryOptions = new OrganisationQueryOptions(scope);
+            var queryOptions = new OrganisationQueryOptions(scope, filters);
             var pagedItems = await OrganisationService.GetOrganisations(queryOptions);
 
             return Ok(pagedItems);

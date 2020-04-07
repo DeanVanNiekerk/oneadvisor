@@ -37,6 +37,14 @@ namespace OneAdvisor.Service.Directory
 
             var pagedItems = new PagedItems<Organisation>();
 
+            if (queryOptions.BranchId.HasValue)
+            {
+                var branch = await _context.Branch.FirstOrDefaultAsync(b => b.Id == queryOptions.BranchId.Value);
+
+                if (branch != null)
+                    query = query.Where(o => o.Id == branch.OrganisationId);
+            }
+
             //Get total items
             pagedItems.TotalItems = await query.CountAsync();
 

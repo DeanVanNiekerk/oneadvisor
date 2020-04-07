@@ -1,3 +1,4 @@
+import { Filters } from "@/app/table";
 import { ValidationResult } from "@/app/validation";
 
 export type Organisation = {
@@ -61,3 +62,5 @@ export type OrganisationsState = {
     readonly list: ListState;
     readonly organisation: OrganisationState;
 };
+
+export type OrganisationsFilters = Filters<{ branchId: string }>;

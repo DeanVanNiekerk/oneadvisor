@@ -6,6 +6,7 @@ import { userIsNew } from "@/state/directory/users";
 import { TabPane, Tabs } from "@/ui/controls";
 
 import DetailsForm from "./DetailsForm";
+import RolesForm from "./RolesForm";
 
 type Props = PropsFromState;
 
@@ -16,6 +17,9 @@ const OrganisationForm: React.FC<Props> = (props: Props) => {
         <Tabs onChange={setActiveTab} activeKey={activeTab} sticky={true}>
             <TabPane tab="Details" key="details_tab">
                 <DetailsForm />
+            </TabPane>
+            <TabPane tab="Roles" key="roles_tab">
+                <RolesForm />
             </TabPane>
             {/* {!props.isNew && (
                 <TabPane tab="Branches" key="branches_tab">

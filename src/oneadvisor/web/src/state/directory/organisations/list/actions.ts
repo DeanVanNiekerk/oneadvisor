@@ -1,8 +1,9 @@
+import { appendFiltersQuery } from "@/app/query";
 import { PagedItems } from "@/app/table";
 import { ApiAction, ApiOnSuccess } from "@/app/types";
 import { organisationsApi } from "@/config/api/directory";
 
-import { Organisation } from "../types";
+import { Organisation, OrganisationsFilters } from "../types";
 
 type OrganisationListReceiveAction = {
     type: "ORGANISATIONS_LIST_RECEIVE";
@@ -18,18 +19,25 @@ export type OrganisationListAction =
     | OrganisationListFetchingAction
     | OrganisationListFetchingErrorAction;
 
-export const fetchOrganisations = (): ApiAction => {
+export const fetchOrganisations = (filters: OrganisationsFilters): ApiAction => {
+    let api = organisationsApi;
+    api = appendFiltersQuery(api, filters);
     return {
         type: "API",
-        endpoint: organisationsApi,
+        endpoint: api,
         dispatchPrefix: "ORGANISATIONS_LIST",
     };
 };
 
-export const getOrganisations = (onSuccess: ApiOnSuccess<PagedItems<Organisation>>): ApiAction => {
+export const getOrganisations = (
+    filters: OrganisationsFilters,
+    onSuccess: ApiOnSuccess<PagedItems<Organisation>>
+): ApiAction => {
+    let api = organisationsApi;
+    api = appendFiltersQuery(api, filters);
     return {
         type: "API",
-        endpoint: organisationsApi,
+        endpoint: api,
         onSuccess: onSuccess,
     };
 };
