@@ -10,7 +10,7 @@ using OneAdvisor.Data;
 namespace OneAdvisor.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200407080618_newAppsAndLookups")]
+    [Migration("20200407092325_newAppsAndLookups")]
     partial class newAppsAndLookups
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1129,9 +1129,7 @@ namespace OneAdvisor.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("DisplayOrder")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1864,6 +1862,12 @@ namespace OneAdvisor.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Config")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValueSql("'{ }'");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")

@@ -107,7 +107,6 @@ namespace OneAdvisor.Data
             RoleToUseCaseMap.Map(modelBuilder);
             CommissionTypeMap.Map(modelBuilder);
             CompanyMap.Map(modelBuilder);
-            AdviceServiceMap.Map(modelBuilder);
             AuditLogMap.Map(modelBuilder);
 
             #endregion

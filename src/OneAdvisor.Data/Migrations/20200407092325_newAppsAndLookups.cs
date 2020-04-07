@@ -16,6 +16,12 @@ namespace OneAdvisor.Data.Migrations
                 table: "dir_Organisation");
 
             migrationBuilder.AddColumn<string>(
+                name: "Config",
+                table: "idn_User",
+                nullable: false,
+                defaultValueSql: "'{ }'");
+
+            migrationBuilder.AddColumn<string>(
                 name: "ApplicationIds",
                 table: "dir_Organisation",
                 nullable: false,
@@ -45,7 +51,7 @@ namespace OneAdvisor.Data.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: false),
-                    DisplayOrder = table.Column<int>(nullable: false, defaultValue: 0)
+                    DisplayOrder = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -194,6 +200,10 @@ namespace OneAdvisor.Data.Migrations
                 table: "dir_Application",
                 keyColumn: "Id",
                 keyValue: new Guid("ef1bb77d-981a-743f-9543-ec36f396536c"));
+
+            migrationBuilder.DropColumn(
+                name: "Config",
+                table: "idn_User");
 
             migrationBuilder.DropColumn(
                 name: "ApplicationIds",

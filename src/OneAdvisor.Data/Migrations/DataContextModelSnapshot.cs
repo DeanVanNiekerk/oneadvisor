@@ -1127,9 +1127,7 @@ namespace OneAdvisor.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("DisplayOrder")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
