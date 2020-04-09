@@ -7,6 +7,7 @@ import CompaniesForm from "./CompaniesForm";
 import ComplianceOfficerForm from "./ComplianceOfficerForm";
 import ConfigTabTitle from "./ConfigTabTitle";
 import DetailsForm from "./DetailsForm";
+import LicenseCategoriesForm from "./LicenseCategoriesForm";
 
 const EditConfig: React.FC = () => {
     const [activeTab, setActiveTab] = useState("details_tab");
@@ -50,6 +51,18 @@ const EditConfig: React.FC = () => {
                 key="complianceOfficer_tab"
             >
                 <ComplianceOfficerForm />
+            </TabPane>
+            <TabPane
+                tab={
+                    <ConfigTabTitle
+                        title="License Categories"
+                        validationPrefix="LicenseCategoryIds"
+                        exactMatch={false}
+                    />
+                }
+                key="license_categories_tab"
+            >
+                <LicenseCategoriesForm />
             </TabPane>
         </Tabs>
     );

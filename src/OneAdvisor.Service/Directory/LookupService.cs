@@ -239,7 +239,6 @@ namespace OneAdvisor.Service.Directory
         public async Task<List<LicenseCategory>> GetLicenseCategories()
         {
             var query = from category in _context.LicenseCategory
-                        orderby category.Code
                         select new LicenseCategory()
                         {
                             Id = category.Id,
@@ -247,7 +246,14 @@ namespace OneAdvisor.Service.Directory
                             Name = category.Name,
                         };
 
-            return await query.ToListAsync();
+            var list = await query.ToListAsync();
+
+            return list.OrderBy(item =>
+            {
+                Version version = new Version();
+                Version.TryParse(item.Code, out version);
+                return version;
+            }).ToList();
         }
 
         public async Task<Result> InsertLicenseCategory(LicenseCategory model)

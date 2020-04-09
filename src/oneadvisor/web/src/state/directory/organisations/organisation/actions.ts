@@ -79,21 +79,6 @@ export const modifyOrganisationConfig = (
     };
 };
 
-export const modifyOrganisationConfigCompanyIds = (
-    companyIds: string[]
-): ThunkAction<void, RootState, {}, OrganisationModifiedAction> => {
-    return (dispatch, getState) => {
-        const { organisation } = organisationSelector(getState());
-        if (!organisation) return;
-
-        const organisationModified = update(organisation, {
-            config: { companyIds: { $set: companyIds } },
-        });
-
-        dispatch(modifyOrganisation(organisationModified));
-    };
-};
-
 export const modifyOrganisationConfigAddress = (
     address: Address
 ): ThunkAction<void, RootState, {}, OrganisationModifiedAction> => {

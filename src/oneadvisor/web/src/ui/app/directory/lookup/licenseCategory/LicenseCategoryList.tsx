@@ -63,8 +63,8 @@ const LicenseCategoryList: React.FC<Props> = (props) => {
 const getColumns = () => {
     const getColumn = getColumnDefinition<LicenseCategory>();
     return [
-        getColumn("name", "Name", {}, getColumnSearchProps("Name")),
         getColumn("code", "Code", {}, getColumnSearchProps("Code")),
+        getColumn("name", "Name", {}, getColumnSearchProps("Name")),
     ];
 };
 

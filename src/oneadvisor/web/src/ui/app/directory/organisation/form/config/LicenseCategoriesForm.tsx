@@ -6,7 +6,7 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { getValidationSubSet } from "@/app/validation";
 import { RootState } from "@/state";
-import { companiesSelector, Company } from "@/state/directory/lookups";
+import { licenseCategoriesSelector, LicenseCategory } from "@/state/directory/lookups";
 import {
     Config,
     modifyOrganisationConfig,
@@ -15,21 +15,31 @@ import {
 } from "@/state/directory/organisations";
 import { FormErrors, getFormSwitchList } from "@/ui/controls";
 
-const FormSwitchList = getFormSwitchList<Company, string>();
+const FormSwitchList = getFormSwitchList<LicenseCategory, string>();
 
 type Props = PropsFromState & PropsFromDispatch;
 
-const CompaniesForm: React.FC<Props> = ({ config, companies, handleChange, validationResults }) => {
+const LicenseCategoriesForm: React.FC<Props> = ({
+    config,
+    licenseCategories,
+    handleChange,
+    validationResults,
+}) => {
     return (
         <>
             <FormErrors validationResults={validationResults} />
             <FormSwitchList
                 idKey="id"
-                itemName={(company) => company.name}
-                selectedIds={config.companyIds}
+                itemName={(category) => (
+                    <div style={{ display: "flex" }}>
+                        <div style={{ paddingRight: 20 }}>{category.code}</div>
+                        <div>{category.name}</div>
+                    </div>
+                )}
+                selectedIds={config.licenseCategoryIds}
                 editUseCase="dir_edit_organisations"
-                onChange={(companyIds) => handleChange(config, companyIds)}
-                dataSource={companies}
+                onChange={(licenseCategoryIds) => handleChange(config, licenseCategoryIds)}
+                dataSource={licenseCategories}
             />
         </>
     );
@@ -40,9 +50,9 @@ const mapStateToProps = (state: RootState) => {
     const organisationState = organisationSelector(state);
     return {
         config: organisationConfigSelector(state),
-        companies: companiesSelector(state).items,
+        licenseCategories: licenseCategoriesSelector(state).items,
         validationResults: getValidationSubSet(
-            "Config.CompanyIds",
+            "Config.LicenseCategoryIds",
             organisationState.validationResults,
             true,
             true
@@ -53,13 +63,13 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
-        handleChange: (config: Config, companyIds: string[]) => {
+        handleChange: (config: Config, licenseCategoryIds: string[]) => {
             const configModified = update(config, {
-                companyIds: { $set: companyIds },
+                licenseCategoryIds: { $set: licenseCategoryIds },
             });
             dispatch(modifyOrganisationConfig(configModified));
         },
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CompaniesForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LicenseCategoriesForm);

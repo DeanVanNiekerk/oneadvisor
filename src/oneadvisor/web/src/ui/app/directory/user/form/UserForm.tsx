@@ -9,6 +9,7 @@ import { TabPane, Tabs } from "@/ui/controls";
 
 import AliasForm from "./AliasForm";
 import Commission from "./Commission";
+import EditConfig from "./config/EditConfig";
 import DetailsForm from "./DetailsForm";
 import Emails from "./Emails";
 import RolesForm from "./RolesForm";
@@ -46,6 +47,12 @@ const OrganisationForm: React.FC<Props> = (props: Props) => {
                     <Commission />
                 </TabPane>
             )}
+            <TabPane
+                tab={<UserTabTitle title="Config" validationPrefix="Config" exactMatch={false} />}
+                key="config_tab"
+            >
+                <EditConfig />
+            </TabPane>
         </Tabs>
     );
 };

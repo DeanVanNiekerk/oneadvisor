@@ -10,7 +10,7 @@ type Props<T, K> = {
     header?: string;
     dataSource: T[];
     selectedIds: K[];
-    titleKey: keyof T;
+    itemName: (item: T) => React.ReactNode;
     idKey: keyof T;
     editUseCase?: string;
     onChange: (ids: K[]) => void;
@@ -55,7 +55,7 @@ function FormSwitchList<T, K>(props: Props<T, K>) {
                         />,
                     ]}
                 >
-                    {item[props.titleKey]}
+                    {props.itemName(item)}
                 </List.Item>
             )}
             className="mb-2"
