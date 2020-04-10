@@ -37,7 +37,7 @@ const FormDate: React.FC<Props> = (props: Props) => {
         layout,
         readonly,
         extra,
-        allowClear,
+        allowClear = true,
     } = props;
 
     if (readonly)

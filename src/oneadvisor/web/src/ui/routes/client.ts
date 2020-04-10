@@ -4,7 +4,7 @@ import { reducerManager } from "@/state/configureStore";
 
 import { ensureDirectoryReducer } from "./directory";
 
-const ensureClientReducer = async () => {
+export const ensureClientReducer = async () => {
     await ensureDirectoryReducer();
 
     if (reducerManager.hasReducer("client")) return;

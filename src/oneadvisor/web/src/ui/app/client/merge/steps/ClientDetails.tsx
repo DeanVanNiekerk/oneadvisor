@@ -16,6 +16,7 @@ import {
     receiveClient,
     receiveSelectedClients,
 } from "@/state/client/clients";
+import { MergeCellsOutlined } from "@ant-design/icons";
 
 import ClientForm from "../../client/form/ClientForm";
 import ClientMergeSteps from "../ClientMergeSteps";
@@ -39,8 +40,8 @@ class ClientDetails extends Component<Props> {
         }
     }
 
-    mergeClients = (clients: Client[]): Client => {
-        const client = {
+    mergeClients = (clients: Client[]): ClientEdit => {
+        const client: ClientEdit = {
             ...clients[0],
         };
         clients.forEach((m) => {
@@ -49,7 +50,7 @@ class ClientDetails extends Component<Props> {
                 if (value != undefined && value != null && value != "") client[property] = value;
             }
         });
-        client.id = "";
+        client.id = null;
         return client;
     };
 
@@ -78,7 +79,7 @@ class ClientDetails extends Component<Props> {
             <>
                 <ClientMergeSteps
                     onNext={() => this.save()}
-                    nextIcon="fork"
+                    nextIcon={<MergeCellsOutlined />}
                     nextText="Merge"
                     onPrevious={() => this.props.dispatch(clientMergePreviousStep())}
                 />
