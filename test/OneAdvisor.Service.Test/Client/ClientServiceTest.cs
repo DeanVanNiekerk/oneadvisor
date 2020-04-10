@@ -404,6 +404,78 @@ namespace OneAdvisor.Service.Test.Client
         }
 
         [Fact]
+        public async Task InsertClient_GetDOBFromId()
+        {
+            var options = TestHelper.GetDbContext("InsertClient_GetDOBFromId");
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+
+            //Given
+            var client = new ClientEdit()
+            {
+                ClientTypeId = ClientType.CLIENT_TYPE_INDIVIDUAL,
+                FirstName = "FN 1",
+                LastName = "LN 1",
+                IdNumber = "8210035032082",
+            };
+
+            using (var context = new DataContext(options))
+            {
+                var auditService = new AuditServiceMock();
+                var service = new ClientService(context, auditService);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1, Scope.User);
+                var result = await service.InsertClient(scope, client);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.Client.FindAsync(((ClientEdit)result.Tag).Id);
+                Assert.Equal(client.Id, actual.Id);
+                Assert.Equal(client.ClientTypeId, actual.ClientTypeId);
+                Assert.Equal(client.IdNumber, actual.IdNumber);
+                Assert.Equal(DateTime.Parse("1982-10-03"), actual.DateOfBirth);
+            }
+        }
+
+        [Fact]
+        public async Task InsertClient_GetDOBFromId_FutureCheck()
+        {
+            var options = TestHelper.GetDbContext("InsertClient_GetDOBFromId_FutureCheck");
+
+            var user1 = TestHelper.InsertUserDetailed(options);
+
+            //Given
+            var client = new ClientEdit()
+            {
+                ClientTypeId = ClientType.CLIENT_TYPE_INDIVIDUAL,
+                FirstName = "FN 1",
+                LastName = "LN 1",
+                IdNumber = "2901014800087", //yes this test will break after 2029...
+            };
+
+            using (var context = new DataContext(options))
+            {
+                var auditService = new AuditServiceMock();
+                var service = new ClientService(context, auditService);
+
+                //When
+                var scope = TestHelper.GetScopeOptions(user1, Scope.User);
+                var result = await service.InsertClient(scope, client);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.Client.FindAsync(((ClientEdit)result.Tag).Id);
+                Assert.Equal(client.Id, actual.Id);
+                Assert.Equal(client.ClientTypeId, actual.ClientTypeId);
+                Assert.Equal(client.IdNumber, actual.IdNumber);
+                Assert.Equal(DateTime.Parse("1929-01-01"), actual.DateOfBirth);
+            }
+        }
+
+        [Fact]
         public async Task UpdateClient()
         {
             var options = TestHelper.GetDbContext("UpdateClient");

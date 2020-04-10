@@ -14,7 +14,6 @@ using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Client.Interface;
 using OneAdvisor.Service.Commission.Validators;
 using OneAdvisor.Model.Client.Model.Policy;
-using OneAdvisor.Model.Directory.Model.Lookup;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using OneAdvisor.Service.Common.BulkActions;
 using OneAdvisor.Model.Commission.Model.Lookup;

@@ -288,8 +288,8 @@ namespace OneAdvisor.Service.Test.Directory
                 var actual = await context.Organisation.FindAsync(organisation.Id);
                 Assert.Equal(organisation.Name, actual.Name);
                 Assert.Equal(2, organisation.ApplicationIds.Count());
-                Assert.True(organisation.ApplicationIds.Contains(Application.CLIENT_ID));
-                Assert.True(organisation.ApplicationIds.Contains(Application.COMMISSION_ID));
+                Assert.Contains(Application.CLIENT_ID, organisation.ApplicationIds);
+                Assert.Contains(Application.COMMISSION_ID, organisation.ApplicationIds);
                 Assert.Equal(organisation.Config.VATRegistered, actual.Config.VATRegistered);
                 Assert.Equal(organisation.Config.VATRegistrationDate, actual.Config.VATRegistrationDate);
                 Assert.Single(actual.Config.CompanyIds);

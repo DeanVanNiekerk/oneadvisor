@@ -51,6 +51,9 @@ namespace OneAdvisor.Service.Client.Validators
                         {
                             this.DateOfBirth = DateTime.ParseExact(this.IdentityNumber
                                 .Substring(0, 6), "yyMMdd", null);
+
+                            if (this.DateOfBirth > DateTime.UtcNow)
+                                this.DateOfBirth = this.DateOfBirth.Value.AddYears(-100);
                         }
                         catch { }
 

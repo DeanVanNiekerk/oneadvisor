@@ -55,5 +55,15 @@ describe("id", () => {
             expect(result.dateOfBirth).toEqual("1982-10-03");
             expect(result.gender).toEqual("M");
         });
+
+        it("success - future check", () => {
+            const id = "2901014800087"; //yes this test will break after 2029, well done for getting this far!
+
+            const result = parseIdNumber(id);
+
+            expect(result.success).toEqual(true);
+            expect(result.dateOfBirth).toEqual("1929-01-01");
+            expect(result.gender).toEqual("F");
+        });
     });
 });

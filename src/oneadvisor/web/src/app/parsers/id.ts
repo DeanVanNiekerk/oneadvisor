@@ -19,6 +19,8 @@ export const parseIdNumber = (input: string): Result => {
 
     const dateOfBirth = moment(input.substring(0, 6), "YYMMDD");
 
+    if (dateOfBirth.isAfter(moment())) dateOfBirth.subtract(100, "year");
+
     if (!dateOfBirth.isValid()) return { success: false };
 
     const dateOfBirthFormatted = dateOfBirth.format("YYYY-MM-DD");
