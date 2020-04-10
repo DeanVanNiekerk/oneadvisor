@@ -6,6 +6,6 @@
         <ProjectReference Include="..\OneAdvisor.Model\OneAdvisor.Model.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="CsvHelper" Version="15.0.0" />
+        <PackageReference Include="CsvHelper" Version="15.0.4" />
     </ItemGroup>
 </Project>
