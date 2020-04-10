@@ -107,7 +107,7 @@ namespace api.Controllers.Commission.Import
             {
                 using (var stream = file.OpenReadStream())
                 {
-                    var path = new CommissionStatementPath(scope.OrganisationId, commissionStatementId, file.FileName);
+                    var path = new CommissionStatementFilePath(scope.OrganisationId, commissionStatementId, file.FileName);
                     await FileStorageService.AddFileAsync(path, stream);
                 }
             }
@@ -126,7 +126,7 @@ namespace api.Controllers.Commission.Import
             if (statement == null)
                 return NotFound();
 
-            var path = new CommissionStatementPath(scope.OrganisationId, commissionStatementId);
+            var path = new CommissionStatementDirectoryPath(scope.OrganisationId, commissionStatementId);
             var files = await FileStorageService.GetFilesAsync(path);
 
             if (!files.Any())

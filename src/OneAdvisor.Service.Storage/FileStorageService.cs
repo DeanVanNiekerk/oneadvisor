@@ -15,9 +15,6 @@ namespace OneAdvisor.Service.Storage
 {
     public class FileStorageService : IFileStorageService
     {
-        private readonly string METADATA_FILENAME = "FileName";
-        private readonly string METADATA_DELETED = "Deleted";
-
         private CloudStorageAccount _account;
 
         public FileStorageService(IOptions<ConnectionOptions> options)
@@ -25,22 +22,24 @@ namespace OneAdvisor.Service.Storage
             _account = CloudStorageAccount.Parse(options.Value.AzureStorage);
         }
 
-        public async Task<string> AddFileAsync(PathBase path, Stream stream)
+        public async Task<string> AddFileAsync(FilePathBase path, Stream stream)
         {
             var client = _account.CreateCloudBlobClient();
-            var container = client.GetContainerReference(path.GetContainerName());
+            var container = client.GetContainerReference(path.DirectoryPath.GetContainerName());
 
             await container.CreateIfNotExistsAsync();
 
-            var cloudBlockBlob = container.GetBlockBlobReference(path.GetFilePath());
-            cloudBlockBlob.Metadata.Add(METADATA_FILENAME, path.FileName);
+            var cloudBlockBlob = container.GetBlockBlobReference(path.GetUnqiueFilePath());
+
+            foreach (var data in path.MetaData)
+                cloudBlockBlob.Metadata.Add(data.Key, data.Value);
 
             await cloudBlockBlob.UploadFromStreamAsync(stream);
 
-            return cloudBlockBlob.Name;
+            return path.FileName;
         }
 
-        public async Task<IEnumerable<CloudFileInfo>> GetFilesAsync(PathBase path, bool includeDeleted = false)
+        public async Task<IEnumerable<CloudFileInfo>> GetFilesAsync(DirectoryPathBase path, bool includeDeleted = false)
         {
             var client = _account.CreateCloudBlobClient();
             var container = client.GetContainerReference(path.GetContainerName());
@@ -67,7 +66,7 @@ namespace OneAdvisor.Service.Storage
 
                     var deleted = false;
                     var deletedString = "";
-                    var success = blob.Metadata.TryGetValue(METADATA_DELETED, out deletedString);
+                    var success = blob.Metadata.TryGetValue(FilePathBase.METADATA_DELETED, out deletedString);
                     if (success)
                         deleted = Boolean.TrueString == deletedString;
 
@@ -75,7 +74,7 @@ namespace OneAdvisor.Service.Storage
                         continue;
 
                     var fileName = "unknown";
-                    blob.Metadata.TryGetValue(METADATA_FILENAME, out fileName);
+                    blob.Metadata.TryGetValue(FilePathBase.METADATA_FILENAME, out fileName);
 
                     var file = new CloudFileInfo()
                     {
@@ -105,7 +104,7 @@ namespace OneAdvisor.Service.Storage
 
             await blob.DownloadToStreamAsync(stream);
 
-            return blob.Metadata[METADATA_FILENAME];
+            return blob.Metadata[FilePathBase.METADATA_FILENAME];
         }
 
         public async Task SoftDeleteFile(string url)
@@ -114,7 +113,7 @@ namespace OneAdvisor.Service.Storage
 
             await blob.FetchAttributesAsync();
 
-            blob.Metadata[METADATA_DELETED] = true.ToString();
+            blob.Metadata[FilePathBase.METADATA_DELETED] = true.ToString();
 
             await blob.SetMetadataAsync();
         }

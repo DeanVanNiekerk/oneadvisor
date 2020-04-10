@@ -94,7 +94,7 @@ namespace api.Controllers.Commission.CommissionStatements
 
             await CommissionStatementService.DeleteCommissions(scope, commissionStatementId);
 
-            var path = new CommissionStatementPath(scope.OrganisationId, commissionStatementId);
+            var path = new CommissionStatementDirectoryPath(scope.OrganisationId, commissionStatementId);
             var files = await FileStorageService.GetFilesAsync(path);
 
             foreach (var file in files)
@@ -109,7 +109,7 @@ namespace api.Controllers.Commission.CommissionStatements
         {
             var scope = AuthenticationService.GetScope(User);
 
-            var path = new CommissionStatementPath(scope.OrganisationId, commissionStatementId);
+            var path = new CommissionStatementDirectoryPath(scope.OrganisationId, commissionStatementId);
             var files = await FileStorageService.GetFilesAsync(path, true);
 
             return Ok(files);

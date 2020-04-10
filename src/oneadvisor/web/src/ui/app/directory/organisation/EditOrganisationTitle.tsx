@@ -7,7 +7,7 @@ import { organisationIsNew } from "@/state/directory/organisations";
 type Props = PropsFromState;
 
 const EditOrganisationTitle: React.FC<Props> = ({ isNew }) => {
-    return <>{isNew ? `New Company` : "Edit Company"}</>;
+    return <>{isNew ? `New Organisation` : "Edit Organisation"}</>;
 };
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
