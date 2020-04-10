@@ -122,9 +122,16 @@ export default (store: Store<RootState>) => (next: Dispatch) => (action: ApiActi
                 return json;
             });
         })
+        .then(() => {
+            //Call onAlways
+            if (action.onAlways) action.onAlways();
+        })
         .catch((error) => {
             //Call onFailure
             if (action.onFailure) action.onFailure(error);
+
+            //Call onAlways
+            if (action.onAlways) action.onAlways();
 
             handleError(showNotifications, store, dispatchPrefix, error);
         });

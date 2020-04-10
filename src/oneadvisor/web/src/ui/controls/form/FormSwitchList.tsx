@@ -2,9 +2,9 @@ import { List, Switch } from "antd";
 import React from "react";
 import { connect } from "react-redux";
 
-import { hasUseCase } from "@/app/identity";
+import { hasRole, hasUseCase } from "@/app/identity";
 import { RootState } from "@/state";
-import { useCaseSelector } from "@/state/auth";
+import { roleSelector, useCaseSelector } from "@/state/auth";
 
 type Props<T, K> = {
     header?: string;
@@ -13,7 +13,9 @@ type Props<T, K> = {
     itemName: (item: T) => React.ReactNode;
     idKey: keyof T;
     editUseCase?: string;
+    editRole?: string;
     onChange: (ids: K[]) => void;
+    disableToggleAll?: boolean;
 } & PropsFromState;
 
 function FormSwitchList<T, K>(props: Props<T, K>) {
@@ -34,9 +36,43 @@ function FormSwitchList<T, K>(props: Props<T, K>) {
         props.onChange(itemsModified);
     };
 
+    const toggleAll = (checked: boolean) => {
+        if (!checked) props.onChange([]);
+        else {
+            //@ts-ignore
+            props.onChange(props.dataSource.map((d) => d[props.idKey]));
+        }
+    };
+
+    const editable = () => {
+        if (props.editUseCase) return hasUseCase(props.editUseCase, props.useCases);
+
+        if (props.editRole) return hasRole(props.editRole, props.roles);
+
+        return true;
+    };
+
+    const getHeader = () => {
+        if (!props.header && props.disableToggleAll) return undefined;
+
+        return (
+            <div style={{ display: "flex" }}>
+                <div style={{ flex: 1 }}>
+                    <h4 className="mb-0">{props.header}</h4>
+                </div>
+                {!props.disableToggleAll && editable() && (
+                    <div style={{ paddingRight: 8 }}>
+                        <span className="mr-1">Toggle All </span>
+                        <Switch onChange={(checked) => toggleAll(checked)} size="small" />
+                    </div>
+                )}
+            </div>
+        );
+    };
+
     return (
         <List
-            header={props.header ? <h4 className="mb-0">{props.header}</h4> : undefined}
+            header={getHeader()}
             bordered={true}
             size="small"
             dataSource={props.dataSource}
@@ -45,10 +81,7 @@ function FormSwitchList<T, K>(props: Props<T, K>) {
                     actions={[
                         <Switch
                             key={"1"}
-                            disabled={
-                                !!props.editUseCase &&
-                                !hasUseCase(props.editUseCase, props.useCases)
-                            }
+                            disabled={!editable()}
                             checked={isItemSelected(item)}
                             onChange={() => toggle(item)}
                             size="small"
@@ -66,6 +99,7 @@ function FormSwitchList<T, K>(props: Props<T, K>) {
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     return {
+        roles: roleSelector(state),
         useCases: useCaseSelector(state),
     };
 };

@@ -1,16 +1,23 @@
-import { Badge, List, Switch } from "antd";
+import { Badge } from "antd";
 import update from "immutability-helper";
 import React, { Component } from "react";
-import { connect } from "react-redux";
 
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
-import { hasRole, ROLE_SUPER_ADMIN } from "@/config/role";
-import { RootState } from "@/state";
-import { roleSelector } from "@/state/auth";
+import { ROLE_SUPER_ADMIN } from "@/config/role";
 import { Application } from "@/state/directory/applications/types";
 import { RoleEdit } from "@/state/directory/roles";
 import { UseCase } from "@/state/directory/usecases";
-import { Form, FormErrors, FormInput, FormSelect, TabPane, Tabs } from "@/ui/controls";
+import {
+    Form,
+    FormErrors,
+    FormInput,
+    FormSelect,
+    getFormSwitchList,
+    TabPane,
+    Tabs,
+} from "@/ui/controls";
+
+const FormSwitchList = getFormSwitchList<UseCase, string>();
 
 type TabKey = "details_tab" | "usecases_tab";
 
@@ -19,7 +26,6 @@ type Props = {
     applications: Application[];
     useCases: UseCase[];
     onChange: (role: RoleEdit) => void;
-    roles: string[];
     validationResults: ValidationResult[];
 };
 
@@ -145,33 +151,16 @@ class RoleForm extends Component<Props, State> {
                     <FormErrors
                         validationResults={getValidationSubSet("useCaseIds", validationResults)}
                     />
-                    <List
-                        header={
-                            <h4 className="mb-0">
-                                {this.getApplicationName(role.applicationId)} Permissions
-                            </h4>
-                        }
-                        bordered={true}
-                        size="small"
+                    <FormSwitchList
+                        header={`${this.getApplicationName(role.applicationId)} Permissions`}
+                        idKey="id"
+                        itemName={(useCase) => useCase.name}
+                        selectedIds={this.state.role.useCaseIds}
+                        editRole={ROLE_SUPER_ADMIN}
+                        onChange={(useCaseIds) => this.handleChange("useCaseIds", useCaseIds)}
                         dataSource={this.props.useCases.filter(
                             (u) => u.applicationId === role.applicationId
                         )}
-                        renderItem={(useCase: UseCase) => (
-                            <List.Item
-                                actions={[
-                                    <Switch
-                                        key={useCase.id}
-                                        checked={this.isUseCaseSelected(useCase.id)}
-                                        size="small"
-                                        onChange={() => this.toggleUseCaseChange(useCase.id)}
-                                        disabled={!hasRole(ROLE_SUPER_ADMIN, this.props.roles)}
-                                    />,
-                                ]}
-                            >
-                                {useCase.name}
-                            </List.Item>
-                        )}
-                        className="mb-2"
                     />
                 </TabPane>
             </Tabs>
@@ -179,12 +168,4 @@ class RoleForm extends Component<Props, State> {
     }
 }
 
-const mapStateToProps = (state: RootState) => {
-    const roleState = roleSelector(state);
-
-    return {
-        roles: roleState,
-    };
-};
-
-export default connect(mapStateToProps)(RoleForm);
+export default RoleForm;

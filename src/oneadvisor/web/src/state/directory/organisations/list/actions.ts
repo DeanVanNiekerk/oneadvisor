@@ -19,9 +19,9 @@ export type OrganisationListAction =
     | OrganisationListFetchingAction
     | OrganisationListFetchingErrorAction;
 
-export const fetchOrganisations = (filters: OrganisationsFilters): ApiAction => {
+export const fetchOrganisations = (filters?: OrganisationsFilters): ApiAction => {
     let api = organisationsApi;
-    api = appendFiltersQuery(api, filters);
+    if (filters) api = appendFiltersQuery(api, filters);
     return {
         type: "API",
         endpoint: api,

@@ -1,4 +1,3 @@
-import { List, Switch } from "antd";
 import update from "immutability-helper";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
@@ -7,7 +6,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { getValidationSubSet } from "@/app/validation";
 import { RootState } from "@/state";
 import { applicationsSelector, fetchApplications } from "@/state/directory/applications";
-import { getOrganisations } from "@/state/directory/organisations";
+import { getOrganisationByBranchId } from "@/state/directory/organisations";
 import { fetchRoles, Role, rolesSelector } from "@/state/directory/roles";
 import { modifyUser, UserEdit, userSelector } from "@/state/directory/users";
 import { FormErrors, getFormSwitchList } from "@/ui/controls";
@@ -29,18 +28,18 @@ const RolesForm: React.FC<Props> = (props) => {
     useEffect(() => {
         if (!user || !user.branchId) return;
 
-        props.getOrganisations({ branchId: [user.branchId] }, (result) => {
-            setOrganisationApplicationIds(result.items[0].applicationIds);
+        props.getOrganisationByBranchId(user.branchId, (organisation) => {
+            if (organisation) setOrganisationApplicationIds(organisation.applicationIds);
         });
     }, [user]);
-
-    if (!user) return <React.Fragment />;
 
     const getOrganisationApplications = () => {
         return props.applications.filter((a) =>
             organisationApplicationIds.some((id) => a.id === id)
         );
     };
+
+    if (!user) return <React.Fragment />;
 
     return (
         <>
@@ -56,7 +55,7 @@ const RolesForm: React.FC<Props> = (props) => {
                 <FormSwitchList
                     key={application.id}
                     idKey="name"
-                    titleKey="description"
+                    itemName={(role) => role.description}
                     selectedIds={user.roles}
                     editUseCase="dir_edit_users"
                     header={application.name}
@@ -83,7 +82,10 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        ...bindActionCreators({ getOrganisations, fetchRoles, fetchApplications }, dispatch),
+        ...bindActionCreators(
+            { getOrganisationByBranchId, fetchRoles, fetchApplications },
+            dispatch
+        ),
         handleChange: (user: UserEdit, roles: string[]) => {
             const userModified = update(user, {
                 roles: { $set: roles },

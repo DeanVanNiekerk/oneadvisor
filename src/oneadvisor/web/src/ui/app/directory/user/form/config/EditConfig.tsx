@@ -4,6 +4,7 @@ import { TabPane, Tabs } from "@/ui/controls";
 
 import AdviceScopesForm from "./AdviceScopesForm";
 import ConfigTabTitle from "./ConfigTabTitle";
+import LicenseCategoriesForm from "./LicenseCategoriesForm";
 
 const EditConfig: React.FC = () => {
     const [activeTab, setActiveTab] = useState("advice_scopes_tab");
@@ -21,6 +22,18 @@ const EditConfig: React.FC = () => {
                 key="advice_scopes_tab"
             >
                 <AdviceScopesForm />
+            </TabPane>
+            <TabPane
+                tab={
+                    <ConfigTabTitle
+                        title="License Categories"
+                        validationPrefix="LicenseCategoryIds"
+                        exactMatch={false}
+                    />
+                }
+                key="license_categories_tab"
+            >
+                <LicenseCategoriesForm />
             </TabPane>
         </Tabs>
     );

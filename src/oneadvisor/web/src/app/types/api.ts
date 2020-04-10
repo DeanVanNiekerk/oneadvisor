@@ -23,6 +23,7 @@ export type ApiAction = {
     hideValidationNotifications?: boolean;
     onFailure?: ApiOnFailure;
     onValidationFailure?: ApiOnValidationFailure;
+    onAlways?: () => void;
 };
 
 export type Result<T = null> = {

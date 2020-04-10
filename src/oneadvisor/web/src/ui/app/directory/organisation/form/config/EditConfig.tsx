@@ -14,10 +14,7 @@ const EditConfig: React.FC = () => {
 
     return (
         <Tabs onChange={setActiveTab} activeKey={activeTab} type="card">
-            <TabPane
-                tab={<ConfigTabTitle title="Details" validationPrefix="" exactMatch={true} />}
-                key="details_tab"
-            >
+            <TabPane tab="Details" key="details_tab">
                 <DetailsForm />
             </TabPane>
             <TabPane

@@ -1,4 +1,3 @@
-import { List, Switch } from "antd";
 import update from "immutability-helper";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
@@ -17,7 +16,9 @@ import {
     OrganisationEdit,
     organisationSelector,
 } from "@/state/directory/organisations";
-import { FormErrors } from "@/ui/controls";
+import { FormErrors, getFormSwitchList } from "@/ui/controls";
+
+const FormSwitchList = getFormSwitchList<Application, string>();
 
 type Props = PropsFromState & PropsFromDispatch;
 
@@ -34,42 +35,16 @@ const ApplicationsForm: React.FC<Props> = ({
 
     if (!organisation) return <React.Fragment />;
 
-    const isApplicationSelected = (applicationId: string) => {
-        return organisation.applicationIds.some((r) => r === applicationId);
-    };
-
-    const toggleApplicationChange = (applicationId: string) => {
-        let applicationIdsModified = [...organisation.applicationIds];
-
-        if (isApplicationSelected(applicationId))
-            applicationIdsModified = organisation.applicationIds.filter((a) => a !== applicationId);
-        else applicationIdsModified.push(applicationId);
-
-        handleChange(organisation, applicationIdsModified);
-    };
-
     return (
         <>
             <FormErrors validationResults={validationResults} />
-            <List
-                bordered={true}
-                size="small"
+            <FormSwitchList
+                idKey="id"
+                itemName={(application) => application.name}
+                selectedIds={organisation.applicationIds}
+                editUseCase="dir_edit_organisations"
+                onChange={(applicationIds) => handleChange(organisation, applicationIds)}
                 dataSource={applications}
-                renderItem={(application: Application) => (
-                    <List.Item
-                        actions={[
-                            <Switch
-                                key={"1"}
-                                checked={isApplicationSelected(application.id)}
-                                size="small"
-                                onChange={() => toggleApplicationChange(application.id)}
-                            />,
-                        ]}
-                    >
-                        {application.name}
-                    </List.Item>
-                )}
-                className="mb-2"
             />
         </>
     );
