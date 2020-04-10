@@ -75,6 +75,7 @@ describe("user reducer", () => {
         const expectedState = {
             ...defaultState,
             user: { ...defaultUser },
+            userOriginal: { ...defaultUser },
             fetching: false,
             validationResults: [],
         };
