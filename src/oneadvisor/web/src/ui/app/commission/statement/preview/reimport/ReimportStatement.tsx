@@ -1,4 +1,4 @@
-import { Alert, Modal } from "antd";
+import { Alert } from "antd";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -11,9 +11,8 @@ import {
     fetchCommissionStatementTemplates,
 } from "@/state/commission/templates";
 import { Button, Form, FormSelect } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
 import { showMessage } from "@/ui/feedback/notifcation";
-
-const confirm = Modal.confirm;
 
 type Props = {
     statement: Statement;
@@ -36,7 +35,7 @@ const ReimportStatement: React.FC<Props> = (props: Props) => {
     const reimportCommissions = () => {
         if (!templateId) return;
 
-        confirm({
+        showConfirm({
             title: "Are you sure you want to reimport all commission entries?",
             content:
                 "All existing commission entries including any errors will be deleted before import, are you sure you wish to continue?",

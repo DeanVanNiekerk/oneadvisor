@@ -18,10 +18,10 @@ export type StatementFilesListAction =
     | StatementFilesListFetchingAction
     | StatementFilesListFetchingErrorAction;
 
-export const fetchStatementFiles = (commissionStatementId: string): ApiAction => {
+export const fetchStatementFileInfoList = (commissionStatementId: string): ApiAction => {
     return {
         type: "API",
-        endpoint: `${statementsApi}/${commissionStatementId}/files`,
+        endpoint: `${statementsApi}/${commissionStatementId}/fileInfoList`,
         dispatchPrefix: "STATEMENTS_FILES_LIST",
     };
 };

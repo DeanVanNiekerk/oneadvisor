@@ -6,10 +6,10 @@ describe("directory: statementFiles: list actions", () => {
     it("should dispatch API when fetchStatementFiles is called", () => {
         const expectedAction = {
             type: "API",
-            endpoint: `${statementsApi}/99/files`,
+            endpoint: `${statementsApi}/99/fileInfoList`,
             dispatchPrefix: "STATEMENTS_FILES_LIST",
         };
 
-        expect(actions.fetchStatementFiles("99")).toEqual(expectedAction);
+        expect(actions.fetchStatementFileInfoList("99")).toEqual(expectedAction);
     });
 });

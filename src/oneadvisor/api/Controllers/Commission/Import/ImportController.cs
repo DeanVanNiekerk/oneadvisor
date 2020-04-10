@@ -127,9 +127,9 @@ namespace api.Controllers.Commission.Import
                 return NotFound();
 
             var path = new CommissionStatementDirectoryPath(scope.OrganisationId, commissionStatementId);
-            var files = await FileStorageService.GetFilesAsync(path);
+            var fileInfoList = await FileStorageService.GetFileInfoListAsync(path);
 
-            if (!files.Any())
+            if (!fileInfoList.Any())
                 return this.BadRequestMessage("Reimport failed as there are no existing statement files.");
 
             var queryOptions = new CommissionStatementTemplateQueryOptions("", "", 0, 0);
@@ -147,7 +147,7 @@ namespace api.Controllers.Commission.Import
 
             var result = new ImportResult();
 
-            foreach (var fileInfo in files)
+            foreach (var fileInfo in fileInfoList)
             {
                 using (var stream = new MemoryStream())
                 {

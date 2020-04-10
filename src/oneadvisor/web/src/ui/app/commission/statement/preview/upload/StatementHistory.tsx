@@ -5,7 +5,7 @@ import { Dispatch } from "redux";
 
 import { RootState } from "@/state";
 import {
-    fetchStatementFiles,
+    fetchStatementFileInfoList,
     Statement,
     statementFilesSelector,
 } from "@/state/commission/statements";
@@ -21,7 +21,7 @@ type Props = {
 
 const StatementHistory: React.FC<Props> = (props: Props) => {
     useEffect(() => {
-        props.fetchStatementFiles(props.statement.id);
+        props.fetchStatementFileInfoList(props.statement.id);
     }, []);
 
     const download = (url: string, fileName: string) => {
@@ -63,8 +63,8 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        fetchStatementFiles: (commissionStatementId: string) => {
-            dispatch(fetchStatementFiles(commissionStatementId));
+        fetchStatementFileInfoList: (commissionStatementId: string) => {
+            dispatch(fetchStatementFileInfoList(commissionStatementId));
         },
         downloadFile: (url: string, fileName: string) => {
             dispatch(downloadFile(fileName, url));

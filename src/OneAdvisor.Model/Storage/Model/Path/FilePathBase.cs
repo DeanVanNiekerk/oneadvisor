@@ -16,17 +16,17 @@ namespace OneAdvisor.Model.Storage.Model.Path
         {
             DirectoryPath = directoryPath;
             MetaData = metaData;
-            FileName = Guid.NewGuid().ToString();
+            StorageName = Guid.NewGuid().ToString();
         }
 
         public DirectoryPathBase DirectoryPath { get; private set; }
         public Dictionary<string, string> MetaData { get; private set; }
-        public string FileName { get; private set; }
+        public string StorageName { get; private set; }
 
         //Get a new unique file path (directory plus file name)
         public string GetUnqiueFilePath()
         {
-            var paths = new List<string>() { DirectoryPath.GetDirectoryPath(), FileName };
+            var paths = new List<string>() { DirectoryPath.GetDirectoryPath(), StorageName };
             return Join(paths);
         }
 

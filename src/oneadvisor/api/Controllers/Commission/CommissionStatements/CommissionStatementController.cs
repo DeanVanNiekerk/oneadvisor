@@ -95,7 +95,7 @@ namespace api.Controllers.Commission.CommissionStatements
             await CommissionStatementService.DeleteCommissions(scope, commissionStatementId);
 
             var path = new CommissionStatementDirectoryPath(scope.OrganisationId, commissionStatementId);
-            var files = await FileStorageService.GetFilesAsync(path);
+            var files = await FileStorageService.GetFileInfoListAsync(path);
 
             foreach (var file in files)
                 await FileStorageService.SoftDeleteFile(file.Url);
@@ -103,14 +103,14 @@ namespace api.Controllers.Commission.CommissionStatements
             return Ok(new Result(true));
         }
 
-        [HttpGet("{commissionStatementId}/files")]
+        [HttpGet("{commissionStatementId}/fileInfoList")]
         [UseCaseAuthorize("com_view_commission_statements")]
-        public async Task<IActionResult> GetFiles(Guid commissionStatementId)
+        public async Task<IActionResult> GetFileInfoList(Guid commissionStatementId)
         {
             var scope = AuthenticationService.GetScope(User);
 
             var path = new CommissionStatementDirectoryPath(scope.OrganisationId, commissionStatementId);
-            var files = await FileStorageService.GetFilesAsync(path, true);
+            var files = await FileStorageService.GetFileInfoListAsync(path, true);
 
             return Ok(files);
         }

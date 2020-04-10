@@ -36,10 +36,10 @@ namespace OneAdvisor.Service.Storage
 
             await cloudBlockBlob.UploadFromStreamAsync(stream);
 
-            return path.FileName;
+            return path.StorageName;
         }
 
-        public async Task<IEnumerable<CloudFileInfo>> GetFilesAsync(DirectoryPathBase path, bool includeDeleted = false)
+        public async Task<IEnumerable<CloudFileInfo>> GetFileInfoListAsync(DirectoryPathBase path, bool includeDeleted = false)
         {
             var client = _account.CreateCloudBlobClient();
             var container = client.GetContainerReference(path.GetContainerName());
@@ -94,6 +94,13 @@ namespace OneAdvisor.Service.Storage
             while (blobContinuationToken != null); // Loop while the continuation token is not null.
 
             return items.OrderByDescending(x => x.LastModified);
+        }
+
+        public async Task<CloudFileInfo> GetFileInfoAsync(FileQueryBase query)
+        {
+            var fileInfoList = await GetFileInfoListAsync(query.DirectoryPath);
+
+            return fileInfoList.FirstOrDefault(f => f.StorageName == query.StorageName);
         }
 
         public async Task<string> GetFile(string url, Stream stream)

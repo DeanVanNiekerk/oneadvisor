@@ -1,23 +1,17 @@
 using System;
-using System.Collections.Generic;
 
 namespace OneAdvisor.Model.Storage.Model.Path
 {
     public abstract class FileQueryBase : PathBase
     {
-        public FileQueryBase(DirectoryPathBase directoryPath, string fileName)
+        public FileQueryBase(DirectoryPathBase directoryPath, string storageName)
         {
             DirectoryPath = directoryPath;
-            FileName = fileName;
+            StorageName = storageName;
         }
 
         public DirectoryPathBase DirectoryPath { get; private set; }
-        public string FileName { get; private set; }
+        public string StorageName { get; private set; }
 
-        public string GetFilePath()
-        {
-            var paths = new List<string>() { DirectoryPath.GetDirectoryPath(), FileName };
-            return Join(paths);
-        }
     }
 }

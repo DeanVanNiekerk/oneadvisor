@@ -9,7 +9,8 @@ namespace OneAdvisor.Model.Storage.Interface
     public interface IFileStorageService
     {
         Task<string> AddFileAsync(FilePathBase path, Stream stream);
-        Task<IEnumerable<CloudFileInfo>> GetFilesAsync(DirectoryPathBase path, bool includeDeleted = false);
+        Task<IEnumerable<CloudFileInfo>> GetFileInfoListAsync(DirectoryPathBase path, bool includeDeleted = false);
+        Task<CloudFileInfo> GetFileInfoAsync(FileQueryBase query);
         Task<string> GetFile(string url, Stream stream);
         Task DeleteFile(string url);
         Task SoftDeleteFile(string url);

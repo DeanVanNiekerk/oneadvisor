@@ -1,4 +1,4 @@
-import { Modal, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -12,12 +12,11 @@ import {
     statementPreviewSelector,
 } from "@/state/commission/statements";
 import { Button, Currency, Drawer, PreviewCard, PreviewCardRow } from "@/ui/controls";
+import { showConfirm } from "@/ui/feedback/modal/confirm";
 import { showMessage } from "@/ui/feedback/notifcation";
 import { BarsOutlined, DeleteOutlined, Loading3QuartersOutlined } from "@ant-design/icons";
 
 import CommissionList from "../../../commission/CommissionList";
-
-const confirm = Modal.confirm;
 
 type Props = {
     cardHeight: string;
@@ -30,7 +29,7 @@ const CommissionEntriesCardComponent: React.FC<Props> = (props: Props) => {
     const [deletingCommissionEntries, setDeletingCommissionEntries] = useState<boolean>(false);
 
     const deleteCommissions = () => {
-        confirm({
+        showConfirm({
             title: "Are you sure you want to delete all commission entries?",
             content:
                 "All commission entries including any errors will be permanenty deleted, are you sure you wish to continue?",

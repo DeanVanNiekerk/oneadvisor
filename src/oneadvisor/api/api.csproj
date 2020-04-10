@@ -9,6 +9,7 @@
         <PackageReference Include="FluentEmail.Core" Version="2.7.0" />
         <PackageReference Include="FluentEmail.Razor" Version="2.7.0" />
         <PackageReference Include="FluentEmail.SendGrid" Version="2.7.0" />
+        <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\OneAdvisor.Model\OneAdvisor.Model.csproj" />

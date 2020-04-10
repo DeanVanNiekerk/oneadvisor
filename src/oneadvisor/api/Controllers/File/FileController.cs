@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using OneAdvisor.Model.Storage.Interface;
 
 namespace api.Controllers.Email
@@ -28,7 +29,14 @@ namespace api.Controllers.Email
 
             stream.Position = 0;
 
-            return File(stream, "application/octet-stream", fileName);
+            var provider = new FileExtensionContentTypeProvider();
+            string contentType;
+            if (!provider.TryGetContentType(fileName, out contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+
+            return File(stream, contentType, fileName);
         }
     }
 }

@@ -64,7 +64,7 @@ namespace api.Test.Controllers.Directory
                 .Callback((OrganisationQueryOptions options) => queryOptions = options)
                 .ReturnsAsync(items);
 
-            var controller = new OrganisationsController(authService.Object, service.Object);
+            var controller = new OrganisationsController(authService.Object, service.Object, null);
             controller.ControllerContext = TestHelper.GetControllerContext(new ClaimsPrincipal());
 
             var result = await controller.Index();
@@ -99,7 +99,7 @@ namespace api.Test.Controllers.Directory
             service.Setup(c => c.GetOrganisation(It.IsAny<ScopeOptions>(), It.Is<Guid>(m => m == organisation.Id.Value)))
                 .ReturnsAsync(organisation);
 
-            var controller = new OrganisationsController(authService.Object, service.Object);
+            var controller = new OrganisationsController(authService.Object, service.Object, null);
             controller.ControllerContext = TestHelper.GetControllerContext(new ClaimsPrincipal());
 
             var result = await controller.Get(organisation.Id.Value);
@@ -139,7 +139,7 @@ namespace api.Test.Controllers.Directory
                 })
                 .ReturnsAsync(result);
 
-            var controller = new OrganisationsController(authService.Object, service.Object);
+            var controller = new OrganisationsController(authService.Object, service.Object, null);
             controller.ControllerContext = TestHelper.GetControllerContext(new ClaimsPrincipal());
 
             var actual = await controller.Insert(organisation);
@@ -181,7 +181,7 @@ namespace api.Test.Controllers.Directory
                 })
                 .ReturnsAsync(result);
 
-            var controller = new OrganisationsController(authService.Object, service.Object);
+            var controller = new OrganisationsController(authService.Object, service.Object, null);
             controller.ControllerContext = TestHelper.GetControllerContext(new ClaimsPrincipal());
 
             var actual = await controller.Update(organisation.Id.Value, organisation);

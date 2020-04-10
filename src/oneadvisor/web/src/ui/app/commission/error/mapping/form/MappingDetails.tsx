@@ -44,7 +44,7 @@ const MappingDetails: React.FC<Props> = (props: Props) => {
         props.newClient({
             firstName: data.firstName || "",
             lastName: data.lastName || data.fullName || "",
-            dateOfBirth: data.dateOfBirth || "",
+            dateOfBirth: data.dateOfBirth || null,
             idNumber: data.idNumber || "",
             initials: data.initials || "",
         });
