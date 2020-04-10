@@ -385,9 +385,9 @@ namespace OneAdvisor.Service.Test.Directory
             var options = TestHelper.GetDbContext("GetLicenseCategories");
 
             //Given
-            var lkp1 = new LicenseCategoryEntity { Id = Guid.NewGuid(), Name = "A", Code = "1" };
-            var lkp2 = new LicenseCategoryEntity { Id = Guid.NewGuid(), Name = "B", Code = "2" };
-            var lkp3 = new LicenseCategoryEntity { Id = Guid.NewGuid(), Name = "C", Code = "3" };
+            var lkp1 = new LicenseCategoryEntity { Id = Guid.NewGuid(), Name = "A", Code = "1.0" };
+            var lkp2 = new LicenseCategoryEntity { Id = Guid.NewGuid(), Name = "B", Code = "2.0" };
+            var lkp3 = new LicenseCategoryEntity { Id = Guid.NewGuid(), Name = "C", Code = "3.0" };
 
             using (var context = new DataContext(options))
             {
