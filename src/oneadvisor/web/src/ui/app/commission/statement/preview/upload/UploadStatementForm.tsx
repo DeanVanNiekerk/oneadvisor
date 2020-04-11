@@ -1,5 +1,4 @@
 import { Alert } from "antd";
-import { UploadChangeParam } from "antd/lib/upload";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";

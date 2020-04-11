@@ -30,7 +30,7 @@ export const getFileAsDataUrl = (url: string, onComplete: TOnGetComplete): ApiAc
         onSuccessBlob: (blob) => {
             const reader = new FileReader();
             reader.onload = function () {
-                var dataUrl = reader.result;
+                const dataUrl = reader.result;
                 if (typeof dataUrl == "string") {
                     //var base64 = dataUrl.split(",")[1]; //Split if you want as pure base64
                     onComplete(dataUrl);
