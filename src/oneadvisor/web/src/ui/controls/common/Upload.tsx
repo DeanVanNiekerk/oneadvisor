@@ -12,7 +12,7 @@ import { Button } from "../";
 
 type Props = {
     listType?: UploadListType;
-    onUploaded?: (response: any) => void;
+    onUploaded?: (response: object) => void;
     onError?: () => void;
     action?: string | ((file: RcFile) => string) | ((file: RcFile) => PromiseLike<string>);
     accept?: string;

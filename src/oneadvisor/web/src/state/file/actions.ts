@@ -11,8 +11,7 @@ export const downloadFile = (
     url: string,
     onComplete?: TOnComplete
 ): ApiAction => {
-    let api = buildFileUrl(url);
-
+    const api = buildFileUrl(url);
     return {
         type: "API",
         endpoint: api,
@@ -24,12 +23,12 @@ export const downloadFile = (
 };
 
 export const getFileAsDataUrl = (url: string, onComplete: TOnGetComplete): ApiAction => {
-    let api = buildFileUrl(url);
+    const api = buildFileUrl(url);
     return {
         type: "API",
         endpoint: api,
         onSuccessBlob: (blob) => {
-            var reader = new FileReader();
+            const reader = new FileReader();
             reader.onload = function () {
                 var dataUrl = reader.result;
                 if (typeof dataUrl == "string") {
