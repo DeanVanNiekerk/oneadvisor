@@ -2,13 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "@/state";
-import { tokenDataSelector } from "@/state/auth";
+import { roleSelector, tokenDataSelector } from "@/state/auth";
 import { contextSelector } from "@/state/context/selectors";
 import { Date } from "@/ui/controls";
 
 type Props = PropsFromState;
 
-const IdentityStatusComponent: React.FC<Props> = ({ tokenData, appInfo }) => {
+const IdentityStatusComponent: React.FC<Props> = ({ tokenData, appInfo, roles }) => {
     if (!tokenData) return <React.Fragment />;
 
     return (
@@ -43,7 +43,7 @@ const IdentityStatusComponent: React.FC<Props> = ({ tokenData, appInfo }) => {
             </div>
             <div>
                 <b>Roles:</b>&nbsp;
-                {tokenData.roles.map((r) => (
+                {roles.map((r) => (
                     <>
                         <br />
                         <span style={{ marginLeft: 15 }}>{r}</span>
@@ -70,6 +70,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         tokenData: tokenData,
         appInfo: contextState.appInfo,
+        roles: roleSelector(state),
     };
 };
 

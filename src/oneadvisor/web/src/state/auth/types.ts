@@ -17,9 +17,9 @@ export type TokenData = {
     organisationName: string;
     branchId: string;
     branchName: string;
-    useCaseIds: string[];
+    useCaseIds: string[] | string;
     scope: number;
-    roles: string[];
+    roles: string[] | string;
 };
 
 export type ResetPasswordData = {

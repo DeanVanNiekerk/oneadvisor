@@ -216,18 +216,18 @@ export const menus: Menus = {
     [COMPLIANCE_ID]: {
         relativePath: "/compliance",
         groups: [
-            {
-                name: "Test",
-                defaultOpen: true,
-                icon: "setting",
-                links: [
-                    {
-                        name: "Test",
-                        relativePath: "/compliance",
-                        roles: ["super_administrator"],
-                    },
-                ],
-            },
+            //     {
+            //         name: "Test",
+            //         defaultOpen: true,
+            //         icon: "setting",
+            //         links: [
+            //             {
+            //                 name: "Test",
+            //                 relativePath: "/compliance",
+            //                 roles: ["super_administrator"],
+            //             },
+            //         ],
+            //     },
         ],
     },
     [INVEST_ID]: {

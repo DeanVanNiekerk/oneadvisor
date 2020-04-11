@@ -35,17 +35,17 @@ export const userOrganisationIdSelector: (state: RootState) => string = createSe
 export const useCaseSelector: (state: RootState) => string[] = createSelector(
     tokenDataSelector,
     (tokenData) => {
-        return tokenData && tokenData.useCaseIds ? tokenData.useCaseIds : [];
+        if (!tokenData || !tokenData.useCaseIds) return [];
+        if (typeof tokenData.useCaseIds === "string") return [tokenData.useCaseIds];
+        return tokenData.useCaseIds;
     }
 );
 
 export const roleSelector: (state: RootState) => string[] = createSelector(
     tokenDataSelector,
     (tokenData) => {
-        //http://schemas.microsoft.com/ws/2008/06/identity/claims/role is a backward compatibility support, can remove after 01/06/2020
-        return tokenData
-            ? tokenData["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] ||
-                  tokenData.roles
-            : [];
+        if (!tokenData || !tokenData.roles) return [];
+        if (typeof tokenData.roles === "string") return [tokenData.roles];
+        return tokenData.roles;
     }
 );

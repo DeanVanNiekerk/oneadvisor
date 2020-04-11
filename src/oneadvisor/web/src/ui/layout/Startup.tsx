@@ -7,7 +7,7 @@ import { ThunkDispatch } from "redux-thunk";
 
 import config from "@/config/config";
 import { RootState } from "@/state";
-import { isAuthenticatedSelector, tokenDataSelector } from "@/state/auth";
+import { isAuthenticatedSelector, roleSelector, tokenDataSelector } from "@/state/auth";
 import { fetchAppInfo } from "@/state/context/actions";
 import { Loader } from "@/ui/controls";
 
@@ -48,7 +48,7 @@ const Startup: React.FC<Props> = (props: Props) => {
 
             loadCommonData();
 
-            const { tokenData } = props;
+            const { tokenData, roles } = props;
             if (tokenData) {
                 FullStoryAPI("identify", tokenData.nameid, {
                     displayName: `${tokenData.firstName} ${tokenData.lastName}`,
@@ -58,7 +58,7 @@ const Startup: React.FC<Props> = (props: Props) => {
                     branch: tokenData.branchName,
                     scope: tokenData.scope,
                     tokenExpiry: tokenData.exp,
-                    roles: (tokenData.roles || []).join(", "),
+                    roles: roles.join(", "),
                     environment: config.environment,
                 });
             }
@@ -81,6 +81,7 @@ const mapStateToProps = (state: RootState) => {
         loading: false,
         isAuthenticated: isAuthenticatedSelector(state),
         tokenData: tokenDataSelector(state),
+        roles: roleSelector(state),
     };
 };
 
