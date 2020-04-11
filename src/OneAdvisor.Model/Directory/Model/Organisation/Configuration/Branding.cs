@@ -1,6 +1,6 @@
 namespace OneAdvisor.Model.Directory.Model.Organisation.Configuration
 {
-    public class Storage
+    public class Branding
     {
         public string LogoStorageName { get; set; }
     }

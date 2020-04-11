@@ -19,6 +19,7 @@ export type Config = {
     companyIds: string[];
     licenseCategoryIds: string[];
     address: Address;
+    branding: Branding;
     complianceOfficer: ComplianceOfficer;
     vatRegistered: boolean;
     vatRegistrationDate: string | null;
@@ -28,6 +29,10 @@ export type Config = {
     hasSharesInProductProvidersTarget: string | null;
     hasReceivedCommissionFromCompanies: boolean;
     hasReceivedCommissionFromCompaniesTarget: string | null;
+};
+
+export type Branding = {
+    logoStorageName: string | null;
 };
 
 export type Address = {

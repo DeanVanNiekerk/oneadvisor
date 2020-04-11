@@ -17,6 +17,9 @@ export const getConfig = (config: Partial<Config> = {}): Config => {
             postalAddress: null,
             telephoneNumber: null,
         },
+        branding: {
+            logoStorageName: null,
+        },
         hasProfessionalIndemnityCover: false,
         hasReceivedCommissionFromCompanies: false,
         hasReceivedCommissionFromCompaniesTarget: null,

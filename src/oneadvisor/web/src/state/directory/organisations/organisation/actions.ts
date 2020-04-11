@@ -1,42 +1,38 @@
-import update from "immutability-helper";
-import { ThunkAction } from "redux-thunk";
-
-import { ApiAction, ApiOnSuccess, Result, ShowConfirm } from "@/app/types";
+import { ApiAction, ApiOnSuccess, Result } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { organisationsApi } from "@/config/api/directory";
-import { RootState } from "@/state";
+import { FileInfo } from "@/state/types";
 
-import { organisationIsModifiedSelector, organisationSelector } from "../";
-import { Address, ComplianceOfficer, Config, OrganisationEdit } from "../types";
+import { OrganisationEdit } from "../types";
 
-type OrganisationReceiveAction = {
+export type OrganisationReceiveAction = {
     type: "ORGANISATIONS_ORGANISATION_RECEIVE";
     payload: OrganisationEdit | null;
 };
-type OrganisationModifiedAction = {
+export type OrganisationModifiedAction = {
     type: "ORGANISATIONS_ORGANISATION_MODIFIED";
     payload: OrganisationEdit;
 };
-type OrganisationVisibleAction = {
+export type OrganisationVisibleAction = {
     type: "ORGANISATIONS_ORGANISATION_VISIBLE";
     payload: boolean;
 };
-type OrganisationFetchingAction = {
+export type OrganisationFetchingAction = {
     type: "ORGANISATIONS_ORGANISATION_FETCHING";
 };
-type OrganisationFetchingErrorAction = {
+export type OrganisationFetchingErrorAction = {
     type: "ORGANISATIONS_ORGANISATION_FETCHING_ERROR";
 };
-type OrganisationUpdatedAction = {
+export type OrganisationUpdatedAction = {
     type: "ORGANISATIONS_ORGANISATION_EDIT_RECEIVE";
 };
-type OrganisationUpdatingAction = {
+export type OrganisationUpdatingAction = {
     type: "ORGANISATIONS_ORGANISATION_EDIT_FETCHING";
 };
-type OrganisationUpdatingErrorAction = {
+export type OrganisationUpdatingErrorAction = {
     type: "ORGANISATIONS_ORGANISATION_EDIT_FETCHING_ERROR";
 };
-type OrganisationValidationErrorAction = {
+export type OrganisationValidationErrorAction = {
     type: "ORGANISATIONS_ORGANISATION_EDIT_VALIDATION_ERROR";
     payload: ValidationResult[];
 };
@@ -64,51 +60,6 @@ export const modifyOrganisation = (organisation: OrganisationEdit): Organisation
     payload: organisation,
 });
 
-export const modifyOrganisationConfig = (
-    config: Config
-): ThunkAction<void, RootState, {}, OrganisationModifiedAction> => {
-    return (dispatch, getState) => {
-        const { organisation } = organisationSelector(getState());
-        if (!organisation) return;
-
-        const organisationModified = update(organisation, {
-            config: { $set: config },
-        });
-
-        dispatch(modifyOrganisation(organisationModified));
-    };
-};
-
-export const modifyOrganisationConfigAddress = (
-    address: Address
-): ThunkAction<void, RootState, {}, OrganisationModifiedAction> => {
-    return (dispatch, getState) => {
-        const { organisation } = organisationSelector(getState());
-        if (!organisation) return;
-
-        const organisationModified = update(organisation, {
-            config: { address: { $set: address } },
-        });
-
-        dispatch(modifyOrganisation(organisationModified));
-    };
-};
-
-export const modifyOrganisationConfigComplianceOfficer = (
-    complianceOfficer: ComplianceOfficer
-): ThunkAction<void, RootState, {}, OrganisationModifiedAction> => {
-    return (dispatch, getState) => {
-        const { organisation } = organisationSelector(getState());
-        if (!organisation) return;
-
-        const organisationModified = update(organisation, {
-            config: { complianceOfficer: { $set: complianceOfficer } },
-        });
-
-        dispatch(modifyOrganisation(organisationModified));
-    };
-};
-
 export const organisationVisible = (visible: boolean): OrganisationVisibleAction => ({
     type: "ORGANISATIONS_ORGANISATION_VISIBLE",
     payload: visible,
@@ -120,58 +71,14 @@ export const fetchOrganisation = (organisationId: string): ApiAction => ({
     dispatchPrefix: "ORGANISATIONS_ORGANISATION",
 });
 
-export const clearOrganisation = (): OrganisationReceiveAction => receiveOrganisation(null);
-
-export const saveOrganisation = (
-    onSaved?: (organisation: OrganisationEdit) => void
-): ThunkAction<void, RootState, {}, OrganisationReceiveAction | ApiAction> => {
-    return (dispatch, getState) => {
-        const { organisation } = organisationSelector(getState());
-        if (!organisation) return;
-
-        const onSuccess = (organisationEdit: OrganisationEdit) => {
-            dispatch(clearOrganisation());
-            if (onSaved) onSaved(organisationEdit);
-        };
-
-        if (organisation.id) {
-            dispatch(
-                updateOrganisation(organisation, () => {
-                    onSuccess(organisation);
-                })
-            );
-        } else {
-            dispatch(
-                insertOrganisation(organisation, (result) => {
-                    onSuccess(result.tag);
-                })
-            );
-        }
-    };
-};
-
-export const confirmCancelOrganisation = (
-    showConfirm: ShowConfirm,
-    onCancelled: () => void
-): ThunkAction<void, RootState, {}, OrganisationReceiveAction> => {
-    return (dispatch, getState) => {
-        const modifed = organisationIsModifiedSelector(getState());
-
-        const cancel = () => {
-            dispatch(clearOrganisation());
-            onCancelled();
-        };
-
-        if (modifed)
-            return showConfirm({
-                onOk: () => {
-                    cancel();
-                },
-            });
-
-        cancel();
-    };
-};
+export const getOrganisationLogoFileInfo = (
+    organisationId: string,
+    onSuccess: ApiOnSuccess<FileInfo>
+): ApiAction => ({
+    type: "API",
+    endpoint: `${organisationsApi}/${organisationId}/config/logo`,
+    onSuccess: onSuccess,
+});
 
 export const updateOrganisation = (
     organisation: OrganisationEdit,

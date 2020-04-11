@@ -8,6 +8,7 @@ namespace OneAdvisor.Model.Storage.Model.Path.Directory
             : base(new OrganisationLogoDirectoryPath(organisationId))
         {
             MetaData.Add(METADATA_FILENAME, fileName);
+            MetaData.Add("LogoType", "default");
         }
     }
 }

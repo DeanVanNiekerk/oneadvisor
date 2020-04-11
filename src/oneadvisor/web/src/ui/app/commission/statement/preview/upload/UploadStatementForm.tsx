@@ -1,4 +1,4 @@
-import { Alert, Upload } from "antd";
+import { Alert } from "antd";
 import { UploadChangeParam } from "antd/lib/upload";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
@@ -8,14 +8,13 @@ import { Filters } from "@/app/table";
 import { commissionsImportApi } from "@/config/api/commission";
 import { RootState } from "@/state";
 import { tokenSelector } from "@/state/auth";
-import { Statement } from "@/state/commission/statements";
+import { ImportResult, Statement } from "@/state/commission/statements";
 import {
     commissionStatementTemplatesSelector,
     fetchCommissionStatementTemplates,
 } from "@/state/commission/templates";
-import { Button, Form, FormField, FormSelect } from "@/ui/controls";
+import { Form, FormField, FormSelect, Upload } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";
-import { UploadOutlined } from "@ant-design/icons";
 
 type Props = {
     statement: Statement;
@@ -25,7 +24,6 @@ type Props = {
 
 const UploadStatementForm: React.FC<Props> = (props: Props) => {
     const [templateId, setTemplateId] = useState<string>();
-    const [uploading, setUploading] = useState<boolean>(false);
 
     useEffect(() => {
         const filters = {
@@ -35,26 +33,16 @@ const UploadStatementForm: React.FC<Props> = (props: Props) => {
         props.fetchCommissionStatementTemplates(filters);
     }, []);
 
-    const onChange = (info: UploadChangeParam) => {
-        if (info.file.status !== "uploading") {
-            setUploading(true);
-        }
+    const onUploaded = (result: ImportResult) => {
+        if (result.results.length === 0)
+            showMessage(
+                "warning",
+                "There where no commission entries imported, please check commission file.",
+                10
+            );
+        else showMessage("success", "Commission Statement Imported Successfully", 5);
 
-        if (info.file.status === "done") {
-            if (info.file.response.results.length === 0)
-                showMessage(
-                    "warning",
-                    "There where no commission entries imported, please check commission file.",
-                    10
-                );
-            else showMessage("success", "Commission Statement Imported Successfully", 5);
-
-            props.onUploaded();
-            setUploading(false);
-        } else if (info.file.status === "error") {
-            showMessage("error", "Commission Statement Imported Failed", 5);
-            setUploading(false);
-        }
+        props.onUploaded();
     };
 
     if (!props.fetchingTemplates && props.templates.length === 0)
@@ -79,24 +67,18 @@ const UploadStatementForm: React.FC<Props> = (props: Props) => {
                 optionsText="name"
                 loading={props.fetchingTemplates}
                 placeholder="Select Template"
-                disabled={uploading}
             />
             <FormField label="File">
                 <Upload
-                    name="file"
                     listType="text"
-                    onChange={onChange}
+                    editUseCase="com_import_commissions"
                     action={`${commissionsImportApi}/${props.statement.id}?commissionStatementTemplateId=${templateId}`}
-                    headers={{
-                        Authorization: "Bearer " + props.token,
-                    }}
-                    disabled={props.fetchingTemplates || !templateId || uploading}
+                    onUploaded={onUploaded}
+                    onError={() => showMessage("error", "Commission Statement Imported Failed", 5)}
+                    buttonText="Click to Upload"
                     accept=".xlsx"
-                >
-                    <Button noLeftMargin={true} type="primary">
-                        <UploadOutlined /> Click to Upload
-                    </Button>
-                </Upload>
+                    readonly={props.fetchingTemplates || !templateId}
+                />
             </FormField>
         </Form>
     );

@@ -99,8 +99,7 @@ namespace OneAdvisor.Service.Storage
         public async Task<CloudFileInfo> GetFileInfoAsync(FileQueryBase query)
         {
             var fileInfoList = await GetFileInfoListAsync(query.DirectoryPath);
-
-            return fileInfoList.FirstOrDefault(f => f.StorageName == query.StorageName);
+            return fileInfoList.FirstOrDefault(f => f.StorageName.Contains(query.StorageName));
         }
 
         public async Task<string> GetFile(string url, Stream stream)

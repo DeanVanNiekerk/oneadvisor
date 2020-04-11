@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "@/state";
-import { organisationIdSelector, organisationIsNew } from "@/state/directory/organisations";
+import { organisationIsNew } from "@/state/directory/organisations";
 import { TabPane, Tabs } from "@/ui/controls";
 
 import ApplicationsForm from "./ApplicationsForm";
@@ -23,33 +23,37 @@ const OrganisationForm: React.FC<Props> = (props: Props) => {
             </TabPane>
             {!props.isNew && (
                 <TabPane tab="Branches" key="branches_tab">
-                    {props.organisationId && <BranchList organisationId={props.organisationId} />}
+                    <BranchList />}
                 </TabPane>
             )}
-            <TabPane
-                tab={
-                    <OrganisationTabTitle
-                        title="Applications"
-                        validationPrefix="ApplicationIds"
-                        exactMatch={true}
-                    />
-                }
-                key="applications_tab"
-            >
-                <ApplicationsForm />
-            </TabPane>
-            <TabPane
-                tab={
-                    <OrganisationTabTitle
-                        title="Config"
-                        validationPrefix="Config"
-                        exactMatch={false}
-                    />
-                }
-                key="config_tab"
-            >
-                <EditConfig />
-            </TabPane>
+            {!props.isNew && (
+                <TabPane
+                    tab={
+                        <OrganisationTabTitle
+                            title="Applications"
+                            validationPrefix="ApplicationIds"
+                            exactMatch={true}
+                        />
+                    }
+                    key="applications_tab"
+                >
+                    <ApplicationsForm />
+                </TabPane>
+            )}
+            {!props.isNew && (
+                <TabPane
+                    tab={
+                        <OrganisationTabTitle
+                            title="Config"
+                            validationPrefix="Config"
+                            exactMatch={false}
+                        />
+                    }
+                    key="config_tab"
+                >
+                    <EditConfig />
+                </TabPane>
+            )}
         </Tabs>
     );
 };
@@ -58,7 +62,6 @@ type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     return {
         isNew: organisationIsNew(state),
-        organisationId: organisationIdSelector(state),
     };
 };
 

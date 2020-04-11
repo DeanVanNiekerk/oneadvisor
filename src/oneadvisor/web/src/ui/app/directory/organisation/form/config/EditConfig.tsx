@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { TabPane, Tabs } from "@/ui/controls";
 
 import AddressForm from "./AddressForm";
+import BrandingForm from "./BrandingForm";
 import CompaniesForm from "./CompaniesForm";
 import ComplianceOfficerForm from "./ComplianceOfficerForm";
 import ConfigTabTitle from "./ConfigTabTitle";
@@ -11,7 +12,6 @@ import LicenseCategoriesForm from "./LicenseCategoriesForm";
 
 const EditConfig: React.FC = () => {
     const [activeTab, setActiveTab] = useState("details_tab");
-
     return (
         <Tabs onChange={setActiveTab} activeKey={activeTab} type="card">
             <TabPane tab="Details" key="details_tab">
@@ -60,6 +60,9 @@ const EditConfig: React.FC = () => {
                 key="license_categories_tab"
             >
                 <LicenseCategoriesForm />
+            </TabPane>
+            <TabPane tab="Branding" key="branding_tab">
+                <BrandingForm />
             </TabPane>
         </Tabs>
     );

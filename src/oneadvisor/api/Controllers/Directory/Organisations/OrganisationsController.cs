@@ -95,9 +95,9 @@ namespace api.Controllers.Directory.Organisations
         {
             var scope = AuthenticationService.GetScope(User);
 
-            var model = await OrganisationService.GetOrganisation(scope, organisationId);
+            var organisation = await OrganisationService.GetOrganisation(scope, organisationId);
 
-            if (model == null)
+            if (organisation == null)
                 return NotFound();
 
             var file = Request.Form.Files.FirstOrDefault();
@@ -105,17 +105,22 @@ namespace api.Controllers.Directory.Organisations
             if (file == null)
                 return BadRequest();
 
+            var result = new Result(true);
+
             using (var stream = file.OpenReadStream())
             {
                 //Upload the file
                 var path = new OrganisationLogoFilePath(organisationId, file.FileName); //file.FileName = stored as meta
-                var fileName = await FileStorageService.AddFileAsync(path, stream);
+                var storageName = await FileStorageService.AddFileAsync(path, stream);
 
                 //Update the organisation
-                model.Config.Storage.LogoStorageName = fileName;
+                organisation.Config.Branding.LogoStorageName = storageName;
+                await OrganisationService.UpdateOrganisation(scope, organisation);
+
+                result.Tag = storageName;
             }
 
-            return Ok(new Result(true));
+            return Ok(result);
         }
 
         [HttpGet("{organisationId}/config/logo")]
@@ -125,11 +130,13 @@ namespace api.Controllers.Directory.Organisations
 
             var model = await OrganisationService.GetOrganisation(scope, organisationId);
 
-            if (model == null || string.IsNullOrWhiteSpace(model.Config.Storage.LogoStorageName))
+            if (model == null || string.IsNullOrWhiteSpace(model.Config.Branding.LogoStorageName))
                 return NotFound();
 
-            var query = new OrganisationLogoFileQuery(scope.OrganisationId, model.Config.Storage.LogoStorageName);
+            var query = new OrganisationLogoFileQuery(scope.OrganisationId, model.Config.Branding.LogoStorageName);
             var file = await FileStorageService.GetFileInfoAsync(query);
+
+            Console.WriteLine(file == null);
 
             if (file == null)
                 return NotFound();

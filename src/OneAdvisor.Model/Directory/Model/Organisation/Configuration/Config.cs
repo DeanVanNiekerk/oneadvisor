@@ -11,7 +11,7 @@ namespace OneAdvisor.Model.Directory.Model.Organisation.Configuration
             LicenseCategoryIds = new List<Guid>();
             Address = new Address();
             ComplianceOfficer = new ComplianceOfficer();
-            Storage = new Storage();
+            Branding = new Branding();
         }
 
         public bool VATRegistered { get; set; }
@@ -20,7 +20,7 @@ namespace OneAdvisor.Model.Directory.Model.Organisation.Configuration
         public List<Guid> LicenseCategoryIds { get; set; }
         public string TelephoneNumber { get; set; }
         public Address Address { get; set; }
-        public Storage Storage { get; set; }
+        public Branding Branding { get; set; }
         public ComplianceOfficer ComplianceOfficer { get; set; }
         public bool HasProfessionalIndemnityCover { get; set; }
         public bool HasSharesInProductProviders { get; set; } // Do you hold more than 10% shares in any one of the product providers ?

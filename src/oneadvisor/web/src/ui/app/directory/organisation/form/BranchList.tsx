@@ -15,23 +15,23 @@ import {
     fetchBranch,
     fetchBranches,
 } from "@/state/directory/branches";
+import { organisationIdSelector } from "@/state/directory/organisations";
 
 import EditBranch from "./EditBranch";
 
 type Props = {
-    organisationId: string;
     onSaved?: () => void;
 } & PropsFromState &
     PropsFromDispatch;
 
 const BranchList: React.FC<Props> = (props) => {
     useEffect(() => {
-        props.fetchBranches(props.organisationId);
+        if (props.organisationId) props.fetchBranches(props.organisationId);
     }, [props.organisationId]);
 
     const onSaved = () => {
         if (props.onSaved) props.onSaved();
-        props.fetchBranches(props.organisationId);
+        if (props.organisationId) props.fetchBranches(props.organisationId);
     };
 
     const getActions = (branch: Branch) => {
@@ -43,6 +43,8 @@ const BranchList: React.FC<Props> = (props) => {
             </a>,
         ];
     };
+
+    if (!props.organisationId) return <React.Fragment />;
 
     return (
         <>
@@ -68,6 +70,7 @@ const mapStateToProps = (state: RootState) => {
         branches: branchesState.items,
         fetching: branchesState.fetching,
         useCases: useCaseSelector(state),
+        organisationId: organisationIdSelector(state),
     };
 };
 

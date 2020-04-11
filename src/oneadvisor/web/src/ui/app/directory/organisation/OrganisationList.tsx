@@ -5,6 +5,7 @@ import { AnyAction, bindActionCreators } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import { getColumnDefinition } from "@/app/table";
+import { CLIENT_ID } from "@/config/application";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
 import { RootState } from "@/state";
 import {
@@ -125,7 +126,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
                 receiveOrganisation({
                     id: null,
                     name: "",
-                    applicationIds: [],
+                    applicationIds: [CLIENT_ID],
                     config: {
                         ...config,
                     },

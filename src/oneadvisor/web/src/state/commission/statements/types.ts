@@ -1,4 +1,5 @@
 import { Filters, PagedItems, PageOptions, SortOptions } from "@/app/table";
+import { Result } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
 import { FileInfo } from "@/state/types";
 
@@ -32,6 +33,12 @@ export interface PagedStatements extends PagedItems<Statement> {
     sumAmountIncludingVAT: number;
     sumVAT: number;
 }
+
+export type ImportResult = {
+    importCount: number;
+    errorCount: number;
+    results: Result[];
+};
 
 export type FilesState = {
     readonly items: FileInfo[];

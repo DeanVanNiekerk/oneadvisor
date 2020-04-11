@@ -6,3 +6,4 @@ export * from "./list/operations";
 
 export * from "./organisation/actions";
 export * from "./organisation/selectors";
+export * from "./organisation/operations";

@@ -33,8 +33,6 @@ export const reducer = (
         case "ORGANISATIONS_ORGANISATION_FETCHING": {
             return {
                 ...state,
-                organisation: null,
-                organisationOriginal: null,
                 validationResults: [],
                 fetching: true,
             };
