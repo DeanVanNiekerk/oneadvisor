@@ -1,6 +1,7 @@
 import { Empty } from "antd";
 import React from "react";
 
+import { CHART_COLORS, CHART_THEME, TEXT_COLOR } from "@/ui/styles";
 import { BarSvgProps, ResponsiveBar } from "@nivo/bar";
 
 import { ContentLoader } from "../";
@@ -13,8 +14,9 @@ type Props = {
 const Bar: React.FC<Props> = (props: Props) => {
     const p: BarSvgProps = {
         margin: { top: 30, right: 30, bottom: 30, left: 60 },
-        colors: { scheme: "set3" },
         borderWidth: 1,
+        colors: CHART_COLORS,
+        theme: CHART_THEME,
         ...props,
     };
 

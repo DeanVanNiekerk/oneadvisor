@@ -316,6 +316,7 @@ class ClientRevenueReport extends Component<Props, State> {
                     activeKey={this.state.activeTab}
                     sticky={true}
                     tabBarGutter={0}
+                    transparentBackgroud={true}
                 >
                     <TabPane tab={<TableOutlined className="mx-1" />} key="table">
                         <ClientRevenueTable editAllocations={this.editAllocations} />

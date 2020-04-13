@@ -1,6 +1,7 @@
 import { Empty } from "antd";
 import React from "react";
 
+import { CHART_COLORS, CHART_THEME, TEXT_COLOR } from "@/ui/styles";
 import { PieSvgProps, ResponsivePie } from "@nivo/pie";
 
 import { ContentLoader } from "../";
@@ -17,9 +18,11 @@ const Pie: React.FC<Props> = (props: Props) => {
         innerRadius: 0.5,
         padAngle: 0.7,
         cornerRadius: 3,
-        colors: { scheme: "set3" },
         borderWidth: 1,
         radialLabelsLinkHorizontalLength: 10,
+        radialLabelsTextColor: TEXT_COLOR,
+        colors: CHART_COLORS,
+        theme: CHART_THEME,
         ...props,
     };
 

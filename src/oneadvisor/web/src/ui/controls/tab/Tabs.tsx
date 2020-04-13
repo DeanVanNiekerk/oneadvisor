@@ -2,6 +2,8 @@ import { Tabs as TabsAD } from "antd";
 import { TabsPosition, TabsType } from "antd/lib/tabs";
 import React, { ReactNode } from "react";
 
+import { BACKGROUND_COLOR } from "@/ui/styles";
+
 type Props = {
     activeKey: string;
     onChange: (activeKey: string) => void;
@@ -13,13 +15,14 @@ type Props = {
     type?: TabsType;
     tabBarGutter?: number | undefined;
     clearTabsTopPadding?: boolean | undefined;
+    transparentBackgroud?: boolean | undefined;
 };
 
 const Tabs: React.FC<Props> = (props: Props) => {
     let style = {};
 
     let tabBarStyle: React.CSSProperties = {
-        backgroundColor: "#1f1f1f",
+        backgroundColor: props.transparentBackgroud ? undefined : BACKGROUND_COLOR,
         zIndex: 1,
     };
 

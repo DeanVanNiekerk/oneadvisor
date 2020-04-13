@@ -1,4 +1,4 @@
-import "@/ui/styles";
+import "@/ui/styles/css";
 
 import { ConnectedRouter } from "connected-react-router";
 import React from "react";

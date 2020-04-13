@@ -10,7 +10,13 @@ const EarningsTypeReport: React.FC = () => {
     const [activeTab, setActiveTab] = useState("table");
 
     return (
-        <Tabs onChange={setActiveTab} activeKey={activeTab} sticky={true} tabBarGutter={0}>
+        <Tabs
+            onChange={setActiveTab}
+            activeKey={activeTab}
+            sticky={true}
+            tabBarGutter={0}
+            transparentBackgroud={true}
+        >
             <TabPane tab={<TableOutlined className="mx-1" />} key="table">
                 <EarningsTypeTable />
             </TabPane>
