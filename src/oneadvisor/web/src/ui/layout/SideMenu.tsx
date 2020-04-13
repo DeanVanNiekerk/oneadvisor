@@ -7,8 +7,8 @@ import { hasPermissionsMenuGroup, hasRoles, hasUseCases } from "@/app/identity";
 import { defaultOpenGroupNames } from "@/config/menu";
 import { RootState } from "@/state";
 import { roleSelector, useCaseSelector } from "@/state/auth";
-import { currentApplicationSelector, currentMenuSelector } from "@/state/context/selectors";
-import { Application, Menu, MenuLink } from "@/state/context/types";
+import { currentMenuSelector, currentRootNavigationItemSelector } from "@/state/context/selectors";
+import { Menu, MenuLink, RootNavigationItem } from "@/state/context/types";
 
 import { Icon } from "../controls";
 
@@ -17,7 +17,7 @@ const { Sider } = Layout;
 
 type Props = {
     menu: Menu;
-    application: Application;
+    rootNavigationItem: RootNavigationItem;
     useCases: string[];
     roles: string[];
 };
@@ -39,10 +39,10 @@ class SideMenu extends Component<Props, State> {
         this.setState({ collapsed });
     };
 
-    getMenuItemStyle = (link: MenuLink, application: Application): CSSProperties => {
+    getMenuItemStyle = (link: MenuLink, item: RootNavigationItem): CSSProperties => {
         if (!link.isCurrent) return {};
         return {
-            backgroundColor: `${application.color}`,
+            backgroundColor: `${item.color}`,
         };
     };
 
@@ -87,7 +87,7 @@ class SideMenu extends Component<Props, State> {
                                             key={link.relativePath}
                                             style={this.getMenuItemStyle(
                                                 link,
-                                                this.props.application
+                                                this.props.rootNavigationItem
                                             )}
                                         >
                                             <Link
@@ -108,7 +108,7 @@ class SideMenu extends Component<Props, State> {
 const mapStateToProps = (state: RootState) => {
     return {
         menu: currentMenuSelector(state),
-        application: currentApplicationSelector(state),
+        rootNavigationItem: currentRootNavigationItemSelector(state),
         useCases: useCaseSelector(state),
         roles: roleSelector(state),
     };

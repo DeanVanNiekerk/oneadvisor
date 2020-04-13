@@ -8,12 +8,12 @@ import config from "@/config/config";
 import { RootState } from "@/state";
 import { roleSelector, signOut, useCaseSelector } from "@/state/auth";
 import {
-    applicationsSelector,
     contextSelector,
-    currentApplicationSelector,
+    currentRootNavigationItemSelector,
     menusSelector,
+    rootNavigationItemsSelector,
 } from "@/state/context/selectors";
-import { AppInfo, Application, Menus } from "@/state/context/types";
+import { AppInfo, Menus, RootNavigationItem } from "@/state/context/types";
 
 import { Icon, IdentityStatus } from "../controls";
 
@@ -39,8 +39,8 @@ const signoutStyle: CSSProperties = {
 
 type Props = {
     menus: Menus;
-    applications: Application[];
-    currentApplication: Application;
+    rootNavigationItems: RootNavigationItem[];
+    currentRootNavigationItem: RootNavigationItem;
     useCases: string[];
     roles: string[];
     appInfo: AppInfo;
@@ -82,14 +82,14 @@ class Navigator extends Component<Props> {
         return {
             width: "100%",
             height: "5px",
-            backgroundColor: this.props.currentApplication.color,
+            backgroundColor: this.props.currentRootNavigationItem.color,
         };
     };
 
-    getMenuItemStyle = (application: Application): CSSProperties => {
-        if (!application.isCurrent) return {};
+    getMenuItemStyle = (item: RootNavigationItem): CSSProperties => {
+        if (!item.isCurrent) return {};
         return {
-            backgroundColor: `${application.color}`,
+            backgroundColor: `${item.color}`,
         };
     };
 
@@ -97,61 +97,61 @@ class Navigator extends Component<Props> {
         return (
             <>
                 <Header>
-                    <div style={appNameStyle}>
-                        <React.Fragment>
-                            <span
-                                style={{
-                                    fontWeight: 100,
-                                }}
-                            >
-                                ONE
-                            </span>
-                            <span
-                                style={{
-                                    fontWeight: 600,
-                                }}
-                            >
-                                ADVISOR
-                            </span>
-                            <Tag
-                                style={{
-                                    position: "absolute",
-                                    top: "35px",
-                                    left: "160px",
-                                }}
-                                color={this.getEnvironmentColor()}
-                            >
-                                {this.getEnvironmentName()}
-                            </Tag>
-                        </React.Fragment>
-                    </div>
+                    <Popover
+                        placement="bottomRight"
+                        content={<IdentityStatus />}
+                        title="Profile"
+                        mouseEnterDelay={1.5}
+                    >
+                        <div style={appNameStyle}>
+                            <React.Fragment>
+                                <span
+                                    style={{
+                                        fontWeight: 100,
+                                    }}
+                                >
+                                    ONE
+                                </span>
+                                <span
+                                    style={{
+                                        fontWeight: 600,
+                                    }}
+                                >
+                                    ADVISOR
+                                </span>
+                                <Tag
+                                    style={{
+                                        position: "absolute",
+                                        top: "35px",
+                                        left: "160px",
+                                    }}
+                                    color={this.getEnvironmentColor()}
+                                >
+                                    {this.getEnvironmentName()}
+                                </Tag>
+                            </React.Fragment>
+                        </div>
+                    </Popover>
                     <div style={signoutStyle} onClick={this.signOut}>
-                        <Popover
-                            placement="bottomRight"
-                            content={<IdentityStatus />}
-                            title="Profile"
-                            mouseEnterDelay={1.5}
-                        >
-                            <span>Signout</span>
-                        </Popover>
+                        <span>Signout</span>
                     </div>
                     <Menu theme="dark" mode="horizontal" style={{ lineHeight: "64px" }}>
-                        {this.props.applications
-                            .filter((app) =>
+                        {this.props.rootNavigationItems
+                            .filter((item) =>
                                 hasPermissionsMenuGroups(
-                                    this.props.menus[app.id].groups,
+                                    this.props.menus[item.applicationId].groups,
                                     this.props.useCases,
                                     this.props.roles
                                 )
                             )
-                            .map((app) => (
+                            .map((item) => (
                                 <Item
-                                    key={app.id}
-                                    style={this.getMenuItemStyle(app)}
-                                    onClick={() => this.navigate(app.relativePath)}
+                                    key={item.applicationId}
+                                    style={this.getMenuItemStyle(item)}
+                                    onClick={() => this.navigate(item.relativePath)}
                                 >
-                                    <Icon name={app.icon} style={{ fontSize: "16px" }} />
-                                    {app.name}
+                                    <Icon name={item.icon} style={{ fontSize: "16px" }} />
+                                    {item.name}
                                 </Item>
                             ))}
                     </Menu>
@@ -167,8 +167,8 @@ const mapStateToProps = (state: RootState) => {
 
     return {
         menus: menusSelector(state),
-        applications: applicationsSelector(state),
-        currentApplication: currentApplicationSelector(state) || {},
+        rootNavigationItems: rootNavigationItemsSelector(state),
+        currentRootNavigationItem: currentRootNavigationItemSelector(state) || {},
         useCases: useCaseSelector(state),
         roles: roleSelector(state),
         appInfo: contextState.appInfo,

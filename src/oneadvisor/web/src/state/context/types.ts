@@ -7,8 +7,8 @@ export type AppInfo = {
     version: string;
 };
 
-export type Application = {
-    id: string;
+export type RootNavigationItem = {
+    applicationId: string;
     name: string;
     color: string;
     relativePath: string;
@@ -41,9 +41,16 @@ export type MenuLink = {
     roles?: string[];
 };
 
+export type Application = {
+    id: string;
+    name: string;
+    colourHex: string;
+};
+
 export type ContextState = {
     readonly appInfo: AppInfo | null;
     readonly organisation: OrganisationEdit | null;
-    readonly applications: Application[];
+    readonly rootNavigationItems: RootNavigationItem[];
     readonly menus: Menus;
+    readonly applications: Application[];
 };

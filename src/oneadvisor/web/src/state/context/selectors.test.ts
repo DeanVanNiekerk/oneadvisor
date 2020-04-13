@@ -10,10 +10,10 @@ import { menus } from "@/config/menu";
 
 import { defaultState as defaultContextState } from "./reducer";
 import {
-    applicationsSelector,
-    currentApplicationSelector,
     currentMenuLinkSelector,
     currentMenuSelector,
+    currentRootNavigationItemSelector,
+    rootNavigationItemsSelector,
 } from "./selectors";
 
 describe("context selectors", () => {
@@ -30,81 +30,81 @@ describe("context selectors", () => {
         };
     };
 
-    describe("applicationsSelector()", () => {
+    describe("rootNavigationItemsSelector()", () => {
         it("root path", () => {
             const state = setupState();
 
             //@ts-ignore
-            const actual = applicationsSelector(state);
+            const actual = rootNavigationItemsSelector(state);
 
             expect(actual.length).toEqual(5);
-            expect(actual[0].id).toEqual(DIRECTORY_ID);
-            expect(actual[1].id).toEqual(CLIENT_ID);
-            expect(actual[2].id).toEqual(COMMISSION_ID);
-            expect(actual[3].id).toEqual(COMPLIANCE_ID);
-            expect(actual[4].id).toEqual(INVEST_ID);
+            expect(actual[0].applicationId).toEqual(DIRECTORY_ID);
+            expect(actual[1].applicationId).toEqual(CLIENT_ID);
+            expect(actual[2].applicationId).toEqual(COMMISSION_ID);
+            expect(actual[3].applicationId).toEqual(COMPLIANCE_ID);
+            expect(actual[4].applicationId).toEqual(INVEST_ID);
         });
 
         it("directory app", () => {
             const state = setupState("/directory/users");
 
             //@ts-ignore
-            const actual = applicationsSelector(state);
+            const actual = rootNavigationItemsSelector(state);
 
-            const app = actual[0];
+            const item = actual[0];
 
-            expect(app.id).toEqual(DIRECTORY_ID);
-            expect(app.name).toEqual("Directory");
-            expect(app.relativePath).toEqual("/directory");
-            expect(app.isCurrent).toEqual(true);
+            expect(item.applicationId).toEqual(DIRECTORY_ID);
+            expect(item.name).toEqual("Directory");
+            expect(item.relativePath).toEqual("/directory");
+            expect(item.isCurrent).toEqual(true);
         });
 
         it("client app", () => {
             const state = setupState("/client/clients");
 
             //@ts-ignore
-            const actual = applicationsSelector(state);
+            const actual = rootNavigationItemsSelector(state);
 
-            const app = actual[1];
+            const item = actual[1];
 
-            expect(app.id).toEqual(CLIENT_ID);
-            expect(app.name).toEqual("Client");
-            expect(app.relativePath).toEqual("/client");
-            expect(app.isCurrent).toEqual(true);
+            expect(item.applicationId).toEqual(CLIENT_ID);
+            expect(item.name).toEqual("Client");
+            expect(item.relativePath).toEqual("/client");
+            expect(item.isCurrent).toEqual(true);
         });
 
         it("commission app", () => {
             const state = setupState("/commission/upload");
 
             //@ts-ignore
-            const actual = applicationsSelector(state);
+            const actual = rootNavigationItemsSelector(state);
 
-            const app = actual[2];
+            const item = actual[2];
 
-            expect(app.id).toEqual(COMMISSION_ID);
-            expect(app.name).toEqual("Commission");
-            expect(app.relativePath).toEqual("/commission");
-            expect(app.isCurrent).toEqual(true);
+            expect(item.applicationId).toEqual(COMMISSION_ID);
+            expect(item.name).toEqual("Commission");
+            expect(item.relativePath).toEqual("/commission");
+            expect(item.isCurrent).toEqual(true);
         });
     });
 
-    describe("currentApplicationSelector()", () => {
+    describe("currentRootNavigationItemSelector()", () => {
         it("get current app - default", () => {
             const state = setupState();
 
             //@ts-ignore
-            const actual = currentApplicationSelector(state);
+            const actual = currentRootNavigationItemSelector(state);
 
-            expect(actual.id).toEqual(DEFAULT_APPLICATION_ID);
+            expect(actual.applicationId).toEqual(DEFAULT_APPLICATION_ID);
         });
 
         it("get current app - not default", () => {
             const state = setupState("/client");
 
             //@ts-ignore
-            const actual = currentApplicationSelector(state);
+            const actual = currentRootNavigationItemSelector(state);
 
-            expect(actual.id).toEqual(CLIENT_ID);
+            expect(actual.applicationId).toEqual(CLIENT_ID);
         });
     });
 

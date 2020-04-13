@@ -1,4 +1,3 @@
-import { ApplicationsState } from "./applications";
 import { AuditState } from "./audit";
 import { BranchesState } from "./branches";
 import { BranchesSimpleState } from "./branchesSimple";
@@ -15,7 +14,6 @@ export type DirectoryState = {
     readonly usersSimple: UsersSimpleState;
     readonly organisations: OrganisationsState;
     readonly roles: RolesState;
-    readonly applications: ApplicationsState;
     readonly useCases: UseCasesState;
     readonly branches: BranchesState;
     readonly branchesSimple: BranchesSimpleState;

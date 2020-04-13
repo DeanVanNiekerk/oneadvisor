@@ -1,4 +1,4 @@
-import { applications } from "@/config/application";
+import { rootNavigationItems } from "@/config/application";
 import { menus } from "@/config/menu";
 
 import { ContextActions } from "./actions";
@@ -7,8 +7,9 @@ import { ContextState } from "./types";
 export const defaultState: ContextState = {
     appInfo: null,
     organisation: null,
-    applications: applications,
+    rootNavigationItems: rootNavigationItems,
     menus: menus,
+    applications: [],
 };
 
 export const reducer = (state: ContextState = defaultState, action: ContextActions) => {
@@ -23,6 +24,12 @@ export const reducer = (state: ContextState = defaultState, action: ContextActio
                 ...state,
                 organisation: action.payload,
             };
+        case "CONTEXT_APPLICATIONS_RECEIVE": {
+            return {
+                ...state,
+                applications: action.payload,
+            };
+        }
         default:
             return state;
     }

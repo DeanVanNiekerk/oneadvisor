@@ -2,13 +2,13 @@ import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 
 import { ApiAction } from "@/app/types";
-import { organisationsApi } from "@/config/api/directory";
+import { applicationsApi, organisationsApi } from "@/config/api/directory";
 import config from "@/config/config";
 
 import { RootState } from "../";
 import { signOut, userOrganisationIdSelector } from "../auth";
 import { getVersion, setVersion } from "../storage";
-import { AppInfo } from "./types";
+import { AppInfo, Application } from "./types";
 
 type ReceiveAppInfoAction = {
     type: "CONTEXT_APP_INFO_RECEIVE";
@@ -18,8 +18,15 @@ type ReceiveUserOrganisationAction = {
     type: "CONTEXT_ORGANISATION_RECEIVE";
     payload: AppInfo;
 };
+type ApplicationListReceiveAction = {
+    type: "CONTEXT_APPLICATIONS_RECEIVE";
+    payload: Application[];
+};
 
-export type ContextActions = ReceiveAppInfoAction | ReceiveUserOrganisationAction;
+export type ContextActions =
+    | ReceiveAppInfoAction
+    | ReceiveUserOrganisationAction
+    | ApplicationListReceiveAction;
 
 export const fetchAppInfo = (): ApiAction => {
     return {
@@ -53,3 +60,9 @@ export const fetchUserOrganisation = (): ThunkAction<void, RootState, {}, ApiAct
         });
     };
 };
+
+export const fetchApplications = (): ApiAction => ({
+    type: "API",
+    endpoint: applicationsApi,
+    dispatchPrefix: "CONTEXT_APPLICATIONS",
+});

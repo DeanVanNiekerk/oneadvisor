@@ -1,5 +1,5 @@
 import { IconName } from "@/app/types";
-import { Application } from "@/state/context/types";
+import { RootNavigationItem } from "@/state/context/types";
 
 export const DIRECTORY_ID = "66c3b4e8-8a30-4a4b-be4d-3928d12fefe9";
 export const CLIENT_ID = "605ea52c-3627-48e2-8f7c-4819c5ea555b";
@@ -11,25 +11,24 @@ export const DEFAULT_APPLICATION_ID = CLIENT_ID;
 
 //https://coolors.co/f1f2eb-cc3f0c-001528-009ffd-2a2a72
 
-const createApplication = (
-    id: string,
+const createRootNavigationItem = (
+    applicationId: string,
     name: string,
-    color: string,
     relativePath: string,
     icon: IconName
-): Application => ({
-    id,
+): RootNavigationItem => ({
+    applicationId,
     name,
-    color,
     relativePath,
     icon,
+    color: "#FFFFFF",
     isCurrent: false,
 });
 
-export const applications: Application[] = [
-    createApplication(DIRECTORY_ID, "Directory", "#cc3f0c", "/directory", "safety"),
-    createApplication(CLIENT_ID, "Client", "#009ffd", "/client", "user"),
-    createApplication(COMMISSION_ID, "Commission", "#2A2A72", "/commission", "dollar"),
-    createApplication(COMPLIANCE_ID, "Compliance", "#005A38", "/compliance", "dollar"),
-    createApplication(INVEST_ID, "Invest", "#AE1827", "/invest", "dollar"),
+export const rootNavigationItems: RootNavigationItem[] = [
+    createRootNavigationItem(DIRECTORY_ID, "Directory", "/directory", "safety"),
+    createRootNavigationItem(CLIENT_ID, "Client", "/client", "user"),
+    createRootNavigationItem(COMMISSION_ID, "Commission", "/commission", "dollar"),
+    createRootNavigationItem(COMPLIANCE_ID, "Compliance", "/compliance", "dollar"),
+    createRootNavigationItem(INVEST_ID, "Invest", "#AE1827", "dollar"),
 ];

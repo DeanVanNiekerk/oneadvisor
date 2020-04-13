@@ -8,11 +8,7 @@ import { getColumnDefinition } from "@/app/table";
 import { CLIENT_ID } from "@/config/application";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
 import { RootState } from "@/state";
-import {
-    Application,
-    applicationsSelector,
-    fetchApplications,
-} from "@/state/directory/applications";
+import { Application, applicationsSelector } from "@/state/context";
 import {
     Config,
     fetchOrganisation,
@@ -34,7 +30,6 @@ type Props = PropsFromState & PropsFromDispatch;
 const OrganisationList: React.FC<Props> = (props) => {
     useEffect(() => {
         props.fetchOrganisations();
-        props.fetchApplications();
     }, []);
 
     return (
@@ -108,10 +103,9 @@ const getColumns = (applications: Application[]) => {
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const organisationsState = organisationsSelector(state);
-    const applicationsState = applicationsSelector(state);
     return {
         organisations: organisationsState.items,
-        applications: applicationsState.items,
+        applications: applicationsSelector(state),
         fetching: organisationsState.fetching,
     };
 };
@@ -119,7 +113,7 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
-        ...bindActionCreators({ fetchOrganisations, fetchApplications }, dispatch),
+        ...bindActionCreators({ fetchOrganisations }, dispatch),
         newOrganisation: () => {
             const config = getConfig();
             dispatch(

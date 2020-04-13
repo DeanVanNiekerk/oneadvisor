@@ -3,7 +3,7 @@ import { createSelector } from "reselect";
 import { DEFAULT_APPLICATION_ID } from "@/config/application";
 import { RootState } from "@/state";
 
-import { Application, ContextState, Menu, MenuLink, Menus } from "./types";
+import { Application, ContextState, Menu, MenuLink, Menus, RootNavigationItem } from "./types";
 
 const rootSelector = (state: RootState): ContextState => state.context;
 
@@ -12,41 +12,53 @@ export const contextSelector: (state: RootState) => ContextState = createSelecto
     (root) => root
 );
 
+export const applicationsSelector: (state: RootState) => Application[] = createSelector(
+    contextSelector,
+    (root) => root.applications
+);
+
 export const pathNameSelector = (state: RootState): string => {
     //@ts-ignore
     return state.router ? state.router.location.pathname : "";
 };
-export const appsSelector = (state: RootState): Application[] => state.context.applications;
+export const navItemsSelector = (state: RootState): RootNavigationItem[] =>
+    state.context.rootNavigationItems;
+
 export const menusSelector = (state: RootState): Menus => state.context.menus;
 
-export const applicationsSelector: (state: RootState) => Application[] = createSelector(
+export const rootNavigationItemsSelector: (
+    state: RootState
+) => RootNavigationItem[] = createSelector(
     pathNameSelector,
-    appsSelector,
-    (pathName, applications) => {
-        return applications.map((app) => {
+    navItemsSelector,
+    applicationsSelector,
+    (pathName, rootNavigationItems, applications) => {
+        return rootNavigationItems.map((item) => {
+            const application = applications.find((a) => a.id === item.applicationId);
+
             return {
-                ...app,
-                isCurrent: isCurrentApplication(app, pathName),
+                ...item,
+                color: application ? application.colourHex : "#FFFFFF",
+                isCurrent: isCurrentRootNavigationItemSelector(item, pathName),
             };
         });
     }
 );
 
-export const currentApplicationSelector: (state: RootState) => Application = createSelector(
-    applicationsSelector,
-    (applications) => {
-        return applications.filter((app) => app.isCurrent)[0];
-    }
-);
+export const currentRootNavigationItemSelector: (
+    state: RootState
+) => RootNavigationItem = createSelector(rootNavigationItemsSelector, (rootNavigationItems) => {
+    return rootNavigationItems.filter((app) => app.isCurrent)[0];
+});
 
 export const currentMenuSelector: (state: RootState) => Menu = createSelector(
     pathNameSelector,
-    currentApplicationSelector,
+    currentRootNavigationItemSelector,
     menusSelector,
-    (pathName, application, menus) => {
-        if (!application) return { relativePath: pathName, groups: [] };
+    (pathName, rootNavigationItem, menus) => {
+        if (!rootNavigationItem) return { relativePath: pathName, groups: [] };
 
-        const menu = menus[application.id];
+        const menu = menus[rootNavigationItem.applicationId];
 
         return {
             ...menu,
@@ -76,13 +88,13 @@ export const currentMenuLinkSelector: (state: RootState) => MenuLink = createSel
     }
 );
 
-const isCurrentApplication = (application: Application, pathName: string) => {
+const isCurrentRootNavigationItemSelector = (item: RootNavigationItem, pathName: string) => {
     if (!pathName || pathName === "/") {
-        if (application.id === DEFAULT_APPLICATION_ID) return true;
+        if (item.applicationId === DEFAULT_APPLICATION_ID) return true;
         return false;
     }
 
-    return pathName.indexOf(application.relativePath) !== -1;
+    return pathName.indexOf(item.relativePath) !== -1;
 };
 
 const isCurrentMenuLink = (menu: Menu, link: MenuLink, pathName: string) => {
@@ -93,3 +105,8 @@ const isCurrentMenuLink = (menu: Menu, link: MenuLink, pathName: string) => {
 
     return pathName.indexOf(`${menu.relativePath}${link.relativePath}`) === 0;
 };
+
+export const isLoadingSelector: (state: RootState) => boolean = createSelector(
+    contextSelector,
+    (root) => root.applications.length === 0 || root.appInfo === null
+);

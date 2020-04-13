@@ -1,6 +1,5 @@
 import { combineReducers } from "redux";
 
-import { reducer as applications } from "./applications/reducer";
 import { reducer as audit } from "./audit/reducer";
 import { reducer as branches } from "./branches/reducer";
 import { reducer as branchesSimple } from "./branchesSimple/reducer";
@@ -18,7 +17,6 @@ export const reducer = combineReducers<DirectoryState>({
     usersSimple: usersSimple,
     organisations: organisations,
     roles: roles,
-    applications: applications,
     useCases: useCases,
     branches: branches,
     branchesSimple: branchesSimple,

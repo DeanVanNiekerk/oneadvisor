@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from "redux";
 
 import { getValidationSubSet } from "@/app/validation";
 import { RootState } from "@/state";
-import { applicationsSelector, fetchApplications } from "@/state/directory/applications";
+import { applicationsSelector } from "@/state/context";
 import { getOrganisationByBranchId } from "@/state/directory/organisations";
 import { fetchRoles, Role, rolesSelector } from "@/state/directory/roles";
 import { modifyUser, UserEdit, userSelector } from "@/state/directory/users";
@@ -22,7 +22,6 @@ const RolesForm: React.FC<Props> = (props) => {
 
     useEffect(() => {
         props.fetchRoles();
-        props.fetchApplications();
     }, []);
 
     useEffect(() => {
@@ -74,7 +73,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         user: userState.user,
         validationResults: userState.validationResults,
-        applications: applicationsSelector(state).items,
+        applications: applicationsSelector(state),
         roles: rolesSelector(state).items,
     };
 };
@@ -82,10 +81,7 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        ...bindActionCreators(
-            { getOrganisationByBranchId, fetchRoles, fetchApplications },
-            dispatch
-        ),
+        ...bindActionCreators({ getOrganisationByBranchId, fetchRoles }, dispatch),
         handleChange: (user: UserEdit, roles: string[]) => {
             const userModified = update(user, {
                 roles: { $set: roles },

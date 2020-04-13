@@ -5,7 +5,7 @@ import { areEqual } from "@/app/utils";
 import { ValidationResult } from "@/app/validation";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
 import { RootState } from "@/state";
-import { Application } from "@/state/directory/applications/types";
+import { Application } from "@/state/context";
 import { insertRole, RoleEdit, roleSelector, updateRole } from "@/state/directory/roles";
 import { UseCase } from "@/state/directory/usecases";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";

@@ -3,14 +3,9 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { getColumnDefinition } from "@/app/table";
-import { applications } from "@/config/application";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
 import { RootState } from "@/state";
-import {
-    Application,
-    applicationsSelector,
-    fetchApplications,
-} from "@/state/directory/applications";
+import { Application, applicationsSelector } from "@/state/context";
 import {
     fetchRole,
     fetchRoles,
@@ -48,16 +43,11 @@ class RoleList extends Component<Props, State> {
 
     componentDidMount() {
         if (this.props.roles.length === 0) this.loadRoles();
-        if (this.props.applications.length === 0) this.loadApplications();
         if (this.props.useCases.length === 0) this.loadUseCases();
     }
 
     loadRoles = () => {
         this.props.dispatch(fetchRoles());
-    };
-
-    loadApplications = () => {
-        this.props.dispatch(fetchApplications());
     };
 
     loadUseCases = () => {
@@ -75,8 +65,8 @@ class RoleList extends Component<Props, State> {
     };
 
     getApplicationColor = (id: string) => {
-        const application = applications.find((u) => u.id === id);
-        if (application) return application.color;
+        const application = this.props.applications.find((u) => u.id === id);
+        if (application) return application.colourHex;
     };
 
     showEditRole = () => {
@@ -175,9 +165,9 @@ const mapStateToProps = (state: RootState) => {
 
     return {
         roles: rolesState.items,
-        applications: applicationsState.items,
+        applications: applicationsState,
         useCases: useCaseState.items,
-        fetching: rolesState.fetching || applicationsState.fetching || useCaseState.fetching,
+        fetching: rolesState.fetching || useCaseState.fetching,
     };
 };
 

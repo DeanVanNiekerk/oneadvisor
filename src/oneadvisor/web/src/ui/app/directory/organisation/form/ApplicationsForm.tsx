@@ -1,16 +1,12 @@
 import update from "immutability-helper";
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import { getValidationSubSet } from "@/app/validation";
 import { RootState } from "@/state";
-import {
-    Application,
-    applicationsSelector,
-    fetchApplications,
-} from "@/state/directory/applications";
+import { Application, applicationsSelector } from "@/state/context";
 import {
     modifyOrganisation,
     OrganisationEdit,
@@ -26,13 +22,8 @@ const ApplicationsForm: React.FC<Props> = ({
     organisation,
     applications,
     handleChange,
-    fetchApplications,
     validationResults,
 }) => {
-    useEffect(() => {
-        fetchApplications();
-    }, []);
-
     if (!organisation) return <React.Fragment />;
 
     return (
@@ -55,7 +46,7 @@ const mapStateToProps = (state: RootState) => {
     const organisationState = organisationSelector(state);
     return {
         organisation: organisationState.organisation,
-        applications: applicationsSelector(state).items,
+        applications: applicationsSelector(state),
         validationResults: getValidationSubSet(
             "ApplicationIds",
             organisationState.validationResults,
@@ -73,9 +64,6 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
                 applicationIds: { $set: applicationIds },
             });
             dispatch(modifyOrganisation(organisationModified));
-        },
-        fetchApplications: () => {
-            dispatch(fetchApplications());
         },
     };
 };

@@ -4,7 +4,7 @@ import React, { Component } from "react";
 
 import { getValidationSubSet, ValidationResult } from "@/app/validation";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
-import { Application } from "@/state/directory/applications/types";
+import { Application } from "@/state/context";
 import { RoleEdit } from "@/state/directory/roles";
 import { UseCase } from "@/state/directory/usecases";
 import {

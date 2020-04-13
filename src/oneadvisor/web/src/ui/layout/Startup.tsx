@@ -8,7 +8,8 @@ import { ThunkDispatch } from "redux-thunk";
 import config from "@/config/config";
 import { RootState } from "@/state";
 import { isAuthenticatedSelector, roleSelector, tokenDataSelector } from "@/state/auth";
-import { fetchAppInfo } from "@/state/context/actions";
+import { fetchAppInfo, fetchApplications } from "@/state/context/actions";
+import { isLoadingSelector } from "@/state/context/selectors";
 import { Loader } from "@/ui/controls";
 
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
 const Startup: React.FC<Props> = (props: Props) => {
     useEffect(() => {
         props.fetchAppInfo();
+        props.fetchApplications();
     }, []);
 
     useEffect(() => {
@@ -78,10 +80,10 @@ const Startup: React.FC<Props> = (props: Props) => {
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     return {
-        loading: false,
         isAuthenticated: isAuthenticatedSelector(state),
         tokenData: tokenDataSelector(state),
         roles: roleSelector(state),
+        loading: isLoadingSelector(state),
     };
 };
 
@@ -91,6 +93,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
         ...bindActionCreators(
             {
                 fetchAppInfo,
+                fetchApplications,
             },
             dispatch
         ),
