@@ -16,7 +16,7 @@ const FormSwitchList = getFormSwitchList<Role, string>();
 type Props = PropsFromState & PropsFromDispatch;
 
 const RolesForm: React.FC<Props> = (props) => {
-    const { user, handleChange } = props;
+    const { user } = props;
 
     const [organisationApplicationIds, setOrganisationApplicationIds] = useState<string[]>([]);
 
@@ -30,12 +30,26 @@ const RolesForm: React.FC<Props> = (props) => {
         props.getOrganisationByBranchId(user.branchId, (organisation) => {
             if (organisation) setOrganisationApplicationIds(organisation.applicationIds);
         });
-    }, [user]);
+    }, [user ? user.branchId : ""]);
 
     const getOrganisationApplications = () => {
         return props.applications.filter((a) =>
             organisationApplicationIds.some((id) => a.id === id)
         );
+    };
+
+    const handleChange = (roles: string[], applicationId: string) => {
+        if (!user) return;
+
+        const rolesFiltered = user.roles.filter((r) => getRoleApplicationId(r) !== applicationId);
+        const updatedRoles = [...rolesFiltered, ...roles];
+
+        props.handleChange(user, updatedRoles);
+    };
+
+    const getRoleApplicationId = (roleName: string): string => {
+        const role = props.roles.find((r) => r.name === roleName);
+        return role ? role.applicationId : "";
     };
 
     if (!user) return <React.Fragment />;
@@ -55,10 +69,12 @@ const RolesForm: React.FC<Props> = (props) => {
                     key={application.id}
                     idKey="name"
                     itemName={(role) => role.description}
-                    selectedIds={user.roles}
+                    selectedIds={user.roles.filter(
+                        (r) => getRoleApplicationId(r) === application.id
+                    )}
                     editUseCase="dir_edit_users"
                     header={application.name}
-                    onChange={(roles) => handleChange(user, roles)}
+                    onChange={(roles) => handleChange(roles, application.id)}
                     dataSource={props.roles.filter((r) => r.applicationId === application.id)}
                 />
             ))}
