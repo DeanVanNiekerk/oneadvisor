@@ -2,11 +2,9 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Model.Directory.Interface;
-using Microsoft.AspNetCore.Authorization;
 
 namespace api.Controllers.Directory.Applications
 {
-    [Authorize]
     [ApiController]
     [Route("api/directory/applications")]
     public class ApplicationsController : Controller
