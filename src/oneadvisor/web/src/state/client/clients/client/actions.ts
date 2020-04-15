@@ -154,7 +154,6 @@ export const deleteClient = (clientId: string, onSuccess?: ApiOnSuccess): ApiAct
     endpoint: `${clientsApi}/${clientId}`,
     method: "DELETE",
     onSuccess: onSuccess,
-    dispatchPrefix: "CLIENTS_CLIENT_EDIT",
 });
 
 export const receiveClientValidationResults = (

@@ -54,7 +54,7 @@ class ClientMerge extends Component<Props, State> {
                 onClose={this.cancel}
                 footer={
                     <Button onClick={this.cancel} disabled={this.isLoading()}>
-                        Cancel
+                        {this.props.currentStepIndex === 2 ? "Close" : "Cancel"}
                     </Button>
                 }
             >

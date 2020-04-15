@@ -91,7 +91,9 @@ const ClientList: React.FC<Props> = (props) => {
                                 {hasUseCase("clt_edit_clients", props.useCases) && (
                                     <Popconfirm
                                         title="Are you sure remove this client?"
-                                        onConfirm={() => props.deleteClient(id, props.fetchClients)}
+                                        onConfirm={() =>
+                                            props.deleteClient(id, () => props.fetchClients())
+                                        }
                                         okText="Yes"
                                         cancelText="No"
                                     >
