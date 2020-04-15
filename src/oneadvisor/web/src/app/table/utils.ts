@@ -70,14 +70,14 @@ const getColumn = <T>(
     if (options.type === "currency") props.render = (value) => formatCurrency(value, 0);
     if (options.type === "long-currency") props.render = (value) => formatCurrency(value, 2);
 
-    if (options.filters) {
-        const filter = options.filters[dataIndexString];
-        if (filter && filter.length > 0)
-            props = {
-                ...props,
-                filteredValue: filter,
-            };
-    }
+    let filteredValue: string[] | null = null;
+    const filters = options.filters ? options.filters[dataIndexString] : null;
+    if (filters && filters.length > 0) filteredValue = filters;
+
+    props = {
+        ...props,
+        filteredValue: filteredValue,
+    };
 
     if (columnProps.sorter === false) delete props.sorter;
 
@@ -85,6 +85,11 @@ const getColumn = <T>(
         ...data,
         ...props,
     };
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const filter = <T>(value: any, record: T, property: string): boolean => {
+    return record[property].toString().toLowerCase().indexOf(value.toString().toLowerCase()) !== -1;
 };
 
 export const sort = <T>(item1: T, item2: T, property: string): number => {
@@ -96,11 +101,11 @@ export const sort = <T>(item1: T, item2: T, property: string): number => {
     return val1.toString().localeCompare(val2);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const filter = <T>(value: any, record: T, property: string): boolean => {
-    return record[property].toString().toLowerCase().indexOf(value.toString().toLowerCase()) !== -1;
-};
-
 export const formatBool = (value: boolean) => {
     return value ? "Yes" : "No";
+};
+
+export const hasFilters = (filters: Filters | null) => {
+    if (!filters) return false;
+    return Object.keys(filters).some((key) => !!filters[key]);
 };

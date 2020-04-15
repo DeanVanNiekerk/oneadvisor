@@ -6,6 +6,7 @@ export type IconName =
     | "database"
     | "profile"
     | "video-camera"
+    | "close"
     | "block"
     | "reconciliation"
     | "apartment"
@@ -32,4 +33,5 @@ export type IconName =
     | "phone"
     | "file-excel"
     | "file-exclamation"
-    | "share-alt";
+    | "share-alt"
+    | "filter";

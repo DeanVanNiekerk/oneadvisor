@@ -9,6 +9,7 @@ import {
     Filters,
     getBooleanOptions,
     getColumnDefinition,
+    hasFilters,
     PageOptions,
     SortOptions,
 } from "@/app/table";
@@ -193,6 +194,14 @@ const PolicyList: React.FC<Props> = (props: Props) => {
                 className="mb-1"
                 actions={
                     <>
+                        <Button
+                            danger={true}
+                            iconName="filter"
+                            onClick={() => props.updateFilters({})}
+                            visible={hasFilters(props.filters)}
+                        >
+                            Clear Filters
+                        </Button>
                         <Button
                             type="default"
                             iconName="plus"

@@ -27,6 +27,7 @@ type Props = {
     size?: ButtonSize;
     block?: boolean;
     style?: CSSProperties;
+    danger?: boolean;
 } & PropsFromState;
 
 const ButtonComponent: React.FC<Props> = (props: Props) => {
@@ -54,6 +55,7 @@ const ButtonComponent: React.FC<Props> = (props: Props) => {
                     loading={props.loading}
                     shape={props.shape}
                     size={props.size}
+                    danger={props.danger}
                 >
                     {props.children}
                 </ButtonAD>

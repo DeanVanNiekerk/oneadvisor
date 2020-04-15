@@ -6,6 +6,7 @@ import {
     ApartmentOutlined,
     BankOutlined,
     BlockOutlined,
+    CloseOutlined,
     CopyOutlined,
     DatabaseOutlined,
     DeleteOutlined,
@@ -17,6 +18,7 @@ import {
     FileExcelOutlined,
     FileExclamationOutlined,
     FileTextOutlined,
+    FilterOutlined,
     ForkOutlined,
     HistoryOutlined,
     ImportOutlined,
@@ -51,6 +53,8 @@ const getIcon = (name?: IconName, style?: React.CSSProperties): React.ReactNode 
     switch (name) {
         case "user":
             return <UserOutlined style={style} />;
+        case "filter":
+            return <FilterOutlined style={style} />;
         case "team":
             return <TeamOutlined style={style} />;
         case "safety-certificate":
@@ -117,6 +121,8 @@ const getIcon = (name?: IconName, style?: React.CSSProperties): React.ReactNode 
             return <FileExclamationOutlined style={style} />;
         case "share-alt":
             return <ShareAltOutlined style={style} />;
+        case "close":
+            return <CloseOutlined style={style} />;
         default:
             return <span></span>;
     }

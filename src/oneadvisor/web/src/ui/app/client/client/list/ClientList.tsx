@@ -5,7 +5,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { bindActionCreators, Dispatch } from "redux";
 
 import { hasUseCase } from "@/app/identity";
-import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
+import { Filters, getColumnDefinition, hasFilters, PageOptions, SortOptions } from "@/app/table";
 import { areEqual } from "@/app/utils";
 import { RootState } from "@/state";
 import { useCaseSelector } from "@/state/auth";
@@ -124,6 +124,14 @@ const ClientList: React.FC<Props> = (props) => {
                 iconName="user"
                 actions={
                     <>
+                        <Button
+                            danger={true}
+                            iconName="filter"
+                            onClick={() => props.updateFilters({})}
+                            visible={hasFilters(props.filters)}
+                        >
+                            Clear Filters
+                        </Button>
                         <Button
                             type="primary"
                             iconName="fork"

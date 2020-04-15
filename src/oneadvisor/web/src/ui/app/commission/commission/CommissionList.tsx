@@ -4,7 +4,14 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
 
-import { Filters, formatBool, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
+import {
+    Filters,
+    formatBool,
+    getColumnDefinition,
+    hasFilters,
+    PageOptions,
+    SortOptions,
+} from "@/app/table";
 import { areEqual, formatCurrency } from "@/app/utils";
 import { RootState } from "@/state";
 import {
@@ -21,6 +28,7 @@ import { commissionTypesSelector } from "@/state/commission/lookups";
 import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector } from "@/state/directory/usersSimple";
 import {
+    Button,
     CommissionTypeName,
     CompanyName,
     getColumnSearchProps,
@@ -79,7 +87,23 @@ const CommissionList: React.FC<Props> = (props: Props) => {
 
     return (
         <>
-            <Header className="mb-1" iconName="dollar" hidden={props.hideHeader}>
+            <Header
+                className="mb-1"
+                iconName="dollar"
+                actions={
+                    <>
+                        <Button
+                            danger={true}
+                            iconName="filter"
+                            onClick={() => props.updateFilters({})}
+                            visible={hasFilters(props.filters)}
+                        >
+                            Clear Filters
+                        </Button>
+                    </>
+                }
+                hidden={props.hideHeader}
+            >
                 Commission Entries
             </Header>
             <Table

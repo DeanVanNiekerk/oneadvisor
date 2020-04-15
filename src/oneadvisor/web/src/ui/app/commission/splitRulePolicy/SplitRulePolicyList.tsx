@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { applyLike } from "@/app/query";
-import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
+import { Filters, getColumnDefinition, hasFilters, PageOptions, SortOptions } from "@/app/table";
 import { RootState } from "@/state";
 import {
     fetchSplitRulePolicies,
@@ -15,7 +15,14 @@ import {
 } from "@/state/commission/splitRulePolicies";
 import { Company, organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/directory/usersSimple";
-import { CompanyName, getColumnSearchProps, getTable, Header, UserName } from "@/ui/controls";
+import {
+    Button,
+    CompanyName,
+    getColumnSearchProps,
+    getTable,
+    Header,
+    UserName,
+} from "@/ui/controls";
 
 import EditSplitRulePolicy from "./EditSplitRulePolicy";
 
@@ -170,7 +177,22 @@ class SplitRulePolicyList extends Component<Props, State> {
     render() {
         return (
             <>
-                <Header className="mb-1" iconName="apartment">
+                <Header
+                    className="mb-1"
+                    iconName="apartment"
+                    actions={
+                        <>
+                            <Button
+                                danger={true}
+                                iconName="filter"
+                                onClick={() => this.props.dispatch(receiveFilters({}))}
+                                visible={hasFilters(this.props.filters)}
+                            >
+                                Clear Filters
+                            </Button>
+                        </>
+                    }
+                >
                     Policy Commission Split Rules
                 </Header>
                 <Table
