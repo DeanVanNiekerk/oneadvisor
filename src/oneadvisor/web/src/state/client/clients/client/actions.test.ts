@@ -48,7 +48,6 @@ describe("client actions", () => {
             type: "API",
             endpoint: `${clientsApi}/10`,
             method: "DELETE",
-            dispatchPrefix: "CLIENTS_CLIENT_EDIT",
         };
 
         expect(actions.deleteClient("10")).toEqual(expectedAction);
