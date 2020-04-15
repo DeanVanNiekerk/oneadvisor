@@ -20,7 +20,7 @@ import {
     ResultFailure,
 } from "@/state/client/import";
 import { Button, getTable } from "@/ui/controls";
-import { SyncOutlined } from "@ant-design/icons";
+import { CloudUploadOutlined, SyncOutlined } from "@ant-design/icons";
 
 import StepProgress from "../StepProgress";
 
@@ -123,7 +123,7 @@ class Import extends Component<Props> {
             "Record",
             {},
             {
-                sorter: undefined,
+                sorter: false,
                 render: (value: string, record: ResultFailure) => {
                     {
                         return this.props.columns.map((column) => {
@@ -139,8 +139,8 @@ class Import extends Component<Props> {
             "Error Detail",
             {},
             {
-                sorter: undefined,
-                fixed: "right",
+                width: 100,
+                sorter: false,
                 render: (value: string, record: ResultFailure) => {
                     return (
                         <Button
@@ -196,7 +196,7 @@ class Import extends Component<Props> {
                     onNext={this.startImport}
                     nextLoading={this.isImporting()}
                     nextText={this.props.progressPercent === 100 ? "Import Again" : "Start Import"}
-                    nextIcon="cloud-upload"
+                    nextIcon={<CloudUploadOutlined />}
                 />
 
                 <Row gutter={24}>
@@ -257,9 +257,6 @@ class Import extends Component<Props> {
                                     rowKey="_id"
                                     columns={this.getColumns()}
                                     dataSource={this.props.resultsFailure}
-                                    scroll={{
-                                        x: 1300,
-                                    }}
                                 />
                             )}
                         </Card>

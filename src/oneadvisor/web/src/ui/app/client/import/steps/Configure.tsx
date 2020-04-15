@@ -63,8 +63,8 @@ class Configure extends Component<Props> {
         const clients: ImportClient[] = this.props.rows.map((r) => {
             return {
                 _id: v4(),
-                idNumber: r.idNumber,
                 ...r,
+                idNumber: r.idNumber ? r.idNumber.toString() : r.idNumber,
             };
         });
         this.props.dispatch(receiveClientImportClients(clients));
