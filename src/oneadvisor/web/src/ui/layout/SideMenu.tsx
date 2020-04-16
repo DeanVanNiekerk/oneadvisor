@@ -9,8 +9,7 @@ import { RootState } from "@/state";
 import { roleSelector, useCaseSelector } from "@/state/auth";
 import { currentMenuSelector, currentRootNavigationItemSelector } from "@/state/context/selectors";
 import { Menu, MenuLink, RootNavigationItem } from "@/state/context/types";
-
-import { Icon } from "../controls";
+import { Icon } from "@/ui/controls/common/Icon";
 
 const { SubMenu, Item } = MenuAD;
 const { Sider } = Layout;

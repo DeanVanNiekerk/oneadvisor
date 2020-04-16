@@ -21,9 +21,7 @@ const render = () => {
     ReactDOM.render(
         <Provider store={store}>
             <FullStory org={__FULLSTORY_KEY__} />
-            <ConnectedRouter history={history}>
-                <App />
-            </ConnectedRouter>
+            <ConnectedRouter history={history}>{<App />}</ConnectedRouter>
         </Provider>,
         rootElement
     );

@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const merge = require("webpack-merge");
 const TerserPlugin = require("terser-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const common = require("./webpack.common.js");
 
 module.exports = merge(common, {
@@ -14,11 +15,17 @@ module.exports = merge(common, {
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
 
+    performance: {
+        hints: "error",
+        maxEntrypointSize: 1300000,
+        maxAssetSize: 1000000,
+    },
+
     optimization: {
-        minimizer: [new TerserPlugin()],
+        minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin({})],
         runtimeChunk: "single",
         splitChunks: {
-            chunks: 'all'
+            chunks: "all",
         },
     },
 });

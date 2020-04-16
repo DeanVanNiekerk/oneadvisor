@@ -4,7 +4,7 @@ const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const oaBaseApi = config.get("baseApi");
 const environment = config.get("environment");
 const fullStoryKey = config.get("fullStoryKey");
@@ -51,21 +51,18 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [
-                    {
-                        loader: "style-loader",
-                    },
-                    {
-                        loader: "css-loader",
-                    },
-                ],
+                use: [MiniCssExtractPlugin.loader, "css-loader"],
             },
         ],
     },
 
     plugins: [
+        new MiniCssExtractPlugin({
+            filename: "dist/[name].[contenthash].css",
+            chunkFilename: "dist/[id].[contenthash].css",
+        }),
         new CleanWebpackPlugin({
-            cleanOnceBeforeBuildPatterns: ["server/dist"],
+            cleanOnceBeforeBuildPatterns: [path.resolve(__dirname, "server/dist")],
         }),
         new HtmlWebPackPlugin({
             template: path.resolve(__dirname, "template/index.html"),

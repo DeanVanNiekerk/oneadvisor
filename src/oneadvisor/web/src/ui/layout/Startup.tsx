@@ -6,13 +6,15 @@ import { AnyAction, bindActionCreators } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import config from "@/config/config";
-import { RootState } from "@/state";
-import { isAuthenticatedSelector, roleSelector, tokenDataSelector } from "@/state/auth";
+import {
+    isAuthenticatedSelector,
+    roleSelector,
+    tokenDataSelector,
+} from "@/state/auth/token/selectors";
 import { fetchAppInfo, fetchApplications } from "@/state/context/actions";
 import { isLoadingSelector } from "@/state/context/selectors";
-import { fetchBranchesSimple } from "@/state/directory/branchesSimple/list/actions";
-import { fetchUsersSimple } from "@/state/directory/usersSimple/list/actions";
-import { Loader } from "@/ui/controls";
+import { RootState } from "@/state/types";
+import { Loader } from "@/ui/controls/state/Loader";
 
 type Props = {
     children: React.ReactNode;
@@ -29,8 +31,30 @@ const Startup: React.FC<Props> = (props: Props) => {
 
     useEffect(() => {
         if (props.isAuthenticated) {
-            props.dispatch(fetchUsersSimple());
-            props.dispatch(fetchBranchesSimple());
+            const loadUsersSimple = async () => {
+                //Load users
+                const fetchUsersSimple = await import(
+                    /* webpackChunkName: "directory" */
+                    "@/state/directory/usersSimple/list/actions"
+                ).then((actionsModule) => actionsModule.fetchUsersSimple);
+                props.dispatch(fetchUsersSimple());
+            };
+
+            const loadBranchesSimple = async () => {
+                //Load users
+                const fetchBranchesSimple = await import(
+                    /* webpackChunkName: "directory" */
+                    "@/state/directory/branchesSimple/list/actions"
+                ).then((actionsModule) => actionsModule.fetchBranchesSimple);
+                props.dispatch(fetchBranchesSimple());
+            };
+
+            const loadCommonData = () => {
+                loadUsersSimple();
+                loadBranchesSimple();
+            };
+
+            loadCommonData();
 
             const { tokenData, roles } = props;
             if (tokenData) {

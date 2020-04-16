@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Loader } from "../controls";
+import { Loader } from "../controls/state/Loader";
 import Layout from "../layout/Layout";
 
 const SuspenseLoader: React.FC = () => {

@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import { RootState } from "@/state";
 import { roleSelector, tokenDataSelector } from "@/state/auth";
 import { contextSelector } from "@/state/context/selectors";
-import { Date } from "@/ui/controls";
+
+import { Date } from "./Date";
 
 type Props = PropsFromState;
 

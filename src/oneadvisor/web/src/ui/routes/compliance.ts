@@ -9,16 +9,18 @@ const ensureComplianceReducer = async () => {
 
     if (reducerManager.hasReducer("compliance")) return;
 
-    const reducer = await import("@/state/compliance/reducer").then(
-        (reducerModule) => reducerModule.reducer
-    );
+    const reducer = await import(
+        /* webpackChunkName: "compliance" */ "@/state/compliance/reducer"
+    ).then((reducerModule) => reducerModule.reducer);
 
     reducerManager.injectReducer("compliance", reducer);
 };
 
 export const TestPage = lazy(() =>
-    import("@/ui/app/compliance/TestPage").then(async (module) => {
-        await ensureComplianceReducer();
-        return module;
-    })
+    import(/* webpackChunkName: "compliance" */ "@/ui/app/compliance/TestPage").then(
+        async (module) => {
+            await ensureComplianceReducer();
+            return module;
+        }
+    )
 );

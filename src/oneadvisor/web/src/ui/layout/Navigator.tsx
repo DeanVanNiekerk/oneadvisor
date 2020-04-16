@@ -15,7 +15,8 @@ import {
 } from "@/state/context/selectors";
 import { AppInfo, Menus, RootNavigationItem } from "@/state/context/types";
 
-import { Icon, IdentityStatus } from "../controls";
+import { Icon } from "../controls/common/Icon";
+import { IdentityStatus } from "../controls/common/IdentityStatus";
 
 const { Header } = Layout;
 const { Item } = Menu;
@@ -164,7 +165,6 @@ class Navigator extends Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
     const contextState = contextSelector(state);
-
     return {
         menus: menusSelector(state),
         rootNavigationItems: rootNavigationItemsSelector(state),

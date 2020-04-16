@@ -6,8 +6,6 @@ import { ValidationResult } from "@/app/validation";
 import { signInApi } from "@/config/api/account";
 import { RootState } from "@/state";
 import { fetchUserOrganisation } from "@/state/context/actions";
-import { fetchBranchesSimple } from "@/state/directory/branchesSimple";
-import { fetchUsersSimple } from "@/state/directory/usersSimple";
 
 import { recieveToken } from "../token/actions";
 import { Credentials } from "../types";
@@ -42,9 +40,6 @@ export const signIn = (credentials: Credentials): ApiAction => ({
     hideNotifications: true,
     onSuccess: (result: { token: string }, dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
         dispatch(recieveToken(result.token));
-
-        dispatch(fetchUsersSimple());
-        dispatch(fetchBranchesSimple());
         dispatch(fetchUserOrganisation());
     },
 });
