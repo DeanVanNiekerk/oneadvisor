@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using OneAdvisor.Model.Client.Model.Client;
 
-namespace OneAdvisor.Model.Client.Model.Merge
+namespace OneAdvisor.Model.Client.Model.Client.Merge
 {
     public class MergeClients
     {

@@ -50,6 +50,11 @@ namespace OneAdvisor.Data.Entities.Client
         public virtual PolicyProductTypeEntity PolicyProductType { get; set; }
         public virtual PolicyProductEntity PolicyProduct { get; set; }
 
+        //NB!!!!: When adding new list relationships dont forget to update MergePolicies() ----
+        public virtual ICollection<CommissionEntity> Commissions { get; set; }
+        public virtual ICollection<CommissionErrorEntity> CommissionErrors { get; set; }
         public virtual ICollection<CommissionSplitRulePolicyEntity> CommissionSplitRulePolicies { get; set; }
+        public virtual ICollection<CommissionAllocationPolicyEntity> CommissionAllocationPolicies { get; set; }
+        //-------------------------------------------------------------------------------------
     }
 }

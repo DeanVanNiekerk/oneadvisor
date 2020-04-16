@@ -1,6 +1,5 @@
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
 using FluentValidation.Results;
@@ -10,7 +9,6 @@ using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Client.Model.Client;
 using OneAdvisor.Model.Client.Model.Lookup;
-using OneAdvisor.Service.Common;
 using OneAdvisor.Service.Common.Query;
 
 namespace OneAdvisor.Service.Client.Validators
@@ -39,7 +37,7 @@ namespace OneAdvisor.Service.Client.Validators
             {
                 RuleFor(m => m.IdNumber).Must(BeValidIdNumber).WithMessage("Invalid ID Number");
 
-                RuleSet("Availability", () =>
+                RuleSet("availability", () =>
                 {
                     RuleFor(m => m).Custom(AvailableIdNumberValidator);
                 });
@@ -49,7 +47,7 @@ namespace OneAdvisor.Service.Client.Validators
             {
                 RuleFor(m => m.AlternateIdNumber).MaximumLength(128).WithName(client => GetAlternateIdNumberLabel(client));
 
-                RuleSet("Availability", () =>
+                RuleSet("availability", () =>
                 {
                     RuleFor(m => m).Custom(AvailableAlternateIdNumberValidator);
                 });

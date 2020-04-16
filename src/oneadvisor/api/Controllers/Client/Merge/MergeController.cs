@@ -3,7 +3,7 @@ using api.App.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Client.Interface;
-using OneAdvisor.Model.Client.Model.Merge;
+using OneAdvisor.Model.Client.Model.Client.Merge;
 
 namespace api.Controllers.Client.Merge
 {

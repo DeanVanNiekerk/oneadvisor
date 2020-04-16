@@ -9,7 +9,7 @@ using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Client.Interface;
 using OneAdvisor.Model.Client.Model.Client;
-using OneAdvisor.Model.Client.Model.Merge;
+using OneAdvisor.Model.Client.Model.Client.Merge;
 using Xunit;
 
 namespace api.Test.Controllers.Client

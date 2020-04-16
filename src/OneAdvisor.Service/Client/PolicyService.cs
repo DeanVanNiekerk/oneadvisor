@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using FluentValidation;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Data;
@@ -9,6 +10,7 @@ using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Client.Interface;
 using OneAdvisor.Model.Client.Model.Policy;
+using OneAdvisor.Model.Client.Model.Policy.Merge;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Client.Validators;
 using OneAdvisor.Model.Directory.Interface;
@@ -146,7 +148,7 @@ namespace OneAdvisor.Service.Client
         public async Task<Result> InsertPolicy(ScopeOptions scope, PolicyEdit policy)
         {
             var validator = new PolicyValidator(_context, scope, true);
-            var result = validator.Validate(policy).GetResult();
+            var result = validator.Validate(policy, ruleSet: "default,availability").GetResult();
 
             if (!result.Success)
                 return result;
@@ -166,7 +168,7 @@ namespace OneAdvisor.Service.Client
         public async Task<Result> UpdatePolicy(ScopeOptions scope, PolicyEdit policy)
         {
             var validator = new PolicyValidator(_context, scope, false);
-            var result = validator.Validate(policy).GetResult();
+            var result = validator.Validate(policy, ruleSet: "default,availability").GetResult();
 
             if (!result.Success)
                 return result;
@@ -195,6 +197,77 @@ namespace OneAdvisor.Service.Client
                         select policy;
 
             return query;
+        }
+
+        public async Task<Result> MergePolicies(ScopeOptions scope, MergePolicies merge)
+        {
+            var clientValidator = new PolicyValidator(_context, scope, true);
+            var result = clientValidator.Validate(merge.TargetPolicy, ruleSet: "default").GetResult();
+
+            if (!result.Success)
+                return result;
+
+            var mergeValidator = new MergePoliciesValidator(_context, scope);
+            result = mergeValidator.Validate(merge).GetResult();
+
+            if (!result.Success)
+                return result;
+
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    //Insert the 'new' policy
+                    var entity = MapModelToEntity(merge.TargetPolicy);
+                    await _context.Policy.AddAsync(entity);
+                    await _context.SaveChangesAsync();
+
+                    merge.TargetPolicy.Id = entity.Id;
+
+                    //Move dependancies to the new policy ----------------------------------------------------
+
+                    //1. Commissions
+                    var commmissions = await _context.Commission.Where(p => merge.SourcePolicyIds.Contains(p.PolicyId)).ToListAsync();
+                    foreach (var commmission in commmissions)
+                        commmission.PolicyId = merge.TargetPolicy.Id.Value;
+
+                    //2. Commission Errors
+                    var commissionErrors = await _context.CommissionError.Where(c => merge.SourcePolicyIds.Contains(c.PolicyId.Value)).ToListAsync();
+                    foreach (var commissionError in commissionErrors)
+                        commissionError.PolicyId = merge.TargetPolicy.Id.Value;
+
+                    //3. Commission Split Rule Policies
+                    var commissionSplitRulePolicies = await _context.CommissionSplitRulePolicy.Where(c => merge.SourcePolicyIds.Contains(c.PolicyId)).ToListAsync();
+                    foreach (var commissionSplitRulePolicy in commissionSplitRulePolicies)
+                        commissionSplitRulePolicy.PolicyId = merge.TargetPolicy.Id.Value;
+
+                    //4. Commission Allocation Policies
+                    var commissionAllocationPolicies = await _context.CommissionAllocationPolicy.Where(c => merge.SourcePolicyIds.Contains(c.PolicyId)).ToListAsync();
+                    foreach (var commissionAllocationPolicy in commissionAllocationPolicies)
+                        commissionAllocationPolicy.PolicyId = merge.TargetPolicy.Id.Value;
+
+                    //----------------------------------------------------------------------------------------
+
+                    //Delete 'old' policies
+                    var policiesToDelete = await _context.Policy.Where(m => merge.SourcePolicyIds.Contains(m.Id)).ToListAsync();
+                    foreach (var policyToDelete in policiesToDelete)
+                        _context.Remove(policyToDelete);
+
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                }
+                catch (Exception exception)
+                {
+                    transaction.Rollback();
+                    throw exception;
+                }
+            }
+
+            result.Tag = merge.TargetPolicy;
+
+            await _auditService.InsertAuditLog(scope, "Merge", "Policy", merge.TargetPolicy.Id, merge);
+
+            return result;
         }
 
         private PolicyEntity MapModelToEntity(PolicyEdit model, PolicyEntity entity = null)

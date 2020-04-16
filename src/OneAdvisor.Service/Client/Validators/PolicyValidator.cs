@@ -7,10 +7,8 @@ using OneAdvisor.Data;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Client.Model.Policy;
-using OneAdvisor.Service.Common;
 using OneAdvisor.Service.Common.Query;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using OneAdvisor.Service.Client.Query;
 
 namespace OneAdvisor.Service.Client.Validators
@@ -35,29 +33,34 @@ namespace OneAdvisor.Service.Client.Validators
             RuleFor(p => p.Number).NotEmpty().MaximumLength(128);
             RuleFor(p => p.Premium).InclusiveBetween(0, 999999999);
             RuleFor(p => p.CompanyId).NotEmpty().WithName("Company");
-            RuleFor(p => p)
-                .Custom((policy, context) =>
+
+            RuleSet("availability", () =>
                 {
-                    if (!policy.CompanyId.HasValue)
-                        return;
+                    RuleFor(p => p)
+                        .Custom((policy, context) =>
+                        {
+                            if (!policy.CompanyId.HasValue)
+                                return;
 
-                    if (!IsAvailablePolicyNumber(policy.CompanyId.Value, policy.Id, policy.Number))
-                    {
-                        var failure = new ValidationFailure("Number", "Policy Number is already in use", policy.Number);
-                        context.AddFailure(failure);
-                    }
+                            if (!IsAvailablePolicyNumber(policy.CompanyId.Value, policy.Id, policy.Number))
+                            {
+                                var failure = new ValidationFailure("Number", "Policy Number is already in use", policy.Number);
+                                context.AddFailure(failure);
+                            }
+                        });
+
+                    RuleForEach(p => p.NumberAliases)
+                       .Custom((policyNumber, context) =>
+                       {
+                           var policy = ((PolicyEdit)context.ParentContext.InstanceToValidate);
+                           if (!IsAvailablePolicyNumber(policy.CompanyId.Value, policy.Id, policyNumber))
+                           {
+                               var failure = new ValidationFailure(context.PropertyName, "Policy Number is already in use", policyNumber);
+                               context.AddFailure(failure);
+                           }
+                       });
+
                 });
-
-            RuleForEach(p => p.NumberAliases)
-               .Custom((policyNumber, context) =>
-               {
-                   var policy = ((PolicyEdit)context.ParentContext.InstanceToValidate);
-                   if (!IsAvailablePolicyNumber(policy.CompanyId.Value, policy.Id, policyNumber))
-                   {
-                       var failure = new ValidationFailure(context.PropertyName, "Policy Number is already in use", policyNumber);
-                       context.AddFailure(failure);
-                   }
-               });
         }
 
         private bool IsAvailablePolicyNumber(Guid companyId, Guid? policyId, string policyNumber)

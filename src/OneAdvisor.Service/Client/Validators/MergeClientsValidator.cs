@@ -1,13 +1,12 @@
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
 using FluentValidation.Results;
 using FluentValidation.Validators;
 using OneAdvisor.Data;
 using OneAdvisor.Model.Account.Model.Authentication;
-using OneAdvisor.Model.Client.Model.Merge;
+using OneAdvisor.Model.Client.Model.Client.Merge;
 using OneAdvisor.Service.Common.Query;
 
 namespace OneAdvisor.Service.Client.Validators

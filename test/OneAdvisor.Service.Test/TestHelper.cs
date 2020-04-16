@@ -16,6 +16,7 @@ using OneAdvisor.Data.Entities.Commission.Lookup;
 using OneAdvisor.Model.Client.Model.Lookup;
 using OneAdvisor.Model.Commission.Model.Lookup;
 using OneAdvisor.Model.Directory.Model.Application;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace OneAdvisor.Service.Test
 {
@@ -25,6 +26,7 @@ namespace OneAdvisor.Service.Test
         {
             return new DbContextOptionsBuilder<DataContext>()
                .UseInMemoryDatabase(databaseName)
+               .ConfigureWarnings(w => w.Ignore(InMemoryEventId.TransactionIgnoredWarning))
                .Options;
         }
 

@@ -12,7 +12,7 @@ using OneAdvisor.Model.Client.Model.Client;
 using OneAdvisor.Service.Common.Query;
 using OneAdvisor.Service.Client.Validators;
 using FluentValidation;
-using OneAdvisor.Model.Client.Model.Merge;
+using OneAdvisor.Model.Client.Model.Client.Merge;
 using OneAdvisor.Model.Directory.Interface;
 using OneAdvisor.Model.Directory.Model.Audit;
 
@@ -127,7 +127,7 @@ namespace OneAdvisor.Service.Client
         public async Task<Result> InsertClient(ScopeOptions scope, ClientEdit client)
         {
             var validator = new ClientValidator(_context, scope, true);
-            var result = validator.Validate(client, ruleSet: "default,Availability").GetResult();
+            var result = validator.Validate(client, ruleSet: "default,availability").GetResult();
 
             if (!result.Success)
                 return result;
@@ -148,7 +148,7 @@ namespace OneAdvisor.Service.Client
         public async Task<Result> UpdateClient(ScopeOptions scope, ClientEdit client)
         {
             var validator = new ClientValidator(_context, scope, false);
-            var result = validator.Validate(client, ruleSet: "default,Availability").GetResult();
+            var result = validator.Validate(client, ruleSet: "default,availability").GetResult();
 
             if (!result.Success)
                 return result;
@@ -197,34 +197,61 @@ namespace OneAdvisor.Service.Client
             if (!result.Success)
                 return result;
 
-            //Insert the 'new' client
-            var entity = MapModelToEntity(merge.TargetClient);
-            entity.OrganisationId = scope.OrganisationId;
-            await _context.Client.AddAsync(entity);
-            await _context.SaveChangesAsync();
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    //Insert the 'new' client
+                    var entity = MapModelToEntity(merge.TargetClient);
+                    entity.OrganisationId = scope.OrganisationId;
+                    await _context.Client.AddAsync(entity);
+                    await _context.SaveChangesAsync();
 
-            merge.TargetClient.Id = entity.Id;
+                    merge.TargetClient.Id = entity.Id;
 
-            //Move dependancies to the new client -----------------------------------------------------
+                    //Move dependancies to the new client -----------------------------------------------------
 
-            //1. Policies
-            var policies = await _context.Policy.Where(p => merge.SourceClientIds.Contains(p.ClientId)).ToListAsync();
-            foreach (var policy in policies)
-                policy.ClientId = merge.TargetClient.Id.Value;
+                    //1. Policies
+                    var policies = await _context.Policy.Where(p => merge.SourceClientIds.Contains(p.ClientId)).ToListAsync();
+                    foreach (var policy in policies)
+                        policy.ClientId = merge.TargetClient.Id.Value;
 
-            //2. Contacts
-            var contacts = await _context.Contact.Where(c => merge.SourceClientIds.Contains(c.ClientId)).ToListAsync();
-            foreach (var contact in contacts)
-                contact.ClientId = merge.TargetClient.Id.Value;
+                    //2. Contacts
+                    var contacts = await _context.Contact.Where(c => merge.SourceClientIds.Contains(c.ClientId)).ToListAsync();
+                    foreach (var contact in contacts)
+                        contact.ClientId = merge.TargetClient.Id.Value;
 
-            //----------------------------------------------------------------------------------------
+                    //3. Commission Errors
+                    var commissionErrors = await _context.CommissionError.Where(c => merge.SourceClientIds.Contains(c.ClientId.Value)).ToListAsync();
+                    foreach (var commissionError in commissionErrors)
+                        commissionError.ClientId = merge.TargetClient.Id.Value;
 
-            //Delete 'old' clients
-            var clientToDelete = await _context.Client.Where(m => merge.SourceClientIds.Contains(m.Id)).ToListAsync();
-            foreach (var client in clientToDelete)
-                client.IsDeleted = true;
+                    //4. To Commission Allocations
+                    var toCommissionAllocations = await _context.CommissionAllocation.Where(c => merge.SourceClientIds.Contains(c.ToClientId)).ToListAsync();
+                    foreach (var toCommissionAllocation in toCommissionAllocations)
+                        toCommissionAllocation.ToClientId = merge.TargetClient.Id.Value;
 
-            await _context.SaveChangesAsync();
+                    //5. From Commission Allocations
+                    var fromCommissionAllocations = await _context.CommissionAllocation.Where(c => merge.SourceClientIds.Contains(c.FromClientId)).ToListAsync();
+                    foreach (var fromCommissionAllocation in fromCommissionAllocations)
+                        fromCommissionAllocation.FromClientId = merge.TargetClient.Id.Value;
+
+                    //----------------------------------------------------------------------------------------
+
+                    //Delete 'old' clients
+                    var clientToDelete = await _context.Client.Where(m => merge.SourceClientIds.Contains(m.Id)).ToListAsync();
+                    foreach (var client in clientToDelete)
+                        client.IsDeleted = true;
+
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                }
+                catch (Exception exception)
+                {
+                    transaction.Rollback();
+                    throw exception;
+                }
+            }
 
             result.Tag = merge.TargetClient;
 

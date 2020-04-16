@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Client.Model.Client;
-using OneAdvisor.Model.Client.Model.Merge;
+using OneAdvisor.Model.Client.Model.Client.Merge;
 
 namespace OneAdvisor.Model.Client.Interface
 {

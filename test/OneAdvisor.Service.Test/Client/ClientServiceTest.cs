@@ -8,9 +8,8 @@ using OneAdvisor.Data.Entities.Client;
 using OneAdvisor.Model.Directory.Model.User;
 using OneAdvisor.Model.Client.Model.Client;
 using OneAdvisor.Service.Client;
-using OneAdvisor.Model.Client.Model.Merge;
+using OneAdvisor.Model.Client.Model.Client.Merge;
 using OneAdvisor.Model.Client.Model.Lookup;
-using OneAdvisor.Service.Directory;
 using OneAdvisor.Service.Test.Directory.Mocks;
 
 namespace OneAdvisor.Service.Test.Client

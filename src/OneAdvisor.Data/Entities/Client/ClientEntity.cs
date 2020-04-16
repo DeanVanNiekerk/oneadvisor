@@ -26,19 +26,22 @@ namespace OneAdvisor.Data.Entities.Client
         public string TaxNumber { get; set; }
         public Guid? MarritalStatusId { get; set; }
         public DateTime? MarriageDate { get; set; }
-
         [Required]
         public bool IsDeleted { get; set; }
-
-        //NB!!!!: When adding new list relationships dont forget to update MergeClients() ----
-        public virtual ICollection<PolicyEntity> ClientPolicies { get; set; }
-        public virtual ICollection<ContactEntity> ClientContacts { get; set; }
-        public virtual ICollection<CommissionAllocationEntity> FromCommissionAllocations { get; set; }
-        public virtual ICollection<CommissionAllocationEntity> ToCommissionAllocations { get; set; }
-        //-------------------------------------------------------------------------------------
 
         public virtual OrganisationEntity Organisation { get; set; }
         public virtual MarritalStatusEntity MarritalStatus { get; set; }
         public virtual ClientTypeEntity ClientType { get; set; }
+
+
+        //NB!!!!: When adding new list relationships dont forget to update MergeClients() ----
+        public virtual ICollection<PolicyEntity> ClientPolicies { get; set; }
+        public virtual ICollection<ContactEntity> ClientContacts { get; set; }
+        public virtual ICollection<CommissionErrorEntity> CommissionErrors { get; set; }
+        public virtual ICollection<CommissionAllocationEntity> FromCommissionAllocations { get; set; }
+        public virtual ICollection<CommissionAllocationEntity> ToCommissionAllocations { get; set; }
+        //-------------------------------------------------------------------------------------
+
+
     }
 }
