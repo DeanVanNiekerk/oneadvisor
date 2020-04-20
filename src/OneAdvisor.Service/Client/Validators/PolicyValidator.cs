@@ -68,7 +68,7 @@ namespace OneAdvisor.Service.Client.Validators
             var query = from user in ScopeQuery.GetUserEntityQuery(_context, _scope.Clone(Scope.Organisation))
                         join policy in _context.Policy
                             on user.Id equals policy.UserId
-                        where policy.CompanyId == policy.CompanyId
+                        where policy.CompanyId == companyId
                         select policy;
 
             query = query.WherePolicyNumberEquals(policyNumber);

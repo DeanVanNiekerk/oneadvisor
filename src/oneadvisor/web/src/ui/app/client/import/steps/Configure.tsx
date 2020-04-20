@@ -64,11 +64,22 @@ class Configure extends Component<Props> {
             return {
                 _id: v4(),
                 ...r,
-                idNumber: r.idNumber ? r.idNumber.toString() : r.idNumber,
+                idNumber: this.ensureString(r.idNumber) || "",
+                cellphone: this.ensureString(r.cellphone),
+                taxNumber: this.ensureString(r.taxNumber),
+                policyNumber: this.ensureString(r.policyNumber),
             };
         });
         this.props.dispatch(receiveClientImportClients(clients));
         this.props.dispatch(clientImportNextStep());
+    };
+
+    ensureString = (value: string | number | undefined): string | null => {
+        if (typeof value === "number") return value.toString();
+
+        if (value === undefined) return null;
+
+        return value;
     };
 
     onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
