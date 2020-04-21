@@ -21,7 +21,6 @@ import {
     Policy,
     receiveFilters,
     receivePageOptions,
-    receiveSelectedPolicies,
     receiveSortOptions,
 } from "@/state/client/policies";
 import { organisationCompaniesSelector } from "@/state/directory/lookups";
@@ -199,7 +198,6 @@ const mapStateToProps = (state: RootState) => {
         filters: policiesState.filters,
         companies: companiesState,
         policyTypes: policyTypesState.items,
-        selectedPolicyIds: policiesState.selectedPolicyIds,
         users: brokersSelector(state),
     };
 };
@@ -218,9 +216,6 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
         },
         updateFilters: (filters: Filters) => {
             dispatch(receiveFilters(filters));
-        },
-        updateSelectedPolicies: (selectedPolicyIds: string[]) => {
-            dispatch(receiveSelectedPolicies(selectedPolicyIds));
         },
     };
 };

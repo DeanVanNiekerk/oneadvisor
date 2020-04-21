@@ -159,16 +159,36 @@ describe("policy list reducer", () => {
             ...defaultState,
         };
 
-        const policyIds: string[] = ["1", "2"];
+        const policies: Policy[] = [
+            {
+                id: "10",
+                clientId: "12",
+                companyId: "100",
+                userId: "1",
+                number: "987654",
+                userFullName: "Dean van Niekerk",
+                premium: 500,
+                startDate: "1999-01-01",
+                policyTypeId: "123321",
+                policyProductTypeId: "00111",
+                policyProductId: "99988777",
+                clientLastName: "Jones",
+                clientInitials: "DJ",
+                clientDateOfBirth: "1982-10-03",
+                isActive: true,
+                companyName: "c1",
+                numberAliases: [],
+            },
+        ];
 
         const actualState = reducer(initalState, {
             type: "POLICIES_LIST_SELECTED_RECEIVE",
-            payload: policyIds,
+            payload: policies,
         });
 
         const expectedState = {
             ...defaultState,
-            selectedPolicyIds: policyIds,
+            selectedPolicies: policies,
         };
 
         expect(actualState).toEqual(expectedState);
