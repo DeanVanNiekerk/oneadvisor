@@ -153,4 +153,24 @@ describe("policy list reducer", () => {
 
         expect(actualState).toEqual(expectedState);
     });
+
+    it("should handle POLICIES_LIST_SELECTED_RECEIVE", () => {
+        const initalState = {
+            ...defaultState,
+        };
+
+        const policyIds: string[] = ["1", "2"];
+
+        const actualState = reducer(initalState, {
+            type: "POLICIES_LIST_SELECTED_RECEIVE",
+            payload: policyIds,
+        });
+
+        const expectedState = {
+            ...defaultState,
+            selectedPolicyIds: policyIds,
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
 });

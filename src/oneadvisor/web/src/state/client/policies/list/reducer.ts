@@ -10,6 +10,7 @@ export const defaultState: ListState = {
     pageOptions: defaultPageOptions(),
     sortOptions: defaultSortOptions("companyId", "asc"),
     filters: null,
+    selectedPolicies: [],
 };
 
 export const reducer = (state: ListState = defaultState, action: PolicyListAction): ListState => {
@@ -60,6 +61,12 @@ export const reducer = (state: ListState = defaultState, action: PolicyListActio
                 filters: {
                     ...action.payload,
                 },
+            };
+        }
+        case "POLICIES_LIST_SELECTED_RECEIVE": {
+            return {
+                ...state,
+                selectedPolicies: action.payload,
             };
         }
         default:

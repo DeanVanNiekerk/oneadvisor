@@ -95,3 +95,11 @@ Install > `dotnet tool install --global dotnet-outdated`
 ## VS Code Extension
 
 See `.vscode/extensions.json`
+
+## Release Notes
+
+```html
+<h3>HOTFIX: v1.1.x</h3>
+<p>Client > Policy > Policy Number in Use Bug Fix</p>
+<p>Client > Import > Policy Number as Number Bug Fix</p>
+```

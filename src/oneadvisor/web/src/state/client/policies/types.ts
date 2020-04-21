@@ -43,6 +43,7 @@ export type ListState = {
     readonly pageOptions: PageOptions;
     readonly sortOptions: SortOptions;
     readonly filters: Filters | null;
+    readonly selectedPolicies: Policy[];
 };
 
 export type PolicyState = {

@@ -48,7 +48,13 @@ const PoliciesCardComponent: React.FC<Props> = (props: Props) => {
                 onClose={() => setPolicyListVisible(false)}
                 footer={<Button onClick={() => setPolicyListVisible(false)}>Close</Button>}
             >
-                {props.client && <PolicyList clientId={props.client.id} onSaved={props.onSaved} />}
+                {props.client && (
+                    <PolicyList
+                        clientId={props.client.id}
+                        onSaved={props.onSaved}
+                        disableRowSelection={true}
+                    />
+                )}
             </Drawer>
         </>
     );

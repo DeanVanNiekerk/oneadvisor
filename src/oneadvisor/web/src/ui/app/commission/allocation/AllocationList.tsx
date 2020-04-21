@@ -75,7 +75,9 @@ class AllocationList extends Component<Props> {
                 {},
                 {
                     render: (fromClientId: string, allocation: Allocation) => {
-                        return `${allocation.fromClientFirstName} ${allocation.fromClientLastName}`;
+                        return `${
+                            allocation.fromClientFirstName ? allocation.fromClientFirstName : ""
+                        } ${allocation.fromClientLastName}`;
                     },
                 }
             ),

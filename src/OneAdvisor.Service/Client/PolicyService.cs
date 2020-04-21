@@ -253,6 +253,14 @@ namespace OneAdvisor.Service.Client
                     foreach (var policyToDelete in policiesToDelete)
                         _context.Remove(policyToDelete);
 
+                    //Check that the supplied policy numbers are available
+                    result = clientValidator.Validate(merge.TargetPolicy, ruleSet: "availability").GetResult();
+                    if (!result.Success)
+                    {
+                        transaction.Rollback();
+                        return result;
+                    }
+
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
                 }

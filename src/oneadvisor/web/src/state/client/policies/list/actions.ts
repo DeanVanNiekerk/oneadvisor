@@ -32,6 +32,10 @@ type PolicyListFiltersReceiveAction = {
     type: "POLICIES_LIST_FILTERS_RECEIVE";
     payload: Filters;
 };
+type PolicyListSelectedReceiveAction = {
+    type: "POLICIES_LIST_SELECTED_RECEIVE";
+    payload: Policy[];
+};
 
 export type PolicyListAction =
     | PolicyListReceiveAction
@@ -39,7 +43,8 @@ export type PolicyListAction =
     | PolicyListFetchingErrorAction
     | PolicyListPageOptionsReceiveAction
     | PolicyListSortOptionsReceiveAction
-    | PolicyListFiltersReceiveAction;
+    | PolicyListFiltersReceiveAction
+    | PolicyListSelectedReceiveAction;
 
 export const fetchPolicies = (clientId?: string): ThunkAction<void, RootState, {}, ApiAction> => {
     return (dispatch, getState) => {
@@ -116,3 +121,8 @@ export const getPolicies = (
         },
     };
 };
+
+export const receiveSelectedPolicies = (policies: Policy[]): PolicyListSelectedReceiveAction => ({
+    type: "POLICIES_LIST_SELECTED_RECEIVE",
+    payload: policies,
+});

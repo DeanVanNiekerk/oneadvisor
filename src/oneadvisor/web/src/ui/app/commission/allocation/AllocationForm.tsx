@@ -7,7 +7,7 @@ import { AllocationEdit } from "@/state/commission/allocations";
 import ClientSearch from "@/ui/app/client/client/list/ClientSearch";
 import { Button, ClientName, Drawer, Form, FormErrors, FormText } from "@/ui/controls";
 
-import PolicyList from "../../client/policy/list/PolicyList";
+import PolicyTable from "../../client/policy/list/PolicyTable";
 
 type Props = {
     allocation: AllocationEdit;
@@ -103,9 +103,7 @@ class AllocationForm extends Component<Props, State> {
                             validationResults={validationResults}
                             message="Please select at least one Policy"
                         />
-                        <PolicyList
-                            hideHeader={true}
-                            disabledEdit={true}
+                        <PolicyTable
                             clientId={this.state.allocation.fromClientId}
                             rowSelection={{
                                 onChange: this.onPolicySelected,

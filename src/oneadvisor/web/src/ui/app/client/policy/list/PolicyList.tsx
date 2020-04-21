@@ -1,65 +1,36 @@
-import { Popover } from "antd";
-import { TableRowSelection } from "antd/lib/table/interface";
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
-import {
-    Filters,
-    getBooleanOptions,
-    getColumnDefinition,
-    hasFilters,
-    PageOptions,
-    SortOptions,
-} from "@/app/table";
-import { areEqual } from "@/app/utils";
+import { Filters, hasFilters } from "@/app/table";
 import { RootState } from "@/state";
-import { policyTypesSelector } from "@/state/client/lookups";
 import {
     fetchPolicies,
     fetchPolicy,
     newPolicy,
+    policiesCanMergeSelector,
+    policiesSelectedIdsSelector,
     policiesSelector,
     Policy,
     policyVisible,
     receiveFilters,
-    receivePageOptions,
-    receiveSortOptions,
+    receiveSelectedPolicies,
 } from "@/state/client/policies";
-import { organisationCompaniesSelector } from "@/state/directory/lookups";
-import { brokersSelector } from "@/state/directory/usersSimple";
-import {
-    Button,
-    CompanyName,
-    getColumnSearchProps,
-    getTable,
-    Header,
-    PolicyTypeName,
-    UserName,
-} from "@/ui/controls";
-import { TagsOutlined } from "@ant-design/icons";
+import { Button, Header } from "@/ui/controls";
 
 import EditPolicy from "../form/EditPolicy";
-
-const Table = getTable<Policy>();
+import PolicyTable from "./PolicyTable";
 
 type Props = {
     clientId?: string;
     onSaved?: () => void;
-    hideHeader?: boolean;
-    rowSelection?: TableRowSelection<Policy>;
-    disabledEdit?: boolean;
+    disableRowSelection?: boolean;
 } & PropsFromState &
     PropsFromDispatch;
 
 const PolicyList: React.FC<Props> = (props: Props) => {
-    useEffect(() => {
-        props.fetchPolicies(props.clientId);
-    }, [props.pageOptions, props.sortOptions, props.filters, props.clientId]);
-
     const editPolicy = (id: string) => {
-        if (props.disabledEdit) return;
         props.editPolicy(id);
     };
 
@@ -72,125 +43,19 @@ const PolicyList: React.FC<Props> = (props: Props) => {
         props.newPolicy(props.clientId);
     };
 
-    const renderPolicyNumberCell = (number: string, policy: Policy): React.ReactNode => {
-        if (!policy.numberAliases.length) return number;
-        return (
-            <>
-                {number}
-                <Popover
-                    content={
-                        <div>
-                            {policy.numberAliases.map((n) => (
-                                <div key={n} style={{ marginBottom: "5px" }}>
-                                    {n}
-                                </div>
-                            ))}
-                        </div>
-                    }
-                    title="Aliases"
-                >
-                    <TagsOutlined style={{ marginLeft: "5px" }} />
-                </Popover>
-            </>
-        );
-    };
+    const onRowSelectionChange = (policyIds: string[], policies: Policy[]) => {
+        const selectedPolicies = policyIds.map((id) => {
+            let policy = policies.filter((p) => !!p).find((p) => p.id === id);
+            if (!policy) policy = props.selectedPolicies.find((p) => p.id === id);
+            return policy;
+        });
 
-    const getColumns = () => {
-        const getColumn = getColumnDefinition<Policy>(true, props.filters, props.sortOptions);
-
-        const columns = [
-            getColumn(
-                "companyId",
-                "Company",
-                {},
-                {
-                    render: (companyId: string) => {
-                        return <CompanyName companyId={companyId} />;
-                    },
-                    filters: props.companies.map((type) => ({
-                        text: type.name,
-                        value: type.id,
-                    })),
-                }
-            ),
-            getColumn(
-                "number",
-                "Number",
-                {},
-                {
-                    render: renderPolicyNumberCell,
-                    ...getColumnSearchProps("Number"),
-                }
-            ),
-            getColumn(
-                "policyTypeId",
-                "Type",
-                {},
-                {
-                    render: (policyTypeId: string) => {
-                        return <PolicyTypeName policyTypeId={policyTypeId} />;
-                    },
-                    filters: props.policyTypes.map((type) => ({
-                        text: type.name,
-                        value: type.id,
-                    })),
-                }
-            ),
-            getColumn(
-                "userId",
-                "Broker",
-                {},
-                {
-                    render: (userId: string) => {
-                        return <UserName userId={userId} />;
-                    },
-                    filters: props.users.map((user) => ({
-                        text: user.fullName,
-                        value: user.id,
-                    })),
-                }
-            ),
-            getColumn(
-                "isActive",
-                "Active",
-                {
-                    type: "boolean",
-                },
-                {
-                    filters: getBooleanOptions(),
-                }
-            ),
-        ];
-
-        if (!props.clientId) {
-            columns.splice(
-                3,
-                0,
-                getColumn("clientLastName", "Last Name", {}, getColumnSearchProps("Last Name")),
-                getColumn("clientInitials", "Initials"),
-                getColumn("clientDateOfBirth", "Date of Birth", {
-                    type: "date",
-                })
-            );
-        }
-
-        return columns;
-    };
-
-    const onTableChange = (
-        pageOptions: PageOptions,
-        sortOptions: SortOptions,
-        filters: Filters
-    ) => {
-        if (!areEqual(props.pageOptions, pageOptions)) props.updatePageOptions(pageOptions);
-        if (!areEqual(props.sortOptions, sortOptions)) props.updateSortOptions(sortOptions);
-        if (!areEqual(props.filters, filters)) props.updateFilters(filters);
+        props.updateSelectedPolicies(selectedPolicies.filter((p) => !!p) as Policy[]);
     };
 
     return (
         <>
             <Header
-                hidden={props.hideHeader}
                 className="mb-1"
                 actions={
                     <>
@@ -203,12 +68,20 @@ const PolicyList: React.FC<Props> = (props: Props) => {
                             Clear Filters
                         </Button>
                         <Button
+                            type="primary"
+                            iconName="fork"
+                            //onClick={() => props.mergeClients(props.selectedClientIds)}
+                            visible={props.canMerge}
+                            requiredUseCase="clt_edit_policies"
+                        >
+                            Merge
+                        </Button>
+                        <Button
                             type="default"
                             iconName="plus"
                             onClick={newPolicy}
                             disabled={props.fetching}
                             requiredUseCase="clt_edit_policies"
-                            visible={!props.disabledEdit}
                         >
                             New Policy
                         </Button>
@@ -218,17 +91,17 @@ const PolicyList: React.FC<Props> = (props: Props) => {
             >
                 {!props.clientId && <span>Policies</span>}
             </Header>
-            <Table
-                rowKey="id"
-                columns={getColumns()}
-                dataSource={props.policies}
-                loading={props.fetching}
-                onRowClick={(policy) => editPolicy(policy.id)}
-                externalDataSource={true}
-                pageOptions={props.pageOptions}
-                totalRows={props.totalItems}
-                onTableChange={onTableChange}
-                rowSelection={props.rowSelection}
+            <PolicyTable
+                clientId={props.clientId}
+                onPolicyClicked={(policyId) => editPolicy(policyId)}
+                rowSelection={
+                    !props.disableRowSelection
+                        ? {
+                              onChange: onRowSelectionChange,
+                              selectedRowKeys: props.selectedPolicyIds,
+                          }
+                        : undefined
+                }
             />
             <EditPolicy onSaved={onSaved} />
         </>
@@ -238,19 +111,12 @@ const PolicyList: React.FC<Props> = (props: Props) => {
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const policiesState = policiesSelector(state);
-    const companiesState = organisationCompaniesSelector(state);
-    const policyTypesState = policyTypesSelector(state);
-
     return {
-        policies: policiesState.items,
         fetching: policiesState.fetching,
-        pageOptions: policiesState.pageOptions,
-        sortOptions: policiesState.sortOptions,
-        totalItems: policiesState.totalItems,
         filters: policiesState.filters,
-        companies: companiesState,
-        policyTypes: policyTypesState.items,
-        users: brokersSelector(state),
+        selectedPolicies: policiesState.selectedPolicies,
+        selectedPolicyIds: policiesSelectedIdsSelector(state),
+        canMerge: policiesCanMergeSelector(state),
     };
 };
 
@@ -268,14 +134,11 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
             dispatch(fetchPolicy(policyId));
             dispatch(policyVisible(true));
         },
-        updatePageOptions: (pageOptions: PageOptions) => {
-            dispatch(receivePageOptions(pageOptions));
-        },
-        updateSortOptions: (sortOptions: SortOptions) => {
-            dispatch(receiveSortOptions(sortOptions));
-        },
         updateFilters: (filters: Filters) => {
             dispatch(receiveFilters(filters));
+        },
+        updateSelectedPolicies: (selectedPolicies: Policy[]) => {
+            dispatch(receiveSelectedPolicies(selectedPolicies));
         },
     };
 };
