@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 
 import { RootState } from "@/state";
 import { clientMergeSelector } from "@/state/client/clients";
-import { StepProgress, StepProgressProps } from "@/ui/controls";
+import { StepProgress, StepProgressBaseProps } from "@/ui/controls";
 
-class ClientMergeSteps extends Component<StepProgressProps> {
+class ClientMergeSteps extends Component<StepProgressBaseProps> {
     render() {
         return <StepProgress {...this.props} />;
     }

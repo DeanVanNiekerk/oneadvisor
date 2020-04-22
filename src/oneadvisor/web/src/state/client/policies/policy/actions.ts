@@ -147,3 +147,10 @@ export const insertPolicy = (
     onSuccess: onSuccess,
     dispatchPrefix: "POLICIES_POLICY_EDIT",
 });
+
+export const receivePolicyValidationResults = (
+    validationResults: ValidationResult[]
+): PolicyValidationErrorAction => ({
+    type: "POLICIES_POLICY_EDIT_VALIDATION_ERROR",
+    payload: validationResults,
+});

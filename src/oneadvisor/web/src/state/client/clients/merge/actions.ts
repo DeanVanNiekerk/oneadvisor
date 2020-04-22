@@ -4,9 +4,9 @@ import { appendFiltersQuery } from "@/app/query";
 import { Filters, PagedItems } from "@/app/table";
 import { ApiAction, ApiOnSuccess, Result } from "@/app/types";
 import { ValidationResult } from "@/app/validation";
-import { clientsApi, mergeApi } from "@/config/api/client";
+import { clientsApi, mergeClientsApi } from "@/config/api/client";
 
-import { ClientEdit, Client, MergeClients, receiveClientValidationResults } from "../";
+import { Client, ClientEdit, MergeClients, receiveClientValidationResults } from "../";
 
 type ClientMergeSourceReceiveAction = {
     type: "CLIENTS_MERGE_SOURCE_RECEIVE";
@@ -86,7 +86,7 @@ export const mergeClients = (merge: MergeClients, onSuccess: ApiOnSuccess): ApiA
     return {
         type: "API",
         method: "POST",
-        endpoint: mergeApi,
+        endpoint: mergeClientsApi,
         payload: merge,
         dispatchPrefix: "CLIENTS_MERGE",
         onSuccess: onSuccess,

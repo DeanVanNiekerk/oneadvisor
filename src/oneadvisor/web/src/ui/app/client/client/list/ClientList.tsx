@@ -34,8 +34,8 @@ import {
     StopPropagation,
 } from "@/ui/controls";
 
-import ClientMerge from "../../merge/ClientMerge";
 import EditClient from "../form/EditClient";
+import ClientMerge from "../merge/ClientMerge";
 
 const Table = getTable<Client>();
 
@@ -133,6 +133,14 @@ const ClientList: React.FC<Props> = (props) => {
                             Clear Filters
                         </Button>
                         <Button
+                            danger={true}
+                            iconName="delete"
+                            onClick={() => props.updateSelectedClients([])}
+                            visible={props.selectedClientIds.length > 0}
+                        >
+                            Clear Selected Clients
+                        </Button>
+                        <Button
                             type="primary"
                             iconName="fork"
                             onClick={() => props.mergeClients(props.selectedClientIds)}
@@ -140,14 +148,6 @@ const ClientList: React.FC<Props> = (props) => {
                             requiredUseCase="clt_edit_clients"
                         >
                             Merge
-                        </Button>
-                        <Button
-                            type="primary"
-                            iconName="delete"
-                            onClick={() => props.updateSelectedClients([])}
-                            visible={props.selectedClientIds.length > 0}
-                        >
-                            Clear All Selected
                         </Button>
                         <Button
                             type="default"

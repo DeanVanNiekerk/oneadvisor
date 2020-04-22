@@ -213,63 +213,64 @@ namespace OneAdvisor.Service.Client
             if (!result.Success)
                 return result;
 
-            using (var transaction = _context.Database.BeginTransaction())
+            var strategy = _context.Database.CreateExecutionStrategy();
+
+            result = await strategy.ExecuteAsync<Result>(async () =>
             {
-                try
+                using (var transaction = _context.Database.BeginTransaction())
                 {
-                    //Insert the 'new' policy
-                    var entity = MapModelToEntity(merge.TargetPolicy);
-                    await _context.Policy.AddAsync(entity);
-                    await _context.SaveChangesAsync();
+                    try
+                    {
+                        //Insert the 'new' policy
+                        var entity = MapModelToEntity(merge.TargetPolicy);
+                        await _context.Policy.AddAsync(entity);
+                        await _context.SaveChangesAsync();
 
-                    merge.TargetPolicy.Id = entity.Id;
+                        merge.TargetPolicy.Id = entity.Id;
 
-                    //Move dependancies to the new policy ----------------------------------------------------
+                        //Move dependancies to the new policy ----------------------------------------------------
 
-                    //1. Commissions
-                    var commmissions = await _context.Commission.Where(p => merge.SourcePolicyIds.Contains(p.PolicyId)).ToListAsync();
-                    foreach (var commmission in commmissions)
-                        commmission.PolicyId = merge.TargetPolicy.Id.Value;
+                        //1. Commissions
+                        var commmissions = await _context.Commission.Where(p => merge.SourcePolicyIds.Contains(p.PolicyId)).ToListAsync();
+                        foreach (var commmission in commmissions)
+                            commmission.PolicyId = merge.TargetPolicy.Id.Value;
 
-                    //2. Commission Errors
-                    var commissionErrors = await _context.CommissionError.Where(c => merge.SourcePolicyIds.Contains(c.PolicyId.Value)).ToListAsync();
-                    foreach (var commissionError in commissionErrors)
-                        commissionError.PolicyId = merge.TargetPolicy.Id.Value;
+                        //2. Commission Errors
+                        var commissionErrors = await _context.CommissionError.Where(c => merge.SourcePolicyIds.Contains(c.PolicyId.Value)).ToListAsync();
+                        foreach (var commissionError in commissionErrors)
+                            commissionError.PolicyId = merge.TargetPolicy.Id.Value;
 
-                    //3. Commission Split Rule Policies
-                    var commissionSplitRulePolicies = await _context.CommissionSplitRulePolicy.Where(c => merge.SourcePolicyIds.Contains(c.PolicyId)).ToListAsync();
-                    foreach (var commissionSplitRulePolicy in commissionSplitRulePolicies)
-                        commissionSplitRulePolicy.PolicyId = merge.TargetPolicy.Id.Value;
+                        //3. Commission Split Rule Policies
+                        var commissionSplitRulePolicies = await _context.CommissionSplitRulePolicy.Where(c => merge.SourcePolicyIds.Contains(c.PolicyId)).ToListAsync();
+                        foreach (var commissionSplitRulePolicy in commissionSplitRulePolicies)
+                            commissionSplitRulePolicy.PolicyId = merge.TargetPolicy.Id.Value;
 
-                    //4. Commission Allocation Policies
-                    var commissionAllocationPolicies = await _context.CommissionAllocationPolicy.Where(c => merge.SourcePolicyIds.Contains(c.PolicyId)).ToListAsync();
-                    foreach (var commissionAllocationPolicy in commissionAllocationPolicies)
-                        commissionAllocationPolicy.PolicyId = merge.TargetPolicy.Id.Value;
+                        //4. Commission Allocation Policies
+                        var commissionAllocationPolicies = await _context.CommissionAllocationPolicy.Where(c => merge.SourcePolicyIds.Contains(c.PolicyId)).ToListAsync();
+                        foreach (var commissionAllocationPolicy in commissionAllocationPolicies)
+                            commissionAllocationPolicy.PolicyId = merge.TargetPolicy.Id.Value;
 
-                    //----------------------------------------------------------------------------------------
+                        await _context.SaveChangesAsync();
+                        //----------------------------------------------------------------------------------------
 
-                    //Delete 'old' policies
-                    var policiesToDelete = await _context.Policy.Where(m => merge.SourcePolicyIds.Contains(m.Id)).ToListAsync();
-                    foreach (var policyToDelete in policiesToDelete)
-                        _context.Remove(policyToDelete);
+                        //Delete 'old' policies
+                        var policiesToDelete = await _context.Policy.Where(m => merge.SourcePolicyIds.Contains(m.Id)).ToListAsync();
+                        foreach (var policyToDelete in policiesToDelete)
+                            _context.Remove(policyToDelete);
+                        await _context.SaveChangesAsync();
 
-                    //Check that the supplied policy numbers are available
-                    result = clientValidator.Validate(merge.TargetPolicy, ruleSet: "availability").GetResult();
-                    if (!result.Success)
+                        //Commit
+                        await transaction.CommitAsync();
+
+                        return new Result(true);
+                    }
+                    catch
                     {
                         transaction.Rollback();
-                        return result;
+                        return new Result(false);
                     }
-
-                    await _context.SaveChangesAsync();
-                    await transaction.CommitAsync();
                 }
-                catch (Exception exception)
-                {
-                    transaction.Rollback();
-                    throw exception;
-                }
-            }
+            });
 
             result.Tag = merge.TargetPolicy;
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Client.Interface;
 using OneAdvisor.Model.Client.Model.Client.Merge;
+using OneAdvisor.Model.Client.Model.Policy.Merge;
 
 namespace api.Controllers.Client.Merge
 {
@@ -11,22 +12,38 @@ namespace api.Controllers.Client.Merge
     [Route("api/client/merge")]
     public class MergeController : Controller
     {
-        public MergeController(IClientService clientService, IAuthenticationService authenticationService)
+        public MergeController(IClientService clientService, IPolicyService policyService, IAuthenticationService authenticationService)
         {
             ClientService = clientService;
+            PolicyService = policyService;
             AuthenticationService = authenticationService;
         }
 
         private IClientService ClientService { get; }
+        private IPolicyService PolicyService { get; }
         private IAuthenticationService AuthenticationService { get; }
 
-        [HttpPost]
+        [HttpPost("clients")]
         [UseCaseAuthorize("clt_edit_clients")]
-        public async Task<IActionResult> Merge([FromBody] MergeClients merge)
+        public async Task<IActionResult> MergeClients([FromBody] MergeClients merge)
         {
             var scope = AuthenticationService.GetScope(User);
 
             var result = await ClientService.MergeClients(scope, merge);
+
+            if (!result.Success)
+                return BadRequest(result.ValidationFailures);
+
+            return Ok(result);
+        }
+
+        [HttpPost("policies")]
+        [UseCaseAuthorize("clt_edit_policies")]
+        public async Task<IActionResult> MergePolicies([FromBody] MergePolicies merge)
+        {
+            var scope = AuthenticationService.GetScope(User);
+
+            var result = await PolicyService.MergePolicies(scope, merge);
 
             if (!result.Success)
                 return BadRequest(result.ValidationFailures);

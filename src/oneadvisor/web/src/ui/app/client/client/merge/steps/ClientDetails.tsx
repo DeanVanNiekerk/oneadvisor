@@ -18,7 +18,7 @@ import {
 } from "@/state/client/clients";
 import { MergeCellsOutlined } from "@ant-design/icons";
 
-import ClientForm from "../../client/form/ClientForm";
+import ClientForm from "../../form/ClientForm";
 import ClientMergeSteps from "../ClientMergeSteps";
 
 type Props = {

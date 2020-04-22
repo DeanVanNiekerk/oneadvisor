@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Account.Model.Authentication;
 using OneAdvisor.Model.Client.Model.Policy;
+using OneAdvisor.Model.Client.Model.Policy.Merge;
 
 namespace OneAdvisor.Model.Client.Interface
 {
@@ -15,5 +16,6 @@ namespace OneAdvisor.Model.Client.Interface
         Task<PolicyEdit> GetPolicy(ScopeOptions scope, Guid clientId, Guid companyId, string number);
         Task<Result> UpdatePolicy(ScopeOptions scope, PolicyEdit policy);
         Task<Result> InsertPolicy(ScopeOptions scope, PolicyEdit policy);
+        Task<Result> MergePolicies(ScopeOptions scope, MergePolicies merge);
     }
 }

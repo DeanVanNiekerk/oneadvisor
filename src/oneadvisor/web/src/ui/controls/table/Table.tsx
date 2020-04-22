@@ -112,6 +112,7 @@ class TableComponent<T extends object> extends React.Component<Props<T>, State> 
                 footer={this.props.footer}
                 rowSelection={this.props.rowSelection}
                 className={this.props.className}
+                showSorterTooltip={false}
                 onRow={(record, index: number) => {
                     return {
                         onClick: () => {

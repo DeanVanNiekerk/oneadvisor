@@ -13,6 +13,7 @@ import {
     policiesSelectedIdsSelector,
     policiesSelector,
     Policy,
+    policyMergeVisible,
     policyVisible,
     receiveFilters,
     receiveSelectedPolicies,
@@ -20,6 +21,7 @@ import {
 import { Button, Header } from "@/ui/controls";
 
 import EditPolicy from "../form/EditPolicy";
+import PolicyMerge from "../merge/PolicyMerge";
 import PolicyTable from "./PolicyTable";
 
 type Props = {
@@ -68,9 +70,17 @@ const PolicyList: React.FC<Props> = (props: Props) => {
                             Clear Filters
                         </Button>
                         <Button
+                            danger={true}
+                            iconName="delete"
+                            onClick={() => props.updateSelectedPolicies([])}
+                            visible={props.selectedPolicyIds.length > 0}
+                        >
+                            Clear Selected Policies
+                        </Button>
+                        <Button
                             type="primary"
                             iconName="fork"
-                            //onClick={() => props.mergeClients(props.selectedClientIds)}
+                            onClick={props.openMergePolicies}
                             visible={props.canMerge}
                             requiredUseCase="clt_edit_policies"
                         >
@@ -104,6 +114,7 @@ const PolicyList: React.FC<Props> = (props: Props) => {
                 }
             />
             <EditPolicy onSaved={onSaved} />
+            <PolicyMerge onMerged={props.fetchPolicies} />
         </>
     );
 };
@@ -139,6 +150,9 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
         },
         updateSelectedPolicies: (selectedPolicies: Policy[]) => {
             dispatch(receiveSelectedPolicies(selectedPolicies));
+        },
+        openMergePolicies: () => {
+            dispatch(policyMergeVisible(true));
         },
     };
 };

@@ -46,7 +46,6 @@ describe("policy search reducer", () => {
             companyId: "100",
             userId: "1",
             number: "987654",
-            userFullName: "Dean van Niekerk",
             premium: 500,
             startDate: "1999-01-01",
             policyTypeId: "123321",

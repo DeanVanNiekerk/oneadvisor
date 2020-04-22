@@ -7,8 +7,6 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 const Step = Steps.Step;
 
 export type StepProgressProps = {
-    currentStepIndex: number;
-    steps: string[];
     onPrevious?: () => void;
     previousDisabled?: boolean;
     onNext?: () => void;
@@ -18,7 +16,12 @@ export type StepProgressProps = {
     nextIcon?: React.ReactNode;
 };
 
-const StepProgress: React.FC<StepProgressProps> = (props: StepProgressProps) => {
+export type StepProgressBaseProps = {
+    currentStepIndex: number;
+    steps: string[];
+} & StepProgressProps;
+
+const StepProgress: React.FC<StepProgressBaseProps> = (props) => {
     return (
         <Row align="middle" gutter={16} className="mb-1">
             <Col>

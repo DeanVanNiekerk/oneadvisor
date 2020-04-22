@@ -8,7 +8,6 @@ export type Policy = {
     companyName: string;
     userId: string;
     number: string;
-    userFullName: string;
     startDate: string;
     premium: number | null;
     policyTypeId: string | null;
@@ -34,6 +33,11 @@ export type PolicyEdit = {
     policyProductId: string | null;
     isActive: boolean;
     numberAliases: string[];
+};
+
+export type MergePolicies = {
+    targetPolicy: PolicyEdit;
+    sourcePolicyIds: string[];
 };
 
 export type ListState = {
@@ -64,4 +68,10 @@ export type PoliciesState = {
     readonly list: ListState;
     readonly search: SearchState;
     readonly policy: PolicyState;
+    readonly merge: MergeState;
+};
+
+export type MergeState = {
+    readonly visible: boolean;
+    readonly fetching: boolean;
 };
