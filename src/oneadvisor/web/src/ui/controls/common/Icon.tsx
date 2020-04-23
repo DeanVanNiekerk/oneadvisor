@@ -15,8 +15,10 @@ import {
     EditOutlined,
     ExclamationOutlined,
     ExportOutlined,
+    FileDoneOutlined,
     FileExcelOutlined,
     FileExclamationOutlined,
+    FilePdfOutlined,
     FileTextOutlined,
     FilterOutlined,
     ForkOutlined,
@@ -123,6 +125,10 @@ const getIcon = (name?: IconName, style?: React.CSSProperties): React.ReactNode 
             return <ShareAltOutlined style={style} />;
         case "close":
             return <CloseOutlined style={style} />;
+        case "file-done":
+            return <FileDoneOutlined style={style} />;
+        case "file-pdf":
+            return <FilePdfOutlined style={style} />;
         default:
             return <span></span>;
     }

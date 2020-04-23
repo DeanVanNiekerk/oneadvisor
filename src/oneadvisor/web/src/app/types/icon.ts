@@ -34,4 +34,6 @@ export type IconName =
     | "file-excel"
     | "file-exclamation"
     | "share-alt"
-    | "filter";
+    | "filter"
+    | "file-done"
+    | "file-pdf";

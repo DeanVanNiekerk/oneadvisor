@@ -73,6 +73,10 @@ module.exports = {
                 from: path.resolve(__dirname, "template/favicon.png"),
                 to: path.resolve(__dirname, "server/dist"),
             },
+            {
+                from: path.resolve(__dirname, "template/fonts"),
+                to: path.resolve(__dirname, "server/dist/fonts"),
+            },
         ]),
         new webpack.DefinePlugin({
             __ENVIRONMENT__: JSON.stringify(environment),

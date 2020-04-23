@@ -13,9 +13,9 @@ using OneAdvisor.Model.Directory.Model.User;
 
 namespace api.Controllers.Database
 {
-    [ApiController]
+    //[ApiController]
     //[RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
-    [Route("api/database")]
+    //[Route("api/database")]
     public class DatabaseController : Controller
     {
         private List<string> _allRoles = new List<string>() { "dir_administrator", "clt_administrator", "com_administrator", Role.SUPER_ADMINISTRATOR_ROLE };
@@ -32,27 +32,6 @@ namespace api.Controllers.Database
         private IUserService UserService { get; }
         private UserManager<UserEntity> UserManager { get; }
 
-        // [HttpGet("[action]")]
-        // public async Task<string> ResetRolesAndUseCase()
-        // {
-        //     await DbContextInitializer.CleanRolesAndUseCase();
-        //     await DbContextInitializer.SeedRolesAndUseCase();
-
-        //     var user = await UserManager.FindByEmailAsync("deanvniekerk@gmail.com");
-        //     await UserManager.AddToRolesAsync(user, _allRoles);
-
-        //     user = await UserManager.FindByEmailAsync("marc@smithbormann.co.za");
-        //     await UserManager.AddToRolesAsync(user, _allRoles);
-
-        //     user = await UserManager.FindByEmailAsync("advice@smithbormann.co.za");
-        //     await UserManager.AddToRolesAsync(user, _limitedRoles);
-
-        //     user = await UserManager.FindByEmailAsync("gavin@lifeplanbrokers.co.za");
-        //     await UserManager.AddToRolesAsync(user, _limitedRoles);
-
-        //     return "Success";
-        // }
-
         [HttpGet("[action]")]
         public async Task<string> Seed()
         {
@@ -60,14 +39,6 @@ namespace api.Controllers.Database
             await SeedUsers();
             return "Success";
         }
-
-        // [HttpGet("[action]")]
-        // public async Task<string> SeedLookups()
-        // {
-        //     await DbContextInitializer.SeedLookups();
-        //     return "Success";
-        // }
-
 
         private async Task<string> SeedUsers()
         {

@@ -25,7 +25,7 @@ import {
     StatementPreview,
     UserMonthlyCommissionReport,
 } from "./commission";
-import { TestPage } from "./compliance";
+import { RoaInvest } from "./compliance";
 import {
     AdviceScopeList,
     AdviceServiceList,
@@ -133,7 +133,7 @@ const Routes: React.FC = () => (
             <SecureRoute exact path="/directory/logs/auditLogs" component={AuditLogList} />
             {/* ------------------------------------------------------------------------------------- */}
             {/* COMPLIANCE -------------------------------------------------------------------------- */}
-            <SecureRoute exact path="/compliance" component={TestPage} />
+            <SecureRoute exact path="/compliance" component={RoaInvest} />
             {/* ------------------------------------------------------------------------------------- */}
         </Switch>
     </Suspense>

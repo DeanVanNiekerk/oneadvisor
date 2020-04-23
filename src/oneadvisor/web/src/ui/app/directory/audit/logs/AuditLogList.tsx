@@ -140,7 +140,7 @@ const getColumns = (props: Props) => {
         ),
         getColumn(
             "userId",
-            "Broker",
+            "User",
             {},
             {
                 sorter: false,

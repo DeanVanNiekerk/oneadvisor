@@ -16,9 +16,20 @@ type Props = {
     width?: number | string;
     noTopPadding?: boolean;
     footer: ReactNode;
+    bodyStyle?: React.CSSProperties;
 };
 
 const Drawer: React.FC<Props> = (props: Props) => {
+    let bodyStyle: React.CSSProperties = {
+        paddingTop: props.noTopPadding ? 0 : 24,
+    };
+
+    if (props.bodyStyle) {
+        bodyStyle = {
+            ...props.bodyStyle,
+        };
+    }
+
     return (
         <DrawerAD
             title={
@@ -33,9 +44,7 @@ const Drawer: React.FC<Props> = (props: Props) => {
             onClose={props.onClose}
             maskClosable={props.maskClosable}
             destroyOnClose={true}
-            bodyStyle={{
-                paddingTop: props.noTopPadding ? 0 : 24,
-            }}
+            bodyStyle={bodyStyle}
             footer={props.footer}
             footerStyle={{ textAlign: "right" }}
         >

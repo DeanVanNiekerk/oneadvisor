@@ -16,8 +16,8 @@ const ensureComplianceReducer = async () => {
     reducerManager.injectReducer("compliance", reducer);
 };
 
-export const TestPage = lazy(() =>
-    import(/* webpackChunkName: "compliance" */ "@/ui/app/compliance/TestPage").then(
+export const RoaInvest = lazy(() =>
+    import(/* webpackChunkName: "compliance" */ "@/ui/app/compliance/roa/invest/RoaInvest").then(
         async (module) => {
             await ensureComplianceReducer();
             return module;

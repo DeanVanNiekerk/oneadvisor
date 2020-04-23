@@ -26,9 +26,9 @@ const createRootNavigationItem = (
 });
 
 export const rootNavigationItems: RootNavigationItem[] = [
-    createRootNavigationItem(DIRECTORY_ID, "Directory", "/directory", "safety"),
+    createRootNavigationItem(DIRECTORY_ID, "Directory", "/directory", "setting"),
     createRootNavigationItem(CLIENT_ID, "Client", "/client", "user"),
     createRootNavigationItem(COMMISSION_ID, "Commission", "/commission", "dollar"),
-    createRootNavigationItem(COMPLIANCE_ID, "Compliance", "/compliance", "dollar"),
+    createRootNavigationItem(COMPLIANCE_ID, "Compliance", "/compliance", "safety"),
     createRootNavigationItem(INVEST_ID, "Invest", "#AE1827", "dollar"),
 ];

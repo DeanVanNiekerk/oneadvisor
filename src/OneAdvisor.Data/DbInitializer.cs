@@ -102,6 +102,9 @@ namespace OneAdvisor.Data
             var comRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "com_administrator", NormalizedName = "COM_ADMINISTRATOR", Description = "Administrator", ApplicationId = Application.COMMISSION_ID };
             var comRole2 = new RoleEntity() { Id = Guid.NewGuid(), Name = "com_readonly", NormalizedName = "COM_READONLY", Description = "Readonly", ApplicationId = Application.COMMISSION_ID };
 
+            //Compliance Roles
+            var cmpRole1 = new RoleEntity() { Id = Guid.NewGuid(), Name = "cmp_administrator", NormalizedName = "CMP_ADMINISTRATOR", Description = "Administrator", ApplicationId = Application.COMPLIANCE_ID };
+
             if (!roles.Any())
             {
                 _context.Roles.Add(saRole1);
@@ -111,6 +114,7 @@ namespace OneAdvisor.Data
                 _context.Roles.Add(cltRole2);
                 _context.Roles.Add(comRole1);
                 _context.Roles.Add(comRole2);
+                _context.Roles.Add(cmpRole1);
             }
 
             var roleToUseCase = await _context.RoleToUseCase.ToListAsync();
@@ -159,6 +163,12 @@ namespace OneAdvisor.Data
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_view_report_past_revenue_commission" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_view_report_user_monthly_commission" });
                 _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = comRole1.Id, UseCaseId = "com_view_report_commission_lapse" });
+                //--------------------------------------------------------------------------------------------------------------------------------------------
+
+                //Compliance App
+                //==============
+                //Adminstrator
+                _context.RoleToUseCase.Add(new RoleToUseCaseEntity() { RoleId = cmpRole1.Id, UseCaseId = "cmp_view_roa_invest" });
                 //--------------------------------------------------------------------------------------------------------------------------------------------
             }
 

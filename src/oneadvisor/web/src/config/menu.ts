@@ -216,18 +216,19 @@ export const menus: Menus = {
     [COMPLIANCE_ID]: {
         relativePath: "/compliance",
         groups: [
-            //     {
-            //         name: "Test",
-            //         defaultOpen: true,
-            //         icon: "setting",
-            //         links: [
-            //             {
-            //                 name: "Test",
-            //                 relativePath: "/compliance",
-            //                 roles: ["super_administrator"],
-            //             },
-            //         ],
-            //     },
+            {
+                name: "Record of Advice",
+                defaultOpen: true,
+                icon: "file-done",
+                links: [
+                    {
+                        name: "Invest",
+                        isDefault: true,
+                        relativePath: "/roa/invest",
+                        useCases: ["cmp_view_roa_invest"],
+                    },
+                ],
+            },
         ],
     },
     [INVEST_ID]: {
