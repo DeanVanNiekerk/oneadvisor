@@ -1,3 +1,5 @@
+import { RoaState } from "./roa";
+
 export type ComplianceState = {
-    readonly fetching: string;
+    readonly roa: RoaState;
 };

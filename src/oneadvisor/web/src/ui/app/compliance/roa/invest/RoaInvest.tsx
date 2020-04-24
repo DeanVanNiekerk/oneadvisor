@@ -1,10 +1,13 @@
+import { Col, Row } from "antd";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "@/state";
-import { complianceSelector } from "@/state/compliance/selectors";
+import { roaInvestSelector } from "@/state/compliance/roa";
 import { Button, Drawer, Header } from "@/ui/controls";
 import { Document, Font, Page, PDFViewer, StyleSheet, Text, View } from "@react-pdf/renderer";
+
+import ClientObjectiveSection from "./sections/ClientObjectiveSection";
 
 Font.register({ family: "Roboto", src: "dist/fonts/Roboto-Regular.ttf" });
 
@@ -76,6 +79,8 @@ const RoaInvest: React.FC<Props> = () => {
                 Record of Advice: Invest
             </Header>
 
+            <CardsContainer />
+
             <Drawer
                 title="Record of Advice: Invest"
                 iconName="file-pdf"
@@ -95,6 +100,18 @@ const RoaInvest: React.FC<Props> = () => {
                 <Preview />
             </Drawer>
         </>
+    );
+};
+
+const CardsContainer: React.FC = () => {
+    return (
+        <div>
+            <Row gutter={16}>
+                <Col md={24} xl={12}>
+                    <ClientObjectiveSection />
+                </Col>
+            </Row>
+        </div>
     );
 };
 
@@ -122,10 +139,8 @@ const Preview: React.FC = () => {
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
-    const complianceState = complianceSelector(state);
-    return {
-        fetching: complianceState.fetching,
-    };
+    const roaInvestState = roaInvestSelector(state);
+    return {};
 };
 
 export default connect(mapStateToProps)(RoaInvest);
