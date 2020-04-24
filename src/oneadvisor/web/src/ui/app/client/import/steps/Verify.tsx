@@ -22,7 +22,7 @@ import {
     Company,
     fetchCompanies,
     organisationCompaniesSelector,
-} from "@/state/directory/lookups/companies";
+} from "@/state/lookups/directory/companies";
 import { getColumnSearchProps, getTable } from "@/ui/controls";
 
 import StepProgress from "../StepProgress";

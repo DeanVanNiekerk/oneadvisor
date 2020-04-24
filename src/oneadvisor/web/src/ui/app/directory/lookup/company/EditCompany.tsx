@@ -9,7 +9,7 @@ import {
     companyVisible,
     confirmCancelCompany,
     saveCompany,
-} from "@/state/directory/lookups/companies";
+} from "@/state/lookups/directory/companies";
 import { EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

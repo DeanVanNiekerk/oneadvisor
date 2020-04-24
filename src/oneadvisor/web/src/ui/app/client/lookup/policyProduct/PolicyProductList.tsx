@@ -11,8 +11,8 @@ import {
     PolicyProductType,
     policyProductTypesSelector,
     receivePolicyProduct,
-} from "@/state/client/lookups";
-import { Company, organisationCompaniesSelector } from "@/state/directory/lookups";
+} from "@/state/lookups/client";
+import { Company, organisationCompaniesSelector } from "@/state/lookups/directory";
 import {
     Button,
     CompanyName,

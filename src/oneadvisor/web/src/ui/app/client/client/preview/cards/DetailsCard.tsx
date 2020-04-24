@@ -10,7 +10,7 @@ import {
     clientVisible,
     fetchClient,
 } from "@/state/client/clients";
-import { ClientTypeId } from "@/state/client/lookups";
+import { ClientTypeId } from "@/state/lookups/client";
 import { Age, PreviewCard, PreviewCardRow } from "@/ui/controls";
 import { EditOutlined } from "@ant-design/icons";
 

@@ -8,7 +8,7 @@ import {
     AdviceServiceEdit,
     adviceServiceSelector,
     modifyAdviceService,
-} from "@/state/directory/lookups";
+} from "@/state/lookups/directory";
 import { Form, FormInput, FormInputNumber } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;

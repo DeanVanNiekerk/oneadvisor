@@ -12,7 +12,7 @@ import {
     fetchCommissionStatementTemplates,
     newCommissionStatementTemplate,
 } from "@/state/commission/templates";
-import { organisationCompaniesSelector } from "@/state/directory/lookups";
+import { organisationCompaniesSelector } from "@/state/lookups/directory";
 import { Button, CompanyName, getColumnSearchProps, getTable, Header } from "@/ui/controls";
 
 import EditTemplate from "./EditTemplate";

@@ -12,7 +12,7 @@ import {
     licenseCategoryVisible,
     newLicenseCategory,
     receiveLicenseCategory,
-} from "@/state/directory/lookups";
+} from "@/state/lookups/directory";
 import { Button, getColumnSearchProps, getTable, Header } from "@/ui/controls";
 
 import EditLicenseCategory from "./EditLicenseCategory";

@@ -8,7 +8,7 @@ import {
     LicenseCategoryEdit,
     licenseCategorySelector,
     modifyLicenseCategory,
-} from "@/state/directory/lookups";
+} from "@/state/lookups/directory";
 import { Form, FormInput } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;

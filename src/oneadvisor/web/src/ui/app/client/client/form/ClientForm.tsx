@@ -15,7 +15,7 @@ import {
     getLastNameLabel,
     modifyClient,
 } from "@/state/client/clients";
-import { ClientTypeId, clientTypesSelector, marritalStatusSelector } from "@/state/client/lookups";
+import { ClientTypeId, clientTypesSelector, marritalStatusSelector } from "@/state/lookups/client";
 import { Form, FormDate, FormInput, FormSelect } from "@/ui/controls";
 import { SettingOutlined } from "@ant-design/icons";
 

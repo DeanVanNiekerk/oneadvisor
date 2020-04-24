@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "@/state";
-import { adviceScopeSelector } from "@/state/directory/lookups";
+import { adviceScopeSelector } from "@/state/lookups/directory";
 
 type Props = PropsFromState;
 

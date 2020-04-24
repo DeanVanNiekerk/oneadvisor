@@ -12,7 +12,7 @@ import {
     fetchAdviceScopes,
     newAdviceScope,
     receiveAdviceScope,
-} from "@/state/directory/lookups";
+} from "@/state/lookups/directory";
 import { Button, getColumnSearchProps, getTable, Header } from "@/ui/controls";
 
 import EditAdviceScope from "./EditAdviceScope";

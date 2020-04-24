@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "@/state";
-import { companySelector } from "@/state/directory/lookups/companies";
+import { companySelector } from "@/state/lookups/directory/companies";
 
 type Props = PropsFromState;
 

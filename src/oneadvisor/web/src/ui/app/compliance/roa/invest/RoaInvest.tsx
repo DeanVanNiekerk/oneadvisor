@@ -1,9 +1,6 @@
 import { Col, Row } from "antd";
 import React, { useState } from "react";
-import { connect } from "react-redux";
 
-import { RootState } from "@/state";
-import { roaInvestSelector } from "@/state/compliance/roa";
 import { Button, Drawer, Header } from "@/ui/controls";
 import { Document, Font, Page, PDFViewer, StyleSheet, Text, View } from "@react-pdf/renderer";
 
@@ -19,7 +16,7 @@ Font.register({
     ],
 });
 
-type Props = PropsFromState;
+type Props = {};
 
 // page: {
 //     flexDirection: "row",
@@ -137,10 +134,4 @@ const Preview: React.FC = () => {
     );
 };
 
-type PropsFromState = ReturnType<typeof mapStateToProps>;
-const mapStateToProps = (state: RootState) => {
-    const roaInvestState = roaInvestSelector(state);
-    return {};
-};
-
-export default connect(mapStateToProps)(RoaInvest);
+export default RoaInvest;

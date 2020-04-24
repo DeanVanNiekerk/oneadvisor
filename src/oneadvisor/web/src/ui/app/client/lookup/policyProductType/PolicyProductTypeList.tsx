@@ -11,7 +11,7 @@ import {
     PolicyType,
     policyTypesSelector,
     receivePolicyProductType,
-} from "@/state/client/lookups";
+} from "@/state/lookups/client";
 import { Button, getColumnSearchProps, getTable, Header, PolicyTypeName } from "@/ui/controls";
 
 import EditPolicyProductType from "./EditPolicyProductType";

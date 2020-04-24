@@ -2,20 +2,20 @@ import { lazy } from "react";
 
 import { reducerManager } from "@/state/configureStore";
 
-import { ensureClientReducer } from "./client";
-import { ensureDirectoryReducer } from "./directory";
+import { loadClientLookups } from "./client";
+import { loadDirectoryLookups } from "./directory";
 
 const ensureComplianceReducer = async () => {
-    await ensureDirectoryReducer();
-    await ensureClientReducer();
-
     if (reducerManager.hasReducer("compliance")) return;
 
     const reducer = await import(
         /* webpackChunkName: "compliance" */ "@/state/compliance/reducer"
     ).then((reducerModule) => reducerModule.reducer);
-
     reducerManager.injectReducer("compliance", reducer);
+
+    //Load lookups
+    loadClientLookups();
+    loadDirectoryLookups();
 };
 
 export const RoaInvest = lazy(() =>

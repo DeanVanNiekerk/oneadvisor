@@ -29,7 +29,7 @@ import {
     updateMonthFilterNext,
     updateMonthFilterPrevious,
 } from "@/state/commission/statements";
-import { organisationCompaniesSelector } from "@/state/directory/lookups";
+import { organisationCompaniesSelector } from "@/state/lookups/directory";
 import { Button, CompanyName, getTable, Header } from "@/ui/controls";
 import { DownOutlined, FileExclamationOutlined } from "@ant-design/icons";
 

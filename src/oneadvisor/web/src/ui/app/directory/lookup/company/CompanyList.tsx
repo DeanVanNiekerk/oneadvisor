@@ -12,7 +12,7 @@ import {
     fetchCompanies,
     newCompany,
     receiveCompany,
-} from "@/state/directory/lookups/companies";
+} from "@/state/lookups/directory/companies";
 import { Button, getColumnSearchProps, getTable, Header } from "@/ui/controls";
 
 import EditCompany from "./EditCompany";

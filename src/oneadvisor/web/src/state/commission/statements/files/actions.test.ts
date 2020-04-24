@@ -2,7 +2,7 @@ import { statementsApi } from "@/config/api/commission";
 
 import * as actions from "./actions";
 
-describe("directory: statementFiles: list actions", () => {
+describe("commission: statementFiles: list actions", () => {
     it("should dispatch API when fetchStatementFiles is called", () => {
         const expectedAction = {
             type: "API",

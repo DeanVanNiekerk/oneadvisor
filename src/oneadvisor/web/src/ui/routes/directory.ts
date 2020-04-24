@@ -1,10 +1,11 @@
 import { lazy } from "react";
 
 import { reducerManager } from "@/state/configureStore";
+import { fetchAllDirectoryLookups } from "@/state/lookups/directory";
 
 import { ensureCommissionReducer } from "./commission";
 
-export const ensureDirectoryReducer = async () => {
+const ensureDirectoryReducer = async () => {
     if (reducerManager.hasReducer("directory")) return;
 
     //Inject reducer
@@ -14,9 +15,10 @@ export const ensureDirectoryReducer = async () => {
     reducerManager.injectReducer("directory", reducer);
 
     //Load lookups
-    const fetchAllDirectoryLookups = await import(
-        /* webpackChunkName: "directory" */ "@/state/directory/lookups/all/actions"
-    ).then((actionsModule) => actionsModule.fetchAllDirectoryLookups);
+    loadDirectoryLookups();
+};
+
+export const loadDirectoryLookups = async () => {
     reducerManager.dispatch(fetchAllDirectoryLookups());
 };
 

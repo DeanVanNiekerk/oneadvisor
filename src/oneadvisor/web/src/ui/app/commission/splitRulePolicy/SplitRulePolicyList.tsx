@@ -13,8 +13,8 @@ import {
     splitRulePoliciesSelector,
     SplitRulePolicyInfo,
 } from "@/state/commission/splitRulePolicies";
-import { Company, organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/directory/usersSimple";
+import { Company, organisationCompaniesSelector } from "@/state/lookups/directory";
 import {
     Button,
     CompanyName,

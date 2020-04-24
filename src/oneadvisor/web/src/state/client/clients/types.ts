@@ -1,7 +1,6 @@
 import { Filters, PageOptions, SortOptions } from "@/app/table";
 import { ValidationResult } from "@/app/validation";
-
-import { ClientTypeId } from "../lookups";
+import { ClientTypeId } from "@/state/lookups/client/clientTypes/enums";
 
 export type Client = {
     id: string;

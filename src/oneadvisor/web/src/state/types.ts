@@ -7,12 +7,14 @@ import { CommissionState } from "./commission/types";
 import { ComplianceState } from "./compliance/types";
 import { ContextState } from "./context/types";
 import { DirectoryState } from "./directory/types";
+import { LookupsState } from "./lookups/types";
 
 export type RootState = {
     //Static Reducers
     readonly auth: AuthState;
     readonly context: ContextState;
     readonly router: Reducer<RouterState, LocationChangeAction>;
+    readonly lookups: LookupsState;
     //Async Reducers
     readonly directory: DirectoryState;
     readonly client: ClientState;

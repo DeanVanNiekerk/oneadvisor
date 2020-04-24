@@ -14,7 +14,6 @@ import {
 } from "@/app/table";
 import { areEqual } from "@/app/utils";
 import { RootState } from "@/state";
-import { policyTypesSelector } from "@/state/client/lookups";
 import {
     fetchPolicies,
     policiesSelector,
@@ -23,8 +22,9 @@ import {
     receivePageOptions,
     receiveSortOptions,
 } from "@/state/client/policies";
-import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector } from "@/state/directory/usersSimple";
+import { policyTypesSelector } from "@/state/lookups/client";
+import { organisationCompaniesSelector } from "@/state/lookups/directory";
 import {
     CompanyName,
     getColumnSearchProps,

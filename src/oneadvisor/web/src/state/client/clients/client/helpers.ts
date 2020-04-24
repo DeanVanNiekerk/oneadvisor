@@ -1,5 +1,6 @@
+import { ClientTypeId } from "@/state/lookups/client";
+
 import { ClientEdit } from "../";
-import { ClientTypeId } from "../../lookups";
 
 export const createClient = (client: Partial<ClientEdit> = {}): ClientEdit => ({
     id: null,

@@ -6,13 +6,13 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { getValidationSubSet } from "@/app/validation";
 import { RootState } from "@/state";
-import { licenseCategoriesSelector, LicenseCategory } from "@/state/directory/lookups";
 import {
     Config,
     modifyOrganisationConfig,
     organisationConfigSelector,
     organisationSelector,
 } from "@/state/directory/organisations";
+import { licenseCategoriesSelector, LicenseCategory } from "@/state/lookups/directory";
 import { FormErrors, getFormSwitchList } from "@/ui/controls";
 
 const FormSwitchList = getFormSwitchList<LicenseCategory, string>();

@@ -9,7 +9,7 @@ import {
     licenseCategorySelector,
     licenseCategoryVisible,
     saveLicenseCategory,
-} from "@/state/directory/lookups";
+} from "@/state/lookups/directory";
 import { EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

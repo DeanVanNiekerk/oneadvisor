@@ -6,7 +6,7 @@ import { Dispatch } from "redux";
 import { filterOption } from "@/app/controls/select";
 import { RootState } from "@/state";
 import { modifyStatement, StatementEdit, statementSelector } from "@/state/commission/statements";
-import { organisationCompaniesSelector } from "@/state/directory/lookups";
+import { organisationCompaniesSelector } from "@/state/lookups/directory";
 import { Form, FormDate, FormInputNumber, FormSelect, FormSwitch } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;

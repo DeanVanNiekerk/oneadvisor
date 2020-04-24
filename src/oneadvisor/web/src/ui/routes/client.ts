@@ -1,12 +1,11 @@
 import { lazy } from "react";
 
 import { reducerManager } from "@/state/configureStore";
+import { fetchAllClientLookups } from "@/state/lookups/client";
 
-import { ensureDirectoryReducer } from "./directory";
+import { loadDirectoryLookups } from "./directory";
 
-export const ensureClientReducer = async () => {
-    await ensureDirectoryReducer();
-
+const ensureClientReducer = async () => {
     if (reducerManager.hasReducer("client")) return;
 
     //Inject reducer
@@ -16,9 +15,11 @@ export const ensureClientReducer = async () => {
     reducerManager.injectReducer("client", reducer);
 
     //Load lookups
-    const fetchAllClientLookups = await import(
-        /* webpackChunkName: "client" */ "@/state/client/lookups/all/actions"
-    ).then((actionsModule) => actionsModule.fetchAllClientLookups);
+    loadClientLookups();
+    loadDirectoryLookups();
+};
+
+export const loadClientLookups = async () => {
     reducerManager.dispatch(fetchAllClientLookups());
 };
 

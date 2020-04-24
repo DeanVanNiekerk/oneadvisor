@@ -14,8 +14,8 @@ import {
     policyProductCascaseValuesSelector,
     policySelector,
 } from "@/state/client/policies";
-import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector } from "@/state/directory/usersSimple";
+import { organisationCompaniesSelector } from "@/state/lookups/directory";
 import ClientSearch from "@/ui/app/client/client/list/ClientSearch";
 import {
     Button,

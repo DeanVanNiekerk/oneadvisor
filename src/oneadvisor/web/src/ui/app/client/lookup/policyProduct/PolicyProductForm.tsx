@@ -8,8 +8,8 @@ import {
     PolicyProductEdit,
     PolicyProductType,
     policyProductTypesSelector,
-} from "@/state/client/lookups";
-import { companiesSelector, Company } from "@/state/directory/lookups";
+} from "@/state/lookups/client";
+import { companiesSelector, Company } from "@/state/lookups/directory";
 import { Form, FormInput, FormSelect } from "@/ui/controls";
 
 type Props = {

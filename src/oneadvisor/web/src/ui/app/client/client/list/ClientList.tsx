@@ -24,7 +24,7 @@ import {
     receiveSelectedClients,
     receiveSortOptions,
 } from "@/state/client/clients";
-import { clientTypesSelector } from "@/state/client/lookups";
+import { clientTypesSelector } from "@/state/lookups/client";
 import {
     Button,
     ClientTypeIcon,

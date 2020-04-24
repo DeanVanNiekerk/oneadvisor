@@ -2,7 +2,6 @@ import { AuditState } from "./audit";
 import { BranchesState } from "./branches";
 import { BranchesSimpleState } from "./branchesSimple";
 import { ChangeLogsState } from "./changeLogs";
-import { LookupsState } from "./lookups";
 import { OrganisationsState } from "./organisations";
 import { RolesState } from "./roles";
 import { UseCasesState } from "./usecases";
@@ -17,7 +16,6 @@ export type DirectoryState = {
     readonly useCases: UseCasesState;
     readonly branches: BranchesState;
     readonly branchesSimple: BranchesSimpleState;
-    readonly lookups: LookupsState;
     readonly audit: AuditState;
     readonly changeLogs: ChangeLogsState;
 };

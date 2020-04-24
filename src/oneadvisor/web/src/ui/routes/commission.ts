@@ -2,13 +2,10 @@ import { lazy } from "react";
 
 import { reducerManager } from "@/state/configureStore";
 
-import { ensureClientReducer } from "./client";
-import { ensureDirectoryReducer } from "./directory";
+import { loadClientLookups } from "./client";
+import { loadDirectoryLookups } from "./directory";
 
 export const ensureCommissionReducer = async () => {
-    await ensureDirectoryReducer();
-    await ensureClientReducer();
-
     if (reducerManager.hasReducer("commission")) return;
 
     //Inject reducer
@@ -18,6 +15,9 @@ export const ensureCommissionReducer = async () => {
     reducerManager.injectReducer("commission", reducer);
 
     //Load lookups
+    loadClientLookups();
+    loadDirectoryLookups();
+
     const fetchAllCommissionLookups = await import(
         /* webpackChunkName: "commission" */ "@/state/commission/lookups/all/actions"
     ).then((actionsModule) => actionsModule.fetchAllCommissionLookups);

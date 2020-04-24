@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "@/state";
-import { companiesSelector, Company } from "@/state/directory/lookups";
+import { companiesSelector, Company } from "@/state/lookups/directory";
 
 type Props = {
     companies: Company[];

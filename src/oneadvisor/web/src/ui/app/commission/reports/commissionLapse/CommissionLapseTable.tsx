@@ -9,7 +9,6 @@ import {
     SortOptions,
 } from "@/app/table";
 import { RootState } from "@/state";
-import { PolicyType, policyTypesSelector } from "@/state/client/lookups";
 import {
     CommissionLapseData,
     commissionLapseSelector,
@@ -17,8 +16,9 @@ import {
     receiveCommissionLapsePageOptions,
     receiveCommissionLapseSortOptions,
 } from "@/state/commission/reports";
-import { Company, organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/directory/usersSimple";
+import { PolicyType, policyTypesSelector } from "@/state/lookups/client";
+import { Company, organisationCompaniesSelector } from "@/state/lookups/directory";
 import {
     CompanyName,
     getColumnSearchProps,

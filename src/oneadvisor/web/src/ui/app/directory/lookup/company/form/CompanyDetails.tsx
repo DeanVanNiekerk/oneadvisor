@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { RootState } from "@/state";
-import { CompanyEdit, companySelector, modifyCompany } from "@/state/directory/lookups";
+import { CompanyEdit, companySelector, modifyCompany } from "@/state/lookups/directory";
 import { Form, FormInput } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;

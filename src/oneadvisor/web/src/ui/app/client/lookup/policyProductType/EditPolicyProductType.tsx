@@ -9,7 +9,7 @@ import {
     PolicyProductTypeEdit,
     policyProductTypeSelector,
     updatePolicyProductType,
-} from "@/state/client/lookups";
+} from "@/state/lookups/client";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

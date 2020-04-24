@@ -2,7 +2,7 @@ import { commissionTypesApi } from "@/config/api/commission";
 
 import * as actions from "./actions";
 
-describe("directory: commissionTypes: list actions", () => {
+describe("commission: commissionTypes: list actions", () => {
     it("should dispatch API when fetchCommissionTypes is called", () => {
         const expectedAction = {
             type: "API",

@@ -14,7 +14,7 @@ import {
     statementPreviewIsLoadingSelector,
     statementPreviewSelector,
 } from "@/state/commission/statements";
-import { organisationCompaniesSelector } from "@/state/directory/lookups";
+import { organisationCompaniesSelector } from "@/state/lookups/directory";
 import ErrorList from "@/ui/app/commission/error/list/ErrorList";
 import { Button, Drawer, PreviewCard } from "@/ui/controls";
 import { DownloadOutlined, ToolOutlined, WarningOutlined } from "@ant-design/icons";

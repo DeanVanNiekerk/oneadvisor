@@ -6,13 +6,13 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { getValidationSubSet } from "@/app/validation";
 import { RootState } from "@/state";
-import { companiesSelector, Company } from "@/state/directory/lookups";
 import {
     Config,
     modifyOrganisationConfig,
     organisationConfigSelector,
     organisationSelector,
 } from "@/state/directory/organisations";
+import { companiesSelector, Company } from "@/state/lookups/directory";
 import { FormErrors, getFormSwitchList } from "@/ui/controls";
 
 const FormSwitchList = getFormSwitchList<Company, string>();

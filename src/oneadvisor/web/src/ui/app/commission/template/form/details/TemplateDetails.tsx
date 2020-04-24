@@ -10,7 +10,7 @@ import {
     commissionStatementTemplateSelector,
     modifyCommissionStatementTemplate,
 } from "@/state/commission/templates";
-import { companiesSelector } from "@/state/directory/lookups";
+import { companiesSelector } from "@/state/lookups/directory";
 import { Form, FormDate, FormInput, FormSelect } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;

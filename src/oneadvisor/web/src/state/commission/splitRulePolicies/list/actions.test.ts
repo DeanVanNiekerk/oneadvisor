@@ -3,7 +3,7 @@ import { splitRulePoliciesApi } from "@/config/api/commission";
 
 import * as actions from "./actions";
 
-describe("directory: splitRulePolicies: list actions", () => {
+describe("commission: splitRulePolicies: list actions", () => {
     it("should dispatch API when fetchSplitRulePolicies is called", () => {
         const pageOptions: PageOptions = {
             number: 2,

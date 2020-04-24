@@ -6,13 +6,13 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { getValidationSubSet } from "@/app/validation";
 import { RootState } from "@/state";
-import { AdviceScope, adviceScopesSelector } from "@/state/directory/lookups";
 import {
     Config,
     modifyUserConfig,
     userConfigSelector,
     userConfigValidationResultsSelector,
 } from "@/state/directory/users";
+import { AdviceScope, adviceScopesSelector } from "@/state/lookups/directory";
 import { FormErrors, getFormSwitchList } from "@/ui/controls";
 
 const FormSwitchList = getFormSwitchList<AdviceScope, string>();

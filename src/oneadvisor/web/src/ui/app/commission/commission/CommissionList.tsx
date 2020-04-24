@@ -25,8 +25,8 @@ import {
     receiveSortOptions,
 } from "@/state/commission/commissions";
 import { commissionTypesSelector } from "@/state/commission/lookups";
-import { organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector } from "@/state/directory/usersSimple";
+import { organisationCompaniesSelector } from "@/state/lookups/directory";
 import {
     Button,
     CommissionTypeName,

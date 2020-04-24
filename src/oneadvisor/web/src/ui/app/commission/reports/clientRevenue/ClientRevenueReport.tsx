@@ -8,7 +8,6 @@ import { downloadExcel } from "@/app/excel/helpers";
 import { Filters, PageOptions, SortOptions } from "@/app/table";
 import { DATE_FORMAT, getMonthName, getMonthOptions, getYearOptions } from "@/app/utils";
 import { RootState } from "@/state";
-import { PolicyType, policyTypesSelector } from "@/state/client/lookups";
 import {
     clientRevenueSelector,
     fetchClientRevenueDataPaged,
@@ -17,6 +16,7 @@ import {
 } from "@/state/commission/reports";
 import { branchesSimpleSelector, BranchSimple } from "@/state/directory/branchesSimple";
 import { brokersSelector, UserSimple } from "@/state/directory/usersSimple";
+import { PolicyType, policyTypesSelector } from "@/state/lookups/client";
 import { Button, ClientName, Drawer, Header, TabPane, Tabs } from "@/ui/controls";
 import { BarChartOutlined, TableOutlined } from "@ant-design/icons";
 

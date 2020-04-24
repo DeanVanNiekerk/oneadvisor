@@ -1,9 +1,9 @@
 import { createSelector } from "reselect";
 
 import { RootState } from "@/state";
+import { BROKER_USER_TYPE_ID } from "@/state/lookups/directory";
 
 import { ListState, UserSimple } from "../";
-import { BROKER_USER_TYPE_ID } from "../../lookups";
 
 const rootSelector = (state: RootState): ListState => state.directory.usersSimple.list;
 

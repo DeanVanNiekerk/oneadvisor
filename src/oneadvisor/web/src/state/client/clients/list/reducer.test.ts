@@ -1,7 +1,7 @@
 import { Filters, SortOptions } from "@/app/table";
+import { ClientTypeId } from "@/state/lookups/client";
 
 import { Client } from "../";
-import { ClientTypeId } from "../../lookups";
 import { defaultState, reducer } from "./reducer";
 
 describe("client list reducer", () => {

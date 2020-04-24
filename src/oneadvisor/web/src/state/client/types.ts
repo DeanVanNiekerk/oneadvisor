@@ -1,7 +1,6 @@
 import { ClientsState } from "./clients";
 import { ContactsState } from "./contacts";
 import { ImportState } from "./import";
-import { LookupsState } from "./lookups";
 import { PoliciesState } from "./policies";
 
 export type ClientState = {
@@ -9,5 +8,4 @@ export type ClientState = {
     readonly import: ImportState;
     readonly policies: PoliciesState;
     readonly contacts: ContactsState;
-    readonly lookups: LookupsState;
 };

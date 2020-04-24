@@ -3,14 +3,14 @@ import { createSelector } from "reselect";
 
 import { areEqual } from "@/app/utils";
 import { RootState } from "@/state";
-
-import { PolicyState } from "../";
 import {
     policyProductCascade,
     policyProductsSelector,
     policyProductTypesSelector,
     policyTypesSelector,
-} from "../../lookups";
+} from "@/state/lookups/client";
+
+import { PolicyState } from "../";
 
 const rootSelector = (state: RootState): PolicyState => state.client.policies.policy;
 

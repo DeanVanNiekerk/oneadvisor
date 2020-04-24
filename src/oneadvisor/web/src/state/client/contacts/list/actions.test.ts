@@ -2,7 +2,7 @@ import { contactsApi } from "@/config/api/client";
 
 import * as actions from "./actions";
 
-describe("directory: contacts: list actions", () => {
+describe("clients: contacts: list actions", () => {
     it("should dispatch API when fetchContacts is called", () => {
         const expectedAction = {
             type: "API",

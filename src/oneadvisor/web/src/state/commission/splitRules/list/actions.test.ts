@@ -2,7 +2,7 @@ import { splitRulesApi } from "@/config/api/commission";
 
 import * as actions from "./actions";
 
-describe("directory: splitRules: list actions", () => {
+describe("commission: splitRules: list actions", () => {
     it("should dispatch API when fetchSplitRules is called", () => {
         const expectedAction = {
             type: "API",

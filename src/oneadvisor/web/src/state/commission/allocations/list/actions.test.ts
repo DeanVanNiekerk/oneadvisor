@@ -2,7 +2,7 @@ import { allocationsApi } from "@/config/api/commission";
 
 import * as actions from "./actions";
 
-describe("directory: allocations: list actions", () => {
+describe("commission: allocations: list actions", () => {
     it("should dispatch API when fetchAllocations is called", () => {
         const expectedAction = {
             type: "API",

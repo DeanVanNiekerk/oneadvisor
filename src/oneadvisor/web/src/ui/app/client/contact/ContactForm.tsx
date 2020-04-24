@@ -13,7 +13,7 @@ import {
     modifyContact,
     saveContact,
 } from "@/state/client/contacts";
-import { contactTypesSelector } from "@/state/client/lookups";
+import { contactTypesSelector } from "@/state/lookups/client";
 import { Button, Form, FormField, FormInput, FormSelect } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

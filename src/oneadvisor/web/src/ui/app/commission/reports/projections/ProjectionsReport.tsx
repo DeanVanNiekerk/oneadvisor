@@ -4,7 +4,6 @@ import { connect, DispatchProp } from "react-redux";
 
 import { filterOption } from "@/app/controls/select";
 import { RootState } from "@/state";
-import { PolicyType, policyTypesSelector } from "@/state/client/lookups";
 import {
     CommissionEarningsType,
     commissionEarningsTypesSelector,
@@ -20,8 +19,9 @@ import {
     receivePastRevenueCommissionMonthsForward,
 } from "@/state/commission/reports";
 import { branchesSimpleSelector, BranchSimple } from "@/state/directory/branchesSimple";
-import { Company, organisationCompaniesSelector } from "@/state/directory/lookups";
 import { brokersSelector, UserSimple } from "@/state/directory/usersSimple";
+import { PolicyType, policyTypesSelector } from "@/state/lookups/client";
+import { Company, organisationCompaniesSelector } from "@/state/lookups/directory";
 import { Header, TabPane, Tabs } from "@/ui/controls";
 import { BarChartOutlined, TableOutlined } from "@ant-design/icons";
 
