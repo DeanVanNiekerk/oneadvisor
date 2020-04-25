@@ -4,7 +4,8 @@ import { RootState } from "@/state";
 
 import { UserSimpleState } from "../";
 
-const rootSelector = (state: RootState): UserSimpleState => state.directory.usersSimple.userSimple;
+const rootSelector = (state: RootState): UserSimpleState =>
+    state.lookups.directory.usersSimple.userSimple;
 
 export const userSimpleSelector: (state: RootState) => UserSimpleState = createSelector(
     rootSelector,

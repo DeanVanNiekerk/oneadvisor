@@ -7,7 +7,7 @@ export type UserSimple = {
     userTypeId: string;
 };
 
-export type ListState = {
+export type UserSimpleListState = {
     readonly totalItems: number;
     readonly items: UserSimple[];
     readonly fetching: boolean;
@@ -19,6 +19,6 @@ export type UserSimpleState = {
 };
 
 export type UsersSimpleState = {
-    readonly list: ListState;
+    readonly list: UserSimpleListState;
     readonly userSimple: UserSimpleState;
 };

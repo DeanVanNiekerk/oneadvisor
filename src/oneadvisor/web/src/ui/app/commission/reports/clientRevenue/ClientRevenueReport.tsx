@@ -14,9 +14,9 @@ import {
     getClientRevenueData,
     receiveClientRevenueFilters,
 } from "@/state/commission/reports";
-import { branchesSimpleSelector, BranchSimple } from "@/state/directory/branchesSimple";
-import { brokersSelector, UserSimple } from "@/state/directory/usersSimple";
 import { PolicyType, policyTypesSelector } from "@/state/lookups/client";
+import { branchesSimpleSelector, BranchSimple } from "@/state/lookups/directory/branchesSimple";
+import { brokersSelector, UserSimple } from "@/state/lookups/directory/usersSimple";
 import { Button, ClientName, Drawer, Header, TabPane, Tabs } from "@/ui/controls";
 import { BarChartOutlined, TableOutlined } from "@ant-design/icons";
 

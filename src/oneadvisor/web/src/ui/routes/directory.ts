@@ -9,9 +9,9 @@ const ensureDirectoryReducer = async () => {
     if (reducerManager.hasReducer("directory")) return;
 
     //Inject reducer
-    const reducer = await import(
-        /* webpackChunkName: "directory" */ "@/state/directory/reducer"
-    ).then((reducerModule) => reducerModule.reducer);
+    const reducer = await import("@/state/directory/reducer").then(
+        (reducerModule) => reducerModule.reducer
+    );
     reducerManager.injectReducer("directory", reducer);
 
     //Load lookups
@@ -23,74 +23,56 @@ export const loadDirectoryLookups = async () => {
 };
 
 export const AuditLogList = lazy(() =>
-    import(/* webpackChunkName: "directory" */ "@/ui/app/directory/audit/logs/AuditLogList").then(
-        async (module) => {
-            await ensureDirectoryReducer();
-            return module;
-        }
-    )
+    import("@/ui/app/directory/audit/logs/AuditLogList").then(async (module) => {
+        await ensureDirectoryReducer();
+        return module;
+    })
 );
 export const ChangeLogList = lazy(() =>
-    import(/* webpackChunkName: "directory" */ "@/ui/app/directory/changeLogs/ChangeLogList").then(
-        async (module) => {
-            await ensureDirectoryReducer();
-            return module;
-        }
-    )
+    import("@/ui/app/directory/changeLogs/ChangeLogList").then(async (module) => {
+        await ensureDirectoryReducer();
+        return module;
+    })
 );
 export const CompanyList = lazy(() =>
-    import(
-        /* webpackChunkName: "directory" */ "@/ui/app/directory/lookup/company/CompanyList"
-    ).then(async (module) => {
+    import("@/ui/app/directory/lookup/company/CompanyList").then(async (module) => {
         await ensureDirectoryReducer();
         return module;
     })
 );
 export const OrganisationList = lazy(() =>
-    import(
-        /* webpackChunkName: "directory" */ "@/ui/app/directory/organisation/OrganisationList"
-    ).then(async (module) => {
+    import("@/ui/app/directory/organisation/OrganisationList").then(async (module) => {
         await ensureDirectoryReducer();
         return module;
     })
 );
 export const RoleList = lazy(() =>
-    import(/* webpackChunkName: "directory" */ "@/ui/app/directory/role/RoleList").then(
-        async (module) => {
-            await ensureDirectoryReducer();
-            return module;
-        }
-    )
+    import("@/ui/app/directory/role/RoleList").then(async (module) => {
+        await ensureDirectoryReducer();
+        return module;
+    })
 );
 export const UserList = lazy(() =>
-    import(/* webpackChunkName: "directory" */ "@/ui/app/directory/user/UserList").then(
-        async (module) => {
-            await ensureDirectoryReducer();
-            await ensureCommissionReducer();
-            return module;
-        }
-    )
+    import("@/ui/app/directory/user/UserList").then(async (module) => {
+        await ensureDirectoryReducer();
+        await ensureCommissionReducer();
+        return module;
+    })
 );
 export const AdviceScopeList = lazy(() =>
-    import(
-        /* webpackChunkName: "directory" */ "@/ui/app/directory/lookup/adviceScope/AdviceScopeList"
-    ).then(async (module) => {
+    import("@/ui/app/directory/lookup/adviceScope/AdviceScopeList").then(async (module) => {
         await ensureDirectoryReducer();
         return module;
     })
 );
 export const AdviceServiceList = lazy(() =>
-    import(
-        /* webpackChunkName: "directory" */ "@/ui/app/directory/lookup/adviceService/AdviceServiceList"
-    ).then(async (module) => {
+    import("@/ui/app/directory/lookup/adviceService/AdviceServiceList").then(async (module) => {
         await ensureDirectoryReducer();
         return module;
     })
 );
 export const LicenseCategoryList = lazy(() =>
-    import(
-        /* webpackChunkName: "directory" */ "@/ui/app/directory/lookup/licenseCategory/LicenseCategoryList"
-    ).then(async (module) => {
+    import("@/ui/app/directory/lookup/licenseCategory/LicenseCategoryList").then(async (module) => {
         await ensureDirectoryReducer();
         return module;
     })

@@ -13,6 +13,7 @@ import {
 } from "@/state/auth/token/selectors";
 import { fetchAppInfo, fetchApplications } from "@/state/context/actions";
 import { isLoadingSelector } from "@/state/context/selectors";
+import { fetchBranchesSimple, fetchUsersSimple } from "@/state/lookups/directory";
 import { RootState } from "@/state/types";
 import { Loader } from "@/ui/controls/state/Loader";
 
@@ -31,30 +32,8 @@ const Startup: React.FC<Props> = (props: Props) => {
 
     useEffect(() => {
         if (props.isAuthenticated) {
-            const loadUsersSimple = async () => {
-                //Load users
-                const fetchUsersSimple = await import(
-                    /* webpackChunkName: "directory" */
-                    "@/state/directory/usersSimple/list/actions"
-                ).then((actionsModule) => actionsModule.fetchUsersSimple);
-                props.dispatch(fetchUsersSimple());
-            };
-
-            const loadBranchesSimple = async () => {
-                //Load users
-                const fetchBranchesSimple = await import(
-                    /* webpackChunkName: "directory" */
-                    "@/state/directory/branchesSimple/list/actions"
-                ).then((actionsModule) => actionsModule.fetchBranchesSimple);
-                props.dispatch(fetchBranchesSimple());
-            };
-
-            const loadCommonData = () => {
-                loadUsersSimple();
-                loadBranchesSimple();
-            };
-
-            loadCommonData();
+            props.dispatch(fetchUsersSimple());
+            props.dispatch(fetchBranchesSimple());
 
             const { tokenData, roles } = props;
             if (tokenData) {

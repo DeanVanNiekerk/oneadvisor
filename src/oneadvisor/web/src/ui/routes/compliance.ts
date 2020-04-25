@@ -8,9 +8,9 @@ import { loadDirectoryLookups } from "./directory";
 const ensureComplianceReducer = async () => {
     if (reducerManager.hasReducer("compliance")) return;
 
-    const reducer = await import(
-        /* webpackChunkName: "compliance" */ "@/state/compliance/reducer"
-    ).then((reducerModule) => reducerModule.reducer);
+    const reducer = await import("@/state/compliance/reducer").then(
+        (reducerModule) => reducerModule.reducer
+    );
     reducerManager.injectReducer("compliance", reducer);
 
     //Load lookups
@@ -19,10 +19,8 @@ const ensureComplianceReducer = async () => {
 };
 
 export const RoaInvest = lazy(() =>
-    import(/* webpackChunkName: "compliance" */ "@/ui/app/compliance/roa/invest/RoaInvest").then(
-        async (module) => {
-            await ensureComplianceReducer();
-            return module;
-        }
-    )
+    import("@/ui/app/compliance/roa/invest/RoaInvest").then(async (module) => {
+        await ensureComplianceReducer();
+        return module;
+    })
 );

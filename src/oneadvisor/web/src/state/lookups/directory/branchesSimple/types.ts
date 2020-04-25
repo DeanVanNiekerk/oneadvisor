@@ -3,11 +3,11 @@ export type BranchSimple = {
     name: string;
 };
 
-export type ListState = {
+export type BranchesSimpleListState = {
     readonly items: BranchSimple[];
     readonly fetching: boolean;
 };
 
 export type BranchesSimpleState = {
-    readonly list: ListState;
+    readonly list: BranchesSimpleListState;
 };

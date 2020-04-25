@@ -13,7 +13,7 @@ import {
     modifyCommission,
 } from "@/state/commission/commissions";
 import { commissionTypesSelector } from "@/state/commission/lookups";
-import { brokersSelector } from "@/state/directory/usersSimple";
+import { brokersSelector } from "@/state/lookups/directory/usersSimple";
 import { Form, FormInputNumber, FormSelect } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;

@@ -13,7 +13,7 @@ import {
     modifyBranch,
     saveBranch,
 } from "@/state/directory/branches";
-import { fetchBranchesSimple } from "@/state/directory/branchesSimple";
+import { fetchBranchesSimple } from "@/state/lookups/directory/branchesSimple";
 import { Button, Form, FormField, FormInput } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

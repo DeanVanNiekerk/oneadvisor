@@ -22,9 +22,9 @@ import {
     receivePageOptions,
     receiveSortOptions,
 } from "@/state/client/policies";
-import { brokersSelector } from "@/state/directory/usersSimple";
 import { policyTypesSelector } from "@/state/lookups/client";
 import { organisationCompaniesSelector } from "@/state/lookups/directory";
+import { brokersSelector } from "@/state/lookups/directory/usersSimple";
 import {
     CompanyName,
     getColumnSearchProps,

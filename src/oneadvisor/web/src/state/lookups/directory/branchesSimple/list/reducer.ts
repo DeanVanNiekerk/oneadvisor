@@ -1,15 +1,15 @@
-import { ListState } from "../types";
+import { BranchesSimpleListState } from "../types";
 import { BranchSimpleListAction } from "./actions";
 
-export const defaultState: ListState = {
+export const defaultState: BranchesSimpleListState = {
     items: [],
     fetching: false,
 };
 
 export const reducer = (
-    state: ListState = defaultState,
+    state: BranchesSimpleListState = defaultState,
     action: BranchSimpleListAction
-): ListState => {
+): BranchesSimpleListState => {
     switch (action.type) {
         case "BRANCHESSIMPLE_LIST_RECEIVE": {
             return {

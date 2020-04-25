@@ -12,7 +12,7 @@ import {
     fetchAuditLogs,
     receiveFilters,
 } from "@/state/directory/audit";
-import { usersSimpleSelector } from "@/state/directory/usersSimple";
+import { usersSimpleSelector } from "@/state/lookups/directory/usersSimple";
 import {
     getColumnSearchProps,
     getDateRangeSearchProps,

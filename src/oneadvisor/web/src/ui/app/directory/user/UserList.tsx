@@ -15,7 +15,7 @@ import {
     userVisible,
 } from "@/state/directory/users";
 import { getConfig } from "@/state/directory/users/helpers";
-import { fetchUsersSimple } from "@/state/directory/usersSimple";
+import { fetchUsersSimple } from "@/state/lookups/directory/usersSimple";
 import { Button, getTable, Header } from "@/ui/controls";
 
 import EditUser from "./EditUser";

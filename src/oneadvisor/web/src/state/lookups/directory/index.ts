@@ -4,4 +4,6 @@ export * from "./userTypes";
 export * from "./adviceScopes";
 export * from "./adviceServices";
 export * from "./licenseCategories";
+export * from "./branchesSimple";
+export * from "./usersSimple";
 export * from "./types";

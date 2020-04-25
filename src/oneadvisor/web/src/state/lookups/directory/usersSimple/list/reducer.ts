@@ -1,16 +1,16 @@
-import { ListState } from "../types";
+import { UserSimpleListState } from "../types";
 import { UserSimpleListAction } from "./actions";
 
-export const defaultState: ListState = {
+export const defaultState: UserSimpleListState = {
     totalItems: 0,
     items: [],
     fetching: false,
 };
 
 export const reducer = (
-    state: ListState = defaultState,
+    state: UserSimpleListState = defaultState,
     action: UserSimpleListAction
-): ListState => {
+): UserSimpleListState => {
     switch (action.type) {
         case "USERSSIMPLE_LIST_RECEIVE": {
             return {

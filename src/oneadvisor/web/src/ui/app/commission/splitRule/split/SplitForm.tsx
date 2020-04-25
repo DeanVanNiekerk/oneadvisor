@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { RootState } from "@/state";
 import { Split } from "@/state/commission/splitRules";
-import { brokersSelector, UserSimple } from "@/state/directory/usersSimple";
+import { brokersSelector, UserSimple } from "@/state/lookups/directory/usersSimple";
 import { Button, Form, FormField, FormInputNumber, FormSelect } from "@/ui/controls";
 
 type Props = {

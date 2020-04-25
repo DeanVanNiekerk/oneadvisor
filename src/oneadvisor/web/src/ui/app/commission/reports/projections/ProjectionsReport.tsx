@@ -18,10 +18,10 @@ import {
     receivePastRevenueCommissionMonthsBack,
     receivePastRevenueCommissionMonthsForward,
 } from "@/state/commission/reports";
-import { branchesSimpleSelector, BranchSimple } from "@/state/directory/branchesSimple";
-import { brokersSelector, UserSimple } from "@/state/directory/usersSimple";
 import { PolicyType, policyTypesSelector } from "@/state/lookups/client";
 import { Company, organisationCompaniesSelector } from "@/state/lookups/directory";
+import { branchesSimpleSelector, BranchSimple } from "@/state/lookups/directory/branchesSimple";
+import { brokersSelector, UserSimple } from "@/state/lookups/directory/usersSimple";
 import { Header, TabPane, Tabs } from "@/ui/controls";
 import { BarChartOutlined, TableOutlined } from "@ant-design/icons";
 

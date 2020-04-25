@@ -16,9 +16,9 @@ import {
     receiveCommissionLapsePageOptions,
     receiveCommissionLapseSortOptions,
 } from "@/state/commission/reports";
-import { brokersSelector, UserSimple } from "@/state/directory/usersSimple";
 import { PolicyType, policyTypesSelector } from "@/state/lookups/client";
 import { Company, organisationCompaniesSelector } from "@/state/lookups/directory";
+import { brokersSelector, UserSimple } from "@/state/lookups/directory/usersSimple";
 import {
     CompanyName,
     getColumnSearchProps,
