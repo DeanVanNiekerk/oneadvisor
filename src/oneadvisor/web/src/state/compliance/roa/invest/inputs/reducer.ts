@@ -1,4 +1,5 @@
-import { RoaInvestInputAction, RoaInvestInputState } from "./";
+import { RoaInvestInputAction } from "./";
+import { RoaInvestInputState } from "./types";
 
 export const defaultState: RoaInvestInputState = {
     clientId: null,

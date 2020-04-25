@@ -4,7 +4,11 @@ import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
 
 import { RootState } from "@/state";
-import { receiveClientId, receiveConsultReason, roaInvestSelector } from "@/state/compliance/roa";
+import {
+    receiveClientId,
+    receiveConsultReason,
+    roaInvestInputsSelector,
+} from "@/state/compliance/roa";
 import {
     Button,
     ClientName,
@@ -70,7 +74,7 @@ const ClientObjectiveSection: React.FC<Props> = (props) => {
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
-    const roaInvestState = roaInvestSelector(state);
+    const roaInvestState = roaInvestInputsSelector(state);
     return {
         clientId: roaInvestState.clientId,
         consultReason: roaInvestState.consultReason,

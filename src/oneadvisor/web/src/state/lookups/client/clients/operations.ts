@@ -4,10 +4,15 @@ import { ApiAction, ApiOnAlways, ApiOnSuccess } from "@/app/types";
 import { clientsApi } from "@/config/api/client";
 import { Client, ClientEdit } from "@/state/client/clients/types";
 
-export const getClient = (clientId: string, onSuccess: ApiOnSuccess<ClientEdit>): ApiAction => ({
+export const getClient = (
+    clientId: string,
+    onSuccess: ApiOnSuccess<ClientEdit>,
+    onAlways?: ApiOnAlways
+): ApiAction => ({
     type: "API",
     endpoint: `${clientsApi}/${clientId}`,
     onSuccess: onSuccess,
+    onAlways: onAlways,
 });
 
 export const getClients = (

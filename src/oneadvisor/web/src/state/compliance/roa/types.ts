@@ -1,4 +1,4 @@
-import { RoaInvestState } from "./invest";
+import { RoaInvestState } from "./invest/types";
 
 export type RoaState = {
     readonly invest: RoaInvestState;
