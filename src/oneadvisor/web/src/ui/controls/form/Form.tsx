@@ -1,4 +1,5 @@
 import { Form as FormAD } from "antd";
+import { SizeType } from "antd/lib/config-provider/SizeContext";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -16,6 +17,7 @@ type Props = {
     editRole?: string;
     className?: string;
     style?: React.CSSProperties;
+    size?: SizeType;
 } & PropsFromState;
 
 const FormComponent: React.FC<Props> = (props: Props) => {
@@ -37,7 +39,12 @@ const FormComponent: React.FC<Props> = (props: Props) => {
     );
 
     return (
-        <FormAD className={props.className} layout={props.layout} style={props.style}>
+        <FormAD
+            className={props.className}
+            layout={props.layout}
+            style={props.style}
+            size={props.size}
+        >
             {childrenWithProps}
         </FormAD>
     );

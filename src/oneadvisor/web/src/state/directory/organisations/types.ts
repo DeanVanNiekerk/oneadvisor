@@ -17,6 +17,7 @@ export type OrganisationEdit = {
 
 export type Config = {
     companyIds: string[];
+    funds: string[];
     licenseCategoryIds: string[];
     address: Address;
     branding: Branding;

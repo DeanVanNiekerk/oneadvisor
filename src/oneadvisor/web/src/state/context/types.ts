@@ -1,6 +1,6 @@
 import { IconName } from "@/app/types";
 
-import { OrganisationEdit } from "../directory/organisations";
+import { OrganisationEdit } from "../directory/organisations/types";
 
 export type AppInfo = {
     name: string;

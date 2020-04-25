@@ -55,6 +55,8 @@ namespace OneAdvisor.Service.Directory.Validators
             RuleFor(c => c.CompanyIds).NotEmpty().WithMessage("Please select at least 1 company");
             RuleFor(c => c.CompanyIds).Must(BeValidCompanyIds).WithMessage("There are invalid company ids");
 
+            RuleFor(c => c.Funds).Must(HaveUnqiueFunds).WithMessage("There are duplicate funds");
+
             RuleFor(c => c.HasSharesInProductProvidersTarget).NotEmpty().When(c => c.HasSharesInProductProviders).WithMessage("This field is required");
             RuleFor(c => c.HasReceivedCommissionFromCompaniesTarget).NotEmpty().When(c => c.HasReceivedCommissionFromCompanies).WithMessage("This field is required");
 
@@ -78,6 +80,11 @@ namespace OneAdvisor.Service.Directory.Validators
         private bool BeValidCompanyIds(IEnumerable<Guid> companyIds)
         {
             return companyIds.Intersect(_companyIds).Count() == companyIds.Count();
+        }
+
+        private bool HaveUnqiueFunds(IEnumerable<string> funds)
+        {
+            return funds.Distinct().Count() == funds.Count();
         }
 
         private bool BeValidLicenseCategoryIds(IEnumerable<Guid> licenseCategoryIds)

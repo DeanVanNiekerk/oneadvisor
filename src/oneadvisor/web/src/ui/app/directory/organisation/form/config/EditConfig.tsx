@@ -8,6 +8,7 @@ import CompaniesForm from "./CompaniesForm";
 import ComplianceOfficerForm from "./ComplianceOfficerForm";
 import ConfigTabTitle from "./ConfigTabTitle";
 import DetailsForm from "./DetailsForm";
+import FundsForm from "./FundsForm";
 import LicenseCategoriesForm from "./LicenseCategoriesForm";
 
 const EditConfig: React.FC = () => {
@@ -28,6 +29,12 @@ const EditConfig: React.FC = () => {
                 key="companies_tab"
             >
                 <CompaniesForm />
+            </TabPane>
+            <TabPane
+                tab={<ConfigTabTitle title="Funds" validationPrefix="Funds" exactMatch={true} />}
+                key="funds_tab"
+            >
+                <FundsForm />
             </TabPane>
             <TabPane
                 tab={

@@ -6,8 +6,6 @@ using FluentValidation.Results;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Helpers;
-using OneAdvisor.Model.Commission.Model.ImportCommission;
-using OneAdvisor.Service.Common;
 using OneAdvisor.Service.Common.Validation;
 
 namespace OneAdvisor.Service.Commission.Validators

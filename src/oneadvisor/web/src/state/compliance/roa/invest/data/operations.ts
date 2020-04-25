@@ -26,6 +26,11 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
             consultReason: inputs.consultReason,
             companyNames: companyNames,
             productTypeNames: productTypeNames,
+            funds: inputs.funds,
+            advisorRecommendation: inputs.advisorRecommendation,
+            investmentLumpsum: inputs.investmentLumpsum,
+            investmentRecurringPremium: inputs.investmentRecurringPremium,
+            retirementPolicyRecurringPremium: inputs.retirementPolicyRecurringPremium,
         };
 
         dispatch(receiveData(data));

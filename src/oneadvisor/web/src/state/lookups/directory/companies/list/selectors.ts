@@ -17,12 +17,24 @@ export const organisationCompaniesSelector: (state: RootState) => Company[] = cr
     rootSelector,
     contextSelector,
     (root, context) => {
-        console.log("context.organisation", context.organisation);
-
-        if (!context.organisation) return root.items;
+        if (!context.organisation) return [];
 
         const organisationCompanyIds = context.organisation.config.companyIds;
 
         return root.items.filter((c) => organisationCompanyIds.indexOf(c.id) !== -1);
+    }
+);
+
+export const organisationFundsSelector: (state: RootState) => string[] = createSelector(
+    rootSelector,
+    contextSelector,
+    (root, context) => {
+        if (!context.organisation) return [];
+
+        const funds = context.organisation.config.funds;
+
+        funds.sort();
+
+        return funds;
     }
 );

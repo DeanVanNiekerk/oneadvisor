@@ -93,6 +93,10 @@ PADDING
     padding-top: 0 !important;
 }
 
+.pt-1 {
+    padding-top: 1rem !important;
+}
+
 .pt-3 {
     padding-top: 3rem !important;
 }

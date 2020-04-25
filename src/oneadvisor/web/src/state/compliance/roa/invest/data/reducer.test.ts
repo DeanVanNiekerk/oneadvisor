@@ -30,6 +30,11 @@ describe("roa invest reducer", () => {
             consultReason: "Get your life sorted",
             companyNames: [],
             productTypeNames: [],
+            funds: [],
+            advisorRecommendation: "",
+            investmentLumpsum: null,
+            investmentRecurringPremium: null,
+            retirementPolicyRecurringPremium: null,
         };
 
         const actualState = reducer(initalState, {

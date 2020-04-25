@@ -26,7 +26,7 @@ const ClientObjectiveSection: React.FC<Props> = (props) => {
 
     return (
         <Card title="Client Objectives">
-            <Form layout="vertical">
+            <Form layout="vertical" size="small">
                 <FormText
                     fieldName="clientId"
                     label="Client"

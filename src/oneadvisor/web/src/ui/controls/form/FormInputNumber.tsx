@@ -10,7 +10,7 @@ import { FormField } from "./FormField";
 type Props = {
     fieldName: string;
     label: string;
-    value: number | undefined;
+    value: number | undefined | null;
     disabled?: boolean;
     onChange?: (fieldName: string, value: number | undefined) => void;
     validationResults?: ValidationResult[];
@@ -65,7 +65,7 @@ const FormInputNumber: React.FC<Props> = (props: Props) => {
                 disabled={disabled}
                 name={fieldName}
                 id={fieldName}
-                value={value}
+                value={value === null ? undefined : value}
                 onChange={onChange}
                 decimalSeparator="."
                 precision={precision}

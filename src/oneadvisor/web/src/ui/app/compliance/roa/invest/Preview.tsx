@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { roaInvestDataSelector } from "@/state/compliance/roa";
+import { RoaInvestData } from "@/state/compliance/roa/invest/data/types";
 import { RootState } from "@/state/types";
 import { Loader } from "@/ui/controls";
 import { Document, Font, Page, PDFViewer, StyleSheet, Text, View } from "@react-pdf/renderer";
@@ -61,59 +62,97 @@ const styles = StyleSheet.create({
 type Props = PropsFromState;
 
 const Preview: React.FC<Props> = ({ data, fetching }) => {
-    const debug = false;
-
     if (fetching) return <Loader className="mt-5" />;
 
     return (
         <PDFViewer width="100%" height="100%">
             <Document title="Invest ROA">
                 <Page size="A4" style={styles.page}>
-                    <View style={styles.h1} debug={debug}>
+                    <View style={styles.h1}>
                         <Text>Record of Advice</Text>
                     </View>
-                    <View style={styles.mb3} debug={debug}>
+                    <View style={styles.mb3}>
                         <Text>{data.clientFullName}</Text>
                     </View>
-
-                    <View style={[styles.h3]} debug={debug}>
-                        <Text>Client Objectives</Text>
-                    </View>
-                    <View style={[styles.h4]} debug={debug}>
-                        <Text>{`Reason that prompted this consult with ${data.clientFullName}`}</Text>
-                    </View>
-                    <View style={styles.mb3} debug={debug}>
-                        <Text>{data.consultReason}</Text>
-                    </View>
-                    <View style={[styles.h4]} debug={debug}>
-                        <Text>Type of Financial Planning Assessment Requested</Text>
-                    </View>
-                    <View style={styles.mb3} debug={debug}>
-                        <Text>Focussed on investment only</Text>
-                    </View>
-
-                    <View style={[styles.h3]} debug={debug}>
-                        <Text>Options Discussed</Text>
-                    </View>
-                    <View style={[styles.h4]} debug={debug}>
-                        <Text>Products Considered</Text>
-                    </View>
-                    <View style={styles.mb3} debug={debug}>
-                        {data.productTypeNames.map((name) => (
-                            <Text key={name}>{name}</Text>
-                        ))}
-                    </View>
-                    <View style={[styles.h4]} debug={debug}>
-                        <Text>Companies Considered</Text>
-                    </View>
-                    <View style={styles.mb3} debug={debug}>
-                        {data.companyNames.map((name) => (
-                            <Text key={name}>{name}</Text>
-                        ))}
-                    </View>
+                    <ClientObjectives data={data} />
+                    <OptionsDiscussed data={data} />
+                    <AdvisorRecommendation data={data} />
                 </Page>
             </Document>
         </PDFViewer>
+    );
+};
+
+type DataProps = {
+    data: RoaInvestData;
+};
+
+const ClientObjectives: React.FC<DataProps> = ({ data }) => {
+    return (
+        <>
+            <View style={[styles.h3]}>
+                <Text>Client Objectives</Text>
+            </View>
+            <View style={[styles.h4]}>
+                <Text>{`Reason that prompted this consult with ${data.clientFullName}`}</Text>
+            </View>
+            <View style={styles.mb3}>
+                <Text>{data.consultReason}</Text>
+            </View>
+            <View style={[styles.h4]}>
+                <Text>Type of Financial Planning Assessment Requested</Text>
+            </View>
+            <View style={styles.mb3}>
+                <Text>Focussed on investment only</Text>
+            </View>
+        </>
+    );
+};
+
+const OptionsDiscussed: React.FC<DataProps> = ({ data }) => {
+    return (
+        <>
+            <View style={[styles.h3]}>
+                <Text>Options Discussed</Text>
+            </View>
+            <View style={[styles.h4]}>
+                <Text>Products Considered</Text>
+            </View>
+            <View style={styles.mb3}>
+                {data.productTypeNames.map((name) => (
+                    <Text key={name}>{name}</Text>
+                ))}
+            </View>
+            <View style={[styles.h4]}>
+                <Text>Funds and Investment Benchmarks Discussed</Text>
+            </View>
+            <View style={styles.mb3}>
+                {data.funds.map((name) => (
+                    <Text key={name}>{name}</Text>
+                ))}
+            </View>
+            <View style={[styles.h4]}>
+                <Text>Companies Considered</Text>
+            </View>
+            <View style={styles.mb3}>
+                {data.companyNames.map((name) => (
+                    <Text key={name}>{name}</Text>
+                ))}
+            </View>
+        </>
+    );
+};
+
+const AdvisorRecommendation: React.FC<DataProps> = ({ data }) => {
+    return (
+        <>
+            <View style={[styles.h3]}>
+                <Text>Advisor Recommendation</Text>
+            </View>
+            <View style={styles.mb3}>
+                <Text>{data.advisorRecommendation}</Text>
+            </View>
+        </>
     );
 };
 

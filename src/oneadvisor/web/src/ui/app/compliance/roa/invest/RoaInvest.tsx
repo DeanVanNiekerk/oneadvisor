@@ -9,6 +9,7 @@ import { RootState } from "@/state/types";
 import { Button, Drawer, Header } from "@/ui/controls";
 
 import Preview from "./Preview";
+import AdvisorRecommendationsSection from "./sections/AdvisorRecommendationsSection";
 import ClientObjectiveSection from "./sections/ClientObjectiveSection";
 import OptionsDiscussedSection from "./sections/OptionsDiscussedSection";
 
@@ -66,12 +67,15 @@ const RoaInvest: React.FC<Props> = (props) => {
 const CardsContainer: React.FC = () => {
     return (
         <div>
-            <Row gutter={16}>
-                <Col md={24} xl={12}>
+            <Row gutter={18}>
+                <Col md={24} xl={12} className="pt-1">
                     <ClientObjectiveSection />
                 </Col>
-                <Col md={24} xl={12}>
+                <Col md={24} xl={12} className="pt-1">
                     <OptionsDiscussedSection />
+                </Col>
+                <Col md={24} className="pt-1">
+                    <AdvisorRecommendationsSection />
                 </Col>
             </Row>
         </div>

@@ -8,6 +8,7 @@ namespace OneAdvisor.Model.Directory.Model.Organisation.Configuration
         public Config()
         {
             CompanyIds = new List<Guid>();
+            Funds = new List<string>();
             LicenseCategoryIds = new List<Guid>();
             Address = new Address();
             ComplianceOfficer = new ComplianceOfficer();
@@ -17,6 +18,7 @@ namespace OneAdvisor.Model.Directory.Model.Organisation.Configuration
         public bool VATRegistered { get; set; }
         public DateTime? VATRegistrationDate { get; set; }
         public List<Guid> CompanyIds { get; set; }
+        public List<string> Funds { get; set; }
         public List<Guid> LicenseCategoryIds { get; set; }
         public string TelephoneNumber { get; set; }
         public Address Address { get; set; }
