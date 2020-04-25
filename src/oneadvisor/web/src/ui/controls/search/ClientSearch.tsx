@@ -8,6 +8,7 @@ import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/ta
 import { Client } from "@/state/client/clients/types";
 import { getClients } from "@/state/lookups/client";
 import { Age, getTable } from "@/ui/controls";
+import { useDebounce } from "@/ui/hooks";
 import { SearchOutlined } from "@ant-design/icons";
 
 const Table = getTable<Client>();
@@ -21,14 +22,15 @@ const ClientSearchComponent: React.FC<Props> = (props) => {
     const [searchText, setSearchText] = useState<string>(props.defaultSearchText || "");
     const [fetching, setFetching] = useState<boolean>(false);
     const [clients, setClients] = useState<Client[]>([]);
+    const debouncedSearchText = useDebounce<string>(searchText, 500);
 
     useEffect(() => {
         loadClients();
-    }, [searchText]);
+    }, [debouncedSearchText]);
 
     const loadClients = () => {
         let filters: Filters<Client> = {
-            lastName: [searchText],
+            lastName: [debouncedSearchText],
         };
 
         filters = applyLike(filters, ["lastName"]);
