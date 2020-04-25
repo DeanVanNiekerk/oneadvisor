@@ -47,12 +47,6 @@ export const receiveClient = (client: ClientEdit | null): ClientReceiveAction =>
     payload: client,
 });
 
-export const getClient = (clientId: string, onSuccess: ApiOnSuccess<ClientEdit>): ApiAction => ({
-    type: "API",
-    endpoint: `${clientsApi}/${clientId}`,
-    onSuccess: onSuccess,
-});
-
 export const fetchClient = (clientId: string): ApiAction => ({
     type: "API",
     endpoint: `${clientsApi}/${clientId}`,

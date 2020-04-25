@@ -13,12 +13,12 @@ import {
 } from "@/state/commission/errors";
 import { Statement } from "@/state/commission/statements";
 import EditClient from "@/ui/app/client/client/form/EditClient";
-import ClientSearch from "@/ui/app/client/client/list/ClientSearch";
 import EditPolicy from "@/ui/app/client/policy/form/EditPolicy";
 import PolicySearch from "@/ui/app/client/policy/list/PolicySearch";
 import {
     Button,
     ClientName,
+    ClientSearch,
     CommissionTypeName,
     Drawer,
     Form,

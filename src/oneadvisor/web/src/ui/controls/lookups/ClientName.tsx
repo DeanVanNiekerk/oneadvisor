@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { connect, DispatchProp } from "react-redux";
 
-import { ClientEdit, getClient } from "@/state/client/clients";
+import { ClientEdit } from "@/state/client/clients/types";
+import { getClient } from "@/state/lookups/client";
 
 type Props = {
     clientId: string | null;

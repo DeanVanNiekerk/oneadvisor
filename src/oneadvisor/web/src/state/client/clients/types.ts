@@ -84,14 +84,8 @@ export type PreviewState = {
     readonly fetching: boolean;
 };
 
-export type SearchState = {
-    readonly items: Client[];
-    readonly fetching: boolean;
-};
-
 export type ClientsState = {
     readonly list: ListState;
-    readonly search: SearchState;
     readonly client: ClientState;
     readonly preview: PreviewState;
     readonly merge: MergeState;

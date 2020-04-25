@@ -5,8 +5,15 @@ import { bindActionCreators, Dispatch } from "redux";
 
 import { RootState } from "@/state";
 import { receiveClientId, receiveConsultReason, roaInvestSelector } from "@/state/compliance/roa";
-import ClientSearch from "@/ui/app/client/client/list/ClientSearch";
-import { Button, ClientName, Drawer, Form, FormText, FormTextArea } from "@/ui/controls";
+import {
+    Button,
+    ClientName,
+    ClientSearch,
+    Drawer,
+    Form,
+    FormText,
+    FormTextArea,
+} from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;
 

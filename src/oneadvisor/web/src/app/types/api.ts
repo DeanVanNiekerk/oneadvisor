@@ -5,6 +5,7 @@ import { ValidationResult } from "../validation";
 type ApiActionType = "API";
 type ApiMethods = "GET" | "POST" | "DELETE";
 export type ApiOnSuccess<T = unknown> = (result: T, dispatch: Dispatch) => void;
+export type ApiOnAlways = () => void;
 export type ApiOnFailure<T = unknown> = (result: T) => void;
 export type ApiOnValidationFailure = (
     validationResults: ValidationResult[],
@@ -23,7 +24,7 @@ export type ApiAction = {
     hideValidationNotifications?: boolean;
     onFailure?: ApiOnFailure;
     onValidationFailure?: ApiOnValidationFailure;
-    onAlways?: () => void;
+    onAlways?: ApiOnAlways;
 };
 
 export type Result<T = null> = {

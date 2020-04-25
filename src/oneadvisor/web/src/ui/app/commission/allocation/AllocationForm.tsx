@@ -4,8 +4,15 @@ import { connect, DispatchProp } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
 import { AllocationEdit } from "@/state/commission/allocations";
-import ClientSearch from "@/ui/app/client/client/list/ClientSearch";
-import { Button, ClientName, Drawer, Form, FormErrors, FormText } from "@/ui/controls";
+import {
+    Button,
+    ClientName,
+    ClientSearch,
+    Drawer,
+    Form,
+    FormErrors,
+    FormText,
+} from "@/ui/controls";
 
 import PolicyTable from "../../client/policy/list/PolicyTable";
 

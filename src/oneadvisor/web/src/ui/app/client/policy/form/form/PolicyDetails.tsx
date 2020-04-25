@@ -16,10 +16,10 @@ import {
 } from "@/state/client/policies";
 import { organisationCompaniesSelector } from "@/state/lookups/directory";
 import { brokersSelector } from "@/state/lookups/directory/usersSimple";
-import ClientSearch from "@/ui/app/client/client/list/ClientSearch";
 import {
     Button,
     ClientName,
+    ClientSearch,
     Drawer,
     Form,
     FormCascade,
