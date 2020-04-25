@@ -19,7 +19,7 @@ Font.register({
 const styles = StyleSheet.create({
     page: {
         fontFamily: "Roboto",
-        padding: 10,
+        padding: 16,
         fontSize: 10,
     },
     h1: {
@@ -28,11 +28,17 @@ const styles = StyleSheet.create({
         marginTop: 16,
         marginBottom: 28,
     },
-    h4: {
-        fontSize: 12,
+    h3: {
+        fontSize: 14,
         fontStyle: "bold",
         marginTop: 8,
         marginBottom: 16,
+    },
+    h4: {
+        fontSize: 12,
+        fontStyle: "bold",
+        marginTop: 6,
+        marginBottom: 12,
     },
     b: {
         fontStyle: "bold",
@@ -69,11 +75,41 @@ const Preview: React.FC<Props> = ({ data, fetching }) => {
                     <View style={styles.mb3} debug={debug}>
                         <Text>{data.clientFullName}</Text>
                     </View>
-                    <View style={[styles.h4]} debug={debug}>
+
+                    <View style={[styles.h3]} debug={debug}>
                         <Text>Client Objectives</Text>
+                    </View>
+                    <View style={[styles.h4]} debug={debug}>
+                        <Text>{`Reason that prompted this consult with ${data.clientFullName}`}</Text>
                     </View>
                     <View style={styles.mb3} debug={debug}>
                         <Text>{data.consultReason}</Text>
+                    </View>
+                    <View style={[styles.h4]} debug={debug}>
+                        <Text>Type of Financial Planning Assessment Requested</Text>
+                    </View>
+                    <View style={styles.mb3} debug={debug}>
+                        <Text>Focussed on investment only</Text>
+                    </View>
+
+                    <View style={[styles.h3]} debug={debug}>
+                        <Text>Options Discussed</Text>
+                    </View>
+                    <View style={[styles.h4]} debug={debug}>
+                        <Text>Products Considered</Text>
+                    </View>
+                    <View style={styles.mb3} debug={debug}>
+                        {data.productTypeNames.map((name) => (
+                            <Text key={name}>{name}</Text>
+                        ))}
+                    </View>
+                    <View style={[styles.h4]} debug={debug}>
+                        <Text>Companies Considered</Text>
+                    </View>
+                    <View style={styles.mb3} debug={debug}>
+                        {data.companyNames.map((name) => (
+                            <Text key={name}>{name}</Text>
+                        ))}
                     </View>
                 </Page>
             </Document>

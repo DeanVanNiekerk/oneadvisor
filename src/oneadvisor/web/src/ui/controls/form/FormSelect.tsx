@@ -40,6 +40,7 @@ type Props<T extends SelectValue> = {
     hidden?: boolean;
     allowClear?: boolean;
     addonAfter?: React.ReactNode;
+    mode?: "multiple" | "tags";
 };
 
 class FormSelect<T extends SelectValue> extends Component<Props<T>> {
@@ -102,6 +103,7 @@ class FormSelect<T extends SelectValue> extends Component<Props<T>> {
             >
                 <React.Fragment>
                     <Select
+                        mode={this.props.mode}
                         showSearch={this.props.showSearch}
                         showArrow={this.props.showArrow}
                         filterOption={this.props.filterOption}
@@ -109,7 +111,7 @@ class FormSelect<T extends SelectValue> extends Component<Props<T>> {
                         notFoundContent={this.props.notFoundContent}
                         placeholder={this.props.placeholder}
                         style={style}
-                        value={labelValue === "" ? "" : value}
+                        value={value}
                         onChange={this.onChange}
                         disabled={disabled}
                         defaultActiveFirstOption={defaultActiveFirstOption}

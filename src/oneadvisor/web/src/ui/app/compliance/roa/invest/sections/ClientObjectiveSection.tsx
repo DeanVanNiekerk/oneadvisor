@@ -25,7 +25,7 @@ const ClientObjectiveSection: React.FC<Props> = (props) => {
     const [clientSearchVisible, setClientSearchVisible] = useState<boolean>(false);
 
     return (
-        <Card hoverable={true} title="Client Objectives" bordered={false}>
+        <Card title="Client Objectives">
             <Form layout="vertical">
                 <FormText
                     fieldName="clientId"

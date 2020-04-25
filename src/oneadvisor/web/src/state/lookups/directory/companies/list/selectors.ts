@@ -17,6 +17,8 @@ export const organisationCompaniesSelector: (state: RootState) => Company[] = cr
     rootSelector,
     contextSelector,
     (root, context) => {
+        console.log("context.organisation", context.organisation);
+
         if (!context.organisation) return root.items;
 
         const organisationCompanyIds = context.organisation.config.companyIds;

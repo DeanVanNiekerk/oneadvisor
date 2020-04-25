@@ -1,4 +1,5 @@
 import { defaultState, reducer } from "./reducer";
+import { RoaInvestData } from "./types";
 
 describe("roa invest reducer", () => {
     it("should handle COMPLIANCE_ROA_INVEST_DATA_FETCHING_RECEIVE", () => {
@@ -24,9 +25,11 @@ describe("roa invest reducer", () => {
             ...defaultState,
         };
 
-        const data = {
+        const data: RoaInvestData = {
             clientFullName: "Dean van Zoning",
             consultReason: "Get your life sorted",
+            companyNames: [],
+            productTypeNames: [],
         };
 
         const actualState = reducer(initalState, {

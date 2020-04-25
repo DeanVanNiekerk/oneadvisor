@@ -6,6 +6,8 @@ export const defaultState: RoaInvestDataState = {
     data: {
         clientFullName: "",
         consultReason: "",
+        companyNames: [],
+        productTypeNames: [],
     },
 };
 

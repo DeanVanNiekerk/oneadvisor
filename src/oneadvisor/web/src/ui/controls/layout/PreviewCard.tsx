@@ -50,7 +50,6 @@ const PreviewCardComponent: React.FC<Props> = (props: Props) => {
     return (
         <Col sm={24} md={12} lg={8} xl={6}>
             <Card
-                hoverable={true}
                 title={
                     <>
                         <span>
@@ -62,7 +61,6 @@ const PreviewCardComponent: React.FC<Props> = (props: Props) => {
                         {titleExtra && <span className="pull-right">{titleExtra}</span>}
                     </>
                 }
-                bordered={false}
                 onClick={onClick}
                 actions={actions}
                 style={style}

@@ -2,8 +2,11 @@ import { RoaInvestInputAction } from "./";
 import { RoaInvestInputState } from "./types";
 
 export const defaultState: RoaInvestInputState = {
-    clientId: null,
-    consultReason: "",
+    clientId: "ba053117-cef7-43d7-2200-08d7e6ed7443",
+    consultReason:
+        "Client was concerned about his returement investments and wanted to discuss the current retirement reforms that have been suggested by government. Prescribed assets!! Would like to get as much out of SA as possible.",
+    productTypeIds: [],
+    companyIds: [],
 };
 
 export const reducer = (
@@ -21,6 +24,18 @@ export const reducer = (
             return {
                 ...state,
                 consultReason: action.payload,
+            };
+        }
+        case "COMPLIANCE_ROA_INVEST_INPUT_PRODUCTTYPEIDS_RECEIVE": {
+            return {
+                ...state,
+                productTypeIds: action.payload,
+            };
+        }
+        case "COMPLIANCE_ROA_INVEST_INPUT_COMPANYIDS_RECEIVE": {
+            return {
+                ...state,
+                companyIds: action.payload,
             };
         }
         default:

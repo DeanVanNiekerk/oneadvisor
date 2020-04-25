@@ -11,7 +11,7 @@ import {
     roleSelector,
     tokenDataSelector,
 } from "@/state/auth/token/selectors";
-import { fetchAppInfo, fetchApplications } from "@/state/context/actions";
+import { fetchAppInfo, fetchApplications, fetchUserOrganisation } from "@/state/context/actions";
 import { isLoadingSelector } from "@/state/context/selectors";
 import { fetchBranchesSimple, fetchUsersSimple } from "@/state/lookups/directory";
 import { RootState } from "@/state/types";
@@ -32,6 +32,7 @@ const Startup: React.FC<Props> = (props: Props) => {
 
     useEffect(() => {
         if (props.isAuthenticated) {
+            props.dispatch(fetchUserOrganisation());
             props.dispatch(fetchUsersSimple());
             props.dispatch(fetchBranchesSimple());
 
