@@ -57,11 +57,6 @@ const getColumn = <T>(
         ...columnProps,
     };
 
-    if (options.externalDataSource) {
-        props.sorter = true;
-        props.onFilter = undefined;
-    }
-
     if (options.type === "boolean") props.render = formatBool;
     if (options.type === "date")
         props.render = (value) => (value ? moment(value).format("ll") : "");
@@ -70,14 +65,19 @@ const getColumn = <T>(
     if (options.type === "currency") props.render = (value) => formatCurrency(value, 0);
     if (options.type === "long-currency") props.render = (value) => formatCurrency(value, 2);
 
-    let filteredValue: string[] | null = null;
-    const filters = options.filters ? options.filters[dataIndexString] : null;
-    if (filters && filters.length > 0) filteredValue = filters;
+    if (options.externalDataSource) {
+        props.sorter = true;
+        props.onFilter = undefined;
 
-    props = {
-        ...props,
-        filteredValue: filteredValue,
-    };
+        let filteredValue: string[] | null = null;
+        const filters = options.filters ? options.filters[dataIndexString] : null;
+        if (filters && filters.length > 0) filteredValue = filters;
+
+        props = {
+            ...props,
+            filteredValue: filteredValue,
+        };
+    }
 
     if (columnProps.sorter === false) delete props.sorter;
 

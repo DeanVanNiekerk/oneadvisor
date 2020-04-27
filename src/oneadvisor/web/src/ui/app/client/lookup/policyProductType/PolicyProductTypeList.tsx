@@ -12,6 +12,7 @@ import {
 import {
     PolicyProductType,
     PolicyProductTypeEdit,
+    PolicyTypeCharacteristicDescription,
 } from "@/state/lookups/client/policyProductTypes/types";
 import { PolicyType } from "@/state/lookups/client/policyTypes/types";
 import { Button, getColumnSearchProps, getTable, Header, PolicyTypeName } from "@/ui/controls";
@@ -94,6 +95,16 @@ class PolicyProductTypeList extends Component<Props, State> {
                         text: p.name,
                         value: p.id,
                     })),
+                }
+            ),
+            getColumn(
+                "policyTypeCharacteristics",
+                "Characteristics",
+                {},
+                {
+                    render: (policyTypeCharacteristics: PolicyTypeCharacteristicDescription[]) => {
+                        return policyTypeCharacteristics.filter((c) => !!c).length.toString();
+                    },
                 }
             ),
         ];

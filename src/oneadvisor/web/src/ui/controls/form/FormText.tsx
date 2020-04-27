@@ -1,3 +1,4 @@
+import { Typography } from "antd";
 import React from "react";
 
 import { ValidationResult } from "@/app/validation";
@@ -26,9 +27,7 @@ const FormText: React.FC<Props> = (props: Props) => (
         validationResults={props.validationResults}
     >
         <React.Fragment>
-            <span className="ant-form-text">
-                {!props.value ? props.emptyValueText : props.value}
-            </span>
+            <Typography.Text>{!props.value ? props.emptyValueText : props.value}</Typography.Text>
             <span style={{ float: "right" }}>{props.extra}</span>
         </React.Fragment>
     </FormField>

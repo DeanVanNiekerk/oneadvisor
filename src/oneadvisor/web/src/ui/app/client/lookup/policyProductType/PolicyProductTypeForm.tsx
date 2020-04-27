@@ -1,19 +1,30 @@
+import { Typography } from "antd";
 import update from "immutability-helper";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
 import { RootState } from "@/state";
-import { policyTypesSelector } from "@/state/lookups/client";
-import { PolicyProductTypeEdit } from "@/state/lookups/client/policyProductTypes/types";
+import {
+    policyProductTypeCharacteristicDescriptionsSelector,
+    policyTypeCharacteristicsSelector,
+    policyTypesSelector,
+} from "@/state/lookups/client";
+import {
+    PolicyProductTypeEdit,
+    PolicyTypeCharacteristicDescription,
+} from "@/state/lookups/client/policyProductTypes/types";
+import { PolicyTypeCharacteristic } from "@/state/lookups/client/policyTypeCharacteristics/types";
 import { PolicyType } from "@/state/lookups/client/policyTypes/types";
-import { Form, FormInput, FormSelect } from "@/ui/controls";
+import { Form, FormInput, FormSelect, FormText, FormTextArea } from "@/ui/controls";
 
 type Props = {
     policyProductType: PolicyProductTypeEdit;
     validationResults: ValidationResult[];
     onChange: (policyProductType: PolicyProductTypeEdit) => void;
     policyTypes: PolicyType[];
+    policyTypeCharacteristicDescriptions: PolicyTypeCharacteristicDescription[];
+    policyTypeCharacteristics: PolicyTypeCharacteristic[];
 };
 
 type State = {
@@ -36,7 +47,10 @@ class PolicyProductTypeForm extends Component<Props, State> {
             });
     }
 
-    handleChange = (fieldName: keyof PolicyProductTypeEdit, value: string) => {
+    handleChange = (
+        fieldName: keyof PolicyProductTypeEdit,
+        value: string | PolicyTypeCharacteristicDescription[]
+    ) => {
         const policyProductType = update(this.state.policyProductType, {
             [fieldName]: { $set: value },
         });
@@ -44,6 +58,25 @@ class PolicyProductTypeForm extends Component<Props, State> {
             policyProductType: policyProductType,
         });
         this.props.onChange(policyProductType);
+    };
+
+    getPolicyTypeCharacteristicName = (policyTypeCharacteristicId: string) => {
+        const characteristic = this.props.policyTypeCharacteristics.find(
+            (c) => c.id === policyTypeCharacteristicId
+        );
+
+        if (!characteristic) return "";
+
+        return characteristic.name;
+    };
+
+    handlePolicyTypeCharacteristicChange = (policyTypeCharacteristicId: string, value: string) => {
+        const updated = this.props.policyTypeCharacteristicDescriptions.map((c) => {
+            if (c.policyTypeCharacteristicId === policyTypeCharacteristicId) c.description = value;
+            return c;
+        });
+
+        this.handleChange("policyTypeCharacteristics", updated);
     };
 
     render() {
@@ -68,7 +101,7 @@ class PolicyProductTypeForm extends Component<Props, State> {
                     validationResults={validationResults}
                     disabled={!!policyProductType.id}
                 />
-                <FormSelect
+                <FormSelect<string>
                     fieldName="policyTypeId"
                     label="Policy Type"
                     value={policyProductType.policyTypeId}
@@ -78,6 +111,27 @@ class PolicyProductTypeForm extends Component<Props, State> {
                     optionsValue="id"
                     optionsText="name"
                 />
+                <div className="mt-3 mb-1">
+                    <Typography.Text strong>Policy Type Characteristics</Typography.Text>
+                </div>
+                {this.props.policyTypeCharacteristicDescriptions.map((charDescription, index) => {
+                    return (
+                        <FormTextArea
+                            key={charDescription.policyTypeCharacteristicId}
+                            fieldName={`policyTypeCharacteristic[${index}]`}
+                            label={this.getPolicyTypeCharacteristicName(
+                                charDescription.policyTypeCharacteristicId
+                            )}
+                            value={charDescription.description}
+                            onChange={(_fieldName, value) =>
+                                this.handlePolicyTypeCharacteristicChange(
+                                    charDescription.policyTypeCharacteristicId,
+                                    value
+                                )
+                            }
+                        />
+                    );
+                })}
             </Form>
         );
     }
@@ -88,6 +142,10 @@ const mapStateToProps = (state: RootState) => {
 
     return {
         policyTypes: policyTypeState.items,
+        policyTypeCharacteristicDescriptions: policyProductTypeCharacteristicDescriptionsSelector(
+            state
+        ),
+        policyTypeCharacteristics: policyTypeCharacteristicsSelector(state).items,
     };
 };
 
