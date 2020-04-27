@@ -91,7 +91,7 @@ class PolicyProductList extends Component<Props, State> {
             getColumn("code", "Code", {}, getColumnSearchProps("Code")),
             getColumn(
                 "policyProductTypeId",
-                "Policy Type",
+                "Product Type",
                 {},
                 {
                     render: (policyProductTypeId: string) => {

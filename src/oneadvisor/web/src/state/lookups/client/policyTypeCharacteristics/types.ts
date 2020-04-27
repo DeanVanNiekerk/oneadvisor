@@ -4,14 +4,14 @@ export type PolicyTypeCharacteristic = {
     id: string;
     policyTypeId: string;
     name: string;
-    code: string;
+    displayOrder: number;
 };
 
 export type PolicyTypeCharacteristicEdit = {
     id: string | null;
-    policyTypeId: string;
+    policyTypeId: string | null;
     name: string;
-    code: string;
+    displayOrder: number;
 };
 
 export type PolicyTypeCharacteristicListState = {
@@ -21,8 +21,10 @@ export type PolicyTypeCharacteristicListState = {
 
 export type PolicyTypeCharacteristicState = {
     readonly policyTypeCharacteristic: PolicyTypeCharacteristicEdit | null;
+    readonly policyTypeCharacteristicOriginal: PolicyTypeCharacteristicEdit | null;
     readonly updating: boolean;
     readonly validationResults: ValidationResult[];
+    readonly visible: boolean;
 };
 
 export type PolicyTypeCharacteristicsState = {

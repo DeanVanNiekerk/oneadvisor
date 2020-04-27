@@ -55,6 +55,14 @@ export const PolicyProductTypeList = lazy(() =>
         }
     )
 );
+export const PolicyTypeCharacteristicList = lazy(() =>
+    import("@/ui/app/client/lookup/policyTypeCharacteristic/PolicyTypeCharacteristicList").then(
+        async (module) => {
+            await ensureClientReducer();
+            return module;
+        }
+    )
+);
 export const PolicyList = lazy(() =>
     import("@/ui/app/client/policy/list/PolicyList").then(async (module) => {
         await ensureClientReducer();

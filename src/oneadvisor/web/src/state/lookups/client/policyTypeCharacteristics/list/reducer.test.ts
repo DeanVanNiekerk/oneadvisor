@@ -1,3 +1,4 @@
+import { PolicyTypeCharacteristic } from "../types";
 import { defaultState, reducer } from "./reducer";
 
 describe("policyTypeCharacteristic list reducer", () => {
@@ -39,11 +40,11 @@ describe("policyTypeCharacteristic list reducer", () => {
             fetching: true,
         };
 
-        const policyTypeCharacteristic = {
+        const policyTypeCharacteristic: PolicyTypeCharacteristic = {
             id: "10",
-            policyTypeId: "123",
-            name: "Type 1",
-            code: "type_1",
+            name: "n1",
+            displayOrder: 0,
+            policyTypeId: "1",
         };
 
         const actualState = reducer(initalState, {

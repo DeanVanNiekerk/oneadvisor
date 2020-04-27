@@ -12,6 +12,7 @@ import {
     PolicyList,
     PolicyProductList,
     PolicyProductTypeList,
+    PolicyTypeCharacteristicList,
 } from "./client";
 import {
     ClientRevenueReport,
@@ -65,6 +66,11 @@ const Routes: React.FC = () => (
                 exact
                 path="/client/lookups/policyProducts"
                 component={PolicyProductList}
+            />
+            <SecureRoute
+                exact
+                path="/client/lookups/policyTypeCharacteristics"
+                component={PolicyTypeCharacteristicList}
             />
             {/* ------------------------------------------------------------------------------------- */}
             {/* COMMISSION -------------------------------------------------------------------------- */}

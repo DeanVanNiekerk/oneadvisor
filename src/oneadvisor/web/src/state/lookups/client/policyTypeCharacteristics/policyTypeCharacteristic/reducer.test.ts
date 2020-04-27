@@ -1,5 +1,6 @@
 import { getValidationResult } from "@/test";
 
+import { PolicyTypeCharacteristicEdit } from "../types";
 import { defaultState, reducer } from "./reducer";
 
 describe("policyTypeCharacteristic reducer", () => {
@@ -9,11 +10,11 @@ describe("policyTypeCharacteristic reducer", () => {
             validationResults: [getValidationResult()],
         };
 
-        const policyTypeCharacteristic = {
+        const policyTypeCharacteristic: PolicyTypeCharacteristicEdit = {
             id: "10",
-            policyTypeId: "123",
-            name: "Type 1",
-            code: "type_1",
+            name: "n1",
+            displayOrder: 0,
+            policyTypeId: null,
         };
 
         const actualState = reducer(initalState, {
@@ -24,7 +25,54 @@ describe("policyTypeCharacteristic reducer", () => {
         const expectedState = {
             ...defaultState,
             policyTypeCharacteristic: { ...policyTypeCharacteristic },
+            policyTypeCharacteristicOriginal: { ...policyTypeCharacteristic },
             validationResults: [],
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle POLICYTYPECHARACTERISTICS_POLICYTYPECHARACTERISTIC_MODIFIED", () => {
+        const policyTypeCharacteristic: PolicyTypeCharacteristicEdit = {
+            id: "10",
+            name: "n1",
+            displayOrder: 0,
+            policyTypeId: null,
+        };
+
+        const initalState = {
+            ...defaultState,
+            policyTypeCharacteristic: policyTypeCharacteristic,
+            policyTypeCharacteristicOriginal: policyTypeCharacteristic,
+        };
+
+        const policyTypeCharacteristicModified: PolicyTypeCharacteristicEdit = {
+            ...policyTypeCharacteristic,
+            name: "New Name!",
+        };
+
+        const actualState = reducer(initalState, {
+            type: "POLICYTYPECHARACTERISTICS_POLICYTYPECHARACTERISTIC_MODIFIED",
+            payload: { ...policyTypeCharacteristicModified },
+        });
+
+        const expectedState = {
+            ...initalState,
+            policyTypeCharacteristic: { ...policyTypeCharacteristicModified },
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle POLICYTYPECHARACTERISTICS_POLICYTYPECHARACTERISTIC_VISIBLE", () => {
+        const actualState = reducer(defaultState, {
+            type: "POLICYTYPECHARACTERISTICS_POLICYTYPECHARACTERISTIC_VISIBLE",
+            payload: true,
+        });
+
+        const expectedState = {
+            ...defaultState,
+            visible: true,
         };
 
         expect(actualState).toEqual(expectedState);

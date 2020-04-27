@@ -53,6 +53,7 @@ class PolicyProductTypeList extends Component<Props, State> {
             policyTypeId: "",
             name: "",
             code: "",
+            policyTypeCharacteristics: [],
         };
         this.showEditPolicyProductType(policyProductType);
     };

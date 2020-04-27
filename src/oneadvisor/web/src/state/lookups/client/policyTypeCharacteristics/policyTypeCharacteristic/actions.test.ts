@@ -7,9 +7,9 @@ describe("policyTypeCharacteristic actions", () => {
     it("should dispatch API when updatePolicyTypeCharacteristic is called", () => {
         const policyTypeCharacteristic: PolicyTypeCharacteristicEdit = {
             id: "10",
-            policyTypeId: "123",
-            name: "Type 1",
-            code: "type_1",
+            name: "n1",
+            displayOrder: 0,
+            policyTypeId: "1",
         };
 
         const expectedAction = {

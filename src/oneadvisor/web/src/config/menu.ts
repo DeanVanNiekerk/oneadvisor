@@ -39,7 +39,7 @@ export const menus: Menus = {
             {
                 name: "Lookups",
                 defaultOpen: false,
-                icon: "setting",
+                icon: "database",
                 links: [
                     {
                         name: "Companies",
@@ -124,7 +124,7 @@ export const menus: Menus = {
             {
                 name: "Lookups",
                 defaultOpen: false,
-                icon: "setting",
+                icon: "database",
                 links: [
                     {
                         name: "Product Types",
@@ -134,6 +134,11 @@ export const menus: Menus = {
                     {
                         name: "Products",
                         relativePath: "/lookups/policyProducts",
+                        roles: ["super_administrator"],
+                    },
+                    {
+                        name: "Policy Type Chars",
+                        relativePath: "/lookups/policyTypeCharacteristics",
                         roles: ["super_administrator"],
                     },
                 ],
@@ -202,7 +207,7 @@ export const menus: Menus = {
             {
                 name: "Lookups",
                 defaultOpen: false,
-                icon: "setting",
+                icon: "database",
                 links: [
                     {
                         name: "Commission Types",
