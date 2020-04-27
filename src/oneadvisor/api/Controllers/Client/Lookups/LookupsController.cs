@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using api.App.Authorization;
-using OneAdvisor.Model.Common;
 using OneAdvisor.Model.Client.Interface;
-using Microsoft.AspNetCore.Http;
-using OneAdvisor.Model.Directory.Interface;
-using OneAdvisor.Model.Client.Model.Policy;
-using OneAdvisor.Model.Client.Model.Contact;
-using OneAdvisor.Model.Account.Interface;
 using OneAdvisor.Model.Client.Model.Lookup;
 using OneAdvisor.Model.Directory.Model.Role;
 
@@ -39,10 +30,49 @@ namespace api.Controllers.Client.Contacts
                 MarritalStatus = await LookupService.GetMarritalStatus(),
                 PolicyProductTypes = await LookupService.GetPolicyProductTypes(),
                 PolicyProducts = await LookupService.GetPolicyProducts(),
+                PolicyTypeCharacteristics = await LookupService.GetPolicyTypeCharacteristics(),
             };
 
             return Ok(lookups);
         }
+
+        #region Policy Type Characteristics
+
+        [HttpGet("policyTypeCharacteristics")]
+        public async Task<IActionResult> GetPolicyTypeCharacteristics()
+        {
+            var items = await LookupService.GetPolicyTypeCharacteristics();
+
+            return Ok(items);
+        }
+
+        [HttpPost("policyTypeCharacteristics")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
+        public async Task<IActionResult> InsertPolicyTypeCharacteristic([FromBody] PolicyTypeCharacteristic policyTypeCharacteristic)
+        {
+            var result = await LookupService.InsertPolicyTypeCharacteristic(policyTypeCharacteristic);
+
+            if (!result.Success)
+                return BadRequest(result.ValidationFailures);
+
+            return Ok(result);
+        }
+
+        [HttpPost("policyTypeCharacteristics/{policyTypeCharacteristicId}")]
+        [RoleAuthorize(Role.SUPER_ADMINISTRATOR_ROLE)]
+        public async Task<IActionResult> UpdatePolicyTypeCharacteristic(Guid policyTypeCharacteristicId, [FromBody] PolicyTypeCharacteristic policyTypeCharacteristic)
+        {
+            policyTypeCharacteristic.Id = policyTypeCharacteristicId;
+
+            var result = await LookupService.UpdatePolicyTypeCharacteristic(policyTypeCharacteristic);
+
+            if (!result.Success)
+                return BadRequest(result.ValidationFailures);
+
+            return Ok(result);
+        }
+
+        #endregion
 
         #region Policy Products
 

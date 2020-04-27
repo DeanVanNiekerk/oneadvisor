@@ -210,13 +210,27 @@ namespace OneAdvisor.Service.Test.Client
         {
             var options = TestHelper.GetDbContext("GetPolicyProductTypes");
 
+            var policyType = TestHelper.InsertPolicyType(options);
+
+            var char1 = new PolicyTypeCharacteristicEntity { Id = Guid.NewGuid(), Name = "A", DisplayOrder = 0, PolicyTypeId = policyType.Id };
+            var charDesc1 = new PolicyTypeCharacteristicDescription() { PolicyTypeCharacteristicId = char1.Id, Description = "Description 1" };
+
             //Given
-            var lkp1 = new PolicyProductTypeEntity { Id = Guid.NewGuid(), Name = "A", Code = "aa", PolicyTypeId = Guid.NewGuid() };
-            var lkp2 = new PolicyProductTypeEntity { Id = Guid.NewGuid(), Name = "B", Code = "bb", PolicyTypeId = Guid.NewGuid() };
-            var lkp3 = new PolicyProductTypeEntity { Id = Guid.NewGuid(), Name = "C", Code = "cc", PolicyTypeId = Guid.NewGuid() };
+            var lkp1 = new PolicyProductTypeEntity
+            {
+                Id = Guid.NewGuid(),
+                Name = "A",
+                Code = "aa",
+                PolicyTypeId = policyType.Id,
+                PolicyTypeCharacteristics = new List<PolicyTypeCharacteristicDescription>() { charDesc1 }
+            };
+            var lkp2 = new PolicyProductTypeEntity { Id = Guid.NewGuid(), Name = "B", Code = "bb", PolicyTypeId = policyType.Id };
+            var lkp3 = new PolicyProductTypeEntity { Id = Guid.NewGuid(), Name = "C", Code = "cc", PolicyTypeId = policyType.Id };
 
             using (var context = new DataContext(options))
             {
+                context.PolicyTypeCharacteristic.Add(char1);
+
                 //Jumbled order
                 context.PolicyProductType.Add(lkp2);
                 context.PolicyProductType.Add(lkp1);
@@ -240,6 +254,7 @@ namespace OneAdvisor.Service.Test.Client
                 Assert.Equal(lkp1.Name, actual1.Name);
                 Assert.Equal(lkp1.Code, actual1.Code);
                 Assert.Equal(lkp1.PolicyTypeId, actual1.PolicyTypeId);
+                Assert.Equal(lkp1.PolicyTypeCharacteristics, actual1.PolicyTypeCharacteristics);
 
                 var actual2 = actual[1];
                 Assert.Equal(lkp2.Id, actual2.Id);
@@ -254,12 +269,24 @@ namespace OneAdvisor.Service.Test.Client
         {
             var options = TestHelper.GetDbContext("InsertPolicyProductType");
 
+            var policyType = TestHelper.InsertPolicyType(options);
+
+            var char1 = new PolicyTypeCharacteristicEntity { Id = Guid.NewGuid(), Name = "A", DisplayOrder = 0, PolicyTypeId = policyType.Id };
+            var charDesc1 = new PolicyTypeCharacteristicDescription() { PolicyTypeCharacteristicId = char1.Id, Description = "Description 1" };
+
+            using (var context = new DataContext(options))
+            {
+                context.PolicyTypeCharacteristic.Add(char1);
+                context.SaveChanges();
+            }
+
             //Given
             var model = new PolicyProductType()
             {
                 Name = "1",
                 Code = "one",
-                PolicyTypeId = Guid.NewGuid()
+                PolicyTypeId = policyType.Id,
+                PolicyTypeCharacteristics = new List<PolicyTypeCharacteristicDescription>() { charDesc1 }
             };
 
             using (var context = new DataContext(options))
@@ -276,6 +303,7 @@ namespace OneAdvisor.Service.Test.Client
                 Assert.Equal(model.Name, actual.Name);
                 Assert.Equal(model.Code, actual.Code);
                 Assert.Equal(model.PolicyTypeId, actual.PolicyTypeId);
+                Assert.Equal(model.PolicyTypeCharacteristics, actual.PolicyTypeCharacteristics);
             }
         }
 
@@ -284,11 +312,24 @@ namespace OneAdvisor.Service.Test.Client
         {
             var options = TestHelper.GetDbContext("UpdatePolicyProductType");
 
+            var policyType = TestHelper.InsertPolicyType(options);
+
+            var char1 = new PolicyTypeCharacteristicEntity { Id = Guid.NewGuid(), Name = "A", DisplayOrder = 0, PolicyTypeId = policyType.Id };
+            var charDesc1 = new PolicyTypeCharacteristicDescription() { PolicyTypeCharacteristicId = char1.Id, Description = "Description 1" };
+            var charDesc2 = new PolicyTypeCharacteristicDescription() { PolicyTypeCharacteristicId = char1.Id, Description = "Description 2" };
+
             //Given
-            var lkp1 = new PolicyProductTypeEntity { Id = Guid.NewGuid(), Name = "1", Code = "aa", PolicyTypeId = Guid.NewGuid() };
+            var lkp1 = new PolicyProductTypeEntity()
+            {
+                Name = "1",
+                Code = "one",
+                PolicyTypeId = policyType.Id,
+                PolicyTypeCharacteristics = new List<PolicyTypeCharacteristicDescription>() { charDesc1 }
+            };
 
             using (var context = new DataContext(options))
             {
+                context.PolicyTypeCharacteristic.Add(char1);
                 context.PolicyProductType.Add(lkp1);
 
                 context.SaveChanges();
@@ -299,7 +340,8 @@ namespace OneAdvisor.Service.Test.Client
                 Id = lkp1.Id,
                 Name = "1 Updated",
                 Code = "aa Updated",
-                PolicyTypeId = Guid.NewGuid()
+                PolicyTypeId = policyType.Id,
+                PolicyTypeCharacteristics = new List<PolicyTypeCharacteristicDescription>() { charDesc2 }
             };
 
             using (var context = new DataContext(options))
@@ -315,6 +357,126 @@ namespace OneAdvisor.Service.Test.Client
                 var actual = await context.PolicyProductType.FindAsync(model.Id);
                 Assert.Equal(model.Name, actual.Name);
                 Assert.Equal(model.Code, actual.Code);
+                Assert.Equal(model.PolicyTypeId, actual.PolicyTypeId);
+                Assert.Equal(model.PolicyTypeCharacteristics, actual.PolicyTypeCharacteristics);
+            }
+        }
+
+        #endregion
+
+        #region Policy Type Characteristics
+
+        [Fact]
+        public async Task GetPolicyTypeCharacteristics()
+        {
+            var options = TestHelper.GetDbContext("GetPolicyTypeCharacteristics");
+
+            //Given
+            var policyTypeId = Guid.NewGuid();
+            var lkp1 = new PolicyTypeCharacteristicEntity { Id = Guid.NewGuid(), Name = "A", DisplayOrder = 0, PolicyTypeId = policyTypeId };
+            var lkp2 = new PolicyTypeCharacteristicEntity { Id = Guid.NewGuid(), Name = "B", DisplayOrder = 1, PolicyTypeId = policyTypeId };
+            var lkp3 = new PolicyTypeCharacteristicEntity { Id = Guid.NewGuid(), Name = "C", DisplayOrder = 2, PolicyTypeId = policyTypeId };
+
+            using (var context = new DataContext(options))
+            {
+                //Jumbled order
+                context.PolicyTypeCharacteristic.Add(lkp2);
+                context.PolicyTypeCharacteristic.Add(lkp1);
+                context.PolicyTypeCharacteristic.Add(lkp3);
+
+                context.SaveChanges();
+            }
+
+            using (var context = new DataContext(options))
+            {
+                var service = new ClientLookupService(context);
+
+                //When
+                var actual = await service.GetPolicyTypeCharacteristics();
+
+                //Then
+                Assert.Equal(3, actual.Count);
+
+                var actual1 = actual[0];
+                Assert.Equal(lkp1.Id, actual1.Id);
+                Assert.Equal(lkp1.Name, actual1.Name);
+                Assert.Equal(lkp1.DisplayOrder, actual1.DisplayOrder);
+                Assert.Equal(lkp1.PolicyTypeId, actual1.PolicyTypeId);
+
+                var actual2 = actual[1];
+                Assert.Equal(lkp2.Id, actual2.Id);
+
+                var actual3 = actual[2];
+                Assert.Equal(lkp3.Id, actual3.Id);
+            }
+        }
+
+        [Fact]
+        public async Task InsertPolicyTypeCharacteristic()
+        {
+            var options = TestHelper.GetDbContext("InsertPolicyTypeCharacteristic");
+
+            //Given
+            var model = new PolicyTypeCharacteristic()
+            {
+                Name = "1",
+                DisplayOrder = 1,
+                PolicyTypeId = Guid.NewGuid()
+            };
+
+            using (var context = new DataContext(options))
+            {
+                var service = new ClientLookupService(context);
+
+                //When
+                var result = await service.InsertPolicyTypeCharacteristic(model);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.PolicyTypeCharacteristic.FindAsync(((PolicyTypeCharacteristic)result.Tag).Id);
+                Assert.Equal(model.Name, actual.Name);
+                Assert.Equal(model.DisplayOrder, actual.DisplayOrder);
+                Assert.Equal(model.PolicyTypeId, actual.PolicyTypeId);
+            }
+        }
+
+        [Fact]
+        public async Task UpdatePolicyTypeCharacteristic()
+        {
+            var options = TestHelper.GetDbContext("UpdatePolicyTypeCharacteristic");
+
+            //Given
+            var lkp1 = new PolicyTypeCharacteristicEntity { Id = Guid.NewGuid(), Name = "1", DisplayOrder = 1, PolicyTypeId = Guid.NewGuid() };
+
+            using (var context = new DataContext(options))
+            {
+                context.PolicyTypeCharacteristic.Add(lkp1);
+
+                context.SaveChanges();
+            }
+
+            var model = new PolicyTypeCharacteristic()
+            {
+                Id = lkp1.Id,
+                Name = "1 Updated",
+                DisplayOrder = 2,
+                PolicyTypeId = Guid.NewGuid()
+            };
+
+            using (var context = new DataContext(options))
+            {
+                var service = new ClientLookupService(context);
+
+                //When
+                var result = await service.UpdatePolicyTypeCharacteristic(model);
+
+                //Then
+                Assert.True(result.Success);
+
+                var actual = await context.PolicyTypeCharacteristic.FindAsync(model.Id);
+                Assert.Equal(model.Name, actual.Name);
+                Assert.Equal(model.DisplayOrder, actual.DisplayOrder);
                 Assert.Equal(model.PolicyTypeId, actual.PolicyTypeId);
             }
         }

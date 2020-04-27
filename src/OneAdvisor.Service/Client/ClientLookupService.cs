@@ -111,7 +111,8 @@ namespace OneAdvisor.Service.Directory
                             Id = type.Id,
                             PolicyTypeId = type.PolicyTypeId,
                             Name = type.Name,
-                            Code = type.Code
+                            Code = type.Code,
+                            PolicyTypeCharacteristics = type.PolicyTypeCharacteristics
                         };
 
             return query;
@@ -161,6 +162,82 @@ namespace OneAdvisor.Service.Directory
 
             entity.Name = model.Name;
             entity.Code = model.Code;
+            entity.PolicyTypeId = model.PolicyTypeId.Value;
+            entity.PolicyTypeCharacteristics = model.PolicyTypeCharacteristics;
+
+            return entity;
+        }
+
+        #endregion
+
+        #region Policy Type Characteristics
+
+        public async Task<List<PolicyTypeCharacteristic>> GetPolicyTypeCharacteristics()
+        {
+            var query = GetPolicyTypeCharacteristicQuery();
+
+            return await query.ToListAsync();
+        }
+
+        private IQueryable<PolicyTypeCharacteristic> GetPolicyTypeCharacteristicQuery()
+        {
+            var query = from type in _context.PolicyTypeCharacteristic
+                        orderby type.PolicyTypeId, type.DisplayOrder
+                        select new PolicyTypeCharacteristic()
+                        {
+                            Id = type.Id,
+                            PolicyTypeId = type.PolicyTypeId,
+                            Name = type.Name,
+                            DisplayOrder = type.DisplayOrder
+                        };
+
+            return query;
+        }
+
+        public async Task<Result> InsertPolicyTypeCharacteristic(PolicyTypeCharacteristic model)
+        {
+            var validator = new PolicyTypeCharacteristicValidator(_context, true);
+            var result = validator.Validate(model).GetResult();
+
+            if (!result.Success)
+                return result;
+
+            var entity = MapPolicyTypeCharacteristicModelToEntity(model);
+            await _context.PolicyTypeCharacteristic.AddAsync(entity);
+            await _context.SaveChangesAsync();
+
+            model.Id = entity.Id;
+            result.Tag = model;
+
+            return result;
+        }
+
+        public async Task<Result> UpdatePolicyTypeCharacteristic(PolicyTypeCharacteristic model)
+        {
+            var validator = new PolicyTypeCharacteristicValidator(_context, false);
+            var result = validator.Validate(model).GetResult();
+
+            if (!result.Success)
+                return result;
+
+            var entity = await _context.PolicyTypeCharacteristic.FindAsync(model.Id);
+
+            if (entity == null)
+                return new Result();
+
+            entity = MapPolicyTypeCharacteristicModelToEntity(model, entity);
+            await _context.SaveChangesAsync();
+
+            return result;
+        }
+
+        private PolicyTypeCharacteristicEntity MapPolicyTypeCharacteristicModelToEntity(PolicyTypeCharacteristic model, PolicyTypeCharacteristicEntity entity = null)
+        {
+            if (entity == null)
+                entity = new PolicyTypeCharacteristicEntity();
+
+            entity.Name = model.Name;
+            entity.DisplayOrder = model.DisplayOrder.Value;
             entity.PolicyTypeId = model.PolicyTypeId.Value;
 
             return entity;

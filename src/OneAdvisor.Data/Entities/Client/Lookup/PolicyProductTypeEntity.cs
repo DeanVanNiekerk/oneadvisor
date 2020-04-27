@@ -1,12 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using OneAdvisor.Data.Entities.Client;
+using OneAdvisor.Model.Client.Model.Lookup;
 
 namespace OneAdvisor.Data.Entities.Client.Lookup
 {
     public class PolicyProductTypeEntity
     {
+        public PolicyProductTypeEntity()
+        {
+            PolicyTypeCharacteristics = new List<PolicyTypeCharacteristicDescription>();
+        }
+
         [Key]
         public Guid Id { get; set; }
         [Required]
@@ -15,6 +20,8 @@ namespace OneAdvisor.Data.Entities.Client.Lookup
         public string Name { get; set; }
         [Required]
         public string Code { get; set; }
+        [Required]
+        public IEnumerable<PolicyTypeCharacteristicDescription> PolicyTypeCharacteristics { get; set; }
 
         public virtual PolicyTypeEntity PolicyType { get; set; }
 

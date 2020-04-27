@@ -11,5 +11,6 @@ namespace api.Controllers.Client.Lookups.Dto
         public List<PolicyType> PolicyTypes { get; set; }
         public List<PolicyProductType> PolicyProductTypes { get; set; }
         public List<PolicyProduct> PolicyProducts { get; set; }
+        public List<PolicyTypeCharacteristic> PolicyTypeCharacteristics { get; set; }
     }
 }

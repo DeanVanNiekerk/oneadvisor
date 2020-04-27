@@ -13,6 +13,7 @@ using OneAdvisor.Data.Entities.Client.Lookup;
 using OneAdvisor.Data.Entities.Commission.Lookup;
 using OneAdvisor.Data.Entities.Commission.Lookup.Mappings;
 using OneAdvisor.Data.Entities.Directory.Lookup.Mappings;
+using OneAdvisor.Data.Entities.Client.Lookup.Mappings;
 
 namespace OneAdvisor.Data
 {
@@ -51,6 +52,7 @@ namespace OneAdvisor.Data
         public DbSet<PolicyProductTypeEntity> PolicyProductType { get; set; }
         public DbSet<PolicyProductEntity> PolicyProduct { get; set; }
         public DbSet<ClientTypeEntity> ClientType { get; set; }
+        public DbSet<PolicyTypeCharacteristicEntity> PolicyTypeCharacteristic { get; set; }
 
         #endregion
 
@@ -122,9 +124,11 @@ namespace OneAdvisor.Data
             modelBuilder.Entity<ContactTypeEntity>().ToTable("clt_ContactType").HasData(SeedData.GetContactTypes());
             modelBuilder.Entity<MarritalStatusEntity>().ToTable("clt_MarritalStatus").HasData(SeedData.GetMarritalStatus());
             modelBuilder.Entity<ClientTypeEntity>().ToTable("clt_ClientType").HasData(SeedData.GetClientTypes());
+            modelBuilder.Entity<PolicyTypeCharacteristicEntity>().ToTable("clt_PolicyTypeCharacteristic");
 
             //Custom mappings
             PolicyMap.Map(modelBuilder);
+            PolicyProductTypeMap.Map(modelBuilder);
 
             #endregion
 

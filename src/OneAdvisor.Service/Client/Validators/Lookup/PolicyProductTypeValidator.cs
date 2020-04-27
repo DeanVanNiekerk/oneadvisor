@@ -24,6 +24,7 @@ namespace OneAdvisor.Service.Client.Validators.Lookup
             RuleFor(t => t.Name).NotEmpty().MaximumLength(128);
             RuleFor(t => t.Code).NotEmpty().MaximumLength(128);
             RuleFor(t => t).Custom(AvailableCodeValidator);
+            RuleFor(t => t).Custom(PolicyTypeCharacteristicsAreValid);
         }
 
         private void AvailableCodeValidator(PolicyProductType policyProductType, CustomContext context)
@@ -53,6 +54,21 @@ namespace OneAdvisor.Service.Client.Validators.Lookup
                 return entity == null;
 
             return policyProductType.Id == entity.Id;
+        }
+
+        private void PolicyTypeCharacteristicsAreValid(PolicyProductType policyProductType, CustomContext context)
+        {
+            var characteristicIds = policyProductType.PolicyTypeCharacteristics.ToList().Select(c => c.PolicyTypeCharacteristicId);
+            var count = _context.PolicyTypeCharacteristic.Where(c =>
+                c.PolicyTypeId == policyProductType.PolicyTypeId
+                && characteristicIds.Contains(c.Id)
+            ).Count();
+
+            if (policyProductType.PolicyTypeCharacteristics.Count() != count)
+            {
+                var failure = new ValidationFailure("PolicyTypeCharacteristics", "There are some invalid PolicyTypeCharacteristics", policyProductType.PolicyTypeCharacteristics);
+                context.AddFailure(failure);
+            }
         }
     }
 }

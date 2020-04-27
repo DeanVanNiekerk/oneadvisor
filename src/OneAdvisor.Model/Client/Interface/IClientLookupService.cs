@@ -22,5 +22,9 @@ namespace OneAdvisor.Model.Client.Interface
         Task<Result> InsertPolicyProduct(PolicyProduct model);
 
         Task<List<ClientType>> GetClientTypes();
+
+        Task<List<PolicyTypeCharacteristic>> GetPolicyTypeCharacteristics();
+        Task<Result> InsertPolicyTypeCharacteristic(PolicyTypeCharacteristic model);
+        Task<Result> UpdatePolicyTypeCharacteristic(PolicyTypeCharacteristic model);
     }
 }

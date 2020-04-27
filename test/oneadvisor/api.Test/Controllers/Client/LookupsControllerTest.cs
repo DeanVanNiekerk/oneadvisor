@@ -25,11 +25,12 @@ namespace api.Test.Controllers.Client
         [Fact]
         public void PolicyProductTypeModelComposition()
         {
-            Assert.Equal(4, typeof(PolicyProductType).PropertyCount());
+            Assert.Equal(5, typeof(PolicyProductType).PropertyCount());
             Assert.True(typeof(PolicyProductType).HasProperty("Id"));
             Assert.True(typeof(PolicyProductType).HasProperty("PolicyTypeId"));
             Assert.True(typeof(PolicyProductType).HasProperty("Name"));
             Assert.True(typeof(PolicyProductType).HasProperty("Code"));
+            Assert.True(typeof(PolicyProductType).HasProperty("PolicyTypeCharacteristics"));
         }
 
         [Fact]
@@ -69,9 +70,19 @@ namespace api.Test.Controllers.Client
         }
 
         [Fact]
+        public void PolicyTypeCharacteristicModelComposition()
+        {
+            Assert.Equal(4, typeof(PolicyTypeCharacteristic).PropertyCount());
+            Assert.True(typeof(PolicyTypeCharacteristic).HasProperty("Id"));
+            Assert.True(typeof(PolicyTypeCharacteristic).HasProperty("Name"));
+            Assert.True(typeof(PolicyTypeCharacteristic).HasProperty("DisplayOrder"));
+            Assert.True(typeof(PolicyTypeCharacteristic).HasProperty("PolicyTypeId"));
+        }
+
+        [Fact]
         public void LookupsModelComposition()
         {
-            Assert.Equal(6, typeof(api.Controllers.Client.Lookups.Dto.Lookups).PropertyCount());
+            Assert.Equal(7, typeof(api.Controllers.Client.Lookups.Dto.Lookups).PropertyCount());
 
             Assert.True(typeof(api.Controllers.Client.Lookups.Dto.Lookups).HasProperty("PolicyTypes"));
             Assert.True(typeof(api.Controllers.Client.Lookups.Dto.Lookups).HasProperty("PolicyProductTypes"));
@@ -79,6 +90,7 @@ namespace api.Test.Controllers.Client
             Assert.True(typeof(api.Controllers.Client.Lookups.Dto.Lookups).HasProperty("ClientTypes"));
             Assert.True(typeof(api.Controllers.Client.Lookups.Dto.Lookups).HasProperty("ContactTypes"));
             Assert.True(typeof(api.Controllers.Client.Lookups.Dto.Lookups).HasProperty("MarritalStatus"));
+            Assert.True(typeof(api.Controllers.Client.Lookups.Dto.Lookups).HasProperty("PolicyTypeCharacteristics"));
         }
 
         [Fact]
@@ -90,6 +102,7 @@ namespace api.Test.Controllers.Client
             var contactType = new ContactType() { Id = Guid.NewGuid(), Name = "Name5" };
             var marritalStatus = new MarritalStatus() { Id = Guid.NewGuid(), Name = "Name6" };
             var clientType = new ClientType() { Id = Guid.NewGuid(), Name = "Name8", Code = "Code8" };
+            var policyTypeCharacteristic = new PolicyTypeCharacteristic() { Id = Guid.NewGuid(), Name = "Name8", DisplayOrder = 1 };
 
             var policyTypes = new List<PolicyType>() { policyType };
             var policyProductTypes = new List<PolicyProductType>() { policyProductType };
@@ -97,6 +110,7 @@ namespace api.Test.Controllers.Client
             var clientTypes = new List<ClientType>() { clientType };
             var contactTypes = new List<ContactType>() { contactType };
             var marritalStatusList = new List<MarritalStatus>() { marritalStatus };
+            var policyTypeCharacteristicList = new List<PolicyTypeCharacteristic>() { policyTypeCharacteristic };
 
             var service = new Mock<IClientLookupService>();
             service.Setup(c => c.GetPolicyTypes()).ReturnsAsync(policyTypes);
@@ -105,6 +119,7 @@ namespace api.Test.Controllers.Client
             service.Setup(c => c.GetContactTypes()).ReturnsAsync(contactTypes);
             service.Setup(c => c.GetClientTypes()).ReturnsAsync(clientTypes);
             service.Setup(c => c.GetMarritalStatus()).ReturnsAsync(marritalStatusList);
+            service.Setup(c => c.GetPolicyTypeCharacteristics()).ReturnsAsync(policyTypeCharacteristicList);
 
             var controller = new LookupsController(service.Object);
 
@@ -119,11 +134,123 @@ namespace api.Test.Controllers.Client
                 PolicyProductTypes = policyProductTypes,
                 PolicyProducts = policyProducts,
                 ContactTypes = contactTypes,
-                MarritalStatus = marritalStatusList
+                MarritalStatus = marritalStatusList,
+                PolicyTypeCharacteristics = policyTypeCharacteristicList
             };
 
             Assert.NotStrictEqual(all, returnValue);
         }
+
+        #region Policy Type Characteristics
+
+        [Fact]
+        public async Task PolicyTypeCharacteristics()
+        {
+            var policyTypeCharacteristic = new PolicyTypeCharacteristic()
+            {
+                Id = Guid.NewGuid(),
+                PolicyTypeId = Guid.NewGuid(),
+                Name = "Name1",
+                DisplayOrder = 1
+            };
+
+            var policyTypeCharacteristics = new List<PolicyTypeCharacteristic>()
+            {
+                policyTypeCharacteristic
+            };
+
+            var service = new Mock<IClientLookupService>();
+
+            service.Setup(c => c.GetPolicyTypeCharacteristics())
+                .ReturnsAsync(policyTypeCharacteristics);
+
+            var controller = new LookupsController(service.Object);
+
+            var result = await controller.GetPolicyTypeCharacteristics();
+
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<List<PolicyTypeCharacteristic>>(okResult.Value);
+
+            Assert.Same(policyTypeCharacteristics, returnValue);
+        }
+
+        [Fact]
+        public async Task InsertPolicyTypeCharacteristic()
+        {
+            var policyTypeCharacteristic = new PolicyTypeCharacteristic()
+            {
+                Id = Guid.NewGuid(),
+                PolicyTypeId = Guid.NewGuid(),
+                Name = "Name1",
+                DisplayOrder = 1
+            };
+
+            var service = new Mock<IClientLookupService>();
+
+            var result = new Result()
+            {
+                Success = true
+            };
+
+            PolicyTypeCharacteristic inserted = null;
+            service.Setup(c => c.InsertPolicyTypeCharacteristic(It.IsAny<PolicyTypeCharacteristic>()))
+                .Callback((PolicyTypeCharacteristic i) =>
+                {
+                    inserted = i;
+                })
+                .ReturnsAsync(result);
+
+            var controller = new LookupsController(service.Object);
+
+            var actual = await controller.InsertPolicyTypeCharacteristic(policyTypeCharacteristic);
+
+            Assert.Same(policyTypeCharacteristic, inserted);
+
+            var okResult = Assert.IsType<OkObjectResult>(actual);
+            var returnValue = Assert.IsType<Result>(okResult.Value);
+
+            Assert.Same(result, returnValue);
+        }
+
+        [Fact]
+        public async Task UpdatePolicyTypeCharacteristic()
+        {
+            var policyTypeCharacteristic = new PolicyTypeCharacteristic()
+            {
+                Id = Guid.NewGuid(),
+                PolicyTypeId = Guid.NewGuid(),
+                Name = "Name1",
+                DisplayOrder = 1
+            };
+
+            var service = new Mock<IClientLookupService>();
+
+            var result = new Result()
+            {
+                Success = true
+            };
+
+            PolicyTypeCharacteristic updated = null;
+            service.Setup(c => c.UpdatePolicyTypeCharacteristic(It.IsAny<PolicyTypeCharacteristic>()))
+                .Callback((PolicyTypeCharacteristic i) =>
+                {
+                    updated = i;
+                })
+                .ReturnsAsync(result);
+
+            var controller = new LookupsController(service.Object);
+
+            var actual = await controller.UpdatePolicyTypeCharacteristic(policyTypeCharacteristic.Id.Value, policyTypeCharacteristic);
+
+            Assert.Same(policyTypeCharacteristic, updated);
+
+            var okResult = Assert.IsType<OkObjectResult>(actual);
+            var returnValue = Assert.IsType<Result>(okResult.Value);
+
+            Assert.Same(result, returnValue);
+        }
+
+        #endregion
 
         #region Policy Product Types
 
