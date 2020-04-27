@@ -1,6 +1,6 @@
 import moment from "moment";
 
-import { PolicyTypeListState } from "@/state/lookups/client";
+import { PolicyTypeListState } from "@/state/lookups/client/policyTypes/types";
 import { CompanyListState } from "@/state/lookups/directory";
 
 import { Group, GroupTableRecord, PastRevenueCommissionData } from "../";

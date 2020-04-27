@@ -3,7 +3,8 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "@/state";
-import { ClientType, ClientTypeId, clientTypesSelector } from "@/state/lookups/client";
+import { ClientTypeId, clientTypesSelector } from "@/state/lookups/client";
+import { ClientType } from "@/state/lookups/client/clientTypes/types";
 import { BankOutlined, QuestionOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
 
 type Props = {

@@ -2,7 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "@/state";
-import { ContactType, contactTypesSelector } from "@/state/lookups/client";
+import { contactTypesSelector } from "@/state/lookups/client";
+import { ContactType } from "@/state/lookups/client/contactTypes/types";
 
 type Props = {
     contactTypes: ContactType[];

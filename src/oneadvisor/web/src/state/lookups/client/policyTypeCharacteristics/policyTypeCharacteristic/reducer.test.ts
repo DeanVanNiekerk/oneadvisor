@@ -2,38 +2,37 @@ import { getValidationResult } from "@/test";
 
 import { defaultState, reducer } from "./reducer";
 
-describe("policyProductType reducer", () => {
-    it("should handle POLICYPRODUCTTYPES_POLICYPRODUCTTYPE_RECEIVE", () => {
+describe("policyTypeCharacteristic reducer", () => {
+    it("should handle POLICYTYPECHARACTERISTICS_POLICYTYPECHARACTERISTIC_RECEIVE", () => {
         const initalState = {
             ...defaultState,
             validationResults: [getValidationResult()],
         };
 
-        const policyProductType = {
+        const policyTypeCharacteristic = {
             id: "10",
             policyTypeId: "123",
             name: "Type 1",
             code: "type_1",
-            policyTypeCharacteristics: [],
         };
 
         const actualState = reducer(initalState, {
-            type: "POLICYPRODUCTTYPES_POLICYPRODUCTTYPE_RECEIVE",
-            payload: { ...policyProductType },
+            type: "POLICYTYPECHARACTERISTICS_POLICYTYPECHARACTERISTIC_RECEIVE",
+            payload: { ...policyTypeCharacteristic },
         });
 
         const expectedState = {
             ...defaultState,
-            policyProductType: { ...policyProductType },
+            policyTypeCharacteristic: { ...policyTypeCharacteristic },
             validationResults: [],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle POLICYPRODUCTTYPES_POLICYPRODUCTTYPE_EDIT_FETCHING", () => {
+    it("should handle POLICYTYPECHARACTERISTICS_POLICYTYPECHARACTERISTIC_EDIT_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: "POLICYPRODUCTTYPES_POLICYPRODUCTTYPE_EDIT_FETCHING",
+            type: "POLICYTYPECHARACTERISTICS_POLICYTYPECHARACTERISTIC_EDIT_FETCHING",
         });
 
         const expectedState = {
@@ -44,14 +43,14 @@ describe("policyProductType reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle POLICYPRODUCTTYPES_POLICYPRODUCTTYPE_EDIT_FETCHING_ERROR", () => {
+    it("should handle POLICYTYPECHARACTERISTICS_POLICYTYPECHARACTERISTIC_EDIT_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
             updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: "POLICYPRODUCTTYPES_POLICYPRODUCTTYPE_EDIT_FETCHING_ERROR",
+            type: "POLICYTYPECHARACTERISTICS_POLICYTYPECHARACTERISTIC_EDIT_FETCHING_ERROR",
         });
 
         const expectedState = {
@@ -63,14 +62,14 @@ describe("policyProductType reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle POLICYPRODUCTTYPES_POLICYPRODUCTTYPE_EDIT_RECEIVE", () => {
+    it("should handle POLICYTYPECHARACTERISTICS_POLICYTYPECHARACTERISTIC_EDIT_RECEIVE", () => {
         const initalState = {
             ...defaultState,
             updating: true,
         };
 
         const actualState = reducer(initalState, {
-            type: "POLICYPRODUCTTYPES_POLICYPRODUCTTYPE_EDIT_RECEIVE",
+            type: "POLICYTYPECHARACTERISTICS_POLICYTYPECHARACTERISTIC_EDIT_RECEIVE",
         });
 
         const expectedState = {

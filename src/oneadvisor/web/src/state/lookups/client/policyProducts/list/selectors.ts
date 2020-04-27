@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import { RootState } from "@/state";
 
-import { PolicyProductListState } from "../";
+import { PolicyProductListState } from "../types";
 
 const rootSelector = (state: RootState): PolicyProductListState =>
     state.lookups.client.policyProducts.list;

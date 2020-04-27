@@ -6,10 +6,10 @@ import { ValidationResult } from "@/app/validation";
 import { RootState } from "@/state";
 import {
     insertPolicyProductType,
-    PolicyProductTypeEdit,
     policyProductTypeSelector,
     updatePolicyProductType,
 } from "@/state/lookups/client";
+import { PolicyProductTypeEdit } from "@/state/lookups/client/policyProductTypes/types";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import { RootState } from "@/state";
 
-import { ClientTypeListState } from "../";
+import { ClientTypeListState } from "../types";
 
 const rootSelector = (state: RootState): ClientTypeListState =>
     state.lookups.client.clientTypes.list;

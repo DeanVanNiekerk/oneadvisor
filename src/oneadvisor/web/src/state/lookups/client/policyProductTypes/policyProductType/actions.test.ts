@@ -1,6 +1,6 @@
 import { policyProductTypesApi } from "@/config/api/client";
 
-import { PolicyProductTypeEdit } from "../";
+import { PolicyProductTypeEdit } from "../types";
 import * as actions from "./actions";
 
 describe("policyProductType actions", () => {
@@ -10,6 +10,7 @@ describe("policyProductType actions", () => {
             policyTypeId: "123",
             name: "Type 1",
             code: "type_1",
+            policyTypeCharacteristics: [],
         };
 
         const expectedAction = {

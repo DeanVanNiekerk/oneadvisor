@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 
-import { ContactTypesState } from "./";
 import { reducer as listReducer } from "./list/reducer";
+import { ContactTypesState } from "./types";
 
 export const reducer = combineReducers<ContactTypesState>({
     list: listReducer,

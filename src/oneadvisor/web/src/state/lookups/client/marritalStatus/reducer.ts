@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 
-import { MarritalStatusState } from "./";
 import { reducer as listReducer } from "./list/reducer";
+import { MarritalStatusState } from "./types";
 
 export const reducer = combineReducers<MarritalStatusState>({
     list: listReducer,

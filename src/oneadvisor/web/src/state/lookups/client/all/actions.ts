@@ -4,13 +4,14 @@ import { ApiAction } from "@/app/types";
 import { allClientLookupsApi } from "@/config/api/client";
 
 import {
-    Lookups,
     receiveClientTypes,
     receiveContactTypes,
     receiveMarritalStatus,
     receivePolicyProductTypes,
+    receivePolicyTypeCharacteristics,
     receivePolicyTypes,
 } from "../";
+import { Lookups } from "./types";
 
 type LookupsReceiveAction = {
     type: "CLIENT_LOOKUPS_RECEIVE";
@@ -32,6 +33,7 @@ export const fetchAllClientLookups = (): ApiAction => ({
         dispatch(receivePolicyTypes(payload.policyTypes));
         dispatch(receivePolicyProductTypes(payload.policyProductTypes));
         dispatch(receiveClientTypes(payload.clientTypes));
+        dispatch(receivePolicyTypeCharacteristics(payload.policyTypeCharacteristics));
     },
     dispatchPrefix: "CLIENT_LOOKUPS",
 });

@@ -5,7 +5,8 @@ import { createSelector } from "reselect";
 import { getColumnDefinition } from "@/app/table";
 import { DATE_FORMAT } from "@/app/utils";
 import { RootState } from "@/state";
-import { PolicyType, PolicyTypeListState, policyTypesSelector } from "@/state/lookups/client";
+import { policyTypesSelector } from "@/state/lookups/client";
+import { PolicyType, PolicyTypeListState } from "@/state/lookups/client/policyTypes/types";
 import { companiesSelector, Company, CompanyListState } from "@/state/lookups/directory";
 import { BarDatum } from "@nivo/bar";
 

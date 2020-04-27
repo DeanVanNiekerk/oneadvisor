@@ -1,9 +1,9 @@
 import { defaultState, reducer } from "./reducer";
 
-describe("policyProductType list reducer", () => {
-    it("should handle POLICYPRODUCTTYPES_LIST_FETCHING", () => {
+describe("policyTypeCharacteristic list reducer", () => {
+    it("should handle POLICYTYPECHARACTERISTICS_LIST_FETCHING", () => {
         const actualState = reducer(defaultState, {
-            type: "POLICYPRODUCTTYPES_LIST_FETCHING",
+            type: "POLICYTYPECHARACTERISTICS_LIST_FETCHING",
         });
 
         const expectedState = {
@@ -14,14 +14,14 @@ describe("policyProductType list reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle POLICYPRODUCTTYPES_LIST_FETCHING_ERROR", () => {
+    it("should handle POLICYTYPECHARACTERISTICS_LIST_FETCHING_ERROR", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
         };
 
         const actualState = reducer(initalState, {
-            type: "POLICYPRODUCTTYPES_LIST_FETCHING_ERROR",
+            type: "POLICYTYPECHARACTERISTICS_LIST_FETCHING_ERROR",
         });
 
         const expectedState = {
@@ -33,28 +33,27 @@ describe("policyProductType list reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle POLICYPRODUCTTYPES_LIST_RECEIVE", () => {
+    it("should handle POLICYTYPECHARACTERISTICS_LIST_RECEIVE", () => {
         const initalState = {
             ...defaultState,
             fetching: true,
         };
 
-        const policyProductType = {
+        const policyTypeCharacteristic = {
             id: "10",
             policyTypeId: "123",
             name: "Type 1",
             code: "type_1",
-            policyTypeCharacteristics: [],
         };
 
         const actualState = reducer(initalState, {
-            type: "POLICYPRODUCTTYPES_LIST_RECEIVE",
-            payload: [policyProductType],
+            type: "POLICYTYPECHARACTERISTICS_LIST_RECEIVE",
+            payload: [policyTypeCharacteristic],
         });
 
         const expectedState = {
             ...defaultState,
-            items: [policyProductType],
+            items: [policyTypeCharacteristic],
             fetching: false,
         };
 

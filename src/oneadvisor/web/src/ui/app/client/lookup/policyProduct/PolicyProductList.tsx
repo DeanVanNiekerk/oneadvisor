@@ -5,13 +5,12 @@ import { getColumnDefinition } from "@/app/table";
 import { RootState } from "@/state";
 import {
     fetchPolicyProducts,
-    PolicyProduct,
-    PolicyProductEdit,
     policyProductsSelector,
-    PolicyProductType,
     policyProductTypesSelector,
     receivePolicyProduct,
 } from "@/state/lookups/client";
+import { PolicyProduct, PolicyProductEdit } from "@/state/lookups/client/policyProducts/types";
+import { PolicyProductType } from "@/state/lookups/client/policyProductTypes/types";
 import { Company, organisationCompaniesSelector } from "@/state/lookups/directory";
 import {
     Button,

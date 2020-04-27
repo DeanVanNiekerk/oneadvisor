@@ -1,5 +1,5 @@
-import { AllLookupsState } from "./";
 import { LookupsAction } from "./actions";
+import { AllLookupsState } from "./types";
 
 export const defaultState: AllLookupsState = {
     fetching: true, //Default to true as we always load on startup

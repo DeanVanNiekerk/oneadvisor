@@ -5,6 +5,7 @@ export type PolicyProductType = {
     policyTypeId: string;
     name: string;
     code: string;
+    policyTypeCharacteristics: PolicyTypeCharacteristicDescription[];
 };
 
 export type PolicyProductTypeEdit = {
@@ -12,6 +13,12 @@ export type PolicyProductTypeEdit = {
     policyTypeId: string;
     name: string;
     code: string;
+    policyTypeCharacteristics: PolicyTypeCharacteristicDescription[];
+};
+
+export type PolicyTypeCharacteristicDescription = {
+    policyTypeCharacteristicId: string;
+    description: string;
 };
 
 export type PolicyProductTypeListState = {

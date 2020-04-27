@@ -14,7 +14,8 @@ import {
     fetchCommissionTypes,
     receiveCommissionType,
 } from "@/state/commission/lookups/commissionTypes";
-import { PolicyType, policyTypesSelector } from "@/state/lookups/client";
+import { policyTypesSelector } from "@/state/lookups/client";
+import { PolicyType } from "@/state/lookups/client/policyTypes/types";
 import {
     Button,
     CommissionEarningsTypeName,

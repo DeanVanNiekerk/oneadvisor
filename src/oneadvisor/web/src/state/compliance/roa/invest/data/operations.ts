@@ -1,4 +1,4 @@
-import { AnyAction, Dispatch as DispatchRedux } from "redux";
+import { AnyAction } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { getClient, policyProductTypesSelector } from "@/state/lookups/client";
@@ -6,7 +6,6 @@ import { organisationCompaniesSelector } from "@/state/lookups/directory";
 import { RootState } from "@/state/types";
 
 import { receiveData, receiveFetching, roaInvestInputsSelector } from "../";
-import { RoaInvestDataAction } from "./";
 import { RoaInvestData } from "./types";
 
 type Dispatch = ThunkDispatch<RootState, {}, AnyAction>;

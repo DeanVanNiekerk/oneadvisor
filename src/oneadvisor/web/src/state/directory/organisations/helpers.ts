@@ -1,7 +1,7 @@
 import { Config } from "./";
 
-export const getConfig = (config: Partial<Config> = {}): Config => {
-    return {
+export const getConfig = (partial: Partial<Config> = {}): Config => {
+    const config: Config = {
         companyIds: [],
         licenseCategoryIds: [],
         vatRegistered: false,
@@ -26,6 +26,9 @@ export const getConfig = (config: Partial<Config> = {}): Config => {
         hasSharesInProductProviders: false,
         hasSharesInProductProvidersTarget: null,
         telephoneNumber: null,
-        ...config,
+        funds: [],
+        ...partial,
     };
+
+    return config;
 };

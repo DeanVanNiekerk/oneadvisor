@@ -4,11 +4,9 @@ import { connect } from "react-redux";
 
 import { ValidationResult } from "@/app/validation";
 import { RootState } from "@/state";
-import {
-    PolicyProductEdit,
-    PolicyProductType,
-    policyProductTypesSelector,
-} from "@/state/lookups/client";
+import { policyProductTypesSelector } from "@/state/lookups/client";
+import { PolicyProductEdit } from "@/state/lookups/client/policyProducts/types";
+import { PolicyProductType } from "@/state/lookups/client/policyProductTypes/types";
 import { companiesSelector, Company } from "@/state/lookups/directory";
 import { Form, FormInput, FormSelect } from "@/ui/controls";
 

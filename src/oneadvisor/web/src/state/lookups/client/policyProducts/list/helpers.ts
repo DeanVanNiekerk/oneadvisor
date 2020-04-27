@@ -1,6 +1,8 @@
 import { CascaderOptionType } from "antd/lib/cascader";
 
-import { PolicyProduct, PolicyProductType, PolicyType } from "../..";
+import { PolicyProductType } from "../../policyProductTypes/types";
+import { PolicyType } from "../../policyTypes/types";
+import { PolicyProduct } from "../types";
 
 export const policyProductCascade = (
     policyTypes: PolicyType[],

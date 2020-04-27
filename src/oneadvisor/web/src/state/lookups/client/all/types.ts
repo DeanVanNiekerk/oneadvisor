@@ -1,4 +1,9 @@
-import { ClientType, ContactType, MarritalStatus, PolicyProductType, PolicyType } from "../";
+import { ClientType } from "../clientTypes/types";
+import { ContactType } from "../contactTypes/types";
+import { MarritalStatus } from "../marritalStatus/types";
+import { PolicyProductType } from "../policyProductTypes/types";
+import { PolicyTypeCharacteristic } from "../policyTypeCharacteristics/types";
+import { PolicyType } from "../policyTypes/types";
 
 export type Lookups = {
     marritalStatus: MarritalStatus[];
@@ -6,6 +11,7 @@ export type Lookups = {
     policyProductTypes: PolicyProductType[];
     contactTypes: ContactType[];
     clientTypes: ClientType[];
+    policyTypeCharacteristics: PolicyTypeCharacteristic[];
 };
 
 export type AllLookupsState = {
