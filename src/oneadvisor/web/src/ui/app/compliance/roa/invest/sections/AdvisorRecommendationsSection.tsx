@@ -9,19 +9,18 @@ import {
     receiveRecommendedCompanyIds,
     receiveRecommendedFunds,
     receiveRecommendedProductTypeIds,
-    roaInvestInputsSelector,
+    roaInvestInputsRecommendedSelector,
     roaInvestRecommendedCompaniesSelector,
     roaInvestRecommendedFundsSelector,
     roaInvestRecommendedProductTypesSelector,
 } from "@/state/compliance/roa";
-import { POLICY_TYPE_ID_INVESTMENT } from "@/state/lookups/client";
 import { Form, FormSelect, FormTextArea } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;
 
 const AdvisorRecommendationsSection: React.FC<Props> = (props) => {
     return (
-        <Card title="Advisor Recommendations" style={{ paddingBottom: 12 }}>
+        <Card title="Advisor Recommendations">
             <Row gutter={24}>
                 <Col md={24} xl={12}>
                     <Form layout="vertical" size="small">
@@ -49,7 +48,6 @@ const AdvisorRecommendationsSection: React.FC<Props> = (props) => {
                                 props.receiveRecommendedProductTypeIds(values)
                             }
                         />
-
                         <FormSelect<string[]>
                             mode="multiple"
                             fieldName="funds"
@@ -60,7 +58,6 @@ const AdvisorRecommendationsSection: React.FC<Props> = (props) => {
                             value={props.funds}
                             onChange={(_fieldName, values) => props.receiveRecommendedFunds(values)}
                         />
-
                         <FormSelect<string[]>
                             mode="multiple"
                             fieldName="companyIds"
@@ -82,7 +79,7 @@ const AdvisorRecommendationsSection: React.FC<Props> = (props) => {
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
-    const roaInvestState = roaInvestInputsSelector(state);
+    const roaInvestState = roaInvestInputsRecommendedSelector(state);
     return {
         productTypeIds: roaInvestState.recommendedProductTypeIds,
         productTypes: roaInvestRecommendedProductTypesSelector(state),

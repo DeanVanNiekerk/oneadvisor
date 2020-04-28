@@ -9,7 +9,12 @@ import {
     organisationFundsSelector,
 } from "@/state/lookups/directory";
 
-import { RoaInvestInputState } from "./types";
+import {
+    RoaInvestInputDiscussedState,
+    RoaInvestInputNeedsState,
+    RoaInvestInputRecommendedState,
+    RoaInvestInputState,
+} from "./types";
 
 const rootSelector = (state: RootState): RoaInvestInputState => state.compliance.roa.invest.inputs;
 
@@ -20,30 +25,89 @@ export const roaInvestInputsSelector: (state: RootState) => RoaInvestInputState 
     }
 );
 
+export const roaInvestInputsNeedsSelector: (
+    state: RootState
+) => RoaInvestInputNeedsState = createSelector(rootSelector, (root) => {
+    return {
+        clientId: root.clientId,
+        consultReason: root.consultReason,
+        investmentAdviceType: root.investmentAdviceType,
+        needMonthly: root.needMonthly,
+        needLumpsum: root.needLumpsum,
+        contributionMonthly: root.contributionMonthly,
+        contributionLumpsum: root.contributionLumpsum,
+    };
+});
+
+export const roaInvestInputsDiscussedSelector: (
+    state: RootState
+) => RoaInvestInputDiscussedState = createSelector(rootSelector, (root) => {
+    return {
+        discussedProductTypeIds: root.discussedProductTypeIds,
+        discussedCompanyIds: root.discussedCompanyIds,
+        discussedFunds: root.discussedFunds,
+    };
+});
+
+export const roaInvestInputsRecommendedSelector: (
+    state: RootState
+) => RoaInvestInputRecommendedState = createSelector(rootSelector, (root) => {
+    return {
+        recommendedProductTypeIds: root.recommendedProductTypeIds,
+        recommendedCompanyIds: root.recommendedCompanyIds,
+        recommendedFunds: root.recommendedFunds,
+        recommendedAction: root.recommendedAction,
+    };
+});
+
+export const roaInvestDiscussedProductTypeIdsSelector: (
+    state: RootState
+) => string[] = createSelector(rootSelector, (root) => {
+    return root.discussedProductTypeIds;
+});
+
 export const roaInvestRecommendedProductTypesSelector: (
     state: RootState
 ) => PolicyProductType[] = createSelector(
-    rootSelector,
+    roaInvestDiscussedProductTypeIdsSelector,
     policyProductTypesSelector,
-    (root, policyProductTypes) => {
+    (discussedProductTypeIds, policyProductTypes) => {
         return policyProductTypes.items.filter(
             (type) =>
                 type.policyTypeId === POLICY_TYPE_ID_INVESTMENT &&
-                root.discussedProductTypeIds.some((id) => id === type.id)
+                discussedProductTypeIds.some((id) => id === type.id)
         );
+    }
+);
+
+export const roaInvestDiscussedCompanyIdsSelector: (state: RootState) => string[] = createSelector(
+    rootSelector,
+    (root) => {
+        return root.discussedCompanyIds;
     }
 );
 
 export const roaInvestRecommendedCompaniesSelector: (
     state: RootState
-) => Company[] = createSelector(rootSelector, organisationCompaniesSelector, (root, companies) => {
-    return companies.filter((company) => root.discussedCompanyIds.some((id) => id === company.id));
-});
+) => Company[] = createSelector(
+    roaInvestDiscussedCompanyIdsSelector,
+    organisationCompaniesSelector,
+    (discussedCompanyIds, companies) => {
+        return companies.filter((company) => discussedCompanyIds.some((id) => id === company.id));
+    }
+);
+
+export const roaInvestDiscussedFundsSelector: (state: RootState) => string[] = createSelector(
+    rootSelector,
+    (root) => {
+        return root.discussedFunds;
+    }
+);
 
 export const roaInvestRecommendedFundsSelector: (state: RootState) => string[] = createSelector(
-    rootSelector,
+    roaInvestDiscussedFundsSelector,
     organisationFundsSelector,
-    (root, funds) => {
-        return funds.filter((fund) => root.discussedFunds.some((f) => f === fund));
+    (discussedFunds, funds) => {
+        return funds.filter((fund) => discussedFunds.some((f) => f === fund));
     }
 );

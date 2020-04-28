@@ -1,3 +1,5 @@
+import { v4 } from "uuid";
+
 import { RoaInvestInputAction } from "./";
 import { RoaInvestInputState } from "./types";
 
@@ -17,6 +19,30 @@ export const defaultState: RoaInvestInputState = {
     recommendedFunds: [],
     recommendedAction: "",
     clientChoice: "",
+    investments: [
+        {
+            id: v4(),
+            companyId: "",
+            productTypeId: "",
+            fund: "",
+            contributionPremium: 1,
+            contributionLumpsum: 2,
+            upfrontFeeAmount: 3,
+            upfrontFeePercent: 4,
+            assetManagementFeePercent: 5,
+        },
+        {
+            id: v4(),
+            companyId: "",
+            productTypeId: "",
+            fund: "",
+            contributionPremium: 10,
+            contributionLumpsum: 20,
+            upfrontFeeAmount: 30,
+            upfrontFeePercent: 40,
+            assetManagementFeePercent: 50,
+        },
+    ],
 };
 
 export const reducer = (
@@ -121,6 +147,42 @@ export const reducer = (
             return {
                 ...state,
                 clientChoice: action.payload,
+            };
+        }
+        case "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENT_RECEIVE": {
+            return {
+                ...state,
+                investments: state.investments.map((investment) => {
+                    if (investment.id === action.payload.id) return action.payload;
+                    return investment;
+                }),
+            };
+        }
+        case "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENT_ADD": {
+            return {
+                ...state,
+                investments: [
+                    ...state.investments,
+                    {
+                        id: v4(),
+                        companyId: "",
+                        productTypeId: "",
+                        fund: "",
+                        contributionPremium: null,
+                        contributionLumpsum: null,
+                        upfrontFeeAmount: null,
+                        upfrontFeePercent: null,
+                        assetManagementFeePercent: null,
+                    },
+                ],
+            };
+        }
+        case "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENT_REMOVE": {
+            return {
+                ...state,
+                investments: state.investments.filter((investment) => {
+                    return investment.id !== action.payload;
+                }),
             };
         }
         default:

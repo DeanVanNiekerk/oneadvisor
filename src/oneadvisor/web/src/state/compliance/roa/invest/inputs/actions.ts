@@ -1,3 +1,5 @@
+import { Investment } from "./types";
+
 type RoaInvestInputClientIdReceiveAction = {
     type: "COMPLIANCE_ROA_INVEST_INPUT_CLIENTID_RECEIVE";
     payload: string | null;
@@ -73,6 +75,20 @@ type RoaInvestInputClientChoiceReceiveAction = {
     payload: string;
 };
 
+type RoaInvestInputInvestmentReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENT_RECEIVE";
+    payload: Investment;
+};
+
+type RoaInvestInputAddInvestmentAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENT_ADD";
+};
+
+type RoaInvestInputRemoveInvestmentAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENT_REMOVE";
+    payload: string;
+};
+
 export type RoaInvestInputAction =
     | RoaInvestInputClientIdReceiveAction
     | RoaInvestInputConsultReasonReceiveAction
@@ -88,7 +104,10 @@ export type RoaInvestInputAction =
     | RoaInvestInputRecommendedCompanyIdsReceiveAction
     | RoaInvestInputRecommendedFundsReceiveAction
     | RoaInvestInputRecommendedActionReceiveAction
-    | RoaInvestInputClientChoiceReceiveAction;
+    | RoaInvestInputClientChoiceReceiveAction
+    | RoaInvestInputInvestmentReceiveAction
+    | RoaInvestInputAddInvestmentAction
+    | RoaInvestInputRemoveInvestmentAction;
 
 export const receiveClientId = (clientId: string | null): RoaInvestInputClientIdReceiveAction => ({
     type: "COMPLIANCE_ROA_INVEST_INPUT_CLIENTID_RECEIVE",
@@ -189,4 +208,20 @@ export const receiveClientChoice = (
 ): RoaInvestInputClientChoiceReceiveAction => ({
     type: "COMPLIANCE_ROA_INVEST_INPUT_CLIENTCHOICE_RECEIVE",
     payload: clientChoice,
+});
+
+export const receiveInvestment = (
+    investment: Investment
+): RoaInvestInputInvestmentReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENT_RECEIVE",
+    payload: investment,
+});
+
+export const addInvestment = (): RoaInvestInputAddInvestmentAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENT_ADD",
+});
+
+export const removeInvestment = (id: string): RoaInvestInputRemoveInvestmentAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENT_REMOVE",
+    payload: id,
 });

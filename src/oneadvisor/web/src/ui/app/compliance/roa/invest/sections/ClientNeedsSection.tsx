@@ -12,7 +12,7 @@ import {
     receiveInvestmentAdviceType,
     receiveNeedLumpsum,
     receiveNeedMonthly,
-    roaInvestInputsSelector,
+    roaInvestInputsNeedsSelector,
 } from "@/state/compliance/roa";
 import {
     Button,
@@ -168,15 +168,15 @@ const ClientObjectiveSection: React.FC<Props> = (props) => {
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
-    const roaInvestState = roaInvestInputsSelector(state);
+    const needsState = roaInvestInputsNeedsSelector(state);
     return {
-        clientId: roaInvestState.clientId,
-        consultReason: roaInvestState.consultReason,
-        investmentAdviceType: roaInvestState.investmentAdviceType,
-        needMonthly: roaInvestState.needMonthly,
-        needLumpsum: roaInvestState.needLumpsum,
-        contributionMonthly: roaInvestState.contributionMonthly,
-        contributionLumpsum: roaInvestState.contributionLumpsum,
+        clientId: needsState.clientId,
+        consultReason: needsState.consultReason,
+        investmentAdviceType: needsState.investmentAdviceType,
+        needMonthly: needsState.needMonthly,
+        needLumpsum: needsState.needLumpsum,
+        contributionMonthly: needsState.contributionMonthly,
+        contributionLumpsum: needsState.contributionLumpsum,
     };
 };
 

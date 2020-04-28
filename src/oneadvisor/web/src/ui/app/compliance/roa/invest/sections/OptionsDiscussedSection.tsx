@@ -8,9 +8,9 @@ import {
     receiveDiscussedCompanyIds,
     receiveDiscussedFunds,
     receiveDiscussedProductTypeIds,
-    roaInvestInputsSelector,
+    roaInvestInputsDiscussedSelector,
 } from "@/state/compliance/roa";
-import { POLICY_TYPE_ID_INVESTMENT, policyProductTypesSelector } from "@/state/lookups/client";
+import { policyProductTypesInvestmentSelector } from "@/state/lookups/client";
 import {
     organisationCompaniesSelector,
     organisationFundsSelector,
@@ -21,7 +21,7 @@ type Props = PropsFromState & PropsFromDispatch;
 
 const OptionsDiscussedSection: React.FC<Props> = (props) => {
     return (
-        <Card title="Options Discussed" style={{ paddingBottom: 12 }}>
+        <Card title="Options Discussed">
             <Row gutter={24}>
                 <Col md={24} xl={12}>
                     <Form size="small">
@@ -70,12 +70,10 @@ const OptionsDiscussedSection: React.FC<Props> = (props) => {
 
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
-    const roaInvestState = roaInvestInputsSelector(state);
+    const roaInvestState = roaInvestInputsDiscussedSelector(state);
     return {
         productTypeIds: roaInvestState.discussedProductTypeIds,
-        productTypes: policyProductTypesSelector(state).items.filter(
-            (t) => t.policyTypeId === POLICY_TYPE_ID_INVESTMENT
-        ),
+        productTypes: policyProductTypesInvestmentSelector(state),
         companyIds: roaInvestState.discussedCompanyIds,
         companies: organisationCompaniesSelector(state),
         organisationFunds: organisationFundsSelector(state),

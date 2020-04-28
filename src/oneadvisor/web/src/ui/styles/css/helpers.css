@@ -109,6 +109,10 @@ PADDING
     padding-bottom: 1rem !important;
 }
 
+.pb-2 {
+    padding-bottom: 2rem !important;
+}
+
 /* 
 COLORS
 */
