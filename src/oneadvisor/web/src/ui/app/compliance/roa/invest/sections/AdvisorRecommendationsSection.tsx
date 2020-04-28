@@ -10,12 +10,11 @@ import {
     receiveRecommendedFunds,
     receiveRecommendedProductTypeIds,
     roaInvestInputsSelector,
+    roaInvestRecommendedCompaniesSelector,
+    roaInvestRecommendedFundsSelector,
+    roaInvestRecommendedProductTypesSelector,
 } from "@/state/compliance/roa";
-import { POLICY_TYPE_ID_INVESTMENT, policyProductTypesSelector } from "@/state/lookups/client";
-import {
-    organisationCompaniesSelector,
-    organisationFundsSelector,
-} from "@/state/lookups/directory";
+import { POLICY_TYPE_ID_INVESTMENT } from "@/state/lookups/client";
 import { Form, FormSelect, FormTextArea } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;
@@ -86,12 +85,10 @@ const mapStateToProps = (state: RootState) => {
     const roaInvestState = roaInvestInputsSelector(state);
     return {
         productTypeIds: roaInvestState.recommendedProductTypeIds,
-        productTypes: policyProductTypesSelector(state).items.filter(
-            (t) => t.policyTypeId === POLICY_TYPE_ID_INVESTMENT
-        ),
+        productTypes: roaInvestRecommendedProductTypesSelector(state),
         companyIds: roaInvestState.recommendedCompanyIds,
-        companies: organisationCompaniesSelector(state),
-        organisationFunds: organisationFundsSelector(state),
+        companies: roaInvestRecommendedCompaniesSelector(state),
+        organisationFunds: roaInvestRecommendedFundsSelector(state),
         funds: roaInvestState.recommendedFunds,
         recommendedAction: roaInvestState.recommendedAction,
     };
