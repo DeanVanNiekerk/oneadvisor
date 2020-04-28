@@ -10,7 +10,7 @@ import { Button, Drawer, Header } from "@/ui/controls";
 
 import Preview from "./Preview";
 import AdvisorRecommendationsSection from "./sections/AdvisorRecommendationsSection";
-import ClientObjectiveSection from "./sections/ClientObjectiveSection";
+import ClientNeedsSection from "./sections/ClientNeedsSection";
 import OptionsDiscussedSection from "./sections/OptionsDiscussedSection";
 
 type Props = PropsFromDispatch;
@@ -68,10 +68,10 @@ const CardsContainer: React.FC = () => {
     return (
         <div>
             <Row gutter={18}>
-                <Col md={24} xl={12} className="pt-1">
-                    <ClientObjectiveSection />
+                <Col md={24} className="pt-1">
+                    <ClientNeedsSection />
                 </Col>
-                <Col md={24} xl={12} className="pt-1">
+                <Col md={24} className="pt-1">
                     <OptionsDiscussedSection />
                 </Col>
                 <Col md={24} className="pt-1">

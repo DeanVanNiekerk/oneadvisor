@@ -6,13 +6,22 @@ export const defaultState: RoaInvestDataState = {
     data: {
         clientFullName: "",
         consultReason: "",
-        companyNames: [],
-        productTypeNames: [],
-        funds: [],
-        advisorRecommendation: "",
-        investmentLumpsum: null,
-        investmentRecurringPremium: null,
-        retirementPolicyRecurringPremium: null,
+        investmentAdviceType: "",
+        needMonthly: "",
+        needLumpsum: "",
+        contributionMonthly: "",
+        contributionLumpsum: "",
+
+        discussedProductTypes: [],
+        discussedCompanies: [],
+        discussedFunds: [],
+
+        recommendedProductTypes: [],
+        recommendedCompanyies: [],
+        recommendedFunds: [],
+        recommendedAction: "",
+
+        clientChoice: "",
     },
 };
 

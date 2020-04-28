@@ -8,51 +8,87 @@ type RoaInvestInputConsultReasonReceiveAction = {
     payload: string;
 };
 
-type RoaInvestInputProductTypeIdsReceiveAction = {
-    type: "COMPLIANCE_ROA_INVEST_INPUT_PRODUCTTYPEIDS_RECEIVE";
-    payload: string[];
-};
-
-type RoaInvestInputCompanyIdsReceiveAction = {
-    type: "COMPLIANCE_ROA_INVEST_INPUT_COMPANYIDS_RECEIVE";
-    payload: string[];
-};
-
-type RoaInvestInputFundsReceiveAction = {
-    type: "COMPLIANCE_ROA_INVEST_INPUT_FUNDS_RECEIVE";
-    payload: string[];
-};
-
-type RoaInvestInputAdvisorRecommendationReceiveAction = {
-    type: "COMPLIANCE_ROA_INVEST_INPUT_ADVISOR_RECOMMENDATION_RECEIVE";
+type RoaInvestInputInvestmentAdviceTypeReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENTADVICETYPE_RECEIVE";
     payload: string;
 };
 
-type RoaInvestInputInvestmentLumpsumReceiveAction = {
-    type: "COMPLIANCE_ROA_INVEST_INPUT_INVEST_LUMPSUM_RECEIVE";
+type RoaInvestInputNeedMonthlyReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_NEEDMONTHLY_RECEIVE";
     payload: number | null;
 };
 
-type RoaInvestInputInvestmentRecurringPremiumReceiveAction = {
-    type: "COMPLIANCE_ROA_INVEST_INPUT_INVEST_REC_PREMIUM_RECEIVE";
+type RoaInvestInputNeedLumpsumReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_NEEDLUMPSUM_RECEIVE";
     payload: number | null;
 };
 
-type RoaInvestInputRetirementPolicyRecurringPremiumReceiveAction = {
-    type: "COMPLIANCE_ROA_INVEST_INPUT_RET_REC_PREMIUM_RECEIVE";
+type RoaInvestInputContributionMonthlyReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_CONTRIBUTIONMONTHLY_RECEIVE";
     payload: number | null;
+};
+
+type RoaInvestInputContributionLumpsumReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_CONTRIBUTIONLUMPSUM_RECEIVE";
+    payload: number | null;
+};
+
+type RoaInvestInputDiscussedProductTypeIdsReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDPRODUCTTYPEIDS_RECEIVE";
+    payload: string[];
+};
+
+type RoaInvestInputDiscussedCompanyIdsReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDCOMPANYIDS_RECEIVE";
+    payload: string[];
+};
+
+type RoaInvestInputDiscussedFundsReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDFUNDS_RECEIVE";
+    payload: string[];
+};
+
+type RoaInvestInputRecommendedProductTypeIdsReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDPRODUCTTYPEIDS_RECEIVE";
+    payload: string[];
+};
+
+type RoaInvestInputRecommendedCompanyIdsReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDCOMPANYIDS_RECEIVE";
+    payload: string[];
+};
+
+type RoaInvestInputRecommendedFundsReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDFUNDS_RECEIVE";
+    payload: string[];
+};
+
+type RoaInvestInputRecommendedActionReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDACTION_RECEIVE";
+    payload: string;
+};
+
+type RoaInvestInputClientChoiceReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_CLIENTCHOICE_RECEIVE";
+    payload: string;
 };
 
 export type RoaInvestInputAction =
     | RoaInvestInputClientIdReceiveAction
     | RoaInvestInputConsultReasonReceiveAction
-    | RoaInvestInputProductTypeIdsReceiveAction
-    | RoaInvestInputCompanyIdsReceiveAction
-    | RoaInvestInputFundsReceiveAction
-    | RoaInvestInputAdvisorRecommendationReceiveAction
-    | RoaInvestInputInvestmentLumpsumReceiveAction
-    | RoaInvestInputInvestmentRecurringPremiumReceiveAction
-    | RoaInvestInputRetirementPolicyRecurringPremiumReceiveAction;
+    | RoaInvestInputInvestmentAdviceTypeReceiveAction
+    | RoaInvestInputNeedMonthlyReceiveAction
+    | RoaInvestInputNeedLumpsumReceiveAction
+    | RoaInvestInputContributionMonthlyReceiveAction
+    | RoaInvestInputContributionLumpsumReceiveAction
+    | RoaInvestInputDiscussedProductTypeIdsReceiveAction
+    | RoaInvestInputDiscussedCompanyIdsReceiveAction
+    | RoaInvestInputDiscussedFundsReceiveAction
+    | RoaInvestInputRecommendedProductTypeIdsReceiveAction
+    | RoaInvestInputRecommendedCompanyIdsReceiveAction
+    | RoaInvestInputRecommendedFundsReceiveAction
+    | RoaInvestInputRecommendedActionReceiveAction
+    | RoaInvestInputClientChoiceReceiveAction;
 
 export const receiveClientId = (clientId: string | null): RoaInvestInputClientIdReceiveAction => ({
     type: "COMPLIANCE_ROA_INVEST_INPUT_CLIENTID_RECEIVE",
@@ -64,47 +100,93 @@ export const receiveConsultReason = (reason: string): RoaInvestInputConsultReaso
     payload: reason,
 });
 
-export const receiveProductTypeIds = (
-    productTypeIds: string[]
-): RoaInvestInputProductTypeIdsReceiveAction => ({
-    type: "COMPLIANCE_ROA_INVEST_INPUT_PRODUCTTYPEIDS_RECEIVE",
-    payload: productTypeIds,
+export const receiveInvestmentAdviceType = (
+    adviceType: string
+): RoaInvestInputInvestmentAdviceTypeReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENTADVICETYPE_RECEIVE",
+    payload: adviceType,
 });
 
-export const receiveCompanyIds = (companyIds: string[]): RoaInvestInputCompanyIdsReceiveAction => ({
-    type: "COMPLIANCE_ROA_INVEST_INPUT_COMPANYIDS_RECEIVE",
-    payload: companyIds,
+export const receiveNeedMonthly = (
+    needMonthly: number | null
+): RoaInvestInputNeedMonthlyReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_NEEDMONTHLY_RECEIVE",
+    payload: needMonthly,
 });
 
-export const receiveFunds = (funds: string[]): RoaInvestInputFundsReceiveAction => ({
-    type: "COMPLIANCE_ROA_INVEST_INPUT_FUNDS_RECEIVE",
-    payload: funds,
+export const receiveNeedLumpsum = (
+    needLumpsum: number | null
+): RoaInvestInputNeedLumpsumReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_NEEDLUMPSUM_RECEIVE",
+    payload: needLumpsum,
 });
 
-export const receiveAdvisorRecommendation = (
-    recommendation: string
-): RoaInvestInputAdvisorRecommendationReceiveAction => ({
-    type: "COMPLIANCE_ROA_INVEST_INPUT_ADVISOR_RECOMMENDATION_RECEIVE",
-    payload: recommendation,
+export const receiveContributionMonthly = (
+    contributionMonthly: number | null
+): RoaInvestInputContributionMonthlyReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_CONTRIBUTIONMONTHLY_RECEIVE",
+    payload: contributionMonthly,
 });
 
-export const receiveInvestmentRecurringPremium = (
-    premium: number | null
-): RoaInvestInputInvestmentRecurringPremiumReceiveAction => ({
-    type: "COMPLIANCE_ROA_INVEST_INPUT_INVEST_REC_PREMIUM_RECEIVE",
-    payload: premium,
+export const receiveContributionLumpsum = (
+    contributionLumpsum: number | null
+): RoaInvestInputContributionLumpsumReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_CONTRIBUTIONLUMPSUM_RECEIVE",
+    payload: contributionLumpsum,
 });
 
-export const receiveInvestmentLumpsum = (
-    lumpsum: number | null
-): RoaInvestInputInvestmentLumpsumReceiveAction => ({
-    type: "COMPLIANCE_ROA_INVEST_INPUT_INVEST_LUMPSUM_RECEIVE",
-    payload: lumpsum,
+export const receiveDiscussedProductTypeIds = (
+    discussedProductTypeIds: string[]
+): RoaInvestInputDiscussedProductTypeIdsReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDPRODUCTTYPEIDS_RECEIVE",
+    payload: discussedProductTypeIds,
 });
 
-export const receiveRetirementPolicyRecurringPremium = (
-    premium: number | null
-): RoaInvestInputRetirementPolicyRecurringPremiumReceiveAction => ({
-    type: "COMPLIANCE_ROA_INVEST_INPUT_RET_REC_PREMIUM_RECEIVE",
-    payload: premium,
+export const receiveDiscussedCompanyIds = (
+    discussedCompanyIds: string[]
+): RoaInvestInputDiscussedCompanyIdsReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDCOMPANYIDS_RECEIVE",
+    payload: discussedCompanyIds,
+});
+
+export const receiveDiscussedFunds = (
+    discussedFunds: string[]
+): RoaInvestInputDiscussedFundsReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDFUNDS_RECEIVE",
+    payload: discussedFunds,
+});
+
+export const receiveRecommendedProductTypeIds = (
+    recommendedProductTypeIds: string[]
+): RoaInvestInputRecommendedProductTypeIdsReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDPRODUCTTYPEIDS_RECEIVE",
+    payload: recommendedProductTypeIds,
+});
+
+export const receiveRecommendedCompanyIds = (
+    recommendedCompanyIds: string[]
+): RoaInvestInputRecommendedCompanyIdsReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDCOMPANYIDS_RECEIVE",
+    payload: recommendedCompanyIds,
+});
+
+export const receiveRecommendedFunds = (
+    recommendedFunds: string[]
+): RoaInvestInputRecommendedFundsReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDFUNDS_RECEIVE",
+    payload: recommendedFunds,
+});
+
+export const receiveRecommendedAction = (
+    recommendedAction: string
+): RoaInvestInputRecommendedActionReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDACTION_RECEIVE",
+    payload: recommendedAction,
+});
+
+export const receiveClientChoice = (
+    clientChoice: string
+): RoaInvestInputClientChoiceReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_CLIENTCHOICE_RECEIVE",
+    payload: clientChoice,
 });

@@ -4,15 +4,26 @@ export type RoaInvestDataState = {
 };
 
 export type RoaInvestData = {
+    //Needs
     readonly clientFullName: string;
     readonly consultReason: string;
+    readonly investmentAdviceType: string;
+    readonly needMonthly: string;
+    readonly needLumpsum: string;
+    readonly contributionMonthly: string;
+    readonly contributionLumpsum: string;
 
-    readonly companyNames: string[];
-    readonly productTypeNames: string[];
-    readonly funds: string[];
+    //Discussed
+    readonly discussedProductTypes: string[];
+    readonly discussedCompanies: string[];
+    readonly discussedFunds: string[];
 
-    readonly advisorRecommendation: string;
-    readonly retirementPolicyRecurringPremium: number | null;
-    readonly investmentRecurringPremium: number | null;
-    readonly investmentLumpsum: number | null;
+    //Recommended
+    readonly recommendedProductTypes: string[];
+    readonly recommendedCompanyies: string[];
+    readonly recommendedFunds: string[];
+    readonly recommendedAction: string;
+
+    //Client Choice
+    readonly clientChoice: string;
 };

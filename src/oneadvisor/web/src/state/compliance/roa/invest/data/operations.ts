@@ -17,19 +17,32 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
         const inputs = roaInvestInputsSelector(getState());
 
         const clientFullName = await getClientFullName(dispatch, inputs.clientId);
-        const companyNames = getCompanyNames(getState(), inputs.companyIds);
-        const productTypeNames = getProductTypeNames(getState(), inputs.productTypeIds);
+        // const companyNames = getCompanyNames(getState(), inputs.companyIds);
+        //const productTypeNames = getProductTypeNames(getState(), inputs.productTypeIds);
 
         const data: RoaInvestData = {
             clientFullName: clientFullName,
             consultReason: inputs.consultReason,
-            companyNames: companyNames,
-            productTypeNames: productTypeNames,
-            funds: inputs.funds,
-            advisorRecommendation: inputs.advisorRecommendation,
-            investmentLumpsum: inputs.investmentLumpsum,
-            investmentRecurringPremium: inputs.investmentRecurringPremium,
-            retirementPolicyRecurringPremium: inputs.retirementPolicyRecurringPremium,
+            investmentAdviceType: inputs.investmentAdviceType,
+            needMonthly: inputs.needMonthly ? inputs.needMonthly.toString() : "",
+            needLumpsum: inputs.needLumpsum ? inputs.needLumpsum.toString() : "",
+            contributionMonthly: inputs.contributionMonthly
+                ? inputs.contributionMonthly.toString()
+                : "",
+            contributionLumpsum: inputs.contributionLumpsum
+                ? inputs.contributionLumpsum.toString()
+                : "",
+
+            discussedProductTypes: [],
+            discussedCompanies: [],
+            discussedFunds: [],
+
+            recommendedProductTypes: [],
+            recommendedCompanyies: [],
+            recommendedFunds: [],
+            recommendedAction: inputs.recommendedAction,
+
+            clientChoice: inputs.clientChoice,
         };
 
         dispatch(receiveData(data));

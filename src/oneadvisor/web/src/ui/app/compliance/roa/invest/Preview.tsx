@@ -91,7 +91,7 @@ const ClientObjectives: React.FC<DataProps> = ({ data }) => {
     return (
         <>
             <View style={[styles.h3]}>
-                <Text>Client Objectives</Text>
+                <Text>Client Needs</Text>
             </View>
             <View style={[styles.h4]}>
                 <Text>{`Reason that prompted this consult with ${data.clientFullName}`}</Text>
@@ -119,7 +119,7 @@ const OptionsDiscussed: React.FC<DataProps> = ({ data }) => {
                 <Text>Products Considered</Text>
             </View>
             <View style={styles.mb3}>
-                {data.productTypeNames.map((name) => (
+                {data.discussedProductTypes.map((name) => (
                     <Text key={name}>{name}</Text>
                 ))}
             </View>
@@ -127,7 +127,7 @@ const OptionsDiscussed: React.FC<DataProps> = ({ data }) => {
                 <Text>Funds and Investment Benchmarks Discussed</Text>
             </View>
             <View style={styles.mb3}>
-                {data.funds.map((name) => (
+                {data.discussedFunds.map((name) => (
                     <Text key={name}>{name}</Text>
                 ))}
             </View>
@@ -135,7 +135,7 @@ const OptionsDiscussed: React.FC<DataProps> = ({ data }) => {
                 <Text>Companies Considered</Text>
             </View>
             <View style={styles.mb3}>
-                {data.companyNames.map((name) => (
+                {data.discussedCompanies.map((name) => (
                     <Text key={name}>{name}</Text>
                 ))}
             </View>
@@ -150,7 +150,7 @@ const AdvisorRecommendation: React.FC<DataProps> = ({ data }) => {
                 <Text>Advisor Recommendation</Text>
             </View>
             <View style={styles.mb3}>
-                <Text>{data.advisorRecommendation}</Text>
+                <Text>{data.recommendedAction}</Text>
             </View>
         </>
     );

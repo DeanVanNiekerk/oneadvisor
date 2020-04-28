@@ -28,13 +28,22 @@ describe("roa invest reducer", () => {
         const data: RoaInvestData = {
             clientFullName: "Dean van Zoning",
             consultReason: "Get your life sorted",
-            companyNames: [],
-            productTypeNames: [],
-            funds: [],
-            advisorRecommendation: "",
-            investmentLumpsum: null,
-            investmentRecurringPremium: null,
-            retirementPolicyRecurringPremium: null,
+            investmentAdviceType: "",
+            needMonthly: "",
+            needLumpsum: "",
+            contributionMonthly: "",
+            contributionLumpsum: "",
+
+            discussedProductTypes: [],
+            discussedCompanies: [],
+            discussedFunds: [],
+
+            recommendedProductTypes: [],
+            recommendedCompanyies: [],
+            recommendedFunds: [],
+            recommendedAction: "",
+
+            clientChoice: "",
         };
 
         const actualState = reducer(initalState, {

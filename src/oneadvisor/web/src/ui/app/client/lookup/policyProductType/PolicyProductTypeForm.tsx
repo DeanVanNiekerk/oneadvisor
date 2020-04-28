@@ -16,7 +16,7 @@ import {
 } from "@/state/lookups/client/policyProductTypes/types";
 import { PolicyTypeCharacteristic } from "@/state/lookups/client/policyTypeCharacteristics/types";
 import { PolicyType } from "@/state/lookups/client/policyTypes/types";
-import { Form, FormInput, FormSelect, FormText, FormTextArea } from "@/ui/controls";
+import { Form, FormInput, FormSelect, FormTextArea } from "@/ui/controls";
 
 type Props = {
     policyProductType: PolicyProductTypeEdit;

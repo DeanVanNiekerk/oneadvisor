@@ -1,13 +1,24 @@
 export type RoaInvestInputState = {
+    //Needs
     readonly clientId: string | null;
     readonly consultReason: string;
+    readonly investmentAdviceType: string;
+    readonly needMonthly: number | null;
+    readonly needLumpsum: number | null;
+    readonly contributionMonthly: number | null;
+    readonly contributionLumpsum: number | null;
 
-    readonly productTypeIds: string[];
-    readonly companyIds: string[];
-    readonly funds: string[];
+    //Discussed
+    readonly discussedProductTypeIds: string[];
+    readonly discussedCompanyIds: string[];
+    readonly discussedFunds: string[];
 
-    readonly advisorRecommendation: string;
-    readonly retirementPolicyRecurringPremium: number | null;
-    readonly investmentRecurringPremium: number | null;
-    readonly investmentLumpsum: number | null;
+    //Recommended
+    readonly recommendedProductTypeIds: string[];
+    readonly recommendedCompanyIds: string[];
+    readonly recommendedFunds: string[];
+    readonly recommendedAction: string;
+
+    //Client Choice
+    readonly clientChoice: string;
 };
