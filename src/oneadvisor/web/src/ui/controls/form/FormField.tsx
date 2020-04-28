@@ -1,5 +1,5 @@
 import { Form, Spin } from "antd";
-import React, { ReactNode } from "react";
+import React from "react";
 
 import { formatValue, getValidationError, ValidationResult } from "@/app/validation";
 
@@ -19,6 +19,7 @@ type Props = {
     loading?: boolean;
     className?: string;
     style?: React.CSSProperties;
+    labelSpan?: number;
 };
 
 const FormField: React.FC<Props> = (props: Props) => {
@@ -50,11 +51,14 @@ const FormField: React.FC<Props> = (props: Props) => {
     const errorText = getErrorText();
     const { label, layout, loading, extra } = props;
 
+    let labelSpan = 6;
+    if (props.labelSpan) labelSpan = props.labelSpan;
+
     const formItemLayout =
         layout === "horizontal"
             ? {
-                  labelCol: { span: 6 },
-                  wrapperCol: { span: 18 },
+                  labelCol: { span: labelSpan },
+                  wrapperCol: { span: 24 - labelSpan },
               }
             : null;
 

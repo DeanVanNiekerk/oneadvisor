@@ -37,127 +37,235 @@ describe("roa invest reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle COMPLIANCE_ROA_INVEST_INPUT_PRODUCTTYPEIDS_RECEIVE", () => {
+    it("should handle COMPLIANCE_ROA_INVEST_INPUT_INVESTMENTADVICETYPE_RECEIVE", () => {
         const initalState = {
             ...defaultState,
         };
 
         const actualState = reducer(initalState, {
-            type: "COMPLIANCE_ROA_INVEST_INPUT_PRODUCTTYPEIDS_RECEIVE",
+            type: "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENTADVICETYPE_RECEIVE",
+            payload: "id1",
+        });
+
+        const expectedState = {
+            ...defaultState,
+            investmentAdviceType: "id1",
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle COMPLIANCE_ROA_INVEST_INPUT_NEEDMONTHLY_RECEIVE", () => {
+        const initalState = {
+            ...defaultState,
+        };
+
+        const actualState = reducer(initalState, {
+            type: "COMPLIANCE_ROA_INVEST_INPUT_NEEDMONTHLY_RECEIVE",
+            payload: 1,
+        });
+
+        const expectedState = {
+            ...defaultState,
+            needMonthly: 1,
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle COMPLIANCE_ROA_INVEST_INPUT_NEEDLUMPSUM_RECEIVE", () => {
+        const initalState = {
+            ...defaultState,
+        };
+
+        const actualState = reducer(initalState, {
+            type: "COMPLIANCE_ROA_INVEST_INPUT_NEEDLUMPSUM_RECEIVE",
+            payload: 1,
+        });
+
+        const expectedState = {
+            ...defaultState,
+            needLumpsum: 1,
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle COMPLIANCE_ROA_INVEST_INPUT_CONTRIBUTIONMONTHLY_RECEIVE", () => {
+        const initalState = {
+            ...defaultState,
+        };
+
+        const actualState = reducer(initalState, {
+            type: "COMPLIANCE_ROA_INVEST_INPUT_CONTRIBUTIONMONTHLY_RECEIVE",
+            payload: 2,
+        });
+
+        const expectedState = {
+            ...defaultState,
+            contributionMonthly: 2,
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle COMPLIANCE_ROA_INVEST_INPUT_CONTRIBUTIONLUMPSUM_RECEIVE", () => {
+        const initalState = {
+            ...defaultState,
+        };
+
+        const actualState = reducer(initalState, {
+            type: "COMPLIANCE_ROA_INVEST_INPUT_CONTRIBUTIONLUMPSUM_RECEIVE",
+            payload: 100,
+        });
+
+        const expectedState = {
+            ...defaultState,
+            contributionLumpsum: 100,
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDPRODUCTTYPEIDS_RECEIVE", () => {
+        const initalState = {
+            ...defaultState,
+        };
+
+        const actualState = reducer(initalState, {
+            type: "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDPRODUCTTYPEIDS_RECEIVE",
             payload: ["id1", "id2"],
         });
 
         const expectedState = {
             ...defaultState,
-            productTypeIds: ["id1", "id2"],
+            discussedProductTypeIds: ["id1", "id2"],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle COMPLIANCE_ROA_INVEST_INPUT_COMPANYIDS_RECEIVE", () => {
+    it("should handle COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDCOMPANYIDS_RECEIVE", () => {
         const initalState = {
             ...defaultState,
         };
 
         const actualState = reducer(initalState, {
-            type: "COMPLIANCE_ROA_INVEST_INPUT_COMPANYIDS_RECEIVE",
+            type: "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDCOMPANYIDS_RECEIVE",
             payload: ["id1", "id2"],
         });
 
         const expectedState = {
             ...defaultState,
-            companyIds: ["id1", "id2"],
+            discussedCompanyIds: ["id1", "id2"],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle COMPLIANCE_ROA_INVEST_INPUT_FUNDS_RECEIVE", () => {
+    it("should handle COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDFUNDS_RECEIVE", () => {
         const initalState = {
             ...defaultState,
         };
 
         const actualState = reducer(initalState, {
-            type: "COMPLIANCE_ROA_INVEST_INPUT_FUNDS_RECEIVE",
-            payload: ["f1", "f2"],
+            type: "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDFUNDS_RECEIVE",
+            payload: ["id1", "id2"],
         });
 
         const expectedState = {
             ...defaultState,
-            funds: ["f1", "f2"],
+            discussedFunds: ["id1", "id2"],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle COMPLIANCE_ROA_INVEST_INPUT_ADVISOR_RECOMMENDATION_RECEIVE", () => {
+    it("should handle COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDPRODUCTTYPEIDS_RECEIVE", () => {
         const initalState = {
             ...defaultState,
         };
 
         const actualState = reducer(initalState, {
-            type: "COMPLIANCE_ROA_INVEST_INPUT_ADVISOR_RECOMMENDATION_RECEIVE",
-            payload: "some recommendation",
+            type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDPRODUCTTYPEIDS_RECEIVE",
+            payload: ["id1", "id2"],
         });
 
         const expectedState = {
             ...defaultState,
-            advisorRecommendation: "some recommendation",
+            recommendedProductTypeIds: ["id1", "id2"],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle COMPLIANCE_ROA_INVEST_INPUT_INVEST_REC_PREMIUM_RECEIVE", () => {
+    it("should handle COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDCOMPANYIDS_RECEIVE", () => {
         const initalState = {
             ...defaultState,
         };
 
         const actualState = reducer(initalState, {
-            type: "COMPLIANCE_ROA_INVEST_INPUT_INVEST_REC_PREMIUM_RECEIVE",
-            payload: 100,
+            type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDCOMPANYIDS_RECEIVE",
+            payload: ["id1", "id2"],
         });
 
         const expectedState = {
             ...defaultState,
-            investmentRecurringPremium: 100,
+            recommendedCompanyIds: ["id1", "id2"],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle COMPLIANCE_ROA_INVEST_INPUT_INVEST_LUMPSUM_RECEIVE", () => {
+    it("should handle COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDFUNDS_RECEIVE", () => {
         const initalState = {
             ...defaultState,
         };
 
         const actualState = reducer(initalState, {
-            type: "COMPLIANCE_ROA_INVEST_INPUT_INVEST_LUMPSUM_RECEIVE",
-            payload: 100,
+            type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDFUNDS_RECEIVE",
+            payload: ["id1", "id2"],
         });
 
         const expectedState = {
             ...defaultState,
-            investmentLumpsum: 100,
+            recommendedFunds: ["id1", "id2"],
         };
 
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle COMPLIANCE_ROA_INVEST_INPUT_RET_REC_PREMIUM_RECEIVE", () => {
+    it("should handle COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDACTION_RECEIVE", () => {
         const initalState = {
             ...defaultState,
         };
 
         const actualState = reducer(initalState, {
-            type: "COMPLIANCE_ROA_INVEST_INPUT_RET_REC_PREMIUM_RECEIVE",
-            payload: 100,
+            type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDACTION_RECEIVE",
+            payload: "some action",
         });
 
         const expectedState = {
             ...defaultState,
-            retirementPolicyRecurringPremium: 100,
+            recommendedAction: "some action",
+        };
+
+        expect(actualState).toEqual(expectedState);
+    });
+
+    it("should handle COMPLIANCE_ROA_INVEST_INPUT_CLIENTCHOICE_RECEIVE", () => {
+        const initalState = {
+            ...defaultState,
+        };
+
+        const actualState = reducer(initalState, {
+            type: "COMPLIANCE_ROA_INVEST_INPUT_CLIENTCHOICE_RECEIVE",
+            payload: "some choice",
+        });
+
+        const expectedState = {
+            ...defaultState,
+            clientChoice: "some choice",
         };
 
         expect(actualState).toEqual(expectedState);

@@ -23,6 +23,7 @@ type Props = {
     precision?: number;
     validationFieldName?: string;
     width?: number | string;
+    labelSpan?: number;
 };
 
 const FormInputNumber: React.FC<Props> = (props: Props) => {
@@ -60,6 +61,7 @@ const FormInputNumber: React.FC<Props> = (props: Props) => {
             value={value}
             layout={layout}
             validationFieldName={props.validationFieldName}
+            labelSpan={props.labelSpan}
         >
             <InputNumber
                 disabled={disabled}

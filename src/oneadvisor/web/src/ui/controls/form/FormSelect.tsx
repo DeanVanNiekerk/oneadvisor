@@ -41,6 +41,7 @@ type Props<T extends SelectValue> = {
     allowClear?: boolean;
     addonAfter?: React.ReactNode;
     mode?: "multiple" | "tags";
+    labelSpan?: number;
 };
 
 class FormSelect<T extends SelectValue> extends Component<Props<T>> {
@@ -100,6 +101,7 @@ class FormSelect<T extends SelectValue> extends Component<Props<T>> {
                 layout={layout}
                 loading={loading}
                 validationFieldName={this.props.validationFieldName}
+                labelSpan={this.props.labelSpan}
             >
                 <React.Fragment>
                     <Select

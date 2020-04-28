@@ -55,6 +55,8 @@ type Props = PropsFromState & PropsFromDispatch;
 const ClientObjectiveSection: React.FC<Props> = (props) => {
     const [clientSearchVisible, setClientSearchVisible] = useState<boolean>(false);
 
+    const labelSpan = 9;
+
     return (
         <Card title="Client Needs">
             <Row gutter={24}>
@@ -97,6 +99,7 @@ const ClientObjectiveSection: React.FC<Props> = (props) => {
                             optionsValue="code"
                             optionsText="name"
                             value={props.investmentAdviceType}
+                            labelSpan={labelSpan}
                             onChange={(_fieldName, values) =>
                                 props.receiveInvestmentAdviceType(values)
                             }
@@ -105,6 +108,7 @@ const ClientObjectiveSection: React.FC<Props> = (props) => {
                             fieldName="needMonthly"
                             label="Monthly Need"
                             value={props.needMonthly}
+                            labelSpan={labelSpan}
                             onChange={(_fieldName, value) =>
                                 props.receiveNeedMonthly(value === undefined ? null : value)
                             }
@@ -114,6 +118,7 @@ const ClientObjectiveSection: React.FC<Props> = (props) => {
                             fieldName="needLumpsum"
                             label="Lumpsum Need"
                             value={props.needLumpsum}
+                            labelSpan={labelSpan}
                             onChange={(_fieldName, value) =>
                                 props.receiveNeedLumpsum(value === undefined ? null : value)
                             }
@@ -123,6 +128,7 @@ const ClientObjectiveSection: React.FC<Props> = (props) => {
                             fieldName="contributionMonthly"
                             label="Monthly Contribution"
                             value={props.contributionMonthly}
+                            labelSpan={labelSpan}
                             onChange={(_fieldName, value) =>
                                 props.receiveContributionMonthly(value === undefined ? null : value)
                             }
@@ -132,6 +138,7 @@ const ClientObjectiveSection: React.FC<Props> = (props) => {
                             fieldName="contributionLumpsum"
                             label="Lumpsum Contribution"
                             value={props.contributionLumpsum}
+                            labelSpan={labelSpan}
                             onChange={(_fieldName, value) =>
                                 props.receiveContributionLumpsum(value === undefined ? null : value)
                             }
