@@ -60,6 +60,13 @@ export const roaInvestInputsRecommendedSelector: (
     };
 });
 
+export const roaInvestInputsClientChoiceSelector: (state: RootState) => string = createSelector(
+    rootSelector,
+    (root) => {
+        return root.clientChoice;
+    }
+);
+
 export const roaInvestDiscussedProductTypeIdsSelector: (
     state: RootState
 ) => string[] = createSelector(rootSelector, (root) => {

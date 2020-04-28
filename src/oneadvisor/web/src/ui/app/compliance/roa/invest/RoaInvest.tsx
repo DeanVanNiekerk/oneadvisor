@@ -10,6 +10,7 @@ import { Button, Drawer, Header } from "@/ui/controls";
 
 import Preview from "./Preview";
 import AdvisorRecommendationsSection from "./sections/AdvisorRecommendationsSection";
+import ClientChoiceSection from "./sections/ClientChoiceSection";
 import ClientNeedsSection from "./sections/ClientNeedsSection";
 import InvestmentListSection from "./sections/InvestmentListSection";
 import OptionsDiscussedSection from "./sections/OptionsDiscussedSection";
@@ -77,6 +78,9 @@ const CardsContainer: React.FC = () => {
                 </Col>
                 <Col md={24} className="pt-1">
                     <AdvisorRecommendationsSection />
+                </Col>
+                <Col md={24} className="pt-1">
+                    <ClientChoiceSection />
                 </Col>
                 <InvestmentListSection />
             </Row>
