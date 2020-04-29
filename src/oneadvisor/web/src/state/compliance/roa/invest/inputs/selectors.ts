@@ -31,7 +31,7 @@ export const roaInvestInputsNeedsSelector: (
     return {
         clientId: root.clientId,
         consultReason: root.consultReason,
-        investmentAdviceType: root.investmentAdviceType,
+        investmentAdviceTypeCode: root.investmentAdviceTypeCode,
         needMonthly: root.needMonthly,
         needLumpsum: root.needLumpsum,
         contributionMonthly: root.contributionMonthly,

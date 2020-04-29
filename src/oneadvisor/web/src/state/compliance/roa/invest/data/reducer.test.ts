@@ -39,11 +39,13 @@ describe("roa invest reducer", () => {
             discussedFunds: [],
 
             recommendedProductTypes: [],
-            recommendedCompanyies: [],
+            recommendedCompanies: [],
             recommendedFunds: [],
             recommendedAction: "",
 
             clientChoice: "",
+
+            investments: [],
         };
 
         const actualState = reducer(initalState, {

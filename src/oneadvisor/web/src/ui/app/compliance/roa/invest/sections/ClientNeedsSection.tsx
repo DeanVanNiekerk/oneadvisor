@@ -9,10 +9,11 @@ import {
     receiveConsultReason,
     receiveContributionLumpsum,
     receiveContributionMonthly,
-    receiveInvestmentAdviceType,
+    receiveInvestmentAdviceTypeCode,
     receiveNeedLumpsum,
     receiveNeedMonthly,
     roaInvestInputsNeedsSelector,
+    roaInvestLookupsSelector,
 } from "@/state/compliance/roa";
 import {
     Button,
@@ -25,30 +26,6 @@ import {
     FormText,
     FormTextArea,
 } from "@/ui/controls";
-
-type InvestmentAdviceType = {
-    code: string;
-    name: string;
-};
-
-const investmentAdviceTypes: InvestmentAdviceType[] = [
-    {
-        code: "retirement",
-        name: "Retirement",
-    },
-    {
-        code: "education",
-        name: "Education",
-    },
-    {
-        code: "reserve",
-        name: "Reserve",
-    },
-    {
-        code: "other",
-        name: "other",
-    },
-];
 
 type Props = PropsFromState & PropsFromDispatch;
 
@@ -95,13 +72,13 @@ const ClientObjectiveSection: React.FC<Props> = (props) => {
                         <FormSelect<string>
                             fieldName="investmentAdviceTypes"
                             label="Advice Type"
-                            options={investmentAdviceTypes}
+                            options={props.investmentAdviceTypes}
                             optionsValue="code"
                             optionsText="name"
-                            value={props.investmentAdviceType}
+                            value={props.investmentAdviceTypeCode}
                             labelSpan={labelSpan}
                             onChange={(_fieldName, values) =>
-                                props.receiveInvestmentAdviceType(values)
+                                props.receiveInvestmentAdviceTypeCode(values)
                             }
                         />
                         <FormInputNumber
@@ -169,14 +146,16 @@ const ClientObjectiveSection: React.FC<Props> = (props) => {
 type PropsFromState = ReturnType<typeof mapStateToProps>;
 const mapStateToProps = (state: RootState) => {
     const needsState = roaInvestInputsNeedsSelector(state);
+    const lookupsState = roaInvestLookupsSelector(state);
     return {
         clientId: needsState.clientId,
         consultReason: needsState.consultReason,
-        investmentAdviceType: needsState.investmentAdviceType,
+        investmentAdviceTypeCode: needsState.investmentAdviceTypeCode,
         needMonthly: needsState.needMonthly,
         needLumpsum: needsState.needLumpsum,
         contributionMonthly: needsState.contributionMonthly,
         contributionLumpsum: needsState.contributionLumpsum,
+        investmentAdviceTypes: lookupsState.investmentAdviceTypes,
     };
 };
 
@@ -187,7 +166,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             {
                 receiveClientId,
                 receiveConsultReason,
-                receiveInvestmentAdviceType,
+                receiveInvestmentAdviceTypeCode,
                 receiveNeedMonthly,
                 receiveNeedLumpsum,
                 receiveContributionMonthly,

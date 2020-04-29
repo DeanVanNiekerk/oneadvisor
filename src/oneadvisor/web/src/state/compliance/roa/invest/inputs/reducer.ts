@@ -6,7 +6,7 @@ import { RoaInvestInputState } from "./types";
 export const defaultState: RoaInvestInputState = {
     clientId: "",
     consultReason: "",
-    investmentAdviceType: "",
+    investmentAdviceTypeCode: "",
     needMonthly: null,
     needLumpsum: null,
     contributionMonthly: null,
@@ -39,10 +39,10 @@ export const reducer = (
                 consultReason: action.payload,
             };
         }
-        case "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENTADVICETYPE_RECEIVE": {
+        case "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENTADVICETYPECODE_RECEIVE": {
             return {
                 ...state,
-                investmentAdviceType: action.payload,
+                investmentAdviceTypeCode: action.payload,
             };
         }
         case "COMPLIANCE_ROA_INVEST_INPUT_NEEDMONTHLY_RECEIVE": {

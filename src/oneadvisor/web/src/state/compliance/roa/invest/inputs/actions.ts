@@ -10,8 +10,8 @@ type RoaInvestInputConsultReasonReceiveAction = {
     payload: string;
 };
 
-type RoaInvestInputInvestmentAdviceTypeReceiveAction = {
-    type: "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENTADVICETYPE_RECEIVE";
+type RoaInvestInputInvestmentAdviceTypeCodeReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENTADVICETYPECODE_RECEIVE";
     payload: string;
 };
 
@@ -97,7 +97,7 @@ type RoaInvestInputStateReceiveAction = {
 export type RoaInvestInputAction =
     | RoaInvestInputClientIdReceiveAction
     | RoaInvestInputConsultReasonReceiveAction
-    | RoaInvestInputInvestmentAdviceTypeReceiveAction
+    | RoaInvestInputInvestmentAdviceTypeCodeReceiveAction
     | RoaInvestInputNeedMonthlyReceiveAction
     | RoaInvestInputNeedLumpsumReceiveAction
     | RoaInvestInputContributionMonthlyReceiveAction
@@ -125,11 +125,11 @@ export const receiveConsultReason = (reason: string): RoaInvestInputConsultReaso
     payload: reason,
 });
 
-export const receiveInvestmentAdviceType = (
-    adviceType: string
-): RoaInvestInputInvestmentAdviceTypeReceiveAction => ({
-    type: "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENTADVICETYPE_RECEIVE",
-    payload: adviceType,
+export const receiveInvestmentAdviceTypeCode = (
+    adviceTypeCode: string
+): RoaInvestInputInvestmentAdviceTypeCodeReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENTADVICETYPECODE_RECEIVE",
+    payload: adviceTypeCode,
 });
 
 export const receiveNeedMonthly = (

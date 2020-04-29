@@ -37,19 +37,19 @@ describe("roa invest reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle COMPLIANCE_ROA_INVEST_INPUT_INVESTMENTADVICETYPE_RECEIVE", () => {
+    it("should handle COMPLIANCE_ROA_INVEST_INPUT_INVESTMENTADVICETYPECODE_RECEIVE", () => {
         const initalState = {
             ...defaultState,
         };
 
         const actualState = reducer(initalState, {
-            type: "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENTADVICETYPE_RECEIVE",
-            payload: "id1",
+            type: "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENTADVICETYPECODE_RECEIVE",
+            payload: "code1",
         });
 
         const expectedState = {
             ...defaultState,
-            investmentAdviceType: "id1",
+            investmentAdviceTypeCode: "code1",
         };
 
         expect(actualState).toEqual(expectedState);

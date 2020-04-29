@@ -17,11 +17,13 @@ export const defaultState: RoaInvestDataState = {
         discussedFunds: [],
 
         recommendedProductTypes: [],
-        recommendedCompanyies: [],
+        recommendedCompanies: [],
         recommendedFunds: [],
         recommendedAction: "",
 
         clientChoice: "",
+
+        investments: [],
     },
 };
 

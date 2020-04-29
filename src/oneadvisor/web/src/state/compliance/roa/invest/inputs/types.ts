@@ -11,7 +11,7 @@ export type RoaInvestInputNeedsState = {
     //Needs
     readonly clientId: string | null;
     readonly consultReason: string;
-    readonly investmentAdviceType: string;
+    readonly investmentAdviceTypeCode: string;
     readonly needMonthly: number | null;
     readonly needLumpsum: number | null;
     readonly contributionMonthly: number | null;
