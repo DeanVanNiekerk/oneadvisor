@@ -9,7 +9,7 @@
 1. Pull sql server 2017 image
    - `docker pull mcr.microsoft.com/mssql/server:2017-latest`
 1. Setup container
-   - `docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=udhG#2fDVIB%9896I#' \ -p 1433:1433 --name sql2017 \ -d mcr.microsoft.com/mssql/server:2017-latest`
+   - `docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=udhG#2fDVIB%9896I#' -p 1433:1433 --name sql2017 -d mcr.microsoft.com/mssql/server:2017-latest`
 1. Set new **sa** password
    - `docker exec -it sql2017 /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'udhG#2fDVIB%9896I#' -Q 'ALTER LOGIN SA WITH PASSWORD="2x&%bLn3c47Y!y&hv7"'`
 1. Execute sql in container

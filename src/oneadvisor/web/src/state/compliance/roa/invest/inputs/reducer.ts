@@ -19,30 +19,7 @@ export const defaultState: RoaInvestInputState = {
     recommendedFunds: [],
     recommendedAction: "",
     clientChoice: "",
-    investments: [
-        {
-            id: v4(),
-            companyId: "",
-            productTypeId: "",
-            fund: "",
-            contributionPremium: 1,
-            contributionLumpsum: 2,
-            upfrontFeeAmount: 3,
-            upfrontFeePercent: 4,
-            assetManagementFeePercent: 5,
-        },
-        {
-            id: v4(),
-            companyId: "",
-            productTypeId: "",
-            fund: "",
-            contributionPremium: 10,
-            contributionLumpsum: 20,
-            upfrontFeeAmount: 30,
-            upfrontFeePercent: 40,
-            assetManagementFeePercent: 50,
-        },
-    ],
+    investments: [],
 };
 
 export const reducer = (
