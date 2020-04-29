@@ -103,7 +103,9 @@ class PolicyProductTypeList extends Component<Props, State> {
                 {},
                 {
                     render: (policyTypeCharacteristics: PolicyTypeCharacteristicDescription[]) => {
-                        return policyTypeCharacteristics.filter((c) => !!c).length.toString();
+                        return policyTypeCharacteristics
+                            .filter((c) => !!c.description)
+                            .length.toString();
                     },
                 }
             ),

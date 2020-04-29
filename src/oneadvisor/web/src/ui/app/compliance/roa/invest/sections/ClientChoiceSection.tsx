@@ -12,7 +12,7 @@ type Props = PropsFromState & PropsFromDispatch;
 const ClientChoiceSection: React.FC<Props> = (props) => {
     return (
         <Card title="Client Choice">
-            <Form layout="vertical" size="small">
+            <Form layout="vertical">
                 <FormTextArea
                     fieldName="clientChoice"
                     label="Choice"

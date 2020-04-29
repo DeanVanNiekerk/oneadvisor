@@ -61,7 +61,7 @@ const ClientObjectiveSection: React.FC<Props> = (props) => {
         <Card title="Client Needs">
             <Row gutter={24}>
                 <Col md={24} xl={12}>
-                    <Form layout="vertical" size="small">
+                    <Form layout="vertical">
                         <FormText
                             fieldName="clientId"
                             label="Client"
@@ -70,10 +70,10 @@ const ClientObjectiveSection: React.FC<Props> = (props) => {
                             extra={
                                 <>
                                     <Button
-                                        size="small"
                                         iconName="search"
                                         type={props.clientId ? "dashed" : "primary"}
                                         onClick={() => setClientSearchVisible(true)}
+                                        size="small"
                                     >
                                         {props.clientId ? "Change Client" : "Select Client"}
                                     </Button>
@@ -91,7 +91,7 @@ const ClientObjectiveSection: React.FC<Props> = (props) => {
                 </Col>
 
                 <Col md={24} xl={12}>
-                    <Form size="small">
+                    <Form>
                         <FormSelect<string>
                             fieldName="investmentAdviceTypes"
                             label="Advice Type"

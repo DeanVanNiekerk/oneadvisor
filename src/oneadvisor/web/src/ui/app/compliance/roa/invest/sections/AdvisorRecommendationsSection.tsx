@@ -23,7 +23,7 @@ const AdvisorRecommendationsSection: React.FC<Props> = (props) => {
         <Card title="Advisor Recommendations">
             <Row gutter={24}>
                 <Col md={24} xl={12}>
-                    <Form layout="vertical" size="small">
+                    <Form layout="vertical">
                         <FormTextArea
                             fieldName="recommendedAction"
                             label="Recommendation"
@@ -35,7 +35,7 @@ const AdvisorRecommendationsSection: React.FC<Props> = (props) => {
                 </Col>
 
                 <Col md={24} xl={12}>
-                    <Form size="small">
+                    <Form>
                         <FormSelect<string[]>
                             mode="multiple"
                             fieldName="productTypeIds"

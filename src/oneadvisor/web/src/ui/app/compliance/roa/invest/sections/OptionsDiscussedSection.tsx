@@ -24,7 +24,7 @@ const OptionsDiscussedSection: React.FC<Props> = (props) => {
         <Card title="Options Discussed">
             <Row gutter={24}>
                 <Col md={24} xl={12}>
-                    <Form size="small">
+                    <Form>
                         <FormSelect<string[]>
                             mode="multiple"
                             fieldName="productTypeIds"

@@ -162,6 +162,11 @@ export const reducer = (
                 }),
             };
         }
+        case "COMPLIANCE_ROA_INVEST_INPUT_STATE_RECEIVE": {
+            return {
+                ...action.payload,
+            };
+        }
         default:
             return state;
     }

@@ -8,6 +8,7 @@ import { loadRoaInvestData } from "@/state/compliance/roa";
 import { RootState } from "@/state/types";
 import { Button, Drawer, Header } from "@/ui/controls";
 
+import InputsPersistor from "./InputsPersistor";
 import Preview from "./Preview";
 import AdvisorRecommendationsSection from "./sections/AdvisorRecommendationsSection";
 import ClientChoiceSection from "./sections/ClientChoiceSection";
@@ -62,6 +63,8 @@ const RoaInvest: React.FC<Props> = (props) => {
             >
                 <Preview />
             </Drawer>
+
+            <InputsPersistor />
         </>
     );
 };

@@ -1,4 +1,4 @@
-import { Investment } from "./types";
+import { Investment, RoaInvestInputState } from "./types";
 
 type RoaInvestInputClientIdReceiveAction = {
     type: "COMPLIANCE_ROA_INVEST_INPUT_CLIENTID_RECEIVE";
@@ -89,6 +89,11 @@ type RoaInvestInputRemoveInvestmentAction = {
     payload: string;
 };
 
+type RoaInvestInputStateReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_STATE_RECEIVE";
+    payload: RoaInvestInputState;
+};
+
 export type RoaInvestInputAction =
     | RoaInvestInputClientIdReceiveAction
     | RoaInvestInputConsultReasonReceiveAction
@@ -107,7 +112,8 @@ export type RoaInvestInputAction =
     | RoaInvestInputClientChoiceReceiveAction
     | RoaInvestInputInvestmentReceiveAction
     | RoaInvestInputAddInvestmentAction
-    | RoaInvestInputRemoveInvestmentAction;
+    | RoaInvestInputRemoveInvestmentAction
+    | RoaInvestInputStateReceiveAction;
 
 export const receiveClientId = (clientId: string | null): RoaInvestInputClientIdReceiveAction => ({
     type: "COMPLIANCE_ROA_INVEST_INPUT_CLIENTID_RECEIVE",
@@ -224,4 +230,11 @@ export const addInvestment = (): RoaInvestInputAddInvestmentAction => ({
 export const removeInvestment = (id: string): RoaInvestInputRemoveInvestmentAction => ({
     type: "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENT_REMOVE",
     payload: id,
+});
+
+export const receiveRoaInvestInputState = (
+    state: RoaInvestInputState
+): RoaInvestInputStateReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_STATE_RECEIVE",
+    payload: state,
 });
