@@ -186,7 +186,7 @@ const getProductCharacteristics = (
     });
 };
 
-const formatPercent = (value: number | null, fallback: string = ""): string => {
+const formatPercent = (value: number | null, fallback = ""): string => {
     if (value === null || value === undefined) return fallback;
 
     return `${value.toString()}%`;
