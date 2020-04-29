@@ -1,5 +1,5 @@
 {
-    "name": "web",
+    "name": "oneadvisor",
     "version": "1.0.0",
     "private": true,
     "description": "",
@@ -18,7 +18,8 @@
         "lint:scripts": "eslint --max-warnings=10 \"src/**/*.{js,ts,tsx}\"",
         "lint-fix": "npm run lint-fix:script",
         "lint-fix:script": "npm run lint:scripts -- --fix",
-        "tsc": "tsc"
+        "tsc": "tsc",
+        "docz": "docz dev --typescript --port=5002"
     },
     "keywords": [],
     "author": "Dean van Niekerk",
@@ -87,6 +88,7 @@
         "config": "3.3.1",
         "copy-webpack-plugin": "5.1.1",
         "css-loader": "3.4.2",
+        "docz": "2.3.1",
         "eslint": "6.8.0",
         "eslint-config-prettier": "6.10.1",
         "eslint-plugin-prettier": "3.1.2",

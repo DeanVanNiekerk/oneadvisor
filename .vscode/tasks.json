@@ -45,9 +45,16 @@
       "problemMatcher": []
     },
     {
+      "label": "start-docz",
+      "type": "npm",
+      "script": "docz",
+      "path": "src/oneadvisor/web/",
+      "problemMatcher": []
+    },
+    {
       "label": "start",
       "dependsOrder": "parallel",
-      "dependsOn": ["start-api", "start-web"],
+      "dependsOn": ["start-api", "start-web", "start-docz"],
       "problemMatcher": []
     }
   ]
