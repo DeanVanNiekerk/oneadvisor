@@ -177,7 +177,7 @@ const getProductCharacteristics = (
 
         const characteristic = characteristics.find((ch) => ch.id === c.policyTypeCharacteristicId);
 
-        if (characteristic) name = characteristic.name;
+        if (!!characteristic) name = characteristic.name;
 
         return {
             name: name,

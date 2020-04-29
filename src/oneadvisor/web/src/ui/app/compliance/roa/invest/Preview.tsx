@@ -189,8 +189,8 @@ const Investments: React.FC<DataProps> = ({ data }) => {
             </View>
 
             {data.investments.map((investment) => (
-                <View style={[styles.mb2]}>
-                    <Investment key={investment.number} investment={investment} />
+                <View key={investment.number} style={[styles.mb2]}>
+                    <Investment investment={investment} />
                     <Splitter />
                 </View>
             ))}
@@ -232,7 +232,14 @@ const Investment: React.FC<InvestmentProps> = ({ investment }) => {
                     <Text>Product Characteristics - {investment.productTypeName}</Text>
                 </View>
                 {investment.productCharacteristics.map((c) => {
-                    return <FieldValue fieldName={c.name} value={c.description} mode="vertical" />;
+                    return (
+                        <FieldValue
+                            key={c.name}
+                            fieldName={c.name}
+                            value={c.description}
+                            mode="vertical"
+                        />
+                    );
                 })}
             </View>
         </>
