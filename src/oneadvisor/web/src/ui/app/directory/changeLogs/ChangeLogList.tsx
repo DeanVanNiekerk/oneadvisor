@@ -57,7 +57,7 @@ class ChangeLogList extends Component<Props> {
     newChangeLog = () => {
         const changeLog: ChangeLogEdit = {
             id: null,
-            versionNumber: "0.x.0",
+            versionNumber: "1.x.x",
             releaseDate: "",
             published: false,
             log: `
