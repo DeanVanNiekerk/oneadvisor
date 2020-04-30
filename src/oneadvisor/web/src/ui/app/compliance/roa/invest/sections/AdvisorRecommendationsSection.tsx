@@ -52,7 +52,7 @@ const AdvisorRecommendationsSection: React.FC<Props> = (props) => {
                             mode="multiple"
                             fieldName="funds"
                             label="Funds"
-                            options={props.organisationFunds.map((f) => ({ id: f, name: f }))}
+                            options={props.fundOptions.map((f) => ({ id: f, name: f }))}
                             optionsValue="id"
                             optionsText="name"
                             value={props.funds}
@@ -85,7 +85,7 @@ const mapStateToProps = (state: RootState) => {
         productTypes: roaInvestRecommendedProductTypesSelector(state),
         companyIds: roaInvestState.recommendedCompanyIds,
         companies: roaInvestRecommendedCompaniesSelector(state),
-        organisationFunds: roaInvestRecommendedFundsSelector(state),
+        fundOptions: roaInvestRecommendedFundsSelector(state),
         funds: roaInvestState.recommendedFunds,
         recommendedAction: roaInvestState.recommendedAction,
     };

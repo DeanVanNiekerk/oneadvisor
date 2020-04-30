@@ -1,7 +1,7 @@
 import { v4 } from "uuid";
 
 import { RoaInvestInputAction } from "./";
-import { RoaInvestInputState } from "./types";
+import { Investment, RoaInvestInputState } from "./types";
 
 export const defaultState: RoaInvestInputState = {
     clientId: "",
@@ -127,22 +127,20 @@ export const reducer = (
             };
         }
         case "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENT_ADD": {
+            const investment: Investment = {
+                id: v4(),
+                companyId: "",
+                productTypeId: "",
+                funds: [],
+                contributionPremium: null,
+                contributionLumpsum: null,
+                upfrontFeeAmount: null,
+                upfrontFeePercent: null,
+                assetManagementFeePercent: null,
+            };
             return {
                 ...state,
-                investments: [
-                    ...state.investments,
-                    {
-                        id: v4(),
-                        companyId: "",
-                        productTypeId: "",
-                        fund: "",
-                        contributionPremium: null,
-                        contributionLumpsum: null,
-                        upfrontFeeAmount: null,
-                        upfrontFeePercent: null,
-                        assetManagementFeePercent: null,
-                    },
-                ],
+                investments: [...state.investments, investment],
             };
         }
         case "COMPLIANCE_ROA_INVEST_INPUT_INVESTMENT_REMOVE": {

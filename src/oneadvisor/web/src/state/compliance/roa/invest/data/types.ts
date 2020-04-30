@@ -38,7 +38,7 @@ export type InvestmentData = {
 
     readonly companyName: string;
     readonly productTypeName: string;
-    readonly fund: string;
+    readonly funds: string[];
 
     readonly contributionPremium: string;
     readonly contributionLumpsum: string;

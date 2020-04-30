@@ -41,6 +41,11 @@ const styles = StyleSheet.create({
         marginTop: 6,
         marginBottom: 12,
     },
+    h5: {
+        fontSize: 11,
+        marginTop: 4,
+        marginBottom: 10,
+    },
     b: {
         fontStyle: "bold",
     },
@@ -231,7 +236,7 @@ const Investment: React.FC<InvestmentProps> = ({ investment }) => {
 
                 <FieldValue fieldName="Company" value={investment.companyName} />
                 <FieldValue fieldName="Product" value={investment.productTypeName} />
-                <FieldValue fieldName="Fund" value={investment.fund} />
+                <FieldValues fieldName="Funds" values={investment.funds} />
                 <FieldValue
                     fieldName="Contribution Premium"
                     value={investment.contributionPremium}
@@ -247,7 +252,7 @@ const Investment: React.FC<InvestmentProps> = ({ investment }) => {
                 />
             </View>
             <View wrap={false}>
-                <View style={[styles.h4, styles.mb2]}>
+                <View style={[styles.h5]}>
                     <Text>Product Characteristics - {investment.productTypeName}</Text>
                 </View>
                 {investment.productCharacteristics.map((c) => {
@@ -267,7 +272,7 @@ const Investment: React.FC<InvestmentProps> = ({ investment }) => {
 
 const Signatures: React.FC<DataProps> = ({ data }) => {
     const rightMargin = 100;
-    const signatureHeight = 150;
+    const signatureHeight = 120;
 
     return (
         <View wrap={false}>

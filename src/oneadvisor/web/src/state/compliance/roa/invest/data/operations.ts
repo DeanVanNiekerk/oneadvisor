@@ -150,7 +150,7 @@ const getInvestmentData = (
         number: (index + 1).toString(),
         companyName: companyName,
         productTypeName: productTypeName,
-        fund: investment.fund,
+        funds: investment.funds,
         contributionLumpsum: formatCurrency(investment.contributionLumpsum, currencyDecimal),
         contributionPremium: formatCurrency(investment.contributionPremium, currencyDecimal),
         upfrontFee: upfrontFee,

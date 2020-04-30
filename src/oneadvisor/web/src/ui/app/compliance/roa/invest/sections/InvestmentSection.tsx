@@ -25,7 +25,7 @@ type Props = {
 const InvestmentSection: React.FC<Props> = (props) => {
     const { investment } = props;
 
-    const onChange = (fieldName: string, value: string | number | null) => {
+    const onChange = (fieldName: string, value: string | number | null | string[]) => {
         props.receiveInvestment({
             ...props.investment,
             [fieldName]: value,
@@ -122,13 +122,14 @@ const InvestmentSection: React.FC<Props> = (props) => {
                             value={investment.productTypeId}
                             onChange={onChange}
                         />
-                        <FormSelect<string>
-                            fieldName="fund"
-                            label="Fund"
+                        <FormSelect<string[]>
+                            mode="multiple"
+                            fieldName="funds"
+                            label="Funds"
                             options={props.funds.map((f) => ({ id: f, name: f }))}
                             optionsValue="id"
                             optionsText="name"
-                            value={investment.fund}
+                            value={investment.funds}
                             onChange={onChange}
                         />
                         <FormSelect<string>

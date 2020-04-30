@@ -53,7 +53,7 @@ export const updateDiscussedCompanyIds = (
     return async (dispatch, getState) => {
         const inputs = roaInvestInputsSelector(getState());
 
-        //Recommended Products must have been discussed
+        //Recommended Companies must have been discussed
         const recommendedCompanyIds = inputs.recommendedCompanyIds.filter((id) =>
             discussedCompanyIds.some((i) => id === i)
         );
@@ -63,7 +63,7 @@ export const updateDiscussedCompanyIds = (
 
         dispatch(receiveDiscussedCompanyIds(discussedCompanyIds));
 
-        //Investment Products must have been discussed
+        //Investment Companies must have been discussed
         inputs.investments.forEach((investment) => {
             if (!investment.companyId) return;
 
@@ -84,7 +84,7 @@ export const updateDiscussedFunds = (
     return async (dispatch, getState) => {
         const inputs = roaInvestInputsSelector(getState());
 
-        //Recommended Products must have been discussed
+        //Recommended Funds must have been discussed
         const recommendedFunds = inputs.recommendedFunds.filter((id) =>
             discussedFunds.some((i) => id === i)
         );
@@ -94,14 +94,16 @@ export const updateDiscussedFunds = (
 
         dispatch(receiveDiscussedFunds(discussedFunds));
 
-        //Investment Products must have been discussed
+        //Investment Funds must have been discussed
         inputs.investments.forEach((investment) => {
-            if (!investment.fund) return;
+            const investmentsFunds = investment.funds.filter((id) =>
+                discussedFunds.some((i) => id === i)
+            );
 
-            if (!discussedFunds.some((id) => id === investment.fund)) {
+            if (!arrayEqual(investmentsFunds, investment.funds)) {
                 const updated: Investment = {
                     ...investment,
-                    fund: "",
+                    funds: investmentsFunds,
                 };
                 dispatch(receiveInvestment(updated));
             }

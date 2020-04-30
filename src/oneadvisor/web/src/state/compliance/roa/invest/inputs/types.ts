@@ -38,7 +38,7 @@ export type Investment = {
 
     readonly companyId: string;
     readonly productTypeId: string;
-    readonly fund: string;
+    readonly funds: string[];
 
     readonly contributionPremium: number | null;
     readonly contributionLumpsum: number | null;
