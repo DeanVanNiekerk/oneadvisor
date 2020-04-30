@@ -26,6 +26,7 @@ describe("roa invest reducer", () => {
         };
 
         const data: RoaInvestData = {
+            userFullName: "Broker Name",
             clientFullName: "Dean van Zoning",
             consultReason: "Get your life sorted",
             investmentAdviceType: "",

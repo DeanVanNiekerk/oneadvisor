@@ -2,6 +2,7 @@ import { AnyAction } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { formatCurrency } from "@/app/utils";
+import { userFullNameSelector, userOrganisationIdSelector } from "@/state/auth/token/selectors";
 import {
     getClient,
     policyProductTypesSelector,
@@ -30,6 +31,7 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
         const inputs = roaInvestInputsSelector(rootState);
 
         const clientFullName = await getClientFullName(dispatch, inputs.clientId);
+        const userFullName = userFullNameSelector(rootState);
 
         const discussedCompanyNames = getCompanyNames(rootState, inputs.discussedCompanyIds);
         const discussedProductTypeNames = getProductTypeNames(
@@ -47,6 +49,7 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
 
         const data: RoaInvestData = {
             clientFullName: clientFullName,
+            userFullName: userFullName,
             consultReason: inputs.consultReason,
             investmentAdviceType: getInvestmentAdviceTypeName(
                 rootState,

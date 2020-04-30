@@ -50,6 +50,9 @@ const styles = StyleSheet.create({
     pl2: {
         paddingLeft: 8,
     },
+    mt1: {
+        marginTop: 4,
+    },
     mb1: {
         marginBottom: 4,
     },
@@ -59,20 +62,16 @@ const styles = StyleSheet.create({
     mb3: {
         marginBottom: 12,
     },
-    field: {
-        marginBottom: 12,
+    row: {
+        flexDirection: "row",
+    },
+    flex1: {
+        flex: 1,
+    },
+    flexGrow1: {
+        flexGrow: 1,
     },
 });
-
-// page: {
-//     flexDirection: "row",
-//     backgroundColor: "#E4E4E4",
-// },
-// section: {
-//     margin: 10,
-//     padding: 10,
-//     flexGrow: 1,
-// },
 
 type Props = PropsFromState;
 
@@ -86,9 +85,9 @@ const Preview: React.FC<Props> = ({ data, fetching }) => {
                     <View style={styles.h1}>
                         <Text>Record of Advice</Text>
                     </View>
-                    <View style={styles.mb3}>
-                        <Text>{data.clientFullName}</Text>
-                    </View>
+                    <FieldValue fieldName="Date" value={new Date().toLocaleDateString()} />
+                    <FieldValue fieldName="Client" value={data.clientFullName} />
+
                     <ClientObjectives data={data} />
                     <Splitter />
                     <OptionsDiscussed data={data} />
@@ -98,9 +97,29 @@ const Preview: React.FC<Props> = ({ data, fetching }) => {
                     <ClientChoice data={data} />
                     <Splitter />
                     <Investments data={data} />
+                    <Signatures data={data} />
+                    <PageNumber />
                 </Page>
             </Document>
         </PDFViewer>
+    );
+};
+
+const PageNumber: React.FC = () => {
+    return (
+        <Text
+            style={{
+                position: "absolute",
+                fontSize: 10,
+                bottom: 20,
+                left: 0,
+                right: 0,
+                textAlign: "center",
+                color: "grey",
+            }}
+            render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+            fixed
+        />
     );
 };
 
@@ -246,6 +265,60 @@ const Investment: React.FC<InvestmentProps> = ({ investment }) => {
     );
 };
 
+const Signatures: React.FC<DataProps> = ({ data }) => {
+    const rightMargin = 100;
+    const signatureHeight = 150;
+
+    return (
+        <View wrap={false}>
+            <View style={[styles.row]}>
+                <View
+                    style={[
+                        styles.flex1,
+                        {
+                            borderBottomWidth: 1,
+                            marginRight: rightMargin,
+                            marginTop: signatureHeight,
+                        },
+                    ]}
+                ></View>
+                <View
+                    style={[
+                        styles.flex1,
+                        {
+                            borderBottomWidth: 1,
+                            marginRight: rightMargin,
+                            marginTop: signatureHeight,
+                        },
+                    ]}
+                ></View>
+            </View>
+            <View style={[styles.row, styles.mt1]}>
+                <View
+                    style={[
+                        styles.flex1,
+                        {
+                            marginRight: rightMargin,
+                        },
+                    ]}
+                >
+                    <Text>{data.clientFullName}</Text>
+                </View>
+                <View
+                    style={[
+                        styles.flex1,
+                        {
+                            marginRight: rightMargin,
+                        },
+                    ]}
+                >
+                    <Text>{data.userFullName}</Text>
+                </View>
+            </View>
+        </View>
+    );
+};
+
 type FieldValueProps = {
     fieldName: string;
     value: string;
@@ -257,14 +330,14 @@ const FieldValue: React.FC<FieldValueProps> = ({ fieldName, value, mode }) => {
 
     if (mode === "vertical")
         return (
-            <View style={styles.field}>
+            <View style={styles.mb3}>
                 <Text style={styles.b}>{fieldName}: </Text>
                 <Text>{value}</Text>
             </View>
         );
 
     return (
-        <View style={styles.field}>
+        <View style={styles.mb3}>
             <Text>
                 <Text style={styles.b}>{fieldName}: </Text>
                 {value}
@@ -286,7 +359,7 @@ const FieldValues: React.FC<FieldValuesProps> = ({ fieldName, values }) => {
             <View style={[styles.b, styles.mb2]}>
                 <Text>{fieldName}</Text>
             </View>
-            <View style={styles.field}>
+            <View style={styles.mb3}>
                 {values.map((value) => (
                     <Text style={[styles.pl2, styles.mb1]} key={value}>
                         {value}

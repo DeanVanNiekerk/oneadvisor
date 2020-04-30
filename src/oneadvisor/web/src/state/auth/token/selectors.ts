@@ -32,6 +32,14 @@ export const userOrganisationIdSelector: (state: RootState) => string = createSe
     }
 );
 
+export const userFullNameSelector: (state: RootState) => string = createSelector(
+    tokenDataSelector,
+    (tokenData) => {
+        if (!tokenData) return "";
+        return `${tokenData.firstName} ${tokenData.lastName}`;
+    }
+);
+
 export const useCaseSelector: (state: RootState) => string[] = createSelector(
     tokenDataSelector,
     (tokenData) => {

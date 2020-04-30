@@ -73,27 +73,18 @@ export const reducer = (
             return {
                 ...state,
                 discussedProductTypeIds: action.payload,
-                recommendedProductTypeIds: state.recommendedProductTypeIds.filter((id) =>
-                    action.payload.some((i) => id === i)
-                ),
             };
         }
         case "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDCOMPANYIDS_RECEIVE": {
             return {
                 ...state,
                 discussedCompanyIds: action.payload,
-                recommendedCompanyIds: state.recommendedCompanyIds.filter((id) =>
-                    action.payload.some((i) => id === i)
-                ),
             };
         }
         case "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDFUNDS_RECEIVE": {
             return {
                 ...state,
                 discussedFunds: action.payload,
-                recommendedFunds: state.recommendedFunds.filter((id) =>
-                    action.payload.some((i) => id === i)
-                ),
             };
         }
         case "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDPRODUCTTYPEIDS_RECEIVE": {

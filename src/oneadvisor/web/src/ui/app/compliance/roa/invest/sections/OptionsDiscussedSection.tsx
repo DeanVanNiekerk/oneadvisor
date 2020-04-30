@@ -5,10 +5,10 @@ import { bindActionCreators, Dispatch } from "redux";
 
 import { RootState } from "@/state";
 import {
-    receiveDiscussedCompanyIds,
-    receiveDiscussedFunds,
-    receiveDiscussedProductTypeIds,
     roaInvestInputsDiscussedSelector,
+    updateDiscussedCompanyIds,
+    updateDiscussedFunds,
+    updateDiscussedProductTypeIds,
 } from "@/state/compliance/roa";
 import { policyProductTypesInvestmentSelector } from "@/state/lookups/client";
 import {
@@ -34,7 +34,7 @@ const OptionsDiscussedSection: React.FC<Props> = (props) => {
                             optionsText="name"
                             value={props.productTypeIds}
                             onChange={(_fieldName, values) =>
-                                props.receiveDiscussedProductTypeIds(values)
+                                props.updateDiscussedProductTypeIds(values)
                             }
                         />
 
@@ -46,7 +46,7 @@ const OptionsDiscussedSection: React.FC<Props> = (props) => {
                             optionsValue="id"
                             optionsText="name"
                             value={props.funds}
-                            onChange={(_fieldName, values) => props.receiveDiscussedFunds(values)}
+                            onChange={(_fieldName, values) => props.updateDiscussedFunds(values)}
                         />
 
                         <FormSelect<string[]>
@@ -58,7 +58,7 @@ const OptionsDiscussedSection: React.FC<Props> = (props) => {
                             optionsText="name"
                             value={props.companyIds}
                             onChange={(_fieldName, values) =>
-                                props.receiveDiscussedCompanyIds(values)
+                                props.updateDiscussedCompanyIds(values)
                             }
                         />
                     </Form>
@@ -85,7 +85,7 @@ type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         ...bindActionCreators(
-            { receiveDiscussedProductTypeIds, receiveDiscussedCompanyIds, receiveDiscussedFunds },
+            { updateDiscussedProductTypeIds, updateDiscussedCompanyIds, updateDiscussedFunds },
             dispatch
         ),
     };

@@ -4,8 +4,10 @@ export type RoaInvestDataState = {
 };
 
 export type RoaInvestData = {
-    //Needs
+    readonly userFullName: string;
     readonly clientFullName: string;
+
+    //Needs
     readonly consultReason: string;
     readonly investmentAdviceType: string;
     readonly needMonthly: string;
