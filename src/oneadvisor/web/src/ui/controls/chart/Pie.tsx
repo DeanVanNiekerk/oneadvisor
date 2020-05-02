@@ -1,7 +1,8 @@
 import { Empty } from "antd";
 import React from "react";
 
-import { CHART_COLORS, CHART_THEME, TEXT_COLOR } from "@/ui/styles";
+import { TEXT_COLOR } from "@/ui/styles";
+import { CHART_COLORS, CHART_THEME } from "@/ui/styles/nivo-theme";
 import { PieSvgProps, ResponsivePie } from "@nivo/pie";
 
 import { ContentLoader } from "../";

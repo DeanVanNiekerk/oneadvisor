@@ -9,7 +9,7 @@ import {
     userEarningsTypeMonthlyCommissionSelector,
     userEarningsTypeMonthlyCommissionTotalAmountExclVatSelector,
 } from "@/state/commission/reports";
-import { Pie } from "@/ui/controls";
+import { Pie } from "@/ui/controls/chart/Pie";
 
 type Props = PropsFromState;
 

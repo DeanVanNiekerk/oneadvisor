@@ -9,7 +9,7 @@ import {
     clientRevenueSelector,
     fetchClientRevenueData,
 } from "@/state/commission/reports";
-import { Bar } from "@/ui/controls";
+import { Bar } from "@/ui/controls/chart/Bar";
 import { BarDatum } from "@nivo/bar";
 
 type Props = {

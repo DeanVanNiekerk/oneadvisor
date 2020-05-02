@@ -6,5 +6,4 @@ export * from "./tab";
 export * from "./common";
 export * from "./lookups";
 export * from "./workflow";
-export * from "./chart";
 export * from "./search";
