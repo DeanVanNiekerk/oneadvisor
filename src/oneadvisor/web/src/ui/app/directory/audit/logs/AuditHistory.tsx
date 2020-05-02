@@ -5,7 +5,8 @@ import { Dispatch } from "redux";
 
 import { RootState } from "@/state";
 import { auditLogHistorySelector, fetchAuditHistory } from "@/state/directory/audit";
-import { ContentLoader, Date } from "@/ui/controls";
+import { ContentLoader } from "@/ui/controls";
+import { Date } from "@/ui/controls/common/Date";
 
 const { Text } = Typography;
 

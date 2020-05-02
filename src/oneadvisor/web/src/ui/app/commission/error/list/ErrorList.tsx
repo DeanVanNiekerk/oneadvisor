@@ -19,7 +19,8 @@ import {
     receiveSortOptions,
 } from "@/state/commission/errors";
 import { Statement } from "@/state/commission/statements";
-import { getTable, StopPropagation } from "@/ui/controls";
+import { getTable } from "@/ui/controls";
+import { StopPropagation } from "@/ui/controls/common/StopPropagation";
 import { InfoCircleOutlined } from "@ant-design/icons";
 
 import EditMappingError from "../mapping/EditMappingError";

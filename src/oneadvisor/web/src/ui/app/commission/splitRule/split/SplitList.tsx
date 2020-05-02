@@ -9,7 +9,8 @@ import { ValidationResult } from "@/app/validation/types";
 import { RootState } from "@/state";
 import { useCaseSelector } from "@/state/auth";
 import { Split } from "@/state/commission/splitRules";
-import { FormErrors, getTable, StopPropagation, UserName } from "@/ui/controls";
+import { FormErrors, getTable, UserName } from "@/ui/controls";
+import { StopPropagation } from "@/ui/controls/common/StopPropagation";
 
 import EditSplit from "./EditSplit";
 

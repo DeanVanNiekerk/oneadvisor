@@ -10,7 +10,8 @@ import {
     statementPreviewSelector,
     statementVisible,
 } from "@/state/commission/statements";
-import { Currency, PreviewCard, PreviewCardRow } from "@/ui/controls";
+import { PreviewCard, PreviewCardRow } from "@/ui/controls";
+import { Currency } from "@/ui/controls/common/Currency";
 import { EditOutlined } from "@ant-design/icons";
 
 import EditStatement from "../../form/EditStatement";

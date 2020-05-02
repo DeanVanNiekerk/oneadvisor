@@ -13,7 +13,8 @@ import {
     SplitRule,
     splitRulesSelector,
 } from "@/state/commission/splitRules";
-import { Button, getColumnSearchProps, getTable, Header, StopPropagation } from "@/ui/controls";
+import { Button, getColumnSearchProps, getTable, Header } from "@/ui/controls";
+import { StopPropagation } from "@/ui/controls/common/StopPropagation";
 
 import EditSplitRule from "./EditSplitRule";
 

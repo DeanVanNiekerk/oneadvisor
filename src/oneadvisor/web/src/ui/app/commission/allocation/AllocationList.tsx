@@ -12,7 +12,8 @@ import {
     fetchAllocations,
     receiveAllocation,
 } from "@/state/commission/allocations";
-import { Button, getTable, Header, StopPropagation } from "@/ui/controls";
+import { Button, getTable, Header } from "@/ui/controls";
+import { StopPropagation } from "@/ui/controls/common/StopPropagation";
 
 import EditAllocation from "./EditAllocation";
 

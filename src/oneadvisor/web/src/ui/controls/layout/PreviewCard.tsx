@@ -7,7 +7,7 @@ import { IconName } from "@/app/types";
 import { RootState } from "@/state";
 import { useCaseSelector } from "@/state/auth";
 
-import { Icon } from "../common";
+import { Icon } from "../common/Icon";
 
 type Props = {
     title: string;

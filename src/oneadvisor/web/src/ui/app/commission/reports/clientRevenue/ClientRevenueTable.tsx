@@ -13,7 +13,8 @@ import {
     receiveClientRevenuePageOptions,
     receiveClientRevenueSortOptions,
 } from "@/state/commission/reports";
-import { Age, getColumnSearchProps, getTable } from "@/ui/controls";
+import { getColumnSearchProps, getTable } from "@/ui/controls";
+import { Age } from "@/ui/controls/common/Age";
 import { ShareAltOutlined } from "@ant-design/icons";
 
 const Table = getTable<ClientRevenueData>();

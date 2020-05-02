@@ -12,7 +12,8 @@ import {
     commissionStatementTemplatesSelector,
     fetchCommissionStatementTemplates,
 } from "@/state/commission/templates";
-import { Form, FormField, FormSelect, Upload } from "@/ui/controls";
+import { Form, FormField, FormSelect } from "@/ui/controls";
+import { Upload } from "@/ui/controls/common/Upload";
 import { showMessage } from "@/ui/feedback/notifcation";
 
 type Props = {

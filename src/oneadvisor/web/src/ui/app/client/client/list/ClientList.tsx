@@ -25,14 +25,8 @@ import {
     receiveSortOptions,
 } from "@/state/client/clients";
 import { clientTypesSelector } from "@/state/lookups/client";
-import {
-    Button,
-    ClientTypeIcon,
-    getColumnSearchProps,
-    getTable,
-    Header,
-    StopPropagation,
-} from "@/ui/controls";
+import { Button, ClientTypeIcon, getColumnSearchProps, getTable, Header } from "@/ui/controls";
+import { StopPropagation } from "@/ui/controls/common/StopPropagation";
 
 import EditClient from "../form/EditClient";
 import ClientMerge from "../merge/ClientMerge";

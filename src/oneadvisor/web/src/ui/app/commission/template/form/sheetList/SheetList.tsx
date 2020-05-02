@@ -15,7 +15,8 @@ import {
     modifyCommissionStatementTemplateSheets,
     Sheet,
 } from "@/state/commission/templates";
-import { FormErrors, getTable, StopPropagation } from "@/ui/controls";
+import { FormErrors, getTable } from "@/ui/controls";
+import { StopPropagation } from "@/ui/controls/common/StopPropagation";
 
 import EditSheet from "./EditSheet";
 

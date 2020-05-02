@@ -12,7 +12,7 @@ import {
     organisationSelector,
 } from "@/state/directory/organisations";
 import { getFileAsDataUrl } from "@/state/file";
-import { Upload } from "@/ui/controls";
+import { Upload } from "@/ui/controls/common/Upload";
 import { showMessage } from "@/ui/feedback/notifcation";
 
 type Props = PropsFromState & PropsFromDispatch;

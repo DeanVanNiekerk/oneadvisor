@@ -11,7 +11,8 @@ import {
     fetchClient,
 } from "@/state/client/clients";
 import { ClientTypeId } from "@/state/lookups/client";
-import { Age, PreviewCard, PreviewCardRow } from "@/ui/controls";
+import { PreviewCard, PreviewCardRow } from "@/ui/controls";
+import { Age } from "@/ui/controls/common/Age";
 import { EditOutlined } from "@ant-design/icons";
 
 import EditClient from "../../form/EditClient";

@@ -7,7 +7,8 @@ import {
     statementPreviewIsLoadingSelector,
     statementPreviewSelector,
 } from "@/state/commission/statements";
-import { CompanyName, Date, Header } from "@/ui/controls";
+import { CompanyName, Header } from "@/ui/controls";
+import { Date } from "@/ui/controls/common/Date";
 
 type Props = PropsFromState & RouteComponentProps;
 

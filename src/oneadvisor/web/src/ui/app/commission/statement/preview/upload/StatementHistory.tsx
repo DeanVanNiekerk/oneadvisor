@@ -10,7 +10,8 @@ import {
     statementFilesSelector,
 } from "@/state/commission/statements";
 import { downloadFile } from "@/state/file";
-import { ContentLoader, Date } from "@/ui/controls";
+import { ContentLoader } from "@/ui/controls";
+import { Date } from "@/ui/controls/common/Date";
 
 const { Text } = Typography;
 

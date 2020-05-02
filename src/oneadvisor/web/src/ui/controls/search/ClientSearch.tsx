@@ -7,9 +7,11 @@ import { applyLike } from "@/app/query";
 import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import { Client } from "@/state/client/clients/types";
 import { getClients } from "@/state/lookups/client";
-import { Age, getTable } from "@/ui/controls";
+import { getTable } from "@/ui/controls";
 import { useDebounce } from "@/ui/hooks";
 import { SearchOutlined } from "@ant-design/icons";
+
+import { Age } from "../common/Age";
 
 const Table = getTable<Client>();
 

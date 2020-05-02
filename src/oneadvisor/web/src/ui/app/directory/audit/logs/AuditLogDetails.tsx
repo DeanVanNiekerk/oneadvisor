@@ -2,7 +2,8 @@ import React from "react";
 import JSONPretty from "react-json-pretty";
 
 import { AuditLog } from "@/state/directory/audit/logs/types";
-import { Button, Date, Drawer, UserName } from "@/ui/controls";
+import { Button, Drawer, UserName } from "@/ui/controls";
+import { Date } from "@/ui/controls/common/Date";
 
 type Props = {
     visible: boolean;

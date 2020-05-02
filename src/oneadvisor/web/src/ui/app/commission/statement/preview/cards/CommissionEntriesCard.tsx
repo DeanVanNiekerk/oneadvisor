@@ -11,7 +11,8 @@ import {
     statementPreviewIsLoadingSelector,
     statementPreviewSelector,
 } from "@/state/commission/statements";
-import { Button, Currency, Drawer, PreviewCard, PreviewCardRow } from "@/ui/controls";
+import { Button, Drawer, PreviewCard, PreviewCardRow } from "@/ui/controls";
+import { Currency } from "@/ui/controls/common/Currency";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 import { showMessage } from "@/ui/feedback/notifcation";
 import { BarsOutlined, DeleteOutlined, Loading3QuartersOutlined } from "@ant-design/icons";

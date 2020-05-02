@@ -17,7 +17,8 @@ import {
     fetchContact,
     fetchContacts,
 } from "@/state/client/contacts";
-import { ContactTypeName, getTable, StopPropagation } from "@/ui/controls";
+import { ContactTypeName, getTable } from "@/ui/controls";
+import { StopPropagation } from "@/ui/controls/common/StopPropagation";
 
 import EditContact from "./EditContact";
 

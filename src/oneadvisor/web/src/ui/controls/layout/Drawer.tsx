@@ -3,7 +3,7 @@ import React, { ReactNode } from "react";
 
 import { IconName } from "@/app/types";
 
-import { Icon } from "../common";
+import { Icon } from "../common/Icon";
 
 type Props = {
     title: string | ReactNode;
