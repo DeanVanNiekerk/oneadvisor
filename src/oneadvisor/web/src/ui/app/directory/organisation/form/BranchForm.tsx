@@ -6,13 +6,13 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { RootState } from "@/state";
 import {
-    BranchEdit,
     branchSelector,
     branchVisible,
     confirmCancelBranch,
     modifyBranch,
     saveBranch,
 } from "@/state/directory/branches";
+import { BranchEdit } from "@/state/directory/branches/types";
 import { fetchBranchesSimple } from "@/state/lookups/directory/branchesSimple";
 import { Button, Form, FormField, FormInput } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";

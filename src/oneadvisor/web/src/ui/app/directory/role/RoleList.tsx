@@ -6,15 +6,10 @@ import { getColumnDefinition } from "@/app/table";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
 import { RootState } from "@/state";
 import { Application, applicationsSelector } from "@/state/context";
-import {
-    fetchRole,
-    fetchRoles,
-    receiveRole,
-    Role,
-    RoleEdit,
-    rolesSelector,
-} from "@/state/directory/roles";
-import { fetchUseCases, UseCase, useCasesSelector } from "@/state/directory/usecases";
+import { fetchRole, fetchRoles, receiveRole, rolesSelector } from "@/state/directory/roles";
+import { Role, RoleEdit } from "@/state/directory/roles/types";
+import { fetchUseCases, useCasesSelector } from "@/state/directory/usecases";
+import { UseCase } from "@/state/directory/usecases/types";
 import { Button, getTable, Header } from "@/ui/controls";
 
 import EditRole from "./EditRole";

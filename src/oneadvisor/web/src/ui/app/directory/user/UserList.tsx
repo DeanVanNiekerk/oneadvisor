@@ -10,11 +10,11 @@ import {
     fetchUser,
     fetchUsers,
     receiveUser,
-    User,
     usersSelector,
     userVisible,
 } from "@/state/directory/users";
 import { getConfig } from "@/state/directory/users/helpers";
+import { User } from "@/state/directory/users/types";
 import { fetchUsersSimple } from "@/state/lookups/directory/usersSimple";
 import { Button, getTable, Header } from "@/ui/controls";
 

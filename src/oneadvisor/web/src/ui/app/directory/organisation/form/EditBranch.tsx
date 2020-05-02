@@ -4,12 +4,12 @@ import { Dispatch } from "redux";
 
 import { RootState } from "@/state";
 import {
-    BranchEdit,
     branchIsLoadingSelector,
     branchSelector,
     branchVisible,
     receiveBranch,
 } from "@/state/directory/branches";
+import { BranchEdit } from "@/state/directory/branches/types";
 import { Button, ContentLoader, Form, FormField } from "@/ui/controls";
 
 import BranchForm from "./BranchForm";

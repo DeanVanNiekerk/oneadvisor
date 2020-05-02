@@ -1,4 +1,4 @@
-import { LogsState } from "./logs";
+import { LogsState } from "./logs/types";
 
 export type AuditState = {
     readonly logs: LogsState;

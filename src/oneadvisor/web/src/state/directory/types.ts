@@ -1,10 +1,10 @@
-import { AuditState } from "./audit";
-import { BranchesState } from "./branches";
-import { ChangeLogsState } from "./changeLogs";
-import { OrganisationsState } from "./organisations";
-import { RolesState } from "./roles";
-import { UseCasesState } from "./usecases";
-import { UsersState } from "./users";
+import { AuditState } from "./audit/types";
+import { BranchesState } from "./branches/types";
+import { ChangeLogsState } from "./changeLogs/types";
+import { OrganisationsState } from "./organisations/types";
+import { RolesState } from "./roles/types";
+import { UseCasesState } from "./usecases/types";
+import { UsersState } from "./users/types";
 
 export type DirectoryState = {
     readonly users: UsersState;

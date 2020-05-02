@@ -5,12 +5,12 @@ import { areEqual } from "@/app/utils";
 import { ValidationResult } from "@/app/validation/types";
 import { RootState } from "@/state";
 import {
-    ChangeLogEdit,
     changeLogSelector,
     insertChangeLog,
     receiveChangeLog,
     updateChangeLog,
 } from "@/state/directory/changeLogs";
+import { ChangeLogEdit } from "@/state/directory/changeLogs/types";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

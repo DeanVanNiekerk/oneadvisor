@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import { RootState } from "@/state";
 
-import { ChangeLogState } from "../";
+import { ChangeLogState } from "../types";
 
 const rootSelector = (state: RootState): ChangeLogState => state.directory.changeLogs.changeLog;
 

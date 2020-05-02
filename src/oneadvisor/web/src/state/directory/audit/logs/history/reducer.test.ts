@@ -1,4 +1,4 @@
-import { AuditLog } from "../";
+import { AuditLog } from "../types";
 import { defaultState, reducer } from "./reducer";
 
 describe("auditLog history reducer", () => {

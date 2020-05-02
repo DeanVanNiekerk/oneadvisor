@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import { RootState } from "@/state";
 
-import { HistoryState } from "../";
+import { HistoryState } from "../types";
 
 const rootSelector = (state: RootState): HistoryState => state.directory.audit.logs.history;
 

@@ -6,12 +6,8 @@ import { bindActionCreators, Dispatch } from "redux";
 import { Filters, getColumnDefinition, PageOptions, sort, SortOptions } from "@/app/table";
 import { areEqual } from "@/app/utils";
 import { RootState } from "@/state";
-import {
-    AuditLog,
-    auditLogsSelector,
-    fetchAuditLogs,
-    receiveFilters,
-} from "@/state/directory/audit";
+import { auditLogsSelector, fetchAuditLogs, receiveFilters } from "@/state/directory/audit";
+import { AuditLog } from "@/state/directory/audit/logs/types";
 import { usersSimpleSelector } from "@/state/lookups/directory/usersSimple";
 import {
     getColumnSearchProps,

@@ -4,14 +4,13 @@ import { connect, DispatchProp } from "react-redux";
 import { getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
 import { RootState } from "@/state";
 import {
-    ChangeLog,
-    ChangeLogEdit,
     changeLogsSelector,
     fetchChangeLogs,
     receiveChangeLog,
     receivePageOptions,
     receiveSortOptions,
 } from "@/state/directory/changeLogs";
+import { ChangeLog, ChangeLogEdit } from "@/state/directory/changeLogs/types";
 import { Button, getTable, Header } from "@/ui/controls";
 
 import EditChangeLog from "./EditChangeLog";

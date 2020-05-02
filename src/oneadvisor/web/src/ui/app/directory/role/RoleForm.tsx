@@ -6,8 +6,8 @@ import { getValidationSubSet } from "@/app/validation";
 import { ValidationResult } from "@/app/validation/types";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
 import { Application } from "@/state/context";
-import { RoleEdit } from "@/state/directory/roles";
-import { UseCase } from "@/state/directory/usecases";
+import { RoleEdit } from "@/state/directory/roles/types";
+import { UseCase } from "@/state/directory/usecases/types";
 import {
     Form,
     FormErrors,

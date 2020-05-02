@@ -5,7 +5,8 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { ValidationResult } from "@/app/validation/types";
 import { RootState } from "@/state";
-import { Branch, getBranches } from "@/state/directory/branches";
+import { getBranches } from "@/state/directory/branches";
+import { Branch } from "@/state/directory/branches/types";
 import { FormSelect } from "@/ui/controls";
 
 type Props = {

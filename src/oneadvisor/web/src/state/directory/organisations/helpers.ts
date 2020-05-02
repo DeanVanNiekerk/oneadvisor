@@ -1,4 +1,4 @@
-import { Config } from "./";
+import { Config } from "./types";
 
 export const getConfig = (partial: Partial<Config> = {}): Config => {
     const config: Config = {

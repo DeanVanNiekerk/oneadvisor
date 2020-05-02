@@ -6,8 +6,9 @@ import { ValidationResult } from "@/app/validation/types";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
 import { RootState } from "@/state";
 import { Application } from "@/state/context";
-import { insertRole, RoleEdit, roleSelector, updateRole } from "@/state/directory/roles";
-import { UseCase } from "@/state/directory/usecases";
+import { insertRole, roleSelector, updateRole } from "@/state/directory/roles";
+import { RoleEdit } from "@/state/directory/roles/types";
+import { UseCase } from "@/state/directory/usecases/types";
 import { Button, ContentLoader, Drawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { RootState } from "@/state";
-import { UserEdit, userSelector } from "@/state/directory/users";
+import { userSelector } from "@/state/directory/users";
+import { UserEdit } from "@/state/directory/users/types";
 import { sendWelcomeEmail } from "@/state/email/actions";
 import { Button } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";

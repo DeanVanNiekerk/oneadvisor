@@ -1,6 +1,6 @@
 import { changeLogsApi } from "@/config/api/directory";
 
-import { ChangeLogEdit } from "../";
+import { ChangeLogEdit } from "../types";
 import * as actions from "./actions";
 
 describe("changeLog actions", () => {

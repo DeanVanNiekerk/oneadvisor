@@ -8,11 +8,11 @@ import { getValidationSubSet } from "@/app/validation";
 import { RootState } from "@/state";
 import { getOrganisationByBranchId } from "@/state/directory/organisations";
 import {
-    Config,
     modifyUserConfig,
     userConfigValidationResultsSelector,
     userSelector,
 } from "@/state/directory/users";
+import { Config } from "@/state/directory/users/types";
 import { licenseCategoriesSelector, LicenseCategory } from "@/state/lookups/directory";
 import { FormErrors, getFormSwitchList } from "@/ui/controls";
 

@@ -7,11 +7,8 @@ import { ThunkDispatch } from "redux-thunk";
 import { getValidationSubSet } from "@/app/validation";
 import { RootState } from "@/state";
 import { Application, applicationsSelector } from "@/state/context";
-import {
-    modifyOrganisation,
-    OrganisationEdit,
-    organisationSelector,
-} from "@/state/directory/organisations";
+import { modifyOrganisation, organisationSelector } from "@/state/directory/organisations";
+import { OrganisationEdit } from "@/state/directory/organisations/types";
 import { FormErrors, getFormSwitchList } from "@/ui/controls";
 
 const FormSwitchList = getFormSwitchList<Application, string>();

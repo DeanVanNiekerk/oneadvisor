@@ -3,7 +3,7 @@ import { PagedItems } from "@/app/table";
 import { ApiAction, ApiOnSuccess } from "@/app/types";
 import { organisationsApi } from "@/config/api/directory";
 
-import { Organisation } from "../";
+import { Organisation } from "../types";
 
 export const getOrganisationByBranchId = (
     branchId: string,

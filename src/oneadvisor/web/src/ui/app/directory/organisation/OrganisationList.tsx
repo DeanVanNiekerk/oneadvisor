@@ -10,15 +10,14 @@ import { ROLE_SUPER_ADMIN } from "@/config/role";
 import { RootState } from "@/state";
 import { Application, applicationsSelector } from "@/state/context";
 import {
-    Config,
     fetchOrganisation,
     fetchOrganisations,
-    Organisation,
     organisationsSelector,
     organisationVisible,
     receiveOrganisation,
 } from "@/state/directory/organisations";
 import { getConfig } from "@/state/directory/organisations/helpers";
+import { Config, Organisation } from "@/state/directory/organisations/types";
 import { Button, getTable, Header } from "@/ui/controls";
 
 import EditOrganisation from "./EditOrganisation";

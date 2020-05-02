@@ -7,11 +7,11 @@ import { ThunkDispatch } from "redux-thunk";
 import { getValidationSubSet } from "@/app/validation";
 import { RootState } from "@/state";
 import {
-    Config,
     modifyOrganisationConfig,
     organisationConfigSelector,
     organisationSelector,
 } from "@/state/directory/organisations";
+import { Config } from "@/state/directory/organisations/types";
 import { companiesSelector, Company } from "@/state/lookups/directory";
 import { FormErrors, getFormSwitchList } from "@/ui/controls";
 

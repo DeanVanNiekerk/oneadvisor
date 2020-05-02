@@ -1,6 +1,6 @@
 import { getValidationResult } from "@/test";
 
-import { ChangeLogEdit } from "../";
+import { ChangeLogEdit } from "../types";
 import { defaultState, reducer } from "./reducer";
 
 describe("changeLog reducer", () => {

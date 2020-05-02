@@ -7,8 +7,10 @@ import { getValidationSubSet } from "@/app/validation";
 import { RootState } from "@/state";
 import { applicationsSelector } from "@/state/context";
 import { getOrganisationByBranchId } from "@/state/directory/organisations";
-import { fetchRoles, Role, rolesSelector } from "@/state/directory/roles";
-import { modifyUser, UserEdit, userSelector } from "@/state/directory/users";
+import { fetchRoles, rolesSelector } from "@/state/directory/roles";
+import { Role } from "@/state/directory/roles/types";
+import { modifyUser, userSelector } from "@/state/directory/users";
+import { UserEdit } from "@/state/directory/users/types";
 import { FormErrors, getFormSwitchList } from "@/ui/controls";
 
 const FormSwitchList = getFormSwitchList<Role, string>();

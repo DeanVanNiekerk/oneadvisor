@@ -6,7 +6,8 @@ import { bindActionCreators, Dispatch } from "redux";
 import { getScopes } from "@/config/scope";
 import { RootState } from "@/state";
 import { getBranch } from "@/state/directory/branches";
-import { modifyUser, UserEdit, userSelector } from "@/state/directory/users";
+import { modifyUser, userSelector } from "@/state/directory/users";
+import { UserEdit } from "@/state/directory/users/types";
 import { userTypesSelector } from "@/state/lookups/directory";
 import { Form, FormInput, FormSelect, FormSwitch } from "@/ui/controls";
 

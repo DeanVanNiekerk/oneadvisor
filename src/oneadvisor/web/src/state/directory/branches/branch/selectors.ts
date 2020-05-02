@@ -3,7 +3,7 @@ import { createSelector } from "reselect";
 import { areEqual } from "@/app/utils";
 import { RootState } from "@/state";
 
-import { BranchState } from "../";
+import { BranchState } from "../types";
 
 const rootSelector = (state: RootState): BranchState => state.directory.branches.branch;
 

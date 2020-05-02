@@ -1,5 +1,5 @@
-import { User } from "../";
 import { getConfig } from "../helpers";
+import { User } from "../types";
 import { defaultState, reducer } from "./reducer";
 
 describe("user list reducer", () => {

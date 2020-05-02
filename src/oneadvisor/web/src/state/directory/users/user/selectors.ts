@@ -5,8 +5,8 @@ import { getValidationSubSet } from "@/app/validation";
 import { ValidationResult } from "@/app/validation/types";
 import { RootState } from "@/state";
 
-import { Config, UserState } from "../";
 import { getConfig } from "../helpers";
+import { Config, UserState } from "../types";
 
 const rootSelector = (state: RootState): UserState => state.directory.users.user;
 

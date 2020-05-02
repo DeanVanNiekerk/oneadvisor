@@ -4,11 +4,8 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { RootState } from "@/state";
-import {
-    modifyOrganisation,
-    OrganisationEdit,
-    organisationSelector,
-} from "@/state/directory/organisations";
+import { modifyOrganisation, organisationSelector } from "@/state/directory/organisations";
+import { OrganisationEdit } from "@/state/directory/organisations/types";
 import { Form, FormInput } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;

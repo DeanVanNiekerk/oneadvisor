@@ -5,7 +5,8 @@ import { Dispatch } from "redux";
 
 import { getValidationSubSet } from "@/app/validation";
 import { RootState } from "@/state";
-import { modifyUser, UserEdit, userSelector } from "@/state/directory/users";
+import { modifyUser, userSelector } from "@/state/directory/users";
+import { UserEdit } from "@/state/directory/users/types";
 import { FormErrors, FormSimpleList } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;

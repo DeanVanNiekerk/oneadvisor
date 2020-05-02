@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import { RootState } from "@/state";
 
-import { RoleState } from "../";
+import { RoleState } from "../types";
 
 const rootSelector = (state: RootState): RoleState => state.directory.roles.role;
 

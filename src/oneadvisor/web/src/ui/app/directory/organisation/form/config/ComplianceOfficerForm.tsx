@@ -7,11 +7,11 @@ import { ThunkDispatch } from "redux-thunk";
 import { getValidationSubSet } from "@/app/validation";
 import { RootState } from "@/state";
 import {
-    ComplianceOfficer,
     modifyOrganisationConfigComplianceOfficer,
     organisationConfigSelector,
     organisationSelector,
 } from "@/state/directory/organisations";
+import { ComplianceOfficer } from "@/state/directory/organisations/types";
 import { Form, FormInput } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;

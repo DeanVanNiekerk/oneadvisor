@@ -8,13 +8,13 @@ import { hasUseCase } from "@/app/identity";
 import { RootState } from "@/state";
 import { useCaseSelector } from "@/state/auth";
 import {
-    Branch,
     branchesSelector,
     branchVisible,
     clearBranch,
     fetchBranch,
     fetchBranches,
 } from "@/state/directory/branches";
+import { Branch } from "@/state/directory/branches/types";
 import { organisationIdSelector } from "@/state/directory/organisations";
 
 import EditBranch from "./EditBranch";

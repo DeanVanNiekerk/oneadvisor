@@ -1,7 +1,7 @@
 import { getValidationResult } from "@/test";
 
-import { UserEdit } from "../";
 import { getConfig } from "../helpers";
+import { UserEdit } from "../types";
 import { defaultState, reducer } from "./reducer";
 
 const defaultUser: UserEdit = {

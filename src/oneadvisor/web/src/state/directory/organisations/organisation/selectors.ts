@@ -3,8 +3,8 @@ import { createSelector } from "reselect";
 import { areEqual } from "@/app/utils";
 import { RootState } from "@/state";
 
-import { Config, OrganisationState } from "../";
 import { getConfig } from "../helpers";
+import { Config, OrganisationState } from "../types";
 
 const rootSelector = (state: RootState): OrganisationState =>
     state.directory.organisations.organisation;
