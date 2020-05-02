@@ -68,6 +68,7 @@ class Configure extends Component<Props> {
                 cellphone: this.ensureString(r.cellphone),
                 taxNumber: this.ensureString(r.taxNumber),
                 policyNumber: this.ensureString(r.policyNumber),
+                policyUserFullName: this.ensureString(r.policyUserFullName),
             };
         });
         this.props.dispatch(receiveClientImportClients(clients));

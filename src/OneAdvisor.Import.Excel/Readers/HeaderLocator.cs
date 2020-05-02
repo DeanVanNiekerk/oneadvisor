@@ -24,6 +24,10 @@ namespace OneAdvisor.Import.Excel.Readers
         public void Check(IExcelDataReader reader)
         {
             var currentValue = Utils.GetValue(reader, HeaderColumnIndex);
+
+            //Remove line breaks
+            currentValue = currentValue.Replace(System.Environment.NewLine, "");
+
             Found = _identifier.Value.IgnoreCaseEquals(currentValue);
         }
     }

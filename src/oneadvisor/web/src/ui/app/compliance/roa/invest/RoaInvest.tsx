@@ -8,8 +8,8 @@ import { loadRoaInvestData } from "@/state/compliance/roa";
 import { RootState } from "@/state/types";
 import { Button, Drawer, Header } from "@/ui/controls";
 
+import RoaPdf from "./generate/RoaPdf";
 import InputsPersistor from "./InputsPersistor";
-import Preview from "./Preview";
 import AdvisorRecommendationsSection from "./sections/AdvisorRecommendationsSection";
 import ClientChoiceSection from "./sections/ClientChoiceSection";
 import ClientNeedsSection from "./sections/ClientNeedsSection";
@@ -61,7 +61,7 @@ const RoaInvest: React.FC<Props> = (props) => {
                     </React.Fragment>
                 }
             >
-                <Preview />
+                <RoaPdf />
             </Drawer>
 
             <InputsPersistor />
