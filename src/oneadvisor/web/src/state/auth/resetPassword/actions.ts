@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 
 import { ApiAction, ApiOnFailure, ApiOnSuccess, Result } from "@/app/types";
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { activateApi, resetPasswordApi, resetPasswordRequestApi } from "@/config/api/account";
 
 import { recieveToken } from "../";

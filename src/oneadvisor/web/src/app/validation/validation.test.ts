@@ -1,4 +1,4 @@
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 
 import { getValidationError, getValidationSubSet, removeValidationError } from "./validation";
 

@@ -1,5 +1,5 @@
 import { Filters } from "@/app/table";
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 
 export type Branch = {
     id: string;

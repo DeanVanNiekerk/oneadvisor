@@ -2,7 +2,7 @@ import update from "immutability-helper";
 import React, { Component } from "react";
 import ReactMarkdown from "react-markdown";
 
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { ChangeLogEdit } from "@/state/directory/changeLogs";
 import { Form, FormDate, FormInput, FormSwitch, FormTextArea, TabPane, Tabs } from "@/ui/controls";
 

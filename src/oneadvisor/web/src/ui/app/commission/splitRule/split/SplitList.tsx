@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import { hasUseCase } from "@/app/identity";
 import { getColumnDefinition } from "@/app/table";
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { RootState } from "@/state";
 import { useCaseSelector } from "@/state/auth";
 import { Split } from "@/state/commission/splitRules";

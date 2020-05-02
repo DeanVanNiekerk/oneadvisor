@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 
-import { ValidationResult } from "../validation";
+import { ValidationResult } from "../validation/types";
 
 type ApiActionType = "API";
 type ApiMethods = "GET" | "POST" | "DELETE";

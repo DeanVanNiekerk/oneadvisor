@@ -1,7 +1,8 @@
 import { createSelector } from "reselect";
 
 import { areEqual } from "@/app/utils";
-import { getValidationSubSet, ValidationResult } from "@/app/validation";
+import { getValidationSubSet } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { RootState } from "@/state";
 
 import { CommissionTypes, Config, Identifier, Sheet, SheetConfig, TemplateState } from "../";

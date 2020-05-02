@@ -2,7 +2,7 @@ import moment from "moment";
 import { ThunkAction } from "redux-thunk";
 
 import { ApiAction, ApiOnFailure, ApiOnSuccess, ShowConfirm } from "@/app/types";
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { commissionsImportApi, statementsApi } from "@/config/api/commission";
 import { RootState } from "@/state";
 import { companiesSelector } from "@/state/lookups/directory";

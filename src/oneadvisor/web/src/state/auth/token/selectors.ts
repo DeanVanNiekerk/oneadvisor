@@ -2,8 +2,7 @@ import { createSelector } from "reselect";
 
 import { RootState } from "@/state";
 
-import { TokenState } from "../";
-import { TokenData } from "../types";
+import { TokenData, TokenState } from "../types";
 
 const rootSelector = (state: RootState): TokenState => state.auth.token;
 

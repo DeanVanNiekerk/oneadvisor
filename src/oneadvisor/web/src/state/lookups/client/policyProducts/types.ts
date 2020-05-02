@@ -1,4 +1,4 @@
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 
 export type PolicyProduct = {
     id: string;

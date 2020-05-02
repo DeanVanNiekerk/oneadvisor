@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
 import { areEqual } from "@/app/utils";
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { RootState } from "@/state";
 import {
     AllocationEdit,

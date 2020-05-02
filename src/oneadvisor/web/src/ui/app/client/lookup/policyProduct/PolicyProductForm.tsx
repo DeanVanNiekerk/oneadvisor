@@ -2,7 +2,7 @@ import update from "immutability-helper";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { RootState } from "@/state";
 import { policyProductTypesSelector } from "@/state/lookups/client";
 import { PolicyProductEdit } from "@/state/lookups/client/policyProducts/types";

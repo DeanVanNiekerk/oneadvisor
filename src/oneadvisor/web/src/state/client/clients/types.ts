@@ -1,5 +1,5 @@
 import { Filters, PageOptions, SortOptions } from "@/app/table";
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { ClientTypeId } from "@/state/lookups/client/clientTypes/enums";
 
 export type Client = {

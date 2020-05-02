@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import { RootState } from "@/state";
 
-import { SignInState } from "../";
+import { SignInState } from "../types";
 
 const rootSelector = (state: RootState): SignInState => state.auth.signIn;
 

@@ -1,5 +1,5 @@
 import { Filters, PagedItems, PageOptions, SortOptions } from "@/app/table";
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 
 import { CommissionImportData } from "../errors";
 

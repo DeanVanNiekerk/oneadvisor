@@ -1,4 +1,4 @@
-import { ResetPasswordState } from "../";
+import { ResetPasswordState } from "../types";
 import { Action } from "./actions";
 
 export const defaultState: ResetPasswordState = {

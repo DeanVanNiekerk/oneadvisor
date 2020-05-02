@@ -1,6 +1,6 @@
 import { Filters, PagedItems, PageOptions, SortOptions } from "@/app/table";
 import { Result } from "@/app/types";
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { FileInfo } from "@/state/types";
 
 export type Statement = {

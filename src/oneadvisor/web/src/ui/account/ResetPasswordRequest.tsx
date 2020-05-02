@@ -3,7 +3,8 @@ import React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import { resetPasswordRequest, ResetPasswordRequestData, signOut } from "@/state/auth";
+import { resetPasswordRequest, signOut } from "@/state/auth";
+import { ResetPasswordRequestData } from "@/state/auth/types";
 import { Button, FormField, FormInput } from "@/ui/controls";
 import { UserOutlined } from "@ant-design/icons";
 

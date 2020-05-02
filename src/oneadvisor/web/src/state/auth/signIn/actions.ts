@@ -2,7 +2,7 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import { ApiAction } from "@/app/types";
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { signInApi } from "@/config/api/account";
 import { RootState } from "@/state";
 

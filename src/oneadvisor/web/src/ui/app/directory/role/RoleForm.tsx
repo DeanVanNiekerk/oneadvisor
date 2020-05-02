@@ -2,7 +2,8 @@ import { Badge } from "antd";
 import update from "immutability-helper";
 import React, { Component } from "react";
 
-import { getValidationSubSet, ValidationResult } from "@/app/validation";
+import { getValidationSubSet } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { ROLE_SUPER_ADMIN } from "@/config/role";
 import { Application } from "@/state/context";
 import { RoleEdit } from "@/state/directory/roles";

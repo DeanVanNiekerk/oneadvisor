@@ -3,7 +3,7 @@ import moment from "moment";
 import React from "react";
 
 import { DATE_FORMAT } from "@/app/utils";
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 
 import { FormText } from "./";
 import { FormLayout } from "./Form";

@@ -2,7 +2,7 @@ import update from "immutability-helper";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { AllocationEdit } from "@/state/commission/allocations";
 import {
     Button,

@@ -1,5 +1,5 @@
 import { ApiAction, ApiOnSuccess, Result } from "@/app/types";
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { organisationsApi } from "@/config/api/directory";
 import { FileInfo } from "@/state/types";
 

@@ -2,7 +2,7 @@ import { Input } from "antd";
 import { SizeType } from "antd/lib/config-provider/SizeContext";
 import React, { KeyboardEventHandler } from "react";
 
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 
 import { FormText } from "./";
 import { FormLayout } from "./Form";

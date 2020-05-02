@@ -3,7 +3,7 @@ import { SelectValue } from "antd/lib/select";
 import React, { Component } from "react";
 
 import { OptionValue } from "@/app/controls/select";
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 
 import { FormText } from "./";
 import { FormLayout } from "./Form";

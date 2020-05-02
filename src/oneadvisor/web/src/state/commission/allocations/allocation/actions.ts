@@ -1,5 +1,5 @@
 import { ApiAction, ApiOnSuccess } from "@/app/types";
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { allocationsApi } from "@/config/api/commission";
 
 import { AllocationEdit } from "../types";

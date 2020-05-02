@@ -1,4 +1,4 @@
-import { SignInState } from "../";
+import { SignInState } from "../types";
 import { SignInActions } from "./actions";
 
 export const defaultState: SignInState = {

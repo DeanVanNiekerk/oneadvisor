@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import { RootState } from "@/state";
 
-import { ResetPasswordState } from "../";
+import { ResetPasswordState } from "../types";
 
 const rootSelector = (state: RootState): ResetPasswordState => state.auth.resetPassword;
 

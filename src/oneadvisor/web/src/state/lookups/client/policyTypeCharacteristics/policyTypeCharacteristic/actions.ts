@@ -1,7 +1,7 @@
 import { ThunkAction } from "redux-thunk";
 
 import { ApiAction, ApiOnSuccess, ShowConfirm } from "@/app/types";
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { policyTypeCharacteristicsApi } from "@/config/api/client";
 import { RootState } from "@/state";
 

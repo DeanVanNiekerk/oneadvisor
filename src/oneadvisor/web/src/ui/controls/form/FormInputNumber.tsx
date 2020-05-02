@@ -1,7 +1,7 @@
 import { InputNumber } from "antd";
 import React from "react";
 
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 
 import { FormText } from "./";
 import { FormLayout } from "./Form";

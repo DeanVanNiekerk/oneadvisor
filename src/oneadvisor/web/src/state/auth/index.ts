@@ -1,5 +1,3 @@
-export * from "./types";
-
 export * from "./resetPassword/actions";
 export * from "./resetPassword/selectors";
 

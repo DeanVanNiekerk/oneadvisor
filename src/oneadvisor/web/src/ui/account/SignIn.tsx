@@ -3,9 +3,10 @@ import React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { RootState } from "@/state";
-import { Credentials, isAuthenticatedSelector, signIn, signInSelector } from "@/state/auth";
+import { isAuthenticatedSelector, signIn, signInSelector } from "@/state/auth";
+import { Credentials } from "@/state/auth/types";
 import { Button, FormField, FormInput, FormInputPassword } from "@/ui/controls";
 import { BankOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
 

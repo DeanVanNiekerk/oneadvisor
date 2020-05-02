@@ -1,7 +1,8 @@
 import { Form, Spin } from "antd";
 import React from "react";
 
-import { formatValue, getValidationError, ValidationResult } from "@/app/validation";
+import { formatValue, getValidationError } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 
 import { FormLayout } from "./Form";
 

@@ -2,7 +2,7 @@ import { Cascader } from "antd";
 import { CascaderOptionType } from "antd/lib/cascader";
 import React from "react";
 
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 
 import { FormLayout } from "./Form";
 import { FormField } from "./FormField";

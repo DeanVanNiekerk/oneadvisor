@@ -1,7 +1,7 @@
 import { getToken, setToken } from "@/state/storage";
 
-import { TokenState } from "../";
 import { decodeToken } from "../helpers";
+import { TokenState } from "../types";
 import { TokenActions } from "./actions";
 
 export const defaultState: TokenState = {

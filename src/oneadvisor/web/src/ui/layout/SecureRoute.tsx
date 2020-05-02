@@ -6,7 +6,8 @@ import { RouteComponentProps, RouteProps, withRouter } from "react-router";
 import { Redirect, Route } from "react-router-dom";
 
 import { RootState } from "@/state";
-import { isAuthenticatedSelector, signOut, TokenData, tokenDataSelector } from "@/state/auth";
+import { isAuthenticatedSelector, signOut, tokenDataSelector } from "@/state/auth";
+import { TokenData } from "@/state/auth/types";
 
 import Layout from "./Layout";
 

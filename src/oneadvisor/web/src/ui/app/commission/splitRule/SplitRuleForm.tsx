@@ -3,7 +3,8 @@ import update from "immutability-helper";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
-import { getValidationSubSet, ValidationResult } from "@/app/validation";
+import { getValidationSubSet } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { Split, SplitRuleEdit } from "@/state/commission/splitRules";
 import { Form, FormInput, FormSwitch } from "@/ui/controls";
 

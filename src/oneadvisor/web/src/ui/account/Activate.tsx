@@ -4,9 +4,10 @@ import React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { RootState } from "@/state";
-import { activate, ResetPasswordData, resetPasswordSelector, signOut } from "@/state/auth";
+import { activate, resetPasswordSelector, signOut } from "@/state/auth";
+import { ResetPasswordData } from "@/state/auth/types";
 import { Button, FormErrors, FormField, FormInput, FormInputPassword } from "@/ui/controls";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 

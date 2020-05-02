@@ -3,7 +3,7 @@ import { Dispatch } from "redux";
 import { appendFiltersQuery } from "@/app/query";
 import { Filters, PagedItems } from "@/app/table";
 import { ApiAction, ApiOnSuccess, Result } from "@/app/types";
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { clientsApi, mergeClientsApi } from "@/config/api/client";
 
 import { Client, ClientEdit, MergeClients, receiveClientValidationResults } from "../";

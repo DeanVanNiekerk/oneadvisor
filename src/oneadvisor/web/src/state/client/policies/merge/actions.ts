@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 
 import { ApiAction, ApiOnSuccess } from "@/app/types";
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { mergePoliciesApi } from "@/config/api/client";
 
 import { receivePolicyValidationResults } from "../";

@@ -1,7 +1,7 @@
 import { Alert } from "antd";
 import React from "react";
 
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 
 type Props = {
     propertyName?: string;

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { AnyAction, bindActionCreators } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
-import { ValidationResult } from "@/app/validation";
+import { ValidationResult } from "@/app/validation/types";
 import { RootState } from "@/state";
 import { Branch, getBranches } from "@/state/directory/branches";
 import { FormSelect } from "@/ui/controls";
