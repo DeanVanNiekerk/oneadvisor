@@ -70,16 +70,13 @@ namespace OneAdvisor.Service.Client
 
             var userId = scope.UserId;
 
-            //If a user is specified we, use it as the scope
+            //If a user is specified, use it as the scope
             if (!string.IsNullOrEmpty(data.PolicyUserFullName))
             {
-                var parts = data.PolicyUserFullName.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+                var parts = data.PolicyUserFullName.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                if (parts.Length != 2)
-                {
-                    result.AddValidationFailure("UserFullName", "Broker Full Name requires a First and Last Name only");
-                    return result;
-                }
+                if (parts.Count < 2)
+                    parts.Add("");
 
                 var userEntityQuery = ScopeQuery.GetUserEntityQuery(_context, scope);
                 var users = await userEntityQuery.ToListAsync();

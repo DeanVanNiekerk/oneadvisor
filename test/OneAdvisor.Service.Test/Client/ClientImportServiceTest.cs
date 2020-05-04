@@ -734,7 +734,7 @@ namespace OneAdvisor.Service.Test.Client
                 Id = Guid.NewGuid(),
                 FirstName = "Dean",
                 LastName = "van Niekerk",
-                Aliases = new List<string>() { "DJ VAN Niekerk" }
+                Aliases = new List<string>() { "DJVANNiekerk" }
             };
 
             var user1 = TestHelper.InsertUserDetailed(options, organisation, user);
@@ -757,7 +757,7 @@ namespace OneAdvisor.Service.Test.Client
                     LastName = "LN",
                     PolicyNumber = "987654",
                     PolicyCompanyId = company.Id,
-                    PolicyUserFullName = "Dj van Niekerk"
+                    PolicyUserFullName = "DjvanNiekerk"
                 };
 
                 var scope = TestHelper.GetScopeOptions(user1);
