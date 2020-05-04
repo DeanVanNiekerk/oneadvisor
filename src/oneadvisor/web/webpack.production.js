@@ -17,7 +17,7 @@ module.exports = merge(common, {
 
     performance: {
         hints: "error",
-        maxEntrypointSize: 1420000,
+        maxEntrypointSize: 1450000,
         maxAssetSize: 2000000,
     },
 

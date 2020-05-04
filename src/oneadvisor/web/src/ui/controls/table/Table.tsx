@@ -1,7 +1,12 @@
 import { Table as TableAD } from "antd";
 import { PaginationConfig } from "antd/lib/pagination";
 import { ColumnProps } from "antd/lib/table";
-import { Key, SorterResult, TableRowSelection } from "antd/lib/table/interface";
+import {
+    Key,
+    SorterResult,
+    TablePaginationConfig,
+    TableRowSelection,
+} from "antd/lib/table/interface";
 import * as React from "react";
 import { connect } from "react-redux";
 
@@ -78,7 +83,7 @@ class TableComponent<T extends object> extends React.Component<Props<T>, State> 
     };
 
     render() {
-        let pagination: PaginationConfig | false = {
+        let pagination: TablePaginationConfig | false = {
             defaultPageSize: this.state.defaultPageOptions.size,
             showSizeChanger: true,
         };
