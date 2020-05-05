@@ -26,34 +26,32 @@ const OrganisationForm: React.FC<Props> = (props: Props) => {
                     <BranchList />
                 </TabPane>
             )}
-            {!props.isNew && (
-                <TabPane
-                    tab={
-                        <OrganisationTabTitle
-                            title="Applications"
-                            validationPrefix="ApplicationIds"
-                            exactMatch={true}
-                        />
-                    }
-                    key="applications_tab"
-                >
-                    <ApplicationsForm />
-                </TabPane>
-            )}
-            {!props.isNew && (
-                <TabPane
-                    tab={
-                        <OrganisationTabTitle
-                            title="Config"
-                            validationPrefix="Config"
-                            exactMatch={false}
-                        />
-                    }
-                    key="config_tab"
-                >
-                    <EditConfig />
-                </TabPane>
-            )}
+
+            <TabPane
+                tab={
+                    <OrganisationTabTitle
+                        title="Applications"
+                        validationPrefix="ApplicationIds"
+                        exactMatch={true}
+                    />
+                }
+                key="applications_tab"
+            >
+                <ApplicationsForm />
+            </TabPane>
+
+            <TabPane
+                tab={
+                    <OrganisationTabTitle
+                        title="Config"
+                        validationPrefix="Config"
+                        exactMatch={false}
+                    />
+                }
+                key="config_tab"
+            >
+                <EditConfig />
+            </TabPane>
         </Tabs>
     );
 };
