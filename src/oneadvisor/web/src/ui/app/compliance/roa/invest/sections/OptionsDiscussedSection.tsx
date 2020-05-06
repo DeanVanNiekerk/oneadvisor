@@ -7,7 +7,7 @@ import { RootState } from "@/state";
 import {
     roaInvestInputsDiscussedSelector,
     updateDiscussedCompanyIds,
-    updateDiscussedFunds,
+    updateDiscussedFundCodes,
     updateDiscussedProductTypeIds,
 } from "@/state/compliance/roa";
 import { policyProductTypesInvestmentSelector } from "@/state/lookups/client";
@@ -42,11 +42,13 @@ const OptionsDiscussedSection: React.FC<Props> = (props) => {
                             mode="multiple"
                             fieldName="funds"
                             label="Funds"
-                            options={props.organisationFunds.map((f) => ({ id: f, name: f }))}
-                            optionsValue="id"
+                            options={props.funds}
+                            optionsValue="code"
                             optionsText="name"
-                            value={props.funds}
-                            onChange={(_fieldName, values) => props.updateDiscussedFunds(values)}
+                            value={props.fundCodes}
+                            onChange={(_fieldName, values) =>
+                                props.updateDiscussedFundCodes(values)
+                            }
                         />
 
                         <FormSelect<string[]>
@@ -76,8 +78,8 @@ const mapStateToProps = (state: RootState) => {
         productTypes: policyProductTypesInvestmentSelector(state),
         companyIds: roaInvestState.discussedCompanyIds,
         companies: organisationCompaniesSelector(state),
-        organisationFunds: organisationFundsSelector(state),
-        funds: roaInvestState.discussedFunds,
+        funds: organisationFundsSelector(state),
+        fundCodes: roaInvestState.discussedFundCodes,
     };
 };
 
@@ -85,7 +87,7 @@ type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         ...bindActionCreators(
-            { updateDiscussedProductTypeIds, updateDiscussedCompanyIds, updateDiscussedFunds },
+            { updateDiscussedProductTypeIds, updateDiscussedCompanyIds, updateDiscussedFundCodes },
             dispatch
         ),
     };

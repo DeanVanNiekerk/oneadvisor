@@ -7,7 +7,7 @@ import { RootState } from "@/state";
 import {
     receiveRecommendedAction,
     receiveRecommendedCompanyIds,
-    receiveRecommendedFunds,
+    receiveRecommendedFundCodes,
     receiveRecommendedProductTypeIds,
     roaInvestInputsRecommendedSelector,
     roaInvestRecommendedCompaniesSelector,
@@ -52,11 +52,13 @@ const AdvisorRecommendationsSection: React.FC<Props> = (props) => {
                             mode="multiple"
                             fieldName="funds"
                             label="Funds"
-                            options={props.fundOptions.map((f) => ({ id: f, name: f }))}
-                            optionsValue="id"
+                            options={props.funds}
+                            optionsValue="code"
                             optionsText="name"
-                            value={props.funds}
-                            onChange={(_fieldName, values) => props.receiveRecommendedFunds(values)}
+                            value={props.fundCodes}
+                            onChange={(_fieldName, values) =>
+                                props.receiveRecommendedFundCodes(values)
+                            }
                         />
                         <FormSelect<string[]>
                             mode="multiple"
@@ -85,8 +87,8 @@ const mapStateToProps = (state: RootState) => {
         productTypes: roaInvestRecommendedProductTypesSelector(state),
         companyIds: roaInvestState.recommendedCompanyIds,
         companies: roaInvestRecommendedCompaniesSelector(state),
-        fundOptions: roaInvestRecommendedFundsSelector(state),
-        funds: roaInvestState.recommendedFunds,
+        funds: roaInvestRecommendedFundsSelector(state),
+        fundCodes: roaInvestState.recommendedFundCodes,
         recommendedAction: roaInvestState.recommendedAction,
     };
 };
@@ -98,7 +100,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             {
                 receiveRecommendedProductTypeIds,
                 receiveRecommendedCompanyIds,
-                receiveRecommendedFunds,
+                receiveRecommendedFundCodes,
                 receiveRecommendedAction,
             },
             dispatch

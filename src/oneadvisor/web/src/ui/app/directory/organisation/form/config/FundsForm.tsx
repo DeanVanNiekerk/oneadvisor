@@ -11,7 +11,7 @@ import {
     organisationConfigSelector,
     organisationSelector,
 } from "@/state/directory/organisations";
-import { Config } from "@/state/directory/organisations/types";
+import { Config, Fund } from "@/state/directory/organisations/types";
 import { FormErrors, FormSimpleList } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;
@@ -24,8 +24,13 @@ const FundsForm: React.FC<Props> = ({ config, handleChange, validationResults })
                 editUseCase="dir_edit_organisations"
                 fieldName="funds"
                 displayName="Fund"
-                values={config.funds}
-                onChange={(funds: string[]) => handleChange(config, funds)}
+                values={config.funds.map((f) => f.name)}
+                onChange={(funds: string[]) =>
+                    handleChange(
+                        config,
+                        funds.map((f) => ({ code: f, name: f }))
+                    )
+                }
                 validationResults={validationResults}
             />
         </>
@@ -49,7 +54,7 @@ const mapStateToProps = (state: RootState) => {
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
-        handleChange: (config: Config, funds: string[]) => {
+        handleChange: (config: Config, funds: Fund[]) => {
             const configModified = update(config, {
                 funds: { $set: funds },
             });

@@ -17,7 +17,7 @@ export type OrganisationEdit = {
 
 export type Config = {
     companyIds: string[];
-    funds: string[];
+    funds: Fund[];
     licenseCategoryIds: string[];
     address: Address;
     branding: Branding;
@@ -47,6 +47,11 @@ export type ComplianceOfficer = {
     name: string | null;
     postalAddress: string | null;
     telephoneNumber: string | null;
+};
+
+export type Fund = {
+    code: string;
+    name: string;
 };
 
 export type ListState = {

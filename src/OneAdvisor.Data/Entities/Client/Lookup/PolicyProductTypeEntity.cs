@@ -7,11 +7,6 @@ namespace OneAdvisor.Data.Entities.Client.Lookup
 {
     public class PolicyProductTypeEntity
     {
-        public PolicyProductTypeEntity()
-        {
-            PolicyTypeCharacteristics = new List<PolicyTypeCharacteristicDescription>();
-        }
-
         [Key]
         public Guid Id { get; set; }
         [Required]

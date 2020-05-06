@@ -6,11 +6,11 @@ import { RootState } from "@/state/types";
 
 import {
     receiveDiscussedCompanyIds,
-    receiveDiscussedFunds,
+    receiveDiscussedFundCodes,
     receiveDiscussedProductTypeIds,
     receiveInvestment,
     receiveRecommendedCompanyIds,
-    receiveRecommendedFunds,
+    receiveRecommendedFundCodes,
     receiveRecommendedProductTypeIds,
     roaInvestInputsSelector,
 } from "./";
@@ -78,32 +78,32 @@ export const updateDiscussedCompanyIds = (
     };
 };
 
-export const updateDiscussedFunds = (
-    discussedFunds: string[]
+export const updateDiscussedFundCodes = (
+    discussedFundCodes: string[]
 ): ThunkAction<void, RootState, {}, AnyAction> => {
     return async (dispatch, getState) => {
         const inputs = roaInvestInputsSelector(getState());
 
         //Recommended Funds must have been discussed
-        const recommendedFunds = inputs.recommendedFunds.filter((id) =>
-            discussedFunds.some((i) => id === i)
+        const recommendedFundCodes = inputs.recommendedFundCodes.filter((code) =>
+            discussedFundCodes.some((c) => code === c)
         );
 
-        if (!arrayEqual(recommendedFunds, inputs.recommendedFunds))
-            dispatch(receiveRecommendedFunds(recommendedFunds));
+        if (!arrayEqual(recommendedFundCodes, inputs.recommendedFundCodes))
+            dispatch(receiveRecommendedFundCodes(recommendedFundCodes));
 
-        dispatch(receiveDiscussedFunds(discussedFunds));
+        dispatch(receiveDiscussedFundCodes(discussedFundCodes));
 
         //Investment Funds must have been discussed
         inputs.investments.forEach((investment) => {
-            const investmentsFunds = investment.funds.filter((id) =>
-                discussedFunds.some((i) => id === i)
+            const investmentsFundCodes = investment.fundCodes.filter((code) =>
+                discussedFundCodes.some((c) => code === c)
             );
 
-            if (!arrayEqual(investmentsFunds, investment.funds)) {
+            if (!arrayEqual(investmentsFundCodes, investment.fundCodes)) {
                 const updated: Investment = {
                     ...investment,
-                    funds: investmentsFunds,
+                    fundCodes: investmentsFundCodes,
                 };
                 dispatch(receiveInvestment(updated));
             }

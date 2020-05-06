@@ -1,6 +1,7 @@
 import { createSelector } from "reselect";
 
 import { RootState } from "@/state";
+import { Fund } from "@/state/directory/organisations/types";
 import { POLICY_TYPE_ID_INVESTMENT, policyProductTypesSelector } from "@/state/lookups/client";
 import { PolicyProductType } from "@/state/lookups/client/policyProductTypes/types";
 import {
@@ -45,7 +46,7 @@ export const roaInvestInputsDiscussedSelector: (
     return {
         discussedProductTypeIds: root.discussedProductTypeIds,
         discussedCompanyIds: root.discussedCompanyIds,
-        discussedFunds: root.discussedFunds,
+        discussedFundCodes: root.discussedFundCodes,
     };
 });
 
@@ -55,7 +56,7 @@ export const roaInvestInputsRecommendedSelector: (
     return {
         recommendedProductTypeIds: root.recommendedProductTypeIds,
         recommendedCompanyIds: root.recommendedCompanyIds,
-        recommendedFunds: root.recommendedFunds,
+        recommendedFundCodes: root.recommendedFundCodes,
         recommendedAction: root.recommendedAction,
     };
 });
@@ -104,17 +105,17 @@ export const roaInvestRecommendedCompaniesSelector: (
     }
 );
 
-export const roaInvestDiscussedFundsSelector: (state: RootState) => string[] = createSelector(
+export const roaInvestDiscussedFundCodesSelector: (state: RootState) => string[] = createSelector(
     rootSelector,
     (root) => {
-        return root.discussedFunds;
+        return root.discussedFundCodes || [];
     }
 );
 
-export const roaInvestRecommendedFundsSelector: (state: RootState) => string[] = createSelector(
-    roaInvestDiscussedFundsSelector,
+export const roaInvestRecommendedFundsSelector: (state: RootState) => Fund[] = createSelector(
+    roaInvestDiscussedFundCodesSelector,
     organisationFundsSelector,
-    (discussedFunds, funds) => {
-        return funds.filter((fund) => discussedFunds.some((f) => f === fund));
+    (discussedFundCodes, funds) => {
+        return funds.filter((fund) => discussedFundCodes.some((code) => code === fund.code));
     }
 );

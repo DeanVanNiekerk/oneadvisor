@@ -13,10 +13,10 @@ export const defaultState: RoaInvestInputState = {
     contributionLumpsum: null,
     discussedProductTypeIds: [],
     discussedCompanyIds: [],
-    discussedFunds: [],
+    discussedFundCodes: [],
     recommendedProductTypeIds: [],
     recommendedCompanyIds: [],
-    recommendedFunds: [],
+    recommendedFundCodes: [],
     recommendedAction: "",
     clientChoice: "",
     investments: [],
@@ -81,10 +81,10 @@ export const reducer = (
                 discussedCompanyIds: action.payload,
             };
         }
-        case "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDFUNDS_RECEIVE": {
+        case "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDFUNDCODES_RECEIVE": {
             return {
                 ...state,
-                discussedFunds: action.payload,
+                discussedFundCodes: action.payload,
             };
         }
         case "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDPRODUCTTYPEIDS_RECEIVE": {
@@ -99,10 +99,10 @@ export const reducer = (
                 recommendedCompanyIds: action.payload,
             };
         }
-        case "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDFUNDS_RECEIVE": {
+        case "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDFUNDCODES_RECEIVE": {
             return {
                 ...state,
-                recommendedFunds: action.payload,
+                recommendedFundCodes: action.payload,
             };
         }
         case "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDACTION_RECEIVE": {
@@ -131,7 +131,7 @@ export const reducer = (
                 id: v4(),
                 companyId: "",
                 productTypeId: "",
-                funds: [],
+                fundCodes: [],
                 contributionPremium: null,
                 contributionLumpsum: null,
                 upfrontFeeAmount: null,

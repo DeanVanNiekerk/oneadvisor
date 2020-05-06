@@ -132,7 +132,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             fieldName: keyof UserEdit,
             value: string | boolean | number | null
         ) => {
-            const userModified = update(user, { [fieldName]: { $set: value } });
+            let userModified = update(user, { [fieldName]: { $set: value } });
+
+            //Update the username to be the email when creating a new user
+            if (!user.id && fieldName === "email") {
+                const userName = (value as string).toLowerCase();
+                userModified = update(userModified, { userName: { $set: userName } });
+            }
+
             dispatch(modifyUser(userModified));
         },
     };

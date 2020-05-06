@@ -124,12 +124,12 @@ const InvestmentSection: React.FC<Props> = (props) => {
                         />
                         <FormSelect<string[]>
                             mode="multiple"
-                            fieldName="funds"
+                            fieldName="fundCodes"
                             label="Funds"
-                            options={props.funds.map((f) => ({ id: f, name: f }))}
-                            optionsValue="id"
+                            options={props.funds}
+                            optionsValue="code"
                             optionsText="name"
-                            value={investment.funds}
+                            value={investment.fundCodes}
                             onChange={onChange}
                         />
                         <FormSelect<string>

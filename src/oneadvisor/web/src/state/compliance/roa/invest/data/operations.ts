@@ -62,11 +62,11 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
 
             discussedProductTypes: discussedProductTypeNames,
             discussedCompanies: discussedCompanyNames,
-            discussedFunds: inputs.discussedFunds,
+            discussedFunds: inputs.discussedFundCodes,
 
             recommendedProductTypes: recommendedProductTypeNames,
             recommendedCompanies: recommendedCompanyNames,
-            recommendedFunds: inputs.recommendedFunds,
+            recommendedFunds: inputs.recommendedFundCodes,
             recommendedAction: inputs.recommendedAction,
 
             clientChoice: inputs.clientChoice,
@@ -150,7 +150,7 @@ const getInvestmentData = (
         number: (index + 1).toString(),
         companyName: companyName,
         productTypeName: productTypeName,
-        funds: investment.funds,
+        funds: investment.fundCodes,
         contributionLumpsum: formatCurrency(investment.contributionLumpsum, currencyDecimal),
         contributionPremium: formatCurrency(investment.contributionPremium, currencyDecimal),
         upfrontFee: upfrontFee,

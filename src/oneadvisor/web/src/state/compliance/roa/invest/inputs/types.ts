@@ -22,14 +22,14 @@ export type RoaInvestInputDiscussedState = {
     //Discussed
     readonly discussedProductTypeIds: string[];
     readonly discussedCompanyIds: string[];
-    readonly discussedFunds: string[];
+    readonly discussedFundCodes: string[];
 };
 
 export type RoaInvestInputRecommendedState = {
     //Recommended
     readonly recommendedProductTypeIds: string[];
     readonly recommendedCompanyIds: string[];
-    readonly recommendedFunds: string[];
+    readonly recommendedFundCodes: string[];
     readonly recommendedAction: string;
 };
 
@@ -38,7 +38,7 @@ export type Investment = {
 
     readonly companyId: string;
     readonly productTypeId: string;
-    readonly funds: string[];
+    readonly fundCodes: string[];
 
     readonly contributionPremium: number | null;
     readonly contributionLumpsum: number | null;

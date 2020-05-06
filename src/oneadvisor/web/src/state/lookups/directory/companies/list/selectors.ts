@@ -2,6 +2,7 @@ import { createSelector } from "reselect";
 
 import { RootState } from "@/state";
 import { contextSelector } from "@/state/context/selectors";
+import { Fund } from "@/state/directory/organisations/types";
 
 import { CompanyListState } from "../";
 import { Company } from "../types";
@@ -25,7 +26,7 @@ export const organisationCompaniesSelector: (state: RootState) => Company[] = cr
     }
 );
 
-export const organisationFundsSelector: (state: RootState) => string[] = createSelector(
+export const organisationFundsSelector: (state: RootState) => Fund[] = createSelector(
     rootSelector,
     contextSelector,
     (root, context) => {
@@ -33,7 +34,15 @@ export const organisationFundsSelector: (state: RootState) => string[] = createS
 
         const funds = context.organisation.config.funds;
 
-        funds.sort();
+        funds.sort((a, b) => {
+            if (a.name < b.name) {
+                return -1;
+            } else if (a.name > b.name) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
 
         return funds;
     }

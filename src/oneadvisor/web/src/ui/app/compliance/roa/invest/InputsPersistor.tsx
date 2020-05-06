@@ -21,6 +21,26 @@ const InputsPersistor: React.FC<Props> = (props) => {
             const value = getStoreValue(key);
             if (value) {
                 const state = JSON.parse(value);
+
+                //Some backward compatable stuff --------------------
+                if (state.discussedFunds) {
+                    delete state.discussedFunds;
+                    state.discussedFundCodes = [];
+                }
+
+                if (state.recommendedFunds) {
+                    delete state.recommendedFunds;
+                    state.recommendedFundCodes = [];
+                }
+
+                state.investments.forEach((investment) => {
+                    if (investment.funds) {
+                        delete investment.funds;
+                        investment.fundCodes = [];
+                    }
+                });
+                //-------------------------------------------------------
+
                 props.receiveRoaInvestInputState(state);
             }
             setIsInitialLoad(false);

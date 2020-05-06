@@ -46,7 +46,7 @@ const Drawer: React.FC<Props> = (props: Props) => {
             destroyOnClose={true}
             bodyStyle={bodyStyle}
             footer={props.footer}
-            footerStyle={{ textAlign: "right" }}
+            footerStyle={{ textAlign: "right", paddingRight: 25 }}
         >
             {props.children}
         </DrawerAD>

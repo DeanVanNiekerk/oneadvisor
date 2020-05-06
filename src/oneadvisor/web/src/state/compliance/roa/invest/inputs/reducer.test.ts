@@ -163,19 +163,19 @@ describe("roa invest reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDFUNDS_RECEIVE", () => {
+    it("should handle COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDFUNDCODES_RECEIVE", () => {
         const initalState = {
             ...defaultState,
         };
 
         const actualState = reducer(initalState, {
-            type: "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDFUNDS_RECEIVE",
-            payload: ["id1", "id2"],
+            type: "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDFUNDCODES_RECEIVE",
+            payload: ["code1", "code2"],
         });
 
         const expectedState = {
             ...defaultState,
-            discussedFunds: ["id1", "id2"],
+            discussedFundCodes: ["code1", "code2"],
         };
 
         expect(actualState).toEqual(expectedState);
@@ -217,19 +217,19 @@ describe("roa invest reducer", () => {
         expect(actualState).toEqual(expectedState);
     });
 
-    it("should handle COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDFUNDS_RECEIVE", () => {
+    it("should handle COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDFUNDCODES_RECEIVE", () => {
         const initalState = {
             ...defaultState,
         };
 
         const actualState = reducer(initalState, {
-            type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDFUNDS_RECEIVE",
-            payload: ["id1", "id2"],
+            type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDFUNDCODES_RECEIVE",
+            payload: ["code1", "code2"],
         });
 
         const expectedState = {
             ...defaultState,
-            recommendedFunds: ["id1", "id2"],
+            recommendedFundCodes: ["code1", "code2"],
         };
 
         expect(actualState).toEqual(expectedState);

@@ -82,9 +82,9 @@ namespace OneAdvisor.Service.Directory.Validators
             return companyIds.Intersect(_companyIds).Count() == companyIds.Count();
         }
 
-        private bool HaveUnqiueFunds(IEnumerable<string> funds)
+        private bool HaveUnqiueFunds(IEnumerable<Fund> funds)
         {
-            return funds.Distinct().Count() == funds.Count();
+            return funds.Select(f => f.Code).Distinct().Count() == funds.Count();
         }
 
         private bool BeValidLicenseCategoryIds(IEnumerable<Guid> licenseCategoryIds)

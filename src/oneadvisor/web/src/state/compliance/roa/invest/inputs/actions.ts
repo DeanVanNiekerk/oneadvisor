@@ -46,7 +46,7 @@ type RoaInvestInputDiscussedCompanyIdsReceiveAction = {
 };
 
 type RoaInvestInputDiscussedFundsReceiveAction = {
-    type: "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDFUNDS_RECEIVE";
+    type: "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDFUNDCODES_RECEIVE";
     payload: string[];
 };
 
@@ -61,7 +61,7 @@ type RoaInvestInputRecommendedCompanyIdsReceiveAction = {
 };
 
 type RoaInvestInputRecommendedFundsReceiveAction = {
-    type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDFUNDS_RECEIVE";
+    type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDFUNDCODES_RECEIVE";
     payload: string[];
 };
 
@@ -174,11 +174,11 @@ export const receiveDiscussedCompanyIds = (
     payload: discussedCompanyIds,
 });
 
-export const receiveDiscussedFunds = (
-    discussedFunds: string[]
+export const receiveDiscussedFundCodes = (
+    discussedFundCodes: string[]
 ): RoaInvestInputDiscussedFundsReceiveAction => ({
-    type: "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDFUNDS_RECEIVE",
-    payload: discussedFunds,
+    type: "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDFUNDCODES_RECEIVE",
+    payload: discussedFundCodes,
 });
 
 export const receiveRecommendedProductTypeIds = (
@@ -195,11 +195,11 @@ export const receiveRecommendedCompanyIds = (
     payload: recommendedCompanyIds,
 });
 
-export const receiveRecommendedFunds = (
-    recommendedFunds: string[]
+export const receiveRecommendedFundCodes = (
+    recommendedFundCodes: string[]
 ): RoaInvestInputRecommendedFundsReceiveAction => ({
-    type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDFUNDS_RECEIVE",
-    payload: recommendedFunds,
+    type: "COMPLIANCE_ROA_INVEST_INPUT_RECOMMENDEDFUNDCODES_RECEIVE",
+    payload: recommendedFundCodes,
 });
 
 export const receiveRecommendedAction = (
