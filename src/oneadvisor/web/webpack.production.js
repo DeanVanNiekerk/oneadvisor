@@ -12,7 +12,7 @@ module.exports = merge(common, {
     plugins: [
         new webpack.HashedModuleIdsPlugin(),
         // Ignore all locale files of moment.js
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        //new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
 
     performance: {
