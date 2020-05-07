@@ -6,6 +6,7 @@ export type RoaInvestDataState = {
 export type RoaInvestData = {
     readonly userFullName: string;
     readonly clientFullName: string;
+    readonly clientIdNumber: string;
 
     //Needs
     readonly consultReason: string;

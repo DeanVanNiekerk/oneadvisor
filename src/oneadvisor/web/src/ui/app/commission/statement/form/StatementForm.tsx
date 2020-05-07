@@ -26,7 +26,7 @@ const StatementForm: React.FC<Props> = ({
         handleChange(statement, fieldName, value);
     };
 
-    const handleAmountExclVATChange = async (fieldName: string, value: number) => {
+    const handleAmountExclVATChange = async (_fieldName: string, value: number) => {
         onChange("amountIncludingVAT", value + statement.vat);
     };
 

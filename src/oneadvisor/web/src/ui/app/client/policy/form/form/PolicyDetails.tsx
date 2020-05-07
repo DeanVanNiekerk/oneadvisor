@@ -79,6 +79,7 @@ const PolicyDetails: React.FC<Props> = (props: Props) => {
                     optionsValue="id"
                     optionsText="name"
                     filterOption={filterOption}
+                    showSearch={true}
                 />
                 <FormCascade
                     fieldName="policyTypeId"

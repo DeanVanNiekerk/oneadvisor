@@ -30,7 +30,7 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
 
         const inputs = roaInvestInputsSelector(rootState);
 
-        const clientFullName = await getClientFullName(dispatch, inputs.clientId);
+        const { fullName, idNumber } = await getClientFullName(dispatch, inputs.clientId);
         const userFullName = userFullNameSelector(rootState);
 
         const discussedCompanyNames = getCompanyNames(rootState, inputs.discussedCompanyIds);
@@ -48,7 +48,8 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
         const currencyDecimal = 0;
 
         const data: RoaInvestData = {
-            clientFullName: clientFullName,
+            clientFullName: fullName,
+            clientIdNumber: idNumber,
             userFullName: userFullName,
             consultReason: inputs.consultReason,
             investmentAdviceType: getInvestmentAdviceTypeName(
@@ -82,24 +83,28 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
     };
 };
 
-const getClientFullName = (dispatch: Dispatch, clientId: string | null): Promise<string> => {
-    let clientFullName = "";
+type ClientDetails = {
+    fullName: string;
+    idNumber: string;
+};
+const getClientFullName = (dispatch: Dispatch, clientId: string | null): Promise<ClientDetails> => {
+    let fullName = "";
+    let idNumber = "";
 
-    if (!clientId) return Promise.resolve(clientFullName);
+    if (!clientId) return Promise.resolve({ fullName, idNumber });
 
-    return new Promise<string>((resolve) => {
+    return new Promise<ClientDetails>((resolve) => {
         dispatch(
             getClient(
                 clientId,
                 //Success
                 (client) => {
-                    clientFullName = `${client.firstName ? client.firstName : ""} ${
-                        client.lastName
-                    }`;
+                    fullName = `${client.firstName ? client.firstName : ""} ${client.lastName}`;
+                    idNumber = client.idNumber;
                 },
                 //Always
                 () => {
-                    resolve(clientFullName);
+                    resolve({ fullName, idNumber });
                 }
             )
         );

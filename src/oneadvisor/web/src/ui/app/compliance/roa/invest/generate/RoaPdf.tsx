@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -28,8 +29,9 @@ const RoaPdf: React.FC<Props> = ({ data, fetching }) => {
                     <View style={styles.h1}>
                         <Text>Record of Advice</Text>
                     </View>
-                    <FieldValue fieldName="Date" value={new Date().toLocaleDateString()} />
-                    <FieldValue fieldName="Client" value={data.clientFullName} />
+                    <FieldValue fieldName="Date" value={dayjs().format("DD-MM-YYYY")} />
+                    <FieldValue fieldName="Client Name" value={data.clientFullName} />
+                    <FieldValue fieldName="Client ID Number" value={data.clientIdNumber} />
 
                     <ClientObjectives data={data} />
                     <Splitter />
