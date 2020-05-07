@@ -4,6 +4,7 @@ using OneAdvisor.Data.Entities.Client.Lookup;
 using OneAdvisor.Data.Entities.Commission.Lookup;
 using OneAdvisor.Data.Entities.Directory;
 using OneAdvisor.Data.Entities.Directory.Lookup;
+using OneAdvisor.Model.Client.Model.Lookup;
 using OneAdvisor.Model.Directory.Model.Application;
 
 namespace OneAdvisor.Data
@@ -253,27 +254,29 @@ namespace OneAdvisor.Data
         {
             var list = new List<PolicyProductTypeEntity>();
 
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeMedicalAid, Name = "Medical Aid", Code = "med_medical_aid", PolicyTypeId = policyTypeMed });
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeGapCover, Name = "Gap Cover", Code = "med_gap_cover", PolicyTypeId = policyTypeMed });
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeAddMedSavings, Name = "Extra Medical Savings", Code = "med_add_medical_savings", PolicyTypeId = policyTypeMed });
+            var characteristics = new List<PolicyTypeCharacteristicDescription>();
 
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeLifeInsBen, Name = "Life Insurance", Code = "life_life_insurance", PolicyTypeId = policyTypeLife });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeMedicalAid, Name = "Medical Aid", Code = "med_medical_aid", PolicyTypeId = policyTypeMed, PolicyTypeCharacteristics = characteristics });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeGapCover, Name = "Gap Cover", Code = "med_gap_cover", PolicyTypeId = policyTypeMed, PolicyTypeCharacteristics = characteristics });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeAddMedSavings, Name = "Extra Medical Savings", Code = "med_add_medical_savings", PolicyTypeId = policyTypeMed, PolicyTypeCharacteristics = characteristics });
 
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeUnitTrust, Name = "Unit Trust", Code = "inv_unit_trust", PolicyTypeId = policyTypeInv });
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeEndowment, Name = "Endowment", Code = "inv_endowment", PolicyTypeId = policyTypeInv });
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeTaxFree, Name = "Tax Free Savings", Code = "inv_tax_free", PolicyTypeId = policyTypeInv });
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypePreservationPension, Name = "Preservation Pension", Code = "inv_preservation_pension", PolicyTypeId = policyTypeInv });
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypePreservationProvident, Name = "Preservation Provident", Code = "inv_preservation_provident", PolicyTypeId = policyTypeInv });
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeRA, Name = "Retirement Annuity", Code = "inv_retirement_annuity", PolicyTypeId = policyTypeInv });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeLifeInsBen, Name = "Life Insurance", Code = "life_life_insurance", PolicyTypeId = policyTypeLife, PolicyTypeCharacteristics = characteristics });
 
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypePersonalCover, Name = "Personal Lines", Code = "short_personal_lines", PolicyTypeId = policyTypeShort });
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeCommercialCover, Name = "Commercial Lines", Code = "short_commercial_lines", PolicyTypeId = policyTypeShort });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeUnitTrust, Name = "Unit Trust", Code = "inv_unit_trust", PolicyTypeId = policyTypeInv, PolicyTypeCharacteristics = characteristics });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeEndowment, Name = "Endowment", Code = "inv_endowment", PolicyTypeId = policyTypeInv, PolicyTypeCharacteristics = characteristics });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeTaxFree, Name = "Tax Free Savings", Code = "inv_tax_free", PolicyTypeId = policyTypeInv, PolicyTypeCharacteristics = characteristics });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypePreservationPension, Name = "Preservation Pension", Code = "inv_preservation_pension", PolicyTypeId = policyTypeInv, PolicyTypeCharacteristics = characteristics });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypePreservationProvident, Name = "Preservation Provident", Code = "inv_preservation_provident", PolicyTypeId = policyTypeInv, PolicyTypeCharacteristics = characteristics });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeRA, Name = "Retirement Annuity", Code = "inv_retirement_annuity", PolicyTypeId = policyTypeInv, PolicyTypeCharacteristics = characteristics });
 
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeRewards, Name = "Rewards Program", Code = "rewards_rewards_program", PolicyTypeId = policyTypeRewards });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypePersonalCover, Name = "Personal Lines", Code = "short_personal_lines", PolicyTypeId = policyTypeShort, PolicyTypeCharacteristics = characteristics });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeCommercialCover, Name = "Commercial Lines", Code = "short_commercial_lines", PolicyTypeId = policyTypeShort, PolicyTypeCharacteristics = characteristics });
 
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypePension, Name = "Pension Fund", Code = "group_scheme_pension", PolicyTypeId = policyTypeGroupScheme });
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeProvident, Name = "Provident Fund", Code = "group_scheme_provident", PolicyTypeId = policyTypeGroupScheme });
-            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeRisk, Name = "Group Risk", Code = "group_scheme_risk", PolicyTypeId = policyTypeGroupScheme });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeRewards, Name = "Rewards Program", Code = "rewards_rewards_program", PolicyTypeId = policyTypeRewards, PolicyTypeCharacteristics = characteristics });
+
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypePension, Name = "Pension Fund", Code = "group_scheme_pension", PolicyTypeId = policyTypeGroupScheme, PolicyTypeCharacteristics = characteristics });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeProvident, Name = "Provident Fund", Code = "group_scheme_provident", PolicyTypeId = policyTypeGroupScheme, PolicyTypeCharacteristics = characteristics });
+            list.Add(new PolicyProductTypeEntity() { Id = policyProductTypeRisk, Name = "Group Risk", Code = "group_scheme_risk", PolicyTypeId = policyTypeGroupScheme, PolicyTypeCharacteristics = characteristics });
 
             return list;
         }
