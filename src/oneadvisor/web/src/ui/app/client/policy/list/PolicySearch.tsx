@@ -5,7 +5,8 @@ import { connect, DispatchProp } from "react-redux";
 import { applyLike } from "@/app/query";
 import { getColumnDefinition } from "@/app/table";
 import { RootState } from "@/state";
-import { Policy, policySearchSelector, searchPolicies } from "@/state/client/policies";
+import { policySearchSelector, searchPolicies } from "@/state/client/policies";
+import { Policy } from "@/state/client/policies/types";
 import { CompanyName, getTable, PolicyTypeName, UserName } from "@/ui/controls";
 import { SearchOutlined } from "@ant-design/icons";
 

@@ -1,14 +1,7 @@
 import "@/ui/styles/css";
 
-import { ConnectedRouter } from "connected-react-router";
 import React from "react";
 import ReactDOM from "react-dom";
-import FullStory from "react-fullstory";
-import { Provider } from "react-redux";
-
-import { getStore, history } from "@/state/configureStore";
-
-const store = getStore();
 
 // Save a reference to the root element for reuse
 const rootElement = document.getElementById("root");
@@ -18,13 +11,7 @@ const render = () => {
     // Dynamically import our main App component, and render it
     const App = require("./ui/App").default;
 
-    ReactDOM.render(
-        <Provider store={store}>
-            <FullStory org={__FULLSTORY_KEY__} />
-            <ConnectedRouter history={history}>{<App />}</ConnectedRouter>
-        </Provider>,
-        rootElement
-    );
+    ReactDOM.render(<App />, rootElement);
 };
 
 if (module.hot) {

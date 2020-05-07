@@ -11,7 +11,6 @@ import { RootState } from "@/state";
 import { useCaseSelector } from "@/state/auth";
 import {
     clearClientPreview,
-    Client,
     clientMergeReset,
     clientsSelector,
     clientVisible,
@@ -24,6 +23,7 @@ import {
     receiveSelectedClients,
     receiveSortOptions,
 } from "@/state/client/clients";
+import { Client } from "@/state/client/clients/types";
 import { clientTypesSelector } from "@/state/lookups/client";
 import { Button, ClientTypeIcon, getColumnSearchProps, getTable, Header } from "@/ui/controls";
 import { StopPropagation } from "@/ui/controls/common/StopPropagation";

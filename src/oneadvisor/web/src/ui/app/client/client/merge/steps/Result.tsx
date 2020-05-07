@@ -4,7 +4,8 @@ import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 
 import { RootState } from "@/state";
-import { ClientEdit, clientMergeSelector } from "@/state/client/clients";
+import { clientMergeSelector } from "@/state/client/clients";
+import { ClientEdit } from "@/state/client/clients/types";
 import { Button } from "@/ui/controls";
 
 import ClientMergeSteps from "../ClientMergeSteps";

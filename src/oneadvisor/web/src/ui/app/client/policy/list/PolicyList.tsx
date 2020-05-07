@@ -12,12 +12,12 @@ import {
     policiesCanMergeSelector,
     policiesSelectedIdsSelector,
     policiesSelector,
-    Policy,
     policyMergeVisible,
     policyVisible,
     receiveFilters,
     receiveSelectedPolicies,
 } from "@/state/client/policies";
+import { Policy } from "@/state/client/policies/types";
 import { Button, Header } from "@/ui/controls";
 
 import EditPolicy from "../form/EditPolicy";

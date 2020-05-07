@@ -1,4 +1,4 @@
-import { PolicyEdit } from "../";
+import { PolicyEdit } from "../types";
 
 export const createPolicy = (policy: Partial<PolicyEdit> = {}): PolicyEdit => ({
     id: null,

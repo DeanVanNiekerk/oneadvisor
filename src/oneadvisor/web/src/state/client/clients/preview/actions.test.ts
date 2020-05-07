@@ -1,7 +1,7 @@
 import { clientsApi } from "@/config/api/client";
 import { ClientTypeId } from "@/state/lookups/client";
 
-import { ClientPreview } from "../";
+import { ClientPreview } from "../types";
 import * as actions from "./actions";
 
 describe("client actions", () => {

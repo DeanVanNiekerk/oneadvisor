@@ -1,7 +1,7 @@
-import { ClientsState } from "./clients";
+import { ClientsState } from "./clients/types";
 import { ContactsState } from "./contacts";
 import { ImportState } from "./import";
-import { PoliciesState } from "./policies";
+import { PoliciesState } from "./policies/types";
 
 export type ClientState = {
     readonly clients: ClientsState;

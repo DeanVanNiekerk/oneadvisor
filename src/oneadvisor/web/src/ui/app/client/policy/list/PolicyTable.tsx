@@ -17,11 +17,11 @@ import { RootState } from "@/state";
 import {
     fetchPolicies,
     policiesSelector,
-    Policy,
     receiveFilters,
     receivePageOptions,
     receiveSortOptions,
 } from "@/state/client/policies";
+import { Policy } from "@/state/client/policies/types";
 import { policyTypesSelector } from "@/state/lookups/client";
 import { organisationCompaniesSelector } from "@/state/lookups/directory";
 import { brokersSelector } from "@/state/lookups/directory/usersSimple";

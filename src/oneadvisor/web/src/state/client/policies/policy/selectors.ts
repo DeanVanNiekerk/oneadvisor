@@ -10,7 +10,7 @@ import {
     policyTypesSelector,
 } from "@/state/lookups/client";
 
-import { PolicyState } from "../";
+import { PolicyState } from "../types";
 
 const rootSelector = (state: RootState): PolicyState => state.client.policies.policy;
 

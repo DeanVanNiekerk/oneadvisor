@@ -1,4 +1,4 @@
-import { Policy } from "../";
+import { Policy } from "../types";
 import { defaultState, reducer } from "./reducer";
 
 describe("policy search reducer", () => {

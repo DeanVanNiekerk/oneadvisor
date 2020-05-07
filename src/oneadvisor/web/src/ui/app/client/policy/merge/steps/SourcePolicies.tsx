@@ -3,7 +3,8 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { RootState } from "@/state";
-import { policiesSelector, Policy } from "@/state/client/policies";
+import { policiesSelector } from "@/state/client/policies";
+import { Policy } from "@/state/client/policies/types";
 import { UserName } from "@/ui/controls";
 
 import { PolicyMergeSteps } from "../PolicyMergeSteps";

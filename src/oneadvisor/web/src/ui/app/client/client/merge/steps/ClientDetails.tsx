@@ -5,17 +5,15 @@ import { connect, DispatchProp } from "react-redux";
 import { ValidationResult } from "@/app/validation/types";
 import { RootState } from "@/state";
 import {
-    Client,
-    ClientEdit,
     clientMergeNextStep,
     clientMergePreviousStep,
     clientMergeSelector,
     clientSelector,
-    MergeClients,
     mergeClients,
     receiveClient,
     receiveSelectedClients,
 } from "@/state/client/clients";
+import { Client, ClientEdit, MergeClients } from "@/state/client/clients/types";
 import { MergeCellsOutlined } from "@ant-design/icons";
 
 import ClientForm from "../../form/ClientForm";

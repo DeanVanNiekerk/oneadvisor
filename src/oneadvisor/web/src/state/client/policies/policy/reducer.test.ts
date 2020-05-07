@@ -1,6 +1,6 @@
 import { getValidationResult } from "@/test";
 
-import { PolicyEdit } from "../";
+import { PolicyEdit } from "../types";
 import { defaultState, reducer } from "./reducer";
 
 const defaultPolicy: PolicyEdit = {

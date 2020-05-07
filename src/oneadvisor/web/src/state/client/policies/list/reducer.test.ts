@@ -1,6 +1,6 @@
 import { Filters, SortOptions } from "@/app/table";
 
-import { Policy } from "../";
+import { Policy } from "../types";
 import { defaultState, reducer } from "./reducer";
 
 describe("policy list reducer", () => {

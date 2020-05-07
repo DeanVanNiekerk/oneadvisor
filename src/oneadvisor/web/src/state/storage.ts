@@ -1,3 +1,9 @@
+import storage from "redux-persist/lib/storage";
+
+export const getPersistStorage = () => {
+    return storage;
+};
+
 export const getToken = (): string | null => {
     return localStorage.getItem("token");
 };

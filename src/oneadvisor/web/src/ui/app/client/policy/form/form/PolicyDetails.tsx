@@ -9,11 +9,11 @@ import { RootState } from "@/state";
 import { fetchClients } from "@/state/client/clients";
 import {
     modifyPolicy,
-    PolicyEdit,
     policyProductCascaseSelector,
     policyProductCascaseValuesSelector,
     policySelector,
 } from "@/state/client/policies";
+import { PolicyEdit } from "@/state/client/policies/types";
 import { organisationCompaniesSelector } from "@/state/lookups/directory";
 import { brokersSelector } from "@/state/lookups/directory/usersSimple";
 import {

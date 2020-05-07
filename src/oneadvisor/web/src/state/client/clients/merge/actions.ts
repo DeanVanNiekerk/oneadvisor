@@ -6,7 +6,8 @@ import { ApiAction, ApiOnSuccess, Result } from "@/app/types";
 import { ValidationResult } from "@/app/validation/types";
 import { clientsApi, mergeClientsApi } from "@/config/api/client";
 
-import { Client, ClientEdit, MergeClients, receiveClientValidationResults } from "../";
+import { receiveClientValidationResults } from "../";
+import { Client, ClientEdit, MergeClients } from "../types";
 
 type ClientMergeSourceReceiveAction = {
     type: "CLIENTS_MERGE_SOURCE_RECEIVE";

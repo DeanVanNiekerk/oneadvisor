@@ -3,7 +3,8 @@ import { ThunkAction } from "redux-thunk";
 import { ApiAction } from "@/app/types";
 import { RootState } from "@/state";
 
-import { MergePolicies, policiesSelectedIdsSelector, policySelector } from "../";
+import { policiesSelectedIdsSelector, policySelector } from "../";
+import { MergePolicies } from "../types";
 import { mergePolicies } from "./actions";
 
 export const saveMergePolicies = (

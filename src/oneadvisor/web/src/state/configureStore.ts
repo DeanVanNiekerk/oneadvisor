@@ -10,6 +10,7 @@ import {
     ReducersMapObject,
 } from "redux";
 import ReduxAsyncQueue from "redux-async-queue";
+import { persistStore } from "redux-persist";
 import thunk from "redux-thunk";
 
 import apiMiddleware from "./middleware/apiMiddleware";
@@ -44,6 +45,8 @@ const store = createStore(
 type AsyncReducers = "directory" | "client" | "commission" | "compliance" | "invest";
 
 const createReducerManager = () => {
+    const persistor = persistStore(store);
+
     // Add a dictionary to keep track of the registered async reducers
     const asyncReducers: ReducersMapObject = {};
 
@@ -57,6 +60,8 @@ const createReducerManager = () => {
         asyncReducers[key] = asyncReducer;
 
         store.replaceReducer(createReducer(asyncReducers));
+
+        persistor.persist();
     };
 
     const hasReducer = (key: AsyncReducers): boolean => {
@@ -77,5 +82,5 @@ const createReducerManager = () => {
 export const reducerManager = createReducerManager();
 
 export const getStore = () => {
-    return store;
+    return { store };
 };

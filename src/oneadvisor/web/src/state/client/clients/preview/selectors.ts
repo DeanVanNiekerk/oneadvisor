@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import { RootState } from "@/state";
 
-import { PreviewState } from "../";
+import { PreviewState } from "../types";
 
 const rootSelector = (state: RootState): PreviewState => state.client.clients.preview;
 

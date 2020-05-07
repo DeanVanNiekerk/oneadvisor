@@ -1,7 +1,7 @@
 import { ClientTypeId } from "@/state/lookups/client";
 import { getValidationResult } from "@/test";
 
-import { ClientEdit } from "../";
+import { ClientEdit } from "../types";
 import { defaultState, reducer } from "./reducer";
 
 const defaultClient: ClientEdit = {

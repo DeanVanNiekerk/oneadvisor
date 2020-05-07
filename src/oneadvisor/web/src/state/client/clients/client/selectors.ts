@@ -3,7 +3,7 @@ import { createSelector } from "reselect";
 import { areEqual } from "@/app/utils";
 import { RootState } from "@/state";
 
-import { ClientState } from "../";
+import { ClientState } from "../types";
 
 const rootSelector = (state: RootState): ClientState => state.client.clients.client;
 

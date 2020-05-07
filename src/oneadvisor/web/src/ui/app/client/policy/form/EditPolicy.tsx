@@ -6,12 +6,12 @@ import { ThunkDispatch } from "redux-thunk";
 import { RootState } from "@/state";
 import {
     confirmCancelPolicy,
-    PolicyEdit,
     policyIsLoadingSelector,
     policySelector,
     policyVisible,
     savePolicy,
 } from "@/state/client/policies";
+import { PolicyEdit } from "@/state/client/policies/types";
 import { EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

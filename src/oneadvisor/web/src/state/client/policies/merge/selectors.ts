@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import { RootState } from "@/state";
 
-import { MergeState } from "../";
+import { MergeState } from "../types";
 
 const rootSelector = (state: RootState): MergeState => state.client.policies.merge;
 

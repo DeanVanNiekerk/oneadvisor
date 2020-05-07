@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import { RootState } from "@/state";
 
-import { SearchState } from "../";
+import { SearchState } from "../types";
 
 const rootSelector = (state: RootState): SearchState => state.client.policies.search;
 

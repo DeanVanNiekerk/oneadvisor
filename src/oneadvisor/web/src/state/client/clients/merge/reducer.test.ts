@@ -1,6 +1,6 @@
 import { ClientTypeId } from "@/state/lookups/client";
 
-import { Client } from "../";
+import { Client } from "../types";
 import { defaultState, reducer } from "./reducer";
 
 const defaultClient: Client = {

@@ -5,11 +5,11 @@ import { connect, DispatchProp } from "react-redux";
 import { getAge } from "@/app/utils";
 import { RootState } from "@/state";
 import {
-    Client,
     clientMergeNextStep,
     clientMergeSelector,
     getAlternateIdNumberLabel,
 } from "@/state/client/clients";
+import { Client } from "@/state/client/clients/types";
 
 import ClientMergeSteps from "../ClientMergeSteps";
 

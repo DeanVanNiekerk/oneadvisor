@@ -7,7 +7,6 @@ import { Dispatch } from "redux";
 import { parseIdNumber } from "@/app/parsers/id";
 import { RootState } from "@/state";
 import {
-    ClientEdit,
     clientIsMarried,
     clientSelector,
     getAlternateIdNumberLabel,
@@ -15,6 +14,7 @@ import {
     getLastNameLabel,
     modifyClient,
 } from "@/state/client/clients";
+import { ClientEdit } from "@/state/client/clients/types";
 import { ClientTypeId, clientTypesSelector, marritalStatusSelector } from "@/state/lookups/client";
 import { Form, FormDate, FormInput, FormSelect } from "@/ui/controls";
 import { SettingOutlined } from "@ant-design/icons";

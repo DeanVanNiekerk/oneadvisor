@@ -1,6 +1,6 @@
 import { policiesApi } from "@/config/api/client";
 
-import { PolicyEdit } from "../";
+import { PolicyEdit } from "../types";
 import * as actions from "./actions";
 
 describe("policy actions", () => {

@@ -6,11 +6,11 @@ import { bindActionCreators, Dispatch } from "redux";
 import { RootState } from "@/state";
 import {
     policiesSelector,
-    PolicyEdit,
     policyMergeSelector,
     receivePolicy,
     saveMergePolicies,
 } from "@/state/client/policies";
+import { PolicyEdit } from "@/state/client/policies/types";
 import { MergeCellsOutlined } from "@ant-design/icons";
 
 import PolicyForm from "../../form/form/PolicyForm";

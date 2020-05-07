@@ -5,13 +5,13 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { RootState } from "@/state";
 import {
-    ClientEdit,
     clientIsLoadingSelector,
     clientSelector,
     clientVisible,
     confirmCancelClient,
     saveClient,
 } from "@/state/client/clients";
+import { ClientEdit } from "@/state/client/clients/types";
 import { ClientTypeIcon, EditDrawer } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 

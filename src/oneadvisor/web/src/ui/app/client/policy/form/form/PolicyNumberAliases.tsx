@@ -5,7 +5,8 @@ import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
 import { RootState } from "@/state";
-import { modifyPolicy, PolicyEdit, policySelector } from "@/state/client/policies";
+import { modifyPolicy, policySelector } from "@/state/client/policies";
+import { PolicyEdit } from "@/state/client/policies/types";
 import { FormSimpleList } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;

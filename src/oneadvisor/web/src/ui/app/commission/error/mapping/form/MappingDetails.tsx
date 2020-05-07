@@ -4,8 +4,10 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { RootState } from "@/state";
-import { ClientEdit, clientVisible, newClient } from "@/state/client/clients";
-import { newPolicy, PolicyEdit, policyVisible } from "@/state/client/policies";
+import { clientVisible, newClient } from "@/state/client/clients";
+import { ClientEdit } from "@/state/client/clients/types";
+import { newPolicy, policyVisible } from "@/state/client/policies";
+import { PolicyEdit } from "@/state/client/policies/types";
 import {
     CommissionErrorEdit,
     mappingErrorSelector,
