@@ -9,16 +9,12 @@ module.exports = merge(common, {
         filename: "dist/[name].[contenthash].js",
     },
 
-    plugins: [
-        new webpack.HashedModuleIdsPlugin(),
-        // Ignore all locale files of moment.js
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    ],
+    plugins: [new webpack.HashedModuleIdsPlugin()],
 
     performance: {
         hints: "error",
-        maxEntrypointSize: 1450000,
-        maxAssetSize: 2000000,
+        maxEntrypointSize: 1380000, // 1.38 mg
+        maxAssetSize: 2000000, //This is very big because of React-Pdf
     },
 
     optimization: {
