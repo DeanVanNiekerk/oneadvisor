@@ -1,9 +1,9 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 import { UserMonthlyCommissionAction } from "./actions";
 import { UserMonthlyCommissionState } from "./types";
 
-const thisMonth = moment();
+const thisMonth = dayjs();
 export const defaultState: UserMonthlyCommissionState = {
     year: thisMonth.year(),
     month: thisMonth.month() + 1,

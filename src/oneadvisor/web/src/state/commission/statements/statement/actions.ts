@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import { ThunkAction } from "redux-thunk";
 
 import { ApiAction, ApiOnFailure, ApiOnSuccess, ShowConfirm } from "@/app/types";
@@ -77,8 +77,8 @@ export const newStatement = (): ThunkAction<void, RootState, {}, StatementReceiv
         const { filterYear, filterMonth } = statementsSelector(getState());
         const companies = companiesSelector(getState()).items;
 
-        const today = moment();
-        let date = moment()
+        const today = dayjs();
+        let date = dayjs()
             .year(filterYear)
             .month(filterMonth - 1);
         if (today.year() !== date.year() || today.month() !== date.month()) date = date.date(1);

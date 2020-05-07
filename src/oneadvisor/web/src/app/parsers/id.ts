@@ -1,4 +1,7 @@
-import moment from "moment";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat);
 
 type Gender = "M" | "F";
 
@@ -17,11 +20,16 @@ export const parseIdNumber = (input: string): Result => {
 
     if (input.length < 6) return { success: false };
 
-    const dateOfBirth = moment(input.substring(0, 6), "YYMMDD");
+    const dateString = input.substring(0, 6);
+    let dateOfBirth = dayjs(dateString, "YYMMDD");
 
-    if (dateOfBirth.isAfter(moment())) dateOfBirth.subtract(100, "year");
+    //Check that is not parsing invalid dates
+    //https://github.com/iamkun/dayjs/issues/605
+    if (dateString !== dateOfBirth.format("YYMMDD")) return { success: false };
 
-    if (!dateOfBirth.isValid()) return { success: false };
+    if (dateOfBirth.isAfter(dayjs())) {
+        dateOfBirth = dateOfBirth.subtract(100, "year");
+    }
 
     const dateOfBirthFormatted = dateOfBirth.format("YYYY-MM-DD");
 

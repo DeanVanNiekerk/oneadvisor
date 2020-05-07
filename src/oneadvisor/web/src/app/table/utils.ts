@@ -1,10 +1,13 @@
 import { ColumnProps } from "antd/lib/table";
-import moment from "moment";
+import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
 
 import { ColumnOptions, Filters } from "@/app/table";
 
 import { formatCurrency } from "../utils";
 import { SortOptions } from "./types";
+
+dayjs.extend(localizedFormat);
 
 export const getColumnDefinition = <T>(
     externalDataSource = false,
@@ -58,10 +61,9 @@ const getColumn = <T>(
     };
 
     if (options.type === "boolean") props.render = formatBool;
-    if (options.type === "date")
-        props.render = (value) => (value ? moment(value).format("ll") : "");
+    if (options.type === "date") props.render = (value) => (value ? dayjs(value).format("ll") : "");
     if (options.type === "long-date")
-        props.render = (value) => (value ? moment(value).format("lll") : "");
+        props.render = (value) => (value ? dayjs(value).format("lll") : "");
     if (options.type === "currency") props.render = (value) => formatCurrency(value, 0);
     if (options.type === "long-currency") props.render = (value) => formatCurrency(value, 2);
 

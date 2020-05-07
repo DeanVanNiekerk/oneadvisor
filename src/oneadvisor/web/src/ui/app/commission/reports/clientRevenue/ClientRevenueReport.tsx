@@ -1,5 +1,5 @@
 import { Col, Row, Select } from "antd";
-import moment from "moment";
+import dayjs from "dayjs";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
@@ -171,7 +171,7 @@ class ClientRevenueReport extends Component<Props, State> {
                         delete d.rowNumber;
                         delete d.clientId;
                         d.clientDateOfBirth = d.clientDateOfBirth
-                            ? moment(d.clientDateOfBirth).format(DATE_FORMAT)
+                            ? dayjs(d.clientDateOfBirth).format(DATE_FORMAT)
                             : d.clientDateOfBirth;
                         return d;
                     }),

@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 export const SERVER_DATE_FORMAT = "YYYY-MM-DD";
 
@@ -6,15 +6,15 @@ export const DATE_FORMAT = "YYYY-MM-DD";
 export const DATE_TIME_FORMAT = "YYYY-MM-DD HH:mm:ss";
 
 export const formatExcelDate = (date: string): string => {
-    if (!Number(date)) return moment(date).format(DATE_FORMAT);
+    if (!Number(date)) return dayjs(date).format(DATE_FORMAT);
 
     const excelDate = parseInt(date);
 
     const dateOject = getJsDateFromExcel(excelDate);
 
-    const momentDate = moment(dateOject);
+    const dayJsDate = dayjs(dateOject);
 
-    return momentDate.format(DATE_FORMAT);
+    return dayJsDate.format(DATE_FORMAT);
 };
 
 const getJsDateFromExcel = (excelDate: number) => {
@@ -31,7 +31,7 @@ type TDateRange = {
 };
 
 export const getMonthDateRange = (month: number, year: number): TDateRange => {
-    let date = moment();
+    let date = dayjs();
     date = date.month(month - 1);
     date = date.year(year);
 
@@ -42,7 +42,21 @@ export const getMonthDateRange = (month: number, year: number): TDateRange => {
 };
 
 export const getMonthOptions = () => {
-    return moment.months().map((m, i) => {
+    const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ];
+    return months.map((m, i) => {
         return {
             number: i + 1,
             name: m,
@@ -58,7 +72,7 @@ export const getMonthName = (number: number) => {
 
 export const getYearOptions = () => {
     const years: number[] = [];
-    const thisYear = moment().year();
+    const thisYear = dayjs().year();
     for (let i = thisYear - 20; i <= thisYear; i++) {
         years.push(i);
     }
@@ -68,7 +82,7 @@ export const getYearOptions = () => {
 export const getAge = (dateOfBirth: string | null) => {
     if (!dateOfBirth) return "";
 
-    const dob = moment(dateOfBirth);
+    const dob = dayjs(dateOfBirth);
 
-    return moment().diff(dob, "years");
+    return dayjs().diff(dob, "year");
 };

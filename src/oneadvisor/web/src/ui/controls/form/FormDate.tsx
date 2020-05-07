@@ -1,5 +1,8 @@
-import { DatePicker } from "antd";
-import moment from "moment";
+//import "antd/es/date-picker/style/index";
+
+import generatePicker from "antd/es/date-picker/generatePicker";
+import dayjs, { Dayjs } from "dayjs";
+import dayjsGenerateConfig from "rc-picker/lib/generate/dayjs";
 import React from "react";
 
 import { DATE_FORMAT } from "@/app/utils";
@@ -8,6 +11,8 @@ import { ValidationResult } from "@/app/validation/types";
 import { FormText } from "./";
 import { FormLayout } from "./Form";
 import { FormField } from "./FormField";
+
+const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig);
 
 type Props = {
     fieldName: string;
@@ -24,7 +29,7 @@ type Props = {
 };
 
 const FormDate: React.FC<Props> = (props: Props) => {
-    const onChange = (date: moment.Moment, dateString: string) => {
+    const onChange = (date: Dayjs, dateString: string) => {
         if (props.onChange) props.onChange(props.fieldName, dateString ? dateString : null);
     };
 
@@ -44,7 +49,7 @@ const FormDate: React.FC<Props> = (props: Props) => {
         return (
             <FormText
                 label={label}
-                value={value ? moment(value).format(DATE_FORMAT) : ""}
+                value={value ? dayjs(value).format(DATE_FORMAT) : ""}
                 layout={layout}
             />
         );
@@ -63,7 +68,7 @@ const FormDate: React.FC<Props> = (props: Props) => {
             <DatePicker
                 disabled={disabled}
                 name={fieldName}
-                value={value ? moment(value) : undefined}
+                value={value ? dayjs(value) : undefined}
                 onChange={onChange}
                 allowClear={allowClear}
             />

@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 import { SERVER_DATE_FORMAT } from "@/app/utils";
 
@@ -8,7 +8,7 @@ import {
     UserEarningsTypeMonthlyCommissionState,
 } from "./types";
 
-const thisMonth = moment();
+const thisMonth = dayjs();
 const defaultFilters: UserEarningsTypeMonthlyCommissionFilters = {
     userId: [],
     companyId: [],

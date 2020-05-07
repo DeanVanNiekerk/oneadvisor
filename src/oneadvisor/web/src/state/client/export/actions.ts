@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 import { saveFile } from "@/app/file";
 import { ApiAction } from "@/app/types";
@@ -11,7 +11,7 @@ export const exportClientPolicyAggregates = (onComplete: TOnComplete): ApiAction
     type: "API",
     endpoint: `${clientsExportApi}/policyAggregates/csv`,
     onSuccessBlob: (blob) => {
-        saveFile(blob, `ClientPolicyAggregates_${moment().format(DATE_FORMAT)}.csv`);
+        saveFile(blob, `ClientPolicyAggregates_${dayjs().format(DATE_FORMAT)}.csv`);
         onComplete();
     },
 });
@@ -20,7 +20,7 @@ export const exportClientPolicies = (onComplete: TOnComplete): ApiAction => ({
     type: "API",
     endpoint: `${clientsExportApi}/policies/csv`,
     onSuccessBlob: (blob) => {
-        saveFile(blob, `ClientPolicies_${moment().format(DATE_FORMAT)}.csv`);
+        saveFile(blob, `ClientPolicies_${dayjs().format(DATE_FORMAT)}.csv`);
         onComplete();
     },
 });

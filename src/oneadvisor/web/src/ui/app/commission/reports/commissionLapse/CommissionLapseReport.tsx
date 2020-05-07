@@ -1,5 +1,5 @@
 import { Col, Row, Select } from "antd";
-import moment from "moment";
+import dayjs from "dayjs";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 
@@ -54,7 +54,7 @@ class CommissionLapseReport extends Component<Props> {
     };
 
     currentFilterDate = () => {
-        return moment(this.props.filters.date ? this.props.filters.date[0] : undefined);
+        return dayjs(this.props.filters.date ? this.props.filters.date[0] : undefined);
     };
 
     handleYearChange = (year: number) => {

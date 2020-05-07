@@ -7,7 +7,7 @@ import {
     TablePaginationConfig,
     TableRowSelection,
 } from "antd/lib/table/interface";
-import * as React from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import { hasUseCase } from "@/app/identity";

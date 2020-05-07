@@ -1,6 +1,6 @@
 import { Spin } from "antd";
 import { SpinSize } from "antd/lib/spin";
-import * as React from "react";
+import React from "react";
 import { Col, Grid, Row } from "react-flexbox-grid";
 
 type Props = {

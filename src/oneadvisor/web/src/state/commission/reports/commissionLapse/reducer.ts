@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 import { defaultPageOptions, defaultSortOptions } from "@/app/table/defaults";
 import { DATE_FORMAT } from "@/app/utils";
@@ -7,7 +7,7 @@ import { CommissionCommissionLapseDataAction } from "./actions";
 import { CommissionLapseDataFilters, CommissionLapseState } from "./types";
 
 const defaultFilters: CommissionLapseDataFilters = {
-    date: [moment().format(DATE_FORMAT)],
+    date: [dayjs().format(DATE_FORMAT)],
 };
 
 export const defaultState: CommissionLapseState = {

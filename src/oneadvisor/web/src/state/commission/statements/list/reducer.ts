@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 import { defaultPageOptions, defaultSortOptions } from "@/app/table/defaults";
 
@@ -13,8 +13,8 @@ export const defaultState: ListState = {
     fetching: false,
     pageOptions: defaultPageOptions(),
     sortOptions: defaultSortOptions("companyId", "asc"),
-    filterMonth: moment().month() + 1,
-    filterYear: moment().year(),
+    filterMonth: dayjs().month() + 1,
+    filterYear: dayjs().year(),
     filters: null,
 };
 

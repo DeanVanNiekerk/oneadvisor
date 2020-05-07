@@ -1,11 +1,11 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 import { SERVER_DATE_FORMAT } from "@/app/utils";
 
 import { UserCompanyMonthlyCommissionDataAction } from "./actions";
 import { UserCompanyMonthlyCommissionFilters, UserCompanyMonthlyCommissionState } from "./types";
 
-const thisMonth = moment();
+const thisMonth = dayjs();
 const defaultFilters: UserCompanyMonthlyCommissionFilters = {
     userId: [],
     companyId: [],

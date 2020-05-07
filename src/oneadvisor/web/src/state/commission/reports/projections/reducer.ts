@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 import { DATE_FORMAT } from "@/app/utils";
 
@@ -6,8 +6,8 @@ import { CommissionProjectionsDataAction } from "./actions";
 import { PastRevenueCommissionDataFilters, ProjectionsState } from "./types";
 
 const defaultFilters: PastRevenueCommissionDataFilters = {
-    startDate: [moment().subtract(12, "months").startOf("month").format(DATE_FORMAT)],
-    endDate: [moment().endOf("month").format(DATE_FORMAT)],
+    startDate: [dayjs().subtract(12, "month").startOf("month").format(DATE_FORMAT)],
+    endDate: [dayjs().endOf("month").format(DATE_FORMAT)],
 };
 
 export const defaultState: ProjectionsState = {

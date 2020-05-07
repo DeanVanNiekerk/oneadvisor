@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import React from "react";
 
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "@/app/utils";
@@ -18,7 +18,7 @@ const Date: React.FC<Props> = (props: Props) => {
     let inputDate = props.date;
     if (props.isUnixSeconds) inputDate = (inputDate as number) * 1000;
 
-    const date = moment(inputDate);
+    const date = dayjs(inputDate);
 
     return <span>{date.format(format)}</span>;
 };

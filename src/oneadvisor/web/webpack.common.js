@@ -5,6 +5,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const AntdDayjsWebpackPlugin = require("antd-dayjs-webpack-plugin");
 const oaBaseApi = config.get("baseApi");
 const environment = config.get("environment");
 const fullStoryKey = config.get("fullStoryKey");
@@ -57,6 +58,7 @@ module.exports = {
     },
 
     plugins: [
+        new AntdDayjsWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: "dist/[name].[contenthash].css",
             chunkFilename: "dist/[id].[contenthash].css",

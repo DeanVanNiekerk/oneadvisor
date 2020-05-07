@@ -1,12 +1,12 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 import { SERVER_DATE_FORMAT } from "@/app/utils";
 
 import { AuditLogFilters, ListState } from "../types";
 import { AuditLogListAction } from "./actions";
 
-const startDate = moment().subtract(14, "days").startOf("day");
-const endDate = moment();
+const startDate = dayjs().subtract(14, "day").startOf("day");
+const endDate = dayjs();
 
 const defaultFilters: AuditLogFilters = {
     date: [startDate.format(SERVER_DATE_FORMAT), endDate.format(SERVER_DATE_FORMAT)],

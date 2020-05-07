@@ -35,7 +35,6 @@
         "history": "4.10.1",
         "immutability-helper": "3.0.2",
         "jwt-decode": "2.2.0",
-        "moment": "2.24.0",
         "query-string": "6.12.1",
         "react": "16.13.1",
         "react-copy-to-clipboard": "5.0.2",
@@ -80,6 +79,7 @@
         "@types/webpack-env": "1.15.2",
         "@typescript-eslint/eslint-plugin": "2.30.0",
         "@typescript-eslint/parser": "2.30.0",
+        "antd-dayjs-webpack-plugin": "1.0.0",
         "babel-core": "7.0.0-bridge.0",
         "babel-jest": "25.5.1",
         "babel-loader": "8.1.0",
@@ -112,6 +112,9 @@
         "webpack-cli": "3.3.11",
         "webpack-dev-server": "3.10.3",
         "webpack-merge": "4.2.2"
+    },
+    "peerDependencies": {
+        "dayjs": "*"
     },
     "husky": {
         "hooks": {

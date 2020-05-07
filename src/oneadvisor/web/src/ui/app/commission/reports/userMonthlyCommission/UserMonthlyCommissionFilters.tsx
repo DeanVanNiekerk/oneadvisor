@@ -1,5 +1,5 @@
 import { Col, Row, Select } from "antd";
-import moment from "moment";
+import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { AnyAction, bindActionCreators } from "redux";
@@ -67,20 +67,20 @@ const UserMonthlyCommissionFilters: React.FC<Props> = (props: Props) => {
     };
 
     const onMonthYearChange = () => {
-        const start = moment(`${props.selectedYear}-${props.selectedMonth}-01`);
+        const start = dayjs(`${props.selectedYear}-${props.selectedMonth}-01`);
         const end = start.clone().endOf("month");
         props.onDateFiltersChange(start, end);
     };
 
     const onYearToDateChange = () => {
-        const start = moment().startOf("year");
-        const end = moment().endOf("month");
+        const start = dayjs().startOf("year");
+        const end = dayjs().endOf("month");
         props.onDateFiltersChange(start, end);
     };
 
     const onLast12MonthsChange = () => {
-        const start = moment().subtract(11, "months").startOf("month");
-        const end = moment().endOf("month");
+        const start = dayjs().subtract(11, "month").startOf("month");
+        const end = dayjs().endOf("month");
         props.onDateFiltersChange(start, end);
     };
 
@@ -222,7 +222,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
         onMonthChange: (month: number) => {
             dispatch(receiveUserMonthlyCommissionMonth(month));
         },
-        onDateFiltersChange: (start: moment.Moment, end: moment.Moment) => {
+        onDateFiltersChange: (start: dayjs.Dayjs, end: dayjs.Dayjs) => {
             const startDate = start.format(SERVER_DATE_FORMAT);
             const endDate = end.format(SERVER_DATE_FORMAT);
             dispatch(receiveUserCompanyMonthlyCommissionDateRangeFilter(startDate, endDate));

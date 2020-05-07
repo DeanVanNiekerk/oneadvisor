@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -116,7 +116,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         ) => {
             dispatch(
                 getCommissionErrors(filters, (errors) => {
-                    downloadCommissionErrors(errors, companyName, moment(date).format(DATE_FORMAT));
+                    downloadCommissionErrors(errors, companyName, dayjs(date).format(DATE_FORMAT));
                 })
             );
         },

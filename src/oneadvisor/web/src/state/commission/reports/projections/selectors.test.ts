@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 import { PolicyTypeListState } from "@/state/lookups/client/policyTypes/types";
 import { CompanyListState } from "@/state/lookups/directory";
@@ -15,7 +15,7 @@ import { ProjectionsState } from "./types";
 
 describe("report commission projects selectors", () => {
     describe("projectionGroupTableRowsSelector", () => {
-        const now = moment("2019-08-01");
+        const now = dayjs("2019-08-01");
 
         const companyId1 = "company1";
         const companyId2 = "company2";
@@ -113,9 +113,9 @@ describe("report commission projects selectors", () => {
         });
 
         it("has items - no groups - only total record", () => {
-            const lastMonth = now.clone().subtract(1, "month");
-            const twoMonthsAgo = now.clone().subtract(2, "month");
-            const threeMonthsAgo = now.clone().subtract(3, "month");
+            const lastMonth = now.subtract(1, "month");
+            const twoMonthsAgo = now.subtract(2, "month");
+            const threeMonthsAgo = now.subtract(3, "month");
 
             const items: PastRevenueCommissionData[] = [
                 {
@@ -207,7 +207,7 @@ describe("report commission projects selectors", () => {
         });
 
         it("group by policy type", () => {
-            const lastMonth = now.clone().subtract(1, "month");
+            const lastMonth = now.subtract(1, "month");
 
             const items: PastRevenueCommissionData[] = [
                 {
@@ -314,7 +314,7 @@ describe("report commission projects selectors", () => {
         });
 
         it("group by policy type and earnings type", () => {
-            const lastMonth = now.clone().subtract(1, "month");
+            const lastMonth = now.subtract(1, "month");
 
             const items: PastRevenueCommissionData[] = [
                 {
@@ -499,7 +499,7 @@ describe("report commission projects selectors", () => {
         });
 
         it("group by policy type, earnings type and company", () => {
-            const lastMonth = now.clone().subtract(1, "month");
+            const lastMonth = now.subtract(1, "month");
 
             const items: PastRevenueCommissionData[] = [
                 {

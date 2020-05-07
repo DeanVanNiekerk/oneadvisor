@@ -1,5 +1,5 @@
 import { ColumnProps } from "antd/lib/table";
-import * as React from "react";
+import React from "react";
 
 import { ColumnSearch, DateRangeSearch } from "@/ui/controls";
 import { CalendarOutlined, SearchOutlined } from "@ant-design/icons";

@@ -1,8 +1,11 @@
-import { DatePicker } from "antd";
-import moment from "moment";
-import * as React from "react";
+import generatePicker from "antd/es/date-picker/generatePicker";
+import dayjs, { Dayjs } from "dayjs";
+import dayjsGenerateConfig from "rc-picker/lib/generate/dayjs";
+import React from "react";
 
 import { Button } from "../";
+
+const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig);
 
 const { RangePicker } = DatePicker;
 
@@ -14,10 +17,10 @@ type Props = {
 };
 
 const DateRangeSearch: React.FC<Props> = (props: Props) => {
-    const getMomentValues = (): [moment.Moment, moment.Moment] => {
+    const getDayjsValues = (): [Dayjs, Dayjs] => {
         if (!props.selectedKeys || props.selectedKeys.length !== 2) undefined;
 
-        return [moment(props.selectedKeys[0]), moment(props.selectedKeys[1])];
+        return [dayjs(props.selectedKeys[0]), dayjs(props.selectedKeys[1])];
     };
 
     return (
@@ -29,7 +32,7 @@ const DateRangeSearch: React.FC<Props> = (props: Props) => {
                 style={{
                     marginBottom: 8,
                 }}
-                value={getMomentValues()}
+                value={getDayjsValues()}
             />
             <Button
                 type="primary"

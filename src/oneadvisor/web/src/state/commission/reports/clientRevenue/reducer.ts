@@ -1,11 +1,11 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 import { defaultPageOptions, defaultSortOptions } from "@/app/table/defaults";
 
 import { ClientRevenueDataAction } from "./actions";
 import { ClientRevenueDataFilters, ClientRevenueState } from "./types";
 
-const lastMonth = moment().subtract(1, "months");
+const lastMonth = dayjs().subtract(1, "month");
 const defaultFilters: ClientRevenueDataFilters = {
     yearEnding: [lastMonth.year().toString()],
     monthEnding: [(lastMonth.month() + 1).toString()],

@@ -1,5 +1,5 @@
 import { Button as ButtonAD, Col, Dropdown, Menu, Row, Select } from "antd";
-import moment from "moment";
+import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -308,7 +308,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
         downloadMappingErrors: (filters: CommissionErrorsFilters, date: string) => {
             dispatch(
                 getCommissionErrors(filters, (errors) => {
-                    downloadCommissionErrors(errors, "", moment(date).format("MMM-YYYY"));
+                    downloadCommissionErrors(errors, "", dayjs(date).format("MMM-YYYY"));
                 })
             );
         },

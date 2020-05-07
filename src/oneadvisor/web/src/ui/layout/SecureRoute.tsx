@@ -1,5 +1,5 @@
 import { Modal } from "antd";
-import moment from "moment";
+import dayjs from "dayjs";
 import React, { Component } from "react";
 import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, RouteProps, withRouter } from "react-router";
@@ -34,8 +34,8 @@ class SecureRoute extends Component<Props> {
     checkTokenExpired = () => {
         if (!this.props.tokenData) return;
 
-        const expiryDate = moment.unix(this.props.tokenData.exp);
-        const hasExpired = moment().isAfter(expiryDate);
+        const expiryDate = dayjs.unix(this.props.tokenData.exp);
+        const hasExpired = dayjs().isAfter(expiryDate);
 
         if (hasExpired && !this.modalSet) {
             this.modalSet = true;

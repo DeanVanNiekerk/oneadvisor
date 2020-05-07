@@ -1,5 +1,5 @@
 import { ColumnProps } from "antd/lib/table";
-import moment from "moment";
+import dayjs from "dayjs";
 import { createSelector } from "reselect";
 
 import { getColumnDefinition } from "@/app/table";
@@ -181,10 +181,10 @@ export const projectionGroupTableRowsSelector: (
 
         items = appendProjectedValues(now, items);
 
-        const monthsBackDate = moment(now).subtract(monthsBack, "months").startOf("month");
+        const monthsBackDate = dayjs(now).subtract(monthsBack, "month").startOf("month");
 
         items = items.filter((d) =>
-            moment(new Date(d.dateYear, d.dateMonth - 1, 1)).isSameOrAfter(monthsBackDate)
+            isSameOrAfter(dayjs(new Date(d.dateYear, d.dateMonth - 1, 1)), monthsBackDate)
         );
 
         let rows: GroupTableRecord[] = [];
@@ -324,7 +324,7 @@ const getTableRow = (
     filter?: TableRowFilter
 ) => {
     let monthIndex = 0;
-    const current = moment(now).startOf("month").subtract(monthsBack, "months");
+    let current = dayjs(now).startOf("month").subtract(monthsBack, "month");
 
     while (monthsBack + monthsForward >= monthIndex) {
         const key = current.format(DATE_FORMAT);
@@ -340,7 +340,7 @@ const getTableRow = (
 
         row[key] = value;
 
-        current.add(1, "months");
+        current = current.add(1, "month");
         monthIndex = monthIndex + 1;
     }
 
@@ -353,7 +353,7 @@ const appendProjectedValues = (
 ): PastRevenueCommissionData[] => {
     const itemsWithProjected = [...items];
 
-    const lastMonth = moment(now).subtract(1, "months");
+    const lastMonth = dayjs(now).subtract(1, "month");
 
     //Add monthly annuity values
     const monthlyAnnuityItems = items.filter(
@@ -366,7 +366,7 @@ const appendProjectedValues = (
     monthlyAnnuityItems.forEach((item) => {
         let monthIndex = 1;
         while (monthIndex <= 12) {
-            const current = moment(now).add(monthIndex, "months");
+            const current = dayjs(now).add(monthIndex, "month");
 
             itemsWithProjected.push({
                 policyTypeId: item.policyTypeId,
@@ -386,7 +386,7 @@ const appendProjectedValues = (
     );
 
     annualAnnuityItems.forEach((item) => {
-        const current = moment(new Date(item.dateYear, item.dateMonth - 1, 1)).add(1, "year");
+        const current = dayjs(new Date(item.dateYear, item.dateMonth - 1, 1)).add(1, "year");
 
         itemsWithProjected.push({
             policyTypeId: item.policyTypeId,
@@ -404,7 +404,7 @@ const appendProjectedValues = (
     );
 
     lifeFirstYearsItems.forEach((item) => {
-        const current = moment(new Date(item.dateYear, item.dateMonth - 1, 1)).add(1, "year");
+        const current = dayjs(new Date(item.dateYear, item.dateMonth - 1, 1)).add(1, "year");
 
         itemsWithProjected.push({
             policyTypeId: item.policyTypeId,
@@ -429,7 +429,7 @@ const getMonthColumns = (
     const columns: ColumnProps<GroupTableRecord>[] = [];
 
     while (monthsBack >= 0) {
-        const current = moment(now).startOf("month").subtract(monthsBack, "months");
+        const current = dayjs(now).startOf("month").subtract(monthsBack, "month");
 
         const key = current.format(DATE_FORMAT);
         const title = monthsBack === 0 ? "Current" : current.format("MMM");
@@ -453,7 +453,7 @@ const getMonthColumns = (
 
     let monthIndex = 1;
     while (monthIndex <= monthsForward) {
-        const current = moment(now).startOf("month").add(monthIndex, "months");
+        const current = dayjs(now).startOf("month").add(monthIndex, "month");
 
         const key = current.format(DATE_FORMAT);
         const title = current.format("MMM");
@@ -504,7 +504,7 @@ const projectionPolicyTypeChartDateFormat = "MMM YY";
 export const projectionPolicyTypeChartCurrentLabelSelector: (
     state: RootState
 ) => string = createSelector(todaySelector, (now: Date) => {
-    return `value.${moment(now).format(projectionPolicyTypeChartDateFormat)}`;
+    return `value.${dayjs(now).format(projectionPolicyTypeChartDateFormat)}`;
 });
 
 export const projectionPolicyTypeChartDataSelector: (
@@ -518,14 +518,14 @@ export const projectionPolicyTypeChartDataSelector: (
 
         items = appendProjectedValues(now, items);
 
-        const monthsBackDate = moment(now).subtract(monthsBack, "months").startOf("month");
+        const monthsBackDate = dayjs(now).subtract(monthsBack, "month").startOf("month");
 
         items = items.filter((d) =>
-            moment(new Date(d.dateYear, d.dateMonth - 1, 1)).isSameOrAfter(monthsBackDate)
+            isSameOrAfter(dayjs(new Date(d.dateYear, d.dateMonth - 1, 1)), monthsBackDate)
         );
 
         let monthIndex = 0;
-        const current = moment(now).subtract(monthsBack, "months");
+        let current = dayjs(now).subtract(monthsBack, "month");
 
         const data: BarDatum[] = [];
 
@@ -542,10 +542,14 @@ export const projectionPolicyTypeChartDataSelector: (
                 value: value,
             });
 
-            current.add(1, "months");
+            current = current.add(1, "month");
             monthIndex = monthIndex + 1;
         }
 
         return data;
     }
 );
+
+const isSameOrAfter = (d1: dayjs.Dayjs, d2: dayjs.Dayjs): boolean => {
+    return d1.isSame(d2) || d1.isAfter(d2);
+};
