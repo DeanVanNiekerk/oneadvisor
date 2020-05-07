@@ -5,6 +5,7 @@ export const defaultState: RoaInvestDataState = {
     fetching: false,
     data: {
         clientFullName: "",
+        clientIdNumber: "",
         userFullName: "",
         consultReason: "",
         investmentAdviceType: "",
