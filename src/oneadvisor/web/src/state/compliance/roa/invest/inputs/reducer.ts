@@ -11,6 +11,9 @@ export const defaultState: RoaInvestInputState = {
     needLumpsum: null,
     contributionMonthly: null,
     contributionLumpsum: null,
+    lifeExpectancy: null,
+    rateOfReturnCode: "",
+    retirementAge: null,
     discussedProductTypeIds: [],
     discussedCompanyIds: [],
     discussedFundCodes: [],
@@ -49,6 +52,24 @@ export const reducer = (
             return {
                 ...state,
                 needMonthly: action.payload,
+            };
+        }
+        case "COMPLIANCE_ROA_INVEST_INPUT_RETIREMENTAGE_RECEIVE": {
+            return {
+                ...state,
+                retirementAge: action.payload,
+            };
+        }
+        case "COMPLIANCE_ROA_INVEST_INPUT_LIFEEXPECTANCY_RECEIVE": {
+            return {
+                ...state,
+                lifeExpectancy: action.payload,
+            };
+        }
+        case "COMPLIANCE_ROA_INVEST_INPUT_RATEOFRETURNCODE_RECEIVE": {
+            return {
+                ...state,
+                rateOfReturnCode: action.payload,
             };
         }
         case "COMPLIANCE_ROA_INVEST_INPUT_NEEDLUMPSUM_RECEIVE": {

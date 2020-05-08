@@ -37,6 +37,9 @@ export const roaInvestInputsNeedsSelector: (
         needLumpsum: root.needLumpsum,
         contributionMonthly: root.contributionMonthly,
         contributionLumpsum: root.contributionLumpsum,
+        lifeExpectancy: root.lifeExpectancy,
+        rateOfReturnCode: root.rateOfReturnCode,
+        retirementAge: root.retirementAge,
     };
 });
 

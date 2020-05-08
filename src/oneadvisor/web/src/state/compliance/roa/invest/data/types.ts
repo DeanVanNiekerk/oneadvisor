@@ -15,6 +15,9 @@ export type RoaInvestData = {
     readonly needLumpsum: string;
     readonly contributionMonthly: string;
     readonly contributionLumpsum: string;
+    readonly retirementAge: string;
+    readonly lifeExpectancy: string;
+    readonly rateOfReturn: string;
 
     //Discussed
     readonly discussedProductTypes: string[];

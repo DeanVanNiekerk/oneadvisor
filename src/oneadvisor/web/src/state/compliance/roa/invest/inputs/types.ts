@@ -16,6 +16,9 @@ export type RoaInvestInputNeedsState = {
     readonly needLumpsum: number | null;
     readonly contributionMonthly: number | null;
     readonly contributionLumpsum: number | null;
+    readonly retirementAge: number | null;
+    readonly lifeExpectancy: number | null;
+    readonly rateOfReturnCode: string;
 };
 
 export type RoaInvestInputDiscussedState = {

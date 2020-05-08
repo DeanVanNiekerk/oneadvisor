@@ -35,6 +35,21 @@ type RoaInvestInputContributionLumpsumReceiveAction = {
     payload: number | null;
 };
 
+type RoaInvestInputRetirementAgeReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_RETIREMENTAGE_RECEIVE";
+    payload: number | null;
+};
+
+type RoaInvestInputLifeExpectancyReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_LIFEEXPECTANCY_RECEIVE";
+    payload: number | null;
+};
+
+type RoaInvestInputRateOfReturnCodeReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_INPUT_RATEOFRETURNCODE_RECEIVE";
+    payload: string;
+};
+
 type RoaInvestInputDiscussedProductTypeIdsReceiveAction = {
     type: "COMPLIANCE_ROA_INVEST_INPUT_DISCUSSEDPRODUCTTYPEIDS_RECEIVE";
     payload: string[];
@@ -113,7 +128,10 @@ export type RoaInvestInputAction =
     | RoaInvestInputInvestmentReceiveAction
     | RoaInvestInputAddInvestmentAction
     | RoaInvestInputRemoveInvestmentAction
-    | RoaInvestInputStateReceiveAction;
+    | RoaInvestInputStateReceiveAction
+    | RoaInvestInputRetirementAgeReceiveAction
+    | RoaInvestInputLifeExpectancyReceiveAction
+    | RoaInvestInputRateOfReturnCodeReceiveAction;
 
 export const receiveClientId = (clientId: string | null): RoaInvestInputClientIdReceiveAction => ({
     type: "COMPLIANCE_ROA_INVEST_INPUT_CLIENTID_RECEIVE",
@@ -123,6 +141,27 @@ export const receiveClientId = (clientId: string | null): RoaInvestInputClientId
 export const receiveConsultReason = (reason: string): RoaInvestInputConsultReasonReceiveAction => ({
     type: "COMPLIANCE_ROA_INVEST_INPUT_CONSULT_REASON_RECEIVE",
     payload: reason,
+});
+
+export const receiveRetirementAge = (
+    retirementAge: number | null
+): RoaInvestInputRetirementAgeReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_RETIREMENTAGE_RECEIVE",
+    payload: retirementAge,
+});
+
+export const receiveLifeExpectancy = (
+    lifeExpectancy: number | null
+): RoaInvestInputLifeExpectancyReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_LIFEEXPECTANCY_RECEIVE",
+    payload: lifeExpectancy,
+});
+
+export const receiveRateOfReturnCode = (
+    rateOfReturnCode: string
+): RoaInvestInputRateOfReturnCodeReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_INPUT_RATEOFRETURNCODE_RECEIVE",
+    payload: rateOfReturnCode,
 });
 
 export const receiveInvestmentAdviceTypeCode = (

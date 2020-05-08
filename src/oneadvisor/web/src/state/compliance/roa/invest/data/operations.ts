@@ -60,6 +60,9 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
             needLumpsum: formatCurrency(inputs.needLumpsum, currencyDecimal),
             contributionMonthly: formatCurrency(inputs.contributionMonthly, currencyDecimal),
             contributionLumpsum: formatCurrency(inputs.contributionLumpsum, currencyDecimal),
+            lifeExpectancy: formatNumber(inputs.lifeExpectancy),
+            retirementAge: formatNumber(inputs.retirementAge),
+            rateOfReturn: getRateOfReturnName(rootState, inputs.investmentAdviceTypeCode),
 
             discussedProductTypes: discussedProductTypeNames,
             discussedCompanies: discussedCompanyNames,
@@ -117,6 +120,13 @@ const getInvestmentAdviceTypeName = (
 ): string => {
     const lookups = roaInvestLookupsSelector(state);
     const type = lookups.investmentAdviceTypes.find((t) => t.code === investmentAdviceTypeCode);
+    if (!type) return "";
+    return type.name;
+};
+
+const getRateOfReturnName = (state: RootState, rateOfReturnCode: string): string => {
+    const lookups = roaInvestLookupsSelector(state);
+    const type = lookups.rateOfReturns.find((r) => r.code === rateOfReturnCode);
     if (!type) return "";
     return type.name;
 };
@@ -196,6 +206,10 @@ const getProductCharacteristics = (
 
 const formatPercent = (value: number | null, fallback = ""): string => {
     if (value === null || value === undefined) return fallback;
-
     return `${value.toString()}%`;
+};
+
+const formatNumber = (value: number | null, fallback = ""): string => {
+    if (value === null || value === undefined) return fallback;
+    return value.toString();
 };

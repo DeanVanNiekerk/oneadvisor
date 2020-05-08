@@ -10,8 +10,11 @@ import {
     receiveContributionLumpsum,
     receiveContributionMonthly,
     receiveInvestmentAdviceTypeCode,
+    receiveLifeExpectancy,
     receiveNeedLumpsum,
     receiveNeedMonthly,
+    receiveRateOfReturnCode,
+    receiveRetirementAge,
     roaInvestInputsNeedsSelector,
     roaInvestLookupsSelector,
 } from "@/state/compliance/roa";
@@ -69,6 +72,26 @@ const ClientObjectiveSection: React.FC<Props> = (props) => {
 
                 <Col md={24} xl={12}>
                     <Form>
+                        <FormInputNumber
+                            fieldName="retirementAge"
+                            label="Retirement Age"
+                            value={props.retirementAge}
+                            labelSpan={labelSpan}
+                            onChange={(_fieldName, value) =>
+                                props.receiveRetirementAge(value === undefined ? null : value)
+                            }
+                            precision={0}
+                        />
+                        <FormInputNumber
+                            fieldName="lifeExpectancy"
+                            label="Life Expectancy"
+                            value={props.lifeExpectancy}
+                            labelSpan={labelSpan}
+                            onChange={(_fieldName, value) =>
+                                props.receiveLifeExpectancy(value === undefined ? null : value)
+                            }
+                            precision={0}
+                        />
                         <FormSelect<string>
                             fieldName="investmentAdviceTypes"
                             label="Advice Type"
@@ -100,6 +123,16 @@ const ClientObjectiveSection: React.FC<Props> = (props) => {
                                 props.receiveNeedLumpsum(value === undefined ? null : value)
                             }
                             precision={0}
+                        />
+                        <FormSelect<string>
+                            fieldName="rateOfReturnCode"
+                            label="Assumed Rate of Return"
+                            options={props.rateOfReturns}
+                            optionsValue="code"
+                            optionsText="name"
+                            value={props.rateOfReturnCode}
+                            labelSpan={labelSpan}
+                            onChange={(_fieldName, values) => props.receiveRateOfReturnCode(values)}
                         />
                         <FormInputNumber
                             fieldName="contributionMonthly"
@@ -156,6 +189,10 @@ const mapStateToProps = (state: RootState) => {
         contributionMonthly: needsState.contributionMonthly,
         contributionLumpsum: needsState.contributionLumpsum,
         investmentAdviceTypes: lookupsState.investmentAdviceTypes,
+        retirementAge: needsState.retirementAge,
+        lifeExpectancy: needsState.lifeExpectancy,
+        rateOfReturnCode: needsState.rateOfReturnCode,
+        rateOfReturns: lookupsState.rateOfReturns,
     };
 };
 
@@ -171,6 +208,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
                 receiveNeedLumpsum,
                 receiveContributionMonthly,
                 receiveContributionLumpsum,
+                receiveLifeExpectancy,
+                receiveRateOfReturnCode,
+                receiveRetirementAge,
             },
             dispatch
         ),
