@@ -6,10 +6,11 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { loadRoaInvestData } from "@/state/compliance/roa";
 import { RootState } from "@/state/types";
-import { Button, Drawer, Header } from "@/ui/controls";
+import { Button, Drawer, Header, TabPane, Tabs } from "@/ui/controls";
 
 import RoaPdf from "./generate/RoaPdf";
 import InputsPersistor from "./InputsPersistor";
+import RiskForm from "./risk/RiskForm";
 import AdvisorRecommendationsSection from "./sections/AdvisorRecommendationsSection";
 import ClientChoiceSection from "./sections/ClientChoiceSection";
 import ClientNeedsSection from "./sections/ClientNeedsSection";
@@ -20,6 +21,7 @@ type Props = PropsFromDispatch;
 
 const RoaInvest: React.FC<Props> = (props) => {
     const [showPreview, setShowPreview] = useState<boolean>(false);
+    const [activeTab, setActiveTab] = useState("details_tab");
 
     return (
         <>
@@ -43,7 +45,19 @@ const RoaInvest: React.FC<Props> = (props) => {
                 Record of Advice: Invest
             </Header>
 
-            <CardsContainer />
+            <Tabs
+                onChange={setActiveTab}
+                activeKey={activeTab}
+                sticky={true}
+                transparentBackgroud={true}
+            >
+                <TabPane tab="Details" key="details_tab">
+                    <CardsContainer />
+                </TabPane>
+                <TabPane tab="Risk" key="risk_tab">
+                    <RiskForm />
+                </TabPane>
+            </Tabs>
 
             <Drawer
                 title="Record of Advice: Invest"

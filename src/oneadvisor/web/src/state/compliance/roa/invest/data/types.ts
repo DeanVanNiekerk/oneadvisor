@@ -7,6 +7,8 @@ export type RoaInvestData = {
     readonly userFullName: string;
     readonly clientFullName: string;
     readonly clientIdNumber: string;
+    readonly clientAge: string;
+    readonly clientYearsToRetirement: string;
 
     //Needs
     readonly consultReason: string;

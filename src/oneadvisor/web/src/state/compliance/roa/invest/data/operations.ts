@@ -1,7 +1,7 @@
 import { AnyAction } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { formatCurrency } from "@/app/utils";
+import { formatCurrency, getAge } from "@/app/utils";
 import { userFullNameSelector } from "@/state/auth/token/selectors";
 import {
     getClient,
@@ -30,7 +30,11 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
 
         const inputs = roaInvestInputsSelector(rootState);
 
-        const { fullName, idNumber } = await getClientFullName(dispatch, inputs.clientId);
+        const { fullName, idNumber, age, yearsToRetirement } = await getClientDetails(
+            dispatch,
+            inputs.clientId,
+            inputs.retirementAge
+        );
         const userFullName = userFullNameSelector(rootState);
 
         const discussedCompanyNames = getCompanyNames(rootState, inputs.discussedCompanyIds);
@@ -50,6 +54,8 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
         const data: RoaInvestData = {
             clientFullName: fullName,
             clientIdNumber: idNumber,
+            clientAge: age,
+            clientYearsToRetirement: yearsToRetirement,
             userFullName: userFullName,
             consultReason: inputs.consultReason,
             investmentAdviceType: getInvestmentAdviceTypeName(
@@ -62,7 +68,7 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
             contributionLumpsum: formatCurrency(inputs.contributionLumpsum, currencyDecimal),
             lifeExpectancy: formatNumber(inputs.lifeExpectancy),
             retirementAge: formatNumber(inputs.retirementAge),
-            rateOfReturn: getRateOfReturnName(rootState, inputs.investmentAdviceTypeCode),
+            rateOfReturn: getRateOfReturnName(rootState, inputs.rateOfReturnCode),
 
             discussedProductTypes: discussedProductTypeNames,
             discussedCompanies: discussedCompanyNames,
@@ -89,12 +95,20 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
 type ClientDetails = {
     fullName: string;
     idNumber: string;
+    age: string;
+    yearsToRetirement: string;
 };
-const getClientFullName = (dispatch: Dispatch, clientId: string | null): Promise<ClientDetails> => {
+const getClientDetails = (
+    dispatch: Dispatch,
+    clientId: string | null,
+    retirementAge: number | null
+): Promise<ClientDetails> => {
     let fullName = "";
     let idNumber = "";
+    let age = "";
+    let yearsToRetirement = "";
 
-    if (!clientId) return Promise.resolve({ fullName, idNumber });
+    if (!clientId) return Promise.resolve({ fullName, idNumber, age, yearsToRetirement });
 
     return new Promise<ClientDetails>((resolve) => {
         dispatch(
@@ -104,10 +118,16 @@ const getClientFullName = (dispatch: Dispatch, clientId: string | null): Promise
                 (client) => {
                     fullName = `${client.firstName ? client.firstName : ""} ${client.lastName}`;
                     idNumber = client.idNumber;
+
+                    const ageNumber = getAge(client.dateOfBirth);
+                    age = ageNumber != null ? ageNumber.toString() : "";
+
+                    if (ageNumber && retirementAge)
+                        yearsToRetirement = (retirementAge - ageNumber).toString();
                 },
                 //Always
                 () => {
-                    resolve({ fullName, idNumber });
+                    resolve({ fullName, idNumber, age, yearsToRetirement });
                 }
             )
         );

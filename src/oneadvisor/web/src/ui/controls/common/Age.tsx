@@ -7,7 +7,9 @@ type Props = {
 };
 
 const Age: React.FC<Props> = (props: Props) => {
-    return <span>{getAge(props.dateOfBirth)}</span>;
+    const age = getAge(props.dateOfBirth);
+
+    return <span>{age ? age : ""}</span>;
 };
 
 export { Age };

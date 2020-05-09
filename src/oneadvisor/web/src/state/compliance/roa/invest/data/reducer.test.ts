@@ -35,6 +35,11 @@ describe("roa invest reducer", () => {
             needLumpsum: "",
             contributionMonthly: "",
             contributionLumpsum: "",
+            clientAge: "",
+            clientYearsToRetirement: "",
+            lifeExpectancy: "",
+            rateOfReturn: "",
+            retirementAge: "",
 
             discussedProductTypes: [],
             discussedCompanies: [],

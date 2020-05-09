@@ -79,8 +79,8 @@ export const getYearOptions = () => {
     return years.reverse();
 };
 
-export const getAge = (dateOfBirth: string | null) => {
-    if (!dateOfBirth) return "";
+export const getAge = (dateOfBirth: string | null): number | null => {
+    if (!dateOfBirth) return null;
 
     const dob = dayjs(dateOfBirth);
 

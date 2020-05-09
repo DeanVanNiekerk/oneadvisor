@@ -45,6 +45,16 @@ export const defaultState: RoaInvestLookupsState = {
             name: "CPI + 6%",
         },
     ],
+    riskProfileCaptureModes: [
+        {
+            code: "manual",
+            name: "Manual",
+        },
+        {
+            code: "questionaire",
+            name: "Questionaire",
+        },
+    ],
 };
 
 export const reducer = (state: RoaInvestLookupsState = defaultState) => {
