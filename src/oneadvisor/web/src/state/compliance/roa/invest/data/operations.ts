@@ -2,11 +2,7 @@ import { AnyAction } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { formatCurrency, getAge } from "@/app/utils";
-import {
-    userFullNameSelector,
-    userOrganisationIdSelector,
-    userOrganisationNameSelector,
-} from "@/state/auth/token/selectors";
+import { userFullNameSelector, userOrganisationNameSelector } from "@/state/auth/token/selectors";
 import {
     getClient,
     policyProductTypesSelector,
