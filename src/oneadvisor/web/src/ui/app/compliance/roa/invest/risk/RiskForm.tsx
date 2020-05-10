@@ -12,6 +12,7 @@ import {
 import { RiskProfileCaptureMode } from "@/state/compliance/roa/invest/risk/types";
 import { Form, FormSelect } from "@/ui/controls";
 
+import RiskProfileManual from "./RiskProfileManual";
 import RiskQuestions from "./RiskQuestions";
 
 type Props = PropsFromState & PropsFromDispatch;
@@ -34,7 +35,8 @@ const RiskForm: React.FC<Props> = (props) => {
                 />
             </Form>
 
-            <RiskQuestions />
+            {props.captureMode === "questionaire" && <RiskQuestions />}
+            {props.captureMode === "manual" && <RiskProfileManual />}
         </Card>
     );
 };

@@ -55,6 +55,24 @@ export const defaultState: RoaInvestLookupsState = {
             name: "Questionaire",
         },
     ],
+    riskProfiles: [
+        {
+            code: "conservative",
+            name: "Conservative",
+        },
+        {
+            code: "moderately_conservative",
+            name: "Moderately Conservative",
+        },
+        {
+            code: "moderate",
+            name: "Moderate",
+        },
+        {
+            code: "moderately_aggressive",
+            name: "Moderately Aggressive",
+        },
+    ],
 };
 
 export const reducer = (state: RoaInvestLookupsState = defaultState) => {

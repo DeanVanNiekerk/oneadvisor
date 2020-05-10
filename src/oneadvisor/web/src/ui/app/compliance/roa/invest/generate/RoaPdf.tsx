@@ -14,6 +14,7 @@ import {
     ClientObjectives,
     Investments,
     OptionsDiscussed,
+    Risk,
     Signatures,
 } from "./parts";
 
@@ -40,7 +41,12 @@ const RoaPdf: React.FC<Props> = ({ data, fetching }) => {
                     <AdvisorRecommendation data={data} />
                     <Splitter />
                     <ClientChoice data={data} />
-                    <Splitter />
+                    <PageNumber />
+                </Page>
+                <Page size="A4" style={styles.page}>
+                    <Risk data={data} />
+                </Page>
+                <Page size="A4" style={styles.page}>
                     <Investments data={data} />
                     <Signatures data={data} />
                     <PageNumber />

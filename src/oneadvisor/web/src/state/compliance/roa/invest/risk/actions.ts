@@ -1,4 +1,4 @@
-import { RiskProfileCaptureMode, RiskProfileQuestionAnswers } from "./types";
+import { RiskProfileCaptureMode, RiskProfileCode, RiskProfileQuestionAnswers } from "./types";
 
 type RoaInvestDataRiskProfileQuestionAnswersReceiveAction = {
     type: "COMPLIANCE_ROA_INVEST_RISK_QUESTIONANSWERS_RECEIVE";
@@ -10,9 +10,15 @@ type RoaInvestDataRiskProfileCaptureModeReceiveAction = {
     payload: RiskProfileCaptureMode;
 };
 
+type RoaInvestDataRiskProfileCodeReceiveAction = {
+    type: "COMPLIANCE_ROA_INVEST_RISK_RISKPROFILE_RECEIVE";
+    payload: RiskProfileCode;
+};
+
 export type RoaInvestRiskAction =
     | RoaInvestDataRiskProfileQuestionAnswersReceiveAction
-    | RoaInvestDataRiskProfileCaptureModeReceiveAction;
+    | RoaInvestDataRiskProfileCaptureModeReceiveAction
+    | RoaInvestDataRiskProfileCodeReceiveAction;
 
 export const receiveQuestionAnswers = (
     questionAnswers: RiskProfileQuestionAnswers
@@ -26,4 +32,11 @@ export const receiveCaptureMode = (
 ): RoaInvestDataRiskProfileCaptureModeReceiveAction => ({
     type: "COMPLIANCE_ROA_INVEST_RISK_CAPTUREMODE_RECEIVE",
     payload: mode,
+});
+
+export const receiveRiskProfileCode = (
+    code: RiskProfileCode
+): RoaInvestDataRiskProfileCodeReceiveAction => ({
+    type: "COMPLIANCE_ROA_INVEST_RISK_RISKPROFILE_RECEIVE",
+    payload: code,
 });

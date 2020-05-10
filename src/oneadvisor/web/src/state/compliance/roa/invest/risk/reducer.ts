@@ -6,6 +6,7 @@ export const defaultState: RoaInvestRiskState = {
     riskProfileCaptureMode: "questionaire",
     riskProfileQuestions: getRiskProfileQuestions(),
     riskProfileQuestionAnswers: {},
+    riskProfileCode: "moderate",
 };
 
 export const reducer = (state: RoaInvestRiskState = defaultState, action: RoaInvestRiskAction) => {
@@ -20,6 +21,12 @@ export const reducer = (state: RoaInvestRiskState = defaultState, action: RoaInv
             return {
                 ...state,
                 riskProfileCaptureMode: action.payload,
+            };
+        }
+        case "COMPLIANCE_ROA_INVEST_RISK_RISKPROFILE_RECEIVE": {
+            return {
+                ...state,
+                riskProfileCode: action.payload,
             };
         }
         default:

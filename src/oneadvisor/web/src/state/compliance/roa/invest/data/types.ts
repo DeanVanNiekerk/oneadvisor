@@ -1,3 +1,5 @@
+import { RiskProfileCode } from "../risk/types";
+
 export type RoaInvestDataState = {
     readonly fetching: boolean;
     readonly data: RoaInvestData;
@@ -37,6 +39,10 @@ export type RoaInvestData = {
 
     //Investments
     readonly investments: InvestmentData[];
+
+    //Risk
+    readonly riskProfileCode: RiskProfileCode;
+    readonly riskScore: number | null;
 };
 
 export type InvestmentData = {

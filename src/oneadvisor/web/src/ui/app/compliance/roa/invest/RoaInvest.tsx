@@ -7,6 +7,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { loadRoaInvestData } from "@/state/compliance/roa";
 import { RootState } from "@/state/types";
 import { Button, Drawer, Header, TabPane, Tabs } from "@/ui/controls";
+import { BACKGROUND_COLOR } from "@/ui/styles";
 
 import RoaPdf from "./generate/RoaPdf";
 import InputsPersistor from "./InputsPersistor";
@@ -49,7 +50,7 @@ const RoaInvest: React.FC<Props> = (props) => {
                 onChange={setActiveTab}
                 activeKey={activeTab}
                 sticky={true}
-                transparentBackgroud={true}
+                backgroundColor={BACKGROUND_COLOR}
             >
                 <TabPane tab="Details" key="details_tab">
                     <CardsContainer />

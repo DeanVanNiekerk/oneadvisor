@@ -14,8 +14,11 @@ import { RootState } from "@/state/types";
 import {
     receiveData,
     receiveFetching,
+    roaInvestCalculatedRiskProfileCodeSelector,
     roaInvestInputsSelector,
     roaInvestLookupsSelector,
+    roaInvestRiskCaptureModeSelector,
+    roaInvestRiskProfileScoreSelector,
 } from "../";
 import { Investment } from "../inputs/types";
 import { InvestmentData, ProductTypeCharacteristics, RoaInvestData } from "./types";
@@ -51,6 +54,11 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
 
         const currencyDecimal = 0;
 
+        let riskScore: number | null = roaInvestRiskProfileScoreSelector(rootState);
+        const captureMode = roaInvestRiskCaptureModeSelector(rootState);
+
+        if (captureMode === "manual") riskScore = null;
+
         const data: RoaInvestData = {
             clientFullName: fullName,
             clientIdNumber: idNumber,
@@ -84,6 +92,9 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
             investments: inputs.investments.map((investment, index) =>
                 getInvestmentData(rootState, index, investment, currencyDecimal)
             ),
+
+            riskProfileCode: roaInvestCalculatedRiskProfileCodeSelector(rootState),
+            riskScore: riskScore,
         };
 
         dispatch(receiveData(data));

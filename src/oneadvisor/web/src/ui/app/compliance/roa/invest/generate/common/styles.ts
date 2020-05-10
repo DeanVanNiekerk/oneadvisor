@@ -51,6 +51,15 @@ export const styles = StyleSheet.create({
     mt1: {
         marginTop: 4,
     },
+    mt2: {
+        marginTop: 8,
+    },
+    mt3: {
+        marginTop: 12,
+    },
+    mt4: {
+        marginTop: 16,
+    },
     mb1: {
         marginBottom: 4,
     },

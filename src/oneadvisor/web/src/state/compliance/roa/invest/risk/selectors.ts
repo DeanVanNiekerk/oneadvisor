@@ -4,6 +4,7 @@ import { RootState } from "@/state";
 
 import {
     RiskProfileCaptureMode,
+    RiskProfileCode,
     RiskProfileQuestion,
     RiskProfileQuestionAnswers,
     RoaInvestRiskState,
@@ -36,6 +37,12 @@ export const roaInvestRiskCaptureModeSelector: (
     return root.riskProfileCaptureMode;
 });
 
+export const roaInvestRiskProfileCodeSelector: (
+    state: RootState
+) => RiskProfileCode = createSelector(rootSelector, (root) => {
+    return root.riskProfileCode;
+});
+
 export const roaInvestRiskProfileScoreSelector: (state: RootState) => number = createSelector(
     roaInvestRiskQuestionsSelector,
     roaInvestRiskQuestionAnswersSelector,
@@ -61,3 +68,22 @@ export const roaInvestRiskQuestionAnswerCodesSelector: (
             return !!answerCode;
         }) as string[];
 });
+
+export const roaInvestCalculatedRiskProfileCodeSelector: (
+    state: RootState
+) => RiskProfileCode = createSelector(
+    roaInvestRiskProfileScoreSelector,
+    roaInvestRiskCaptureModeSelector,
+    roaInvestRiskProfileCodeSelector,
+    (score, captureMode, riskProfileCode) => {
+        if (captureMode === "manual") return riskProfileCode;
+
+        if (score <= 224) return "conservative";
+
+        if (score <= 374) return "moderately_conservative";
+
+        if (score <= 524) return "moderate";
+
+        return "moderately_aggressive";
+    }
+);

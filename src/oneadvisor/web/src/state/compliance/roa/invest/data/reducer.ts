@@ -31,6 +31,9 @@ export const defaultState: RoaInvestDataState = {
         clientChoice: "",
 
         investments: [],
+
+        riskProfileCode: "moderate",
+        riskScore: null,
     },
 };
 
