@@ -7,6 +7,8 @@ export const defaultState: RoaInvestDataState = {
         clientFullName: "",
         clientIdNumber: "",
         userFullName: "",
+        riskProfileName: "",
+        userOrganisationName: "",
         consultReason: "",
         clientAge: "",
         clientYearsToRetirement: "",

@@ -2,7 +2,11 @@ import { AnyAction } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { formatCurrency, getAge } from "@/app/utils";
-import { userFullNameSelector } from "@/state/auth/token/selectors";
+import {
+    userFullNameSelector,
+    userOrganisationIdSelector,
+    userOrganisationNameSelector,
+} from "@/state/auth/token/selectors";
 import {
     getClient,
     policyProductTypesSelector,
@@ -59,12 +63,15 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
 
         if (captureMode === "manual") riskScore = null;
 
+        const riskProfileCode = roaInvestCalculatedRiskProfileCodeSelector(rootState);
+
         const data: RoaInvestData = {
             clientFullName: fullName,
             clientIdNumber: idNumber,
             clientAge: age,
             clientYearsToRetirement: yearsToRetirement,
             userFullName: userFullName,
+            userOrganisationName: userOrganisationNameSelector(rootState),
             consultReason: inputs.consultReason,
             investmentAdviceType: getInvestmentAdviceTypeName(
                 rootState,
@@ -93,7 +100,8 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
                 getInvestmentData(rootState, index, investment, currencyDecimal)
             ),
 
-            riskProfileCode: roaInvestCalculatedRiskProfileCodeSelector(rootState),
+            riskProfileCode: riskProfileCode,
+            riskProfileName: getRiskProfileName(rootState, riskProfileCode),
             riskScore: riskScore,
         };
 
@@ -153,6 +161,13 @@ const getInvestmentAdviceTypeName = (
     const type = lookups.investmentAdviceTypes.find((t) => t.code === investmentAdviceTypeCode);
     if (!type) return "";
     return type.name;
+};
+
+const getRiskProfileName = (state: RootState, riskProfileCode: string): string => {
+    const lookups = roaInvestLookupsSelector(state);
+    const profile = lookups.riskProfiles.find((r) => r.code === riskProfileCode);
+    if (!profile) return "";
+    return profile.name;
 };
 
 const getRateOfReturnName = (state: RootState, rateOfReturnCode: string): string => {

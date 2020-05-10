@@ -11,6 +11,7 @@ export type RoaInvestData = {
     readonly clientIdNumber: string;
     readonly clientAge: string;
     readonly clientYearsToRetirement: string;
+    readonly userOrganisationName: string;
 
     //Needs
     readonly consultReason: string;
@@ -42,6 +43,7 @@ export type RoaInvestData = {
 
     //Risk
     readonly riskProfileCode: RiskProfileCode;
+    readonly riskProfileName: string;
     readonly riskScore: number | null;
 };
 

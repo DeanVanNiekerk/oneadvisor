@@ -1,7 +1,6 @@
 import React from "react";
 
 import { RoaInvestData } from "@/state/compliance/roa/invest/data/types";
-import { RiskProfile } from "@/state/compliance/roa/invest/lookups/types";
 import { RiskProfileCode } from "@/state/compliance/roa/invest/risk/types";
 import ReactPDF, { StyleSheet, Text, View } from "@react-pdf/renderer";
 
@@ -179,9 +178,9 @@ const Risk: React.FC<Props> = ({ data }) => {
                 </View>
             </View>
 
-            <View style={[commonStyles.mt4, { lineHeight: 10 }]}>
+            <View style={[commonStyles.mt4, { lineHeight: 1.5 }]}>
                 <Text>
-                    {`This risk profile is used to assist us in advising you on an appropriate investment portfolio. The profile is not intended to offer any guarantee. No representation, guarantee or warranty is made by ${1} as to the performance or investment returns of the underlying investment options selected by the client, and Smith and Bormann CC} accepts no responsibility or liability for any direct, indirect or consequential loss arising from the investment in the underlying investment options selected by the client. Past performance is not necessarily a guide to the future and investors may not get back the full amount invested. This assessment is built on the theoretical correlation between risk tolerance and investment term, liquidity needs and attitude towards risk. Should the client not feel comfortable with the outcome of this assessment your specific requirements should take precedence.`}
+                    {`This risk profile is used to assist us in advising you on an appropriate investment portfolio. The profile is not intended to offer any guarantee. No representation, guarantee or warranty is made by ${data.userOrganisationName} as to the performance or investment returns of the underlying investment options selected by the client, and Smith and Bormann CC} accepts no responsibility or liability for any direct, indirect or consequential loss arising from the investment in the underlying investment options selected by the client. Past performance is not necessarily a guide to the future and investors may not get back the full amount invested. This assessment is built on the theoretical correlation between risk tolerance and investment term, liquidity needs and attitude towards risk. Should the client not feel comfortable with the outcome of this assessment your specific requirements should take precedence.`}
                 </Text>
             </View>
         </View>

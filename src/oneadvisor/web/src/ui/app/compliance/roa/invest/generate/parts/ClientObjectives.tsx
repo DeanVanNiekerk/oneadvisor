@@ -46,20 +46,17 @@ const ClientObjectives: React.FC<Props> = ({ data }) => {
 
     const riskUnderstanding = () => {
         let text = "";
-        let riskProfile = "moderate investor";
 
-        if (riskProfile) {
-            text = `After discussing your attitude and understanding of risk`;
+        text = `After discussing your attitude and understanding of risk`;
 
-            if (data.clientYearsToRetirement) {
-                text = `${text}, and considering you are ${data.clientYearsToRetirement} years from retirement`;
-            }
+        if (data.clientYearsToRetirement) {
+            text = `${text}, and considering you are ${data.clientYearsToRetirement} years from retirement`;
+        }
 
-            text = `${text}, your risk profile is assessed as a ${riskProfile}.`;
+        text = `${text}, your risk profile is assessed as a ${data.riskProfileName}.`;
 
-            if (data.rateOfReturn) {
-                text = `${text} Your expectation of returns is ${data.rateOfReturn}.`;
-            }
+        if (data.rateOfReturn) {
+            text = `${text} Your expectation of returns is ${data.rateOfReturn}.`;
         }
 
         return text;

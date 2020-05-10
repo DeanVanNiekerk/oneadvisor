@@ -53,6 +53,11 @@ describe("roa invest reducer", () => {
             clientChoice: "",
 
             investments: [],
+
+            riskProfileCode: "conservative",
+            riskScore: 100,
+            riskProfileName: "",
+            userOrganisationName: "",
         };
 
         const actualState = reducer(initalState, {
