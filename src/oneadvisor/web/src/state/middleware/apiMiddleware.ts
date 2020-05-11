@@ -151,7 +151,7 @@ const handleError = (
             10
         );
     }
-    console.log(error);
+    console.error(error);
 
     //Fetching Error
     if (dispatchPrefix) {
@@ -176,7 +176,7 @@ const handleValidationError = (
         if (showNotifications) {
             showNotification("error", "Server Error: Validation", error, 10);
         }
-        console.log(error);
+        //log('debug', error);
 
         if (dispatchPrefix) {
             store.dispatch({

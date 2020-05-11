@@ -99,7 +99,7 @@ See `.vscode/extensions.json`
 ## Release Notes
 
 ```html
-<h4>HOTFIX: v1.2.x</h4>
-<p>Client > Policy > Policy Number in Use Bug Fix</p>
-<p>Client > Import > Policy Number as Number Bug Fix</p>
+<h4>Release: v1.2.7</h4>
+<p>Compliance > ROA Invest > General Updates</p>
+<p>Compliance > ROA Invest > Risk Sections</p>
 ```

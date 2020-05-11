@@ -38,7 +38,7 @@ const RoaInvest: React.FC<Props> = (props) => {
                                 setShowPreview(true);
                             }}
                         >
-                            Preview
+                            Generate Pdf
                         </Button>
                     </>
                 }
