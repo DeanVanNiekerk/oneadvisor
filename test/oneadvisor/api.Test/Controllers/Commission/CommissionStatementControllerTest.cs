@@ -19,7 +19,7 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void CommissionStatementModelComposition()
         {
-            Assert.Equal(11, typeof(CommissionStatement).PropertyCount());
+            Assert.Equal(12, typeof(CommissionStatement).PropertyCount());
             Assert.True(typeof(CommissionStatement).HasProperty("Id"));
             Assert.True(typeof(CommissionStatement).HasProperty("AmountIncludingVAT"));
             Assert.True(typeof(CommissionStatement).HasProperty("VAT"));
@@ -31,18 +31,20 @@ namespace api.Test.Controllers.Commission
             Assert.True(typeof(CommissionStatement).HasProperty("Date"));
             Assert.True(typeof(CommissionStatement).HasProperty("MappingErrorCount"));
             Assert.True(typeof(CommissionStatement).HasProperty("Processed"));
+            Assert.True(typeof(CommissionStatement).HasProperty("Notes"));
         }
 
         [Fact]
         public void CommissionStatementEditModelComposition()
         {
-            Assert.Equal(6, typeof(CommissionStatementEdit).PropertyCount());
+            Assert.Equal(7, typeof(CommissionStatementEdit).PropertyCount());
             Assert.True(typeof(CommissionStatementEdit).HasProperty("Id"));
             Assert.True(typeof(CommissionStatementEdit).HasProperty("AmountIncludingVAT"));
             Assert.True(typeof(CommissionStatementEdit).HasProperty("VAT"));
             Assert.True(typeof(CommissionStatementEdit).HasProperty("CompanyId"));
             Assert.True(typeof(CommissionStatementEdit).HasProperty("Date"));
             Assert.True(typeof(CommissionStatementEdit).HasProperty("Processed"));
+            Assert.True(typeof(CommissionStatementEdit).HasProperty("Notes"));
         }
 
         [Fact]

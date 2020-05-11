@@ -7,7 +7,14 @@ import { filterOption } from "@/app/controls/select";
 import { RootState } from "@/state";
 import { modifyStatement, StatementEdit, statementSelector } from "@/state/commission/statements";
 import { organisationCompaniesSelector } from "@/state/lookups/directory";
-import { Form, FormDate, FormInputNumber, FormSelect, FormSwitch } from "@/ui/controls";
+import {
+    Form,
+    FormDate,
+    FormInputNumber,
+    FormSelect,
+    FormSwitch,
+    FormTextArea,
+} from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;
 
@@ -83,6 +90,13 @@ const StatementForm: React.FC<Props> = ({
                 value={statement.processed}
                 onChange={onChange}
                 validationResults={validationResults}
+            />
+            <FormTextArea
+                fieldName="notes"
+                label="Notes"
+                value={statement.notes || ""}
+                rows={3}
+                onChange={onChange}
             />
         </Form>
     );

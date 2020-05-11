@@ -46,6 +46,7 @@ describe("statement list reducer", () => {
             companyId: "321",
             companyName: "Comp1",
             processed: false,
+            notes: "note 1",
             amountIncludingVAT: 100,
             vat: 14,
             date: "2001-01-01",

@@ -89,6 +89,7 @@ export const newStatement = (): ThunkAction<void, RootState, {}, StatementReceiv
             vat: 0,
             companyId: companies[0].id,
             processed: false,
+            notes: null,
             date: date.format(),
         };
 

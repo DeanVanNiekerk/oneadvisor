@@ -1,7 +1,4 @@
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using OneAdvisor.Data.ValueConverters;
-using OneAdvisor.Model.Client.Model.Lookup;
 
 namespace OneAdvisor.Data.Entities.Client.Lookup.Mappings
 {
@@ -9,13 +6,10 @@ namespace OneAdvisor.Data.Entities.Client.Lookup.Mappings
     {
         public static void Map(ModelBuilder modelBuilder)
         {
-            var jsonListStringConverter = new JsonValueConverter<IEnumerable<PolicyTypeCharacteristicDescription>>();
-
             modelBuilder.Entity<PolicyProductTypeEntity>()
-                .Property(e => e.PolicyTypeCharacteristics)
-                .HasConversion(jsonListStringConverter)
-                .HasJsonComparer()
-                .HasDefaultValueSql("'[]'");
+             .Property(e => e._PolicyTypeCharacteristics)
+             .HasColumnName("PolicyTypeCharacteristics")
+             .HasDefaultValueSql("'[]'");
         }
     }
 }

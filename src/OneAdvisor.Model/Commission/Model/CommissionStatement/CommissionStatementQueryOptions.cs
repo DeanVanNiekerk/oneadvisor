@@ -32,6 +32,10 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatement
             resultDate = GetFilterValue<DateTime>("EndDate");
             if (resultDate.Success)
                 EndDate = resultDate.Value;
+
+            var resultString = GetFilterValue<string>("Notes");
+            if (resultString.Success)
+                Notes = resultString.Value;
         }
 
         public ScopeOptions Scope { get; set; }
@@ -41,6 +45,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatement
         public DateTime? EndDate { get; set; }
         public Guid? CommissionStatementId { get; set; }
         public List<Guid> CompanyId { get; set; }
+        public string Notes { get; set; }
 
     }
 }

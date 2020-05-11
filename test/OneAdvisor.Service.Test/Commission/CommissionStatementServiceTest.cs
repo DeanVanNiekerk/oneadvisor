@@ -9,7 +9,6 @@ using OneAdvisor.Service.Commission;
 using OneAdvisor.Model.Commission.Model.CommissionStatement;
 using Moq;
 using OneAdvisor.Service.Common.BulkActions;
-using OneAdvisor.Service.Directory;
 using OneAdvisor.Service.Test.Directory.Mocks;
 
 namespace OneAdvisor.Service.Test.Commission
@@ -35,7 +34,8 @@ namespace OneAdvisor.Service.Test.Commission
                 VAT = 11,
                 Date = DateTime.Now,
                 Processed = true,
-                OrganisationId = user1.Organisation.Id
+                OrganisationId = user1.Organisation.Id,
+                Notes = "note 1"
             };
 
             var cs2 = new CommissionStatementEntity
@@ -46,7 +46,8 @@ namespace OneAdvisor.Service.Test.Commission
                 VAT = 22,
                 Date = DateTime.Now.AddDays(-1),
                 Processed = false,
-                OrganisationId = user1.Organisation.Id
+                OrganisationId = user1.Organisation.Id,
+                Notes = "note 2"
             };
 
             var cs3 = new CommissionStatementEntity
@@ -57,7 +58,8 @@ namespace OneAdvisor.Service.Test.Commission
                 VAT = 33,
                 Date = DateTime.Now.AddDays(-2),
                 Processed = false,
-                OrganisationId = user1.Organisation.Id
+                OrganisationId = user1.Organisation.Id,
+                Notes = "note 3"
             };
 
             var cs4 = new CommissionStatementEntity
@@ -68,7 +70,8 @@ namespace OneAdvisor.Service.Test.Commission
                 VAT = 44,
                 Date = DateTime.Now.AddDays(-2),
                 Processed = false,
-                OrganisationId = user2.Organisation.Id
+                OrganisationId = user2.Organisation.Id,
+                Notes = "note 4"
             };
 
             var commission1a = new CommissionEntity
@@ -79,7 +82,7 @@ namespace OneAdvisor.Service.Test.Commission
                 AmountIncludingVAT = 50,
                 VAT = 5,
                 CommissionStatementId = cs1.Id,
-                UserId = user1.User.Id,
+                UserId = user1.User.Id
             };
 
             var commission1b = new CommissionEntity
@@ -167,6 +170,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(cs1.AmountIncludingVAT, actual.AmountIncludingVAT);
                 Assert.Equal(cs1.VAT, actual.VAT);
                 Assert.Equal(cs1.Processed, actual.Processed);
+                Assert.Equal(cs1.Notes, actual.Notes);
                 Assert.Equal(cs1.OrganisationId, user1.Organisation.Id);
                 Assert.Equal(100, actual.ActualAmountIncludingVAT);
                 Assert.Equal(10, actual.ActualVAT);
@@ -297,7 +301,8 @@ namespace OneAdvisor.Service.Test.Commission
                 VAT = 10,
                 Date = DateTime.Now,
                 Processed = true,
-                OrganisationId = user1.Organisation.Id
+                OrganisationId = user1.Organisation.Id,
+                Notes = "note 1"
             };
 
             var cs2 = new CommissionStatementEntity
@@ -308,7 +313,8 @@ namespace OneAdvisor.Service.Test.Commission
                 VAT = 20,
                 Date = DateTime.Now.AddDays(-1),
                 Processed = false,
-                OrganisationId = user1.Organisation.Id
+                OrganisationId = user1.Organisation.Id,
+                Notes = "note 2"
             };
 
             using (var context = new DataContext(options))
@@ -336,6 +342,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(cs2.VAT, actual.VAT);
                 Assert.Equal(cs2.OrganisationId, user1.Organisation.Id);
                 Assert.Equal(cs2.Processed, actual.Processed);
+                Assert.Equal(cs2.Notes, actual.Notes);
 
                 //Check scope
                 scope = TestHelper.GetScopeOptions(user2);
@@ -360,7 +367,8 @@ namespace OneAdvisor.Service.Test.Commission
                 AmountIncludingVAT = 100,
                 VAT = 10,
                 Date = DateTime.Now,
-                Processed = true
+                Processed = true,
+                Notes = "note 1"
             };
 
             using (var context = new DataContext(options))
@@ -382,11 +390,9 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(cs1.VAT, actual.VAT);
                 Assert.Equal(user1.Organisation.Id, user1.Organisation.Id);
                 Assert.Equal(cs1.Processed, actual.Processed);
+                Assert.Equal(cs1.Notes, actual.Notes);
             }
         }
-
-
-
 
         [Fact]
         public async Task UpdateCommissionStatement()
@@ -404,7 +410,8 @@ namespace OneAdvisor.Service.Test.Commission
                 VAT = 10,
                 Date = DateTime.Now,
                 Processed = true,
-                OrganisationId = user1.Organisation.Id
+                OrganisationId = user1.Organisation.Id,
+                Notes = "note 1"
             };
 
             var cs2 = new CommissionStatementEntity
@@ -415,7 +422,8 @@ namespace OneAdvisor.Service.Test.Commission
                 VAT = 20,
                 Date = DateTime.Now.AddDays(-1),
                 Processed = false,
-                OrganisationId = user1.Organisation.Id
+                OrganisationId = user1.Organisation.Id,
+                Notes = "note 2"
             };
 
             using (var context = new DataContext(options))
@@ -438,7 +446,8 @@ namespace OneAdvisor.Service.Test.Commission
                     AmountIncludingVAT = 300,
                     VAT = 30,
                     Date = DateTime.Now.AddDays(-10),
-                    Processed = true
+                    Processed = true,
+                    Notes = "note 2 updated"
                 };
 
                 //When
@@ -455,6 +464,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(model.VAT, actual.VAT);
                 Assert.Equal(user1.Organisation.Id, user1.Organisation.Id);
                 Assert.Equal(model.Processed, actual.Processed);
+                Assert.Equal(model.Notes, actual.Notes);
 
                 //Out of scope 
                 scopeOptions = TestHelper.GetScopeOptions(user2, Scope.User);

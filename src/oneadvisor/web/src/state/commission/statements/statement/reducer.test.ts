@@ -10,6 +10,7 @@ const defaultStatement: StatementEdit = {
     amountIncludingVAT: 100,
     vat: 14,
     date: "2001-01-01",
+    notes: "note 1",
 };
 
 describe("statement reducer", () => {

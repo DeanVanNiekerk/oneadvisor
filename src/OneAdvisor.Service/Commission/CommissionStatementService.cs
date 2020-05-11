@@ -54,6 +54,9 @@ namespace OneAdvisor.Service.Commission
 
             if (queryOptions.EndDate.HasValue)
                 query = query.Where(c => c.Date <= queryOptions.EndDate.Value.Date);
+
+            if (!string.IsNullOrWhiteSpace(queryOptions.Notes))
+                query = query.Where(m => EF.Functions.Like(m.Notes, queryOptions.Notes));
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedCommissionStatements();
@@ -99,6 +102,7 @@ namespace OneAdvisor.Service.Commission
                                  VAT = commissionStatement.VAT,
                                  Date = commissionStatement.Date,
                                  Processed = commissionStatement.Processed,
+                                 Notes = commissionStatement.Notes,
                                  ActualAmountIncludingVAT = commissionQuery.Where(c => c.CommissionStatementId == commissionStatement.Id).Select(c => c.AmountIncludingVAT).Sum(),
                                  ActualVAT = commissionQuery.Where(c => c.CommissionStatementId == commissionStatement.Id).Select(c => c.VAT).Sum(),
                                  CommissionCount = commissionQuery.Where(c => c.CommissionStatementId == commissionStatement.Id).Count(),
@@ -193,7 +197,8 @@ namespace OneAdvisor.Service.Commission
                             AmountIncludingVAT = commissionStatement.AmountIncludingVAT,
                             VAT = commissionStatement.VAT,
                             Date = commissionStatement.Date,
-                            Processed = commissionStatement.Processed
+                            Processed = commissionStatement.Processed,
+                            Notes = commissionStatement.Notes,
                         };
 
             return query;
@@ -221,6 +226,7 @@ namespace OneAdvisor.Service.Commission
             entity.VAT = model.VAT.Value;
             entity.Date = model.Date.Value.Date;
             entity.Processed = model.Processed.Value;
+            entity.Notes = model.Notes;
 
             return entity;
         }

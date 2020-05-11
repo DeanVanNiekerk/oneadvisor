@@ -254,7 +254,7 @@ namespace OneAdvisor.Service.Test.Client
                 Assert.Equal(lkp1.Name, actual1.Name);
                 Assert.Equal(lkp1.Code, actual1.Code);
                 Assert.Equal(lkp1.PolicyTypeId, actual1.PolicyTypeId);
-                Assert.Equal(lkp1.PolicyTypeCharacteristics, actual1.PolicyTypeCharacteristics);
+                Assert.Equal(lkp1.PolicyTypeCharacteristics.Single().PolicyTypeCharacteristicId, actual1.PolicyTypeCharacteristics.Single().PolicyTypeCharacteristicId);
 
                 var actual2 = actual[1];
                 Assert.Equal(lkp2.Id, actual2.Id);
@@ -303,7 +303,7 @@ namespace OneAdvisor.Service.Test.Client
                 Assert.Equal(model.Name, actual.Name);
                 Assert.Equal(model.Code, actual.Code);
                 Assert.Equal(model.PolicyTypeId, actual.PolicyTypeId);
-                Assert.Equal(model.PolicyTypeCharacteristics, actual.PolicyTypeCharacteristics);
+                Assert.Equal(model.PolicyTypeCharacteristics.Single().PolicyTypeCharacteristicId, actual.PolicyTypeCharacteristics.Single().PolicyTypeCharacteristicId);
             }
         }
 
@@ -358,7 +358,7 @@ namespace OneAdvisor.Service.Test.Client
                 Assert.Equal(model.Name, actual.Name);
                 Assert.Equal(model.Code, actual.Code);
                 Assert.Equal(model.PolicyTypeId, actual.PolicyTypeId);
-                Assert.Equal(model.PolicyTypeCharacteristics, actual.PolicyTypeCharacteristics);
+                Assert.Equal(model.PolicyTypeCharacteristics.Single().PolicyTypeCharacteristicId, actual.PolicyTypeCharacteristics.Single().PolicyTypeCharacteristicId);
             }
         }
 

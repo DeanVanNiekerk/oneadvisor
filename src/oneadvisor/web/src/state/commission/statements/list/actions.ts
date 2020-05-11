@@ -1,7 +1,12 @@
 import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
 
-import { appendFiltersQuery, appendPageOptionQuery, appendSortOptionQuery } from "@/app/query";
+import {
+    appendFiltersQuery,
+    appendPageOptionQuery,
+    appendSortOptionQuery,
+    applyLike,
+} from "@/app/query";
 import { Filters, PageOptions, SortOptions } from "@/app/table";
 import { ApiAction } from "@/app/types";
 import { getMonthDateRange } from "@/app/utils";
@@ -64,6 +69,8 @@ export const fetchStatements = (): ThunkAction<void, RootState, {}, ApiAction> =
             endDate: [dateRange.end],
         };
 
+        filters = updateFilters(filters);
+
         sortOptions = mapSortOptions(sortOptions);
 
         let api = statementsApi;
@@ -78,6 +85,10 @@ export const fetchStatements = (): ThunkAction<void, RootState, {}, ApiAction> =
             dispatchPrefix: "STATEMENTS_LIST",
         });
     };
+};
+
+const updateFilters = (filters: Filters | null): Filters | null => {
+    return applyLike(filters, ["notes"]);
 };
 
 const mapSortOptions = (sortOptions: SortOptions): SortOptions => {

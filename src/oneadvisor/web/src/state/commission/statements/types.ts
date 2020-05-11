@@ -10,6 +10,7 @@ export type Statement = {
     amountIncludingVAT: number;
     vat: number;
     processed: boolean;
+    notes: string | null;
 
     mappingErrorCount: number;
     commissionCount: number;
@@ -27,6 +28,7 @@ export type StatementEdit = {
     amountIncludingVAT: number;
     vat: number;
     processed: boolean;
+    notes: string | null;
 };
 
 export interface PagedStatements extends PagedItems<Statement> {

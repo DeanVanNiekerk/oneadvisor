@@ -6,7 +6,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { AnyAction, bindActionCreators } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
-import { Filters, getColumnDefinition, PageOptions, SortOptions } from "@/app/table";
+import { Filters, getColumnDefinition, hasFilters, PageOptions, SortOptions } from "@/app/table";
 import { areEqual, formatCurrency, getMonthOptions, getYearOptions } from "@/app/utils";
 import { RootState } from "@/state";
 import {
@@ -30,7 +30,7 @@ import {
     updateMonthFilterPrevious,
 } from "@/state/commission/statements";
 import { organisationCompaniesSelector } from "@/state/lookups/directory";
-import { Button, CompanyName, getTable, Header } from "@/ui/controls";
+import { Button, CompanyName, getColumnSearchProps, getTable, Header } from "@/ui/controls";
 import { DownOutlined, FileExclamationOutlined } from "@ant-design/icons";
 
 import EditStatement from "../form/EditStatement";
@@ -103,6 +103,15 @@ const StatementList: React.FC<Props> = (props) => {
                     ],
                 }
             ),
+            getColumn(
+                "notes",
+                "Notes",
+                {},
+                {
+                    ...getColumnSearchProps("Notes"),
+                    ellipsis: true,
+                }
+            ),
         ];
     };
 
@@ -166,6 +175,14 @@ const StatementList: React.FC<Props> = (props) => {
                 iconName="reconciliation"
                 actions={
                     <>
+                        <Button
+                            danger={true}
+                            iconName="filter"
+                            onClick={() => props.updateFilters({})}
+                            visible={hasFilters(props.filters)}
+                        >
+                            Clear Filters
+                        </Button>
                         <Button
                             type="default"
                             iconName="plus"
