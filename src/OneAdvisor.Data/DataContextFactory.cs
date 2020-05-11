@@ -3,8 +3,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.EntityFrameworkCore.Migrations;
-using OneAdvisor.Data.Extensions;
 
 namespace OneAdvisor.Data
 {
@@ -15,9 +13,6 @@ namespace OneAdvisor.Data
             //This is the connection string used for local updates
             var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
             optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("OA_OneAdvisorDb"));
-
-            optionsBuilder.ReplaceService<IMigrationsAnnotationProvider, ExtendedSqlServerMigrationsAnnotationProvider>();
-            optionsBuilder.ReplaceService<IMigrationsSqlGenerator, ExtendedSqlServerMigrationsSqlGenerator>();
 
             return new DataContext(optionsBuilder.Options);
         }

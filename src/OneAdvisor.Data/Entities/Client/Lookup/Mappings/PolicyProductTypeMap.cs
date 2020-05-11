@@ -15,7 +15,7 @@ namespace OneAdvisor.Data.Entities.Client.Lookup.Mappings
                 .Property(e => e.PolicyTypeCharacteristics)
                 .HasConversion(jsonListStringConverter)
                 .HasJsonComparer()
-                .HasDefaultValueSql("'[]'"); ;
+                .HasDefaultValueSql("'[]'");
         }
     }
 }

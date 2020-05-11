@@ -38,6 +38,7 @@ namespace OneAdvisor.Data.Entities.Commission
         public int DateYear { get; internal set; }
         [Required]
         public bool Processed { get; set; }
+        public string Notes { get; set; }
 
         public virtual CompanyEntity Company { get; set; }
         public virtual OrganisationEntity Organisation { get; set; }
