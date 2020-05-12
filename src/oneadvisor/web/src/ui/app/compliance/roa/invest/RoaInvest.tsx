@@ -17,6 +17,7 @@ import ClientChoiceSection from "./sections/ClientChoiceSection";
 import ClientNeedsSection from "./sections/ClientNeedsSection";
 import InvestmentListSection from "./sections/InvestmentListSection";
 import OptionsDiscussedSection from "./sections/OptionsDiscussedSection";
+import TextSubstitutionInfo from "./TextSubstitutionInfo";
 
 type Props = PropsFromDispatch;
 
@@ -30,6 +31,7 @@ const RoaInvest: React.FC<Props> = (props) => {
                 iconName="file-done"
                 actions={
                     <>
+                        <TextSubstitutionInfo />
                         <Button
                             type="primary"
                             iconName="file-pdf"

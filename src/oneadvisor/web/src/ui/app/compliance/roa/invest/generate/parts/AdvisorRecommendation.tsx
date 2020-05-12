@@ -4,6 +4,7 @@ import { RoaInvestData } from "@/state/compliance/roa/invest/data/types";
 import { Text, View } from "@react-pdf/renderer";
 
 import { FieldValues, styles } from "../common";
+import { substituteText } from "../utils";
 
 type Props = {
     data: RoaInvestData;
@@ -27,7 +28,7 @@ const AdvisorRecommendation: React.FC<Props> = ({ data }) => {
             <FieldValues fieldName="Funds Recommended" values={data.recommendedFunds} />
 
             <View style={styles.mb3}>
-                <Text>{data.recommendedAction}</Text>
+                <Text>{substituteText(data.recommendedAction, data)}</Text>
             </View>
         </>
     );

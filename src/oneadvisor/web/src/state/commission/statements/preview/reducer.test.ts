@@ -5,6 +5,7 @@ const defaultStatement: Statement = {
     id: "10",
     companyId: "321",
     processed: false,
+    notes: "",
     amountIncludingVAT: 100,
     vat: 14,
     date: "2001-01-01",

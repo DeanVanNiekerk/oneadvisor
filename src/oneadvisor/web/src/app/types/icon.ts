@@ -36,4 +36,5 @@ export type IconName =
     | "share-alt"
     | "filter"
     | "file-done"
-    | "file-pdf";
+    | "file-pdf"
+    | "swap";

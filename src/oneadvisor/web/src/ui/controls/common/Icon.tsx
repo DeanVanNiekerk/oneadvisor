@@ -37,6 +37,7 @@ import {
     SearchOutlined,
     SettingOutlined,
     ShareAltOutlined,
+    SwapOutlined,
     TeamOutlined,
     UserOutlined,
     VideoCameraOutlined,
@@ -129,6 +130,8 @@ const getIcon = (name?: IconName, style?: React.CSSProperties): React.ReactNode 
             return <FileDoneOutlined style={style} />;
         case "file-pdf":
             return <FilePdfOutlined style={style} />;
+        case "swap":
+            return <SwapOutlined style={style} />;
         default:
             return <span></span>;
     }
