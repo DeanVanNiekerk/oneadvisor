@@ -9,7 +9,7 @@ type Properties = {
 
 //Source: https://github.com/Matt-Esch/string-template/blob/master/index.js
 export const format = (text: string, properties: Properties) => {
-    var regexp = /\{([0-9a-zA-Z_]+)\}/g;
+    const regexp = /\{([0-9a-zA-Z_]+)\}/g;
 
     return text.replace(regexp, (match, property, index) => {
         let result: string | null;

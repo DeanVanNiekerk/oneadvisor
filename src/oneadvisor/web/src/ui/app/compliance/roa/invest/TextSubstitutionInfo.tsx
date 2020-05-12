@@ -103,6 +103,7 @@ const TextSubstitutionInfo: React.FC = () => {
                         <List.Item
                             actions={[
                                 <CopyToClipboard
+                                    key={option.name}
                                     text={`{${option.name}}`}
                                     onCopy={() => {
                                         showMessage("info", "Variable Copied", 2);
