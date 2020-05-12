@@ -54,7 +54,7 @@
     {
       "label": "start",
       "dependsOrder": "parallel",
-      "dependsOn": ["start-api", "start-web", "start-docz"],
+      "dependsOn": ["start-api", "start-web"],
       "problemMatcher": []
     }
   ]

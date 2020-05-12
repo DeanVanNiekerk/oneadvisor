@@ -101,6 +101,10 @@ PADDING
     padding-top: 3rem !important;
 }
 
+.pt-4 {
+    padding-top: 4rem !important;
+}
+
 .pb-05 {
     padding-bottom: 0.5rem !important;
 }
