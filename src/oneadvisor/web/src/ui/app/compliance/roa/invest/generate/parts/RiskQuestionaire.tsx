@@ -1,8 +1,7 @@
 import React from "react";
 
-import { RiskAnswer, RiskQuestion, RoaInvestData } from "@/state/compliance/roa/invest/data/types";
-import { RiskProfileCode } from "@/state/compliance/roa/invest/risk/types";
-import ReactPDF, { Canvas, StyleSheet, Text, View } from "@react-pdf/renderer";
+import { RiskAnswer, RiskQuestion } from "@/state/compliance/roa/invest/data/types";
+import { StyleSheet, Text, View } from "@react-pdf/renderer";
 
 import { styles as commonStyles } from "../common";
 

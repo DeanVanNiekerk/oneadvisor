@@ -18,24 +18,26 @@ namespace api.Test.Controllers.Commission
         [Fact]
         public void CommissionStatementTemplateModelComposition()
         {
-            Assert.Equal(5, typeof(CommissionStatementTemplate).PropertyCount());
+            Assert.Equal(6, typeof(CommissionStatementTemplate).PropertyCount());
             Assert.True(typeof(CommissionStatementTemplate).HasProperty("Id"));
             Assert.True(typeof(CommissionStatementTemplate).HasProperty("CompanyId"));
             Assert.True(typeof(CommissionStatementTemplate).HasProperty("Name"));
             Assert.True(typeof(CommissionStatementTemplate).HasProperty("StartDate"));
             Assert.True(typeof(CommissionStatementTemplate).HasProperty("EndDate"));
+            Assert.True(typeof(CommissionStatementTemplate).HasProperty("BrokerSpecific"));
         }
 
         [Fact]
         public void CommissionStatementTemplateEditModelComposition()
         {
-            Assert.Equal(6, typeof(CommissionStatementTemplateEdit).PropertyCount());
+            Assert.Equal(7, typeof(CommissionStatementTemplateEdit).PropertyCount());
             Assert.True(typeof(CommissionStatementTemplateEdit).HasProperty("Id"));
             Assert.True(typeof(CommissionStatementTemplateEdit).HasProperty("CompanyId"));
             Assert.True(typeof(CommissionStatementTemplateEdit).HasProperty("Name"));
             Assert.True(typeof(CommissionStatementTemplateEdit).HasProperty("Config"));
             Assert.True(typeof(CommissionStatementTemplateEdit).HasProperty("StartDate"));
             Assert.True(typeof(CommissionStatementTemplateEdit).HasProperty("EndDate"));
+            Assert.True(typeof(CommissionStatementTemplateEdit).HasProperty("BrokerSpecific"));
         }
 
         [Fact]

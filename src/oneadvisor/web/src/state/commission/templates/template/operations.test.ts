@@ -24,6 +24,7 @@ describe("commission statement template actions", () => {
             name: "321",
             startDate: "1999-12-31",
             endDate: "1999-12-31",
+            brokerSpecific: false,
             config: {
                 sheets: [],
             },
