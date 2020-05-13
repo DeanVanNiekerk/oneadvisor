@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using ExcelDataReader;
 using OneAdvisor.Model;
 using OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration;
@@ -28,7 +29,12 @@ namespace OneAdvisor.Import.Excel.Readers
             //Remove line breaks
             currentValue = currentValue.Replace(System.Environment.NewLine, "");
 
+            //Basic string compare
             Found = _identifier.Value.IgnoreCaseEquals(currentValue);
+
+            //If not found try as regex
+            if (!Found)
+                Found = Regex.Matches(currentValue, _identifier.Value).Count == 0;
         }
     }
 }

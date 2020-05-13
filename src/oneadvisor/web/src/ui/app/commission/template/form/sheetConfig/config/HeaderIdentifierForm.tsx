@@ -1,3 +1,4 @@
+import { Tooltip } from "antd";
 import update from "immutability-helper";
 import React from "react";
 import { connect } from "react-redux";
@@ -13,6 +14,7 @@ import {
     modifyCommissionStatementTemplateHeaderIdentifier,
 } from "@/state/commission/templates";
 import { Form, FormInput } from "@/ui/controls";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 type Props = PropsFromState & PropsFromDispatch;
 
@@ -42,6 +44,11 @@ const HeaderIdentifierForm: React.FC<Props> = ({
                 value={headerIdentifier.value}
                 onChange={onChange}
                 validationResults={validationResults}
+                addonAfter={
+                    <Tooltip title="This is a regular expression used to evaluate the match condition">
+                        <InfoCircleOutlined />
+                    </Tooltip>
+                }
             />
         </Form>
     );

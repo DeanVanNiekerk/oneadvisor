@@ -109,7 +109,7 @@ const CommissionTypesForm: React.FC<Props> = (props: Props) => {
                                     onTypesChange(fieldName, value, index);
                                 }}
                                 validationResults={validationResults}
-                                width="320px"
+                                width="310px"
                             />
                             <FormItemIcon icon={<ArrowRightOutlined />} />
                             <FormSelect
@@ -124,7 +124,7 @@ const CommissionTypesForm: React.FC<Props> = (props: Props) => {
                                 options={props.lookupCommissionTypes}
                                 optionsValue="code"
                                 optionsText="name"
-                                width="230px"
+                                width="210px"
                             />
                         </Form>
                     </List.Item>
