@@ -45,6 +45,7 @@ export type RoaInvestData = {
     readonly riskProfileCode: RiskProfileCode;
     readonly riskProfileName: string;
     readonly riskScore: number | null;
+    readonly riskQuestions: RiskQuestion[];
 };
 
 export type InvestmentData = {
@@ -67,4 +68,14 @@ export type InvestmentData = {
 export type ProductTypeCharacteristics = {
     readonly name: string;
     readonly description: string;
+};
+
+export type RiskQuestion = {
+    text: string;
+    answers: RiskAnswer[];
+};
+
+export type RiskAnswer = {
+    text: string;
+    isSelected: boolean;
 };

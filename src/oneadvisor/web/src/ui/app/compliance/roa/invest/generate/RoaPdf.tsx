@@ -35,16 +35,19 @@ const RoaPdf: React.FC<Props> = ({ data, fetching }) => {
                     <FieldValue fieldName="Client ID Number" value={data.clientIdNumber} />
 
                     <ClientObjectives data={data} />
-                    <Splitter />
+                    <PageNumber />
+                </Page>
+                <Page size="A4" style={styles.page}>
+                    <Risk data={data} />
+                    <PageNumber />
+                </Page>
+                <Page size="A4" style={styles.page}>
                     <OptionsDiscussed data={data} />
                     <Splitter />
                     <AdvisorRecommendation data={data} />
                     <Splitter />
                     <ClientChoice data={data} />
                     <PageNumber />
-                </Page>
-                <Page size="A4" style={styles.page}>
-                    <Risk data={data} />
                 </Page>
                 <Page size="A4" style={styles.page}>
                     <Investments data={data} />

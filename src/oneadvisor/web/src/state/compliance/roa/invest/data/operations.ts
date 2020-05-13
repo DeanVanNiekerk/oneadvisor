@@ -19,9 +19,12 @@ import {
     roaInvestLookupsSelector,
     roaInvestRiskCaptureModeSelector,
     roaInvestRiskProfileScoreSelector,
+    roaInvestRiskQuestionAnswersSelector,
+    roaInvestRiskQuestionsSelector,
 } from "../";
 import { Investment } from "../inputs/types";
-import { InvestmentData, ProductTypeCharacteristics, RoaInvestData } from "./types";
+import { RiskProfileCaptureMode } from "../risk/types";
+import { InvestmentData, ProductTypeCharacteristics, RiskQuestion, RoaInvestData } from "./types";
 
 type Dispatch = ThunkDispatch<RootState, {}, AnyAction>;
 
@@ -99,6 +102,7 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
             riskProfileCode: riskProfileCode,
             riskProfileName: getRiskProfileName(rootState, riskProfileCode),
             riskScore: riskScore,
+            riskQuestions: getRiskQuestions(rootState, captureMode),
         };
 
         dispatch(receiveData(data));
@@ -243,6 +247,29 @@ const getProductCharacteristics = (
             name: name,
             description: c.description,
         };
+    });
+};
+
+const getRiskQuestions = (
+    state: RootState,
+    captureMode: RiskProfileCaptureMode
+): RiskQuestion[] => {
+    if (captureMode === "manual") return [];
+
+    const questions = roaInvestRiskQuestionsSelector(state);
+    const answers = roaInvestRiskQuestionAnswersSelector(state);
+
+    return questions.map((q) => {
+        const riskQuestion: RiskQuestion = {
+            text: q.text,
+            answers: q.answers.map((a) => {
+                return {
+                    text: a.text,
+                    isSelected: answers[q.code] === a.code,
+                };
+            }),
+        };
+        return riskQuestion;
     });
 };
 

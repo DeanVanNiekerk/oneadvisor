@@ -29,10 +29,14 @@ const ClientObjectives: React.FC<Props> = ({ data }) => {
         let text = "";
 
         if (data.needMonthly) {
-            text = `After analysing your needs we worked out that you would require an income of ${data.needMonthly} per month`;
+            text = `With the information you provided me, we have calculated that you would require a present day value income of ${data.needMonthly} per month`;
 
             if (data.needLumpsum) {
-                text = `${text} and you have stipulated that you would like to have a capital sum of ${data.needLumpsum}`;
+                text = `${text} and you have stipulated that you would require a once off present day value lumpsum of ${data.needLumpsum}`;
+
+                if (data.retirementAge) {
+                    text = `${text}, at age ${data.retirementAge}`;
+                }
             }
 
             text = `${text}.`;
@@ -42,13 +46,13 @@ const ClientObjectives: React.FC<Props> = ({ data }) => {
     };
 
     const riskExpectations = () => {
-        return "Your expectations of investment returns needs to align to your risk profile. If you have high expectations you have to expect volatility in your portfolio over time, and if you have a low tolerance to risk the trade off for having a smoother ride  is that you need to have lower expectations of beating inflation and you must be prepared to contribute more to your plan.";
+        return "Your expectations of return on investment needs to align to your risk profile. If you have a higher tolerance of risk and expectations of higher returns, you should expect volatility in your portfolio.  However, if you have a lower tolerance towards risk you need to have a lower expectation of outperforming inflation over the long term.";
     };
 
     const riskUnderstanding = () => {
         let text = "";
 
-        text = `After discussing your attitude and understanding of risk`;
+        text = `After discussing your tolerance and understanding of risk`;
 
         if (data.clientYearsToRetirement) {
             text = `${text}, and considering you are ${data.clientYearsToRetirement} years from retirement`;
@@ -57,7 +61,7 @@ const ClientObjectives: React.FC<Props> = ({ data }) => {
         text = `${text}, your risk profile is assessed as a ${data.riskProfileName}.`;
 
         if (data.rateOfReturn) {
-            text = `${text} Your expectation of returns is ${data.rateOfReturn}.`;
+            text = `${text} In our calculations we have set your expectation of returns at ${data.rateOfReturn}.`;
         }
 
         return text;

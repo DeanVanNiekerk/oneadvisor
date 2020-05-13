@@ -58,6 +58,7 @@ describe("roa invest reducer", () => {
             riskScore: 100,
             riskProfileName: "",
             userOrganisationName: "",
+            riskQuestions: [],
         };
 
         const actualState = reducer(initalState, {
