@@ -60,7 +60,7 @@ namespace api.Controllers.Commission.Import
 
         [HttpPost("excel/{commissionStatementId}")]
         [UseCaseAuthorize("com_import_commissions")]
-        public async Task<IActionResult> Import(Guid commissionStatementId, [FromQuery] Guid commissionStatementTemplateId)
+        public async Task<IActionResult> Import(Guid commissionStatementId, [FromQuery] Guid commissionStatementTemplateId, [FromQuery] Guid? userId)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -72,6 +72,21 @@ namespace api.Controllers.Commission.Import
             var statement = await CommissionStatementService.GetCommissionStatement(scope, commissionStatementId);
 
             var template = await CommissionStatementTemplateService.GetTemplate(commissionStatementTemplateId);
+
+            string brokerFullName = null;
+            if (template.BrokerSpecific)
+            {
+                if (!userId.HasValue)
+                    return this.BadRequestMessage("UserId required for broker specific templates.");
+
+                var user = await UserService.GetUser(scope, userId.Value);
+
+                if (user == null)
+                    return this.BadRequestMessage("Invalid UserId.");
+
+                brokerFullName = $"{user.FirstName} {user.LastName}";
+            }
+
             var config = template.Config;
 
             var result = new ImportResult();
@@ -79,7 +94,7 @@ namespace api.Controllers.Commission.Import
             using (var stream = file.OpenReadStream())
             {
                 var vatRate = await DirectoryLookupService.GetVATRate(statement.Date ?? DateTime.Now);
-                var reader = new CommissionImportReader(config, vatRate);
+                var reader = new CommissionImportReader(config, vatRate, brokerFullName);
                 var items = reader.Read(stream);
 
                 result = await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);
@@ -117,7 +132,7 @@ namespace api.Controllers.Commission.Import
 
         [HttpPost("excel/{commissionStatementId}/reimport")]
         [UseCaseAuthorize("com_import_commissions")]
-        public async Task<IActionResult> Reimport(Guid commissionStatementId, [FromQuery] Guid commissionStatementTemplateId)
+        public async Task<IActionResult> Reimport(Guid commissionStatementId, [FromQuery] Guid commissionStatementTemplateId, [FromQuery] Guid? userId)
         {
             var scope = AuthenticationService.GetScope(User);
 
@@ -143,6 +158,20 @@ namespace api.Controllers.Commission.Import
 
             var template = await CommissionStatementTemplateService.GetTemplate(commissionStatementTemplateId);
 
+            string brokerFullName = null;
+            if (template.BrokerSpecific)
+            {
+                if (!userId.HasValue)
+                    return this.BadRequestMessage("UserId required for broker specific templates.");
+
+                var user = await UserService.GetUser(scope, userId.Value);
+
+                if (user == null)
+                    return this.BadRequestMessage("Invalid UserId.");
+
+                brokerFullName = $"{user.FirstName} {user.LastName}";
+            }
+
             await CommissionStatementService.DeleteCommissions(scope, commissionStatementId);
 
             var result = new ImportResult();
@@ -155,7 +184,7 @@ namespace api.Controllers.Commission.Import
 
                     var vatRate = await DirectoryLookupService.GetVATRate(statement.Date ?? DateTime.Now);
 
-                    var reader = new CommissionImportReader(template.Config, vatRate);
+                    var reader = new CommissionImportReader(template.Config, vatRate, brokerFullName);
                     var items = reader.Read(stream);
 
                     result = await CommissionImportService.ImportCommissions(scope, commissionStatementId, items);

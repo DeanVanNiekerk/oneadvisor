@@ -9,6 +9,7 @@ const template: CommissionStatementTemplateEdit = {
     name: "321",
     startDate: "1999-12-31",
     endDate: "1999-12-31",
+    brokerSpecific: false,
     config: {
         sheets: [],
     },

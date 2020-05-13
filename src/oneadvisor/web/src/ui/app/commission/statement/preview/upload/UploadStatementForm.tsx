@@ -12,6 +12,7 @@ import {
     commissionStatementTemplatesSelector,
     fetchCommissionStatementTemplates,
 } from "@/state/commission/templates";
+import { brokersSelector } from "@/state/lookups/directory";
 import { Form, FormField, FormSelect } from "@/ui/controls";
 import { Upload } from "@/ui/controls/common/Upload";
 import { showMessage } from "@/ui/feedback/notifcation";
@@ -23,7 +24,8 @@ type Props = {
     PropsFromDispatch;
 
 const UploadStatementForm: React.FC<Props> = (props: Props) => {
-    const [templateId, setTemplateId] = useState<string>();
+    const [templateId, setTemplateId] = useState<string | undefined>();
+    const [userId, setUserId] = useState<string | undefined>();
 
     useEffect(() => {
         const filters = {
@@ -32,6 +34,26 @@ const UploadStatementForm: React.FC<Props> = (props: Props) => {
         };
         props.fetchCommissionStatementTemplates(filters);
     }, []);
+
+    const isBrokerSpecific = (): boolean => {
+        if (!templateId) return false;
+
+        const template = props.templates.find((t) => t.id === templateId);
+
+        if (!template) return false;
+
+        return template.brokerSpecific;
+    };
+
+    const canUpload = () => {
+        if (props.fetchingTemplates) return false;
+
+        if (!templateId) return false;
+
+        if (isBrokerSpecific() && !userId) return false;
+
+        return true;
+    };
 
     const onUploaded = (result: ImportResult) => {
         if (result.results.length === 0)
@@ -68,16 +90,32 @@ const UploadStatementForm: React.FC<Props> = (props: Props) => {
                 loading={props.fetchingTemplates}
                 placeholder="Select Template"
             />
+            {isBrokerSpecific() && (
+                <FormSelect
+                    fieldName="userId"
+                    label="Broker"
+                    value={userId || ""}
+                    onChange={(fieldName: string, value: string) => {
+                        setUserId(value);
+                    }}
+                    options={props.users}
+                    optionsValue="id"
+                    optionsText="fullName"
+                    placeholder="Select Broker"
+                />
+            )}
             <FormField label="File">
                 <Upload
                     listType="text"
                     editUseCase="com_import_commissions"
-                    action={`${commissionsImportApi}/${props.statement.id}?commissionStatementTemplateId=${templateId}`}
+                    action={`${commissionsImportApi}/${
+                        props.statement.id
+                    }?commissionStatementTemplateId=${templateId}&userId=${userId ? userId : ""}`}
                     onUploaded={onUploaded}
                     onError={() => showMessage("error", "Commission Statement Imported Failed", 5)}
                     buttonText="Click to Upload"
                     accept=".xlsx"
-                    readonly={props.fetchingTemplates || !templateId}
+                    readonly={!canUpload()}
                 />
             </FormField>
         </Form>
@@ -92,6 +130,7 @@ const mapStateToProps = (state: RootState) => {
         token: token,
         fetchingTemplates: templatesState.fetching,
         templates: templatesState.items,
+        users: brokersSelector(state),
     };
 };
 

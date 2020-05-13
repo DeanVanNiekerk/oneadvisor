@@ -37,7 +37,8 @@ namespace OneAdvisor.Service.Commission
                             CompanyId = template.CompanyId,
                             Name = template.Name,
                             StartDate = template.StartDate,
-                            EndDate = template.EndDate
+                            EndDate = template.EndDate,
+                            BrokerSpecific = template.BrokerSpecific,
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -76,6 +77,7 @@ namespace OneAdvisor.Service.Commission
                             Name = template.Name,
                             StartDate = template.StartDate,
                             EndDate = template.EndDate,
+                            BrokerSpecific = template.BrokerSpecific,
                             Config = template.Config
                         };
 
@@ -179,6 +181,7 @@ namespace OneAdvisor.Service.Commission
             entity.Config = model.Config;
             entity.StartDate = model.StartDate.HasValue ? (DateTime?)model.StartDate.Value.Date : null;
             entity.EndDate = model.EndDate.HasValue ? (DateTime?)model.EndDate.Value.Date : null;
+            entity.BrokerSpecific = model.BrokerSpecific;
 
             return entity;
         }

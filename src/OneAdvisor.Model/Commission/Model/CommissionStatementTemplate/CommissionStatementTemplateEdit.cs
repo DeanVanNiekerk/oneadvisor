@@ -10,6 +10,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate
         public string Name { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+        public bool BrokerSpecific { get; set; }
         public OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Configuration.Config Config { get; set; }
     }
 }

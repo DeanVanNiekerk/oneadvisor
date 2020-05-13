@@ -56,6 +56,7 @@ export const newCommissionStatementTemplate = (): TemplateReceiveAction => {
         companyId: null,
         startDate: null,
         endDate: null,
+        brokerSpecific: false,
         config: {
             sheets: [
                 {

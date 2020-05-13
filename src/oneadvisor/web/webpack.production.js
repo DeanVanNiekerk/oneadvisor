@@ -13,7 +13,7 @@ module.exports = merge(common, {
 
     performance: {
         hints: "error",
-        maxEntrypointSize: 1380000, // 1.38 mg
+        maxEntrypointSize: 1390000, // 1.39 mg
         maxAssetSize: 2000000, //This is very big because of React-Pdf
     },
 

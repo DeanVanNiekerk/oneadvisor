@@ -79,6 +79,7 @@ const getColumns = (props: Props) => {
         ),
         getColumn("startDate", "Start", { type: "date" }),
         getColumn("endDate", "End", { type: "date" }),
+        getColumn("brokerSpecific", "Broker Specific", { type: "boolean" }),
     ];
 };
 

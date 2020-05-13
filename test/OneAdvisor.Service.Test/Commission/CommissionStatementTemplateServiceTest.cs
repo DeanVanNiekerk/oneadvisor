@@ -31,6 +31,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Name = "Template 1",
                 StartDate = DateTime.Now.AddDays(-1),
                 EndDate = DateTime.Now.AddDays(1),
+                BrokerSpecific = true,
                 Config = new Config()
             };
 
@@ -39,6 +40,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Id = Guid.NewGuid(),
                 CompanyId = Guid.NewGuid(),
                 Name = "Template 2",
+                BrokerSpecific = false,
                 StartDate = DateTime.Now.AddDays(-1),
                 EndDate = DateTime.Now.AddDays(1),
                 Config = new Config()
@@ -73,6 +75,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(temp1.CompanyId, actual1.CompanyId);
                 Assert.Equal(temp1.StartDate, actual1.StartDate);
                 Assert.Equal(temp1.EndDate, actual1.EndDate);
+                Assert.Equal(temp1.BrokerSpecific, actual1.BrokerSpecific);
 
                 var actual2 = templates[1];
                 Assert.Equal(temp2.Id, actual2.Id);
@@ -80,6 +83,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(temp2.CompanyId, actual2.CompanyId);
                 Assert.Equal(temp2.StartDate, actual2.StartDate);
                 Assert.Equal(temp2.EndDate, actual2.EndDate);
+                Assert.Equal(temp2.BrokerSpecific, actual2.BrokerSpecific);
             }
         }
 
@@ -99,6 +103,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Name = "Template 1",
                 StartDate = now.AddMonths(-1),
                 EndDate = now.AddMonths(1),
+                BrokerSpecific = true,
                 Config = new Config()
             };
 
@@ -110,6 +115,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Name = "Template 2",
                 StartDate = now.AddMonths(-12),
                 EndDate = now.AddMonths(-10),
+                BrokerSpecific = true,
                 Config = new Config()
             };
 
@@ -121,6 +127,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Name = "Template 3",
                 StartDate = now.AddMonths(-12),
                 EndDate = null,
+                BrokerSpecific = true,
                 Config = new Config()
             };
 
@@ -132,6 +139,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Name = "Template 4",
                 StartDate = now.AddDays(1),
                 EndDate = null,
+                BrokerSpecific = true,
                 Config = new Config()
             };
 
@@ -143,6 +151,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Name = "Template 5",
                 StartDate = null,
                 EndDate = now.AddMonths(1),
+                BrokerSpecific = true,
                 Config = new Config()
             };
 
@@ -154,6 +163,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Name = "Template 6",
                 StartDate = null,
                 EndDate = now.AddMonths(-5),
+                BrokerSpecific = true,
                 Config = new Config()
             };
 
@@ -209,6 +219,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Name = "Template 1",
                 StartDate = DateTime.Now.AddDays(-1),
                 EndDate = DateTime.Now.AddDays(1),
+                BrokerSpecific = true,
                 Config = new Config()
             };
 
@@ -239,6 +250,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(temp1.Config, actual.Config);
                 Assert.Equal(temp1.StartDate, actual.StartDate);
                 Assert.Equal(temp1.EndDate, actual.EndDate);
+                Assert.Equal(temp1.BrokerSpecific, actual.BrokerSpecific);
             }
         }
 
@@ -255,6 +267,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Name = "Template 1",
                 StartDate = DateTime.Now.AddDays(-1),
                 EndDate = DateTime.Now.AddDays(1),
+                BrokerSpecific = true,
                 Config = GetValidConfig()
             };
 
@@ -274,6 +287,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(temp1.Config, actual.Config);
                 Assert.Equal(temp1.StartDate.Value.Date, actual.StartDate);
                 Assert.Equal(temp1.EndDate.Value.Date, actual.EndDate);
+                Assert.Equal(temp1.BrokerSpecific, actual.BrokerSpecific);
             }
         }
 
@@ -289,6 +303,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Name = "Template 1",
                 StartDate = DateTime.Now.AddDays(-1),
                 EndDate = DateTime.Now.AddDays(1),
+                BrokerSpecific = true,
                 Config = new Config()
             };
 
@@ -314,6 +329,7 @@ namespace OneAdvisor.Service.Test.Commission
                     Name = "Template 1 updated",
                     StartDate = DateTime.Now.AddDays(-2),
                     EndDate = DateTime.Now.AddDays(2),
+                    BrokerSpecific = false,
                     Config = GetValidConfig()
                 };
 
@@ -331,6 +347,7 @@ namespace OneAdvisor.Service.Test.Commission
                 Assert.Equal(template.Config, actual.Config);
                 Assert.Equal(template.StartDate.Value.Date, actual.StartDate);
                 Assert.Equal(template.EndDate.Value.Date, actual.EndDate);
+                Assert.Equal(template.BrokerSpecific, actual.BrokerSpecific);
             }
         }
 

@@ -6,15 +6,17 @@ export type CommissionStatementTemplate = {
     name: string;
     startDate: string | null;
     endDate: string | null;
+    brokerSpecific: boolean;
 };
 
 export type CommissionStatementTemplateEdit = {
     id: string | null;
     companyId: string | null;
     name: string;
-    config: Config;
     startDate: string | null;
     endDate: string | null;
+    brokerSpecific: boolean;
+    config: Config;
 };
 
 export type Config = {

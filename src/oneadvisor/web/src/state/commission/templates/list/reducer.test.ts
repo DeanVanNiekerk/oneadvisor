@@ -46,6 +46,7 @@ describe("commission list reducer", () => {
             name: "Template 1",
             startDate: "1999-12-31",
             endDate: "1999-12-31",
+            brokerSpecific: false,
         };
 
         const actualState = reducer(initalState, {

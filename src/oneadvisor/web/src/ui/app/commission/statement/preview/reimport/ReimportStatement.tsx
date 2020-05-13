@@ -10,6 +10,7 @@ import {
     commissionStatementTemplatesSelector,
     fetchCommissionStatementTemplates,
 } from "@/state/commission/templates";
+import { brokersSelector } from "@/state/lookups/directory";
 import { Button, Form, FormSelect } from "@/ui/controls";
 import { showConfirm } from "@/ui/feedback/modal/confirm";
 import { showMessage } from "@/ui/feedback/notifcation";
@@ -21,7 +22,8 @@ type Props = {
     PropsFromDispatch;
 
 const ReimportStatement: React.FC<Props> = (props: Props) => {
-    const [templateId, setTemplateId] = useState<string>();
+    const [templateId, setTemplateId] = useState<string | undefined>();
+    const [userId, setUserId] = useState<string | undefined>();
     const [uploading, setUploading] = useState<boolean>(false);
 
     useEffect(() => {
@@ -31,6 +33,26 @@ const ReimportStatement: React.FC<Props> = (props: Props) => {
         };
         props.fetchCommissionStatementTemplates(filters);
     }, []);
+
+    const isBrokerSpecific = (): boolean => {
+        if (!templateId) return false;
+
+        const template = props.templates.find((t) => t.id === templateId);
+
+        if (!template) return false;
+
+        return template.brokerSpecific;
+    };
+
+    const canUpload = () => {
+        if (props.fetchingTemplates || uploading) return false;
+
+        if (!templateId) return false;
+
+        if (isBrokerSpecific() && !userId) return false;
+
+        return true;
+    };
 
     const reimportCommissions = () => {
         if (!templateId) return;
@@ -46,6 +68,7 @@ const ReimportStatement: React.FC<Props> = (props: Props) => {
                 props.reimportCommissions(
                     props.statement.id,
                     templateId,
+                    userId,
                     //Success
                     () => {
                         setUploading(false);
@@ -83,10 +106,24 @@ const ReimportStatement: React.FC<Props> = (props: Props) => {
                 loading={props.fetchingTemplates}
                 placeholder="Select Template"
             />
+            {isBrokerSpecific() && (
+                <FormSelect
+                    fieldName="userId"
+                    label="Broker"
+                    value={userId || ""}
+                    onChange={(fieldName: string, value: string) => {
+                        setUserId(value);
+                    }}
+                    options={props.users}
+                    optionsValue="id"
+                    optionsText="fullName"
+                    placeholder="Select Broker"
+                />
+            )}
             <Button
                 type="primary"
                 onClick={reimportCommissions}
-                disabled={!templateId || uploading}
+                disabled={!canUpload()}
                 className="pull-right"
             >
                 Reimport
@@ -102,6 +139,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         fetchingTemplates: templatesState.fetching,
         templates: templatesState.items,
+        users: brokersSelector(state),
     };
 };
 
@@ -114,6 +152,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         reimportCommissions: (
             commissionStatementId: string,
             commissionStatementTemplateId: string,
+            userId: string | undefined,
             onSuccess: () => void,
             onFailure: () => void
         ) => {
@@ -121,6 +160,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
                 reimportCommissions(
                     commissionStatementId,
                     commissionStatementTemplateId,
+                    userId,
                     onSuccess,
                     onFailure
                 )

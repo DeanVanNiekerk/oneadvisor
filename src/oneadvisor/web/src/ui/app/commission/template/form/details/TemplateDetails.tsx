@@ -11,7 +11,7 @@ import {
     modifyCommissionStatementTemplate,
 } from "@/state/commission/templates";
 import { companiesSelector } from "@/state/lookups/directory";
-import { Form, FormDate, FormInput, FormSelect } from "@/ui/controls";
+import { Form, FormDate, FormInput, FormSelect, FormSwitch } from "@/ui/controls";
 
 type Props = PropsFromState & PropsFromDispatch;
 
@@ -23,7 +23,10 @@ const TemplateDetails: React.FC<Props> = ({
 }) => {
     if (!template) return <React.Fragment />;
 
-    const onChange = (fieldName: keyof CommissionStatementTemplateEdit, value: string) => {
+    const onChange = (
+        fieldName: keyof CommissionStatementTemplateEdit,
+        value: string | null | boolean
+    ) => {
         handleChange(template, fieldName, value);
     };
 
@@ -65,6 +68,13 @@ const TemplateDetails: React.FC<Props> = ({
                 validationResults={validationResults}
                 extra="Inclusive end date. Leave empty if there is no end date."
             />
+            <FormSwitch
+                fieldName="brokerSpecific"
+                label="Broker Specific"
+                value={template.brokerSpecific}
+                onChange={onChange}
+                validationResults={validationResults}
+            />
         </Form>
     );
 };
@@ -86,7 +96,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         handleChange: (
             template: CommissionStatementTemplateEdit,
             fieldName: keyof CommissionStatementTemplateEdit,
-            value: string
+            value: string | null | boolean
         ) => {
             const templateModified = update(template, { [fieldName]: { $set: value } });
             dispatch(modifyCommissionStatementTemplate(templateModified));

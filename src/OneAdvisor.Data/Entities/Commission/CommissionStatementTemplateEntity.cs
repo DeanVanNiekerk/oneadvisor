@@ -15,6 +15,8 @@ namespace OneAdvisor.Data.Entities.Commission
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         [Required]
+        public bool BrokerSpecific { get; set; }
+        [Required]
         public Config Config { get; set; }
     }
 }

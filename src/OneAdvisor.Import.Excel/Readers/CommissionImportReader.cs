@@ -18,11 +18,13 @@ namespace OneAdvisor.Import.Excel.Readers
     {
         private Config _config;
         private decimal _vatRate;
+        private string _brokerFullName;
 
-        public CommissionImportReader(Config config, decimal vatRate)
+        public CommissionImportReader(Config config, decimal vatRate, string brokerFullName = null)
         {
             _config = config;
             _vatRate = vatRate;
+            _brokerFullName = brokerFullName;
         }
 
         public IEnumerable<ImportCommission> Read(Stream stream)
@@ -111,7 +113,9 @@ namespace OneAdvisor.Import.Excel.Readers
                 commission.VAT = GetCurrency(reader, FieldNames.VAT, config, sheetExchangeRates.ExchangeRates);
                 commission.AmountIncludingVAT = GetAmountIncludingVATValue(reader, config, sheetExchangeRates.ExchangeRates, commission.VAT, vatRate);
 
-                var brokerFullName = GetGroupValue(groupValues, GroupFieldNames.BrokerFullName);
+                var brokerFullName = _brokerFullName;
+                if (string.IsNullOrWhiteSpace(brokerFullName))
+                    brokerFullName = GetGroupValue(groupValues, GroupFieldNames.BrokerFullName);
                 if (string.IsNullOrWhiteSpace(brokerFullName))
                     brokerFullName = GetValue(reader, FieldNames.BrokerFullName, config);
 

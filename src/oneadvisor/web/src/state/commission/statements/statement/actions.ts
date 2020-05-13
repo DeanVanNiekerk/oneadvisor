@@ -173,11 +173,14 @@ export const deleteCommissions = (
 export const reimportCommissions = (
     commissionStatementId: string,
     commissionStatementTemplateId: string,
+    userId: string | undefined,
     onSuccess: ApiOnSuccess,
     onFailure: ApiOnFailure
 ): ApiAction => ({
     type: "API",
-    endpoint: `${commissionsImportApi}/${commissionStatementId}/reimport?commissionStatementTemplateId=${commissionStatementTemplateId}`,
+    endpoint: `${commissionsImportApi}/${commissionStatementId}/reimport?commissionStatementTemplateId=${commissionStatementTemplateId}&userId=${
+        userId ? userId : ""
+    }`,
     method: "POST",
     onSuccess: onSuccess,
     onFailure: onFailure,
