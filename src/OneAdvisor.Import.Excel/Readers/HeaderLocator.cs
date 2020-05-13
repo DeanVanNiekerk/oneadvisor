@@ -34,7 +34,7 @@ namespace OneAdvisor.Import.Excel.Readers
 
             //If not found try as regex
             if (!Found)
-                Found = Regex.Matches(currentValue, _identifier.Value).Count == 0;
+                Found = Regex.Matches(currentValue, _identifier.Value).Count > 0;
         }
     }
 }
