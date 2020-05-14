@@ -37,4 +37,5 @@ export type IconName =
     | "filter"
     | "file-done"
     | "file-pdf"
-    | "swap";
+    | "swap"
+    | "sync";

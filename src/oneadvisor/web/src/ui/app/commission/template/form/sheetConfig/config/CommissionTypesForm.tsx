@@ -18,6 +18,7 @@ import {
 import { Button, Form, FormErrors, FormInput, FormItemIcon, FormSelect } from "@/ui/controls";
 import { ArrowRightOutlined, InfoCircleOutlined } from "@ant-design/icons";
 
+import ExportImportCommissionTypes from "./ExportImportCommissionTypes";
 import SyncCommissionTypes from "./SyncCommissionTypes";
 
 type Props = PropsFromState & PropsFromDispatch;
@@ -92,6 +93,7 @@ const CommissionTypesForm: React.FC<Props> = (props: Props) => {
             </Button>
 
             <SyncCommissionTypes />
+            <ExportImportCommissionTypes />
 
             <List
                 bordered

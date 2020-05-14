@@ -20,7 +20,6 @@ import {
 } from "@/state/commission/templates";
 import { Button } from "@/ui/controls";
 import { showMessage } from "@/ui/feedback/notifcation";
-import { UploadOutlined } from "@ant-design/icons";
 
 type Props = PropsFromState & PropsFromDispatch;
 
@@ -87,9 +86,11 @@ const SyncCommissionTypes: React.FC<Props> = (props: Props) => {
             showUploadList={false}
             disabled={syncingCommissionTypes}
         >
-            <Button loading={syncingCommissionTypes}>
-                {!syncingCommissionTypes && <UploadOutlined />}
-                Sync Commission Types
+            <Button
+                loading={syncingCommissionTypes}
+                iconName={syncingCommissionTypes ? undefined : "sync"}
+            >
+                Sync
             </Button>
         </Upload>
     );

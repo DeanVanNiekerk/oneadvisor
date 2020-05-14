@@ -26,7 +26,7 @@ export const downloadExcelSheets = async (sheets: Sheet[], fileName: string) => 
     writeFile(workbook, fileName);
 };
 
-export const readExcel = async <T>(reader: FileReader): Promise<T[]> => {
+export const readExcel = async <T = string[]>(reader: FileReader): Promise<T[]> => {
     const { utils, read } = await import(/* webpackChunkName: "xlsx" */ "xlsx");
 
     const fileContents = reader.result;
@@ -37,5 +37,6 @@ export const readExcel = async <T>(reader: FileReader): Promise<T[]> => {
 
     return utils.sheet_to_json<T>(sheet1, {
         header: 1,
+        blankrows: false,
     });
 };

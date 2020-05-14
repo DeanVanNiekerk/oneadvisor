@@ -38,6 +38,7 @@ import {
     SettingOutlined,
     ShareAltOutlined,
     SwapOutlined,
+    SyncOutlined,
     TeamOutlined,
     UserOutlined,
     VideoCameraOutlined,
@@ -132,6 +133,8 @@ const getIcon = (name?: IconName, style?: React.CSSProperties): React.ReactNode 
             return <FilePdfOutlined style={style} />;
         case "swap":
             return <SwapOutlined style={style} />;
+        case "sync":
+            return <SyncOutlined style={style} />;
         default:
             return <span></span>;
     }
