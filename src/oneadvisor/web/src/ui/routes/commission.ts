@@ -2,7 +2,7 @@ import { lazy } from "react";
 
 import { reducerManager } from "@/state/configureStore";
 
-import { loadClientLookups } from "./client";
+import { ensureClientReducer, loadClientLookups } from "./client";
 import { loadDirectoryLookups } from "./directory";
 
 export const ensureCommissionReducer = async () => {
@@ -40,6 +40,7 @@ export const CommissionTypeList = lazy(() =>
 export const ClientRevenueReport = lazy(() =>
     import("@/ui/app/commission/reports/clientRevenue/ClientRevenueReport").then(async (module) => {
         await ensureCommissionReducer();
+        await ensureClientReducer();
         return module;
     })
 );

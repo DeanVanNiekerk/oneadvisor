@@ -20,6 +20,7 @@ type Props = {
     pageOptions: PageOptions;
     sortOptions: SortOptions;
     filters: CommissionLapseDataFilters;
+    fetching: boolean;
 } & DispatchProp;
 
 class CommissionLapseReport extends Component<Props> {
@@ -87,6 +88,10 @@ class CommissionLapseReport extends Component<Props> {
         return this.currentFilterDate().month() + 1;
     };
 
+    canChangeFilters = (): boolean => {
+        return !this.props.fetching;
+    };
+
     render() {
         return (
             <>
@@ -99,6 +104,7 @@ class CommissionLapseReport extends Component<Props> {
                             value={this.selectedMonth()}
                             onChange={this.handleMonthChange}
                             style={{ width: 125 }}
+                            disabled={!this.canChangeFilters()}
                         >
                             {getMonthOptions().map((month) => {
                                 return (
@@ -117,6 +123,7 @@ class CommissionLapseReport extends Component<Props> {
                             value={this.selectedYear()}
                             onChange={this.handleYearChange}
                             style={{ width: 90 }}
+                            disabled={!this.canChangeFilters()}
                         >
                             {getYearOptions().map((year) => {
                                 return (
@@ -141,6 +148,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         pageOptions: commissionLapseState.pageOptions,
         sortOptions: commissionLapseState.sortOptions,
+        fetching: commissionLapseState.fetching,
         filters: commissionLapseState.filters,
     };
 };

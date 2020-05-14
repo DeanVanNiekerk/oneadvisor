@@ -19,6 +19,7 @@ import { PolicyType } from "@/state/lookups/client/policyTypes/types";
 import { branchesSimpleSelector, BranchSimple } from "@/state/lookups/directory/branchesSimple";
 import { brokersSelector, UserSimple } from "@/state/lookups/directory/usersSimple";
 import { Button, ClientName, Drawer, Header, TabPane, Tabs } from "@/ui/controls";
+import { BACKGROUND_COLOR } from "@/ui/styles";
 import { BarChartOutlined, TableOutlined } from "@ant-design/icons";
 
 import AllocationList from "../../allocation/AllocationList";
@@ -317,7 +318,7 @@ class ClientRevenueReport extends Component<Props, State> {
                     activeKey={this.state.activeTab}
                     sticky={true}
                     tabBarGutter={0}
-                    transparentBackgroud={true}
+                    backgroundColor={BACKGROUND_COLOR}
                 >
                     <TabPane tab={<TableOutlined className="mx-1" />} key="table">
                         <ClientRevenueTable editAllocations={this.editAllocations} />

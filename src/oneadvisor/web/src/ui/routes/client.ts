@@ -5,7 +5,7 @@ import { fetchAllClientLookups } from "@/state/lookups/client";
 
 import { loadDirectoryLookups } from "./directory";
 
-const ensureClientReducer = async () => {
+export const ensureClientReducer = async () => {
     if (reducerManager.hasReducer("client")) return;
 
     //Inject reducer

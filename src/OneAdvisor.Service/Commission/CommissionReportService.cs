@@ -230,15 +230,13 @@ namespace OneAdvisor.Service.Commission
                 AnnualAnnuity MONEY,
                 OnceOff MONEY,
                 LifeFirstYears MONEY,
-                GrandTotal MONEY,
-                AllocationsCount INT
+                GrandTotal MONEY
             )
 
             INSERT INTO #CommissionQueryTemp
             SELECT
                 
-                {select},
-                0 AS 'AllocationsCount'
+                {select}
 
             FROM clt_Client m
             JOIN clt_Policy p ON p.ClientId = m.Id
@@ -257,15 +255,14 @@ namespace OneAdvisor.Service.Commission
             builder = AddPolicyTypeFilter(builder, options);
             builder = AddFilters(builder, options);
 
-            builder.Append($@"     
+            builder.Append($@"
             GROUP BY m.Id, m.LastName, m.Initials, m.DateOfBirth;
 
 
             INSERT INTO #CommissionQueryTemp
             SELECT
                 
-                {select},
-                COUNT(*) AS 'AllocationsCount'
+                {select}
 
             FROM clt_Client m
             JOIN com_CommissionAllocation ca on m.Id = ca.ToClientId
@@ -289,7 +286,18 @@ namespace OneAdvisor.Service.Commission
             builder.Append($@"
             GROUP BY m.Id, m.LastName, m.Initials, m.DateOfBirth;
 
-            WITH  
+            WITH
+            AllocationCounts
+            AS
+            (
+                SELECT 
+                    c.Id AS 'ClientId', 
+                    COUNT(a.ToClientId) AS 'AllocationCount' 
+                FROM clt_Client c
+                LEFT JOIN com_CommissionAllocation a ON c.Id = a.ToClientId
+                WHERE c.OrganisationId = '{options.Scope.OrganisationId}'
+                GROUP BY c.Id
+            ),
             CommissionQueryTotaled
             AS
             (
@@ -303,27 +311,27 @@ namespace OneAdvisor.Service.Commission
                     ((AnnualAnnuity / 12) + MonthlyAnnuityMonth) AS 'TotalMonthlyEarnings',
                     LifeFirstYears,
                     OnceOff,
-                    GrandTotal,
-                    AllocationsCount
+                    GrandTotal
                 FROM #CommissionQueryTemp
             ),
             CommissionQueryTotalGrouped
             AS
             (
-                SELECT 
-                ClientId, 
-                ClientLastName, 
-                ClientInitials, 
-                ClientDateOfBirth, 
-                SUM(MonthlyAnnuityMonth) AS 'MonthlyAnnuityMonth', 
-                SUM(AnnualAnnuityAverage) AS 'AnnualAnnuityAverage', 
-                SUM(TotalMonthlyEarnings) AS 'TotalMonthlyEarnings', 
-                SUM(LifeFirstYears) AS 'LifeFirstYears', 
-                SUM(OnceOff) AS 'OnceOff', 
-                SUM(GrandTotal) AS 'GrandTotal',
-                SUM(AllocationsCount) AS 'AllocationsCount' 
+                 SELECT
+                    CommissionQueryTotaled.ClientId,
+                    ClientLastName,
+                    ClientInitials,
+                    ClientDateOfBirth,
+                    SUM(MonthlyAnnuityMonth) AS 'MonthlyAnnuityMonth',
+                    SUM(AnnualAnnuityAverage) AS 'AnnualAnnuityAverage',
+                    SUM(TotalMonthlyEarnings) AS 'TotalMonthlyEarnings',
+                    SUM(LifeFirstYears) AS 'LifeFirstYears',
+                    SUM(OnceOff) AS 'OnceOff',
+                    SUM(GrandTotal) AS 'GrandTotal',
+                    MAX(AllocationCounts.AllocationCount) AS 'AllocationsCount'
                 FROM CommissionQueryTotaled
-                GROUP BY ClientId, ClientLastName, ClientInitials, ClientDateOfBirth
+                LEFT JOIN AllocationCounts ON CommissionQueryTotaled.ClientId = AllocationCounts.ClientId
+                GROUP BY CommissionQueryTotaled.ClientId, ClientLastName, ClientInitials, ClientDateOfBirth
             ),
             CommissionQueryNumbered AS 
             (

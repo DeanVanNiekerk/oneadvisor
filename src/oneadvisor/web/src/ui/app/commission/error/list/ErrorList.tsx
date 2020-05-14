@@ -58,7 +58,7 @@ const ErrorList: React.FC<Props> = (props: Props) => {
     };
 
     const deleteError = (id: string) => {
-        props.deleteMappingError(props.statement.id, id, load);
+        props.deleteMappingError(props.statement.id, id, onSaved);
     };
 
     const onSaved = () => {

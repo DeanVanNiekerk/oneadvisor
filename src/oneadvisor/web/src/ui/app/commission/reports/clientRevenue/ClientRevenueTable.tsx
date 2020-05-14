@@ -89,6 +89,7 @@ class ClientRevenueTable extends Component<Props> {
                     {
                         fixed: "right",
                         width: 40,
+                        sorter: false,
                         render: (value: string, record: ClientRevenueData) => {
                             return (
                                 <Badge dot count={record.allocationsCount}>

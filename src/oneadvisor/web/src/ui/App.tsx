@@ -16,7 +16,7 @@ const App: React.FC = () => {
     return (
         <>
             <FullStory org={__FULLSTORY_KEY__} />
-            <RenderInBrowser chrome firefox edge only>
+            <RenderInBrowser chrome firefox edge safari only>
                 <Provider store={store}>
                     <ConnectedRouter history={history}>
                         <Startup>
@@ -25,7 +25,7 @@ const App: React.FC = () => {
                     </ConnectedRouter>
                 </Provider>
             </RenderInBrowser>
-            <RenderInBrowser chrome firefox edge except>
+            <RenderInBrowser chrome firefox edge safari except>
                 <BrowserNotSupported />
             </RenderInBrowser>
         </>
