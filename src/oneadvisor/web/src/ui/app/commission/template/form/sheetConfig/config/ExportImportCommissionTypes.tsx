@@ -15,7 +15,6 @@ import {
     modifyCommissionStatementTemplateCommissionTypes,
 } from "@/state/commission/templates";
 import { Button } from "@/ui/controls";
-import { UploadOutlined } from "@ant-design/icons";
 
 type DataRow = {
     [key in string]: string;
@@ -53,12 +52,14 @@ const ExportImportCommissionTypes: React.FC<Props> = (props: Props) => {
     };
 
     const importCommissionTypes = ({ file, onSuccess }) => {
+        setIsImporting(true);
+
         const reader = new FileReader();
 
         reader.readAsArrayBuffer(file);
 
         reader.onload = async () => {
-            let data = await readExcel(reader);
+            const data = await readExcel(reader);
 
             //Remove header
             data.shift();
@@ -83,6 +84,8 @@ const ExportImportCommissionTypes: React.FC<Props> = (props: Props) => {
 
             if (props.commissionTypes) props.updateTypes(types, props.commissionTypes);
 
+            setIsImporting(false);
+
             onSuccess("done", file);
         };
     };
@@ -95,6 +98,7 @@ const ExportImportCommissionTypes: React.FC<Props> = (props: Props) => {
                 className="pull-right"
                 customRequest={importCommissionTypes}
                 showUploadList={false}
+                disabled={isImporting || isExporting}
             >
                 <Button disabled={isImporting} iconName="import">
                     Import
@@ -103,7 +107,7 @@ const ExportImportCommissionTypes: React.FC<Props> = (props: Props) => {
             <Button
                 className="pull-right"
                 onClick={exportCommissionTypes}
-                disabled={isExporting}
+                disabled={isExporting || isExporting}
                 iconName="export"
             >
                 Export
