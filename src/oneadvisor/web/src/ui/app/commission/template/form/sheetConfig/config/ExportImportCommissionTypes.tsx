@@ -8,12 +8,18 @@ import { ThunkDispatch } from "redux-thunk";
 import { downloadExcel, readExcel } from "@/app/excel/helpers";
 import { RootState } from "@/state";
 import {
+    commissionEarningsTypesSelector,
+    CommissionType,
+    commissionTypesSelector,
+} from "@/state/commission/lookups";
+import {
     commissionStatementTemplateCommissionTypesConfigSelector,
     commissionStatementTemplateSelector,
-    CommissionType,
+    CommissionType as ConfigCommissionType,
     CommissionTypes,
     modifyCommissionStatementTemplateCommissionTypes,
 } from "@/state/commission/templates";
+import { policyTypesSelector } from "@/state/lookups/client";
 import { Button } from "@/ui/controls";
 
 type DataRow = {
@@ -26,14 +32,15 @@ const ExportImportCommissionTypes: React.FC<Props> = (props: Props) => {
     const [isExporting, setIsExporting] = useState<boolean>(false);
     const [isImporting, setIsImporting] = useState<boolean>(false);
 
-    if (!props.commissionTypes) return <React.Fragment />;
+    if (!props.templateCommissionTypes) return <React.Fragment />;
 
     const exportCommissionTypes = async () => {
-        if (!props.commissionTypes) return;
+        if (!props.templateCommissionTypes) return;
 
         setIsExporting(true);
 
-        const data: DataRow[] = props.commissionTypes.types.map((type) => {
+        const data: DataRow[] = props.templateCommissionTypes.types.map((type) => {
+            const commissionType = getCommissionType(type.commissionTypeCode);
             const fragments = type.value.split(";");
             const rowData = fragments.reduce((p, c, i) => {
                 return {
@@ -44,11 +51,31 @@ const ExportImportCommissionTypes: React.FC<Props> = (props: Props) => {
             return {
                 ...rowData,
                 CommissionTypeCode: type.commissionTypeCode,
+                PolicyType: getPolicyTypeName(commissionType),
+                EarningsType: getEarningsTypeName(commissionType),
             };
         });
         await downloadExcel(data, `${props.templateName}_CommissionTypes.xlsx`);
 
         setIsExporting(false);
+    };
+
+    const getCommissionType = (commissionTypeCode: string): CommissionType | undefined => {
+        return props.commissionTypes.find((c) => c.code === commissionTypeCode);
+    };
+
+    const getPolicyTypeName = (commissionType?: CommissionType): string => {
+        if (!commissionType) return "";
+        const policyType = props.policyTypes.find((p) => p.id === commissionType.policyTypeId);
+        return policyType ? policyType.name : "";
+    };
+
+    const getEarningsTypeName = (commissionType?: CommissionType): string => {
+        if (!commissionType) return "";
+        const earningsType = props.earningsTypes.find(
+            (p) => p.id === commissionType.commissionEarningsTypeId
+        );
+        return earningsType ? earningsType.name : "";
     };
 
     const importCommissionTypes = ({ file, onSuccess }) => {
@@ -64,17 +91,19 @@ const ExportImportCommissionTypes: React.FC<Props> = (props: Props) => {
             //Remove header
             data.shift();
 
-            const types: CommissionType[] = data.map((cells) => {
-                const type: CommissionType = {
+            const types: ConfigCommissionType[] = data.map((cells) => {
+                const type: ConfigCommissionType = {
                     commissionTypeCode: "",
                     value: "",
                 };
 
                 if (cells.length < 2) return type;
 
-                type.commissionTypeCode = cells[cells.length - 1];
+                type.commissionTypeCode = cells[cells.length - 3];
 
-                //Remove the last item (the code)
+                //Remove the last 3 item2 (commissionTypeCode, earningsType, policyType)
+                cells.pop();
+                cells.pop();
                 cells.pop();
 
                 type.value = cells.join(";");
@@ -82,7 +111,8 @@ const ExportImportCommissionTypes: React.FC<Props> = (props: Props) => {
                 return type;
             });
 
-            if (props.commissionTypes) props.updateTypes(types, props.commissionTypes);
+            if (props.templateCommissionTypes)
+                props.updateTypes(types, props.templateCommissionTypes);
 
             setIsImporting(false);
 
@@ -121,14 +151,17 @@ const mapStateToProps = (state: RootState) => {
     const templateState = commissionStatementTemplateSelector(state);
     return {
         templateName: templateState.template ? templateState.template.name : "",
-        commissionTypes: commissionStatementTemplateCommissionTypesConfigSelector(state),
+        templateCommissionTypes: commissionStatementTemplateCommissionTypesConfigSelector(state),
+        commissionTypes: commissionTypesSelector(state).items,
+        earningsTypes: commissionEarningsTypesSelector(state).items,
+        policyTypes: policyTypesSelector(state).items,
     };
 };
 
 type PropsFromDispatch = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) => {
     return {
-        updateTypes: (types: CommissionType[], commissionTypes: CommissionTypes) => {
+        updateTypes: (types: ConfigCommissionType[], commissionTypes: CommissionTypes) => {
             const modifiedCommissionTypes = update(commissionTypes, {
                 types: {
                     $set: [...types],
