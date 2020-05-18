@@ -8,8 +8,8 @@ namespace OneAdvisor.Data.Entities.Client.Lookup.Mappings
         {
             modelBuilder.Entity<PolicyProductTypeEntity>()
              .Property(e => e._PolicyTypeCharacteristics)
-             .HasColumnName("PolicyTypeCharacteristics")
-             .HasDefaultValueSql("'[]'");
+             .HasColumnName("PolicyTypeCharacteristics");
+            // .HasDefaultValueSql("'[]'");
         }
     }
 }
