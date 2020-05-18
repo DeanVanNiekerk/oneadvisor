@@ -7,14 +7,14 @@ import {
     appendSortOptionQuery,
     applyLike,
 } from "@/app/query";
-import { Filters, PageOptions, SortOptions } from "@/app/table";
+import { PagedItems, PageOptions, SortOptions } from "@/app/table";
 import { ApiAction } from "@/app/types";
 import { SERVER_DATE_FORMAT } from "@/app/utils";
 import { commissionsApi } from "@/config/api/commission";
 import { RootState } from "@/state";
 
 import { commissionsSelector } from "../";
-import { PagedCommissions } from "../types";
+import { Commission, CommissionFilters, PagedCommissions } from "../types";
 
 type CommissionListReceiveAction = {
     type: "COMMISSIONS_LIST_RECEIVE";
@@ -34,7 +34,7 @@ type CommissionListSortOptionsReceiveAction = {
 };
 type CommissionListFiltersReceiveAction = {
     type: "COMMISSIONS_LIST_FILTERS_RECEIVE";
-    payload: Filters;
+    payload: CommissionFilters;
 };
 
 export type CommissionListAction =
@@ -73,11 +73,36 @@ export const fetchCommissions = (
     };
 };
 
-const updateFilters = (filters: Filters | null): Filters | null => {
+export const getCommissions = (
+    filters: CommissionFilters,
+    onSuccess: (commissions: Commission[]) => void
+): ThunkAction<void, RootState, {}, ApiAction> => {
+    return (dispatch) => {
+        let updatedFilters = updateFilters(filters);
+        updatedFilters = mapFilters(updatedFilters);
+
+        let api = commissionsApi;
+        api = appendSortOptionQuery(api, {
+            column: "commissionStatementDate",
+            direction: "asc",
+        });
+        api = appendFiltersQuery(api, updatedFilters);
+
+        dispatch({
+            type: "API",
+            endpoint: api,
+            onSuccess: (data: PagedItems<Commission>) => {
+                onSuccess(data.items);
+            },
+        });
+    };
+};
+
+const updateFilters = (filters: CommissionFilters | null): CommissionFilters | null => {
     return applyLike(filters, ["policyNumber", "policyClientLastName"]);
 };
 
-const mapFilters = (filters: Filters | null): Filters | null => {
+const mapFilters = (filters: CommissionFilters | null): CommissionFilters | null => {
     if (!filters) return filters;
 
     if (filters.commissionStatementDate && filters.commissionStatementDate.length == 2) {
@@ -119,7 +144,7 @@ export const receiveSortOptions = (
     payload: sortOptions,
 });
 
-export const receiveFilters = (filters: Filters): CommissionListFiltersReceiveAction => ({
+export const receiveFilters = (filters: CommissionFilters): CommissionListFiltersReceiveAction => ({
     type: "COMMISSIONS_LIST_FILTERS_RECEIVE",
     payload: filters,
 });

@@ -19,6 +19,7 @@ export type Commission = {
     policyClientLastName: string;
     policyClientInitials: string;
     policyClientDateOfBirth: string | null;
+    policyTypeId: string | null;
 };
 
 export type CommissionEdit = {
@@ -38,6 +39,21 @@ export interface PagedCommissions extends PagedItems<Commission> {
     sumVAT: number;
 }
 
+export type CommissionFilters = Filters<{
+    commissionStatementId: string;
+    userId: string;
+    branchId: string;
+    commissionTypeId: string;
+    policyNumber: string;
+    policyClientLastName: string;
+    policyCompanyId: string;
+    startDate: string;
+    endDate: string;
+
+    //Get mapped to start and end date
+    commissionStatementDate: string;
+}>;
+
 export type CommissionState = {
     readonly commission: CommissionEdit | null;
     readonly commissionOriginal: CommissionEdit | null;
@@ -55,7 +71,7 @@ export type ListState = {
     readonly fetching: boolean;
     readonly pageOptions: PageOptions;
     readonly sortOptions: SortOptions;
-    readonly filters: Filters | null;
+    readonly filters: CommissionFilters | null;
 };
 
 export type CommissionsState = {

@@ -17,6 +17,7 @@ export * from "./commissionLapse/selectors";
 export * from "./userMonthlyCommission/actions";
 export * from "./userMonthlyCommission/selectors";
 export * from "./userMonthlyCommission/types";
+export * from "./userMonthlyCommission/operations";
 
 export * from "./projections/actions";
 export * from "./projections/selectors";

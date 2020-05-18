@@ -87,6 +87,21 @@ export const receiveUserCompanyMonthlyCommissionCompanyFilter = (
     };
 };
 
+export const receiveUserCompanyMonthlyCommissionBranchFilter = (
+    branchIds: string[]
+): ThunkAction<void, RootState, {}, AnyAction> => {
+    return (dispatch, getState) => {
+        let { filters } = userCompanyMonthlyCommissionSelector(getState());
+
+        filters = {
+            ...filters,
+            branchId: branchIds,
+        };
+
+        dispatch(receiveUserCompanyMonthlyCommissionFilters(filters));
+    };
+};
+
 export const receiveUserCompanyMonthlyCommissionDateRangeFilter = (
     startDate: string,
     endDate: string

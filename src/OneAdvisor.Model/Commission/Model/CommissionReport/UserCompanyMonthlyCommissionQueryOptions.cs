@@ -14,6 +14,7 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
 
             UserId = new List<Guid>();
             CompanyId = new List<Guid>();
+            BranchId = new List<Guid>();
 
             var result = GetFilterValue<DateTime>("StartDate");
             if (result.Success)
@@ -30,12 +31,17 @@ namespace OneAdvisor.Model.Commission.Model.CommissionReport
             resultsGuid = GetFilterValues<Guid>("CompanyId");
             if (resultsGuid.Success)
                 CompanyId = resultsGuid.Value;
+
+            resultsGuid = GetFilterValues<Guid>("BranchId");
+            if (resultsGuid.Success)
+                BranchId = resultsGuid.Value;
         }
 
         public ScopeOptions Scope { get; set; }
 
         public List<Guid> UserId { get; set; }
         public List<Guid> CompanyId { get; set; }
+        public List<Guid> BranchId { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
     }

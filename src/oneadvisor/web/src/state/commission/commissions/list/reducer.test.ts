@@ -1,6 +1,6 @@
-import { Filters, SortOptions } from "@/app/table";
+import { SortOptions } from "@/app/table";
 
-import { Commission } from "../";
+import { Commission, CommissionFilters } from "../";
 import { defaultState, reducer } from "./reducer";
 
 describe("commission list reducer", () => {
@@ -56,6 +56,7 @@ describe("commission list reducer", () => {
             policyClientDateOfBirth: "1982-10-03",
             policyCompanyId: "987987",
             splitGroupId: null,
+            policyTypeId: "312123",
         };
 
         const actualState = reducer(initalState, {
@@ -135,8 +136,8 @@ describe("commission list reducer", () => {
             ...defaultState,
         };
 
-        const filters: Filters = {
-            firstName: ["sup"],
+        const filters: CommissionFilters = {
+            commissionTypeId: ["sup"],
         };
 
         const actualState = reducer(initalState, {

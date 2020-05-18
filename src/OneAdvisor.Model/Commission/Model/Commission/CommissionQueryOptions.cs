@@ -13,6 +13,7 @@ namespace OneAdvisor.Model.Commission.Model.Commission
             Scope = scope;
 
             UserId = new List<Guid>();
+            BranchId = new List<Guid>();
             CommissionTypeId = new List<Guid>();
             PolicyCompanyId = new List<Guid>();
 
@@ -27,6 +28,10 @@ namespace OneAdvisor.Model.Commission.Model.Commission
             resultGuids = GetFilterValues<Guid>("UserId");
             if (resultGuids.Success)
                 UserId = resultGuids.Value;
+
+            resultGuids = GetFilterValues<Guid>("BranchId");
+            if (resultGuids.Success)
+                BranchId = resultGuids.Value;
 
             resultGuids = GetFilterValues<Guid>("PolicyCompanyId");
             if (resultGuids.Success)
@@ -53,6 +58,7 @@ namespace OneAdvisor.Model.Commission.Model.Commission
 
         public Guid? CommissionStatementId { get; set; }
         public List<Guid> UserId { get; set; }
+        public List<Guid> BranchId { get; set; }
         public List<Guid> CommissionTypeId { get; set; }
         public string PolicyNumber { get; set; }
         public string PolicyClientLastName { get; set; }

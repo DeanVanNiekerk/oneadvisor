@@ -12,6 +12,7 @@ const thisMonth = dayjs();
 const defaultFilters: UserEarningsTypeMonthlyCommissionFilters = {
     userId: [],
     companyId: [],
+    branchId: [],
     startDate: [thisMonth.startOf("month").format(SERVER_DATE_FORMAT)],
     endDate: [thisMonth.endOf("month").format(SERVER_DATE_FORMAT)],
 };

@@ -51,13 +51,15 @@ namespace OneAdvisor.Service.Commission
                             AmountIncludingVAT = commission.AmountIncludingVAT,
                             VAT = commission.VAT,
                             UserId = commission.UserId,
+                            BranchId = user.BranchId,
                             PolicyNumber = policy.Number,
                             CommissionStatementDate = statement.Date,
                             PolicyCompanyId = policy.CompanyId,
                             PolicyClientLastName = client.LastName,
                             PolicyClientInitials = client.Initials,
                             PolicyClientDateOfBirth = client.DateOfBirth,
-                            SplitGroupId = commission.SplitGroupId
+                            SplitGroupId = commission.SplitGroupId,
+                            PolicyTypeId = policy.PolicyTypeId,
                         };
 
             //Apply filters ----------------------------------------------------------------------------------------
@@ -66,6 +68,9 @@ namespace OneAdvisor.Service.Commission
 
             if (queryOptions.UserId.Any())
                 query = query.Where(c => queryOptions.UserId.Contains(c.UserId));
+
+            if (queryOptions.BranchId.Any())
+                query = query.Where(c => queryOptions.BranchId.Contains(c.BranchId));
 
             if (queryOptions.CommissionTypeId.Any())
                 query = query.Where(c => queryOptions.CommissionTypeId.Contains(c.CommissionTypeId));

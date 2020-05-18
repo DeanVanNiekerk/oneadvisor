@@ -12,9 +12,11 @@ import { RootState } from "@/state";
 import {
     fetchUserCompanyMonthlyCommissionData,
     fetchUserEarningsTypeMonthlyCommissionData,
+    receiveUserCompanyMonthlyCommissionBranchFilter,
     receiveUserCompanyMonthlyCommissionCompanyFilter,
     receiveUserCompanyMonthlyCommissionDateRangeFilter,
     receiveUserCompanyMonthlyCommissionUserFilter,
+    receiveUserEarningsTypeMonthlyCommissionBranchFilter,
     receiveUserEarningsTypeMonthlyCommissionCompanyFilter,
     receiveUserEarningsTypeMonthlyCommissionDateRangeFilter,
     receiveUserEarningsTypeMonthlyCommissionUserFilter,
@@ -26,7 +28,7 @@ import {
     userMonthlyCommissionSelector,
     UserMonthlyCommissionType,
 } from "@/state/commission/reports";
-import { organisationCompaniesSelector } from "@/state/lookups/directory";
+import { branchesSimpleSelector, organisationCompaniesSelector } from "@/state/lookups/directory";
 import { brokersSelector } from "@/state/lookups/directory/usersSimple";
 
 type Props = PropsFromState & PropsFromDispatch;
@@ -66,6 +68,10 @@ const UserMonthlyCommissionFilters: React.FC<Props> = (props: Props) => {
         return props.userEarningsTypeMonthlyCommissionFilters.companyId || [];
     };
 
+    const selectedBranchIds = (): string[] => {
+        return props.userEarningsTypeMonthlyCommissionFilters.branchId || [];
+    };
+
     const onMonthYearChange = () => {
         const start = dayjs(`${props.selectedYear}-${props.selectedMonth}-01`);
         const end = start.clone().endOf("month");
@@ -102,6 +108,27 @@ const UserMonthlyCommissionFilters: React.FC<Props> = (props: Props) => {
                         return (
                             <Select.Option key={user.id} value={user.id}>
                                 {user.fullName}
+                            </Select.Option>
+                        );
+                    })}
+                </Select>
+            </Col>
+            <Col>
+                <Select
+                    mode="multiple"
+                    maxTagCount={1}
+                    maxTagTextLength={15}
+                    defaultValue={selectedBranchIds()}
+                    onChange={props.onBranchesChange}
+                    style={{ width: 260 }}
+                    allowClear={true}
+                    placeholder="Branch"
+                    filterOption={filterOption}
+                >
+                    {props.branches.map((branch) => {
+                        return (
+                            <Select.Option key={branch.id} value={branch.id}>
+                                {branch.name}
                             </Select.Option>
                         );
                     })}
@@ -185,6 +212,7 @@ const mapStateToProps = (state: RootState) => {
     const userCompanyMonthlyCommissionState = userCompanyMonthlyCommissionSelector(state);
     const userMonthlyCommissionState = userMonthlyCommissionSelector(state);
     const companiesState = organisationCompaniesSelector(state);
+    const branchesState = branchesSimpleSelector(state);
 
     return {
         userEarningsTypeMonthlyCommissionFilters: userEarningsTypeMonthlyCommissionState.filters,
@@ -195,6 +223,7 @@ const mapStateToProps = (state: RootState) => {
         selectedYear: userMonthlyCommissionState.year,
         users: brokersSelector(state),
         companies: companiesState,
+        branches: branchesState.items,
     };
 };
 
@@ -212,6 +241,10 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, {}, AnyAction>) =
         onCompanyChange: (companyIds: string[]) => {
             dispatch(receiveUserCompanyMonthlyCommissionCompanyFilter(companyIds));
             dispatch(receiveUserEarningsTypeMonthlyCommissionCompanyFilter(companyIds));
+        },
+        onBranchesChange: (branchIds: string[]) => {
+            dispatch(receiveUserCompanyMonthlyCommissionBranchFilter(branchIds));
+            dispatch(receiveUserEarningsTypeMonthlyCommissionBranchFilter(branchIds));
         },
         onDateRangeOptionChange: (type: UserMonthlyCommissionType) => {
             dispatch(receiveUserMonthlyCommissionUserMonthlyCommissionType(type));

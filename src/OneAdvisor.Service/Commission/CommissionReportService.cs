@@ -363,6 +363,7 @@ namespace OneAdvisor.Service.Commission
                         select new
                         {
                             UserId = user.Id,
+                            BranchId = user.BranchId,
                             CompanyId = policy.CompanyId,
                             Date = statement.Date,
                             CommissionEarningsTypeId = commissionType.CommissionEarningsTypeId,
@@ -377,6 +378,9 @@ namespace OneAdvisor.Service.Commission
 
             if (queryOptions.UserId.Any())
                 query = query.Where(d => queryOptions.UserId.Contains(d.UserId));
+
+            if (queryOptions.BranchId.Any())
+                query = query.Where(d => queryOptions.BranchId.Contains(d.BranchId));
 
             if (queryOptions.StartDate.HasValue)
                 query = query.Where(d => queryOptions.StartDate.Value.Date <= d.Date);
@@ -413,6 +417,7 @@ namespace OneAdvisor.Service.Commission
                         select new
                         {
                             UserId = user.Id,
+                            BranchId = user.BranchId,
                             Date = statement.Date,
                             CompanyId = policy.CompanyId,
                             AmountIncludingVAT = commission.AmountIncludingVAT,
@@ -425,6 +430,9 @@ namespace OneAdvisor.Service.Commission
 
             if (queryOptions.UserId.Any())
                 query = query.Where(d => queryOptions.UserId.Contains(d.UserId));
+
+            if (queryOptions.BranchId.Any())
+                query = query.Where(d => queryOptions.BranchId.Contains(d.BranchId));
 
             if (queryOptions.StartDate.HasValue)
                 query = query.Where(d => queryOptions.StartDate.Value.Date <= d.Date);

@@ -1,5 +1,6 @@
-import { Filters, SortOptions } from "@/app/table";
+import { SortOptions } from "@/app/table";
 
+import { CommissionFilters } from "../types";
 import * as actions from "./actions";
 
 describe("commission: commissions: list actions", () => {
@@ -32,8 +33,8 @@ describe("commission: commissions: list actions", () => {
     });
 
     it("should dispatch COMMISSIONS_LIST_FILTERS_RECEIVE when receiveFilters is called", () => {
-        const filters: Filters = {
-            firstName: ["sup"],
+        const filters: CommissionFilters = {
+            commissionTypeId: ["sup"],
         };
 
         const expectedAction = {

@@ -9,6 +9,7 @@ const thisMonth = dayjs();
 const defaultFilters: UserCompanyMonthlyCommissionFilters = {
     userId: [],
     companyId: [],
+    branchId: [],
     startDate: [thisMonth.startOf("month").format(SERVER_DATE_FORMAT)],
     endDate: [thisMonth.endOf("month").format(SERVER_DATE_FORMAT)],
 };

@@ -8,6 +8,7 @@ export type UserEarningsTypeMonthlyCommissionData = {
 export type UserEarningsTypeMonthlyCommissionFilters = Filters<{
     userId: string;
     companyId: string;
+    branchId: string;
     startDate: string;
     endDate: string;
 }>;

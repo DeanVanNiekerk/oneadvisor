@@ -90,6 +90,21 @@ export const receiveUserEarningsTypeMonthlyCommissionCompanyFilter = (
     };
 };
 
+export const receiveUserEarningsTypeMonthlyCommissionBranchFilter = (
+    branchIds: string[]
+): ThunkAction<void, RootState, {}, AnyAction> => {
+    return (dispatch, getState) => {
+        let { filters } = userEarningsTypeMonthlyCommissionSelector(getState());
+
+        filters = {
+            ...filters,
+            branchId: branchIds,
+        };
+
+        dispatch(receiveUserEarningsTypeMonthlyCommissionFilters(filters));
+    };
+};
+
 export const receiveUserEarningsTypeMonthlyCommissionDateRangeFilter = (
     startDate: string,
     endDate: string
