@@ -46,7 +46,6 @@ namespace OneAdvisor.Model.Directory.Model.Audit
         public List<string> Action { get; set; }
         public List<string> Entity { get; set; }
         public List<string> EntityId { get; set; }
-
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
     }

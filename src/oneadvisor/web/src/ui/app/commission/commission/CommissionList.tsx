@@ -10,6 +10,7 @@ import {
     getColumnDefinition,
     hasFilters,
     PageOptions,
+    sort,
     SortOptions,
 } from "@/app/table";
 import { areEqual, formatCurrency } from "@/app/utils";
@@ -32,6 +33,7 @@ import {
     CommissionTypeName,
     CompanyName,
     getColumnSearchProps,
+    getDateRangeSearchProps,
     getTable,
     Header,
     UserName,
@@ -129,15 +131,26 @@ const CommissionList: React.FC<Props> = (props: Props) => {
 const getColumns = (props: Props) => {
     const getColumn = getColumnDefinition<Commission>(true, props.filters, props.sortOptions);
 
+    const dateRangeFilter = getDateRangeSearchProps<Commission>("month");
+
     const { hideColumns = [] } = props;
 
     const columns: ColumnProps<Commission>[] = [];
 
     if (!hideColumns.some((c) => c == "commissionStatementDate"))
         columns.push(
-            getColumn("commissionStatementDate", "Date", {
-                type: "date",
-            })
+            getColumn(
+                "commissionStatementDate",
+                "Date",
+                {
+                    type: "date",
+                },
+                {
+                    ...dateRangeFilter,
+                    sorter: (a, b) => sort(a, b, "commissionStatementDate"),
+                    onFilter: undefined,
+                }
+            )
         );
 
     if (!hideColumns.some((c) => c == "policyClientLastName"))

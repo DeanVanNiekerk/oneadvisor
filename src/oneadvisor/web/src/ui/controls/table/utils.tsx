@@ -4,6 +4,8 @@ import React from "react";
 import { ColumnSearch, DateRangeSearch } from "@/ui/controls";
 import { CalendarOutlined, SearchOutlined } from "@ant-design/icons";
 
+import { DateRangeSearchPicker } from "./DateRangeSearch";
+
 function getColumnSearchProps<T>(title: string): ColumnProps<T> {
     let visible = false;
 
@@ -29,10 +31,11 @@ function getColumnSearchProps<T>(title: string): ColumnProps<T> {
 
 export { getColumnSearchProps };
 
-function getDateRangeSearchProps<T>(): ColumnProps<T> {
+function getDateRangeSearchProps<T>(picker?: DateRangeSearchPicker): ColumnProps<T> {
     return {
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <DateRangeSearch
+                picker={picker}
                 setSelectedKeys={setSelectedKeys}
                 selectedKeys={selectedKeys || []}
                 confirm={confirm}

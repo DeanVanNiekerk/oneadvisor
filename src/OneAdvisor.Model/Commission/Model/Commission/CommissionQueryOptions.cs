@@ -39,6 +39,14 @@ namespace OneAdvisor.Model.Commission.Model.Commission
             result = GetFilterValue<string>("PolicyClientLastName");
             if (result.Success)
                 PolicyClientLastName = result.Value;
+
+            var resultDateTime = GetFilterValue<DateTime>("StartDate");
+            if (resultDateTime.Success)
+                StartDate = resultDateTime.Value;
+
+            resultDateTime = GetFilterValue<DateTime>("EndDate");
+            if (resultDateTime.Success)
+                EndDate = resultDateTime.Value;
         }
 
         public ScopeOptions Scope { get; set; }
@@ -49,7 +57,8 @@ namespace OneAdvisor.Model.Commission.Model.Commission
         public string PolicyNumber { get; set; }
         public string PolicyClientLastName { get; set; }
         public List<Guid> PolicyCompanyId { get; set; }
-
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
     }
 }

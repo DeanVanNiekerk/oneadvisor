@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { ThunkAction } from "redux-thunk";
 
 import {
@@ -8,6 +9,7 @@ import {
 } from "@/app/query";
 import { Filters, PageOptions, SortOptions } from "@/app/table";
 import { ApiAction } from "@/app/types";
+import { SERVER_DATE_FORMAT } from "@/app/utils";
 import { commissionsApi } from "@/config/api/commission";
 import { RootState } from "@/state";
 
@@ -53,6 +55,7 @@ export const fetchCommissions = (
         const { pageOptions, sortOptions } = selector;
 
         filters = updateFilters(filters);
+        filters = mapFilters(filters);
 
         if (commissionStatementId && filters)
             filters.commissionStatementId = [commissionStatementId];
@@ -72,6 +75,34 @@ export const fetchCommissions = (
 
 const updateFilters = (filters: Filters | null): Filters | null => {
     return applyLike(filters, ["policyNumber", "policyClientLastName"]);
+};
+
+const mapFilters = (filters: Filters | null): Filters | null => {
+    if (!filters) return filters;
+
+    if (filters.commissionStatementDate && filters.commissionStatementDate.length == 2) {
+        const endDate = dayjs(filters.commissionStatementDate[1])
+            .endOf("month")
+            .format(SERVER_DATE_FORMAT);
+
+        const dateFilters = {
+            startDate: [dayjs(filters.commissionStatementDate[0]).format(SERVER_DATE_FORMAT)],
+            endDate: [endDate],
+        };
+
+        const mappedFilters = {
+            ...filters,
+        };
+
+        delete mappedFilters.commissionStatementDate;
+
+        return {
+            ...mappedFilters,
+            ...dateFilters,
+        };
+    }
+
+    return filters;
 };
 
 export const receivePageOptions = (

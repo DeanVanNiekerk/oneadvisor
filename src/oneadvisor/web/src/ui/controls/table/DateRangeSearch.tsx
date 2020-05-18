@@ -9,7 +9,10 @@ const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig);
 
 const { RangePicker } = DatePicker;
 
+export type DateRangeSearchPicker = "month" | "week" | "year";
+
 type Props = {
+    picker?: DateRangeSearchPicker;
     setSelectedKeys?: (selectedKeys: string[]) => void;
     selectedKeys: React.ReactText[];
     confirm?: () => void;
@@ -17,8 +20,10 @@ type Props = {
 };
 
 const DateRangeSearch: React.FC<Props> = (props: Props) => {
-    const getDayjsValues = (): [Dayjs, Dayjs] => {
-        if (!props.selectedKeys || props.selectedKeys.length !== 2) undefined;
+    console.log("DateRangeSearch", props.selectedKeys);
+
+    const getDayjsValues = (): [Dayjs | undefined, Dayjs | undefined] => {
+        if (!props.selectedKeys || props.selectedKeys.length !== 2) return [undefined, undefined];
 
         return [dayjs(props.selectedKeys[0]), dayjs(props.selectedKeys[1])];
     };
@@ -26,12 +31,15 @@ const DateRangeSearch: React.FC<Props> = (props: Props) => {
     return (
         <div style={{ padding: 8, width: 270 }}>
             <RangePicker
+                picker={props.picker}
                 onChange={(_dates: never, dateStrings: [string, string]) => {
+                    console.log("onChange", dateStrings);
                     if (props.setSelectedKeys) props.setSelectedKeys(dateStrings);
                 }}
                 style={{
                     marginBottom: 8,
                 }}
+                //@ts-ignore
                 value={getDayjsValues()}
             />
             <Button

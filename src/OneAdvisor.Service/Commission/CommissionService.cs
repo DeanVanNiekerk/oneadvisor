@@ -78,6 +78,12 @@ namespace OneAdvisor.Service.Commission
 
             if (!string.IsNullOrWhiteSpace(queryOptions.PolicyClientLastName))
                 query = query.Where(m => EF.Functions.Like(m.PolicyClientLastName, queryOptions.PolicyClientLastName));
+
+            if (queryOptions.StartDate.HasValue)
+                query = query.Where(c => c.CommissionStatementDate >= queryOptions.StartDate.Value.Date);
+
+            if (queryOptions.EndDate.HasValue)
+                query = query.Where(c => c.CommissionStatementDate <= queryOptions.EndDate.Value.Date);
             //------------------------------------------------------------------------------------------------------
 
             var pagedItems = new PagedCommissions();

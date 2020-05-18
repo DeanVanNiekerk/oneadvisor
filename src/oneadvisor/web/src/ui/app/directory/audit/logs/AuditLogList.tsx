@@ -68,7 +68,7 @@ const AuditLogList: React.FC<Props> = (props) => {
 };
 
 const getColumns = (props: Props) => {
-    const getColumn = getColumnDefinition<AuditLog>(false, props.filters);
+    const getColumn = getColumnDefinition<AuditLog>(true, props.filters);
 
     const dateRangeFilter = getDateRangeSearchProps<AuditLog>();
 
