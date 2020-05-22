@@ -99,7 +99,11 @@ See `.vscode/extensions.json`
 ## Release Notes
 
 ```html
-<h4>Release: v1.2.7</h4>
-<p>Compliance > ROA Invest > General Updates</p>
-<p>Compliance > ROA Invest > Risk Sections</p>
+<h4>Release: v1.2.11</h4>
+<p>Commission > Commission Entries > Added Date Range Filter</p>
+<p>Commission > Broker Commission Report > Added Branch Filter</p>
+<p>
+  Commission > Broker Commission Report > Added Commission Entries to Download
+</p>
+<p>Directory > Earnings Type > Add new Earnings Type > Quarterly Annuity</p>
 ```

@@ -1,5 +1,4 @@
 import { Table as TableAD } from "antd";
-import { PaginationConfig } from "antd/lib/pagination";
 import { ColumnProps } from "antd/lib/table";
 import {
     Key,
@@ -54,7 +53,7 @@ class TableComponent<T extends object> extends React.Component<Props<T>, State> 
     }
 
     handleTableChange = (
-        pagination: PaginationConfig,
+        pagination: TablePaginationConfig,
         filters: Record<string, Key[] | null>,
         sorter: SorterResult<T> | SorterResult<T>[]
     ) => {

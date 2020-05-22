@@ -70,16 +70,18 @@ module.exports = {
             template: path.resolve(__dirname, "template/index.html"),
             filename: "index.html",
         }),
-        new CopyWebpackPlugin([
-            {
-                from: path.resolve(__dirname, "template/favicon.png"),
-                to: path.resolve(__dirname, "server/dist"),
-            },
-            {
-                from: path.resolve(__dirname, "template/fonts"),
-                to: path.resolve(__dirname, "server/dist/fonts"),
-            },
-        ]),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, "template/favicon.png"),
+                    to: path.resolve(__dirname, "server/dist"),
+                },
+                {
+                    from: path.resolve(__dirname, "template/fonts"),
+                    to: path.resolve(__dirname, "server/dist/fonts"),
+                },
+            ],
+        }),
         new webpack.DefinePlugin({
             __ENVIRONMENT__: JSON.stringify(environment),
             __OA_BASE_API__: JSON.stringify(oaBaseApi),

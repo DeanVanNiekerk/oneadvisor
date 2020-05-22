@@ -62,8 +62,8 @@ class Configure extends Component<Props> {
     next = () => {
         const clients: ImportClient[] = this.props.rows.map((r) => {
             return {
-                _id: v4(),
                 ...r,
+                _id: v4(),
                 idNumber: this.ensureString(r.idNumber) || "",
                 cellphone: this.ensureString(r.cellphone),
                 taxNumber: this.ensureString(r.taxNumber),
