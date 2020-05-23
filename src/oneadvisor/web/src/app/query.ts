@@ -88,7 +88,7 @@ export const applyLike = (
     return newFilters;
 };
 
-export const applyLikeFormat = (value: string, ignoreSpaces: boolean): string => {
+export const applyLikeFormat = (value: string, ignoreSpaces: boolean = false): string => {
     if (!ignoreSpaces || !value) return `%${value}%`;
 
     let search = value.replace(" ", "");
