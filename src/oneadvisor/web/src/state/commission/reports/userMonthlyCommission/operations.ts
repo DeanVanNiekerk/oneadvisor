@@ -86,7 +86,7 @@ export const downloadUserMonthlyCommissionExcel = (
         const companyIds = companyId ? companyId : [];
         const branchIds = branchId ? branchId : [];
 
-        const commissions = await getCommissionEntries(
+        let commissions = await getCommissionEntries(
             dispatch,
             userIds,
             companyIds,
@@ -94,6 +94,8 @@ export const downloadUserMonthlyCommissionExcel = (
             start,
             end
         );
+
+        commissions = groupCommissionEntries(commissions);
 
         fileName += `_${start}_${end}.xlsx`;
 
@@ -134,6 +136,30 @@ export const downloadUserMonthlyCommissionExcel = (
 
         onComplete();
     };
+};
+
+type GroupedCommissions = {
+    [key in string]: Commission;
+};
+
+//Group by Company, CommissionType and PolicyNumber
+const groupCommissionEntries = (commissions: Commission[]): Commission[] => {
+    const grouped = commissions.reduce<GroupedCommissions>((p, c) => {
+        const key = `${c.policyCompanyId};${c.commissionTypeId};${c.policyNumber}`;
+        if (!p[key]) {
+            p[key] = c;
+        } else {
+            p[key] = {
+                ...c,
+                amountIncludingVAT: c.amountIncludingVAT + p[key].amountIncludingVAT,
+                vat: c.vat + p[key].vat,
+            };
+        }
+
+        return p;
+    }, {});
+
+    return Object.values(grouped);
 };
 
 const getCommissionEntries = async (

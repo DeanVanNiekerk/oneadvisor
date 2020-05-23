@@ -255,18 +255,36 @@ namespace OneAdvisor.Import.Excel.Readers
                 else
                 {
                     var column = MappingTemplate.GetColumn(part);
-                    var subStringIndex = MappingTemplate.GetSubStringIndex(part);
 
                     var index = ExcelUtils.ColumnToIndex(column);
                     value = Utils.GetValue(reader, index);
 
-                    if (subStringIndex.Count == 2)
+                    //Update value is substring is defined
+                    if (MappingTemplate.IsSubstring(part))
                     {
                         try
                         {
+                            var subStringIndex = MappingTemplate.GetSubStringIndexes(part);
+
                             var startIndex = subStringIndex[0] - 1;
                             var length = subStringIndex[1] - subStringIndex[0] + 1;
                             value = value.Substring(startIndex, length);
+                        }
+                        catch { }
+                    }
+
+                    //Update value is regex is defined
+                    if (MappingTemplate.IsRegex(part))
+                    {
+                        try
+                        {
+                            var regex = MappingTemplate.GetRegex(part);
+
+                            var match = Regex.Match(value, regex, RegexOptions.IgnoreCase);
+                            if (match.Success)
+                                value = match.Value;
+                            else
+                                value = "";
                         }
                         catch { }
                     }

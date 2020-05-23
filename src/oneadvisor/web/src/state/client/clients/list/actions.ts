@@ -72,7 +72,9 @@ export const fetchClients = (all = false): ThunkAction<void, RootState, {}, ApiA
 };
 
 const updateFilters = (filters: Filters | null): Filters | null => {
-    return applyLike(filters, ["firstName", "lastName", "idNumber"]);
+    let updated = applyLike(filters, ["idNumber"]);
+    updated = applyLike(updated, ["firstName", "lastName"], true);
+    return updated;
 };
 
 export const receivePageOptions = (

@@ -2,7 +2,13 @@ import { AnyAction } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { formatCurrency, getAge } from "@/app/utils";
-import { userFullNameSelector, userOrganisationNameSelector } from "@/state/auth/token/selectors";
+import {
+    userFullNameSelector,
+    userOrganisationIdSelector,
+    userOrganisationNameSelector,
+} from "@/state/auth/token/selectors";
+import { getOrganisationLogoFileInfo } from "@/state/directory/organisations";
+import { getFileAsDataUrl } from "@/state/file";
 import {
     getClient,
     policyProductTypesSelector,
@@ -34,6 +40,8 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
 
         const rootState = getState();
 
+        const organisationId = userOrganisationIdSelector(rootState);
+
         const inputs = roaInvestInputsSelector(rootState);
 
         const { fullName, idNumber, age, yearsToRetirement } = await getClientDetails(
@@ -42,6 +50,8 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
             inputs.retirementAge
         );
         const userFullName = userFullNameSelector(rootState);
+
+        const logoDataUrl = await getOrganisationLogoDataUrl(dispatch, organisationId);
 
         const discussedCompanyNames = getCompanyNames(rootState, inputs.discussedCompanyIds);
         const discussedProductTypeNames = getProductTypeNames(
@@ -71,6 +81,7 @@ export const loadRoaInvestData = (): ThunkAction<void, RootState, {}, AnyAction>
             clientYearsToRetirement: yearsToRetirement,
             userFullName: userFullName,
             userOrganisationName: userOrganisationNameSelector(rootState),
+            logoDataUrl: logoDataUrl,
             consultReason: inputs.consultReason,
             investmentAdviceType: getInvestmentAdviceTypeName(
                 rootState,
@@ -270,6 +281,59 @@ const getRiskQuestions = (
             }),
         };
         return riskQuestion;
+    });
+};
+
+const getOrganisationLogoDataUrl = async (
+    dispatch: Dispatch,
+    organisationId: string | null
+): Promise<string> => {
+    if (!organisationId) return Promise.resolve("");
+
+    const url = await getOrganisationLogoFileUrl(dispatch, organisationId);
+
+    if (!url) return Promise.resolve("");
+
+    return new Promise<string>((resolve) => {
+        dispatch(
+            getFileAsDataUrl(
+                url,
+                //Success
+                (url) => {
+                    resolve(url);
+                },
+                //Failure
+                () => {
+                    resolve("");
+                }
+            )
+        );
+    });
+};
+
+const getOrganisationLogoFileUrl = (
+    dispatch: Dispatch,
+    organisationId: string | null
+): Promise<string> => {
+    let url = "";
+
+    if (!organisationId) return Promise.resolve(url);
+
+    return new Promise<string>((resolve) => {
+        dispatch(
+            getOrganisationLogoFileInfo(
+                organisationId,
+                //Success
+                (fileInfo) => {
+                    url = fileInfo.url;
+                },
+                undefined,
+                //Always
+                () => {
+                    resolve(url);
+                }
+            )
+        );
     });
 };
 

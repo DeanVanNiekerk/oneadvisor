@@ -47,7 +47,7 @@ const Answers: React.FC<AnswersProps> = ({ answers }) => {
         <>
             {answers.map((answer) => {
                 return (
-                    <>
+                    <React.Fragment key={answer.text}>
                         {answer.isSelected && (
                             <View style={styles.answer}>
                                 <Text>{`> ${answer.text}`}</Text>
@@ -58,7 +58,7 @@ const Answers: React.FC<AnswersProps> = ({ answers }) => {
                                 <Text>{answer.text}</Text>
                             </View>
                         )}
-                    </>
+                    </React.Fragment>
                 );
             })}
         </>

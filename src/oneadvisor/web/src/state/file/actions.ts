@@ -1,5 +1,5 @@
 import { saveFile } from "@/app/file";
-import { ApiAction } from "@/app/types";
+import { ApiAction, ApiOnAlways, ApiOnFailure } from "@/app/types";
 
 import { buildFileUrl } from "./";
 
@@ -22,7 +22,11 @@ export const downloadFile = (
     };
 };
 
-export const getFileAsDataUrl = (url: string, onComplete: TOnGetComplete): ApiAction => {
+export const getFileAsDataUrl = (
+    url: string,
+    onComplete: TOnGetComplete,
+    onFailure?: ApiOnFailure
+): ApiAction => {
     const api = buildFileUrl(url);
     return {
         type: "API",
@@ -38,5 +42,6 @@ export const getFileAsDataUrl = (url: string, onComplete: TOnGetComplete): ApiAc
             };
             reader.readAsDataURL(blob);
         },
+        onFailure: onFailure,
     };
 };

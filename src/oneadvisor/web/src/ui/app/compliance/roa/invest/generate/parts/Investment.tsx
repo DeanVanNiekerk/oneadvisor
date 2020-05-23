@@ -29,10 +29,7 @@ const Investment: React.FC<Props> = ({ investment }) => {
                     value={investment.contributionLumpsum}
                 />
                 <FieldValue fieldName="Upfront Fee" value={investment.upfrontFee} />
-                <FieldValue
-                    fieldName="Asset Management Fee"
-                    value={investment.assetManagementFee}
-                />
+                <FieldValue fieldName="Advisor ongoing Fee" value={investment.assetManagementFee} />
             </View>
             <View wrap={false}>
                 <View style={[styles.h5]}>

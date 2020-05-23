@@ -37,6 +37,8 @@ export const defaultState: RoaInvestDataState = {
         riskProfileCode: "moderate",
         riskScore: null,
         riskQuestions: [],
+
+        logoDataUrl: "",
     },
 };
 

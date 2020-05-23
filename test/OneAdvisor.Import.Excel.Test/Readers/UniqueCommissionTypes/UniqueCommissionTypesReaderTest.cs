@@ -9,7 +9,6 @@ using System;
 
 namespace OneAdvisor.Import.Excel.Test.Readers.UniqueCommissionTypes
 {
-
     public class UniqueCommissionTypesReaderTest
     {
         public UniqueCommissionTypesReaderTest()
@@ -129,6 +128,41 @@ namespace OneAdvisor.Import.Excel.Test.Readers.UniqueCommissionTypes
             Assert.Equal("comType3;code_3", commissionTypeValues[4]);
             Assert.Equal("comType3;code_1", commissionTypeValues[5]);
         }
-    }
 
+        [Fact]
+        public void Read_Formatter()
+        {
+            var sheetConfig = new SheetConfig()
+            {
+                HeaderIdentifier = new Identifier()
+                {
+                    Column = "A",
+                    Value = "broker"
+                },
+                Fields = new List<Field>() {
+                    new Field() { Name = "PolicyNumber", Column = "B" },
+                    new Field() { Name = "AmountIncludingVAT", Column = "C" }
+                },
+                CommissionTypes = new CommissionTypes()
+                {
+                    MappingTemplate = "E[^WRAP];F"
+                }
+            };
+
+            var sheet = new Sheet();
+            sheet.Position = 1;
+            sheet.Config = sheetConfig;
+
+            var bytes = System.Convert.FromBase64String(Formatter_Base64.STRING);
+            var stream = new MemoryStream(bytes);
+
+            var reader = new UniqueCommissionTypesReader(sheet);
+            var commissionTypeValues = reader.Read(stream).ToList();
+
+            Assert.Equal(3, commissionTypeValues.Count);
+            Assert.Equal(";val3", commissionTypeValues[0]);
+            Assert.Equal("wrap;val3", commissionTypeValues[1]);
+            Assert.Equal("wrap;val6", commissionTypeValues[2]);
+        }
+    }
 }

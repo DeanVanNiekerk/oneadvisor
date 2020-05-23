@@ -67,7 +67,11 @@ export const appendQueryString = (url: string, params: Param[]): string => {
     return formatUrl(parsed);
 };
 
-export const applyLike = (filters: Filters | null, fieldNames: string[]): Filters => {
+export const applyLike = (
+    filters: Filters | null,
+    fieldNames: string[],
+    ignoreSpaces: boolean = false
+): Filters => {
     if (!filters) return {};
 
     const newFilters: Filters = {};
@@ -76,7 +80,7 @@ export const applyLike = (filters: Filters | null, fieldNames: string[]): Filter
         if (!value) return;
 
         newFilters[key] = value.map((f) => {
-            if (fieldNames.indexOf(key) !== -1) return applyLikeFormat(f);
+            if (fieldNames.indexOf(key) !== -1) return applyLikeFormat(f, ignoreSpaces);
             return f;
         });
     });
@@ -84,8 +88,12 @@ export const applyLike = (filters: Filters | null, fieldNames: string[]): Filter
     return newFilters;
 };
 
-export const applyLikeFormat = (value: string): string => {
-    return `%${value}%`;
+export const applyLikeFormat = (value: string, ignoreSpaces: boolean): string => {
+    if (!ignoreSpaces || !value) return `%${value}%`;
+
+    let search = value.replace(" ", "");
+    search = search.split("").join("]%[");
+    return `%[${search}]%`;
 };
 
 type Param = {

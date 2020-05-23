@@ -1,4 +1,4 @@
-import { ApiAction, ApiOnSuccess, Result } from "@/app/types";
+import { ApiAction, ApiOnAlways, ApiOnFailure, ApiOnSuccess, Result } from "@/app/types";
 import { ValidationResult } from "@/app/validation/types";
 import { organisationsApi } from "@/config/api/directory";
 import { FileInfo } from "@/state/types";
@@ -73,11 +73,15 @@ export const fetchOrganisation = (organisationId: string): ApiAction => ({
 
 export const getOrganisationLogoFileInfo = (
     organisationId: string,
-    onSuccess: ApiOnSuccess<FileInfo>
+    onSuccess: ApiOnSuccess<FileInfo>,
+    onFailure?: ApiOnFailure,
+    onAlways?: ApiOnAlways
 ): ApiAction => ({
     type: "API",
     endpoint: `${organisationsApi}/${organisationId}/config/logo`,
     onSuccess: onSuccess,
+    onFailure: onFailure,
+    onAlways: onAlways,
 });
 
 export const updateOrganisation = (

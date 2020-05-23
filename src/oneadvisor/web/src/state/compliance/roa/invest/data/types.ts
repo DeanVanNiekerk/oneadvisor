@@ -12,6 +12,7 @@ export type RoaInvestData = {
     readonly clientAge: string;
     readonly clientYearsToRetirement: string;
     readonly userOrganisationName: string;
+    readonly logoDataUrl: string;
 
     //Needs
     readonly consultReason: string;

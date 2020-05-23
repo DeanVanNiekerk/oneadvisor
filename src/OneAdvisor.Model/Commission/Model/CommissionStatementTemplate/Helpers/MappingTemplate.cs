@@ -30,14 +30,36 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Helpers
 
         public static string GetColumn(string part)
         {
-            var index = part.IndexOf('(');
-            if (index == -1)
-                return part;
+            if (IsRegex(part))
+            {
+                var index = part.IndexOf('[');
+                return part.Substring(0, index);
+            }
 
-            return part.Substring(0, index);
+            if (IsSubstring(part))
+            {
+                var index = part.IndexOf('(');
+                return part.Substring(0, index);
+            }
+
+            return part;
         }
 
-        public static List<int> GetSubStringIndex(string part)
+        public static bool IsSubstring(string part)
+        {
+            if (IsRegex(part)) return false;
+
+            var index = part.IndexOf('(');
+            return index != -1;
+        }
+
+        public static bool IsRegex(string part)
+        {
+            var index = part.IndexOf('[');
+            return index != -1;
+        }
+
+        public static List<int> GetSubStringIndexes(string part)
         {
             var index = part.IndexOf('(');
             if (index == -1)
@@ -48,6 +70,15 @@ namespace OneAdvisor.Model.Commission.Model.CommissionStatementTemplate.Helpers
             var parts = range.Split('-');
 
             return parts.Select(p => Convert.ToInt32(p)).ToList();
+        }
+
+        public static string GetRegex(string part)
+        {
+            var index = part.IndexOf('[');
+            if (index == -1)
+                return "";
+
+            return part.Substring(index + 1, part.Length - index - 2);
         }
     }
 }

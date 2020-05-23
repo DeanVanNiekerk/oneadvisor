@@ -223,15 +223,19 @@ namespace OneAdvisor.Service.Commission.Validators
                 try
                 {
                     var column = MappingTemplate.GetColumn(part);
-                    var subStringIndex = MappingTemplate.GetSubStringIndex(part);
 
-                    if (subStringIndex.Count != 0 && subStringIndex.Count != 2)
-                        return false;
-
-                    if (subStringIndex.Count == 2)
+                    if (MappingTemplate.IsSubstring(part))
                     {
-                        if (subStringIndex[0] >= subStringIndex[1])
+                        var subStringIndex = MappingTemplate.GetSubStringIndexes(part);
+
+                        if (subStringIndex.Count != 0 && subStringIndex.Count != 2)
                             return false;
+
+                        if (subStringIndex.Count == 2)
+                        {
+                            if (subStringIndex[0] >= subStringIndex[1])
+                                return false;
+                        }
                     }
 
                     if (!Utils.IsValidExcelColumn((column)) && column != CommissionTypes.GROUP_COMMISSION_TYPE)

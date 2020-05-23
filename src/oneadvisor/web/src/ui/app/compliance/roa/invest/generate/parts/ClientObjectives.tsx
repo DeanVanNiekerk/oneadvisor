@@ -71,7 +71,7 @@ const ClientObjectives: React.FC<Props> = ({ data }) => {
         let text = "";
 
         if (data.contributionMonthly) {
-            text = `Considering all of the above you are required to be saving ${data.contributionMonthly} per month`;
+            text = `Considering all of the above, in addition to any current savings you may have, you are required to be saving ${data.contributionMonthly} per month`;
 
             if (data.contributionLumpsum) {
                 text = `${text}, or you are required to inject a lumpsum of ${data.contributionLumpsum} into your retirement plan`;

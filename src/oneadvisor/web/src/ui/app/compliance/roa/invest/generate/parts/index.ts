@@ -5,4 +5,5 @@ export * from "./Investment";
 export * from "./Investments";
 export * from "./OptionsDiscussed";
 export * from "./Signatures";
+export * from "./MainLogo";
 export * from "./Risk";

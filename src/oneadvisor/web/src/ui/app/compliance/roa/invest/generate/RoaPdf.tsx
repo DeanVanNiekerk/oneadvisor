@@ -7,12 +7,13 @@ import { RootState } from "@/state/types";
 import { Loader } from "@/ui/controls";
 import { Document, Page, PDFViewer, Text, View } from "@react-pdf/renderer";
 
-import { FieldValue, PageNumber, Splitter, styles } from "./common";
+import { FieldValue, Initials, PageNumber, Splitter, styles } from "./common";
 import {
     AdvisorRecommendation,
     ClientChoice,
     ClientObjectives,
     Investments,
+    MainLogo,
     OptionsDiscussed,
     Risk,
     Signatures,
@@ -27,19 +28,24 @@ const RoaPdf: React.FC<Props> = ({ data, fetching }) => {
         <PDFViewer width="100%" height="100%">
             <Document title="Invest ROA">
                 <Page size="A4" style={styles.page}>
+                    <MainLogo data={data} />
+
                     <View style={styles.h1}>
                         <Text>Record of Advice</Text>
                     </View>
+
                     <FieldValue fieldName="Date" value={dayjs().format("DD-MM-YYYY")} />
                     <FieldValue fieldName="Client Name" value={data.clientFullName} />
                     <FieldValue fieldName="Client ID Number" value={data.clientIdNumber} />
 
                     <ClientObjectives data={data} />
                     <PageNumber />
+                    <Initials />
                 </Page>
                 <Page size="A4" style={styles.page}>
                     <Risk data={data} />
                     <PageNumber />
+                    <Initials />
                 </Page>
                 <Page size="A4" style={styles.page}>
                     <OptionsDiscussed data={data} />
@@ -48,11 +54,13 @@ const RoaPdf: React.FC<Props> = ({ data, fetching }) => {
                     <Splitter />
                     <ClientChoice data={data} />
                     <PageNumber />
+                    <Initials />
                 </Page>
                 <Page size="A4" style={styles.page}>
                     <Investments data={data} />
                     <Signatures data={data} />
                     <PageNumber />
+                    <Initials />
                 </Page>
             </Document>
         </PDFViewer>
