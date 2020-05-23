@@ -8,11 +8,7 @@ module.exports = merge(common, {
         filename: "dist/[name].[contenthash].js",
     },
 
-    plugins: [
-        new webpack.HashedModuleIdsPlugin(),
-        // Ignore all locale files of moment.js
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    ],
+    plugins: [new webpack.HashedModuleIdsPlugin()],
 
     optimization: {
         minimizer: [new TerserPlugin()],
