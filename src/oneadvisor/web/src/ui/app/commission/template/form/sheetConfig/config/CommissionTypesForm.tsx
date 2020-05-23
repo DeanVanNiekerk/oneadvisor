@@ -146,6 +146,7 @@ const MappingInfo: React.FC = () => {
             <p>A;B;D</p>
             <p>GRP_CT;C;D</p>
             <p>A(1-3);B;D</p>
+            <p>E[^WRAP];B</p>
             <p>
                 <small>
                     <i>* GRP_CT = Commission Type Group</i>
@@ -153,6 +154,9 @@ const MappingInfo: React.FC = () => {
                 <br />
                 <small>
                     <i>* (start-end) = Set to pull out a specific part of the column only</i>
+                </small>
+                <small>
+                    <i>* [regex] = Set to match on regular expression</i>
                 </small>
             </p>
         </div>
