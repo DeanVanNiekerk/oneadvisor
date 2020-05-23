@@ -70,7 +70,7 @@ export const appendQueryString = (url: string, params: Param[]): string => {
 export const applyLike = (
     filters: Filters | null,
     fieldNames: string[],
-    ignoreSpaces: boolean = false
+    ignoreSpaces = false
 ): Filters => {
     if (!filters) return {};
 
@@ -88,7 +88,7 @@ export const applyLike = (
     return newFilters;
 };
 
-export const applyLikeFormat = (value: string, ignoreSpaces: boolean = false): string => {
+export const applyLikeFormat = (value: string, ignoreSpaces = false): string => {
     if (!ignoreSpaces || !value) return `%${value}%`;
 
     let search = value.replace(" ", "");
