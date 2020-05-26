@@ -1,5 +1,4 @@
 import { Table as TableAD } from "antd";
-import { PaginationConfig } from "antd/lib/pagination";
 import { ColumnProps } from "antd/lib/table";
 import {
     Key,

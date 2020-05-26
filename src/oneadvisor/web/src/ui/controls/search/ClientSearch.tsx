@@ -35,7 +35,7 @@ const ClientSearchComponent: React.FC<Props> = (props) => {
             lastName: [debouncedSearchText],
         };
 
-        filters = applyLike(filters, ["lastName"]);
+        filters = applyLike(filters, ["lastName"], true);
 
         const pageOptions: PageOptions = {
             number: 1,

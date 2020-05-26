@@ -117,5 +117,5 @@ export const getClientRevenueData = (
 };
 
 const updateFilters = (filters: Filters): Filters => {
-    return applyLike(filters, ["clientLastName"]);
+    return applyLike(filters, ["clientLastName"], true);
 };

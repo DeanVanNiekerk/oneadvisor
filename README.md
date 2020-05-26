@@ -99,11 +99,19 @@ See `.vscode/extensions.json`
 ## Release Notes
 
 ```html
-<h4>Release: v1.2.11</h4>
-<p>Commission > Commission Entries > Added Date Range Filter</p>
-<p>Commission > Broker Commission Report > Added Branch Filter</p>
+<h4>Release: v1.2.12</h4>
+<p>Compliance > ROA Invest > Page Header Logo - First Pass</p>
+<p>Compliance > ROA Invest > Initials section</p>
+<p>Compliance > ROA Invest > Test corrections</p>
 <p>
-  Commission > Broker Commission Report > Added Commission Entries to Download
+  Commission > Broker Commission Report > Download > Groups commission by Policy
+  and Commission Type
 </p>
-<p>Directory > Earnings Type > Add new Earnings Type > Quarterly Annuity</p>
+<p>
+  Commission > Template > Handle Commission Type Regex (to support Sanlam WRAP
+  thing)
+</p>
+<p>
+  Client > List > Last name fuzzyish search
+</p>
 ```

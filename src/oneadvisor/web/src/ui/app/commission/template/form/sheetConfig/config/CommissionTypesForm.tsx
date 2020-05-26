@@ -155,6 +155,7 @@ const MappingInfo: React.FC = () => {
                 <small>
                     <i>* (start-end) = Set to pull out a specific part of the column only</i>
                 </small>
+                <br />
                 <small>
                     <i>* [regex] = Set to match on regular expression</i>
                 </small>

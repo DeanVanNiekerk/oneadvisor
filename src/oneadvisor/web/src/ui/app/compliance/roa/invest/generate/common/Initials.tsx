@@ -7,14 +7,15 @@ const Initials: React.FC = () => {
         <Text
             style={{
                 position: "absolute",
-                fontSize: 12,
+                fontSize: 9,
                 bottom: 20,
                 right: 32,
+                color: "#3B3B3B",
                 textAlign: "center",
             }}
             render={({ pageNumber, totalPages }) => {
                 if (pageNumber === totalPages) return "";
-                return `_______`;
+                return `Client Initials _______`;
             }}
             fixed
         />

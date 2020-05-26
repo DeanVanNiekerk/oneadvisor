@@ -99,7 +99,9 @@ export const getCommissions = (
 };
 
 const updateFilters = (filters: CommissionFilters | null): CommissionFilters | null => {
-    return applyLike(filters, ["policyNumber", "policyClientLastName"]);
+    let updated = applyLike(filters, ["policyNumber"]);
+    updated = applyLike(updated, ["policyClientLastName"], true);
+    return updated;
 };
 
 const mapFilters = (filters: CommissionFilters | null): CommissionFilters | null => {
